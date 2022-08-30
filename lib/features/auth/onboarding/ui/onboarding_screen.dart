@@ -8,7 +8,6 @@ import 'package:jetwallet/features/auth/onboarding/store/onboarding_store.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dart';
 import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -61,9 +60,8 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final deviceSize = getIt.get<DeviceSize>().size;
-    final sKit = getIt.get<SimpleKit>();
 
-    return OnboardingScreenGradient(
+    return OnboardingFullScreenGradient(
       backgroundColor: OnboardingStore.of(context).backgroundColor(
         sKit.colors,
       ),
@@ -157,14 +155,11 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                 SPrimaryButton1(
                   active: true,
                   name: intl.onboarding_getStarted,
-                  onTap: () =>
-                      getIt.get<AppRouter>().push(const RegisterRoute()),
-                ),
-                const SpaceH10(),
-                STextButton1(
-                  active: true,
-                  name: intl.onboarding_signIn,
-                  onTap: () => getIt.get<AppRouter>().push(LoginScreenRoute()),
+                  onTap: () {
+                    sRouter.push(
+                      SingInRouter(),
+                    );
+                  },
                 ),
                 const SpaceH24(),
               ],

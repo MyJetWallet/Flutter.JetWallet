@@ -45,7 +45,7 @@ class ReferralCodeBody extends StatelessObserverWidget {
                 return const LoadingReferralCode();
               },
               valid: () {
-                return ValidReferralCode(
+                return ValidReferralCodeInside(
                   referralCode: ReferallCodeStore.of(context).referralCode,
                 );
               },

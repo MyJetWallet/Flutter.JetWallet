@@ -1,116 +1,174 @@
+import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:injectable/injectable.dart';
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/remote_config/models/analytics_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/app_config_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/apps_flyer_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/circle_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/connection_flavor_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/simplex_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/support_model.dart';
-import 'package:jetwallet/core/services/remote_config/models/versioning_model.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:simple_networking/config/options.dart';
 
+import 'package:dio/dio.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/apps_flyer_service.dart';
+import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/config/options.dart';
+import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
+import 'package:simple_networking/simple_networking.dart';
+
+const _retryTime = 10; // in seconds
 const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfig {
-  final _config = FirebaseRemoteConfig.instance;
+  static final _logger = Logger('RemoteConfigStore');
+
+  Timer? _timer;
+  late Timer _durationTimer;
+  late int retryTime;
+  final stopwatch = Stopwatch();
+  bool isStopwatchStarted = false;
+
+  RemoteConfigModel? remoteConfig;
 
   Future<RemoteConfig> fetchAndActivate() async {
-    await _config.setConfigSettings(
-      RemoteConfigSettings(
-        fetchTimeout: const Duration(seconds: 60),
-        minimumFetchInterval: const Duration(minutes: 10),
-      ),
-    );
-    await _config.fetchAndActivate();
-    overrideAppConfigValues();
-    overrideApisFrom(_defaultFlavorIndex);
-    overrideVersioningValues();
-    overrideSupportValues();
-    overrideAnalyticsValues();
-    overrideSimplexValues();
-    overrideAppsFlyerValues();
-    overrideCircleValues();
+    print('LOAD REMOTE CONFIG');
+
+    getIt.get<AppStore>().setRemoteConfigStatus(
+          const RemoteConfigUnion.loading(),
+        );
+
+    try {
+      //final flavor = flavorService();
+      //final timeTrackerN = read(timeTrackingNotipod.notifier);
+
+      var remoteConfigURL =
+          'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
+
+      //remoteConfigURL = flavor == Flavor.prod
+      //    ? 'https://wallet-api.simple-spot.biz/api/v1'
+      //    : 'https://wallet-api-uat.simple-spot.biz/api/v1';
+
+      print('START SEND REQUEST');
+
+      var response = await Dio().get(remoteConfigURL);
+
+      //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
+
+      Map<String, dynamic> responseData;
+
+      responseData = response.data is String
+          ? jsonDecode(response.data as String) as Map<String, dynamic>
+          : response.data as Map<String, dynamic>;
+
+      final respModel = RemoteConfigModel.fromJson(responseData);
+
+      print('REQUEST SENDED');
+
+      remoteConfig = respModel;
+
+      overrideAppConfigValues();
+      overrideVersioningValues();
+      overrideSupportValues();
+      overrideAnalyticsValues();
+      overrideSimplexValues();
+      overrideAppsFlyerValues();
+      overrideCircleValues();
+
+      overrideApisFrom(_defaultFlavorIndex);
+
+      getIt.get<AppStore>().setRemoteConfigStatus(
+            const RemoteConfigUnion.success(),
+          );
+
+      unawaited(
+        getIt.get<AppRouter>().navigate(
+              const HomeRouter(),
+            ),
+      );
+
+      /*
+      response.pick(
+        onData: (data) {
+          print('REMOTE CONFIG LOADED1');
+
+          remoteConfig = data;
+
+          print('REMOTE CONFIG LOADED2');
+
+          print(remoteConfig!.appConfig.emailVerificationCodeLength);
+
+          overrideAppConfigValues();
+          overrideApisFrom(_defaultFlavorIndex);
+          overrideVersioningValues();
+          overrideSupportValues();
+          overrideAnalyticsValues();
+          overrideSimplexValues();
+          overrideAppsFlyerValues();
+          overrideCircleValues();
+
+          getIt.get<AppStore>().setRemoteConfigStatus(
+                const RemoteConfigUnion.success(),
+              );
+
+          print('REMOTE CONFIG LOADED3');
+
+          //sAnalytics.remoteConfig();
+        },
+        onError: (error) {
+          print('REMOTE ERROR: $error');
+
+          _logger.log(stateFlow, '_fetchAndActivate');
+          //sAnalytics.remoteConfigError();
+
+          getIt.get<AppStore>().setRemoteConfigStatus(
+                const RemoteConfigUnion.loading(),
+              );
+
+          _refreshTimer();
+        },
+      );
+      */
+    } catch (e) {
+      print('REMOTE ERROR: $e');
+
+      _logger.log(stateFlow, '_fetchAndActivate', e);
+      sAnalytics.remoteConfigError();
+
+      getIt.get<AppStore>().setRemoteConfigStatus(
+            const RemoteConfigUnion.loading(),
+          );
+
+      _refreshTimer();
+    }
 
     return this;
   }
 
-  ConnectionFlavorsModel get connectionFlavors {
-    final flavors = _config.getString('ConnectionFlavors');
+  void _refreshTimer() {
+    _timer?.cancel();
+    retryTime = _retryTime;
 
-    final list = jsonDecode(flavors) as List;
-
-    return ConnectionFlavorsModel.fromList(list);
-  }
-
-  AppConfigModel get appConfig {
-    final config = _config.getString('AppConfig');
-
-    final json = jsonDecode(config) as Map<String, dynamic>;
-
-    return AppConfigModel.fromJson(json);
-  }
-
-  VersioningModel get versioning {
-    final values = _config.getString('Versioning');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return VersioningModel.fromJson(json);
-  }
-
-  SupportModel get support {
-    final values = _config.getString('Support');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return SupportModel.fromJson(json);
-  }
-
-  AnalyticsModel get analytics {
-    final values = _config.getString('Analytics');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return AnalyticsModel.fromJson(json);
-  }
-
-  SimplexModel get simplex {
-    final values = _config.getString('Simplex');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return SimplexModel.fromJson(json);
-  }
-
-  AppsFlyerModel get appsFlyer {
-    final values = _config.getString('AppsFlyer');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return AppsFlyerModel.fromJson(json);
-  }
-
-  CircleModel get circle {
-    final values = _config.getString('Circle');
-
-    final json = jsonDecode(values) as Map<String, dynamic>;
-
-    return CircleModel.fromJson(json);
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (retryTime == 0) {
+          timer.cancel();
+          fetchAndActivate();
+        } else {
+          retryTime -= 1;
+        }
+      },
+    );
   }
 
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index) {
-    final flavor = connectionFlavors.flavors[index];
+    final flavor = remoteConfig?.connectionFlavors[index];
 
     getIt.get<SNetwork>().simpleOptions = SimpleOptions(
-      candlesApi: flavor.candlesApi,
+      candlesApi: flavor!.candlesApi,
       authApi: flavor.authApi,
       walletApi: flavor.walletApi,
       walletApiSignalR: flavor.walletApiSignalR,
@@ -120,53 +178,57 @@ class RemoteConfig {
   }
 
   void overrideAppConfigValues() {
-    emailVerificationCodeLength = appConfig.emailVerificationCodeLength;
-    phoneVerificationCodeLength = appConfig.phoneVerificationCodeLength;
-    userAgreementLink = appConfig.userAgreementLink;
-    privacyPolicyLink = appConfig.privacyPolicyLink;
-    referralPolicyLink = appConfig.referralPolicyLink;
-    infoRewardsLink = appConfig.infoRewardsLink;
-    infoEarnLink = appConfig.infoEarnLink;
-    paymentDelayDays = appConfig.paymentDelayDays;
-    privacyEarnLink = appConfig.privacyEarnLink;
-    amlKycPolicyLink = appConfig.amlKycPolicyLink;
-    minAmountOfCharsInPassword = appConfig.minAmountOfCharsInPassword;
-    maxAmountOfCharsInPassword = appConfig.maxAmountOfCharsInPassword;
-    quoteRetryInterval = appConfig.quoteRetryInterval;
-    defaultAssetIcon = appConfig.defaultAssetIcon;
-    emailResendCountdown = appConfig.emailResendCountdown;
-    withdrawalConfirmResendCountdown = appConfig.withdrawConfirmResendCountdown;
-    localPinLength = appConfig.localPinLength;
-    maxPinAttempts = appConfig.maxPinAttempts;
-    forgotPasswordLockHours = appConfig.forgotPasswordLockHours;
-    changePasswordLockHours = appConfig.changePasswordLockHours;
-    changePhoneLockHours = appConfig.changePhoneLockHours;
-    refundPolicyLink = appConfig.refundPolicyLink;
-
-    print('OVVERIDE: ${appConfig.emailVerificationCodeLength}');
+    emailVerificationCodeLength =
+        remoteConfig!.appConfig.emailVerificationCodeLength;
+    phoneVerificationCodeLength =
+        remoteConfig!.appConfig.phoneVerificationCodeLength;
+    userAgreementLink = remoteConfig!.appConfig.userAgreementLink;
+    privacyPolicyLink = remoteConfig!.appConfig.privacyPolicyLink;
+    referralPolicyLink = remoteConfig!.appConfig.referralPolicyLink;
+    infoRewardsLink = remoteConfig!.appConfig.infoRewardsLink;
+    infoEarnLink = remoteConfig!.appConfig.infoEarnLink;
+    paymentDelayDays = remoteConfig!.appConfig.paymentDelayDays;
+    privacyEarnLink = remoteConfig!.appConfig.privacyEarnLink;
+    amlKycPolicyLink = remoteConfig!.appConfig.amlKycPolicyLink;
+    minAmountOfCharsInPassword =
+        remoteConfig!.appConfig.minAmountOfCharsInPassword;
+    maxAmountOfCharsInPassword =
+        remoteConfig!.appConfig.maxAmountOfCharsInPassword;
+    quoteRetryInterval = remoteConfig!.appConfig.quoteRetryInterval;
+    defaultAssetIcon = remoteConfig!.appConfig.defaultAssetIcon;
+    emailResendCountdown = remoteConfig!.appConfig.emailResendCountdown;
+    withdrawalConfirmResendCountdown =
+        remoteConfig!.appConfig.withdrawConfirmResendCountdown;
+    localPinLength = remoteConfig!.appConfig.localPinLength;
+    maxPinAttempts = remoteConfig!.appConfig.maxPinAttempts;
+    forgotPasswordLockHours = remoteConfig!.appConfig.forgotPasswordLockHours;
+    changePasswordLockHours = remoteConfig!.appConfig.changePasswordLockHours;
+    changePhoneLockHours = remoteConfig!.appConfig.changePhoneLockHours;
+    refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
+    cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
   }
 
   void overrideVersioningValues() {
-    recommendedVersion = versioning.recommendedVersion;
-    minimumVersion = versioning.minimumVersion;
+    recommendedVersion = remoteConfig!.versioning.recommendedVersion;
+    minimumVersion = remoteConfig!.versioning.minimumVersion;
   }
 
   void overrideSupportValues() {
-    faqLink = support.faqLink;
-    crispWebsiteId = support.crispWebsiteId;
+    faqLink = remoteConfig!.support.faqLink;
+    crispWebsiteId = remoteConfig!.support.crispWebsiteId;
   }
 
   void overrideAnalyticsValues() {
-    analyticsApiKey = analytics.apiKey;
+    analyticsApiKey = remoteConfig!.analytics.apiKey;
   }
 
   void overrideSimplexValues() {
-    simplexOrigin = simplex.origin;
+    simplexOrigin = remoteConfig!.simplex.origin;
   }
 
   void overrideAppsFlyerValues() {
-    appsFlyerKey = appsFlyer.devKey;
-    iosAppId = appsFlyer.iosAppId;
+    appsFlyerKey = remoteConfig!.appsFlyer.devKey;
+    iosAppId = remoteConfig!.appsFlyer.iosAppId;
 
     getIt.registerSingleton<AppsFlyerService>(
       AppsFlyerService.create(
@@ -177,6 +239,12 @@ class RemoteConfig {
   }
 
   void overrideCircleValues() {
-    cvvEnabled = circle.cvvEnabled;
+    cvvEnabled = remoteConfig!.circle.cvvEnabled;
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _durationTimer.cancel();
   }
 }

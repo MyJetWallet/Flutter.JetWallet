@@ -6,7 +6,13 @@ class DioProxyService {
 
   bool get isProxyEnabled => proxyName.isNotEmpty;
 
-  void setProxy(String proxy) {
+  bool proxySkiped = false;
+
+  void proxySkip() {
+    proxySkiped = true;
+  }
+
+  void updateProxyName(String proxy) {
     proxyName = proxy;
   }
 }

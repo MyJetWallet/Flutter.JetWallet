@@ -11,7 +11,8 @@ import 'package:mobx/mobx.dart';
 
 Future<void> main() async {
   mainContext.onReactionError((_, rxn) {
-    //log.error('A mobx reaction error occured.',error: rxn.errorValue!.exception,);
+    //log.error('A mobx reaction error occured.'
+    //,error: rxn.errorValue!.exception,);
   });
 
   await appInitialization(Environment.test);

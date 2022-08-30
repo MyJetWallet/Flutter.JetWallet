@@ -281,31 +281,11 @@ class SimpleAnalytics {
     );
   }
 
-  void sellView(Source source, String assetName) {
-    _analytics.logEvent(
-      EventType.sellView,
-      eventProperties: {
-        PropertyType.sourceScreen: source.name,
-        PropertyType.assetName: assetName,
-      },
-    );
-  }
-
   void buySheetView() => _analytics.logEvent(EventType.buySheetView);
-  void sellSheetView() => _analytics.logEvent(EventType.sellSheetView);
 
   void earnDetailsView(String assetName) {
     _analytics.logEvent(
       EventType.earnDetailsView,
-      eventProperties: {
-        PropertyType.assetName: assetName,
-      },
-    );
-  }
-
-  void depositCryptoView(String assetName) {
-    _analytics.logEvent(
-      EventType.depositView,
       eventProperties: {
         PropertyType.assetName: assetName,
       },
@@ -422,6 +402,30 @@ class SimpleAnalytics {
   void kycSuccessPageView() {
     _analytics.logEvent(
       EventType.kycSuccessPageView,
+    );
+  }
+
+  void kycAllowCamera() {
+    _analytics.logEvent(
+      EventType.kycAllowCamera,
+    );
+  }
+
+  void kycGiveCameraPermission() {
+    _analytics.logEvent(
+      EventType.kycGiveCameraPermission,
+    );
+  }
+
+  void kycTapOnGoToSettings() {
+    _analytics.logEvent(
+      EventType.kycTapOnGoToSettings,
+    );
+  }
+
+  void kycTapOnEnableCamera() {
+    _analytics.logEvent(
+      EventType.kycTapOnEnableCamera,
     );
   }
 
@@ -849,6 +853,24 @@ class SimpleAnalytics {
 
   void sendConfirmSend() {
     _analytics.logEvent(EventType.sendConfirmSend);
+  }
+
+  void sendNotifyRecipient() {
+    _analytics.logEvent(
+      EventType.sendNotifyRecipient,
+    );
+  }
+
+  void sendTapOnSendMessage() {
+    _analytics.logEvent(
+      EventType.sendTapOnSendMessage,
+    );
+  }
+
+  void sendTapOnSendLater() {
+    _analytics.logEvent(
+      EventType.sendTapOnSendLater,
+    );
   }
 
   // [START] Recurring buy ->
@@ -1381,6 +1403,132 @@ class SimpleAnalytics {
         PropertyType.term: term,
         PropertyType.offerId: offerId,
       },
+    );
+  }
+
+  void uploadIdentityDocument() {
+    _analytics.logEvent(
+      EventType.kycScanDoc,
+    );
+  }
+
+  /// Banner account
+  void bannerClick({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClick,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
+  void bannerClose({
+    required String bannerName,
+  }) {
+    _analytics.logEvent(
+      EventType.accountBannerClose,
+      eventProperties: {
+        PropertyType.bannerName: bannerName,
+      },
+    );
+  }
+
+  /// Push notification
+  void openPushNotification({
+    required String campaignId,
+  }) {
+    _analytics.logEvent(
+      EventType.clickNotification,
+      eventProperties: {
+        PropertyType.campaignId: campaignId,
+      },
+    );
+  }
+
+  /// Time tracking
+  void timeStartMarket({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartMarket,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartInitFinished({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartInitFinished,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeStartConfig({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeStartConfig,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRCheckIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRCheckIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void timeSignalRReceiveIF({
+    required String time,
+  }) {
+    _analytics.logEvent(
+      EventType.timeSignalRReceiveIF,
+      eventProperties: {
+        PropertyType.time: time,
+      },
+    );
+  }
+
+  void initFinishedOnMarket({
+    required String isFinished,
+  }) {
+    _analytics.logEvent(
+      EventType.initFinishedOnMarket,
+      eventProperties: {
+        PropertyType.isLoaded: isFinished,
+      },
+    );
+  }
+
+  void initFinished() {
+    _analytics.logEvent(
+      EventType.initFinished,
+    );
+  }
+
+  void remoteConfig() {
+    _analytics.logEvent(
+      EventType.remoteConfig,
+    );
+  }
+
+  void remoteConfigError() {
+    _analytics.logEvent(
+      EventType.remoteConfigError,
     );
   }
 }

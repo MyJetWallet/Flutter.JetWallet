@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../../../widgets/action_bottom_sheet_header.dart';
@@ -11,7 +11,7 @@ import 'loading_referral_code.dart';
 import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
-  final colors = getIt.get<SimpleKit>().colors;
+  final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -44,7 +44,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext ctx) {
-    final colors = getIt.get<SimpleKit>().colors;
+    final colors = sKit.colors;
 
     return Container(
       height: MediaQuery.of(context).size.height -
@@ -69,6 +69,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                     null,
                   );
                 },
+                hideIconsIfError: false,
                 onErase: () => ReferallCodeStore.of(context)
                     .clearBottomSheetReferralCode(),
                 suffixIcons: [
@@ -105,7 +106,7 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   return Column(
                     children: const [
                       SpaceH24(),
-                      ValidReferralCode(),
+                      ValidReferralCodeInside(),
                       SpaceH10(),
                     ],
                   );
@@ -156,7 +157,7 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
     return Column(
       children: [
         SPaddingH24(
-          child: SPrimaryButton2(
+          child: SPrimaryButton4(
             active: ReferallCodeStore.of(context).enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {

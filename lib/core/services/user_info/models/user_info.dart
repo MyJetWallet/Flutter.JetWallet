@@ -6,6 +6,7 @@ part 'user_info.freezed.dart';
 class UserInfoState with _$UserInfoState {
   const factory UserInfoState({
     String? pin,
+    @Default(false) bool chatClosedOnThisSession,
     @Default(false) bool hasDisclaimers,
 
     /// If after reister/login user disabled a pin.

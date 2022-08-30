@@ -81,7 +81,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody>
 
   @override
   Widget build(BuildContext context) {
-    final colors = getIt.get<SimpleKit>().colors;
+    final colors = sKit.colors;
     final deviceSize = getIt.get<DeviceSize>().size;
 
     final size = MediaQuery.of(context).size;

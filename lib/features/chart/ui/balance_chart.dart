@@ -1,0 +1,100 @@
+import 'package:charts/components/loading_chart_view.dart';
+import 'package:charts/main.dart';
+import 'package:charts/simple_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/chart/model/chart_input.dart';
+import 'package:jetwallet/features/chart/store/chart_store.dart';
+import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+class BalanceChart extends StatelessWidget {
+  const BalanceChart({
+    Key? key,
+    required this.onCandleSelected,
+    required this.walletCreationDate,
+  }) : super(key: key);
+
+  final void Function(ChartInfoModel?) onCandleSelected;
+  final String walletCreationDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<ChartStore>(
+      create: (context) => ChartStore(
+        ChartInput(
+          creationDate: sSignalRModules.clientDetail.walletCreationDate,
+        ),
+      ),
+      builder: (context, child) => BalanceChartBody(
+        walletCreationDate: walletCreationDate,
+        onCandleSelected: onCandleSelected,
+      ),
+    );
+  }
+}
+
+class BalanceChartBody extends StatefulObserverWidget {
+  const BalanceChartBody({
+    Key? key,
+    required this.onCandleSelected,
+    required this.walletCreationDate,
+  }) : super(key: key);
+
+  final void Function(ChartInfoModel?) onCandleSelected;
+  final String walletCreationDate;
+
+  @override
+  State<BalanceChartBody> createState() => _BalanceChartBodyState();
+}
+
+class _BalanceChartBodyState extends State<BalanceChartBody>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    final chartStore = ChartStore.of(context);
+
+    return chartStore.union.when(
+      candles: () => Chart(
+        localizedChartResolutionButton: localizedChartResolutionButton(context),
+        onResolutionChanged: (resolution) {
+          chartStore.updateResolution(
+            resolution,
+          );
+        },
+        onChartTypeChanged: (type) {
+          chartStore.updateChartType(type);
+        },
+        chartType: chartStore.type,
+        candleResolution: chartStore.resolution,
+        walletCreationDate: widget.walletCreationDate,
+        candles: chartStore.candles[chartStore.resolution],
+        onCandleSelected: widget.onCandleSelected,
+        formatPrice: marketFormat,
+        chartHeight: 100,
+        chartWidgetHeight: 176,
+        isAssetChart: false,
+        loader: const LoaderSpinner(),
+      ),
+      loading: () => LoadingChartView(
+        height: 176,
+        showLoader: true,
+        resolution: chartStore.resolution,
+        localizedChartResolutionButton: localizedChartResolutionButton(context),
+        onResolutionChanged: (resolution) {
+          chartStore.updateResolution(resolution);
+        },
+        loader: const LoaderSpinner(),
+        isBalanceChart: true,
+      ),
+      error: (String error) {
+        return Center(
+          child: Text(error),
+        );
+      },
+    );
+  }
+}

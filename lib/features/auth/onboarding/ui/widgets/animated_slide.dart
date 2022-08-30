@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'slide_container.dart';
@@ -19,7 +17,7 @@ class AnimatedOnboardingSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sColors = getIt.get<SimpleKit>().colors;
+    final sColors = sKit.colors;
 
     return Flexible(
       child: Padding(

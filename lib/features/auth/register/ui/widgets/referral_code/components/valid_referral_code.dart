@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class ValidReferralCode extends StatelessWidget {
-  const ValidReferralCode({
+class ValidReferralCodeInside extends StatelessWidget {
+  const ValidReferralCodeInside({
     Key? key,
     this.referralCode,
   }) : super(key: key);
@@ -16,12 +16,16 @@ class ValidReferralCode extends StatelessWidget {
       children: [
         const STickSelectedIcon(),
         const SpaceW10(),
-        Text(
-          referralCode != null
-              ? '${intl.validReferralCode_yourReferralCode} - $referralCode'
-              : intl.validReferralCode_validReferralCode,
-          style: sCaptionTextStyle,
-        ),
+        if (referralCode != null)
+          Text(
+            '${intl.validReferralCode_yourReferralCode} - $referralCode',
+            style: sCaptionTextStyle,
+          )
+        else
+          Text(
+            intl.validReferralCode_validReferralCode,
+            style: sCaptionTextStyle,
+          ),
       ],
     );
   }

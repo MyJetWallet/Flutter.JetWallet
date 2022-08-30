@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const OnboardingScreenGradient(
+    return const OnboardingFullScreenGradient(
       child: Center(
         child: SizedBox(
           width: 320.0,

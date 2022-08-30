@@ -5,18 +5,18 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/logging.dart';
 
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/login/authentication_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/register_request_model.dart';
@@ -118,7 +118,7 @@ abstract class _CredentialsServiceBase with Store {
           publicKey: publicKey,
           email: email,
           password: password,
-          platform: currentPlatform,
+          platform: currentAppPlatform,
           deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
           lang: intl.localeName,
         );
@@ -143,7 +143,7 @@ abstract class _CredentialsServiceBase with Store {
           email: email,
           password: password,
           platformType: platformType,
-          platform: currentPlatform,
+          platform: currentAppPlatform,
           deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
           referralCode: referralCode,
           marketingEmailsAllowed: mailingChecked,
@@ -202,5 +202,17 @@ abstract class _CredentialsServiceBase with Store {
     await getIt.get<SNetwork>().recreateDio();
 
     getIt.get<StartupService>().successfullAuthentication();
+  }
+
+  @action
+  void checkPolicy() {
+    //_logger.log(notifier, 'checkPolicy');
+    policyChecked = !policyChecked;
+  }
+
+  @action
+  void checkMailing() {
+    //_logger.log(notifier, 'checkMailing');
+    mailingChecked = !mailingChecked;
   }
 }

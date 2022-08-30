@@ -6,6 +6,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
     this.showSearch = false,
+    this.removePadding = false,
     this.onChanged,
     required this.name,
   }) : super(key: key);
@@ -13,24 +14,28 @@ class ActionBottomSheetHeader extends StatelessWidget {
   final String name;
   final Function(String)? onChanged;
   final bool showSearch;
+  final bool removePadding;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SPaddingH24(
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Baseline(
-                baseline: 20.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  name,
-                  style: sTextH4Style,
+              Expanded(
+                child: Baseline(
+                  baseline: 20.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    name,
+                    style: sTextH4Style,
+                    maxLines: 2,
+                  ),
                 ),
               ),
-              const Spacer(),
               if (!showSearch)
                 SIconButton(
                   onTap: () {

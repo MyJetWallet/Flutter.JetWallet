@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:injectable/injectable.dart';
-import 'package:jetwallet/core/services/device_info/models/device_info_model.dart';
-import 'package:jetwallet/core/services/device_size/models/device_size_union.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
+import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/device_info/models/device_info_model.dart';
+
+final sDeviceInfo = getIt.get<DeviceInfo>();
 
 @lazySingleton
 class DeviceInfo {

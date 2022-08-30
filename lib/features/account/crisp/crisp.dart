@@ -1,0 +1,79 @@
+import 'package:crisp/crisp.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/package_info_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+class Crisp extends StatefulObserverWidget {
+  const Crisp({
+    Key? key,
+    required this.welcomeText,
+  }) : super(key: key);
+
+  final String welcomeText;
+
+  @override
+  _CrispState createState() => _CrispState();
+}
+
+class _CrispState extends State<Crisp> {
+  late CrispMain crispMain;
+
+  @override
+  void initState() {
+    super.initState();
+    final packageInfo = getIt.get<PackageInfoService>().info;
+    final authInfo = getIt.get<AppStore>().authState;
+    final userInfo = sUserInfo.userInfo;
+    final deviceInfo = sDeviceInfo.model;
+
+    crispMain = CrispMain(
+      websiteId: crispWebsiteId,
+      locale: intl.localeName,
+    );
+
+    crispMain.register(
+      user: CrispUser(
+        email: authInfo.email,
+        nickname: userInfo.firstName.isNotEmpty
+            ? '${userInfo.firstName} ${userInfo.lastName}'
+            : authInfo.email,
+        phone: userInfo.phone,
+      ),
+    );
+
+    crispMain.setMessage('${widget.welcomeText}!');
+
+    crispMain.setSessionData({
+      'app_version': '${packageInfo.version} (${packageInfo.buildNumber})',
+      'os_name': deviceInfo.osName,
+      'os_version': deviceInfo.version,
+      'os_sdk': deviceInfo.sdk,
+      'device_manufacturer': deviceInfo.manufacturer,
+      'device_model': deviceInfo.model,
+      'country_of_registration': userInfo.countryOfRegistration,
+      'country_of_residence': userInfo.countryOfResidence,
+      'country_of_citizenship': userInfo.countryOfCitizenship,
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.crisp_support,
+        ),
+      ),
+      child: CrispView(
+        crispMain: crispMain,
+      ),
+    );
+  }
+}

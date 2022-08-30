@@ -2,6 +2,8 @@
 const successAnimationAsset = 'assets/animations/success.riv';
 const splashAnimationAsset = 'assets/animations/splash.riv';
 const failureAnimationAsset = 'assets/animations/failure.riv';
+const loaderAnimationAsset = 'assets/animations/loader.riv';
+const processingAnimationAsset = 'assets/animations/processing.riv';
 
 // Other
 const watchlistImageAsset = 'assets/images/watchlist.png';
@@ -52,6 +54,8 @@ const platformType = 2;
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const cardsKey = 'cards';
+const lastUsedPaymentMethodKey = 'lastUsedPaymentMethod';
 
 // HTTP
 const postRequest = 'POST';
@@ -60,3 +64,15 @@ const signatureHeader = 'signature';
 // Earn
 const earnBackgroundImageAsset = 'assets/images/earn_background.png';
 const earnEmptyStateImage = 'assets/images/earn_empty.png';
+//Languages codes
+const languageCodePl = 'pl';
+
+// Earn Type
+const earnRipple = 'Ripple';
+
+// Item of asset selected
+const itemSelected = 'itemSelected';
+
+// Biometric
+const bioFaceId = 'assets/images/face_id.png';
+const bioTouchId = 'assets/images/touch_id.png';

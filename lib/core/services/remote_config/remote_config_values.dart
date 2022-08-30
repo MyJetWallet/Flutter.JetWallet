@@ -21,6 +21,7 @@ late int maxPinAttempts;
 late int forgotPasswordLockHours;
 late int changePasswordLockHours;
 late int changePhoneLockHours;
+late String cardLimitsLearnMoreLink;
 
 // Versioning
 late String recommendedVersion;

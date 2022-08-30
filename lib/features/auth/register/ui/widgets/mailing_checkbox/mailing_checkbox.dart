@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -37,7 +36,7 @@ class MailingCheckbox extends StatelessWidget {
                 maxLines: 4,
                 style: sCaptionTextStyle.copyWith(
                   fontFamily: 'Gilroy',
-                  color: getIt.get<SimpleKit>().colors.black,
+                  color: sKit.colors.black,
                 ),
               ),
             ],

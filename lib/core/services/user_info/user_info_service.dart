@@ -1,10 +1,12 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/utils/loggind.dart';
+import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 
 import 'models/user_info.dart';
+
+final sUserInfo = getIt.get<UserInfoService>();
 
 @lazySingleton
 class UserInfoService {
@@ -130,6 +132,12 @@ class UserInfoService {
     _logger.log(notifier, 'updateEmailConfirmed');
 
     userInfo = userInfo.copyWith(emailConfirmed: emailConfirmed);
+  }
+
+  void updateChatClosed() {
+    _logger.log(notifier, 'chatClosedOnThisSession');
+
+    userInfo = userInfo.copyWith(chatClosedOnThisSession: true);
   }
 
   void updatePhoneConfirmed({required bool phoneConfirmed}) {

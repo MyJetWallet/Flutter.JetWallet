@@ -10,6 +10,7 @@ bool checkKycPassed(
       withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
     return true;
   }
+
   return false;
 }
 
@@ -23,5 +24,6 @@ bool kycInProgress(
       withdrawalStatus == kycOperationStatus(KycStatus.kycInProgress)) {
     return true;
   }
+
   return false;
 }

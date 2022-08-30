@@ -10,7 +10,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/models/referral_code_link_union.dart';
 import 'package:jetwallet/utils/enum.dart';
-import 'package:jetwallet/utils/loggind.dart';
+import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -114,9 +114,8 @@ abstract class _ReferallCodeStoreBase with Store {
   @action
   void resetBottomSheetReferralCodeValidation() {
     bottomSheetReferralCodeValidation = const Input();
-    bottomSheetReferralCode = null;
     isInputError = false;
-    referralCodeController = TextEditingController();
+    referralCodeController = TextEditingController()..text = referralCode ?? '';
   }
 
   @action
@@ -246,7 +245,7 @@ abstract class _ReferallCodeStoreBase with Store {
     bool fromSettings = false,
     required BuildContext context,
   }) {
-    final colors = getIt.get<SimpleKit>().colors;
+    final colors = sKit.colors;
 
     final qrPageRoute = MaterialPageRoute(
       builder: (context) {
@@ -332,6 +331,8 @@ abstract class _ReferallCodeStoreBase with Store {
 
   void clearBottomSheetReferralCode() {
     bottomSheetReferralCode = null;
+    updateReferralCode('', null);
+    resetBottomSheetReferralCodeValidation();
   }
 
   Future<String> _copiedText() async {

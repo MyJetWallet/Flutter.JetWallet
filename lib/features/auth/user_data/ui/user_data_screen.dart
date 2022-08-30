@@ -1,0 +1,173 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
+import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
+import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
+import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_field.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
+import 'package:simple_kit/modules/headers/simple_auth_header.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+import 'widgets/birth_date/store/selected_date_store.dart';
+
+class UserDataScreen extends StatelessWidget {
+  const UserDataScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<SelectedDateStore>(
+      create: (context) => SelectedDateStore(),
+      builder: (context, child) => const _UserDataScreenBody(),
+    );
+  }
+}
+
+class _UserDataScreenBody extends StatelessObserverWidget {
+  const _UserDataScreenBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    final birthDateInfo = SelectedDateStore.of(context);
+    final birthDateController = TextEditingController();
+
+    birthDateController.text = birthDateInfo.selectedDate;
+
+    final loader = StackLoaderStore();
+
+    return Provider<UserDataStore>(
+      create: (_) => UserDataStore(
+        SelectedDateStore.of(context),
+      ),
+      builder: (context, child) {
+        return SPageFrame(
+          loading: loader,
+          color: colors.grey5,
+          header: SAuthHeader(
+            customIconButton: const SpaceH24(),
+            progressValue: 60,
+            title: intl.user_data_whats_your_name,
+          ),
+          child: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: AutofillGroup(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ColoredBox(
+                                  color: colors.white,
+                                  child: SPaddingH24(
+                                    child: SStandardField(
+                                      labelText: intl.user_data_first_name,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                          RegExp('[ ]'),
+                                        ),
+                                      ],
+                                      isError: UserDataStore.of(context)
+                                          .firstNameError,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      onChanged: (val) {
+                                        UserDataStore.of(context)
+                                            .updateFirstName(val.trim());
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SpaceW1(),
+                              Expanded(
+                                child: ColoredBox(
+                                  color: colors.white,
+                                  child: SPaddingH24(
+                                    child: SStandardField(
+                                      labelText: intl.user_data_last_name,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.deny(
+                                          RegExp('[ ]'),
+                                        ),
+                                      ],
+                                      isError: UserDataStore.of(context)
+                                          .lastNameError,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      onChanged: (val) {
+                                        UserDataStore.of(context)
+                                            .updateLastName(val.trim());
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SpaceH1(),
+                      ColoredBox(
+                        color: colors.white,
+                        child: GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            showBirthDatePicker(
+                              context,
+                              birthDateInfo,
+                              UserDataStore.of(context),
+                            );
+                          },
+                          child: AbsorbPointer(
+                            child: SPaddingH24(
+                              child: SStandardField(
+                                labelText: intl.user_data_date_of_birth,
+                                hideClearButton: true,
+                                readOnly: true,
+                                controller: birthDateController,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SpaceH1(),
+                      const CountryProfileField(),
+                      const SpaceH22(),
+                      const ReferralCode(),
+                      const Spacer(),
+                      const SpaceH8(),
+                      SPaddingH24(
+                        child: SPrimaryButton4(
+                          name: intl.register_continue,
+                          onTap: () {
+                            UserDataStore.of(context).saveUserData(
+                              loader,
+                              birthDateInfo,
+                            );
+                          },
+                          active: UserDataStore.of(context).activeButton,
+                        ),
+                      ),
+                      const SpaceH24(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

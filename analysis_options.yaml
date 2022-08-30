@@ -24,6 +24,8 @@ linter:
     unawaited_futures: true
 
     lines_longer_than_80_chars: true
+
+    use_setters_to_change_properties: false
     
     # experimental, add when stable
     # avoid_dynamic_calls: true
@@ -54,8 +56,6 @@ analyzer:
     avoid_positional_boolean_parameters: ignore
 
 dart_code_metrics:
-  anti-patterns:
-    - long-parameter-list
   metrics:
     cyclomatic-complexity: 20
     number-of-parameters: 4
@@ -70,7 +70,6 @@ dart_code_metrics:
     - prefer-conditional-expressions
     - no-equal-then-else
     - avoid-unnecessary-setstate
-    - avoid-wrapping-in-padding
     - prefer_relative_imports
     - prefer_final_fields
     - prefer_final_locals

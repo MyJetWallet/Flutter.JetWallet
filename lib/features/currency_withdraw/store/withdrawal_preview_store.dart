@@ -1,0 +1,156 @@
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
+part 'withdrawal_preview_store.g.dart';
+
+class WithdrawalPreviewStore extends _WithdrawalPreviewStoreBase
+    with _$WithdrawalPreviewStore {
+  WithdrawalPreviewStore(WithdrawalModel withdrawal) : super(withdrawal);
+
+  static _WithdrawalPreviewStoreBase of(BuildContext context) =>
+      Provider.of<WithdrawalPreviewStore>(context, listen: false);
+}
+
+abstract class _WithdrawalPreviewStoreBase with Store {
+  _WithdrawalPreviewStoreBase(this.withdrawal) {
+    final _amount = WithdrawalAmountStore(withdrawal);
+
+    tag = _amount.tag;
+    address = _amount.address;
+    amount = _amount.amount;
+    addressIsInternal = _amount.addressIsInternal;
+    blockchain = _amount.blockchain;
+  }
+
+  final WithdrawalModel withdrawal;
+
+  static final _logger = Logger('WithdrawalPreviewStore');
+
+  @observable
+  String tag = '';
+
+  @observable
+  String address = '';
+
+  @observable
+  String amount = '0';
+
+  @observable
+  String operationId = '';
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool addressIsInternal = false;
+
+  @observable
+  BlockchainModel blockchain = const BlockchainModel();
+
+  @action
+  Future<void> withdraw() async {
+    _logger.log(notifier, 'withdraw');
+
+    loading = true;
+
+    try {
+      final model = WithdrawRequestModel(
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        assetSymbol: withdrawal.currency.symbol,
+        amount: Decimal.parse(amount),
+        toAddress: address,
+        blockchain: blockchain.id,
+      );
+
+      final response = await sNetwork.getWalletModule().postWithdraw(model);
+
+      response.pick(
+        onData: (data) {
+          _updateOperationId(data.operationId);
+
+          _showWithdrawConfirm();
+        },
+        onError: (error) {
+          _logger.log(stateFlow, 'withdraw', error.cause);
+
+          _showFailureScreen(error);
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'withdraw', error.cause);
+
+      _showFailureScreen(error);
+    } catch (error) {
+      _logger.log(stateFlow, 'withdraw', error);
+
+      _showNoResponseScreen();
+    }
+
+    loading = false;
+  }
+
+  @action
+  void _updateOperationId(String value) {
+    operationId = value;
+  }
+
+  @action
+  void _showWithdrawConfirm() {
+    sRouter.push(
+      WithdrawalConfirmRouter(
+        withdrawal: withdrawal,
+      ),
+    );
+  }
+
+  @action
+  void _showNoResponseScreen() {
+    sRouter.push(
+      FailureScreenRouter(
+        primaryText: intl.showNoResponseScreen_text,
+        secondaryText: intl.showNoResponseScreen_text2,
+        primaryButtonName: intl.serverCode0_ok,
+        onPrimaryButtonTap: () {
+          sRouter.navigate(
+            WithdrawalAmountRouter(
+              withdrawal: withdrawal,
+              network: '',
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @action
+  void _showFailureScreen(ServerRejectException error) {
+    sRouter.push(
+      FailureScreenRouter(
+        primaryText: intl.withdrawalPreview_failure,
+        secondaryText: error.cause,
+        primaryButtonName: intl.withdrawalPreview_editOrder,
+        onPrimaryButtonTap: () {
+          sRouter.navigate(
+            WithdrawalAmountRouter(
+              withdrawal: withdrawal,
+              network: blockchain.id,
+            ),
+          );
+        },
+        secondaryButtonName: intl.withdrawalPreview_close,
+        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+      ),
+    );
+  }
+}

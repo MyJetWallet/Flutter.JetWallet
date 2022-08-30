@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/utils/gradients.dart';
 
 /// Gradient for Onboarding/Spalsh screens
-class OnboardingScreenGradient extends StatelessWidget {
-  const OnboardingScreenGradient({
+class OnboardingFullScreenGradient extends StatelessWidget {
+  const OnboardingFullScreenGradient({
     Key? key,
     this.backgroundColor,
     this.onTapBack,
@@ -55,7 +55,7 @@ class OnboardingScreenGradient extends StatelessWidget {
               onLongPress: onLongPress,
               onLongPressEnd: onLongPressEnd,
               onPanEnd: onPanEnd,
-              child: Container(
+              child: const ColoredBox(
                 color: Colors.transparent,
               ),
             ),
@@ -70,7 +70,7 @@ class OnboardingScreenGradient extends StatelessWidget {
               onLongPress: onLongPress,
               onLongPressEnd: onLongPressEnd,
               onPanEnd: onPanEnd,
-              child: Container(
+              child: const ColoredBox(
                 color: Colors.transparent,
               ),
             ),

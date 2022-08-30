@@ -1,5 +1,5 @@
-import '../../app/shared/helpers/currencies_helpers.dart';
-import '../../app/shared/models/currency_model.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 
 List<CurrencyModel> currenciesWithBalanceFrom(List<CurrencyModel> currencies) {
   final currenciesWithBalance = currencies
