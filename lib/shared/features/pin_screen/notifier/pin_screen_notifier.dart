@@ -174,6 +174,7 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         },
         verification: () async {
           await _animateSuccess();
+          await _userInfoN.setPin(state.enterPin);
           if (_userInfo.isJustLogged) {
             read(startupNotipod.notifier).pinSet();
           } else {

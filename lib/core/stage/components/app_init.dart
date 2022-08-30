@@ -20,6 +20,7 @@ import '../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../shared/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import '../../../shared/features/two_fa_phone/view/two_fa_phone.dart';
 import '../../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
+import '../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 
 /// Launches application goes after [RemoteConfigInit]
 class AppInit extends HookWidget {
@@ -32,6 +33,7 @@ class AppInit extends HookWidget {
     final router = useProvider(authorizationStpod);
     final appInit = useProvider(appInitFpod);
     final authInfoN = useProvider(authInfoNotipod.notifier);
+    final userInfoN = useProvider(userInfoNotipod.notifier);
     final startup = useProvider(startupNotipod);
     final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
 
@@ -67,6 +69,7 @@ class AppInit extends HookWidget {
                 );
               },
               pinVerification: () {
+                userInfoN.initPinStatus();
                 return const PinScreen(
                   union: Verification(),
                   cannotLeave: true,
