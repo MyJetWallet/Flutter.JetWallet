@@ -8,8 +8,6 @@ import '../../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
-import '../../sms_autheticator/sms_authenticator.dart';
-import 'components/security_protection.dart';
 
 class AccountSecurity extends HookWidget {
   const AccountSecurity({Key? key}) : super(key: key);
@@ -31,10 +29,6 @@ class AccountSecurity extends HookWidget {
       child: Column(
         children: <Widget>[
           const SpaceH20(),
-          const SPaddingH24(
-            child: SecurityProtection(),
-          ),
-          const SpaceH40(),
           SimpleAccountCategoryButton(
             title: intl.accountSecurity_accountCategoryButtonTitle1,
             icon: const SLockIcon(),
@@ -55,12 +49,6 @@ class AccountSecurity extends HookWidget {
               isSDivider: true,
               onTap: () => PinScreen.push(context, const Change()),
             ),
-          SimpleAccountCategoryButton(
-            title: intl.accountSecurity_accountCategoryButtonTitle3,
-            icon: const STwoFactorAuthIcon(),
-            isSDivider: false,
-            onTap: () => SmsAuthenticator.push(context),
-          ),
         ],
       ),
     );

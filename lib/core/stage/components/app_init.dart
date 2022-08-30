@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../app/screens/navigation/view/navigation.dart';
+import '../../../app/shared/features/disclaimer/notifier/disclaimer_notipod.dart';
 import '../../../app/shared/providers/signal_r/init_finished_spod.dart';
 import '../../../auth/screens/biometric/biometric.dart';
 import '../../../auth/screens/email_verification/view/email_verification.dart';
@@ -34,6 +35,7 @@ class AppInit extends HookWidget {
     final appInit = useProvider(appInitFpod);
     final authInfoN = useProvider(authInfoNotipod.notifier);
     final userInfoN = useProvider(userInfoNotipod.notifier);
+    final userInfo = useProvider(userInfoNotipod);
     final startup = useProvider(startupNotipod);
     final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
 
@@ -78,6 +80,9 @@ class AppInit extends HookWidget {
               },
               home: () {
                 authInfoN.initSessionInfo();
+                if (userInfo.hasDisclaimers) {
+                  useProvider(disclaimerNotipod);
+                }
                 return Navigation();
               },
               userDataVerification: () => const UserDataScreen(),
