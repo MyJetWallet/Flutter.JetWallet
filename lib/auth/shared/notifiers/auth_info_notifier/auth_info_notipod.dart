@@ -5,5 +5,5 @@ import 'auth_info_state.dart';
 
 final authInfoNotipod =
     StateNotifierProvider<AuthInfoNotifier, AuthInfoState>((ref) {
-  return AuthInfoNotifier();
+  return AuthInfoNotifier(ref.read);
 });
