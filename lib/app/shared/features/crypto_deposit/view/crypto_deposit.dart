@@ -135,6 +135,7 @@ class CryptoDeposit extends HookWidget {
               screenTitle: header,
               kycAlertHandler: kycAlertHandler,
               kycState: kycState,
+              showAllAlerts: showAlert,
               onDismiss: currency.isSingleNetwork
                   ? null
                   : () => showNetworkBottomSheet(

@@ -28,7 +28,6 @@ import '../../shared/features/sms_autheticator/sms_authenticator.dart';
 import '../../shared/features/transaction_history/components/history_recurring_buys.dart';
 import '../../shared/features/transaction_history/view/transaction_hisotry.dart';
 import '../../shared/helpers/check_kyc_status.dart';
-import '../../shared/providers/show_payment_methods_pod/show_payment_methods_pod.dart';
 import '../navigation/provider/bottom_navigation_notipod.dart';
 import 'components/account_banner_list.dart';
 import 'components/crisp.dart';
@@ -46,7 +45,6 @@ class Account extends HookWidget {
     final logoutN = useProvider(logoutNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
     final userInfo = useProvider(userInfoNotipod);
-    final showPaymentMethods = useProvider(showPaymentsMethodsPod);
     final cardFailed = useProvider(bottomNavigationNotipod);
     final deviceSize = useProvider(deviceSizePod);
 
@@ -168,16 +166,15 @@ class Account extends HookWidget {
                               navigatorPush(context, const AccountSecurity());
                             },
                           ),
-                          if (showPaymentMethods)
-                            SimpleAccountCategoryButton(
-                              title: intl.account_paymentMethods,
-                              icon: SActionDepositIcon(
-                                color: colors.black,
-                              ),
-                              isSDivider: true,
-                              notification: cardFailed.cardNotification,
-                              onTap: () => PaymentMethods.push(context),
+                          SimpleAccountCategoryButton(
+                            title: intl.account_paymentMethods,
+                            icon: SActionDepositIcon(
+                              color: colors.black,
                             ),
+                            isSDivider: true,
+                            notification: cardFailed.cardNotification,
+                            onTap: () => PaymentMethods.push(context),
+                          ),
                           SimpleAccountCategoryButton(
                             title: intl.account_recurringBuy,
                             icon: const SRecurringBuysIcon(),
