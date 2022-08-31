@@ -12,6 +12,7 @@ import '../../../../shared/components/texts/resend_in_text.dart';
 import '../../../../shared/helpers/analytics.dart';
 import '../../../../shared/helpers/open_email_app.dart';
 import '../../../../shared/notifiers/timer_notifier/timer_notipod.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../../shared/services/remote_config_service/remote_config_values.dart';
 import '../../../shared/notifiers/auth_info_notifier/auth_info_notipod.dart';
@@ -99,6 +100,7 @@ class _EmailVerificationState extends State<EmailVerification>
     final verification = useProvider(emailVerificationNotipod);
     final verificationN = useProvider(emailVerificationNotipod.notifier);
     final authInfo = useProvider(authInfoNotipod);
+    final userInfoN = useProvider(userInfoNotipod.notifier);
     final notificationN = useProvider(sNotificationNotipod.notifier);
     final pinError = useValueNotifier(StandardFieldErrorNotifier());
     final loader = useValueNotifier(StackLoaderNotifier());
@@ -181,6 +183,7 @@ class _EmailVerificationState extends State<EmailVerification>
                           controller: verification.controller,
                           length: emailVerificationCodeLength,
                           onCompleted: (_) {
+                            userInfoN.updateIsJustLogged(value: true);
                             loader.value.startLoadingImmediately();
                             verificationN.verifyCode();
                           },

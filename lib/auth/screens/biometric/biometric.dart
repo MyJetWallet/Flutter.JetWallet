@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../shared/constants.dart';
 import '../../../shared/helpers/navigator_push.dart';
+import '../../../shared/providers/device_info_pod.dart';
 import '../../../shared/providers/service_providers.dart';
 import 'notifier/biometric_notipod.dart';
 import 'notifier/biometric_status_notifier.dart';
@@ -35,10 +36,18 @@ class Biometric extends HookWidget {
     final colors = useProvider(sColorPod);
     final biometricStatus = useProvider(biometricStatusFpod);
     final biometric = useProvider(biometricNotipod.notifier);
+    final deviceInfo = useProvider(deviceInfoPod);
     late String headerText;
     late String buttonText;
     late String image;
-    if (biometricStatus.data?.value == BiometricStatus.face) {
+
+    final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
+        deviceInfo.marketingName.contains('iPhone 12') ||
+        deviceInfo.marketingName.contains('iPhone 13') ||
+        deviceInfo.marketingName.contains('iPhone 14') ||
+        deviceInfo.marketingName.contains('iPhone X') ||
+        deviceInfo.marketingName.contains('iPhone x');
+    if (biometricStatus.data?.value == BiometricStatus.face || iosLatest) {
       headerText = intl.bio_screen_face_id_title;
       buttonText = intl.bio_screen_face_id_button_text;
       image = bioFaceId;
@@ -89,9 +98,6 @@ class Biometric extends HookWidget {
                 if (isAccSettings) {
                   Navigator.pop(context);
                 } else {
-                  await makeAuthWithBiometrics(
-                    intl.pinScreen_weNeedYouToConfirmYourIdentity,
-                  );
                   biometric.useBio(
                     useBio: false,
                     context: context,

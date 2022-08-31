@@ -139,12 +139,25 @@ class EmailVerificationNotifier extends StateNotifier<EmailVerificationState> {
       _logger.log(stateFlow, 'verifyCode', state);
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
-
-      state = state.copyWith(union: Error(error.cause));
+      final intl = read(intlPod);
+      if (error.cause.contains('500')) {
+        state = state.copyWith(
+          union: Error(intl.something_went_wrong_try_again),
+        );
+      } else {
+        state = state.copyWith(union: Error(error.cause));
+      }
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
+      final intl = read(intlPod);
 
-      state = state.copyWith(union: Error(error));
+      if (error.toString().contains('500')) {
+        state = state.copyWith(
+          union: Error(intl.something_went_wrong_try_again),
+        );
+      } else {
+        state = state.copyWith(union: Error(error));
+      }
     }
   }
 

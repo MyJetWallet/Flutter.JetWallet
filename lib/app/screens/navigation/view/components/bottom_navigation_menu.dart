@@ -6,7 +6,6 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../shared/helpers/localized_action_items.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
-import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../../shared/features/actions/action_buy/action_buy.dart';
 import '../../../../shared/features/actions/action_deposit/action_deposit.dart';
@@ -41,7 +40,6 @@ class BottomNavigationMenu extends HookWidget {
     final navigation = useProvider(navigationStpod);
     final currencies = useProvider(currenciesPod);
     final actionActive = useState(false);
-    final userInfo = useProvider(userInfoNotipod);
     final kycState = useProvider(kycNotipod);
     final kycAlertHandler = useProvider(kycAlertHandlerPod(context));
     final earnProfile = useProvider(earnProfileNotipod);
@@ -73,7 +71,7 @@ class BottomNavigationMenu extends HookWidget {
     return SBottomNavigationBar(
       profileNotifications: _profileNotificationLength(
         kycState,
-        userInfo.twoFaEnabled,
+        true,
       ),
       cardNotifications: bottomMenuNotifier.cardNotification,
       selectedIndex: navigation.state,

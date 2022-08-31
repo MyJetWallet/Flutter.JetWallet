@@ -102,6 +102,10 @@ class UserInfoNotifier extends StateNotifier<UserInfoState> {
     _updatePinDisabled(true);
   }
 
+  void updateIsJustLogged({required bool value}) {
+    state = state.copyWith(isJustLogged: value);
+  }
+
   /// Set PIN information
   Future<void> setPin(String value) async {
     _logger.log(notifier, 'setPin');

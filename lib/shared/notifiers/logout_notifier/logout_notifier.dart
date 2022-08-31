@@ -55,6 +55,7 @@ class LogoutNotifier extends StateNotifier<LogoutUnion> {
 
       read(authorizationStpod).state = const Unauthorized();
       read(userInfoNotipod.notifier).clear();
+      read(authInfoNotipod.notifier).clear();
       read(authInfoNotipod.notifier).resetResendButton();
 
       unawaited(sAnalytics.logout());
