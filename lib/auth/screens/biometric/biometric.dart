@@ -41,12 +41,12 @@ class Biometric extends HookWidget {
     late String buttonText;
     late String image;
 
-    final iosLatest = deviceInfo.manufacturer.contains('iPhone 11') ||
-        deviceInfo.manufacturer.contains('iPhone 12') ||
-        deviceInfo.manufacturer.contains('iPhone 13') ||
-        deviceInfo.manufacturer.contains('iPhone 14') ||
-        deviceInfo.manufacturer.contains('iPhone X') ||
-        deviceInfo.manufacturer.contains('iPhone x');
+    final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
+        deviceInfo.marketingName.contains('iPhone 12') ||
+        deviceInfo.marketingName.contains('iPhone 13') ||
+        deviceInfo.marketingName.contains('iPhone 14') ||
+        deviceInfo.marketingName.contains('iPhone X') ||
+        deviceInfo.marketingName.contains('iPhone x');
     if (biometricStatus.data?.value == BiometricStatus.face || iosLatest) {
       headerText = intl.bio_screen_face_id_title;
       buttonText = intl.bio_screen_face_id_button_text;
