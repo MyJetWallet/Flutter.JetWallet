@@ -13,15 +13,35 @@ class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
   final Reader read;
 
   Future<void> initSessionInfo() async {
-    final intl = read(intlPod);
-    final userInfo = read(userInfoNotipod.notifier);
-    final info = await read(infoServicePod).sessionInfo(intl.localeName);
-    userInfo.updateWithValuesFromSessionInfo(
-      twoFaEnabled: info.twoFaEnabled,
-      phoneVerified: info.phoneVerified,
-      hasDisclaimers: info.hasDisclaimers,
-      hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
-    );
+    if (!state.initSessionReceived) {
+      final intl = read(intlPod);
+      final userInfo = read(userInfoNotipod.notifier);
+      final info = await read(infoServicePod).sessionInfo(intl.localeName);
+      final profileInfo = await read(profileServicePod).info(intl.localeName);
+      userInfo.updateWithValuesFromSessionInfo(
+        twoFaEnabled: info.twoFaEnabled,
+        phoneVerified: info.phoneVerified,
+        hasDisclaimers: info.hasDisclaimers,
+        hasHighYieldDisclaimers: info.hasHighYieldDisclaimers,
+      );
+      userInfo.updateWithValuesFromProfileInfo(
+        emailConfirmed: profileInfo.emailConfirmed,
+        phoneConfirmed: profileInfo.phoneConfirmed,
+        kycPassed: profileInfo.kycPassed,
+        email: profileInfo.email ?? '',
+        phone: profileInfo.phone ?? '',
+        referralLink: profileInfo.referralLink ?? '',
+        referralCode: profileInfo.referralCode ?? '',
+        countryOfRegistration: profileInfo.countryOfRegistration ?? '',
+        countryOfResidence: profileInfo.countryOfResidence ?? '',
+        countryOfCitizenship: profileInfo.countryOfCitizenship ?? '',
+        firstName: profileInfo.firstName ?? '',
+        lastName: profileInfo.lastName ?? '',
+      );
+      state = state.copyWith(
+        initSessionReceived: true,
+      );
+    }
   }
 
   void updateToken(String token) {
@@ -65,5 +85,12 @@ class AuthInfoNotifier extends StateNotifier<AuthInfoState> {
     _logger.log(notifier, 'resetResendButton');
 
     state = state.copyWith(showResendButton: true);
+  }
+
+  /// If user make logout
+  void clear() {
+    _logger.log(notifier, 'clear');
+
+    state = state.copyWith(initSessionReceived: false);
   }
 }

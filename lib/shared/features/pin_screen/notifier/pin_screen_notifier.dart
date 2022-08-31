@@ -88,10 +88,10 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
   ) async {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
-    _updateHideBiometricButton(hideBio);
+    await _updateHideBiometricButton(hideBio);
     final storageService = read(localStorageServicePod);
     final usingBio = await storageService.getValue(useBioKey);
-    if (usingBio == true.toString()) {
+    if (usingBio == true.toString() && _userInfo.pin != null) {
       await updatePin(await _authenticateWithBio());
     }
   }
@@ -174,11 +174,16 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
         },
         verification: () async {
           await _animateSuccess();
-          read(startupNotipod.notifier).pinVerified();
+          await _userInfoN.setPin(state.enterPin);
+          if (_userInfo.isJustLogged) {
+            read(startupNotipod.notifier).pinSet();
+          } else {
+            read(startupNotipod.notifier).pinVerified();
+          }
         },
         orElse: () async {
           await _animateCorrect();
-          _updateHideBiometricButton(true);
+          await _updateHideBiometricButton(true);
           _updateScreenUnion(const NewPin());
         },
       );
@@ -346,8 +351,12 @@ class PinScreenNotifier extends StateNotifier<PinScreenState> {
     state = state.copyWith(confrimPin: value);
   }
 
-  void _updateHideBiometricButton(bool value) {
-    state = state.copyWith(hideBiometricButton: value);
+  Future<void> _updateHideBiometricButton(bool value) async {
+    if (_userInfo.pin == null) {
+      state = state.copyWith(hideBiometricButton: true);
+    } else {
+      state = state.copyWith(hideBiometricButton: value);
+    }
   }
 
   void _resetPin() {

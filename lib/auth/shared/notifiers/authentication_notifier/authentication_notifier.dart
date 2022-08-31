@@ -128,8 +128,13 @@ class AuthenticationNotifier extends StateNotifier<AuthenticationUnion> {
       } else {
         sAnalytics.signUpFailure(email, error.cause);
       }
+      final intl = read(intlPod);
+      if (error.cause.contains('500')) {
+        state = Input(intl.something_went_wrong_try_again);
+      } else {
+        state = Input(error.cause);
+      }
 
-      state = Input(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'authenticate', e);
 

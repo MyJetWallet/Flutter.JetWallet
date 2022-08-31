@@ -88,8 +88,6 @@ class AccountBannerList extends HookWidget {
   double _bannerHeight() {
     if (verificationInProgress || !kycPassed) {
       return 171;
-    } else if (!twoFaEnabled) {
-      return 155;
     } else {
       return 129;
     }
@@ -104,7 +102,7 @@ class AccountBannerList extends HookWidget {
     final banners = createBannersList(
       kycPassed: kycPassed,
       verificationInProgress: verificationInProgress,
-      twoFaEnabled: twoFaEnabled,
+      twoFaEnabled: true,
       phoneVerified: phoneVerified,
       onChatBannerTap: onChatBannerTap,
       onTwoFaBannerTap: onTwoFaBannerTap,
