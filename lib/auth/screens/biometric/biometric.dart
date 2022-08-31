@@ -98,9 +98,6 @@ class Biometric extends HookWidget {
                 if (isAccSettings) {
                   Navigator.pop(context);
                 } else {
-                  await makeAuthWithBiometrics(
-                    intl.pinScreen_weNeedYouToConfirmYourIdentity,
-                  );
                   biometric.useBio(
                     useBio: false,
                     context: context,
