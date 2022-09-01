@@ -135,14 +135,14 @@ class BottomNavigationMenu extends HookWidget {
         },
         onConvert: () {
           sAnalytics.convertClick(source: 's Menu');
-          if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+          if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
             Navigator.of(context).pop();
             sAnalytics.convertPageView();
             navigatorPush(context, const Convert());
           } else {
             Navigator.of(context).pop();
             kycAlertHandler.handle(
-              status: kycState.depositStatus,
+              status: kycState.sellStatus,
               kycVerified: kycState,
               isProgress: kycState.verificationInProgress,
               currentNavigate: () => navigatorPush(context, const Convert()),
