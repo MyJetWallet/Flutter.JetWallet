@@ -4,9 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../../shared/notifiers/time_tracking_notifier/time_tracking_notipod.dart';
+import '../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../shared/providers/service_providers.dart';
 import '../../../shared/components/bottom_tabs/bottom_tabs.dart';
 import '../../../shared/components/bottom_tabs/components/bottom_tab.dart';
+import '../../../shared/features/disclaimer/notifier/disclaimer_notipod.dart';
 import '../../../shared/features/key_value/notifier/key_value_notipod.dart';
 import '../notifier/watchlist/watchlist_notipod.dart';
 import '../provider/market_gainers_pod.dart';
@@ -29,11 +31,15 @@ class Market extends HookWidget {
     final gainers = useProvider(marketGainersPod);
     final losers = useProvider(marketLosersPod);
     final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
+    final userInfo = useProvider(userInfoNotipod);
     final marketTabsLength = _marketTabsLength(
       gainers.isEmpty,
       losers.isEmpty,
       indices.isEmpty,
     );
+    if (userInfo.hasDisclaimers) {
+      useProvider(disclaimerNotipod);
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await timeTrackerN.updateMarketOpened();
