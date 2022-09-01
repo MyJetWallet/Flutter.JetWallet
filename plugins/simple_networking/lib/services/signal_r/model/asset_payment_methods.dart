@@ -46,6 +46,7 @@ enum PaymentMethodType {
   simplex,
   circleCard,
   unlimintCard,
+  unlimintAlternative,
   unsupported,
 }
 
@@ -58,6 +59,8 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
         return 'CircleCard';
       case PaymentMethodType.unlimintCard:
         return 'UnlimintCard';
+      case PaymentMethodType.unlimintAlternative:
+        return 'UnlimintAlternative';
       default:
         return 'Unsupported';
     }
@@ -78,6 +81,8 @@ class PaymentTypeSerialiser
       return PaymentMethodType.circleCard;
     } else if (value == 'UnlimintCard') {
       return PaymentMethodType.unlimintCard;
+    } else if (value == 'UnlimintAlternative') {
+      return PaymentMethodType.unlimintAlternative;
     } else {
       return PaymentMethodType.unsupported;
     }

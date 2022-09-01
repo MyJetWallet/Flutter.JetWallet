@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -364,6 +365,7 @@ class SignalRService {
 
     _connection?.on(paymentMethodsMessage, (data) {
       try {
+        log('$data');
         final info = AssetPaymentMethods.fromJson(_json(data));
 
         _assetPaymentMethodsController.add(info);

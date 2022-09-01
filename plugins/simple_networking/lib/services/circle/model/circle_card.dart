@@ -38,6 +38,8 @@ enum IntegrationType {
   circle,
   @JsonValue(1)
   unlimint,
+  @JsonValue(2)
+  unlimintAlt,
 }
 
 enum CircleCardVerificationError {

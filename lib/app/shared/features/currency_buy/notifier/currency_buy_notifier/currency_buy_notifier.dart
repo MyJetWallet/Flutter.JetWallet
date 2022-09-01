@@ -303,6 +303,19 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     updateSelectedPaymentMethod(method.first, isLocalUse: true);
   }
 
+  void updateSelectedAltUnlimintCard(CircleCard card) {
+    _logger.log(notifier, 'updateSelectedAltUnlimintCard');
+
+    final method = currencyModel.buyMethods.where((method) {
+      return method.type == PaymentMethodType.unlimintAlternative;
+    });
+
+    state = state.copyWith(
+      pickedAltUnlimintCard: card,
+    );
+    updateSelectedPaymentMethod(method.first, isLocalUse: true);
+  }
+
   void tapPreset(String presetName) {
     state = state.copyWith(tappedPreset: presetName);
   }
