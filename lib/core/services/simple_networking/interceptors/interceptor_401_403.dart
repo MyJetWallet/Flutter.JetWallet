@@ -10,6 +10,8 @@ Future<void> interceptor401_403({
   required ErrorInterceptorHandler handler,
 }) async {
   try {
+    print('INTERCEPTOR 401');
+
     final result = await refreshToken();
 
     final authModel = getIt.get<AppStore>().authState;

@@ -151,8 +151,6 @@ abstract class _PinScreenStoreBase with Store {
     if (!_isLengthExceeded(value)) {
       _logger.log(notifier, 'updatePin');
 
-      print('screenUnion: $screenUnion');
-
       await screenUnion.when(
         enterPin: () async {
           _updateEnterPin(

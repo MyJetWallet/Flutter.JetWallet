@@ -20,6 +20,8 @@ class StartupService {
   static final _logger = Logger('StartupService');
 
   bool initSignaWasCall = false;
+  bool isServicesRegistred = false;
+  bool isAlreadyInited = false;
 
   void _initSignalRSynchronously() {
     getIt.get<SignalRService>().start();
@@ -43,16 +45,17 @@ class StartupService {
   }
 
   Future<void> processStartupState() async {
-    _logger.log(
-      notifier,
-      'PROCESS STARTUP ${getIt.get<AppStore>().authStatus}',
-    );
+    print('START: PROCESS STARTUP ${getIt.get<AppStore>().authStatus}');
 
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
-        await startingServices();
+        await getIt.get<SNetwork>().recreateDio();
 
         final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
+
+        if (!isServicesRegistred) {
+          await startingServices();
+        }
 
         infoRequest.pick(
           onData: (SessionCheckResponseModel info) async {
@@ -108,6 +111,8 @@ class StartupService {
     await getIt.isReady<KycProfileCountries>();
     await getIt.isReady<ProfileGetUserCountry>();
 
+    isServicesRegistred = true;
+
     return;
   }
 
@@ -133,6 +138,8 @@ class StartupService {
 
   void pinVerified() {
     _logger.log(notifier, 'pinVerified');
+
+    print('pinVerified');
 
     getIt.get<AppStore>().setAuthorizedStatus(
           const Home(),

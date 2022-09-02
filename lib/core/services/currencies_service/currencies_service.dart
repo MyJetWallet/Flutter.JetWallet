@@ -214,6 +214,20 @@ abstract class _CurrenciesServiceBase with Store {
                   .indexOf(depositBlockchain);
               for (final blockchain in data.blockchains) {
                 if (depositBlockchain.id == blockchain.id) {
+                  final depositBlockhainList =
+                      currencies[index].depositBlockchains.toList();
+
+                  depositBlockhainList[blockchainIndex] =
+                      depositBlockhainList[blockchainIndex].copyWith(
+                    tagType: blockchain.tagType,
+                    description: blockchain.description,
+                  );
+
+                  currencies[index] = currencies[index].copyWith(
+                    depositBlockchains: depositBlockhainList,
+                  );
+
+                  /*
                   currencies[index].depositBlockchains[blockchainIndex] =
                       currencies[index]
                           .depositBlockchains[blockchainIndex]
@@ -221,6 +235,7 @@ abstract class _CurrenciesServiceBase with Store {
                             tagType: blockchain.tagType,
                             description: blockchain.description,
                           );
+                          */
                 }
               }
             }
@@ -234,6 +249,18 @@ abstract class _CurrenciesServiceBase with Store {
                   .indexOf(withdrawalBlockchain);
               for (final blockchain in data.blockchains) {
                 if (withdrawalBlockchain.id == blockchain.id) {
+                  final withdrawalBlockchainsList =
+                      currencies[index].withdrawalBlockchains.toList();
+                  withdrawalBlockchainsList[blockchainIndex] =
+                      withdrawalBlockchainsList[blockchainIndex].copyWith(
+                    tagType: blockchain.tagType,
+                    description: blockchain.description,
+                  );
+
+                  currencies[index] = currencies[index].copyWith(
+                    withdrawalBlockchains: withdrawalBlockchainsList,
+                  );
+                  /*
                   currencies[index].withdrawalBlockchains[blockchainIndex] =
                       currencies[index]
                           .withdrawalBlockchains[blockchainIndex]
@@ -241,6 +268,7 @@ abstract class _CurrenciesServiceBase with Store {
                             tagType: blockchain.tagType,
                             description: blockchain.description,
                           );
+                  */
                 }
               }
             }
@@ -270,5 +298,5 @@ abstract class _CurrenciesServiceBase with Store {
   }
 
   @observable
-  ObservableList<CurrencyModel> currencies = ObservableList.of([]);
+  List<CurrencyModel> currencies = [];
 }

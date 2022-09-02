@@ -13,9 +13,14 @@ import 'package:jetwallet/widgets/bottom_tabs/bottom_tabs.dart';
 import 'package:jetwallet/widgets/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
-class MarketScreen extends StatelessObserverWidget {
+class MarketScreen extends StatefulObserverWidget {
   const MarketScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MarketScreen> createState() => _MarketScreenState();
+}
+
+class _MarketScreenState extends State<MarketScreen> {
   int _marketTabsLength(
     bool gainersEmpty,
     bool losersEmpty,
@@ -69,10 +74,14 @@ class MarketScreen extends StatelessObserverWidget {
       builder: (_) {
         final value = sSignalRModules.randomStream.value;
         final mRItems = sSignalRModules.marketReferences.value;
+        final currencies = sSignalRModules.getCurrencies;
 
         final allAssets = marketReferencesList(
           mRItems!,
+          currencies,
         );
+
+        final ass = sSignalRModules.getMarketPrices;
 
         return Scaffold(
           body: DefaultTabController(
@@ -82,7 +91,7 @@ class MarketScreen extends StatelessObserverWidget {
                 TabBarView(
                   children: [
                     MarketNestedScrollView(
-                      items: allAssets,
+                      items: ass,
                       showBanners: true,
                       sourceScreen: FilterMarketTabAction.all,
                     ),
@@ -108,7 +117,12 @@ class MarketScreen extends StatelessObserverWidget {
                   alignment: FractionalOffset.bottomCenter,
                   child: BottomTabs(
                     tabs: [
-                      BottomTab(text: intl.market_all),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {});
+                        },
+                        child: BottomTab(text: intl.market_all),
+                      ),
                       BottomTab(text: intl.market_bottomTabLabel2),
                       if (indices.isNotEmpty)
                         BottomTab(

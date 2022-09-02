@@ -33,8 +33,6 @@ class RemoteConfig {
   RemoteConfigModel? remoteConfig;
 
   Future<RemoteConfig> fetchAndActivate() async {
-    print('LOAD REMOTE CONFIG');
-
     getIt.get<AppStore>().setRemoteConfigStatus(
           const RemoteConfigUnion.loading(),
         );
@@ -50,8 +48,6 @@ class RemoteConfig {
       //    ? 'https://wallet-api.simple-spot.biz/api/v1'
       //    : 'https://wallet-api-uat.simple-spot.biz/api/v1';
 
-      print('START SEND REQUEST');
-
       var response = await Dio().get(remoteConfigURL);
 
       //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
@@ -64,7 +60,7 @@ class RemoteConfig {
 
       final respModel = RemoteConfigModel.fromJson(responseData);
 
-      print('REQUEST SENDED');
+      print('REMOTE CONFIG LOADED');
 
       remoteConfig = respModel;
 

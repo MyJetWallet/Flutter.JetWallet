@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
@@ -22,6 +24,7 @@ import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 
 part 'app_store.g.dart';
 
+@lazySingleton
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
@@ -74,7 +77,7 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> getAuthStatus() async {
-    print('getAuthStatus');
+    print('START: APP STORE - getAuthStatus');
 
     final storageService = getIt.get<LocalStorageService>();
     final deviceInfo = getIt.get<DeviceInfo>();
@@ -110,7 +113,7 @@ abstract class _AppStoreBase with Store {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }
 
-    print('APP STPORE ${token}');
+    print('REFRESH TOKEN $token');
 
     if (token == null) {
       // TODO
@@ -123,11 +126,11 @@ abstract class _AppStoreBase with Store {
         email: parsedEmail,
       );
 
-      /// Recreating a dio object with a token
-      await getIt.get<SNetwork>().recreateDio();
-
       try {
         final result = await refreshToken();
+
+        /// Recreating a dio object with a token
+        await getIt.get<SNetwork>().recreateDio();
 
         print(result);
 
@@ -149,6 +152,8 @@ abstract class _AppStoreBase with Store {
 
         authStatus = const AuthorizationUnion.unauthorized();
       }
+
+      getIt.get<AppRouter>().popUntilRoot();
     }
   }
 

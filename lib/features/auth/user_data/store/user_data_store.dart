@@ -65,6 +65,10 @@ abstract class _UserDataStoreBase with Store {
 
   late SelectedDateStore? birthDateInfo;
 
+  TextEditingController firstNameController = TextEditingController();
+
+  TextEditingController lastNameController = TextEditingController();
+
   @action
   void updateFirstName(String name) {
     _logger.log(notifier, 'updateFirstName');
@@ -140,6 +144,8 @@ abstract class _UserDataStoreBase with Store {
       referralCode: referralCodeLink.referralCode ?? '',
     );
 
+    print(model);
+
     loader.startLoadingImmediately();
 
     try {
@@ -160,5 +166,11 @@ abstract class _UserDataStoreBase with Store {
     }
 
     loader.finishLoading();
+  }
+
+  @action
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
   }
 }

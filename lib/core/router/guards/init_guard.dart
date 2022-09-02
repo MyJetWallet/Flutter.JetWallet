@@ -28,7 +28,7 @@ class InitGuard extends AutoRouteGuard {
     }
 
     if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
-      await appStore.getAuthStatus();
+      //await appStore.getAuthStatus();
 
       appStore.authStatus.when(
         authorized: () {

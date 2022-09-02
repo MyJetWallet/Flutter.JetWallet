@@ -1,12 +1,14 @@
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/helpers/currencies.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
 
-List<MarketItemModel> marketReferencesList(MarketReferencesModel value) {
+List<MarketItemModel> marketReferencesList(
+  MarketReferencesModel value,
+  List<CurrencyModel> currencies,
+) {
   print('marketReferencesList');
 
   final items = <MarketItemModel>[];
@@ -14,10 +16,8 @@ List<MarketItemModel> marketReferencesList(MarketReferencesModel value) {
   for (final marketReference in value.references) {
     late CurrencyModel currency;
 
-    final sCurrencies = currenciesList();
-
     try {
-      currency = sCurrencies.firstWhere(
+      currency = currencies.firstWhere(
         (element) {
           return element.symbol == marketReference.associateAsset;
         },

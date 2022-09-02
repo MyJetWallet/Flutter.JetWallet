@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/helpers/currencies.dart';
+import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -506,6 +508,15 @@ abstract class _SignalRModulesBase with Store {
       ),
     );
   }
+
+  @computed
+  List<MarketItemModel> get getMarketPrices => marketReferencesList(
+        marketReferences.value!,
+        getCurrencies,
+      );
+
+  @computed
+  List<CurrencyModel> get getCurrencies => currenciesList();
 }
 
 List<MarketItemModel> _formattedItems(

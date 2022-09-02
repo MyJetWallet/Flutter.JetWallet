@@ -121,8 +121,9 @@ dependencies:
       url: https://github.com/MyJetWallet/Flutter.SimpleKit.git
 
   simple_networking:
-    git:
-      url: https://github.com/MyJetWallet/Flutter.SimpleNetworking.git
+    path: C:\Users\Dmtrii\Documents\GitHub\Flutter.SimpleNetworking
+    #git:
+    #  url: https://github.com/MyJetWallet/Flutter.SimpleNetworking.git
 
   simple_analytics:
     path: plugins/simple_analytics

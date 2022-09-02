@@ -45,6 +45,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
       create: (_) => UserDataStore(
         SelectedDateStore.of(context),
       ),
+      dispose: (context, store) => store.dispose(),
       builder: (context, child) {
         return SPageFrame(
           loading: loader,
@@ -71,6 +72,8 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                                   color: colors.white,
                                   child: SPaddingH24(
                                     child: SStandardField(
+                                      controller: UserDataStore.of(context)
+                                          .firstNameController,
                                       labelText: intl.user_data_first_name,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.deny(
@@ -95,6 +98,8 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                                   color: colors.white,
                                   child: SPaddingH24(
                                     child: SStandardField(
+                                      controller: UserDataStore.of(context)
+                                          .lastNameController,
                                       labelText: intl.user_data_last_name,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.deny(

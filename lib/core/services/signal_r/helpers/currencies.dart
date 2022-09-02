@@ -7,8 +7,6 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 
 List<CurrencyModel> currenciesList() {
-  print('currenciesList');
-
   final currencies = <CurrencyModel>[];
 
   for (final asset in sSignalRModules.assets.value!.assets) {
@@ -197,13 +195,28 @@ List<CurrencyModel> currenciesList() {
           for (final blockchain
               in sSignalRModules.blockchains.value!.blockchains) {
             if (depositBlockchain.id == blockchain.id) {
-              currencies[index].depositBlockchains[blockchainIndex] =
-                  currencies[index]
-                      .depositBlockchains[blockchainIndex]
-                      .copyWith(
-                        tagType: blockchain.tagType,
-                        description: blockchain.description,
-                      );
+              final depositBlockhainList =
+                  currencies[index].depositBlockchains.toList();
+
+              depositBlockhainList[blockchainIndex] =
+                  depositBlockhainList[blockchainIndex].copyWith(
+                tagType: blockchain.tagType,
+                description: blockchain.description,
+              );
+
+              currencies[index] = currencies[index].copyWith(
+                depositBlockchains: depositBlockhainList,
+              );
+
+              /*
+                  currencies[index].depositBlockchains[blockchainIndex] =
+                      currencies[index]
+                          .depositBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                          */
             }
           }
         }
@@ -218,13 +231,26 @@ List<CurrencyModel> currenciesList() {
           for (final blockchain
               in sSignalRModules.blockchains.value!.blockchains) {
             if (withdrawalBlockchain.id == blockchain.id) {
-              currencies[index].withdrawalBlockchains[blockchainIndex] =
-                  currencies[index]
-                      .withdrawalBlockchains[blockchainIndex]
-                      .copyWith(
-                        tagType: blockchain.tagType,
-                        description: blockchain.description,
-                      );
+              final withdrawalBlockchainsList =
+                  currencies[index].withdrawalBlockchains.toList();
+              withdrawalBlockchainsList[blockchainIndex] =
+                  withdrawalBlockchainsList[blockchainIndex].copyWith(
+                tagType: blockchain.tagType,
+                description: blockchain.description,
+              );
+
+              currencies[index] = currencies[index].copyWith(
+                withdrawalBlockchains: withdrawalBlockchainsList,
+              );
+              /*
+                  currencies[index].withdrawalBlockchains[blockchainIndex] =
+                      currencies[index]
+                          .withdrawalBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                  */
             }
           }
         }

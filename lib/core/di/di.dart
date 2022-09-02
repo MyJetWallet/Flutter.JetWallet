@@ -5,11 +5,14 @@ import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -38,10 +41,6 @@ Future<GetIt> getItInit({
     AppLocalizations.of(getIt.get<AppRouter>().navigatorKey.currentContext!)!,
   );
   */
-
-  getIt.registerSingleton<AppStore>(
-    AppStore(),
-  );
 
   getIt.registerSingletonAsync<RemoteConfig>(
     () async => RemoteConfig().fetchAndActivate(),
@@ -94,6 +93,10 @@ Future<GetIt> getItInit({
   getIt.registerLazySingleton<KycProfileCountriesStore>(
     () => KycProfileCountriesStore(),
   );
+
+  //getIt.registerSingleton<AppStore>(
+  //  AppStore(),
+  //);
 
   return getIt.init(
     environmentFilter: environmentFilter,

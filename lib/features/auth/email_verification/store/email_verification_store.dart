@@ -222,17 +222,26 @@ abstract class _EmailVerificationStoreBase with Store {
             refreshToken: data.refreshToken,
           );
 
-          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          print('TOKEN SAVED');
+          print(authInfo.authState.token);
 
-          getIt.get<StartupService>().successfullAuthentication();
+          print('REFRESHTOKEN SAVED');
+          print(authInfo.authState.refreshToken);
 
           union = const EmailVerificationUnion.input();
 
           await startSession(authInfo.authState.email);
 
+          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          getIt.get<StartupService>().successfullAuthentication();
+
           //_logger.log(stateFlow, 'verifyCode', state);
         },
-        onError: (error) {},
+        onError: (error) {
+          _logger.log(stateFlow, 'verifyCode', error.cause);
+
+          union = EmailVerificationUnion.error(error.cause);
+        },
       );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
