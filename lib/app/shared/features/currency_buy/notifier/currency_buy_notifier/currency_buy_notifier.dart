@@ -181,8 +181,17 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
         return updateSelectedCurrency(state.currencies.first);
       }
 
+      // Case 9: If asset supports more then one Payment method and use bankCard
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.bankCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"bankCard"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.bankCard,
+        ).first,);
+      }
+
       if (currencyModel.supportsCircle) {
-        // Case 9: If user has at least one saved circle
+        // Case 10: If user has at least one saved circle
         // card and haven't saved methods
         if (state.circleCards.isNotEmpty) {
           return updateSelectedCircleCard(state.circleCards.first);
@@ -229,6 +238,15 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
           lastUsedPaymentMethod == '"simplex"') {
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.simplex,
+        ).first,);
+      }
+
+      // Case 5: If asset supports more then one Payment method and use bankCard
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.bankCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"bankCard"') {
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.bankCard,
         ).first,);
       }
 
@@ -536,7 +554,8 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
       if (state.selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
           state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-          state.selectedPaymentMethod?.type == PaymentMethodType.simplex
+          state.selectedPaymentMethod?.type == PaymentMethodType.simplex ||
+          state.selectedPaymentMethod?.type == PaymentMethodType.bankCard
       ) {
         double? limitMax = max;
         if (state.cardLimit != null) {

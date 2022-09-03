@@ -6,7 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../../shared/helpers/navigator_push.dart';
 import '../../../../../shared/providers/service_providers.dart';
 import '../../../helpers/is_card_expired.dart';
+import '../../../providers/all_payment_methods/all_payment_methods_pod.dart';
 import '../../add_circle_card/view/add_circle_card.dart';
+import '../../add_unlimint_card/view/add_unlimint_card.dart';
 import '../../card_limits/notifier/card_limits_notipod.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
@@ -33,6 +35,12 @@ class PaymentMethods extends HookWidget {
     final kycState = useProvider(kycNotipod);
     final cardLimitsState = useProvider(cardLimitsNotipod);
     final kycHandler = useProvider(kycAlertHandlerPod(context));
+    final allPaymentMethods = useProvider(allPaymentsMethodsPod);
+    final useBankCard = allPaymentMethods
+        .contains('PaymentMethodType.bankCard');
+    final useCircleCard = allPaymentMethods
+        .contains('PaymentMethodType.circleCard');
+    final showAddButton = useBankCard || useCircleCard;
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(
@@ -48,14 +56,26 @@ class PaymentMethods extends HookWidget {
     }
 
     void _onAddCardTap() {
-      AddCircleCard.push(
-        context: context,
-        onCardAdded: (_) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-          notifier.getCards();
-        },
-      );
+      if (useBankCard) {
+        AddUnlimintCard.push(
+          context: context,
+          onCardAdded: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            notifier.getCards();
+          },
+          amount: '',
+        );
+      } else if (useCircleCard) {
+        AddCircleCard.push(
+          context: context,
+          onCardAdded: (_) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            notifier.getCards();
+          },
+        );
+      }
     }
 
     void checkKyc() {
@@ -90,20 +110,23 @@ class PaymentMethods extends HookWidget {
                   intl.paymentMethods_noSavedCards,
                   style: sTextH3Style,
                 ),
-                Text(
-                  intl.paymentMethod_text,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: sBodyText1Style.copyWith(
-                    color: colors.grey1,
+                SPaddingH24(
+                  child: Text(
+                    intl.paymentMethod_text,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
+                    ),
                   ),
                 ),
                 const Spacer(),
-                SPaddingH24(
-                  child: AddButton(
-                    onTap: () => checkKyc(),
+                if (showAddButton)
+                  SPaddingH24(
+                    child: AddButton(
+                      onTap: () => checkKyc(),
+                    ),
                   ),
-                ),
                 const SpaceH24(),
               ],
             );
@@ -137,9 +160,9 @@ class PaymentMethods extends HookWidget {
                   ],
                 ),
                 SFloatingButtonFrame(
-                  button: AddButton(
+                  button: showAddButton ? AddButton(
                     onTap: () => checkKyc(),
-                  ),
+                  ) : const SizedBox(),
                 ),
               ],
             );

@@ -36,4 +36,8 @@ enum CirclePaymentMethod {
   circle,
   @JsonValue(1)
   unlimint,
+  @JsonValue(2)
+  unlimintAlr,
+  @JsonValue(3)
+  bankCard,
 }

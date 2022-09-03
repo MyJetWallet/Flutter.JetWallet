@@ -21,6 +21,7 @@ import '../../../helpers/formatting/formatting.dart';
 import '../../../models/currency_model.dart';
 import '../../../providers/converstion_price_pod/conversion_price_input.dart';
 import '../../../providers/converstion_price_pod/conversion_price_pod.dart';
+import '../../add_unlimint_card/view/add_unlimint_card.dart';
 import '../../card_limits/notifier/card_limits_notipod.dart';
 import '../../kyc/model/kyc_operation_status_model.dart';
 import '../../kyc/notifier/kyc/kyc_notipod.dart';
@@ -28,12 +29,14 @@ import '../../payment_methods/view/components/card_limit.dart';
 import '../../recurring/helper/recurring_buys_operation_name.dart';
 import '../helper/formatted_circle_card.dart';
 import '../model/preview_buy_with_asset_input.dart';
+import '../model/preview_buy_with_bank_card_input.dart';
 import '../model/preview_buy_with_circle_input.dart';
 import '../model/preview_buy_with_unlimint_input.dart';
 import '../notifier/currency_buy_notifier/currency_buy_notipod.dart';
 import 'components/add_payment_bottom_sheet.dart';
 import 'components/recurring_selector.dart';
 import 'screens/preview_buy_with_asset.dart';
+import 'screens/preview_buy_with_bank_card.dart';
 import 'screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
 import 'screens/preview_buy_with_unlimint.dart';
 import 'screens/simplex_web_view.dart';
@@ -80,7 +83,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
       (element) => element.type == PaymentMethodType.unlimintCard,
     );
     final unlimintAltIncludes = widget.currency.buyMethods.where(
-      (element) => element.type == PaymentMethodType.unlimintAlternative,
+      (element) => element.type == PaymentMethodType.bankCard,
     );
     useProvider(
       conversionPriceFpod(
@@ -101,7 +104,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
         PaymentMethodType.circleCard || state.selectedPaymentMethod?.type ==
         PaymentMethodType.unlimintCard || state.selectedPaymentMethod?.type ==
         PaymentMethodType.simplex || state.selectedPaymentMethod?.type ==
-        PaymentMethodType.unlimintAlternative;
+        PaymentMethodType.bankCard;
 
     String checkLimitText() {
       var amount = Decimal.zero;
@@ -209,7 +212,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
             const SpaceH10(),
           ],
           if (state.selectedPaymentMethod?.type ==
-            PaymentMethodType.unlimintAlternative &&
+            PaymentMethodType.bankCard &&
               state.pickedAltUnlimintCard == null
           ) ...[
             SActionItem(
@@ -352,14 +355,14 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     lightDivider: true,
                     isSelected: state.pickedAltUnlimintCard?.id == card.id &&
                         state.selectedPaymentMethod?.type ==
-                            PaymentMethodType.unlimintAlternative,
+                            PaymentMethodType.bankCard,
                     icon: SActionDepositIcon(
                       color: (cardLimit.cardLimits?.barProgress == 100 ||
                           isLimitBlock)
                           ? colors.grey2
                           : state.pickedAltUnlimintCard?.id == card.id &&
                             state.selectedPaymentMethod?.type ==
-                              PaymentMethodType.unlimintAlternative
+                              PaymentMethodType.bankCard
                           ? colors.blue
                           : colors.black,
                     ),
@@ -433,7 +436,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                 PaymentMethodType.unlimintCard &&
                     state.unlimintCards.isEmpty) ||
                 (state.selectedPaymentMethod?.type ==
-                PaymentMethodType.unlimintAlternative &&
+                PaymentMethodType.bankCard &&
                     state.unlimintAltCards.isEmpty))
           )) ...[
             const SpaceH24(),
@@ -476,7 +479,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     PaymentMethodType.unlimintCard &&
                     state.pickedUnlimintCard != null) ||
                 (value == state.selectedPaymentMethod && value.type ==
-                    PaymentMethodType.unlimintAlternative &&
+                    PaymentMethodType.bankCard &&
                     state.pickedAltUnlimintCard != null)) {
               notifier.updateSelectedPaymentMethod(value);
               notifier.resetValuesToZero();
@@ -650,7 +653,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                     onTap: () => _showAssetSelector(),
                   )
               else if (state.selectedPaymentMethod?.type ==
-                  PaymentMethodType.unlimintAlternative)
+                  PaymentMethodType.bankCard)
                 if (state.pickedAltUnlimintCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
@@ -870,7 +873,7 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ),
                     );
                   } else if (state.selectedPaymentMethod?.type ==
-                      PaymentMethodType.unlimintAlternative) {
+                      PaymentMethodType.bankCard) {
                     sAnalytics.previewBuyView(
                       assetName: widget.currency.description,
                       paymentMethod: state.selectedPaymentMethod?.type.name ??
@@ -882,16 +885,24 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                       ),
                       frequency: state.recurringBuyType.toFrequency,
                     );
-                    navigatorPush(
-                      context,
-                      PreviewBuyWithUnlimint(
-                        input: PreviewBuyWithUnlimintInput(
+                    if (state.pickedAltUnlimintCard == null) {
+                      AddUnlimintCard.pushReplacement(
+                        context: context,
+                        onCardAdded: () {},
+                        isPreview: true,
+                        amount: state.inputValue,
+                        currency: widget.currency,
+                      );
+                    } else {
+                      PreviewBuyWithBankCard(
+                        input: PreviewBuyWithBankCardInput(
                           amount: state.inputValue,
                           currency: widget.currency,
-                          card: state.pickedAltUnlimintCard,
+                          cardId: state.pickedAltUnlimintCard!.id,
+                          cardNumber: state.pickedAltUnlimintCard!.last4,
                         ),
-                      ),
-                    );
+                      );
+                    }
                   } else {
                     navigatorPush(
                       context,

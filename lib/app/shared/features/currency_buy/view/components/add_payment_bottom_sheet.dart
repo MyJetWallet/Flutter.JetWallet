@@ -43,7 +43,6 @@ void showAddPaymentBottomSheet({
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);
                 },
-                helper: '≈10-30 ${intl.min}',
               );
             },
           ),
@@ -65,7 +64,6 @@ void showAddPaymentBottomSheet({
                 },
               );
             },
-            helper: '≈10-30 ${intl.min}',
           ),
         ],
       for (final method in paymentMethods)
@@ -83,7 +81,25 @@ void showAddPaymentBottomSheet({
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);
                 },
-                helper: '≈10-30 ${intl.min}',
+              );
+            },
+          ),
+        ],
+      for (final method in paymentMethods)
+        if (method.type == PaymentMethodType.bankCard) ...[
+          Builder(
+            builder: (context) {
+              return SActionItem(
+                icon: SActionDepositIcon(
+                  color: colors.blue,
+                ),
+                name: intl.curencyBuy_unlimint,
+                description:
+                intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                onTap: () {
+                  Navigator.pop(context, method);
+                  Navigator.pop(context, method);
+                },
               );
             },
           ),

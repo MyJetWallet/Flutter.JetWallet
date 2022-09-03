@@ -12,6 +12,8 @@ class CardBuyExecuteRequestModel with _$CardBuyExecuteRequestModel {
     required CirclePaymentMethod paymentMethod,
     CirclePaymentDataExecuteModel? circlePaymentData,
     UnlimintPaymentDataExecuteModel? unlimintPaymentData,
+    UnlimintAltPaymentDataExecuteModel? unlimintAlternativePaymentData,
+    BankCardPaymentDataExecuteModel? cardPaymentData,
   }) = _CardBuyExecuteRequestModel;
 
   factory CardBuyExecuteRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -38,4 +40,33 @@ class UnlimintPaymentDataExecuteModel with _$UnlimintPaymentDataExecuteModel {
 
   factory UnlimintPaymentDataExecuteModel.fromJson(Map<String, dynamic> json) =>
       _$UnlimintPaymentDataExecuteModelFromJson(json);
+}
+
+@freezed
+class UnlimintAltPaymentDataExecuteModel
+    with _$UnlimintAltPaymentDataExecuteModel {
+  const factory UnlimintAltPaymentDataExecuteModel({
+    String? locale,
+  }) = _UnlimintAltPaymentDataExecuteModel;
+
+  factory UnlimintAltPaymentDataExecuteModel
+      .fromJson(Map<String, dynamic> json) =>
+      _$UnlimintAltPaymentDataExecuteModelFromJson(json);
+}
+
+@freezed
+class BankCardPaymentDataExecuteModel
+    with _$BankCardPaymentDataExecuteModel {
+  const factory BankCardPaymentDataExecuteModel({
+    String? cardId,
+    String? encKeyId,
+    String? encData,
+    int? expMonth,
+    int? expYear,
+    bool? isActive,
+  }) = _BankCardPaymentDataExecuteModel;
+
+  factory BankCardPaymentDataExecuteModel
+      .fromJson(Map<String, dynamic> json) =>
+      _$BankCardPaymentDataExecuteModelFromJson(json);
 }
