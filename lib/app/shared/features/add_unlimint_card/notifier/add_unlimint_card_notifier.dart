@@ -63,7 +63,8 @@ class AddUnlimintCardNotifier extends StateNotifier<AddUnlimintCardState> {
       final rsa = RsaKeyHelper();
       final key1 = rsa.parsePublicKeyFromPem(response.key);
       final encrypted = encrypt('{"cardNumber":"$cardNumber"}', key1);
-      final base64Encoded = base64Encode(encrypted.codeUnits);
+      final encryptedU = utf8.encode(encrypted);
+      final base64Encoded = base64Encode(encryptedU);
 
       final model = CardAddRequestModel(
         encKeyId: response.keyId,

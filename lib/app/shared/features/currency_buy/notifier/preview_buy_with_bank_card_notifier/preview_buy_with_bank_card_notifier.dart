@@ -182,7 +182,8 @@ class PreviewBuyWithBankCardNotifier
           '{"cardNumber":"${input.cardNumber}","cvv":"${state.cvv}"}',
           key1,
         );
-        base64Encoded = base64Encode(encrypted.codeUnits);
+        final encryptedU = utf8.encode(encrypted);
+        base64Encoded = base64Encode(encryptedU);
       }
       final response = await bankCardService.encryptionKey(
         _intl.localeName,
@@ -190,7 +191,8 @@ class PreviewBuyWithBankCardNotifier
       final rsa = RsaKeyHelper();
       final key1 = rsa.parsePublicKeyFromPem(response.key);
       final encryptedCvv = encrypt('"cvv":"${state.cvv}"}', key1);
-      final base64EncodedCvv = base64Encode(encryptedCvv.codeUnits);
+      final encryptedCvvU = utf8.encode(encryptedCvv);
+      final base64EncodedCvv = base64Encode(encryptedCvvU);
       final model = input.cardId != null ? CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
         paymentMethod: CirclePaymentMethod.bankCard,
