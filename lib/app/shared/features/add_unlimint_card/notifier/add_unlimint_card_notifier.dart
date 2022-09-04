@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:openpgp/openpgp.dart';
+import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/card_buy/model/add/card_add_request_model.dart';
 import 'package:simple_networking/shared/models/server_reject_exception.dart';
@@ -56,18 +56,14 @@ class AddUnlimintCardNotifier extends StateNotifier<AddUnlimintCardState> {
 
     try {
       final response =
-          await read(circleServicePod).encryptionKey(intl.localeName);
+          await read(cardBuyServicePod).encryptionKey(intl.localeName);
 
       final cardNumber = state.cardNumber.replaceAll('\u{2005}', '');
 
-      final base64Decoded = base64Decode(response.encryptionKey);
-      final utf8Decoded = utf8.decode(base64Decoded);
-      final encrypted = await OpenPGP.encrypt(
-        '{"number":"$cardNumber"}',
-        utf8Decoded,
-      );
-      final utf8Encoded = utf8.encode(encrypted);
-      final base64Encoded = base64Encode(utf8Encoded);
+      final rsa = RsaKeyHelper();
+      final key1 = rsa.parsePublicKeyFromPem(response.key);
+      final encrypted = encrypt('{"cardNumber":"$cardNumber"}', key1);
+      final base64Encoded = base64Encode(encrypted.codeUnits);
 
       final model = CardAddRequestModel(
         encKeyId: response.keyId,

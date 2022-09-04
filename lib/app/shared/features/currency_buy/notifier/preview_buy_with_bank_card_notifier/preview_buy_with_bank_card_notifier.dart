@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:openpgp/openpgp.dart';
+import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/services/card_buy/model/create/card_buy_create_request_model.dart';
 import 'package:simple_networking/services/card_buy/model/execute/card_buy_execute_request_model.dart';
@@ -176,26 +176,21 @@ class PreviewBuyWithBankCardNotifier
     try {
       var base64Encoded = '';
       if (input.encData != null) {
-        final base64Decoded = base64Decode(input.encData!);
-        final utf8Decoded = utf8.decode(base64Decoded);
-        final encrypted = await OpenPGP.encrypt(
-          '{"number":"${input.cardNumber}","cvv":"${state.cvv}"}',
-          utf8Decoded,
+        final rsa = RsaKeyHelper();
+        final key1 = rsa.parsePublicKeyFromPem(input.encData);
+        final encrypted = base64Encoded = encrypt(
+          '{"cardNumber":"${input.cardNumber}","cvv":"${state.cvv}"}',
+          key1,
         );
-        final utf8Encoded = utf8.encode(encrypted);
-        base64Encoded = base64Encode(utf8Encoded);
+        base64Encoded = base64Encode(encrypted.codeUnits);
       }
       final response = await bankCardService.encryptionKey(
         _intl.localeName,
       );
-      final base64Decoded = base64Decode(response.key);
-      final utf8Decoded = utf8.decode(base64Decoded);
-      final encrypted = await OpenPGP.encrypt(
-        '"cvv":"${state.cvv}"}',
-        utf8Decoded,
-      );
-      final utf8Encoded = utf8.encode(encrypted);
-      final base64EncodedCvv = base64Encode(utf8Encoded);
+      final rsa = RsaKeyHelper();
+      final key1 = rsa.parsePublicKeyFromPem(response.key);
+      final encryptedCvv = encrypt('"cvv":"${state.cvv}"}', key1);
+      final base64EncodedCvv = base64Encode(encryptedCvv.codeUnits);
       final model = input.cardId != null ? CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
         paymentMethod: CirclePaymentMethod.bankCard,

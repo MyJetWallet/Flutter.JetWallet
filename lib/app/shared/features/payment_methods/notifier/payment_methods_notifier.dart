@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/services/card_buy/model/remove/card_remove_request_model.dart';
 import 'package:simple_networking/services/circle/model/circle_card.dart';
 import 'package:simple_networking/services/circle/model/delete_card/delete_card_request_model.dart';
 import 'package:simple_networking/services/key_value/model/key_value_request_model.dart';
@@ -90,6 +91,12 @@ class PaymentMethodsNotifier extends StateNotifier<PaymentMethodsState> {
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
         await read(unlimintServicePod).deleteUnlimintCard(
+          model,
+          intl.localeName,
+        );
+      } else if (card.integration == IntegrationType.unlimintAlt) {
+        final model = CardRemoveRequestModel(cardId: card.id);
+        await read(cardBuyServicePod).cardRemove(
           model,
           intl.localeName,
         );
