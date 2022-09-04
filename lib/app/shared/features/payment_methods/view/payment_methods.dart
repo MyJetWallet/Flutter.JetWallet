@@ -99,12 +99,13 @@ class PaymentMethods extends HookWidget {
                   ),
                 ),
                 const Spacer(),
-                SPaddingH24(
+                /*SPaddingH24(
                   child: AddButton(
                     onTap: () => checkKyc(),
                   ),
                 ),
                 const SpaceH24(),
+                */
               ],
             );
           } else {
