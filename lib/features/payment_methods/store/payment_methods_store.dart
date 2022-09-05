@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/features/payment_methods/models/payment_methods_union.
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
@@ -25,6 +27,9 @@ part 'payment_methods_store.g.dart';
 class PaymentMethodsStore extends _PaymentMethodsStoreBase
     with _$PaymentMethodsStore {
   PaymentMethodsStore() : super();
+
+  static _PaymentMethodsStoreBase of(BuildContext context) =>
+      Provider.of<PaymentMethodsStore>(context, listen: false);
 }
 
 abstract class _PaymentMethodsStoreBase with Store {
@@ -33,6 +38,8 @@ abstract class _PaymentMethodsStoreBase with Store {
 
     cardModel = sSignalRModules.cards;
     cardsIds = ObservableList.of(kV.cards?.value ?? <String>[]);
+
+    getCards();
   }
 
   static final _logger = Logger('PaymentMethodsStore');

@@ -12,23 +12,36 @@ import 'package:jetwallet/features/payment_methods/ui/widgets/add_button.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/card_limit.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class PaymentMethods extends StatelessObserverWidget {
-  const PaymentMethods({Key? key}) : super(key: key);
+class PaymentMethods extends StatelessWidget {
+  const PaymentMethods({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<PaymentMethodsStore>(
+      create: (context) => PaymentMethodsStore(),
+      builder: (context, child) => const _PaymentMethodsBody(),
+    );
+  }
+}
+
+class _PaymentMethodsBody extends StatelessObserverWidget {
+  const _PaymentMethodsBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    final state = PaymentMethodsStore();
 
     final loader = StackLoaderStore();
 
     final kycState = getIt.get<KycService>();
     final cardLimitsState = sSignalRModules.cardLimitsModel;
     final kycHandler = getIt.get<KycAlertHandler>();
+
+    final state = PaymentMethodsStore.of(context);
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       return sShowAlertPopup(

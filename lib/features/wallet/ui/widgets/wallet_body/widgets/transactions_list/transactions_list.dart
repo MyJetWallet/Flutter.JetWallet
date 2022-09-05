@@ -73,12 +73,13 @@ class _TransactionsListState extends State<TransactionsList> {
             : 0,
         bottom: _addBottomPadding(transactionHistory) ? 72 : 0,
       ),
-      sliver: FutureBuilder(
+      sliver: FutureBuilder<bool>(
         future: initTransactionHistory,
         builder: (context, snapshot) {
-          return snapshot.connectionState == ConnectionState.waiting
-              ? const LoadingSliverList()
-              : snapshot.hasError
+          print(snapshot.connectionState);
+
+          return snapshot.hasData
+              ? snapshot.hasError
                   ? SliverList(
                       delegate: SliverChildListDelegate(
                         [
@@ -437,7 +438,8 @@ class _TransactionsListState extends State<TransactionsList> {
                                 },
                               );
                       },
-                    );
+                    )
+              : const LoadingSliverList();
         },
       ),
     );

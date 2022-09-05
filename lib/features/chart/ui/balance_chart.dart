@@ -11,7 +11,7 @@ import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class BalanceChart extends StatelessWidget {
+class BalanceChart extends StatefulObserverWidget {
   const BalanceChart({
     Key? key,
     required this.onCandleSelected,
@@ -22,36 +22,10 @@ class BalanceChart extends StatelessWidget {
   final String walletCreationDate;
 
   @override
-  Widget build(BuildContext context) {
-    return Provider<ChartStore>(
-      create: (context) => ChartStore(
-        ChartInput(
-          creationDate: sSignalRModules.clientDetail.walletCreationDate,
-        ),
-      ),
-      builder: (context, child) => BalanceChartBody(
-        walletCreationDate: walletCreationDate,
-        onCandleSelected: onCandleSelected,
-      ),
-    );
-  }
+  State<StatefulWidget> createState() => _BalanceChartState();
 }
 
-class BalanceChartBody extends StatefulObserverWidget {
-  const BalanceChartBody({
-    Key? key,
-    required this.onCandleSelected,
-    required this.walletCreationDate,
-  }) : super(key: key);
-
-  final void Function(ChartInfoModel?) onCandleSelected;
-  final String walletCreationDate;
-
-  @override
-  State<BalanceChartBody> createState() => _BalanceChartBodyState();
-}
-
-class _BalanceChartBodyState extends State<BalanceChartBody>
+class _BalanceChartState extends State<BalanceChart>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {

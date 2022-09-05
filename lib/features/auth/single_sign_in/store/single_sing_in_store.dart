@@ -77,6 +77,8 @@ abstract class _SingleSingInStoreBase with Store {
           authInfoN.updateAuthState(email: credentials.email);
           authInfoN.updateVerificationToken(data.verificationToken);
 
+          print(data);
+
           data.rejectDetail == null
               ? union = const SingleSingInStateUnion.success()
               : union = SingleSingInStateUnion.errorString(

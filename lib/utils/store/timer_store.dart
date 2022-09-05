@@ -29,6 +29,8 @@ abstract class _TimerStoreBase with Store {
 
   @action
   void refreshTimer() {
+    print('refreshTimer');
+
     _timer?.cancel();
 
     final initialInt = initial.toInt();
@@ -45,6 +47,8 @@ abstract class _TimerStoreBase with Store {
           final currentTime =
               (DateTime.now().millisecondsSinceEpoch / 1000).round();
           time = initialTime - currentTime + initialInt;
+
+          //print(time);
         }
       },
     );

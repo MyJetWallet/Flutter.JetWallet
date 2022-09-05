@@ -40,6 +40,9 @@ abstract class _KycServiceBase with Store {
       (clientDetailData) {
         final documents = <KycDocumentType>[];
 
+        print('KYC');
+        print(clientDetailData.requiredDocuments);
+
         if (clientDetailData.requiredDocuments.isNotEmpty) {
           clientDetailData.requiredDocuments.sort((a, b) => a.compareTo(b));
 

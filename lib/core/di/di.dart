@@ -70,7 +70,7 @@ Future<GetIt> getItInit({
   );
   */
 
-  getIt.registerLazySingleton<KycService>(() => KycService());
+  //getIt.registerLazySingleton<KycService>(() => KycService());
 
   getIt.registerSingleton<CurrenciesService>(
     CurrenciesService(),

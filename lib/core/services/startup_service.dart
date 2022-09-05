@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -52,16 +53,15 @@ class StartupService {
         await getIt.get<SNetwork>().recreateDio();
 
         final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
-
-        if (!isServicesRegistred) {
-          await startingServices();
-        }
-
         infoRequest.pick(
           onData: (SessionCheckResponseModel info) async {
             if (!initSignaWasCall) {
               _initSignalRSynchronously();
               initSignaWasCall = true;
+            }
+
+            if (!isServicesRegistred) {
+              await startingServices();
             }
 
             if (info.toCheckSimpleKyc) {
@@ -81,6 +81,11 @@ class StartupService {
                     const PinVerification(),
                   );
             }
+
+            print('PUSH TO HOMEROUTER');
+            unawaited(sRouter.push(
+              const HomeRouter(),
+            ));
           },
           onError: (error) {
             print('1');
@@ -100,6 +105,10 @@ class StartupService {
   }
 
   Future<void> startingServices() async {
+    getIt.registerSingleton<KycService>(
+      KycService(),
+    );
+
     getIt.registerSingletonAsync<KycProfileCountries>(
       () async => KycProfileCountries().init(),
     );
@@ -145,6 +154,7 @@ class StartupService {
           const Home(),
         );
 
+    print('PUSH TO HOMEROUTER');
     sRouter.push(
       const HomeRouter(),
     );

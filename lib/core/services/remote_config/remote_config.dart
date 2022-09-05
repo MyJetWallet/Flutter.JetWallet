@@ -78,6 +78,7 @@ class RemoteConfig {
             const RemoteConfigUnion.success(),
           );
 
+      print('PUSH TO HOMEROUTER');
       unawaited(
         getIt.get<AppRouter>().navigate(
               const HomeRouter(),

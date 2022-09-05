@@ -117,6 +117,7 @@ dependencies:
 
   # OWN LIBS:
   simple_kit:
+    #path: C:\Users\Dmtrii\Documents\GitHub\Flutter.SimpleKit
     git:
       url: https://github.com/MyJetWallet/Flutter.SimpleKit.git
 

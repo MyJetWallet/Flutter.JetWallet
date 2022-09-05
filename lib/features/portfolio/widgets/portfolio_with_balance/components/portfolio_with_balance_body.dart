@@ -1,3 +1,4 @@
+import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,11 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/actual_in_progress_operation.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
+import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:jetwallet/utils/helpers/market_crypto.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import '../../portfolio_header.dart';
@@ -37,21 +40,47 @@ import 'balance_in_process.dart';
 import 'padding_l_24.dart';
 import 'portfolio_divider.dart';
 
-// TODO: refactor
-class PortfolioWithBalanceBody extends StatefulObserverWidget {
+class PortfolioWithBalanceBody extends StatelessWidget {
   const PortfolioWithBalanceBody({
-    Key? key,
+    super.key,
     required this.tabController,
-  }) : super(key: key);
+  });
 
   final TabController tabController;
 
   @override
-  State<PortfolioWithBalanceBody> createState() =>
-      _PortfolioWithBalanceBodyState();
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<ChartStore>(
+          create: (_) => ChartStore(
+            ChartInput(
+              creationDate: sSignalRModules.clientDetail.walletCreationDate,
+            ),
+          ),
+        ),
+      ],
+      builder: (context, child) => _PortfolioWithBalanceBody(
+        tabController: tabController,
+      ),
+    );
+  }
 }
 
-class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
+class _PortfolioWithBalanceBody extends StatefulObserverWidget {
+  const _PortfolioWithBalanceBody({
+    super.key,
+    required this.tabController,
+  });
+
+  final TabController tabController;
+
+  @override
+  State<_PortfolioWithBalanceBody> createState() =>
+      __PortfolioWithBalanceBodyState();
+}
+
+class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   bool showZeroBalanceWallets = false;
 
   @override
@@ -81,13 +110,9 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
     );
     final clientDetail = sSignalRModules.clientDetail;
 
-    final chart = ChartStore(
-      ChartInput(
-        creationDate: sSignalRModules.clientDetail.walletCreationDate,
-      ),
-    );
-
     final baseCurrency = sSignalRModules.baseCurrency;
+
+    final chart = ChartStore.of(context);
 
     final periodChange = _periodChange(
       ChartState(
@@ -163,6 +188,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
         (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
     final isIndicesVisible = indicesWithBalance.isNotEmpty &&
         (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+    print(chart.union.toString());
 
     return CustomScrollView(
       controller: scrollController,
@@ -200,7 +226,7 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
         SliverToBoxAdapter(
           child: Stack(
             children: [
-              if (chart.union != const ChartUnion.loading())
+              if (chart.union != const ChartUnion.loading()) ...[
                 Padding(
                   padding: const EdgeInsets.only(top: 100),
                   child: SizedBox(
@@ -214,17 +240,19 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
                     ),
                   ),
                 ),
+              ],
               if (chart.union == const ChartUnion.loading() ||
-                  isCurrentCandlesEmptyOrNull)
+                  isCurrentCandlesEmptyOrNull) ...[
                 Container(
                   width: double.infinity,
                   height: 280,
                   color: colors.grey5,
                 ),
+              ],
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (chart.union != const ChartUnion.loading())
+                  if (chart.union != const ChartUnion.loading()) ...[
                     Container(
                       height: 80,
                       color: colors.white,
@@ -285,7 +313,8 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
                         ),
                       ),
                     ),
-                  if (chart.union == const ChartUnion.loading())
+                  ],
+                  if (chart.union == const ChartUnion.loading()) ...[
                     Container(
                       height: 80,
                       width: double.infinity,
@@ -303,17 +332,20 @@ class _PortfolioWithBalanceBodyState extends State<PortfolioWithBalanceBody> {
                         ),
                       ),
                     ),
-                  if (!balancesEmpty)
+                  ],
+                  if (!balancesEmpty) ...[
                     BalanceChart(
                       onCandleSelected: (ChartInfoModel? chartInfo) {
                         chart.updateSelectedCandle(chartInfo?.right);
                       },
                       walletCreationDate: clientDetail.walletCreationDate,
                     ),
-                  if (balancesEmpty)
+                  ],
+                  if (balancesEmpty) ...[
                     Container(
                       height: 176,
                     ),
+                  ],
                   Container(
                     padding: const EdgeInsets.only(
                       top: 36,

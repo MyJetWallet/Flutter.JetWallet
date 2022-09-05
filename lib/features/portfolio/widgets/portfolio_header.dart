@@ -29,7 +29,9 @@ class PortfolioHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final gift = referralGift();
     final state = RewardStore();
-    final chart = ChartStore(balanceChartInput());
+    //final chart = ChartStore(balanceChartInput());
+
+    final chart = ChartStore.of(context);
 
     return Container(
       height: 120,

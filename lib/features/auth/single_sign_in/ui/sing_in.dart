@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/features/auth/single_sign_in/models/single_sing_in_union.dart';
 import 'package:jetwallet/features/auth/single_sign_in/store/single_sing_in_store.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
@@ -54,128 +55,136 @@ class _SingInBody extends StatelessObserverWidget {
     final controller = ScrollController();
     final loader = StackLoaderStore();
 
-    if (signInStore.union is Loading) {
-      loader.startLoadingImmediately();
-    } else if (signInStore.union is Error) {
-      loader.finishLoading();
+    return ReactionBuilder(
+      builder: (context) {
+        return reaction<SingleSingInStateUnion>(
+          (_) => signInStore.union,
+          (result) {
+            if (result is Loading) {
+              loader.startLoadingImmediately();
+            } else if (result is Error) {
+              loader.finishLoading();
 
-      sNotification.showError(
-        (signInStore.union as Error).error.toString(),
-      );
-    } else if (signInStore.union is ErrorSrting) {
-      loader.finishLoading();
+              sNotification.showError(
+                (signInStore.union as Error).error.toString(),
+              );
+            } else if (result is ErrorSrting) {
+              loader.finishLoading();
 
-      sNotification.showError(
-        (signInStore.union as ErrorSrting).error!,
-      );
-    } else if (signInStore.union is Success) {
-      loader.finishLoading();
+              sNotification.showError(
+                (signInStore.union as ErrorSrting).error!,
+              );
+            } else if (result is Success) {
+              loader.finishLoading();
 
-      sRouter.push(
-        const EmailVerificationRoute(),
-      );
-    }
-
-    return SPageFrame(
-      color: colors.grey5,
-      loading: loader,
-      header: SAuthHeader(
-        customIconButton: const SpaceH24(),
-        title: intl.register_enterYourEmail,
-        showSupportButton: true,
-        onSupportButtonTap: () => sRouter.push(
-          CrispRouter(
-            welcomeText: intl.crispSendMessage_hi,
+              sRouter.push(
+                const EmailVerificationRoute(),
+              );
+            }
+          },
+        );
+      },
+      child: SPageFrame(
+        color: colors.grey5,
+        loading: loader,
+        header: SAuthHeader(
+          customIconButton: const SpaceH24(),
+          title: intl.register_enterYourEmail,
+          showSupportButton: true,
+          onSupportButtonTap: () => sRouter.push(
+            CrispRouter(
+              welcomeText: intl.crispSendMessage_hi,
+            ),
           ),
+          progressValue: 20,
         ),
-        progressValue: 20,
-      ),
-      child: CustomScrollView(
-        controller: controller,
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: AutofillGroup(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ColoredBox(
-                    color: colors.white,
-                    child: SPaddingH24(
-                      child: AutofillGroup(
-                        child: SStandardField(
-                          controller: signInStore.emailController,
-                          labelText: intl.login_emailTextFieldLabel,
-                          autofocus: true,
-                          initialValue: email,
-                          autofillHints: const [AutofillHints.email],
-                          keyboardType: TextInputType.emailAddress,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.deny(
-                              RegExp('[ ]'),
+        child: CustomScrollView(
+          controller: controller,
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: AutofillGroup(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ColoredBox(
+                      color: colors.white,
+                      child: SPaddingH24(
+                        child: AutofillGroup(
+                          child: SStandardField(
+                            controller: signInStore.emailController,
+                            labelText: intl.login_emailTextFieldLabel,
+                            autofocus: true,
+                            initialValue: email,
+                            autofillHints: const [AutofillHints.email],
+                            keyboardType: TextInputType.emailAddress,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.deny(
+                                RegExp('[ ]'),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              credentials.updateAndValidateEmail(value);
+                            },
+                            onErrorIconTap: () => sNotification.showError(
+                              intl.register_invalidEmail,
                             ),
-                          ],
-                          onChanged: (value) {
-                            credentials.updateAndValidateEmail(value);
-                          },
-                          onErrorIconTap: () => sNotification.showError(
-                            intl.register_invalidEmail,
+                            isError: SingleSingInStore.of(context).isEmailError,
                           ),
-                          isError: SingleSingInStore.of(context).isEmailError,
                         ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  ColoredBox(
-                    color: colors.grey5,
-                    child: SPaddingH24(
-                      child: SPolicyCheckbox(
-                        firstText: '${intl.register_herebyConfirm} ',
-                        userAgreementText: intl.register_TAndC,
-                        betweenText: ' ${intl.register_andThe} ',
-                        privacyPolicyText: intl.register_privacyPolicy,
-                        isChecked: credentials.policyChecked,
-                        onCheckboxTap: () {
-                          controller.animateTo(
-                            controller.position.maxScrollExtent,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.ease,
-                          );
+                    const Spacer(),
+                    ColoredBox(
+                      color: colors.grey5,
+                      child: SPaddingH24(
+                        child: SPolicyCheckbox(
+                          firstText: '${intl.register_herebyConfirm} ',
+                          userAgreementText: intl.register_TAndC,
+                          betweenText: ' ${intl.register_andThe} ',
+                          privacyPolicyText: intl.register_privacyPolicy,
+                          isChecked: credentials.policyChecked,
+                          onCheckboxTap: () {
+                            controller.animateTo(
+                              controller.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.ease,
+                            );
 
-                          credentials.setPolicyChecked();
-                        },
-                        onUserAgreementTap: () {
-                          launchURL(context, userAgreementLink);
-                        },
-                        onPrivacyPolicyTap: () {
-                          launchURL(context, privacyPolicyLink);
+                            credentials.setPolicyChecked();
+                          },
+                          onUserAgreementTap: () {
+                            launchURL(context, userAgreementLink);
+                          },
+                          onPrivacyPolicyTap: () {
+                            launchURL(context, privacyPolicyLink);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SpaceH16(),
+                    SPaddingH24(
+                      child: SPrimaryButton4(
+                        active: credentials.emailIsNotEmptyAndPolicyChecked,
+                        name: intl.register_continue,
+                        onTap: () {
+                          if (credentials.emailValid) {
+                            signInStore.singleSingIn();
+                          } else {
+                            SingleSingInStore.of(context).setIsEmailError(true);
+
+                            sNotification.showError(intl.register_invalidEmail);
+                          }
                         },
                       ),
                     ),
-                  ),
-                  const SpaceH16(),
-                  SPaddingH24(
-                    child: SPrimaryButton4(
-                      active: credentials.emailIsNotEmptyAndPolicyChecked,
-                      name: intl.register_continue,
-                      onTap: () {
-                        if (credentials.emailValid) {
-                          signInStore.singleSingIn();
-                        } else {
-                          SingleSingInStore.of(context).setIsEmailError(true);
-
-                          sNotification.showError(intl.register_invalidEmail);
-                        }
-                      },
-                    ),
-                  ),
-                  const SpaceH24(),
-                ],
+                    const SpaceH24(),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -67,6 +67,7 @@ class ApiSelectorScreen extends StatelessWidget {
               onPressed: () {
                 dioProxy.proxySkip();
 
+                print('PUSH TO HOMEROUTER');
                 sRouter.replace(
                   const HomeRouter(),
                 );

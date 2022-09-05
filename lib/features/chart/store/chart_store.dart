@@ -55,6 +55,8 @@ abstract class _ChartStoreBase with Store {
         },
       );
     } else {
+      print('fetchBalanceCandles');
+
       fetchBalanceCandles(Period.day).then(
         (_) {
           final dayCandles = candles[Period.day];
@@ -111,15 +113,25 @@ abstract class _ChartStoreBase with Store {
 
       response.pick(
         onData: (data) async {
-          updateCandles(candlesFrom(data.graph), resolution);
+          print(data.graph);
+
+          updateCandles(
+            candlesFrom(data.graph),
+            resolution,
+          );
         },
         onError: (e) {
+          print(e);
           _logger.log(stateFlow, 'fetchBalanceCandles', e);
+          print('onError fetchBalanceCandles');
 
           updateCandles([], resolution);
         },
       );
     } catch (e) {
+      print('onError fetchBalanceCandles');
+      print(e);
+
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
       updateCandles([], resolution);

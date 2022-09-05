@@ -18,11 +18,13 @@ class InitGuard extends AutoRouteGuard {
     final appStore = getIt.get<AppStore>();
 
     if (!getIt.get<DioProxyService>().proxySkiped) {
-      unawaited(
-        router.push(
-          const ApiSelectorRouter(),
-        ),
-      );
+      if (!router.isPathActive('/api_selector')) {
+        unawaited(
+          router.push(
+            const ApiSelectorRouter(),
+          ),
+        );
+      }
 
       return;
     }

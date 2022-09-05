@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
@@ -63,6 +64,14 @@ abstract class _LogoutServiceBase with Store {
       unawaited(sAnalytics.logout());
 
       union = const LogoutUnion.result();
+
+      unawaited(sRouter.navigate(
+        const HomeRouter(
+          children: [
+            EarnRouter(),
+          ],
+        ),
+      ));
     }
   }
 
