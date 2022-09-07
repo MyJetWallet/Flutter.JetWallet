@@ -1,13 +1,13 @@
 definitions:
   build_config: &build_config
     instance_type: mac_mini
-    max_build_duration: 60 
+    max_build_duration: 60
 
   # TOOD rename GOOGLE_SERVICE_ANDROID to ANDROID_FIREBASE_SECRET 
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: 3.0.5
+    flutter: 3.3.0
     xcode: latest
     cocoapods: default
 
