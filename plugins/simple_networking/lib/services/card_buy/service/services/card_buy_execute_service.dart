@@ -15,9 +15,26 @@ Future<void> cardBuyExecuteService(
   const message = 'cardBuyExecutePayment';
 
   try {
+    final jsonModel = model.toJson();
+    if (model.cardPaymentData != null) {
+      final jsonCardModel = model.cardPaymentData!.toJson();
+      jsonModel.remove('cardPaymentData');
+      if (model.cardPaymentData!.expMonth == null) {
+        jsonCardModel.remove('expMonth');
+      }
+      if (model.cardPaymentData!.expYear == null) {
+        jsonCardModel.remove('expYear');
+      }
+      if (model.cardPaymentData!.isActive == null) {
+        jsonCardModel.remove('isActive');
+      }
+      jsonModel.addAll({
+        'cardPaymentData': jsonCardModel,
+      });
+    }
     final response = await dio.post(
       '$walletApi/trading/buy/execute',
-      data: model.toJson(),
+      data: jsonModel,
     );
 
     try {

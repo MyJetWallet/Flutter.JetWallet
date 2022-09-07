@@ -38,6 +38,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       this.currencyModel,
       this.lastUsedPaymentMethod,
       this.unlimintCards,
+      this.bankCards,
   )
       : super(CurrencyBuyState(loader: StackLoaderNotifier())) {
     _initCurrencies();
@@ -49,6 +50,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
   final CurrencyModel currencyModel;
   final String? lastUsedPaymentMethod;
   final List<CircleCard> unlimintCards;
+  final List<CircleCard> bankCards;
 
   static final _logger = Logger('CurrencyBuyNotifier');
 
@@ -69,6 +71,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
 
   void _initCardLimit() {
     state = state.copyWith(unlimintCards: unlimintCards);
+    state = state.copyWith(unlimintAltCards: bankCards);
     final cardLimit = read(cardLimitsNotipod);
     state = state.copyWith(
       cardLimit: cardLimit.cardLimits,
@@ -185,6 +188,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (buyMethods.where((element) => element.type ==
           PaymentMethodType.bankCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"bankCard"') {
+        if (state.unlimintAltCards.isNotEmpty) {
+          return updateSelectedAltUnlimintCard(state.unlimintAltCards[0]);
+        }
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.bankCard,
         ).first,);
@@ -245,6 +251,9 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       if (buyMethods.where((element) => element.type ==
           PaymentMethodType.bankCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"bankCard"') {
+        if (state.unlimintAltCards.isNotEmpty) {
+          return updateSelectedAltUnlimintCard(state.unlimintAltCards[0]);
+        }
         return updateSelectedPaymentMethod(buyMethods.where(
               (element) => element.type == PaymentMethodType.bankCard,
         ).first,);
@@ -276,11 +285,13 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
       selectedCurrency: null,
       selectedPaymentMethod: method,
       pickedUnlimintCard: isLocalUse ? state.pickedUnlimintCard : null,
+      pickedAltUnlimintCard: isLocalUse ? state.pickedAltUnlimintCard : null,
     );
 
     if (method?.type == PaymentMethodType.simplex ||
         method?.type == PaymentMethodType.circleCard ||
-        method?.type == PaymentMethodType.unlimintCard) {
+        method?.type == PaymentMethodType.unlimintCard ||
+        method?.type == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -325,7 +336,7 @@ class CurrencyBuyNotifier extends StateNotifier<CurrencyBuyState> {
     _logger.log(notifier, 'updateSelectedAltUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.unlimintAlternative;
+      return method.type == PaymentMethodType.bankCard;
     });
 
     state = state.copyWith(

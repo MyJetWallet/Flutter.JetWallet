@@ -894,12 +894,15 @@ class _CurrencyBuyState extends State<CurrencyBuy> {
                         currency: widget.currency,
                       );
                     } else {
-                      PreviewBuyWithBankCard(
-                        input: PreviewBuyWithBankCardInput(
-                          amount: state.inputValue,
-                          currency: widget.currency,
-                          cardId: state.pickedAltUnlimintCard!.id,
-                          cardNumber: state.pickedAltUnlimintCard!.last4,
+                      navigatorPush(
+                        context,
+                        PreviewBuyWithBankCard(
+                          input: PreviewBuyWithBankCardInput(
+                            amount: state.inputValue,
+                            currency: widget.currency,
+                            cardId: state.pickedAltUnlimintCard!.id,
+                            cardNumber: state.pickedAltUnlimintCard!.last4,
+                          ),
                         ),
                       );
                     }

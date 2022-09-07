@@ -61,7 +61,6 @@ class PaymentMethods extends HookWidget {
           context: context,
           onCardAdded: () {
             Navigator.pop(context);
-            Navigator.pop(context);
             notifier.getCards();
           },
           amount: '',

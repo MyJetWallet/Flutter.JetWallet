@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
@@ -67,7 +68,7 @@ class PreviewBuyWithBankCardNotifier
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: state.amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: 'EUR',
     );
 
     try {
@@ -177,22 +178,28 @@ class PreviewBuyWithBankCardNotifier
       var base64Encoded = '';
       if (input.encData != null) {
         final rsa = RsaKeyHelper();
-        final key1 = rsa.parsePublicKeyFromPem(input.encData);
-        final encrypted = base64Encoded = encrypt(
-          '{"cardNumber":"${input.cardNumber}","cvv":"${state.cvv}"}',
-          key1,
+        final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
+            '${input.encData}'
+            '\r\n-----END RSA PUBLIC KEY-----';
+        final key1 = rsa.parsePublicKeyFromPem(key);
+        final encrypter = Encrypter(RSA(publicKey: key1));
+        final encrypted = encrypter
+          .encrypt(
+            '{"cardNumber":"${input.cardNumber}","cvv":"${state.cvv}"}',
         );
-        final encryptedU = utf8.encode(encrypted);
-        base64Encoded = base64Encode(encryptedU);
+        base64Encoded = encrypted.base64;
       }
       final response = await bankCardService.encryptionKey(
         _intl.localeName,
       );
       final rsa = RsaKeyHelper();
-      final key1 = rsa.parsePublicKeyFromPem(response.key);
-      final encryptedCvv = encrypt('"cvv":"${state.cvv}"}', key1);
-      final encryptedCvvU = utf8.encode(encryptedCvv);
-      final base64EncodedCvv = base64Encode(encryptedCvvU);
+      final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
+          '${response.key}'
+          '\r\n-----END RSA PUBLIC KEY-----';
+      final key1 = rsa.parsePublicKeyFromPem(key);
+      final encrypter = Encrypter(RSA(publicKey: key1));
+      final encryptedCvv = encrypter.encrypt('{"cvv":"${state.cvv}"}');
+      final base64EncodedCvv = encryptedCvv.base64;
       final model = input.cardId != null ? CardBuyExecuteRequestModel(
         paymentId: state.paymentId,
         paymentMethod: CirclePaymentMethod.bankCard,

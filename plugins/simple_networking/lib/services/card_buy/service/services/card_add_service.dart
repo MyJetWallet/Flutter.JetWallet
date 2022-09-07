@@ -24,8 +24,8 @@ Future<CardAddResponseModel> cardAddService(
     try {
       final responseData = response.data as Map<String, dynamic>;
 
-      final data = handleFullResponse<Map>(responseData, localeName);
-      return CardAddResponseModel.fromJson(data);
+      handleResultResponse(responseData, localeName);
+      return const CardAddResponseModel(rejectDetail: 'OK');
     } catch (e) {
       logger.log(contract, message);
       rethrow;

@@ -15,12 +15,16 @@ final currencyBuyNotipod = StateNotifierProvider.autoDispose
     final unlimintCards = cards.cardInfos.where(
       (element) => element.integration == IntegrationType.unlimint,
     ).toList();
+    final bankCards = cards.cardInfos.where(
+      (element) => element.integration == IntegrationType.unlimintAlt,
+    ).toList();
 
     return CurrencyBuyNotifier(
       ref.read,
       currency,
       keyValue.lastUsedPaymentMethod,
       unlimintCards,
+      bankCards,
     );
   },
 );

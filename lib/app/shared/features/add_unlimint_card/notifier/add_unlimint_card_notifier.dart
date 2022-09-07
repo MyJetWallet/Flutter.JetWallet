@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -61,10 +60,13 @@ class AddUnlimintCardNotifier extends StateNotifier<AddUnlimintCardState> {
       final cardNumber = state.cardNumber.replaceAll('\u{2005}', '');
 
       final rsa = RsaKeyHelper();
-      final key1 = rsa.parsePublicKeyFromPem(response.key);
-      final encrypted = encrypt('{"cardNumber":"$cardNumber"}', key1);
-      final encryptedU = utf8.encode(encrypted);
-      final base64Encoded = base64Encode(encryptedU);
+      final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
+          '${response.key}'
+          '\r\n-----END RSA PUBLIC KEY-----';
+      final key1 = rsa.parsePublicKeyFromPem(key);
+      final encrypter = Encrypter(RSA(publicKey: key1));
+      final encrypted = encrypter.encrypt('{"cardNumber":"$cardNumber"}');
+      final base64Encoded = encrypted.base64;
 
       final model = CardAddRequestModel(
         encKeyId: response.keyId,
