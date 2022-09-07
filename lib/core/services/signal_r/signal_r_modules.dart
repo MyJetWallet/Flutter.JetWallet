@@ -181,7 +181,7 @@ abstract class _SignalRModulesBase with Store {
           late CurrencyModel currency;
 
           try {
-            currency = sCurrencies.currencies.firstWhere(
+            currency = sSignalRModules.getCurrencies.firstWhere(
               (element) {
                 return element.symbol == marketReference.associateAsset;
               },
@@ -480,7 +480,7 @@ abstract class _SignalRModulesBase with Store {
 
   @action
   ReturnRatesModel getReturnRates(String assetId) {
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
 
     final periodPrice = periodPrices!.prices.firstWhere(
       (element) => element.assetSymbol == assetId,
@@ -511,7 +511,7 @@ abstract class _SignalRModulesBase with Store {
 
   @computed
   List<MarketItemModel> get getMarketPrices => marketReferencesList(
-        marketReferences.value!,
+        marketReferences.value,
         getCurrencies,
       );
 

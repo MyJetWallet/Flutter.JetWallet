@@ -46,7 +46,7 @@ class _MarketScreenState extends State<MarketScreen> {
     //useProvider(keyValueNotipod);
     //useProvider(watchlistIdsNotipod);
 
-    List<MarketItemModel> allItems = sSignalRModules.marketItems;
+    //List<MarketItemModel> allItems = sSignalRModules.marketItems;
     final indices = getMarketIndices();
     final gainers = getMarketGainers();
     final losers = getMarketLosers();
@@ -72,14 +72,16 @@ class _MarketScreenState extends State<MarketScreen> {
 
     return Builder(
       builder: (_) {
-        final value = sSignalRModules.randomStream.value;
-        final mRItems = sSignalRModules.marketReferences.value;
-        final currencies = sSignalRModules.getCurrencies;
+        //final value = sSignalRModules.randomStream.value;
+        //final mRItems = sSignalRModules.marketReferences.value;
+        //final currencies = sSignalRModules.getCurrencies;
 
+        /*
         final allAssets = marketReferencesList(
           mRItems!,
           currencies,
         );
+        */
 
         final ass = sSignalRModules.getMarketPrices;
 
