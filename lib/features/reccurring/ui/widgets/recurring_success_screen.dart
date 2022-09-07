@@ -107,7 +107,7 @@ class _RecurringSuccessScreenState extends State<RecurringSuccessScreen> {
                       source: Source.successScreen,
                     );
 
-                    sRouter.replace(
+                    sRouter.navigate(
                       PreviewBuyWithAssetRouter(
                         input: PreviewBuyWithAssetInput(
                           amount: widget.input.amount,

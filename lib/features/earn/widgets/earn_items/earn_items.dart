@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/earn/store/earn_offers_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -22,11 +23,13 @@ class EarnItems extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final earnOffers = EarnOffersStore.of(context).earnOffers;
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final currenciesByEarn = <String>[];
     final offersByEarn = <EarnOfferModel>[];
     final maxApyForCurrencies = <Decimal>[];
     List<EarnOfferModel> filteredOffers = earnOffers;
+
+    print(earnOffers);
 
     earnOffers.sort((a, b) {
       final compare = b.currentApy.compareTo(a.currentApy);
@@ -62,7 +65,9 @@ class EarnItems extends StatelessObserverWidget {
         if (!currenciesByEarn.contains(element.asset)) {
           currenciesByEarn.add(element.asset);
           maxApyForCurrencies.add(element.currentApy);
+
           final indexOfElement = currenciesByEarn.indexOf(element.asset);
+
           for (final tier in element.tiers) {
             if (maxApyForCurrencies[indexOfElement] < tier.apy) {
               maxApyForCurrencies[indexOfElement] = tier.apy;
@@ -70,6 +75,7 @@ class EarnItems extends StatelessObserverWidget {
           }
         } else {
           final indexOfElement = currenciesByEarn.indexOf(element.asset);
+
           for (final tier in element.tiers) {
             if (maxApyForCurrencies[indexOfElement] < tier.apy) {
               maxApyForCurrencies[indexOfElement] = tier.apy;

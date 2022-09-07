@@ -62,7 +62,7 @@ Dio setupDio() {
 
   final authModel = getIt.get<AppStore>().authState;
 
-  print('DIO TOKEN ${authModel.token}');
+  print('SETUP DIO TOKEN ${authModel.token.isNotEmpty}');
 
   setupHeaders(_dio, authModel.token);
 

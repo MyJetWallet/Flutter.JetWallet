@@ -53,7 +53,7 @@ void showAddPaymentBottomSheet({
             onTap: () {
               sAnalytics.circleTapAddCard();
 
-              sRouter.replace(
+              sRouter.navigate(
                 AddCircleCardRouter(
                   onCardAdded: (card) {
                     Navigator.pop(context);

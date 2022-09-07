@@ -160,7 +160,7 @@ abstract class _PaymentMethodsStoreBase with Store {
         onPrimaryButtonTap: () {
           sAnalytics.circleAdd();
 
-          sRouter.replace(
+          sRouter.navigate(
             AddCircleCardRouter(
               onCardAdded: (card) {
                 sRouter.pop();

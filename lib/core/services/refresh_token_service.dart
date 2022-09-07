@@ -67,8 +67,6 @@ Future<RefreshTokenStatus> refreshToken() async {
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
 
-        print('REFRESH TOKEN ${refreshRequest.data!.token}');
-
         return RefreshTokenStatus.success;
       } else {
         return RefreshTokenStatus.caught;

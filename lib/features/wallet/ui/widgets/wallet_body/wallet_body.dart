@@ -155,7 +155,7 @@ class _WalletBodyState extends State<WalletBody>
                           title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           context: context,
                           onItemTap: (RecurringBuysType type) {
-                            sRouter.replace(
+                            sRouter.navigate(
                               CurrencyBuyRouter(
                                 currency: widget.currency,
                                 fromCard: false,

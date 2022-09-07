@@ -69,6 +69,7 @@ abstract class _SignalRModulesBase with Store {
 
     clientDetails.listen(
       (value) {
+        print('CLIENT DETAILS');
         clientDetail = value;
 
         assets.listen(
@@ -85,7 +86,9 @@ abstract class _SignalRModulesBase with Store {
           },
         );
       },
-    );
+    ).onError((error) {
+      print('CLIENT DETAILS $error');
+    });
 
     cardLimits.listen(
       (value) {

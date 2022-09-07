@@ -88,7 +88,7 @@ class _ActionButtonState extends State<ActionButton> {
 
     void _onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-        sRouter.replace(
+        sRouter.navigate(
           CurrencyBuyRouter(
             currency: widget.currency,
             fromCard: fromCard,
@@ -103,7 +103,7 @@ class _ActionButtonState extends State<ActionButton> {
         kycAlertHandler.handle(
           status: kycState.depositStatus,
           isProgress: kycState.verificationInProgress,
-          currentNavigate: () => sRouter.replace(
+          currentNavigate: () => sRouter.navigate(
             CurrencyBuyRouter(
               currency: widget.currency,
               fromCard: fromCard,
@@ -194,7 +194,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sRouter.replace(
+                                sRouter.navigate(
                                   CurrencySellRouter(
                                     currency: widget.currency,
                                   ),
@@ -208,7 +208,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () => sRouter.replace(
+                                  currentNavigate: () => sRouter.navigate(
                                     CurrencySellRouter(
                                       currency: widget.currency,
                                     ),
@@ -288,7 +288,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
-                                  sRouter.replace(
+                                  sRouter.navigate(
                                     CryptoDepositRouter(
                                       header: intl.actionButton_deposit,
                                       currency: widget.currency,
@@ -304,7 +304,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     status: kycState.sellStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () {
-                                      sRouter.replace(
+                                      sRouter.navigate(
                                         CryptoDepositRouter(
                                           header: intl.actionButton_deposit,
                                           currency: widget.currency,
@@ -389,7 +389,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   asset: widget.currency.description,
                                 );
 
-                                sRouter.replace(
+                                sRouter.navigate(
                                   CryptoDepositRouter(
                                     header: intl.actionButton_receive,
                                     currency: widget.currency,
@@ -404,7 +404,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () => sRouter.replace(
+                                  currentNavigate: () => sRouter.navigate(
                                     CryptoDepositRouter(
                                       header: intl.actionButton_receive,
                                       currency: widget.currency,
@@ -478,7 +478,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sRouter.replace(
+                                sRouter.navigate(
                                   CurrencySellRouter(
                                     currency: widget.currency,
                                   ),
@@ -494,7 +494,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    sRouter.replace(
+                                    sRouter.navigate(
                                       CurrencySellRouter(
                                         currency: widget.currency,
                                       ),
@@ -579,7 +579,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     kycOperationStatus(
                                       KycStatus.allowed,
                                     )) {
-                                  sRouter.replace(
+                                  sRouter.navigate(
                                     CryptoDepositRouter(
                                       header: intl.actionButton_deposit,
                                       currency: widget.currency,
@@ -596,7 +596,7 @@ class _ActionButtonState extends State<ActionButton> {
                                     status: kycState.sellStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () {
-                                      sRouter.replace(
+                                      sRouter.navigate(
                                         CryptoDepositRouter(
                                           header: intl.actionButton_deposit,
                                           currency: widget.currency,
@@ -693,7 +693,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   asset: widget.currency.description,
                                 );
 
-                                sRouter.replace(
+                                sRouter.navigate(
                                   CryptoDepositRouter(
                                     header: intl.actionButton_receive,
                                     currency: widget.currency,
@@ -708,7 +708,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () => sRouter.replace(
+                                  currentNavigate: () => sRouter.navigate(
                                     CryptoDepositRouter(
                                       header: intl.actionButton_receive,
                                       currency: widget.currency,

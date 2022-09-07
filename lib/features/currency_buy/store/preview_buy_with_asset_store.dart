@@ -298,7 +298,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         secondaryText: error.cause,
         primaryButtonName: intl.previewBuyWithAsset_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.replace(
+          sRouter.navigate(
             CurrencyBuyRouter(
               currency: input.toCurrency,
               fromCard: areBalancesEmpty(

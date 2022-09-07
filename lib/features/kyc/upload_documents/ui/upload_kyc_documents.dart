@@ -57,7 +57,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
       done: () {
         loaderSuccess.startLoading();
         Timer(const Duration(seconds: 2), () {
-          sRouter.replace(const KycSelfieRouter());
+          sRouter.navigate(const KycSelfieRouter());
         });
       },
       orElse: () {},

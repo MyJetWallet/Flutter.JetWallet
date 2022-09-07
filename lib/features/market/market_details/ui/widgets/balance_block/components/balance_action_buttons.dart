@@ -91,7 +91,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   if (kycState.withdrawalStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
                     sAnalytics.receiveAssetView(asset: currency.description);
-                    sRouter.replace(
+                    sRouter.navigate(
                       CryptoDepositRouter(
                         header: intl.balanceActionButtons_receive,
                         currency: currency,
@@ -106,7 +106,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                           asset: currency.description,
                         );
 
-                        sRouter.replace(
+                        sRouter.navigate(
                           CryptoDepositRouter(
                             header: intl.balanceActionButtons_receive,
                             currency: currency,

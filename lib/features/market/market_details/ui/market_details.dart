@@ -258,7 +258,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                         title: intl.recurringBuysName_empty,
                         context: context,
                         onItemTap: (RecurringBuysType type) {
-                          sRouter.replace(
+                          sRouter.navigate(
                             CurrencyBuyRouter(
                               currency: currency,
                               fromCard: false,

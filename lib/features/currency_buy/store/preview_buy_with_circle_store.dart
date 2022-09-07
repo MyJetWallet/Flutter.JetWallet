@@ -512,7 +512,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           onPrimaryButtonTap: () {
             sAnalytics.circleAdd();
 
-            sRouter.replace(
+            sRouter.navigate(
               AddCircleCardRouter(
                 onCardAdded: (card) {
                   sRouter.pop();

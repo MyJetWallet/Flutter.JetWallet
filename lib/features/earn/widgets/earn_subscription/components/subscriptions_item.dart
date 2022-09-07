@@ -77,7 +77,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
                     () {
                       if (kyc.depositStatus ==
                           kycOperationStatus(KycStatus.allowed)) {
-                        sRouter.replace(
+                        sRouter.navigate(
                           HighYieldBuyRouter(
                             currency: currency,
                             earnOffer: earnOffer,
@@ -110,7 +110,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
                     disclaimer.onCheckboxTap();
                   },
                   onPrivacyPolicyTap: () {
-                    sRouter.push(
+                    sRouter.navigate(
                       HelpCenterWebViewRouter(
                         link: privacyEarnLink,
                       ),
@@ -125,7 +125,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
               );
             } else if (kyc.depositStatus ==
                 kycOperationStatus(KycStatus.allowed)) {
-              sRouter.replace(
+              sRouter.navigate(
                 HighYieldBuyRouter(
                   currency: currency,
                   earnOffer: earnOffer,

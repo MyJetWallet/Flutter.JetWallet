@@ -135,7 +135,7 @@ class _ActionBuy extends StatelessObserverWidget {
           onItemTap: (RecurringBuysType type) {
             getIt.get<AppRouter>().pop(itemSelected);
 
-            getIt.get<AppRouter>().replace(
+            getIt.get<AppRouter>().navigate(
                   CurrencyBuyRouter(
                     currency: currency,
                     fromCard: false,

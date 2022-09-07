@@ -28,47 +28,58 @@ class ChartStore extends _ChartStoreBase with _$ChartStore {
 
 abstract class _ChartStoreBase with Store {
   _ChartStoreBase(this.chartInput) {
-    final currentDate = DateTime.now().toLocal();
-    final localCreationDate = DateTime.parse(chartInput.creationDate).toLocal();
-    final dateDifference = currentDate.difference(localCreationDate).inHours;
-    final showWeek = dateDifference > const Duration(days: 7).inHours;
-    final showMonth = dateDifference > const Duration(days: 30).inHours;
-    final showYear = dateDifference > const Duration(days: 365).inHours;
+    try {
+      print(sSignalRModules.clientDetail.walletCreationDate);
 
-    if (chartInput.instrumentId != null) {
-      fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
-        (_) {
-          final dayCandles = candles[Period.day];
-          if (dayCandles != null && dayCandles.isEmpty) {
-            fetchAssetCandles(Period.day, chartInput.instrumentId!);
-          }
-          if (showWeek) {
-            fetchAssetCandles(Period.week, chartInput.instrumentId!);
-          }
-          if (showMonth) {
-            fetchAssetCandles(Period.month, chartInput.instrumentId!);
-          }
-          if (showYear) {
-            fetchAssetCandles(Period.year, chartInput.instrumentId!);
-          }
-          fetchAssetCandles(Period.all, chartInput.instrumentId!);
-        },
-      );
-    } else {
-      print('fetchBalanceCandles');
+      print(chartInput);
 
-      fetchBalanceCandles(Period.day).then(
-        (_) {
-          final dayCandles = candles[Period.day];
-          if (dayCandles != null && dayCandles.isEmpty) {
-            fetchBalanceCandles(Period.day);
-          }
-          if (showWeek) fetchBalanceCandles(Period.week);
-          if (showMonth) fetchBalanceCandles(Period.month);
-          if (showYear) fetchBalanceCandles(Period.year);
-          fetchBalanceCandles(Period.all);
-        },
-      );
+      print(chartInput.creationDate);
+
+      final currentDate = DateTime.now().toLocal();
+      final localCreationDate =
+          DateTime.parse(chartInput.creationDate).toLocal();
+      final dateDifference = currentDate.difference(localCreationDate).inHours;
+      final showWeek = dateDifference > const Duration(days: 7).inHours;
+      final showMonth = dateDifference > const Duration(days: 30).inHours;
+      final showYear = dateDifference > const Duration(days: 365).inHours;
+
+      if (chartInput.instrumentId != null) {
+        fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
+          (_) {
+            final dayCandles = candles[Period.day];
+            if (dayCandles != null && dayCandles.isEmpty) {
+              fetchAssetCandles(Period.day, chartInput.instrumentId!);
+            }
+            if (showWeek) {
+              fetchAssetCandles(Period.week, chartInput.instrumentId!);
+            }
+            if (showMonth) {
+              fetchAssetCandles(Period.month, chartInput.instrumentId!);
+            }
+            if (showYear) {
+              fetchAssetCandles(Period.year, chartInput.instrumentId!);
+            }
+            fetchAssetCandles(Period.all, chartInput.instrumentId!);
+          },
+        );
+      } else {
+        print('fetchBalanceCandles');
+
+        fetchBalanceCandles(Period.day).then(
+          (_) {
+            final dayCandles = candles[Period.day];
+            if (dayCandles != null && dayCandles.isEmpty) {
+              fetchBalanceCandles(Period.day);
+            }
+            if (showWeek) fetchBalanceCandles(Period.week);
+            if (showMonth) fetchBalanceCandles(Period.month);
+            if (showYear) fetchBalanceCandles(Period.year);
+            fetchBalanceCandles(Period.all);
+          },
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

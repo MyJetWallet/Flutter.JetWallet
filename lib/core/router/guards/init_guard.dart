@@ -33,6 +33,13 @@ class InitGuard extends AutoRouteGuard {
       //await appStore.getAuthStatus();
 
       appStore.authStatus.when(
+        loading: () {
+          print('InitGuard: loading');
+
+          router.replace(
+            const SplashRoute(),
+          );
+        },
         authorized: () {
           print('InitGuard: authorized');
 
@@ -40,8 +47,8 @@ class InitGuard extends AutoRouteGuard {
             loading: () {
               print('InitGuard: loading');
 
-              router.push(
-                const OnboardingRoute(),
+              router.replace(
+                const SplashRoute(),
               );
             },
             emailVerification: () {

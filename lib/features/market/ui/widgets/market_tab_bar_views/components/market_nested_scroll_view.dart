@@ -84,34 +84,39 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
       },
       body: ColoredBox(
         color: colors.white,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
             if (widget.showBanners) const MarketBanners(),
-            for (final item in widget.items) ...[
-              SMarketItem(
-                icon: SNetworkSvg24(
-                  url: item.iconUrl,
-                ),
-                name: item.name,
-                price: marketFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: item.lastPrice,
-                  symbol: baseCurrency.symbol,
-                  accuracy: item.priceAccuracy,
-                ),
-                ticker: item.symbol,
-                last: item == widget.items.last,
-                percent: item.dayPercentChange,
-                onTap: () {
-                  sRouter.push(
-                    MarketDetailsRouter(
-                      marketItem: item,
+            Flexible(
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.items.length,
+                itemBuilder: (context, index) {
+                  return SMarketItem(
+                    icon: SNetworkSvg24(
+                      url: widget.items[index].iconUrl,
                     ),
+                    name: widget.items[index].name,
+                    price: marketFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: widget.items[index].lastPrice,
+                      symbol: baseCurrency.symbol,
+                      accuracy: widget.items[index].priceAccuracy,
+                    ),
+                    ticker: widget.items[index].symbol,
+                    last: widget.items[index] == widget.items.last,
+                    percent: widget.items[index].dayPercentChange,
+                    onTap: () {
+                      sRouter.push(
+                        MarketDetailsRouter(
+                          marketItem: widget.items[index],
+                        ),
+                      );
+                    },
                   );
                 },
               ),
-            ],
+            ),
             const SpaceH40(),
           ],
         ),

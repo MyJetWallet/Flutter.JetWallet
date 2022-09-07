@@ -179,7 +179,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
             ' ${intl.sendByPhoneConfirm_send}',
         primaryButtonName: intl.sendByPhoneConfirm_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.replace(
+          sRouter.navigate(
             SendByPhoneAmountRouter(
               currency: currency,
             ),

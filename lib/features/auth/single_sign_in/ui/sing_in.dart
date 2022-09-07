@@ -82,6 +82,7 @@ class _SingInBody extends StatelessObserverWidget {
               );
             }
           },
+          fireImmediately: true,
         );
       },
       child: SPageFrame(

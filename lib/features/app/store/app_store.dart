@@ -30,7 +30,7 @@ class AppStore = _AppStoreBase with _$AppStore;
 abstract class _AppStoreBase with Store {
   /// Variable for storing the Auth user's state. Can be: authorized/unauthorized
   @observable
-  AuthorizationUnion authStatus = const AuthorizationUnion.unauthorized();
+  AuthorizationUnion authStatus = const AuthorizationUnion.loading();
   @action
   AuthorizationUnion setAuthStatus(AuthorizationUnion value) =>
       authStatus = value;
@@ -112,8 +112,6 @@ abstract class _AppStoreBase with Store {
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }
-
-    print('REFRESH TOKEN $token');
 
     if (token == null) {
       // TODO
