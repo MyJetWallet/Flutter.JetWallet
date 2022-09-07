@@ -12,6 +12,7 @@ void showSendOptions(
   CurrencyModel currency,
 ) {
   Navigator.pop(context);
+
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {
@@ -47,7 +48,7 @@ class _SendOptions extends StatelessObserverWidget {
           onTap: () {
             sAnalytics.sendChoosePhone();
 
-            sRouter.replace(
+            sRouter.navigate(
               SendByPhoneInputRouter(
                 currency: currency,
               ),
@@ -59,7 +60,7 @@ class _SendOptions extends StatelessObserverWidget {
           name: intl.sendOptions_actionItemName2,
           description: intl.sendOptions_actionItemDescription2,
           onTap: () {
-            sRouter.replace(
+            sRouter.navigate(
               CurrencyWithdrawRouter(
                 withdrawal: WithdrawalModel(
                   currency: currency,

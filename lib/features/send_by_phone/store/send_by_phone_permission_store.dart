@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/show_contact_picker.dart';
@@ -7,6 +8,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 part 'send_by_phone_permission_store.g.dart';
 
@@ -48,8 +50,13 @@ enum UserLocation { app, settings }
 /// When tapping on greyed area of the permission popup it returns
 /// PermissionStatus.permanentlyDenied but should PermissionStatus.denied
 /// https://github.com/Baseflow/flutter-permission-handler/issues/757
-class SendByPhonePermission = _SendByPhonePermissionBase
-    with _$SendByPhonePermission;
+class SendByPhonePermission extends _SendByPhonePermissionBase
+    with _$SendByPhonePermission {
+  SendByPhonePermission() : super();
+
+  static SendByPhonePermission of(BuildContext context) =>
+      Provider.of<SendByPhonePermission>(context, listen: false);
+}
 
 abstract class _SendByPhonePermissionBase with Store {
   _SendByPhonePermissionBase() {
@@ -100,7 +107,9 @@ abstract class _SendByPhonePermissionBase with Store {
   @action
   void _onPermissionGranted() {
     _updatePermissionStatus(PermissionStatus.granted);
-    showContactPicker(sRouter.navigatorKey.currentContext!);
+    showContactPicker(
+      sRouter.navigatorKey.currentContext!,
+    );
   }
 
   @action

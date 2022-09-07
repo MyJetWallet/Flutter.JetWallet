@@ -12,18 +12,18 @@ const _minCurrencies = 7;
 bool showBuyCurrencySearch(
   BuildContext context, {
   required bool fromCard,
+  required ActionSearchStore searchStore,
 }) {
-  final state = getIt.get<ActionSearchStore>();
   final currencies = <CurrencyModel>[];
 
   if (fromCard) {
-    for (final currency in state.filteredCurrencies) {
+    for (final currency in searchStore.filteredCurrencies) {
       if (currency.supportsAtLeastOneBuyMethod) {
         currencies.add(currency);
       }
     }
   } else {
-    for (final currency in state.filteredCurrencies) {
+    for (final currency in searchStore.filteredCurrencies) {
       currencies.add(currency);
     }
   }

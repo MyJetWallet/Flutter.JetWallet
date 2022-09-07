@@ -8,20 +8,5 @@ Future<Decimal?> getConversionPrice(ConversionPriceInput input) async {
         input.quotedAssetSymbol,
       );
 
-  response.pick(
-    onData: (data) {
-      return data.price;
-    },
-    onNoError: (data) {
-      return data?.price;
-    },
-    onNoData: () {
-      return null;
-    },
-    onError: (e) {
-      return null;
-    },
-  );
-
-  return null;
+  return response.data?.price;
 }

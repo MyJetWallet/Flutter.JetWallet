@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/convert/helper/remove_currency_from_list.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -29,9 +30,7 @@ class ConvertInputStore extends _ConvertInputStoreBase
 
 abstract class _ConvertInputStoreBase with Store {
   _ConvertInputStoreBase(this.fromCurrency) {
-    final _currencies = List<CurrencyModel>.from(
-      getIt.get<CurrenciesService>().currencies,
-    );
+    final _currencies = sSignalRModules.getCurrencies;
 
     sortCurrencies(_currencies);
 
@@ -82,16 +81,16 @@ abstract class _ConvertInputStoreBase with Store {
   InputError inputError = InputError.none;
 
   @observable
-  late CurrencyModel fromAsset;
+  CurrencyModel? fromAsset;
 
   @observable
-  late CurrencyModel toAsset;
+  CurrencyModel? toAsset;
 
   @observable
-  late List<CurrencyModel> fromAssetList;
+  List<CurrencyModel> fromAssetList = [];
 
   @observable
-  late List<CurrencyModel> toAssetList;
+  List<CurrencyModel> toAssetList = [];
 
   @action
   void _updateFromAssetAmount(String value) {
@@ -214,7 +213,7 @@ abstract class _ConvertInputStoreBase with Store {
       responseOnInputAction(
         oldInput: fromAssetAmount,
         newInput: amount,
-        accuracy: fromAsset.accuracy,
+        accuracy: fromAsset!.accuracy,
       ),
     );
     _calculateConversion();
@@ -230,7 +229,7 @@ abstract class _ConvertInputStoreBase with Store {
       responseOnInputAction(
         oldInput: toAssetAmount,
         newInput: amount,
-        accuracy: toAsset.accuracy,
+        accuracy: toAsset!.accuracy,
       ),
     );
     _calculateConversion();
@@ -270,7 +269,7 @@ abstract class _ConvertInputStoreBase with Store {
     if (fromAssetEnabled) {
       final value = valueBasedOnSelectedPercent(
         selected: percent,
-        currency: fromAsset,
+        currency: fromAsset!,
       );
 
       _updateFromAssetAmount(value);
@@ -314,13 +313,13 @@ abstract class _ConvertInputStoreBase with Store {
     _updateFromAssetAmount(
       valueAccordingToAccuracy(
         fromAssetAmount,
-        fromAsset.accuracy,
+        fromAsset!.accuracy,
       ),
     );
     _updateToAssetAmount(
       valueAccordingToAccuracy(
         toAssetAmount,
-        toAsset.accuracy,
+        toAsset!.accuracy,
       ),
     );
   }
@@ -350,7 +349,7 @@ abstract class _ConvertInputStoreBase with Store {
   void _calculateConversionOfToAsset() {
     final amount = Decimal.parse(fromAssetAmount);
     final price = converstionPrice!;
-    final accuracy = toAsset.accuracy;
+    final accuracy = toAsset!.accuracy;
 
     final result = amount * price;
 
@@ -361,7 +360,7 @@ abstract class _ConvertInputStoreBase with Store {
   void _calculateConversionOfFromAsset() {
     final amount = Decimal.parse(toAssetAmount);
     final price = converstionPrice!;
-    final accuracy = fromAsset.accuracy;
+    final accuracy = fromAsset!.accuracy;
 
     var result = Decimal.zero;
 
@@ -385,7 +384,7 @@ abstract class _ConvertInputStoreBase with Store {
   void _validateInput() {
     final error = onTradeInputErrorHandler(
       fromAssetAmount,
-      fromAsset,
+      fromAsset!,
     );
 
     if (error == InputError.none) {
@@ -401,14 +400,14 @@ abstract class _ConvertInputStoreBase with Store {
 
   @action
   void _updateFromList() {
-    final newList = removeCurrencyFromList(toAsset, currencies);
+    final newList = removeCurrencyFromList(toAsset!, currencies);
 
     fromAssetList = newList;
   }
 
   @action
   void _updateToList() {
-    final newList = removeCurrencyFromList(fromAsset, currencies);
+    final newList = removeCurrencyFromList(fromAsset!, currencies);
 
     toAssetList = newList;
   }

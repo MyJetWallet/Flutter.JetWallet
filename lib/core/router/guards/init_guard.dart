@@ -88,7 +88,7 @@ class InitGuard extends AutoRouteGuard {
             },
             askBioUsing: () {
               router.push(
-                const BiometricRouter(),
+                BiometricRouter(),
               );
             },
             singleIn: () {

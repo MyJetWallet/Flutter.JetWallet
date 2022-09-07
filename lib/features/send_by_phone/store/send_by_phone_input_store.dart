@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
@@ -9,17 +10,22 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 part 'send_by_phone_input_store.g.dart';
 
+@lazySingleton
 class SendByPhoneInputStore extends _SendByPhoneInputStoreBase
     with _$SendByPhoneInputStore {
   SendByPhoneInputStore() : super();
+
+  static _SendByPhoneInputStoreBase of(BuildContext context) =>
+      Provider.of<SendByPhoneInputStore>(context, listen: false);
 }
 
 abstract class _SendByPhoneInputStoreBase with Store {
   _SendByPhoneInputStoreBase() {
-    _initState();
+    initState();
   }
 
   SendByPhonePermission permission = SendByPhonePermission();
@@ -63,7 +69,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
   }
 
   @action
-  Future<void> _initState() async {
+  Future<void> initState() async {
     if (permission.permissionStatus == PermissionStatus.granted) {
       final _contacts =
           await ContactsService.getContacts(withThumbnails: false);

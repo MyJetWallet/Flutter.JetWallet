@@ -254,13 +254,19 @@ abstract class _CurrencyBuyStoreBase with Store {
 
         response.pick(
           onData: (data) {
-            data.cards.removeWhere((card) {
-              return isCardExpired(card.expMonth, card.expYear) ||
-                  card.status == CircleCardStatus.failed;
-            });
+            final dataCards = data.cards.toList();
 
-            if (data.cards.isNotEmpty) {
-              circleCards = ObservableList.of(data.cards);
+            dataCards.removeWhere(
+              (card) {
+                return isCardExpired(card.expMonth, card.expYear) ||
+                    card.status == CircleCardStatus.failed;
+              },
+            );
+
+            if (dataCards.isNotEmpty) {
+              circleCards = ObservableList.of(dataCards);
+
+              print(circleCards);
             }
           },
         );

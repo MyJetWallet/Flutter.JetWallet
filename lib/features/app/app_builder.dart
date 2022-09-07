@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 

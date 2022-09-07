@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_input_store.dart';
@@ -10,14 +11,41 @@ import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/show_dial_code_picker/show_dial_code_picker.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 /// BASE FLOW: Input -> Amount -> Preview
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
 /// FLOW 2: BASE FLOW -> Confirm -> Home -> Notify if simple account ??
-class SendByPhoneInput extends StatefulObserverWidget {
+
+class SendByPhoneInput extends StatelessWidget {
   const SendByPhoneInput({
+    super.key,
+    required this.currency,
+  });
+
+  final CurrencyModel currency;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<SendByPhonePermission>(
+          create: (_) => SendByPhonePermission(),
+        ),
+      ],
+      builder: (context, child) {
+        return _SendByPhoneInputBody(
+          currency: currency,
+        );
+      },
+    );
+  }
+}
+
+class _SendByPhoneInputBody extends StatefulObserverWidget {
+  const _SendByPhoneInputBody({
     Key? key,
     required this.currency,
   }) : super(key: key);
@@ -25,10 +53,10 @@ class SendByPhoneInput extends StatefulObserverWidget {
   final CurrencyModel currency;
 
   @override
-  State<SendByPhoneInput> createState() => _SendByPhoneInputState();
+  State<_SendByPhoneInputBody> createState() => _SendByPhoneInputBodyState();
 }
 
-class _SendByPhoneInputState extends State<SendByPhoneInput>
+class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
     with WidgetsBindingObserver {
   @override
   void initState() {
@@ -59,9 +87,8 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final input = SendByPhoneInputStore();
-
-    final permission = SendByPhonePermission();
+    final input = getIt.get<SendByPhoneInputStore>();
+    final permission = SendByPhonePermission.of(context);
 
     return SPageFrame(
       color: colors.grey5,
@@ -88,7 +115,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showDialCodePicker(context);
+                          showDialCodePicker(
+                            context,
+                          );
                         },
                         child: SizedBox(
                           width: 100,
@@ -107,7 +136,9 @@ class _SendByPhoneInputState extends State<SendByPhoneInput>
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            showContactPicker(context);
+                            showContactPicker(
+                              context,
+                            );
                           },
                           child: AbsorbPointer(
                             child: SStandardField(

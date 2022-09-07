@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/features/rewards/store/reward_campaign_store.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -14,12 +15,24 @@ const bannersColor = [
   Color(0xFFFAF3E0),
 ];
 
-class MarketBanners extends StatelessObserverWidget {
-  const MarketBanners({Key? key}) : super(key: key);
+class MarketBanners extends StatelessWidget {
+  const MarketBanners({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final store = RewardCampaignStore(true);
+    return Provider<RewardCampaignStore>(
+      create: (context) => RewardCampaignStore(true),
+      builder: (context, child) => const _MarketBannersBody(),
+    );
+  }
+}
+
+class _MarketBannersBody extends StatelessObserverWidget {
+  const _MarketBannersBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final store = RewardCampaignStore.of(context);
 
     final deepLinkService = getIt.get<DeepLinkService>();
     final colors = sKit.colors;

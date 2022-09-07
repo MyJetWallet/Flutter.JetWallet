@@ -9,19 +9,31 @@ import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class Biometric extends StatelessWidget {
-  const Biometric({Key? key}) : super(key: key);
+  const Biometric({
+    Key? key,
+    this.isAccSettings = false,
+  }) : super(key: key);
+
+  final bool isAccSettings;
 
   @override
   Widget build(BuildContext context) {
     return Provider<BiometricStore>(
       create: (context) => BiometricStore(),
-      builder: (context, child) => const _BiometricBody(),
+      builder: (context, child) => _BiometricBody(
+        isAccSettings: isAccSettings,
+      ),
     );
   }
 }
 
 class _BiometricBody extends StatelessObserverWidget {
-  const _BiometricBody({Key? key}) : super(key: key);
+  const _BiometricBody({
+    Key? key,
+    this.isAccSettings = false,
+  }) : super(key: key);
+
+  final bool isAccSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -73,15 +85,26 @@ class _BiometricBody extends StatelessObserverWidget {
                     active: true,
                     name: buttonText,
                     onTap: () {
-                      biometric.useBio(useBio: true);
+                      biometric.useBio(
+                        useBio: true,
+                        isAccSettings: isAccSettings,
+                        context: context,
+                      );
                     },
                   ),
                   const SpaceH10(),
                   STextButton1(
                     active: true,
                     name: intl.bio_screen_button_late_text,
-                    onTap: () {
-                      biometric.useBio(useBio: false);
+                    onTap: () async {
+                      if (isAccSettings) {
+                        Navigator.pop(context);
+                      } else {
+                        biometric.useBio(
+                          useBio: false,
+                          context: context,
+                        );
+                      }
                     },
                   ),
                   const SpaceH24(),

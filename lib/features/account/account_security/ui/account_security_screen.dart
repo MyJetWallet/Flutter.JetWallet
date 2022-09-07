@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/account/account_security/ui/widgets/security_protection.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -13,7 +14,7 @@ class AccountSecurity extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = getIt.get<UserInfoService>();
+    final userInfo = getIt.get<UserInfoService>().userInfo;
 
     return SPageFrame(
       header: SPaddingH24(
@@ -25,42 +26,32 @@ class AccountSecurity extends StatelessObserverWidget {
       child: Column(
         children: <Widget>[
           const SpaceH20(),
-          const SPaddingH24(
-            child: SecurityProtection(),
+          SimpleAccountCategoryButton(
+            title: intl.accountSecurity_accountCategoryButtonTitle1,
+            icon: const SLockIcon(),
+            isSDivider: true,
+            onSwitchChanged: (value) async {
+              if (userInfo.biometricDisabled) {
+                unawaited(
+                  sRouter.push(
+                    BiometricRouter(
+                      isAccSettings: true,
+                    ),
+                  ),
+                );
+              } else {
+                await getIt.get<UserInfoService>().disableBiometric();
+              }
+            },
+            switchValue: !userInfo.biometricDisabled,
           ),
-          const SpaceH40(),
-
-          /// Temporary comment for release
-          // SimpleAccountCategoryButton(
-          //   title: intl.accountSecurity_accountCategoryButtonTitle1,
-          //   icon: const SLockIcon(),
-          //   isSDivider: true,
-          //   onSwitchChanged: (value) {
-          //     if (userInfo.pinEnabled) {
-          //       PinScreen.push(context, const Disable());
-          //     } else {
-          //       PinScreen.push(context, const Enable());
-          //     }
-          //   },
-          //   switchValue: userInfo.pinEnabled,
-          // ),
-          if (userInfo.userInfo.pinEnabled)
+          if (userInfo.pinEnabled)
             SimpleAccountCategoryButton(
               title: intl.accountSecurity_changePin,
               icon: const SChangePinIcon(),
               isSDivider: true,
-              onTap: () => sRouter.push(
-                PinScreenRoute(
-                  union: const PinFlowUnion.change(),
-                ),
-              ),
+              onTap: () => sRouter.push(PinScreenRoute(union: const Change())),
             ),
-          SimpleAccountCategoryButton(
-            title: intl.accountSecurity_accountCategoryButtonTitle3,
-            icon: const STwoFactorAuthIcon(),
-            isSDivider: false,
-            onTap: () => sRouter.push(const SmsAuthenticatorRouter()),
-          ),
         ],
       ),
     );

@@ -64,9 +64,12 @@ void _showBuyAction({
   required BuildContext context,
   Source? from,
 }) {
+  final searchStore = ActionSearchStore();
+
   final showSearch = showBuyCurrencySearch(
     context,
     fromCard: fromCard,
+    searchStore: searchStore,
   );
 
   if (shouldPop) Navigator.pop(context); // close BasicBottomSheet from Menu
@@ -78,7 +81,7 @@ void _showBuyAction({
       name: intl.actionBuy_bottomSheetHeaderName1,
       showSearch: showSearch,
       onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
+        searchStore.search(value);
       },
     ),
     horizontalPinnedPadding: 0.0,
@@ -88,6 +91,7 @@ void _showBuyAction({
         fromCard: fromCard,
         showRecurring: showRecurring,
         from: from,
+        searchStore: searchStore,
       ),
     ],
   );
@@ -100,18 +104,20 @@ class _ActionBuy extends StatelessObserverWidget {
     Key? key,
     required this.fromCard,
     required this.showRecurring,
+    required this.searchStore,
     this.from,
   }) : super(key: key);
 
   final bool fromCard;
   final bool showRecurring;
   final Source? from;
+  final ActionSearchStore searchStore;
 
   @override
   Widget build(BuildContext context) {
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final state = getIt.get<ActionSearchStore>();
+    final state = searchStore;
 
     sortByBalanceAndWeight(state.filteredCurrencies);
 
@@ -158,7 +164,7 @@ class _ActionBuy extends StatelessObserverWidget {
           },
         );
       } else {
-        getIt.get<AppRouter>().replace(
+        getIt.get<AppRouter>().navigate(
               CurrencyBuyRouter(
                 currency: currency,
                 fromCard: fromCard,

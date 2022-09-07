@@ -11,6 +11,7 @@ import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -19,8 +20,27 @@ import '../../../helper/currency_from.dart';
 import '../../../helper/swap_words.dart';
 import 'components/balance_action_buttons.dart';
 
-class BalanceBlock extends StatelessObserverWidget {
+class BalanceBlock extends StatelessWidget {
   const BalanceBlock({
+    super.key,
+    required this.marketItem,
+  });
+
+  final MarketItemModel marketItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<OperationHistory>(
+      create: (context) => OperationHistory(marketItem.symbol),
+      builder: (context, child) => _BalanceBlockBody(
+        marketItem: marketItem,
+      ),
+    );
+  }
+}
+
+class _BalanceBlockBody extends StatelessObserverWidget {
+  const _BalanceBlockBody({
     Key? key,
     required this.marketItem,
   }) : super(key: key);
@@ -31,11 +51,11 @@ class BalanceBlock extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final currency = currencyFrom(
-      sCurrencies.currencies,
+      sSignalRModules.getCurrencies,
       marketItem.associateAsset,
     );
 
-    final transactionHistory = OperationHistory(marketItem.symbol);
+    final transactionHistory = OperationHistory.of(context);
 
     final recurringNotifier = getIt.get<RecurringBuysStore>();
     final languageCode = Localizations.localeOf(context).languageCode;

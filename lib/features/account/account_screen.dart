@@ -44,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
     final colors = sKit.colors;
 
-    final kycState = KycService();
+    final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     logout.union.when(
@@ -93,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         kycState.withdrawalStatus,
                       ),
                       verificationInProgress: kycState.inVerificationProgress,
-                      twoFaEnabled: userInfo.twoFaEnabled,
+                      twoFaEnabled: true,
                       phoneVerified: userInfo.phoneVerified,
                       onTwoFaBannerTap: () {
                         sAnalytics.bannerClick(

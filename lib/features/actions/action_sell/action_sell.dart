@@ -66,7 +66,7 @@ class _ActionSell extends StatelessObserverWidget {
               secondaryText: currency.volumeAssetBalance,
               removeDivider: currency == assetWithBalance.last,
               onTap: () {
-                sRouter.replace(
+                sRouter.navigate(
                   CurrencySellRouter(currency: currency),
                 );
               },

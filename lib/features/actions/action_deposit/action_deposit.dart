@@ -78,7 +78,7 @@ class _ActionDeposit extends StatelessObserverWidget {
               primaryText: currency.description,
               secondaryText: currency.symbol,
               onTap: () {
-                getIt.get<AppRouter>().replace(
+                getIt.get<AppRouter>().navigate(
                       CryptoDepositRouter(
                         header: intl.actionDeposit_deposit,
                         currency: currency,

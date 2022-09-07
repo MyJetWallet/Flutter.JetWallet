@@ -46,7 +46,8 @@ class _EmptyWalletState extends State<EmptyWallet>
         currency: currentAsset,
       ),
       body: SShadeAnimationStack(
-        controller: animationController,
+        showShade: false,
+        //controller: animationController,
         child: SPageFrameWithPadding(
           header: SSmallHeader(
             title: '${widget.currency.description} ${intl.emptyWallet_wallet}',

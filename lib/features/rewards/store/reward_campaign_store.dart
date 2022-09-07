@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
 
 part 'reward_campaign_store.g.dart';
@@ -11,11 +14,14 @@ part 'reward_campaign_store.g.dart';
 class RewardCampaignStore extends _RewardCampaignStoreBase
     with _$RewardCampaignStore {
   RewardCampaignStore(bool isFilterEnabled) : super(isFilterEnabled);
+
+  static _RewardCampaignStoreBase of(BuildContext context) =>
+      Provider.of<RewardCampaignStore>(context, listen: false);
 }
 
 abstract class _RewardCampaignStoreBase with Store {
   _RewardCampaignStoreBase(this.isFilterEnabled) {
-    updateCampaigns(campaigns);
+    updateCampaigns(sSignalRModules.marketCampaigns);
   }
 
   static final _logger = Logger('CampaignStore');

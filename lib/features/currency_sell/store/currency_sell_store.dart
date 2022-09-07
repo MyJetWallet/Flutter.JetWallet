@@ -106,6 +106,10 @@ abstract class _CirrencySellStoreBase with Store {
         accuracy: selectedCurrency!.accuracy,
       );
 
+      print(selectedCurrency);
+      print(target);
+      print(targetConversionValue);
+
       return '≈ $target ($base)';
     }
   }
@@ -203,14 +207,14 @@ abstract class _CirrencySellStoreBase with Store {
     String symbol,
     String selectedCurrencySymbol,
   ) async {
-    updateTargetConversionPrice(
-      await getConversionPrice(
-        ConversionPriceInput(
-          baseAssetSymbol: symbol,
-          quotedAssetSymbol: selectedCurrencySymbol,
-        ),
+    final price = await getConversionPrice(
+      ConversionPriceInput(
+        baseAssetSymbol: symbol,
+        quotedAssetSymbol: selectedCurrencySymbol,
       ),
     );
+
+    updateTargetConversionPrice(price);
   }
 
   @action
@@ -229,6 +233,10 @@ abstract class _CirrencySellStoreBase with Store {
 
   @action
   void _calculateTargetConversion([Decimal? newPrice]) {
+    print(targetConversionPrice != null);
+    print(newPrice != null);
+    print(inputValue.isNotEmpty);
+
     if ((targetConversionPrice != null || newPrice != null) &&
         inputValue.isNotEmpty) {
       final amount = Decimal.parse(inputValue);
@@ -237,12 +245,20 @@ abstract class _CirrencySellStoreBase with Store {
 
       final conversion = amount * price;
 
+      print(
+        truncateZerosFrom(
+          conversion.toStringAsFixed(accuracy),
+        ),
+      );
+
       _updateTargetConversionValue(
         truncateZerosFrom(
           conversion.toStringAsFixed(accuracy),
         ),
       );
     } else {
+      print('ZERO');
+
       _updateTargetConversionValue(zero);
     }
   }

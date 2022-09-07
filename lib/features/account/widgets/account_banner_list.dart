@@ -5,7 +5,7 @@ import 'package:jetwallet/features/account/widgets/create_banners_list.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class AccountBannerList extends StatelessObserverWidget {
+class AccountBannerList extends StatefulObserverWidget {
   const AccountBannerList({
     Key? key,
     this.onTwoFaBannerTap,
@@ -25,6 +25,11 @@ class AccountBannerList extends StatelessObserverWidget {
   final bool phoneVerified;
   final bool verificationInProgress;
 
+  @override
+  State<AccountBannerList> createState() => _AccountBannerListState();
+}
+
+class _AccountBannerListState extends State<AccountBannerList> {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 0.9);
@@ -85,9 +90,9 @@ class AccountBannerList extends StatelessObserverWidget {
   }
 
   double _bannerHeight() {
-    if (verificationInProgress || !kycPassed) {
+    if (widget.verificationInProgress || !widget.kycPassed) {
       return 171;
-    } else if (!twoFaEnabled) {
+    } else if (!widget.twoFaEnabled) {
       return 155;
     } else {
       return 129;
@@ -99,19 +104,22 @@ class AccountBannerList extends StatelessObserverWidget {
     BuildContext context,
   ) async {
     final storage = sLocalStorageService;
+
     final showChatChecker = await storage.getValue(closedSupportBannerKey);
     final banners = createBannersList(
-      kycPassed: kycPassed,
-      verificationInProgress: verificationInProgress,
-      twoFaEnabled: twoFaEnabled,
-      phoneVerified: phoneVerified,
-      onChatBannerTap: onChatBannerTap,
-      onTwoFaBannerTap: onTwoFaBannerTap,
-      onKycBannerTap: onKycBannerTap,
+      kycPassed: widget.kycPassed,
+      verificationInProgress: widget.verificationInProgress,
+      twoFaEnabled: widget.twoFaEnabled,
+      phoneVerified: widget.phoneVerified,
+      onChatBannerTap: widget.onChatBannerTap,
+      onTwoFaBannerTap: widget.onTwoFaBannerTap,
+      onKycBannerTap: widget.onKycBannerTap,
       colors: colors,
       showChatChecker: showChatChecker,
       context: context,
     );
+
+    setState(() {});
 
     return Future.value(banners);
   }

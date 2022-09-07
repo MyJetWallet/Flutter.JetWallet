@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -109,6 +110,10 @@ class StartupService {
       KycService(),
     );
 
+    getIt.registerSingleton<InternetCheckerService>(
+      InternetCheckerService(),
+    );
+
     getIt.registerSingletonAsync<KycProfileCountries>(
       () async => KycProfileCountries().init(),
     );
@@ -141,7 +146,7 @@ class StartupService {
         );
 
     sRouter.push(
-      const BiometricRouter(),
+      BiometricRouter(),
     );
   }
 
@@ -155,9 +160,10 @@ class StartupService {
         );
 
     print('PUSH TO HOMEROUTER');
-    sRouter.push(
+
+    sRouter.replaceAll([
       const HomeRouter(),
-    );
+    ]);
   }
 
   void _processPinState() {

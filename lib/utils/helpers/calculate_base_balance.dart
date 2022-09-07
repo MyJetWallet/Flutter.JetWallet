@@ -12,27 +12,19 @@ Decimal calculateBaseBalanceWithReader({
   required String assetSymbol,
   required Decimal assetBalance,
 }) {
-  var baseValue = Decimal.zero;
+  final baseCurrency = sSignalRModules.baseCurrency;
 
-  sSignalRModules.basePrices.listen(
-    (data) {
-      final baseCurrency = sSignalRModules.baseCurrency;
-
-      final assetPrice = basePriceFrom(
-        prices: data.prices,
-        assetSymbol: assetSymbol,
-      );
-
-      baseValue = calculateBaseBalance(
-        assetSymbol: assetSymbol,
-        assetBalance: assetBalance,
-        assetPrice: assetPrice,
-        baseCurrencySymbol: baseCurrency.symbol,
-      );
-    },
+  final assetPrice = basePriceFrom(
+    prices: sSignalRModules.basePrices.value!.prices,
+    assetSymbol: assetSymbol,
   );
 
-  return baseValue;
+  return calculateBaseBalance(
+    assetSymbol: assetSymbol,
+    assetBalance: assetBalance,
+    assetPrice: assetPrice,
+    baseCurrencySymbol: baseCurrency.symbol,
+  );
 }
 
 Decimal calculateBaseBalance({

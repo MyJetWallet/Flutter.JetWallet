@@ -1,10 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
-List<PageRouteInfo<dynamic>> screens = [];
+List<PageRouteInfo<dynamic>> screens = const [
+  MarketRouter(),
+  PortfolioRouter(),
+  EarnRouter(),
+  AccountRouter(),
+];
 
 List<PageRouteInfo<dynamic>> screensWithNews = const [
   MarketRouter(),
@@ -13,7 +22,7 @@ List<PageRouteInfo<dynamic>> screensWithNews = const [
   AccountRouter(),
 ];
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatefulObserverWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -22,7 +31,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final bool earnEnabled = false;
+  final bool earnEnabled = sSignalRModules.earnProfile?.earnEnabled ?? false;
 
   late AnimationController animationController;
 
@@ -51,6 +60,19 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
       routes: earnEnabled ? screens : screensWithNews,
+      builder: (context, child, animation) {
+        return Observer(
+          builder: (context) {
+            return SShadeAnimationStack(
+              showShade: getIt.get<AppStore>().actionMenuActive,
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            );
+          },
+        );
+      },
       bottomNavigationBuilder: (_, tabsRouter) {
         return BottomNavigationMenu(
           transitionAnimationController: animationController,

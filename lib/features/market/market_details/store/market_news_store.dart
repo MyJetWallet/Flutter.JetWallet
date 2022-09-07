@@ -23,6 +23,9 @@ abstract class _MarketNewsStoreBase with Store {
   static final _logger = Logger('NewsStore');
 
   @observable
+  bool isNewsLoaded = false;
+
+  @observable
   ObservableList<MarketNewsModel> news = ObservableList.of([]);
 
   @observable
@@ -47,10 +50,14 @@ abstract class _MarketNewsStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          updateNews(news);
+          print(data.news);
+
+          updateNews(data.news);
         },
       );
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'loadMoreNews', e);
     }
   }
@@ -71,7 +78,7 @@ abstract class _MarketNewsStoreBase with Store {
 
   @action
   Future<void> loadNews(String id) async {
-    _logger.log(notifier, 'loadNews');
+    isNewsLoaded = false;
 
     final response = await sNetwork.getWalletModule().postMarketNews(
           MarketNewsRequestModel(
@@ -84,7 +91,11 @@ abstract class _MarketNewsStoreBase with Store {
 
     response.pick(
       onData: (data) {
+        print(data.news.length);
+
         updateNews(data.news);
+
+        isNewsLoaded = true;
       },
     );
   }

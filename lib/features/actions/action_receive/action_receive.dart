@@ -57,7 +57,7 @@ class _ActionReceive extends StatelessObserverWidget {
                 onTap: () {
                   sAnalytics.receiveAssetView(asset: currency.description);
 
-                  getIt.get<AppRouter>().replace(
+                  getIt.get<AppRouter>().navigate(
                         CryptoDepositRouter(
                           header: intl.actionReceive_receive,
                           currency: currency,

@@ -42,8 +42,8 @@ class ConvertBody extends StatelessObserverWidget {
     final store = ConvertInputStore.of(context);
 
     store.setUpdateTargetConversionPrice(
-      store.fromAsset.symbol,
-      store.toAsset.symbol,
+      store.fromAsset!.symbol,
+      store.toAsset!.symbol,
     );
 
     final fromAssetWithBalance = currenciesWithBalance(store.fromAssetList);
@@ -77,7 +77,7 @@ class ConvertBody extends StatelessObserverWidget {
             value: store.fromAssetAmount,
             inputError: store.inputError,
             enabled: store.fromAssetEnabled,
-            currency: store.fromAsset,
+            currency: store.fromAsset!,
             assetWithBalance: fromAssetWithBalance,
             assetWithoutBalance: fromAssetWithoutBalance,
             onTap: () => store.enableFromAsset(),
@@ -114,7 +114,7 @@ class ConvertBody extends StatelessObserverWidget {
           ConvertRow(
             value: store.toAssetAmount,
             enabled: store.toAssetEnabled,
-            currency: store.toAsset,
+            currency: store.toAsset!,
             assetWithBalance: toAssetWithBalance,
             assetWithoutBalance: toAssetWithoutBalance,
             onTap: () => store.enableToAsset(),
@@ -152,9 +152,9 @@ class ConvertBody extends StatelessObserverWidget {
             submitButtonName: intl.convert_previewConvert,
             onSubmitPressed: () {
               sAnalytics.convertTapPreview(
-                sourceCurrency: store.fromAsset.description,
+                sourceCurrency: store.fromAsset!.description,
                 sourceAmount: store.fromAssetAmount,
-                destinationCurrency: store.toAsset.description,
+                destinationCurrency: store.toAsset!.description,
                 destinationAmount: store.toAssetAmount,
                 sellPercentage: store.tappedPreset ?? '',
               );
@@ -164,8 +164,8 @@ class ConvertBody extends StatelessObserverWidget {
                   input: PreviewConvertInput(
                     fromAmount: store.fromAssetAmount,
                     toAmount: store.toAssetAmount,
-                    fromCurrency: store.fromAsset,
-                    toCurrency: store.toAsset,
+                    fromCurrency: store.fromAsset!,
+                    toCurrency: store.toAsset!,
                     toAssetEnabled: store.toAssetEnabled,
                   ),
                 ),

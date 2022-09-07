@@ -548,60 +548,22 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => _showAssetSelector(),
                   )
-                else if (state.selectedPaymentMethod?.type ==
-                    PaymentMethodType.circleCard)
-                  if (state.circleCards.isEmpty)
-                    SPaymentSelectDefault(
-                      widgetSize: widgetSizeFrom(deviceSize),
-                      icon: const SActionBuyIcon(),
-                      name: intl.currencyBuy_choosePaymentMethod,
-                      onTap: () => _showAssetSelector(),
-                    )
-                  else
-                    SPaymentSelectCreditCard(
-                      widgetSize: widgetSizeFrom(deviceSize),
-                      icon: SActionDepositIcon(
-                        color: (cardLimit?.barProgress == 100 || isLimitBlock)
-                            ? colors.grey2
-                            : colors.black,
-                      ),
-                      name: state.selectedCircleCard!.name,
-                      amount: state.selectedCircleCard!.last4Digits,
-                      helper: limitText,
-                      description: state.pickedCircleCard?.status ==
-                              CircleCardStatus.pending
-                          ? intl.paymentMethod_CardIsProcessing
-                          : state.selectedCircleCard!.expDate,
-                      limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
-                      onTap: () => _showAssetSelector(),
-                    )
-                else if (state.selectedCurrency?.type == AssetType.crypto)
-                  SPaymentSelectAsset(
+                else
+                  SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SNetworkSvg24(
-                      url: state.selectedCurrency!.iconUrl,
+                    icon: SActionDepositIcon(
+                      color: (cardLimit?.barProgress == 100 || isLimitBlock)
+                          ? colors.grey2
+                          : colors.black,
                     ),
-                    name: state.selectedCurrency!.description,
-                    amount: state.selectedCurrency!.volumeBaseBalance(
-                      state.baseCurrency!,
-                    ),
-                    description: state.selectedCurrency!.volumeAssetBalance,
+                    name: intl.curencyBuy_unlimint,
+                    description: limitText,
+                    limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => _showAssetSelector(),
                   )
-                else if (state.selectedCurrency?.type == AssetType.fiat)
-                  SPaymentSelectFiat(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SNetworkSvg24(
-                      url: state.selectedCurrency!.iconUrl,
-                    ),
-                    name: state.selectedCurrency!.description,
-                    amount: state.selectedCurrency!.volumeBaseBalance(
-                      state.baseCurrency!,
-                    ),
-                    onTap: () => _showAssetSelector(),
-                  )
-                else if (widget.fromCard &&
-                    widget.currency.supportsAtLeastOneBuyMethod)
+              else if (state.selectedPaymentMethod?.type ==
+                  PaymentMethodType.circleCard)
+                if (state.circleCards.isEmpty)
                   SPaymentSelectDefault(
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: const SActionBuyIcon(),
@@ -609,10 +571,61 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     onTap: () => _showAssetSelector(),
                   )
                 else
-                  SPaymentSelectEmptyBalance(
+                  SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
+                    icon: SActionDepositIcon(
+                      color: (cardLimit?.barProgress == 100 || isLimitBlock)
+                          ? colors.grey2
+                          : colors.black,
+                    ),
+                    name: state.selectedCircleCard!.name,
+                    amount: state.selectedCircleCard!.last4Digits,
+                    helper: limitText,
+                    description: state.pickedCircleCard?.status ==
+                            CircleCardStatus.pending
+                        ? intl.paymentMethod_CardIsProcessing
+                        : state.selectedCircleCard!.expDate,
+                    limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
+                    onTap: () => _showAssetSelector(),
+                  )
+              else if (state.selectedCurrency?.type == AssetType.crypto)
+                SPaymentSelectAsset(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: SNetworkSvg24(
+                    url: state.selectedCurrency!.iconUrl,
                   ),
+                  name: state.selectedCurrency!.description,
+                  amount: state.selectedCurrency!.volumeBaseBalance(
+                    state.baseCurrency!,
+                  ),
+                  description: state.selectedCurrency!.volumeAssetBalance,
+                  onTap: () => _showAssetSelector(),
+                )
+              else if (state.selectedCurrency?.type == AssetType.fiat)
+                SPaymentSelectFiat(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: SNetworkSvg24(
+                    url: state.selectedCurrency!.iconUrl,
+                  ),
+                  name: state.selectedCurrency!.description,
+                  amount: state.selectedCurrency!.volumeBaseBalance(
+                    state.baseCurrency!,
+                  ),
+                  onTap: () => _showAssetSelector(),
+                )
+              else if (widget.fromCard &&
+                  widget.currency.supportsAtLeastOneBuyMethod)
+                SPaymentSelectDefault(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: const SActionBuyIcon(),
+                  name: intl.currencyBuy_choosePaymentMethod,
+                  onTap: () => _showAssetSelector(),
+                )
+              else
+                SPaymentSelectEmptyBalance(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
+                ),
               deviceSize.when(
                 small: () => const SpaceH9(),
                 medium: () => const SpaceH20(),
@@ -666,17 +679,14 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
 
                   if (state.selectedPaymentMethod?.type ==
                       PaymentMethodType.simplex) {
-                    state.setDisableSubmit(true);
-
+                    state.disableSubmit = true;
                     state.loader.startLoading();
                     final response = await state.makeSimplexRequest();
                     state.loader.finishLoading();
-
-                    state.setDisableSubmit(false);
+                    state.disableSubmit = false;
 
                     if (response != null) {
                       if (!mounted) return;
-
                       await sRouter.push(
                         SimplexWebViewRouter(url: response),
                       );
@@ -694,7 +704,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       ),
                       frequency: state.recurringBuyType.toFrequency,
                     );
-
                     await sRouter.push(
                       PreviewBuyWithCircleRouter(
                         input: PreviewBuyWithCircleInput(
@@ -718,12 +727,12 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       ),
                       frequency: state.recurringBuyType.toFrequency,
                     );
-
                     await sRouter.push(
                       PreviewBuyWithUnlimintRouter(
                         input: PreviewBuyWithUnlimintInput(
                           amount: state.inputValue,
                           currency: widget.currency,
+                          card: state.pickedUnlimintCard,
                         ),
                       ),
                     );

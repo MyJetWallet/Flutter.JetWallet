@@ -116,6 +116,16 @@ class UserInfoService {
     userInfo = userInfo.copyWith(pinDisabled: value);
   }
 
+  void _updateBiometric(bool hideBio) {
+    userInfo = userInfo.copyWith(biometricDisabled: hideBio);
+  }
+
+  Future<void> disableBiometric() async {
+    userInfo = userInfo.copyWith(biometricDisabled: true);
+
+    await storage.setString(useBioKey, false.toString());
+  }
+
   void updateTwoFaStatus({required bool enabled}) {
     _logger.log(notifier, 'updateTwoFaStatus');
 

@@ -47,6 +47,10 @@ abstract class _SingleSingInStoreBase with Store {
   Future<void> singleSingIn() async {
     _logger.log(notifier, 'singleSingIn');
 
+    if (union is Loading) {
+      return;
+    }
+
     final deviceInfoModel = sDeviceInfo.model;
     final appsFlyerService = getIt.get<AppsFlyerService>();
 

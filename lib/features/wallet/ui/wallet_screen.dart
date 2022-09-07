@@ -78,7 +78,8 @@ class _WalletState extends State<Wallet>
       body: Material(
         color: Colors.transparent,
         child: SShadeAnimationStack(
-          controller: _animationController,
+          showShade: false,
+          //controller: _animationController,
           child: Stack(
             children: [
               PageView(

@@ -32,13 +32,6 @@ class WithdrawalAddressStore extends _WithdrawalAddressStoreBase
 
 abstract class _WithdrawalAddressStoreBase with Store {
   _WithdrawalAddressStoreBase(this.withdrawal) {
-    networkController = TextEditingController();
-    addressController = TextEditingController();
-    tagController = TextEditingController();
-    addressFocus = FocusNode();
-    tagFocus = FocusNode();
-    qrKey = GlobalKey();
-
     currencyModel = withdrawal.currency;
     if (currencyModel.isSingleNetwork) {
       updateNetwork(currencyModel.withdrawalBlockchains[0]);
@@ -88,22 +81,22 @@ abstract class _WithdrawalAddressStoreBase with Store {
   AddressValidationUnion tagValidation = const Hide();
 
   @observable
-  late TextEditingController networkController;
+  TextEditingController networkController = TextEditingController();
 
   @observable
-  late TextEditingController addressController;
+  late TextEditingController addressController = TextEditingController();
 
   @observable
-  late TextEditingController tagController;
+  late TextEditingController tagController = TextEditingController();
 
   @observable
-  late FocusNode addressFocus;
+  FocusNode addressFocus = FocusNode();
 
   @observable
-  late FocusNode tagFocus;
+  FocusNode tagFocus = FocusNode();
 
   @observable
-  late Key qrKey;
+  Key qrKey = GlobalKey();
 
   @computed
   bool get showAddressErase => address.isNotEmpty;

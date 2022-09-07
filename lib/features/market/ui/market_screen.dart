@@ -117,12 +117,7 @@ class _MarketScreenState extends State<MarketScreen> {
                   alignment: FractionalOffset.bottomCenter,
                   child: BottomTabs(
                     tabs: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {});
-                        },
-                        child: BottomTab(text: intl.market_all),
-                      ),
+                      BottomTab(text: intl.market_all),
                       BottomTab(text: intl.market_bottomTabLabel2),
                       if (indices.isNotEmpty)
                         BottomTab(

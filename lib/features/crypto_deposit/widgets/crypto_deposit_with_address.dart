@@ -22,7 +22,7 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deposit = CryptoDepositStore(currency);
+    final deposit = CryptoDepositStore.of(context);
 
     final mediaQuery = MediaQuery.of(context);
     final screenHeight = mediaQuery.size.height;

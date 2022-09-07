@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -5,6 +6,7 @@ import 'package:jetwallet/features/market/market_details/model/operation_history
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -14,6 +16,9 @@ part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
   OperationHistory(String? assetId) : super(assetId);
+
+  static _OperationHistoryBase of(BuildContext context) =>
+      Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
@@ -36,6 +41,7 @@ abstract class _OperationHistoryBase with Store {
   @action
   Future<void> initOperationHistory() async {
     _logger.log(notifier, 'initOperationHistory');
+    union = const OperationHistoryUnion.loading();
 
     try {
       final operationHistory = await _requestOperationHistory(
@@ -46,6 +52,8 @@ abstract class _OperationHistoryBase with Store {
       );
 
       _updateOperationHistory(operationHistory.operationHistory);
+
+      union = const OperationHistoryUnion.loaded();
     } catch (e) {
       _logger.log(stateFlow, 'initOperationHistory', e);
 

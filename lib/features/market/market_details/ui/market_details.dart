@@ -66,7 +66,7 @@ class MarketDetails extends StatelessWidget {
           create: (_) => WatchlistStore(),
         ),
         Provider<MarketNewsStore>(
-          create: (_) => MarketNewsStore(),
+          create: (_) => MarketNewsStore()..loadNews(marketItem.symbol),
         ),
       ],
       builder: (context, child) => _MarketDetailsBody(
@@ -338,32 +338,25 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 }
               },
             ),
-            FutureBuilder(
-              future: news.loadNews(marketItem.symbol),
-              builder: (context, newsInit) {
-                if (newsInit.connectionState == ConnectionState.waiting) {
-                  return SPaddingH24(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        SpaceH40(),
-                        SSkeletonTextLoader(
-                          height: 16,
-                          width: 133,
-                        ),
-                      ],
+            if (news.isNewsLoaded) ...[
+              MarketNewsBlock(
+                news: news.news,
+                assetId: marketItem.associateAsset,
+              ),
+            ] else ...[
+              SPaddingH24(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SpaceH40(),
+                    SSkeletonTextLoader(
+                      height: 16,
+                      width: 133,
                     ),
-                  );
-                } else if (newsInit.hasError) {
-                  return const SizedBox();
-                } else {
-                  return MarketNewsBlock(
-                    news: news.news,
-                    assetId: marketItem.associateAsset,
-                  );
-                }
-              },
-            ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
@@ -90,7 +91,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       cardNotifications: false,
       selectedIndex: widget.currentIndex,
       actionActive: getIt.get<AppStore>().actionMenuActive,
-      earnEnabled: false,
+      earnEnabled: sSignalRModules.earnProfile?.earnEnabled ?? false,
       animationController: widget.transitionAnimationController,
       onActionTap: () {
         _openBottomMenu(

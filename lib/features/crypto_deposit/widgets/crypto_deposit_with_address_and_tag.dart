@@ -26,7 +26,7 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
     final mediaQuery = MediaQuery.of(context);
     final qrBoxSize = mediaQuery.size.width * 0.6;
     final logoSize = mediaQuery.size.width * 0.2;
-    final deposit = CryptoDepositStore(currency);
+    final deposit = CryptoDepositStore.of(context);
 
     return ExpansionPanelListWithoutIcon(
       elevation: 0,

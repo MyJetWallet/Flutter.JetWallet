@@ -295,8 +295,11 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const EmailConfirmationScreen());
     },
     BiometricRouter.name: (routeData) {
+      final args = routeData.argsAs<BiometricRouterArgs>(
+          orElse: () => const BiometricRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const Biometric());
+          routeData: routeData,
+          child: Biometric(key: args.key, isAccSettings: args.isAccSettings));
     },
     ChangePasswordRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
@@ -1576,10 +1579,26 @@ class EmailConfirmationRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [Biometric]
-class BiometricRouter extends PageRouteInfo<void> {
-  const BiometricRouter() : super(BiometricRouter.name, path: '/biometric');
+class BiometricRouter extends PageRouteInfo<BiometricRouterArgs> {
+  BiometricRouter({Key? key, bool isAccSettings = false})
+      : super(BiometricRouter.name,
+            path: '/biometric',
+            args: BiometricRouterArgs(key: key, isAccSettings: isAccSettings));
 
   static const String name = 'BiometricRouter';
+}
+
+class BiometricRouterArgs {
+  const BiometricRouterArgs({this.key, this.isAccSettings = false});
+
+  final Key? key;
+
+  final bool isAccSettings;
+
+  @override
+  String toString() {
+    return 'BiometricRouterArgs{key: $key, isAccSettings: $isAccSettings}';
+  }
 }
 
 /// generated route for

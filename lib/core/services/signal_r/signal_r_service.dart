@@ -74,7 +74,8 @@ class SignalRService {
 
   Stream<BalancesModel> balances() => signalR.balances();
 
-  Stream<BasePricesModel> basePrices() => signalR.basePrices();
+  Stream<BasePricesModel> basePrices() =>
+      signalR.basePrices().asBroadcastStream();
 
   Stream<AssetPaymentMethods> paymentMethods() =>
       signalR.paymentMethods().asBroadcastStream();

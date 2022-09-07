@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/currencies_service/currencies_service.da
 import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
