@@ -37,6 +37,7 @@ class Biometric extends HookWidget {
     final biometricStatus = useProvider(biometricStatusFpod);
     final biometric = useProvider(biometricNotipod.notifier);
     final deviceInfo = useProvider(deviceInfoPod);
+    final size = MediaQuery.of(context).size;
     late String headerText;
     late String buttonText;
     late String image;
@@ -67,8 +68,7 @@ class Biometric extends HookWidget {
             const Spacer(),
             Image.asset(
               image,
-              height: 225,
-              width: 225,
+              height: size.width * 0.6,
             ),
             const Spacer(),
             Text(

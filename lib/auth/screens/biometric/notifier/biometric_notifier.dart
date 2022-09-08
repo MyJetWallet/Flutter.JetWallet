@@ -2,7 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../app/shared/features/kyc/notifier/camera_permission/camera_permission_state.dart';
 import '../../../../router/notifier/startup_notifier/startup_notipod.dart';
 import '../../../../shared/logging/levels.dart';
 import '../../../../shared/providers/service_providers.dart';
@@ -41,5 +43,23 @@ class BiometricNotifier extends StateNotifier<BiometricState> {
     } else {
       read(startupNotipod.notifier).pinVerified();
     }
+  }
+
+  Future<void> handleBiometricPermission() async {
+    _logger.log(notifier, 'handleBiometricPermission');
+    _updateUserLocation(UserLocation.settings);
+    await openAppSettings();
+  }
+
+  Future<void> handleBiometricPermissionAfterSettingsChange(
+      BuildContext context,
+      ) async {
+    _logger.log(notifier, 'handleBiometricPermissionAfterSettingsChange');
+    _updateUserLocation(UserLocation.app);
+    Navigator.pop(context);
+  }
+
+  void _updateUserLocation(UserLocation location) {
+    state = state.copyWith(userLocation: location);
   }
 }

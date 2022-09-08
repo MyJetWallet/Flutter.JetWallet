@@ -4,10 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../auth/screens/biometric/biometric.dart';
+import '../../../../../auth/screens/biometric/notifier/biometric_status_notifier.dart';
 import '../../../../../shared/features/pin_screen/model/pin_flow_union.dart';
 import '../../../../../shared/features/pin_screen/view/pin_screen.dart';
 import '../../../../../shared/notifiers/user_info_notifier/user_info_notipod.dart';
 import '../../../../../shared/providers/service_providers.dart';
+import 'components/allow_biometric.dart';
 
 class AccountSecurity extends HookWidget {
   const AccountSecurity({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class AccountSecurity extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final intl = useProvider(intlPod);
+    final biometricStatus = useProvider(biometricStatusFpod);
     final userInfo = useProvider(userInfoNotipod);
     final userInfoN = useProvider(userInfoNotipod.notifier);
     userInfoN.initBiometricStatus();
@@ -35,7 +38,12 @@ class AccountSecurity extends HookWidget {
             isSDivider: true,
             onSwitchChanged: (value) async {
               if (userInfo.biometricDisabled) {
-                Biometric.push(context: context, isAccSettings: true);
+                if (biometricStatus.data?.value.toString() ==
+                    BiometricStatus.none.toString()) {
+                  AllowBiometric.push(context: context);
+                } else {
+                  Biometric.push(context: context, isAccSettings: true);
+                }
               } else {
                 await userInfoN.disableBiometric();
               }
