@@ -79,9 +79,6 @@ class AppRouter extends HookWidget {
         return const OnboardingScreen();
       },
       userDataVerification: () {
-        if (userInfo.hasDisclaimers) {
-          useProvider(disclaimerNotipod);
-        }
         return const UserDataScreen();
       },
       singleIn: () {
