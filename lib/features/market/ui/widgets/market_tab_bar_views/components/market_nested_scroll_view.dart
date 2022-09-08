@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -74,7 +75,9 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
               fadeInWidget: const SDivider(
                 width: double.infinity,
               ),
-              fadeOutWidget: const MarketHeaderStats(),
+              fadeOutWidget: widget.items.isNotEmpty
+                  ? const MarketHeaderStats()
+                  : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(
                 title: intl.marketNestedScrollView_market,
               ),
@@ -82,45 +85,48 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
           ),
         ];
       },
-      body: ColoredBox(
-        color: colors.white,
-        child: Column(
-          children: [
-            if (widget.showBanners) const MarketBanners(),
-            Flexible(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.items.length,
-                itemBuilder: (context, index) {
-                  return SMarketItem(
-                    icon: SNetworkSvg24(
-                      url: widget.items[index].iconUrl,
+      body: widget.items.isNotEmpty
+          ? ColoredBox(
+              color: colors.white,
+              child: Column(
+                children: [
+                  if (widget.showBanners) const MarketBanners(),
+                  Flexible(
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount: widget.items.length,
+                      itemBuilder: (context, index) {
+                        return SMarketItem(
+                          icon: SNetworkSvg24(
+                            url: widget.items[index].iconUrl,
+                          ),
+                          name: widget.items[index].name,
+                          price: marketFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: widget.items[index].lastPrice,
+                            symbol: baseCurrency.symbol,
+                            accuracy: widget.items[index].priceAccuracy,
+                          ),
+                          ticker: widget.items[index].symbol,
+                          last: widget.items[index] == widget.items.last,
+                          percent: widget.items[index].dayPercentChange,
+                          onTap: () {
+                            sRouter.push(
+                              MarketDetailsRouter(
+                                marketItem: widget.items[index],
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
-                    name: widget.items[index].name,
-                    price: marketFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: widget.items[index].lastPrice,
-                      symbol: baseCurrency.symbol,
-                      accuracy: widget.items[index].priceAccuracy,
-                    ),
-                    ticker: widget.items[index].symbol,
-                    last: widget.items[index] == widget.items.last,
-                    percent: widget.items[index].dayPercentChange,
-                    onTap: () {
-                      sRouter.push(
-                        MarketDetailsRouter(
-                          marketItem: widget.items[index],
-                        ),
-                      );
-                    },
-                  );
-                },
+                  ),
+                  const SpaceH40(),
+                ],
               ),
-            ),
-            const SpaceH40(),
-          ],
-        ),
-      ),
+            )
+          : const MarketNotLoaded(),
     );
   }
 }

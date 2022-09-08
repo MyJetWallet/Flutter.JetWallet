@@ -3,9 +3,13 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 List<MarketItemModel> getMarketIndices() {
-  final items = sSignalRModules.getMarketPrices;
-  final indices =
-      items.where((item) => item.type == AssetType.indices).toList();
+  try {
+    final items = sSignalRModules.getMarketPrices;
+    final indices =
+        items.where((item) => item.type == AssetType.indices).toList();
 
-  return indices;
+    return indices;
+  } catch (e) {
+    return [];
+  }
 }

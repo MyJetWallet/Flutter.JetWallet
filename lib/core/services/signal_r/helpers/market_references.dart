@@ -1,4 +1,3 @@
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
@@ -9,11 +8,11 @@ List<MarketItemModel> marketReferencesList(
   MarketReferencesModel? value,
   List<CurrencyModel> currencies,
 ) {
-  print('marketReferencesList');
+  print('marketReferencesList $value');
 
   final items = <MarketItemModel>[];
 
-  if (value == null) return [];
+  if (value == null) return items;
 
   for (final marketReference in value.references) {
     late CurrencyModel currency;

@@ -41,3 +41,29 @@ class ReturnRateItem extends StatelessWidget {
     );
   }
 }
+
+class ReturnRateItemSketelon extends StatelessWidget {
+  const ReturnRateItemSketelon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        SSkeletonTextLoader(
+          height: 10,
+          width: 26,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        SSkeletonTextLoader(
+          height: 16,
+          width: 52,
+        ),
+      ],
+    );
+  }
+}

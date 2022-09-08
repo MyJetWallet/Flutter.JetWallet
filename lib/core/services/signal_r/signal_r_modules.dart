@@ -57,7 +57,9 @@ abstract class _SignalRModulesBase with Store {
 
     earnOffers.listen((value) {
       for (final element in value) {
-        earnOffersList.add(element);
+        if (!earnOffersList.contains(element)) {
+          earnOffersList.add(element);
+        }
       }
     });
 
@@ -99,7 +101,9 @@ abstract class _SignalRModulesBase with Store {
     marketCampaignsOS.listen(
       (value) {
         for (final marketCampaign in value.campaigns) {
-          marketCampaigns.add(marketCampaign);
+          if (!marketCampaigns.contains(marketCampaign)) {
+            marketCampaigns.add(marketCampaign);
+          }
         }
       },
     );
@@ -269,24 +273,7 @@ abstract class _SignalRModulesBase with Store {
         kycCountries = ObservableList.of(value);
       },
     );
-
-    _streamController = StreamController<int>();
-
-    final _random = Random();
-
-    Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => _streamController.add(
-        _random.nextInt(100),
-      ),
-    );
-
-    randomStream = ObservableStream(_streamController.stream);
   }
-
-  late final StreamController<int> _streamController;
-
-  late final ObservableStream<int?> randomStream;
 
   @observable
   ObservableStream<AssetPaymentMethods> assetPaymentMethods = ObservableStream(
@@ -482,34 +469,38 @@ abstract class _SignalRModulesBase with Store {
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
 
   @action
-  ReturnRatesModel getReturnRates(String assetId) {
-    final currencies = sSignalRModules.getCurrencies;
+  ReturnRatesModel? getReturnRates(String assetId) {
+    try {
+      final currencies = sSignalRModules.getCurrencies;
 
-    final periodPrice = periodPrices!.prices.firstWhere(
-      (element) => element.assetSymbol == assetId,
-    );
-    final currency = currencies.firstWhere(
-      (element) => element.symbol == assetId,
-    );
+      final periodPrice = periodPrices!.prices.firstWhere(
+        (element) => element.assetSymbol == assetId,
+      );
+      final currency = currencies.firstWhere(
+        (element) => element.symbol == assetId,
+      );
 
-    return ReturnRatesModel(
-      dayPrice: calculatePercentOfChange(
-        periodPrice.dayPrice.price.toDouble(),
-        currency.currentPrice.toDouble(),
-      ),
-      weekPrice: calculatePercentOfChange(
-        periodPrice.weekPrice.price.toDouble(),
-        currency.currentPrice.toDouble(),
-      ),
-      monthPrice: calculatePercentOfChange(
-        periodPrice.monthPrice.price.toDouble(),
-        currency.currentPrice.toDouble(),
-      ),
-      threeMonthPrice: calculatePercentOfChange(
-        periodPrice.threeMonthPrice.price.toDouble(),
-        currency.currentPrice.toDouble(),
-      ),
-    );
+      return ReturnRatesModel(
+        dayPrice: calculatePercentOfChange(
+          periodPrice.dayPrice.price.toDouble(),
+          currency.currentPrice.toDouble(),
+        ),
+        weekPrice: calculatePercentOfChange(
+          periodPrice.weekPrice.price.toDouble(),
+          currency.currentPrice.toDouble(),
+        ),
+        monthPrice: calculatePercentOfChange(
+          periodPrice.monthPrice.price.toDouble(),
+          currency.currentPrice.toDouble(),
+        ),
+        threeMonthPrice: calculatePercentOfChange(
+          periodPrice.threeMonthPrice.price.toDouble(),
+          currency.currentPrice.toDouble(),
+        ),
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   @computed
@@ -520,6 +511,42 @@ abstract class _SignalRModulesBase with Store {
 
   @computed
   List<CurrencyModel> get getCurrencies => currenciesList();
+
+  @action
+  void clearSignalRModule() {
+    earnOffersList = ObservableList.of([]);
+    showPaymentsMethods = false;
+    clientDetail = ClientDetailModel(
+      baseAssetSymbol: 'USD',
+      walletCreationDate: '',
+      recivedAt: DateTime.now(),
+    );
+    baseCurrency = const BaseCurrencyModel();
+    cardLimitsModel = null;
+    marketCampaigns = ObservableList.of([]);
+    priceAccuracies = ObservableList.of([]);
+    referralStats = ObservableList.of([]);
+    keyValue = const KeyValueModel(
+      now: 0,
+      keys: [],
+    );
+    referralInfo = const ReferralInfoModel(
+      descriptionLink: '',
+      referralLink: '',
+      title: '',
+      referralTerms: [],
+      referralCode: '',
+    );
+    recurringBuys = ObservableList.of([]);
+    cards = const CardsModel(now: 0, cardInfos: []);
+    earnProfile = null;
+    indicesDetails = ObservableList.of([]);
+    marketInfo = Decimal.zero;
+    marketInfoModel = null;
+    periodPrices = null;
+    marketItems = ObservableList.of([]);
+    kycCountries = ObservableList.of([]);
+  }
 }
 
 List<MarketItemModel> _formattedItems(

@@ -70,77 +70,62 @@ class _MarketScreenState extends State<MarketScreen> {
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    return Builder(
-      builder: (_) {
-        //final value = sSignalRModules.randomStream.value;
-        //final mRItems = sSignalRModules.marketReferences.value;
-        //final currencies = sSignalRModules.getCurrencies;
+    final ass = sSignalRModules.getMarketPrices;
 
-        /*
-        final allAssets = marketReferencesList(
-          mRItems!,
-          currencies,
-        );
-        */
-
-        final ass = sSignalRModules.getMarketPrices;
-
-        return Scaffold(
-          body: DefaultTabController(
-            length: marketTabsLength,
-            child: Stack(
+    return Scaffold(
+      body: DefaultTabController(
+        length: marketTabsLength,
+        child: Stack(
+          children: [
+            TabBarView(
               children: [
-                TabBarView(
-                  children: [
-                    MarketNestedScrollView(
-                      items: ass,
-                      showBanners: true,
-                      sourceScreen: FilterMarketTabAction.all,
-                    ),
-                    const WatchlistTabBarView(),
-                    if (indices.isNotEmpty)
-                      MarketNestedScrollView(
-                        items: indices,
-                        sourceScreen: FilterMarketTabAction.cryptoSets,
-                      ),
-                    if (gainers.isNotEmpty)
-                      MarketNestedScrollView(
-                        items: gainers,
-                        sourceScreen: FilterMarketTabAction.gainers,
-                      ),
-                    if (losers.isNotEmpty)
-                      MarketNestedScrollView(
-                        items: losers,
-                        sourceScreen: FilterMarketTabAction.losers,
-                      ),
-                  ],
+                MarketNestedScrollView(
+                  items: ass,
+                  showBanners: true,
+                  sourceScreen: FilterMarketTabAction.all,
                 ),
-                Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: BottomTabs(
-                    tabs: [
-                      BottomTab(text: intl.market_all),
-                      BottomTab(text: intl.market_bottomTabLabel2),
-                      if (indices.isNotEmpty)
-                        BottomTab(
-                          text: intl.market_bottomTabLabel3,
-                        ),
-                      if (gainers.isNotEmpty)
-                        BottomTab(
-                          text: intl.market_bottomTabLabel4,
-                        ),
-                      if (losers.isNotEmpty)
-                        BottomTab(
-                          text: intl.market_bottomTabLabel5,
-                        ),
-                    ],
+                const WatchlistTabBarView(),
+                if (indices.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: indices,
+                    sourceScreen: FilterMarketTabAction.cryptoSets,
                   ),
-                ),
+                if (gainers.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: gainers,
+                    sourceScreen: FilterMarketTabAction.gainers,
+                  ),
+                if (losers.isNotEmpty)
+                  MarketNestedScrollView(
+                    items: losers,
+                    sourceScreen: FilterMarketTabAction.losers,
+                  ),
               ],
             ),
-          ),
-        );
-      },
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: BottomTabs(
+                tabs: [
+                  BottomTab(text: intl.market_all),
+                  BottomTab(text: intl.market_bottomTabLabel2),
+                  if (indices.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel3,
+                    ),
+                  if (gainers.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel4,
+                    ),
+                  if (losers.isNotEmpty)
+                    BottomTab(
+                      text: intl.market_bottomTabLabel5,
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -19,6 +19,25 @@ class MarketHeaderStats extends StatelessWidget {
         subtitle:
             '${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ? intl.marketHeaderStats_up : intl.marketHeaderStats_down}',
         showInfo: marketInfo != Decimal.zero,
+        isLoader: false,
+      ),
+    );
+  }
+}
+
+class MarketHeaderSkeletonStats extends StatelessWidget {
+  const MarketHeaderSkeletonStats({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SPaddingH24(
+      child: SMarketHeader(
+        title: intl.marketHeaderStats_market,
+        percent: '',
+        isPositive: false,
+        subtitle: '',
+        showInfo: false,
+        isLoader: true,
       ),
     );
   }

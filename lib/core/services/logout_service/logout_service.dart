@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
@@ -53,6 +52,8 @@ abstract class _LogoutServiceBase with Store {
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.getCurrencies);
 
+      sSignalRModules.clearSignalRModule();
+
       /// Disconet from SignalR
       await getIt.get<SignalRService>().signalR.disconnect();
 
@@ -67,13 +68,15 @@ abstract class _LogoutServiceBase with Store {
 
       union = const LogoutUnion.result();
 
-      unawaited(sRouter.navigate(
-        const HomeRouter(
-          children: [
-            EarnRouter(),
-          ],
+      unawaited(
+        sRouter.navigate(
+          const HomeRouter(
+            children: [
+              EarnRouter(),
+            ],
+          ),
         ),
-      ));
+      );
     }
   }
 
