@@ -137,7 +137,8 @@ class CurrencyBuyState with _$CurrencyBuyState {
     final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
     final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
     final cond3 = selectedPaymentMethod?.type == PaymentMethodType.unlimintCard;
+    final cond4 = selectedPaymentMethod?.type == PaymentMethodType.bankCard;
 
-    return cond1 || cond2 || cond3;
+    return cond1 || cond2 || cond3 || cond4;
   }
 }

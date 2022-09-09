@@ -114,7 +114,7 @@ class PreviewBuyWithBankCardNotifier
       header: '${_intl.previewBuyWithCircle_enter} CVV '
           '${_intl.previewBuyWithCircle_for} '
           ' •••• ${input.cardNumber != null
-          ? input.cardNumber?.substring(input.cardNumber?.length ?? 4 - 4)
+          ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4)
           : ''}',
       onCompleted: (cvv) {
         Navigator.pop(_context);

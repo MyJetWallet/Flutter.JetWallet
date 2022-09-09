@@ -133,7 +133,7 @@ class SuccessScreen extends HookWidget {
                           height: 2,
                           width: MediaQuery.of(context).size.width,
                           child: ProgressBar(
-                            time: 5,
+                            time: time,
                             colors: colors,
                           ),
                         ),
