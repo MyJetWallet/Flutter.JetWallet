@@ -26,7 +26,7 @@ class RecurringBuysItem extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
 
     final sellCurrency = currencyFrom(
       currencies,

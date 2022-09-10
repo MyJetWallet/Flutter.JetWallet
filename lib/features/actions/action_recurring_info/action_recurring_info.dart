@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/widgets/action_recurring_info_details.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/widgets/action_recurring_info_header.dart';
 import 'package:jetwallet/features/actions/action_recurring_manage/action_recurring_manage.dart';
@@ -28,7 +29,7 @@ class ShowRecurringInfoAction extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final scrollController = ScrollController();
 
     final sellCurrency = currencyFrom(

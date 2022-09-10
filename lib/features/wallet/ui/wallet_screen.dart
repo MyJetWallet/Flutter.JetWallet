@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
@@ -63,7 +64,7 @@ class _WalletState extends State<Wallet>
     super.build(context);
 
     final colors = sKit.colors;
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final currenciesWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(currencies),
     );

@@ -86,7 +86,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
@@ -333,7 +333,8 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       ),
                     ),
                   ],
-                  if (!balancesEmpty) ...[
+                  if (!balancesEmpty &&
+                      clientDetail.walletCreationDate.isNotEmpty) ...[
                     BalanceChart(
                       onCandleSelected: (ChartInfoModel? chartInfo) {
                         chart.updateSelectedCandle(chartInfo?.right);
@@ -341,7 +342,8 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       walletCreationDate: clientDetail.walletCreationDate,
                     ),
                   ],
-                  if (balancesEmpty) ...[
+                  if (balancesEmpty &&
+                      clientDetail.walletCreationDate.isEmpty) ...[
                     Container(
                       height: 176,
                     ),

@@ -26,7 +26,7 @@ class ActionRecurringInfoDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final notifier = getIt.get<RecurringBuysStore>();
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final sellCurrency = currencyFrom(

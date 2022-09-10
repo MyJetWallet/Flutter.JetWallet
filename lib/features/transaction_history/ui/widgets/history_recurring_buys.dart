@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/widgets/recurring_buys_item.dart';
 import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -32,7 +33,7 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
     final kycState = KycService();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
 
     final screenHeight = MediaQuery.of(context).size.height;
 

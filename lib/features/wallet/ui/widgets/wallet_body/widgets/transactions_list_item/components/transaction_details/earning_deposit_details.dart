@@ -26,7 +26,7 @@ class EarningDepositDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
 
     final currentCurrency = currencyFrom(
       currencies,

@@ -29,7 +29,7 @@ class TransactionListItem extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final currency = currencyFrom(
       currencies,
       transactionListItem.assetId,

@@ -21,7 +21,7 @@ class DeleteProfile extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final baseCurrency = sSignalRModules.baseCurrency;
 

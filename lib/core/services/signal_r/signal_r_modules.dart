@@ -52,6 +52,7 @@ class SignalRModules = _SignalRModulesBase with _$SignalRModules;
 abstract class _SignalRModulesBase with Store {
   _SignalRModulesBase() {
     print('SignalRModules START');
+    clearSignalRModule();
 
     //sSignalRModules = SignalRModules();
 
@@ -518,7 +519,7 @@ abstract class _SignalRModulesBase with Store {
     showPaymentsMethods = false;
     clientDetail = ClientDetailModel(
       baseAssetSymbol: 'USD',
-      walletCreationDate: '',
+      walletCreationDate: DateTime.now().toString(),
       recivedAt: DateTime.now(),
     );
     baseCurrency = const BaseCurrencyModel();

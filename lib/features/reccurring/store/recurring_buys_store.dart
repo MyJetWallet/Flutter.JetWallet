@@ -171,7 +171,7 @@ abstract class _RecurringBuysStoreBase with Store {
   String totalRecurringByAsset({
     required String asset,
   }) {
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     var accumulate = Decimal.zero;
@@ -210,7 +210,7 @@ abstract class _RecurringBuysStoreBase with Store {
     required String asset,
     required BuildContext context,
   }) {
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
 
     final array = <RecurringBuysModel>[];
 
@@ -257,7 +257,7 @@ abstract class _RecurringBuysStoreBase with Store {
 
   @action
   String totalByAllRecurring() {
-    final currencies = getIt.get<CurrenciesService>().currencies;
+    final currencies = sSignalRModules.getCurrencies;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     var accumulate = Decimal.zero;
