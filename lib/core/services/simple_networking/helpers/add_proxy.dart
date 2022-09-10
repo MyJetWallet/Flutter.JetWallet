@@ -25,5 +25,7 @@ void addProxy(
 
       return null;
     };
+
+    print('DIO PROXY ENABLED');
   }
 }
