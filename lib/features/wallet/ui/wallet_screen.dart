@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
@@ -78,47 +79,51 @@ class _WalletState extends State<Wallet>
       ),
       body: Material(
         color: Colors.transparent,
-        child: SShadeAnimationStack(
-          showShade: false,
-          //controller: _animationController,
-          child: Stack(
-            children: [
-              PageView(
-                controller: _pageController,
-                onPageChanged: (page) {
-                  currentAsset = currenciesWithBalance[page];
-                },
+        child: Observer(
+          builder: (context) {
+            return SShadeAnimationStack(
+              showShade: getIt.get<AppStore>().actionMenuActive,
+              //controller: _animationController,
+              child: Stack(
                 children: [
-                  for (final currency in currenciesWithBalance)
-                    WalletBody(
-                      key: Key(currency.symbol),
-                      currency: currency,
+                  PageView(
+                    controller: _pageController,
+                    onPageChanged: (page) {
+                      currentAsset = currenciesWithBalance[page];
+                    },
+                    children: [
+                      for (final currency in currenciesWithBalance)
+                        WalletBody(
+                          key: Key(currency.symbol),
+                          currency: currency,
+                        ),
+                    ],
+                  ),
+                  if (!containsSingleElement(currenciesWithBalance))
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 118),
+                        child: SmoothPageIndicator(
+                          controller: _pageController,
+                          count: currenciesWithBalance.length,
+                          effect: ScrollingDotsEffect(
+                            spacing: 2,
+                            radius: 4,
+                            dotWidth: 8,
+                            dotHeight: 2,
+                            maxVisibleDots: 11,
+                            activeDotScale: 1,
+                            dotColor: colors.black.withOpacity(0.1),
+                            activeDotColor: colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                 ],
               ),
-              if (!containsSingleElement(currenciesWithBalance))
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 118),
-                    child: SmoothPageIndicator(
-                      controller: _pageController,
-                      count: currenciesWithBalance.length,
-                      effect: ScrollingDotsEffect(
-                        spacing: 2,
-                        radius: 4,
-                        dotWidth: 8,
-                        dotHeight: 2,
-                        maxVisibleDots: 11,
-                        activeDotScale: 1,
-                        dotColor: colors.black.withOpacity(0.1),
-                        activeDotColor: colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

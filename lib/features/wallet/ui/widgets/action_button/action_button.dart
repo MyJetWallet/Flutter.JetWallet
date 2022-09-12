@@ -3,11 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/action_withdraw/widgets/withdraw_options.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -65,6 +65,9 @@ class _ActionButtonState extends State<ActionButton> {
       setState(() {
         actionActive = !actionActive;
       });
+      getIt.get<AppStore>().setActionMenuActive(
+        !getIt.get<AppStore>().actionMenuActive,
+      );
     }
 
     final isBuyAvailable = isBuyWithCurrencyAvailableFor(
@@ -121,7 +124,7 @@ class _ActionButtonState extends State<ActionButton> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (scaleAnimation.value == 0) const SDivider(),
+          if (scaleAnimation.value != 0) const SDivider(),
           Padding(
             padding: const EdgeInsets.only(
               left: 24,
