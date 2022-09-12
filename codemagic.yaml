@@ -1,6 +1,6 @@
 definitions:
   build_config: &build_config
-    instance_type: mac_mini
+    instance_type: mac_mini_m1
     max_build_duration: 60
 
   # TOOD rename GOOGLE_SERVICE_ANDROID to ANDROID_FIREBASE_SECRET 
