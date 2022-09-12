@@ -24,6 +24,7 @@ class WatchlistStore extends _WatchlistStoreBase with _$WatchlistStore {
 abstract class _WatchlistStoreBase with Store {
   _WatchlistStoreBase() {
     watchListIds = sSignalRModules.keyValue.watchlist?.value ?? <String>[];
+    state = ObservableList.of(watchListIds);
   }
 
   List<String> watchListIds = [];

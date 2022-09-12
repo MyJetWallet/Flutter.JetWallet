@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_recurring_buy.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_with_out_recurring_buy.dart';
@@ -107,6 +106,8 @@ class _MarketDetailsBody extends StatelessObserverWidget {
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
+    
+    var isInWatchlist = watchlistIdsN.state.contains(marketItem.associateAsset);
 
     final filteredRecurringBuys = recurringNotifier.recurringBuys
         .where(
@@ -130,14 +131,15 @@ class _MarketDetailsBody extends StatelessObserverWidget {
           child: SSmallHeader(
             title: '${marketItem.name} (${marketItem.symbol})',
             showStarButton: true,
-            isStarSelected:
-                watchlistIdsN.isInWatchlist(marketItem.associateAsset),
+            isStarSelected: isInWatchlist,
             onStarButtonTap: () {
-              if (watchlistIdsN.isInWatchlist(marketItem.associateAsset)) {
+              if (isInWatchlist) {
                 watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
+                isInWatchlist = false;
               } else {
                 sAnalytics.addToWatchlist(marketItem.name);
                 watchlistIdsN.addToWatchlist(marketItem.associateAsset);
+                isInWatchlist = true;
               }
             },
           ),
