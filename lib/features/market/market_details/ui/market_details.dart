@@ -236,7 +236,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 topMargin: 0,
                 onTap: () {
                   // Todo: need refactor
-                  if (kycState.sellStatus ==
+                  if (kycState.depositStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
                     if (recurringNotifier.activeOrPausedType(currency.symbol)) {
                       if (moveToRecurringInfo && lastRecurringItem != null) {
@@ -294,7 +294,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                     );
 
                     kycAlertHandler.handle(
-                      status: kycState.sellStatus,
+                      status: kycState.depositStatus,
                       isProgress: kycState.verificationInProgress,
                       currentNavigate: () => showSellAction(context),
                       requiredDocuments: kycState.requiredDocuments,

@@ -131,7 +131,7 @@ class _WalletBodyState extends State<WalletBody>
                   ),
                   onTap: () {
                     // Todo: need refactor
-                    if (kycState.sellStatus ==
+                    if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       if (recurring
                           .activeOrPausedType(widget.currency.symbol)) {
@@ -173,7 +173,7 @@ class _WalletBodyState extends State<WalletBody>
                       );
 
                       kycAlertHandler.handle(
-                        status: kycState.sellStatus,
+                        status: kycState.depositStatus,
                         isProgress: kycState.verificationInProgress,
                         currentNavigate: () => showSellAction(context),
                         requiredDocuments: kycState.requiredDocuments,

@@ -58,7 +58,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     );
                   } else {
                     kycAlertHandler.handle(
-                      status: kycState.sellStatus,
+                      status: kycState.depositStatus,
                       isProgress: kycState.verificationInProgress,
                       navigatePop: true,
                       currentNavigate: () {
