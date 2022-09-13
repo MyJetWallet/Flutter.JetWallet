@@ -399,7 +399,7 @@ abstract class _SignalRModulesBase with Store {
   @observable
   ClientDetailModel clientDetail = ClientDetailModel(
     baseAssetSymbol: 'USD',
-    walletCreationDate: '',
+    walletCreationDate: DateTime.now().toString(),
     recivedAt: DateTime.now(),
   );
 
@@ -477,6 +477,7 @@ abstract class _SignalRModulesBase with Store {
       final periodPrice = periodPrices!.prices.firstWhere(
         (element) => element.assetSymbol == assetId,
       );
+
       final currency = currencies.firstWhere(
         (element) => element.symbol == assetId,
       );
