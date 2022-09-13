@@ -159,7 +159,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
         },
         onConvert: () {
           sAnalytics.convertClick(source: 's Menu');
-          if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+          if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
             sRouter.pop();
 
             sAnalytics.convertPageView();
@@ -171,7 +171,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
             Navigator.of(context).pop();
 
             kycAlertHandler.handle(
-              status: kycState.depositStatus,
+              status: kycState.sellStatus,
               isProgress: kycState.verificationInProgress,
               currentNavigate: () => sRouter.push(
                 ConvertRouter(),

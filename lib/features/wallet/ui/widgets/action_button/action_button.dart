@@ -275,7 +275,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   );
 
                                   kycAlertHandler.handle(
-                                    status: kycState.sellStatus,
+                                    status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () => showDepositOptions(
                                       context,
@@ -305,7 +305,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   );
 
                                   kycAlertHandler.handle(
-                                    status: kycState.sellStatus,
+                                    status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () {
                                       sRouter.navigate(
@@ -339,7 +339,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showWithdrawOptions(
                                     context,
@@ -353,7 +353,7 @@ class _ActionButtonState extends State<ActionButton> {
                             },
                             onSend: () {
                               sAnalytics.sendClick(source: 'Wallet -> Actions');
-                              if (kycState.sellStatus ==
+                              if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -369,7 +369,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showSendOptions(
                                     context,
@@ -385,7 +385,7 @@ class _ActionButtonState extends State<ActionButton> {
                               sAnalytics.receiveClick(
                                 source: 'Wallet -> Actions',
                               );
-                              if (kycState.sellStatus ==
+                              if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -406,7 +406,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.depositStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => sRouter.navigate(
                                     CryptoDepositRouter(
@@ -514,7 +514,7 @@ class _ActionButtonState extends State<ActionButton> {
                               sAnalytics.convertClick(
                                 source: 'wallet -> action',
                               );
-                              if (kycState.depositStatus ==
+                              if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -564,7 +564,7 @@ class _ActionButtonState extends State<ActionButton> {
                                   );
 
                                   kycAlertHandler.handle(
-                                    status: kycState.sellStatus,
+                                    status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () {
                                       showDepositOptions(
@@ -597,7 +597,7 @@ class _ActionButtonState extends State<ActionButton> {
 
                                   Navigator.of(context).pop();
                                   kycAlertHandler.handle(
-                                    status: kycState.sellStatus,
+                                    status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
                                     currentNavigate: () {
                                       sRouter.navigate(
@@ -616,7 +616,7 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onWithdraw: () {
-                              if (kycState.depositStatus ==
+                              if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -631,7 +631,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => showWithdrawOptions(
                                     context,
@@ -645,7 +645,7 @@ class _ActionButtonState extends State<ActionButton> {
                             },
                             onSend: () {
                               sAnalytics.sendClick(source: 'Wallet -> Actions');
-                              if (kycState.depositStatus ==
+                              if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
@@ -667,7 +667,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
                                     Navigator.pop(context);
@@ -710,7 +710,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 );
 
                                 kycAlertHandler.handle(
-                                  status: kycState.sellStatus,
+                                  status: kycState.depositStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () => sRouter.navigate(
                                     CryptoDepositRouter(
