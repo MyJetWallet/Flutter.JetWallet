@@ -90,13 +90,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   }
 
   double _bannerHeight() {
-    if (widget.verificationInProgress || !widget.kycPassed) {
-      return 171;
-    } else if (!widget.twoFaEnabled) {
-      return 155;
-    } else {
-      return 129;
-    }
+    return widget.verificationInProgress || !widget.kycPassed ? 171 : 129;
   }
 
   Future<List<Widget>> downloadData(
@@ -109,7 +103,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
     final banners = createBannersList(
       kycPassed: widget.kycPassed,
       verificationInProgress: widget.verificationInProgress,
-      twoFaEnabled: widget.twoFaEnabled,
+      twoFaEnabled: true,
       phoneVerified: widget.phoneVerified,
       onChatBannerTap: widget.onChatBannerTap,
       onTwoFaBannerTap: widget.onTwoFaBannerTap,

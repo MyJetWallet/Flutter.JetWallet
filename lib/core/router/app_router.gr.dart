@@ -57,6 +57,10 @@ class _$AppRouter extends RootStackRouter {
               permissionDescription: args.permissionDescription,
               then: args.then));
     },
+    AllowBiometricRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+          routeData: routeData, child: const AllowBiometric());
+    },
     ApiSelectorRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
           routeData: routeData, child: const ApiSelectorScreen());
@@ -519,6 +523,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(EmailVerificationRoute.name, path: '/email_verification'),
         RouteConfig(ResetPasswordRoute.name, path: '/reset_password'),
         RouteConfig(AllowCameraRoute.name, path: '/allow_camera'),
+        RouteConfig(AllowBiometricRoute.name, path: '/allow_biometric'),
         RouteConfig(ApiSelectorRouter.name, path: '/api_selector'),
         RouteConfig(HomeRouter.name, path: '/home', guards: [
           initGuard
@@ -718,6 +723,15 @@ class AllowCameraRouteArgs {
   String toString() {
     return 'AllowCameraRouteArgs{key: $key, permissionDescription: $permissionDescription, then: $then}';
   }
+}
+
+/// generated route for
+/// [AllowBiometric]
+class AllowBiometricRoute extends PageRouteInfo<void> {
+  const AllowBiometricRoute()
+      : super(AllowBiometricRoute.name, path: '/allow_biometric');
+
+  static const String name = 'AllowBiometricRoute';
 }
 
 /// generated route for

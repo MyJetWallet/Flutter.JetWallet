@@ -5,7 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/account/widgets/account_banner_list.dart';
 import 'package:jetwallet/features/account/widgets/log_out_option.dart';
@@ -36,8 +35,6 @@ class _AccountScreenState extends State<AccountScreen> {
 
     final authInfo = getIt.get<AppStore>().authState;
     final userInfo = sUserInfo.userInfo;
-
-    final showPaymentMethods = sSignalRModules.showPaymentsMethods;
 
     //TODO REFACTOR
     //final cardFailed = useProvider(bottomNavigationNotipod);
@@ -155,18 +152,17 @@ class _AccountScreenState extends State<AccountScreen> {
                             );
                           },
                         ),
-                        if (showPaymentMethods)
-                          SimpleAccountCategoryButton(
-                            title: intl.account_paymentMethods,
-                            icon: SActionDepositIcon(
-                              color: colors.black,
-                            ),
-                            isSDivider: true,
-                            notification: false,
-                            onTap: () => sRouter.push(
-                              const PaymentMethodsRouter(),
-                            ),
+                        SimpleAccountCategoryButton(
+                          title: intl.account_paymentMethods,
+                          icon: SActionDepositIcon(
+                            color: colors.black,
                           ),
+                          isSDivider: true,
+                          notification: false,
+                          onTap: () => sRouter.push(
+                            const PaymentMethodsRouter(),
+                          ),
+                        ),
                         SimpleAccountCategoryButton(
                           title: intl.account_recurringBuy,
                           icon: const SRecurringBuysIcon(),

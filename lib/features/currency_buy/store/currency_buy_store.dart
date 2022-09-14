@@ -226,9 +226,9 @@ abstract class _CurrencyBuyStoreBase with Store {
   void _initCurrencies() {
     final _currencies = ObservableList.of(sCurrencies.currencies);
 
-    sortCurrencies(currencies);
-    removeEmptyCurrenciesFrom(currencies);
-    removeCurrencyFrom(currencies, currencyModel);
+    sortCurrencies(_currencies);
+    removeEmptyCurrenciesFrom(_currencies);
+    removeCurrencyFrom(_currencies, currencyModel);
     currencies = _currencies;
   }
 

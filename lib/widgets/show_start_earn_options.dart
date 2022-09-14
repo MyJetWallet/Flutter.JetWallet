@@ -36,7 +36,8 @@ void showStartEarnOptions({
             );
             sAnalytics.earnDetailsView(currency.description);
 
-            sRouter.replace(
+            Navigator.pop(context);
+            sRouter.push(
               CurrencyBuyRouter(
                 currency: currency,
                 fromCard: balancesEmpty,

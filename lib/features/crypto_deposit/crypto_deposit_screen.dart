@@ -176,6 +176,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         assetSymbol: widget.currency.symbol,
         screenTitle: widget.header,
         kycAlertHandler: kycAlertHandler,
+        showAllAlerts: showAlert,
         onDismiss: widget.currency.isSingleNetwork
             ? null
             : () => showNetworkBottomSheet(

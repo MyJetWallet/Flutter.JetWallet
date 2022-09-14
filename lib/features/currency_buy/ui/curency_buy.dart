@@ -426,6 +426,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${intl.curencyBuy_buy} ${widget.currency.description}',
+          onBackButtonTap: () => sRouter.pop(),
         ),
       ),
       child: Stack(

@@ -62,6 +62,7 @@ abstract class _LogoutServiceBase with Store {
 
       /// Clear some user variables
       sUserInfo.clear();
+      getIt.get<AppStore>().clearInitSessionReceived();
       getIt.get<AppStore>().resetResendButton();
 
       unawaited(sAnalytics.logout());

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,14 @@ class _BiometricBody extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final biometric = BiometricStore.of(context);
+    final size = MediaQuery.of(context).size;
+    final deviceInfo = sDeviceInfo.model;
+    final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
+        deviceInfo.marketingName.contains('iPhone 12') ||
+        deviceInfo.marketingName.contains('iPhone 13') ||
+        deviceInfo.marketingName.contains('iPhone 14') ||
+        deviceInfo.marketingName.contains('iPhone X') ||
+        deviceInfo.marketingName.contains('iPhone x');
 
     late String headerText;
     late String buttonText;
@@ -48,7 +57,7 @@ class _BiometricBody extends StatelessObserverWidget {
       future: biometricStatus(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data == BiometricStatus.face) {
+          if (snapshot.data == BiometricStatus.face || iosLatest) {
             headerText = intl.bio_screen_face_id_title;
             buttonText = intl.bio_screen_face_id_button_text;
             image = bioFaceId;
@@ -69,8 +78,7 @@ class _BiometricBody extends StatelessObserverWidget {
                   const Spacer(),
                   Image.asset(
                     image,
-                    height: 225,
-                    width: 225,
+                    height: size.width * 0.6,
                   ),
                   const Spacer(),
                   Text(

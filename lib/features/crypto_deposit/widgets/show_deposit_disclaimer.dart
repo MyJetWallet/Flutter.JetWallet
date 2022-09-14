@@ -20,50 +20,70 @@ void showDepositDisclaimer({
   required List<RequiredVerified> requiredVerifications,
   required bool verificationInProgress,
   required int withdrawalStatus,
+  required bool showAllAlerts,
 }) {
   final action =
       screenTitle == 'Receive' ? screenTitle : intl.showDepositDisclaimer_send;
 
-  sShowSlideAlertPopup(
-    context,
-    controller: controller,
-    slidesControllers: slidesControllers,
-    primaryText: '$action ${intl.showDepositDisclaimer_only} '
-        '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
-    primaryButtonName: intl.showDepositDisclaimer_next,
-    barrierDismissible: false,
-    willPopScope: false,
-    size: size,
-    onPrimaryButtonTap: () {
-      controller.animateToPage(
-        1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.linear,
-      );
-    },
-    primaryText1: intl.actionBuy_alertPopup,
-    primaryButtonName1: intl.actionBuy_goToKYC,
-    onPrimaryButtonTap1: () {
-      kycAlertHandler.handle(
-        status: withdrawalStatus,
-        isProgress: verificationInProgress,
-        currentNavigate: () {},
-        size: size,
-        kycFlowOnly: true,
-        requiredDocuments: requiredDocuments,
-        requiredVerifications: requiredVerifications,
-      );
-    },
-    secondaryButtonName1: intl.actionBuy_gotIt,
-    onSecondaryButtonTap1: () {
-      Navigator.pop(context);
+  if (showAllAlerts) {
+    sShowSlideAlertPopup(
+      context,
+      controller: controller,
+      slidesControllers: slidesControllers,
+      primaryText: '$action ${intl.showDepositDisclaimer_only} '
+          '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+      primaryButtonName: intl.showDepositDisclaimer_next,
+      barrierDismissible: false,
+      willPopScope: false,
+      size: size,
+      onPrimaryButtonTap: () {
+        controller.animateToPage(
+          1,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.linear,
+        );
+      },
+      primaryText1: intl.actionBuy_alertPopup,
+      primaryButtonName1: intl.actionBuy_goToKYC,
+      onPrimaryButtonTap1: () {
+        kycAlertHandler.handle(
+          status: withdrawalStatus,
+          isProgress: verificationInProgress,
+          currentNavigate: () {},
+          size: size,
+          kycFlowOnly: true,
+          requiredDocuments: requiredDocuments,
+          requiredVerifications: requiredVerifications,
+        );
+      },
+      secondaryButtonName1: intl.actionBuy_gotIt,
+      onSecondaryButtonTap1: () {
+        Navigator.pop(context);
 
-      final storage = sLocalStorageService;
+        final storage = sLocalStorageService;
 
-      storage.setString(assetSymbol, 'accepted');
-      if (onDismiss != null) {
-        onDismiss();
-      }
-    },
-  );
+        storage.setString(assetSymbol, 'accepted');
+        if (onDismiss != null) {
+          onDismiss();
+        }
+      },
+    );
+  } else {
+    sShowAlertPopup(
+      context,
+      primaryText: '$action ${intl.showDepositDisclaimer_only} '
+          '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+      primaryButtonName: intl.showDepositDisclaimer_gotIt,
+      barrierDismissible: false,
+      willPopScope: false,
+      onPrimaryButtonTap: () {
+        Navigator.pop(context);
+        final storage = sLocalStorageService;
+        storage.setString(assetSymbol, 'accepted');
+        if (onDismiss != null) {
+          onDismiss();
+        }
+      },
+    );
+  }
 }
