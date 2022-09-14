@@ -141,7 +141,7 @@ abstract class _PinScreenStoreBase with Store {
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
-    if (usingBio == true.toString()) {
+    if (usingBio == true.toString() && _userInfo.pin != null) {
       await updatePin(await _authenticateWithBio());
     }
   }
@@ -226,8 +226,12 @@ abstract class _PinScreenStoreBase with Store {
         },
         verification: () async {
           await _animateSuccess();
-
-          getIt.get<StartupService>().pinVerified();
+          await _userInfoN.setPin(enterPin);
+          if (_userInfo.isJustLogged) {
+            getIt.get<StartupService>().pinSet();
+          } else {
+            getIt.get<StartupService>().pinVerified();
+          }
         },
         orElse: () async {
           await _animateCorrect();
@@ -413,7 +417,7 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   void _updateHideBiometricButton(bool value) {
-    hideBiometricButton = value;
+    hideBiometricButton = _userInfo.pin == null ? true : value;
   }
 
   @action

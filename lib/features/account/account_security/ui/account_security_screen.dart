@@ -15,6 +15,8 @@ class AccountSecurity extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = getIt.get<UserInfoService>().userInfo;
+    final userInfoN = sUserInfo;
+    userInfoN.initBiometricStatus();
 
     return SPageFrame(
       header: SPaddingH24(
@@ -32,13 +34,23 @@ class AccountSecurity extends StatelessObserverWidget {
             isSDivider: true,
             onSwitchChanged: (value) async {
               if (userInfo.biometricDisabled) {
-                unawaited(
-                  sRouter.push(
-                    BiometricRouter(
-                      isAccSettings: true,
+                final biometricStatusInfo = await biometricStatus();
+                if (biometricStatusInfo.toString() ==
+                    BiometricStatus.none.toString()) {
+                  unawaited(
+                    getIt.get<AppRouter>().push(
+                      const AllowBiometricRoute(),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  unawaited(
+                    sRouter.push(
+                      BiometricRouter(
+                        isAccSettings: true,
+                      ),
+                    ),
+                  );
+                }
               } else {
                 await getIt.get<UserInfoService>().disableBiometric();
               }

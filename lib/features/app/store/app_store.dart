@@ -76,6 +76,42 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @action
+  Future<void> initSessionInfo() async {
+    if (!authState.initSessionReceived) {
+      final userInfo = getIt.get<UserInfoService>();
+      final info = await sNetwork.getWalletModule().getSessionInfo();
+      final profileInfo = await sNetwork.getWalletModule().getProfileInfo();
+      if (info.data != null) {
+        userInfo.updateWithValuesFromSessionInfo(
+          twoFaEnabled: info.data!.twoFaEnabled,
+          phoneVerified: info.data!.phoneVerified,
+          hasDisclaimers: info.data!.hasDisclaimers,
+          hasHighYieldDisclaimers: info.data!.hasHighYieldDisclaimers,
+        );
+      }
+      if (profileInfo.data != null) {
+        userInfo.updateWithValuesFromProfileInfo(
+          emailConfirmed: profileInfo.data!.emailConfirmed,
+          phoneConfirmed: profileInfo.data!.phoneConfirmed,
+          kycPassed: profileInfo.data!.kycPassed,
+          email: profileInfo.data!.email ?? '',
+          phone: profileInfo.data!.phone ?? '',
+          referralLink: profileInfo.data!.referralLink ?? '',
+          referralCode: profileInfo.data!.referralCode ?? '',
+          countryOfRegistration: profileInfo.data!.countryOfRegistration ?? '',
+          countryOfResidence: profileInfo.data!.countryOfResidence ?? '',
+          countryOfCitizenship: profileInfo.data!.countryOfCitizenship ?? '',
+          firstName: profileInfo.data!.firstName ?? '',
+          lastName: profileInfo.data!.lastName ?? '',
+        );
+      }
+      authState = authState.copyWith(
+        initSessionReceived: true,
+      );
+    }
+  }
+
+  @action
   Future<void> getAuthStatus() async {
     print('START: APP STORE - getAuthStatus');
 
@@ -168,6 +204,11 @@ abstract class _AppStoreBase with Store {
       email: email ?? authState.email,
       deleteToken: deleteToken ?? authState.deleteToken,
     );
+  }
+
+  @action
+  void clearInitSessionReceived() {
+    authState = authState.copyWith(initSessionReceived: false);
   }
 
   /// Whether to show ResendButton in EmailVerification Screen at first open

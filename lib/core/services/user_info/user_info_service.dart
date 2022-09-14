@@ -116,6 +116,18 @@ class UserInfoService {
     userInfo = userInfo.copyWith(pinDisabled: value);
   }
 
+  Future<void> initBiometricStatus() async {
+    _logger.log(notifier, 'initBiometricStatus');
+
+    final bioStatus = await storage.getValue(useBioKey);
+    final hideBio = bioStatus != 'true';
+    _updateBiometric(hideBio);
+  }
+
+  void updateIsJustLogged({required bool value}) {
+    userInfo = userInfo.copyWith(isJustLogged: value);
+  }
+
   void _updateBiometric(bool hideBio) {
     userInfo = userInfo.copyWith(biometricDisabled: hideBio);
   }

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -82,6 +83,7 @@ class InitGuard extends AutoRouteGuard {
             },
             pinVerification: () {
               print('InitGuard: pinVerification');
+              getIt.get<UserInfoService>().initPinStatus();
 
               router.push(
                 PinScreenRoute(
@@ -93,6 +95,7 @@ class InitGuard extends AutoRouteGuard {
             },
             home: () {
               print('InitGuard: home');
+              getIt.get<AppStore>().initSessionInfo();
 
               resolver.next();
             },

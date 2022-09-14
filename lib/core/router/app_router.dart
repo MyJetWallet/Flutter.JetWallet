@@ -17,6 +17,7 @@ import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
+import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:jetwallet/features/auth/reset_password/ui/reset_password_screen.dart';
@@ -143,6 +144,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/allow_camera',
       name: 'AllowCameraRoute',
       page: AllowCameraScreen,
+    ),
+    AutoRoute(
+      path: '/allow_biometric',
+      name: 'AllowBiometricRoute',
+      page: AllowBiometric,
     ),
     AutoRoute(
       path: '/api_selector',

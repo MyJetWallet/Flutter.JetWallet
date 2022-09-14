@@ -4,7 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
@@ -48,7 +47,6 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
           );
     }
 
-    final userInfo = getIt.get<UserInfoService>().userInfo;
     final isNotEmptyBalance = !areBalancesEmpty(sCurrencies.currencies);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -85,7 +83,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
           requiredVerifications: kycState.requiredVerifications,
           verificationInProgress: kycState.verificationInProgress,
         ),
-        userInfo.twoFaEnabled,
+        true,
       ),
       //cardNotifications: bottomMenuNotifier.cardNotification,
       cardNotifications: false,

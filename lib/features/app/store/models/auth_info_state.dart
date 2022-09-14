@@ -11,5 +11,6 @@ class AuthInfoState with _$AuthInfoState {
     @Default('') String deleteToken,
     @Default('') String verificationToken,
     @Default(true) bool showResendButton,
+    @Default(false) bool initSessionReceived,
   }) = _AuthInfoState;
 }
