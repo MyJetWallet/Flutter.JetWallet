@@ -99,6 +99,7 @@ class _SingInBody extends StatelessObserverWidget {
           progressValue: 20,
         ),
         child: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
           controller: controller,
           slivers: [
             SliverFillRemaining(
