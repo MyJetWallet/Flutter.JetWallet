@@ -53,7 +53,6 @@ class _SingInBody extends StatelessObserverWidget {
     final signInStore = SingleSingInStore.of(context);
 
     final controller = ScrollController();
-    final loader = StackLoaderStore();
 
     return ReactionBuilder(
       builder: (context) {
@@ -61,21 +60,21 @@ class _SingInBody extends StatelessObserverWidget {
           (_) => signInStore.union,
           (result) {
             if (result is Loading) {
-              loader.startLoadingImmediately();
+              signInStore.loader.startLoadingImmediately();
             } else if (result is Error) {
-              loader.finishLoading();
+              signInStore.loader.finishLoading();
 
               sNotification.showError(
                 (signInStore.union as Error).error.toString(),
               );
             } else if (result is ErrorSrting) {
-              loader.finishLoading();
+              signInStore.loader.finishLoading();
 
               sNotification.showError(
                 (signInStore.union as ErrorSrting).error!,
               );
             } else if (result is Success) {
-              loader.finishLoading();
+              signInStore.loader.finishLoading();
 
               sRouter.push(
                 const EmailVerificationRoute(),
@@ -87,7 +86,7 @@ class _SingInBody extends StatelessObserverWidget {
       },
       child: SPageFrame(
         color: colors.grey5,
-        loading: loader,
+        loading: signInStore.loader,
         header: SAuthHeader(
           customIconButton: const SpaceH24(),
           title: intl.register_enterYourEmail,
