@@ -31,13 +31,22 @@ class PortfolioHeader extends StatelessObserverWidget {
     final state = RewardStore();
     //final chart = ChartStore(balanceChartInput());
 
-    final chart = ChartStore.of(context);
+    ChartStore? chart;
+
+    if (!emptyBalance) {
+      chart = ChartStore.of(context) as ChartStore;
+    }
+
+    Color getContainerColor() {
+      return (chart != null && chart.union != const ChartUnion.loading()) ||
+              emptyBalance
+          ? Colors.transparent
+          : colors.grey5;
+    }
 
     return Container(
       height: 120,
-      color: chart.union != const ChartUnion.loading() || emptyBalance
-          ? Colors.transparent
-          : colors.grey5,
+      color: getContainerColor(),
       child: Column(
         children: [
           const SpaceH64(),

@@ -23,6 +23,7 @@ class EmptyApyPortfolioBody extends StatelessObserverWidget {
 
     return SPaddingH24(
       child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,

@@ -188,7 +188,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
         (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
     final isIndicesVisible = indicesWithBalance.isNotEmpty &&
         (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
-    print(chart.union.toString());
 
     return CustomScrollView(
       controller: scrollController,
