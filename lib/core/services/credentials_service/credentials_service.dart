@@ -118,7 +118,7 @@ abstract class _CredentialsServiceBase with Store {
           publicKey: publicKey,
           email: email,
           password: password,
-          platform: currentAppPlatform,
+          platform: currentPlatform,
           deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
           lang: intl.localeName,
         );
@@ -143,7 +143,7 @@ abstract class _CredentialsServiceBase with Store {
           email: email,
           password: password,
           platformType: platformType,
-          platform: currentAppPlatform,
+          platform: currentPlatform,
           deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
           referralCode: referralCode,
           marketingEmailsAllowed: mailingChecked,
