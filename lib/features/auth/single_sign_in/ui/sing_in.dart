@@ -85,107 +85,111 @@ class _SingInBody extends StatelessObserverWidget {
           fireImmediately: true,
         );
       },
-      child: SPageFrame(
-        color: colors.grey5,
-        loading: loader,
-        header: SAuthHeader(
-          customIconButton: const SpaceH24(),
-          title: intl.register_enterYourEmail,
-          showSupportButton: true,
-          onSupportButtonTap: () => sRouter.push(
-            CrispRouter(
-              welcomeText: intl.crispSendMessage_hi,
-            ),
-          ),
-          progressValue: 20,
-        ),
-        child: CustomScrollView(
-          controller: controller,
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: AutofillGroup(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ColoredBox(
-                      color: colors.white,
-                      child: SPaddingH24(
-                        child: AutofillGroup(
-                          child: SStandardField(
-                            controller: signInStore.emailController,
-                            labelText: intl.login_emailTextFieldLabel,
-                            autofocus: true,
-                            initialValue: email,
-                            autofillHints: const [AutofillHints.email],
-                            keyboardType: TextInputType.emailAddress,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.deny(
-                                RegExp('[ ]'),
-                              ),
-                            ],
-                            onChanged: (value) {
-                              credentials.updateAndValidateEmail(value);
-                            },
-                            onErrorIconTap: () => sNotification.showError(
-                              intl.register_invalidEmail,
-                            ),
-                            isError: SingleSingInStore.of(context).isEmailError,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    ColoredBox(
-                      color: colors.grey5,
-                      child: SPaddingH24(
-                        child: SPolicyCheckbox(
-                          firstText: '${intl.register_herebyConfirm} ',
-                          userAgreementText: intl.register_TAndC,
-                          betweenText: ' ${intl.register_andThe} ',
-                          privacyPolicyText: intl.register_privacyPolicy,
-                          isChecked: credentials.policyChecked,
-                          onCheckboxTap: () {
-                            controller.animateTo(
-                              controller.position.maxScrollExtent,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                            );
-
-                            credentials.setPolicyChecked();
-                          },
-                          onUserAgreementTap: () {
-                            launchURL(context, userAgreementLink);
-                          },
-                          onPrivacyPolicyTap: () {
-                            launchURL(context, privacyPolicyLink);
-                          },
-                        ),
-                      ),
-                    ),
-                    const SpaceH16(),
-                    SPaddingH24(
-                      child: SPrimaryButton4(
-                        active: credentials.emailIsNotEmptyAndPolicyChecked,
-                        name: intl.register_continue,
-                        onTap: () {
-                          if (credentials.emailValid) {
-                            signInStore.singleSingIn();
-                          } else {
-                            SingleSingInStore.of(context).setIsEmailError(true);
-
-                            sNotification.showError(intl.register_invalidEmail);
-                          }
-                        },
-                      ),
-                    ),
-                    const SpaceH24(),
-                  ],
+      child: Observer(
+        builder: (context) {
+          return SPageFrame(
+            color: colors.grey5,
+            loading: loader,
+            header: SAuthHeader(
+              customIconButton: const SpaceH24(),
+              title: intl.register_enterYourEmail,
+              showSupportButton: true,
+              onSupportButtonTap: () => sRouter.push(
+                CrispRouter(
+                  welcomeText: intl.crispSendMessage_hi,
                 ),
               ),
+              progressValue: 20,
             ),
-          ],
-        ),
+            child: CustomScrollView(
+              controller: controller,
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: AutofillGroup(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ColoredBox(
+                          color: colors.white,
+                          child: SPaddingH24(
+                            child: AutofillGroup(
+                              child: SStandardField(
+                                controller: signInStore.emailController,
+                                labelText: intl.login_emailTextFieldLabel,
+                                autofocus: true,
+                                initialValue: email,
+                                autofillHints: const [AutofillHints.email],
+                                keyboardType: TextInputType.emailAddress,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                    RegExp('[ ]'),
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  credentials.updateAndValidateEmail(value);
+                                },
+                                onErrorIconTap: () => sNotification.showError(
+                                  intl.register_invalidEmail,
+                                ),
+                                isError: SingleSingInStore.of(context).isEmailError,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        ColoredBox(
+                          color: colors.grey5,
+                          child: SPaddingH24(
+                            child: SPolicyCheckbox(
+                              firstText: '${intl.register_herebyConfirm} ',
+                              userAgreementText: intl.register_TAndC,
+                              betweenText: ' ${intl.register_andThe} ',
+                              privacyPolicyText: intl.register_privacyPolicy,
+                              isChecked: credentials.policyChecked,
+                              onCheckboxTap: () {
+                                controller.animateTo(
+                                  controller.position.maxScrollExtent,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease,
+                                );
+
+                                credentials.setPolicyChecked();
+                              },
+                              onUserAgreementTap: () {
+                                launchURL(context, userAgreementLink);
+                              },
+                              onPrivacyPolicyTap: () {
+                                launchURL(context, privacyPolicyLink);
+                              },
+                            ),
+                          ),
+                        ),
+                        const SpaceH16(),
+                        SPaddingH24(
+                          child: SPrimaryButton4(
+                            active: credentials.emailIsNotEmptyAndPolicyChecked,
+                            name: intl.register_continue,
+                            onTap: () {
+                              if (credentials.emailValid) {
+                                signInStore.singleSingIn();
+                              } else {
+                                SingleSingInStore.of(context).setIsEmailError(true);
+
+                                sNotification.showError(intl.register_invalidEmail);
+                              }
+                            },
+                          ),
+                        ),
+                        const SpaceH24(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

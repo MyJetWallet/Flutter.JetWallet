@@ -11,6 +11,7 @@ import 'package:jetwallet/features/account/widgets/log_out_option.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/show_plain_snackbar.dart';
 import 'package:jetwallet/widgets/loaders/loader.dart';
@@ -118,9 +119,17 @@ class _AccountScreenState extends State<AccountScreen> {
                           kycState.requiredVerifications.length,
                           Source.accountBanner,
                         );
+                        final isDepositAllow = kycState.depositStatus ==
+                            kycOperationStatus(KycStatus.kycRequired);
+                        final isWithdrawalAllow = kycState.withdrawalStatus ==
+                            kycOperationStatus(KycStatus.kycRequired);
 
                         kycAlertHandler.handle(
-                          status: kycState.depositStatus,
+                          status: isDepositAllow
+                              ? kycState.depositStatus
+                              : isWithdrawalAllow
+                              ? kycState.withdrawalStatus
+                              : kycState.sellStatus,
                           isProgress: kycState.verificationInProgress,
                           currentNavigate: () {},
                           requiredDocuments: kycState.requiredDocuments,
