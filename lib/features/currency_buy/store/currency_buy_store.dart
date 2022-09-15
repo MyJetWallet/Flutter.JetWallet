@@ -871,21 +871,18 @@ abstract class _CurrencyBuyStoreBase with Store {
       final response =
           await sNetwork.getWalletModule().postSimplexPayment(model);
 
-      response.pick(
-        onData: (data) async {
-          await setLastUsedPaymentMethod();
+      if (response.error != null) {
+        _logger.log(stateFlow, 'makeSimplexRequest', response.error!.cause);
 
-          return data.paymentLink;
-        },
-        onError: (error) {
-          _logger.log(stateFlow, 'makeSimplexRequest', error.cause);
+        sNotification.showError(
+          response.error!.cause,
+          id: 1,
+        );
 
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
+        return null;
+      }
+
+      return response.data?.paymentLink;
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'makeSimplexRequest', error.cause);
 
@@ -893,6 +890,8 @@ abstract class _CurrencyBuyStoreBase with Store {
         error.cause,
         id: 1,
       );
+
+      return null;
     } catch (e) {
       _logger.log(stateFlow, 'makeSimplexRequest', e);
 
@@ -900,9 +899,9 @@ abstract class _CurrencyBuyStoreBase with Store {
         intl.something_went_wrong,
         id: 1,
       );
-    }
 
-    return null;
+      return null;
+    }
   }
 
   @action

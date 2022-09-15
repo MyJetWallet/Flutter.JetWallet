@@ -682,12 +682,17 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       PaymentMethodType.simplex) {
                     state.disableSubmit = true;
                     state.loader.startLoading();
+
                     final response = await state.makeSimplexRequest();
+
                     state.loader.finishLoading();
                     state.disableSubmit = false;
 
+                    print(response);
+
                     if (response != null) {
                       if (!mounted) return;
+
                       await sRouter.push(
                         SimplexWebViewRouter(url: response),
                       );
@@ -705,6 +710,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       ),
                       frequency: state.recurringBuyType.toFrequency,
                     );
+
                     await sRouter.push(
                       PreviewBuyWithCircleRouter(
                         input: PreviewBuyWithCircleInput(

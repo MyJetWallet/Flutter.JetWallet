@@ -21,6 +21,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/auth_api/models/check_pin/check_pin_response_model.dart';
 
 part 'pin_screen_store.g.dart';
 
@@ -215,49 +216,54 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _enterPinFlow() async {
     try {
-      final _ = await sNetwork.getAuthModule().postCheckPin(enterPin);
+      final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
-      await flowUnion.maybeWhen(
-        disable: () async {
-          await _userInfoN.disablePin();
-          await _successFlow(
-            _userInfoN.resetPin(),
+      response.pick(
+        onData: (data) async {
+          await flowUnion.maybeWhen(
+            disable: () async {
+              await _userInfoN.disablePin();
+              await _successFlow(
+                _userInfoN.resetPin(),
+              );
+            },
+            verification: () async {
+              await _animateSuccess();
+              await _userInfoN.setPin(enterPin);
+              if (_userInfo.isJustLogged) {
+                getIt.get<StartupService>().pinSet();
+              } else {
+                getIt.get<StartupService>().pinVerified();
+              }
+            },
+            orElse: () async {
+              await _animateCorrect();
+              _updateHideBiometricButton(true);
+              _updateScreenUnion(const NewPin());
+            },
           );
         },
-        verification: () async {
-          await _animateSuccess();
-          await _userInfoN.setPin(enterPin);
-          if (_userInfo.isJustLogged) {
-            getIt.get<StartupService>().pinSet();
+        onError: (ServerRejectException error) async {
+          await _errorFlow();
+          if (error.cause == 'InvalidCode') {
+            if (attemptsLeft > 1) {
+              attemptsLeft--;
+              sNotification.showError(
+                'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
+              );
+            } else {
+              sNotification.showError(
+                'Incorrect PIN has been entered more than $maxPinAttempts times, '
+                'you have been logged out of your account.',
+                duration: 5,
+              );
+              await getIt.get<LogoutService>().logout();
+            }
           } else {
-            getIt.get<StartupService>().pinVerified();
+            sNotification.showError(error.cause);
           }
         },
-        orElse: () async {
-          await _animateCorrect();
-          _updateHideBiometricButton(true);
-          _updateScreenUnion(const NewPin());
-        },
       );
-    } on ServerRejectException catch (error) {
-      await _errorFlow();
-      if (error.cause == 'InvalidCode') {
-        if (attemptsLeft > 1) {
-          attemptsLeft--;
-          sNotification.showError(
-            'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
-          );
-        } else {
-          sNotification.showError(
-            'Incorrect PIN has been entered more than $maxPinAttempts times, '
-            'you have been logged out of your account.',
-            duration: 5,
-          );
-          await getIt.get<LogoutService>().logout();
-        }
-      } else {
-        sNotification.showError(error.cause);
-      }
     } catch (e) {
       sNotification.showError(
         e.toString(),
@@ -268,23 +274,35 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _newPinFlow() async {
-    try {
-      final _ = await sNetwork.getAuthModule().postSetupPin(newPin);
-
+    Future<void> _success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
-    } on ServerRejectException catch (error) {
-      await _errorFlow();
-      if (error.cause == 'PinCodeAlreadyExist') {
-        sNotification.showError(
-          error.cause,
-          id: 1,
-        );
-        _updateScreenUnion(const ConfirmPin());
-      }
-      sNotification.showError(
-        error.cause,
-        id: 1,
+    }
+
+    try {
+      final response = await sNetwork.getAuthModule().postSetupPin(newPin);
+
+      response.pick(
+        onData: (data) async {
+          await _success();
+        },
+        onNoData: () async {
+          await _success();
+        },
+        onError: (error) async {
+          await _errorFlow();
+          if (error.cause == 'PinCodeAlreadyExist') {
+            sNotification.showError(
+              error.cause,
+              id: 1,
+            );
+            _updateScreenUnion(const ConfirmPin());
+          }
+          sNotification.showError(
+            error.cause,
+            id: 1,
+          );
+        },
       );
     } catch (e) {
       _updateNewPin('');
@@ -294,25 +312,30 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _confirmPinFlow() async {
     try {
-      final _ = await sNetwork.getAuthModule().postCheckPin(confrimPin);
+      final response = await sNetwork.getAuthModule().postCheckPin(confrimPin);
+
+      if (response.error != null) {
+        await _errorFlow();
+
+        _updateConfirmPin('');
+        sNotification.showError(
+          response.error?.cause ?? '',
+          id: 1,
+        );
+
+        return;
+      }
 
       await _animateCorrect(isConfirm: true);
       await _userInfoN.setPin(confrimPin);
 
       getIt.get<StartupService>().pinSet();
-    } on ServerRejectException catch (error) {
-      _updateConfirmPin('');
-      sNotification.showError(
-        error.cause,
-        id: 1,
-      );
     } catch (e) {
       await _errorFlow();
       sNotification.showError(
         e.toString(),
         id: 1,
       );
-      await _errorFlow();
       _updateConfirmPin('');
     }
   }
@@ -320,21 +343,25 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _changePinFlow() async {
     try {
-      final _ = await sNetwork.getAuthModule().postChangePin(
+      final response = await sNetwork.getAuthModule().postChangePin(
             enterPin,
             newPin,
           );
+
+      if (response.hasError) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          id: 1,
+        );
+
+        return;
+      }
 
       await _animateCorrect();
       await _userInfoN.setPin(newPin);
       _updateNewPin('');
       await _successFlow(
         _userInfoN.setPin(newPin),
-      );
-    } on ServerRejectException catch (error) {
-      sNotification.showError(
-        error.cause,
-        id: 1,
       );
     } catch (e) {
       _updateNewPin('');
