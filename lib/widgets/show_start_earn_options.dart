@@ -56,7 +56,8 @@ void showStartEarnOptions({
                 );
                 sAnalytics.earnDetailsView(currency.description);
 
-                sRouter.replace(
+                Navigator.pop(context);
+                sRouter.push(
                   CurrencyBuyRouter(
                     currency: currency,
                     fromCard: balancesEmpty,
@@ -78,7 +79,8 @@ void showStartEarnOptions({
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             sAnalytics.receiveAssetView(asset: currency.description);
 
-            sRouter.replace(
+            Navigator.pop(context);
+            sRouter.push(
               CryptoDepositRouter(
                 header: intl.showStartEarnOptions_receive,
                 currency: currency,
@@ -89,12 +91,15 @@ void showStartEarnOptions({
             kycAlertHandler.handle(
               status: kycState.depositStatus,
               isProgress: kycState.verificationInProgress,
-              currentNavigate: () => sRouter.replace(
-                CryptoDepositRouter(
-                  header: intl.showStartEarnOptions_receive,
-                  currency: currency,
-                ),
-              ),
+              currentNavigate: () {
+                Navigator.pop(context);
+                sRouter.push(
+                  CryptoDepositRouter(
+                    header: intl.showStartEarnOptions_receive,
+                    currency: currency,
+                  ),
+                );
+              },
               requiredDocuments: kycState.requiredDocuments,
               requiredVerifications: kycState.requiredVerifications,
             );
