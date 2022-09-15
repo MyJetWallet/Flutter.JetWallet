@@ -149,20 +149,27 @@ abstract class _UserDataStoreBase with Store {
     loader.startLoadingImmediately();
 
     try {
-      getIt.get<StartupService>().authenticatedBoot();
-
       final _ = await sNetwork.getAuthModule().postApplyUsedData(model);
+
+      getIt.get<StartupService>().authenticatedBoot();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
         id: 1,
       );
 
+      /*
       await sRouter.push(
         SingInRouter(),
       );
+      */
     } catch (error) {
       _logger.log(stateFlow, 'saveUserData', error);
+
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
     }
 
     loader.finishLoading();

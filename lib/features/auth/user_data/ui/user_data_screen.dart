@@ -39,8 +39,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
 
     birthDateController.text = birthDateInfo.selectedDate;
 
-    final loader = StackLoaderStore();
-
     return Provider<UserDataStore>(
       create: (_) => UserDataStore(
         SelectedDateStore.of(context),
@@ -48,7 +46,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
       dispose: (context, store) => store.dispose(),
       builder: (context, child) {
         return SPageFrame(
-          loading: loader,
+          loading: birthDateInfo.loader,
           color: colors.grey5,
           header: SAuthHeader(
             customIconButton: const SpaceH24(),
@@ -56,6 +54,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
             title: intl.user_data_whats_your_name,
           ),
           child: CustomScrollView(
+            physics: const ClampingScrollPhysics(),
             slivers: [
               SliverFillRemaining(
                 hasScrollBody: false,
@@ -157,7 +156,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           name: intl.register_continue,
                           onTap: () {
                             UserDataStore.of(context).saveUserData(
-                              loader,
+                              birthDateInfo.loader,
                               birthDateInfo,
                             );
                           },

@@ -28,6 +28,7 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
     final cryptosWithBalance = currenciesWithBalanceFrom(getMarketCrypto());
     final indicesWithBalance = currenciesWithBalanceFrom(getMarketCurrencies());
     final fiatsWithBalance = currenciesWithBalanceFrom(getMarketFiats());
+
     final tabsLength = _tabsLength(
       cryptosWithBalance.isEmpty,
       indicesWithBalance.isEmpty,

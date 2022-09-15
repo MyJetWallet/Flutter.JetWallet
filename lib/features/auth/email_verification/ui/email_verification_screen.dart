@@ -114,7 +114,6 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
     final authInfo = getIt.get<AppStore>().authState;
 
     final pinError = StandardFieldErrorNotifier();
-    final loader = StackLoaderStore();
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
@@ -134,7 +133,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
           (result) {
             result.maybeWhen(
               error: (Object? error) {
-                loader.finishLoading();
+                verification.loader.finishLoading();
                 pinError.enableError();
                 sNotification.showError(
                   error.toString(),
@@ -151,7 +150,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
         );
       },
       child: SPageFrame(
-        loading: loader,
+        loading: verification.loader,
         header: SAuthHeader(
           title: intl.emailVerification_emailVerification,
           progressValue: 40,
@@ -199,7 +198,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                       controller: verification.controller,
                       length: emailVerificationCodeLength,
                       onCompleted: (_) {
-                        loader.startLoadingImmediately();
+                        verification.loader.startLoadingImmediately();
                         verification.verifyCode();
                       },
                       autoFocus: true,

@@ -22,6 +22,7 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/confirm_email_login/confirm_email_login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/start_email_login/start_email_login_request_model.dart';
@@ -42,6 +43,8 @@ abstract class _EmailVerificationStoreBase with Store {
   }
 
   static final _logger = Logger('EmailVerificationStore');
+
+  final loader = StackLoaderStore();
 
   @observable
   String email = '';
