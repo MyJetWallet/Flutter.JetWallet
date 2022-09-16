@@ -407,6 +407,10 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 state.updateTargetConversionPrice(null);
               }
               state.updateSelectedCurrency(value);
+              state.setUpdateTargetConversionPrice(
+                widget.currency.symbol,
+                value.symbol,
+              );
               state.resetValuesToZero();
             }
           } else if (value is CircleCard) {
