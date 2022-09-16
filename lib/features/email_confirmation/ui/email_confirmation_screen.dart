@@ -159,6 +159,7 @@ class __EmailConfirmationScreenBodyState
                   timer: confirmation.showResendButton ? 0 : timer.time,
                   onTap: () {
                     confirmation.controller.clear();
+                    confirmation.updateResendButton(false);
 
                     confirmation.resendCode(
                       onSuccess: () {

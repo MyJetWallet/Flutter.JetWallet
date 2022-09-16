@@ -30,7 +30,7 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
 
     final state = getIt.get<RecurringBuysStore>();
 
-    final kycState = KycService();
+    final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final currencies = sSignalRModules.getCurrencies;
@@ -124,12 +124,13 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
                           active: true,
                           name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
                           onTap: () {
-                            if (kycState.sellStatus ==
+
+                            if (kycState.depositStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
                               state.handleNavigate(context, from);
                             } else {
                               kycAlertHandler.handle(
-                                status: kycState.sellStatus,
+                                status: kycState.depositStatus,
                                 isProgress: kycState.verificationInProgress,
                                 currentNavigate: () => showSellAction(context),
                                 requiredDocuments: kycState.requiredDocuments,
