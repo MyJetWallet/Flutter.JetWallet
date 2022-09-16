@@ -120,9 +120,12 @@ class ChooseDocuments extends StatelessObserverWidget {
                       permissionDescription:
                           '${intl.chooseDocuments_permissionDescriptionText1} '
                           '${intl.chooseDocument_camera}',
-                      then: () => sRouter.replace(
-                        const UploadKycDocumentsRouter(),
-                      ),
+                      then: () {
+                        Navigator.pop(context);
+                        sRouter.push(
+                          const UploadKycDocumentsRouter(),
+                        );
+                      },
                     ),
                   );
                 }

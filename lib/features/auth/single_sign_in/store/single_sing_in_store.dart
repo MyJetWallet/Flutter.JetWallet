@@ -67,7 +67,7 @@ abstract class _SingleSingInStoreBase with Store {
 
       final model = StartEmailLoginRequestModel(
         email: credentials.email,
-        platform: currentAppPlatform,
+        platform: currentPlatform,
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
         application: currentAppPlatform,

@@ -129,7 +129,8 @@ class _EarnDetailsManage extends StatelessObserverWidget {
                     offerId: earnOffer.offerId,
                   );
 
-                  sRouter.replace(
+                  Navigator.pop(context);
+                  sRouter.push(
                     HighYieldBuyRouter(
                       currency: currency,
                       earnOffer: earnOffer,
@@ -155,7 +156,8 @@ class _EarnDetailsManage extends StatelessObserverWidget {
                     offerId: earnOffer.offerId,
                   );
 
-                  sRouter.replace(
+                  Navigator.pop(context);
+                  sRouter.push(
                     ReturnToWalletRouter(
                       currency: currency,
                       earnOffer: earnOffer,

@@ -119,6 +119,7 @@ abstract class _EmailConfirmationStoreBase with Store {
       _logger.log(stateFlow, 'sendCode', e);
 
       _updateIsResending(false);
+      showResendButton = true;
       sNotification.showError(
         '${intl.emailVerification_failedToResend}!',
       );

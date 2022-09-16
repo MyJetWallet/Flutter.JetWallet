@@ -57,13 +57,15 @@ class ProfileDetails extends StatelessObserverWidget {
                   onPrimaryButtonTap: () {
                     sAnalytics.accountChangePhoneContinue();
 
-                    sRouter.replace(
+                    Navigator.pop(context);
+                    sRouter.push(
                       PhoneVerificationRouter(
                         args: PhoneVerificationArgs(
                           phoneNumber: userInfo.phone,
                           showChangeTextAlert: true,
                           onVerified: () {
-                            sRouter.replace(
+                            Navigator.pop(context);
+                            sRouter.push(
                               SetPhoneNumberRouter(
                                 successText:
                                     intl.profileDetails_newPhoneNumberConfirmed,

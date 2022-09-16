@@ -10,7 +10,8 @@ void showSmsAuthWarning(BuildContext context) {
     primaryText: '${intl.showSmsAuthWarning_primaryText}?',
     primaryButtonName: intl.showSmsAuthWarning_continue,
     onPrimaryButtonTap: () {
-      sRouter.replace(
+      Navigator.pop(context);
+      sRouter.push(
         TwoFaPhoneRouter(
           trigger: const Security(
             fromDialog: true,

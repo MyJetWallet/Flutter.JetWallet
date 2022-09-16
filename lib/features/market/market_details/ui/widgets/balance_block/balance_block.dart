@@ -83,6 +83,7 @@ class _BalanceBlockBody extends StatelessObserverWidget {
               symbol: baseCurrency.symbol,
               accuracy: baseCurrency.accuracy,
             ),
+            amountDecimal: double.parse('${marketItem.baseBalance}'),
             secondaryText: volumeFormat(
               prefix: marketItem.prefixSymbol,
               decimal: marketItem.assetBalance,
