@@ -138,6 +138,10 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
                 store.updateTargetConversionPrice(null);
               }
               store.updateSelectedCurrency(value);
+              store.setUpdateTargetConversionPrice(
+                widget.currency.symbol,
+                value.symbol,
+              );
             }
           }
         },
