@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
@@ -29,6 +30,7 @@ import 'package:simple_networking/modules/auth_api/models/start_email_login/star
 
 part 'email_verification_store.g.dart';
 
+@lazySingleton
 class EmailVerificationStore extends _EmailVerificationStoreBase
     with _$EmailVerificationStore {
   EmailVerificationStore() : super();
@@ -346,5 +348,14 @@ abstract class _EmailVerificationStoreBase with Store {
       'Appsflyer ID': appsFlyerID,
       'Registration/Login/SSO': 'SSO',
     });
+  }
+
+  @action
+  void clearStore() {
+    loader.finishLoadingImmediately();
+    email = '';
+    union = const EmailVerificationUnion.input();
+    isResending = false;
+    controller = TextEditingController(text: '');
   }
 }

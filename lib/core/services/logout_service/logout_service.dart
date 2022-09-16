@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/app_builder.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -69,14 +70,18 @@ abstract class _LogoutServiceBase with Store {
 
       union = const LogoutUnion.result();
 
+      AppBuilderBody.restart(sRouter.navigatorKey.currentContext!);
+
+      sSignalRModules.clearSignalRModule();
+
       unawaited(
-        sRouter.navigate(
+        sRouter.replaceAll([
           const HomeRouter(
             children: [
               EarnRouter(),
             ],
           ),
-        ),
+        ]),
       );
     }
   }

@@ -84,6 +84,9 @@ abstract class _PinScreenStoreBase with Store {
   @observable
   GlobalKey<ShakeWidgetState> shakeTextKey = GlobalKey<ShakeWidgetState>();
 
+  @observable
+  ObservableList<String> confirmPin = ObservableList.of([]);
+
   @action
   PinBoxEnum boxState(int boxId) {
     return screenUnion.when(
@@ -95,6 +98,8 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   PinBoxEnum _boxState(String pin, int boxId) {
+    print(pinState);
+
     if (pinState == PinBoxEnum.correct) return pinState;
     if (pinState == PinBoxEnum.success) return pinState;
     if (pinState == PinBoxEnum.error) return pinState;
@@ -170,41 +175,41 @@ abstract class _PinScreenStoreBase with Store {
         },
       );
 
-      if (_isPinFilled()) _validatePin();
+      if (_isPinFilled()) await _validatePin();
     }
   }
 
   @action
-  void _validatePin() {
-    flowUnion.when(
-      change: () {
-        screenUnion.when(
+  Future<void> _validatePin() async {
+    await flowUnion.when(
+      change: () async {
+        await screenUnion.when(
           enterPin: () => _enterPinFlow(),
           newPin: () => _changePinFlow(),
           confirmPin: () => {},
         );
       },
-      disable: () {
-        screenUnion.maybeWhen(
+      disable: () async {
+        await screenUnion.maybeWhen(
           enterPin: () => _enterPinFlow(),
           orElse: () {},
         );
       },
-      enable: () {
-        screenUnion.when(
+      enable: () async {
+        await screenUnion.when(
           enterPin: () {}, // not needed
           newPin: () => _newPinFlow(),
           confirmPin: () => _confirmPinFlow(),
         );
       },
-      verification: () {
-        screenUnion.maybeWhen(
+      verification: () async {
+        await screenUnion.maybeWhen(
           enterPin: () => _enterPinFlow(),
           orElse: () {},
         );
       },
-      setup: () {
-        screenUnion.when(
+      setup: () async {
+        await screenUnion.when(
           enterPin: () {}, // not needed
           newPin: () => _newPinFlow(),
           confirmPin: () => _confirmPinFlow(),
@@ -218,17 +223,23 @@ abstract class _PinScreenStoreBase with Store {
     try {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
+      if (response.hasError) {
+        await _errorFlow();
+      }
+
       response.pick(
         onData: (data) async {
           await flowUnion.maybeWhen(
             disable: () async {
               await _userInfoN.disablePin();
+
               await _successFlow(
                 _userInfoN.resetPin(),
               );
             },
             verification: () async {
               await _animateSuccess();
+
               await _userInfoN.setPin(enterPin);
               if (_userInfo.isJustLogged) {
                 getIt.get<StartupService>().pinSet();
@@ -238,13 +249,13 @@ abstract class _PinScreenStoreBase with Store {
             },
             orElse: () async {
               await _animateCorrect();
+
               _updateHideBiometricButton(true);
               _updateScreenUnion(const NewPin());
             },
           );
         },
         onError: (ServerRejectException error) async {
-          await _errorFlow();
           if (error.cause == 'InvalidCode') {
             if (attemptsLeft > 1) {
               attemptsLeft--;
@@ -257,6 +268,7 @@ abstract class _PinScreenStoreBase with Store {
                 'you have been logged out of your account.',
                 duration: 5,
               );
+
               await getIt.get<LogoutService>().logout();
             }
           } else {
@@ -265,6 +277,8 @@ abstract class _PinScreenStoreBase with Store {
         },
       );
     } catch (e) {
+      await _errorFlow();
+
       sNotification.showError(
         e.toString(),
         id: 1,
@@ -317,7 +331,12 @@ abstract class _PinScreenStoreBase with Store {
       if (response.error != null) {
         await _errorFlow();
 
+        print('_updateConfirmPin');
+
         _updateConfirmPin('');
+
+        print(confrimPin);
+
         sNotification.showError(
           response.error?.cause ?? '',
           id: 1,

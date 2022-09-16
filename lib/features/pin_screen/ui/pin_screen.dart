@@ -107,18 +107,22 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
             Spacer(
               flex: widget.displayHeader ? 1 : 2,
             ),
-            ShakeWidget(
-              key: pin.shakePinKey,
-              shakeDuration: pinBoxErrorDuration,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (int id = 1; id <= localPinLength; id++)
-                    PinBox(
-                      state: pin.boxState(id),
-                    ),
-                ],
-              ),
+            Observer(
+              builder: (context) {
+                return ShakeWidget(
+                  key: pin.shakePinKey,
+                  shakeDuration: pinBoxErrorDuration,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      for (int id = 1; id <= localPinLength; id++)
+                        PinBox(
+                          state: pin.boxState(id),
+                        ),
+                    ],
+                  ),
+                );
+              },
             ),
             const Spacer(),
             if (!widget.displayHeader)
@@ -137,7 +141,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     package: 'simple_kit',
                   ),
                   onPrimaryButtonTap: () {
-                    logoutN.logout();
+                    logoutN.logout(resetPin: true);
                     Navigator.pop(context);
                   },
                   secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
@@ -168,9 +172,11 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
             if (widget.displayHeader) const SpaceH40(),
             SNumericKeyboardPin(
               hideBiometricButton: pin.hideBiometricButton,
-              onKeyPressed: (value) => pin.updatePin(value).then(
-                    (value) => setState(() {}),
-                  ),
+              onKeyPressed: (value) async {
+                await pin.updatePin(value).then(
+                      (value) => setState(() {}),
+                    );
+              },
             ),
           ],
         ),

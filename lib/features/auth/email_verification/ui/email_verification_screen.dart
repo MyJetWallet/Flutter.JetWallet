@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -26,9 +27,6 @@ class EmailVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<EmailVerificationStore>(
-          create: (_) => EmailVerificationStore(),
-        ),
         Provider<TimerStore>(
           create: (_) => TimerStore(emailResendCountdown),
           dispose: (context, store) => store.dispose(),
@@ -62,13 +60,14 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     focusNode.dispose();
+    getIt.get<EmailVerificationStore>().clearStore();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      EmailVerificationStore.of(context).pasteCode();
+      getIt.get<EmailVerificationStore>().pasteCode();
 
       if (mounted && Platform.isAndroid) {
         // Workaround to fix bug related to Flutter framework.
@@ -79,7 +78,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
         // because this half-collapse doesn't trigger app to go to background,
         // hence, code below won't be executed
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          final verification = EmailVerificationStore.of(context);
+          final verification = getIt.get<EmailVerificationStore>();
 
           await Future.delayed(const Duration(milliseconds: 200));
 
@@ -109,7 +108,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
     final colors = sKit.colors;
     final timer = TimerStore.of(context);
 
-    final verification = EmailVerificationStore.of(context);
+    final verification = getIt.get<EmailVerificationStore>();
 
     final authInfo = getIt.get<AppStore>().authState;
 

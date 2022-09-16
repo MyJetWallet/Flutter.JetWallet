@@ -44,7 +44,12 @@ abstract class _KycServiceBase with Store {
         print(clientDetailData.requiredDocuments);
 
         if (clientDetailData.requiredDocuments.isNotEmpty) {
-          clientDetailData.requiredDocuments.sort((a, b) => a.compareTo(b));
+          final sorted = clientDetailData.requiredDocuments.toList();
+          sorted.sort((a, b) => a.compareTo(b));
+
+          clientDetailData.copyWith(
+            requiredDocuments: sorted,
+          );
 
           for (final document in clientDetailData.requiredDocuments) {
             documents.add(kycDocumentType(document));

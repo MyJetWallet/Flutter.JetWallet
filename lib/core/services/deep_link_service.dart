@@ -177,9 +177,9 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
-    final notifier = EmailVerificationStore();
-
-    notifier.updateCode(parameters[_code]);
+    getIt.get<EmailVerificationStore>().updateCode(
+          parameters[_code],
+        );
   }
 
   void _loginCommand(Map<String, String> parameters) {
