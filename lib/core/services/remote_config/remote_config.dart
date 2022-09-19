@@ -38,17 +38,17 @@ class RemoteConfig {
         );
 
     try {
-      //final flavor = flavorService();
+      final flavor = flavorService();
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
 
-      var remoteConfigURL =
-          'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
+      var remoteConfigURL = '';
+      //https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config
 
-      //remoteConfigURL = flavor == Flavor.prod
-      //    ? 'https://wallet-api.simple-spot.biz/api/v1'
-      //    : 'https://wallet-api-uat.simple-spot.biz/api/v1';
+      remoteConfigURL = flavor == Flavor.prod
+          ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
-      var response = await Dio().get(remoteConfigURL);
+      final response = await Dio().get(remoteConfigURL);
 
       //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
 
