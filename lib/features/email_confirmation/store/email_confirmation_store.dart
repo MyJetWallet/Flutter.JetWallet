@@ -93,7 +93,7 @@ abstract class _EmailConfirmationStoreBase with Store {
   Future<void> resendCode({required Function() onSuccess}) async {
     _logger.log(notifier, 'resendCode');
 
-    _updateIsResending(true);
+    updateIsResending(true);
 
     try {
       final model = SendEmailConfirmationRequest(
@@ -112,13 +112,13 @@ abstract class _EmailConfirmationStoreBase with Store {
         },
       );
 
-      _updateIsResending(false);
+      updateIsResending(false);
 
       onSuccess();
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
-      _updateIsResending(false);
+      updateIsResending(false);
       showResendButton = true;
       sNotification.showError(
         '${intl.emailVerification_failedToResend}!',
@@ -169,7 +169,7 @@ abstract class _EmailConfirmationStoreBase with Store {
   }
 
   @action
-  void _updateIsResending(bool value) {
+  void updateIsResending(bool value) {
     isResending = value;
   }
 

@@ -219,7 +219,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                     text: '${intl.twoFaPhone_didntReceiveTheCode}?',
                   ),
                   STextButton1(
-                    active: true,
+                    active: !verification.isResending,
                     name: intl.twoFaPhone_resend,
                     onTap: () {
                       timer.refreshTimer();
