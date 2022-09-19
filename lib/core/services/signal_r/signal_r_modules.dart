@@ -114,7 +114,9 @@ abstract class _SignalRModulesBase with Store {
         final accuracies = value.accuracies;
 
         for (final accuracy in accuracies) {
-          priceAccuracies.add(accuracy);
+          if (!priceAccuracies.contains(accuracy)) {
+            priceAccuracies.add(accuracy);
+          }
         }
       },
     );
@@ -142,7 +144,9 @@ abstract class _SignalRModulesBase with Store {
     recurringBuyOS.listen(
       (value) {
         for (final element in value.recurringBuys) {
-          recurringBuys.add(element);
+          if (!recurringBuys.contains(element)) {
+            recurringBuys.add(element);
+          }
         }
       },
     );

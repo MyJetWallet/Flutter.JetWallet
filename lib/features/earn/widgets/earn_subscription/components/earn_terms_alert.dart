@@ -6,7 +6,8 @@ import 'package:jetwallet/features/high_yield_disclaimer/high_yield_disclaimer_s
 import 'package:simple_kit/simple_kit.dart';
 
 void sShowEarnTermsAlertPopup(
-  BuildContext context, {
+  BuildContext context,
+  HighYieldDisclaimer store, {
   Function()? onWillPop,
   Function()? onSecondaryButtonTap,
   String? secondaryText,
@@ -27,6 +28,7 @@ void sShowEarnTermsAlertPopup(
     barrierDismissible: barrierDismissible,
     builder: (context) {
       return EarnTermsAlert(
+        store: store,
         onWillPop: onWillPop,
         onSecondaryButtonTap: onSecondaryButtonTap,
         secondaryText: secondaryText,
@@ -48,6 +50,7 @@ void sShowEarnTermsAlertPopup(
 class EarnTermsAlert extends StatelessObserverWidget {
   const EarnTermsAlert({
     Key? key,
+    required this.store,
     this.onWillPop,
     this.onSecondaryButtonTap,
     this.secondaryText,
@@ -65,6 +68,7 @@ class EarnTermsAlert extends StatelessObserverWidget {
     required this.onPrimaryButtonTap,
   }) : super(key: key);
 
+  final HighYieldDisclaimer store;
   final Function()? onWillPop;
   final Function()? onSecondaryButtonTap;
   final String? secondaryText;
@@ -84,7 +88,7 @@ class EarnTermsAlert extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final disclaimer = HighYieldDisclaimer();
+    final disclaimer = store;
 
     return WillPopScope(
       onWillPop: () {

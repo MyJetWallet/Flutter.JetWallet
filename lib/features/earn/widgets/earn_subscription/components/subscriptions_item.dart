@@ -12,14 +12,43 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'earn_terms_alert.dart';
 import 'earn_terms_checkbox.dart';
 
-class SubscriptionsItem extends StatelessObserverWidget {
+class SubscriptionsItem extends StatelessWidget {
   const SubscriptionsItem({
+    super.key,
+    this.days = 0,
+    required this.isHot,
+    required this.earnOffer,
+    required this.currency,
+  });
+
+  final bool isHot;
+  final int days;
+  final EarnOfferModel earnOffer;
+  final CurrencyModel currency;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<HighYieldDisclaimer>(
+      create: (context) => HighYieldDisclaimer(),
+      builder: (context, child) => _SubscriptionsItemBody(
+        days: days,
+        isHot: isHot,
+        earnOffer: earnOffer,
+        currency: currency,
+      ),
+    );
+  }
+}
+
+class _SubscriptionsItemBody extends StatelessObserverWidget {
+  const _SubscriptionsItemBody({
     Key? key,
     this.days = 0,
     required this.isHot,
@@ -37,7 +66,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kyc = getIt.get<KycService>();
 
-    final disclaimer = HighYieldDisclaimer();
+    final disclaimer = HighYieldDisclaimer.of(context);
 
     final handler = getIt.get<KycAlertHandler>();
     final userInfo = sUserInfo.userInfo;
@@ -63,6 +92,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
             if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
               sShowEarnTermsAlertPopup(
                 context,
+                disclaimer as HighYieldDisclaimer,
                 willPopScope: false,
                 image: Image.asset(
                   disclaimerAsset,
@@ -120,7 +150,7 @@ class SubscriptionsItem extends StatelessObserverWidget {
                 ),
                 onSecondaryButtonTap: () {
                   disclaimer.disableCheckbox();
-                  sRouter.pop();
+                  Navigator.pop(context);
                 },
               );
             } else if (kyc.depositStatus ==

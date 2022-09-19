@@ -1,14 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
 
 part 'high_yield_disclaimer_store.g.dart';
 
 class HighYieldDisclaimer extends _HighYieldDisclaimerBase
-    with _$HighYieldDisclaimer {}
+    with _$HighYieldDisclaimer {
+  HighYieldDisclaimer() : super();
+
+  static _HighYieldDisclaimerBase of(BuildContext context) =>
+      Provider.of<HighYieldDisclaimer>(context, listen: false);
+}
 
 abstract class _HighYieldDisclaimerBase with Store {
   _HighYieldDisclaimerBase() {
