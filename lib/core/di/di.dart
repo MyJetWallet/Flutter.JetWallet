@@ -43,9 +43,13 @@ Future<GetIt> getItInit({
   );
   */
 
+  getIt.registerSingletonAsync<PackageInfoService>(
+    () async => PackageInfoService().init(),
+  );
+
   getIt.registerSingletonAsync<RemoteConfig>(
     () async => RemoteConfig().fetchAndActivate(),
-    dependsOn: [],
+    dependsOn: [PackageInfoService],
   );
 
   getIt.registerSingleton<SNetwork>(
@@ -79,10 +83,6 @@ Future<GetIt> getItInit({
 
   getIt.registerSingleton<CurrenciesWithHidden>(
     CurrenciesWithHidden(),
-  );
-
-  getIt.registerSingletonAsync<PackageInfoService>(
-    () async => PackageInfoService().init(),
   );
 
   getIt.registerLazySingleton<LogoutService>(() => LogoutService());
