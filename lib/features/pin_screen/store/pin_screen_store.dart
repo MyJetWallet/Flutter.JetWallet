@@ -257,6 +257,12 @@ abstract class _PinScreenStoreBase with Store {
         },
         onError: (ServerRejectException error) async {
           if (error.cause == 'InvalidCode') {
+            await _errorFlow();
+            _updateNewPin('');
+            _updateConfirmPin('');
+
+            resetPin();
+
             if (attemptsLeft > 1) {
               attemptsLeft--;
               sNotification.showError(
@@ -271,6 +277,8 @@ abstract class _PinScreenStoreBase with Store {
 
               await getIt.get<LogoutService>().logout();
             }
+
+            resetPin();
           } else {
             sNotification.showError(error.cause);
           }
@@ -390,7 +398,7 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _errorFlow() async {
     await _animateError();
-    _resetPin();
+    resetPin();
   }
 
   @action
@@ -467,7 +475,7 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _resetPin() {
+  void resetPin() {
     screenUnion.when(
       enterPin: () => _updateEnterPin(''),
       newPin: () => _updateNewPin(''),

@@ -16,7 +16,7 @@ class ReferralCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<ReferallCodeStore>(
-      create: (context) => ReferallCodeStore(),
+      create: (context) => ReferallCodeStore()..init(),
       builder: (context, child) => const ReferralCodeBody(),
       dispose: (context, state) => state.dispose(),
     );
