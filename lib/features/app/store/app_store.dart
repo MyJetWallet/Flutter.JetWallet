@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
@@ -124,6 +125,11 @@ abstract class _AppStoreBase with Store {
     final token = await storageService.getValue(refreshTokenKey);
     final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+
+    /// Init DeepLinks
+    getIt.registerSingletonAsync<DynamicLinkService>(
+      () async => DynamicLinkService().initDynamicLinks(),
+    );
 
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();
