@@ -56,12 +56,14 @@ class _SuccessScreenState extends State<SuccessScreen> {
           return Future.value(false);
         },
         child: SPageFrameWithPadding(
-          child: Builder(
+          child: Observer(
             builder: (context) {
               if (TimerStore.of(context).time == 0) {
                 if (widget.onSuccess == null && shouldPop) {
                   /// Navigates to the first route
-                  sRouter.popUntilRoot();
+                  sRouter.replace(
+                    const HomeRouter(),
+                  );
                 } else {
                   widget.onSuccess!.call(context);
                 }

@@ -124,7 +124,9 @@ abstract class _SignalRModulesBase with Store {
     referralStatsOS.listen(
       (value) {
         for (final item in value.referralStats) {
-          referralStats.add(item);
+          if (!referralStats.contains(item)) {
+            referralStats.add(item);
+          }
         }
       },
     );

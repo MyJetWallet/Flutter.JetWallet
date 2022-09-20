@@ -261,7 +261,7 @@ abstract class _PinScreenStoreBase with Store {
             _updateNewPin('');
             _updateConfirmPin('');
 
-            resetPin();
+            await resetPin();
 
             if (attemptsLeft > 1) {
               attemptsLeft--;
@@ -278,7 +278,7 @@ abstract class _PinScreenStoreBase with Store {
               await getIt.get<LogoutService>().logout();
             }
 
-            resetPin();
+            await resetPin();
           } else {
             sNotification.showError(error.cause);
           }
@@ -398,7 +398,7 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _errorFlow() async {
     await _animateError();
-    resetPin();
+    await resetPin();
   }
 
   @action
@@ -475,7 +475,7 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void resetPin() {
+  Future<void> resetPin() async {
     screenUnion.when(
       enterPin: () => _updateEnterPin(''),
       newPin: () => _updateNewPin(''),
