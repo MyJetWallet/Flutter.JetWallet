@@ -368,4 +368,9 @@ abstract class _RecurringBuysStoreBase with Store {
 
     return true;
   }
+
+  @action
+  void updateRecurringItems() {
+    recurringBuys = sSignalRModules.recurringBuys;
+  }
 }
