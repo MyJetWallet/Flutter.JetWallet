@@ -17,6 +17,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
@@ -43,6 +44,8 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   Timer _timer = Timer(Duration.zero, () {});
 
   static final _logger = Logger('PreviewBuyWithAssetStore');
+
+  final StackLoaderStore loader = StackLoaderStore();
 
   @observable
   String? operationId;
@@ -101,7 +104,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   Future<void> requestQuote() async {
     _logger.log(notifier, 'requestQuote');
 
-    union = const PreviewBuyWithAssetUnion.quoteLoading();
+    //union = const PreviewBuyWithAssetUnion.quoteLoading();
 
     final recurringBuy = recurringType == RecurringBuysType.oneTimePurchase
         ? null
@@ -246,21 +249,20 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   @action
   void _showSuccessScreen() {
     if (recurring) {
-      sRouter
-          .push(
-            SuccessKycScreenRoute(
-              secondaryText: intl.previewBuyWithAsset_orderProcessing,
-            ),
-          )
-          .then(
-            (value) => sRouter.push(
+      sRouter.push(
+        SuccessScreenRouter(
+          secondaryText: intl.previewBuyWithAsset_orderProcessing,
+          onSuccess: (context) {
+            sRouter.push(
               const HomeRouter(
                 children: [
                   PortfolioRouter(),
                 ],
               ),
-            ),
-          );
+            );
+          },
+        ),
+      );
     } else {
       sRouter.push(
         RecurringSuccessScreenRouter(

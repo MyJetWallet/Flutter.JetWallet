@@ -107,7 +107,8 @@ class _SubscriptionsItemBody extends StatelessObserverWidget {
                     () {
                       if (kyc.depositStatus ==
                           kycOperationStatus(KycStatus.allowed)) {
-                        sRouter.navigate(
+                        Navigator.pop(context);
+                        sRouter.push(
                           HighYieldBuyRouter(
                             currency: currency,
                             earnOffer: earnOffer,

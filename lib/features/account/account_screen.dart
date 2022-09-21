@@ -144,26 +144,11 @@ class _AccountScreenState extends State<AccountScreen> {
                           icon: const SProfileDetailsIcon(),
                           isSDivider: true,
                           onTap: () {
-                            //sAnalytics.account();
+                            sAnalytics.account();
 
-                            //sRouter.push(
-                            //  const ProfileDetailsRouter(),
-                            //);
-
-                            sRouter
-                                .push(
-                                  SuccessScreenRouter(
-                                    secondaryText:
-                                        intl.previewSell_orderProcessing,
-                                  ),
-                                )
-                                .then(
-                                  (value) => sRouter.navigate(
-                                    const HomeRouter(
-                                      children: [PortfolioRouter()],
-                                    ),
-                                  ),
-                                );
+                            sRouter.push(
+                              const ProfileDetailsRouter(),
+                            );
                           },
                         ),
                         SimpleAccountCategoryButton(

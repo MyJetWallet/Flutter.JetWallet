@@ -7,10 +7,11 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/progress_bar.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SuccessScreen extends StatefulObserverWidget {
+class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
     Key? key,
     this.onSuccess,
@@ -36,10 +37,55 @@ class SuccessScreen extends StatefulObserverWidget {
   final bool showActionButton;
 
   @override
-  State<SuccessScreen> createState() => _SuccessScreenState();
+  Widget build(BuildContext context) {
+    return Provider<TimerStore>(
+      create: (_) => TimerStore(time),
+      dispose: (context, store) => store.dispose(),
+      builder: (context, child) => _SuccessScreenBody(
+        onSuccess: onSuccess,
+        onActionButton: onActionButton,
+        primaryText: primaryText,
+        secondaryText: secondaryText,
+        buttonText: buttonText,
+        specialTextWidget: specialTextWidget,
+        time: time,
+        showProgressBar: showProgressBar,
+        showActionButton: showActionButton,
+      ),
+    );
+  }
 }
 
-class _SuccessScreenState extends State<SuccessScreen> {
+class _SuccessScreenBody extends StatefulWidget {
+  const _SuccessScreenBody({
+    super.key,
+    this.onSuccess,
+    this.onActionButton,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+    this.showActionButton = false,
+    this.showProgressBar = false,
+    this.buttonText,
+    this.time = 3,
+  });
+
+  // Triggered when SuccessScreen is done
+  final Function(BuildContext)? onSuccess;
+  final Function()? onActionButton;
+  final String? primaryText;
+  final String? secondaryText;
+  final String? buttonText;
+  final Widget? specialTextWidget;
+  final int time;
+  final bool showProgressBar;
+  final bool showActionButton;
+
+  @override
+  State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
+}
+
+class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
   bool shouldPop = true;
 
   @override
@@ -48,9 +94,25 @@ class _SuccessScreenState extends State<SuccessScreen> {
     final colors = sKit.colors;
     final showBottomSpace = widget.showProgressBar || widget.showActionButton;
 
-    return Provider<TimerStore>(
-      create: (_) => TimerStore(3),
-      dispose: (context, store) => store.dispose(),
+    return ReactionBuilder(
+      builder: (context) {
+        return reaction<int>(
+          (_) => TimerStore.of(context).time,
+          (result) {
+            if (result == 0) {
+              if (widget.onSuccess == null && shouldPop) {
+                /// Navigates to the first route
+                sRouter.replace(
+                  const HomeRouter(),
+                );
+              } else {
+                widget.onSuccess!.call(context);
+              }
+            }
+          },
+          fireImmediately: true,
+        );
+      },
       child: WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -58,17 +120,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
         child: SPageFrameWithPadding(
           child: Observer(
             builder: (context) {
-              if (TimerStore.of(context).time == 0) {
-                if (widget.onSuccess == null && shouldPop) {
-                  /// Navigates to the first route
-                  sRouter.replace(
-                    const HomeRouter(),
-                  );
-                } else {
-                  widget.onSuccess!.call(context);
-                }
-              }
-
               return Stack(
                 children: [
                   Column(

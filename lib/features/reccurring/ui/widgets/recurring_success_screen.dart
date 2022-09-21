@@ -8,13 +8,35 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../helper/recurring_buys_operation_name.dart';
 
-class RecurringSuccessScreen extends StatefulObserverWidget {
+class RecurringSuccessScreen extends StatelessWidget {
   const RecurringSuccessScreen({
+    super.key,
+    required this.input,
+  });
+
+  final PreviewBuyWithAssetInput input;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<TimerStore>(
+      create: (_) => TimerStore(3),
+      dispose: (context, store) => store.dispose(),
+      builder: (context, child) => _RecurringSuccessScreenBody(
+        input: input,
+      ),
+    );
+  }
+}
+
+class _RecurringSuccessScreenBody extends StatefulObserverWidget {
+  const _RecurringSuccessScreenBody({
     Key? key,
     required this.input,
   }) : super(key: key);
@@ -22,114 +44,122 @@ class RecurringSuccessScreen extends StatefulObserverWidget {
   final PreviewBuyWithAssetInput input;
 
   @override
-  State<RecurringSuccessScreen> createState() => _RecurringSuccessScreenState();
+  State<_RecurringSuccessScreenBody> createState() =>
+      _RecurringSuccessScreenBodyState();
 }
 
-class _RecurringSuccessScreenState extends State<RecurringSuccessScreen> {
+class _RecurringSuccessScreenBodyState
+    extends State<_RecurringSuccessScreenBody> {
   bool shouldPop = true;
-  final timer = TimerStore(3.01);
-
-  void onTimer() {
-    if (timer.time == 0 && shouldPop) {
-      navigateToRouter();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
+    return ReactionBuilder(
+      builder: (context) {
+        return reaction<int>(
+          (_) => TimerStore.of(context).time,
+          (result) {
+            if (result == 0 && shouldPop) {
+              navigateToRouter();
+            }
+          },
+          fireImmediately: true,
+        );
       },
-      child: SPageFrameWithPadding(
-        child: Column(
-          children: [
-            Row(), // to expand Column in the cross axis
-            const SpaceH86(),
-            SuccessAnimation(
-              widgetSize: widgetSizeFrom(deviceSize),
-            ),
-            Baseline(
-              baseline: 136.0,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                intl.recurringSuccessScreen_success,
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: sTextH2Style,
+      child: WillPopScope(
+        onWillPop: () {
+          return Future.value(false);
+        },
+        child: SPageFrameWithPadding(
+          child: Column(
+            children: [
+              Row(), // to expand Column in the cross axis
+              const SpaceH86(),
+              SuccessAnimation(
+                widgetSize: widgetSizeFrom(deviceSize),
               ),
-            ),
-            Baseline(
-              baseline: 31.4,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                intl.recurringSuccessScreen_orderProcessing,
-                maxLines: 10,
-                textAlign: TextAlign.center,
-                style: sBodyText1Style.copyWith(
-                  color: colors.grey1,
+              Baseline(
+                baseline: 136.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  intl.recurringSuccessScreen_success,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: sTextH2Style,
                 ),
               ),
-            ),
-            const Spacer(),
-            SSecondaryButton1(
-              active: true,
-              name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
-              onTap: () {
-                setState(() {
-                  shouldPop = false;
-                });
+              Baseline(
+                baseline: 31.4,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  intl.recurringSuccessScreen_orderProcessing,
+                  maxLines: 10,
+                  textAlign: TextAlign.center,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              SSecondaryButton1(
+                active: true,
+                name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
+                onTap: () {
+                  setState(() {
+                    shouldPop = false;
+                  });
 
-                sAnalytics.setupRecurringBuyView(
-                  widget.input.toCurrency.description,
-                  Source.successScreen,
-                );
-
-                showActionWithoutRecurringBuy(
-                  title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
-                  then: (_) {
-                    if (!shouldPop) navigateToRouter();
-
-                    setState(() {
-                      shouldPop = false;
-                    });
-                  },
-                  context: context,
-                  onItemTap: (recurringType) {
-                    shouldPop = true;
-
-                    sAnalytics.pickRecurringBuyFrequency(
-                      assetName: widget.input.toCurrency.description,
-                      frequency: recurringType.toFrequency,
-                      source: Source.successScreen,
-                    );
-
-                    sRouter.navigate(
-                      PreviewBuyWithAssetRouter(
-                        input: PreviewBuyWithAssetInput(
-                          amount: widget.input.amount,
-                          fromCurrency: widget.input.fromCurrency,
-                          toCurrency: widget.input.toCurrency,
-                          recurringType: recurringType,
-                        ),
-                        onBackButtonTap: () {
-                          navigateToRouter();
-                        },
-                      ),
-                    );
-                  },
-                  onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                  sAnalytics.setupRecurringBuyView(
                     widget.input.toCurrency.description,
                     Source.successScreen,
-                  ),
-                );
-              },
-            ),
-            const SpaceH24(),
-          ],
+                  );
+
+                  showActionWithoutRecurringBuy(
+                    title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
+                    then: (_) {
+                      if (!shouldPop) navigateToRouter();
+
+                      setState(() {
+                        shouldPop = false;
+                      });
+                    },
+                    context: context,
+                    onItemTap: (recurringType) {
+                      shouldPop = true;
+
+                      sAnalytics.pickRecurringBuyFrequency(
+                        assetName: widget.input.toCurrency.description,
+                        frequency: recurringType.toFrequency,
+                        source: Source.successScreen,
+                      );
+
+                      sRouter.navigate(
+                        PreviewBuyWithAssetRouter(
+                          input: PreviewBuyWithAssetInput(
+                            amount: widget.input.amount,
+                            fromCurrency: widget.input.fromCurrency,
+                            toCurrency: widget.input.toCurrency,
+                            recurringType: recurringType,
+                          ),
+                          onBackButtonTap: () {
+                            navigateToRouter();
+                          },
+                        ),
+                      );
+                    },
+                    onDissmis: () => sAnalytics.closeRecurringBuySheet(
+                      widget.input.toCurrency.description,
+                      Source.successScreen,
+                    ),
+                  );
+                },
+              ),
+              const SpaceH24(),
+            ],
+          ),
         ),
       ),
     );

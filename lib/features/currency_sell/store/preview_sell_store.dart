@@ -15,6 +15,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
@@ -39,6 +40,8 @@ abstract class _PreviewSellStoreBase with Store {
   static final _logger = Logger('PreviewBuyWithAssetStore');
 
   Timer _timer = Timer(Duration.zero, () {});
+
+  final loader = StackLoaderStore();
 
   @observable
   String? operationId;
@@ -85,7 +88,7 @@ abstract class _PreviewSellStoreBase with Store {
   Future<void> requestQuote() async {
     _logger.log(notifier, 'requestQuote');
 
-    union = const QuoteLoading();
+    //union = const QuoteLoading();
 
     final model = GetQuoteRequestModel(
       fromAssetAmount: fromAssetAmount,
@@ -98,6 +101,8 @@ abstract class _PreviewSellStoreBase with Store {
 
       response.pick(
         onData: (data) {
+          print(data);
+
           operationId = data.operationId;
           price = data.price;
           fromAssetSymbol = data.fromAssetSymbol;

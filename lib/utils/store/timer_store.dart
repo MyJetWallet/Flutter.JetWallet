@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 part 'timer_store.g.dart';
 
 class TimerStore extends _TimerStoreBase with _$TimerStore {
-  TimerStore(num initial) : super(initial);
+  TimerStore(int initial) : super(initial);
 
   static TimerStore of(BuildContext context) =>
       Provider.of<TimerStore>(context, listen: false);
@@ -25,7 +25,7 @@ abstract class _TimerStoreBase with Store {
   int time = 0;
 
   @observable
-  late num initial;
+  late int initial;
 
   @action
   void refreshTimer() {
@@ -33,7 +33,7 @@ abstract class _TimerStoreBase with Store {
 
     _timer?.cancel();
 
-    final initialInt = initial.toInt();
+    final initialInt = initial;
 
     time = initialInt;
     final initialTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
