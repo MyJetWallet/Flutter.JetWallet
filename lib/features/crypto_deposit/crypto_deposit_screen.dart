@@ -244,13 +244,17 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
 
                     sAnalytics.receiveShare(asset: widget.currency.description);
 
-                    Share.share(
-                      '${intl.cryptoDeposit_my} ${widget.currency.symbol}'
-                      ' ${intl.cryptoDeposit_address}: '
-                      '${deposit.address} '
-                      '${deposit.tag != null ? ', ${intl.tag}: '
-                          '${deposit.tag}' : ''}',
-                    );
+                    try {
+                      Share.share(
+                        '${intl.cryptoDeposit_my} ${widget.currency.symbol}'
+                        ' ${intl.cryptoDeposit_address}: '
+                        '${deposit.address} '
+                        '${deposit.tag != null ? ', ${intl.tag}: '
+                            '${deposit.tag}' : ''}',
+                      );
+                    } catch (e) {
+                      rethrow;
+                    }
                   }
                 },
               ),

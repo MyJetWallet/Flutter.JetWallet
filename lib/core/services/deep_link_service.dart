@@ -308,7 +308,9 @@ class DeepLinkService {
           pinnedBottom: SReferralInviteBottomPinned(
             text: intl.deepLinkService_share,
             onShare: () {
-              Share.share(referralInfo.referralLink);
+              try {
+                Share.share(referralInfo.referralLink);
+              } catch (e) {}
             },
           ),
           expandedHeight: 333,
