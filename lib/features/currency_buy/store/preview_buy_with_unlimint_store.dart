@@ -155,11 +155,12 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
   }
 
   @action
-  void onConfirm() {
+  Future<void> onConfirm() async {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
-    storage.setString(checkedUnlimint, 'true');
-    _createPayment();
+    await storage.setString(checkedUnlimint, 'true');
+
+    await _createPayment();
   }
 
   @action
@@ -223,7 +224,15 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
         ),
       );
 
-      final _ = await sNetwork.getWalletModule().postCardBuyExecute(model);
+      final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
+
+      if (resp.hasError) {
+        _logger.log(stateFlow, '_requestPayment', resp.error?.cause ?? '');
+
+        unawaited(_showFailureScreen(resp.error?.cause ?? ''));
+
+        return;
+      }
 
       onSuccess();
     } on ServerRejectException catch (error) {

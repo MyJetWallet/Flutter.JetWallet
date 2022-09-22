@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
@@ -59,28 +60,29 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: SStandardField(
                 autofocus: true,
-                isError: ReferallCodeStore.of(context).isInputError,
+                isError: getIt.get<ReferallCodeStore>().isInputError,
                 labelText: intl.showReferralCodeLink_referralCodeLink,
                 controller:
-                    ReferallCodeStore.of(context).referralCodeController,
+                    getIt.get<ReferallCodeStore>().referralCodeController,
                 onChanged: (value) {
-                  ReferallCodeStore.of(context).updateReferralCode(
-                    value,
-                    null,
-                  );
+                  getIt.get<ReferallCodeStore>().updateReferralCode(
+                        value,
+                        null,
+                      );
                 },
                 hideIconsIfError: false,
-                onErase: () => ReferallCodeStore.of(context)
+                onErase: () => getIt
+                    .get<ReferallCodeStore>()
                     .clearBottomSheetReferralCode(),
                 suffixIcons: [
                   SIconButton(
                     onTap: () =>
-                        ReferallCodeStore.of(context).pasteCodeReferralLink(),
+                        getIt.get<ReferallCodeStore>().pasteCodeReferralLink(),
                     defaultIcon: const SPasteIcon(),
                   ),
                   SIconButton(
                     onTap: () =>
-                        ReferallCodeStore.of(context).scanAddressQr(context),
+                        getIt.get<ReferallCodeStore>().scanAddressQr(context),
                     defaultIcon: const SQrCodeIcon(),
                   ),
                 ],
@@ -90,7 +92,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
           Material(
             color: colors.grey5,
             child: SPaddingH24(
-              child: ReferallCodeStore.of(context)
+              child: getIt
+                  .get<ReferallCodeStore>()
                   .bottomSheetReferralCodeValidation
                   .maybeWhen(
                 loading: () {
@@ -158,7 +161,7 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
       children: [
         SPaddingH24(
           child: SPrimaryButton4(
-            active: ReferallCodeStore.of(context).enableContinueButton,
+            active: getIt.get<ReferallCodeStore>().enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
               Navigator.pop(context);

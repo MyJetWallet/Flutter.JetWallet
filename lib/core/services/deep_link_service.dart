@@ -9,6 +9,7 @@ import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
+import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
 import 'package:jetwallet/features/currency_withdraw/ui/widgets/withdrawal_confirm.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -308,7 +309,9 @@ class DeepLinkService {
           pinnedBottom: SReferralInviteBottomPinned(
             text: intl.deepLinkService_share,
             onShare: () {
-              Share.share(referralInfo.referralLink);
+              try {
+                Share.share(referralInfo.referralLink);
+              } catch (e) {}
             },
           ),
           expandedHeight: 333,
@@ -341,6 +344,8 @@ class DeepLinkService {
 
     await storage.setString(referralCodeKey, referralCode);
     await checkInitAppFBAnalytics(storage, deviceInfo);
+
+    await getIt.get<ReferallCodeStore>().init();
   }
 
   void _earnLandingCommand(SourceScreen? source) {

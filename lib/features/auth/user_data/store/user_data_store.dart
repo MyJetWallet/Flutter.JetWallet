@@ -125,7 +125,7 @@ abstract class _UserDataStoreBase with Store {
     _logger.log(notifier, 'saveUserData');
 
     final countryInfo = getIt.get<KycProfileCountriesStore>();
-    final referralCodeLink = ReferallCodeStore();
+    final referralCodeLink = getIt.get<ReferallCodeStore>();
 
     if (countryInfo.activeCountry!.isBlocked) {
       sNotification.showError(

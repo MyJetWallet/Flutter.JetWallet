@@ -77,11 +77,17 @@ class _SendByPhoneNotifyRecipientState
                     canTapShare = true;
                   }),
                 );
-                Share.share(
+
+                try {
+                  Share.share(
                   '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
                   '${intl.sendByPhoneRecipient_text4}.\n '
                   '${userInfo.referralLink}',
                 );
+                } catch (e) {
+                  
+                }
+                
               }
             },
           ),
