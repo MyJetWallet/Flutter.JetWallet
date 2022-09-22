@@ -57,6 +57,7 @@ abstract class _SignalRModulesBase with Store {
     //sSignalRModules = SignalRModules();
 
     earnOffers.listen((value) {
+      earnOffersList.clear();
       for (final element in value) {
         if (!earnOffersList.contains(element)) {
           earnOffersList.add(element);
@@ -145,6 +146,7 @@ abstract class _SignalRModulesBase with Store {
 
     recurringBuyOS.listen(
       (value) {
+        recurringBuys.clear();
         for (final element in value.recurringBuys) {
           if (!recurringBuys.contains(element)) {
             recurringBuys.add(element);
