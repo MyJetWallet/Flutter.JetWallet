@@ -29,6 +29,7 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
     final scrollController = ScrollController();
 
     final state = getIt.get<RecurringBuysStore>();
+    state.updateRecurringItems();
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();

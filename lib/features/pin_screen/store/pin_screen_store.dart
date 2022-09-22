@@ -88,21 +88,21 @@ abstract class _PinScreenStoreBase with Store {
   ObservableList<String> confirmPin = ObservableList.of([]);
 
   @action
-  PinBoxEnum boxState(int boxId) {
+  PinBoxEnum boxState(int boxId, PinBoxEnum state) {
     return screenUnion.when(
-      enterPin: () => _boxState(enterPin, boxId),
-      newPin: () => _boxState(newPin, boxId),
-      confirmPin: () => _boxState(confrimPin, boxId),
+      enterPin: () => _boxState(enterPin, boxId, state),
+      newPin: () => _boxState(newPin, boxId, state),
+      confirmPin: () => _boxState(confrimPin, boxId, state),
     );
   }
 
   @action
-  PinBoxEnum _boxState(String pin, int boxId) {
+  PinBoxEnum _boxState(String pin, int boxId, PinBoxEnum state) {
     print(pinState);
 
-    if (pinState == PinBoxEnum.correct) return pinState;
-    if (pinState == PinBoxEnum.success) return pinState;
-    if (pinState == PinBoxEnum.error) return pinState;
+    if (state == PinBoxEnum.correct) return state;
+    if (state == PinBoxEnum.success) return state;
+    if (state == PinBoxEnum.error) return state;
 
     return pin.length >= boxId ? PinBoxEnum.filled : PinBoxEnum.empty;
   }
@@ -268,6 +268,8 @@ abstract class _PinScreenStoreBase with Store {
               sNotification.showError(
                 'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
               );
+              _updateNewPin('');
+              _updatePinBoxState(PinBoxEnum.empty);
             } else {
               sNotification.showError(
                 'Incorrect PIN has been entered more than $maxPinAttempts times, '
@@ -302,30 +304,8 @@ abstract class _PinScreenStoreBase with Store {
     }
 
     try {
-      final response = await sNetwork.getAuthModule().postSetupPin(newPin);
-
-      response.pick(
-        onData: (data) async {
-          await _success();
-        },
-        onNoData: () async {
-          await _success();
-        },
-        onError: (error) async {
-          await _errorFlow();
-          if (error.cause == 'PinCodeAlreadyExist') {
-            sNotification.showError(
-              error.cause,
-              id: 1,
-            );
-            _updateScreenUnion(const ConfirmPin());
-          }
-          sNotification.showError(
-            error.cause,
-            id: 1,
-          );
-        },
-      );
+      _updateConfirmPin('');
+      await _success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -334,36 +314,33 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _confirmPinFlow() async {
     try {
-      final response = await sNetwork.getAuthModule().postCheckPin(confrimPin);
+      if (newPin == confrimPin) {
+        final response = await sNetwork.getAuthModule().postSetupPin(newPin);
 
-      if (response.error != null) {
-        await _errorFlow();
+        if (response.error != null) {
+          print('_updateConfirmPin');
+          await _animateError();
+          _updateNewPin('');
+          _updateConfirmPin('');
+          _updateScreenUnion(const NewPin());
 
-        print('_updateConfirmPin');
-
+          return;
+        }
+        await _animateCorrect(isConfirm: true);
+        await _userInfoN.setPin(confrimPin);
+        getIt.get<StartupService>().pinSet();
+      } else {
+        await _animateError();
+        _updateNewPin('');
         _updateConfirmPin('');
-
-        print(confrimPin);
-
-        sNotification.showError(
-          response.error?.cause ?? '',
-          id: 1,
-        );
-
-        return;
+        _updateScreenUnion(const NewPin());
       }
 
-      await _animateCorrect(isConfirm: true);
-      await _userInfoN.setPin(confrimPin);
-
-      getIt.get<StartupService>().pinSet();
     } catch (e) {
-      await _errorFlow();
-      sNotification.showError(
-        e.toString(),
-        id: 1,
-      );
+      await _animateError();
+      _updateNewPin('');
       _updateConfirmPin('');
+      _updateScreenUnion(const NewPin());
     }
   }
 
@@ -476,6 +453,9 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> resetPin() async {
+    newPin = '';
+    enterPin = '';
+    confrimPin = '';
     screenUnion.when(
       enterPin: () => _updateEnterPin(''),
       newPin: () => _updateNewPin(''),

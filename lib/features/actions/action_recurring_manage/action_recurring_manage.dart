@@ -100,11 +100,12 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                 icon: const SPauseIcon(),
                 primaryText: intl.actionRecurringManage_pause,
                 color: colors.grey5,
-                onTap: () {
-                  recurringBuysN.switchRecurringStatus(
+                onTap: () async {
+                  await recurringBuysN.switchRecurringStatus(
                     isEnable: false,
                     instructionId: recurringItem.id!,
                   );
+                  getIt.get<RecurringBuysStore>().updateRecurringItems();
                   Navigator.of(context)
                     ..pop()
                     ..pop();

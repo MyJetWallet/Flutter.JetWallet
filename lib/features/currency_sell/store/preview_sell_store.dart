@@ -272,12 +272,12 @@ abstract class _PreviewSellStoreBase with Store {
         secondaryText: error.cause,
         primaryButtonName: intl.previewSell_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.removeUntil(
-            (route) =>
-                route ==
-                CurrencySellRouter(
-                  currency: input.fromCurrency,
-                ),
+          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          sRouter.navigate(
+            CurrencySellRouter(
+              currency: input.fromCurrency,
+            ),
           );
         },
         secondaryButtonName: intl.previewSell_close,
