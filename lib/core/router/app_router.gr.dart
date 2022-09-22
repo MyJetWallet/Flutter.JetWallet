@@ -156,6 +156,17 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData,
           child: AddCircleCard(key: args.key, onCardAdded: args.onCardAdded));
     },
+    AddUnlimintCardRouter.name: (routeData) {
+      final args = routeData.argsAs<AddUnlimintCardRouterArgs>();
+      return CupertinoPageX<dynamic>(
+          routeData: routeData,
+          child: AddBankCard(
+              key: args.key,
+              onCardAdded: args.onCardAdded,
+              amount: args.amount,
+              currency: args.currency,
+              isPreview: args.isPreview));
+    },
     CircleBillingAddressRouter.name: (routeData) {
       final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -410,6 +421,12 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData,
           child: PreviewHighYieldBuyScreen(key: args.key, input: args.input));
     },
+    PreviewBuyWithBankCardRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewBuyWithBankCardRouterArgs>();
+      return CupertinoPageX<dynamic>(
+          routeData: routeData,
+          child: PreviewBuyWithBankCard(key: args.key, input: args.input));
+    },
     Circle3dSecureWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<Circle3dSecureWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -560,6 +577,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(HistoryRecurringBuysRouter.name,
             path: '/history_recurring_buys'),
         RouteConfig(AddCircleCardRouter.name, path: '/add_circle_card'),
+        RouteConfig(AddUnlimintCardRouter.name, path: '/add_bank_card'),
         RouteConfig(CircleBillingAddressRouter.name,
             path: '/circle_billing_address'),
         RouteConfig(PreviewConvertRouter.name, path: '/preview_convert'),
@@ -601,6 +619,8 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(HighYieldBuyRouter.name, path: '/high_yield_buy'),
         RouteConfig(PreviewHighYieldBuyScreenRouter.name,
             path: '/preview_high_yield_buy'),
+        RouteConfig(PreviewBuyWithBankCardRouter.name,
+            path: '/preview_buy_with_bank_card'),
         RouteConfig(Circle3dSecureWebViewRouter.name,
             path: '/circle_3d_secure'),
         RouteConfig(SimplexWebViewRouter.name, path: '/simples_webview'),
@@ -1069,6 +1089,51 @@ class AddCircleCardRouterArgs {
   @override
   String toString() {
     return 'AddCircleCardRouterArgs{key: $key, onCardAdded: $onCardAdded}';
+  }
+}
+
+/// generated route for
+/// [AddBankCard]
+class AddUnlimintCardRouter extends PageRouteInfo<AddUnlimintCardRouterArgs> {
+  AddUnlimintCardRouter(
+      {Key? key,
+      required dynamic Function() onCardAdded,
+      required String amount,
+      CurrencyModel? currency,
+      bool isPreview = false})
+      : super(AddUnlimintCardRouter.name,
+            path: '/add_bank_card',
+            args: AddUnlimintCardRouterArgs(
+                key: key,
+                onCardAdded: onCardAdded,
+                amount: amount,
+                currency: currency,
+                isPreview: isPreview));
+
+  static const String name = 'AddUnlimintCardRouter';
+}
+
+class AddUnlimintCardRouterArgs {
+  const AddUnlimintCardRouterArgs(
+      {this.key,
+      required this.onCardAdded,
+      required this.amount,
+      this.currency,
+      this.isPreview = false});
+
+  final Key? key;
+
+  final dynamic Function() onCardAdded;
+
+  final String amount;
+
+  final CurrencyModel? currency;
+
+  final bool isPreview;
+
+  @override
+  String toString() {
+    return 'AddUnlimintCardRouterArgs{key: $key, onCardAdded: $onCardAdded, amount: $amount, currency: $currency, isPreview: $isPreview}';
   }
 }
 
@@ -1976,6 +2041,32 @@ class PreviewHighYieldBuyScreenRouterArgs {
   @override
   String toString() {
     return 'PreviewHighYieldBuyScreenRouterArgs{key: $key, input: $input}';
+  }
+}
+
+/// generated route for
+/// [PreviewBuyWithBankCard]
+class PreviewBuyWithBankCardRouter
+    extends PageRouteInfo<PreviewBuyWithBankCardRouterArgs> {
+  PreviewBuyWithBankCardRouter(
+      {Key? key, required PreviewBuyWithBankCardInput input})
+      : super(PreviewBuyWithBankCardRouter.name,
+            path: '/preview_buy_with_bank_card',
+            args: PreviewBuyWithBankCardRouterArgs(key: key, input: input));
+
+  static const String name = 'PreviewBuyWithBankCardRouter';
+}
+
+class PreviewBuyWithBankCardRouterArgs {
+  const PreviewBuyWithBankCardRouterArgs({this.key, required this.input});
+
+  final Key? key;
+
+  final PreviewBuyWithBankCardInput input;
+
+  @override
+  String toString() {
+    return 'PreviewBuyWithBankCardRouterArgs{key: $key, input: $input}';
   }
 }
 

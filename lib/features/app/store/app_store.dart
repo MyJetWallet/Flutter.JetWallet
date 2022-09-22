@@ -121,7 +121,6 @@ abstract class _AppStoreBase with Store {
     final userInfo = getIt.get<UserInfoService>();
     // TODO
     //final appsFlyerService = getIt.get<AppsFlyerService>();
-
     final token = await storageService.getValue(refreshTokenKey);
     final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';

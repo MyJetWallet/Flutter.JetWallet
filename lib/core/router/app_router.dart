@@ -31,7 +31,9 @@ import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/curency_buy.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_asset.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_unlimint.dart';
@@ -98,6 +100,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
+import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 
 part 'app_router.gr.dart';
@@ -254,6 +257,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/add_circle_card',
       name: 'AddCircleCardRouter',
       page: AddCircleCard,
+    ),
+    AutoRoute(
+      path: '/add_bank_card',
+      name: 'AddUnlimintCardRouter',
+      page: AddBankCard,
     ),
     AutoRoute(
       path: '/circle_billing_address',
@@ -439,6 +447,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/preview_high_yield_buy',
       name: 'PreviewHighYieldBuyScreenRouter',
       page: PreviewHighYieldBuyScreen,
+    ),
+    AutoRoute(
+      path: '/preview_buy_with_bank_card',
+      name: 'PreviewBuyWithBankCardRouter',
+      page: PreviewBuyWithBankCard,
     ),
     AutoRoute(
       path: '/circle_3d_secure',

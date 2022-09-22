@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/card_remove/card_remove_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
@@ -109,6 +110,9 @@ abstract class _PaymentMethodsStoreBase with Store {
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
         final _ = sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+      } else if (card.integration == IntegrationType.unlimintAlt) {
+        final model = CardRemoveRequestModel(cardId: card.id);
+        final _ = sNetwork.getWalletModule().cardRemove(model);
       }
 
       _deleteCardFromCardsBy(card.id);

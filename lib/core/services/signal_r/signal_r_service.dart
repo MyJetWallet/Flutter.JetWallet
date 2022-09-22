@@ -3,6 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/payment_methods_service/payment_methods_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
@@ -52,6 +53,7 @@ class SignalRService {
 
     sCurrencies.init();
     sCurrenciesWithHidden.init();
+    sPaymentMethod.init();
   }
 
   SignalRModule createService() {

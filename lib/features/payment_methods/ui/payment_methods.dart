@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/payment_methods_service/payment_methods_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -40,6 +41,12 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final cardLimitsState = sSignalRModules.cardLimitsModel;
     final kycHandler = getIt.get<KycAlertHandler>();
+    final allPaymentMethods = sPaymentMethod.paymentMethods;
+    final useBankCard = allPaymentMethods
+        .contains('PaymentMethodType.bankCard');
+    final useCircleCard = allPaymentMethods
+        .contains('PaymentMethodType.circleCard');
+    final showAddButton = useBankCard || useCircleCard;
 
     final state = PaymentMethodsStore.of(context);
 
@@ -57,15 +64,28 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     }
 
     void _onAddCardTap() {
-      sRouter.push(
-        AddCircleCardRouter(
-          onCardAdded: (_) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            state.getCards();
-          },
-        ),
-      );
+      if (useBankCard) {
+        sRouter.push(
+          AddUnlimintCardRouter(
+            onCardAdded: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              state.getCards();
+            },
+            amount: '',
+          ),
+        );
+      } else if (useCircleCard) {
+        sRouter.push(
+          AddCircleCardRouter(
+            onCardAdded: (_) {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              state.getCards();
+            },
+          ),
+        );
+      }
     }
 
     void checkKyc() {
@@ -98,20 +118,23 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                   children: [
                     const Spacer(),
                     Text(intl.paymentMethods_noSavedCards, style: sTextH3Style),
-                    Text(
-                      intl.paymentMethod_text,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
+                    SPaddingH24(
+                      child: Text(
+                        intl.paymentMethod_text,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
                     ),
                     const Spacer(),
-                    SPaddingH24(
-                      child: AddButton(
-                        onTap: () => checkKyc(),
+                    if (showAddButton)
+                      SPaddingH24(
+                        child: AddButton(
+                          onTap: () => checkKyc(),
+                        ),
                       ),
-                    ),
                     const SpaceH24(),
                   ],
                 )
@@ -144,9 +167,9 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       ],
                     ),
                     SFloatingButtonFrame(
-                      button: AddButton(
+                      button: showAddButton ? AddButton(
                         onTap: () => checkKyc(),
-                      ),
+                      ) : const SizedBox(),
                     ),
                   ],
                 );
