@@ -88,21 +88,21 @@ abstract class _PinScreenStoreBase with Store {
   ObservableList<String> confirmPin = ObservableList.of([]);
 
   @action
-  PinBoxEnum boxState(int boxId) {
+  PinBoxEnum boxState(int boxId, PinBoxEnum state) {
     return screenUnion.when(
-      enterPin: () => _boxState(enterPin, boxId),
-      newPin: () => _boxState(newPin, boxId),
-      confirmPin: () => _boxState(confrimPin, boxId),
+      enterPin: () => _boxState(enterPin, boxId, state),
+      newPin: () => _boxState(newPin, boxId, state),
+      confirmPin: () => _boxState(confrimPin, boxId, state),
     );
   }
 
   @action
-  PinBoxEnum _boxState(String pin, int boxId) {
+  PinBoxEnum _boxState(String pin, int boxId, PinBoxEnum state) {
     print(pinState);
 
-    if (pinState == PinBoxEnum.correct) return pinState;
-    if (pinState == PinBoxEnum.success) return pinState;
-    if (pinState == PinBoxEnum.error) return pinState;
+    if (state == PinBoxEnum.correct) return state;
+    if (state == PinBoxEnum.success) return state;
+    if (state == PinBoxEnum.error) return state;
 
     return pin.length >= boxId ? PinBoxEnum.filled : PinBoxEnum.empty;
   }
@@ -268,6 +268,8 @@ abstract class _PinScreenStoreBase with Store {
               sNotification.showError(
                 'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
               );
+              _updateNewPin('');
+              _updatePinBoxState(PinBoxEnum.empty);
             } else {
               sNotification.showError(
                 'Incorrect PIN has been entered more than $maxPinAttempts times, '
@@ -451,6 +453,9 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> resetPin() async {
+    newPin = '';
+    enterPin = '';
+    confrimPin = '';
     screenUnion.when(
       enterPin: () => _updateEnterPin(''),
       newPin: () => _updateNewPin(''),

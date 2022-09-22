@@ -145,6 +145,7 @@ abstract class _SignalRModulesBase with Store {
 
     recurringBuyOS.listen(
       (value) {
+        recurringBuys.clear();
         for (final element in value.recurringBuys) {
           if (!recurringBuys.contains(element)) {
             recurringBuys.add(element);
