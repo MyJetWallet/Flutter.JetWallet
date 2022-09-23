@@ -244,7 +244,6 @@ abstract class _AddBankCardStoreBase with Store {
   @action
   void updateExpiryYear(String expiryDate) {
     _logger.log(notifier, 'updateExpiryYear');
-    print(expiryDate);
 
     expiryYear = expiryDate;
 
