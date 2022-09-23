@@ -85,10 +85,10 @@ abstract class _WithdrawalAddressStoreBase with Store {
   TextEditingController networkController = TextEditingController();
 
   @observable
-  late TextEditingController addressController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @observable
-  late TextEditingController tagController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
 
   @observable
   FocusNode addressFocus = FocusNode();
@@ -151,8 +151,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
   void updateNetwork(BlockchainModel _network) {
     _logger.log(notifier, 'updateNetwork');
 
-    networkController.text = network.description;
     network = _network;
+    networkController.text = network.description;
   }
 
   @action
@@ -402,7 +402,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     try {
       final model = ValidateAddressRequestModel(
         assetSymbol: currencyModel.symbol,
-        toAddress: address,
+        toAddress: addressController.text,
         toTag: tag,
         assetNetwork: network.id,
       );
@@ -450,7 +450,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     try {
       final model = ValidateAddressRequestModel(
         assetSymbol: currencyModel.symbol,
-        toAddress: address,
+        toAddress: addressController.text,
         toTag: tag,
         assetNetwork: network.id,
       );

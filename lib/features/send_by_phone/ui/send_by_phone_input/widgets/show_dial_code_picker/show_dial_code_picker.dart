@@ -47,9 +47,14 @@ class _SearchPinned extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return SStandardField(
       autofocus: true,
+      focusNode: FocusNode(),
+      controller: store.searchTextController,
       labelText: intl.showDialCodePicker_searchCountry,
       onChanged: (value) {
         store.updateDialCodeSearch(value);
+        store.searchTextController.selection = TextSelection.collapsed(
+          offset: store.searchTextController.text.length,
+        );
       },
     );
   }
