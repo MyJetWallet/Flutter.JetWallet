@@ -19,15 +19,18 @@ part 'withdrawal_amount_store.g.dart';
 
 class WithdrawalAmountStore extends _WithdrawalAmountStoreBase
     with _$WithdrawalAmountStore {
-  WithdrawalAmountStore(WithdrawalModel withdrawal) : super(withdrawal);
+  WithdrawalAmountStore(
+    WithdrawalModel withdrawal,
+    WithdrawalAddressStore addressStore,
+  ) : super(withdrawal, addressStore);
 
   static _WithdrawalAmountStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalAmountStore>(context, listen: false);
 }
 
 abstract class _WithdrawalAmountStoreBase with Store {
-  _WithdrawalAmountStoreBase(this.withdrawal) {
-    final _address = WithdrawalAddressStore(withdrawal);
+  _WithdrawalAmountStoreBase(this.withdrawal, this.addressStore) {
+    final _address = addressStore;
 
     tag = _address.tag;
     address = _address.address;
@@ -39,6 +42,8 @@ abstract class _WithdrawalAmountStoreBase with Store {
   }
 
   final WithdrawalModel withdrawal;
+
+  final WithdrawalAddressStore addressStore;
 
   late CurrencyModel currencyModel;
 

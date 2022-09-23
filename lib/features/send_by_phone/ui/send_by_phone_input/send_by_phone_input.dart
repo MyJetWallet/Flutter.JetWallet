@@ -32,7 +32,7 @@ class SendByPhoneInput extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<SendByPhonePermission>(
-          create: (_) => SendByPhonePermission(),
+          create: (_) => SendByPhonePermission()..init(),
         ),
       ],
       builder: (context, child) {
@@ -67,13 +67,16 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+
+    getIt.get<SendByPhoneInputStore>().clear();
+
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final state = SendByPhonePermission();
+      final state = SendByPhonePermission.of(context);
 
       // If returned from Settigns check whether user enabled permission or not
       if (state.userLocation == UserLocation.settings) {
@@ -138,6 +141,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                           onTap: () {
                             showContactPicker(
                               context,
+                              permission,
                             );
                           },
                           child: AbsorbPointer(
@@ -268,29 +272,33 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                 ),
             ],
           ),
-          Positioned(
-            left: 24.0,
-            right: 24.0,
-            bottom: 24.0,
-            child: Material(
-              color: Colors.transparent,
-              child: SPrimaryButton2(
-                active: input.isReadyToContinue &&
-                    !(input.dialCodeController.text ==
-                        intl.sendByPhoneInput_select),
-                name: intl.sendByPhoneInput_continue,
-                onTap: () {
-                  sAnalytics.sendContinuePhone();
-                  sAnalytics.sendViews();
+          Observer(
+            builder: (context) {
+              return Positioned(
+                left: 24.0,
+                right: 24.0,
+                bottom: 24.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: SPrimaryButton2(
+                    active: input.isReadyToContinue &&
+                        !(input.dialCodeController.text ==
+                            intl.sendByPhoneInput_select),
+                    name: intl.sendByPhoneInput_continue,
+                    onTap: () {
+                      sAnalytics.sendContinuePhone();
+                      sAnalytics.sendViews();
 
-                  sRouter.push(
-                    SendByPhoneAmountRouter(
-                      currency: widget.currency,
-                    ),
-                  );
-                },
-              ),
-            ),
+                      sRouter.push(
+                        SendByPhoneAmountRouter(
+                          currency: widget.currency,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

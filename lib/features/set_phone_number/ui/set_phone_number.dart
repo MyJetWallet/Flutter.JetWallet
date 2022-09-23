@@ -75,20 +75,24 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: SPaddingH24(
-                    child: SStandardField(
-                      labelText: intl.setPhoneNumber_phoneNumber,
-                      autofocus: true,
-                      autofillHints: const [AutofillHints.telephoneNumber],
-                      keyboardType: TextInputType.phone,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (String phone) {
-                        store.updatePhoneNumber(phone);
-                      },
-                      controller: store.phoneNumberController,
-                    ),
-                  ),
+                Observer(
+                  builder: (context) {
+                    return Expanded(
+                      child: SPaddingH24(
+                        child: SStandardField(
+                          labelText: intl.setPhoneNumber_phoneNumber,
+                          autofocus: true,
+                          autofillHints: const [AutofillHints.telephoneNumber],
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (String phone) {
+                            store.updatePhoneNumber(phone);
+                          },
+                          controller: store.phoneNumberController,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -106,48 +110,54 @@ class SetPhoneNumber extends StatelessObserverWidget {
             ),
           ),
           const Spacer(),
-          SPaddingH24(
-            child: SPrimaryButton2(
-              active: store.isReadyToContinue,
-              name: intl.setPhoneNumber_continue,
-              onTap: () {
-                sAnalytics.kycEnterPhoneNumber();
-                sAnalytics.accountEnterNumber();
-                store.sendCode(
-                  then: () {
-                    sRouter.push(
-                      PhoneVerificationRouter(
-                        args: PhoneVerificationArgs(
-                          phoneNumber: store.phoneNumber,
-                          sendCodeOnInitState: false,
-                          onVerified: () {
-                            final userInfoN = sUserInfo;
+          Observer(
+            builder: (context) {
+              return SPaddingH24(
+                child: SPrimaryButton2(
+                  active: store.isButtonActive,
+                  name: intl.setPhoneNumber_continue,
+                  onTap: () {
+                    sAnalytics.kycEnterPhoneNumber();
+                    sAnalytics.accountEnterNumber();
+                    store.sendCode(
+                      then: () {
+                        sRouter.push(
+                          PhoneVerificationRouter(
+                            args: PhoneVerificationArgs(
+                              phoneNumber: store.phoneNumber(),
+                              sendCodeOnInitState: false,
+                              onVerified: () {
+                                final userInfoN = sUserInfo;
 
-                            userInfoN.updatePhoneVerified(phoneVerified: true);
-                            userInfoN.updateTwoFaStatus(enabled: true);
-                            userInfoN.updatePhone(store.phoneNumber);
+                                userInfoN.updatePhoneVerified(
+                                  phoneVerified: true,
+                                );
+                                userInfoN.updateTwoFaStatus(enabled: true);
+                                userInfoN.updatePhone(store.phoneNumber());
 
-                            sAnalytics.accountSuccessPhone();
+                                sAnalytics.accountSuccessPhone();
 
-                            sRouter
-                                .push(
-                              SuccessScreenRouter(
-                                secondaryText: successText,
-                              ),
-                            )
-                                .then(
-                              (data) {
-                                then;
+                                sRouter
+                                    .push(
+                                  SuccessScreenRouter(
+                                    secondaryText: successText,
+                                  ),
+                                )
+                                    .then(
+                                  (data) {
+                                    then;
+                                  },
+                                );
                               },
-                            );
-                          },
-                        ),
-                      ),
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
           const SpaceH24(),
         ],

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -23,20 +24,22 @@ class WithdrawalConfirm extends StatelessWidget {
   const WithdrawalConfirm({
     Key? key,
     required this.withdrawal,
+    required this.addressStore,
+    required this.previewStore,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
+  final WithdrawalAddressStore addressStore;
+  final WithdrawalPreviewStore previewStore;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<WithdrawalConfirmStore>(
-          create: (_) => WithdrawalConfirmStore(withdrawal),
+          create: (_) =>
+              WithdrawalConfirmStore(withdrawal, previewStore, addressStore),
           dispose: (context, store) => store.dispose(),
-        ),
-        Provider<WithdrawalPreviewStore>(
-          create: (_) => WithdrawalPreviewStore(withdrawal),
         ),
         Provider<TimerStore>(
           create: (_) => TimerStore(withdrawalConfirmResendCountdown),

@@ -25,10 +25,13 @@ class SendByPhoneInputStore extends _SendByPhoneInputStoreBase
 
 abstract class _SendByPhoneInputStoreBase with Store {
   _SendByPhoneInputStoreBase() {
-    initState();
+    initState(SendByPhonePermission());
+
+    dialCodeController.addListener(controllersListener);
+    phoneNumberController.addListener(controllersListener);
   }
 
-  SendByPhonePermission permission = SendByPhonePermission();
+  SendByPhonePermission? permission;
 
   static final _logger = Logger('SendByPhoneInputStore');
 
@@ -62,15 +65,31 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @observable
   TextEditingController phoneNumberController = TextEditingController();
 
-  @computed
-  bool get isReadyToContinue {
-    return dialCodeController.text.isNotEmpty &&
-        phoneNumberController.text.isNotEmpty;
+  TextEditingController searchTextController = TextEditingController();
+
+  @observable
+  bool isReadyToContinue = false;
+
+  @action
+  void controllersListener() {
+    isReadyToContinue = dialCodeController.text.isNotEmpty &&
+            phoneNumberController.text.isNotEmpty
+        ? true
+        : false;
   }
 
   @action
-  Future<void> initState() async {
-    if (permission.permissionStatus == PermissionStatus.granted) {
+  void clear() {
+    dialCodeController.text = '';
+    phoneNumberController.text = '';
+    searchTextController.text = '';
+  }
+
+  @action
+  Future<void> initState(SendByPhonePermission contactStore) async {
+    permission = contactStore;
+
+    if (permission!.permissionStatus == PermissionStatus.granted) {
       final _contacts =
           await ContactsService.getContacts(withThumbnails: false);
 

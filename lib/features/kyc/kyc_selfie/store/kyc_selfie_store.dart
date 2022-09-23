@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/kyc/helper/convert_kyc_documents.dart';
@@ -9,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:universal_io/io.dart';
 
 part 'kyc_selfie_store.g.dart';
@@ -22,6 +24,10 @@ class KycSelfieStore extends _KycSelfieStoreBase with _$KycSelfieStore {
 
 abstract class _KycSelfieStoreBase with Store {
   static final _logger = Logger('KycSelfieStore');
+
+  final loader = StackLoaderStore();
+
+  final loaderSuccess = StackLoaderStore();
 
   @observable
   File? selfie;
@@ -65,7 +71,11 @@ abstract class _KycSelfieStoreBase with Store {
         null,
       );
 
-      final response = await sNetwork.getWalletModule().postUploadDocuments(
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleImageNetworking
+          .getWalletModule()
+          .postUploadDocuments(
             formData,
             type,
           );

@@ -11,7 +11,7 @@ class PageIndicator extends StatelessObserverWidget {
     required this.documentType,
   }) : super(key: key);
 
-  final KycDocumentType documentType;
+  final KycDocumentType? documentType;
 
   @override
   Widget build(BuildContext context) {

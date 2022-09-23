@@ -188,18 +188,22 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                 ),
                 const Spacer(),
                 const SpaceH19(),
-                SPaddingH24(
-                  child: Material(
-                    color: colors.grey5,
-                    child: SPrimaryButton2(
-                      active: store.isReadyToContinue,
-                      name: intl.currencyWithdraw_continue,
-                      onTap: () {
-                        sAnalytics.sendContinueAddress();
-                        store.validateOnContinue(context);
-                      },
-                    ),
-                  ),
+                Observer(
+                  builder: (context) {
+                    return SPaddingH24(
+                      child: Material(
+                        color: colors.grey5,
+                        child: SPrimaryButton2(
+                          active: store.isReadyToContinue,
+                          name: intl.currencyWithdraw_continue,
+                          onTap: () {
+                            sAnalytics.sendContinueAddress();
+                            store.validateOnContinue(context);
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SpaceH24(),
               ],

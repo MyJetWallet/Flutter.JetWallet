@@ -147,7 +147,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             sAnalytics.account();
 
                             sRouter.push(
-                              const ProfileDetailsRouter(),
+                              //const ProfileDetailsRouter(),
+                              ChooseDocumentsRouter(headerTitle: 'dg'),
                             );
                           },
                         ),
