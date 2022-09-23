@@ -123,7 +123,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: 'EUR',
     );
 
     try {
@@ -178,9 +178,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           ' •••• ${input.cardNumber != null
           ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4)
           : ''}',
-      onCompleted: (cvv) {
+      onCompleted: (cvvNew) {
+        cvv = cvvNew;
         sRouter.pop();
-        cvv = cvv;
         _createPayment();
       },
       input: input,
@@ -257,7 +257,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
-          '${response.data?.key}'
+          '${response.data?.data.key}'
           '\r\n-----END RSA PUBLIC KEY-----';
       final key1 = rsa.parsePublicKeyFromPem(key);
       final encrypter = Encrypter(RSA(publicKey: key1));
@@ -269,7 +269,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         paymentMethod: CirclePaymentMethod.bankCard,
         cardPaymentData: BankCardPaymentDataExecuteModel(
           cardId: input.cardId ?? '',
-          encKeyId: response.data?.keyId,
+          encKeyId: response.data?.data.keyId,
           encData: base64EncodedCvv,
         ),
       ) : CardBuyExecuteRequestModel(

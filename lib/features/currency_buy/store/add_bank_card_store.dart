@@ -66,6 +66,14 @@ abstract class _AddBankCardStoreBase with Store {
   @observable
   String expiryMonth = '';
 
+  TextEditingController expiryMonthController = TextEditingController();
+
+  TextEditingController expiryYearController = TextEditingController();
+
+  TextEditingController cardNumberController = TextEditingController();
+
+  TextEditingController cardholderNameController = TextEditingController();
+
   @observable
   String expiryYear = '';
 
@@ -79,7 +87,7 @@ abstract class _AddBankCardStoreBase with Store {
   bool saveCard = true;
 
   @observable
-  StackLoaderStore? loader;
+  StackLoaderStore loader = StackLoaderStore();
 
 
   @computed
@@ -133,7 +141,7 @@ abstract class _AddBankCardStoreBase with Store {
   }) async {
     _logger.log(notifier, 'addCard');
 
-    loader!.startLoading();
+    loader?.startLoading();
 
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
@@ -142,7 +150,7 @@ abstract class _AddBankCardStoreBase with Store {
 
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
-          '${response.data?.key}'
+          '${response.data?.data.key}'
           '\r\n-----END RSA PUBLIC KEY-----';
       final key1 = rsa.parsePublicKeyFromPem(key);
       final encrypter = Encrypter(RSA(publicKey: key1));
@@ -150,7 +158,7 @@ abstract class _AddBankCardStoreBase with Store {
       final base64Encoded = encrypted.base64;
 
       final model = CardAddRequestModel(
-        encKeyId: response.data?.keyId ?? '',
+        encKeyId: response.data?.data.keyId ?? '',
         requestGuid: const Uuid().v4(),
         encData: base64Encoded,
         expMonth: int.parse(expiryMonth),
@@ -158,21 +166,21 @@ abstract class _AddBankCardStoreBase with Store {
       );
 
       await sNetwork.getWalletModule().cardAdd(model);
-      loader!.finishLoading(onFinish: () => onSuccess());
+      loader?.finishLoading(onFinish: () => onSuccess());
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
         duration: 4,
         id: 1,
       );
-      loader!.finishLoading(onFinish: onError);
+      loader?.finishLoading(onFinish: onError);
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         duration: 4,
         id: 1,
       );
-      loader!.finishLoading(onFinish: onError);
+      loader?.finishLoading(onFinish: onError);
     }
   }
 

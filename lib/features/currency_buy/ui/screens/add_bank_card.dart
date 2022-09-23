@@ -92,6 +92,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                       RegExp(r'[0-9\u2005]'),
                     ),
                   ],
+                  controller: store.cardNumberController,
                   onChanged: store.updateCardNumber,
                 ),
               ),
@@ -105,6 +106,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                         isError: store.expiryMonthError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
+                        controller: store.expiryMonthController,
                         onChanged: store.updateExpiryMonth,
                       ),
                     ),
@@ -121,6 +123,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                         isError: store.expiryYearError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
+                        controller: store.expiryYearController,
                         onChanged: store.updateExpiryYear,
                       ),
                     ),
@@ -134,6 +137,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                     labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: store.updateCardholderName,
+                    controller: store.cardholderNameController,
                     hideSpace: true,
                   ),
                 ),
@@ -178,8 +182,8 @@ class AddBankCardBody extends StatelessObserverWidget {
                   onTap: () async {
                     final response =
                       await sNetwork.getWalletModule().encryptionKey();
-                    final encKeyId = response.data?.keyId ?? '';
-                    final encKey = response.data?.key ?? '';
+                    final encKeyId = response.data?.data.keyId ?? '';
+                    final encKey = response.data?.data.key ?? '';
 
                     final cardNumber = store.cardNumber
                         .replaceAll('\u{2005}', '');
