@@ -165,7 +165,11 @@ abstract class _CredentialsServiceBase with Store {
           onError: (error) {
             sAnalytics.signUpFailure(email, error.cause);
 
-            showError(error.cause);
+            if (error.cause.contains('50') || error.cause.contains('40')) {
+              showError(intl.something_went_wrong_try_again);
+            } else {
+              showError(error.cause);
+            }
           },
         );
       }

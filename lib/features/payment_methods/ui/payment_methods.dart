@@ -107,11 +107,11 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       ),
                     ),
                     const Spacer(),
-                    SPaddingH24(
-                      child: AddButton(
-                        onTap: () => checkKyc(),
-                      ),
-                    ),
+                    // SPaddingH24(
+                    //   child: AddButton(
+                    //     onTap: () => checkKyc(),
+                    //   ),
+                    // ),
                     const SpaceH24(),
                   ],
                 )
@@ -143,11 +143,11 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                           ),
                       ],
                     ),
-                    SFloatingButtonFrame(
-                      button: AddButton(
-                        onTap: () => checkKyc(),
-                      ),
-                    ),
+                    // SFloatingButtonFrame(
+                    //   button: AddButton(
+                    //     onTap: () => checkKyc(),
+                    //   ),
+                    // ),
                   ],
                 );
         },
