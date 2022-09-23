@@ -161,7 +161,12 @@ class _$AppRouter extends RootStackRouter {
       return CupertinoPageX<dynamic>(
           routeData: routeData,
           child: CircleBillingAddress(
-              key: args.key, onCardAdded: args.onCardAdded));
+              key: args.key,
+              onCardAdded: args.onCardAdded,
+              expiryDate: args.expiryDate,
+              cardholderName: args.cardholderName,
+              cardNumber: args.cardNumber,
+              cvv: args.cvv));
     },
     PreviewConvertRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewConvertRouterArgs>();
@@ -1077,25 +1082,49 @@ class AddCircleCardRouterArgs {
 class CircleBillingAddressRouter
     extends PageRouteInfo<CircleBillingAddressRouterArgs> {
   CircleBillingAddressRouter(
-      {Key? key, required dynamic Function(CircleCard) onCardAdded})
+      {Key? key,
+      required dynamic Function(CircleCard) onCardAdded,
+      required String expiryDate,
+      required String cardholderName,
+      required String cardNumber,
+      required String cvv})
       : super(CircleBillingAddressRouter.name,
             path: '/circle_billing_address',
             args: CircleBillingAddressRouterArgs(
-                key: key, onCardAdded: onCardAdded));
+                key: key,
+                onCardAdded: onCardAdded,
+                expiryDate: expiryDate,
+                cardholderName: cardholderName,
+                cardNumber: cardNumber,
+                cvv: cvv));
 
   static const String name = 'CircleBillingAddressRouter';
 }
 
 class CircleBillingAddressRouterArgs {
-  const CircleBillingAddressRouterArgs({this.key, required this.onCardAdded});
+  const CircleBillingAddressRouterArgs(
+      {this.key,
+      required this.onCardAdded,
+      required this.expiryDate,
+      required this.cardholderName,
+      required this.cardNumber,
+      required this.cvv});
 
   final Key? key;
 
   final dynamic Function(CircleCard) onCardAdded;
 
+  final String expiryDate;
+
+  final String cardholderName;
+
+  final String cardNumber;
+
+  final String cvv;
+
   @override
   String toString() {
-    return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded}';
+    return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded, expiryDate: $expiryDate, cardholderName: $cardholderName, cardNumber: $cardNumber, cvv: $cvv}';
   }
 }
 

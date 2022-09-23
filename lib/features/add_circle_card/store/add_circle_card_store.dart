@@ -95,6 +95,8 @@ abstract class _AddCircleCardStoreBase with Store {
   @observable
   String expiryDate = '';
 
+  TextEditingController expiryDateController = TextEditingController();
+
   @observable
   String countrySearch = '';
 
@@ -104,26 +106,42 @@ abstract class _AddCircleCardStoreBase with Store {
   @observable
   String cardNumber = '';
 
+  TextEditingController cardNumberController = TextEditingController();
+
   @observable
   String cvv = '';
+
+  TextEditingController cvvController = TextEditingController();
 
   @observable
   String cardholderName = '';
 
+  TextEditingController cardholderNameController = TextEditingController();
+
   @observable
   String streetAddress1 = '';
+
+  TextEditingController streetAddress1Controller = TextEditingController();
 
   @observable
   String streetAddress2 = '';
 
+  TextEditingController streetAddress2Controller = TextEditingController();
+
   @observable
   String city = '';
+
+  TextEditingController cityController = TextEditingController();
 
   @observable
   String district = '';
 
+  TextEditingController districtController = TextEditingController();
+
   @observable
   String postalCode = '';
+
+  TextEditingController postalCodeController = TextEditingController();
 
   @observable
   bool billingAddressEnableButton = true;
