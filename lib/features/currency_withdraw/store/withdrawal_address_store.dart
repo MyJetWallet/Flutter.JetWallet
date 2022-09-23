@@ -33,6 +33,7 @@ class WithdrawalAddressStore extends _WithdrawalAddressStoreBase
 abstract class _WithdrawalAddressStoreBase with Store {
   _WithdrawalAddressStoreBase(this.withdrawal) {
     currencyModel = withdrawal.currency;
+
     if (currencyModel.isSingleNetwork) {
       updateNetwork(currencyModel.withdrawalBlockchains[0]);
     }

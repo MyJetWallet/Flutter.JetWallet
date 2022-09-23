@@ -342,6 +342,8 @@ class DeepLinkService {
     final deviceInfo = sDeviceInfo.model;
     final referralCode = parameters[_code];
 
+    print(referralCode);
+
     await storage.setString(referralCodeKey, referralCode);
     await checkInitAppFBAnalytics(storage, deviceInfo);
 

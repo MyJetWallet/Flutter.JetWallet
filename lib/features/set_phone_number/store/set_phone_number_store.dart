@@ -25,11 +25,13 @@ abstract class _SetPhoneNumberStoreBase with Store {
     dialCodeController = TextEditingController(
       text: sPhoneNumbers[0].countryCode,
     );
-    phoneNumberController = TextEditingController();
+
     loader = StackLoaderStore();
     phoneFieldError = StandardFieldErrorNotifier();
 
     _registerCountryUser();
+
+    phoneNumberController.addListener(phoneControllerListener);
   }
 
   static final _logger = Logger('SetPhoneNumberStore');
@@ -47,24 +49,32 @@ abstract class _SetPhoneNumberStoreBase with Store {
   String dialCodeSearch = '';
 
   @observable
+  bool isButtonActive = false;
+
+  @observable
   ObservableList<SPhoneNumber> sortedDialCodes = ObservableList.of([]);
 
   late TextEditingController dialCodeController;
 
-  late TextEditingController phoneNumberController;
+  TextEditingController phoneNumberController = TextEditingController();
 
-  @computed
-  String get phoneNumber {
-    return dialCodeController.text + phoneNumberController.text;
-  }
+  String phoneNumber() =>
+      '${dialCodeController.text}${phoneNumberController.text}';
 
   @computed
   bool get isReadyToContinue {
     final condition1 = dialCodeController.text.isNotEmpty;
     final condition2 = phoneNumberController.text.isNotEmpty;
-    final condition3 = validWeakPhoneNumber(phoneNumber);
+    final condition3 = validWeakPhoneNumber(phoneNumber());
 
     return condition1 && condition2 && condition3;
+  }
+
+  @action
+  void phoneControllerListener() {
+    isButtonActive = dialCodeController.text.isNotEmpty &&
+        phoneNumberController.text.isNotEmpty &&
+        validWeakPhoneNumber(phoneNumber());
   }
 
   @action
@@ -75,7 +85,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
     try {
       final number = await decomposePhoneNumber(
-        phoneNumber,
+        phoneNumber(),
       );
 
       final model = PhoneVerificationRequestModel(
@@ -85,18 +95,28 @@ abstract class _SetPhoneNumberStoreBase with Store {
         phoneIso: number.isoCode,
       );
 
-      final _ = await sNetwork
+      final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
 
+      if (resp.hasError) {
+        _logger.log(stateFlow, 'sendCode', resp.error);
+        sNotification.showError(resp.error?.cause ?? '', id: 1);
+
+        return;
+      }
+
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();
+
       then();
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'sendCode', e);
 
       sNotification.showError(
