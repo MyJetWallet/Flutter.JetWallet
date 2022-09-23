@@ -99,6 +99,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
   @observable
   Key qrKey = GlobalKey();
 
+  @observable
+  bool isReadyToContinue = false;
+
   @computed
   bool get showAddressErase => address.isNotEmpty;
 
@@ -112,17 +115,39 @@ abstract class _WithdrawalAddressStoreBase with Store {
         : addressValidation is Valid;
   }
 
-  @computed
-  bool get isReadyToContinue {
+  @action
+  void setIsReadyToContinue() {
+    if (currency == null) return;
+
     final condition1 = addressValidation is Hide || addressValidation is Valid;
     final condition2 = tagValidation is Hide || tagValidation is Valid;
-    final condition3 = address.isNotEmpty;
+    final condition3 = addressController.text.isNotEmpty;
     final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    return currency!.hasTag
-        ? condition1 && condition2 && condition3 && condition4
-        : condition1 && condition3;
+    print('HAG TAG: ${currency!.hasTag}');
+
+    print(condition1);
+    print(condition3);
+    print(condition1 && condition3);
+
+    isReadyToContinue = condition1 && condition3;
+
+    print(isReadyToContinue);
   }
+
+  /*
+    @computed
+    bool get isReadyToContinue {
+      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition2 = tagValidation is Hide || tagValidation is Valid;
+      final condition3 = address.isNotEmpty;
+      final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
+
+      return currency!.hasTag
+          ? condition1 && condition2 && condition3 && condition4
+          : condition1 && condition3;
+    }
+  */
 
   @computed
   bool get requirementLoading {
@@ -153,6 +178,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     network = _network;
     networkController.text = network.description;
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -162,6 +189,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
       _updateAddressValidation(const Hide());
       address = address;
+
+      setIsReadyToContinue();
     }
   }
 
@@ -172,6 +201,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
       _updateTagValidation(const Hide());
       tag = _tag;
+
+      setIsReadyToContinue();
     }
   }
 
@@ -184,6 +215,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     addressFocus.unfocus();
     _updateAddressValidation(const Hide());
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -195,22 +228,28 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     tagFocus.unfocus();
     _updateTagValidation(const Hide());
+
+    setIsReadyToContinue();
   }
 
   Future<void> pasteAddress(ScrollController scrollController) async {
     _logger.log(notifier, 'pasteAddress');
 
     final copiedText = await _copiedText();
+
     addressController.text = copiedText;
     _moveCursorAtTheEnd(addressController);
     addressFocus.requestFocus();
+
     updateAddress(copiedText);
+
     await _validateAddressOrTag(
       _updateAddressValidation,
       _triggerErrorOfAddressField,
     );
 
     scrollToBottom(scrollController);
+    setIsReadyToContinue();
   }
 
   @action
@@ -228,6 +267,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     );
 
     scrollToBottom(scrollController);
+    setIsReadyToContinue();
   }
 
   @action
@@ -258,6 +298,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
         scrollToBottom(scrollController);
       }
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -297,6 +339,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
         scrollToBottom(scrollController);
       }
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -432,6 +476,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       updateValidation(const Invalid());
       triggerErrorOfField();
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -486,6 +532,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       _updateValidationOfBothFields(const Invalid());
       _triggerErrorOfBothFields();
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -535,6 +583,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
       WithdrawalAmountRouter(
         withdrawal: withdrawal,
         network: networkController.text,
+        addressStore: this as WithdrawalAddressStore,
       ),
     );
   }

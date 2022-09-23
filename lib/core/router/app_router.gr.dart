@@ -225,13 +225,18 @@ class _$AppRouter extends RootStackRouter {
           child: WithdrawalAmount(
               key: args.key,
               withdrawal: args.withdrawal,
-              network: args.network));
+              network: args.network,
+              addressStore: args.addressStore));
     },
     WithdrawalConfirmRouter.name: (routeData) {
       final args = routeData.argsAs<WithdrawalConfirmRouterArgs>();
       return CupertinoPageX<dynamic>(
           routeData: routeData,
-          child: WithdrawalConfirm(key: args.key, withdrawal: args.withdrawal));
+          child: WithdrawalConfirm(
+              key: args.key,
+              withdrawal: args.withdrawal,
+              addressStore: args.addressStore,
+              previewStore: args.previewStore));
     },
     WithdrawalPreviewRouter.name: (routeData) {
       final args = routeData.argsAs<WithdrawalPreviewRouterArgs>();
@@ -240,7 +245,9 @@ class _$AppRouter extends RootStackRouter {
           child: WithdrawalPreview(
               key: args.key,
               withdrawal: args.withdrawal,
-              network: args.network));
+              network: args.network,
+              addressStore: args.addressStore,
+              amountStore: args.amountStore));
     },
     SmsAuthenticatorRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
@@ -1321,18 +1328,27 @@ class FailureScreenRouterArgs {
 /// [WithdrawalAmount]
 class WithdrawalAmountRouter extends PageRouteInfo<WithdrawalAmountRouterArgs> {
   WithdrawalAmountRouter(
-      {Key? key, required WithdrawalModel withdrawal, required String network})
+      {Key? key,
+      required WithdrawalModel withdrawal,
+      required String network,
+      required WithdrawalAddressStore addressStore})
       : super(WithdrawalAmountRouter.name,
             path: '/withdrawal_ammount',
             args: WithdrawalAmountRouterArgs(
-                key: key, withdrawal: withdrawal, network: network));
+                key: key,
+                withdrawal: withdrawal,
+                network: network,
+                addressStore: addressStore));
 
   static const String name = 'WithdrawalAmountRouter';
 }
 
 class WithdrawalAmountRouterArgs {
   const WithdrawalAmountRouterArgs(
-      {this.key, required this.withdrawal, required this.network});
+      {this.key,
+      required this.withdrawal,
+      required this.network,
+      required this.addressStore});
 
   final Key? key;
 
@@ -1340,9 +1356,11 @@ class WithdrawalAmountRouterArgs {
 
   final String network;
 
+  final WithdrawalAddressStore addressStore;
+
   @override
   String toString() {
-    return 'WithdrawalAmountRouterArgs{key: $key, withdrawal: $withdrawal, network: $network}';
+    return 'WithdrawalAmountRouterArgs{key: $key, withdrawal: $withdrawal, network: $network, addressStore: $addressStore}';
   }
 }
 
@@ -1350,25 +1368,40 @@ class WithdrawalAmountRouterArgs {
 /// [WithdrawalConfirm]
 class WithdrawalConfirmRouter
     extends PageRouteInfo<WithdrawalConfirmRouterArgs> {
-  WithdrawalConfirmRouter({Key? key, required WithdrawalModel withdrawal})
+  WithdrawalConfirmRouter(
+      {Key? key,
+      required WithdrawalModel withdrawal,
+      required WithdrawalAddressStore addressStore,
+      required WithdrawalPreviewStore previewStore})
       : super(WithdrawalConfirmRouter.name,
             path: '/withdrawal_confirm',
-            args:
-                WithdrawalConfirmRouterArgs(key: key, withdrawal: withdrawal));
+            args: WithdrawalConfirmRouterArgs(
+                key: key,
+                withdrawal: withdrawal,
+                addressStore: addressStore,
+                previewStore: previewStore));
 
   static const String name = 'WithdrawalConfirmRouter';
 }
 
 class WithdrawalConfirmRouterArgs {
-  const WithdrawalConfirmRouterArgs({this.key, required this.withdrawal});
+  const WithdrawalConfirmRouterArgs(
+      {this.key,
+      required this.withdrawal,
+      required this.addressStore,
+      required this.previewStore});
 
   final Key? key;
 
   final WithdrawalModel withdrawal;
 
+  final WithdrawalAddressStore addressStore;
+
+  final WithdrawalPreviewStore previewStore;
+
   @override
   String toString() {
-    return 'WithdrawalConfirmRouterArgs{key: $key, withdrawal: $withdrawal}';
+    return 'WithdrawalConfirmRouterArgs{key: $key, withdrawal: $withdrawal, addressStore: $addressStore, previewStore: $previewStore}';
   }
 }
 
@@ -1377,18 +1410,30 @@ class WithdrawalConfirmRouterArgs {
 class WithdrawalPreviewRouter
     extends PageRouteInfo<WithdrawalPreviewRouterArgs> {
   WithdrawalPreviewRouter(
-      {Key? key, required WithdrawalModel withdrawal, required String network})
+      {Key? key,
+      required WithdrawalModel withdrawal,
+      required String network,
+      required WithdrawalAddressStore addressStore,
+      required WithdrawalAmountStore amountStore})
       : super(WithdrawalPreviewRouter.name,
             path: '/withdrawal_preview',
             args: WithdrawalPreviewRouterArgs(
-                key: key, withdrawal: withdrawal, network: network));
+                key: key,
+                withdrawal: withdrawal,
+                network: network,
+                addressStore: addressStore,
+                amountStore: amountStore));
 
   static const String name = 'WithdrawalPreviewRouter';
 }
 
 class WithdrawalPreviewRouterArgs {
   const WithdrawalPreviewRouterArgs(
-      {this.key, required this.withdrawal, required this.network});
+      {this.key,
+      required this.withdrawal,
+      required this.network,
+      required this.addressStore,
+      required this.amountStore});
 
   final Key? key;
 
@@ -1396,9 +1441,13 @@ class WithdrawalPreviewRouterArgs {
 
   final String network;
 
+  final WithdrawalAddressStore addressStore;
+
+  final WithdrawalAmountStore amountStore;
+
   @override
   String toString() {
-    return 'WithdrawalPreviewRouterArgs{key: $key, withdrawal: $withdrawal, network: $network}';
+    return 'WithdrawalPreviewRouterArgs{key: $key, withdrawal: $withdrawal, network: $network, addressStore: $addressStore, amountStore: $amountStore}';
   }
 }
 

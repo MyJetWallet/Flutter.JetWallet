@@ -196,9 +196,11 @@ class DeepLinkService {
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier = WithdrawalConfirmStore(withdrawalModel);
 
-    notifier.updateCode(code, id);
+    //TODO:
+    //final notifier = WithdrawalConfirmStore(withdrawalModel);
+
+    //notifier.updateCode(code, id);
   }
 
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {

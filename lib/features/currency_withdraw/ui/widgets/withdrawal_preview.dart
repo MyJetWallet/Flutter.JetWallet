@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
@@ -17,15 +19,19 @@ class WithdrawalPreview extends StatelessWidget {
     Key? key,
     required this.withdrawal,
     required this.network,
+    required this.addressStore,
+    required this.amountStore,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
   final String network;
+  final WithdrawalAddressStore addressStore;
+  final WithdrawalAmountStore amountStore;
 
   @override
   Widget build(BuildContext context) {
     return Provider<WithdrawalPreviewStore>(
-      create: (context) => WithdrawalPreviewStore(withdrawal),
+      create: (context) => WithdrawalPreviewStore(withdrawal, amountStore, addressStore),
       builder: (context, child) => _WithdrawalPreviewBody(
         withdrawal: withdrawal,
         network: network,

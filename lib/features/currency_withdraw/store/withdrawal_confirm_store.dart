@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -19,19 +20,31 @@ part 'withdrawal_confirm_store.g.dart';
 
 class WithdrawalConfirmStore extends _WithdrawalConfirmStoreBase
     with _$WithdrawalConfirmStore {
-  WithdrawalConfirmStore(WithdrawalModel withdrawal) : super(withdrawal);
+  WithdrawalConfirmStore(
+    WithdrawalModel withdrawal,
+    WithdrawalPreviewStore previewStore,
+    WithdrawalAddressStore addressStore,
+  ) : super(withdrawal, previewStore, addressStore);
 
   static _WithdrawalConfirmStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalConfirmStore>(context, listen: false);
 }
 
 abstract class _WithdrawalConfirmStoreBase with Store {
-  _WithdrawalConfirmStoreBase(this.withdrawal) {
-    _operationId = WithdrawalPreviewStore(withdrawal).operationId;
+  _WithdrawalConfirmStoreBase(
+    this.withdrawal,
+    this.previewStore,
+    this.addressStore,
+  ) {
+    _operationId = previewStore.operationId;
     _verb = withdrawal.dictionary.verb.toLowerCase();
   }
 
   final WithdrawalModel withdrawal;
+
+  final WithdrawalPreviewStore previewStore;
+
+  final WithdrawalAddressStore addressStore;
 
   TextEditingController controller = TextEditingController();
 
@@ -166,6 +179,7 @@ abstract class _WithdrawalConfirmStoreBase with Store {
             WithdrawalAmountRouter(
               withdrawal: withdrawal,
               network: '',
+              addressStore: addressStore,
             ),
           );
         },

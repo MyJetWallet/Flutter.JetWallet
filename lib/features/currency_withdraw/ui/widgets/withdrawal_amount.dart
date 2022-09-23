@@ -4,34 +4,63 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../helper/user_will_receive.dart';
 import '../../model/withdrawal_model.dart';
 
-class WithdrawalAmount extends StatelessObserverWidget {
+class WithdrawalAmount extends StatelessWidget {
   const WithdrawalAmount({
+    super.key,
+    required this.withdrawal,
+    required this.network,
+    required this.addressStore,
+  });
+
+  final WithdrawalModel withdrawal;
+  final String network;
+  final WithdrawalAddressStore addressStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<WithdrawalAmountStore>(
+      create: (context) => WithdrawalAmountStore(withdrawal, addressStore),
+      builder: (context, child) => _WithdrawalAmountBody(
+        withdrawal: withdrawal,
+        network: network,
+        addressStore: addressStore,
+      ),
+    );
+  }
+}
+
+class _WithdrawalAmountBody extends StatelessObserverWidget {
+  const _WithdrawalAmountBody({
     Key? key,
     required this.withdrawal,
     required this.network,
+    required this.addressStore,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
   final String network;
+  final WithdrawalAddressStore addressStore;
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    final store = WithdrawalAmountStore(withdrawal);
+    final store = WithdrawalAmountStore.of(context);
 
     final currency = withdrawal.currency;
 
@@ -175,6 +204,8 @@ class WithdrawalAmount extends StatelessObserverWidget {
                 WithdrawalPreviewRouter(
                   withdrawal: withdrawal,
                   network: network,
+                  amountStore: store as WithdrawalAmountStore,
+                  addressStore: addressStore,
                 ),
               );
             },
