@@ -8,11 +8,10 @@ import 'package:jetwallet/core/services/device_info/models/device_info_model.dar
 
 final sDeviceInfo = getIt.get<DeviceInfo>();
 
-@lazySingleton
 class DeviceInfo {
   late DeviceInfoModel model;
 
-  Future<DeviceInfoModel> deviceInfo() async {
+  Future<DeviceInfo> deviceInfo() async {
     final deviceInfoPlugin = DeviceInfoPlugin();
     final deviceMarketingPlugin = DeviceMarketingNames();
     final deviceMarketingName = await deviceMarketingPlugin.getSingleName();
@@ -29,8 +28,6 @@ class DeviceInfo {
         marketingName: deviceMarketingName,
       );
       model = deviceInfo;
-
-      return deviceInfo;
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
       final deviceInfo = DeviceInfoModel(
@@ -42,8 +39,8 @@ class DeviceInfo {
         marketingName: deviceMarketingName,
       );
       model = deviceInfo;
-
-      return deviceInfo;
     }
+
+    return this;
   }
 }

@@ -126,11 +126,6 @@ abstract class _AppStoreBase with Store {
     final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
-    /// Init DeepLinks
-    getIt.registerSingletonAsync<DynamicLinkService>(
-      () async => DynamicLinkService().initDynamicLinks(),
-    );
-
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();
 

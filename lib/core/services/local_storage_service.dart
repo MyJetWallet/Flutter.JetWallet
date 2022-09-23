@@ -37,7 +37,7 @@ const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
-@lazySingleton
+@singleton
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
 
