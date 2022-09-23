@@ -61,8 +61,10 @@ abstract class _ChooseDocumentsStoreBase with Store {
   }
 
   @action
-  DocumentsModel getActiveDocument() {
-    return documents.firstWhere((element) => element.active);
+  DocumentsModel? getActiveDocument() {
+    final docs = documents.where((element) => element.active);
+
+    return docs.isNotEmpty ? docs.first : null;
   }
 
   @action
