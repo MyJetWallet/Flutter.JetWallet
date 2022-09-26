@@ -274,8 +274,6 @@ abstract class _SignalRModulesBase with Store {
     );
 
     basePrices.listen((value) {
-      print('GET BASE PRICES');
-
       if (currenciesList.isNotEmpty) {
         for (final currency in currenciesList) {
           final index = currenciesList.indexOf(currency);
@@ -306,10 +304,6 @@ abstract class _SignalRModulesBase with Store {
             baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
           );
 
-          if (index == 1) {
-            print(assetPrice.currentPrice);
-          }
-
           currenciesList[index] = currency.copyWith(
             baseBalance: baseBalance,
             currentPrice: assetPrice.currentPrice,
@@ -320,16 +314,9 @@ abstract class _SignalRModulesBase with Store {
           );
         }
       }
-
-      print(currenciesList[1].symbol +
-          ' ' +
-          currenciesList[1].currentPrice.toString());
     });
 
     balances.listen((value) {
-      print('BALANCES COMING');
-      print(value.balances);
-
       if (currenciesList.isNotEmpty) {
         for (final balance in value.balances) {
           for (final currency in currenciesList) {
