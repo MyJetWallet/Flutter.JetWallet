@@ -30,7 +30,7 @@ class ConvertInputStore extends _ConvertInputStoreBase
 
 abstract class _ConvertInputStoreBase with Store {
   _ConvertInputStoreBase(this.fromCurrency) {
-    final _currencies = sSignalRModules.getCurrencies;
+    final _currencies = sSignalRModules.currenciesList;
 
     sortCurrencies(_currencies);
 

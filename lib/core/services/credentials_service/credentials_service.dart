@@ -153,8 +153,6 @@ abstract class _CredentialsServiceBase with Store {
         final registerRequest =
             await authService.postRegister(registerRequestModel);
 
-        print('registerRequest');
-
         registerRequest.pick(
           onData: (data) async {
             await successAuth(data);

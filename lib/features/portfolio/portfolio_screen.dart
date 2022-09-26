@@ -13,7 +13,7 @@ class PortfolioScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
 
     final balancesEmpty = areBalancesEmpty(currencies);
     final noDeposits = _noDepositsInProccess(currencies);

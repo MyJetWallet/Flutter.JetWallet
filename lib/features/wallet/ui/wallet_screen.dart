@@ -65,7 +65,7 @@ class _WalletState extends State<Wallet>
     super.build(context);
 
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final currenciesWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(currencies),
     );

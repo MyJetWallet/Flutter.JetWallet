@@ -87,7 +87,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final marketInfo = getMarketInfo(marketItem.associateAsset);
 
     final chart = ChartStore.of(context);
@@ -106,7 +106,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
-    
+
     var isInWatchlist = watchlistIdsN.state.contains(marketItem.associateAsset);
 
     final filteredRecurringBuys = recurringNotifier.recurringBuys

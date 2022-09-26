@@ -31,7 +31,7 @@ class EarnOfferDetailsBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final currentCurrency = currencyFrom(currencies, earnOffer.asset);

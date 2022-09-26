@@ -98,8 +98,6 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   PinBoxEnum _boxState(String pin, int boxId, PinBoxEnum state) {
-    print(pinState);
-
     if (state == PinBoxEnum.correct) return state;
     if (state == PinBoxEnum.success) return state;
     if (state == PinBoxEnum.error) return state;
@@ -318,7 +316,6 @@ abstract class _PinScreenStoreBase with Store {
         final response = await sNetwork.getAuthModule().postSetupPin(newPin);
 
         if (response.error != null) {
-          print('_updateConfirmPin');
           await _animateError();
           _updateNewPin('');
           _updateConfirmPin('');
@@ -335,7 +332,6 @@ abstract class _PinScreenStoreBase with Store {
         _updateConfirmPin('');
         _updateScreenUnion(const NewPin());
       }
-
     } catch (e) {
       await _animateError();
       _updateNewPin('');
