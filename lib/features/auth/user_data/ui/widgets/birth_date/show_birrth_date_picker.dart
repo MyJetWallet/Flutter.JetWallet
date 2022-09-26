@@ -18,6 +18,7 @@ void showBirthDatePicker(
     context: context,
     removePinnedPadding: true,
     pinned: const _Header(),
+    enableDrag: false,
     children: [
       _SDatePicker(
         store: selectDateStore,
