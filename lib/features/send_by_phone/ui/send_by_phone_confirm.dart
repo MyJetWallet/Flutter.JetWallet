@@ -105,6 +105,8 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
   @override
   void dispose() {
     focusNode.dispose();
+
+    getIt.get<SendByPhoneConfirmStore>().clear();
     super.dispose();
   }
 

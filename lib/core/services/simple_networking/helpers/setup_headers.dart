@@ -25,5 +25,5 @@ void setupHeaders(Dio dio, [String? token]) {
   dio.options.headers['From'] = deviceInfo.deviceUid;
   dio.options.headers['User-Agent'] =
       '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-      '$devicePixelRatio;${deviceInfo.marketingName};$locale';
+      '$devicePixelRatio;$locale;${deviceInfo.marketingName}';
 }

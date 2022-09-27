@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/open_email_app.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -45,6 +47,12 @@ class _WithdrawalConfirmState extends State<WithdrawalConfirm> {
           widget.addressStore,
         );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    getIt.get<WithdrawalConfirmStore>().clear();
+    super.dispose();
   }
 
   @override
@@ -88,14 +96,12 @@ class _WithdrawalConfirmBody extends StatelessObserverWidget {
 
     final dynamicLink = getIt.get<AppStore>().withdrawDynamicLink;
 
-    final loader = StackLoaderStore();
-    final pinError = StandardFieldErrorNotifier();
     final focusNode = getIt.get<WithdrawalConfirmStore>().focusNode;
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
           confirm.controller.value.text.length == emailVerificationCodeLength &&
-          pinError.value) {
+          confirm.pinError.value) {
         confirm.controller.clear();
       }
     });
@@ -103,89 +109,98 @@ class _WithdrawalConfirmBody extends StatelessObserverWidget {
     final verb = withdrawal.dictionary.verb.toLowerCase();
     final noun = withdrawal.dictionary.noun.toLowerCase();
 
-    confirm.union.maybeWhen(
-      error: (Object? error) {
-        loader.finishLoading();
-        pinError.enableError();
-        sNotification.showError(
-          error.toString(),
-          id: 1,
+    return ReactionBuilder(
+      builder: (context) {
+        return reaction<WithdrawalConfirmUnion>(
+          (_) => confirm.union,
+          (result) {
+            result.maybeWhen(
+              error: (Object? error) {
+                confirm.loader.finishLoading();
+                confirm.pinError.enableError();
+                sNotification.showError(
+                  error.toString(),
+                  id: 1,
+                );
+              },
+              orElse: () {},
+            );
+          },
+          fireImmediately: true,
         );
       },
-      orElse: () {},
-    );
-
-    return SPageFrameWithPadding(
-      loading: loader,
-      header: SMegaHeader(
-        title: '${intl.withdrawalConfirm_confirm} $verb'
-            ' ${intl.withdrawalConfirm_request}',
-        titleAlign: TextAlign.start,
-        showBackButton: false,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Baseline(
-            baseline: 24.0,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              '${intl.withdrawalConfirm_confirmYour} $noun'
-              ' ${intl.withdrawalConfirm_text}:',
-              maxLines: 3,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+      child: SPageFrameWithPadding(
+        loading: confirm.loader,
+        header: SMegaHeader(
+          title: '${intl.withdrawalConfirm_confirm} $verb'
+              ' ${intl.withdrawalConfirm_request}',
+          titleAlign: TextAlign.start,
+          showBackButton: false,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Baseline(
+              baseline: 24.0,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                '${intl.withdrawalConfirm_confirmYour} $noun'
+                ' ${intl.withdrawalConfirm_text}:',
+                maxLines: 3,
+                style: sBodyText1Style.copyWith(
+                  color: colors.grey1,
+                ),
               ),
             ),
-          ),
-          Text(
-            authInfo.email,
-            maxLines: 2,
-            style: sBodyText1Style,
-          ),
-          const SpaceH24(),
-          SClickableLinkText(
-            text: intl.withdrawalConfirm_openEmailApp,
-            onTap: () => openEmailApp(context),
-          ),
-          const SpaceH29(),
-          PinCodeField(
-            focusNode: focusNode,
-            controller: confirm.controller,
-            length: emailVerificationCodeLength,
-            onCompleted: (_) {
-              loader.startLoading();
-              confirm.verifyCode();
-            },
-            autoFocus: true,
-            onChanged: (_) {
-              pinError.disableError();
-            },
-            pinError: pinError,
-          ),
-          SResendButton(
-            active: !dynamicLink && !confirm.isResending,
-            timer: timer.time,
-            onTap: () {
-              confirm.controller.clear();
+            Text(
+              authInfo.email,
+              maxLines: 2,
+              style: sBodyText1Style,
+            ),
+            const SpaceH24(),
+            SClickableLinkText(
+              text: intl.withdrawalConfirm_openEmailApp,
+              onTap: () => openEmailApp(context),
+            ),
+            const SpaceH29(),
+            PinCodeField(
+              focusNode: focusNode,
+              controller: confirm.controller,
+              length: emailVerificationCodeLength,
+              onCompleted: (_) {
+                confirm.loader.startLoading();
+                confirm.verifyCode();
+              },
+              autoFocus: true,
+              onChanged: (_) {
+                confirm.pinError.disableError();
+              },
+              pinError: confirm.pinError,
+            ),
+            SResendButton(
+              active: !dynamicLink && !confirm.isResending,
+              timer: timer.time,
+              onTap: () {
+                confirm.controller.clear();
 
-              confirm.withdrawalResend(
-                onSuccess: timer.refreshTimer,
-              );
-            },
-            text1: intl.withdrawalConfirm_youCanResendIn,
-            text2: intl.withdrawalConfirm_seconds,
-            text3: intl.withdrawalConfirm_didntReceiveTheCode,
-            textResend: intl.withdrawalConfirm_resend,
-          ),
-          const Spacer(),
-          SSecondaryButton1(
-            active: true,
-            name: intl.withdrawalConfirm_cancelRequest,
-            onTap: () => navigateToRouter(),
-          ),
-          const SpaceH24(),
-        ],
+                confirm.withdrawalResend(
+                  onSuccess: timer.refreshTimer,
+                );
+              },
+              text1: intl.withdrawalConfirm_youCanResendIn,
+              text2: intl.withdrawalConfirm_seconds,
+              text3: intl.withdrawalConfirm_didntReceiveTheCode,
+              textResend: intl.withdrawalConfirm_resend,
+            ),
+            const Spacer(),
+            SSecondaryButton1(
+              active: true,
+              name: intl.withdrawalConfirm_cancelRequest,
+              onTap: () => navigateToRouter(),
+            ),
+            const SpaceH24(),
+          ],
+        ),
       ),
     );
   }

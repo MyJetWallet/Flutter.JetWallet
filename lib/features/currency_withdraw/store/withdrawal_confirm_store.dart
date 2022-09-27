@@ -12,6 +12,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
@@ -41,6 +43,9 @@ abstract class _WithdrawalConfirmStoreBase with Store {
     WithdrawalPreviewStore p,
     WithdrawalAddressStore a,
   ) {
+    loader = StackLoaderStore();
+    pinError = StandardFieldErrorNotifier();
+
     withdrawal = w;
     previewStore = p;
     addressStore = a;
@@ -64,6 +69,17 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   static final _logger = Logger('WithdrawalConfirmStore');
 
   FocusNode focusNode = FocusNode();
+
+  StackLoaderStore loader = StackLoaderStore();
+  StandardFieldErrorNotifier pinError = StandardFieldErrorNotifier();
+
+  @action
+  void clear() {
+    updateCode('', _operationId);
+
+    loader = StackLoaderStore();
+    pinError = StandardFieldErrorNotifier();
+  }
 
   @action
   void updateCode(String code, String operationId) {
@@ -175,7 +191,7 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         secondaryText: '${intl.withdrawalConfirm_failedTo} $_verb',
         primaryButtonName: intl.withdrawalConfirm_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.navigate(
+          sRouter.push(
             WithdrawalAmountRouter(
               withdrawal: withdrawal!,
               network: '',
