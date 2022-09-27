@@ -98,6 +98,7 @@ dependencies:
 
   # NOTIFICATIONS
   flutter_local_notifications: ^9.7.0
+  onesignal_flutter: ^3.0.0
 
   # OTHER:
   freezed_annotation: ^2.0.3 # Annotations for the freezed

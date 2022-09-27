@@ -13,9 +13,10 @@
 part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter(
-      {GlobalKey<NavigatorState>? navigatorKey, required this.initGuard})
-      : super(navigatorKey);
+  _$AppRouter({
+    GlobalKey<NavigatorState>? navigatorKey,
+    required this.initGuard,
+  }) : super(navigatorKey);
 
   final InitGuard initGuard;
 
@@ -23,625 +24,1077 @@ class _$AppRouter extends RootStackRouter {
   final Map<String, PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const SplashScreen());
+        routeData: routeData,
+        child: const SplashScreen(),
+      );
     },
     OnboardingRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const OnboardingScreen());
+        routeData: routeData,
+        child: const OnboardingScreen(),
+      );
     },
     SingInRouter.name: (routeData) {
       final args = routeData.argsAs<SingInRouterArgs>(
           orElse: () => const SingInRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SingIn(key: args.key, email: args.email));
+        routeData: routeData,
+        child: SingIn(
+          key: args.key,
+          email: args.email,
+        ),
+      );
     },
     UserDataScreenRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const UserDataScreen());
+        routeData: routeData,
+        child: const UserDataScreen(),
+      );
     },
     EmailVerificationRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const EmailVerification());
+        routeData: routeData,
+        child: const EmailVerification(),
+      );
     },
     ResetPasswordRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const ResetPasswordScreen());
+        routeData: routeData,
+        child: const ResetPasswordScreen(),
+      );
     },
     AllowCameraRoute.name: (routeData) {
       final args = routeData.argsAs<AllowCameraRouteArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: AllowCameraScreen(
-              key: args.key,
-              permissionDescription: args.permissionDescription,
-              then: args.then));
+        routeData: routeData,
+        child: AllowCameraScreen(
+          key: args.key,
+          permissionDescription: args.permissionDescription,
+          then: args.then,
+        ),
+      );
     },
     AllowBiometricRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const AllowBiometric());
+        routeData: routeData,
+        child: const AllowBiometric(),
+      );
     },
     ApiSelectorRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const ApiSelectorScreen());
+        routeData: routeData,
+        child: const ApiSelectorScreen(),
+      );
     },
     HomeRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const HomeScreen());
+        routeData: routeData,
+        child: const HomeScreen(),
+      );
     },
     CrispRouter.name: (routeData) {
       final args = routeData.argsAs<CrispRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: Crisp(key: args.key, welcomeText: args.welcomeText));
+        routeData: routeData,
+        child: Crisp(
+          key: args.key,
+          welcomeText: args.welcomeText,
+        ),
+      );
     },
     HelpCenterWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<HelpCenterWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: HelpCenterWebView(key: args.key, link: args.link));
+        routeData: routeData,
+        child: HelpCenterWebView(
+          key: args.key,
+          link: args.link,
+        ),
+      );
     },
     InfoWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<InfoWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child:
-              InfoWebView(key: args.key, link: args.link, title: args.title));
+        routeData: routeData,
+        child: InfoWebView(
+          key: args.key,
+          link: args.link,
+          title: args.title,
+        ),
+      );
     },
     ChooseDocumentsRouter.name: (routeData) {
       final args = routeData.argsAs<ChooseDocumentsRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: ChooseDocuments(key: args.key, headerTitle: args.headerTitle));
+        routeData: routeData,
+        child: ChooseDocuments(
+          key: args.key,
+          headerTitle: args.headerTitle,
+        ),
+      );
     },
     UploadKycDocumentsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const UploadKycDocuments());
+        routeData: routeData,
+        child: const UploadKycDocuments(),
+      );
     },
     KycSelfieRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const KycSelfie());
+        routeData: routeData,
+        child: const KycSelfie(),
+      );
     },
     KycVerifyYourProfileRouter.name: (routeData) {
       final args = routeData.argsAs<KycVerifyYourProfileRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: KycVerifyYourProfile(
-              key: args.key,
-              requiredVerifications: args.requiredVerifications));
+        routeData: routeData,
+        child: KycVerifyYourProfile(
+          key: args.key,
+          requiredVerifications: args.requiredVerifications,
+        ),
+      );
     },
     CurrencyBuyRouter.name: (routeData) {
       final args = routeData.argsAs<CurrencyBuyRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: CurrencyBuy(
-              key: args.key,
-              recurringBuysType: args.recurringBuysType,
-              currency: args.currency,
-              fromCard: args.fromCard));
+        routeData: routeData,
+        child: CurrencyBuy(
+          key: args.key,
+          recurringBuysType: args.recurringBuysType,
+          currency: args.currency,
+          fromCard: args.fromCard,
+        ),
+      );
     },
     CryptoDepositRouter.name: (routeData) {
       final args = routeData.argsAs<CryptoDepositRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: CryptoDeposit(
-              key: args.key, header: args.header, currency: args.currency));
+        routeData: routeData,
+        child: CryptoDeposit(
+          key: args.key,
+          header: args.header,
+          currency: args.currency,
+        ),
+      );
     },
     TransactionHistoryRouter.name: (routeData) {
       final args = routeData.argsAs<TransactionHistoryRouterArgs>(
           orElse: () => const TransactionHistoryRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: TransactionHistory(
-              key: args.key,
-              assetName: args.assetName,
-              assetSymbol: args.assetSymbol));
+        routeData: routeData,
+        child: TransactionHistory(
+          key: args.key,
+          assetName: args.assetName,
+          assetSymbol: args.assetSymbol,
+        ),
+      );
     },
     RecurringSuccessScreenRouter.name: (routeData) {
       final args = routeData.argsAs<RecurringSuccessScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: RecurringSuccessScreen(key: args.key, input: args.input));
+        routeData: routeData,
+        child: RecurringSuccessScreen(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     HistoryRecurringBuysRouter.name: (routeData) {
       final args = routeData.argsAs<HistoryRecurringBuysRouterArgs>(
           orElse: () => const HistoryRecurringBuysRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: HistoryRecurringBuys(key: args.key, from: args.from));
+        routeData: routeData,
+        child: HistoryRecurringBuys(
+          key: args.key,
+          from: args.from,
+        ),
+      );
     },
     AddCircleCardRouter.name: (routeData) {
       final args = routeData.argsAs<AddCircleCardRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: AddCircleCard(key: args.key, onCardAdded: args.onCardAdded));
+        routeData: routeData,
+        child: AddCircleCard(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+        ),
+      );
     },
     CircleBillingAddressRouter.name: (routeData) {
       final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: CircleBillingAddress(
-              key: args.key,
-              onCardAdded: args.onCardAdded,
-              expiryDate: args.expiryDate,
-              cardholderName: args.cardholderName,
-              cardNumber: args.cardNumber,
-              cvv: args.cvv));
+        routeData: routeData,
+        child: CircleBillingAddress(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+          expiryDate: args.expiryDate,
+          cardholderName: args.cardholderName,
+          cardNumber: args.cardNumber,
+          cvv: args.cvv,
+        ),
+      );
     },
     PreviewConvertRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewConvertRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewConvert(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewConvert(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     ConvertRouter.name: (routeData) {
       final args = routeData.argsAs<ConvertRouterArgs>(
           orElse: () => const ConvertRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: Convert(key: args.key, fromCurrency: args.fromCurrency));
+        routeData: routeData,
+        child: Convert(
+          key: args.key,
+          fromCurrency: args.fromCurrency,
+        ),
+      );
     },
     SuccessScreenRouter.name: (routeData) {
       final args = routeData.argsAs<SuccessScreenRouterArgs>(
           orElse: () => const SuccessScreenRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SuccessScreen(
-              key: args.key,
-              onSuccess: args.onSuccess,
-              onActionButton: args.onActionButton,
-              primaryText: args.primaryText,
-              secondaryText: args.secondaryText,
-              specialTextWidget: args.specialTextWidget,
-              showActionButton: args.showActionButton,
-              showProgressBar: args.showProgressBar,
-              buttonText: args.buttonText,
-              time: args.time));
+        routeData: routeData,
+        child: SuccessScreen(
+          key: args.key,
+          onSuccess: args.onSuccess,
+          onActionButton: args.onActionButton,
+          primaryText: args.primaryText,
+          secondaryText: args.secondaryText,
+          specialTextWidget: args.specialTextWidget,
+          showActionButton: args.showActionButton,
+          showProgressBar: args.showProgressBar,
+          buttonText: args.buttonText,
+          time: args.time,
+        ),
+      );
     },
     WaitingScreenRouter.name: (routeData) {
       final args = routeData.argsAs<WaitingScreenRouterArgs>(
           orElse: () => const WaitingScreenRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: WaitingScreen(
-              key: args.key,
-              onSuccess: args.onSuccess,
-              primaryText: args.primaryText,
-              secondaryText: args.secondaryText,
-              specialTextWidget: args.specialTextWidget));
+        routeData: routeData,
+        child: WaitingScreen(
+          key: args.key,
+          onSuccess: args.onSuccess,
+          primaryText: args.primaryText,
+          secondaryText: args.secondaryText,
+          specialTextWidget: args.specialTextWidget,
+        ),
+      );
     },
     FailureScreenRouter.name: (routeData) {
       final args = routeData.argsAs<FailureScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: FailureScreen(
-              key: args.key,
-              secondaryText: args.secondaryText,
-              secondaryButtonName: args.secondaryButtonName,
-              onSecondaryButtonTap: args.onSecondaryButtonTap,
-              primaryText: args.primaryText,
-              primaryButtonName: args.primaryButtonName,
-              onPrimaryButtonTap: args.onPrimaryButtonTap));
+        routeData: routeData,
+        child: FailureScreen(
+          key: args.key,
+          secondaryText: args.secondaryText,
+          secondaryButtonName: args.secondaryButtonName,
+          onSecondaryButtonTap: args.onSecondaryButtonTap,
+          primaryText: args.primaryText,
+          primaryButtonName: args.primaryButtonName,
+          onPrimaryButtonTap: args.onPrimaryButtonTap,
+        ),
+      );
     },
     WithdrawalAmountRouter.name: (routeData) {
       final args = routeData.argsAs<WithdrawalAmountRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: WithdrawalAmount(
-              key: args.key,
-              withdrawal: args.withdrawal,
-              network: args.network,
-              addressStore: args.addressStore));
+        routeData: routeData,
+        child: WithdrawalAmount(
+          key: args.key,
+          withdrawal: args.withdrawal,
+          network: args.network,
+          addressStore: args.addressStore,
+        ),
+      );
     },
     WithdrawalConfirmRouter.name: (routeData) {
       final args = routeData.argsAs<WithdrawalConfirmRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: WithdrawalConfirm(
-              key: args.key,
-              withdrawal: args.withdrawal,
-              addressStore: args.addressStore,
-              previewStore: args.previewStore));
+        routeData: routeData,
+        child: WithdrawalConfirm(
+          key: args.key,
+          withdrawal: args.withdrawal,
+          addressStore: args.addressStore,
+          previewStore: args.previewStore,
+        ),
+      );
     },
     WithdrawalPreviewRouter.name: (routeData) {
       final args = routeData.argsAs<WithdrawalPreviewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: WithdrawalPreview(
-              key: args.key,
-              withdrawal: args.withdrawal,
-              network: args.network,
-              addressStore: args.addressStore,
-              amountStore: args.amountStore));
+        routeData: routeData,
+        child: WithdrawalPreview(
+          key: args.key,
+          withdrawal: args.withdrawal,
+          network: args.network,
+          addressStore: args.addressStore,
+          amountStore: args.amountStore,
+        ),
+      );
     },
     SmsAuthenticatorRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const SmsAuthenticator());
+        routeData: routeData,
+        child: const SmsAuthenticator(),
+      );
     },
     SetPhoneNumberRouter.name: (routeData) {
       final args = routeData.argsAs<SetPhoneNumberRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SetPhoneNumber(
-              key: args.key, then: args.then, successText: args.successText));
+        routeData: routeData,
+        child: SetPhoneNumber(
+          key: args.key,
+          then: args.then,
+          successText: args.successText,
+        ),
+      );
     },
     SetNewPasswordRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const SetNewPassword());
+        routeData: routeData,
+        child: const SetNewPassword(),
+      );
     },
     RewardsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const Rewards());
+        routeData: routeData,
+        child: const Rewards(),
+      );
     },
     PhoneVerificationRouter.name: (routeData) {
       final args = routeData.argsAs<PhoneVerificationRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PhoneVerification(key: args.key, args: args.args));
+        routeData: routeData,
+        child: PhoneVerification(
+          key: args.key,
+          args: args.args,
+        ),
+      );
     },
     PaymentMethodsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const PaymentMethods());
+        routeData: routeData,
+        child: const PaymentMethods(),
+      );
     },
     NewsWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<NewsWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child:
-              NewsWebView(key: args.key, link: args.link, topic: args.topic));
+        routeData: routeData,
+        child: NewsWebView(
+          key: args.key,
+          link: args.link,
+          topic: args.topic,
+        ),
+      );
     },
     PinScreenRoute.name: (routeData) {
       final args = routeData.argsAs<PinScreenRouteArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PinScreen(
-              key: args.key,
-              displayHeader: args.displayHeader,
-              cannotLeave: args.cannotLeave,
-              union: args.union));
+        routeData: routeData,
+        child: PinScreen(
+          key: args.key,
+          displayHeader: args.displayHeader,
+          cannotLeave: args.cannotLeave,
+          union: args.union,
+        ),
+      );
     },
     TwoFaPhoneRouter.name: (routeData) {
       final args = routeData.argsAs<TwoFaPhoneRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: TwoFaPhone(key: args.key, trigger: args.trigger));
+        routeData: routeData,
+        child: TwoFaPhone(
+          key: args.key,
+          trigger: args.trigger,
+        ),
+      );
     },
     EmailConfirmationRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const EmailConfirmationScreen());
+        routeData: routeData,
+        child: const EmailConfirmationScreen(),
+      );
     },
     BiometricRouter.name: (routeData) {
       final args = routeData.argsAs<BiometricRouterArgs>(
           orElse: () => const BiometricRouterArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: Biometric(key: args.key, isAccSettings: args.isAccSettings));
+        routeData: routeData,
+        child: Biometric(
+          key: args.key,
+          isAccSettings: args.isAccSettings,
+        ),
+      );
     },
     ChangePasswordRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const ChangePassword());
+        routeData: routeData,
+        child: const ChangePassword(),
+      );
     },
     DeleteProfileRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const DeleteProfile());
+        routeData: routeData,
+        child: const DeleteProfile(),
+      );
     },
     ProfileDetailsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const ProfileDetails());
+        routeData: routeData,
+        child: const ProfileDetails(),
+      );
     },
     AccountSecurityRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const AccountSecurity());
+        routeData: routeData,
+        child: const AccountSecurity(),
+      );
     },
     AboutUsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const AboutUs());
+        routeData: routeData,
+        child: const AboutUs(),
+      );
     },
     DebugInfoRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const DebugInfo());
+        routeData: routeData,
+        child: const DebugInfo(),
+      );
     },
     ShowRecurringInfoActionRouter.name: (routeData) {
       final args = routeData.argsAs<ShowRecurringInfoActionRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: ShowRecurringInfoAction(
-              key: args.key,
-              recurringItem: args.recurringItem,
-              assetName: args.assetName));
+        routeData: routeData,
+        child: ShowRecurringInfoAction(
+          key: args.key,
+          recurringItem: args.recurringItem,
+          assetName: args.assetName,
+        ),
+      );
     },
     SendByPhoneInputRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneInputRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SendByPhoneInput(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: SendByPhoneInput(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     CurrencyWithdrawRouter.name: (routeData) {
       final args = routeData.argsAs<CurrencyWithdrawRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: CurrencyWithdraw(key: args.key, withdrawal: args.withdrawal));
+        routeData: routeData,
+        child: CurrencyWithdraw(
+          key: args.key,
+          withdrawal: args.withdrawal,
+        ),
+      );
     },
     CurrencySellRouter.name: (routeData) {
       final args = routeData.argsAs<CurrencySellRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: CurrencySell(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: CurrencySell(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     EmptyWalletRouter.name: (routeData) {
       final args = routeData.argsAs<EmptyWalletRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: EmptyWallet(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: EmptyWallet(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     WalletRouter.name: (routeData) {
       final args = routeData.argsAs<WalletRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: Wallet(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: Wallet(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     ReturnToWalletRouter.name: (routeData) {
       final args = routeData.argsAs<ReturnToWalletRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: ReturnToWallet(
-              key: args.key,
-              currency: args.currency,
-              earnOffer: args.earnOffer));
+        routeData: routeData,
+        child: ReturnToWallet(
+          key: args.key,
+          currency: args.currency,
+          earnOffer: args.earnOffer,
+        ),
+      );
     },
     PreviewReturnToWalletRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewReturnToWalletRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewReturnToWallet(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewReturnToWallet(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     SuccessKycScreenRoute.name: (routeData) {
       final args = routeData.argsAs<SuccessKycScreenRouteArgs>(
           orElse: () => const SuccessKycScreenRouteArgs());
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SuccessKycScreen(
-              key: args.key,
-              primaryText: args.primaryText,
-              secondaryText: args.secondaryText,
-              specialTextWidget: args.specialTextWidget));
+        routeData: routeData,
+        child: SuccessKycScreen(
+          key: args.key,
+          primaryText: args.primaryText,
+          secondaryText: args.secondaryText,
+          specialTextWidget: args.specialTextWidget,
+        ),
+      );
     },
     HighYieldBuyRouter.name: (routeData) {
       final args = routeData.argsAs<HighYieldBuyRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: HighYieldBuy(
-              key: args.key,
-              topUp: args.topUp,
-              currency: args.currency,
-              earnOffer: args.earnOffer));
+        routeData: routeData,
+        child: HighYieldBuy(
+          key: args.key,
+          topUp: args.topUp,
+          currency: args.currency,
+          earnOffer: args.earnOffer,
+        ),
+      );
     },
     PreviewHighYieldBuyScreenRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewHighYieldBuyScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewHighYieldBuyScreen(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewHighYieldBuyScreen(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     Circle3dSecureWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<Circle3dSecureWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: Circle3dSecureWebView(args.url, args.asset, args.amount,
-              args.onSuccess, args.onCancel, args.paymentId));
+        routeData: routeData,
+        child: Circle3dSecureWebView(
+          args.url,
+          args.asset,
+          args.amount,
+          args.onSuccess,
+          args.onCancel,
+          args.paymentId,
+        ),
+      );
     },
     SimplexWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<SimplexWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: SimplexWebView(args.url));
+        routeData: routeData,
+        child: SimplexWebView(args.url),
+      );
     },
     PreviewBuyWithUnlimintRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewBuyWithUnlimintRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewBuyWithUnlimint(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewBuyWithUnlimint(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     PreviewBuyWithAssetRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewBuyWithAssetRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewBuyWithAsset(
-              key: args.key,
-              onBackButtonTap: args.onBackButtonTap,
-              input: args.input));
+        routeData: routeData,
+        child: PreviewBuyWithAsset(
+          key: args.key,
+          onBackButtonTap: args.onBackButtonTap,
+          input: args.input,
+        ),
+      );
     },
     PreviewBuyWithCircleRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewBuyWithCircleRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewBuyWithCircle(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewBuyWithCircle(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     PreviewSellRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewSellRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewSell(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewSell(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     SendByPhoneNotifyRecipientRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneNotifyRecipientRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SendByPhoneNotifyRecipient(
-              key: args.key, toPhoneNumber: args.toPhoneNumber));
+        routeData: routeData,
+        child: SendByPhoneNotifyRecipient(
+          key: args.key,
+          toPhoneNumber: args.toPhoneNumber,
+        ),
+      );
     },
     SendByPhoneAmountRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneAmountRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SendByPhoneAmount(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: SendByPhoneAmount(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     SendByPhoneConfirmRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneConfirmRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SendByPhoneConfirm(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: SendByPhoneConfirm(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     SendByPhonePreviewRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhonePreviewRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: SendByPhonePreview(key: args.key, currency: args.currency));
+        routeData: routeData,
+        child: SendByPhonePreview(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
     },
     DeleteReasonsScreenRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const DeleteReasonsScreen());
+        routeData: routeData,
+        child: const DeleteReasonsScreen(),
+      );
     },
     PDFViewScreenRouter.name: (routeData) {
       final args = routeData.argsAs<PDFViewScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PDFViewScreen(key: args.key, url: args.url));
+        routeData: routeData,
+        child: PDFViewScreen(
+          key: args.key,
+          url: args.url,
+        ),
+      );
     },
     MarketDetailsRouter.name: (routeData) {
       final args = routeData.argsAs<MarketDetailsRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: MarketDetails(key: args.key, marketItem: args.marketItem));
+        routeData: routeData,
+        child: MarketDetails(
+          key: args.key,
+          marketItem: args.marketItem,
+        ),
+      );
     },
     MarketRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const MarketScreen());
+        routeData: routeData,
+        child: const MarketScreen(),
+      );
     },
     PortfolioRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const PortfolioScreen());
+        routeData: routeData,
+        child: const PortfolioScreen(),
+      );
     },
     EarnRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const EarnScreen());
+        routeData: routeData,
+        child: const EarnScreen(),
+      );
     },
     NewsRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const NewsScreen());
+        routeData: routeData,
+        child: const NewsScreen(),
+      );
     },
     AccountRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
-          routeData: routeData, child: const AccountScreen());
-    }
+        routeData: routeData,
+        child: const AccountScreen(),
+      );
+    },
   };
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig('/#redirect',
-            path: '/', redirectTo: '/home', fullMatch: true),
-        RouteConfig(SplashRoute.name, path: '/splash'),
-        RouteConfig(OnboardingRoute.name, path: '/splash_screen'),
-        RouteConfig(SingInRouter.name, path: '/singin'),
-        RouteConfig(UserDataScreenRouter.name, path: '/user_data'),
-        RouteConfig(EmailVerificationRoute.name, path: '/email_verification'),
-        RouteConfig(ResetPasswordRoute.name, path: '/reset_password'),
-        RouteConfig(AllowCameraRoute.name, path: '/allow_camera'),
-        RouteConfig(AllowBiometricRoute.name, path: '/allow_biometric'),
-        RouteConfig(ApiSelectorRouter.name, path: '/api_selector'),
-        RouteConfig(HomeRouter.name, path: '/home', guards: [
-          initGuard
-        ], children: [
-          RouteConfig('#redirect',
+        RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: '/home',
+          fullMatch: true,
+        ),
+        RouteConfig(
+          SplashRoute.name,
+          path: '/splash',
+        ),
+        RouteConfig(
+          OnboardingRoute.name,
+          path: '/splash_screen',
+        ),
+        RouteConfig(
+          SingInRouter.name,
+          path: '/singin',
+        ),
+        RouteConfig(
+          UserDataScreenRouter.name,
+          path: '/user_data',
+        ),
+        RouteConfig(
+          EmailVerificationRoute.name,
+          path: '/email_verification',
+        ),
+        RouteConfig(
+          ResetPasswordRoute.name,
+          path: '/reset_password',
+        ),
+        RouteConfig(
+          AllowCameraRoute.name,
+          path: '/allow_camera',
+        ),
+        RouteConfig(
+          AllowBiometricRoute.name,
+          path: '/allow_biometric',
+        ),
+        RouteConfig(
+          ApiSelectorRouter.name,
+          path: '/api_selector',
+        ),
+        RouteConfig(
+          HomeRouter.name,
+          path: '/home',
+          guards: [initGuard],
+          children: [
+            RouteConfig(
+              '#redirect',
               path: '',
               parent: HomeRouter.name,
               redirectTo: 'market',
-              fullMatch: true),
-          RouteConfig(MarketRouter.name,
-              path: 'market', parent: HomeRouter.name),
-          RouteConfig(PortfolioRouter.name,
-              path: 'portfolio', parent: HomeRouter.name),
-          RouteConfig(EarnRouter.name, path: 'earn', parent: HomeRouter.name),
-          RouteConfig(NewsRouter.name, path: 'news', parent: HomeRouter.name),
-          RouteConfig(AccountRouter.name,
-              path: 'account', parent: HomeRouter.name)
-        ]),
-        RouteConfig(CrispRouter.name, path: '/crisp'),
-        RouteConfig(HelpCenterWebViewRouter.name, path: '/help_center_webview'),
-        RouteConfig(InfoWebViewRouter.name, path: '/info_web_view'),
-        RouteConfig(ChooseDocumentsRouter.name, path: '/choose_documents'),
-        RouteConfig(UploadKycDocumentsRouter.name,
-            path: '/upload_kyc_documents'),
-        RouteConfig(KycSelfieRouter.name, path: '/kyc_selfie'),
-        RouteConfig(KycVerifyYourProfileRouter.name,
-            path: '/kyc_verify_your_profile'),
-        RouteConfig(CurrencyBuyRouter.name, path: '/currency_buy'),
-        RouteConfig(CryptoDepositRouter.name, path: '/crypto_deposit'),
-        RouteConfig(TransactionHistoryRouter.name,
-            path: '/transaction_history'),
-        RouteConfig(RecurringSuccessScreenRouter.name,
-            path: '/recurring_success'),
-        RouteConfig(HistoryRecurringBuysRouter.name,
-            path: '/history_recurring_buys'),
-        RouteConfig(AddCircleCardRouter.name, path: '/add_circle_card'),
-        RouteConfig(CircleBillingAddressRouter.name,
-            path: '/circle_billing_address'),
-        RouteConfig(PreviewConvertRouter.name, path: '/preview_convert'),
-        RouteConfig(ConvertRouter.name, path: '/convert'),
-        RouteConfig(SuccessScreenRouter.name, path: '/success_screen'),
-        RouteConfig(WaitingScreenRouter.name, path: '/waiting_screen'),
-        RouteConfig(FailureScreenRouter.name, path: '/failure_screen'),
-        RouteConfig(WithdrawalAmountRouter.name, path: '/withdrawal_ammount'),
-        RouteConfig(WithdrawalConfirmRouter.name, path: '/withdrawal_confirm'),
-        RouteConfig(WithdrawalPreviewRouter.name, path: '/withdrawal_preview'),
-        RouteConfig(SmsAuthenticatorRouter.name, path: '/sms_authenticator'),
-        RouteConfig(SetPhoneNumberRouter.name, path: '/set_phone_number'),
-        RouteConfig(SetNewPasswordRouter.name, path: '/set_new_password'),
-        RouteConfig(RewardsRouter.name, path: '/rewards'),
-        RouteConfig(PhoneVerificationRouter.name, path: '/phone_verification'),
-        RouteConfig(PaymentMethodsRouter.name, path: '/payments_methods'),
-        RouteConfig(NewsWebViewRouter.name, path: '/news_web_view'),
-        RouteConfig(PinScreenRoute.name, path: '/pin_screen'),
-        RouteConfig(TwoFaPhoneRouter.name, path: '/two_fa_phone'),
-        RouteConfig(EmailConfirmationRouter.name, path: '/email_confirmation'),
-        RouteConfig(BiometricRouter.name, path: '/biometric'),
-        RouteConfig(ChangePasswordRouter.name, path: '/change_password'),
-        RouteConfig(DeleteProfileRouter.name, path: '/delete_profile'),
-        RouteConfig(ProfileDetailsRouter.name, path: '/profile_details'),
-        RouteConfig(AccountSecurityRouter.name, path: '/account_sercurity'),
-        RouteConfig(AboutUsRouter.name, path: '/about_us'),
-        RouteConfig(DebugInfoRouter.name, path: '/debug_info'),
-        RouteConfig(ShowRecurringInfoActionRouter.name,
-            path: '/show_recurring_info_action'),
-        RouteConfig(SendByPhoneInputRouter.name, path: '/send_by_phone_input'),
-        RouteConfig(CurrencyWithdrawRouter.name, path: '/currency_withdraw'),
-        RouteConfig(CurrencySellRouter.name, path: '/currency_sell'),
-        RouteConfig(EmptyWalletRouter.name, path: '/emptry_wallet'),
-        RouteConfig(WalletRouter.name, path: '/wallet'),
-        RouteConfig(ReturnToWalletRouter.name, path: '/return_to_wallet'),
-        RouteConfig(PreviewReturnToWalletRouter.name,
-            path: '/preview_return_to_wallet'),
-        RouteConfig(SuccessKycScreenRoute.name, path: '/success_kyc'),
-        RouteConfig(HighYieldBuyRouter.name, path: '/high_yield_buy'),
-        RouteConfig(PreviewHighYieldBuyScreenRouter.name,
-            path: '/preview_high_yield_buy'),
-        RouteConfig(Circle3dSecureWebViewRouter.name,
-            path: '/circle_3d_secure'),
-        RouteConfig(SimplexWebViewRouter.name, path: '/simples_webview'),
-        RouteConfig(PreviewBuyWithUnlimintRouter.name,
-            path: '/preview_buy_with_unlimit'),
-        RouteConfig(PreviewBuyWithAssetRouter.name,
-            path: '/preview_buy_with_asset'),
-        RouteConfig(PreviewBuyWithCircleRouter.name,
-            path: '/preview_buy_with_circle'),
-        RouteConfig(PreviewSellRouter.name, path: '/preview_sell_router'),
-        RouteConfig(SendByPhoneNotifyRecipientRouter.name,
-            path: '/send_by_phone_notify_recipient'),
-        RouteConfig(SendByPhoneAmountRouter.name,
-            path: '/send_by_phone_amount'),
-        RouteConfig(SendByPhoneConfirmRouter.name,
-            path: '/send_by_phone_confirm'),
-        RouteConfig(SendByPhonePreviewRouter.name,
-            path: '/send_by_phone_preview'),
-        RouteConfig(DeleteReasonsScreenRouter.name,
-            path: '/delete_reasons_screen'),
-        RouteConfig(PDFViewScreenRouter.name, path: '/pdf_view_screen'),
-        RouteConfig(MarketDetailsRouter.name, path: '/market_details')
+              fullMatch: true,
+            ),
+            RouteConfig(
+              MarketRouter.name,
+              path: 'market',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              PortfolioRouter.name,
+              path: 'portfolio',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              EarnRouter.name,
+              path: 'earn',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              NewsRouter.name,
+              path: 'news',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              AccountRouter.name,
+              path: 'account',
+              parent: HomeRouter.name,
+            ),
+          ],
+        ),
+        RouteConfig(
+          CrispRouter.name,
+          path: '/crisp',
+        ),
+        RouteConfig(
+          HelpCenterWebViewRouter.name,
+          path: '/help_center_webview',
+        ),
+        RouteConfig(
+          InfoWebViewRouter.name,
+          path: '/info_web_view',
+        ),
+        RouteConfig(
+          ChooseDocumentsRouter.name,
+          path: '/choose_documents',
+        ),
+        RouteConfig(
+          UploadKycDocumentsRouter.name,
+          path: '/upload_kyc_documents',
+        ),
+        RouteConfig(
+          KycSelfieRouter.name,
+          path: '/kyc_selfie',
+        ),
+        RouteConfig(
+          KycVerifyYourProfileRouter.name,
+          path: '/kyc_verify_your_profile',
+        ),
+        RouteConfig(
+          CurrencyBuyRouter.name,
+          path: '/currency_buy',
+        ),
+        RouteConfig(
+          CryptoDepositRouter.name,
+          path: '/crypto_deposit',
+        ),
+        RouteConfig(
+          TransactionHistoryRouter.name,
+          path: '/transaction_history',
+        ),
+        RouteConfig(
+          RecurringSuccessScreenRouter.name,
+          path: '/recurring_success',
+        ),
+        RouteConfig(
+          HistoryRecurringBuysRouter.name,
+          path: '/history_recurring_buys',
+        ),
+        RouteConfig(
+          AddCircleCardRouter.name,
+          path: '/add_circle_card',
+        ),
+        RouteConfig(
+          CircleBillingAddressRouter.name,
+          path: '/circle_billing_address',
+        ),
+        RouteConfig(
+          PreviewConvertRouter.name,
+          path: '/preview_convert',
+        ),
+        RouteConfig(
+          ConvertRouter.name,
+          path: '/convert',
+        ),
+        RouteConfig(
+          SuccessScreenRouter.name,
+          path: '/success_screen',
+        ),
+        RouteConfig(
+          WaitingScreenRouter.name,
+          path: '/waiting_screen',
+        ),
+        RouteConfig(
+          FailureScreenRouter.name,
+          path: '/failure_screen',
+        ),
+        RouteConfig(
+          WithdrawalAmountRouter.name,
+          path: '/withdrawal_ammount',
+        ),
+        RouteConfig(
+          WithdrawalConfirmRouter.name,
+          path: '/withdrawal_confirm',
+        ),
+        RouteConfig(
+          WithdrawalPreviewRouter.name,
+          path: '/withdrawal_preview',
+        ),
+        RouteConfig(
+          SmsAuthenticatorRouter.name,
+          path: '/sms_authenticator',
+        ),
+        RouteConfig(
+          SetPhoneNumberRouter.name,
+          path: '/set_phone_number',
+        ),
+        RouteConfig(
+          SetNewPasswordRouter.name,
+          path: '/set_new_password',
+        ),
+        RouteConfig(
+          RewardsRouter.name,
+          path: '/rewards',
+        ),
+        RouteConfig(
+          PhoneVerificationRouter.name,
+          path: '/phone_verification',
+        ),
+        RouteConfig(
+          PaymentMethodsRouter.name,
+          path: '/payments_methods',
+        ),
+        RouteConfig(
+          NewsWebViewRouter.name,
+          path: '/news_web_view',
+        ),
+        RouteConfig(
+          PinScreenRoute.name,
+          path: '/pin_screen',
+        ),
+        RouteConfig(
+          TwoFaPhoneRouter.name,
+          path: '/two_fa_phone',
+        ),
+        RouteConfig(
+          EmailConfirmationRouter.name,
+          path: '/email_confirmation',
+        ),
+        RouteConfig(
+          BiometricRouter.name,
+          path: '/biometric',
+        ),
+        RouteConfig(
+          ChangePasswordRouter.name,
+          path: '/change_password',
+        ),
+        RouteConfig(
+          DeleteProfileRouter.name,
+          path: '/delete_profile',
+        ),
+        RouteConfig(
+          ProfileDetailsRouter.name,
+          path: '/profile_details',
+        ),
+        RouteConfig(
+          AccountSecurityRouter.name,
+          path: '/account_sercurity',
+        ),
+        RouteConfig(
+          AboutUsRouter.name,
+          path: '/about_us',
+        ),
+        RouteConfig(
+          DebugInfoRouter.name,
+          path: '/debug_info',
+        ),
+        RouteConfig(
+          ShowRecurringInfoActionRouter.name,
+          path: '/show_recurring_info_action',
+        ),
+        RouteConfig(
+          SendByPhoneInputRouter.name,
+          path: '/send_by_phone_input',
+        ),
+        RouteConfig(
+          CurrencyWithdrawRouter.name,
+          path: '/currency_withdraw',
+        ),
+        RouteConfig(
+          CurrencySellRouter.name,
+          path: '/currency_sell',
+        ),
+        RouteConfig(
+          EmptyWalletRouter.name,
+          path: '/emptry_wallet',
+        ),
+        RouteConfig(
+          WalletRouter.name,
+          path: '/wallet',
+        ),
+        RouteConfig(
+          ReturnToWalletRouter.name,
+          path: '/return_to_wallet',
+        ),
+        RouteConfig(
+          PreviewReturnToWalletRouter.name,
+          path: '/preview_return_to_wallet',
+        ),
+        RouteConfig(
+          SuccessKycScreenRoute.name,
+          path: '/success_kyc',
+        ),
+        RouteConfig(
+          HighYieldBuyRouter.name,
+          path: '/high_yield_buy',
+        ),
+        RouteConfig(
+          PreviewHighYieldBuyScreenRouter.name,
+          path: '/preview_high_yield_buy',
+        ),
+        RouteConfig(
+          Circle3dSecureWebViewRouter.name,
+          path: '/circle_3d_secure',
+        ),
+        RouteConfig(
+          SimplexWebViewRouter.name,
+          path: '/simples_webview',
+        ),
+        RouteConfig(
+          PreviewBuyWithUnlimintRouter.name,
+          path: '/preview_buy_with_unlimit',
+        ),
+        RouteConfig(
+          PreviewBuyWithAssetRouter.name,
+          path: '/preview_buy_with_asset',
+        ),
+        RouteConfig(
+          PreviewBuyWithCircleRouter.name,
+          path: '/preview_buy_with_circle',
+        ),
+        RouteConfig(
+          PreviewSellRouter.name,
+          path: '/preview_sell_router',
+        ),
+        RouteConfig(
+          SendByPhoneNotifyRecipientRouter.name,
+          path: '/send_by_phone_notify_recipient',
+        ),
+        RouteConfig(
+          SendByPhoneAmountRouter.name,
+          path: '/send_by_phone_amount',
+        ),
+        RouteConfig(
+          SendByPhoneConfirmRouter.name,
+          path: '/send_by_phone_confirm',
+        ),
+        RouteConfig(
+          SendByPhonePreviewRouter.name,
+          path: '/send_by_phone_preview',
+        ),
+        RouteConfig(
+          DeleteReasonsScreenRouter.name,
+          path: '/delete_reasons_screen',
+        ),
+        RouteConfig(
+          PDFViewScreenRouter.name,
+          path: '/pdf_view_screen',
+        ),
+        RouteConfig(
+          MarketDetailsRouter.name,
+          path: '/market_details',
+        ),
       ];
 }
 
 /// generated route for
 /// [SplashScreen]
 class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute() : super(SplashRoute.name, path: '/splash');
+  const SplashRoute()
+      : super(
+          SplashRoute.name,
+          path: '/splash',
+        );
 
   static const String name = 'SplashRoute';
 }
@@ -649,7 +1102,11 @@ class SplashRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [OnboardingScreen]
 class OnboardingRoute extends PageRouteInfo<void> {
-  const OnboardingRoute() : super(OnboardingRoute.name, path: '/splash_screen');
+  const OnboardingRoute()
+      : super(
+          OnboardingRoute.name,
+          path: '/splash_screen',
+        );
 
   static const String name = 'OnboardingRoute';
 }
@@ -657,15 +1114,26 @@ class OnboardingRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [SingIn]
 class SingInRouter extends PageRouteInfo<SingInRouterArgs> {
-  SingInRouter({Key? key, String? email})
-      : super(SingInRouter.name,
-            path: '/singin', args: SingInRouterArgs(key: key, email: email));
+  SingInRouter({
+    Key? key,
+    String? email,
+  }) : super(
+          SingInRouter.name,
+          path: '/singin',
+          args: SingInRouterArgs(
+            key: key,
+            email: email,
+          ),
+        );
 
   static const String name = 'SingInRouter';
 }
 
 class SingInRouterArgs {
-  const SingInRouterArgs({this.key, this.email});
+  const SingInRouterArgs({
+    this.key,
+    this.email,
+  });
 
   final Key? key;
 
@@ -681,7 +1149,10 @@ class SingInRouterArgs {
 /// [UserDataScreen]
 class UserDataScreenRouter extends PageRouteInfo<void> {
   const UserDataScreenRouter()
-      : super(UserDataScreenRouter.name, path: '/user_data');
+      : super(
+          UserDataScreenRouter.name,
+          path: '/user_data',
+        );
 
   static const String name = 'UserDataScreenRouter';
 }
@@ -690,7 +1161,10 @@ class UserDataScreenRouter extends PageRouteInfo<void> {
 /// [EmailVerification]
 class EmailVerificationRoute extends PageRouteInfo<void> {
   const EmailVerificationRoute()
-      : super(EmailVerificationRoute.name, path: '/email_verification');
+      : super(
+          EmailVerificationRoute.name,
+          path: '/email_verification',
+        );
 
   static const String name = 'EmailVerificationRoute';
 }
@@ -699,7 +1173,10 @@ class EmailVerificationRoute extends PageRouteInfo<void> {
 /// [ResetPasswordScreen]
 class ResetPasswordRoute extends PageRouteInfo<void> {
   const ResetPasswordRoute()
-      : super(ResetPasswordRoute.name, path: '/reset_password');
+      : super(
+          ResetPasswordRoute.name,
+          path: '/reset_password',
+        );
 
   static const String name = 'ResetPasswordRoute';
 }
@@ -707,23 +1184,29 @@ class ResetPasswordRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [AllowCameraScreen]
 class AllowCameraRoute extends PageRouteInfo<AllowCameraRouteArgs> {
-  AllowCameraRoute(
-      {Key? key,
-      required String permissionDescription,
-      required void Function() then})
-      : super(AllowCameraRoute.name,
-            path: '/allow_camera',
-            args: AllowCameraRouteArgs(
-                key: key,
-                permissionDescription: permissionDescription,
-                then: then));
+  AllowCameraRoute({
+    Key? key,
+    required String permissionDescription,
+    required void Function() then,
+  }) : super(
+          AllowCameraRoute.name,
+          path: '/allow_camera',
+          args: AllowCameraRouteArgs(
+            key: key,
+            permissionDescription: permissionDescription,
+            then: then,
+          ),
+        );
 
   static const String name = 'AllowCameraRoute';
 }
 
 class AllowCameraRouteArgs {
-  const AllowCameraRouteArgs(
-      {this.key, required this.permissionDescription, required this.then});
+  const AllowCameraRouteArgs({
+    this.key,
+    required this.permissionDescription,
+    required this.then,
+  });
 
   final Key? key;
 
@@ -741,7 +1224,10 @@ class AllowCameraRouteArgs {
 /// [AllowBiometric]
 class AllowBiometricRoute extends PageRouteInfo<void> {
   const AllowBiometricRoute()
-      : super(AllowBiometricRoute.name, path: '/allow_biometric');
+      : super(
+          AllowBiometricRoute.name,
+          path: '/allow_biometric',
+        );
 
   static const String name = 'AllowBiometricRoute';
 }
@@ -750,7 +1236,10 @@ class AllowBiometricRoute extends PageRouteInfo<void> {
 /// [ApiSelectorScreen]
 class ApiSelectorRouter extends PageRouteInfo<void> {
   const ApiSelectorRouter()
-      : super(ApiSelectorRouter.name, path: '/api_selector');
+      : super(
+          ApiSelectorRouter.name,
+          path: '/api_selector',
+        );
 
   static const String name = 'ApiSelectorRouter';
 }
@@ -759,7 +1248,11 @@ class ApiSelectorRouter extends PageRouteInfo<void> {
 /// [HomeScreen]
 class HomeRouter extends PageRouteInfo<void> {
   const HomeRouter({List<PageRouteInfo>? children})
-      : super(HomeRouter.name, path: '/home', initialChildren: children);
+      : super(
+          HomeRouter.name,
+          path: '/home',
+          initialChildren: children,
+        );
 
   static const String name = 'HomeRouter';
 }
@@ -767,16 +1260,26 @@ class HomeRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [Crisp]
 class CrispRouter extends PageRouteInfo<CrispRouterArgs> {
-  CrispRouter({Key? key, required String welcomeText})
-      : super(CrispRouter.name,
-            path: '/crisp',
-            args: CrispRouterArgs(key: key, welcomeText: welcomeText));
+  CrispRouter({
+    Key? key,
+    required String welcomeText,
+  }) : super(
+          CrispRouter.name,
+          path: '/crisp',
+          args: CrispRouterArgs(
+            key: key,
+            welcomeText: welcomeText,
+          ),
+        );
 
   static const String name = 'CrispRouter';
 }
 
 class CrispRouterArgs {
-  const CrispRouterArgs({this.key, required this.welcomeText});
+  const CrispRouterArgs({
+    this.key,
+    required this.welcomeText,
+  });
 
   final Key? key;
 
@@ -792,16 +1295,26 @@ class CrispRouterArgs {
 /// [HelpCenterWebView]
 class HelpCenterWebViewRouter
     extends PageRouteInfo<HelpCenterWebViewRouterArgs> {
-  HelpCenterWebViewRouter({Key? key, required String link})
-      : super(HelpCenterWebViewRouter.name,
-            path: '/help_center_webview',
-            args: HelpCenterWebViewRouterArgs(key: key, link: link));
+  HelpCenterWebViewRouter({
+    Key? key,
+    required String link,
+  }) : super(
+          HelpCenterWebViewRouter.name,
+          path: '/help_center_webview',
+          args: HelpCenterWebViewRouterArgs(
+            key: key,
+            link: link,
+          ),
+        );
 
   static const String name = 'HelpCenterWebViewRouter';
 }
 
 class HelpCenterWebViewRouterArgs {
-  const HelpCenterWebViewRouterArgs({this.key, required this.link});
+  const HelpCenterWebViewRouterArgs({
+    this.key,
+    required this.link,
+  });
 
   final Key? key;
 
@@ -816,17 +1329,29 @@ class HelpCenterWebViewRouterArgs {
 /// generated route for
 /// [InfoWebView]
 class InfoWebViewRouter extends PageRouteInfo<InfoWebViewRouterArgs> {
-  InfoWebViewRouter({Key? key, required String link, required String title})
-      : super(InfoWebViewRouter.name,
-            path: '/info_web_view',
-            args: InfoWebViewRouterArgs(key: key, link: link, title: title));
+  InfoWebViewRouter({
+    Key? key,
+    required String link,
+    required String title,
+  }) : super(
+          InfoWebViewRouter.name,
+          path: '/info_web_view',
+          args: InfoWebViewRouterArgs(
+            key: key,
+            link: link,
+            title: title,
+          ),
+        );
 
   static const String name = 'InfoWebViewRouter';
 }
 
 class InfoWebViewRouterArgs {
-  const InfoWebViewRouterArgs(
-      {this.key, required this.link, required this.title});
+  const InfoWebViewRouterArgs({
+    this.key,
+    required this.link,
+    required this.title,
+  });
 
   final Key? key;
 
@@ -843,17 +1368,26 @@ class InfoWebViewRouterArgs {
 /// generated route for
 /// [ChooseDocuments]
 class ChooseDocumentsRouter extends PageRouteInfo<ChooseDocumentsRouterArgs> {
-  ChooseDocumentsRouter({Key? key, required String headerTitle})
-      : super(ChooseDocumentsRouter.name,
-            path: '/choose_documents',
-            args:
-                ChooseDocumentsRouterArgs(key: key, headerTitle: headerTitle));
+  ChooseDocumentsRouter({
+    Key? key,
+    required String headerTitle,
+  }) : super(
+          ChooseDocumentsRouter.name,
+          path: '/choose_documents',
+          args: ChooseDocumentsRouterArgs(
+            key: key,
+            headerTitle: headerTitle,
+          ),
+        );
 
   static const String name = 'ChooseDocumentsRouter';
 }
 
 class ChooseDocumentsRouterArgs {
-  const ChooseDocumentsRouterArgs({this.key, required this.headerTitle});
+  const ChooseDocumentsRouterArgs({
+    this.key,
+    required this.headerTitle,
+  });
 
   final Key? key;
 
@@ -869,7 +1403,10 @@ class ChooseDocumentsRouterArgs {
 /// [UploadKycDocuments]
 class UploadKycDocumentsRouter extends PageRouteInfo<void> {
   const UploadKycDocumentsRouter()
-      : super(UploadKycDocumentsRouter.name, path: '/upload_kyc_documents');
+      : super(
+          UploadKycDocumentsRouter.name,
+          path: '/upload_kyc_documents',
+        );
 
   static const String name = 'UploadKycDocumentsRouter';
 }
@@ -877,7 +1414,11 @@ class UploadKycDocumentsRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [KycSelfie]
 class KycSelfieRouter extends PageRouteInfo<void> {
-  const KycSelfieRouter() : super(KycSelfieRouter.name, path: '/kyc_selfie');
+  const KycSelfieRouter()
+      : super(
+          KycSelfieRouter.name,
+          path: '/kyc_selfie',
+        );
 
   static const String name = 'KycSelfieRouter';
 }
@@ -886,19 +1427,26 @@ class KycSelfieRouter extends PageRouteInfo<void> {
 /// [KycVerifyYourProfile]
 class KycVerifyYourProfileRouter
     extends PageRouteInfo<KycVerifyYourProfileRouterArgs> {
-  KycVerifyYourProfileRouter(
-      {Key? key, required List<RequiredVerified> requiredVerifications})
-      : super(KycVerifyYourProfileRouter.name,
-            path: '/kyc_verify_your_profile',
-            args: KycVerifyYourProfileRouterArgs(
-                key: key, requiredVerifications: requiredVerifications));
+  KycVerifyYourProfileRouter({
+    Key? key,
+    required List<RequiredVerified> requiredVerifications,
+  }) : super(
+          KycVerifyYourProfileRouter.name,
+          path: '/kyc_verify_your_profile',
+          args: KycVerifyYourProfileRouterArgs(
+            key: key,
+            requiredVerifications: requiredVerifications,
+          ),
+        );
 
   static const String name = 'KycVerifyYourProfileRouter';
 }
 
 class KycVerifyYourProfileRouterArgs {
-  const KycVerifyYourProfileRouterArgs(
-      {this.key, required this.requiredVerifications});
+  const KycVerifyYourProfileRouterArgs({
+    this.key,
+    required this.requiredVerifications,
+  });
 
   final Key? key;
 
@@ -913,28 +1461,32 @@ class KycVerifyYourProfileRouterArgs {
 /// generated route for
 /// [CurrencyBuy]
 class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
-  CurrencyBuyRouter(
-      {Key? key,
-      RecurringBuysType? recurringBuysType,
-      required CurrencyModel currency,
-      required bool fromCard})
-      : super(CurrencyBuyRouter.name,
-            path: '/currency_buy',
-            args: CurrencyBuyRouterArgs(
-                key: key,
-                recurringBuysType: recurringBuysType,
-                currency: currency,
-                fromCard: fromCard));
+  CurrencyBuyRouter({
+    Key? key,
+    RecurringBuysType? recurringBuysType,
+    required CurrencyModel currency,
+    required bool fromCard,
+  }) : super(
+          CurrencyBuyRouter.name,
+          path: '/currency_buy',
+          args: CurrencyBuyRouterArgs(
+            key: key,
+            recurringBuysType: recurringBuysType,
+            currency: currency,
+            fromCard: fromCard,
+          ),
+        );
 
   static const String name = 'CurrencyBuyRouter';
 }
 
 class CurrencyBuyRouterArgs {
-  const CurrencyBuyRouterArgs(
-      {this.key,
-      this.recurringBuysType,
-      required this.currency,
-      required this.fromCard});
+  const CurrencyBuyRouterArgs({
+    this.key,
+    this.recurringBuysType,
+    required this.currency,
+    required this.fromCard,
+  });
 
   final Key? key;
 
@@ -953,19 +1505,29 @@ class CurrencyBuyRouterArgs {
 /// generated route for
 /// [CryptoDeposit]
 class CryptoDepositRouter extends PageRouteInfo<CryptoDepositRouterArgs> {
-  CryptoDepositRouter(
-      {Key? key, required String header, required CurrencyModel currency})
-      : super(CryptoDepositRouter.name,
-            path: '/crypto_deposit',
-            args: CryptoDepositRouterArgs(
-                key: key, header: header, currency: currency));
+  CryptoDepositRouter({
+    Key? key,
+    required String header,
+    required CurrencyModel currency,
+  }) : super(
+          CryptoDepositRouter.name,
+          path: '/crypto_deposit',
+          args: CryptoDepositRouterArgs(
+            key: key,
+            header: header,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'CryptoDepositRouter';
 }
 
 class CryptoDepositRouterArgs {
-  const CryptoDepositRouterArgs(
-      {this.key, required this.header, required this.currency});
+  const CryptoDepositRouterArgs({
+    this.key,
+    required this.header,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -983,18 +1545,29 @@ class CryptoDepositRouterArgs {
 /// [TransactionHistory]
 class TransactionHistoryRouter
     extends PageRouteInfo<TransactionHistoryRouterArgs> {
-  TransactionHistoryRouter({Key? key, String? assetName, String? assetSymbol})
-      : super(TransactionHistoryRouter.name,
-            path: '/transaction_history',
-            args: TransactionHistoryRouterArgs(
-                key: key, assetName: assetName, assetSymbol: assetSymbol));
+  TransactionHistoryRouter({
+    Key? key,
+    String? assetName,
+    String? assetSymbol,
+  }) : super(
+          TransactionHistoryRouter.name,
+          path: '/transaction_history',
+          args: TransactionHistoryRouterArgs(
+            key: key,
+            assetName: assetName,
+            assetSymbol: assetSymbol,
+          ),
+        );
 
   static const String name = 'TransactionHistoryRouter';
 }
 
 class TransactionHistoryRouterArgs {
-  const TransactionHistoryRouterArgs(
-      {this.key, this.assetName, this.assetSymbol});
+  const TransactionHistoryRouterArgs({
+    this.key,
+    this.assetName,
+    this.assetSymbol,
+  });
 
   final Key? key;
 
@@ -1012,17 +1585,26 @@ class TransactionHistoryRouterArgs {
 /// [RecurringSuccessScreen]
 class RecurringSuccessScreenRouter
     extends PageRouteInfo<RecurringSuccessScreenRouterArgs> {
-  RecurringSuccessScreenRouter(
-      {Key? key, required PreviewBuyWithAssetInput input})
-      : super(RecurringSuccessScreenRouter.name,
-            path: '/recurring_success',
-            args: RecurringSuccessScreenRouterArgs(key: key, input: input));
+  RecurringSuccessScreenRouter({
+    Key? key,
+    required PreviewBuyWithAssetInput input,
+  }) : super(
+          RecurringSuccessScreenRouter.name,
+          path: '/recurring_success',
+          args: RecurringSuccessScreenRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'RecurringSuccessScreenRouter';
 }
 
 class RecurringSuccessScreenRouterArgs {
-  const RecurringSuccessScreenRouterArgs({this.key, required this.input});
+  const RecurringSuccessScreenRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -1038,16 +1620,26 @@ class RecurringSuccessScreenRouterArgs {
 /// [HistoryRecurringBuys]
 class HistoryRecurringBuysRouter
     extends PageRouteInfo<HistoryRecurringBuysRouterArgs> {
-  HistoryRecurringBuysRouter({Key? key, Source? from})
-      : super(HistoryRecurringBuysRouter.name,
-            path: '/history_recurring_buys',
-            args: HistoryRecurringBuysRouterArgs(key: key, from: from));
+  HistoryRecurringBuysRouter({
+    Key? key,
+    Source? from,
+  }) : super(
+          HistoryRecurringBuysRouter.name,
+          path: '/history_recurring_buys',
+          args: HistoryRecurringBuysRouterArgs(
+            key: key,
+            from: from,
+          ),
+        );
 
   static const String name = 'HistoryRecurringBuysRouter';
 }
 
 class HistoryRecurringBuysRouterArgs {
-  const HistoryRecurringBuysRouterArgs({this.key, this.from});
+  const HistoryRecurringBuysRouterArgs({
+    this.key,
+    this.from,
+  });
 
   final Key? key;
 
@@ -1062,17 +1654,26 @@ class HistoryRecurringBuysRouterArgs {
 /// generated route for
 /// [AddCircleCard]
 class AddCircleCardRouter extends PageRouteInfo<AddCircleCardRouterArgs> {
-  AddCircleCardRouter(
-      {Key? key, required dynamic Function(CircleCard) onCardAdded})
-      : super(AddCircleCardRouter.name,
-            path: '/add_circle_card',
-            args: AddCircleCardRouterArgs(key: key, onCardAdded: onCardAdded));
+  AddCircleCardRouter({
+    Key? key,
+    required dynamic Function(CircleCard) onCardAdded,
+  }) : super(
+          AddCircleCardRouter.name,
+          path: '/add_circle_card',
+          args: AddCircleCardRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+          ),
+        );
 
   static const String name = 'AddCircleCardRouter';
 }
 
 class AddCircleCardRouterArgs {
-  const AddCircleCardRouterArgs({this.key, required this.onCardAdded});
+  const AddCircleCardRouterArgs({
+    this.key,
+    required this.onCardAdded,
+  });
 
   final Key? key;
 
@@ -1088,34 +1689,38 @@ class AddCircleCardRouterArgs {
 /// [CircleBillingAddress]
 class CircleBillingAddressRouter
     extends PageRouteInfo<CircleBillingAddressRouterArgs> {
-  CircleBillingAddressRouter(
-      {Key? key,
-      required dynamic Function(CircleCard) onCardAdded,
-      required String expiryDate,
-      required String cardholderName,
-      required String cardNumber,
-      required String cvv})
-      : super(CircleBillingAddressRouter.name,
-            path: '/circle_billing_address',
-            args: CircleBillingAddressRouterArgs(
-                key: key,
-                onCardAdded: onCardAdded,
-                expiryDate: expiryDate,
-                cardholderName: cardholderName,
-                cardNumber: cardNumber,
-                cvv: cvv));
+  CircleBillingAddressRouter({
+    Key? key,
+    required dynamic Function(CircleCard) onCardAdded,
+    required String expiryDate,
+    required String cardholderName,
+    required String cardNumber,
+    required String cvv,
+  }) : super(
+          CircleBillingAddressRouter.name,
+          path: '/circle_billing_address',
+          args: CircleBillingAddressRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+            expiryDate: expiryDate,
+            cardholderName: cardholderName,
+            cardNumber: cardNumber,
+            cvv: cvv,
+          ),
+        );
 
   static const String name = 'CircleBillingAddressRouter';
 }
 
 class CircleBillingAddressRouterArgs {
-  const CircleBillingAddressRouterArgs(
-      {this.key,
-      required this.onCardAdded,
-      required this.expiryDate,
-      required this.cardholderName,
-      required this.cardNumber,
-      required this.cvv});
+  const CircleBillingAddressRouterArgs({
+    this.key,
+    required this.onCardAdded,
+    required this.expiryDate,
+    required this.cardholderName,
+    required this.cardNumber,
+    required this.cvv,
+  });
 
   final Key? key;
 
@@ -1138,16 +1743,26 @@ class CircleBillingAddressRouterArgs {
 /// generated route for
 /// [PreviewConvert]
 class PreviewConvertRouter extends PageRouteInfo<PreviewConvertRouterArgs> {
-  PreviewConvertRouter({Key? key, required PreviewConvertInput input})
-      : super(PreviewConvertRouter.name,
-            path: '/preview_convert',
-            args: PreviewConvertRouterArgs(key: key, input: input));
+  PreviewConvertRouter({
+    Key? key,
+    required PreviewConvertInput input,
+  }) : super(
+          PreviewConvertRouter.name,
+          path: '/preview_convert',
+          args: PreviewConvertRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewConvertRouter';
 }
 
 class PreviewConvertRouterArgs {
-  const PreviewConvertRouterArgs({this.key, required this.input});
+  const PreviewConvertRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -1162,16 +1777,26 @@ class PreviewConvertRouterArgs {
 /// generated route for
 /// [Convert]
 class ConvertRouter extends PageRouteInfo<ConvertRouterArgs> {
-  ConvertRouter({Key? key, CurrencyModel? fromCurrency})
-      : super(ConvertRouter.name,
-            path: '/convert',
-            args: ConvertRouterArgs(key: key, fromCurrency: fromCurrency));
+  ConvertRouter({
+    Key? key,
+    CurrencyModel? fromCurrency,
+  }) : super(
+          ConvertRouter.name,
+          path: '/convert',
+          args: ConvertRouterArgs(
+            key: key,
+            fromCurrency: fromCurrency,
+          ),
+        );
 
   static const String name = 'ConvertRouter';
 }
 
 class ConvertRouterArgs {
-  const ConvertRouterArgs({this.key, this.fromCurrency});
+  const ConvertRouterArgs({
+    this.key,
+    this.fromCurrency,
+  });
 
   final Key? key;
 
@@ -1186,46 +1811,50 @@ class ConvertRouterArgs {
 /// generated route for
 /// [SuccessScreen]
 class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
-  SuccessScreenRouter(
-      {Key? key,
-      dynamic Function(BuildContext)? onSuccess,
-      dynamic Function()? onActionButton,
-      String? primaryText,
-      String? secondaryText,
-      Widget? specialTextWidget,
-      bool showActionButton = false,
-      bool showProgressBar = false,
-      String? buttonText,
-      int time = 3})
-      : super(SuccessScreenRouter.name,
-            path: '/success_screen',
-            args: SuccessScreenRouterArgs(
-                key: key,
-                onSuccess: onSuccess,
-                onActionButton: onActionButton,
-                primaryText: primaryText,
-                secondaryText: secondaryText,
-                specialTextWidget: specialTextWidget,
-                showActionButton: showActionButton,
-                showProgressBar: showProgressBar,
-                buttonText: buttonText,
-                time: time));
+  SuccessScreenRouter({
+    Key? key,
+    dynamic Function(BuildContext)? onSuccess,
+    dynamic Function()? onActionButton,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    bool showActionButton = false,
+    bool showProgressBar = false,
+    String? buttonText,
+    int time = 3,
+  }) : super(
+          SuccessScreenRouter.name,
+          path: '/success_screen',
+          args: SuccessScreenRouterArgs(
+            key: key,
+            onSuccess: onSuccess,
+            onActionButton: onActionButton,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            specialTextWidget: specialTextWidget,
+            showActionButton: showActionButton,
+            showProgressBar: showProgressBar,
+            buttonText: buttonText,
+            time: time,
+          ),
+        );
 
   static const String name = 'SuccessScreenRouter';
 }
 
 class SuccessScreenRouterArgs {
-  const SuccessScreenRouterArgs(
-      {this.key,
-      this.onSuccess,
-      this.onActionButton,
-      this.primaryText,
-      this.secondaryText,
-      this.specialTextWidget,
-      this.showActionButton = false,
-      this.showProgressBar = false,
-      this.buttonText,
-      this.time = 3});
+  const SuccessScreenRouterArgs({
+    this.key,
+    this.onSuccess,
+    this.onActionButton,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+    this.showActionButton = false,
+    this.showProgressBar = false,
+    this.buttonText,
+    this.time = 3,
+  });
 
   final Key? key;
 
@@ -1256,31 +1885,35 @@ class SuccessScreenRouterArgs {
 /// generated route for
 /// [WaitingScreen]
 class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
-  WaitingScreenRouter(
-      {Key? key,
-      dynamic Function(BuildContext)? onSuccess,
-      String? primaryText,
-      String? secondaryText,
-      Widget? specialTextWidget})
-      : super(WaitingScreenRouter.name,
-            path: '/waiting_screen',
-            args: WaitingScreenRouterArgs(
-                key: key,
-                onSuccess: onSuccess,
-                primaryText: primaryText,
-                secondaryText: secondaryText,
-                specialTextWidget: specialTextWidget));
+  WaitingScreenRouter({
+    Key? key,
+    dynamic Function(BuildContext)? onSuccess,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+  }) : super(
+          WaitingScreenRouter.name,
+          path: '/waiting_screen',
+          args: WaitingScreenRouterArgs(
+            key: key,
+            onSuccess: onSuccess,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            specialTextWidget: specialTextWidget,
+          ),
+        );
 
   static const String name = 'WaitingScreenRouter';
 }
 
 class WaitingScreenRouterArgs {
-  const WaitingScreenRouterArgs(
-      {this.key,
-      this.onSuccess,
-      this.primaryText,
-      this.secondaryText,
-      this.specialTextWidget});
+  const WaitingScreenRouterArgs({
+    this.key,
+    this.onSuccess,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+  });
 
   final Key? key;
 
@@ -1301,37 +1934,41 @@ class WaitingScreenRouterArgs {
 /// generated route for
 /// [FailureScreen]
 class FailureScreenRouter extends PageRouteInfo<FailureScreenRouterArgs> {
-  FailureScreenRouter(
-      {Key? key,
-      String? secondaryText,
-      String? secondaryButtonName,
-      dynamic Function()? onSecondaryButtonTap,
-      required String primaryText,
-      required String primaryButtonName,
-      required dynamic Function() onPrimaryButtonTap})
-      : super(FailureScreenRouter.name,
-            path: '/failure_screen',
-            args: FailureScreenRouterArgs(
-                key: key,
-                secondaryText: secondaryText,
-                secondaryButtonName: secondaryButtonName,
-                onSecondaryButtonTap: onSecondaryButtonTap,
-                primaryText: primaryText,
-                primaryButtonName: primaryButtonName,
-                onPrimaryButtonTap: onPrimaryButtonTap));
+  FailureScreenRouter({
+    Key? key,
+    String? secondaryText,
+    String? secondaryButtonName,
+    dynamic Function()? onSecondaryButtonTap,
+    required String primaryText,
+    required String primaryButtonName,
+    required dynamic Function() onPrimaryButtonTap,
+  }) : super(
+          FailureScreenRouter.name,
+          path: '/failure_screen',
+          args: FailureScreenRouterArgs(
+            key: key,
+            secondaryText: secondaryText,
+            secondaryButtonName: secondaryButtonName,
+            onSecondaryButtonTap: onSecondaryButtonTap,
+            primaryText: primaryText,
+            primaryButtonName: primaryButtonName,
+            onPrimaryButtonTap: onPrimaryButtonTap,
+          ),
+        );
 
   static const String name = 'FailureScreenRouter';
 }
 
 class FailureScreenRouterArgs {
-  const FailureScreenRouterArgs(
-      {this.key,
-      this.secondaryText,
-      this.secondaryButtonName,
-      this.onSecondaryButtonTap,
-      required this.primaryText,
-      required this.primaryButtonName,
-      required this.onPrimaryButtonTap});
+  const FailureScreenRouterArgs({
+    this.key,
+    this.secondaryText,
+    this.secondaryButtonName,
+    this.onSecondaryButtonTap,
+    required this.primaryText,
+    required this.primaryButtonName,
+    required this.onPrimaryButtonTap,
+  });
 
   final Key? key;
 
@@ -1356,28 +1993,32 @@ class FailureScreenRouterArgs {
 /// generated route for
 /// [WithdrawalAmount]
 class WithdrawalAmountRouter extends PageRouteInfo<WithdrawalAmountRouterArgs> {
-  WithdrawalAmountRouter(
-      {Key? key,
-      required WithdrawalModel withdrawal,
-      required String network,
-      required WithdrawalAddressStore addressStore})
-      : super(WithdrawalAmountRouter.name,
-            path: '/withdrawal_ammount',
-            args: WithdrawalAmountRouterArgs(
-                key: key,
-                withdrawal: withdrawal,
-                network: network,
-                addressStore: addressStore));
+  WithdrawalAmountRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+    required String network,
+    required WithdrawalAddressStore addressStore,
+  }) : super(
+          WithdrawalAmountRouter.name,
+          path: '/withdrawal_ammount',
+          args: WithdrawalAmountRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+            network: network,
+            addressStore: addressStore,
+          ),
+        );
 
   static const String name = 'WithdrawalAmountRouter';
 }
 
 class WithdrawalAmountRouterArgs {
-  const WithdrawalAmountRouterArgs(
-      {this.key,
-      required this.withdrawal,
-      required this.network,
-      required this.addressStore});
+  const WithdrawalAmountRouterArgs({
+    this.key,
+    required this.withdrawal,
+    required this.network,
+    required this.addressStore,
+  });
 
   final Key? key;
 
@@ -1397,28 +2038,32 @@ class WithdrawalAmountRouterArgs {
 /// [WithdrawalConfirm]
 class WithdrawalConfirmRouter
     extends PageRouteInfo<WithdrawalConfirmRouterArgs> {
-  WithdrawalConfirmRouter(
-      {Key? key,
-      required WithdrawalModel withdrawal,
-      required WithdrawalAddressStore addressStore,
-      required WithdrawalPreviewStore previewStore})
-      : super(WithdrawalConfirmRouter.name,
-            path: '/withdrawal_confirm',
-            args: WithdrawalConfirmRouterArgs(
-                key: key,
-                withdrawal: withdrawal,
-                addressStore: addressStore,
-                previewStore: previewStore));
+  WithdrawalConfirmRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+    required WithdrawalAddressStore addressStore,
+    required WithdrawalPreviewStore previewStore,
+  }) : super(
+          WithdrawalConfirmRouter.name,
+          path: '/withdrawal_confirm',
+          args: WithdrawalConfirmRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+            addressStore: addressStore,
+            previewStore: previewStore,
+          ),
+        );
 
   static const String name = 'WithdrawalConfirmRouter';
 }
 
 class WithdrawalConfirmRouterArgs {
-  const WithdrawalConfirmRouterArgs(
-      {this.key,
-      required this.withdrawal,
-      required this.addressStore,
-      required this.previewStore});
+  const WithdrawalConfirmRouterArgs({
+    this.key,
+    required this.withdrawal,
+    required this.addressStore,
+    required this.previewStore,
+  });
 
   final Key? key;
 
@@ -1438,31 +2083,35 @@ class WithdrawalConfirmRouterArgs {
 /// [WithdrawalPreview]
 class WithdrawalPreviewRouter
     extends PageRouteInfo<WithdrawalPreviewRouterArgs> {
-  WithdrawalPreviewRouter(
-      {Key? key,
-      required WithdrawalModel withdrawal,
-      required String network,
-      required WithdrawalAddressStore addressStore,
-      required WithdrawalAmountStore amountStore})
-      : super(WithdrawalPreviewRouter.name,
-            path: '/withdrawal_preview',
-            args: WithdrawalPreviewRouterArgs(
-                key: key,
-                withdrawal: withdrawal,
-                network: network,
-                addressStore: addressStore,
-                amountStore: amountStore));
+  WithdrawalPreviewRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+    required String network,
+    required WithdrawalAddressStore addressStore,
+    required WithdrawalAmountStore amountStore,
+  }) : super(
+          WithdrawalPreviewRouter.name,
+          path: '/withdrawal_preview',
+          args: WithdrawalPreviewRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+            network: network,
+            addressStore: addressStore,
+            amountStore: amountStore,
+          ),
+        );
 
   static const String name = 'WithdrawalPreviewRouter';
 }
 
 class WithdrawalPreviewRouterArgs {
-  const WithdrawalPreviewRouterArgs(
-      {this.key,
-      required this.withdrawal,
-      required this.network,
-      required this.addressStore,
-      required this.amountStore});
+  const WithdrawalPreviewRouterArgs({
+    this.key,
+    required this.withdrawal,
+    required this.network,
+    required this.addressStore,
+    required this.amountStore,
+  });
 
   final Key? key;
 
@@ -1484,7 +2133,10 @@ class WithdrawalPreviewRouterArgs {
 /// [SmsAuthenticator]
 class SmsAuthenticatorRouter extends PageRouteInfo<void> {
   const SmsAuthenticatorRouter()
-      : super(SmsAuthenticatorRouter.name, path: '/sms_authenticator');
+      : super(
+          SmsAuthenticatorRouter.name,
+          path: '/sms_authenticator',
+        );
 
   static const String name = 'SmsAuthenticatorRouter';
 }
@@ -1492,19 +2144,29 @@ class SmsAuthenticatorRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [SetPhoneNumber]
 class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
-  SetPhoneNumberRouter(
-      {Key? key, dynamic Function()? then, required String successText})
-      : super(SetPhoneNumberRouter.name,
-            path: '/set_phone_number',
-            args: SetPhoneNumberRouterArgs(
-                key: key, then: then, successText: successText));
+  SetPhoneNumberRouter({
+    Key? key,
+    dynamic Function()? then,
+    required String successText,
+  }) : super(
+          SetPhoneNumberRouter.name,
+          path: '/set_phone_number',
+          args: SetPhoneNumberRouterArgs(
+            key: key,
+            then: then,
+            successText: successText,
+          ),
+        );
 
   static const String name = 'SetPhoneNumberRouter';
 }
 
 class SetPhoneNumberRouterArgs {
-  const SetPhoneNumberRouterArgs(
-      {this.key, this.then, required this.successText});
+  const SetPhoneNumberRouterArgs({
+    this.key,
+    this.then,
+    required this.successText,
+  });
 
   final Key? key;
 
@@ -1522,7 +2184,10 @@ class SetPhoneNumberRouterArgs {
 /// [SetNewPassword]
 class SetNewPasswordRouter extends PageRouteInfo<void> {
   const SetNewPasswordRouter()
-      : super(SetNewPasswordRouter.name, path: '/set_new_password');
+      : super(
+          SetNewPasswordRouter.name,
+          path: '/set_new_password',
+        );
 
   static const String name = 'SetNewPasswordRouter';
 }
@@ -1530,7 +2195,11 @@ class SetNewPasswordRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [Rewards]
 class RewardsRouter extends PageRouteInfo<void> {
-  const RewardsRouter() : super(RewardsRouter.name, path: '/rewards');
+  const RewardsRouter()
+      : super(
+          RewardsRouter.name,
+          path: '/rewards',
+        );
 
   static const String name = 'RewardsRouter';
 }
@@ -1539,16 +2208,26 @@ class RewardsRouter extends PageRouteInfo<void> {
 /// [PhoneVerification]
 class PhoneVerificationRouter
     extends PageRouteInfo<PhoneVerificationRouterArgs> {
-  PhoneVerificationRouter({Key? key, required PhoneVerificationArgs args})
-      : super(PhoneVerificationRouter.name,
-            path: '/phone_verification',
-            args: PhoneVerificationRouterArgs(key: key, args: args));
+  PhoneVerificationRouter({
+    Key? key,
+    required PhoneVerificationArgs args,
+  }) : super(
+          PhoneVerificationRouter.name,
+          path: '/phone_verification',
+          args: PhoneVerificationRouterArgs(
+            key: key,
+            args: args,
+          ),
+        );
 
   static const String name = 'PhoneVerificationRouter';
 }
 
 class PhoneVerificationRouterArgs {
-  const PhoneVerificationRouterArgs({this.key, required this.args});
+  const PhoneVerificationRouterArgs({
+    this.key,
+    required this.args,
+  });
 
   final Key? key;
 
@@ -1564,7 +2243,10 @@ class PhoneVerificationRouterArgs {
 /// [PaymentMethods]
 class PaymentMethodsRouter extends PageRouteInfo<void> {
   const PaymentMethodsRouter()
-      : super(PaymentMethodsRouter.name, path: '/payments_methods');
+      : super(
+          PaymentMethodsRouter.name,
+          path: '/payments_methods',
+        );
 
   static const String name = 'PaymentMethodsRouter';
 }
@@ -1572,17 +2254,29 @@ class PaymentMethodsRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [NewsWebView]
 class NewsWebViewRouter extends PageRouteInfo<NewsWebViewRouterArgs> {
-  NewsWebViewRouter({Key? key, required String link, required String topic})
-      : super(NewsWebViewRouter.name,
-            path: '/news_web_view',
-            args: NewsWebViewRouterArgs(key: key, link: link, topic: topic));
+  NewsWebViewRouter({
+    Key? key,
+    required String link,
+    required String topic,
+  }) : super(
+          NewsWebViewRouter.name,
+          path: '/news_web_view',
+          args: NewsWebViewRouterArgs(
+            key: key,
+            link: link,
+            topic: topic,
+          ),
+        );
 
   static const String name = 'NewsWebViewRouter';
 }
 
 class NewsWebViewRouterArgs {
-  const NewsWebViewRouterArgs(
-      {this.key, required this.link, required this.topic});
+  const NewsWebViewRouterArgs({
+    this.key,
+    required this.link,
+    required this.topic,
+  });
 
   final Key? key;
 
@@ -1599,28 +2293,32 @@ class NewsWebViewRouterArgs {
 /// generated route for
 /// [PinScreen]
 class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
-  PinScreenRoute(
-      {Key? key,
-      bool displayHeader = true,
-      bool cannotLeave = false,
-      required PinFlowUnion union})
-      : super(PinScreenRoute.name,
-            path: '/pin_screen',
-            args: PinScreenRouteArgs(
-                key: key,
-                displayHeader: displayHeader,
-                cannotLeave: cannotLeave,
-                union: union));
+  PinScreenRoute({
+    Key? key,
+    bool displayHeader = true,
+    bool cannotLeave = false,
+    required PinFlowUnion union,
+  }) : super(
+          PinScreenRoute.name,
+          path: '/pin_screen',
+          args: PinScreenRouteArgs(
+            key: key,
+            displayHeader: displayHeader,
+            cannotLeave: cannotLeave,
+            union: union,
+          ),
+        );
 
   static const String name = 'PinScreenRoute';
 }
 
 class PinScreenRouteArgs {
-  const PinScreenRouteArgs(
-      {this.key,
-      this.displayHeader = true,
-      this.cannotLeave = false,
-      required this.union});
+  const PinScreenRouteArgs({
+    this.key,
+    this.displayHeader = true,
+    this.cannotLeave = false,
+    required this.union,
+  });
 
   final Key? key;
 
@@ -1639,16 +2337,26 @@ class PinScreenRouteArgs {
 /// generated route for
 /// [TwoFaPhone]
 class TwoFaPhoneRouter extends PageRouteInfo<TwoFaPhoneRouterArgs> {
-  TwoFaPhoneRouter({Key? key, required TwoFaPhoneTriggerUnion trigger})
-      : super(TwoFaPhoneRouter.name,
-            path: '/two_fa_phone',
-            args: TwoFaPhoneRouterArgs(key: key, trigger: trigger));
+  TwoFaPhoneRouter({
+    Key? key,
+    required TwoFaPhoneTriggerUnion trigger,
+  }) : super(
+          TwoFaPhoneRouter.name,
+          path: '/two_fa_phone',
+          args: TwoFaPhoneRouterArgs(
+            key: key,
+            trigger: trigger,
+          ),
+        );
 
   static const String name = 'TwoFaPhoneRouter';
 }
 
 class TwoFaPhoneRouterArgs {
-  const TwoFaPhoneRouterArgs({this.key, required this.trigger});
+  const TwoFaPhoneRouterArgs({
+    this.key,
+    required this.trigger,
+  });
 
   final Key? key;
 
@@ -1664,7 +2372,10 @@ class TwoFaPhoneRouterArgs {
 /// [EmailConfirmationScreen]
 class EmailConfirmationRouter extends PageRouteInfo<void> {
   const EmailConfirmationRouter()
-      : super(EmailConfirmationRouter.name, path: '/email_confirmation');
+      : super(
+          EmailConfirmationRouter.name,
+          path: '/email_confirmation',
+        );
 
   static const String name = 'EmailConfirmationRouter';
 }
@@ -1672,16 +2383,26 @@ class EmailConfirmationRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [Biometric]
 class BiometricRouter extends PageRouteInfo<BiometricRouterArgs> {
-  BiometricRouter({Key? key, bool isAccSettings = false})
-      : super(BiometricRouter.name,
-            path: '/biometric',
-            args: BiometricRouterArgs(key: key, isAccSettings: isAccSettings));
+  BiometricRouter({
+    Key? key,
+    bool isAccSettings = false,
+  }) : super(
+          BiometricRouter.name,
+          path: '/biometric',
+          args: BiometricRouterArgs(
+            key: key,
+            isAccSettings: isAccSettings,
+          ),
+        );
 
   static const String name = 'BiometricRouter';
 }
 
 class BiometricRouterArgs {
-  const BiometricRouterArgs({this.key, this.isAccSettings = false});
+  const BiometricRouterArgs({
+    this.key,
+    this.isAccSettings = false,
+  });
 
   final Key? key;
 
@@ -1697,7 +2418,10 @@ class BiometricRouterArgs {
 /// [ChangePassword]
 class ChangePasswordRouter extends PageRouteInfo<void> {
   const ChangePasswordRouter()
-      : super(ChangePasswordRouter.name, path: '/change_password');
+      : super(
+          ChangePasswordRouter.name,
+          path: '/change_password',
+        );
 
   static const String name = 'ChangePasswordRouter';
 }
@@ -1706,7 +2430,10 @@ class ChangePasswordRouter extends PageRouteInfo<void> {
 /// [DeleteProfile]
 class DeleteProfileRouter extends PageRouteInfo<void> {
   const DeleteProfileRouter()
-      : super(DeleteProfileRouter.name, path: '/delete_profile');
+      : super(
+          DeleteProfileRouter.name,
+          path: '/delete_profile',
+        );
 
   static const String name = 'DeleteProfileRouter';
 }
@@ -1715,7 +2442,10 @@ class DeleteProfileRouter extends PageRouteInfo<void> {
 /// [ProfileDetails]
 class ProfileDetailsRouter extends PageRouteInfo<void> {
   const ProfileDetailsRouter()
-      : super(ProfileDetailsRouter.name, path: '/profile_details');
+      : super(
+          ProfileDetailsRouter.name,
+          path: '/profile_details',
+        );
 
   static const String name = 'ProfileDetailsRouter';
 }
@@ -1724,7 +2454,10 @@ class ProfileDetailsRouter extends PageRouteInfo<void> {
 /// [AccountSecurity]
 class AccountSecurityRouter extends PageRouteInfo<void> {
   const AccountSecurityRouter()
-      : super(AccountSecurityRouter.name, path: '/account_sercurity');
+      : super(
+          AccountSecurityRouter.name,
+          path: '/account_sercurity',
+        );
 
   static const String name = 'AccountSecurityRouter';
 }
@@ -1732,7 +2465,11 @@ class AccountSecurityRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [AboutUs]
 class AboutUsRouter extends PageRouteInfo<void> {
-  const AboutUsRouter() : super(AboutUsRouter.name, path: '/about_us');
+  const AboutUsRouter()
+      : super(
+          AboutUsRouter.name,
+          path: '/about_us',
+        );
 
   static const String name = 'AboutUsRouter';
 }
@@ -1740,7 +2477,11 @@ class AboutUsRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [DebugInfo]
 class DebugInfoRouter extends PageRouteInfo<void> {
-  const DebugInfoRouter() : super(DebugInfoRouter.name, path: '/debug_info');
+  const DebugInfoRouter()
+      : super(
+          DebugInfoRouter.name,
+          path: '/debug_info',
+        );
 
   static const String name = 'DebugInfoRouter';
 }
@@ -1749,21 +2490,29 @@ class DebugInfoRouter extends PageRouteInfo<void> {
 /// [ShowRecurringInfoAction]
 class ShowRecurringInfoActionRouter
     extends PageRouteInfo<ShowRecurringInfoActionRouterArgs> {
-  ShowRecurringInfoActionRouter(
-      {Key? key,
-      required RecurringBuysModel recurringItem,
-      required String assetName})
-      : super(ShowRecurringInfoActionRouter.name,
-            path: '/show_recurring_info_action',
-            args: ShowRecurringInfoActionRouterArgs(
-                key: key, recurringItem: recurringItem, assetName: assetName));
+  ShowRecurringInfoActionRouter({
+    Key? key,
+    required RecurringBuysModel recurringItem,
+    required String assetName,
+  }) : super(
+          ShowRecurringInfoActionRouter.name,
+          path: '/show_recurring_info_action',
+          args: ShowRecurringInfoActionRouterArgs(
+            key: key,
+            recurringItem: recurringItem,
+            assetName: assetName,
+          ),
+        );
 
   static const String name = 'ShowRecurringInfoActionRouter';
 }
 
 class ShowRecurringInfoActionRouterArgs {
-  const ShowRecurringInfoActionRouterArgs(
-      {this.key, required this.recurringItem, required this.assetName});
+  const ShowRecurringInfoActionRouterArgs({
+    this.key,
+    required this.recurringItem,
+    required this.assetName,
+  });
 
   final Key? key;
 
@@ -1780,16 +2529,26 @@ class ShowRecurringInfoActionRouterArgs {
 /// generated route for
 /// [SendByPhoneInput]
 class SendByPhoneInputRouter extends PageRouteInfo<SendByPhoneInputRouterArgs> {
-  SendByPhoneInputRouter({Key? key, required CurrencyModel currency})
-      : super(SendByPhoneInputRouter.name,
-            path: '/send_by_phone_input',
-            args: SendByPhoneInputRouterArgs(key: key, currency: currency));
+  SendByPhoneInputRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          SendByPhoneInputRouter.name,
+          path: '/send_by_phone_input',
+          args: SendByPhoneInputRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'SendByPhoneInputRouter';
 }
 
 class SendByPhoneInputRouterArgs {
-  const SendByPhoneInputRouterArgs({this.key, required this.currency});
+  const SendByPhoneInputRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -1804,16 +2563,26 @@ class SendByPhoneInputRouterArgs {
 /// generated route for
 /// [CurrencyWithdraw]
 class CurrencyWithdrawRouter extends PageRouteInfo<CurrencyWithdrawRouterArgs> {
-  CurrencyWithdrawRouter({Key? key, required WithdrawalModel withdrawal})
-      : super(CurrencyWithdrawRouter.name,
-            path: '/currency_withdraw',
-            args: CurrencyWithdrawRouterArgs(key: key, withdrawal: withdrawal));
+  CurrencyWithdrawRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+  }) : super(
+          CurrencyWithdrawRouter.name,
+          path: '/currency_withdraw',
+          args: CurrencyWithdrawRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+          ),
+        );
 
   static const String name = 'CurrencyWithdrawRouter';
 }
 
 class CurrencyWithdrawRouterArgs {
-  const CurrencyWithdrawRouterArgs({this.key, required this.withdrawal});
+  const CurrencyWithdrawRouterArgs({
+    this.key,
+    required this.withdrawal,
+  });
 
   final Key? key;
 
@@ -1828,16 +2597,26 @@ class CurrencyWithdrawRouterArgs {
 /// generated route for
 /// [CurrencySell]
 class CurrencySellRouter extends PageRouteInfo<CurrencySellRouterArgs> {
-  CurrencySellRouter({Key? key, required CurrencyModel currency})
-      : super(CurrencySellRouter.name,
-            path: '/currency_sell',
-            args: CurrencySellRouterArgs(key: key, currency: currency));
+  CurrencySellRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          CurrencySellRouter.name,
+          path: '/currency_sell',
+          args: CurrencySellRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'CurrencySellRouter';
 }
 
 class CurrencySellRouterArgs {
-  const CurrencySellRouterArgs({this.key, required this.currency});
+  const CurrencySellRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -1852,16 +2631,26 @@ class CurrencySellRouterArgs {
 /// generated route for
 /// [EmptyWallet]
 class EmptyWalletRouter extends PageRouteInfo<EmptyWalletRouterArgs> {
-  EmptyWalletRouter({Key? key, required CurrencyModel currency})
-      : super(EmptyWalletRouter.name,
-            path: '/emptry_wallet',
-            args: EmptyWalletRouterArgs(key: key, currency: currency));
+  EmptyWalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          EmptyWalletRouter.name,
+          path: '/emptry_wallet',
+          args: EmptyWalletRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'EmptyWalletRouter';
 }
 
 class EmptyWalletRouterArgs {
-  const EmptyWalletRouterArgs({this.key, required this.currency});
+  const EmptyWalletRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -1876,16 +2665,26 @@ class EmptyWalletRouterArgs {
 /// generated route for
 /// [Wallet]
 class WalletRouter extends PageRouteInfo<WalletRouterArgs> {
-  WalletRouter({Key? key, required CurrencyModel currency})
-      : super(WalletRouter.name,
-            path: '/wallet',
-            args: WalletRouterArgs(key: key, currency: currency));
+  WalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          WalletRouter.name,
+          path: '/wallet',
+          args: WalletRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'WalletRouter';
 }
 
 class WalletRouterArgs {
-  const WalletRouterArgs({this.key, required this.currency});
+  const WalletRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -1900,21 +2699,29 @@ class WalletRouterArgs {
 /// generated route for
 /// [ReturnToWallet]
 class ReturnToWalletRouter extends PageRouteInfo<ReturnToWalletRouterArgs> {
-  ReturnToWalletRouter(
-      {Key? key,
-      required CurrencyModel currency,
-      required EarnOfferModel earnOffer})
-      : super(ReturnToWalletRouter.name,
-            path: '/return_to_wallet',
-            args: ReturnToWalletRouterArgs(
-                key: key, currency: currency, earnOffer: earnOffer));
+  ReturnToWalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+    required EarnOfferModel earnOffer,
+  }) : super(
+          ReturnToWalletRouter.name,
+          path: '/return_to_wallet',
+          args: ReturnToWalletRouterArgs(
+            key: key,
+            currency: currency,
+            earnOffer: earnOffer,
+          ),
+        );
 
   static const String name = 'ReturnToWalletRouter';
 }
 
 class ReturnToWalletRouterArgs {
-  const ReturnToWalletRouterArgs(
-      {this.key, required this.currency, required this.earnOffer});
+  const ReturnToWalletRouterArgs({
+    this.key,
+    required this.currency,
+    required this.earnOffer,
+  });
 
   final Key? key;
 
@@ -1932,17 +2739,26 @@ class ReturnToWalletRouterArgs {
 /// [PreviewReturnToWallet]
 class PreviewReturnToWalletRouter
     extends PageRouteInfo<PreviewReturnToWalletRouterArgs> {
-  PreviewReturnToWalletRouter(
-      {Key? key, required PreviewReturnToWalletInput input})
-      : super(PreviewReturnToWalletRouter.name,
-            path: '/preview_return_to_wallet',
-            args: PreviewReturnToWalletRouterArgs(key: key, input: input));
+  PreviewReturnToWalletRouter({
+    Key? key,
+    required PreviewReturnToWalletInput input,
+  }) : super(
+          PreviewReturnToWalletRouter.name,
+          path: '/preview_return_to_wallet',
+          args: PreviewReturnToWalletRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewReturnToWalletRouter';
 }
 
 class PreviewReturnToWalletRouterArgs {
-  const PreviewReturnToWalletRouterArgs({this.key, required this.input});
+  const PreviewReturnToWalletRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -1957,25 +2773,32 @@ class PreviewReturnToWalletRouterArgs {
 /// generated route for
 /// [SuccessKycScreen]
 class SuccessKycScreenRoute extends PageRouteInfo<SuccessKycScreenRouteArgs> {
-  SuccessKycScreenRoute(
-      {Key? key,
-      String? primaryText,
-      String? secondaryText,
-      Widget? specialTextWidget})
-      : super(SuccessKycScreenRoute.name,
-            path: '/success_kyc',
-            args: SuccessKycScreenRouteArgs(
-                key: key,
-                primaryText: primaryText,
-                secondaryText: secondaryText,
-                specialTextWidget: specialTextWidget));
+  SuccessKycScreenRoute({
+    Key? key,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+  }) : super(
+          SuccessKycScreenRoute.name,
+          path: '/success_kyc',
+          args: SuccessKycScreenRouteArgs(
+            key: key,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            specialTextWidget: specialTextWidget,
+          ),
+        );
 
   static const String name = 'SuccessKycScreenRoute';
 }
 
 class SuccessKycScreenRouteArgs {
-  const SuccessKycScreenRouteArgs(
-      {this.key, this.primaryText, this.secondaryText, this.specialTextWidget});
+  const SuccessKycScreenRouteArgs({
+    this.key,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+  });
 
   final Key? key;
 
@@ -1994,28 +2817,32 @@ class SuccessKycScreenRouteArgs {
 /// generated route for
 /// [HighYieldBuy]
 class HighYieldBuyRouter extends PageRouteInfo<HighYieldBuyRouterArgs> {
-  HighYieldBuyRouter(
-      {Key? key,
-      bool topUp = false,
-      required CurrencyModel currency,
-      required EarnOfferModel earnOffer})
-      : super(HighYieldBuyRouter.name,
-            path: '/high_yield_buy',
-            args: HighYieldBuyRouterArgs(
-                key: key,
-                topUp: topUp,
-                currency: currency,
-                earnOffer: earnOffer));
+  HighYieldBuyRouter({
+    Key? key,
+    bool topUp = false,
+    required CurrencyModel currency,
+    required EarnOfferModel earnOffer,
+  }) : super(
+          HighYieldBuyRouter.name,
+          path: '/high_yield_buy',
+          args: HighYieldBuyRouterArgs(
+            key: key,
+            topUp: topUp,
+            currency: currency,
+            earnOffer: earnOffer,
+          ),
+        );
 
   static const String name = 'HighYieldBuyRouter';
 }
 
 class HighYieldBuyRouterArgs {
-  const HighYieldBuyRouterArgs(
-      {this.key,
-      this.topUp = false,
-      required this.currency,
-      required this.earnOffer});
+  const HighYieldBuyRouterArgs({
+    this.key,
+    this.topUp = false,
+    required this.currency,
+    required this.earnOffer,
+  });
 
   final Key? key;
 
@@ -2035,17 +2862,26 @@ class HighYieldBuyRouterArgs {
 /// [PreviewHighYieldBuyScreen]
 class PreviewHighYieldBuyScreenRouter
     extends PageRouteInfo<PreviewHighYieldBuyScreenRouterArgs> {
-  PreviewHighYieldBuyScreenRouter(
-      {Key? key, required PreviewHighYieldBuyInput input})
-      : super(PreviewHighYieldBuyScreenRouter.name,
-            path: '/preview_high_yield_buy',
-            args: PreviewHighYieldBuyScreenRouterArgs(key: key, input: input));
+  PreviewHighYieldBuyScreenRouter({
+    Key? key,
+    required PreviewHighYieldBuyInput input,
+  }) : super(
+          PreviewHighYieldBuyScreenRouter.name,
+          path: '/preview_high_yield_buy',
+          args: PreviewHighYieldBuyScreenRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewHighYieldBuyScreenRouter';
 }
 
 class PreviewHighYieldBuyScreenRouterArgs {
-  const PreviewHighYieldBuyScreenRouterArgs({this.key, required this.input});
+  const PreviewHighYieldBuyScreenRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -2061,34 +2897,42 @@ class PreviewHighYieldBuyScreenRouterArgs {
 /// [Circle3dSecureWebView]
 class Circle3dSecureWebViewRouter
     extends PageRouteInfo<Circle3dSecureWebViewRouterArgs> {
-  Circle3dSecureWebViewRouter(
-      {required String url,
-      required String asset,
-      required String amount,
-      required dynamic Function(String, String) onSuccess,
-      required dynamic Function(String)? onCancel,
-      required String paymentId})
-      : super(Circle3dSecureWebViewRouter.name,
-            path: '/circle_3d_secure',
-            args: Circle3dSecureWebViewRouterArgs(
-                url: url,
-                asset: asset,
-                amount: amount,
-                onSuccess: onSuccess,
-                onCancel: onCancel,
-                paymentId: paymentId));
+  Circle3dSecureWebViewRouter({
+    required String url,
+    required String asset,
+    required String amount,
+    required dynamic Function(
+      String,
+      String,
+    )
+        onSuccess,
+    required dynamic Function(String)? onCancel,
+    required String paymentId,
+  }) : super(
+          Circle3dSecureWebViewRouter.name,
+          path: '/circle_3d_secure',
+          args: Circle3dSecureWebViewRouterArgs(
+            url: url,
+            asset: asset,
+            amount: amount,
+            onSuccess: onSuccess,
+            onCancel: onCancel,
+            paymentId: paymentId,
+          ),
+        );
 
   static const String name = 'Circle3dSecureWebViewRouter';
 }
 
 class Circle3dSecureWebViewRouterArgs {
-  const Circle3dSecureWebViewRouterArgs(
-      {required this.url,
-      required this.asset,
-      required this.amount,
-      required this.onSuccess,
-      required this.onCancel,
-      required this.paymentId});
+  const Circle3dSecureWebViewRouterArgs({
+    required this.url,
+    required this.asset,
+    required this.amount,
+    required this.onSuccess,
+    required this.onCancel,
+    required this.paymentId,
+  });
 
   final String url;
 
@@ -2096,7 +2940,10 @@ class Circle3dSecureWebViewRouterArgs {
 
   final String amount;
 
-  final dynamic Function(String, String) onSuccess;
+  final dynamic Function(
+    String,
+    String,
+  ) onSuccess;
 
   final dynamic Function(String)? onCancel;
 
@@ -2112,8 +2959,11 @@ class Circle3dSecureWebViewRouterArgs {
 /// [SimplexWebView]
 class SimplexWebViewRouter extends PageRouteInfo<SimplexWebViewRouterArgs> {
   SimplexWebViewRouter({required String url})
-      : super(SimplexWebViewRouter.name,
-            path: '/simples_webview', args: SimplexWebViewRouterArgs(url: url));
+      : super(
+          SimplexWebViewRouter.name,
+          path: '/simples_webview',
+          args: SimplexWebViewRouterArgs(url: url),
+        );
 
   static const String name = 'SimplexWebViewRouter';
 }
@@ -2133,17 +2983,26 @@ class SimplexWebViewRouterArgs {
 /// [PreviewBuyWithUnlimint]
 class PreviewBuyWithUnlimintRouter
     extends PageRouteInfo<PreviewBuyWithUnlimintRouterArgs> {
-  PreviewBuyWithUnlimintRouter(
-      {Key? key, required PreviewBuyWithUnlimintInput input})
-      : super(PreviewBuyWithUnlimintRouter.name,
-            path: '/preview_buy_with_unlimit',
-            args: PreviewBuyWithUnlimintRouterArgs(key: key, input: input));
+  PreviewBuyWithUnlimintRouter({
+    Key? key,
+    required PreviewBuyWithUnlimintInput input,
+  }) : super(
+          PreviewBuyWithUnlimintRouter.name,
+          path: '/preview_buy_with_unlimit',
+          args: PreviewBuyWithUnlimintRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewBuyWithUnlimintRouter';
 }
 
 class PreviewBuyWithUnlimintRouterArgs {
-  const PreviewBuyWithUnlimintRouterArgs({this.key, required this.input});
+  const PreviewBuyWithUnlimintRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -2159,21 +3018,29 @@ class PreviewBuyWithUnlimintRouterArgs {
 /// [PreviewBuyWithAsset]
 class PreviewBuyWithAssetRouter
     extends PageRouteInfo<PreviewBuyWithAssetRouterArgs> {
-  PreviewBuyWithAssetRouter(
-      {Key? key,
-      void Function()? onBackButtonTap,
-      required PreviewBuyWithAssetInput input})
-      : super(PreviewBuyWithAssetRouter.name,
-            path: '/preview_buy_with_asset',
-            args: PreviewBuyWithAssetRouterArgs(
-                key: key, onBackButtonTap: onBackButtonTap, input: input));
+  PreviewBuyWithAssetRouter({
+    Key? key,
+    void Function()? onBackButtonTap,
+    required PreviewBuyWithAssetInput input,
+  }) : super(
+          PreviewBuyWithAssetRouter.name,
+          path: '/preview_buy_with_asset',
+          args: PreviewBuyWithAssetRouterArgs(
+            key: key,
+            onBackButtonTap: onBackButtonTap,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewBuyWithAssetRouter';
 }
 
 class PreviewBuyWithAssetRouterArgs {
-  const PreviewBuyWithAssetRouterArgs(
-      {this.key, this.onBackButtonTap, required this.input});
+  const PreviewBuyWithAssetRouterArgs({
+    this.key,
+    this.onBackButtonTap,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -2191,17 +3058,26 @@ class PreviewBuyWithAssetRouterArgs {
 /// [PreviewBuyWithCircle]
 class PreviewBuyWithCircleRouter
     extends PageRouteInfo<PreviewBuyWithCircleRouterArgs> {
-  PreviewBuyWithCircleRouter(
-      {Key? key, required PreviewBuyWithCircleInput input})
-      : super(PreviewBuyWithCircleRouter.name,
-            path: '/preview_buy_with_circle',
-            args: PreviewBuyWithCircleRouterArgs(key: key, input: input));
+  PreviewBuyWithCircleRouter({
+    Key? key,
+    required PreviewBuyWithCircleInput input,
+  }) : super(
+          PreviewBuyWithCircleRouter.name,
+          path: '/preview_buy_with_circle',
+          args: PreviewBuyWithCircleRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewBuyWithCircleRouter';
 }
 
 class PreviewBuyWithCircleRouterArgs {
-  const PreviewBuyWithCircleRouterArgs({this.key, required this.input});
+  const PreviewBuyWithCircleRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -2216,16 +3092,26 @@ class PreviewBuyWithCircleRouterArgs {
 /// generated route for
 /// [PreviewSell]
 class PreviewSellRouter extends PageRouteInfo<PreviewSellRouterArgs> {
-  PreviewSellRouter({Key? key, required PreviewSellInput input})
-      : super(PreviewSellRouter.name,
-            path: '/preview_sell_router',
-            args: PreviewSellRouterArgs(key: key, input: input));
+  PreviewSellRouter({
+    Key? key,
+    required PreviewSellInput input,
+  }) : super(
+          PreviewSellRouter.name,
+          path: '/preview_sell_router',
+          args: PreviewSellRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewSellRouter';
 }
 
 class PreviewSellRouterArgs {
-  const PreviewSellRouterArgs({this.key, required this.input});
+  const PreviewSellRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 
@@ -2241,18 +3127,26 @@ class PreviewSellRouterArgs {
 /// [SendByPhoneNotifyRecipient]
 class SendByPhoneNotifyRecipientRouter
     extends PageRouteInfo<SendByPhoneNotifyRecipientRouterArgs> {
-  SendByPhoneNotifyRecipientRouter({Key? key, required String toPhoneNumber})
-      : super(SendByPhoneNotifyRecipientRouter.name,
-            path: '/send_by_phone_notify_recipient',
-            args: SendByPhoneNotifyRecipientRouterArgs(
-                key: key, toPhoneNumber: toPhoneNumber));
+  SendByPhoneNotifyRecipientRouter({
+    Key? key,
+    required String toPhoneNumber,
+  }) : super(
+          SendByPhoneNotifyRecipientRouter.name,
+          path: '/send_by_phone_notify_recipient',
+          args: SendByPhoneNotifyRecipientRouterArgs(
+            key: key,
+            toPhoneNumber: toPhoneNumber,
+          ),
+        );
 
   static const String name = 'SendByPhoneNotifyRecipientRouter';
 }
 
 class SendByPhoneNotifyRecipientRouterArgs {
-  const SendByPhoneNotifyRecipientRouterArgs(
-      {this.key, required this.toPhoneNumber});
+  const SendByPhoneNotifyRecipientRouterArgs({
+    this.key,
+    required this.toPhoneNumber,
+  });
 
   final Key? key;
 
@@ -2268,16 +3162,26 @@ class SendByPhoneNotifyRecipientRouterArgs {
 /// [SendByPhoneAmount]
 class SendByPhoneAmountRouter
     extends PageRouteInfo<SendByPhoneAmountRouterArgs> {
-  SendByPhoneAmountRouter({Key? key, required CurrencyModel currency})
-      : super(SendByPhoneAmountRouter.name,
-            path: '/send_by_phone_amount',
-            args: SendByPhoneAmountRouterArgs(key: key, currency: currency));
+  SendByPhoneAmountRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          SendByPhoneAmountRouter.name,
+          path: '/send_by_phone_amount',
+          args: SendByPhoneAmountRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'SendByPhoneAmountRouter';
 }
 
 class SendByPhoneAmountRouterArgs {
-  const SendByPhoneAmountRouterArgs({this.key, required this.currency});
+  const SendByPhoneAmountRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -2293,16 +3197,26 @@ class SendByPhoneAmountRouterArgs {
 /// [SendByPhoneConfirm]
 class SendByPhoneConfirmRouter
     extends PageRouteInfo<SendByPhoneConfirmRouterArgs> {
-  SendByPhoneConfirmRouter({Key? key, required CurrencyModel currency})
-      : super(SendByPhoneConfirmRouter.name,
-            path: '/send_by_phone_confirm',
-            args: SendByPhoneConfirmRouterArgs(key: key, currency: currency));
+  SendByPhoneConfirmRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          SendByPhoneConfirmRouter.name,
+          path: '/send_by_phone_confirm',
+          args: SendByPhoneConfirmRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'SendByPhoneConfirmRouter';
 }
 
 class SendByPhoneConfirmRouterArgs {
-  const SendByPhoneConfirmRouterArgs({this.key, required this.currency});
+  const SendByPhoneConfirmRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -2318,16 +3232,26 @@ class SendByPhoneConfirmRouterArgs {
 /// [SendByPhonePreview]
 class SendByPhonePreviewRouter
     extends PageRouteInfo<SendByPhonePreviewRouterArgs> {
-  SendByPhonePreviewRouter({Key? key, required CurrencyModel currency})
-      : super(SendByPhonePreviewRouter.name,
-            path: '/send_by_phone_preview',
-            args: SendByPhonePreviewRouterArgs(key: key, currency: currency));
+  SendByPhonePreviewRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          SendByPhonePreviewRouter.name,
+          path: '/send_by_phone_preview',
+          args: SendByPhonePreviewRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
 
   static const String name = 'SendByPhonePreviewRouter';
 }
 
 class SendByPhonePreviewRouterArgs {
-  const SendByPhonePreviewRouterArgs({this.key, required this.currency});
+  const SendByPhonePreviewRouterArgs({
+    this.key,
+    required this.currency,
+  });
 
   final Key? key;
 
@@ -2343,7 +3267,10 @@ class SendByPhonePreviewRouterArgs {
 /// [DeleteReasonsScreen]
 class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
   const DeleteReasonsScreenRouter()
-      : super(DeleteReasonsScreenRouter.name, path: '/delete_reasons_screen');
+      : super(
+          DeleteReasonsScreenRouter.name,
+          path: '/delete_reasons_screen',
+        );
 
   static const String name = 'DeleteReasonsScreenRouter';
 }
@@ -2351,16 +3278,26 @@ class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [PDFViewScreen]
 class PDFViewScreenRouter extends PageRouteInfo<PDFViewScreenRouterArgs> {
-  PDFViewScreenRouter({Key? key, required String url})
-      : super(PDFViewScreenRouter.name,
-            path: '/pdf_view_screen',
-            args: PDFViewScreenRouterArgs(key: key, url: url));
+  PDFViewScreenRouter({
+    Key? key,
+    required String url,
+  }) : super(
+          PDFViewScreenRouter.name,
+          path: '/pdf_view_screen',
+          args: PDFViewScreenRouterArgs(
+            key: key,
+            url: url,
+          ),
+        );
 
   static const String name = 'PDFViewScreenRouter';
 }
 
 class PDFViewScreenRouterArgs {
-  const PDFViewScreenRouterArgs({this.key, required this.url});
+  const PDFViewScreenRouterArgs({
+    this.key,
+    required this.url,
+  });
 
   final Key? key;
 
@@ -2375,16 +3312,26 @@ class PDFViewScreenRouterArgs {
 /// generated route for
 /// [MarketDetails]
 class MarketDetailsRouter extends PageRouteInfo<MarketDetailsRouterArgs> {
-  MarketDetailsRouter({Key? key, required MarketItemModel marketItem})
-      : super(MarketDetailsRouter.name,
-            path: '/market_details',
-            args: MarketDetailsRouterArgs(key: key, marketItem: marketItem));
+  MarketDetailsRouter({
+    Key? key,
+    required MarketItemModel marketItem,
+  }) : super(
+          MarketDetailsRouter.name,
+          path: '/market_details',
+          args: MarketDetailsRouterArgs(
+            key: key,
+            marketItem: marketItem,
+          ),
+        );
 
   static const String name = 'MarketDetailsRouter';
 }
 
 class MarketDetailsRouterArgs {
-  const MarketDetailsRouterArgs({this.key, required this.marketItem});
+  const MarketDetailsRouterArgs({
+    this.key,
+    required this.marketItem,
+  });
 
   final Key? key;
 
@@ -2399,7 +3346,11 @@ class MarketDetailsRouterArgs {
 /// generated route for
 /// [MarketScreen]
 class MarketRouter extends PageRouteInfo<void> {
-  const MarketRouter() : super(MarketRouter.name, path: 'market');
+  const MarketRouter()
+      : super(
+          MarketRouter.name,
+          path: 'market',
+        );
 
   static const String name = 'MarketRouter';
 }
@@ -2407,7 +3358,11 @@ class MarketRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [PortfolioScreen]
 class PortfolioRouter extends PageRouteInfo<void> {
-  const PortfolioRouter() : super(PortfolioRouter.name, path: 'portfolio');
+  const PortfolioRouter()
+      : super(
+          PortfolioRouter.name,
+          path: 'portfolio',
+        );
 
   static const String name = 'PortfolioRouter';
 }
@@ -2415,7 +3370,11 @@ class PortfolioRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [EarnScreen]
 class EarnRouter extends PageRouteInfo<void> {
-  const EarnRouter() : super(EarnRouter.name, path: 'earn');
+  const EarnRouter()
+      : super(
+          EarnRouter.name,
+          path: 'earn',
+        );
 
   static const String name = 'EarnRouter';
 }
@@ -2423,7 +3382,11 @@ class EarnRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [NewsScreen]
 class NewsRouter extends PageRouteInfo<void> {
-  const NewsRouter() : super(NewsRouter.name, path: 'news');
+  const NewsRouter()
+      : super(
+          NewsRouter.name,
+          path: 'news',
+        );
 
   static const String name = 'NewsRouter';
 }
@@ -2431,7 +3394,11 @@ class NewsRouter extends PageRouteInfo<void> {
 /// generated route for
 /// [AccountScreen]
 class AccountRouter extends PageRouteInfo<void> {
-  const AccountRouter() : super(AccountRouter.name, path: 'account');
+  const AccountRouter()
+      : super(
+          AccountRouter.name,
+          path: 'account',
+        );
 
   static const String name = 'AccountRouter';
 }
