@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/tranfer_by_phone/transfer_by_phone_request_model.dart';
 
@@ -19,23 +20,33 @@ part 'send_by_phone_preview_store.g.dart';
 
 class SendByPreviewStore extends _SendByPreviewStoreBase
     with _$SendByPreviewStore {
-  SendByPreviewStore(CurrencyModel currency) : super(currency);
+  SendByPreviewStore(
+    CurrencyModel currency,
+    String amountStoreAmount,
+    ContactModel pickedContact,
+  ) : super(currency, amountStoreAmount, pickedContact);
 
   static _SendByPreviewStoreBase of(BuildContext context) =>
       Provider.of<SendByPreviewStore>(context, listen: false);
 }
 
 abstract class _SendByPreviewStoreBase with Store {
-  _SendByPreviewStoreBase(this.currency) {
-    final _amount = SendByPhoneAmmountStore(currency);
-
-    amount = _amount.amount;
-    pickedContact = _amount.pickedContact;
+  _SendByPreviewStoreBase(
+    this.currency,
+    this.amountStoreAmount,
+    this.pickedContact,
+  ) {
+    amount = amountStoreAmount;
+    pickedContact = pickedContact;
   }
 
   final CurrencyModel currency;
 
+  final String amountStoreAmount;
+
   static final _logger = Logger('SendByPhonePreviewStore');
+
+  final loader = StackLoaderStore();
 
   @observable
   ContactModel? pickedContact;
@@ -118,6 +129,10 @@ abstract class _SendByPreviewStoreBase with Store {
     sRouter.push(
       SendByPhoneConfirmRouter(
         currency: currency,
+        operationId: operationId,
+        receiverIsRegistered: receiverIsRegistered,
+        amountStoreAmount: amount,
+        pickedContact: pickedContact!,
       ),
     );
   }
@@ -153,6 +168,7 @@ abstract class _SendByPreviewStoreBase with Store {
           sRouter.replace(
             SendByPhoneAmountRouter(
               currency: currency,
+              pickedContact: pickedContact,
             ),
           );
         },

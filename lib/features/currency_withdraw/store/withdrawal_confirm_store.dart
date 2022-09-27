@@ -20,33 +20,34 @@ part 'withdrawal_confirm_store.g.dart';
 
 class WithdrawalConfirmStore extends _WithdrawalConfirmStoreBase
     with _$WithdrawalConfirmStore {
-  WithdrawalConfirmStore(
-    WithdrawalModel withdrawal,
-    WithdrawalPreviewStore previewStore,
-    WithdrawalAddressStore addressStore,
-  ) : super(withdrawal, previewStore, addressStore);
+  WithdrawalConfirmStore() : super();
 
   static _WithdrawalConfirmStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalConfirmStore>(context, listen: false);
 }
 
 abstract class _WithdrawalConfirmStoreBase with Store {
-  _WithdrawalConfirmStoreBase(
-    this.withdrawal,
-    this.previewStore,
-    this.addressStore,
-  ) {
-    _operationId = previewStore.operationId;
-    _verb = withdrawal.dictionary.verb.toLowerCase();
-  }
-
-  final WithdrawalModel withdrawal;
-
-  final WithdrawalPreviewStore previewStore;
-
-  final WithdrawalAddressStore addressStore;
+  _WithdrawalConfirmStoreBase();
 
   TextEditingController controller = TextEditingController();
+
+  WithdrawalModel? withdrawal;
+  WithdrawalPreviewStore? previewStore;
+  WithdrawalAddressStore? addressStore;
+
+  @action
+  void setNewOperation(
+    WithdrawalModel w,
+    WithdrawalPreviewStore p,
+    WithdrawalAddressStore a,
+  ) {
+    withdrawal = w;
+    previewStore = p;
+    addressStore = a;
+
+    _operationId = previewStore!.operationId;
+    _verb = withdrawal!.dictionary.verb.toLowerCase();
+  }
 
   @observable
   WithdrawalConfirmUnion union = const WithdrawalConfirmUnion.input();
@@ -55,10 +56,10 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   bool isResending = false;
 
   @observable
-  late String _operationId;
+  String _operationId = '';
 
   @observable
-  late String _verb;
+  String _verb = '';
 
   static final _logger = Logger('WithdrawalConfirmStore');
 
@@ -151,7 +152,7 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         .push(
           SuccessScreenRouter(
             secondaryText:
-                '${intl.withdrawalConfirm_your} ${withdrawal.currency.symbol}'
+                '${intl.withdrawalConfirm_your} ${withdrawal!.currency.symbol}'
                 ' $_verb '
                 '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
           ),
@@ -177,9 +178,9 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         onPrimaryButtonTap: () {
           sRouter.navigate(
             WithdrawalAmountRouter(
-              withdrawal: withdrawal,
+              withdrawal: withdrawal!,
               network: '',
-              addressStore: addressStore,
+              addressStore: addressStore!,
             ),
           );
         },

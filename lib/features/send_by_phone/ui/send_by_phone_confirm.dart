@@ -4,6 +4,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -22,23 +24,42 @@ class SendByPhoneConfirm extends StatelessWidget {
   const SendByPhoneConfirm({
     Key? key,
     required this.currency,
+    required this.operationId,
+    required this.receiverIsRegistered,
+    required this.amountStoreAmount,
+    required this.pickedContact,
   }) : super(key: key);
 
   final CurrencyModel currency;
+  final String operationId;
+  final bool receiverIsRegistered;
+  final String amountStoreAmount;
+  final ContactModel pickedContact;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<SendByPhoneConfirmStore>(
-          create: (_) => SendByPhoneConfirmStore(currency),
+          create: (_) => SendByPhoneConfirmStore(
+            currency,
+            SendByPhoneConfirmInput(
+              operationId: operationId,
+              receiverIsRegistered: receiverIsRegistered,
+              toPhoneNumber: pickedContact.phoneNumber,
+            ),
+          ),
         ),
         Provider<TimerStore>(
           create: (_) => TimerStore(withdrawalConfirmResendCountdown),
           dispose: (context, store) => store.dispose(),
         ),
         Provider<SendByPreviewStore>(
-          create: (_) => SendByPreviewStore(currency),
+          create: (_) => SendByPreviewStore(
+            currency,
+            amountStoreAmount,
+            pickedContact,
+          ),
         ),
       ],
       builder: (context, child) {

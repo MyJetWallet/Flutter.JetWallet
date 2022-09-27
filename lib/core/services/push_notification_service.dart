@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('');
 
+@injectable
 class PushNotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
   final _messaging = FirebaseMessaging.instance;

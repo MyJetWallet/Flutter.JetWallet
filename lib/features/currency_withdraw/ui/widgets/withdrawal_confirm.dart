@@ -20,7 +20,7 @@ import '../../model/withdrawal_model.dart';
 
 late WithdrawalModel withdrawalModel;
 
-class WithdrawalConfirm extends StatelessWidget {
+class WithdrawalConfirm extends StatefulWidget {
   const WithdrawalConfirm({
     Key? key,
     required this.withdrawal,
@@ -33,14 +33,24 @@ class WithdrawalConfirm extends StatelessWidget {
   final WithdrawalPreviewStore previewStore;
 
   @override
+  State<WithdrawalConfirm> createState() => _WithdrawalConfirmState();
+}
+
+class _WithdrawalConfirmState extends State<WithdrawalConfirm> {
+  @override
+  void initState() {
+    getIt.get<WithdrawalConfirmStore>().setNewOperation(
+          widget.withdrawal,
+          widget.previewStore,
+          widget.addressStore,
+        );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<WithdrawalConfirmStore>(
-          create: (_) =>
-              WithdrawalConfirmStore(withdrawal, previewStore, addressStore),
-          dispose: (context, store) => store.dispose(),
-        ),
         Provider<TimerStore>(
           create: (_) => TimerStore(withdrawalConfirmResendCountdown),
           dispose: (context, store) => store.dispose(),
@@ -48,7 +58,7 @@ class WithdrawalConfirm extends StatelessWidget {
       ],
       builder: (context, child) {
         return _WithdrawalConfirmBody(
-          withdrawal: withdrawal,
+          withdrawal: widget.withdrawal,
         );
       },
     );

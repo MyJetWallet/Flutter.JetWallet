@@ -137,16 +137,13 @@ class SetPhoneNumber extends StatelessObserverWidget {
 
                                 sAnalytics.accountSuccessPhone();
 
-                                sRouter
-                                    .push(
+                                sRouter.push(
                                   SuccessScreenRouter(
                                     secondaryText: successText,
+                                    onSuccess: (context) {
+                                      then!();
+                                    },
                                   ),
-                                )
-                                    .then(
-                                  (data) {
-                                    then;
-                                  },
                                 );
                               },
                             ),

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -48,8 +49,6 @@ class StartupService {
   }
 
   Future<void> processStartupState() async {
-    print('START: PROCESS STARTUP ${getIt.get<AppStore>().authStatus}');
-
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
         await getIt.get<SNetwork>().recreateDio();
@@ -84,19 +83,16 @@ class StartupService {
                   );
             }
 
-            print('PUSH TO HOMEROUTER');
             unawaited(sRouter.push(
               const HomeRouter(),
             ));
           },
           onError: (error) {
-            print('1');
-            print(error.toString());
+            getIt.get<LogoutService>().logout();
           },
         );
       } catch (e) {
-        print('2');
-        print(e.toString());
+        await getIt.get<LogoutService>().logout();
 
         // TODO (discuss this flow)
         // In this case app will keep loading and nothing will happen
@@ -154,13 +150,9 @@ class StartupService {
   void pinVerified() {
     _logger.log(notifier, 'pinVerified');
 
-    print('pinVerified');
-
     getIt.get<AppStore>().setAuthorizedStatus(
           const Home(),
         );
-
-    print('PUSH TO HOMEROUTER');
 
     sRouter.replaceAll([
       const HomeRouter(),
@@ -168,46 +160,48 @@ class StartupService {
   }
 
   void _processPinState() {
-    final userInfo = getIt.get<UserInfoService>().userInfo;
+    try {
+      final userInfo = getIt.get<UserInfoService>().userInfo;
 
-    print('PIN SETUP: ${userInfo.pinEnabled}');
-
-    if (userInfo.pinEnabled) {
-      getIt.get<AppStore>().setAuthorizedStatus(
-            const PinVerification(),
-          );
-
-      sRouter.push(
-        PinScreenRoute(
-          union: const PinFlowUnion.verification(),
-          cannotLeave: true,
-          displayHeader: false,
-        ),
-      );
-    } else {
-      if (getIt.get<AppStore>().fromLoginRegister || !userInfo.pinDisabled) {
+      if (userInfo.pinEnabled) {
         getIt.get<AppStore>().setAuthorizedStatus(
-              const PinSetup(),
+              const PinVerification(),
             );
 
         sRouter.push(
           PinScreenRoute(
-            union: const PinFlowUnion.setup(),
+            union: const PinFlowUnion.verification(),
             cannotLeave: true,
+            displayHeader: false,
           ),
         );
       } else {
-        getIt.get<AppStore>().setAuthorizedStatus(
-              const PinSetup(),
-            );
+        if (getIt.get<AppStore>().fromLoginRegister || !userInfo.pinDisabled) {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const PinSetup(),
+              );
 
-        sRouter.push(
-          PinScreenRoute(
-            union: const PinFlowUnion.setup(),
-            cannotLeave: true,
-          ),
-        );
+          sRouter.push(
+            PinScreenRoute(
+              union: const PinFlowUnion.setup(),
+              cannotLeave: true,
+            ),
+          );
+        } else {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const PinSetup(),
+              );
+
+          sRouter.push(
+            PinScreenRoute(
+              union: const PinFlowUnion.setup(),
+              cannotLeave: true,
+            ),
+          );
+        }
       }
+    } catch (e) {
+      getIt.get<LogoutService>().logout();
     }
   }
 }

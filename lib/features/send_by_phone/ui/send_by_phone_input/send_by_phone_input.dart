@@ -3,8 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_input_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_permission_store.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/send_helper_text.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/send_info_text.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/show_contact_picker.dart';
@@ -19,7 +21,7 @@ import 'package:simple_kit/simple_kit.dart';
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
 /// FLOW 2: BASE FLOW -> Confirm -> Home -> Notify if simple account ??
 
-class SendByPhoneInput extends StatelessWidget {
+class SendByPhoneInput extends StatefulWidget {
   const SendByPhoneInput({
     super.key,
     required this.currency,
@@ -27,6 +29,11 @@ class SendByPhoneInput extends StatelessWidget {
 
   final CurrencyModel currency;
 
+  @override
+  State<SendByPhoneInput> createState() => _SendByPhoneInputState();
+}
+
+class _SendByPhoneInputState extends State<SendByPhoneInput> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -37,7 +44,7 @@ class SendByPhoneInput extends StatelessWidget {
       ],
       builder: (context, child) {
         return _SendByPhoneInputBody(
-          currency: currency,
+          currency: widget.currency,
         );
       },
     );
@@ -292,6 +299,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                       sRouter.push(
                         SendByPhoneAmountRouter(
                           currency: widget.currency,
+                          pickedContact: input.pickedContact,
                         ),
                       );
                     },

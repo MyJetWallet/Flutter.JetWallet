@@ -1,5 +1,4 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:http/http.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -11,7 +10,7 @@ class DynamicLinkService {
   final _logger = Logger('');
   final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;
 
-  Future<DynamicLinkService> initDynamicLinks() async {
+  Future<void> initDynamicLinks() async {
     // Get the initial dynamic link if the app is opened with a dynamic link
     final data = await _firebaseDynamicLinks.getInitialLink();
 
@@ -33,8 +32,6 @@ class DynamicLinkService {
         _logger.log(dynamicLinks, 'Dynamic Link Failed', error);
       },
     );
-
-    return this;
   }
 
   void _handleDynamicLink(

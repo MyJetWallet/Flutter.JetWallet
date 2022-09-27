@@ -112,7 +112,7 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                       controller: store.addressController,
                       onChanged: (value) {
                         store.scrollToBottom(scrollController);
-                        store.updateAddress(value);
+                        store.updateAddress(value, validate: true);
                       },
                       onErase: () => store.eraseAddress(),
                       suffixIcons: [

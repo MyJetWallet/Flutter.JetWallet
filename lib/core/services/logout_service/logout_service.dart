@@ -51,7 +51,7 @@ abstract class _LogoutServiceBase with Store {
     } finally {
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
-          .clearStorageForCrypto(sSignalRModules.getCurrencies);
+          .clearStorageForCrypto(sSignalRModules.currenciesList);
 
       sSignalRModules.clearSignalRModule();
 

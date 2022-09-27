@@ -29,6 +29,8 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
     dialCodeController.addListener(controllersListener);
     phoneNumberController.addListener(controllersListener);
+
+    searchTextController = TextEditingController(text: phoneSearch);
   }
 
   SendByPhonePermission? permission;
@@ -65,7 +67,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @observable
   TextEditingController phoneNumberController = TextEditingController();
 
-  TextEditingController searchTextController = TextEditingController();
+  late TextEditingController searchTextController;
 
   @observable
   bool isReadyToContinue = false;

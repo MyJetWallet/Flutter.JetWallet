@@ -17,24 +17,44 @@ import 'package:simple_networking/modules/validation_api/models/validation/verif
 import 'package:simple_networking/modules/wallet_api/models/transfer_resend_request_model/transfer_resend_request_model.dart';
 part 'send_by_phone_confirm_store.g.dart';
 
+class SendByPhoneConfirmInput {
+  SendByPhoneConfirmInput({
+    required this.operationId,
+    required this.receiverIsRegistered,
+    required this.toPhoneNumber,
+  });
+
+  final String operationId;
+  final bool receiverIsRegistered;
+  final String toPhoneNumber;
+}
+
 class SendByPhoneConfirmStore extends _SendByPhoneConfirmStoreBase
     with _$SendByPhoneConfirmStore {
-  SendByPhoneConfirmStore(CurrencyModel currency) : super(currency);
+  SendByPhoneConfirmStore(
+    CurrencyModel currency,
+    SendByPhoneConfirmInput input,
+  ) : super(currency, input);
 
   static _SendByPhoneConfirmStoreBase of(BuildContext context) =>
       Provider.of<SendByPhoneConfirmStore>(context, listen: false);
 }
 
 abstract class _SendByPhoneConfirmStoreBase with Store {
-  _SendByPhoneConfirmStoreBase(this.currency) {
-    final preview = SendByPreviewStore(currency);
+  _SendByPhoneConfirmStoreBase(
+    this.currency,
+    this.input,
+  ) {
+    _operationId = input.operationId;
+    _receiverIsRegistered = input.receiverIsRegistered;
+    _toPhoneNumber = input.toPhoneNumber;
 
-    _operationId = preview.operationId;
-    _receiverIsRegistered = preview.receiverIsRegistered;
-    _toPhoneNumber = preview.pickedContact?.phoneNumber ?? '';
+    //sendByPhonePreviewStore.pickedContact?.phoneNumber ?? '';
   }
 
   final CurrencyModel currency;
+
+  final SendByPhoneConfirmInput input;
 
   late String _operationId;
   late bool _receiverIsRegistered;

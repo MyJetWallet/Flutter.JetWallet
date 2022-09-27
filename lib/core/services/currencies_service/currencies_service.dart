@@ -19,8 +19,6 @@ abstract class _CurrenciesServiceBase with Store {
   void init() {
     sSignalRModules.assets.listen(
       (value) {
-        print('CurrenciesService');
-
         for (final asset in value.assets) {
           if (!asset.hideInTerminal) {
             final depositBlockchains = <BlockchainModel>[];

@@ -17,7 +17,7 @@ class EarnOfferDetailsPinned extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
 
     final currentCurrency = currencyFrom(currencies, earnOffer.asset);
 

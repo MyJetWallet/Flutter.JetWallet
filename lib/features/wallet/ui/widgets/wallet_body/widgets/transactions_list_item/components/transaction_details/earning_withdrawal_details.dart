@@ -30,7 +30,7 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final currentCurrency = currencyFrom(
       currencies,
       transactionListItem.assetId,

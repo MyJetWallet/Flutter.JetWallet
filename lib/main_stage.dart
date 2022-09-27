@@ -18,10 +18,18 @@ Future<void> main() async {
 
   await appInitialization(Environment.test);
 
-  runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {
-    Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
-  });
+  runZonedGuarded(
+    () => runApp(
+      const AppScreen(
+        isStageEnv: true,
+        debugShowCheckedModeBanner: false,
+      ),
+    ),
+    (error, stackTrace) {
+      Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    },
+  );
 
   Isolate.current.addErrorListener(
     RawReceivePort((pair) async {
