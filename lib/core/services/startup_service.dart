@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -52,6 +53,8 @@ class StartupService {
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
         await getIt.get<SNetwork>().recreateDio();
+
+        unawaited(getIt.get<PushNotification>().registerToken());
 
         final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
         infoRequest.pick(
