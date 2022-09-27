@@ -148,24 +148,23 @@ abstract class _WithdrawalConfirmStoreBase with Store {
 
   @action
   void _showSuccessScreen() {
-    sRouter
-        .push(
-          SuccessScreenRouter(
-            secondaryText:
-                '${intl.withdrawalConfirm_your} ${withdrawal!.currency.symbol}'
-                ' $_verb '
-                '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
-          ),
-        )
-        .then(
-          (value) => sRouter.navigate(
+    sRouter.push(
+      SuccessScreenRouter(
+        secondaryText:
+            '${intl.withdrawalConfirm_your} ${withdrawal!.currency.symbol}'
+            ' $_verb '
+            '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
+        onSuccess: (context) {
+          sRouter.replace(
             const HomeRouter(
               children: [
                 PortfolioRouter(),
               ],
             ),
-          ),
-        );
+          );
+        },
+      ),
+    );
   }
 
   @action

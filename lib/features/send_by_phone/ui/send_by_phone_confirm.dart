@@ -20,7 +20,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 late CurrencyModel currencyModel;
 
-class SendByPhoneConfirm extends StatelessWidget {
+class SendByPhoneConfirm extends StatefulWidget {
   const SendByPhoneConfirm({
     Key? key,
     required this.currency,
@@ -37,34 +37,43 @@ class SendByPhoneConfirm extends StatelessWidget {
   final ContactModel pickedContact;
 
   @override
+  State<SendByPhoneConfirm> createState() => _SendByPhoneConfirmState();
+}
+
+class _SendByPhoneConfirmState extends State<SendByPhoneConfirm> {
+  @override
+  void initState() {
+    getIt.get<SendByPhoneConfirmStore>().initStore(
+          widget.currency,
+          SendByPhoneConfirmInput(
+            operationId: widget.operationId,
+            receiverIsRegistered: widget.receiverIsRegistered,
+            toPhoneNumber: widget.pickedContact.phoneNumber,
+          ),
+        );
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<SendByPhoneConfirmStore>(
-          create: (_) => SendByPhoneConfirmStore(
-            currency,
-            SendByPhoneConfirmInput(
-              operationId: operationId,
-              receiverIsRegistered: receiverIsRegistered,
-              toPhoneNumber: pickedContact.phoneNumber,
-            ),
-          ),
-        ),
         Provider<TimerStore>(
           create: (_) => TimerStore(withdrawalConfirmResendCountdown),
           dispose: (context, store) => store.dispose(),
         ),
         Provider<SendByPreviewStore>(
           create: (_) => SendByPreviewStore(
-            currency,
-            amountStoreAmount,
-            pickedContact,
+            widget.currency,
+            widget.amountStoreAmount,
+            widget.pickedContact,
           ),
         ),
       ],
       builder: (context, child) {
         return _SendByPhoneConfirmBody(
-          currency: currency,
+          currency: widget.currency,
         );
       },
     );
@@ -105,7 +114,7 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
 
     final timer = TimerStore.of(context);
 
-    final confirm = SendByPhoneConfirmStore.of(context);
+    final confirm = getIt.get<SendByPhoneConfirmStore>();
 
     //final id = SendByPreviewStore.of(context).operationId;
 

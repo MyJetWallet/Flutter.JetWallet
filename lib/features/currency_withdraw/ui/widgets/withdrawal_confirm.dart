@@ -82,7 +82,7 @@ class _WithdrawalConfirmBody extends StatelessObserverWidget {
 
     final authInfo = getIt.get<AppStore>().authState;
 
-    final confirm = WithdrawalConfirmStore.of(context);
+    final confirm = getIt.get<WithdrawalConfirmStore>();
 
     //final id = WithdrawalPreviewStore.of(context);
 
@@ -90,7 +90,7 @@ class _WithdrawalConfirmBody extends StatelessObserverWidget {
 
     final loader = StackLoaderStore();
     final pinError = StandardFieldErrorNotifier();
-    final focusNode = WithdrawalConfirmStore.of(context).focusNode;
+    final focusNode = getIt.get<WithdrawalConfirmStore>().focusNode;
 
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
