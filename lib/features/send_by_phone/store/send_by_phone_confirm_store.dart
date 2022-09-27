@@ -31,30 +31,31 @@ class SendByPhoneConfirmInput {
 
 class SendByPhoneConfirmStore extends _SendByPhoneConfirmStoreBase
     with _$SendByPhoneConfirmStore {
-  SendByPhoneConfirmStore(
-    CurrencyModel currency,
-    SendByPhoneConfirmInput input,
-  ) : super(currency, input);
+  SendByPhoneConfirmStore() : super();
 
   static _SendByPhoneConfirmStoreBase of(BuildContext context) =>
       Provider.of<SendByPhoneConfirmStore>(context, listen: false);
 }
 
 abstract class _SendByPhoneConfirmStoreBase with Store {
-  _SendByPhoneConfirmStoreBase(
-    this.currency,
-    this.input,
+  _SendByPhoneConfirmStoreBase();
+
+  CurrencyModel? currency;
+
+  SendByPhoneConfirmInput? input;
+
+  @action
+  void initStore(
+    CurrencyModel c,
+    SendByPhoneConfirmInput i,
   ) {
-    _operationId = input.operationId;
-    _receiverIsRegistered = input.receiverIsRegistered;
-    _toPhoneNumber = input.toPhoneNumber;
+    currency = c;
+    input = i;
 
-    //sendByPhonePreviewStore.pickedContact?.phoneNumber ?? '';
+    _operationId = input!.operationId;
+    _receiverIsRegistered = input!.receiverIsRegistered;
+    _toPhoneNumber = input!.toPhoneNumber;
   }
-
-  final CurrencyModel currency;
-
-  final SendByPhoneConfirmInput input;
 
   late String _operationId;
   late bool _receiverIsRegistered;
@@ -172,7 +173,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
     sRouter
         .push(
       SuccessScreenRouter(
-        secondaryText: '${intl.sendByPhoneConfirm_your} ${currency.symbol}'
+        secondaryText: '${intl.sendByPhoneConfirm_your} ${currency!.symbol}'
             ' ${intl.sendByPhoneConfirm_send} '
             '${intl.sendByPhoneConfirm_requestHasBeenSubmitted}',
       ),
@@ -201,7 +202,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
         onPrimaryButtonTap: () {
           sRouter.navigate(
             SendByPhoneAmountRouter(
-              currency: currency,
+              currency: currency!,
             ),
           );
         },

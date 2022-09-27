@@ -20,6 +20,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -105,6 +106,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<WithdrawalConfirmStore>(
     () => WithdrawalConfirmStore(),
+  );
+
+  getIt.registerLazySingleton<SendByPhoneConfirmStore>(
+    () => SendByPhoneConfirmStore(),
   );
 
   //getIt.registerSingleton<AppStore>(
