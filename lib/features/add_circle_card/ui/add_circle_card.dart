@@ -71,6 +71,7 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   keyboardType: TextInputType.number,
                   isError: store.cardNumberError,
                   disableErrorOnChanged: false,
+                  controller: store.cardNumberController,
                   // In formatting \u2005 is used instead of \u0020
                   // to avoid \u0020 input from the user
                   inputFormatters: [
@@ -90,6 +91,7 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardField(
+                        controller: store.expiryDateController,
                         labelText: intl.addCircleCard_expiryDate,
                         keyboardType: TextInputType.number,
                         isError: store.expiryDateError,
@@ -112,6 +114,7 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardFieldObscure(
+                        controller: store.cvvController,
                         labelText: 'CVV',
                         keyboardType: TextInputType.number,
                         isError: store.cvvError,
@@ -132,6 +135,7 @@ class AddCircleCardBody extends StatelessObserverWidget {
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardField(
+                    controller: store.cardholderNameController,
                     labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: store.updateCardholderName,
@@ -150,6 +154,10 @@ class AddCircleCardBody extends StatelessObserverWidget {
                     await sRouter.push(
                       CircleBillingAddressRouter(
                         onCardAdded: onCardAdded,
+                        expiryDate: store.expiryDate,
+                        cvv: store.cvv,
+                        cardholderName: store.cardholderName,
+                        cardNumber: store.cardNumber,
                       ),
                     );
                   },

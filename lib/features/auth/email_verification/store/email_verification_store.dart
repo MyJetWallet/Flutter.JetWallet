@@ -245,17 +245,23 @@ abstract class _EmailVerificationStoreBase with Store {
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
 
-          union = EmailVerificationUnion.error(error.cause);
+          union = error.cause.contains('50') || error.cause.contains('40')
+              ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
+              : EmailVerificationUnion.error(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
-      union = EmailVerificationUnion.error(error.cause);
+      union = error.cause.contains('50') || error.cause.contains('40')
+          ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
+          : EmailVerificationUnion.error(error.cause);
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
 
-      union = EmailVerificationUnion.error(error);
+      union = error.toString().contains('50') || error.toString().contains('40')
+          ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
+          : EmailVerificationUnion.error(error);
     }
 
     /*

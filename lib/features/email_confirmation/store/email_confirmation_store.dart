@@ -155,11 +155,15 @@ abstract class _EmailConfirmationStoreBase with Store {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
-      union = EmailConfirmationUnion.error(error.cause);
+      union = error.cause.contains('50') || error.cause.contains('40')
+          ? EmailConfirmationUnion.error(intl.something_went_wrong_try_again)
+          : EmailConfirmationUnion.error(error.cause);
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
 
-      union = EmailConfirmationUnion.error(error);
+      union = error.toString().contains('50') || error.toString().contains('40')
+          ? EmailConfirmationUnion.error(intl.something_went_wrong_try_again)
+          : EmailConfirmationUnion.error(error);
     }
   }
 

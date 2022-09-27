@@ -387,7 +387,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
             onAction(
               data.clientAction!.checkoutUrl ?? '',
               (payment, lastAction) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
 
                 paymentId = payment;
                 loader.startLoadingImmediately();

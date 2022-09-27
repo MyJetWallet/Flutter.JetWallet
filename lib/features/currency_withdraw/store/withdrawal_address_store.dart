@@ -206,7 +206,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void updateTag(String _tag) {
-    if (tag != tag) {
+    if (tag != _tag) {
       _logger.log(notifier, 'updateTag');
 
       _updateTagValidation(const Hide());
