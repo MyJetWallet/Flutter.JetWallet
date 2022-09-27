@@ -207,7 +207,14 @@ class DeepLinkService {
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier = SendByPhoneConfirmStore(currencyModel);
+    final notifier = SendByPhoneConfirmStore(
+      currencyModel,
+      SendByPhoneConfirmInput(
+        operationId: id,
+        receiverIsRegistered: false,
+        toPhoneNumber: '',
+      ),
+    );
 
     notifier.updateCode(code, id);
   }

@@ -3,15 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SendByPhonePreview extends StatelessObserverWidget {
+class SendByPhonePreview extends StatelessWidget {
   const SendByPhonePreview({
+    super.key,
+    required this.currency,
+    required this.amountStoreAmount,
+    required this.pickedContact,
+  });
+
+  final CurrencyModel currency;
+  final String amountStoreAmount;
+  final ContactModel pickedContact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<SendByPreviewStore>(
+      create: (context) => SendByPreviewStore(
+        currency,
+        amountStoreAmount,
+        pickedContact,
+      ),
+      builder: (context, child) => _SendByPhonePreviewBody(
+        currency: currency,
+      ),
+    );
+  }
+}
+
+class _SendByPhonePreviewBody extends StatelessObserverWidget {
+  const _SendByPhonePreviewBody({
     Key? key,
     required this.currency,
   }) : super(key: key);
@@ -23,18 +52,16 @@ class SendByPhonePreview extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    final state = SendByPreviewStore(currency);
-
-    final loader = StackLoaderStore();
+    final state = SendByPreviewStore.of(context);
 
     if (state.loading) {
-      loader.startLoading();
+      state.loader.startLoading();
     } else {
-      loader.finishLoading();
+      state.loader.finishLoading();
     }
 
     return SPageFrameWithPadding(
-      loading: loader,
+      loading: state.loader,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

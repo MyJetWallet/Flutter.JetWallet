@@ -5,18 +5,42 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/currency_withdraw/helper/minimum_amount.dart';
+import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SendByPhoneAmount extends StatelessObserverWidget {
+class SendByPhoneAmount extends StatelessWidget {
   const SendByPhoneAmount({
+    super.key,
+    required this.currency,
+    this.pickedContact,
+  });
+
+  final CurrencyModel currency;
+  final ContactModel? pickedContact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<SendByPhoneAmmountStore>(
+      create: (context) => SendByPhoneAmmountStore(currency, pickedContact),
+      builder: (context, child) => _SendByPhoneAmountBody(
+        currency: currency,
+      ),
+    );
+  }
+}
+
+class _SendByPhoneAmountBody extends StatelessObserverWidget {
+  const _SendByPhoneAmountBody({
     Key? key,
     required this.currency,
   }) : super(key: key);
@@ -28,7 +52,7 @@ class SendByPhoneAmount extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    final state = SendByPhoneAmmountStore(currency);
+    final state = SendByPhoneAmmountStore.of(context);
 
     return SPageFrame(
       header: SPaddingH24(
@@ -42,25 +66,27 @@ class SendByPhoneAmount extends StatelessObserverWidget {
             small: () => const SizedBox(),
             medium: () => const Spacer(),
           ),
-          SActionPriceField(
-            widgetSize: widgetSizeFrom(deviceSize),
-            price: formatCurrencyStringAmount(
-              prefix: currency.prefixSymbol,
-              value: state.amount,
-              symbol: currency.symbol,
+          if (state.baseCurrency != null) ...[
+            SActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              price: formatCurrencyStringAmount(
+                prefix: currency.prefixSymbol,
+                value: state.amount,
+                symbol: currency.symbol,
+              ),
+              helper: '≈ ${volumeFormat(
+                accuracy: state.baseCurrency!.accuracy,
+                prefix: state.baseCurrency!.prefix,
+                decimal: Decimal.parse(state.baseConversionValue),
+                symbol: state.baseCurrency!.symbol,
+              )}',
+              error: state.inputError == InputError.enterHigherAmount
+                  ? '${state.inputError.value}. '
+                      '${minimumAmount(currency)}'
+                  : state.inputError.value(),
+              isErrorActive: state.inputError.isActive,
             ),
-            helper: '≈ ${volumeFormat(
-              accuracy: state.baseCurrency!.accuracy,
-              prefix: state.baseCurrency!.prefix,
-              decimal: Decimal.parse(state.baseConversionValue),
-              symbol: state.baseCurrency!.symbol,
-            )}',
-            error: state.inputError == InputError.enterHigherAmount
-                ? '${state.inputError.value}. '
-                    '${minimumAmount(currency)}'
-                : state.inputError.value(),
-            isErrorActive: state.inputError.isActive,
-          ),
+          ],
           Baseline(
             baseline: deviceSize.when(
               small: () => -36,
@@ -82,7 +108,7 @@ class SendByPhoneAmount extends StatelessObserverWidget {
             ),
           ),
           const Spacer(),
-          if (state.pickedContact!.isContactWithName)
+          if (state.pickedContact?.isContactWithName ?? false)
             _navigatePushAndRemoveUntil(
               context,
               SPaymentSelectContact(
@@ -136,6 +162,8 @@ class SendByPhoneAmount extends StatelessObserverWidget {
               sRouter.push(
                 SendByPhonePreviewRouter(
                   currency: currency,
+                  amountStoreAmount: state.amount,
+                  pickedContact: state.pickedContact!,
                 ),
               );
             },

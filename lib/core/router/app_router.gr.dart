@@ -467,19 +467,32 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<SendByPhoneAmountRouterArgs>();
       return CupertinoPageX<dynamic>(
           routeData: routeData,
-          child: SendByPhoneAmount(key: args.key, currency: args.currency));
+          child: SendByPhoneAmount(
+              key: args.key,
+              currency: args.currency,
+              pickedContact: args.pickedContact));
     },
     SendByPhoneConfirmRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneConfirmRouterArgs>();
       return CupertinoPageX<dynamic>(
           routeData: routeData,
-          child: SendByPhoneConfirm(key: args.key, currency: args.currency));
+          child: SendByPhoneConfirm(
+              key: args.key,
+              currency: args.currency,
+              operationId: args.operationId,
+              receiverIsRegistered: args.receiverIsRegistered,
+              amountStoreAmount: args.amountStoreAmount,
+              pickedContact: args.pickedContact));
     },
     SendByPhonePreviewRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhonePreviewRouterArgs>();
       return CupertinoPageX<dynamic>(
           routeData: routeData,
-          child: SendByPhonePreview(key: args.key, currency: args.currency));
+          child: SendByPhonePreview(
+              key: args.key,
+              currency: args.currency,
+              amountStoreAmount: args.amountStoreAmount,
+              pickedContact: args.pickedContact));
     },
     DeleteReasonsScreenRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
@@ -2239,24 +2252,29 @@ class SendByPhoneNotifyRecipientRouterArgs {
 /// [SendByPhoneAmount]
 class SendByPhoneAmountRouter
     extends PageRouteInfo<SendByPhoneAmountRouterArgs> {
-  SendByPhoneAmountRouter({Key? key, required CurrencyModel currency})
+  SendByPhoneAmountRouter(
+      {Key? key, required CurrencyModel currency, ContactModel? pickedContact})
       : super(SendByPhoneAmountRouter.name,
             path: '/send_by_phone_amount',
-            args: SendByPhoneAmountRouterArgs(key: key, currency: currency));
+            args: SendByPhoneAmountRouterArgs(
+                key: key, currency: currency, pickedContact: pickedContact));
 
   static const String name = 'SendByPhoneAmountRouter';
 }
 
 class SendByPhoneAmountRouterArgs {
-  const SendByPhoneAmountRouterArgs({this.key, required this.currency});
+  const SendByPhoneAmountRouterArgs(
+      {this.key, required this.currency, this.pickedContact});
 
   final Key? key;
 
   final CurrencyModel currency;
 
+  final ContactModel? pickedContact;
+
   @override
   String toString() {
-    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency}';
+    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency, pickedContact: $pickedContact}';
   }
 }
 
@@ -2264,24 +2282,50 @@ class SendByPhoneAmountRouterArgs {
 /// [SendByPhoneConfirm]
 class SendByPhoneConfirmRouter
     extends PageRouteInfo<SendByPhoneConfirmRouterArgs> {
-  SendByPhoneConfirmRouter({Key? key, required CurrencyModel currency})
+  SendByPhoneConfirmRouter(
+      {Key? key,
+      required CurrencyModel currency,
+      required String operationId,
+      required bool receiverIsRegistered,
+      required String amountStoreAmount,
+      required ContactModel pickedContact})
       : super(SendByPhoneConfirmRouter.name,
             path: '/send_by_phone_confirm',
-            args: SendByPhoneConfirmRouterArgs(key: key, currency: currency));
+            args: SendByPhoneConfirmRouterArgs(
+                key: key,
+                currency: currency,
+                operationId: operationId,
+                receiverIsRegistered: receiverIsRegistered,
+                amountStoreAmount: amountStoreAmount,
+                pickedContact: pickedContact));
 
   static const String name = 'SendByPhoneConfirmRouter';
 }
 
 class SendByPhoneConfirmRouterArgs {
-  const SendByPhoneConfirmRouterArgs({this.key, required this.currency});
+  const SendByPhoneConfirmRouterArgs(
+      {this.key,
+      required this.currency,
+      required this.operationId,
+      required this.receiverIsRegistered,
+      required this.amountStoreAmount,
+      required this.pickedContact});
 
   final Key? key;
 
   final CurrencyModel currency;
 
+  final String operationId;
+
+  final bool receiverIsRegistered;
+
+  final String amountStoreAmount;
+
+  final ContactModel pickedContact;
+
   @override
   String toString() {
-    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency}';
+    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency, operationId: $operationId, receiverIsRegistered: $receiverIsRegistered, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact}';
   }
 }
 
@@ -2289,24 +2333,40 @@ class SendByPhoneConfirmRouterArgs {
 /// [SendByPhonePreview]
 class SendByPhonePreviewRouter
     extends PageRouteInfo<SendByPhonePreviewRouterArgs> {
-  SendByPhonePreviewRouter({Key? key, required CurrencyModel currency})
+  SendByPhonePreviewRouter(
+      {Key? key,
+      required CurrencyModel currency,
+      required String amountStoreAmount,
+      required ContactModel pickedContact})
       : super(SendByPhonePreviewRouter.name,
             path: '/send_by_phone_preview',
-            args: SendByPhonePreviewRouterArgs(key: key, currency: currency));
+            args: SendByPhonePreviewRouterArgs(
+                key: key,
+                currency: currency,
+                amountStoreAmount: amountStoreAmount,
+                pickedContact: pickedContact));
 
   static const String name = 'SendByPhonePreviewRouter';
 }
 
 class SendByPhonePreviewRouterArgs {
-  const SendByPhonePreviewRouterArgs({this.key, required this.currency});
+  const SendByPhonePreviewRouterArgs(
+      {this.key,
+      required this.currency,
+      required this.amountStoreAmount,
+      required this.pickedContact});
 
   final Key? key;
 
   final CurrencyModel currency;
 
+  final String amountStoreAmount;
+
+  final ContactModel pickedContact;
+
   @override
   String toString() {
-    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency}';
+    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact}';
   }
 }
 

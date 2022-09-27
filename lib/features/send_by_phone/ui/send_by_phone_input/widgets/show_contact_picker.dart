@@ -45,8 +45,9 @@ class _SearchPinned extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return SStandardField(
       autofocus: true,
+      focusNode: FocusNode(),
       labelText: intl.showContactPicker_phoneNumber,
-      initialValue: store.phoneSearch,
+      controller: store.searchTextController,
       onChanged: (value) {
         store.updatePhoneSearch(value);
       },

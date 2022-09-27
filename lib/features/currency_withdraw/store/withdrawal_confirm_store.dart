@@ -55,10 +55,10 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   bool isResending = false;
 
   @observable
-  late String _operationId;
+  String _operationId = '';
 
   @observable
-  late String _verb;
+  String _verb = '';
 
   static final _logger = Logger('WithdrawalConfirmStore');
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -183,12 +185,20 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @action
-  void updateAddress(String _address) {
-    if (address != address) {
+  void updateAddress(String _address, {bool validate = false}) {
+    if (address != _address) {
       _logger.log(notifier, 'updateAddress');
 
       _updateAddressValidation(const Hide());
-      address = address;
+      tagError = false;
+      address = _address;
+
+      if (validate && (_address.length >= 5)) {
+        _validateAddressOrTag(
+          _updateAddressValidation,
+          _triggerErrorOfAddressField,
+        );
+      }
 
       setIsReadyToContinue();
     }
