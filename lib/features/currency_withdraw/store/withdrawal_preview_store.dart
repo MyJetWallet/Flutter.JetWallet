@@ -81,6 +81,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
         assetSymbol: withdrawal.currency.symbol,
         amount: Decimal.parse(amount),
         toAddress: address,
+        toTag: tag,
         blockchain: blockchain.id,
       );
 
