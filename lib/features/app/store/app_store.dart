@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -126,13 +127,13 @@ abstract class _AppStoreBase with Store {
     final email = await storageService.getValue(userEmailKey);
     final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
 
+    /// Init out API client
+    await getIt.get<SNetwork>().init();
+
     try {
       await AppTrackingTransparency.requestTrackingAuthorization();
 
       await deviceInfo.deviceInfo();
-
-      /// Init out API client
-      await getIt.get<SNetwork>().init();
 
       unawaited(
         checkInitAppFBAnalytics(
@@ -150,6 +151,8 @@ abstract class _AppStoreBase with Store {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }
 
+    print('REFRESH TOKEN: $token');
+
     if (token == null) {
       // TODO
       //await sAnalytics.init(analyticsApiKey);
@@ -163,6 +166,8 @@ abstract class _AppStoreBase with Store {
 
       try {
         final result = await refreshToken();
+
+        print('REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
@@ -178,14 +183,20 @@ abstract class _AppStoreBase with Store {
 
           await getIt.get<StartupService>().processStartupState();
         } else {
+          print('CATCH 23');
+
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
+
+          await getIt.get<LogoutService>().logout();
         }
       } catch (e) {
         await sAnalytics.init(analyticsApiKey);
 
         authStatus = const AuthorizationUnion.unauthorized();
+
+        await getIt.get<LogoutService>().logout();
       }
 
       getIt.get<AppRouter>().popUntilRoot();

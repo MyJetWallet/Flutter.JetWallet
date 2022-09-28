@@ -15,9 +15,12 @@ late SimpleNetworking sNetwork;
 class SNetwork {
   late Dio dio;
   late Dio imageDio;
+  late Dio withoutInterceptoreDio;
 
   late SimpleNetworking simpleImageNetworking;
   late SimpleNetworking simpleNetworking;
+  late SimpleNetworking simpleNetworkingWithoutInterceptor;
+
   late SimpleOptions simpleOptions;
 
   Future<void> recreateDio() async {
@@ -25,6 +28,7 @@ class SNetwork {
 
     dio = setupDio();
     imageDio = setupImageDio();
+    withoutInterceptoreDio = setupDioWithoutInterceptors();
 
     simpleNetworking = SimpleNetworking(
       dio,
@@ -33,6 +37,11 @@ class SNetwork {
 
     simpleImageNetworking = SimpleNetworking(
       imageDio,
+      simpleOptions,
+    );
+
+    simpleNetworkingWithoutInterceptor = SimpleNetworking(
+      withoutInterceptoreDio,
       simpleOptions,
     );
 
@@ -46,6 +55,7 @@ class SNetwork {
 
     dio = setupDio();
     imageDio = setupImageDio();
+    withoutInterceptoreDio = setupDioWithoutInterceptors();
 
     simpleNetworking = SimpleNetworking(
       dio,
@@ -54,6 +64,11 @@ class SNetwork {
 
     simpleImageNetworking = SimpleNetworking(
       imageDio,
+      simpleOptions,
+    );
+
+    simpleNetworkingWithoutInterceptor = SimpleNetworking(
+      withoutInterceptoreDio,
       simpleOptions,
     );
 

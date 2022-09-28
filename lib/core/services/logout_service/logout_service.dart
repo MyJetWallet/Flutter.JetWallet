@@ -30,6 +30,8 @@ abstract class _LogoutServiceBase with Store {
   Future<void> logout({bool withLoading = true, bool resetPin = false}) async {
     _logger.log(notifier, 'logout');
 
+    print('LOGOUT');
+
     final authStore = getIt.get<AppStore>().authState;
 
     if (resetPin) {
@@ -74,15 +76,7 @@ abstract class _LogoutServiceBase with Store {
 
       sSignalRModules.clearSignalRModule();
 
-      unawaited(
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              EarnRouter(),
-            ],
-          ),
-        ]),
-      );
+      sRouter.popUntilRoot();
     }
   }
 
