@@ -57,6 +57,11 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
     _toPhoneNumber = input!.toPhoneNumber;
   }
 
+  @action
+  void clear() {
+    updateCode('', _operationId);
+  }
+
   late String _operationId;
   late bool _receiverIsRegistered;
   late String _toPhoneNumber;

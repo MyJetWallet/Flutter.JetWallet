@@ -41,6 +41,10 @@ abstract class _WithdrawalAddressStoreBase with Store {
     }
 
     currency = currencyModel;
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
   }
 
   final WithdrawalModel withdrawal;
@@ -118,6 +122,18 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @action
+  void clearData() {
+    addressValidation = const Hide();
+    tagValidation = const Hide();
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
+
+    isReadyToContinue = false;
+  }
+
+  @action
   void setIsReadyToContinue() {
     if (currency == null) return;
 
@@ -126,15 +142,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
     final condition3 = addressController.text.isNotEmpty;
     final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    print('HAG TAG: ${currency!.hasTag}');
-
-    print(condition1);
-    print(condition3);
-    print(condition1 && condition3);
-
-    isReadyToContinue = condition1 && condition3;
-
-    print(isReadyToContinue);
+    isReadyToContinue = currency!.hasTag
+        ? condition1 && condition2 && condition3 && condition4
+        : condition1 && condition3;
   }
 
   /*
@@ -191,6 +201,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
       _updateAddressValidation(const Hide());
       tagError = false;
+      addressError = false;
       address = _address;
 
       if (validate && (_address.length >= 5)) {
@@ -645,6 +656,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void dispose() {
+    print('WithdrawalAddressStore DISPOSE');
+
     addressFocus.dispose();
     tagFocus.dispose();
     addressController.dispose();

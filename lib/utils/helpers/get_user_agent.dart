@@ -19,5 +19,5 @@ String getUserAgent() {
   final devicePixelRatio = mediaQuery.devicePixelRatio;
 
   return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-      '$devicePixelRatio;${deviceInfo.marketingName};$lang';
+      '$devicePixelRatio;$lang;${deviceInfo.marketingName}';
 }
