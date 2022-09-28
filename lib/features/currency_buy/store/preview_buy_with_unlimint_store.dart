@@ -288,7 +288,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
             onAction(
               data.clientAction!.checkoutUrl ?? '',
               (payment, lastAction) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
                 paymentId = payment;
 
                 loader.startLoadingImmediately();
@@ -323,6 +323,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     final model = AddUnlimintCardRequestModel(
       buyPaymentId: paymentId,
     );
+    var tapped = false;
 
     return sRouter
         .push(
@@ -334,6 +335,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: input.card == null,
             onActionButton: () async {
+              tapped = true;
               final _ =
                   await sNetwork.getWalletModule().postAddUnlimintCard(model);
 
@@ -348,13 +350,17 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           ),
         )
         .then(
-          (value) => sRouter.push(
-            const HomeRouter(
-              children: [
-                PortfolioRouter(),
-              ],
-            ),
-          ),
+          (value) {
+            if (!tapped) {
+              sRouter.push(
+                const HomeRouter(
+                  children: [
+                    PortfolioRouter(),
+                  ],
+                ),
+              );
+            }
+          },
         );
   }
 

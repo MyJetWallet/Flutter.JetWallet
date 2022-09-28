@@ -62,7 +62,7 @@ class _ActionSend extends StatelessObserverWidget {
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
-                removeDivider: currency == state.sendCurrencies.last,
+                removeDivider: currency == state.filteredCurrencies.last,
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
