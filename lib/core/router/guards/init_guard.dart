@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
+import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -20,8 +21,9 @@ class InitGuard extends AutoRouteGuard {
     StackRouter router,
   ) async {
     final appStore = getIt.get<AppStore>();
+    final flavor = flavorService();
 
-    if (!getIt.get<DioProxyService>().proxySkiped) {
+    if (flavor != Flavor.prod && !getIt.get<DioProxyService>().proxySkiped) {
       if (!router.isPathActive('/api_selector')) {
         unawaited(
           router.push(
