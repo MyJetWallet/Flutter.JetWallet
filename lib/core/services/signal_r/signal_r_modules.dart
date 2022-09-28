@@ -13,6 +13,7 @@ import 'package:jetwallet/features/market/market_details/helper/calculate_percen
 import 'package:jetwallet/features/market/market_details/model/return_rates_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/search_store.dart';
+import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -73,7 +74,6 @@ abstract class _SignalRModulesBase with Store {
 
     clientDetails.listen(
       (value) {
-        print('CLIENT DETAILS');
         clientDetail = value;
 
         assets.listen(
@@ -90,9 +90,7 @@ abstract class _SignalRModulesBase with Store {
           },
         );
       },
-    ).onError((error) {
-      print('CLIENT DETAILS $error');
-    });
+    );
 
     cardLimits.listen(
       (value) {
@@ -189,15 +187,13 @@ abstract class _SignalRModulesBase with Store {
 
     marketReferences.listen(
       (value) {
-        print('MARKET REFERENCES');
-
         final items = <MarketItemModel>[];
 
         for (final marketReference in value.references) {
           late CurrencyModel currency;
 
           try {
-            currency = sSignalRModules.getCurrencies.firstWhere(
+            currency = currenciesList.firstWhere(
               (element) {
                 return element.symbol == marketReference.associateAsset;
               },
@@ -230,18 +226,12 @@ abstract class _SignalRModulesBase with Store {
           }
         }
 
-        print(items);
-
         marketItems = ObservableList.of(
           _formattedItems(
             items,
             getIt.get<SearchStore>().search,
           ),
         );
-      },
-    ).onError(
-      (error) {
-        print(error);
       },
     );
 
@@ -282,6 +272,351 @@ abstract class _SignalRModulesBase with Store {
         kycCountries = ObservableList.of(value);
       },
     );
+
+    basePrices.listen((value) {
+      if (currenciesList.isNotEmpty) {
+        for (final currency in currenciesList) {
+          final index = currenciesList.indexOf(currency);
+
+          final assetPrice = basePriceFrom(
+            prices: value.prices,
+            assetSymbol: currency.symbol,
+          );
+
+          final baseBalance = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetBalance,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseTotalEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetTotalEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseCurrentEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetCurrentEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          currenciesList[index] = currency.copyWith(
+            baseBalance: baseBalance,
+            currentPrice: assetPrice.currentPrice,
+            dayPriceChange: assetPrice.dayPriceChange,
+            dayPercentChange: assetPrice.dayPercentChange,
+            baseTotalEarnAmount: baseTotalEarnAmount,
+            baseCurrentEarnAmount: baseCurrentEarnAmount,
+          );
+        }
+      }
+    });
+
+    balances.listen((value) {
+      if (currenciesList.isNotEmpty) {
+        for (final balance in value.balances) {
+          for (final currency in currenciesList) {
+            if (currency.symbol == balance.assetId) {
+              final index = currenciesList.indexOf(currency);
+
+              currenciesList[index] = currency.copyWith(
+                lastUpdate: balance.lastUpdate,
+                assetBalance: balance.balance,
+                assetTotalEarnAmount: balance.totalEarnAmount,
+                assetCurrentEarnAmount: balance.currentEarnAmount,
+                cardReserve: balance.cardReserve,
+                nextPaymentDate: balance.nextPaymentDate,
+                apy: balance.apy,
+                apr: balance.apr,
+                depositInProcess: balance.depositInProcess,
+                earnInProcessTotal: balance.earnInProcessTotal,
+                buysInProcessTotal: balance.buysInProcessTotal,
+                transfersInProcessTotal: balance.transfersInProcessTotal,
+                earnInProcessCount: balance.earnInProcessCount,
+                buysInProcessCount: balance.buysInProcessCount,
+                transfersInProcessCount: balance.transfersInProcessCount,
+              );
+            }
+          }
+        }
+      }
+    });
+
+    assets.listen((value) {
+      for (final asset in value.assets) {
+        if (!asset.hideInTerminal) {
+          final depositBlockchains = <BlockchainModel>[];
+          final withdrawalBlockchains = <BlockchainModel>[];
+
+          for (final blockchain in asset.depositBlockchains) {
+            depositBlockchains.add(
+              BlockchainModel(
+                id: blockchain,
+              ),
+            );
+          }
+
+          for (final blockchain in asset.withdrawalBlockchains) {
+            withdrawalBlockchains.add(
+              BlockchainModel(
+                id: blockchain,
+              ),
+            );
+          }
+
+          currenciesList.add(
+            CurrencyModel(
+              symbol: asset.symbol,
+              description: asset.description,
+              accuracy: asset.accuracy.toInt(),
+              depositMode: asset.depositMode,
+              withdrawalMode: asset.withdrawalMode,
+              tagType: asset.tagType,
+              type: asset.type,
+              depositMethods: asset.depositMethods,
+              fees: asset.fees,
+              withdrawalMethods: asset.withdrawalMethods,
+              depositBlockchains: depositBlockchains,
+              withdrawalBlockchains: withdrawalBlockchains,
+              iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
+              selectedIndexIconUrl: iconUrlFrom(
+                assetSymbol: asset.symbol,
+                selected: true,
+              ),
+              weight: asset.weight,
+              prefixSymbol: asset.prefixSymbol,
+              apy: Decimal.zero,
+              apr: Decimal.zero,
+              assetBalance: Decimal.zero,
+              assetCurrentEarnAmount: Decimal.zero,
+              assetTotalEarnAmount: Decimal.zero,
+              cardReserve: Decimal.zero,
+              baseBalance: Decimal.zero,
+              baseCurrentEarnAmount: Decimal.zero,
+              baseTotalEarnAmount: Decimal.zero,
+              currentPrice: Decimal.zero,
+              dayPriceChange: Decimal.zero,
+              earnProgramEnabled: asset.earnProgramEnabled,
+              depositInProcess: Decimal.zero,
+              earnInProcessTotal: Decimal.zero,
+              buysInProcessTotal: Decimal.zero,
+              transfersInProcessTotal: Decimal.zero,
+              earnInProcessCount: 0,
+              buysInProcessCount: 0,
+              transfersInProcessCount: 0,
+            ),
+          );
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        for (final AssetFeeModel assetFee
+            in sSignalRModules.assetsWithdrawalFees.value?.assetFees ?? []) {
+          for (final currency in currenciesList) {
+            if (currency.symbol == assetFee.asset) {
+              final index = currenciesList.indexOf(currency);
+              final assetWithdrawalFees =
+                  currenciesList[index].assetWithdrawalFees.toList();
+              assetWithdrawalFees.add(assetFee);
+              currenciesList[index] = currency.copyWith(
+                assetWithdrawalFees: assetWithdrawalFees,
+              );
+            }
+          }
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        if (sSignalRModules.assetPaymentMethods.value != null) {
+          for (final info
+              in sSignalRModules.assetPaymentMethods.value!.assets) {
+            for (final currency in currenciesList) {
+              if (currency.symbol == info.symbol) {
+                final index = currenciesList.indexOf(currency);
+                final methods = List<PaymentMethod>.from(info.buyMethods);
+
+                methods.removeWhere((element) {
+                  return element.type == PaymentMethodType.unsupported;
+                });
+
+                currenciesList[index] = currency.copyWith(
+                  buyMethods: methods,
+                );
+              }
+            }
+          }
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        if (sSignalRModules.balances.value != null) {
+          for (final balance in sSignalRModules.balances.value!.balances) {
+            for (final currency in currenciesList) {
+              if (currency.symbol == balance.assetId) {
+                final index = currenciesList.indexOf(currency);
+
+                currenciesList[index] = currency.copyWith(
+                  lastUpdate: balance.lastUpdate,
+                  assetBalance: balance.balance,
+                  assetTotalEarnAmount: balance.totalEarnAmount,
+                  assetCurrentEarnAmount: balance.currentEarnAmount,
+                  cardReserve: balance.cardReserve,
+                  nextPaymentDate: balance.nextPaymentDate,
+                  apy: balance.apy,
+                  apr: balance.apr,
+                  depositInProcess: balance.depositInProcess,
+                  earnInProcessTotal: balance.earnInProcessTotal,
+                  buysInProcessTotal: balance.buysInProcessTotal,
+                  transfersInProcessTotal: balance.transfersInProcessTotal,
+                  earnInProcessCount: balance.earnInProcessCount,
+                  buysInProcessCount: balance.buysInProcessCount,
+                  transfersInProcessCount: balance.transfersInProcessCount,
+                );
+              }
+            }
+          }
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        for (final currency in currenciesList) {
+          final index = currenciesList.indexOf(currency);
+
+          final assetPrice = basePriceFrom(
+            prices: sSignalRModules.basePrices.value?.prices ?? [],
+            assetSymbol: currency.symbol,
+          );
+
+          final baseBalance = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetBalance,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseTotalEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetTotalEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseCurrentEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetCurrentEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          currenciesList[index] = currency.copyWith(
+            baseBalance: baseBalance,
+            currentPrice: assetPrice.currentPrice,
+            dayPriceChange: assetPrice.dayPriceChange,
+            dayPercentChange: assetPrice.dayPercentChange,
+            baseTotalEarnAmount: baseTotalEarnAmount,
+            baseCurrentEarnAmount: baseCurrentEarnAmount,
+          );
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        for (final currency in currenciesList) {
+          final index = currenciesList.indexOf(currency);
+
+          if (currenciesList[index].depositBlockchains.isNotEmpty) {
+            for (final depositBlockchain
+                in currenciesList[index].depositBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .depositBlockchains
+                  .indexOf(depositBlockchain);
+              for (final BlockchainModel blockchain
+                  in sSignalRModules.blockchains.value?.blockchains ?? []) {
+                if (depositBlockchain.id == blockchain.id) {
+                  final depositBlockhainList =
+                      currenciesList[index].depositBlockchains.toList();
+
+                  depositBlockhainList[blockchainIndex] =
+                      depositBlockhainList[blockchainIndex].copyWith(
+                    tagType: blockchain.tagType,
+                    description: blockchain.description,
+                  );
+
+                  currenciesList[index] = currenciesList[index].copyWith(
+                    depositBlockchains: depositBlockhainList,
+                  );
+
+                  /*
+                  currencies[index].depositBlockchains[blockchainIndex] =
+                      currencies[index]
+                          .depositBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                          */
+                }
+              }
+            }
+          }
+
+          if (currenciesList[index].withdrawalBlockchains.isNotEmpty) {
+            for (final withdrawalBlockchain
+                in currenciesList[index].withdrawalBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .withdrawalBlockchains
+                  .indexOf(withdrawalBlockchain);
+              for (final BlockchainModel blockchain
+                  in sSignalRModules.blockchains.value?.blockchains ?? []) {
+                if (withdrawalBlockchain.id == blockchain.id) {
+                  final withdrawalBlockchainsList =
+                      currenciesList[index].withdrawalBlockchains.toList();
+                  withdrawalBlockchainsList[blockchainIndex] =
+                      withdrawalBlockchainsList[blockchainIndex].copyWith(
+                    tagType: blockchain.tagType,
+                    description: blockchain.description,
+                  );
+
+                  currenciesList[index] = currenciesList[index].copyWith(
+                    withdrawalBlockchains: withdrawalBlockchainsList,
+                  );
+                  /*
+                  currencies[index].withdrawalBlockchains[blockchainIndex] =
+                      currencies[index]
+                          .withdrawalBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                  */
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if (currenciesList.isNotEmpty) {
+        if (sSignalRModules.recurringBuys.isNotEmpty) {
+          for (final element
+              in sSignalRModules.recurringBuyOS.value!.recurringBuys) {
+            for (final currency in currenciesList) {
+              final index = currenciesList.indexOf(currency);
+              if (currency.symbol == element.toAsset) {
+                currenciesList[index] = currency.copyWith(
+                  recurringBuy: element,
+                );
+              }
+            }
+          }
+        }
+      }
+
+      currenciesList.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
+    });
   }
 
   @observable
@@ -466,6 +801,9 @@ abstract class _SignalRModulesBase with Store {
   ObservableList<KycCountryModel> kycCountries = ObservableList.of([]);
 
   @observable
+  ObservableList<CurrencyModel> currenciesList = ObservableList.of([]);
+
+  @observable
   Decimal marketInfo = Decimal.zero;
 
   @observable
@@ -480,13 +818,11 @@ abstract class _SignalRModulesBase with Store {
   @action
   ReturnRatesModel? getReturnRates(String assetId) {
     try {
-      final currencies = sSignalRModules.getCurrencies;
-
       final periodPrice = periodPrices!.prices.firstWhere(
         (element) => element.assetSymbol == assetId,
       );
 
-      final currency = currencies.firstWhere(
+      final currency = currenciesList.firstWhere(
         (element) => element.symbol == assetId,
       );
 
@@ -516,11 +852,15 @@ abstract class _SignalRModulesBase with Store {
   @computed
   List<MarketItemModel> get getMarketPrices => marketReferencesList(
         marketReferences.value,
-        getCurrencies,
+        currenciesList,
       );
 
+  /*
   @computed
-  List<CurrencyModel> get getCurrencies => currenciesList();
+  List<CurrencyModel> get getCurrencies => currenciesList(
+        sSignalRModules.assets.value!,
+      );
+  */
 
   @action
   void clearSignalRModule() {
@@ -557,6 +897,9 @@ abstract class _SignalRModulesBase with Store {
     marketItems = ObservableList.of([]);
     kycCountries = ObservableList.of([]);
   }
+
+  @action
+  updateAssets() {}
 }
 
 List<MarketItemModel> _formattedItems(

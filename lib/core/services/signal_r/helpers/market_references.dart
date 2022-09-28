@@ -8,8 +8,6 @@ List<MarketItemModel> marketReferencesList(
   MarketReferencesModel? value,
   List<CurrencyModel> currencies,
 ) {
-  print('marketReferencesList $value');
-
   final items = <MarketItemModel>[];
 
   if (value == null) return items;

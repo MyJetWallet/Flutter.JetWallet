@@ -51,7 +51,7 @@ class _BalanceBlockBody extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final currency = currencyFrom(
-      sSignalRModules.getCurrencies,
+      sSignalRModules.currenciesList,
       marketItem.associateAsset,
     );
 

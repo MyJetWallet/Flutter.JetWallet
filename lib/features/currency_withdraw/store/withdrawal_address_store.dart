@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -33,11 +35,16 @@ class WithdrawalAddressStore extends _WithdrawalAddressStoreBase
 abstract class _WithdrawalAddressStoreBase with Store {
   _WithdrawalAddressStoreBase(this.withdrawal) {
     currencyModel = withdrawal.currency;
+
     if (currencyModel.isSingleNetwork) {
       updateNetwork(currencyModel.withdrawalBlockchains[0]);
     }
 
     currency = currencyModel;
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
   }
 
   final WithdrawalModel withdrawal;
@@ -84,10 +91,10 @@ abstract class _WithdrawalAddressStoreBase with Store {
   TextEditingController networkController = TextEditingController();
 
   @observable
-  late TextEditingController addressController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @observable
-  late TextEditingController tagController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
 
   @observable
   FocusNode addressFocus = FocusNode();
@@ -97,6 +104,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @observable
   Key qrKey = GlobalKey();
+
+  @observable
+  bool isReadyToContinue = false;
 
   @computed
   bool get showAddressErase => address.isNotEmpty;
@@ -111,17 +121,45 @@ abstract class _WithdrawalAddressStoreBase with Store {
         : addressValidation is Valid;
   }
 
-  @computed
-  bool get isReadyToContinue {
+  @action
+  void clearData() {
+    addressValidation = const Hide();
+    tagValidation = const Hide();
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
+
+    isReadyToContinue = false;
+  }
+
+  @action
+  void setIsReadyToContinue() {
+    if (currency == null) return;
+
     final condition1 = addressValidation is Hide || addressValidation is Valid;
     final condition2 = tagValidation is Hide || tagValidation is Valid;
-    final condition3 = address.isNotEmpty;
+    final condition3 = addressController.text.isNotEmpty;
     final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    return currency!.hasTag
+    isReadyToContinue = currency!.hasTag
         ? condition1 && condition2 && condition3 && condition4
         : condition1 && condition3;
   }
+
+  /*
+    @computed
+    bool get isReadyToContinue {
+      final condition1 = addressValidation is Hide || addressValidation is Valid;
+      final condition2 = tagValidation is Hide || tagValidation is Valid;
+      final condition3 = address.isNotEmpty;
+      final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
+
+      return currency!.hasTag
+          ? condition1 && condition2 && condition3 && condition4
+          : condition1 && condition3;
+    }
+  */
 
   @computed
   bool get requirementLoading {
@@ -150,27 +188,42 @@ abstract class _WithdrawalAddressStoreBase with Store {
   void updateNetwork(BlockchainModel _network) {
     _logger.log(notifier, 'updateNetwork');
 
-    networkController.text = network.description;
     network = _network;
+    networkController.text = network.description;
+
+    setIsReadyToContinue();
   }
 
   @action
-  void updateAddress(String _address) {
-    if (address != address) {
+  void updateAddress(String _address, {bool validate = false}) {
+    if (address != _address) {
       _logger.log(notifier, 'updateAddress');
 
       _updateAddressValidation(const Hide());
-      address = address;
+      tagError = false;
+      addressError = false;
+      address = _address;
+
+      if (validate && (_address.length >= 5)) {
+        _validateAddressOrTag(
+          _updateAddressValidation,
+          _triggerErrorOfAddressField,
+        );
+      }
+
+      setIsReadyToContinue();
     }
   }
 
   @action
   void updateTag(String _tag) {
-    if (tag != tag) {
+    if (tag != _tag) {
       _logger.log(notifier, 'updateTag');
 
       _updateTagValidation(const Hide());
       tag = _tag;
+
+      setIsReadyToContinue();
     }
   }
 
@@ -183,6 +236,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     addressFocus.unfocus();
     _updateAddressValidation(const Hide());
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -194,22 +249,28 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     tagFocus.unfocus();
     _updateTagValidation(const Hide());
+
+    setIsReadyToContinue();
   }
 
   Future<void> pasteAddress(ScrollController scrollController) async {
     _logger.log(notifier, 'pasteAddress');
 
     final copiedText = await _copiedText();
+
     addressController.text = copiedText;
     _moveCursorAtTheEnd(addressController);
     addressFocus.requestFocus();
+
     updateAddress(copiedText);
+
     await _validateAddressOrTag(
       _updateAddressValidation,
       _triggerErrorOfAddressField,
     );
 
     scrollToBottom(scrollController);
+    setIsReadyToContinue();
   }
 
   @action
@@ -227,6 +288,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     );
 
     scrollToBottom(scrollController);
+    setIsReadyToContinue();
   }
 
   @action
@@ -257,6 +319,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
         scrollToBottom(scrollController);
       }
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -296,6 +360,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
         scrollToBottom(scrollController);
       }
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -401,7 +467,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     try {
       final model = ValidateAddressRequestModel(
         assetSymbol: currencyModel.symbol,
-        toAddress: address,
+        toAddress: addressController.text,
         toTag: tag,
         assetNetwork: network.id,
       );
@@ -431,6 +497,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       updateValidation(const Invalid());
       triggerErrorOfField();
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -449,7 +517,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     try {
       final model = ValidateAddressRequestModel(
         assetSymbol: currencyModel.symbol,
-        toAddress: address,
+        toAddress: addressController.text,
         toTag: tag,
         assetNetwork: network.id,
       );
@@ -485,6 +553,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       _updateValidationOfBothFields(const Invalid());
       _triggerErrorOfBothFields();
     }
+
+    setIsReadyToContinue();
   }
 
   @action
@@ -534,6 +604,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
       WithdrawalAmountRouter(
         withdrawal: withdrawal,
         network: networkController.text,
+        addressStore: this as WithdrawalAddressStore,
       ),
     );
   }
@@ -585,6 +656,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void dispose() {
+    print('WithdrawalAddressStore DISPOSE');
+
     addressFocus.dispose();
     tagFocus.dispose();
     addressController.dispose();

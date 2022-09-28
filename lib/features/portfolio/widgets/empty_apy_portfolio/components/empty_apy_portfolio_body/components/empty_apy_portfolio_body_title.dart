@@ -12,7 +12,7 @@ class EmptyPortfolioBodyTitle extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
 
     return RichText(
       textAlign: TextAlign.center,

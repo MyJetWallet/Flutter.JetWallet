@@ -105,7 +105,7 @@ class ChooseDocuments extends StatelessObserverWidget {
               onTap: () async {
                 sAnalytics.identityParametersChoosed(
                   countries.activeCountry!.countryName,
-                  state.getActiveDocument().document.name,
+                  state.getActiveDocument()?.document.name ?? '',
                 );
 
                 final status = await Permission.camera.request();

@@ -115,7 +115,7 @@ class _ActionBuy extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
@@ -222,7 +222,7 @@ class _ActionBuy extends StatelessObserverWidget {
                   currency.symbol,
                   currency.dayPercentChange,
                   () => _onItemTap(currency, fromCard),
-                  isLast: currency == state.buyFromCardCurrencies.last,
+                  isLast: currency == state.filteredCurrencies.last,
                 ),
             ] else ...[
               marketItem(
@@ -239,7 +239,7 @@ class _ActionBuy extends StatelessObserverWidget {
                 currency.symbol,
                 currency.dayPercentChange,
                 () => _onItemTap(currency, fromCard),
-                isLast: currency == state.buyFromCardCurrencies.last,
+                isLast: currency == state.filteredCurrencies.last,
               ),
             ],
         ],

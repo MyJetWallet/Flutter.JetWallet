@@ -79,9 +79,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
           (result) {
             if (result == PinBoxEnum.error) {
               pin.resetPin();
-            } else if (result == PinBoxEnum.empty) {
-              print('PinBoxEnum.empty');
-            }
+            } else if (result == PinBoxEnum.empty) {}
           },
           fireImmediately: true,
         );

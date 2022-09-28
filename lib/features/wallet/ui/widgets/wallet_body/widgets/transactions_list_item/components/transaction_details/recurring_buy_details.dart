@@ -26,7 +26,7 @@ class RecurringBuyDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
 
     final buyCurrency = currencyFrom(
       currencies,

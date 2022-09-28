@@ -102,9 +102,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
             if (result == 0) {
               if (widget.onSuccess == null && shouldPop) {
                 /// Navigates to the first route
-                sRouter.replace(
-                  const HomeRouter(),
-                );
+
+                sRouter.popUntilRoot();
               } else {
                 widget.onSuccess!.call(context);
               }

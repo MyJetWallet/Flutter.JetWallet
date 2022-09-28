@@ -53,7 +53,7 @@ class _ActionReceive extends StatelessObserverWidget {
                 ),
                 primaryText: currency.description,
                 secondaryText: currency.symbol,
-                removeDivider: currency == state.receiveCurrencies.last,
+                removeDivider: currency == state.filteredCurrencies.last,
                 onTap: () {
                   sAnalytics.receiveAssetView(asset: currency.description);
 

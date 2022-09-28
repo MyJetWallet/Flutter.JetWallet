@@ -26,7 +26,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final currency = currencyFrom(
       currencies,
       marketItem.associateAsset,

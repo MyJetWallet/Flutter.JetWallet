@@ -23,7 +23,7 @@ class EarnItems extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final earnOffers = EarnOffersStore.of(context).earnOffers;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final currenciesByEarn = <String>[];
     final offersByEarn = <EarnOfferModel>[];
     final maxApyForCurrencies = <Decimal>[];

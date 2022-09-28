@@ -3,14 +3,15 @@ import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 
-List<CurrencyModel> currenciesList() {
+List<CurrencyModel> currenciesList(AssetsModel assetsModel) {
   final currencies = <CurrencyModel>[];
 
   try {
-    for (final asset in sSignalRModules.assets.value!.assets) {
+    for (final asset in assetsModel.assets) {
       if (!asset.hideInTerminal) {
         final depositBlockchains = <BlockchainModel>[];
         final withdrawalBlockchains = <BlockchainModel>[];

@@ -11,7 +11,7 @@ class EarnPinned extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final colors = sKit.colors;
     final mediaQuery = MediaQuery.of(context);
 

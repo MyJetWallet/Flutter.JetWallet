@@ -53,7 +53,7 @@ class _ActionButtonState extends State<ActionButton> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -66,8 +66,8 @@ class _ActionButtonState extends State<ActionButton> {
         actionActive = !actionActive;
       });
       getIt.get<AppStore>().setActionMenuActive(
-        !getIt.get<AppStore>().actionMenuActive,
-      );
+            !getIt.get<AppStore>().actionMenuActive,
+          );
     }
 
     final isBuyAvailable = isBuyWithCurrencyAvailableFor(

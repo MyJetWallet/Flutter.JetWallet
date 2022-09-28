@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
+import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
@@ -196,15 +197,15 @@ class DeepLinkService {
   void _confirmWithdrawCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier = WithdrawalConfirmStore(withdrawalModel);
 
-    notifier.updateCode(code, id);
+    getIt.get<WithdrawalConfirmStore>().updateCode(code, id);
   }
 
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
-    final notifier = SendByPhoneConfirmStore(currencyModel);
+
+    final notifier = getIt.get<SendByPhoneConfirmStore>();
 
     notifier.updateCode(code, id);
   }
@@ -338,14 +339,16 @@ class DeepLinkService {
   }
 
   Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
-    final storage = sLocalStorageService;
-    final deviceInfo = sDeviceInfo.model;
-    final referralCode = parameters[_code];
+    try {
+      final storage = sLocalStorageService;
+      final deviceInfo = sDeviceInfo.model;
+      final referralCode = parameters[_code];
 
-    await storage.setString(referralCodeKey, referralCode);
-    await checkInitAppFBAnalytics(storage, deviceInfo);
+      await storage.setString(referralCodeKey, referralCode);
+      await checkInitAppFBAnalytics(storage, deviceInfo);
 
-    await getIt.get<ReferallCodeStore>().init();
+      await getIt.get<ReferallCodeStore>().init();
+    } catch (e) {}
   }
 
   void _earnLandingCommand(SourceScreen? source) {

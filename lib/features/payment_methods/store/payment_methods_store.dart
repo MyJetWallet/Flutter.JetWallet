@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ abstract class _PaymentMethodsStoreBase with Store {
     final kV = sSignalRModules.keyValue;
 
     cardModel = sSignalRModules.cards;
+    cards = ObservableList.of(sSignalRModules.cards.cardInfos);
+
     cardsIds = ObservableList.of(kV.cards?.value ?? <String>[]);
 
     getCards();
@@ -61,6 +64,9 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'getCards');
 
     _updateUnion(const PaymentMethodsUnion.loading());
+    Timer(const Duration(seconds: 2), () {
+      cards = ObservableList.of(sSignalRModules.cards.cardInfos);
+    });
 
     try {
       final response = await sNetwork.getWalletModule().getAllCards();

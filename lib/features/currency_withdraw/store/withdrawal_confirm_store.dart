@@ -5,12 +5,15 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
@@ -19,21 +22,37 @@ part 'withdrawal_confirm_store.g.dart';
 
 class WithdrawalConfirmStore extends _WithdrawalConfirmStoreBase
     with _$WithdrawalConfirmStore {
-  WithdrawalConfirmStore(WithdrawalModel withdrawal) : super(withdrawal);
+  WithdrawalConfirmStore() : super();
 
   static _WithdrawalConfirmStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalConfirmStore>(context, listen: false);
 }
 
 abstract class _WithdrawalConfirmStoreBase with Store {
-  _WithdrawalConfirmStoreBase(this.withdrawal) {
-    _operationId = WithdrawalPreviewStore(withdrawal).operationId;
-    _verb = withdrawal.dictionary.verb.toLowerCase();
-  }
-
-  final WithdrawalModel withdrawal;
+  _WithdrawalConfirmStoreBase();
 
   TextEditingController controller = TextEditingController();
+
+  WithdrawalModel? withdrawal;
+  WithdrawalPreviewStore? previewStore;
+  WithdrawalAddressStore? addressStore;
+
+  @action
+  void setNewOperation(
+    WithdrawalModel w,
+    WithdrawalPreviewStore p,
+    WithdrawalAddressStore a,
+  ) {
+    loader = StackLoaderStore();
+    pinError = StandardFieldErrorNotifier();
+
+    withdrawal = w;
+    previewStore = p;
+    addressStore = a;
+
+    _operationId = previewStore!.operationId;
+    _verb = withdrawal!.dictionary.verb.toLowerCase();
+  }
 
   @observable
   WithdrawalConfirmUnion union = const WithdrawalConfirmUnion.input();
@@ -42,14 +61,25 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   bool isResending = false;
 
   @observable
-  late String _operationId;
+  String _operationId = '';
 
   @observable
-  late String _verb;
+  String _verb = '';
 
   static final _logger = Logger('WithdrawalConfirmStore');
 
   FocusNode focusNode = FocusNode();
+
+  StackLoaderStore loader = StackLoaderStore();
+  StandardFieldErrorNotifier pinError = StandardFieldErrorNotifier();
+
+  @action
+  void clear() {
+    updateCode('', _operationId);
+
+    loader = StackLoaderStore();
+    pinError = StandardFieldErrorNotifier();
+  }
 
   @action
   void updateCode(String code, String operationId) {
@@ -134,24 +164,23 @@ abstract class _WithdrawalConfirmStoreBase with Store {
 
   @action
   void _showSuccessScreen() {
-    sRouter
-        .push(
-          SuccessScreenRouter(
-            secondaryText:
-                '${intl.withdrawalConfirm_your} ${withdrawal.currency.symbol}'
-                ' $_verb '
-                '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
-          ),
-        )
-        .then(
-          (value) => sRouter.navigate(
+    sRouter.push(
+      SuccessScreenRouter(
+        secondaryText:
+            '${intl.withdrawalConfirm_your} ${withdrawal!.currency.symbol}'
+            ' $_verb '
+            '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
+        onSuccess: (context) {
+          sRouter.replace(
             const HomeRouter(
               children: [
                 PortfolioRouter(),
               ],
             ),
-          ),
-        );
+          );
+        },
+      ),
+    );
   }
 
   @action
@@ -162,10 +191,11 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         secondaryText: '${intl.withdrawalConfirm_failedTo} $_verb',
         primaryButtonName: intl.withdrawalConfirm_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.navigate(
+          sRouter.push(
             WithdrawalAmountRouter(
-              withdrawal: withdrawal,
+              withdrawal: withdrawal!,
               network: '',
+              addressStore: addressStore!,
             ),
           );
         },

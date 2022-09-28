@@ -103,11 +103,15 @@ abstract class _SingleSingInStoreBase with Store {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'singleSingIn', error.cause);
 
-      union = SingleSingInStateUnion.error(error.cause);
+      union = error.cause.contains('50') || error.cause.contains('40')
+          ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
+          : SingleSingInStateUnion.error(error.cause);
     } catch (e) {
       _logger.log(stateFlow, 'singleSingIn', e);
 
-      union = SingleSingInStateUnion.error(e);
+      union = e.toString().contains('50') || e.toString().contains('40')
+          ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
+          : SingleSingInStateUnion.error(e);
     }
   }
 

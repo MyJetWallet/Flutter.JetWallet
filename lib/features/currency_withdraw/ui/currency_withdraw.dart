@@ -21,10 +21,11 @@ class CurrencyWithdraw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<WithdrawalAddressStore>(
-      create: (context) => WithdrawalAddressStore(withdrawal),
+      create: (context) => WithdrawalAddressStore(withdrawal)..clearData(),
       builder: (context, child) => _CurrencyWithdrawBody(
         withdrawal: withdrawal,
       ),
+      dispose: (context, value) => value.dispose(),
     );
   }
 }
@@ -112,7 +113,7 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                       controller: store.addressController,
                       onChanged: (value) {
                         store.scrollToBottom(scrollController);
-                        store.updateAddress(value);
+                        store.updateAddress(value, validate: true);
                       },
                       onErase: () => store.eraseAddress(),
                       suffixIcons: [
@@ -188,18 +189,22 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                 ),
                 const Spacer(),
                 const SpaceH19(),
-                SPaddingH24(
-                  child: Material(
-                    color: colors.grey5,
-                    child: SPrimaryButton2(
-                      active: store.isReadyToContinue,
-                      name: intl.currencyWithdraw_continue,
-                      onTap: () {
-                        sAnalytics.sendContinueAddress();
-                        store.validateOnContinue(context);
-                      },
-                    ),
-                  ),
+                Observer(
+                  builder: (context) {
+                    return SPaddingH24(
+                      child: Material(
+                        color: colors.grey5,
+                        child: SPrimaryButton2(
+                          active: store.isReadyToContinue,
+                          name: intl.currencyWithdraw_continue,
+                          onTap: () {
+                            sAnalytics.sendContinueAddress();
+                            store.validateOnContinue(context);
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SpaceH24(),
               ],

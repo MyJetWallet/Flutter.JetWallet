@@ -59,6 +59,7 @@ dependencies:
   device_info_plus: ^3.2.4 # providing detailed information about the device
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
   device_marketing_names: ^0.4.1
+  android_id: ^0.0.7
 
   # NETWORKING:
   http: ^0.13.4
@@ -98,6 +99,7 @@ dependencies:
 
   # NOTIFICATIONS
   flutter_local_notifications: ^9.7.0
+  onesignal_flutter: ^3.0.0
 
   # OTHER:
   freezed_annotation: ^2.0.3 # Annotations for the freezed

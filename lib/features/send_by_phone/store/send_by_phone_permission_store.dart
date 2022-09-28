@@ -59,10 +59,7 @@ class SendByPhonePermission extends _SendByPhonePermissionBase
 }
 
 abstract class _SendByPhonePermissionBase with Store {
-  _SendByPhonePermissionBase() {
-    _initPhonebookStatus();
-    initPermissionState();
-  }
+  _SendByPhonePermissionBase();
 
   static final _logger = Logger('SendByPhonePermissionStore');
 
@@ -74,6 +71,13 @@ abstract class _SendByPhonePermissionBase with Store {
 
   @observable
   PhonebookStatus phonebookStatus = PhonebookStatus.undefined;
+
+  @action
+  Future<void> init() async {
+    await initPermissionState();
+
+    await _initPhonebookStatus();
+  }
 
   @action
   Future<void> _initPhonebookStatus() async {
@@ -109,6 +113,7 @@ abstract class _SendByPhonePermissionBase with Store {
     _updatePermissionStatus(PermissionStatus.granted);
     showContactPicker(
       sRouter.navigatorKey.currentContext!,
+      this as SendByPhonePermission,
     );
   }
 
@@ -149,7 +154,10 @@ abstract class _SendByPhonePermissionBase with Store {
           _updatePhonebookStatus(granted);
           _updatePermissionStatus(permission);
 
-          showContactPicker(sRouter.navigatorKey.currentContext!);
+          showContactPicker(
+            sRouter.navigatorKey.currentContext!,
+            this as SendByPhonePermission,
+          );
         } else {
           await _setPhonebookStatusInStorage(denied.name);
           _updatePhonebookStatus(denied);

@@ -3,8 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_input_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_permission_store.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/send_helper_text.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/send_info_text.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/widgets/show_contact_picker.dart';
@@ -19,7 +21,7 @@ import 'package:simple_kit/simple_kit.dart';
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
 /// FLOW 2: BASE FLOW -> Confirm -> Home -> Notify if simple account ??
 
-class SendByPhoneInput extends StatelessWidget {
+class SendByPhoneInput extends StatefulWidget {
   const SendByPhoneInput({
     super.key,
     required this.currency,
@@ -28,16 +30,21 @@ class SendByPhoneInput extends StatelessWidget {
   final CurrencyModel currency;
 
   @override
+  State<SendByPhoneInput> createState() => _SendByPhoneInputState();
+}
+
+class _SendByPhoneInputState extends State<SendByPhoneInput> {
+  @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<SendByPhonePermission>(
-          create: (_) => SendByPhonePermission(),
+          create: (_) => SendByPhonePermission()..init(),
         ),
       ],
       builder: (context, child) {
         return _SendByPhoneInputBody(
-          currency: currency,
+          currency: widget.currency,
         );
       },
     );
@@ -67,13 +74,16 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+
+    getIt.get<SendByPhoneInputStore>().clear();
+
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      final state = SendByPhonePermission();
+      final state = SendByPhonePermission.of(context);
 
       // If returned from Settigns check whether user enabled permission or not
       if (state.userLocation == UserLocation.settings) {
@@ -138,6 +148,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                           onTap: () {
                             showContactPicker(
                               context,
+                              permission,
                             );
                           },
                           child: AbsorbPointer(
@@ -268,29 +279,34 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                 ),
             ],
           ),
-          Positioned(
-            left: 24.0,
-            right: 24.0,
-            bottom: 24.0,
-            child: Material(
-              color: Colors.transparent,
-              child: SPrimaryButton2(
-                active: input.isReadyToContinue &&
-                    !(input.dialCodeController.text ==
-                        intl.sendByPhoneInput_select),
-                name: intl.sendByPhoneInput_continue,
-                onTap: () {
-                  sAnalytics.sendContinuePhone();
-                  sAnalytics.sendViews();
+          Observer(
+            builder: (context) {
+              return Positioned(
+                left: 24.0,
+                right: 24.0,
+                bottom: 24.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: SPrimaryButton2(
+                    active: input.isReadyToContinue &&
+                        !(input.dialCodeController.text ==
+                            intl.sendByPhoneInput_select),
+                    name: intl.sendByPhoneInput_continue,
+                    onTap: () {
+                      sAnalytics.sendContinuePhone();
+                      sAnalytics.sendViews();
 
-                  sRouter.push(
-                    SendByPhoneAmountRouter(
-                      currency: widget.currency,
-                    ),
-                  );
-                },
-              ),
-            ),
+                      sRouter.push(
+                        SendByPhoneAmountRouter(
+                          currency: widget.currency,
+                          pickedContact: input.pickedContact,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -23,7 +23,7 @@ class EarnItem extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final earnOffers = EarnOffersStore.of(context).earnOffers;
 
     earnOffers.sort((a, b) {

@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_input_store.dart';
@@ -11,17 +12,25 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 part 'send_by_phone_amount_store.g.dart';
 
 class SendByPhoneAmmountStore extends _SendByPhoneAmmountStoreBase
     with _$SendByPhoneAmmountStore {
-  SendByPhoneAmmountStore(CurrencyModel currency) : super(currency);
+  SendByPhoneAmmountStore(CurrencyModel currency, ContactModel? pickedContact)
+      : super(currency, pickedContact);
+
+  static _SendByPhoneAmmountStoreBase of(BuildContext context) =>
+      Provider.of<SendByPhoneAmmountStore>(context, listen: false);
 }
 
 abstract class _SendByPhoneAmmountStoreBase with Store {
-  _SendByPhoneAmmountStoreBase(this.currency);
+  _SendByPhoneAmmountStoreBase(
+    this.currency,
+    this.pickedContact,
+  );
 
   final CurrencyModel currency;
 
@@ -37,7 +46,7 @@ abstract class _SendByPhoneAmmountStoreBase with Store {
   String? tappedPreset;
 
   @observable
-  ContactModel? pickedContact = SendByPhoneInputStore().pickedContact;
+  ContactModel? pickedContact;
 
   @observable
   String amount = '0';

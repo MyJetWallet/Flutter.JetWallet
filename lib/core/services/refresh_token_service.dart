@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -18,8 +19,6 @@ import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_r
 ///
 /// Else [throws] an error
 Future<RefreshTokenStatus> refreshToken() async {
-  print('refreshToken()');
-
   final rsaService = getIt.get<RsaService>();
   final storageService = getIt.get<LocalStorageService>();
   final authInfo = getIt.get<AppStore>().authState;
@@ -72,13 +71,11 @@ Future<RefreshTokenStatus> refreshToken() async {
         return RefreshTokenStatus.caught;
       }
     } else {
-      print('RefreshTokenStatus.caught');
+      await getIt.get<LogoutService>().logout();
 
       return RefreshTokenStatus.caught;
     }
   } on DioError catch (error) {
-    print('REFRESH ERROR 3 $error');
-
     final code = error.response?.statusCode;
 
     if (code == 401 || code == 403) {
@@ -89,12 +86,14 @@ Future<RefreshTokenStatus> refreshToken() async {
       // remove refreshToken from storage
       await storageService.clearStorage();
 
+      await getIt.get<LogoutService>().logout();
+
       return RefreshTokenStatus.caught;
     } else {
       rethrow;
     }
   } catch (e) {
-    print('REFRESH ERROR 4 $e');
+    await getIt.get<LogoutService>().logout();
 
     return RefreshTokenStatus.caught;
   }

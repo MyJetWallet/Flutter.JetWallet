@@ -3,13 +3,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_input_store.dart';
+import 'package:jetwallet/features/send_by_phone/store/send_by_phone_permission_store.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showContactPicker(
   BuildContext context,
+  SendByPhonePermission contactStore,
 ) {
-  final store = getIt.get<SendByPhoneInputStore>();
+  final store = getIt.get<SendByPhoneInputStore>()..initState(contactStore);
 
   store.initPhoneSearch();
 
@@ -43,8 +45,9 @@ class _SearchPinned extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return SStandardField(
       autofocus: true,
+      focusNode: FocusNode(),
       labelText: intl.showContactPicker_phoneNumber,
-      initialValue: store.phoneSearch,
+      controller: store.searchTextController,
       onChanged: (value) {
         store.updatePhoneSearch(value);
       },

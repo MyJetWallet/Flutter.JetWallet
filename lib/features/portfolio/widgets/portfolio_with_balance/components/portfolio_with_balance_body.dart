@@ -86,7 +86,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);

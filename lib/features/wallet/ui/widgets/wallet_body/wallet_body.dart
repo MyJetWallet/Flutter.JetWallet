@@ -49,7 +49,7 @@ class _WalletBodyState extends State<WalletBody>
     super.build(context);
 
     final colors = sKit.colors;
-    final currencies = sSignalRModules.getCurrencies;
+    final currencies = sSignalRModules.currenciesList;
 
     final recurring = getIt.get<RecurringBuysStore>();
 

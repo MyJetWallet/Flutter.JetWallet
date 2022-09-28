@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -46,6 +45,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   PageController pageViewController = PageController(viewportFraction: 0.9);
 
+  final loader = StackLoaderStore();
+
+  final loaderSuccess = StackLoaderStore();
+
   @computed
   bool get getActiveScanButton {
     if (documentFirstSide != null && documentSecondSide != null) {
@@ -84,7 +87,11 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         documentSecondSide,
       );
 
-      final response = await sNetwork.getWalletModule().postUploadDocuments(
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleImageNetworking
+          .getWalletModule()
+          .postUploadDocuments(
             formData,
             type,
           );
@@ -101,6 +108,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         },
         onError: (error) {
           sAnalytics.kycIdentityUploadFailed(error.toString());
+
+          union = UploadKycDocumentsUnion.error(error);
 
           sNotification.showError(
             intl.something_went_wrong_try_again,
@@ -124,7 +133,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   Future<void> documentPageViewLogic(
-    KycDocumentType document,
+    KycDocumentType? document,
     StackLoaderStore loader,
   ) async {
     _logger.log(notifier, 'documentPageViewLogic');
@@ -136,7 +145,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         loader.startLoading();
         sAnalytics.kycIdentityUploaded();
         await uploadDocuments(
-          kycDocumentTypeInt(document),
+          kycDocumentTypeInt(document!),
         );
       }
     } else {
@@ -146,7 +155,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         loader.startLoading();
         sAnalytics.kycIdentityUploaded();
         await _uploadPassportDocument(
-          kycDocumentTypeInt(document),
+          kycDocumentTypeInt(document!),
         );
       }
     }
@@ -164,7 +173,11 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
-      final response = await sNetwork.getWalletModule().postUploadDocuments(
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleImageNetworking
+          .getWalletModule()
+          .postUploadDocuments(
             formData,
             type,
           );
@@ -209,7 +222,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     final activeDocument =
         getIt.get<ChooseDocumentsStore>().getActiveDocument();
 
-    if (activeDocument.document == KycDocumentType.passport) {
+    if (activeDocument?.document == KycDocumentType.passport) {
       return activeScanButtonType(ActiveScanButton.active);
     }
 
@@ -264,7 +277,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     final activeDocument =
         getIt.get<ChooseDocumentsStore>().getActiveDocument();
 
-    return activeDocument.document != KycDocumentType.passport
+    return activeDocument?.document != KycDocumentType.passport
         ? documentFirstSide != null && documentSecondSide != null
             ? intl.uploadKycDocuments_uploadPhotos
             : numberSide == 0

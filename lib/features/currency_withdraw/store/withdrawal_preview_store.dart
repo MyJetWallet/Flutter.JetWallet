@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -12,19 +13,25 @@ import 'package:provider/provider.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
+
 part 'withdrawal_preview_store.g.dart';
 
 class WithdrawalPreviewStore extends _WithdrawalPreviewStoreBase
     with _$WithdrawalPreviewStore {
-  WithdrawalPreviewStore(WithdrawalModel withdrawal) : super(withdrawal);
+  WithdrawalPreviewStore(
+    WithdrawalModel withdrawal,
+    WithdrawalAmountStore amountStore,
+    WithdrawalAddressStore addressStore,
+  ) : super(withdrawal, amountStore, addressStore);
 
   static _WithdrawalPreviewStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalPreviewStore>(context, listen: false);
 }
 
 abstract class _WithdrawalPreviewStoreBase with Store {
-  _WithdrawalPreviewStoreBase(this.withdrawal) {
-    final _amount = WithdrawalAmountStore(withdrawal);
+  _WithdrawalPreviewStoreBase(
+      this.withdrawal, this.amountStore, this.addressStore,) {
+    final _amount = amountStore;
 
     tag = _amount.tag;
     address = _amount.address;
@@ -34,6 +41,10 @@ abstract class _WithdrawalPreviewStoreBase with Store {
   }
 
   final WithdrawalModel withdrawal;
+
+  final WithdrawalAmountStore amountStore;
+
+  final WithdrawalAddressStore addressStore;
 
   static final _logger = Logger('WithdrawalPreviewStore');
 
@@ -110,6 +121,8 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     sRouter.push(
       WithdrawalConfirmRouter(
         withdrawal: withdrawal,
+        previewStore: this as WithdrawalPreviewStore,
+        addressStore: addressStore,
       ),
     );
   }
@@ -126,6 +139,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
             WithdrawalAmountRouter(
               withdrawal: withdrawal,
               network: '',
+              addressStore: addressStore,
             ),
           );
         },
@@ -145,6 +159,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
             WithdrawalAmountRouter(
               withdrawal: withdrawal,
               network: blockchain.id,
+              addressStore: addressStore,
             ),
           );
         },

@@ -57,6 +57,8 @@ void showAddPaymentBottomSheet({
                   onCardAdded: (card) {
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                     onCircleCardAdded(card);
                   },
                 ),

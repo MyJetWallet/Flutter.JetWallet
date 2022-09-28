@@ -8,6 +8,7 @@ import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 Future<void> main() async {
   mainContext.onReactionError((_, rxn) {
@@ -17,10 +18,18 @@ Future<void> main() async {
 
   await appInitialization(Environment.test);
 
-  runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {
-    Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
-  });
+  runZonedGuarded(
+    () => runApp(
+      const AppScreen(
+        isStageEnv: true,
+        debugShowCheckedModeBanner: false,
+      ),
+    ),
+    (error, stackTrace) {
+      Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    },
+  );
 
   Isolate.current.addErrorListener(
     RawReceivePort((pair) async {
@@ -34,4 +43,6 @@ Future<void> main() async {
       */
     }).sendPort,
   );
+
+  await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');
 }
