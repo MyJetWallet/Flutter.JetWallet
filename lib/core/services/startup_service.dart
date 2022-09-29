@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -94,6 +95,13 @@ class StartupService {
           },
         );
       } catch (e) {
+        sNotification.showError(
+          'Failed to fetch session info',
+          duration: 8,
+          id: 1,
+          needFeedback: true,
+        );
+
         await getIt.get<LogoutService>().logout();
 
         // TODO (discuss this flow)

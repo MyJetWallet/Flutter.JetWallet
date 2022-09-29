@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -119,8 +120,7 @@ abstract class _AppStoreBase with Store {
     print('START: APP STORE - getAuthStatus');
 
     final storageService = getIt.get<LocalStorageService>();
-    final deviceInfo = getIt.get<DeviceInfo>();
-    final userInfo = getIt.get<UserInfoService>();
+
     // TODO
     final appsFlyerService = getIt.get<AppsFlyerService>();
 
@@ -142,6 +142,8 @@ abstract class _AppStoreBase with Store {
     await getIt.get<SNetwork>().init();
 
     try {
+      final deviceInfo = getIt.get<DeviceInfo>();
+
       await AppTrackingTransparency.requestTrackingAuthorization();
 
       await deviceInfo.deviceInfo();
@@ -156,6 +158,13 @@ abstract class _AppStoreBase with Store {
       await appsFlyerService.init();
       await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
+      sNotification.showError(
+        'appsFlyerService',
+        duration: 8,
+        id: 1,
+        needFeedback: true,
+      );
+
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }
 
@@ -171,6 +180,8 @@ abstract class _AppStoreBase with Store {
       );
 
       try {
+        final userInfo = getIt.get<UserInfoService>();
+
         final result = await refreshToken();
 
         print('REFRESH RESULT: $result');
@@ -198,6 +209,13 @@ abstract class _AppStoreBase with Store {
           await getIt.get<LogoutService>().logout();
         }
       } catch (e) {
+        sNotification.showError(
+          'TOKEN',
+          duration: 8,
+          id: 1,
+          needFeedback: true,
+        );
+
         await sAnalytics.init(analyticsApiKey);
 
         authStatus = const AuthorizationUnion.unauthorized();

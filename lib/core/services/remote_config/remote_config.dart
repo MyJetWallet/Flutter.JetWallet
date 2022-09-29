@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -127,7 +128,14 @@ class RemoteConfig {
       );
       */
     } catch (e) {
-      print('REMOTE ERROR: $e');
+      print('REMOTE: $e');
+
+      sNotification.showError(
+        'REMOTE: $e',
+        duration: 8,
+        id: 1,
+        needFeedback: true,
+      );
 
       _logger.log(stateFlow, '_fetchAndActivate', e);
       sAnalytics.remoteConfigError();
