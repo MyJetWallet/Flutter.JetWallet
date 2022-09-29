@@ -114,28 +114,32 @@ class StartupService {
   }
 
   Future<void> startingServices() async {
-    getIt.registerSingleton<KycService>(
-      KycService(),
-    );
+    try {
+      getIt.registerSingleton<KycService>(
+        KycService(),
+      );
 
-    getIt.registerSingletonAsync<InternetCheckerService>(
-      () async => InternetCheckerService().initialise(),
-    );
+      getIt.registerSingletonAsync<InternetCheckerService>(
+        () async => InternetCheckerService().initialise(),
+      );
 
-    getIt.registerSingletonAsync<KycProfileCountries>(
-      () async => KycProfileCountries().init(),
-    );
+      getIt.registerSingletonAsync<KycProfileCountries>(
+        () async => KycProfileCountries().init(),
+      );
 
-    getIt.registerSingletonAsync<ProfileGetUserCountry>(
-      () async => ProfileGetUserCountry().init(),
-    );
+      getIt.registerSingletonAsync<ProfileGetUserCountry>(
+        () async => ProfileGetUserCountry().init(),
+      );
 
-    await getIt.isReady<KycProfileCountries>();
-    await getIt.isReady<ProfileGetUserCountry>();
+      await getIt.isReady<KycProfileCountries>();
+      await getIt.isReady<ProfileGetUserCountry>();
 
-    isServicesRegistred = true;
+      isServicesRegistred = true;
 
-    return;
+      return;
+    } catch (e) {
+      _logger.log(stateFlow, 'Failed startingServices', e);
+    }
   }
 
   /// Called when user makes cold boot and has enabled 2FA

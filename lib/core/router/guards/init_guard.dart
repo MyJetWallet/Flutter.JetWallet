@@ -115,11 +115,6 @@ class InitGuard extends AutoRouteGuard {
 
               getIt.get<AppStore>().initSessionInfo();
 
-              router.replace(
-                const SplashRoute(),
-              );
-              return;
-
               resolver.next();
             },
             askBioUsing: () {
