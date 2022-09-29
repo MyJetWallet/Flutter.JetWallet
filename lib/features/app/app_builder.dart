@@ -49,7 +49,11 @@ class AppBuilder extends StatelessObserverWidget {
             );
 
             return getIt.get<AppStore>().remoteConfigStatus is Success
-                ? FutureBuilder(
+                ? AppBuilderBody(
+                    reactiveMediaQuery: reactiveMediaQuery,
+                    child: child ?? const SizedBox(),
+                  )
+                /*? FutureBuilder(
                     future: getIt.allReady(
                       timeout: const Duration(
                         milliseconds: 700,
@@ -77,6 +81,7 @@ class AppBuilder extends StatelessObserverWidget {
                           : const SplashScreen();
                     },
                   )
+                */
                 : const SplashScreen();
           },
         );

@@ -21,6 +21,8 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -29,6 +31,8 @@ import '../services/simple_networking/simple_networking.dart';
 import 'di.config.dart';
 
 final GetIt getIt = GetIt.instance;
+
+final _logger = Logger('DI');
 
 @InjectableInit(
   asExtension: true,
@@ -42,6 +46,8 @@ Future<GetIt> getItInit({
     SimpleKit(),
   );
 
+  _logger.log(stateFlow, 'SIMPLE KIT LOADED');
+
   /*
   getIt.registerSingleton<AppLocalizations>(
     AppLocalizations.of(getIt.get<AppRouter>().navigatorKey.currentContext!)!,
@@ -52,27 +58,39 @@ Future<GetIt> getItInit({
     () async => PackageInfoService().init(),
   );
 
+  _logger.log(stateFlow, 'PackageInfoService LOADED');
+
   getIt.registerSingletonAsync<RemoteConfig>(
     () async => RemoteConfig().fetchAndActivate(),
     dependsOn: [PackageInfoService],
   );
 
+  _logger.log(stateFlow, 'RemoteConfig LOADED');
+
   getIt.registerSingleton<SNetwork>(
     SNetwork(),
   );
+
+  _logger.log(stateFlow, 'SNetwork LOADED');
 
   getIt.registerSingletonWithDependencies<SimpleAnalytics>(
     () => SimpleAnalytics(),
     dependsOn: [RemoteConfig],
   );
 
+  _logger.log(stateFlow, 'SimpleAnalytics LOADED');
+
   getIt.registerSingleton<AppRouter>(
     AppRouter(initGuard: InitGuard()),
   );
 
+  _logger.log(stateFlow, 'AppRouter LOADED');
+
   getIt.registerSingleton<SignalRService>(
     SignalRService(),
   );
+
+  _logger.log(stateFlow, 'SignalRService LOADED');
 
   /*
   getIt.registerSingleton<SignalRModules>(
@@ -85,6 +103,8 @@ Future<GetIt> getItInit({
   getIt.registerSingleton<CurrenciesService>(
     CurrenciesService(),
   );
+
+  _logger.log(stateFlow, 'CurrenciesService LOADED');
 
   getIt.registerSingleton<CurrenciesWithHidden>(
     CurrenciesWithHidden(),
@@ -103,6 +123,8 @@ Future<GetIt> getItInit({
   getIt.registerLazySingleton<ReferallCodeStore>(
     () => ReferallCodeStore()..init(),
   );
+
+  _logger.log(stateFlow, 'ReferallCodeStore LOADED');
 
   getIt.registerLazySingleton<WithdrawalConfirmStore>(
     () => WithdrawalConfirmStore(),
