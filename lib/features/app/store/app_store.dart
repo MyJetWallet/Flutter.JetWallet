@@ -222,7 +222,9 @@ abstract class _AppStoreBase with Store {
         sAnalytics.remoteConfigError();
       }
 
-      getIt.get<AppRouter>().popUntilRoot();
+      await getIt.get<AppRouter>().push(
+            const HomeRouter(),
+          );
     }
   }
 

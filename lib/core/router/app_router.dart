@@ -163,7 +163,6 @@ final sRouter = getIt.get<AppRouter>();
     ),
     AutoRoute(
       initial: true,
-      deferredLoading: true,
       guards: [InitGuard],
       path: '/home',
       name: 'HomeRouter',

@@ -34,7 +34,7 @@ class AppBuilder extends StatelessWidget {
         }
 
         return FutureBuilder(
-          future: getIt.allReady(),
+          future: getIt.allReady(timeout: const Duration(milliseconds: 100)),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return snapshot.hasData
                 ? Builder(
