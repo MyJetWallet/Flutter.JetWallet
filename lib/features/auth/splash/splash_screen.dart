@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logs/helpers/make_log_pretty.dart';
 import 'package:jetwallet/core/services/logs/log_record_service.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -35,17 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: InkWell(
         onTap: () {
-          print('PUSH');
-
-          getIt.get<AppRouter>().navigate(const ApiSelectorRouter());
+          Share.share(beatifyLogsForShare(logs));
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
               onTap: () {
-                print('PUSH');
-                getIt.get<AppRouter>().navigate(const ApiSelectorRouter());
+                Share.share(beatifyLogsForShare(logs));
               },
               child: Container(
                 width: 300,

@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 
 class AppBuilder extends StatelessWidget {
   const AppBuilder(this.child);
@@ -20,6 +22,8 @@ class AppBuilder extends StatelessWidget {
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 
+    final _logger = Logger('AppBuilder');
+
     return Builder(
       builder: (context) {
         getIt.get<DeviceSize>().setSize(reactiveMediaQuery.size.height);
@@ -34,8 +38,14 @@ class AppBuilder extends StatelessWidget {
         }
 
         return FutureBuilder(
-          future: getIt.allReady(timeout: const Duration(milliseconds: 100)),
+          future: getIt.allReady(timeout: const Duration(milliseconds: 500)),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            _logger.log(stateFlow, snapshot.hasData);
+
+            if (snapshot.hasError) {
+              _logger.log(stateFlow, snapshot.error);
+            }
+
             return snapshot.hasData
                 ? Builder(
                     builder: (context) {
