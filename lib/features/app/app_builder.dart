@@ -52,14 +52,11 @@ class AppBuilder extends StatelessObserverWidget {
                 ? FutureBuilder(
                     future: getIt.allReady(
                       timeout: const Duration(
-                        milliseconds: 700,
+                        milliseconds: 300,
                       ),
                     ),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       _logger.log(notifier, snapshot.connectionState);
-
-                      print(snapshot.hasData);
-                      print(snapshot.connectionState);
 
                       if (snapshot.hasError) {
                         _logger.log(stateFlow, 'ERROR ${snapshot.error}');
@@ -74,12 +71,10 @@ class AppBuilder extends StatelessObserverWidget {
                                 );
                               },
                             )
-                          : SplashScreen(text: 'APPBUILDER INNER');
+                          : const SplashScreen();
                     },
                   )
-                : SplashScreen(
-                    text: 'APPBUILDER OUT',
-                  );
+                : const SplashScreen();
           },
         );
       },
