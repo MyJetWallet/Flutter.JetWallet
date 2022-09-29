@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
+import 'package:jetwallet/core/services/logs/log_record_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
 
@@ -40,6 +41,10 @@ class _AppScreenState extends State<AppScreen> {
 
     getIt.registerSingleton<PushNotification>(
       PushNotification(),
+    );
+
+    getIt.registerSingleton<LogRecordsService>(
+      LogRecordsService(),
     );
 
     super.initState();

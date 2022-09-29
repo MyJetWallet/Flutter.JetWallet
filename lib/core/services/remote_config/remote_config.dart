@@ -38,6 +38,8 @@ class RemoteConfig {
           const RemoteConfigUnion.loading(),
         );
 
+    _logger.log(stateFlow, 'Loading Remote Config');
+
     try {
       final flavor = flavorService();
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
@@ -61,6 +63,7 @@ class RemoteConfig {
       final respModel = RemoteConfigModel.fromJson(responseData);
 
       print('REMOTE CONFIG LOADED');
+      _logger.log(notifier, 'Loading Remote LOADED');
 
       remoteConfig = respModel;
 
@@ -84,6 +87,8 @@ class RemoteConfig {
               const HomeRouter(),
             ),
       );
+
+      sAnalytics.remoteConfig();
 
       /*
       response.pick(
@@ -129,13 +134,6 @@ class RemoteConfig {
       */
     } catch (e) {
       print('REMOTE: $e');
-
-      sNotification.showError(
-        'REMOTE: $e',
-        duration: 8,
-        id: 1,
-        needFeedback: true,
-      );
 
       _logger.log(stateFlow, '_fetchAndActivate', e);
       sAnalytics.remoteConfigError();

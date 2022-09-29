@@ -21,6 +21,7 @@ import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
+import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -32,6 +33,8 @@ part 'app_store.g.dart';
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
+  static final _logger = Logger('AppStore');
+
   /// Variable for storing the Auth user's state. Can be: authorized/unauthorized
   @observable
   AuthorizationUnion authStatus = const AuthorizationUnion.loading();
@@ -119,6 +122,8 @@ abstract class _AppStoreBase with Store {
   Future<void> getAuthStatus() async {
     print('START: APP STORE - getAuthStatus');
 
+    _logger.log(stateFlow, 'START: APP STORE - getAuthStatus');
+
     final storageService = getIt.get<LocalStorageService>();
 
     // TODO
@@ -158,22 +163,21 @@ abstract class _AppStoreBase with Store {
       await appsFlyerService.init();
       await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
-      sNotification.showError(
-        'appsFlyerService',
-        duration: 8,
-        id: 1,
-        needFeedback: true,
-      );
-
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
+
+      _logger.log(stateFlow, 'appsFlyerService');
     }
 
     if (token == null) {
+      _logger.log(stateFlow, 'TOKEN NULL');
+
       // TODO
       //await sAnalytics.init(analyticsApiKey);
 
       authStatus = const AuthorizationUnion.unauthorized();
     } else {
+      _logger.log(stateFlow, 'TOKEN NOT NULL');
+
       updateAuthState(
         refreshToken: token,
         email: parsedEmail,
@@ -184,12 +188,10 @@ abstract class _AppStoreBase with Store {
 
         final result = await refreshToken();
 
-        print('REFRESH RESULT: $result');
+        _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
-
-        print(result);
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
@@ -200,7 +202,7 @@ abstract class _AppStoreBase with Store {
 
           await getIt.get<StartupService>().processStartupState();
         } else {
-          print('CATCH 23');
+          _logger.log(stateFlow, 'TOKEN CANT UPDATE');
 
           await sAnalytics.init(analyticsApiKey);
 
@@ -209,18 +211,15 @@ abstract class _AppStoreBase with Store {
           await getIt.get<LogoutService>().logout();
         }
       } catch (e) {
-        sNotification.showError(
-          'TOKEN',
-          duration: 8,
-          id: 1,
-          needFeedback: true,
-        );
+        _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);
 
         await sAnalytics.init(analyticsApiKey);
 
         authStatus = const AuthorizationUnion.unauthorized();
 
         await getIt.get<LogoutService>().logout();
+
+        sAnalytics.remoteConfigError();
       }
 
       getIt.get<AppRouter>().popUntilRoot();

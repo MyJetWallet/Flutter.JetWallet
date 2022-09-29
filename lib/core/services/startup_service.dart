@@ -39,6 +39,8 @@ class StartupService {
   }
 
   void successfullAuthentication() {
+    _logger.log(stateFlow, 'successfullAuthentication');
+
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);
@@ -50,6 +52,8 @@ class StartupService {
   }
 
   Future<void> processStartupState() async {
+    _logger.log(notifier, 'Process Startup State');
+
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
         await getIt.get<SNetwork>().recreateDio();
@@ -91,16 +95,13 @@ class StartupService {
             ));
           },
           onError: (error) {
+            _logger.log(stateFlow, 'Failed to fetch session info', error);
+
             getIt.get<LogoutService>().logout();
           },
         );
       } catch (e) {
-        sNotification.showError(
-          'Failed to fetch session info',
-          duration: 8,
-          id: 1,
-          needFeedback: true,
-        );
+        _logger.log(stateFlow, 'Failed to fetch session info', e);
 
         await getIt.get<LogoutService>().logout();
 
