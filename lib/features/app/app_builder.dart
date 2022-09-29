@@ -49,11 +49,7 @@ class AppBuilder extends StatelessObserverWidget {
             );
 
             return getIt.get<AppStore>().remoteConfigStatus is Success
-                ? AppBuilderBody(
-                    reactiveMediaQuery: reactiveMediaQuery,
-                    child: child ?? const SizedBox(),
-                  )
-                /*? FutureBuilder(
+                ? FutureBuilder(
                     future: getIt.allReady(
                       timeout: const Duration(
                         milliseconds: 700,
@@ -62,26 +58,16 @@ class AppBuilder extends StatelessObserverWidget {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       _logger.log(notifier, snapshot.connectionState);
 
-                      print(snapshot.hasData);
-                      print(snapshot.connectionState);
-
                       if (snapshot.hasError) {
                         _logger.log(stateFlow, 'ERROR ${snapshot.error}');
                       }
 
-                      return snapshot.hasData
-                          ? Builder(
-                              builder: (context) {
-                                return AppBuilderBody(
-                                  reactiveMediaQuery: reactiveMediaQuery,
-                                  child: child ?? const SizedBox(),
-                                );
-                              },
-                            )
-                          : const SplashScreen();
+                      return AppBuilderBody(
+                        reactiveMediaQuery: reactiveMediaQuery,
+                        child: child ?? const SizedBox(),
+                      );
                     },
                   )
-                */
                 : const SplashScreen();
           },
         );
