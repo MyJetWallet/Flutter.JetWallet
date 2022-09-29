@@ -147,7 +147,6 @@ abstract class _AppStoreBase with Store {
     await getIt.get<SNetwork>().init();
 
     try {
-      /*
       final deviceInfo = getIt.get<DeviceInfo>();
 
       await AppTrackingTransparency.requestTrackingAuthorization();
@@ -163,7 +162,6 @@ abstract class _AppStoreBase with Store {
 
       await appsFlyerService.init();
       await appsFlyerService.updateServerUninstallToken();
-      */
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
 

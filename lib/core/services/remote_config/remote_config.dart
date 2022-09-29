@@ -81,14 +81,12 @@ class RemoteConfig {
             const RemoteConfigUnion.success(),
           );
 
-      print('PUSH TO HOMEROUTER');
-      unawaited(
-        getIt.get<AppRouter>().navigate(
-              const HomeRouter(),
-            ),
-      );
-
+      _logger.log(notifier, 'PUSH TO HOMEROUTER');
       sAnalytics.remoteConfig();
+
+      await getIt.get<AppRouter>().replace(
+            const HomeRouter(),
+          );
 
       /*
       response.pick(

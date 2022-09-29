@@ -34,6 +34,13 @@ abstract class _LogoutServiceBase with Store {
 
     final authStore = getIt.get<AppStore>().authState;
 
+    if (getIt.get<AppStore>().authStatus is Unauthorized) {
+      await sLocalStorageService.clearStorage();
+      sRouter.popUntilRoot();
+
+      return;
+    }
+
     if (resetPin) {
       final _ = await sNetwork.getAuthModule().postResetPin();
     }
