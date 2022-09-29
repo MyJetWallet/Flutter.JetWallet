@@ -8,6 +8,8 @@ import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/logs/log_record_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -28,17 +30,21 @@ class AppScreen extends StatefulWidget {
 }
 
 class _AppScreenState extends State<AppScreen> {
+  final _logger = Logger('AppScreen');
+
   @override
   void initState() {
     /// Init DeepLinks
     try {
       getIt.registerSingletonAsync<DeviceInfo>(
         () async => DeviceInfo().deviceInfo(),
+        signalsReady: false,
       );
 
       getIt.registerSingletonWithDependencies<DynamicLinkService>(
         () => DynamicLinkService()..initDynamicLinks(),
         dependsOn: [DeviceInfo],
+        signalsReady: false,
       );
 
       getIt.registerSingleton<PushNotification>(
@@ -50,6 +56,11 @@ class _AppScreenState extends State<AppScreen> {
       );
     } catch (e) {
       print(e);
+
+      _logger.log(
+        notifier,
+        e,
+      );
     }
 
     super.initState();

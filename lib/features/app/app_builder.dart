@@ -41,6 +41,11 @@ class AppBuilder extends StatelessObserverWidget {
           );
         }
 
+        return AppBuilderBody(
+          reactiveMediaQuery: reactiveMediaQuery,
+          child: child ?? const SizedBox(),
+        );
+
         return Observer(
           builder: (context) {
             _logger.log(
