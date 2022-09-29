@@ -224,11 +224,11 @@ abstract class _AppStoreBase with Store {
 
         sAnalytics.remoteConfigError();
       }
-
-      await getIt.get<AppRouter>().push(
-            const HomeRouter(),
-          );
     }
+
+    await getIt.get<AppRouter>().push(
+          const HomeRouter(),
+        );
   }
 
   @action

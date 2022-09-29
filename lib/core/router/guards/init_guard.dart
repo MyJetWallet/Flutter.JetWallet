@@ -63,10 +63,10 @@ class InitGuard extends AutoRouteGuard {
           appStore.authorizedStatus.when(
             loading: () {
               print('InitGuard authorizedStatus: loading');
-              _logger.log(notifier, 'AuthStatus: Loading');
+              _logger.log(notifier, 'authorizedStatus: Loading');
 
               router.replace(
-                SplashRoute(text: 'AuthStatus: Loading'),
+                SplashRoute(text: 'authorizedStatus: Loading'),
               );
             },
             emailVerification: () {
