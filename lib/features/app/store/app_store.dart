@@ -54,8 +54,11 @@ abstract class _AppStoreBase with Store {
   @observable
   RemoteConfigUnion remoteConfigStatus = const RemoteConfigUnion.loading();
   @action
-  void setRemoteConfigStatus(RemoteConfigUnion value) =>
-      remoteConfigStatus = value;
+  void setRemoteConfigStatus(RemoteConfigUnion value) {
+    _logger.log(stateFlow, 'REMOTE CONFIG STATUS: $value');
+
+    remoteConfigStatus = value;
+  }
 
   @observable
   AuthInfoState authState = const AuthInfoState();

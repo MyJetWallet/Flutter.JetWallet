@@ -6,4 +6,5 @@ part 'remote_config_union.freezed.dart';
 class RemoteConfigUnion with _$RemoteConfigUnion {
   const factory RemoteConfigUnion.success() = Success;
   const factory RemoteConfigUnion.loading() = Loading;
+  const factory RemoteConfigUnion.error() = Error;
 }

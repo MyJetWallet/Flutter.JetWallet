@@ -97,7 +97,7 @@ class RemoteConfig {
       sAnalytics.remoteConfigError();
 
       getIt.get<AppStore>().setRemoteConfigStatus(
-            const RemoteConfigUnion.loading(),
+            const RemoteConfigUnion.error(),
           );
 
       _refreshTimer();
