@@ -85,7 +85,7 @@ class RemoteConfig {
 
       print('PUSH TO HOMEROUTER');
 
-      //sAnalytics.remoteConfig();
+      sAnalytics.remoteConfig();
 
       unawaited(getIt.get<AppRouter>().push(
             const HomeRouter(),
