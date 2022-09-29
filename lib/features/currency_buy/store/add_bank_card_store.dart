@@ -138,10 +138,13 @@ abstract class _AddBankCardStoreBase with Store {
   Future<void> addCard({
     required Function() onSuccess,
     required VoidCallback onError,
+    required bool isPreview,
+    CurrencyModel? currency,
+    required String amount,
   }) async {
     _logger.log(notifier, 'addCard');
 
-    loader?.startLoading();
+    loader.startLoading();
 
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
@@ -163,24 +166,38 @@ abstract class _AddBankCardStoreBase with Store {
         encData: base64Encoded,
         expMonth: int.parse(expiryMonth),
         expYear: int.parse(expiryYear),
+        isActive: isPreview ? saveCard : true,
       );
 
-      await sNetwork.getWalletModule().cardAdd(model);
-      loader?.finishLoading(onFinish: () => onSuccess());
+      final newCard = await sNetwork.getWalletModule().cardAdd(model);
+      print(newCard);
+
+      if (isPreview) {
+        final cardNumberFinal = cardNumber
+            .replaceAll('\u{2005}', '');
+
+        showPreview(
+          cardNumber: cardNumberFinal,
+          currency: currency!,
+          amount: amount,
+          cardId: newCard.data?.data?.cardId ?? '',
+        );
+      }
+      loader.finishLoading(onFinish: () => onSuccess());
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
         duration: 4,
         id: 1,
       );
-      loader?.finishLoading(onFinish: onError);
+      loader.finishLoading(onFinish: onError);
     } catch (error) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         duration: 4,
         id: 1,
       );
-      loader?.finishLoading(onFinish: onError);
+      loader.finishLoading(onFinish: onError);
     }
   }
 
@@ -188,22 +205,16 @@ abstract class _AddBankCardStoreBase with Store {
   void showPreview({
     required String amount,
     required CurrencyModel currency,
-    required String encKeyId,
-    required String encKey,
     required String cardNumber,
-    required BuildContext context,
+    required String cardId,
   }) {
     sRouter.push(
       PreviewBuyWithBankCardRouter(
         input: PreviewBuyWithBankCardInput(
           amount: amount,
           currency: currency,
-          encKeyId: encKeyId,
-          encData: encKey,
           cardNumber: cardNumber,
-          expMonth: int.parse(expiryMonth),
-          expYear: int.parse(expiryYear),
-          isActive: false,
+          cardId: cardId,
         ),
       ),
     );

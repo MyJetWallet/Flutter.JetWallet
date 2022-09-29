@@ -14,6 +14,7 @@ import 'package:jetwallet/features/payment_methods/ui/widgets/card_limit.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -65,6 +66,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
 
     void _onAddCardTap() {
       if (useBankCard) {
+        sAnalytics.paymentDetailsView(source: 'Unlimint');
         sRouter.push(
           AddUnlimintCardRouter(
             onCardAdded: () {
@@ -76,6 +78,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
           ),
         );
       } else if (useCircleCard) {
+        sAnalytics.paymentDetailsView(source: 'Circle');
         sRouter.push(
           AddCircleCardRouter(
             onCardAdded: (_) {
@@ -89,6 +92,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     }
 
     void checkKyc() {
+      sAnalytics.paymentAdd();
       final status = kycOperationStatus(KycStatus.allowed);
       if (kycState.depositStatus == status) {
         _onAddCardTap();

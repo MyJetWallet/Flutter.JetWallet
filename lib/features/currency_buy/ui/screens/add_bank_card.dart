@@ -9,6 +9,7 @@ import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.da
 import 'package:jetwallet/features/currency_buy/store/add_bank_card_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class AddBankCard extends StatelessWidget {
@@ -180,34 +181,14 @@ class AddBankCardBody extends StatelessObserverWidget {
                   active: store.isCardDetailsValid,
                   name: intl.addCircleCard_continue,
                   onTap: () async {
-                    final response =
-                      await sNetwork.getWalletModule().encryptionKey();
-                    final encKeyId = response.data?.data.keyId ?? '';
-                    final encKey = response.data?.data.key ?? '';
-
-                    final cardNumber = store.cardNumber
-                        .replaceAll('\u{2005}', '');
-                    if (isPreview) {
-                      if (store.saveCard) {
-                        await store.addCard(
-                          onSuccess: onCardAdded,
-                          onError: () {},
-                        );
-                      }
-                      store.showPreview(
-                        context: context,
-                        cardNumber: cardNumber,
-                        currency: currency!,
-                        encKey: encKey,
-                        encKeyId: encKeyId,
-                        amount: amount,
-                      );
-                    } else {
-                      await store.addCard(
-                        onSuccess: onCardAdded,
-                        onError: () {},
-                      );
-                    }
+                    sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                    await store.addCard(
+                      onSuccess: onCardAdded,
+                      onError: () {},
+                      isPreview: isPreview,
+                      amount: amount,
+                      currency: currency,
+                    );
                   },
                 ),
               ),

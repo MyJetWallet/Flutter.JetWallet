@@ -245,4 +245,13 @@ class EventType {
   static const initFinished = 'initFinished received';
   static const remoteConfig = 'remoteConfig received';
   static const remoteConfigError = 'remoteConfig error';
+
+  /// Payment methods
+  static const paymentTap = 'Tap on Payment Methods Tab';
+  static const paymentView = 'Payment Methods page view';
+  static const paymentAdd = 'Tap on "Add Bank Card" button';
+  static const paymentDetailsView = 'Enter Card Details screen view';
+  static const paymentDetailsContinue = 'Continue with Card Details';
+  static const paymentBillingView = 'Billing Address Screen View';
+  static const paymentBillingContinue = 'Continue with Billing Address';
 }

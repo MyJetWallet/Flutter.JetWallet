@@ -11,10 +11,5 @@ class PreviewBuyWithBankCardInput with _$PreviewBuyWithBankCardInput {
     required CurrencyModel currency,
     String? cardId,
     String? cardNumber,
-    String? encKeyId,
-    String? encData,
-    int? expMonth,
-    int? expYear,
-    bool? isActive,
   }) = _PreviewBuyWithBankCardInput;
 }

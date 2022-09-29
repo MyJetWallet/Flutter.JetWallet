@@ -1531,4 +1531,67 @@ class SimpleAnalytics {
       EventType.remoteConfigError,
     );
   }
+
+  /// Payment methods
+  void paymentTap() {
+    _analytics.logEvent(
+      EventType.paymentTap,
+    );
+  }
+
+  void paymentView() {
+    _analytics.logEvent(
+      EventType.paymentView,
+    );
+  }
+
+  void paymentAdd() {
+    _analytics.logEvent(
+      EventType.paymentAdd,
+    );
+  }
+
+  void paymentDetailsView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentDetailsView,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentDetailsContinue({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentDetailsContinue,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentBillingView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentBillingView,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentBillingContinue({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentBillingContinue,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
 }

@@ -118,12 +118,14 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   @action
   Future<void> _requestPreview() async {
     loader.startLoadingImmediately();
+    final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
 
     final model = CardBuyCreateRequestModel(
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
       paymentAsset: 'EUR',
+      cardPaymentData: cardData,
     );
 
     try {
@@ -240,20 +242,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, '_requestPayment');
 
     try {
-      var base64Encoded = '';
-      if (input.encData != null) {
-        final rsa = RsaKeyHelper();
-        final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
-            '${input.encData}'
-            '\r\n-----END RSA PUBLIC KEY-----';
-        final key1 = rsa.parsePublicKeyFromPem(key);
-        final encrypter = Encrypter(RSA(publicKey: key1));
-        final encrypted = encrypter
-            .encrypt(
-          '{"cardNumber":"${input.cardNumber}","cvv":"$cvv"}',
-        );
-        base64Encoded = encrypted.base64;
-      }
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -264,24 +252,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       final encryptedCvv = encrypter.encrypt('{"cvv":"$cvv"}');
       final base64EncodedCvv = encryptedCvv.base64;
 
-      final model = input.cardId != null ? CardBuyExecuteRequestModel(
+      final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
         paymentMethod: CirclePaymentMethod.bankCard,
         cardPaymentData: BankCardPaymentDataExecuteModel(
           cardId: input.cardId ?? '',
           encKeyId: response.data?.data.keyId,
           encData: base64EncodedCvv,
-        ),
-      ) : CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: CirclePaymentMethod.bankCard,
-        cardPaymentData: BankCardPaymentDataExecuteModel(
-          cardId: input.cardId ?? '',
-          encKeyId: input.encKeyId,
-          encData: base64Encoded,
-          expMonth: input.expMonth,
-          expYear: input.expYear,
-          isActive: input.isActive,
         ),
       );
 
@@ -347,7 +324,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             onAction(
               data.clientAction!.checkoutUrl ?? '',
               (payment, lastAction) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
                 paymentId = payment;
                 wasAction = true;
 

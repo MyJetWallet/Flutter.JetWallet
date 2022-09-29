@@ -224,13 +224,15 @@ class _$AppRouter extends RootStackRouter {
     AddUnlimintCardRouter.name: (routeData) {
       final args = routeData.argsAs<AddUnlimintCardRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: AddBankCard(
-              key: args.key,
-              onCardAdded: args.onCardAdded,
-              amount: args.amount,
-              currency: args.currency,
-              isPreview: args.isPreview));
+        routeData: routeData,
+        child: AddBankCard(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+          amount: args.amount,
+          currency: args.currency,
+          isPreview: args.isPreview,
+        ),
+      );
     },
     CircleBillingAddressRouter.name: (routeData) {
       final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
@@ -603,8 +605,12 @@ class _$AppRouter extends RootStackRouter {
     PreviewBuyWithBankCardRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewBuyWithBankCardRouterArgs>();
       return CupertinoPageX<dynamic>(
-          routeData: routeData,
-          child: PreviewBuyWithBankCard(key: args.key, input: args.input));
+        routeData: routeData,
+        child: PreviewBuyWithBankCard(
+          key: args.key,
+          input: args.input,
+        ),
+      );
     },
     Circle3dSecureWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<Circle3dSecureWebViewRouterArgs>();
@@ -827,100 +833,295 @@ class _$AppRouter extends RootStackRouter {
               path: '',
               parent: HomeRouter.name,
               redirectTo: 'market',
-              fullMatch: true),
-          RouteConfig(MarketRouter.name,
-              path: 'market', parent: HomeRouter.name),
-          RouteConfig(PortfolioRouter.name,
-              path: 'portfolio', parent: HomeRouter.name),
-          RouteConfig(EarnRouter.name, path: 'earn', parent: HomeRouter.name),
-          RouteConfig(NewsRouter.name, path: 'news', parent: HomeRouter.name),
-          RouteConfig(AccountRouter.name,
-              path: 'account', parent: HomeRouter.name)
-        ]),
-        RouteConfig(CrispRouter.name, path: '/crisp'),
-        RouteConfig(HelpCenterWebViewRouter.name, path: '/help_center_webview'),
-        RouteConfig(InfoWebViewRouter.name, path: '/info_web_view'),
-        RouteConfig(ChooseDocumentsRouter.name, path: '/choose_documents'),
-        RouteConfig(UploadKycDocumentsRouter.name,
-            path: '/upload_kyc_documents'),
-        RouteConfig(KycSelfieRouter.name, path: '/kyc_selfie'),
-        RouteConfig(KycVerifyYourProfileRouter.name,
-            path: '/kyc_verify_your_profile'),
-        RouteConfig(CurrencyBuyRouter.name, path: '/currency_buy'),
-        RouteConfig(CryptoDepositRouter.name, path: '/crypto_deposit'),
-        RouteConfig(TransactionHistoryRouter.name,
-            path: '/transaction_history'),
-        RouteConfig(RecurringSuccessScreenRouter.name,
-            path: '/recurring_success'),
-        RouteConfig(HistoryRecurringBuysRouter.name,
-            path: '/history_recurring_buys'),
-        RouteConfig(AddCircleCardRouter.name, path: '/add_circle_card'),
-        RouteConfig(AddUnlimintCardRouter.name, path: '/add_bank_card'),
-        RouteConfig(CircleBillingAddressRouter.name,
-            path: '/circle_billing_address'),
-        RouteConfig(PreviewConvertRouter.name, path: '/preview_convert'),
-        RouteConfig(ConvertRouter.name, path: '/convert'),
-        RouteConfig(SuccessScreenRouter.name, path: '/success_screen'),
-        RouteConfig(WaitingScreenRouter.name, path: '/waiting_screen'),
-        RouteConfig(FailureScreenRouter.name, path: '/failure_screen'),
-        RouteConfig(WithdrawalAmountRouter.name, path: '/withdrawal_ammount'),
-        RouteConfig(WithdrawalConfirmRouter.name, path: '/withdrawal_confirm'),
-        RouteConfig(WithdrawalPreviewRouter.name, path: '/withdrawal_preview'),
-        RouteConfig(SmsAuthenticatorRouter.name, path: '/sms_authenticator'),
-        RouteConfig(SetPhoneNumberRouter.name, path: '/set_phone_number'),
-        RouteConfig(SetNewPasswordRouter.name, path: '/set_new_password'),
-        RouteConfig(RewardsRouter.name, path: '/rewards'),
-        RouteConfig(PhoneVerificationRouter.name, path: '/phone_verification'),
-        RouteConfig(PaymentMethodsRouter.name, path: '/payments_methods'),
-        RouteConfig(NewsWebViewRouter.name, path: '/news_web_view'),
-        RouteConfig(PinScreenRoute.name, path: '/pin_screen'),
-        RouteConfig(TwoFaPhoneRouter.name, path: '/two_fa_phone'),
-        RouteConfig(EmailConfirmationRouter.name, path: '/email_confirmation'),
-        RouteConfig(BiometricRouter.name, path: '/biometric'),
-        RouteConfig(ChangePasswordRouter.name, path: '/change_password'),
-        RouteConfig(DeleteProfileRouter.name, path: '/delete_profile'),
-        RouteConfig(ProfileDetailsRouter.name, path: '/profile_details'),
-        RouteConfig(AccountSecurityRouter.name, path: '/account_sercurity'),
-        RouteConfig(AboutUsRouter.name, path: '/about_us'),
-        RouteConfig(DebugInfoRouter.name, path: '/debug_info'),
-        RouteConfig(ShowRecurringInfoActionRouter.name,
-            path: '/show_recurring_info_action'),
-        RouteConfig(SendByPhoneInputRouter.name, path: '/send_by_phone_input'),
-        RouteConfig(CurrencyWithdrawRouter.name, path: '/currency_withdraw'),
-        RouteConfig(CurrencySellRouter.name, path: '/currency_sell'),
-        RouteConfig(EmptyWalletRouter.name, path: '/emptry_wallet'),
-        RouteConfig(WalletRouter.name, path: '/wallet'),
-        RouteConfig(ReturnToWalletRouter.name, path: '/return_to_wallet'),
-        RouteConfig(PreviewReturnToWalletRouter.name,
-            path: '/preview_return_to_wallet'),
-        RouteConfig(SuccessKycScreenRoute.name, path: '/success_kyc'),
-        RouteConfig(HighYieldBuyRouter.name, path: '/high_yield_buy'),
-        RouteConfig(PreviewHighYieldBuyScreenRouter.name,
-            path: '/preview_high_yield_buy'),
-        RouteConfig(PreviewBuyWithBankCardRouter.name,
-            path: '/preview_buy_with_bank_card'),
-        RouteConfig(Circle3dSecureWebViewRouter.name,
-            path: '/circle_3d_secure'),
-        RouteConfig(SimplexWebViewRouter.name, path: '/simples_webview'),
-        RouteConfig(PreviewBuyWithUnlimintRouter.name,
-            path: '/preview_buy_with_unlimit'),
-        RouteConfig(PreviewBuyWithAssetRouter.name,
-            path: '/preview_buy_with_asset'),
-        RouteConfig(PreviewBuyWithCircleRouter.name,
-            path: '/preview_buy_with_circle'),
-        RouteConfig(PreviewSellRouter.name, path: '/preview_sell_router'),
-        RouteConfig(SendByPhoneNotifyRecipientRouter.name,
-            path: '/send_by_phone_notify_recipient'),
-        RouteConfig(SendByPhoneAmountRouter.name,
-            path: '/send_by_phone_amount'),
-        RouteConfig(SendByPhoneConfirmRouter.name,
-            path: '/send_by_phone_confirm'),
-        RouteConfig(SendByPhonePreviewRouter.name,
-            path: '/send_by_phone_preview'),
-        RouteConfig(DeleteReasonsScreenRouter.name,
-            path: '/delete_reasons_screen'),
-        RouteConfig(PDFViewScreenRouter.name, path: '/pdf_view_screen'),
-        RouteConfig(MarketDetailsRouter.name, path: '/market_details')
+              fullMatch: true,
+            ),
+            RouteConfig(
+              MarketRouter.name,
+              path: 'market',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              PortfolioRouter.name,
+              path: 'portfolio',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              EarnRouter.name,
+              path: 'earn',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              NewsRouter.name,
+              path: 'news',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              AccountRouter.name,
+              path: 'account',
+              parent: HomeRouter.name,
+            ),
+          ],
+        ),
+        RouteConfig(
+          CrispRouter.name,
+          path: '/crisp',
+        ),
+        RouteConfig(
+          HelpCenterWebViewRouter.name,
+          path: '/help_center_webview',
+        ),
+        RouteConfig(
+          InfoWebViewRouter.name,
+          path: '/info_web_view',
+        ),
+        RouteConfig(
+          ChooseDocumentsRouter.name,
+          path: '/choose_documents',
+        ),
+        RouteConfig(
+          UploadKycDocumentsRouter.name,
+          path: '/upload_kyc_documents',
+        ),
+        RouteConfig(
+          KycSelfieRouter.name,
+          path: '/kyc_selfie',
+        ),
+        RouteConfig(
+          KycVerifyYourProfileRouter.name,
+          path: '/kyc_verify_your_profile',
+        ),
+        RouteConfig(
+          CurrencyBuyRouter.name,
+          path: '/currency_buy',
+        ),
+        RouteConfig(
+          CryptoDepositRouter.name,
+          path: '/crypto_deposit',
+        ),
+        RouteConfig(
+          TransactionHistoryRouter.name,
+          path: '/transaction_history',
+        ),
+        RouteConfig(
+          RecurringSuccessScreenRouter.name,
+          path: '/recurring_success',
+        ),
+        RouteConfig(
+          HistoryRecurringBuysRouter.name,
+          path: '/history_recurring_buys',
+        ),
+        RouteConfig(
+          AddCircleCardRouter.name,
+          path: '/add_circle_card',
+        ),
+        RouteConfig(
+          AddUnlimintCardRouter.name,
+          path: '/add_bank_card',
+        ),
+        RouteConfig(
+          CircleBillingAddressRouter.name,
+          path: '/circle_billing_address',
+        ),
+        RouteConfig(
+          PreviewConvertRouter.name,
+          path: '/preview_convert',
+        ),
+        RouteConfig(
+          ConvertRouter.name,
+          path: '/convert',
+        ),
+        RouteConfig(
+          SuccessScreenRouter.name,
+          path: '/success_screen',
+        ),
+        RouteConfig(
+          WaitingScreenRouter.name,
+          path: '/waiting_screen',
+        ),
+        RouteConfig(
+          FailureScreenRouter.name,
+          path: '/failure_screen',
+        ),
+        RouteConfig(
+          WithdrawalAmountRouter.name,
+          path: '/withdrawal_ammount',
+        ),
+        RouteConfig(
+          WithdrawalConfirmRouter.name,
+          path: '/withdrawal_confirm',
+        ),
+        RouteConfig(
+          WithdrawalPreviewRouter.name,
+          path: '/withdrawal_preview',
+        ),
+        RouteConfig(
+          SmsAuthenticatorRouter.name,
+          path: '/sms_authenticator',
+        ),
+        RouteConfig(
+          SetPhoneNumberRouter.name,
+          path: '/set_phone_number',
+        ),
+        RouteConfig(
+          SetNewPasswordRouter.name,
+          path: '/set_new_password',
+        ),
+        RouteConfig(
+          RewardsRouter.name,
+          path: '/rewards',
+        ),
+        RouteConfig(
+          PhoneVerificationRouter.name,
+          path: '/phone_verification',
+        ),
+        RouteConfig(
+          PaymentMethodsRouter.name,
+          path: '/payments_methods',
+        ),
+        RouteConfig(
+          NewsWebViewRouter.name,
+          path: '/news_web_view',
+        ),
+        RouteConfig(
+          PinScreenRoute.name,
+          path: '/pin_screen',
+        ),
+        RouteConfig(
+          TwoFaPhoneRouter.name,
+          path: '/two_fa_phone',
+        ),
+        RouteConfig(
+          EmailConfirmationRouter.name,
+          path: '/email_confirmation',
+        ),
+        RouteConfig(
+          BiometricRouter.name,
+          path: '/biometric',
+        ),
+        RouteConfig(
+          ChangePasswordRouter.name,
+          path: '/change_password',
+        ),
+        RouteConfig(
+          DeleteProfileRouter.name,
+          path: '/delete_profile',
+        ),
+        RouteConfig(
+          ProfileDetailsRouter.name,
+          path: '/profile_details',
+        ),
+        RouteConfig(
+          AccountSecurityRouter.name,
+          path: '/account_sercurity',
+        ),
+        RouteConfig(
+          AboutUsRouter.name,
+          path: '/about_us',
+        ),
+        RouteConfig(
+          DebugInfoRouter.name,
+          path: '/debug_info',
+        ),
+        RouteConfig(
+          ShowRecurringInfoActionRouter.name,
+          path: '/show_recurring_info_action',
+        ),
+        RouteConfig(
+          SendByPhoneInputRouter.name,
+          path: '/send_by_phone_input',
+        ),
+        RouteConfig(
+          CurrencyWithdrawRouter.name,
+          path: '/currency_withdraw',
+        ),
+        RouteConfig(
+          CurrencySellRouter.name,
+          path: '/currency_sell',
+        ),
+        RouteConfig(
+          EmptyWalletRouter.name,
+          path: '/emptry_wallet',
+        ),
+        RouteConfig(
+          WalletRouter.name,
+          path: '/wallet',
+        ),
+        RouteConfig(
+          ReturnToWalletRouter.name,
+          path: '/return_to_wallet',
+        ),
+        RouteConfig(
+          PreviewReturnToWalletRouter.name,
+          path: '/preview_return_to_wallet',
+        ),
+        RouteConfig(
+          SuccessKycScreenRoute.name,
+          path: '/success_kyc',
+        ),
+        RouteConfig(
+          HighYieldBuyRouter.name,
+          path: '/high_yield_buy',
+        ),
+        RouteConfig(
+          PreviewHighYieldBuyScreenRouter.name,
+          path: '/preview_high_yield_buy',
+        ),
+        RouteConfig(
+          PreviewBuyWithBankCardRouter.name,
+          path: '/preview_buy_with_bank_card',
+        ),
+        RouteConfig(
+          Circle3dSecureWebViewRouter.name,
+          path: '/circle_3d_secure',
+        ),
+        RouteConfig(
+          SimplexWebViewRouter.name,
+          path: '/simples_webview',
+        ),
+        RouteConfig(
+          PreviewBuyWithUnlimintRouter.name,
+          path: '/preview_buy_with_unlimit',
+        ),
+        RouteConfig(
+          PreviewBuyWithAssetRouter.name,
+          path: '/preview_buy_with_asset',
+        ),
+        RouteConfig(
+          PreviewBuyWithCircleRouter.name,
+          path: '/preview_buy_with_circle',
+        ),
+        RouteConfig(
+          PreviewSellRouter.name,
+          path: '/preview_sell_router',
+        ),
+        RouteConfig(
+          SendByPhoneNotifyRecipientRouter.name,
+          path: '/send_by_phone_notify_recipient',
+        ),
+        RouteConfig(
+          SendByPhoneAmountRouter.name,
+          path: '/send_by_phone_amount',
+        ),
+        RouteConfig(
+          SendByPhoneConfirmRouter.name,
+          path: '/send_by_phone_confirm',
+        ),
+        RouteConfig(
+          SendByPhonePreviewRouter.name,
+          path: '/send_by_phone_preview',
+        ),
+        RouteConfig(
+          DeleteReasonsScreenRouter.name,
+          path: '/delete_reasons_screen',
+        ),
+        RouteConfig(
+          PDFViewScreenRouter.name,
+          path: '/pdf_view_screen',
+        ),
+        RouteConfig(
+          MarketDetailsRouter.name,
+          path: '/market_details',
+        ),
       ];
 }
 
@@ -1525,31 +1726,35 @@ class AddCircleCardRouterArgs {
 /// generated route for
 /// [AddBankCard]
 class AddUnlimintCardRouter extends PageRouteInfo<AddUnlimintCardRouterArgs> {
-  AddUnlimintCardRouter(
-      {Key? key,
-      required dynamic Function() onCardAdded,
-      required String amount,
-      CurrencyModel? currency,
-      bool isPreview = false})
-      : super(AddUnlimintCardRouter.name,
-            path: '/add_bank_card',
-            args: AddUnlimintCardRouterArgs(
-                key: key,
-                onCardAdded: onCardAdded,
-                amount: amount,
-                currency: currency,
-                isPreview: isPreview));
+  AddUnlimintCardRouter({
+    Key? key,
+    required dynamic Function() onCardAdded,
+    required String amount,
+    CurrencyModel? currency,
+    bool isPreview = false,
+  }) : super(
+          AddUnlimintCardRouter.name,
+          path: '/add_bank_card',
+          args: AddUnlimintCardRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+            amount: amount,
+            currency: currency,
+            isPreview: isPreview,
+          ),
+        );
 
   static const String name = 'AddUnlimintCardRouter';
 }
 
 class AddUnlimintCardRouterArgs {
-  const AddUnlimintCardRouterArgs(
-      {this.key,
-      required this.onCardAdded,
-      required this.amount,
-      this.currency,
-      this.isPreview = false});
+  const AddUnlimintCardRouterArgs({
+    this.key,
+    required this.onCardAdded,
+    required this.amount,
+    this.currency,
+    this.isPreview = false,
+  });
 
   final Key? key;
 
@@ -2779,17 +2984,26 @@ class PreviewHighYieldBuyScreenRouterArgs {
 /// [PreviewBuyWithBankCard]
 class PreviewBuyWithBankCardRouter
     extends PageRouteInfo<PreviewBuyWithBankCardRouterArgs> {
-  PreviewBuyWithBankCardRouter(
-      {Key? key, required PreviewBuyWithBankCardInput input})
-      : super(PreviewBuyWithBankCardRouter.name,
-            path: '/preview_buy_with_bank_card',
-            args: PreviewBuyWithBankCardRouterArgs(key: key, input: input));
+  PreviewBuyWithBankCardRouter({
+    Key? key,
+    required PreviewBuyWithBankCardInput input,
+  }) : super(
+          PreviewBuyWithBankCardRouter.name,
+          path: '/preview_buy_with_bank_card',
+          args: PreviewBuyWithBankCardRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
 
   static const String name = 'PreviewBuyWithBankCardRouter';
 }
 
 class PreviewBuyWithBankCardRouterArgs {
-  const PreviewBuyWithBankCardRouterArgs({this.key, required this.input});
+  const PreviewBuyWithBankCardRouterArgs({
+    this.key,
+    required this.input,
+  });
 
   final Key? key;
 

@@ -168,9 +168,13 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           isSDivider: true,
                           notification: false,
-                          onTap: () => sRouter.push(
-                            const PaymentMethodsRouter(),
-                          ),
+                          onTap: () {
+                            sAnalytics.paymentTap();
+                            sAnalytics.paymentView();
+                            sRouter.push(
+                              const PaymentMethodsRouter(),
+                            );
+                          },
                         ),
                         SimpleAccountCategoryButton(
                           title: intl.account_recurringBuy,
