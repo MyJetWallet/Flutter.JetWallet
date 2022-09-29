@@ -86,10 +86,6 @@ class RemoteConfig {
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.success(),
           );
-
-      unawaited(getIt.get<AppRouter>().push(
-            const HomeRouter(),
-          ));
     } catch (e) {
       print('REMOTE: $e');
 

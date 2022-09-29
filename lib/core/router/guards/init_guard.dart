@@ -53,7 +53,7 @@ class InitGuard extends AutoRouteGuard {
           _logger.log(notifier, 'AuthStatus: Loading');
 
           router.replace(
-            const SplashRoute(),
+            SplashRoute(text: 'AuthStatus: Loading'),
           );
         },
         authorized: () {
@@ -66,7 +66,7 @@ class InitGuard extends AutoRouteGuard {
               _logger.log(notifier, 'AuthStatus: Loading');
 
               router.replace(
-                const SplashRoute(),
+                SplashRoute(text: 'AuthStatus: Loading'),
               );
             },
             emailVerification: () {
@@ -156,7 +156,7 @@ class InitGuard extends AutoRouteGuard {
       _logger.log(notifier, 'AuthStatus: SplashRoute');
 
       await router.replace(
-        const SplashRoute(),
+        SplashRoute(text: 'AuthStatus: SplashRoute'),
       );
     }
   }

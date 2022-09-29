@@ -9,7 +9,12 @@ import 'package:rive/rive.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -47,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 width: 300,
                 height: 300,
                 child: Text(
-                  'SHARE DEBUG INFO',
+                  widget.text,
                 ),
               ),
             ),

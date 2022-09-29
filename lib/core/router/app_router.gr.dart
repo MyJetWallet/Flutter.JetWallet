@@ -23,9 +23,13 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const SplashScreen(),
+        child: SplashScreen(
+          key: args.key,
+          text: args.text,
+        ),
       );
     },
     OnboardingRoute.name: (routeData) {
@@ -1096,14 +1100,36 @@ class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [SplashScreen]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute()
-      : super(
+class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({
+    Key? key,
+    required String text,
+  }) : super(
           SplashRoute.name,
           path: '/splash',
+          args: SplashRouteArgs(
+            key: key,
+            text: text,
+          ),
         );
 
   static const String name = 'SplashRoute';
+}
+
+class SplashRouteArgs {
+  const SplashRouteArgs({
+    this.key,
+    required this.text,
+  });
+
+  final Key? key;
+
+  final String text;
+
+  @override
+  String toString() {
+    return 'SplashRouteArgs{key: $key, text: $text}';
+  }
 }
 
 /// generated route for

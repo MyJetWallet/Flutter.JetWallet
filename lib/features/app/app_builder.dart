@@ -41,11 +41,6 @@ class AppBuilder extends StatelessObserverWidget {
           );
         }
 
-        return AppBuilderBody(
-          reactiveMediaQuery: reactiveMediaQuery,
-          child: child ?? const SizedBox(),
-        );
-
         return Observer(
           builder: (context) {
             _logger.log(
@@ -63,17 +58,28 @@ class AppBuilder extends StatelessObserverWidget {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       _logger.log(notifier, snapshot.connectionState);
 
+                      print(snapshot.hasData);
+                      print(snapshot.connectionState);
+
                       if (snapshot.hasError) {
                         _logger.log(stateFlow, 'ERROR ${snapshot.error}');
                       }
 
-                      return AppBuilderBody(
-                        reactiveMediaQuery: reactiveMediaQuery,
-                        child: child ?? const SizedBox(),
-                      );
+                      return snapshot.hasData
+                          ? Builder(
+                              builder: (context) {
+                                return AppBuilderBody(
+                                  reactiveMediaQuery: reactiveMediaQuery,
+                                  child: child ?? const SizedBox(),
+                                );
+                              },
+                            )
+                          : SplashScreen(text: 'APPBUILDER INNER');
                     },
                   )
-                : const SplashScreen();
+                : SplashScreen(
+                    text: 'APPBUILDER OUT',
+                  );
           },
         );
       },
