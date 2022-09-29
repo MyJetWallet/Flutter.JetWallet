@@ -74,6 +74,7 @@ class AppBuilderBody extends StatefulWidget {
 class _AppBuilderBodyState extends State<AppBuilderBody> {
   @override
   void initState() {
+    print('INIT GET AUTH STATE');
     getIt.get<AppStore>().getAuthStatus();
     super.initState();
   }

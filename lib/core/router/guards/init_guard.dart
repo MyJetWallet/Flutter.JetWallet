@@ -28,11 +28,13 @@ class InitGuard extends AutoRouteGuard {
     final flavor = flavorService();
 
     if (flavor != Flavor.prod && !getIt.get<DioProxyService>().proxySkiped) {
+      print('API SELECTOR');
       if (!router.isPathActive('/api_selector')) {
-        unawaited(
-          router.push(
-            const ApiSelectorRouter(),
-          ),
+        print('API SELECTOR');
+
+        await router.pushAndPopUntil(
+          const ApiSelectorRouter(),
+          predicate: (r) => true,
         );
 
         return;
@@ -42,6 +44,7 @@ class InitGuard extends AutoRouteGuard {
     if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
       //await appStore.getAuthStatus();
 
+      print('Remote Status Success');
       _logger.log(notifier, 'Remote Status Success');
 
       appStore.authStatus.when(

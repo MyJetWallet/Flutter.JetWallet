@@ -82,54 +82,14 @@ class RemoteConfig {
           );
 
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
-      sAnalytics.remoteConfig();
 
-      await getIt.get<AppRouter>().replace(
+      print('PUSH TO HOMEROUTER');
+
+      //sAnalytics.remoteConfig();
+
+      unawaited(getIt.get<AppRouter>().push(
             const HomeRouter(),
-          );
-
-      /*
-      response.pick(
-        onData: (data) {
-          print('REMOTE CONFIG LOADED1');
-
-          remoteConfig = data;
-
-          print('REMOTE CONFIG LOADED2');
-
-          print(remoteConfig!.appConfig.emailVerificationCodeLength);
-
-          overrideAppConfigValues();
-          overrideApisFrom(_defaultFlavorIndex);
-          overrideVersioningValues();
-          overrideSupportValues();
-          overrideAnalyticsValues();
-          overrideSimplexValues();
-          overrideAppsFlyerValues();
-          overrideCircleValues();
-
-          getIt.get<AppStore>().setRemoteConfigStatus(
-                const RemoteConfigUnion.success(),
-              );
-
-          print('REMOTE CONFIG LOADED3');
-
-          //sAnalytics.remoteConfig();
-        },
-        onError: (error) {
-          print('REMOTE ERROR: $error');
-
-          _logger.log(stateFlow, '_fetchAndActivate');
-          //sAnalytics.remoteConfigError();
-
-          getIt.get<AppStore>().setRemoteConfigStatus(
-                const RemoteConfigUnion.loading(),
-              );
-
-          _refreshTimer();
-        },
-      );
-      */
+          ));
     } catch (e) {
       print('REMOTE: $e');
 

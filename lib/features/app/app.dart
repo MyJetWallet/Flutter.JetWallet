@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -30,22 +31,26 @@ class _AppScreenState extends State<AppScreen> {
   @override
   void initState() {
     /// Init DeepLinks
-    getIt.registerSingletonAsync<DeviceInfo>(
-      () async => DeviceInfo().deviceInfo(),
-    );
+    try {
+      getIt.registerSingletonAsync<DeviceInfo>(
+        () async => DeviceInfo().deviceInfo(),
+      );
 
-    getIt.registerSingletonWithDependencies<DynamicLinkService>(
-      () => DynamicLinkService()..initDynamicLinks(),
-      dependsOn: [DeviceInfo],
-    );
+      getIt.registerSingletonWithDependencies<DynamicLinkService>(
+        () => DynamicLinkService()..initDynamicLinks(),
+        dependsOn: [DeviceInfo],
+      );
 
-    getIt.registerSingleton<PushNotification>(
-      PushNotification(),
-    );
+      getIt.registerSingleton<PushNotification>(
+        PushNotification(),
+      );
 
-    getIt.registerSingleton<LogRecordsService>(
-      LogRecordsService(),
-    );
+      getIt.registerSingleton<LogRecordsService>(
+        LogRecordsService(),
+      );
+    } catch (e) {
+      print(e);
+    }
 
     super.initState();
   }
@@ -64,7 +69,7 @@ class _AppScreenState extends State<AppScreen> {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
       routerDelegate: getIt.get<AppRouter>().delegate(),
-      builder: widget.builder ?? (_, child) => AppBuilder(child),
+      builder: (_, child) => AppBuilder(child),
     );
   }
 }
