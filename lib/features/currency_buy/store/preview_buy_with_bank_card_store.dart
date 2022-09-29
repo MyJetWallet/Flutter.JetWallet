@@ -83,6 +83,12 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   Decimal? tradeFeeAmount;
 
   @observable
+  Decimal? depositFeeAmountMax;
+
+  @observable
+  Decimal? depositFeePerc;
+
+  @observable
   String? tradeFeeAsset;
 
   @observable
@@ -144,6 +150,8 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           tradeFeeAsset = data.tradeFeeAsset;
           rate = data.rate;
           paymentId = data.paymentId ?? '';
+          depositFeeAmountMax = data.depositFeeAmountMax;
+          depositFeePerc = data.depositFeePerc;
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestPreview', error.cause);

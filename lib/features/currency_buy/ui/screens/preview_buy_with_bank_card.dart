@@ -6,9 +6,8 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
-import 'package:jetwallet/features/currency_buy/store/preview_buy_with_unlimint_store.dart';
+import 'package:jetwallet/features/currency_buy/ui/widgets/transaction_fee_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -115,18 +114,40 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     maxValueWidth: 200,
                   ),
                   SActionConfirmText(
-                    name: intl.previewBuyWithCircle_creditCardFee,
+                    name: intl.previewBuyWithUnlimint_paymentFee,
                     contentLoading: state.loader.loading,
-                    value: volumeFormat(
+                    value: state.depositFeeAmountMax ==
+                        state.depositFeeAmount ? volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
-                    ),
+                    ) : '≈ ${volumeFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: state.depositFeeAmountMax ?? Decimal.zero,
+                      accuracy: baseCurrency.accuracy,
+                      symbol: baseCurrency.symbol,
+                    )}',
                     maxValueWidth: 140,
+                    infoIcon: true,
+                    infoAction: () {
+                      showTransactionFeeBottomSheet(
+                        context: context,
+                        colors: colors,
+                        isAbsolute: state.depositFeeAmountMax ==
+                            state.depositFeeAmount,
+                        tradeFeeAbsolute: volumeFormat(
+                          prefix: baseCurrency.prefix,
+                          decimal: state.depositFeeAmount ?? Decimal.zero,
+                          accuracy: baseCurrency.accuracy,
+                          symbol: baseCurrency.symbol,
+                        ),
+                        tradeFeePercentage: state.depositFeePerc,
+                      );
+                    },
                   ),
                   SActionConfirmText(
-                    name: intl.previewBuyWithCircle_transactionFee,
+                    name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
                       prefix: input.currency.prefixSymbol,
