@@ -8,10 +8,11 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../core/services/remote_config/models/remote_config_union.dart';
 
-class AppBuilder extends StatelessWidget {
+class AppBuilder extends StatelessObserverWidget {
   const AppBuilder(this.child);
 
   final Widget? child;
@@ -42,20 +43,26 @@ class AppBuilder extends StatelessWidget {
 
         return Observer(
           builder: (context) {
+            _logger.log(
+              notifier,
+              'remoteConfigStatus ${getIt.get<AppStore>().remoteConfigStatus}',
+            );
+
             return getIt.get<AppStore>().remoteConfigStatus is Success
                 ? FutureBuilder(
                     future: getIt.allReady(
                       timeout: const Duration(
-                        milliseconds: 500,
+                        milliseconds: 700,
                       ),
                     ),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      _logger.log(stateFlow, snapshot.hasData);
+                      _logger.log(notifier, snapshot.connectionState);
+
                       print(snapshot.hasData);
                       print(snapshot.connectionState);
 
                       if (snapshot.hasError) {
-                        _logger.log(stateFlow, snapshot.error);
+                        _logger.log(stateFlow, 'ERROR ${snapshot.error}');
                       }
 
                       return snapshot.hasData

@@ -77,15 +77,15 @@ class RemoteConfig {
 
       overrideApisFrom(_defaultFlavorIndex);
 
-      getIt.get<AppStore>().setRemoteConfigStatus(
-            const RemoteConfigUnion.success(),
-          );
-
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
 
       print('PUSH TO HOMEROUTER');
 
       sAnalytics.remoteConfig();
+
+      getIt.get<AppStore>().setRemoteConfigStatus(
+            const RemoteConfigUnion.success(),
+          );
 
       unawaited(getIt.get<AppRouter>().push(
             const HomeRouter(),
