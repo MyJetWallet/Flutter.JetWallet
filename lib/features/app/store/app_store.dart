@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -121,11 +122,21 @@ abstract class _AppStoreBase with Store {
     final deviceInfo = getIt.get<DeviceInfo>();
     final userInfo = getIt.get<UserInfoService>();
     // TODO
-    //final appsFlyerService = getIt.get<AppsFlyerService>();
+    final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final token = await storageService.getValue(refreshTokenKey);
-    final email = await storageService.getValue(userEmailKey);
-    final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+    String? token;
+    String? email;
+    String parsedEmail;
+
+    try {
+      token = await storageService.getValue(refreshTokenKey);
+      email = await storageService.getValue(userEmailKey);
+      parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+    } catch (e) {
+      token = null;
+      email = null;
+      parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
+    }
 
     /// Init out API client
     await getIt.get<SNetwork>().init();
@@ -142,16 +153,11 @@ abstract class _AppStoreBase with Store {
         ),
       );
 
-      //await appsFlyerService.init();
-      //await appsFlyerService.updateServerUninstallToken();
-      // TODO
-      // await internetCheckerN.initialise();
-
+      await appsFlyerService.init();
+      await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
     }
-
-    print('REFRESH TOKEN: $token');
 
     if (token == null) {
       // TODO

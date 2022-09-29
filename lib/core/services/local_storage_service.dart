@@ -73,6 +73,12 @@ class LocalStorageService {
     await _storage.delete(key: checkedCircle);
     await _storage.delete(key: checkedUnlimint);
     await _storage.delete(key: closedSupportBannerKey);
+    await _storage.delete(key: billingInformationKey);
+    await _storage.delete(key: checkedCircle);
+    await _storage.delete(key: useBioKey);
+    await _storage.delete(key: startApp);
+
+    await _storage.deleteAll();
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {

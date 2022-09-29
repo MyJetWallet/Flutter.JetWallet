@@ -42,7 +42,6 @@ class RemoteConfig {
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
 
       var remoteConfigURL = '';
-      //https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config
 
       remoteConfigURL = flavor == Flavor.prod
           ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'

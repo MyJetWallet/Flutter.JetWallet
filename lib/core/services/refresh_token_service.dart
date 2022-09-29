@@ -31,7 +31,9 @@ Future<RefreshTokenStatus> refreshToken() async {
         .getServerTime();
 
     if (serverTimeResponse.hasError) {
-      print('HAS ERROR');
+      await getIt.get<LogoutService>().logout();
+        
+        return RefreshTokenStatus.caught;
     }
 
     print(serverTimeResponse.data);
@@ -58,10 +60,10 @@ Future<RefreshTokenStatus> refreshToken() async {
           .getAuthModule()
           .postRefresh(model);
 
-      print(refreshRequest);
-
       if (refreshRequest.hasError) {
-        print('REFRESH HAS ERROR');
+        await getIt.get<LogoutService>().logout();
+
+        return RefreshTokenStatus.caught;
       }
 
       if (refreshRequest.data != null) {

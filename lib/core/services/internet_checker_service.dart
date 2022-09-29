@@ -20,13 +20,15 @@ class InternetCheckerService {
   bool isAlertOpen = false;
   Duration secondsBeforeOpen = const Duration(seconds: 5);
 
-  Future<void> initialise() async {
+  Future<InternetCheckerService> initialise() async {
     final result = await _connectivity.checkConnectivity();
 
     await _checkStatus(result);
     _connectivity.onConnectivityChanged.listen((result) {
       _checkStatus(result);
     });
+
+    return this;
   }
 
   Future<void> _checkStatus(ConnectivityResult result) async {

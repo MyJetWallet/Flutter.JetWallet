@@ -43,13 +43,19 @@ abstract class _LogoutServiceBase with Store {
         union = const LogoutUnion.loading();
       }
 
-      final model = LogoutRequestModel(
-        token: authStore.token,
-      );
+      if (authStore.token != null && authStore.token.isNotEmpty) {
+        final model = LogoutRequestModel(
+          token: authStore.token,
+        );
 
-      _syncLogout(model);
+        _syncLogout(model);
+      }
     } catch (e) {
       _logger.log(stateFlow, 'logout', e);
+
+      await sLocalStorageService.clearStorage();
+      await sLocalStorageService
+          .clearStorageForCrypto(sSignalRModules.currenciesList);
     } finally {
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
