@@ -64,7 +64,7 @@ void _showBuyAction({
   required BuildContext context,
   Source? from,
 }) {
-  final searchStore = ActionSearchStore();
+  final searchStore = getIt.get<ActionSearchStore>()..init();
 
   final showSearch = showBuyCurrencySearch(
     context,

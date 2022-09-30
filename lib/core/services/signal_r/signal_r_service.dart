@@ -50,8 +50,8 @@ class SignalRService {
 
     sSignalRModules = getIt.get<SignalRModules>();
 
-    sCurrencies.init();
-    sCurrenciesWithHidden.init();
+    //sCurrencies.init();
+    //sCurrenciesWithHidden.init();
   }
 
   SignalRModule createService() {
@@ -89,7 +89,7 @@ class SignalRService {
       signalR.recurringBuy().asBroadcastStream();
 
   Stream<AssetWithdrawalFeeModel> assetsWithdrawalFees() {
-    return signalR.assetWithdrawalFee();
+    return signalR.assetWithdrawalFee().asBroadcastStream();
   }
 
   Stream<KycCountriesResponseModel> kycCountries() => signalR.kycCountries();
@@ -97,34 +97,44 @@ class SignalRService {
   Stream<AssetWithdrawalFeeModel> assetWithdrawalFee() =>
       signalR.assetWithdrawalFee();
 
-  Stream<CardsModel> cards() => signalR.cards();
+  Stream<CardsModel> cards() => signalR.cards().asBroadcastStream();
 
-  Stream<bool> initFinished() => signalR.isAppLoaded();
+  Stream<bool> initFinished() => signalR.isAppLoaded().asBroadcastStream();
 
-  Stream<InstrumentsModel> instruments() => signalR.instruments();
+  Stream<InstrumentsModel> instruments() =>
+      signalR.instruments().asBroadcastStream();
 
-  Stream<PeriodPricesModel> periodPrices() => signalR.periodPrices();
+  Stream<PeriodPricesModel> periodPrices() =>
+      signalR.periodPrices().asBroadcastStream();
 
-  Stream<PriceAccuracies> priceAccuracies() => signalR.priceAccuracies();
+  Stream<PriceAccuracies> priceAccuracies() =>
+      signalR.priceAccuracies().asBroadcastStream();
 
-  Stream<List<EarnOfferModel>> earnOffers() => signalR.earnOffers();
+  Stream<List<EarnOfferModel>> earnOffers() =>
+      signalR.earnOffers().asBroadcastStream();
 
-  Stream<EarnProfileModel> earnProfile() => signalR.earnProfile();
+  Stream<EarnProfileModel> earnProfile() =>
+      signalR.earnProfile().asBroadcastStream();
 
-  Stream<CampaignResponseModel> marketCampaigns() => signalR.marketCampaigns();
+  Stream<CampaignResponseModel> marketCampaigns() =>
+      signalR.marketCampaigns().asBroadcastStream();
 
-  Stream<ReferralInfoModel> referralInfo() => signalR.referralInfo();
+  Stream<ReferralInfoModel> referralInfo() =>
+      signalR.referralInfo().asBroadcastStream();
 
-  Stream<CardLimitsModel> cardLimits() => signalR.cardLimits();
+  Stream<CardLimitsModel> cardLimits() =>
+      signalR.cardLimits().asBroadcastStream();
 
-  Stream<ReferralStatsResponseModel> referralStats() => signalR.referralStats();
+  Stream<ReferralStatsResponseModel> referralStats() =>
+      signalR.referralStats().asBroadcastStream();
 
-  Stream<KeyValueModel> keyValue() => signalR.keyValue();
+  Stream<KeyValueModel> keyValue() => signalR.keyValue().asBroadcastStream();
 
   Stream<MarketReferencesModel> marketReferences() =>
-      signalR.marketReferences();
+      signalR.marketReferences().asBroadcastStream();
 
-  Stream<IndicesModel> indices() => signalR.indices();
+  Stream<IndicesModel> indices() => signalR.indices().asBroadcastStream();
 
-  Stream<TotalMarketInfoModel> marketInfo() => signalR.marketInfo();
+  Stream<TotalMarketInfoModel> marketInfo() =>
+      signalR.marketInfo().asBroadcastStream();
 }

@@ -1,6 +1,5 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advertising_id/flutter_advertising_id.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
@@ -73,7 +72,7 @@ abstract class _SingleSingInStoreBase with Store {
 
       try {
         advID = await AppTrackingTransparency.getAdvertisingIdentifier();
-        _advertisingId = await FlutterAdvertisingId.advertisingId;
+        //_advertisingId = await FlutterAdvertisingId.advertisingId;
         adId = sDeviceInfo.model.deviceUid;
       } catch (e) {
         advID = '';

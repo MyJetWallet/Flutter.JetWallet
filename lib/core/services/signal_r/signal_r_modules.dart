@@ -69,6 +69,25 @@ abstract class _SignalRModulesBase with Store {
     assetPaymentMethods.listen(
       (value) {
         showPaymentsMethods = value.showCardsInProfile;
+
+        if (currenciesList.isNotEmpty) {
+          for (final info in value.assets) {
+            for (final currency in currenciesList) {
+              if (currency.symbol == info.symbol) {
+                final index = currenciesList.indexOf(currency);
+                final methods = List<PaymentMethod>.from(info.buyMethods);
+
+                methods.removeWhere((element) {
+                  return element.type == PaymentMethodType.unsupported;
+                });
+
+                currenciesList[index] = currency.copyWith(
+                  buyMethods: methods,
+                );
+              }
+            }
+          }
+        }
       },
     );
 
@@ -368,6 +387,24 @@ abstract class _SignalRModulesBase with Store {
                           );
                 }
               }
+            }
+          }
+        }
+      }
+    });
+
+    assetsWithdrawalFees.listen((value) {
+      if (currenciesList.isNotEmpty) {
+        for (final assetFee in value.assetFees) {
+          for (final currency in currenciesList) {
+            if (currency.symbol == assetFee.asset) {
+              final index = currenciesList.indexOf(currency);
+              final assetWithdrawalFees =
+                  currenciesList[index].assetWithdrawalFees.toList();
+              assetWithdrawalFees.add(assetFee);
+              currenciesList[index] = currency.copyWith(
+                assetWithdrawalFees: assetWithdrawalFees,
+              );
             }
           }
         }

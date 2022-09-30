@@ -71,7 +71,7 @@ class _WalletState extends State<Wallet>
       currenciesWithBalanceFrom(currencies),
     );
     var currentAsset =
-        currencyFrom(sCurrencies.currencies, widget.currency.symbol);
+        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
 
     return Scaffold(
       bottomNavigationBar: ActionButton(
