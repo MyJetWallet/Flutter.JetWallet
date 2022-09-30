@@ -58,6 +58,8 @@ abstract class _LogoutServiceBase with Store {
         _syncLogout(model);
       }
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'logout', e);
 
       await sLocalStorageService.clearStorage();
@@ -89,7 +91,7 @@ abstract class _LogoutServiceBase with Store {
 
       sSignalRModules.clearSignalRModule();
 
-      sRouter.popUntilRoot();
+      await sRouter.push(const HomeRouter());
     }
   }
 
