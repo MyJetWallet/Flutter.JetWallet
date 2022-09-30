@@ -39,7 +39,7 @@ class _ActionReceive extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = getIt.get<ActionSearchStore>();
+    final state = getIt.get<ActionSearchStore>()..init();
     sortByBalanceAndWeight(state.filteredCurrencies);
 
     return Column(
@@ -57,7 +57,7 @@ class _ActionReceive extends StatelessObserverWidget {
                 onTap: () {
                   sAnalytics.receiveAssetView(asset: currency.description);
 
-                  getIt.get<AppRouter>().navigate(
+                  getIt.get<AppRouter>().push(
                         CryptoDepositRouter(
                           header: intl.actionReceive_receive,
                           currency: currency,

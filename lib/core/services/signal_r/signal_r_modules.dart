@@ -346,6 +346,34 @@ abstract class _SignalRModulesBase with Store {
       }
     });
 
+    blockchains.listen((data) {
+      if (currenciesList.isNotEmpty) {
+        for (final currency in currenciesList) {
+          final index = currenciesList.indexOf(currency);
+
+          if (currenciesList[index].depositBlockchains.isNotEmpty) {
+            for (final depositBlockchain
+                in currenciesList[index].depositBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .depositBlockchains
+                  .indexOf(depositBlockchain);
+              for (final blockchain in data.blockchains) {
+                if (depositBlockchain.id == blockchain.id) {
+                  currenciesList[index].depositBlockchains[blockchainIndex] =
+                      currenciesList[index]
+                          .depositBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
     assets.listen((value) {
       for (final asset in value.assets) {
         if (!asset.hideInTerminal) {

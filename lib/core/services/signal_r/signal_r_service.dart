@@ -82,7 +82,8 @@ class SignalRService {
   Stream<AssetPaymentMethods> paymentMethods() =>
       signalR.paymentMethods().asBroadcastStream();
 
-  Stream<BlockchainsModel> blockchains() => signalR.blockchains();
+  Stream<BlockchainsModel> blockchains() =>
+      signalR.blockchains().asBroadcastStream();
 
   Stream<RecurringBuysResponseModel> recurringBuy() =>
       signalR.recurringBuy().asBroadcastStream();
