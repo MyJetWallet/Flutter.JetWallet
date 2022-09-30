@@ -60,6 +60,7 @@ dependencies:
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
   device_marketing_names: ^0.4.1
   android_id: ^0.0.7
+  flutter_advertising_id: ^1.0.3
 
   # NETWORKING:
   http: ^0.13.4
