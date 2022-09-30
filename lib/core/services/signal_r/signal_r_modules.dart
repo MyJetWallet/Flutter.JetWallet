@@ -69,6 +69,25 @@ abstract class _SignalRModulesBase with Store {
     assetPaymentMethods.listen(
       (value) {
         showPaymentsMethods = value.showCardsInProfile;
+
+        if (currenciesList.isNotEmpty) {
+          for (final info in value.assets) {
+            for (final currency in currenciesList) {
+              if (currency.symbol == info.symbol) {
+                final index = currenciesList.indexOf(currency);
+                final methods = List<PaymentMethod>.from(info.buyMethods);
+
+                methods.removeWhere((element) {
+                  return element.type == PaymentMethodType.unsupported;
+                });
+
+                currenciesList[index] = currency.copyWith(
+                  buyMethods: methods,
+                );
+              }
+            }
+          }
+        }
       },
     );
 
@@ -339,6 +358,52 @@ abstract class _SignalRModulesBase with Store {
                 earnInProcessCount: balance.earnInProcessCount,
                 buysInProcessCount: balance.buysInProcessCount,
                 transfersInProcessCount: balance.transfersInProcessCount,
+              );
+            }
+          }
+        }
+      }
+    });
+
+    blockchains.listen((data) {
+      if (currenciesList.isNotEmpty) {
+        for (final currency in currenciesList) {
+          final index = currenciesList.indexOf(currency);
+
+          if (currenciesList[index].depositBlockchains.isNotEmpty) {
+            for (final depositBlockchain
+                in currenciesList[index].depositBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .depositBlockchains
+                  .indexOf(depositBlockchain);
+              for (final blockchain in data.blockchains) {
+                if (depositBlockchain.id == blockchain.id) {
+                  currenciesList[index].depositBlockchains[blockchainIndex] =
+                      currenciesList[index]
+                          .depositBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    assetsWithdrawalFees.listen((value) {
+      if (currenciesList.isNotEmpty) {
+        for (final assetFee in value.assetFees) {
+          for (final currency in currenciesList) {
+            if (currency.symbol == assetFee.asset) {
+              final index = currenciesList.indexOf(currency);
+              final assetWithdrawalFees =
+                  currenciesList[index].assetWithdrawalFees.toList();
+              assetWithdrawalFees.add(assetFee);
+              currenciesList[index] = currency.copyWith(
+                assetWithdrawalFees: assetWithdrawalFees,
               );
             }
           }

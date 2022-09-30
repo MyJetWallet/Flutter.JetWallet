@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
@@ -304,7 +305,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
             CurrencyBuyRouter(
               currency: input.toCurrency,
               fromCard: areBalancesEmpty(
-                sCurrencies.currencies,
+                sSignalRModules.currenciesList,
               ),
             ),
           );

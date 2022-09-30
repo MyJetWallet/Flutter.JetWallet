@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
@@ -41,7 +42,7 @@ class _EmptyWalletState extends State<EmptyWallet>
   @override
   Widget build(BuildContext context) {
     final currentAsset =
-        currencyFrom(sCurrencies.currencies, widget.currency.symbol);
+        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
 
     return Scaffold(
       bottomNavigationBar: ActionButton(
@@ -60,12 +61,12 @@ class _EmptyWalletState extends State<EmptyWallet>
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(
-                assetName: widget.currency.description,
-              )
+                      assetName: widget.currency.description,
+                    )
                   : EmptyEarnWalletBody(
-                assetName: widget.currency.description,
-                apy: widget.currency.apy,
-              ),
+                      assetName: widget.currency.description,
+                      apy: widget.currency.apy,
+                    ),
             ),
           );
         },

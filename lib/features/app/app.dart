@@ -1,11 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
+import 'package:jetwallet/core/services/logs/log_record_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -26,21 +30,38 @@ class AppScreen extends StatefulWidget {
 }
 
 class _AppScreenState extends State<AppScreen> {
+  final _logger = Logger('AppScreen');
+
   @override
   void initState() {
     /// Init DeepLinks
-    getIt.registerSingletonAsync<DeviceInfo>(
-      () async => DeviceInfo().deviceInfo(),
-    );
+    try {
+      getIt.registerSingletonAsync<DeviceInfo>(
+        () async => DeviceInfo().deviceInfo(),
+        signalsReady: false,
+      );
 
-    getIt.registerSingletonWithDependencies<DynamicLinkService>(
-      () => DynamicLinkService()..initDynamicLinks(),
-      dependsOn: [DeviceInfo],
-    );
+      getIt.registerSingletonWithDependencies<DynamicLinkService>(
+        () => DynamicLinkService()..initDynamicLinks(),
+        dependsOn: [DeviceInfo],
+        signalsReady: false,
+      );
 
-    getIt.registerSingleton<PushNotification>(
-      PushNotification(),
-    );
+      getIt.registerSingleton<PushNotification>(
+        PushNotification(),
+      );
+
+      getIt.registerSingleton<LogRecordsService>(
+        LogRecordsService(),
+      );
+    } catch (e) {
+      print(e);
+
+      _logger.log(
+        notifier,
+        e,
+      );
+    }
 
     super.initState();
   }
@@ -59,7 +80,7 @@ class _AppScreenState extends State<AppScreen> {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
       routerDelegate: getIt.get<AppRouter>().delegate(),
-      builder: widget.builder ?? (_, child) => AppBuilder(child),
+      builder: (_, child) => AppBuilder(child),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -37,6 +38,8 @@ class RemoteConfig {
           const RemoteConfigUnion.loading(),
         );
 
+    _logger.log(stateFlow, 'Loading Remote Config');
+
     try {
       final flavor = flavorService();
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
@@ -60,6 +63,7 @@ class RemoteConfig {
       final respModel = RemoteConfigModel.fromJson(responseData);
 
       print('REMOTE CONFIG LOADED');
+      _logger.log(notifier, 'Loading Remote LOADED');
 
       remoteConfig = respModel;
 
@@ -73,67 +77,23 @@ class RemoteConfig {
 
       overrideApisFrom(_defaultFlavorIndex);
 
+      _logger.log(notifier, 'PUSH TO HOMEROUTER');
+
+      print('PUSH TO HOMEROUTER');
+
+      sAnalytics.remoteConfig();
+
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.success(),
           );
-
-      print('PUSH TO HOMEROUTER');
-      unawaited(
-        getIt.get<AppRouter>().navigate(
-              const HomeRouter(),
-            ),
-      );
-
-      /*
-      response.pick(
-        onData: (data) {
-          print('REMOTE CONFIG LOADED1');
-
-          remoteConfig = data;
-
-          print('REMOTE CONFIG LOADED2');
-
-          print(remoteConfig!.appConfig.emailVerificationCodeLength);
-
-          overrideAppConfigValues();
-          overrideApisFrom(_defaultFlavorIndex);
-          overrideVersioningValues();
-          overrideSupportValues();
-          overrideAnalyticsValues();
-          overrideSimplexValues();
-          overrideAppsFlyerValues();
-          overrideCircleValues();
-
-          getIt.get<AppStore>().setRemoteConfigStatus(
-                const RemoteConfigUnion.success(),
-              );
-
-          print('REMOTE CONFIG LOADED3');
-
-          //sAnalytics.remoteConfig();
-        },
-        onError: (error) {
-          print('REMOTE ERROR: $error');
-
-          _logger.log(stateFlow, '_fetchAndActivate');
-          //sAnalytics.remoteConfigError();
-
-          getIt.get<AppStore>().setRemoteConfigStatus(
-                const RemoteConfigUnion.loading(),
-              );
-
-          _refreshTimer();
-        },
-      );
-      */
     } catch (e) {
-      print('REMOTE ERROR: $e');
+      print('REMOTE: $e');
 
       _logger.log(stateFlow, '_fetchAndActivate', e);
       sAnalytics.remoteConfigError();
 
       getIt.get<AppStore>().setRemoteConfigStatus(
-            const RemoteConfigUnion.loading(),
+            const RemoteConfigUnion.error(),
           );
 
       _refreshTimer();

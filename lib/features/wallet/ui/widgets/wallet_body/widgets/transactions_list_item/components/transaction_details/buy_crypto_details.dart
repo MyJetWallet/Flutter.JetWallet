@@ -27,7 +27,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final currencies = sCurrencies.currencies;
+    final currencies = sSignalRModules.currenciesList;
     final currentCurrency = currencyFrom(
       currencies,
       transactionListItem.assetId,

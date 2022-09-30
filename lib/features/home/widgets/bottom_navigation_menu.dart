@@ -47,7 +47,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
           );
     }
 
-    final isNotEmptyBalance = !areBalancesEmpty(sCurrencies.currencies);
+    final isNotEmptyBalance = !areBalancesEmpty(sSignalRModules.currenciesList);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 

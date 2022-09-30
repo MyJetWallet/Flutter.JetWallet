@@ -224,7 +224,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _initCurrencies() {
-    final _currencies = ObservableList.of(sCurrencies.currencies);
+    final _currencies = ObservableList.of(sSignalRModules.currenciesList);
 
     sortCurrencies(_currencies);
     removeEmptyCurrenciesFrom(_currencies);

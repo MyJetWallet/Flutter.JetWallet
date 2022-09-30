@@ -10,7 +10,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 
 part 'currency_model.freezed.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
   const factory CurrencyModel({
     String? prefixSymbol,

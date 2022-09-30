@@ -117,7 +117,7 @@ abstract class _CirrencySellStoreBase with Store {
   @action
   void _initCurrencies() {
     final _currencies = List<CurrencyModel>.from(
-      sCurrencies.currencies,
+      sSignalRModules.currenciesList,
     );
     sortCurrencies(_currencies);
     removeCurrencyFrom(_currencies, currencyModel);
