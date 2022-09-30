@@ -224,7 +224,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   /// Will be triggered only when timerAnimation is not Null
   @action
   void _refreshTimerAnimation(int duration) {
-    timerAnimation!.duration = Duration(seconds: duration);
+    timerAnimation!.duration = Duration(seconds: duration.abs());
     timerAnimation!.countdown();
   }
 

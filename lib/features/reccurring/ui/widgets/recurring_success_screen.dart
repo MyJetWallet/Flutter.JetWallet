@@ -128,7 +128,6 @@ class _RecurringSuccessScreenBodyState
                     },
                     context: context,
                     onItemTap: (recurringType) {
-                      shouldPop = true;
 
                       sAnalytics.pickRecurringBuyFrequency(
                         assetName: widget.input.toCurrency.description,
@@ -136,7 +135,7 @@ class _RecurringSuccessScreenBodyState
                         source: Source.successScreen,
                       );
 
-                      sRouter.navigate(
+                      sRouter.push(
                         PreviewBuyWithAssetRouter(
                           input: PreviewBuyWithAssetInput(
                             amount: widget.input.amount,
