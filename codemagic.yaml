@@ -7,8 +7,8 @@ definitions:
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: 3.3.2
-    xcode: 13.4.1
+    flutter: 3.3.3
+    xcode: latest
     cocoapods: default
 
   flavor_development_groups: &flavor_development_groups
