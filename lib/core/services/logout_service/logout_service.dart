@@ -30,7 +30,16 @@ abstract class _LogoutServiceBase with Store {
   Future<void> logout({bool withLoading = true, bool resetPin = false}) async {
     _logger.log(notifier, 'logout');
 
+    print('LOGOUT');
+
     final authStore = getIt.get<AppStore>().authState;
+
+    if (getIt.get<AppStore>().authStatus is Unauthorized) {
+      await sLocalStorageService.clearStorage();
+      sRouter.popUntilRoot();
+
+      return;
+    }
 
     if (resetPin) {
       final _ = await sNetwork.getAuthModule().postResetPin();
@@ -41,13 +50,21 @@ abstract class _LogoutServiceBase with Store {
         union = const LogoutUnion.loading();
       }
 
-      final model = LogoutRequestModel(
-        token: authStore.token,
-      );
+      if (authStore.token != null && authStore.token.isNotEmpty) {
+        final model = LogoutRequestModel(
+          token: authStore.token,
+        );
 
-      _syncLogout(model);
+        _syncLogout(model);
+      }
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'logout', e);
+
+      await sLocalStorageService.clearStorage();
+      await sLocalStorageService
+          .clearStorageForCrypto(sSignalRModules.currenciesList);
     } finally {
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
@@ -74,15 +91,7 @@ abstract class _LogoutServiceBase with Store {
 
       sSignalRModules.clearSignalRModule();
 
-      unawaited(
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              EarnRouter(),
-            ],
-          ),
-        ]),
-      );
+      await sRouter.push(const HomeRouter());
     }
   }
 

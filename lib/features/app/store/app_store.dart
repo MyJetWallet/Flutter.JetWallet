@@ -5,9 +5,12 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -18,6 +21,7 @@ import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
+import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -29,6 +33,8 @@ part 'app_store.g.dart';
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
+  static final _logger = Logger('AppStore');
+
   /// Variable for storing the Auth user's state. Can be: authorized/unauthorized
   @observable
   AuthorizationUnion authStatus = const AuthorizationUnion.loading();
@@ -48,8 +54,11 @@ abstract class _AppStoreBase with Store {
   @observable
   RemoteConfigUnion remoteConfigStatus = const RemoteConfigUnion.loading();
   @action
-  void setRemoteConfigStatus(RemoteConfigUnion value) =>
-      remoteConfigStatus = value;
+  void setRemoteConfigStatus(RemoteConfigUnion value) {
+    _logger.log(stateFlow, 'REMOTE CONFIG STATUS: $value');
+
+    remoteConfigStatus = value;
+  }
 
   @observable
   AuthInfoState authState = const AuthInfoState();
@@ -116,22 +125,36 @@ abstract class _AppStoreBase with Store {
   Future<void> getAuthStatus() async {
     print('START: APP STORE - getAuthStatus');
 
+    _logger.log(stateFlow, 'START: APP STORE - getAuthStatus');
+
     final storageService = getIt.get<LocalStorageService>();
-    final deviceInfo = getIt.get<DeviceInfo>();
-    final userInfo = getIt.get<UserInfoService>();
+
     // TODO
-    //final appsFlyerService = getIt.get<AppsFlyerService>();
-    final token = await storageService.getValue(refreshTokenKey);
-    final email = await storageService.getValue(userEmailKey);
-    final parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+    final appsFlyerService = getIt.get<AppsFlyerService>();
+
+    String? token;
+    String? email;
+    String parsedEmail;
 
     try {
+      token = await storageService.getValue(refreshTokenKey);
+      email = await storageService.getValue(userEmailKey);
+      parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+    } catch (e) {
+      token = null;
+      email = null;
+      parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
+    }
+
+    /// Init out API client
+    await getIt.get<SNetwork>().init();
+
+    try {
+      final deviceInfo = getIt.get<DeviceInfo>();
+
       await AppTrackingTransparency.requestTrackingAuthorization();
 
       await deviceInfo.deviceInfo();
-
-      /// Init out API client
-      await getIt.get<SNetwork>().init();
 
       unawaited(
         checkInitAppFBAnalytics(
@@ -140,33 +163,38 @@ abstract class _AppStoreBase with Store {
         ),
       );
 
-      //await appsFlyerService.init();
-      //await appsFlyerService.updateServerUninstallToken();
-      // TODO
-      // await internetCheckerN.initialise();
-
+      await appsFlyerService.init();
+      await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
       Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
+
+      _logger.log(stateFlow, 'appsFlyerService');
     }
 
     if (token == null) {
+      _logger.log(stateFlow, 'TOKEN NULL');
+
       // TODO
       //await sAnalytics.init(analyticsApiKey);
 
       authStatus = const AuthorizationUnion.unauthorized();
     } else {
+      _logger.log(stateFlow, 'TOKEN NOT NULL');
+
       updateAuthState(
         refreshToken: token,
         email: parsedEmail,
       );
 
       try {
+        final userInfo = getIt.get<UserInfoService>();
+
         final result = await refreshToken();
+
+        _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
-
-        print(result);
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
@@ -177,18 +205,30 @@ abstract class _AppStoreBase with Store {
 
           await getIt.get<StartupService>().processStartupState();
         } else {
+          _logger.log(stateFlow, 'TOKEN CANT UPDATE');
+
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
+
+          await getIt.get<LogoutService>().logout();
         }
       } catch (e) {
+        _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);
+
         await sAnalytics.init(analyticsApiKey);
 
         authStatus = const AuthorizationUnion.unauthorized();
-      }
 
-      getIt.get<AppRouter>().popUntilRoot();
+        await getIt.get<LogoutService>().logout();
+
+        sAnalytics.remoteConfigError();
+      }
     }
+
+    await getIt.get<AppRouter>().push(
+          const HomeRouter(),
+        );
   }
 
   @action

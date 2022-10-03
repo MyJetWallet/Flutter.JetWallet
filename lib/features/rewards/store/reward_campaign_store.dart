@@ -21,7 +21,16 @@ class RewardCampaignStore extends _RewardCampaignStoreBase
 
 abstract class _RewardCampaignStoreBase with Store {
   _RewardCampaignStoreBase(this.isFilterEnabled) {
-    updateCampaigns(sSignalRModules.marketCampaigns);
+    if (sSignalRModules.marketCampaigns.isNotEmpty) {
+      updateCampaigns(sSignalRModules.marketCampaigns);
+    } else {
+      Future.delayed(
+        const Duration(seconds: 5),
+        () {
+          updateCampaigns(sSignalRModules.marketCampaigns);
+        },
+      );
+    }
   }
 
   static final _logger = Logger('CampaignStore');

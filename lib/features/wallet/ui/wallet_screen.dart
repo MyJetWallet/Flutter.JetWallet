@@ -44,10 +44,11 @@ class _WalletState extends State<Wallet>
 
     final itemsWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(
-        getIt.get<CurrenciesService>().currencies,
+        sSignalRModules.currenciesList,
       ),
     );
     final initialPage = itemsWithBalance.indexOf(widget.currency);
+
     _pageController = PageController(initialPage: initialPage);
   }
 
@@ -70,7 +71,7 @@ class _WalletState extends State<Wallet>
       currenciesWithBalanceFrom(currencies),
     );
     var currentAsset =
-        currencyFrom(sCurrencies.currencies, widget.currency.symbol);
+        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
 
     return Scaffold(
       bottomNavigationBar: ActionButton(

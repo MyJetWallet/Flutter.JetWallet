@@ -1,7 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_networking/modules/wallet_api/models/notification/register_token_request_model.dart';
@@ -9,7 +12,9 @@ import 'package:simple_networking/modules/wallet_api/models/notification/registe
 class PushNotification {
   PushNotification() {
     FirebaseMessaging.instance.onTokenRefresh.listen((token) {
-      _registerToken(token);
+      if (getIt.get<AppStore>().authStatus is Authorized) {
+        _registerToken(token);
+      }
     });
   }
 

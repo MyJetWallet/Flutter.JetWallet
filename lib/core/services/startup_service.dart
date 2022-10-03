@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -39,6 +39,8 @@ class StartupService {
   }
 
   void successfullAuthentication() {
+    _logger.log(stateFlow, 'successfullAuthentication');
+
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);
@@ -50,6 +52,8 @@ class StartupService {
   }
 
   Future<void> processStartupState() async {
+    _logger.log(notifier, 'Process Startup State');
+
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
         await getIt.get<SNetwork>().recreateDio();
@@ -91,10 +95,14 @@ class StartupService {
             ));
           },
           onError: (error) {
+            _logger.log(stateFlow, 'Failed to fetch session info', error);
+
             getIt.get<LogoutService>().logout();
           },
         );
       } catch (e) {
+        _logger.log(stateFlow, 'Failed to fetch session info', e);
+
         await getIt.get<LogoutService>().logout();
 
         // TODO (discuss this flow)
@@ -106,28 +114,32 @@ class StartupService {
   }
 
   Future<void> startingServices() async {
-    getIt.registerSingleton<KycService>(
-      KycService(),
-    );
+    try {
+      getIt.registerSingleton<KycService>(
+        KycService(),
+      );
 
-    getIt.registerSingleton<InternetCheckerService>(
-      InternetCheckerService(),
-    );
+      getIt.registerSingletonAsync<InternetCheckerService>(
+        () async => InternetCheckerService().initialise(),
+      );
 
-    getIt.registerSingletonAsync<KycProfileCountries>(
-      () async => KycProfileCountries().init(),
-    );
+      getIt.registerSingletonAsync<KycProfileCountries>(
+        () async => KycProfileCountries().init(),
+      );
 
-    getIt.registerSingletonAsync<ProfileGetUserCountry>(
-      () async => ProfileGetUserCountry().init(),
-    );
+      getIt.registerSingletonAsync<ProfileGetUserCountry>(
+        () async => ProfileGetUserCountry().init(),
+      );
 
-    await getIt.isReady<KycProfileCountries>();
-    await getIt.isReady<ProfileGetUserCountry>();
+      await getIt.isReady<KycProfileCountries>();
+      await getIt.isReady<ProfileGetUserCountry>();
 
-    isServicesRegistred = true;
+      isServicesRegistred = true;
 
-    return;
+      return;
+    } catch (e) {
+      _logger.log(stateFlow, 'Failed startingServices', e);
+    }
   }
 
   /// Called when user makes cold boot and has enabled 2FA

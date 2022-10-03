@@ -26,9 +26,17 @@ Future<RefreshTokenStatus> refreshToken() async {
   try {
     final serverTimeResponse = await getIt
         .get<SNetwork>()
-        .simpleNetworking
+        .simpleNetworkingWithoutInterceptor
         .getAuthModule()
         .getServerTime();
+
+    if (serverTimeResponse.hasError) {
+      await getIt.get<LogoutService>().logout();
+        
+        return RefreshTokenStatus.caught;
+    }
+
+    print(serverTimeResponse.data);
 
     if (serverTimeResponse.data != null) {
       final privateKey = await storageService.getValue(privateKeyKey);
@@ -48,9 +56,15 @@ Future<RefreshTokenStatus> refreshToken() async {
 
       final refreshRequest = await getIt
           .get<SNetwork>()
-          .simpleNetworking
+          .simpleNetworkingWithoutInterceptor
           .getAuthModule()
           .postRefresh(model);
+
+      if (refreshRequest.hasError) {
+        await getIt.get<LogoutService>().logout();
+
+        return RefreshTokenStatus.caught;
+      }
 
       if (refreshRequest.data != null) {
         await storageService.setString(
@@ -68,6 +82,8 @@ Future<RefreshTokenStatus> refreshToken() async {
 
         return RefreshTokenStatus.success;
       } else {
+        await getIt.get<LogoutService>().logout();
+
         return RefreshTokenStatus.caught;
       }
     } else {
@@ -77,6 +93,8 @@ Future<RefreshTokenStatus> refreshToken() async {
     }
   } on DioError catch (error) {
     final code = error.response?.statusCode;
+
+    print('DIOERROR');
 
     if (code == 401 || code == 403) {
       getIt.get<AppStore>().setAuthStatus(
@@ -93,6 +111,8 @@ Future<RefreshTokenStatus> refreshToken() async {
       rethrow;
     }
   } catch (e) {
+    print('CATCH ERROR');
+
     await getIt.get<LogoutService>().logout();
 
     return RefreshTokenStatus.caught;

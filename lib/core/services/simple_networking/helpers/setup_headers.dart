@@ -13,10 +13,16 @@ void setupHeaders(Dio dio, [String? token]) {
   final packageInfo = getIt.get<PackageInfoService>().info;
   final appVersion = packageInfo.version;
 
-  final mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
+  MediaQueryData? mediaQuery;
+  Size deviceSize = const Size(0, 0);
+  double devicePixelRatio = 0.0;
 
-  final deviceSize = mediaQuery.size;
-  final devicePixelRatio = mediaQuery.devicePixelRatio;
+  if (sRouter.navigatorKey.currentContext != null) {
+    mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
+
+    deviceSize = mediaQuery.size;
+    devicePixelRatio = mediaQuery.devicePixelRatio;
+  }
 
   dio.options.headers['accept'] = 'application/json';
   dio.options.headers['content-Type'] = 'application/json';

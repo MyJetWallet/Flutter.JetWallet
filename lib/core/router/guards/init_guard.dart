@@ -5,13 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
+import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+
+final _logger = Logger('InitGuard');
 
 class InitGuard extends AutoRouteGuard {
   @override
@@ -20,25 +25,32 @@ class InitGuard extends AutoRouteGuard {
     StackRouter router,
   ) async {
     final appStore = getIt.get<AppStore>();
+    final flavor = flavorService();
 
-    if (!getIt.get<DioProxyService>().proxySkiped) {
+    if (flavor != Flavor.prod && !getIt.get<DioProxyService>().proxySkiped) {
+      print('API SELECTOR');
       if (!router.isPathActive('/api_selector')) {
-        unawaited(
-          router.push(
-            const ApiSelectorRouter(),
-          ),
-        );
-      }
+        print('API SELECTOR');
 
-      return;
+        await router.pushAndPopUntil(
+          const ApiSelectorRouter(),
+          predicate: (r) => true,
+        );
+
+        return;
+      }
     }
 
     if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
       //await appStore.getAuthStatus();
 
+      print('Remote Status Success');
+      _logger.log(notifier, 'Remote Status Success');
+
       appStore.authStatus.when(
         loading: () {
-          print('InitGuard: loading');
+          print('InitGuard authStatus: loading');
+          _logger.log(notifier, 'AuthStatus: Loading');
 
           router.replace(
             const SplashRoute(),
@@ -46,10 +58,12 @@ class InitGuard extends AutoRouteGuard {
         },
         authorized: () {
           print('InitGuard: authorized');
+          _logger.log(notifier, 'AuthStatus: Authorized');
 
           appStore.authorizedStatus.when(
             loading: () {
-              print('InitGuard: loading');
+              print('InitGuard authorizedStatus: loading');
+              _logger.log(notifier, 'authorizedStatus: Loading');
 
               router.replace(
                 const SplashRoute(),
@@ -57,6 +71,7 @@ class InitGuard extends AutoRouteGuard {
             },
             emailVerification: () {
               print('InitGuard: emailVerification');
+              _logger.log(notifier, 'AuthStatus: EmailVerification');
 
               //router.push(
               //  const EmailVerificationRoute(),
@@ -64,6 +79,7 @@ class InitGuard extends AutoRouteGuard {
             },
             twoFaVerification: () {
               print('InitGuard: twoFaVerification');
+              _logger.log(notifier, 'AuthStatus: TwoFaVerification');
 
               router.push(
                 TwoFaPhoneRouter(
@@ -73,6 +89,7 @@ class InitGuard extends AutoRouteGuard {
             },
             pinSetup: () {
               print('InitGuard: pinSetup');
+              _logger.log(notifier, 'AuthStatus: PinSetup');
 
               router.push(
                 PinScreenRoute(
@@ -83,6 +100,8 @@ class InitGuard extends AutoRouteGuard {
             },
             pinVerification: () {
               print('InitGuard: pinVerification');
+              _logger.log(notifier, 'AuthStatus: PinVerification');
+
               getIt.get<UserInfoService>().initPinStatus();
 
               router.push(
@@ -95,21 +114,29 @@ class InitGuard extends AutoRouteGuard {
             },
             home: () {
               print('InitGuard: home');
+              _logger.log(notifier, 'AuthStatus: Home');
+
               getIt.get<AppStore>().initSessionInfo();
 
               resolver.next();
             },
             askBioUsing: () {
+              _logger.log(notifier, 'AuthStatus: AskBioUsing');
+
               router.push(
                 BiometricRouter(),
               );
             },
             singleIn: () {
+              _logger.log(notifier, 'AuthStatus: SingInRouter');
+
               router.push(
                 SingInRouter(),
               );
             },
             userDataVerification: () {
+              _logger.log(notifier, 'AuthStatus: UserDataScreenRouter');
+
               router.push(
                 const UserDataScreenRouter(),
               );
@@ -118,6 +145,7 @@ class InitGuard extends AutoRouteGuard {
         },
         unauthorized: () {
           print('InitGuard: unauthorized');
+          _logger.log(notifier, 'AuthStatus: OnboardingRoute');
 
           router.push(
             const OnboardingRoute(),
@@ -125,7 +153,9 @@ class InitGuard extends AutoRouteGuard {
         },
       );
     } else {
-      await router.push(
+      _logger.log(notifier, 'AuthStatus: SplashRoute');
+
+      await router.replace(
         const SplashRoute(),
       );
     }

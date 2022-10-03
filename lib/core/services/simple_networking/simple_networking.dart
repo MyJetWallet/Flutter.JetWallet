@@ -8,23 +8,33 @@ import 'package:jetwallet/core/services/simple_networking/helpers/add_signing.da
 import 'package:jetwallet/core/services/simple_networking/helpers/setup_headers.dart';
 import 'package:jetwallet/core/services/simple_networking/helpers/setup_image_headers.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 import 'package:simple_networking/simple_networking.dart';
 
 late SimpleNetworking sNetwork;
 
 class SNetwork {
+  static final _logger = Logger('SNetwork');
+
   late Dio dio;
   late Dio imageDio;
+  late Dio withoutInterceptoreDio;
 
   late SimpleNetworking simpleImageNetworking;
   late SimpleNetworking simpleNetworking;
+  late SimpleNetworking simpleNetworkingWithoutInterceptor;
+
   late SimpleOptions simpleOptions;
 
   Future<void> recreateDio() async {
     print('SimpleNetworking - recreateDio');
 
+    _logger.log(stateFlow, 'SimpleNetworking - recreateDio');
+
     dio = setupDio();
     imageDio = setupImageDio();
+    withoutInterceptoreDio = setupDioWithoutInterceptors();
 
     simpleNetworking = SimpleNetworking(
       dio,
@@ -33,6 +43,11 @@ class SNetwork {
 
     simpleImageNetworking = SimpleNetworking(
       imageDio,
+      simpleOptions,
+    );
+
+    simpleNetworkingWithoutInterceptor = SimpleNetworking(
+      withoutInterceptoreDio,
       simpleOptions,
     );
 
@@ -44,8 +59,11 @@ class SNetwork {
   Future<void> init() async {
     print('SimpleNetworking - init');
 
+    _logger.log(stateFlow, 'SimpleNetworking - init');
+
     dio = setupDio();
     imageDio = setupImageDio();
+    withoutInterceptoreDio = setupDioWithoutInterceptors();
 
     simpleNetworking = SimpleNetworking(
       dio,
@@ -54,6 +72,11 @@ class SNetwork {
 
     simpleImageNetworking = SimpleNetworking(
       imageDio,
+      simpleOptions,
+    );
+
+    simpleNetworkingWithoutInterceptor = SimpleNetworking(
+      withoutInterceptoreDio,
       simpleOptions,
     );
 
