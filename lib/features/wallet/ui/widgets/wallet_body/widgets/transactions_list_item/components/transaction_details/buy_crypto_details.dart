@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -36,6 +36,11 @@ class BuyCryptoDetails extends StatelessObserverWidget {
     final buyCurrency = currencyFrom(
       currencies,
       transactionListItem.cryptoBuyInfo!.buyAssetId,
+    );
+
+    final paymentCurrency = currencyFrom(
+      currencies,
+      transactionListItem.cryptoBuyInfo!.paymentAssetId,
     );
 
     String _rateFor() {
@@ -92,7 +97,12 @@ class BuyCryptoDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
-              text: '\$${transactionListItem.cryptoBuyInfo!.paymentAmount}',
+              text: volumeFormat(
+                decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
+                accuracy: paymentCurrency.accuracy,
+                symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
+                prefix: paymentCurrency.prefixSymbol,
+              ),
             ),
           ),
           if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty) ...[

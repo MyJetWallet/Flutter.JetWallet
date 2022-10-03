@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/chart/helper/balance_chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/referral_program_gift/service/referral_gift_service.dart';
@@ -11,6 +10,10 @@ import 'package:jetwallet/features/rewards/model/campaign_or_referral_model.dart
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../core/services/signal_r/signal_r_modules.dart';
+import '../../../utils/formatting/base/base_currencies_format.dart';
+import '../../../utils/models/base_currency_model/base_currency_model.dart';
 
 class PortfolioHeader extends StatelessObserverWidget {
   const PortfolioHeader({
@@ -29,6 +32,7 @@ class PortfolioHeader extends StatelessObserverWidget {
     final colors = sKit.colors;
     final gift = referralGift();
     final state = RewardStore();
+    final baseCurrency = sSignalRModules.baseCurrency;
     //final chart = ChartStore(balanceChartInput());
 
     ChartStore? chart;
@@ -79,11 +83,14 @@ class PortfolioHeader extends StatelessObserverWidget {
                       const SGiftPortfolioIcon(),
                       if (gift == ReferralGiftStatus.showGift) ...[
                         Container(
-                          margin: (_giftBonus(state.sortedCampaigns).isNotEmpty)
+                          margin: (_giftBonus(
+                              state.sortedCampaigns,
+                              baseCurrency,
+                          ).isNotEmpty)
                               ? const EdgeInsets.only(right: 8)
                               : EdgeInsets.zero,
                           child: Text(
-                            _giftBonus(state.sortedCampaigns),
+                            _giftBonus(state.sortedCampaigns, baseCurrency),
                             style: sSubtitle3Style.copyWith(
                               color: colors.white,
                             ),
@@ -102,7 +109,10 @@ class PortfolioHeader extends StatelessObserverWidget {
     );
   }
 
-  String _giftBonus(List<CampaignOrReferralModel> rewards) {
+  String _giftBonus(
+    List<CampaignOrReferralModel> rewards,
+    BaseCurrencyModel baseCurrency,
+  ) {
     var bonusGift = Decimal.zero;
 
     for (final item in rewards) {
@@ -115,6 +125,10 @@ class PortfolioHeader extends StatelessObserverWidget {
       }
     }
 
-    return bonusGift == Decimal.zero ? '' : '\$$bonusGift';
+    return bonusGift == Decimal.zero ? '' :  baseCurrenciesFormat(
+      prefix: baseCurrency.prefix ?? '',
+      text: '$bonusGift',
+      symbol: baseCurrency.symbol,
+    );
   }
 }

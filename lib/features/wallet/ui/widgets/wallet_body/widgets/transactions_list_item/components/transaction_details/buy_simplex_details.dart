@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../utils/helpers/currency_from.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
@@ -22,6 +25,12 @@ class BuySimplexDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencies = sSignalRModules.currenciesList;
+    final paymentCurrency = currencyFrom(
+      currencies,
+      transactionListItem.buyInfo!.sellAssetId,
+    );
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -53,7 +62,12 @@ class BuySimplexDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
-              text: '\$${transactionListItem.buyInfo!.sellAmount}',
+              text: volumeFormat(
+                decimal: transactionListItem.buyInfo!.sellAmount,
+                symbol: transactionListItem.buyInfo!.sellAssetId,
+                prefix: paymentCurrency.prefixSymbol,
+                accuracy: paymentCurrency.accuracy,
+              ),
             ),
           ),
           const SpaceH14(),
