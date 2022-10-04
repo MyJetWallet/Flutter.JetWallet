@@ -17,15 +17,12 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/market/market_details/helper/get_market_info.dart';
-import 'package:jetwallet/features/market/market_details/helper/operation_history.dart';
 import 'package:jetwallet/features/market/market_details/store/market_news_store.dart';
-import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/about_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_day_change.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_price.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/index_history_block/index_history_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_news_block/market_news_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats_block/market_stats_block.dart';
@@ -93,11 +90,6 @@ class _MarketDetailsBody extends StatelessObserverWidget {
     final chart = ChartStore.of(context);
     final watchlistIdsN = WatchlistStore.of(context);
 
-    final transactionHistory = OperationHistory(marketItem.symbol);
-    final initTransactionHistory = operationHistoryInit(
-      transactionHistory,
-      marketItem.symbol,
-    );
 
     final news = MarketNewsStore.of(context);
 
@@ -190,36 +182,6 @@ class _MarketDetailsBody extends StatelessObserverWidget {
               marketItem: marketItem,
               onCandleSelected: (ChartInfoModel? chartInfo) {
                 chart.updateSelectedCandle(chartInfo?.right);
-              },
-            ),
-            FutureBuilder(
-              future: initTransactionHistory,
-              builder: (context, snapshot) {
-                return snapshot.connectionState == ConnectionState.waiting
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          SpaceH40(),
-                          SSkeletonTextLoader(
-                            height: 16,
-                            width: 133,
-                          ),
-                        ],
-                      )
-                    : snapshot.hasError
-                        ? const SizedBox()
-                        : marketItem.type == AssetType.indices &&
-                                transactionHistory
-                                    .operationHistoryItems.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SpaceH40(),
-                                  IndexHistoryBlock(
-                                    marketItem: marketItem,
-                                  ),
-                                ],
-                              )
-                            : const SizedBox();
               },
             ),
             ReturnRatesBlock(
