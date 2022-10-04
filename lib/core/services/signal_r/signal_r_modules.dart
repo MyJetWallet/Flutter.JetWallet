@@ -390,6 +390,26 @@ abstract class _SignalRModulesBase with Store {
               }
             }
           }
+
+          if (currenciesList[index].withdrawalBlockchains.isNotEmpty) {
+            for (final withdrawalBlockchain
+                in currenciesList[index].withdrawalBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .withdrawalBlockchains
+                  .indexOf(withdrawalBlockchain);
+              for (final blockchain in data.blockchains) {
+                if (withdrawalBlockchain.id == blockchain.id) {
+                  currenciesList[index].withdrawalBlockchains[blockchainIndex] =
+                      currenciesList[index]
+                          .withdrawalBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                }
+              }
+            }
+          }
         }
       }
     });
