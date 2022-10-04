@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -12,7 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'components/portfolio_with_balance_body.dart';
 
 class PortfolioWithBalance extends StatefulObserverWidget {
-  const PortfolioWithBalance({Key? key}) : super(key: key);
+  const PortfolioWithBalance({super.key});
 
   @override
   State<PortfolioWithBalance> createState() => _PortfolioWithBalanceState();
@@ -25,9 +26,15 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
   @override
   void initState() {
     super.initState();
-    final cryptosWithBalance = currenciesWithBalanceFrom(getMarketCrypto());
-    final indicesWithBalance = currenciesWithBalanceFrom(getMarketCurrencies());
-    final fiatsWithBalance = currenciesWithBalanceFrom(getMarketFiats());
+    final cryptosWithBalance = currenciesWithBalanceFrom(
+      getMarketCrypto(sSignalRModules.currenciesList),
+    );
+    final indicesWithBalance = currenciesWithBalanceFrom(
+      getMarketCurrencies(sSignalRModules.currenciesList),
+    );
+    final fiatsWithBalance = currenciesWithBalanceFrom(
+      getMarketFiats(sSignalRModules.currenciesList),
+    );
 
     final tabsLength = _tabsLength(
       cryptosWithBalance.isEmpty,
@@ -47,14 +54,15 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
   @override
   Widget build(BuildContext context) {
     final cryptosWithBalance = currenciesWithBalanceFrom(
-      getMarketCrypto(),
+      getMarketCrypto(sSignalRModules.currenciesList),
     );
     final indicesWithBalance = currenciesWithBalanceFrom(
-      getMarketCurrencies(),
+      getMarketCurrencies(sSignalRModules.currenciesList),
     );
     final fiatsWithBalance = currenciesWithBalanceFrom(
-      getMarketFiats(),
+      getMarketFiats(sSignalRModules.currenciesList),
     );
+
     final isCryptoVisible = cryptosWithBalance.isNotEmpty &&
         (indicesWithBalance.isNotEmpty || fiatsWithBalance.isNotEmpty);
     final isFiatVisible = fiatsWithBalance.isNotEmpty &&
