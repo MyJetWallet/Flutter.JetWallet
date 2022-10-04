@@ -43,6 +43,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_respons
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 part 'signal_r_modules.g.dart';
 
@@ -389,6 +390,26 @@ abstract class _SignalRModulesBase with Store {
               }
             }
           }
+
+          if (currenciesList[index].withdrawalBlockchains.isNotEmpty) {
+            for (final withdrawalBlockchain
+                in currenciesList[index].withdrawalBlockchains) {
+              final blockchainIndex = currenciesList[index]
+                  .withdrawalBlockchains
+                  .indexOf(withdrawalBlockchain);
+              for (final blockchain in data.blockchains) {
+                if (withdrawalBlockchain.id == blockchain.id) {
+                  currenciesList[index].withdrawalBlockchains[blockchainIndex] =
+                      currenciesList[index]
+                          .withdrawalBlockchains[blockchainIndex]
+                          .copyWith(
+                            tagType: blockchain.tagType,
+                            description: blockchain.description,
+                          );
+                }
+              }
+            }
+          }
         }
       }
     });
@@ -412,6 +433,8 @@ abstract class _SignalRModulesBase with Store {
     });
 
     assets.listen((value) {
+      log.w(value.assets);
+
       for (final asset in value.assets) {
         if (!asset.hideInTerminal) {
           final depositBlockchains = <BlockchainModel>[];
@@ -433,48 +456,62 @@ abstract class _SignalRModulesBase with Store {
             );
           }
 
-          currenciesList.add(
-            CurrencyModel(
-              symbol: asset.symbol,
-              description: asset.description,
-              accuracy: asset.accuracy.toInt(),
-              depositMode: asset.depositMode,
-              withdrawalMode: asset.withdrawalMode,
-              tagType: asset.tagType,
-              type: asset.type,
-              depositMethods: asset.depositMethods,
-              fees: asset.fees,
-              withdrawalMethods: asset.withdrawalMethods,
-              depositBlockchains: depositBlockchains,
-              withdrawalBlockchains: withdrawalBlockchains,
-              iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
-              selectedIndexIconUrl: iconUrlFrom(
-                assetSymbol: asset.symbol,
-                selected: true,
-              ),
-              weight: asset.weight,
-              prefixSymbol: asset.prefixSymbol,
-              apy: Decimal.zero,
-              apr: Decimal.zero,
-              assetBalance: Decimal.zero,
-              assetCurrentEarnAmount: Decimal.zero,
-              assetTotalEarnAmount: Decimal.zero,
-              cardReserve: Decimal.zero,
-              baseBalance: Decimal.zero,
-              baseCurrentEarnAmount: Decimal.zero,
-              baseTotalEarnAmount: Decimal.zero,
-              currentPrice: Decimal.zero,
-              dayPriceChange: Decimal.zero,
-              earnProgramEnabled: asset.earnProgramEnabled,
-              depositInProcess: Decimal.zero,
-              earnInProcessTotal: Decimal.zero,
-              buysInProcessTotal: Decimal.zero,
-              transfersInProcessTotal: Decimal.zero,
-              earnInProcessCount: 0,
-              buysInProcessCount: 0,
-              transfersInProcessCount: 0,
+          final currModel = CurrencyModel(
+            symbol: asset.symbol,
+            description: asset.description,
+            accuracy: asset.accuracy.toInt(),
+            depositMode: asset.depositMode,
+            withdrawalMode: asset.withdrawalMode,
+            tagType: asset.tagType,
+            type: asset.type,
+            depositMethods: asset.depositMethods,
+            fees: asset.fees,
+            withdrawalMethods: asset.withdrawalMethods,
+            depositBlockchains: depositBlockchains,
+            withdrawalBlockchains: withdrawalBlockchains,
+            iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
+            selectedIndexIconUrl: iconUrlFrom(
+              assetSymbol: asset.symbol,
+              selected: true,
             ),
+            weight: asset.weight,
+            prefixSymbol: asset.prefixSymbol,
+            apy: Decimal.zero,
+            apr: Decimal.zero,
+            assetBalance: Decimal.zero,
+            assetCurrentEarnAmount: Decimal.zero,
+            assetTotalEarnAmount: Decimal.zero,
+            cardReserve: Decimal.zero,
+            baseBalance: Decimal.zero,
+            baseCurrentEarnAmount: Decimal.zero,
+            baseTotalEarnAmount: Decimal.zero,
+            currentPrice: Decimal.zero,
+            dayPriceChange: Decimal.zero,
+            earnProgramEnabled: asset.earnProgramEnabled,
+            depositInProcess: Decimal.zero,
+            earnInProcessTotal: Decimal.zero,
+            buysInProcessTotal: Decimal.zero,
+            transfersInProcessTotal: Decimal.zero,
+            earnInProcessCount: 0,
+            buysInProcessCount: 0,
+            transfersInProcessCount: 0,
           );
+
+          //if (!currenciesList.contains(currModel)) {
+          //  currenciesList.add(currModel);
+          //}
+
+          var contains = false;
+
+          for (var i = 0; i < currenciesList.length; i++) {
+            if (currenciesList[i].symbol == currModel.symbol) {
+              contains = true;
+            }
+          }
+
+          if (!contains) {
+            currenciesList.add(currModel);
+          }
         }
       }
 
@@ -683,6 +720,8 @@ abstract class _SignalRModulesBase with Store {
       currenciesList.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
     });
   }
+
+  final log = logPrint.Logger();
 
   @observable
   ObservableStream<AssetPaymentMethods> assetPaymentMethods = ObservableStream(

@@ -13,9 +13,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PreviewConvert extends StatefulObserverWidget {
   const PreviewConvert({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewConvertInput input;
 

@@ -21,7 +21,8 @@ class CurrencyWithdraw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<WithdrawalAddressStore>(
-      create: (context) => WithdrawalAddressStore(withdrawal)..clearData(),
+      create: (context) =>
+          WithdrawalAddressStore()..clearDataAndInit(withdrawal),
       builder: (context, child) => _CurrencyWithdrawBody(
         withdrawal: withdrawal,
       ),

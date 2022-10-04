@@ -91,22 +91,22 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final itemsWithoutBalance = currenciesWithoutBalanceFrom(currencies);
     final cryptosWithBalance = currenciesWithBalanceFrom(
-      getMarketCrypto(),
+      getMarketCrypto(sSignalRModules.currenciesList),
     );
     final cryptosWithoutBalance = currenciesWithoutBalanceFrom(
-      getMarketCrypto(),
+      getMarketCrypto(sSignalRModules.currenciesList),
     );
     final indicesWithBalance = currenciesWithBalanceFrom(
-      getMarketCurrencies(),
+      getMarketCurrencies(sSignalRModules.currenciesList),
     );
     final indicesWithoutBalance = currenciesWithoutBalanceFrom(
-      getMarketCurrencies(),
+      getMarketCurrencies(sSignalRModules.currenciesList),
     );
     final fiatsWithBalance = currenciesWithBalanceFrom(
-      getMarketFiats(),
+      getMarketFiats(sSignalRModules.currenciesList),
     );
     final fiatsWithoutBalance = currenciesWithoutBalanceFrom(
-      getMarketFiats(),
+      getMarketFiats(sSignalRModules.currenciesList),
     );
     final clientDetail = sSignalRModules.clientDetail;
 
