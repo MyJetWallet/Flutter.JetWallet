@@ -3,6 +3,7 @@
 import 'package:credit_card_validator/credit_card_validator.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -131,7 +132,9 @@ abstract class _AddBankCardStoreBase with Store {
   @action
   void _initState() {
     final userInfo = sUserInfo.userInfo;
-    cardholderName = '${userInfo.firstName} ${userInfo.lastName}';
+    final userName = '${userInfo.firstName} ${userInfo.lastName}';
+    cardholderName = userName;
+    cardholderNameController.text = userName;
   }
 
   @action
@@ -144,7 +147,7 @@ abstract class _AddBankCardStoreBase with Store {
   }) async {
     _logger.log(notifier, 'addCard');
 
-    loader.startLoading();
+    loader.startLoadingImmediately();
 
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
@@ -180,7 +183,7 @@ abstract class _AddBankCardStoreBase with Store {
           cardNumber: cardNumberFinal,
           currency: currency!,
           amount: amount,
-          cardId: newCard.data?.data?.cardId ?? '',
+          cardId: newCard.data?.data.cardId ?? '',
         );
       }
       loader.finishLoading(onFinish: () => onSuccess());
@@ -271,6 +274,38 @@ abstract class _AddBankCardStoreBase with Store {
     _logger.log(notifier, 'updateCardholderName');
 
     cardholderName = _cardholderName.trim();
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pasteCode');
+
+    final data = await Clipboard.getData('text/plain');
+    final code = data?.text?.trim() ?? '';
+
+    try {
+      int.parse(code);
+      if (code.length == 12) {
+        final buffer = StringBuffer();
+
+        for (var i = 0; i < code.length; i++) {
+          buffer.write(code[i]);
+          final nonZeroIndex = i + 1;
+          if (nonZeroIndex % 4 == 0 &&
+              nonZeroIndex != code.length &&
+              nonZeroIndex != (code.length - 1)) {
+            buffer.write(' ');
+          }
+        }
+
+      } else {
+        updateCardNumber(code);
+        cardNumberController.text = code;
+      }
+
+    } catch (e) {
+      return;
+    }
   }
 
   @action

@@ -95,6 +95,12 @@ class AddBankCardBody extends StatelessObserverWidget {
                   ],
                   controller: store.cardNumberController,
                   onChanged: store.updateCardNumber,
+                  suffixIcons: [
+                    SIconButton(
+                      onTap: () => store.pasteCode(),
+                      defaultIcon: const SPasteIcon(),
+                    ),
+                  ],
                 ),
               ),
               Row(

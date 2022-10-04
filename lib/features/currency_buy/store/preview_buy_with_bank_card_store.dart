@@ -393,8 +393,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         secondaryText: error,
         primaryButtonName: intl.previewBuyWithAsset_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.pop();
-          sRouter.pop();
+          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          Navigator.pop(sRouter.navigatorKey.currentContext!);
+          if (input.cardNumber != null && input.cardNumber!.length > 4) {
+            Navigator.pop(sRouter.navigatorKey.currentContext!);
+          }
         },
         secondaryButtonName: intl.previewBuyWithAsset_close,
         onSecondaryButtonTap: () => navigateToRouter(),

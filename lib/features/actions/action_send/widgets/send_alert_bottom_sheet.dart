@@ -10,7 +10,6 @@ void sendAlertBottomSheet(BuildContext context) {
 
   sShowBasicModalBottomSheet(
     context: context,
-    scrollable: true,
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _SendAlertBottomSheet()],

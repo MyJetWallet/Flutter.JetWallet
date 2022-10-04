@@ -342,6 +342,16 @@ abstract class _CurrencyBuyStoreBase with Store {
           if (circleCards.isNotEmpty) {
             return updateSelectedCircleCard(circleCards.first);
           }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.unlimintCard) {
+          if (unlimintCards.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCards.first);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.bankCard) {
+          if (unlimintAltCards.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCards.first);
+          }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
         }
@@ -427,6 +437,16 @@ abstract class _CurrencyBuyStoreBase with Store {
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
             return updateSelectedCircleCard(circleCards.first);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.unlimintCard) {
+          if (unlimintCards.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCards.first);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.bankCard) {
+          if (unlimintAltCards.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCards.first);
           }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/payment_methods_service/payment_methods_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/payment_methods/models/payment_methods_union.dart';
@@ -62,40 +63,46 @@ abstract class _PaymentMethodsStoreBase with Store {
   @action
   Future<void> getCards() async {
     _logger.log(notifier, 'getCards');
-
-    _updateUnion(const PaymentMethodsUnion.loading());
     Timer(const Duration(seconds: 2), () {
       cards = ObservableList.of(sSignalRModules.cards.cardInfos);
     });
+    final allPaymentMethods = sPaymentMethod.paymentMethods;
+    final useCircleCard = allPaymentMethods
+        .contains('PaymentMethodType.circleCard');
 
-    try {
-      final response = await sNetwork.getWalletModule().getAllCards();
+    if (useCircleCard) {
+      _updateUnion(const PaymentMethodsUnion.loading());
+      try {
+        final response = await sNetwork.getWalletModule().getAllCards();
 
-      response.pick(
-        onData: (data) async {
-          cards = ObservableList.of(cardModel.cardInfos);
+        response.pick(
+          onData: (data) async {
+            cards = ObservableList.of(cardModel.cardInfos);
 
-          final cardsFailing = data.cards
-              .where(
-                (element) => element.status == CircleCardStatus.failed,
-              )
-              .toList();
-          if (cardsFailing.isNotEmpty &&
-              cardsFailing.any((element) => !cardsIds.contains(element.id))) {
-            for (final card in cardsFailing) {
-              if (!cardsIds.contains(card.id)) {
-                await addCardToKeyValue(card.id);
+            final cardsFailing = data.cards
+                .where(
+                  (element) => element.status == CircleCardStatus.failed,
+            )
+                .toList();
+            if (cardsFailing.isNotEmpty &&
+                cardsFailing.any((element) => !cardsIds.contains(element.id))) {
+              for (final card in cardsFailing) {
+                if (!cardsIds.contains(card.id)) {
+                  await addCardToKeyValue(card.id);
+                }
               }
+              showFailure();
             }
-            showFailure();
-          }
-          _updateUnion(const PaymentMethodsUnion.success());
-        },
-        onError: (error) {},
-      );
-    } catch (e) {
-      await Future.delayed(const Duration(seconds: 5));
-      await getCards();
+            _updateUnion(const PaymentMethodsUnion.success());
+          },
+          onError: (error) {},
+        );
+      } catch (e) {
+        await Future.delayed(const Duration(seconds: 5));
+        await getCards();
+      }
+    } else {
+      _updateUnion(const PaymentMethodsUnion.success());
     }
   }
 
