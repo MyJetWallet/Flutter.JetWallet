@@ -12,6 +12,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/watchl
 import 'package:jetwallet/widgets/bottom_tabs/bottom_tabs.dart';
 import 'package:jetwallet/widgets/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class MarketScreen extends StatefulObserverWidget {
   const MarketScreen({Key? key}) : super(key: key);
@@ -47,9 +48,9 @@ class _MarketScreenState extends State<MarketScreen> {
     //useProvider(watchlistIdsNotipod);
 
     //List<MarketItemModel> allItems = sSignalRModules.marketItems;
-    final indices = getMarketIndices();
-    final gainers = getMarketGainers();
-    final losers = getMarketLosers();
+    //final indices = getMarketIndices();
+    //final gainers = getMarketGainers();
+    //final losers = getMarketLosers();
 
     //Timer.periodic(
     //  const Duration(milliseconds: 100),
@@ -59,32 +60,50 @@ class _MarketScreenState extends State<MarketScreen> {
     // TODO: refactor
 
     //final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
+
+    /*
     final marketTabsLength = _marketTabsLength(
-      gainers.isEmpty,
-      losers.isEmpty,
-      indices.isEmpty,
+      //gainers.isEmpty,
+      //losers.isEmpty,
+      //indices.isEmpty,
     );
+    */
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       //await timeTrackerN.updateMarketOpened();
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    final ass = sSignalRModules.getMarketPrices;
+    final cryptoPrices = sSignalRModules.getMarketPrices;
+    final nftMarket = sSignalRModules.nftList;
+
+    final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
     return Scaffold(
       body: DefaultTabController(
-        length: marketTabsLength,
+        initialIndex: 1,
+        length: showCrypto ? 3 : 2,
         child: Stack(
           children: [
             TabBarView(
               children: [
+                const WatchlistTabBarView(),
                 MarketNestedScrollView(
-                  items: ass,
+                  items: cryptoPrices,
+                  nft: const [],
                   showBanners: true,
                   sourceScreen: FilterMarketTabAction.all,
                 ),
-                const WatchlistTabBarView(),
+                if (showCrypto) ...[
+                  MarketNestedScrollView(
+                    items: const [],
+                    nft: nftMarket,
+                    showBanners: true,
+                    showFilter: true,
+                    sourceScreen: FilterMarketTabAction.all,
+                  ),
+                ],
+                /*
                 if (indices.isNotEmpty)
                   MarketNestedScrollView(
                     items: indices,
@@ -100,14 +119,24 @@ class _MarketScreenState extends State<MarketScreen> {
                     items: losers,
                     sourceScreen: FilterMarketTabAction.losers,
                   ),
+                  */
               ],
             ),
             Align(
               alignment: FractionalOffset.bottomCenter,
               child: BottomTabs(
                 tabs: [
-                  BottomTab(text: intl.market_all),
-                  BottomTab(text: intl.market_bottomTabLabel2),
+                  const BottomTab(
+                    icon: SStarIcon(),
+                  ),
+                  BottomTab(text: intl.market_crypto),
+                  if (showCrypto) ...[
+                    BottomTab(
+                      text: intl.market_nft,
+                      isTextBlue: true,
+                    ),
+                  ],
+                  /*
                   if (indices.isNotEmpty)
                     BottomTab(
                       text: intl.market_bottomTabLabel3,
@@ -120,6 +149,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     BottomTab(
                       text: intl.market_bottomTabLabel5,
                     ),
+                    */
                 ],
               ),
             ),

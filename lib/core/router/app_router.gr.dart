@@ -724,6 +724,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    NftCollectionDetailsRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const NftCollectionDetails(),
+      );
+    },
     MarketRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -1090,6 +1096,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MarketDetailsRouter.name,
           path: '/market_details',
+        ),
+        RouteConfig(
+          NftCollectionDetailsRouter.name,
+          path: '/mft_collection',
         ),
       ];
 }
@@ -3383,6 +3393,18 @@ class MarketDetailsRouterArgs {
   String toString() {
     return 'MarketDetailsRouterArgs{key: $key, marketItem: $marketItem}';
   }
+}
+
+/// generated route for
+/// [NftCollectionDetails]
+class NftCollectionDetailsRouter extends PageRouteInfo<void> {
+  const NftCollectionDetailsRouter()
+      : super(
+          NftCollectionDetailsRouter.name,
+          path: '/mft_collection',
+        );
+
+  static const String name = 'NftCollectionDetailsRouter';
 }
 
 /// generated route for

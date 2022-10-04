@@ -64,6 +64,7 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/features/market/nft_collection_details/ui/nft_collection_details_screen.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/news/ui/news_screen.dart';
 import 'package:jetwallet/features/news/ui/widgets/news_list/components/news_web_view.dart';
@@ -510,6 +511,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/market_details',
       name: 'MarketDetailsRouter',
       page: MarketDetails,
+    ),
+    AutoRoute(
+      path: '/mft_collection',
+      name: 'NftCollectionDetailsRouter',
+      page: NftCollectionDetails,
     ),
   ],
 )

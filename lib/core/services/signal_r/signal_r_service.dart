@@ -28,6 +28,8 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
@@ -137,4 +139,9 @@ class SignalRService {
 
   Stream<TotalMarketInfoModel> marketInfo() =>
       signalR.marketInfo().asBroadcastStream();
+
+  Stream<NftCollections> nftCollections() =>
+      signalR.nftCollections().asBroadcastStream();
+
+  Stream<NFTMarkets> nftMarkets() => signalR.nftMarket().asBroadcastStream();
 }

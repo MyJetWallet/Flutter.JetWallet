@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -36,6 +37,8 @@ import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
 import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -682,6 +685,33 @@ abstract class _SignalRModulesBase with Store {
 
       currenciesList.sort((a, b) => b.baseBalance.compareTo(a.baseBalance));
     });
+
+    nftCollectionsOS.listen((value) {
+      nftList = ObservableList.of(value.collection
+          .map(
+            (e) => NftModel(
+              id: e.id,
+              name: e.name,
+              description: e.description,
+              category: NftCollectionCategoryEnum.values
+                  .firstWhere((x) => x.index == e.category),
+              tags: e.tags,
+              nftList: [],
+            ),
+          )
+          .toList());
+    });
+
+    nftMarketsOS.listen((value) {
+      for (var i = 0; i < value.nfts.length; i++) {
+        final ind = nftList
+            .indexWhere((element) => element.id == value.nfts[i].collectionId);
+
+        if (ind != -1) {
+          nftList[ind].nftList.add(value.nfts[i]);
+        }
+      }
+    });
   }
 
   @observable
@@ -926,6 +956,19 @@ abstract class _SignalRModulesBase with Store {
         sSignalRModules.assets.value!,
       );
   */
+
+  @observable
+  ObservableStream<NftCollections> nftCollectionsOS = ObservableStream(
+    getIt.get<SignalRService>().nftCollections(),
+  );
+
+  @observable
+  ObservableStream<NFTMarkets> nftMarketsOS = ObservableStream(
+    getIt.get<SignalRService>().nftMarkets(),
+  );
+
+  @observable
+  ObservableList<NftModel> nftList = ObservableList.of([]);
 
   @action
   void clearSignalRModule() {

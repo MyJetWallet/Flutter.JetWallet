@@ -8,11 +8,13 @@ class ActionBottomSheetHeader extends StatelessWidget {
     this.showSearch = false,
     this.removePadding = false,
     this.onChanged,
+    this.onCloseTap,
     required this.name,
   }) : super(key: key);
 
   final String name;
   final Function(String)? onChanged;
+  final Function()? onCloseTap;
   final bool showSearch;
   final bool removePadding;
 
@@ -39,6 +41,10 @@ class ActionBottomSheetHeader extends StatelessWidget {
               if (!showSearch)
                 SIconButton(
                   onTap: () {
+                    if (onCloseTap != null) {
+                      onCloseTap!();
+                    }
+
                     Navigator.pop(context);
                   },
                   defaultIcon: const SEraseIcon(),

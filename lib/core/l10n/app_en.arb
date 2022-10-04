@@ -318,6 +318,11 @@
   "market_bottomTabLabel3": "Crypto Sets",
   "market_bottomTabLabel4": "Gainers",
   "market_bottomTabLabel5": "Losers",
+  "market_crypto": "Crypto",
+  "market_nft": "NFTs",
+  "market_nft_items": "items",
+  "market_nft_show": "Show",
+  "market_nft_done": "Done",
   "operationName_transferByPhone": "Transfer by Phone",
   "operationName_receiveByPhone": "Receive by Phone",
   "operationName_interestRate": "Interest Rate",
@@ -1070,5 +1075,11 @@
   "forgot_pass_dialog_btn_cancel": "Cancel",
   "pin_screen_set_new_pin": "Create a PIN code",
   "pin_screen_confirm_newPin": "Confirm PIN code",
-  "user_data_date_of_birth_is_not_valid": "You have to be 18 years old to complete the registration"
+  "user_data_date_of_birth_is_not_valid": "You have to be 18 years old to complete the registration",
+  "nft_collection_details_items": "Items",
+  "nft_collection_details_owners": "Owners",
+  "nft_collection_details_total_volume": "Total volume",
+  "nft_collection_details_best_offer": "Best offer",
+  "nft_collection_details_best_available_nfts": "Available NFTs",
+  "nft_collection_details_best_sold_nfts": "Sold NFTs"
 }

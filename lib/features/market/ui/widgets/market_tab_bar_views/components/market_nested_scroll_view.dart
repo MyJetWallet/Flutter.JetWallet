@@ -3,10 +3,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
+import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/nft_market_item.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/helpers/nft_count_items_in_collection.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
 
 import '../../../../model/market_item_model.dart';
 import '../../fade_on_scroll.dart';
@@ -14,23 +23,60 @@ import '../../market_banners/market_banners.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 
-class MarketNestedScrollView extends StatefulObserverWidget {
+class MarketNestedScrollView extends StatelessWidget {
   const MarketNestedScrollView({
-    Key? key,
+    super.key,
     this.showBanners = false,
+    this.showFilter = false,
     required this.items,
+    required this.nft,
     required this.sourceScreen,
-  }) : super(key: key);
+  });
 
   final List<MarketItemModel> items;
+  final List<NftModel> nft;
   final bool showBanners;
+  final bool showFilter;
   final FilterMarketTabAction sourceScreen;
 
   @override
-  State<MarketNestedScrollView> createState() => _MarketNestedScrollViewState();
+  Widget build(BuildContext context) {
+    return Provider<MarketFilterStore>(
+      create: (context) => MarketFilterStore()..init(items, nft),
+      builder: (context, child) => _MarketNestedScrollViewBody(
+        showBanners: showBanners,
+        showFilter: showFilter,
+        items: items,
+        nft: nft,
+        sourceScreen: sourceScreen,
+      ),
+    );
+  }
 }
 
-class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
+class _MarketNestedScrollViewBody extends StatefulObserverWidget {
+  const _MarketNestedScrollViewBody({
+    super.key,
+    this.showBanners = false,
+    this.showFilter = false,
+    required this.items,
+    required this.nft,
+    required this.sourceScreen,
+  });
+
+  final List<MarketItemModel> items;
+  final List<NftModel> nft;
+  final bool showBanners;
+  final bool showFilter;
+  final FilterMarketTabAction sourceScreen;
+
+  @override
+  State<_MarketNestedScrollViewBody> createState() =>
+      __MarketNestedScrollViewBodyState();
+}
+
+class __MarketNestedScrollViewBodyState
+    extends State<_MarketNestedScrollViewBody> {
   final ScrollController controller = ScrollController();
 
   @override
@@ -57,6 +103,9 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final colors = sKit.colors;
+    final store = MarketFilterStore.of(context);
+
+    final showPreloader = widget.items.isEmpty || widget.nft.isEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -75,8 +124,18 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
               fadeInWidget: const SDivider(
                 width: double.infinity,
               ),
-              fadeOutWidget: widget.items.isNotEmpty
-                  ? const MarketHeaderStats()
+              fadeOutWidget: showPreloader
+                  ? MarketHeaderStats(
+                      activeFilters: 0,
+                      onFilterButtonTap: widget.showFilter
+                          ? () {
+                              showNFTFilterModalSheet(
+                                context,
+                                store as MarketFilterStore,
+                              );
+                            }
+                          : null,
+                    )
                   : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(
                 title: intl.marketNestedScrollView_market,
@@ -85,48 +144,90 @@ class _MarketNestedScrollViewState extends State<MarketNestedScrollView> {
           ),
         ];
       },
-      body: widget.items.isNotEmpty
+      body: showPreloader
           ? ColoredBox(
               color: colors.white,
-              child: Column(
-                children: [
-                  if (widget.showBanners) const MarketBanners(),
-                  Flexible(
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: widget.items.length,
-                      itemBuilder: (context, index) {
-                        return SMarketItem(
-                          icon: SNetworkSvg24(
-                            url: widget.items[index].iconUrl,
-                          ),
-                          name: widget.items[index].name,
-                          price: marketFormat(
-                            prefix: baseCurrency.prefix,
-                            decimal: widget.items[index].lastPrice,
-                            symbol: baseCurrency.symbol,
-                            accuracy: widget.items[index].priceAccuracy,
-                          ),
-                          ticker: widget.items[index].symbol,
-                          last: widget.items[index] == widget.items.last,
-                          percent: widget.items[index].dayPercentChange,
-                          onTap: () {
-                            sRouter.push(
-                              MarketDetailsRouter(
-                                marketItem: widget.items[index],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  const SpaceH40(),
-                ],
-              ),
+              child: store.cryptoList.isNotEmpty
+                  ? showCryptoList(baseCurrency)
+                  : showNFTList(),
             )
           : const MarketNotLoaded(),
+    );
+  }
+
+  Widget showCryptoList(BaseCurrencyModel baseCurrency) {
+    final store = MarketFilterStore.of(context);
+
+    return Column(
+      children: [
+        if (widget.showBanners) const MarketBanners(),
+        Flexible(
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: store.cryptoListFiltred.length,
+            itemBuilder: (context, index) {
+              return SMarketItem(
+                icon: SNetworkSvg24(
+                  url: store.cryptoListFiltred[index].iconUrl,
+                ),
+                name: store.cryptoListFiltred[index].name,
+                price: marketFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: store.cryptoListFiltred[index].lastPrice,
+                  symbol: baseCurrency.symbol,
+                  accuracy: store.cryptoListFiltred[index].priceAccuracy,
+                ),
+                ticker: store.cryptoListFiltred[index].symbol,
+                last: store.cryptoListFiltred[index] ==
+                    store.cryptoListFiltred.last,
+                percent: store.cryptoListFiltred[index].dayPercentChange,
+                onTap: () {
+                  sRouter.push(
+                    MarketDetailsRouter(
+                      marketItem: store.cryptoListFiltred[index],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        const SpaceH40(),
+      ],
+    );
+  }
+
+  Widget showNFTList() {
+    final store = MarketFilterStore.of(context);
+
+    return Column(
+      children: [
+        if (widget.showBanners) const MarketBanners(),
+        Flexible(
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: store.nftListFiltred.length,
+            itemBuilder: (context, index) {
+              return NftMarketItem(
+                icon: const SStarIcon(),
+                name: store.nftListFiltred[index].name ?? '',
+                descr: nftMarketDescr(
+                  store.nftListFiltred[index].nftList.length,
+                  store.nftListFiltred[index].tags ?? [],
+                ),
+                onTap: () {
+                  sRouter.push(
+                    NftCollectionDetailsRouter(),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        const SpaceH40(),
+      ],
     );
   }
 }
