@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
+import '../../../../../../../../../../core/services/signal_r/signal_r_modules.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -24,8 +25,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final currencies = sSignalRModules.currenciesList;
     final currency = currencyFromAll(
-      sCurrenciesWithHidden.currencies,
+      currencies,
       transactionListItem.assetId,
     );
 
