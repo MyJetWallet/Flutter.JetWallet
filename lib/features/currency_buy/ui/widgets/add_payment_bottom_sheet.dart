@@ -51,6 +51,7 @@ void showAddPaymentBottomSheet({
             description: intl.curencyBuy_actionItemDescription,
             onTap: () {
               sAnalytics.circleTapAddCard();
+              sAnalytics.paymentDetailsView(source: 'Circle');
 
               sRouter.navigate(
                 AddCircleCardRouter(

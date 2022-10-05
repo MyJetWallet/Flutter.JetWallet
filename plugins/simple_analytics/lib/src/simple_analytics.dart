@@ -657,8 +657,15 @@ class SimpleAnalytics {
     _analytics.logEvent(EventType.circleContinueAddress);
   }
 
-  void circleCVVView() {
-    _analytics.logEvent(EventType.circleCVVView);
+  void circleCVVView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.circleCVVView,
+      eventProperties: {
+        PropertyType.method: source,
+      },
+    );
   }
 
   void circleCloseCVV() {
@@ -1591,6 +1598,23 @@ class SimpleAnalytics {
       EventType.paymentBillingContinue,
       eventProperties: {
         PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentSuccess({
+    required String source,
+    required String asset,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentSuccess,
+      eventProperties: {
+        PropertyType.method: source,
+        PropertyType.assetName: asset,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
       },
     );
   }

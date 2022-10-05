@@ -20,6 +20,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
@@ -181,6 +182,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     storage.setString(checkedBankCard, 'true');
+    sAnalytics.circleCVVView(source: 'Unlimint');
     showBankCardCvvBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
       header: '${intl.previewBuyWithCircle_enter} CVV '
@@ -322,6 +324,12 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             if (isWaitingSkipped) {
               return;
             }
+            sAnalytics.paymentSuccess(
+              asset: input.currency.description,
+              amount: input.amount,
+              frequency: RecurringFrequency.oneTime,
+              source: 'Unlimint',
+            );
             unawaited(_showSuccessScreen());
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -365,6 +373,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
+    sAnalytics.paymentSuccess(
+      asset: input.currency.description,
+      amount: input.amount,
+      frequency: RecurringFrequency.oneTime,
+      source: 'Unlimint',
+    );
+
     return sRouter
         .push(
           SuccessScreenRouter(

@@ -126,7 +126,7 @@ class EventType {
 
   /// Buy screen
   static const tapPreviewBuy = 'Tap preview buy';
-  static const previewBuyView = 'Confirm buy view';
+  static const previewBuyView = '"Preview Buy" View';
   static const simplexView = 'Simplex view';
   static const simplexSucsessView = 'Simplex success view';
   static const simplexFailureView = 'Simplex failure view';
@@ -254,4 +254,5 @@ class EventType {
   static const paymentDetailsContinue = 'Continue with Card Details';
   static const paymentBillingView = 'Billing Address Screen View';
   static const paymentBillingContinue = 'Continue with Billing Address';
+  static const paymentSuccess = 'Success Page - Card';
 }

@@ -886,6 +886,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       frequency: state.recurringBuyType.toFrequency,
                     );
                     if (state.pickedAltUnlimintCard == null) {
+                      sAnalytics.paymentDetailsView(source: 'Unlimint');
                       await sRouter.push(
                         AddUnlimintCardRouter(
                           onCardAdded: () {},
