@@ -120,13 +120,17 @@ abstract class _PreviewConvertStoreBase with Store {
           fromAssetAmount = data.fromAssetAmount;
           toAssetAmount = data.toAssetAmount;
           union = const QuoteSuccess();
+
           connectingToServer = false;
+
           feeAsset = data.feeAsset;
           feeAmount = data.feeAmount;
           feePercent = data.feePercent;
 
-          _refreshTimerAnimation(data.expirationTime);
-          _refreshTimer(data.expirationTime);
+          if (data.expirationTime >= 0) {
+            _refreshTimerAnimation(data.expirationTime);
+            _refreshTimer(data.expirationTime);
+          }
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestQuote', error.cause);
