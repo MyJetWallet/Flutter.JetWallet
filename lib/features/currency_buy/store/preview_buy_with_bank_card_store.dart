@@ -169,7 +169,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
 
       Timer(const Duration(milliseconds: 500), () {
         _isChecked();
@@ -424,7 +424,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   Future<void> _isChecked() async {
     try {
       final storage = sLocalStorageService;
-      final status = await storage.getValue(checkedUnlimint);
+      final status = await storage.getValue(checkedBankCard);
       if (status != null) {
         isChecked = true;
       }
