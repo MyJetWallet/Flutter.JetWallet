@@ -724,6 +724,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    DefaultAssetChangeRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const DefaultAssetChange(),
+      );
+    },
     MarketRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -1090,6 +1096,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           MarketDetailsRouter.name,
           path: '/market_details',
+        ),
+        RouteConfig(
+          DefaultAssetChangeRouter.name,
+          path: '/change_base_asset',
         ),
       ];
 }
@@ -3383,6 +3393,18 @@ class MarketDetailsRouterArgs {
   String toString() {
     return 'MarketDetailsRouterArgs{key: $key, marketItem: $marketItem}';
   }
+}
+
+/// generated route for
+/// [DefaultAssetChange]
+class DefaultAssetChangeRouter extends PageRouteInfo<void> {
+  const DefaultAssetChangeRouter()
+      : super(
+          DefaultAssetChangeRouter.name,
+          path: '/change_base_asset',
+        );
+
+  static const String name = 'DefaultAssetChangeRouter';
 }
 
 /// generated route for
