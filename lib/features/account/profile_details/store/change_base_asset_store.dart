@@ -1,7 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
@@ -37,9 +39,21 @@ abstract class _ChangeBaseAssetStoreBase with Store {
         );
 
         final _ = await sNetwork.getWalletModule().setBaseAsset(model);
+
+        final currencies = sSignalRModules.currenciesWithHiddenList;
+        final baseCurrency = currencyFromAll(currencies, newAsset);
+
+        sSignalRModules.updateBaseCurrency(
+          BaseCurrencyModel(
+            prefix: baseCurrency.prefixSymbol,
+            accuracy: baseCurrency.accuracy,
+            symbol: baseCurrency.symbol,
+          ),
+        );
         setBaseAsset(newAsset);
+        await sRouter.pop();
       } catch (e) {
-        _logger.log(stateFlow, 'confirmNewPassword', e);
+        _logger.log(stateFlow, 'changeBaseAsset', e);
       }
     } else {
       await sRouter.pop();
@@ -63,9 +77,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
 
     request.pick(
       onData: (data) async {
-        print('datadatadatadatadatadatadata');
-        print(data.data);
-        // assetsList = ObservableList.of(data);
+        assetsList = ObservableList.of(data.data);
       },
       onError: (error) {},
     );

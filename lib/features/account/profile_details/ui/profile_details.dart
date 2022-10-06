@@ -11,6 +11,8 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../market/market_details/helper/currency_from_all.dart';
+
 class ProfileDetails extends StatelessObserverWidget {
   const ProfileDetails({Key? key}) : super(key: key);
 
@@ -18,6 +20,8 @@ class ProfileDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final userInfo = sUserInfo.userInfo;
     final baseAsset = sSignalRModules.baseCurrency;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
+    final baseCurrency = currencyFromAll(currencies, baseAsset.symbol);
 
     final infoImage = Image.asset(
       phoneChangeAsset,
@@ -88,7 +92,7 @@ class ProfileDetails extends StatelessObserverWidget {
             ),
           SProfileDetailsButton(
             label: intl.profileDetails_defaultCurrency,
-            value: baseAsset.symbol,
+            value: baseCurrency.description,
             onTap: () {
               sRouter.push(
                 const DefaultAssetChangeRouter(),
