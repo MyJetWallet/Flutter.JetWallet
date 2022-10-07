@@ -289,8 +289,7 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     WaitingScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<WaitingScreenRouterArgs>(
-          orElse: () => const WaitingScreenRouterArgs());
+      final args = routeData.argsAs<WaitingScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
         child: WaitingScreen(
@@ -299,6 +298,8 @@ class _$AppRouter extends RootStackRouter {
           primaryText: args.primaryText,
           secondaryText: args.secondaryText,
           specialTextWidget: args.specialTextWidget,
+          wasAction: args.wasAction,
+          onSkip: args.onSkip,
         ),
       );
     },
@@ -1978,6 +1979,8 @@ class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
     String? primaryText,
     String? secondaryText,
     Widget? specialTextWidget,
+    bool wasAction = false,
+    required dynamic Function() onSkip,
   }) : super(
           WaitingScreenRouter.name,
           path: '/waiting_screen',
@@ -1987,6 +1990,8 @@ class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
             primaryText: primaryText,
             secondaryText: secondaryText,
             specialTextWidget: specialTextWidget,
+            wasAction: wasAction,
+            onSkip: onSkip,
           ),
         );
 
@@ -2000,6 +2005,8 @@ class WaitingScreenRouterArgs {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.wasAction = false,
+    required this.onSkip,
   });
 
   final Key? key;
@@ -2012,9 +2019,13 @@ class WaitingScreenRouterArgs {
 
   final Widget? specialTextWidget;
 
+  final bool wasAction;
+
+  final dynamic Function() onSkip;
+
   @override
   String toString() {
-    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget}';
+    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
   }
 }
 

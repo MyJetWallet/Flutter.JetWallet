@@ -169,7 +169,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
-      loader.finishLoadingImmediately();
+      loader.finishLoading();
 
       Timer(const Duration(milliseconds: 500), () {
         _isChecked();

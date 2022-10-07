@@ -439,7 +439,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           state.unlimintCards.isEmpty) ||
                       (state.selectedPaymentMethod?.type ==
                           PaymentMethodType.bankCard &&
-                          state.unlimintAltCards.isEmpty)))) ...[
+                          state.pickedAltUnlimintCard == null)))) ...[
             const SpaceH24(),
             SPaddingH24(
               child: SSecondaryButton1(
@@ -792,6 +792,10 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1
+                        : state.selectedPaymentMethod?.type ==
+                          PaymentMethodType.bankCard &&
+                          state.pickedAltUnlimintCard == null
+                        ? intl.addCircleCard_continue
                         : intl.curencyBuy_NumericKeyboardButtonName2,
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
