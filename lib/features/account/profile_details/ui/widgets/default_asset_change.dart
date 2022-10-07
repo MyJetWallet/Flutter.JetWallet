@@ -65,6 +65,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
                             ),
                           ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 asset.prefixSymbol ?? '?',
@@ -73,20 +74,28 @@ class DefaultAssetChange extends StatelessObserverWidget {
                                       baseAsset.checkedAsset
                                         ? colors.black
                                         : colors.blue,
-                                  fontSize: 10,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.1,
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                      Text(
-                        asset.description,
-                        style: sSubtitle2Style.copyWith(
-                          color: asset.symbol != baseAsset.checkedAsset
-                              ? colors.black
-                              : colors.blue,
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            asset.description,
+                            style: sSubtitle2Style.copyWith(
+                              color: asset.symbol != baseAsset.checkedAsset
+                                  ? colors.black
+                                  : colors.blue,
+                            ),
+                          ),
+                          const SpaceH4(),
+                        ],
                       ),
                     ],
                   ),

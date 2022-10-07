@@ -30,6 +30,7 @@ class _BalanceChartState extends State<BalanceChart>
   @override
   Widget build(BuildContext context) {
     final chartStore = ChartStore.of(context);
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     return chartStore.union.when(
       candles: () => Chart(
@@ -52,6 +53,7 @@ class _BalanceChartState extends State<BalanceChart>
         chartWidgetHeight: 176,
         isAssetChart: false,
         loader: const LoaderSpinner(),
+        prefix: baseCurrency.prefix ?? '',
       ),
       loading: () => LoadingChartView(
         height: 176,
