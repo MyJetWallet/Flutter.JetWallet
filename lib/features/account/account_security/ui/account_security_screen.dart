@@ -25,46 +25,50 @@ class AccountSecurity extends StatelessObserverWidget {
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      child: Column(
-        children: <Widget>[
-          const SpaceH20(),
-          SimpleAccountCategoryButton(
-            title: intl.accountSecurity_accountCategoryButtonTitle1,
-            icon: const SLockIcon(),
-            isSDivider: true,
-            onSwitchChanged: (value) async {
-              if (userInfo.biometricDisabled) {
-                final biometricStatusInfo = await biometricStatus();
-                if (biometricStatusInfo.toString() ==
-                    BiometricStatus.none.toString()) {
-                  unawaited(
-                    getIt.get<AppRouter>().push(
-                      const AllowBiometricRoute(),
-                    ),
-                  );
-                } else {
-                  unawaited(
-                    sRouter.push(
-                      BiometricRouter(
-                        isAccSettings: true,
-                      ),
-                    ),
-                  );
-                }
-              } else {
-                await getIt.get<UserInfoService>().disableBiometric();
-              }
-            },
-            switchValue: !userInfo.biometricDisabled,
-          ),
-          if (userInfo.pinEnabled)
-            SimpleAccountCategoryButton(
-              title: intl.accountSecurity_changePin,
-              icon: const SChangePinIcon(),
-              isSDivider: true,
-              onTap: () => sRouter.push(PinScreenRoute(union: const Change())),
-            ),
-        ],
+      child: Observer(
+        builder: (context) {
+          return Column(
+            children: <Widget>[
+              const SpaceH20(),
+              SimpleAccountCategoryButton(
+                title: intl.accountSecurity_accountCategoryButtonTitle1,
+                icon: const SLockIcon(),
+                isSDivider: true,
+                onSwitchChanged: (value) async {
+                  if (userInfo.biometricDisabled) {
+                    final biometricStatusInfo = await biometricStatus();
+                    if (biometricStatusInfo.toString() ==
+                        BiometricStatus.none.toString()) {
+                      unawaited(
+                        getIt.get<AppRouter>().push(
+                          const AllowBiometricRoute(),
+                        ),
+                      );
+                    } else {
+                      unawaited(
+                        sRouter.push(
+                          BiometricRouter(
+                            isAccSettings: true,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    await getIt.get<UserInfoService>().disableBiometric();
+                  }
+                },
+                switchValue: !userInfo.biometricDisabled,
+              ),
+              if (userInfo.pinEnabled)
+                SimpleAccountCategoryButton(
+                  title: intl.accountSecurity_changePin,
+                  icon: const SChangePinIcon(),
+                  isSDivider: true,
+                  onTap: () => sRouter.push(PinScreenRoute(union: const Change())),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

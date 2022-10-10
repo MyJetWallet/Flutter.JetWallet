@@ -64,8 +64,11 @@ abstract class _BiometricStoreBase with Store {
       BuildContext context,
       ) async {
     _logger.log(notifier, 'handleBiometricPermissionAfterSettingsChange');
+    final storageService = sLocalStorageService;
+
     _updateUserLocation(UserLocation.app);
     Navigator.pop(context);
+    await storageService.setString(useBioKey, 'true');
   }
 
   void _updateUserLocation(UserLocation location) {
