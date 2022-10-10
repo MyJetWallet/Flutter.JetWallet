@@ -697,6 +697,8 @@ abstract class _SignalRModulesBase with Store {
                   .firstWhere((x) => x.index == e.category),
               tags: e.tags,
               nftList: [],
+              sImage: e.sImage,
+              fImage: e.fImage,
             ),
           )
           .toList());

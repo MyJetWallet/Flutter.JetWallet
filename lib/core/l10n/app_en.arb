@@ -323,6 +323,7 @@
   "market_nft_items": "items",
   "market_nft_show": "Show",
   "market_nft_done": "Done",
+  "nft_collection_filter_header": "Sort by",
   "operationName_transferByPhone": "Transfer by Phone",
   "operationName_receiveByPhone": "Receive by Phone",
   "operationName_interestRate": "Interest Rate",
@@ -1081,5 +1082,12 @@
   "nft_collection_details_total_volume": "Total volume",
   "nft_collection_details_best_offer": "Best offer",
   "nft_collection_details_best_available_nfts": "Available NFTs",
-  "nft_collection_details_best_sold_nfts": "Sold NFTs"
+  "nft_collection_details_best_sold_nfts": "Sold NFTs",
+  "nft_detail_nft_features": "NFT Features",
+  "nft_detail_creation_date": "Creation Date",
+  "nft_detail_rarity": "Rarity",
+  "nft_detail_collection": "Collection",
+  "nft_detail_about": "About",
+  "nft_detail_readMore": "Read more",
+  "nft_detail_buy": "Buy"
 }

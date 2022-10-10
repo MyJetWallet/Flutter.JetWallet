@@ -12,6 +12,8 @@ class NftModel with _$NftModel {
     NftCollectionCategoryEnum? category,
     @Default([]) List<String>? tags,
     @Default([]) List<NftMarket> nftList,
+    String? sImage,
+    String? fImage,
   }) = _NftModel;
 }
 

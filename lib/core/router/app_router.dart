@@ -65,6 +65,7 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/nft_collection_details/ui/nft_collection_details_screen.dart';
+import 'package:jetwallet/features/market/nft_details/ui/nft_details_screen.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/news/ui/news_screen.dart';
 import 'package:jetwallet/features/news/ui/widgets/news_list/components/news_web_view.dart';
@@ -95,12 +96,14 @@ import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -513,9 +516,14 @@ final sRouter = getIt.get<AppRouter>();
       page: MarketDetails,
     ),
     AutoRoute(
-      path: '/mft_collection',
+      path: '/nft_collection',
       name: 'NftCollectionDetailsRouter',
       page: NftCollectionDetails,
+    ),
+    AutoRoute(
+      path: '/nft_details',
+      name: 'NFTDetailsRouter',
+      page: NFTDetailsScreen,
     ),
   ],
 )

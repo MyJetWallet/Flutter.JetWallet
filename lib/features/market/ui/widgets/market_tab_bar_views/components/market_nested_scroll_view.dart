@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
@@ -87,7 +88,9 @@ class __MarketNestedScrollViewBodyState
     controller.addListener(() {
       resetMarketScrollPosition(
         context,
-        widget.items.length,
+        MarketFilterStore.of(context).cryptoList.isNotEmpty
+            ? widget.items.length
+            : widget.nft.length,
         controller,
       );
     });
@@ -109,6 +112,7 @@ class __MarketNestedScrollViewBodyState
 
     return NestedScrollView(
       controller: controller,
+      physics: const ClampingScrollPhysics(),
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -126,7 +130,7 @@ class __MarketNestedScrollViewBodyState
               ),
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
-                      activeFilters: 0,
+                      activeFilters: store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
                               showNFTFilterModalSheet(
@@ -211,7 +215,7 @@ class __MarketNestedScrollViewBodyState
             itemCount: store.nftListFiltred.length,
             itemBuilder: (context, index) {
               return NftMarketItem(
-                icon: const SStarIcon(),
+                image: '$shortUrl${store.nftListFiltred[index].sImage}',
                 name: store.nftListFiltred[index].name ?? '',
                 descr: nftMarketDescr(
                   store.nftListFiltred[index].nftList.length,
@@ -219,9 +223,12 @@ class __MarketNestedScrollViewBodyState
                 ),
                 onTap: () {
                   sRouter.push(
-                    NftCollectionDetailsRouter(),
+                    NftCollectionDetailsRouter(
+                      nft: store.nftListFiltred[index],
+                    ),
                   );
                 },
+                last: store.nftListFiltred[index] == store.nftListFiltred.last,
               );
             },
           ),

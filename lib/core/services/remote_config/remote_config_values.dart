@@ -43,3 +43,7 @@ late String iosAppId;
 
 // Circle
 late bool cvvEnabled;
+
+// NFT
+late String shortUrl;
+late String fullUrl;

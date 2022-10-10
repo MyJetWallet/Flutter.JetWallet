@@ -74,6 +74,7 @@ class RemoteConfig {
       overrideSimplexValues();
       overrideAppsFlyerValues();
       overrideCircleValues();
+      overrideNFTValues();
 
       overrideApisFrom(_defaultFlavorIndex);
 
@@ -196,6 +197,11 @@ class RemoteConfig {
 
   void overrideCircleValues() {
     cvvEnabled = remoteConfig!.circle.cvvEnabled;
+  }
+
+  void overrideNFTValues() {
+    shortUrl = remoteConfig!.nft.shortUrl;
+    fullUrl = remoteConfig!.nft.fullUrl;
   }
 
   @override

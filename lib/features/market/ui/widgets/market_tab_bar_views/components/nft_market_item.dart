@@ -5,13 +5,13 @@ class NftMarketItem extends StatelessWidget {
   const NftMarketItem({
     super.key,
     this.last = false,
-    required this.icon,
+    required this.image,
     required this.name,
     required this.descr,
     required this.onTap,
   });
 
-  final Widget icon;
+  final String image;
   final String name;
   final String descr;
   final bool last;
@@ -34,7 +34,14 @@ class NftMarketItem extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  icon,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(99),
+                    child: Image.network(
+                      image,
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
                   const SpaceW10(),
                   Expanded(
                     child: Column(

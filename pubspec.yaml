@@ -45,6 +45,8 @@ dependencies:
   credit_card_validator: ^2.0.1 # Credit card validation helpers
   facebook_app_events: 0.15.0
   flutter_holo_date_picker: ^1.0.6
+  cached_network_image: ^3.2.2
+  full_screen_image_null_safe: ^2.0.0
 
   # RESPONSIVE UI
   device_preview: ^1.1.0

@@ -725,9 +725,23 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     NftCollectionDetailsRouter.name: (routeData) {
+      final args = routeData.argsAs<NftCollectionDetailsRouterArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const NftCollectionDetails(),
+        child: NftCollectionDetails(
+          key: args.key,
+          nft: args.nft,
+        ),
+      );
+    },
+    NFTDetailsRouter.name: (routeData) {
+      final args = routeData.argsAs<NFTDetailsRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: NFTDetailsScreen(
+          key: args.key,
+          nft: args.nft,
+        ),
       );
     },
     MarketRouter.name: (routeData) {
@@ -1099,7 +1113,11 @@ class _$AppRouter extends RootStackRouter {
         ),
         RouteConfig(
           NftCollectionDetailsRouter.name,
-          path: '/mft_collection',
+          path: '/nft_collection',
+        ),
+        RouteConfig(
+          NFTDetailsRouter.name,
+          path: '/nft_details',
         ),
       ];
 }
@@ -3397,14 +3415,71 @@ class MarketDetailsRouterArgs {
 
 /// generated route for
 /// [NftCollectionDetails]
-class NftCollectionDetailsRouter extends PageRouteInfo<void> {
-  const NftCollectionDetailsRouter()
-      : super(
+class NftCollectionDetailsRouter
+    extends PageRouteInfo<NftCollectionDetailsRouterArgs> {
+  NftCollectionDetailsRouter({
+    Key? key,
+    required NftModel nft,
+  }) : super(
           NftCollectionDetailsRouter.name,
-          path: '/mft_collection',
+          path: '/nft_collection',
+          args: NftCollectionDetailsRouterArgs(
+            key: key,
+            nft: nft,
+          ),
         );
 
   static const String name = 'NftCollectionDetailsRouter';
+}
+
+class NftCollectionDetailsRouterArgs {
+  const NftCollectionDetailsRouterArgs({
+    this.key,
+    required this.nft,
+  });
+
+  final Key? key;
+
+  final NftModel nft;
+
+  @override
+  String toString() {
+    return 'NftCollectionDetailsRouterArgs{key: $key, nft: $nft}';
+  }
+}
+
+/// generated route for
+/// [NFTDetailsScreen]
+class NFTDetailsRouter extends PageRouteInfo<NFTDetailsRouterArgs> {
+  NFTDetailsRouter({
+    Key? key,
+    required NftMarket nft,
+  }) : super(
+          NFTDetailsRouter.name,
+          path: '/nft_details',
+          args: NFTDetailsRouterArgs(
+            key: key,
+            nft: nft,
+          ),
+        );
+
+  static const String name = 'NFTDetailsRouter';
+}
+
+class NFTDetailsRouterArgs {
+  const NFTDetailsRouterArgs({
+    this.key,
+    required this.nft,
+  });
+
+  final Key? key;
+
+  final NftMarket nft;
+
+  @override
+  String toString() {
+    return 'NFTDetailsRouterArgs{key: $key, nft: $nft}';
+  }
 }
 
 /// generated route for

@@ -1,45 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/market/helper/nft_collection_filter_modal.dart';
+import 'package:jetwallet/features/market/nft_collection_details/store/nft_collection_store.dart';
+import 'package:jetwallet/features/market/nft_collection_details/ui/components/nft_collection_nft_item.dart';
+import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/icons/24x24/public/sort/simple_sort_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 
 class NftCollectionDetails extends StatelessWidget {
-  const NftCollectionDetails({super.key});
+  const NftCollectionDetails({
+    super.key,
+    required this.nft,
+  });
+
+  final NftModel nft;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<NFTCollectionDetailStore>(
+      create: (context) => NFTCollectionDetailStore()..init(nft),
+      builder: (context, child) => _NftCollectionDetailsBody(
+        nft: nft,
+      ),
+    );
+  }
+}
+
+class _NftCollectionDetailsBody extends StatelessObserverWidget {
+  const _NftCollectionDetailsBody({
+    super.key,
+    required this.nft,
+  });
+
+  final NftModel nft;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
+    final store = NFTCollectionDetailStore.of(context);
+
+    final childAspectRatio = 0.9;
+
     return Material(
       color: colors.white,
       child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            leading: DecoratedBox(
+            leading: Container(
+              margin: const EdgeInsets.only(left: 16),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
                 color: colors.white,
+                shape: BoxShape.circle,
               ),
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                color: Colors.white,
-                icon: const SBackIcon(),
-                onPressed: () {},
+              padding: const EdgeInsets.all(8.0),
+              child: SIconButton(
+                onTap: () {
+                  sRouter.pop();
+                },
+                defaultIcon: const SBackIcon(),
               ),
             ),
             expandedHeight: 160.0,
-            flexibleSpace: const FlexibleSpaceBar(
-              background: FlutterLogo(),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                '$shortUrl${nft.sImage}',
+                fit: BoxFit.cover,
+              ),
             ),
             actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  radius: 28.0,
-                  backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1547721064-da6cfb341d50',
-                  ),
+              Container(
+                margin: const EdgeInsets.only(right: 16),
+                decoration: BoxDecoration(
+                  color: colors.white,
+                  shape: BoxShape.circle,
                 ),
-              )
+                padding: const EdgeInsets.all(8.0),
+                child: SIconButton(
+                  onTap: () {},
+                  defaultIcon: const SStarIcon(),
+                ),
+              ),
             ],
           ),
           SliverToBoxAdapter(
@@ -54,23 +100,26 @@ class NftCollectionDetails extends StatelessWidget {
                     baseline: 40,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      "Archetype by Kjetil Golid",
+                      nft.name ?? '',
                       maxLines: 3,
                       style: sTextH2Style,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Baseline(
-                    baseline: 24,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      "Archetype explores the use of repetition as a counterweight to unruly, random structures.",
-                      maxLines: 5,
-                      style: sBodyText1Style,
+                  if (nft.description != null &&
+                      nft.description!.isNotEmpty) ...[
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
+                    Baseline(
+                      baseline: 24,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        nft.description ?? '',
+                        maxLines: 5,
+                        style: sBodyText1Style,
+                      ),
+                    ),
+                  ],
                   const SizedBox(
                     height: 18,
                   ),
@@ -91,7 +140,7 @@ class NftCollectionDetails extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '600',
+                            '${nft.nftList.length}',
                             style: sBodyText1Style,
                           ),
                         ],
@@ -180,16 +229,102 @@ class NftCollectionDetails extends StatelessWidget {
                   const SizedBox(
                     height: 25,
                   ),
-                  Baseline(
-                    baseline: 32,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      intl.nft_collection_details_best_available_nfts,
-                      style: sTextH4Style,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Baseline(
+                        baseline: 32,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_collection_details_best_available_nfts,
+                          style: sTextH4Style,
+                        ),
+                      ),
+                      SIconButton(
+                        onTap: () {
+                          showNFTCollectionFilterModalSheet(
+                            context,
+                            NFTCollectionDetailStore.of(context)
+                                as NFTCollectionDetailStore,
+                          );
+                        },
+                        defaultIcon: const SSortIcon(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32,
                   ),
                 ],
               ),
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: childAspectRatio,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return NFTCollectionNftItem(
+                  nft: store.availableNFTFiltred[index],
+                  onTap: () {
+                    sRouter.push(
+                      NFTDetailsRouter(nft: store.availableNFTFiltred[index]),
+                    );
+                  },
+                );
+              },
+              childCount: store.availableNFTFiltred.length,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SPaddingH24(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Baseline(
+                        baseline: 32,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_collection_details_best_sold_nfts,
+                          style: sTextH4Style,
+                        ),
+                      ),
+                      SIconButton(
+                        onTap: () {
+                          showNFTCollectionFilterModalSheet(
+                            context,
+                            NFTCollectionDetailStore.of(context)
+                                as NFTCollectionDetailStore,
+                          );
+                        },
+                        defaultIcon: const SSortIcon(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.1,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return NFTCollectionNftItem(
+                  nft: store.soldNFTFiltred[index],
+                  onTap: () {},
+                );
+              },
+              childCount: store.soldNFTFiltred.length,
             ),
           ),
         ],

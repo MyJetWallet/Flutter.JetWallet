@@ -98,7 +98,6 @@ class _MarketScreenState extends State<MarketScreen> {
                   MarketNestedScrollView(
                     items: const [],
                     nft: nftMarket,
-                    showBanners: true,
                     showFilter: true,
                     sourceScreen: FilterMarketTabAction.all,
                   ),
