@@ -43,11 +43,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     final cardLimitsState = sSignalRModules.cardLimitsModel;
     final kycHandler = getIt.get<KycAlertHandler>();
     final allPaymentMethods = sPaymentMethod.paymentMethods;
-    final useBankCard = allPaymentMethods
-        .contains('PaymentMethodType.bankCard');
     final useCircleCard = allPaymentMethods
         .contains('PaymentMethodType.circleCard');
-    final showAddButton = useBankCard || useCircleCard;
 
     final state = PaymentMethodsStore.of(context);
 
@@ -65,19 +62,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     }
 
     void _onAddCardTap() {
-      if (useBankCard) {
-        sAnalytics.paymentDetailsView(source: 'Unlimint');
-        sRouter.push(
-          AddUnlimintCardRouter(
-            onCardAdded: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              state.getCards();
-            },
-            amount: '',
-          ),
-        );
-      } else if (useCircleCard) {
+      if (useCircleCard) {
         sAnalytics.paymentDetailsView(source: 'Circle');
         sRouter.push(
           AddCircleCardRouter(
@@ -133,7 +118,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       ),
                     ),
                     const Spacer(),
-                    if (showAddButton)
+                    if (useCircleCard)
                       SPaddingH24(
                         child: AddButton(
                           onTap: () => checkKyc(),
@@ -171,7 +156,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       ],
                     ),
                     SFloatingButtonFrame(
-                      button: showAddButton ? AddButton(
+                      button: useCircleCard ? AddButton(
                         onTap: () => checkKyc(),
                       ) : const SizedBox(),
                     ),

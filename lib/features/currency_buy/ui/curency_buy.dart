@@ -339,10 +339,13 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 },
               ),
             const SpaceH10(),
-            SDivider(
-              color: colors.grey3,
-            ),
-            const SpaceH10(),
+            if (!(state.unlimintAltCards.isNotEmpty &&
+                    unlimintAltIncludes.isNotEmpty)) ...[
+              SDivider(
+                color: colors.grey3,
+              ),
+              const SpaceH10(),
+            ],
           ],
           if (state.unlimintAltCards.isNotEmpty &&
               unlimintAltIncludes.isNotEmpty) ...[
