@@ -157,7 +157,7 @@ abstract class _PinScreenStoreBase with Store {
   ) async {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
-    _updateHideBiometricButton(hideBio);
+    await _updateHideBiometricButton(hideBio);
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
@@ -264,7 +264,7 @@ abstract class _PinScreenStoreBase with Store {
             orElse: () async {
               await _animateCorrect();
 
-              _updateHideBiometricButton(true);
+              await _updateHideBiometricButton(true);
               _updateScreenUnion(const NewPin());
             },
           );
@@ -459,7 +459,8 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _updateHideBiometricButton(bool value) {
+  Future<void> _updateHideBiometricButton(bool value) async {
+    await getIt.get<UserInfoService>().initPinStatus();
     hideBiometricButton = _userInfo.pin == null ? true : value;
   }
 
