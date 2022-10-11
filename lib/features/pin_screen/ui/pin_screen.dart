@@ -118,9 +118,19 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
           ),
           child: Column(
             children: [
-              Spacer(
-                flex: widget.displayHeader ? 1 : 2,
-              ),
+              if (!widget.displayHeader)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 64,
+                  ),
+                  child: Text(
+                    intl.pinScreen_enterYourPIN,
+                    style: sTextH5Style.copyWith(
+                      color: colors.black,
+                    ),
+                  ),
+                ),
+              const Spacer(),
               Observer(
                 builder: (context) {
                   return ShakeWidget(

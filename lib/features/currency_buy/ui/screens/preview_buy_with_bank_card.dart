@@ -5,8 +5,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
-import 'package:jetwallet/features/currency_buy/store/preview_buy_with_unlimint_store.dart';
+import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
+import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
+import 'package:jetwallet/features/currency_buy/ui/widgets/transaction_fee_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -15,32 +16,32 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class PreviewBuyWithUnlimint extends StatelessWidget {
-  const PreviewBuyWithUnlimint({
+class PreviewBuyWithBankCard extends StatelessWidget {
+  const PreviewBuyWithBankCard({
     Key? key,
     required this.input,
   }) : super(key: key);
 
-  final PreviewBuyWithUnlimintInput input;
+  final PreviewBuyWithBankCardInput input;
 
   @override
   Widget build(BuildContext context) {
-    return Provider<PreviewBuyWithUnlimitStore>(
-      create: (context) => PreviewBuyWithUnlimitStore(input),
-      builder: (context, child) => _PreviewBuyWithUnlimintBody(
+    return Provider<PreviewBuyWithBankCardStore>(
+      create: (context) => PreviewBuyWithBankCardStore(input),
+      builder: (context, child) => _PreviewBuyWithBankCardBody(
         input: input,
       ),
     );
   }
 }
 
-class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
-  const _PreviewBuyWithUnlimintBody({
+class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
+  const _PreviewBuyWithBankCardBody({
     Key? key,
     required this.input,
   }) : super(key: key);
 
-  final PreviewBuyWithUnlimintInput input;
+  final PreviewBuyWithBankCardInput input;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final state = PreviewBuyWithUnlimitStore.of(context);
+    final state = PreviewBuyWithBankCardStore.of(context);
 
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
@@ -61,7 +62,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     );
 
     icon =
-        state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+    state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
       loading: state.loader,
@@ -108,18 +109,50 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                   ],
                   // const Spacer(),
                   SActionConfirmText(
-                    name: intl.previewBuyWithCircle_creditCardFee,
+                    name: intl.buySimplexDetails_payFrom,
                     contentLoading: state.loader.loading,
-                    value: volumeFormat(
+                    value: ' •••• ${input.cardNumber != null
+                        ? input.cardNumber?.substring(
+                              (input.cardNumber?.length ?? 4) - 4,
+                          )
+                        : ''}',
+                    maxValueWidth: 200,
+                  ),
+                  SActionConfirmText(
+                    name: intl.previewBuyWithUnlimint_paymentFee,
+                    contentLoading: state.loader.loading,
+                    value: state.depositFeeAmountMax ==
+                        state.depositFeeAmount ? volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
                       accuracy: baseCurrency.accuracy,
                       symbol: baseCurrency.symbol,
-                    ),
+                    ) : '≈ ${volumeFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: state.depositFeeAmountMax ?? Decimal.zero,
+                      accuracy: baseCurrency.accuracy,
+                      symbol: baseCurrency.symbol,
+                    )}',
                     maxValueWidth: 140,
+                    infoIcon: true,
+                    infoAction: () {
+                      showTransactionFeeBottomSheet(
+                        context: context,
+                        colors: colors,
+                        isAbsolute: state.depositFeeAmountMax ==
+                            state.depositFeeAmount,
+                        tradeFeeAbsolute: volumeFormat(
+                          prefix: baseCurrency.prefix,
+                          decimal: state.depositFeeAmount ?? Decimal.zero,
+                          accuracy: baseCurrency.accuracy,
+                          symbol: baseCurrency.symbol,
+                        ),
+                        tradeFeePercentage: state.depositFeePerc,
+                      );
+                    },
                   ),
                   SActionConfirmText(
-                    name: intl.previewBuyWithCircle_transactionFee,
+                    name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
                       prefix: input.currency.prefixSymbol,
@@ -191,10 +224,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                         child: SPolicyText(
                           firstText: intl.previewBuyWithUmlimint_disclaimer,
                           userAgreementText:
-                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                          ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                           betweenText: ', ',
                           privacyPolicyText:
-                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                          intl.previewBuyWithUmlimint_disclaimerPolicy,
                           onUserAgreementTap: () =>
                               launchURL(context, userAgreementLink),
                           onPrivacyPolicyTap: () =>
@@ -216,7 +249,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
               onTap: () {
                 sAnalytics.tapConfirmBuy(
                   assetName: input.currency.description,
-                  paymentMethod: 'unlimintCard',
+                  paymentMethod: 'bankCard',
                   amount: formatCurrencyStringAmount(
                     prefix: baseCurrency.prefix,
                     value: input.amount,

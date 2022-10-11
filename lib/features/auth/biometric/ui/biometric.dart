@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +94,8 @@ class _BiometricBody extends StatelessObserverWidget {
                     active: true,
                     name: buttonText,
                     onTap: () {
+                      final storageService = sLocalStorageService;
+                      storageService.setString(useBioKey, 'true');
                       biometric.useBio(
                         useBio: true,
                         isAccSettings: isAccSettings,

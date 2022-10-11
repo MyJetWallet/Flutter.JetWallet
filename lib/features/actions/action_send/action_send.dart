@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
@@ -12,13 +13,23 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../helpers/show_currency_search.dart';
 
-void showSendAction(BuildContext context) {
+void showSendAction(
+    BuildContext context,
+  {
+    bool isSendAvailable = true,
+    bool isNotEmptyBalance = true,
+  }
+) {
   Navigator.pop(context);
 
-  showSendTimerAlertOr(
-    context: context,
-    or: () => _showSendAction(context),
-  );
+  if (isNotEmptyBalance && isSendAvailable) {
+    showSendTimerAlertOr(
+      context: context,
+      or: () => _showSendAction(context),
+    );
+  } else {
+    sendAlertBottomSheet(context);
+  }
 }
 
 void _showSendAction(BuildContext context) {

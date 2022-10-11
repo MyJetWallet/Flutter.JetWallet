@@ -3,6 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
@@ -110,9 +111,9 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
             child: SPrimaryButton2(
               active: true,
               name: intl.successKycScreen_done,
-              onTap: () => sRouter.push(
-                const HomeRouter(),
-              ),
+              onTap: () {
+                navigateToRouter();
+              },
             ),
           ),
         ],

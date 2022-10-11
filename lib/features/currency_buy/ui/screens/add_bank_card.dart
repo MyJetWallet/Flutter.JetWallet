@@ -2,48 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
-import 'package:jetwallet/features/add_circle_card/store/add_circle_card_store.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/circle_progress_indicator.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
+import 'package:jetwallet/features/currency_buy/store/add_bank_card_store.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-class AddCircleCard extends StatelessWidget {
-  const AddCircleCard({
+class AddBankCard extends StatelessWidget {
+  const AddBankCard({
     Key? key,
     required this.onCardAdded,
+    required this.amount,
+    this.currency,
+    this.isPreview = false,
   }) : super(key: key);
 
-  final Function(CircleCard) onCardAdded;
+  final Function() onCardAdded;
+  final String amount;
+  final CurrencyModel? currency;
+  final bool isPreview;
 
   @override
   Widget build(BuildContext context) {
-    return Provider<AddCircleCardStore>(
-      create: (context) => AddCircleCardStore(),
-      builder: (context, child) => AddCircleCardBody(
+    return Provider<AddBankCardStore>(
+      create: (context) => AddBankCardStore(),
+      builder: (context, child) => AddBankCardBody(
         onCardAdded: onCardAdded,
+        amount: amount,
+        currency: currency,
+        isPreview: isPreview,
       ),
     );
   }
 }
 
-class AddCircleCardBody extends StatelessObserverWidget {
-  const AddCircleCardBody({
+class AddBankCardBody extends StatelessObserverWidget {
+  const AddBankCardBody({
     Key? key,
     required this.onCardAdded,
+    required this.amount,
+    this.currency,
+    required this.isPreview,
   }) : super(key: key);
 
-  final Function(CircleCard) onCardAdded;
+  final Function() onCardAdded;
+  final String amount;
+  final CurrencyModel? currency;
+  final bool isPreview;
 
   @override
   Widget build(BuildContext context) {
+    late Widget icon;
     final colors = sKit.colors;
-    final store = AddCircleCardStore.of(context);
+    final store = AddBankCardStore.of(context);
+
+    icon = store.saveCard
+        ? const SCheckboxSelectedIcon()
+        : const SCheckboxIcon();
 
     return SPageFrame(
       loaderText: intl.addCircleCard_pleaseWait,
@@ -55,14 +74,6 @@ class AddCircleCardBody extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: const [
-              Expanded(
-                child: CircleProgressIndicator(),
-              ),
-              Spacer(),
-            ],
-          ),
           ScrollingFrame(
             children: [
               SFieldDividerFrame(
@@ -71,7 +82,6 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   keyboardType: TextInputType.number,
                   isError: store.cardNumberError,
                   disableErrorOnChanged: false,
-                  controller: store.cardNumberController,
                   // In formatting \u2005 is used instead of \u0020
                   // to avoid \u0020 input from the user
                   inputFormatters: [
@@ -83,7 +93,14 @@ class AddCircleCardBody extends StatelessObserverWidget {
                       RegExp(r'[0-9\u2005]'),
                     ),
                   ],
+                  controller: store.cardNumberController,
                   onChanged: store.updateCardNumber,
+                  suffixIcons: [
+                    SIconButton(
+                      onTap: () => store.pasteCode(),
+                      defaultIcon: const SPasteIcon(),
+                    ),
+                  ],
                 ),
               ),
               Row(
@@ -91,19 +108,13 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardField(
-                        controller: store.expiryDateController,
-                        labelText: intl.addCircleCard_expiryDate,
+                        labelText: intl.addCircleCard_expiryMonth,
                         keyboardType: TextInputType.number,
-                        isError: store.expiryDateError,
+                        isError: store.expiryMonthError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
-                        inputFormatters: [
-                          MaskedTextInputFormatter(
-                            mask: 'xx/xx',
-                            separator: '/',
-                          ),
-                        ],
-                        onChanged: store.updateExpiryDate,
+                        controller: store.expiryMonthController,
+                        onChanged: store.updateExpiryMonth,
                       ),
                     ),
                   ),
@@ -113,19 +124,14 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   ),
                   Expanded(
                     child: SFieldDividerFrame(
-                      child: SStandardFieldObscure(
-                        controller: store.cvvController,
-                        labelText: 'CVV',
+                      child: SStandardField(
+                        labelText: intl.addCircleCard_expiryYear,
                         keyboardType: TextInputType.number,
-                        isError: store.cvvError,
-                        inputFormatters: [
-                          MaskedTextInputFormatter(
-                            mask: 'xxx',
-                            separator: '',
-                          ),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        onChanged: store.updateCvv,
+                        isError: store.expiryYearError,
+                        enableInteractiveSelection: false,
+                        disableErrorOnChanged: false,
+                        controller: store.expiryYearController,
+                        onChanged: store.updateExpiryYear,
                       ),
                     ),
                   ),
@@ -135,32 +141,59 @@ class AddCircleCardBody extends StatelessObserverWidget {
                 color: colors.white,
                 child: SPaddingH24(
                   child: SStandardField(
-                    controller: store.cardholderNameController,
                     labelText: intl.addCircleCard_cardholderName,
                     textCapitalization: TextCapitalization.sentences,
                     onChanged: store.updateCardholderName,
+                    controller: store.cardholderNameController,
                     hideSpace: true,
                   ),
                 ),
               ),
+              if (isPreview) ...[
+                const SpaceH20(),
+                SPaddingH24(
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          SIconButton(
+                            onTap: () {
+                              store.checkSetter();
+                            },
+                            defaultIcon: icon,
+                            pressedIcon: icon,
+                          ),
+                        ],
+                      ),
+                      const SpaceW10(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 82,
+                        child: SPolicyText(
+                          firstText: intl.addCircleCard_saveCard,
+                          userAgreementText: '',
+                          betweenText: '',
+                          privacyPolicyText: '',
+                          onUserAgreementTap: () {},
+                          onPrivacyPolicyTap: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               const Spacer(),
               ContinueButtonFrame(
                 child: SPrimaryButton2(
                   active: store.isCardDetailsValid,
                   name: intl.addCircleCard_continue,
                   onTap: () async {
-                    sAnalytics.circleContinueDetails();
-                    sAnalytics.paymentDetailsContinue(source: 'Circle');
-                    sAnalytics.paymentBillingView(source: 'Circle');
-
-                    await sRouter.push(
-                      CircleBillingAddressRouter(
-                        onCardAdded: onCardAdded,
-                        expiryDate: store.expiryDate,
-                        cvv: store.cvv,
-                        cardholderName: store.cardholderName,
-                        cardNumber: store.cardNumber,
-                      ),
+                    sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                    await store.addCard(
+                      onSuccess: onCardAdded,
+                      onError: () {},
+                      isPreview: isPreview,
+                      amount: amount,
+                      currency: currency,
                     );
                   },
                 ),

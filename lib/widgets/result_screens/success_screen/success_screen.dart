@@ -161,7 +161,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                               height: 2,
                               width: MediaQuery.of(context).size.width,
                               child: ProgressBar(
-                                time: 5,
+                                time: widget.time,
                                 colors: colors,
                               ),
                             ),

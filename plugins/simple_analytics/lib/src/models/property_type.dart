@@ -44,4 +44,5 @@ class PropertyType {
   static const reclaimAPY = 'APY after Reclaim';
   static const time = 'Time';
   static const isLoaded = 'Is initFinished loaded';
+  static const method = 'Method';
 }

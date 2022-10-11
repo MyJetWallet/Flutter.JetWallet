@@ -126,7 +126,7 @@ class EventType {
 
   /// Buy screen
   static const tapPreviewBuy = 'Tap preview buy';
-  static const previewBuyView = 'Confirm buy view';
+  static const previewBuyView = '"Preview Buy" View';
   static const simplexView = 'Simplex view';
   static const simplexSucsessView = 'Simplex success view';
   static const simplexFailureView = 'Simplex failure view';
@@ -245,4 +245,14 @@ class EventType {
   static const initFinished = 'initFinished received';
   static const remoteConfig = 'remoteConfig received';
   static const remoteConfigError = 'remoteConfig error';
+
+  /// Payment methods
+  static const paymentTap = 'Tap on Payment Methods Tab';
+  static const paymentView = 'Payment Methods page view';
+  static const paymentAdd = 'Tap on "Add Bank Card" button';
+  static const paymentDetailsView = 'Enter Card Details screen view';
+  static const paymentDetailsContinue = 'Continue with Card Details';
+  static const paymentBillingView = 'Billing Address Screen View';
+  static const paymentBillingContinue = 'Continue with Billing Address';
+  static const paymentSuccess = 'Success Page - Card';
 }
