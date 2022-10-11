@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -296,6 +297,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
     final cardPreferred = fromCard && currencyModel.supportsAtLeastOneBuyMethod;
     final buyMethods = currencyModel.buyMethods;
+    final lastCardId = await sLocalStorageService.getValue(lastUsedCard);
 
     if (currencies.isNotEmpty) {
       if (!cardPreferred) {
@@ -330,6 +332,13 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 4: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
           return updateSelectedCircleCard(circleCards.last);
         }
       }
@@ -340,16 +349,37 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
+            final circleCardsLast = circleCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (circleCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(circleCardsLast.last);
+            }
+
             return updateSelectedCircleCard(circleCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.unlimintCard) {
           if (unlimintCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(unlimintCardsLast.last);
+            }
+
             return updateSelectedUnlimintCard(unlimintCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.bankCard) {
           if (unlimintAltCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintAltCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(unlimintCardsLast.last);
+            }
+
             return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
@@ -417,6 +447,13 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 10: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
           return updateSelectedCircleCard(circleCards.last);
         }
       }
@@ -426,6 +463,13 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 1: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
           return updateSelectedCircleCard(circleCards.last);
         }
       }
@@ -436,16 +480,37 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
+            final circleCardsLast = circleCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (circleCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(circleCardsLast.last);
+            }
+
             return updateSelectedCircleCard(circleCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.unlimintCard) {
           if (unlimintCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(unlimintCardsLast.last);
+            }
+
             return updateSelectedUnlimintCard(unlimintCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.bankCard) {
           if (unlimintAltCards.isNotEmpty) {
+            final unlimintAltCardsLast = unlimintAltCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintAltCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(unlimintAltCardsLast.last);
+            }
+
             return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
@@ -507,6 +572,13 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 6: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
           return updateSelectedCircleCard(circleCards.last);
         }
       }

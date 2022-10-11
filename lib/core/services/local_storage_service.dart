@@ -35,6 +35,7 @@ const timeStartConfigSent = 'timeStartConfigSent';
 const timeSignalRCheckIFSent = 'timeSignalRCheckIFSent';
 const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
 const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
+const lastUsedCard = 'lastUsedCard';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 

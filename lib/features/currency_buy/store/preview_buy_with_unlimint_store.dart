@@ -202,6 +202,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
     try {
+      await sLocalStorageService.setString(lastUsedCard, input.card?.id ?? '');
       await getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
               keys: [
@@ -351,6 +352,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               tapped = true;
               final _ =
                   await sNetwork.getWalletModule().postAddUnlimintCard(model);
+
+              await sLocalStorageService.setString(
+                lastUsedCard,
+                _.data?.cardId ?? '',
+              );
 
               navigateToRouter();
 

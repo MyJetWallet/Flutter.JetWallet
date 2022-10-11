@@ -282,6 +282,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
     try {
+      await sLocalStorageService.setString(lastUsedCard, input.card.id);
       await getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
               keys: [

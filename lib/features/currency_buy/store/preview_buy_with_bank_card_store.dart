@@ -232,6 +232,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
     try {
+      await sLocalStorageService.setString(lastUsedCard, input.cardId);
       await getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
               keys: [
