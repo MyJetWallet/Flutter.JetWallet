@@ -330,7 +330,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 4: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
 
@@ -340,17 +340,17 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
-            return updateSelectedCircleCard(circleCards.first);
+            return updateSelectedCircleCard(circleCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.unlimintCard) {
           if (unlimintCards.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCards.first);
+            return updateSelectedUnlimintCard(unlimintCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.bankCard) {
           if (unlimintAltCards.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintAltCards.first);
+            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
@@ -417,7 +417,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 10: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
     } else {
@@ -426,7 +426,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 1: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
 
@@ -436,17 +436,17 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
-            return updateSelectedCircleCard(circleCards.first);
+            return updateSelectedCircleCard(circleCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.unlimintCard) {
           if (unlimintCards.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCards.first);
+            return updateSelectedUnlimintCard(unlimintCards.last);
           }
         } else if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.bankCard) {
           if (unlimintAltCards.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintAltCards.first);
+            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
@@ -507,7 +507,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 6: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
     }
