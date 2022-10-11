@@ -513,6 +513,47 @@ abstract class _SignalRModulesBase with Store {
             currenciesList.add(currModel);
           }
         }
+
+        currenciesWithHiddenList.add(
+          CurrencyModel(
+            symbol: asset.symbol,
+            description: asset.description,
+            accuracy: asset.accuracy.toInt(),
+            depositMode: asset.depositMode,
+            withdrawalMode: asset.withdrawalMode,
+            tagType: asset.tagType,
+            type: asset.type,
+            depositMethods: asset.depositMethods,
+            fees: asset.fees,
+            withdrawalMethods: asset.withdrawalMethods,
+            iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
+            selectedIndexIconUrl: iconUrlFrom(
+              assetSymbol: asset.symbol,
+              selected: true,
+            ),
+            weight: asset.weight,
+            prefixSymbol: asset.prefixSymbol,
+            apy: Decimal.zero,
+            apr: Decimal.zero,
+            assetBalance: Decimal.zero,
+            assetCurrentEarnAmount: Decimal.zero,
+            assetTotalEarnAmount: Decimal.zero,
+            cardReserve: Decimal.zero,
+            baseBalance: Decimal.zero,
+            baseCurrentEarnAmount: Decimal.zero,
+            baseTotalEarnAmount: Decimal.zero,
+            currentPrice: Decimal.zero,
+            dayPriceChange: Decimal.zero,
+            earnProgramEnabled: asset.earnProgramEnabled,
+            depositInProcess: Decimal.zero,
+            earnInProcessTotal: Decimal.zero,
+            buysInProcessTotal: Decimal.zero,
+            transfersInProcessTotal: Decimal.zero,
+            earnInProcessCount: 0,
+            buysInProcessCount: 0,
+            transfersInProcessCount: 0,
+          ),
+        );
       }
 
       if (currenciesList.isNotEmpty) {
@@ -908,6 +949,10 @@ abstract class _SignalRModulesBase with Store {
   ObservableList<CurrencyModel> currenciesList = ObservableList.of([]);
 
   @observable
+  ObservableList<CurrencyModel> currenciesWithHiddenList =
+    ObservableList.of([]);
+
+  @observable
   Decimal marketInfo = Decimal.zero;
 
   @observable
@@ -1004,6 +1049,11 @@ abstract class _SignalRModulesBase with Store {
 
   @action
   updateAssets() {}
+
+  @action
+  updateBaseCurrency(BaseCurrencyModel newBaseCurrency) {
+    baseCurrency = newBaseCurrency;
+  }
 }
 
 List<MarketItemModel> _formattedItems(

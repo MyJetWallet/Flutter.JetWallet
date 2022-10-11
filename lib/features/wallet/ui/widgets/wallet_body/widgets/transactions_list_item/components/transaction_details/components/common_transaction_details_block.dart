@@ -3,13 +3,15 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
-import '../../../../../../../../../../core/services/signal_r/signal_r_modules.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/operation_name.dart';
@@ -25,9 +27,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.currenciesList;
+    final baseCurrency = sSignalRModules.baseCurrency;
     final currency = currencyFromAll(
-      currencies,
+      sSignalRModules.currenciesList,
       transactionListItem.assetId,
     );
 
@@ -90,6 +92,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             convertToUsd(
               transactionListItem.assetPriceInUsd,
               operationAmount(transactionListItem),
+              baseCurrency,
             ),
             style: sBodyText2Style.copyWith(
               color: colors.grey2,
@@ -143,15 +146,27 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     }
   }
 
-  String convertToUsd(Decimal assetPriceInUsd, Decimal balance) {
+  String convertToUsd(
+    Decimal assetPriceInUsd,
+    Decimal balance,
+    BaseCurrencyModel baseCurrency,
+  ) {
     final usd = assetPriceInUsd * balance;
     if (usd < Decimal.zero) {
       final plusValue = usd.toString().split('-').last;
 
-      return '≈ \$${Decimal.parse(plusValue).toStringAsFixed(2)}';
+      return '≈ ${baseCurrenciesFormat(
+        text: Decimal.parse(plusValue).toStringAsFixed(2),
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
     }
 
-    return '≈ \$${usd.toStringAsFixed(2)}';
+    return '≈ ${baseCurrenciesFormat(
+      text: usd.toStringAsFixed(2),
+      symbol: baseCurrency.symbol,
+      prefix: baseCurrency.prefix,
+    )}';
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {

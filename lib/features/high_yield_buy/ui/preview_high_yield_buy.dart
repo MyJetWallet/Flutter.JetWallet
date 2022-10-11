@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/high_yield_buy/model/preview_high_yield_buy_input.dart';
 import 'package:jetwallet/features/high_yield_buy/model/preview_high_yield_buy_union.dart';
 import 'package:jetwallet/features/high_yield_buy/store/preview_high_yield_buy_store.dart';
@@ -46,6 +47,7 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final state = PreviewHighYieldBuyStore.of(context);
     final loader = StackLoaderStore();
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     final from = input.fromCurrency;
 
@@ -163,11 +165,11 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
                         )
                       : Text(
                           '${intl.preview_earn_buy_approx}. ${volumeFormat(
-                            prefix: '\$',
+                            prefix: baseCurrency.prefix,
                             decimal:
                                 state.expectedYearlyProfitBase ?? Decimal.zero,
                             accuracy: 2,
-                            symbol: 'USD',
+                            symbol: baseCurrency.symbol,
                           )}',
                           style: sBodyText2Style.copyWith(
                             color: colors.grey1,

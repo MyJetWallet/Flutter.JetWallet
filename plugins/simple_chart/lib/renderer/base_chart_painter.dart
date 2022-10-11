@@ -21,6 +21,7 @@ abstract class BaseChartPainter extends CustomPainter {
     required this.selectX,
     required this.candleType,
     required this.resolution,
+    required this.prefix,
   }) {
     mItemCount = datas.length;
     mDataLen = mItemCount * candleWidth;
@@ -34,6 +35,7 @@ abstract class BaseChartPainter extends CustomPainter {
   double selectX;
   bool isLongPress = false;
   ChartType candleType = ChartType.candle;
+  String prefix;
 
   Rect? mMainRect;
   double mDisplayHeight = 0.0;
@@ -237,7 +239,7 @@ abstract class BaseChartPainter extends CustomPainter {
   void drawRealTimePrice(Canvas canvas, Size size);
 
   String format(double n) {
-    return '\$${NumberUtil.format(n)}';
+    return '$prefix${NumberUtil.format(n)}';
   }
 
   @override

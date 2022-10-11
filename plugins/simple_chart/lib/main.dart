@@ -21,6 +21,7 @@ class Chart extends StatefulWidget {
     required this.isAssetChart,
     required this.loader,
     required this.localizedChartResolutionButton,
+    this.prefix = '',
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
@@ -38,6 +39,7 @@ class Chart extends StatefulWidget {
   final List<CandleModel>? candles;
   final ChartType chartType;
   final String candleResolution;
+  final String prefix;
   final String? walletCreationDate;
   final double? selectedCandlePadding;
   final double chartHeight;
@@ -157,6 +159,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       selectedCandlePadding: widget.selectedCandlePadding,
                       isAssetChart: widget.isAssetChart,
                       chartWidth: chartWidth,
+                      prefix: widget.prefix,
                     ),
                     SlideTransition(
                       position: _offsetAnimation,

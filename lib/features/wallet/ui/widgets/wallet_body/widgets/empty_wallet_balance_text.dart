@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../../core/services/signal_r/signal_r_modules.dart';
+import '../../../../../../utils/formatting/base/base_currencies_format.dart';
+
 class EmptyWalletBalanceText extends StatelessWidget {
   const EmptyWalletBalanceText({
     Key? key,
@@ -15,13 +18,19 @@ class EmptyWalletBalanceText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseCurrency = sSignalRModules.baseCurrency;
+
     return SizedBox(
       height: height,
       child: Baseline(
         baseline: baseline,
         baselineType: TextBaseline.alphabetic,
         child: Text(
-          '\$0',
+          baseCurrenciesFormat(
+            prefix: baseCurrency.prefix ?? '',
+            text: '0',
+            symbol: baseCurrency.symbol,
+          ),
           style: sTextH0Style.copyWith(
             color: color,
           ),

@@ -10,6 +10,7 @@ import 'package:jetwallet/features/account/delete_profile/ui/delete_profile.dart
 import 'package:jetwallet/features/account/delete_profile/ui/delete_reasons_screen.dart';
 import 'package:jetwallet/features/account/profile_details/ui/profile_details.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
+import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
 import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/action_recurring_info.dart';
@@ -510,6 +511,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/market_details',
       name: 'MarketDetailsRouter',
       page: MarketDetails,
+    ),
+    AutoRoute(
+      path: '/change_base_asset',
+      name: 'DefaultAssetChangeRouter',
+      page: DefaultAssetChange,
     ),
   ],
 )
