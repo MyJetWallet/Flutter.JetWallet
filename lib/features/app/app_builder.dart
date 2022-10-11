@@ -67,7 +67,9 @@ class AppBuilder extends StatelessObserverWidget {
                                 );
                               },
                             )
-                          : const SplashScreen();
+                          : const SplashScreen(
+                              runAnimation: false,
+                            );
                     },
                   )
                 : const SplashScreen();
