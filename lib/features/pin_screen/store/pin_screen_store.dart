@@ -116,7 +116,9 @@ abstract class _PinScreenStoreBase with Store {
 
     if (availableBio.contains(BiometricType.face)) {
       bioStatus = BiometricStatus.face;
-    } else if (availableBio.contains(BiometricType.fingerprint)) {
+    } else if (availableBio.contains(BiometricType.fingerprint) ||
+        availableBio.contains(BiometricType.strong) ||
+        availableBio.contains(BiometricType.weak)) {
       bioStatus = BiometricStatus.fingerprint;
     } else {
       bioStatus = BiometricStatus.none;

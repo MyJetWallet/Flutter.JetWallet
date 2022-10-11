@@ -74,7 +74,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
 
                 if (availableBio.contains(BiometricType.face)) {
                   biometricStatusInfo = BiometricStatus.face;
-                } else if (availableBio.contains(BiometricType.fingerprint)) {
+                } else if (availableBio.contains(BiometricType.fingerprint) ||
+                    availableBio.contains(BiometricType.strong) ||
+                    availableBio.contains(BiometricType.weak)) {
                   biometricStatusInfo = BiometricStatus.fingerprint;
                 } else {
                   biometricStatusInfo = BiometricStatus.none;
