@@ -108,6 +108,18 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @action
+  void clearData() {
+    addressValidation = const Hide();
+    tagValidation = const Hide();
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
+
+    isReadyToContinue = false;
+  }
+
+  @action
   void clearDataAndInit(WithdrawalModel wtd) {
     addressValidation = const Hide();
     tagValidation = const Hide();
