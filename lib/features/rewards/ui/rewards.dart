@@ -47,6 +47,7 @@ class _RewardsBody extends StatelessObserverWidget {
         title: intl.rewards_rewards,
       ),
       child: ListView(
+        physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           const SpaceH20(),
