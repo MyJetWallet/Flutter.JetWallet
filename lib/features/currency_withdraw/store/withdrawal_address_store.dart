@@ -142,7 +142,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     final condition3 = addressController.text.isNotEmpty;
     final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    isReadyToContinue = currency!.hasTag
+    isReadyToContinue = tag.isNotEmpty
         ? condition1 && condition2 && condition3 && condition4
         : condition1 && condition3;
   }

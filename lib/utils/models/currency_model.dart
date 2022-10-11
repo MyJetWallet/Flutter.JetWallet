@@ -95,7 +95,13 @@ class CurrencyModel with _$CurrencyModel {
   Decimal withdrawalFeeSize(String network) {
     var feeCollection = assetWithdrawalFees;
     feeCollection =
-        feeCollection.where((element) => element.network == network).toList();
+        feeCollection.where((element) {
+          if (network == '') {
+            return element.network == '' || element.network == null;
+          }
+
+          return element.network == network;
+        }).toList();
 
     return feeCollection.isNotEmpty ? feeCollection[0].size : Decimal.zero;
   }

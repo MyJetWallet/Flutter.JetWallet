@@ -36,6 +36,8 @@ class _AccountScreenState extends State<AccountScreen> {
 
     final authInfo = getIt.get<AppStore>().authState;
     final userInfo = sUserInfo.userInfo;
+    final userInfoN = getIt.get<UserInfoService>();
+    userInfoN.initBiometricStatus();
 
     //TODO REFACTOR
     //final cardFailed = useProvider(bottomNavigationNotipod);

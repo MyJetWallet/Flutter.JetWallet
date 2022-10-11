@@ -25,13 +25,24 @@ class _AccountSecurityState extends State<AccountSecurity> {
   @override
   void initState() {
     super.initState();
+    final userInfoN = getIt.get<UserInfoService>();
+    userInfoN.initBiometricStatus();
+    startUserInfo();
   }
 
   void updateUserInfo() {
-    print(getIt.get<UserInfoService>().userInfo);
     setState(() {
       userInfo = getIt.get<UserInfoService>().userInfo;
       userInfoDisable = getIt.get<UserInfoService>().userInfo.biometricDisabled;
+    });
+  }
+
+  void startUserInfo() {
+    Timer(const Duration(milliseconds: 200), () {
+      setState(() {
+        userInfo = getIt.get<UserInfoService>().userInfo;
+        userInfoDisable = getIt.get<UserInfoService>().userInfo.biometricDisabled;
+      });
     });
   }
 
