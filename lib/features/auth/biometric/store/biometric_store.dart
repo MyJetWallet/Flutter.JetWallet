@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:local_auth/local_auth.dart';
@@ -58,6 +59,8 @@ abstract class _BiometricStoreBase with Store {
     _logger.log(notifier, 'handleBiometricPermission');
     _updateUserLocation(UserLocation.settings);
     await openAppSettings();
+    final userInfoN = getIt.get<UserInfoService>();
+    await userInfoN.initBiometricStatus();
   }
 
   Future<void> handleBiometricPermissionAfterSettingsChange(
@@ -69,6 +72,8 @@ abstract class _BiometricStoreBase with Store {
     _updateUserLocation(UserLocation.app);
     Navigator.pop(context);
     await storageService.setString(useBioKey, 'true');
+    final userInfoN = getIt.get<UserInfoService>();
+    await userInfoN.initBiometricStatus();
   }
 
   void _updateUserLocation(UserLocation location) {
