@@ -27,48 +27,33 @@ class InitGuard extends AutoRouteGuard {
     final appStore = getIt.get<AppStore>();
     final flavor = flavorService();
 
-    if (flavor != Flavor.prod && !getIt.get<DioProxyService>().proxySkiped) {
-      print('API SELECTOR');
-      if (!router.isPathActive('/api_selector')) {
-        print('API SELECTOR');
+    if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
+      //await appStore.getAuthStatus();
 
-        await router.pushAndPopUntil(
-          const ApiSelectorRouter(),
-          predicate: (r) => true,
-        );
+      if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
+        if (!router.isPathActive('/api_selector')) {
+          await router.pushAndPopUntil(
+            const ApiSelectorRouter(),
+            predicate: (r) => true,
+          );
+
+          return;
+        }
 
         return;
       }
-    }
-
-    if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
-      //await appStore.getAuthStatus();
 
       print('Remote Status Success');
       _logger.log(notifier, 'Remote Status Success');
 
       appStore.authStatus.when(
-        loading: () {
-          print('InitGuard authStatus: loading');
-          _logger.log(notifier, 'AuthStatus: Loading');
-
-          router.replace(
-            const SplashRoute(),
-          );
-        },
+        loading: () {},
         authorized: () {
           print('InitGuard: authorized');
           _logger.log(notifier, 'AuthStatus: Authorized');
 
           appStore.authorizedStatus.when(
-            loading: () {
-              print('InitGuard authorizedStatus: loading');
-              _logger.log(notifier, 'authorizedStatus: Loading');
-
-              router.replace(
-                const SplashRoute(),
-              );
-            },
+            loading: () {},
             emailVerification: () {
               print('InitGuard: emailVerification');
               _logger.log(notifier, 'AuthStatus: EmailVerification');
@@ -81,7 +66,7 @@ class InitGuard extends AutoRouteGuard {
               print('InitGuard: twoFaVerification');
               _logger.log(notifier, 'AuthStatus: TwoFaVerification');
 
-              router.push(
+              router.replace(
                 TwoFaPhoneRouter(
                   trigger: const TwoFaPhoneTriggerUnion.startup(),
                 ),
@@ -91,7 +76,7 @@ class InitGuard extends AutoRouteGuard {
               print('InitGuard: pinSetup');
               _logger.log(notifier, 'AuthStatus: PinSetup');
 
-              router.push(
+              router.replace(
                 PinScreenRoute(
                   union: const PinFlowUnion.setup(),
                   cannotLeave: true,
@@ -104,7 +89,7 @@ class InitGuard extends AutoRouteGuard {
 
               getIt.get<UserInfoService>().initPinStatus();
 
-              router.push(
+              router.replace(
                 PinScreenRoute(
                   union: const PinFlowUnion.verification(),
                   cannotLeave: true,
@@ -123,21 +108,21 @@ class InitGuard extends AutoRouteGuard {
             askBioUsing: () {
               _logger.log(notifier, 'AuthStatus: AskBioUsing');
 
-              router.push(
+              router.replace(
                 BiometricRouter(),
               );
             },
             singleIn: () {
               _logger.log(notifier, 'AuthStatus: SingInRouter');
 
-              router.push(
+              router.replace(
                 SingInRouter(),
               );
             },
             userDataVerification: () {
               _logger.log(notifier, 'AuthStatus: UserDataScreenRouter');
 
-              router.push(
+              router.replace(
                 const UserDataScreenRouter(),
               );
             },
@@ -147,13 +132,15 @@ class InitGuard extends AutoRouteGuard {
           print('InitGuard: unauthorized');
           _logger.log(notifier, 'AuthStatus: OnboardingRoute');
 
-          router.push(
+          router.replace(
             const OnboardingRoute(),
           );
         },
       );
     } else {
       _logger.log(notifier, 'AuthStatus: SplashRoute');
+
+      print('AuthStatus: SplashRoute');
 
       await router.replace(
         const SplashRoute(),

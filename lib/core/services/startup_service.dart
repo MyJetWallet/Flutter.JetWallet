@@ -90,9 +90,11 @@ class StartupService {
                   );
             }
 
-            unawaited(sRouter.push(
-              const HomeRouter(),
-            ));
+            unawaited(
+              sRouter.push(
+                const HomeRouter(),
+              ),
+            );
           },
           onError: (error) {
             _logger.log(stateFlow, 'Failed to fetch session info', error);

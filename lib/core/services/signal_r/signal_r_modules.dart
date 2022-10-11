@@ -433,8 +433,6 @@ abstract class _SignalRModulesBase with Store {
     });
 
     assets.listen((value) {
-      log.w(value.assets);
-
       for (final asset in value.assets) {
         if (!asset.hideInTerminal) {
           final depositBlockchains = <BlockchainModel>[];
