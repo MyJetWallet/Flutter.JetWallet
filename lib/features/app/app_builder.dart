@@ -50,11 +50,7 @@ class AppBuilder extends StatelessObserverWidget {
 
             return getIt.get<AppStore>().remoteConfigStatus is Success
                 ? FutureBuilder(
-                    future: getIt.allReady(
-                      timeout: const Duration(
-                        milliseconds: 300,
-                      ),
-                    ),
+                    future: getIt.allReady(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       _logger.log(notifier, snapshot.connectionState);
 

@@ -8,7 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 //final _config = RemoteConfigService();
 
 class ApiSelectorScreen extends StatelessWidget {
-  const ApiSelectorScreen({Key? key}) : super(key: key);
+  const ApiSelectorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
