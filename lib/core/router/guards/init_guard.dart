@@ -47,13 +47,21 @@ class InitGuard extends AutoRouteGuard {
       _logger.log(notifier, 'Remote Status Success');
 
       appStore.authStatus.when(
-        loading: () {},
+        loading: () {
+          router.replace(
+            SplashRoute(runAnimation: false),
+          );
+        },
         authorized: () {
           print('InitGuard: authorized');
           _logger.log(notifier, 'AuthStatus: Authorized');
 
           appStore.authorizedStatus.when(
-            loading: () {},
+            loading: () {
+              router.replace(
+                SplashRoute(runAnimation: false),
+              );
+            },
             emailVerification: () {
               print('InitGuard: emailVerification');
               _logger.log(notifier, 'AuthStatus: EmailVerification');
@@ -143,7 +151,7 @@ class InitGuard extends AutoRouteGuard {
       print('AuthStatus: SplashRoute');
 
       await router.replace(
-        SplashRoute(),
+        SplashRoute(runAnimation: false),
       );
     }
   }
