@@ -16,6 +16,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_screen_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +108,20 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _initDefaultScreen() async {
-    final bioStatus = await biometricStatus();
+    final auth = LocalAuthentication();
+    var bioStatus = BiometricStatus.none;
+
+    final availableBio = await auth.getAvailableBiometrics();
+    print(availableBio);
+
+    if (availableBio.contains(BiometricType.face)) {
+      bioStatus = BiometricStatus.face;
+    } else if (availableBio.contains(BiometricType.fingerprint)) {
+      bioStatus = BiometricStatus.fingerprint;
+    } else {
+      bioStatus = BiometricStatus.none;
+    }
+
     final hideBio = bioStatus == BiometricStatus.none;
 
     await flowUnion.when(

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/services/user_info/models/user_info.dart';
@@ -65,7 +66,20 @@ class _AccountSecurityState extends State<AccountSecurity> {
             isSDivider: true,
             onSwitchChanged: (value) async {
               if (userInfo.biometricDisabled) {
-                final biometricStatusInfo = await biometricStatus();
+                final auth = LocalAuthentication();
+                var biometricStatusInfo = BiometricStatus.none;
+
+                final availableBio = await auth.getAvailableBiometrics();
+                print(availableBio);
+
+                if (availableBio.contains(BiometricType.face)) {
+                  biometricStatusInfo = BiometricStatus.face;
+                } else if (availableBio.contains(BiometricType.fingerprint)) {
+                  biometricStatusInfo = BiometricStatus.fingerprint;
+                } else {
+                  biometricStatusInfo = BiometricStatus.none;
+                }
+
                 if (biometricStatusInfo.toString() ==
                     BiometricStatus.none.toString()) {
                   unawaited(
