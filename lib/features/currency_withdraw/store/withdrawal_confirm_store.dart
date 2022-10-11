@@ -171,13 +171,15 @@ abstract class _WithdrawalConfirmStoreBase with Store {
             ' $_verb '
             '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
         onSuccess: (context) {
-          sRouter.replace(
+          addressStore!.clearData();
+
+          sRouter.replaceAll([
             const HomeRouter(
               children: [
                 PortfolioRouter(),
               ],
             ),
-          );
+          ]);
         },
       ),
     );
