@@ -384,7 +384,7 @@ abstract class _CurrencyBuyStoreBase with Store {
                   (element) => element.id == lastCardId,
             );
             if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(unlimintCardsLast.last);
+              return updateSelectedUnlimintCard(unlimintCardsLast.last);
             }
 
             return updateSelectedUnlimintCard(unlimintCards.last);
@@ -396,7 +396,7 @@ abstract class _CurrencyBuyStoreBase with Store {
                   (element) => element.id == lastCardId,
             );
             if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(unlimintCardsLast.last);
+              return updateSelectedAltUnlimintCard(unlimintCardsLast.last);
             }
 
             return updateSelectedAltUnlimintCard(unlimintAltCards.last);
@@ -414,6 +414,13 @@ abstract class _CurrencyBuyStoreBase with Store {
               .isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
         if (unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
+          }
+
           return updateSelectedUnlimintCard(unlimintCards[0]);
         }
 
@@ -453,6 +460,13 @@ abstract class _CurrencyBuyStoreBase with Store {
           PaymentMethodType.bankCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"bankCard"') {
         if (unlimintAltCards.isNotEmpty) {
+          final unlimintAltCardsLast = unlimintAltCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintAltCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
+          }
+
           return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
         }
 
@@ -515,7 +529,7 @@ abstract class _CurrencyBuyStoreBase with Store {
                   (element) => element.id == lastCardId,
             );
             if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(unlimintCardsLast.last);
+              return updateSelectedUnlimintCard(unlimintCardsLast.last);
             }
 
             return updateSelectedUnlimintCard(unlimintCards.last);
@@ -527,7 +541,7 @@ abstract class _CurrencyBuyStoreBase with Store {
                   (element) => element.id == lastCardId,
             );
             if (unlimintAltCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(unlimintAltCardsLast.last);
+              return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
             }
 
             return updateSelectedAltUnlimintCard(unlimintAltCards.last);
@@ -545,6 +559,13 @@ abstract class _CurrencyBuyStoreBase with Store {
               .isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
         if (unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
+          }
+
           return updateSelectedUnlimintCard(unlimintCards[0]);
         }
 
@@ -578,6 +599,13 @@ abstract class _CurrencyBuyStoreBase with Store {
           PaymentMethodType.bankCard,).isNotEmpty &&
           lastUsedPaymentMethod == '"bankCard"') {
         if (unlimintAltCards.isNotEmpty) {
+          final unlimintAltCardsLast = unlimintAltCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintAltCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
+          }
+
           return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
         }
 

@@ -16,6 +16,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_screen_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +108,22 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _initDefaultScreen() async {
-    final bioStatus = await biometricStatus();
+    final auth = LocalAuthentication();
+    var bioStatus = BiometricStatus.none;
+
+    final availableBio = await auth.getAvailableBiometrics();
+    print(availableBio);
+
+    if (availableBio.contains(BiometricType.face)) {
+      bioStatus = BiometricStatus.face;
+    } else if (availableBio.contains(BiometricType.fingerprint) ||
+        availableBio.contains(BiometricType.strong) ||
+        availableBio.contains(BiometricType.weak)) {
+      bioStatus = BiometricStatus.fingerprint;
+    } else {
+      bioStatus = BiometricStatus.none;
+    }
+
     final hideBio = bioStatus == BiometricStatus.none;
 
     await flowUnion.when(
@@ -141,7 +157,7 @@ abstract class _PinScreenStoreBase with Store {
   ) async {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
-    _updateHideBiometricButton(hideBio);
+    await _updateHideBiometricButton(hideBio);
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
@@ -248,7 +264,7 @@ abstract class _PinScreenStoreBase with Store {
             orElse: () async {
               await _animateCorrect();
 
-              _updateHideBiometricButton(true);
+              await _updateHideBiometricButton(true);
               _updateScreenUnion(const NewPin());
             },
           );
@@ -443,7 +459,8 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _updateHideBiometricButton(bool value) {
+  Future<void> _updateHideBiometricButton(bool value) async {
+    await getIt.get<UserInfoService>().initPinStatus();
     hideBiometricButton = _userInfo.pin == null ? true : value;
   }
 
