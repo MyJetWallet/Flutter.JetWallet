@@ -8,7 +8,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -42,6 +41,8 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
+
+import '../../../utils/formatting/base/base_currencies_format.dart';
 
 part 'currency_buy_store.g.dart';
 
@@ -153,17 +154,35 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @computed
   String get preset1Name {
-    return selectedPaymentMethod != null ? '\$50' : '25%';
+    return selectedPaymentMethod != null
+        ? baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '50',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : '25%';
   }
 
   @computed
   String get preset2Name {
-    return selectedPaymentMethod != null ? '\$100' : '50%';
+    return selectedPaymentMethod != null
+        ?  baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '100',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : '50%';
   }
 
   @computed
   String get preset3Name {
-    return selectedPaymentMethod != null ? '\$500' : 'MAX';
+    return selectedPaymentMethod != null
+        ? baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '500',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : 'MAX';
   }
 
   @computed

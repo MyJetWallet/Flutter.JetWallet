@@ -145,6 +145,7 @@
   "profileDetails_changePhoneNumber": "Change phone number",
   "profileDetails_newPhoneNumberConfirmed": "New phone number confirmed",
   "profileDetails_changePassword": "Change Password",
+  "profileDetails_defaultCurrency": "Default currency",
   "showBasicModalBottomSheet_continue": "Continue",
   "kycAlertHandler_continue": "Continue",
   "kycAlertHandler_verifyYourProfile": "Verify your profile",

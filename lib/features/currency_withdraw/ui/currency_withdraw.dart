@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
@@ -21,7 +22,8 @@ class CurrencyWithdraw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<WithdrawalAddressStore>(
-      create: (context) => WithdrawalAddressStore(withdrawal)..clearData(),
+      create: (context) =>
+          WithdrawalAddressStore()..clearDataAndInit(withdrawal),
       builder: (context, child) => _CurrencyWithdrawBody(
         withdrawal: withdrawal,
       ),

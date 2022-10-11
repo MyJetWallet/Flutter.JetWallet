@@ -1,11 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class MarketHeaderStats extends StatelessWidget {
-  const MarketHeaderStats({Key? key}) : super(key: key);
+class MarketHeaderStats extends StatelessObserverWidget {
+  const MarketHeaderStats({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MarketHeaderStats extends StatelessWidget {
 }
 
 class MarketHeaderSkeletonStats extends StatelessWidget {
-  const MarketHeaderSkeletonStats({Key? key}) : super(key: key);
+  const MarketHeaderSkeletonStats({super.key});
 
   @override
   Widget build(BuildContext context) {
