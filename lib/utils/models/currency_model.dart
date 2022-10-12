@@ -94,6 +94,8 @@ class CurrencyModel with _$CurrencyModel {
 
   Decimal withdrawalFeeSize(String network) {
     var feeCollection = assetWithdrawalFees;
+    var newFeeCollection = assetWithdrawalFees;
+    var feeBlockchainCollection = withdrawalBlockchains;
     feeCollection =
         feeCollection.where((element) {
           if (network == '') {
@@ -102,8 +104,22 @@ class CurrencyModel with _$CurrencyModel {
 
           return element.network == network;
         }).toList();
+    if (feeCollection.isEmpty) {
+      feeBlockchainCollection = feeBlockchainCollection.where(
+        (element) => element.description == network,
+      ).toList();
+      if (feeBlockchainCollection.isNotEmpty) {
+        newFeeCollection = newFeeCollection.where(
+          (element) => element.network == feeBlockchainCollection[0].id,
+        ).toList();
+      }
+    }
 
-    return feeCollection.isNotEmpty ? feeCollection[0].size : Decimal.zero;
+    return feeCollection.isNotEmpty
+        ? feeCollection[0].size
+        : newFeeCollection.isNotEmpty
+        ? newFeeCollection[0].size
+        : Decimal.zero;
   }
 
   bool get isGrowing => dayPercentChange > 0;
