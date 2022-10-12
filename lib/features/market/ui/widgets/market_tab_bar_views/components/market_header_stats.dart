@@ -6,7 +6,14 @@ import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class MarketHeaderStats extends StatelessObserverWidget {
-  const MarketHeaderStats({super.key});
+  const MarketHeaderStats({
+    super.key,
+    this.activeFilters = 0,
+    this.onFilterButtonTap,
+  });
+
+  final int activeFilters;
+  final Function()? onFilterButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +28,8 @@ class MarketHeaderStats extends StatelessObserverWidget {
             '${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ? intl.marketHeaderStats_up : intl.marketHeaderStats_down}',
         showInfo: marketInfo != Decimal.zero,
         isLoader: false,
+        onFilterButtonTap: onFilterButtonTap,
+        activeFilters: activeFilters,
       ),
     );
   }
