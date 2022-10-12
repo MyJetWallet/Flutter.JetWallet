@@ -27,33 +27,41 @@ class InitGuard extends AutoRouteGuard {
     final appStore = getIt.get<AppStore>();
     final flavor = flavorService();
 
-    if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
-      //await appStore.getAuthStatus();
-
-      if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
-        if (!router.isPathActive('/api_selector')) {
-          await router.pushAndPopUntil(
-            const ApiSelectorRouter(),
-            predicate: (r) => true,
-          );
-
-          return;
-        }
+    if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
+      if (!router.isPathActive('/api_selector')) {
+        await router.pushAndPopUntil(
+          const ApiSelectorRouter(),
+          predicate: (r) => true,
+        );
 
         return;
       }
+
+      return;
+    }
+
+    if (appStore.remoteConfigStatus == const RemoteConfigUnion.success()) {
+      //await appStore.getAuthStatus();
 
       print('Remote Status Success');
       _logger.log(notifier, 'Remote Status Success');
 
       appStore.authStatus.when(
-        loading: () {},
+        loading: () {
+          router.replace(
+            SplashRoute(runAnimation: false),
+          );
+        },
         authorized: () {
           print('InitGuard: authorized');
           _logger.log(notifier, 'AuthStatus: Authorized');
 
           appStore.authorizedStatus.when(
-            loading: () {},
+            loading: () {
+              router.replace(
+                SplashRoute(runAnimation: false),
+              );
+            },
             emailVerification: () {
               print('InitGuard: emailVerification');
               _logger.log(notifier, 'AuthStatus: EmailVerification');
@@ -143,7 +151,7 @@ class InitGuard extends AutoRouteGuard {
       print('AuthStatus: SplashRoute');
 
       await router.replace(
-        const SplashRoute(),
+        SplashRoute(runAnimation: false),
       );
     }
   }

@@ -13,11 +13,16 @@ String getUserAgent() {
   final packageInfo = getIt.get<PackageInfoService>().info;
   final appVersion = packageInfo.version;
 
-  final mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
+  if (sRouter.navigatorKey.currentContext != null) {
+    final mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
 
-  final deviceSize = mediaQuery.size;
-  final devicePixelRatio = mediaQuery.devicePixelRatio;
+    final deviceSize = mediaQuery.size;
+    final devicePixelRatio = mediaQuery.devicePixelRatio;
 
-  return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-      '$devicePixelRatio;$lang;${deviceInfo.marketingName}';
+    return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
+        '$devicePixelRatio;$lang;${deviceInfo.marketingName}';
+  } else {
+    return '$appVersion;${packageInfo.buildNumber};$deviceType;unknown;'
+        'unknown;$lang;${deviceInfo.marketingName}';
+  }
 }

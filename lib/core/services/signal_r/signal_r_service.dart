@@ -41,8 +41,6 @@ class SignalRService {
 
   /// CreateService and Start Init
   void start() {
-    print('SignalRService START');
-
     signalR = createService()..init();
 
     getIt.registerSingleton<SignalRModules>(

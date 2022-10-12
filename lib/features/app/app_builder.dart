@@ -63,11 +63,16 @@ class AppBuilder extends StatelessObserverWidget {
                               builder: (context) {
                                 return AppBuilderBody(
                                   reactiveMediaQuery: reactiveMediaQuery,
-                                  child: child ?? const SizedBox(),
+                                  child: child ??
+                                      const SplashScreen(
+                                        runAnimation: false,
+                                      ),
                                 );
                               },
                             )
-                          : const SplashScreen();
+                          : const SplashScreen(
+                              runAnimation: false,
+                            );
                     },
                   )
                 : const SplashScreen();
