@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/transfer_resend_request_model/transfer_resend_request_model.dart';
@@ -43,6 +44,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   CurrencyModel? currency;
 
   SendByPhoneConfirmInput? input;
+
+  final loader = StackLoaderStore();
 
   @action
   void initStore(
@@ -123,6 +126,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
 
+    print('VERIFY CODE');
+
     union = const SendByPhoneConfirmUnion.loading();
 
     try {
@@ -136,25 +141,18 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
           .getValidationModule()
           .postVerifyTransferVerificationCode(model);
 
-      response.pick(
-        onNoData: () {
-          union = const SendByPhoneConfirmUnion.input();
+      print(response);
 
-          sAnalytics.sendSuccess(type: 'By phone');
-          _showSuccessScreen();
-        },
-        onData: (data) {
-          union = const SendByPhoneConfirmUnion.input();
+      if (response.hasError) {
+        _logger.log(stateFlow, 'verifyCode', response.error!.cause);
 
-          sAnalytics.sendSuccess(type: 'By phone');
-          _showSuccessScreen();
-        },
-        onError: (error) {
-          _logger.log(stateFlow, 'verifyCode', error.cause);
+        union = SendByPhoneConfirmUnion.error(response.error!.cause);
+      } else {
+        union = const SendByPhoneConfirmUnion.input();
 
-          union = SendByPhoneConfirmUnion.error(error.cause);
-        },
-      );
+        sAnalytics.sendSuccess(type: 'By phone');
+        _showSuccessScreen();
+      }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 

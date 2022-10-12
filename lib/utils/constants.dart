@@ -32,6 +32,7 @@ const allowCameraAsset = 'assets/images/allow_camera.png';
 
 // Send by phone
 const usePhonebookImageAsset = 'assets/images/use_phonebook.png';
+const sendAlertAsset = 'assets/images/send_alert.png';
 
 // Account banners
 const chatWithSupportAsset = 'assets/images/chat_with_support.png';

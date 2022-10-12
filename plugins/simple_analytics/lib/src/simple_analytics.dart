@@ -657,8 +657,15 @@ class SimpleAnalytics {
     _analytics.logEvent(EventType.circleContinueAddress);
   }
 
-  void circleCVVView() {
-    _analytics.logEvent(EventType.circleCVVView);
+  void circleCVVView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.circleCVVView,
+      eventProperties: {
+        PropertyType.method: source,
+      },
+    );
   }
 
   void circleCloseCVV() {
@@ -1529,6 +1536,86 @@ class SimpleAnalytics {
   void remoteConfigError() {
     _analytics.logEvent(
       EventType.remoteConfigError,
+    );
+  }
+
+  /// Payment methods
+  void paymentTap() {
+    _analytics.logEvent(
+      EventType.paymentTap,
+    );
+  }
+
+  void paymentView() {
+    _analytics.logEvent(
+      EventType.paymentView,
+    );
+  }
+
+  void paymentAdd() {
+    _analytics.logEvent(
+      EventType.paymentAdd,
+    );
+  }
+
+  void paymentDetailsView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentDetailsView,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentDetailsContinue({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentDetailsContinue,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentBillingView({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentBillingView,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentBillingContinue({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentBillingContinue,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void paymentSuccess({
+    required String source,
+    required String asset,
+    required String amount,
+    required RecurringFrequency frequency,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentSuccess,
+      eventProperties: {
+        PropertyType.method: source,
+        PropertyType.assetName: asset,
+        PropertyType.frequency: frequency.name,
+        PropertyType.amount: amount,
+      },
     );
   }
 }

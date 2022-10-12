@@ -1,13 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
@@ -34,6 +33,12 @@ class TransactionListItem extends StatelessObserverWidget {
       currencies,
       transactionListItem.assetId,
     );
+    print(transactionListItem.buyInfo?.sellAssetId);
+    final paymentCurrency = transactionListItem.buyInfo?.sellAssetId != null
+        ? currencyFrom(
+      currencies,
+      transactionListItem.buyInfo!.sellAssetId,
+    ) : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return InkWell(
@@ -141,7 +146,12 @@ class TransactionListItem extends StatelessObserverWidget {
                       OperationType.simplexBuy)
                     TransactionListItemText(
                       text: '${intl.withText} '
-                          '\$${transactionListItem.buyInfo!.sellAmount}',
+                          '${volumeFormat(
+                            decimal: transactionListItem.buyInfo!.sellAmount,
+                            symbol: transactionListItem.buyInfo!.sellAssetId,
+                            prefix: paymentCurrency.prefixSymbol,
+                            accuracy: paymentCurrency.accuracy,
+                          )}',
                       color: colors.grey2,
                     ),
                   if (transactionListItem.operationType ==

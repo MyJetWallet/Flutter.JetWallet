@@ -150,6 +150,8 @@ class AddCircleCardBody extends StatelessObserverWidget {
                   name: intl.addCircleCard_continue,
                   onTap: () async {
                     sAnalytics.circleContinueDetails();
+                    sAnalytics.paymentDetailsContinue(source: 'Circle');
+                    sAnalytics.paymentBillingView(source: 'Circle');
 
                     await sRouter.push(
                       CircleBillingAddressRouter(

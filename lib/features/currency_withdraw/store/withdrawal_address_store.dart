@@ -26,29 +26,13 @@ part 'withdrawal_address_store.g.dart';
 
 class WithdrawalAddressStore extends _WithdrawalAddressStoreBase
     with _$WithdrawalAddressStore {
-  WithdrawalAddressStore(WithdrawalModel withdrawal) : super(withdrawal);
+  WithdrawalAddressStore() : super();
 
   static _WithdrawalAddressStoreBase of(BuildContext context) =>
       Provider.of<WithdrawalAddressStore>(context, listen: false);
 }
 
 abstract class _WithdrawalAddressStoreBase with Store {
-  _WithdrawalAddressStoreBase(this.withdrawal) {
-    currencyModel = withdrawal.currency;
-
-    if (currencyModel.isSingleNetwork) {
-      updateNetwork(currencyModel.withdrawalBlockchains[0]);
-    }
-
-    currency = currencyModel;
-
-    networkController.text = '';
-    addressController.text = '';
-    tagController.text = '';
-  }
-
-  final WithdrawalModel withdrawal;
-
   static final _logger = Logger('WithdrawalAddressStore');
 
   @observable
@@ -60,6 +44,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
   bool tagError = false;
   @action
   bool setTagError(bool value) => tagError = value;
+
+  WithdrawalModel? withdrawal;
 
   @observable
   CurrencyModel? currency;
@@ -134,6 +120,28 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @action
+  void clearDataAndInit(WithdrawalModel wtd) {
+    addressValidation = const Hide();
+    tagValidation = const Hide();
+
+    networkController.text = '';
+    addressController.text = '';
+    tagController.text = '';
+
+    isReadyToContinue = false;
+
+    withdrawal = wtd;
+
+    currencyModel = wtd.currency;
+
+    if (currencyModel.isSingleNetwork) {
+      updateNetwork(currencyModel.withdrawalBlockchains[0]);
+    }
+
+    currency = currencyModel;
+  }
+
+  @action
   void setIsReadyToContinue() {
     if (currency == null) return;
 
@@ -142,7 +150,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     final condition3 = addressController.text.isNotEmpty;
     final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    isReadyToContinue = currency!.hasTag
+    isReadyToContinue = tag.isNotEmpty
         ? condition1 && condition2 && condition3 && condition4
         : condition1 && condition3;
   }
@@ -185,11 +193,13 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @action
-  void updateNetwork(BlockchainModel _network) {
+  void updateNetwork(BlockchainModel net) {
     _logger.log(notifier, 'updateNetwork');
 
-    network = _network;
-    networkController.text = network.description;
+    network = net;
+    networkController.text = net.description;
+
+    print(networkController.text);
 
     setIsReadyToContinue();
   }
@@ -602,7 +612,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
   void _pushWithdrawalAmount(BuildContext context) {
     sRouter.push(
       WithdrawalAmountRouter(
-        withdrawal: withdrawal,
+        withdrawal: withdrawal!,
         network: networkController.text,
         addressStore: this as WithdrawalAddressStore,
       ),

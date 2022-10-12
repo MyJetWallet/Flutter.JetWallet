@@ -28,8 +28,6 @@ class SNetwork {
   late SimpleOptions simpleOptions;
 
   Future<void> recreateDio() async {
-    print('SimpleNetworking - recreateDio');
-
     _logger.log(stateFlow, 'SimpleNetworking - recreateDio');
 
     dio = setupDio();

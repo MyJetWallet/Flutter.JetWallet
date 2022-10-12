@@ -22,6 +22,7 @@ class KChartWidget extends StatefulWidget {
     required this.isAssetChart,
     required this.chartWidth,
     this.selectedCandlePadding,
+    this.prefix = '',
   });
 
   final List<CandleModel> datas;
@@ -35,6 +36,7 @@ class KChartWidget extends StatefulWidget {
     required String symbol,
   }) formatPrice;
 
+  final String prefix;
   final String candleResolution;
   final double candleWidth;
   final double? selectedCandlePadding;
@@ -247,6 +249,7 @@ class _KChartWidgetState extends State<KChartWidget>
               formatPrice: widget.formatPrice,
               isAssetChart: widget.isAssetChart,
               chartWidth: widget.chartWidth,
+              prefix: widget.prefix,
             ),
           ),
         ],

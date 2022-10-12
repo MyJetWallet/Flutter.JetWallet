@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+import 'package:jetwallet/core/services/payment_methods_service/payment_methods_service.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -99,6 +100,10 @@ Future<GetIt> getItInit({
   */
 
   //getIt.registerLazySingleton<KycService>(() => KycService());
+
+  getIt.registerSingleton<PaymentMethodService>(
+    PaymentMethodService(),
+  );
 
   getIt.registerSingleton<CurrenciesService>(
     CurrenciesService(),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -92,7 +95,11 @@ class _BiometricBody extends StatelessObserverWidget {
                   SPrimaryButton4(
                     active: true,
                     name: buttonText,
-                    onTap: () {
+                    onTap: () async {
+                      final storageService = sLocalStorageService;
+                      await storageService.setString(useBioKey, 'true');
+                      final userInfoN = getIt.get<UserInfoService>();
+                      await userInfoN.initBiometricStatus();
                       biometric.useBio(
                         useBio: true,
                         isAccSettings: isAccSettings,

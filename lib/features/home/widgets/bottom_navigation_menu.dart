@@ -217,14 +217,17 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
               kycOperationStatus(KycStatus.allowed)) {
             sAnalytics.sendChooseAsset();
 
-            showSendAction(context);
+            showSendAction(context, isNotEmptyBalance: isNotEmptyBalance);
           } else {
             sRouter.pop();
 
             kycAlertHandler.handle(
               status: kycState.withdrawalStatus,
               isProgress: kycState.verificationInProgress,
-              currentNavigate: () => showSendAction(context),
+              currentNavigate: () => showSendAction(
+                context,
+                isNotEmptyBalance: isNotEmptyBalance,
+              ),
               requiredDocuments: kycState.requiredDocuments,
               requiredVerifications: kycState.requiredVerifications,
             );

@@ -98,6 +98,6 @@ abstract class _RewardStoreBase with Store {
       return weight2.compareTo(weight1);
     });
 
-    return combinedArray;
+    return combinedArray.toSet().toList();
   }
 }

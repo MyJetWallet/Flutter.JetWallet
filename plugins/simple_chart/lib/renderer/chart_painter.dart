@@ -22,6 +22,7 @@ class ChartPainter extends BaseChartPainter {
     required bool isLongPass,
     required double selectX,
     this.sink,
+    this.prefix = '\$',
     required ChartType candleType,
     required String resolution,
     required double candleWidth,
@@ -40,6 +41,7 @@ class ChartPainter extends BaseChartPainter {
           candleType: candleType,
           candleWidth: candleWidth,
           resolution: resolution,
+          prefix: prefix,
         );
 
   static double get maxScrollX => BaseChartPainter.maxScrollX;
@@ -48,6 +50,7 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
+  final String prefix;
   final String Function({
     String? prefix,
     required Decimal decimal,
@@ -289,7 +292,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: 2,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: '\$',
+            prefix: prefix,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -300,7 +303,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: 2,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
-            prefix: '\$',
+            prefix: prefix,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -314,7 +317,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: 2,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: '\$',
+            prefix: prefix,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,
@@ -325,7 +328,7 @@ class ChartPainter extends BaseChartPainter {
           formatPrice(
             accuracy: 2,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
-            prefix: '\$',
+            prefix: prefix,
             symbol: '',
           ),
           color: ChartColors.maxMinTextColor,

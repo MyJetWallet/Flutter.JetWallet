@@ -18,6 +18,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 
+import '../../../core/services/signal_r/signal_r_modules.dart';
 import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
 
@@ -68,6 +69,7 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
     final state = HighYeildBuyStore.of(context);
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     final defaultTiers = earnOffer.tiers
         .map(
@@ -229,12 +231,12 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
               alignment: Alignment.centerRight,
               child: Text(
                 volumeFormat(
-                  prefix: '\$',
+                  prefix: baseCurrency.prefix,
                   decimal: Decimal.parse(
                     '${(state.currentBalance ?? Decimal.zero).toDouble() * currency.currentPrice.toDouble()}',
                   ),
                   accuracy: 2,
-                  symbol: 'USD',
+                  symbol: baseCurrency.symbol,
                 ),
                 style: sBodyText2Style.copyWith(
                   color: colors.grey1,
@@ -266,12 +268,12 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
             alignment: Alignment.centerRight,
             child: Text(
               volumeFormat(
-                prefix: '\$',
+                prefix: baseCurrency.prefix,
                 decimal: Decimal.parse(
                   '${Decimal.parse(state.inputValue).toDouble() * currency.currentPrice.toDouble()}',
                 ),
                 accuracy: 2,
-                symbol: 'USD',
+                symbol: baseCurrency.symbol,
               ),
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,

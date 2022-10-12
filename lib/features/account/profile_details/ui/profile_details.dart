@@ -4,11 +4,14 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../market/market_details/helper/currency_from_all.dart';
 
 class ProfileDetails extends StatelessObserverWidget {
   const ProfileDetails({Key? key}) : super(key: key);
@@ -16,6 +19,9 @@ class ProfileDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = sUserInfo.userInfo;
+    final baseAsset = sSignalRModules.baseCurrency;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
+    final baseCurrency = currencyFromAll(currencies, baseAsset.symbol);
 
     final infoImage = Image.asset(
       phoneChangeAsset,
@@ -84,6 +90,15 @@ class ProfileDetails extends StatelessObserverWidget {
                 );
               },
             ),
+          SProfileDetailsButton(
+            label: intl.profileDetails_defaultCurrency,
+            value: baseCurrency.description,
+            onTap: () {
+              sRouter.push(
+                const DefaultAssetChangeRouter(),
+              );
+            },
+          ),
           const Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),

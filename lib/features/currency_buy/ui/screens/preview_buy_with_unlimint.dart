@@ -65,7 +65,12 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      customLoader: state.isChecked ? const WaitingScreen() : null,
+      customLoader: state.isChecked ? WaitingScreen(
+        wasAction: state.wasAction,
+        onSkip: () {
+          state.skippedWaiting();
+        },
+      ) : null,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

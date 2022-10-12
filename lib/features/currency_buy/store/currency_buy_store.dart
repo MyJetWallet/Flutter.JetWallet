@@ -8,8 +8,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -42,6 +42,8 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 
+import '../../../utils/formatting/base/base_currencies_format.dart';
+
 part 'currency_buy_store.g.dart';
 
 class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
@@ -59,7 +61,12 @@ abstract class _CurrencyBuyStoreBase with Store {
       (element) => element.integration == IntegrationType.unlimint,
     );
 
+    final uAC = sSignalRModules.cards.cardInfos.where(
+      (element) => element.integration == IntegrationType.unlimintAlt,
+    );
+
     unlimintCards = ObservableList.of(uC);
+    unlimintAltCards = ObservableList.of(uAC);
 
     _initCurrencies();
     _initBaseCurrency();
@@ -90,6 +97,9 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @observable
   CircleCard? pickedUnlimintCard;
+
+  @observable
+  CircleCard? pickedAltUnlimintCard;
 
   @observable
   FormattedCircleCard? selectedCircleCard;
@@ -134,6 +144,9 @@ abstract class _CurrencyBuyStoreBase with Store {
   ObservableList<CircleCard> unlimintCards = ObservableList.of([]);
 
   @observable
+  ObservableList<CircleCard> unlimintAltCards = ObservableList.of([]);
+
+  @observable
   InputError inputError = InputError.none;
 
   @observable
@@ -141,17 +154,35 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @computed
   String get preset1Name {
-    return selectedPaymentMethod != null ? '\$50' : '25%';
+    return selectedPaymentMethod != null
+        ? baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '50',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : '25%';
   }
 
   @computed
   String get preset2Name {
-    return selectedPaymentMethod != null ? '\$100' : '50%';
+    return selectedPaymentMethod != null
+        ?  baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '100',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : '50%';
   }
 
   @computed
   String get preset3Name {
-    return selectedPaymentMethod != null ? '\$500' : 'MAX';
+    return selectedPaymentMethod != null
+        ? baseCurrenciesFormat(
+            prefix: baseCurrency?.prefix ?? '',
+            text: '500',
+            symbol: baseCurrency?.symbol ?? '',
+          )
+        : 'MAX';
   }
 
   @computed
@@ -218,8 +249,9 @@ abstract class _CurrencyBuyStoreBase with Store {
     final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
     final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
     final cond3 = selectedPaymentMethod?.type == PaymentMethodType.unlimintCard;
+    final cond4 = selectedPaymentMethod?.type == PaymentMethodType.bankCard;
 
-    return cond1 || cond2 || cond3;
+    return cond1 || cond2 || cond3 || cond4;
   }
 
   @action
@@ -284,6 +316,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
     final cardPreferred = fromCard && currencyModel.supportsAtLeastOneBuyMethod;
     final buyMethods = currencyModel.buyMethods;
+    final lastCardId = await sLocalStorageService.getValue(lastUsedCard);
 
     if (currencies.isNotEmpty) {
       if (!cardPreferred) {
@@ -318,7 +351,14 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 4: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          final circleCardsLast = circleCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
 
@@ -328,7 +368,38 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
-            return updateSelectedCircleCard(circleCards.first);
+            final circleCardsLast = circleCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (circleCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(circleCardsLast.last);
+            }
+
+            return updateSelectedCircleCard(circleCards.last);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.unlimintCard) {
+          if (unlimintCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedUnlimintCard(unlimintCardsLast.last);
+            }
+
+            return updateSelectedUnlimintCard(unlimintCards.last);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.bankCard) {
+          if (unlimintAltCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintAltCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedAltUnlimintCard(unlimintCardsLast.last);
+            }
+
+            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
@@ -343,6 +414,13 @@ abstract class _CurrencyBuyStoreBase with Store {
               .isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
         if (unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
+          }
+
           return updateSelectedUnlimintCard(unlimintCards[0]);
         }
 
@@ -377,11 +455,39 @@ abstract class _CurrencyBuyStoreBase with Store {
         return updateSelectedCurrency(currencies.first);
       }
 
+      // Case 9: If asset supports more then one Payment method and use bankCard
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.bankCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"bankCard"') {
+        if (unlimintAltCards.isNotEmpty) {
+          final unlimintAltCardsLast = unlimintAltCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintAltCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
+          }
+
+          return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
+        }
+
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.bankCard,
+        ).first,);
+      }
+
+
       if (currencyModel.supportsCircle) {
-        // Case 9: If user has at least one saved circle
+        // Case 10: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
     } else {
@@ -390,7 +496,14 @@ abstract class _CurrencyBuyStoreBase with Store {
         // Case 1: If user has at least one saved circle
         // card and use circle last time
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
 
@@ -400,7 +513,38 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (currencyModel.buyMethods.first.type ==
             PaymentMethodType.circleCard) {
           if (circleCards.isNotEmpty) {
-            return updateSelectedCircleCard(circleCards.first);
+            final circleCardsLast = circleCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (circleCardsLast.isNotEmpty) {
+              return updateSelectedCircleCard(circleCardsLast.last);
+            }
+
+            return updateSelectedCircleCard(circleCards.last);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.unlimintCard) {
+          if (unlimintCards.isNotEmpty) {
+            final unlimintCardsLast = unlimintCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintCardsLast.isNotEmpty) {
+              return updateSelectedUnlimintCard(unlimintCardsLast.last);
+            }
+
+            return updateSelectedUnlimintCard(unlimintCards.last);
+          }
+        } else if (currencyModel.buyMethods.first.type ==
+            PaymentMethodType.bankCard) {
+          if (unlimintAltCards.isNotEmpty) {
+            final unlimintAltCardsLast = unlimintAltCards.where(
+                  (element) => element.id == lastCardId,
+            );
+            if (unlimintAltCardsLast.isNotEmpty) {
+              return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
+            }
+
+            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
           }
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
@@ -415,6 +559,13 @@ abstract class _CurrencyBuyStoreBase with Store {
               .isNotEmpty &&
           lastUsedPaymentMethod == '"unlimintCard"') {
         if (unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
+          }
+
           return updateSelectedUnlimintCard(unlimintCards[0]);
         }
 
@@ -443,11 +594,39 @@ abstract class _CurrencyBuyStoreBase with Store {
         );
       }
 
+      // Case 5: If asset supports more then one Payment method and use bankCard
+      if (buyMethods.where((element) => element.type ==
+          PaymentMethodType.bankCard,).isNotEmpty &&
+          lastUsedPaymentMethod == '"bankCard"') {
+        if (unlimintAltCards.isNotEmpty) {
+          final unlimintAltCardsLast = unlimintAltCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (unlimintAltCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
+          }
+
+          return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
+        }
+
+        return updateSelectedPaymentMethod(buyMethods.where(
+              (element) => element.type == PaymentMethodType.bankCard,
+        ).first,);
+      }
+
+
       if (currencyModel.supportsCircle) {
-        // Case 5: If user has at least one saved circle
+        // Case 6: If user has at least one saved circle
         // card and haven't saved methods
         if (circleCards.isNotEmpty) {
-          return updateSelectedCircleCard(circleCards.first);
+          final circleCardsLast = circleCards.where(
+                (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
+          }
+
+          return updateSelectedCircleCard(circleCards.last);
         }
       }
     }
@@ -470,10 +649,12 @@ abstract class _CurrencyBuyStoreBase with Store {
     selectedCurrency = null;
     selectedPaymentMethod = method;
     pickedUnlimintCard = isLocalUse ? pickedUnlimintCard : null;
+    pickedAltUnlimintCard = isLocalUse ? pickedAltUnlimintCard : null;
 
     if (method?.type == PaymentMethodType.simplex ||
         method?.type == PaymentMethodType.circleCard ||
-        method?.type == PaymentMethodType.unlimintCard) {
+        method?.type == PaymentMethodType.unlimintCard ||
+        method?.type == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -510,6 +691,18 @@ abstract class _CurrencyBuyStoreBase with Store {
 
     pickedUnlimintCard = card;
 
+    updateSelectedPaymentMethod(method.first, isLocalUse: true);
+  }
+
+  @action
+  void updateSelectedAltUnlimintCard(CircleCard card) {
+    _logger.log(notifier, 'updateSelectedAltUnlimintCard');
+
+    final method = currencyModel.buyMethods.where((method) {
+      return method.type == PaymentMethodType.bankCard;
+    });
+
+    pickedAltUnlimintCard = card;
     updateSelectedPaymentMethod(method.first, isLocalUse: true);
   }
 
@@ -768,7 +961,8 @@ abstract class _CurrencyBuyStoreBase with Store {
 
       if (selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
           selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-          selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+          selectedPaymentMethod?.type == PaymentMethodType.simplex ||
+          selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
         if (cardLimit != null) {

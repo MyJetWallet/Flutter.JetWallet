@@ -23,9 +23,14 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>(
+          orElse: () => const SplashRouteArgs());
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const SplashScreen(),
+        child: SplashScreen(
+          key: args.key,
+          runAnimation: args.runAnimation,
+        ),
       );
     },
     OnboardingRoute.name: (routeData) {
@@ -221,6 +226,19 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddUnlimintCardRouter.name: (routeData) {
+      final args = routeData.argsAs<AddUnlimintCardRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: AddBankCard(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+          amount: args.amount,
+          currency: args.currency,
+          isPreview: args.isPreview,
+        ),
+      );
+    },
     CircleBillingAddressRouter.name: (routeData) {
       final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -276,8 +294,7 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     WaitingScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<WaitingScreenRouterArgs>(
-          orElse: () => const WaitingScreenRouterArgs());
+      final args = routeData.argsAs<WaitingScreenRouterArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
         child: WaitingScreen(
@@ -286,6 +303,8 @@ class _$AppRouter extends RootStackRouter {
           primaryText: args.primaryText,
           secondaryText: args.secondaryText,
           specialTextWidget: args.specialTextWidget,
+          wasAction: args.wasAction,
+          onSkip: args.onSkip,
         ),
       );
     },
@@ -589,6 +608,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    PreviewBuyWithBankCardRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewBuyWithBankCardRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: PreviewBuyWithBankCard(
+          key: args.key,
+          input: args.input,
+        ),
+      );
+    },
     Circle3dSecureWebViewRouter.name: (routeData) {
       final args = routeData.argsAs<Circle3dSecureWebViewRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -724,24 +753,10 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    NftCollectionDetailsRouter.name: (routeData) {
-      final args = routeData.argsAs<NftCollectionDetailsRouterArgs>();
+    DefaultAssetChangeRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: NftCollectionDetails(
-          key: args.key,
-          nft: args.nft,
-        ),
-      );
-    },
-    NFTDetailsRouter.name: (routeData) {
-      final args = routeData.argsAs<NFTDetailsRouterArgs>();
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: NFTDetailsScreen(
-          key: args.key,
-          nft: args.nft,
-        ),
+        child: const DefaultAssetChange(),
       );
     },
     MarketRouter.name: (routeData) {
@@ -912,6 +927,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/add_circle_card',
         ),
         RouteConfig(
+          AddUnlimintCardRouter.name,
+          path: '/add_bank_card',
+        ),
+        RouteConfig(
           CircleBillingAddressRouter.name,
           path: '/circle_billing_address',
         ),
@@ -1060,6 +1079,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/preview_high_yield_buy',
         ),
         RouteConfig(
+          PreviewBuyWithBankCardRouter.name,
+          path: '/preview_buy_with_bank_card',
+        ),
+        RouteConfig(
           Circle3dSecureWebViewRouter.name,
           path: '/circle_3d_secure',
         ),
@@ -1112,26 +1135,44 @@ class _$AppRouter extends RootStackRouter {
           path: '/market_details',
         ),
         RouteConfig(
-          NftCollectionDetailsRouter.name,
-          path: '/nft_collection',
-        ),
-        RouteConfig(
-          NFTDetailsRouter.name,
-          path: '/nft_details',
+          DefaultAssetChangeRouter.name,
+          path: '/change_base_asset',
         ),
       ];
 }
 
 /// generated route for
 /// [SplashScreen]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute()
-      : super(
+class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({
+    Key? key,
+    bool runAnimation = true,
+  }) : super(
           SplashRoute.name,
           path: '/splash',
+          args: SplashRouteArgs(
+            key: key,
+            runAnimation: runAnimation,
+          ),
         );
 
   static const String name = 'SplashRoute';
+}
+
+class SplashRouteArgs {
+  const SplashRouteArgs({
+    this.key,
+    this.runAnimation = true,
+  });
+
+  final Key? key;
+
+  final bool runAnimation;
+
+  @override
+  String toString() {
+    return 'SplashRouteArgs{key: $key, runAnimation: $runAnimation}';
+  }
 }
 
 /// generated route for
@@ -1721,6 +1762,55 @@ class AddCircleCardRouterArgs {
 }
 
 /// generated route for
+/// [AddBankCard]
+class AddUnlimintCardRouter extends PageRouteInfo<AddUnlimintCardRouterArgs> {
+  AddUnlimintCardRouter({
+    Key? key,
+    required dynamic Function() onCardAdded,
+    required String amount,
+    CurrencyModel? currency,
+    bool isPreview = false,
+  }) : super(
+          AddUnlimintCardRouter.name,
+          path: '/add_bank_card',
+          args: AddUnlimintCardRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+            amount: amount,
+            currency: currency,
+            isPreview: isPreview,
+          ),
+        );
+
+  static const String name = 'AddUnlimintCardRouter';
+}
+
+class AddUnlimintCardRouterArgs {
+  const AddUnlimintCardRouterArgs({
+    this.key,
+    required this.onCardAdded,
+    required this.amount,
+    this.currency,
+    this.isPreview = false,
+  });
+
+  final Key? key;
+
+  final dynamic Function() onCardAdded;
+
+  final String amount;
+
+  final CurrencyModel? currency;
+
+  final bool isPreview;
+
+  @override
+  String toString() {
+    return 'AddUnlimintCardRouterArgs{key: $key, onCardAdded: $onCardAdded, amount: $amount, currency: $currency, isPreview: $isPreview}';
+  }
+}
+
+/// generated route for
 /// [CircleBillingAddress]
 class CircleBillingAddressRouter
     extends PageRouteInfo<CircleBillingAddressRouterArgs> {
@@ -1926,6 +2016,8 @@ class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
     String? primaryText,
     String? secondaryText,
     Widget? specialTextWidget,
+    bool wasAction = false,
+    required dynamic Function() onSkip,
   }) : super(
           WaitingScreenRouter.name,
           path: '/waiting_screen',
@@ -1935,6 +2027,8 @@ class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
             primaryText: primaryText,
             secondaryText: secondaryText,
             specialTextWidget: specialTextWidget,
+            wasAction: wasAction,
+            onSkip: onSkip,
           ),
         );
 
@@ -1948,6 +2042,8 @@ class WaitingScreenRouterArgs {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.wasAction = false,
+    required this.onSkip,
   });
 
   final Key? key;
@@ -1960,9 +2056,13 @@ class WaitingScreenRouterArgs {
 
   final Widget? specialTextWidget;
 
+  final bool wasAction;
+
+  final dynamic Function() onSkip;
+
   @override
   String toString() {
-    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget}';
+    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
   }
 }
 
@@ -2929,6 +3029,41 @@ class PreviewHighYieldBuyScreenRouterArgs {
 }
 
 /// generated route for
+/// [PreviewBuyWithBankCard]
+class PreviewBuyWithBankCardRouter
+    extends PageRouteInfo<PreviewBuyWithBankCardRouterArgs> {
+  PreviewBuyWithBankCardRouter({
+    Key? key,
+    required PreviewBuyWithBankCardInput input,
+  }) : super(
+          PreviewBuyWithBankCardRouter.name,
+          path: '/preview_buy_with_bank_card',
+          args: PreviewBuyWithBankCardRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
+
+  static const String name = 'PreviewBuyWithBankCardRouter';
+}
+
+class PreviewBuyWithBankCardRouterArgs {
+  const PreviewBuyWithBankCardRouterArgs({
+    this.key,
+    required this.input,
+  });
+
+  final Key? key;
+
+  final PreviewBuyWithBankCardInput input;
+
+  @override
+  String toString() {
+    return 'PreviewBuyWithBankCardRouterArgs{key: $key, input: $input}';
+  }
+}
+
+/// generated route for
 /// [Circle3dSecureWebView]
 class Circle3dSecureWebViewRouter
     extends PageRouteInfo<Circle3dSecureWebViewRouterArgs> {
@@ -3414,72 +3549,15 @@ class MarketDetailsRouterArgs {
 }
 
 /// generated route for
-/// [NftCollectionDetails]
-class NftCollectionDetailsRouter
-    extends PageRouteInfo<NftCollectionDetailsRouterArgs> {
-  NftCollectionDetailsRouter({
-    Key? key,
-    required NftModel nft,
-  }) : super(
-          NftCollectionDetailsRouter.name,
-          path: '/nft_collection',
-          args: NftCollectionDetailsRouterArgs(
-            key: key,
-            nft: nft,
-          ),
+/// [DefaultAssetChange]
+class DefaultAssetChangeRouter extends PageRouteInfo<void> {
+  const DefaultAssetChangeRouter()
+      : super(
+          DefaultAssetChangeRouter.name,
+          path: '/change_base_asset',
         );
 
-  static const String name = 'NftCollectionDetailsRouter';
-}
-
-class NftCollectionDetailsRouterArgs {
-  const NftCollectionDetailsRouterArgs({
-    this.key,
-    required this.nft,
-  });
-
-  final Key? key;
-
-  final NftModel nft;
-
-  @override
-  String toString() {
-    return 'NftCollectionDetailsRouterArgs{key: $key, nft: $nft}';
-  }
-}
-
-/// generated route for
-/// [NFTDetailsScreen]
-class NFTDetailsRouter extends PageRouteInfo<NFTDetailsRouterArgs> {
-  NFTDetailsRouter({
-    Key? key,
-    required NftMarket nft,
-  }) : super(
-          NFTDetailsRouter.name,
-          path: '/nft_details',
-          args: NFTDetailsRouterArgs(
-            key: key,
-            nft: nft,
-          ),
-        );
-
-  static const String name = 'NFTDetailsRouter';
-}
-
-class NFTDetailsRouterArgs {
-  const NFTDetailsRouterArgs({
-    this.key,
-    required this.nft,
-  });
-
-  final Key? key;
-
-  final NftMarket nft;
-
-  @override
-  String toString() {
-    return 'NFTDetailsRouterArgs{key: $key, nft: $nft}';
-  }
+  static const String name = 'DefaultAssetChangeRouter';
 }
 
 /// generated route for

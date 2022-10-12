@@ -95,6 +95,12 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
   bool isChecked = false;
 
   @observable
+  bool wasAction = false;
+
+  @observable
+  bool isWaitingSkipped = false;
+
+  @observable
   StackLoaderStore loader = StackLoaderStore();
 
   @action
@@ -196,6 +202,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
     try {
+      await sLocalStorageService.setString(lastUsedCard, input.card?.id ?? '');
       await getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
               keys: [
@@ -281,8 +288,14 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
+            if (isWaitingSkipped) {
+              return;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
+            if (isWaitingSkipped) {
+              return;
+            }
             throw Exception();
           } else if (actionRequired) {
             onAction(
@@ -290,6 +303,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               (payment, lastAction) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
                 paymentId = payment;
+                wasAction = true;
 
                 loader.startLoadingImmediately();
                 _requestPaymentInfo(onAction, lastAction);
@@ -338,6 +352,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               tapped = true;
               final _ =
                   await sNetwork.getWalletModule().postAddUnlimintCard(model);
+
+              await sLocalStorageService.setString(
+                lastUsedCard,
+                _.data?.cardId ?? '',
+              );
 
               navigateToRouter();
 
@@ -397,5 +416,10 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
   @action
   void checkSetter() {
     isChecked = !isChecked;
+  }
+
+  @action
+  void skippedWaiting() {
+    isWaitingSkipped = true;
   }
 }

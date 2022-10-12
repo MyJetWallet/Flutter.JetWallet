@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/set_banner_color.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/services/signal_r/signal_r_modules.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
 import '../model/campaign_or_referral_model.dart';
@@ -34,6 +35,7 @@ class _RewardsBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final baseCurrency = sSignalRModules.baseCurrency;
 
     final state = RewardStore.of(context);
     final deepLinkService = getIt.get<DeepLinkService>();
@@ -45,6 +47,7 @@ class _RewardsBody extends StatelessObserverWidget {
         title: intl.rewards_rewards,
       ),
       child: ListView(
+        physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           const SpaceH20(),
@@ -113,6 +116,8 @@ class _RewardsBody extends StatelessObserverWidget {
                 bonusEarnedText: intl.rewards_bonusEarned,
                 commissionEarnedText: intl.rewards_commissionEarned,
                 totalText: intl.rewards_total,
+                currencySymbol: baseCurrency.symbol,
+                currencyPrefix: baseCurrency.prefix,
               ),
               const SpaceH20(),
             ],

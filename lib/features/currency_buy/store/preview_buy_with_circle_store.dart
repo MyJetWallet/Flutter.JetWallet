@@ -184,7 +184,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     storage.setString(checkedCircle, 'true');
 
     if (cvvEnabled) {
-      sAnalytics.circleCVVView();
+      sAnalytics.circleCVVView(source: 'Circle');
 
       showCircleCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
@@ -282,6 +282,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     _logger.log(notifier, 'setLastUsedPaymentMethod');
 
     try {
+      await sLocalStorageService.setString(lastUsedCard, input.card.id);
       await getIt.get<KeyValuesService>().addToKeyValue(
             KeyValueRequestModel(
               keys: [
@@ -375,10 +376,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
-            sAnalytics.circleSuccess(
+            sAnalytics.paymentSuccess(
               asset: input.currency.description,
               amount: input.amount,
               frequency: RecurringFrequency.oneTime,
+              source: 'Circle',
             );
             unawaited(_showSuccessScreen());
           } else if (failed) {
@@ -416,10 +418,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    sAnalytics.circleSuccess(
+    sAnalytics.paymentSuccess(
       asset: currencySymbol,
       amount: input.amount,
       frequency: RecurringFrequency.oneTime,
+      source: 'Circle',
     );
 
     return sRouter

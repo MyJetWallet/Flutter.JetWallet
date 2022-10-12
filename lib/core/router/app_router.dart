@@ -10,6 +10,7 @@ import 'package:jetwallet/features/account/delete_profile/ui/delete_profile.dart
 import 'package:jetwallet/features/account/delete_profile/ui/delete_reasons_screen.dart';
 import 'package:jetwallet/features/account/profile_details/ui/profile_details.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/change_password.dart';
+import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
 import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/action_recurring_info.dart';
@@ -31,7 +32,9 @@ import 'package:jetwallet/features/crypto_deposit/crypto_deposit_screen.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/curency_buy.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_asset.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_bank_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/circle_3d_secure_web_view/circle_3d_secure_web_view.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_circle/preview_buy_with_circle/preview_buy_with_circle.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/preview_buy_with_unlimint.dart';
@@ -64,8 +67,6 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/features/market/nft_collection_details/ui/nft_collection_details_screen.dart';
-import 'package:jetwallet/features/market/nft_details/ui/nft_details_screen.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/news/ui/news_screen.dart';
 import 'package:jetwallet/features/news/ui/widgets/news_list/components/news_web_view.dart';
@@ -96,18 +97,17 @@ import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
+import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 
 part 'app_router.gr.dart';
@@ -264,6 +264,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/add_circle_card',
       name: 'AddCircleCardRouter',
       page: AddCircleCard,
+    ),
+    AutoRoute(
+      path: '/add_bank_card',
+      name: 'AddUnlimintCardRouter',
+      page: AddBankCard,
     ),
     AutoRoute(
       path: '/circle_billing_address',
@@ -451,6 +456,11 @@ final sRouter = getIt.get<AppRouter>();
       page: PreviewHighYieldBuyScreen,
     ),
     AutoRoute(
+      path: '/preview_buy_with_bank_card',
+      name: 'PreviewBuyWithBankCardRouter',
+      page: PreviewBuyWithBankCard,
+    ),
+    AutoRoute(
       path: '/circle_3d_secure',
       name: 'Circle3dSecureWebViewRouter',
       page: Circle3dSecureWebView,
@@ -516,14 +526,9 @@ final sRouter = getIt.get<AppRouter>();
       page: MarketDetails,
     ),
     AutoRoute(
-      path: '/nft_collection',
-      name: 'NftCollectionDetailsRouter',
-      page: NftCollectionDetails,
-    ),
-    AutoRoute(
-      path: '/nft_details',
-      name: 'NFTDetailsRouter',
-      page: NFTDetailsScreen,
+      path: '/change_base_asset',
+      name: 'DefaultAssetChangeRouter',
+      page: DefaultAssetChange,
     ),
   ],
 )

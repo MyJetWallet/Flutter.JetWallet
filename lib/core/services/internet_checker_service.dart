@@ -5,14 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 
 class InternetCheckerService {
-  InternetCheckerService() {
-    _context = sRouter.navigatorKey.currentContext!;
-
-    initialise();
-  }
-
-  late BuildContext _context;
-
   final _connectivity = Connectivity();
 
   bool internetAvailable = false;
@@ -36,14 +28,14 @@ class InternetCheckerService {
       internetAvailable = true;
 
       if (isAlertOpen) {
-        Navigator.pop(_context);
+        Navigator.pop(sRouter.navigatorKey.currentContext!);
         isAlertOpen = false;
       }
     } else if (result == ConnectivityResult.wifi) {
       internetAvailable = true;
 
       if (isAlertOpen) {
-        Navigator.pop(_context);
+        Navigator.pop(sRouter.navigatorKey.currentContext!);
         isAlertOpen = false;
       }
     } else {
@@ -66,7 +58,7 @@ class InternetCheckerService {
         isAlertOpen = true;
 
         sShowAlertPopup(
-          _context,
+          sRouter.navigatorKey.currentContext!,
           willPopScope: false,
           primaryText: intl.noInternetConnection_header,
           secondaryText: intl.noInternetConnection_descr,
