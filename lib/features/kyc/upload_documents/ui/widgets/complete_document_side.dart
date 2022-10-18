@@ -6,17 +6,19 @@ import 'package:simple_kit/simple_kit.dart';
 class CompleteDocumentSide extends StatelessWidget {
   const CompleteDocumentSide({
     Key? key,
+    this.isSelfie = false,
     required this.removeImage,
     required this.documentSide,
   }) : super(key: key);
 
+  final bool isSelfie;
   final File documentSide;
   final Function() removeImage;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: isSelfie ? 320 : 200,
       child: Stack(
         children: [
           Row(
