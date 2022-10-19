@@ -379,24 +379,24 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
     if (document == KycDocumentType.creditCard) {
       if (documentCard == null) {
-        await _pickFile(false);
+        await _pickFile(false, isCard: true);
       } else {
         loader.startLoading();
         await uploadVerificationDocuments(
           false,
           cardId ?? '',
-          onSuccess ?? () {},
+          onSuccess,
         );
       }
     } else if (document == KycDocumentType.selfieWithCard) {
       if (documentSelfie == null) {
-        await _pickFile(false);
+        await _pickFile(false, isSelfie: true);
       } else {
         loader.startLoading();
         await uploadVerificationDocuments(
           true,
           cardId ?? '',
-          onSuccess ?? () {},
+          onSuccess,
         );
       }
     } else if (document != KycDocumentType.passport) {
@@ -501,11 +501,21 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   }
 
   @action
-  Future<void> _pickFile(bool isAnimatePageView) async {
+  Future<void> _pickFile(
+      bool isAnimatePageView,
+      {
+        bool isSelfie = false,
+        bool isCard = false,
+      }
+  ) async {
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(source: ImageSource.camera);
     if (file != null) {
-      _updateDocumentSide(File(file.path));
+      _updateDocumentSide(
+        File(file.path),
+        isSelfie: isSelfie,
+        isCard: isCard,
+      );
       if (isAnimatePageView) await _animatePageView(pageViewController);
     }
   }
@@ -525,8 +535,18 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   }
 
   @action
-  void _updateDocumentSide(File file) {
-    if (numberSide == 0) {
+  void _updateDocumentSide(
+    File file,
+    {
+      bool isSelfie = false,
+      bool isCard = false,
+    }
+  ) {
+    if (isSelfie) {
+      documentSelfie = file;
+    } else if (isCard) {
+      documentCard = file;
+    } else if (numberSide == 0) {
       documentFirstSide = file;
     } else {
       documentSecondSide = file;

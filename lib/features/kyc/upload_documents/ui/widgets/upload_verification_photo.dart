@@ -65,8 +65,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
     final store = UploadKycDocumentsStore.of(context);
     final colors = sKit.colors;
 
-    const activeDocument = 1;
-
     final banners = createKycBannersList(
       documentFirstSide: store.documentFirstSide,
       documentSecondSide: store.documentSecondSide,
