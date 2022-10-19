@@ -66,50 +66,88 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   Future<void> sendCode() async {
-    await _requestTemplate(
-      requestName: 'sendCode',
-      body: () async {
-        final number = await decomposePhoneNumber(
-          phoneNumber,
-        );
+    try {
+      final number = await decomposePhoneNumber(
+        phoneNumber,
+      );
 
-        final model = PhoneVerificationRequestModel(
-          locale: intl.localeName,
-          phoneBody: number.body,
-          phoneCode: '+${number.dialCode}',
-          phoneIso: number.isoCode,
-        );
+      final model = PhoneVerificationRequestModel(
+        locale: intl.localeName,
+        phoneBody: number.body,
+        phoneCode: '+${number.dialCode}',
+        phoneIso: number.isoCode,
+      );
 
-        final _ =
-            sNetwork.getValidationModule().postPhoneVerificationRequest(model);
-      },
-    );
+      final response = await sNetwork
+          .getValidationModule()
+          .postPhoneVerificationRequest(model);
+
+      if (response.hasError) {
+        _logger.log(stateFlow, 'sendCode', response.error);
+
+        sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
+
+        sNotification.showError(
+          response.error!.cause,
+          id: 1,
+        );
+      }
+    } catch (e) {
+      _logger.log(stateFlow, 'sendCode', e);
+
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.something_went_wrong,
+      );
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 2,
+      );
+    }
   }
 
   @action
   Future<void> verifyCode() async {
-    loader.startLoading();
+    try {
+      loader.startLoading();
 
-    await _requestTemplate(
-      requestName: 'verifyCode',
-      body: () async {
-        final number = await decomposePhoneNumber(
-          phoneNumber,
+      final number = await decomposePhoneNumber(
+        phoneNumber,
+      );
+
+      final model = PhoneVerificationVerifyRequestModel(
+        code: controller.text,
+        phoneBody: number.body,
+        phoneCode: '+${number.dialCode}',
+        phoneIso: number.isoCode,
+      );
+
+      final response = await sNetwork
+          .getValidationModule()
+          .postPhoneVerificationVerify(model);
+
+      if (response.hasError) {
+        _logger.log(stateFlow, 'verifyCode', response.error);
+
+        sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
+
+        sNotification.showError(
+          response.error!.cause,
+          id: 1,
         );
-
-        final model = PhoneVerificationVerifyRequestModel(
-          code: controller.text,
-          phoneBody: number.body,
-          phoneCode: '+${number.dialCode}',
-          phoneIso: number.isoCode,
-        );
-
-        final _ =
-            sNetwork.getValidationModule().postPhoneVerificationVerify(model);
-
+      } else {
         args.onVerified();
-      },
-    );
+      }
+    } catch (e) {
+      _logger.log(stateFlow, 'verifyCode', e);
+
+      sAnalytics.kycPhoneConfirmFailed(
+        intl.something_went_wrong,
+      );
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 2,
+      );
+    }
 
     loader.finishLoading();
   }
