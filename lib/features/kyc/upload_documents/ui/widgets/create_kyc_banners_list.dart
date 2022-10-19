@@ -14,74 +14,83 @@ List<Widget> createKycBannersList({
   File? documentSecondSide,
   File? documentSelfie,
   File? documentCard,
+  bool showSides = true,
+  bool selfie = false,
+  bool card = false,
   required SimpleColors colors,
   required UploadKycDocumentsStore notifier,
 }) {
   final bannersList = <Widget>[];
 
-  if (documentFirstSide == null) {
-    bannersList.add(
-      const BlankDocumentFirstSide(),
-    );
-  } else {
-    bannersList.add(
-      CompleteDocumentSide(
-        documentSide: documentFirstSide,
-        removeImage: () {
-          notifier.removeDocumentSide();
-        },
-      ),
-    );
+  if (showSides) {
+    if (documentFirstSide == null) {
+      bannersList.add(
+        const BlankDocumentFirstSide(),
+      );
+    } else {
+      bannersList.add(
+        CompleteDocumentSide(
+          documentSide: documentFirstSide,
+          removeImage: () {
+            notifier.removeDocumentSide();
+          },
+        ),
+      );
+    }
+
+    if (documentSecondSide == null) {
+      bannersList.add(
+        const BlankDocumentSecondSide(),
+      );
+    } else {
+      bannersList.add(
+        CompleteDocumentSide(
+          documentSide: documentSecondSide,
+          removeImage: () {
+            notifier.removeDocumentSide();
+          },
+        ),
+      );
+    }
   }
 
-  if (documentSecondSide == null) {
-    bannersList.add(
-      const BlankDocumentSecondSide(),
-    );
-  } else {
-    bannersList.add(
-      CompleteDocumentSide(
-        documentSide: documentSecondSide,
-        removeImage: () {
-          notifier.removeDocumentSide();
-        },
-      ),
-    );
+  if (selfie) {
+    if (documentSelfie == null) {
+      bannersList.add(
+        Image.asset(
+          selfiePhotoAsset,
+        ),
+      );
+    } else {
+      bannersList.add(
+        CompleteDocumentSide(
+          documentSide: documentSelfie,
+          isSelfie: true,
+          removeImage: () {
+            notifier.removeDocument(true);
+          },
+        ),
+      );
+    }
   }
 
-  if (documentSelfie == null) {
-    bannersList.add(
-      Image.asset(
-        selfiePhotoAsset,
-      ),
-    );
-  } else {
-    bannersList.add(
-      CompleteDocumentSide(
-        documentSide: documentSelfie,
-        isSelfie: true,
-        removeImage: () {
-          notifier.removeDocument(true);
-        },
-      ),
-    );
-  }
-
-  if (documentCard == null) {
-    bannersList.add(
-      Image.asset(
-        cardPhotoAsset,
-      ),
-    );
-  } else {
-    bannersList.add(
-      CompleteDocumentSide(
-        documentSide: documentCard,
-        removeImage: () {
-          notifier.removeDocument(false);
-        },
-      ),
-    );
+  if (card) {
+    if (documentCard == null) {
+      bannersList.add(
+        Image.asset(
+          cardPhotoAsset,
+        ),
+      );
+    } else {
+      bannersList.add(
+        CompleteDocumentSide(
+          documentSide: documentCard,
+          removeImage: () {
+            notifier.removeDocument(false);
+          },
+        ),
+      );
+    }
   }
 
   return bannersList;

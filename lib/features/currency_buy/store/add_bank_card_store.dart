@@ -179,9 +179,10 @@ abstract class _AddBankCardStoreBase with Store {
       if (isPreview) {
         final cardNumberFinal = cardNumber
             .replaceAll('\u{2005}', '');
-        if (newCard.data?.data.requiredVerification ==
+        if (newCard.data?.data.status ==
             CardStatus.verificationRequired) {
-          if (newCard.data?.data.status == CardVerificationType.cardCheck) {
+          if (newCard.data?.data.requiredVerification ==
+              CardVerificationType.cardCheck) {
             await sRouter.push(
               UploadVerificationPhotoRouter(
                 cardId: newCard.data?.data.cardId ?? '',
@@ -195,7 +196,7 @@ abstract class _AddBankCardStoreBase with Store {
                 },
               ),
             );
-          } else if (newCard.data?.data.status ==
+          } else if (newCard.data?.data.requiredVerification ==
               CardVerificationType.cardWithSelfieCheck) {
             await sRouter.push(
               UploadVerificationPhotoRouter(
@@ -212,7 +213,7 @@ abstract class _AddBankCardStoreBase with Store {
               ),
             );
           }
-        } else if (newCard.data?.data.requiredVerification ==
+        } else if (newCard.data?.data.status ==
             CardStatus.accepted) {
           showPreview(
             cardNumber: cardNumberFinal,

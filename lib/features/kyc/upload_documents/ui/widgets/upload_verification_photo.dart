@@ -65,14 +65,16 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
     final store = UploadKycDocumentsStore.of(context);
     final colors = sKit.colors;
 
-    final activeDocument =
-        getIt.get<ChooseDocumentsStore>().getActiveDocument();
+    const activeDocument = 1;
 
     final banners = createKycBannersList(
       documentFirstSide: store.documentFirstSide,
       documentSecondSide: store.documentSecondSide,
       documentSelfie: store.documentSelfie,
       documentCard: store.documentCard,
+      selfie: isSelfie,
+      card: !isSelfie,
+      showSides: false,
       colors: colors,
       notifier: store,
     );
@@ -105,7 +107,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
         header: SAuthHeader(
-          customIconButton: const SpaceH24(),
           progressValue: isSelfie ? 50 : 100,
           title: intl.cardVerification_title,
         ),
@@ -118,26 +119,35 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                   child: Column(
                     children: [
                       const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            intl.cardVerification_providePhoto,
-                            style: sBodyText1Style.copyWith(
-                              color: colors.grey1,
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                intl.cardVerification_providePhoto,
+                                maxLines: 2,
+                                style: sBodyText1Style.copyWith(
+                                  color: colors.grey1,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SpaceH20(),
-                      Row(
-                        children: [
-                          Text(
-                            intl.cardVerification_coveredDigits,
-                            style: sBodyText1Style.copyWith(
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            Text(
+                              intl.cardVerification_coveredDigits,
+                              maxLines: 2,
+                              style: sBodyText1Style.copyWith(
                                 color: colors.black,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SpaceH32(),
                       DocumentPageView(
@@ -145,14 +155,8 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                         onPageChanged: (int index) {
                           store.changeDocumentSide(index);
                         },
-                        itemCount: _documentPageViewCount(
-                          activeDocument?.document,
-                        ),
+                        itemCount: 1,
                         banners: banners,
-                      ),
-                      const SpaceH18(),
-                      PageIndicator(
-                        documentType: activeDocument?.document,
                       ),
                       const Spacer(),
                       const SpaceH10(),
@@ -255,7 +259,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                     onSuccess,
                   );
                 },
-                name: store.buttonName(),
+                name: store.buttonName(isSelfie: isSelfie, isCard: !isSelfie),
                 active: true,
                 icon: store.buttonIcon
                     ? const SArrowUpIcon()
