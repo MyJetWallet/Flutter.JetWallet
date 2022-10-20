@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
@@ -112,6 +113,8 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
     final authInfo = getIt.get<AppStore>().authState;
 
+    final userInfoN = getIt.get<UserInfoService>();
+
     final pinError = StandardFieldErrorNotifier();
 
     focusNode.addListener(() {
@@ -197,6 +200,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                       controller: verification.controller,
                       length: emailVerificationCodeLength,
                       onCompleted: (_) {
+                        userInfoN.updateIsJustLogged(value: true);
                         verification.loader.startLoadingImmediately();
                         verification.verifyCode();
                       },
