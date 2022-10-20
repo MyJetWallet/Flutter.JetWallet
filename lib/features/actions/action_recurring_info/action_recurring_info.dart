@@ -52,28 +52,40 @@ class ShowRecurringInfoAction extends StatelessObserverWidget {
     );
 
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 24,
-        ),
-        child: SSecondaryButton1(
-          active: true,
-          name: intl.actionRecurringInfo_manage,
-          onTap: () {
-            sAnalytics.tapManageButton(
-              assetName: assetName,
-              frequency: recurringItem.scheduleType.toFrequency,
-              amount: sellCurrencyAmount,
-            );
+      bottomNavigationBar: ColoredBox(
+        color: colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 24,
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: colors.black,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: SSecondaryButton1(
+              active: true,
+              name: intl.actionRecurringInfo_manage,
+              onTap: () {
+                sAnalytics.tapManageButton(
+                  assetName: assetName,
+                  frequency: recurringItem.scheduleType.toFrequency,
+                  amount: sellCurrencyAmount,
+                );
 
-            showRecurringManageAction(
-              context: context,
-              recurringItem: recurringItem,
-              assetName: assetName,
-              sellCurrencyAmount: sellCurrencyAmount,
-            );
-          },
+                showRecurringManageAction(
+                  context: context,
+                  recurringItem: recurringItem,
+                  assetName: assetName,
+                  sellCurrencyAmount: sellCurrencyAmount,
+                );
+              },
+            ),
+          ),
         ),
       ),
       body: Material(
