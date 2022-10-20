@@ -91,6 +91,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
               active: true,
               name: intl.cardVerification_notifyAndSkip,
               onTap: () {
+                store.skipWaiting();
                 sRouter.popUntilRoot();
               },
             ),

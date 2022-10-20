@@ -3,7 +3,10 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_networking/modules/wallet_api/models/card_add/card_check_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 
+import '../simple_networking/simple_networking.dart';
 import 'models/user_info.dart';
 
 final sUserInfo = getIt.get<UserInfoService>();

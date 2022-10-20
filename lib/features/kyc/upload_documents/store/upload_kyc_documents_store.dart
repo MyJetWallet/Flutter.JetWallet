@@ -54,6 +54,12 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   int numberSide = 0;
 
   @observable
+  bool skippedWaiting = false;
+
+  @observable
+  bool uploadTapped = false;
+
+  @observable
   UploadKycDocumentsUnion union = const UploadKycDocumentsUnion.input();
 
   PageController pageViewController = PageController(viewportFraction: 0.9);
@@ -198,15 +204,14 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     String cardId,
   ) async {
     _logger.log(notifier, 'getVerificationId');
+    skippedWaiting = false;
 
     try {
       final model = CardCheckRequestModel(
         cardId: cardId,
       );
 
-      final response = await getIt
-        .get<SNetwork>()
-        .simpleImageNetworking
+      final response = await sNetwork
         .getWalletModule()
         .cardStart(
           model,
@@ -257,9 +262,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         verificationId: verificationId,
       );
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
+      final response = await sNetwork
           .getWalletModule()
           .cardVerification(
         model,
@@ -281,10 +284,12 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             );
           } else {
             await Future.delayed(const Duration(seconds: 1));
-            await verificationCheck(
-              onSuccess,
-              verificationId,
-            );
+            if (!skippedWaiting) {
+              await verificationCheck(
+                onSuccess,
+                verificationId,
+              );
+            }
           }
         },
         onError: (error) {
@@ -377,48 +382,53 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   ) async {
     _logger.log(notifier, 'documentPageViewLogic');
 
-    if (document == KycDocumentType.creditCard) {
-      if (documentCard == null) {
-        await _pickFile(false, isCard: true);
+    if (!uploadTapped) {
+      uploadTapped = true;
+      if (document == KycDocumentType.creditCard) {
+        if (documentCard == null) {
+          await _pickFile(false, isCard: true);
+        } else {
+          loader.startLoading();
+          await uploadVerificationDocuments(
+            false,
+            cardId ?? '',
+            onSuccess,
+          );
+        }
+      } else if (document == KycDocumentType.selfieWithCard) {
+        if (documentSelfie == null) {
+          await _pickFile(false, isSelfie: true);
+        } else {
+          loader.startLoading();
+          await uploadVerificationDocuments(
+            true,
+            cardId ?? '',
+            onSuccess,
+          );
+        }
+      } else if (document != KycDocumentType.passport) {
+        if (documentFirstSide == null || documentSecondSide == null) {
+          await _pickFile(true);
+        } else {
+          loader.startLoading();
+          sAnalytics.kycIdentityUploaded();
+          await uploadDocuments(
+            kycDocumentTypeInt(document!),
+          );
+        }
       } else {
-        loader.startLoading();
-        await uploadVerificationDocuments(
-          false,
-          cardId ?? '',
-          onSuccess,
-        );
+        if (documentFirstSide == null) {
+          await _pickFile(false);
+        } else {
+          loader.startLoading();
+          sAnalytics.kycIdentityUploaded();
+          await _uploadPassportDocument(
+            kycDocumentTypeInt(document!),
+          );
+        }
       }
-    } else if (document == KycDocumentType.selfieWithCard) {
-      if (documentSelfie == null) {
-        await _pickFile(false, isSelfie: true);
-      } else {
-        loader.startLoading();
-        await uploadVerificationDocuments(
-          true,
-          cardId ?? '',
-          onSuccess,
-        );
-      }
-    } else if (document != KycDocumentType.passport) {
-      if (documentFirstSide == null || documentSecondSide == null) {
-        await _pickFile(true);
-      } else {
-        loader.startLoading();
-        sAnalytics.kycIdentityUploaded();
-        await uploadDocuments(
-          kycDocumentTypeInt(document!),
-        );
-      }
-    } else {
-      if (documentFirstSide == null) {
-        await _pickFile(false);
-      } else {
-        loader.startLoading();
-        sAnalytics.kycIdentityUploaded();
-        await _uploadPassportDocument(
-          kycDocumentTypeInt(document!),
-        );
-      }
+      await Future.delayed(const Duration(seconds: 1));
+      uploadTapped = false;
     }
   }
 
@@ -434,9 +444,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
-      final response = await getIt
-          .get<SNetwork>()
-          .simpleImageNetworking
+      final response = await sNetwork
           .getWalletModule()
           .postUploadDocuments(
             formData,
@@ -615,5 +623,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
+  }
+
+  @action
+  void skipWaiting() {
+    skippedWaiting = true;
   }
 }
