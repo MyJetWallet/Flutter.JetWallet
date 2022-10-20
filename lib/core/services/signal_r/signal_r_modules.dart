@@ -120,11 +120,7 @@ abstract class _SignalRModulesBase with Store {
 
     marketCampaignsOS.listen(
       (value) {
-        for (final marketCampaign in value.campaigns) {
-          if (!marketCampaigns.contains(marketCampaign)) {
-            marketCampaigns.add(marketCampaign);
-          }
-        }
+        marketCampaigns = ObservableList.of(value.campaigns);
       },
     );
 
@@ -948,7 +944,7 @@ abstract class _SignalRModulesBase with Store {
 
   @observable
   ObservableList<CurrencyModel> currenciesWithHiddenList =
-    ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   Decimal marketInfo = Decimal.zero;
