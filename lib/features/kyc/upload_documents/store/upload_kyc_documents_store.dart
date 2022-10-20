@@ -105,7 +105,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
     try {
       final formData = await convertKycDocuments(
-        documentFirstSide,
+        isSelfie ? documentSelfie : documentCard,
         null,
       );
 
@@ -171,7 +171,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           }
         },
         onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
 
           union = UploadKycDocumentsUnion.error(error);
 
@@ -183,8 +182,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       );
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
-
-      sAnalytics.kycIdentityUploadFailed(error.toString());
 
       union = UploadKycDocumentsUnion.error(error);
 
@@ -200,7 +197,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     Function() onSuccess,
     String cardId,
   ) async {
-    _logger.log(notifier, 'verificationCheck');
+    _logger.log(notifier, 'getVerificationId');
 
     try {
       final model = CardCheckRequestModel(
@@ -211,7 +208,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         .get<SNetwork>()
         .simpleImageNetworking
         .getWalletModule()
-        .cardCheck(
+        .cardStart(
           model,
         );
 
@@ -220,6 +217,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           verificationId = data.data.verificationId ?? '';
           verificationCheck(
             onSuccess,
+            data.data.verificationId ?? '',
           );
         },
         onError: (error) {
@@ -250,6 +248,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   @action
   Future<void> verificationCheck(
     Function() onSuccess,
+    String verificationId,
   ) async {
     _logger.log(notifier, 'uploadDocuments');
 
@@ -284,6 +283,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             await Future.delayed(const Duration(seconds: 1));
             await verificationCheck(
               onSuccess,
+              verificationId,
             );
           }
         },
@@ -565,7 +565,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     }
 
     if (isCard) {
-      return documentSelfie == null
+      return documentCard == null
         ? intl.cardVerification_takePhoto
         : intl.cardVerification_uploadPhoto;
     }
