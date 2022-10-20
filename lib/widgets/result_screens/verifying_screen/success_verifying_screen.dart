@@ -52,6 +52,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final deviceSize = sDeviceSize;
 
     return ReactionBuilder(
       builder: (context) {
@@ -76,13 +77,16 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                 children: [
                   Column(
                     children: [
-                      Row(), // to expand Column in the cross axis
                       const SpaceH86(),
+                      const Spacer(),
                       Image.asset(
                         verifyYourProfileAsset,
-                        width: 225,
-                        height: 225,
+                        width: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                            ? 160 : 225,
+                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                            ? 160 : 225,
                       ),
+                      const Spacer(),
                       Baseline(
                         baseline: 136.0,
                         baselineType: TextBaseline.alphabetic,
@@ -105,7 +109,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      const SpaceH64(),
                       Column(
                         children: [
                           SizedBox(

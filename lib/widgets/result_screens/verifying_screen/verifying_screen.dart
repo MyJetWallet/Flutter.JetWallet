@@ -48,6 +48,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final store = UploadKycDocumentsStore.of(context);
+    final deviceSize = sDeviceSize;
 
     store.getVerificationId(onSuccess, cardId);
 
@@ -59,11 +60,15 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
         child: Column(
           children: [
             const SpaceH86(),
+            const Spacer(),
             Image.asset(
               verifyingNowAsset,
-              width: 225,
-              height: 225,
+              width: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                  ? 160 : 225,
+              height: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                  ? 160 : 225,
             ),
+            const Spacer(),
             Baseline(
               baseline: 92.0,
               baselineType: TextBaseline.alphabetic,
@@ -86,7 +91,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
                 ),
               ),
             ),
-            const Spacer(),
+            const SpaceH90(),
             SPrimaryButton1(
               active: true,
               name: intl.cardVerification_notifyAndSkip,
