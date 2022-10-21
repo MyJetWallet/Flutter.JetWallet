@@ -3,7 +3,11 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
+import 'package:simple_kit/helpers/biometrics_auth_helpers.dart';
+import 'package:simple_networking/modules/wallet_api/models/card_add/card_check_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 
+import '../simple_networking/simple_networking.dart';
 import 'models/user_info.dart';
 
 final sUserInfo = getIt.get<UserInfoService>();
@@ -118,10 +122,15 @@ class UserInfoService {
 
   Future<void> initBiometricStatus() async {
     _logger.log(notifier, 'initBiometricStatus');
+    final bioStatusFromSetting = await biometricStatus();
 
-    final bioStatus = await storage.getValue(useBioKey);
-    final hideBio = bioStatus != 'true';
-    _updateBiometric(hideBio);
+    if (bioStatusFromSetting == BiometricStatus.none) {
+      _updateBiometric(true);
+    } else {
+      final bioStatus = await storage.getValue(useBioKey);
+      final hideBio = bioStatus != 'true';
+      _updateBiometric(hideBio);
+    }
   }
 
   void updateIsJustLogged({required bool value}) {

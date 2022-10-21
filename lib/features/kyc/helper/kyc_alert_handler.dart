@@ -55,7 +55,7 @@ class KycAlertHandler {
         currentNavigate,
         navigatePop,
       );
-    } else {
+    } else if (status == kycOperationStatus(KycStatus.blocked)) {
       _showBlockedAlert();
     }
   }
