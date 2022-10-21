@@ -221,6 +221,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         onData: (data) {
           verificationId = data.data.verificationId ?? '';
           verificationCheck(
+            cardId,
             onSuccess,
             data.data.verificationId ?? '',
           );
@@ -252,6 +253,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   Future<void> verificationCheck(
+    String cardId,
     Function() onSuccess,
     String verificationId,
   ) async {
@@ -274,7 +276,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             _showBlockedScreen();
           } else if (data.data.verificationState ==
               CardVerificationState.fail) {
-            _showFailureScreen();
+            _showFailureScreen(
+              onSuccess,
+              cardId,
+            );
           } else if (data.data.verificationState ==
               CardVerificationState.success) {
             await sRouter.push(
@@ -286,6 +291,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             await Future.delayed(const Duration(seconds: 1));
             if (!skippedWaiting) {
               await verificationCheck(
+                cardId,
                 onSuccess,
                 verificationId,
               );
@@ -608,7 +614,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   }
 
   @action
-  void _showFailureScreen() {
+  void _showFailureScreen(
+      Function() onSuccess,
+      String cardId,
+    ) {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.cardVerification_reviewFailed,
@@ -616,8 +625,28 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         primaryButtonName: intl.cardVerification_title,
         onPrimaryButtonTap: () {
           sRouter.removeUntil(
-              (route) => route.name == UploadVerificationPhotoRouter.name,
+                (route) => route.name == AddUnlimintCardRouter.name,
           );
+          loader.finishLoadingImmediately();
+          loaderSuccess.finishLoadingImmediately();
+          if (documentSelfie != null) {
+            sRouter.push(
+              UploadVerificationPhotoRouter(
+                isSelfie: true,
+                cardId: cardId,
+                onSuccess: onSuccess,
+              ),
+            );
+          } else {
+            sRouter.push(
+              UploadVerificationPhotoRouter(
+                cardId: cardId,
+                onSuccess: onSuccess,
+              ),
+            );
+          }
+          documentSelfie = null;
+          documentCard = null;
         },
         secondaryButtonName: intl.cardVerification_close,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),
