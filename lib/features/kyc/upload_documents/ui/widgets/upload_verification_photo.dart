@@ -14,6 +14,7 @@ import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_docume
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/document_page_view.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/page_indicator.dart';
 import 'package:mobx/mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
@@ -248,14 +249,37 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
             SFloatingButtonFrame(
               button: SPrimaryButton2(
                 onTap: () async {
-                  await store.documentPageViewLogic(
-                    isSelfie
-                      ? KycDocumentType.selfieWithCard
-                      : KycDocumentType.creditCard,
-                    store.loader,
-                    cardId,
-                    onSuccess,
-                  );
+                  final status = await Permission.camera.request();
+
+                  if (status == PermissionStatus.granted) {
+                    await store.documentPageViewLogic(
+                      isSelfie
+                          ? KycDocumentType.selfieWithCard
+                          : KycDocumentType.creditCard,
+                      store.loader,
+                      cardId,
+                      onSuccess,
+                    );
+                  } else {
+                    await sRouter.push(
+                      AllowCameraRoute(
+                        permissionDescription:
+                        '${intl.chooseDocuments_permissionDescriptionText1} '
+                            '${intl.chooseDocument_camera}',
+                        then: () async {
+                          Navigator.pop(context);
+                          await store.documentPageViewLogic(
+                            isSelfie
+                                ? KycDocumentType.selfieWithCard
+                                : KycDocumentType.creditCard,
+                            store.loader,
+                            cardId,
+                            onSuccess,
+                          );
+                        },
+                      ),
+                    );
+                  }
                 },
                 name: store.buttonName(isSelfie: isSelfie, isCard: !isSelfie),
                 active: true,
