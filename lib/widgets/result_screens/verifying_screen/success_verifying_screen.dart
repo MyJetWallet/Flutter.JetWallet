@@ -121,7 +121,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                             ),
                           ),
                           const SpaceH24(),
-                          SSecondaryButton1(
+                          SPrimaryButton2(
                             active: true,
                             name: intl.kycAlertHandler_continue,
                             onTap: () {

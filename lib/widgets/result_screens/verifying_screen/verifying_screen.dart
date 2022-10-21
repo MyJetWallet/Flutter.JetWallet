@@ -92,7 +92,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
               ),
             ),
             const SpaceH90(),
-            SPrimaryButton1(
+            SSecondaryButton1(
               active: true,
               name: intl.cardVerification_notifyAndSkip,
               onTap: () {
