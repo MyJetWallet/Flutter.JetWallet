@@ -90,11 +90,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
                     ),
                   );
                 } else {
-                  unawaited(
-                    sRouter.push(
-                      BiometricRouter(
-                        isAccSettings: true,
-                      ),
+                  await sRouter.push(
+                    BiometricRouter(
+                      isAccSettings: true,
                     ),
                   );
                 }

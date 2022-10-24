@@ -36,10 +36,9 @@ class TransactionListItem extends StatelessObserverWidget {
     print(transactionListItem.buyInfo?.sellAssetId);
     final paymentCurrency = transactionListItem.buyInfo?.sellAssetId != null
         ? currencyFrom(
-            currencies,
-            transactionListItem.buyInfo!.sellAssetId,
-          )
-        : currencies[0];
+      currencies,
+      transactionListItem.buyInfo!.sellAssetId,
+    ) : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return InkWell(
@@ -58,7 +57,11 @@ class TransactionListItem extends StatelessObserverWidget {
               const SpaceH12(),
               Row(
                 children: [
-                  _iconFrom(transactionListItem.operationType),
+                  _iconFrom(
+                    transactionListItem.operationType,
+                    transactionListItem.status == Status.declined,
+                    colors.red,
+                  ),
                   const SpaceW10(),
                   Expanded(
                     child: TransactionListItemHeaderText(
@@ -148,11 +151,11 @@ class TransactionListItem extends StatelessObserverWidget {
                     TransactionListItemText(
                       text: '${intl.withText} '
                           '${volumeFormat(
-                        decimal: transactionListItem.buyInfo!.sellAmount,
-                        symbol: transactionListItem.buyInfo!.sellAssetId,
-                        prefix: paymentCurrency.prefixSymbol,
-                        accuracy: paymentCurrency.accuracy,
-                      )}',
+                            decimal: transactionListItem.buyInfo!.sellAmount,
+                            symbol: transactionListItem.buyInfo!.sellAssetId,
+                            prefix: paymentCurrency.prefixSymbol,
+                            accuracy: paymentCurrency.accuracy,
+                          )}',
                       color: colors.grey2,
                     ),
                   if (transactionListItem.operationType ==
@@ -234,44 +237,42 @@ class TransactionListItem extends StatelessObserverWidget {
     }
   }
 
-  Widget _iconFrom(OperationType type) {
+  Widget _iconFrom(OperationType type, bool isFailed, Color color) {
     switch (type) {
       case OperationType.deposit:
-        return const SDepositIcon();
+        return SDepositIcon(color: isFailed ? color : null);
       case OperationType.withdraw:
-        return const SWithdrawalFeeIcon();
+        return SWithdrawalFeeIcon(color: isFailed ? color : null);
       case OperationType.transferByPhone:
-        return const SSendByPhoneIcon();
+        return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.receiveByPhone:
-        return const SReceiveByPhoneIcon();
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.buy:
-        return const SPlusIcon();
+        return SPlusIcon(color: isFailed ? color : null);
       case OperationType.sell:
-        return const SMinusIcon();
+        return SMinusIcon(color: isFailed ? color : null);
       case OperationType.paidInterestRate:
-        return const SPaidInterestRateIcon();
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
       case OperationType.feeSharePayment:
-        return const SPaidInterestRateIcon();
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
       case OperationType.withdrawalFee:
-        return const SWithdrawalFeeIcon();
+        return SWithdrawalFeeIcon(color: isFailed ? color : null);
       case OperationType.swap:
-        return const SSwapIcon();
+        return SSwapIcon(color: isFailed ? color : null);
       case OperationType.rewardPayment:
-        return const SRewardPaymentIcon();
+        return SRewardPaymentIcon(color: isFailed ? color : null);
       case OperationType.simplexBuy:
-        return const SDepositIcon();
+        return SDepositIcon(color: isFailed ? color : null);
       case OperationType.recurringBuy:
-        return const SPlusIcon();
+        return SPlusIcon(color: isFailed ? color : null);
       case OperationType.earningWithdrawal:
-        return const SPaidInterestRateIcon();
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
       case OperationType.earningDeposit:
-        return const SEarnDepositIcon();
+        return SEarnDepositIcon(color: isFailed ? color : null);
       case OperationType.unknown:
         return const SizedBox();
       case OperationType.cryptoInfo:
-        return const SDepositIcon();
-      case OperationType.nftBuy:
-        return const SDepositIcon();
+        return SDepositIcon(color: isFailed ? color : null);
     }
   }
 }

@@ -409,11 +409,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         secondaryText: error,
         primaryButtonName: intl.previewBuyWithAsset_editOrder,
         onPrimaryButtonTap: () {
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
-          Navigator.pop(sRouter.navigatorKey.currentContext!);
-          if (input.cardNumber != null && input.cardNumber!.length > 4) {
-            Navigator.pop(sRouter.navigatorKey.currentContext!);
-          }
+          sRouter.removeUntil(
+            (route) => route.name == CurrencyBuyRouter.name,
+          );
         },
         secondaryButtonName: intl.previewBuyWithAsset_close,
         onSecondaryButtonTap: () => navigateToRouter(),

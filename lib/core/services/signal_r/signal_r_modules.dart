@@ -124,11 +124,7 @@ abstract class _SignalRModulesBase with Store {
 
     marketCampaignsOS.listen(
       (value) {
-        for (final marketCampaign in value.campaigns) {
-          if (!marketCampaigns.contains(marketCampaign)) {
-            marketCampaigns.add(marketCampaign);
-          }
-        }
+        marketCampaigns = ObservableList.of(value.campaigns);
       },
     );
 

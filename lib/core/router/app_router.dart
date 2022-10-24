@@ -64,6 +64,7 @@ import 'package:jetwallet/features/kyc/kyc_selfie/ui/widgets/success_kys_screen.
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/kyc_verify_your_profile.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.dart';
+import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/upload_verification_photo.dart';
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
@@ -110,6 +111,8 @@ import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
+import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
@@ -236,6 +239,11 @@ final sRouter = getIt.get<AppRouter>();
       page: UploadKycDocuments,
     ),
     AutoRoute(
+      path: '/upload_verification_photo',
+      name: 'UploadVerificationPhotoRouter',
+      page: UploadVerificationPhoto,
+    ),
+    AutoRoute(
       path: '/kyc_selfie',
       name: 'KycSelfieRouter',
       page: KycSelfie,
@@ -309,6 +317,16 @@ final sRouter = getIt.get<AppRouter>();
       path: '/failure_screen',
       name: 'FailureScreenRouter',
       page: FailureScreen,
+    ),
+    AutoRoute(
+      path: '/verifying_screen',
+      name: 'VerifyingScreenRouter',
+      page: VerifyingScreen,
+    ),
+    AutoRoute(
+      path: '/verifying_success_screen',
+      name: 'SuccessVerifyingScreenRouter',
+      page: SuccessVerifyingScreen,
     ),
     AutoRoute(
       path: '/withdrawal_ammount',

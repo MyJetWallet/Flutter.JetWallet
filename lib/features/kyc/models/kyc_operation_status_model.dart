@@ -69,6 +69,8 @@ enum KycDocumentType {
   selfieImage,
   addressDocument,
   financialDocument,
+  selfieWithCard,
+  creditCard,
 }
 
 String stringKycDocumentType(
@@ -136,6 +138,10 @@ int kycDocumentTypeInt(KycDocumentType type) {
       return 6;
     case KycDocumentType.financialDocument:
       return 7;
+    case KycDocumentType.selfieWithCard:
+      return 8;
+    case KycDocumentType.creditCard:
+      return 9;
   }
 }
 

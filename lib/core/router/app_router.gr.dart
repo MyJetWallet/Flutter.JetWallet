@@ -144,6 +144,18 @@ class _$AppRouter extends RootStackRouter {
         child: const UploadKycDocuments(),
       );
     },
+    UploadVerificationPhotoRouter.name: (routeData) {
+      final args = routeData.argsAs<UploadVerificationPhotoRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: UploadVerificationPhoto(
+          key: args.key,
+          isSelfie: args.isSelfie,
+          cardId: args.cardId,
+          onSuccess: args.onSuccess,
+        ),
+      );
+    },
     KycSelfieRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -320,6 +332,27 @@ class _$AppRouter extends RootStackRouter {
           primaryText: args.primaryText,
           primaryButtonName: args.primaryButtonName,
           onPrimaryButtonTap: args.onPrimaryButtonTap,
+        ),
+      );
+    },
+    VerifyingScreenRouter.name: (routeData) {
+      final args = routeData.argsAs<VerifyingScreenRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: VerifyingScreen(
+          key: args.key,
+          cardId: args.cardId,
+          onSuccess: args.onSuccess,
+        ),
+      );
+    },
+    SuccessVerifyingScreenRouter.name: (routeData) {
+      final args = routeData.argsAs<SuccessVerifyingScreenRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: SuccessVerifyingScreen(
+          key: args.key,
+          onSuccess: args.onSuccess,
         ),
       );
     },
@@ -962,6 +995,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/upload_kyc_documents',
         ),
         RouteConfig(
+          UploadVerificationPhotoRouter.name,
+          path: '/upload_verification_photo',
+        ),
+        RouteConfig(
           KycSelfieRouter.name,
           path: '/kyc_selfie',
         ),
@@ -1020,6 +1057,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           FailureScreenRouter.name,
           path: '/failure_screen',
+        ),
+        RouteConfig(
+          VerifyingScreenRouter.name,
+          path: '/verifying_screen',
+        ),
+        RouteConfig(
+          SuccessVerifyingScreenRouter.name,
+          path: '/verifying_success_screen',
         ),
         RouteConfig(
           WithdrawalAmountRouter.name,
@@ -1580,6 +1625,51 @@ class UploadKycDocumentsRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'UploadKycDocumentsRouter';
+}
+
+/// generated route for
+/// [UploadVerificationPhoto]
+class UploadVerificationPhotoRouter
+    extends PageRouteInfo<UploadVerificationPhotoRouterArgs> {
+  UploadVerificationPhotoRouter({
+    Key? key,
+    bool isSelfie = false,
+    required String cardId,
+    required dynamic Function() onSuccess,
+  }) : super(
+          UploadVerificationPhotoRouter.name,
+          path: '/upload_verification_photo',
+          args: UploadVerificationPhotoRouterArgs(
+            key: key,
+            isSelfie: isSelfie,
+            cardId: cardId,
+            onSuccess: onSuccess,
+          ),
+        );
+
+  static const String name = 'UploadVerificationPhotoRouter';
+}
+
+class UploadVerificationPhotoRouterArgs {
+  const UploadVerificationPhotoRouterArgs({
+    this.key,
+    this.isSelfie = false,
+    required this.cardId,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final bool isSelfie;
+
+  final String cardId;
+
+  final dynamic Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'UploadVerificationPhotoRouterArgs{key: $key, isSelfie: $isSelfie, cardId: $cardId, onSuccess: $onSuccess}';
+  }
 }
 
 /// generated route for
@@ -2217,6 +2307,80 @@ class FailureScreenRouterArgs {
   @override
   String toString() {
     return 'FailureScreenRouterArgs{key: $key, secondaryText: $secondaryText, secondaryButtonName: $secondaryButtonName, onSecondaryButtonTap: $onSecondaryButtonTap, primaryText: $primaryText, primaryButtonName: $primaryButtonName, onPrimaryButtonTap: $onPrimaryButtonTap}';
+  }
+}
+
+/// generated route for
+/// [VerifyingScreen]
+class VerifyingScreenRouter extends PageRouteInfo<VerifyingScreenRouterArgs> {
+  VerifyingScreenRouter({
+    Key? key,
+    required String cardId,
+    required dynamic Function() onSuccess,
+  }) : super(
+          VerifyingScreenRouter.name,
+          path: '/verifying_screen',
+          args: VerifyingScreenRouterArgs(
+            key: key,
+            cardId: cardId,
+            onSuccess: onSuccess,
+          ),
+        );
+
+  static const String name = 'VerifyingScreenRouter';
+}
+
+class VerifyingScreenRouterArgs {
+  const VerifyingScreenRouterArgs({
+    this.key,
+    required this.cardId,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final String cardId;
+
+  final dynamic Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'VerifyingScreenRouterArgs{key: $key, cardId: $cardId, onSuccess: $onSuccess}';
+  }
+}
+
+/// generated route for
+/// [SuccessVerifyingScreen]
+class SuccessVerifyingScreenRouter
+    extends PageRouteInfo<SuccessVerifyingScreenRouterArgs> {
+  SuccessVerifyingScreenRouter({
+    Key? key,
+    required dynamic Function() onSuccess,
+  }) : super(
+          SuccessVerifyingScreenRouter.name,
+          path: '/verifying_success_screen',
+          args: SuccessVerifyingScreenRouterArgs(
+            key: key,
+            onSuccess: onSuccess,
+          ),
+        );
+
+  static const String name = 'SuccessVerifyingScreenRouter';
+}
+
+class SuccessVerifyingScreenRouterArgs {
+  const SuccessVerifyingScreenRouterArgs({
+    this.key,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final dynamic Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'SuccessVerifyingScreenRouterArgs{key: $key, onSuccess: $onSuccess}';
   }
 }
 

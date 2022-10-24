@@ -151,6 +151,8 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
                   await store.documentPageViewLogic(
                     activeDocument!.document,
                     store.loader,
+                    '',
+                    () {},
                   );
                 },
                 name: store.buttonName(),
