@@ -777,6 +777,11 @@ abstract class _SignalRModulesBase with Store {
                 nftList: [],
                 sImage: e.sImage,
                 fImage: e.fImage,
+                totalVolumeUsd: e.totalVolumeUsd,
+                bestOffer: e.bestOffer,
+                bestOfferAsset: e.bestOfferAsset,
+                ownerCount: e.ownerCount,
+                order: e.order,
               ),
             )
             .toList(),
@@ -804,17 +809,18 @@ abstract class _SignalRModulesBase with Store {
               .indexWhere((element) => element.symbol == value.nfts[i].symbol);
 
           if (localInd != -1) {
-            nftList[ind].nftList[localInd] = nftList[ind].nftList[localInd].copyWith(
-                  sellAsset: value.nfts[i].sellAsset,
-                  sellPrice: value.nfts[i].sellPrice,
-                  collectionId: value.nfts[i].collectionId,
-                  buyPrice: value.nfts[i].buyPrice,
-                  buyAsset: value.nfts[i].buyAsset,
-                  ownerChangedAt: value.nfts[i].ownerChangedAt,
-                  tradingAsset: value.nfts[i].tradingAsset,
-                  fee: value.nfts[i].fee,
-                  onSell: value.nfts[i].onSell,
-                );
+            nftList[ind].nftList[localInd] =
+                nftList[ind].nftList[localInd].copyWith(
+                      sellAsset: value.nfts[i].sellAsset,
+                      sellPrice: value.nfts[i].sellPrice,
+                      collectionId: value.nfts[i].collectionId,
+                      buyPrice: value.nfts[i].buyPrice,
+                      buyAsset: value.nfts[i].buyAsset,
+                      ownerChangedAt: value.nfts[i].ownerChangedAt,
+                      tradingAsset: value.nfts[i].tradingAsset,
+                      fee: value.nfts[i].fee,
+                      onSell: value.nfts[i].onSell,
+                    );
           } else {
             nftList[ind].nftList.add(value.nfts[i]);
           }

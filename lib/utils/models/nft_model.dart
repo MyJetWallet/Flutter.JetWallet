@@ -1,4 +1,6 @@
+import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
 part 'nft_model.freezed.dart';
@@ -14,6 +16,11 @@ class NftModel with _$NftModel {
     @Default([]) List<NftMarket> nftList,
     String? sImage,
     String? fImage,
+    @DecimalNullSerialiser() Decimal? totalVolumeUsd,
+    int? bestOffer,
+    String? bestOfferAsset,
+    int? ownerCount,
+    int? order,
   }) = _NftModel;
 }
 

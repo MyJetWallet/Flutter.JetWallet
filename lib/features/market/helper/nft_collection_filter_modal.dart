@@ -22,45 +22,64 @@ void showNFTCollectionFilterModalSheet(
       onCloseTap: () {},
     ),
     children: [
-      Observer(builder: (context) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: store.filterValues.map((e) {
-            final ind = store.filterValues.indexOf(e);
+      Observer(
+        builder: (context) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: store.filterValues.map((e) {
+              final ind = store.filterValues.indexOf(e);
 
-            return InkWell(
-              onTap: () {
-                store.activeFilter(
-                  e,
-                  isAvailableNFT,
-                );
+              final isFilterSelected = isAvailableNFT
+                  ? store.availableFilter != null
+                      ? store.availableFilter == e
+                          ? true
+                          : false
+                      : false
+                  : store.soldFilter != null
+                      ? store.soldFilter == e
+                          ? true
+                          : false
+                      : false;
 
-                Navigator.of(context).pop();
-              },
-              child: SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (ind != 0) ...[
-                      const SizedBox(
-                        height: 18,
+              return InkWell(
+                onTap: () {
+                  print(store.filterValues[ind].toString());
+                  print(e.value);
+
+                  store.activeFilter(
+                    e,
+                    isAvailableNFT,
+                  );
+
+                  Navigator.of(context).pop();
+                },
+                child: SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (ind != 0) ...[
+                        const SizedBox(
+                          height: 18,
+                        ),
+                      ],
+                      Text(
+                        e.value,
+                        style: sSubtitle2Style.copyWith(
+                          color: isFilterSelected ? colors.blue : colors.black,
+                        ),
                       ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      const SDivider(),
                     ],
-                    Text(
-                      e.value,
-                      style: sSubtitle2Style,
-                    ),
-                    const SizedBox(
-                      height: 22,
-                    ),
-                    const SDivider(),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
-        );
-      }),
+              );
+            }).toList(),
+          );
+        },
+      ),
     ],
   );
 }
