@@ -112,9 +112,6 @@ abstract class _NFTDetailStoreBase with Store {
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
-      then: (value) {
-        //sAnalytics.receiveChooseAssetClose();
-      },
       pinned: ActionBottomSheetHeader(
         name: '${intl.nft_detail_share_nft}\n${nft!.name!}',
         onChanged: (String value) {},
@@ -138,30 +135,27 @@ abstract class _NFTDetailStoreBase with Store {
           ],
         ),
       ),
-      horizontalPinnedPadding: 0.0,
       removePinnedPadding: true,
       children: [
-        SPaddingH24(
-          child: Column(
-            children: [
-              SQrCodeBox(
-                loading: false,
-                data: shareLink,
-                qrBoxSize: qrBoxSize,
-                logoSize: logoSize,
-              ),
-              const SpaceH20(),
-              SAddressFieldWithCopy(
-                header: intl.nft_receive_matic_wallet_address,
-                value: shareLink,
-                realValue: shareLink,
-                afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
-                valueLoading: false,
-                needPadding: false,
-                then: () {},
-              ),
-            ],
-          ),
+        Column(
+          children: [
+            SQrCodeBox(
+              loading: false,
+              data: shareLink,
+              qrBoxSize: qrBoxSize,
+              logoSize: logoSize,
+            ),
+            const SpaceH20(),
+            SAddressFieldWithCopy(
+              header: intl.nft_receive_matic_wallet_address,
+              value: shareLink,
+              realValue: shareLink,
+              afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
+              valueLoading: false,
+              needPadding: true,
+              then: () {},
+            ),
+          ],
         ),
       ],
     );

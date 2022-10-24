@@ -161,10 +161,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       nftModel = wtd.nft;
 
       networkController.text = nftModel!.blockchain!;
-      addressController.text = '0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C';
-
-      updateAddress('0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C',
-          validate: true);
+      //addressController.text = '0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C';
+      //updateAddress('0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C',);
     }
   }
 

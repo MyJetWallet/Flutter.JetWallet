@@ -35,7 +35,7 @@ const _narrowInterval = Interval(
   curve: Cubic(1, 0, 0.58, 1),
 );
 
-class ActionButtonNft extends StatefulWidget {
+class ActionButtonNft extends StatefulObserverWidget {
   const ActionButtonNft({
     super.key,
     required this.transitionAnimationController,
@@ -148,6 +148,7 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuyFromCard: () {},
                             onSell: () {
                               updateActionState();
+                              Navigator.pop(context);
 
                               sRouter.navigate(
                                 NFTSellRouter(
@@ -160,6 +161,7 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onWithdraw: () {},
                             onSend: () {
                               updateActionState();
+                              Navigator.pop(context);
 
                               sRouter.navigate(
                                 CurrencyWithdrawRouter(
@@ -218,6 +220,7 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuyFromCard: () {},
                             onSell: () {
                               updateActionState();
+                              Navigator.pop(context);
 
                               sRouter.navigate(
                                 NFTSellRouter(
@@ -230,6 +233,7 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onWithdraw: () {},
                             onSend: () {
                               updateActionState();
+                              Navigator.pop(context);
 
                               sRouter.navigate(
                                 CurrencyWithdrawRouter(
