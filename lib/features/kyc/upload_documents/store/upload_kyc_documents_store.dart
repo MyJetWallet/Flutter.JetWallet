@@ -311,6 +311,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
                 cardId,
                 onSuccess,
                 verificationId,
+                wasSelfie,
               );
             }
           }
