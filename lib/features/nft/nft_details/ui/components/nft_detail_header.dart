@@ -61,10 +61,15 @@ class NFTDetailHeader extends StatelessWidget {
                   ),
                   SIconButton(
                     onTap: () {
-                      NFTDetailStore.of(context)
-                          .share(qrCodeSize, screenWidth * 0.2);
+                      NFTDetailStore.of(context).share(
+                        qrCodeSize,
+                        screenWidth * 0.2,
+                      );
                     },
                     defaultIcon: const SShareIcon(),
+                    pressedIcon: SShareIcon(
+                      color: colors.black.withOpacity(0.8),
+                    ),
                   ),
                 ],
               ),

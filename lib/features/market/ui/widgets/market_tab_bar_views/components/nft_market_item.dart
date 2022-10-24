@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -34,6 +35,34 @@ class NftMarketItem extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  CachedNetworkImage(
+                    imageUrl: image,
+                    fadeOutDuration: const Duration(milliseconds: 500),
+                    fadeInDuration: const Duration(milliseconds: 250),
+                    imageBuilder: (context, imageProvider) {
+                      return Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                    placeholder: (context, url) => const SSkeletonTextLoader(
+                      height: 24,
+                      width: 24,
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const SSkeletonTextLoader(
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                  /*
                   ClipRRect(
                     borderRadius: BorderRadius.circular(99),
                     child: Image.network(
@@ -42,6 +71,7 @@ class NftMarketItem extends StatelessWidget {
                       height: 24,
                     ),
                   ),
+                  */
                   const SpaceW10(),
                   Expanded(
                     child: Column(

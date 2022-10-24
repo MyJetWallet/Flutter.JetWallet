@@ -36,9 +36,10 @@ class TransactionListItem extends StatelessObserverWidget {
     print(transactionListItem.buyInfo?.sellAssetId);
     final paymentCurrency = transactionListItem.buyInfo?.sellAssetId != null
         ? currencyFrom(
-      currencies,
-      transactionListItem.buyInfo!.sellAssetId,
-    ) : currencies[0];
+            currencies,
+            transactionListItem.buyInfo!.sellAssetId,
+          )
+        : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return InkWell(
@@ -151,11 +152,11 @@ class TransactionListItem extends StatelessObserverWidget {
                     TransactionListItemText(
                       text: '${intl.withText} '
                           '${volumeFormat(
-                            decimal: transactionListItem.buyInfo!.sellAmount,
-                            symbol: transactionListItem.buyInfo!.sellAssetId,
-                            prefix: paymentCurrency.prefixSymbol,
-                            accuracy: paymentCurrency.accuracy,
-                          )}',
+                        decimal: transactionListItem.buyInfo!.sellAmount,
+                        symbol: transactionListItem.buyInfo!.sellAssetId,
+                        prefix: paymentCurrency.prefixSymbol,
+                        accuracy: paymentCurrency.accuracy,
+                      )}',
                       color: colors.grey2,
                     ),
                   if (transactionListItem.operationType ==
@@ -273,6 +274,9 @@ class TransactionListItem extends StatelessObserverWidget {
         return const SizedBox();
       case OperationType.cryptoInfo:
         return SDepositIcon(color: isFailed ? color : null);
+      case OperationType.nftBuy:
+        return SDepositIcon(color: isFailed ? color : null);
+        break;
     }
   }
 }

@@ -34,10 +34,14 @@ class NFTCollectionNftItem extends StatelessWidget {
           const SizedBox(
             height: 7,
           ),
-          Text(
-            nft.name ?? '',
-            style: sSubtitle3Style.copyWith(
-              color: !isNameGrey ? colors.black : colors.grey1,
+          Baseline(
+            baseline: 24,
+            baselineType: TextBaseline.alphabetic,
+            child: Text(
+              nft.name ?? '',
+              style: sSubtitle3Style.copyWith(
+                color: !isNameGrey ? colors.black : colors.grey1,
+              ),
             ),
           ),
           if (nft.sellPrice != null && !showBuyInfo) ...[
@@ -45,16 +49,19 @@ class NFTCollectionNftItem extends StatelessWidget {
               height: 3,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SNetworkSvg24(
-                  url: iconUrlFrom(assetSymbol: nft.sellAsset ?? ''),
+                  url: iconUrlFrom(assetSymbol: nft.tradingAsset ?? ''),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  nft.sellPrice.toString(),
-                  style: sSubtitle2Style,
+                const SpaceW10(),
+                Baseline(
+                  baseline: 28,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    nft.sellPrice.toString(),
+                    style: sSubtitle2Style,
+                  ),
                 ),
               ],
             ),
@@ -63,22 +70,25 @@ class NFTCollectionNftItem extends StatelessWidget {
               height: 3,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 SNetworkSvg24(
                   url: iconUrlFrom(assetSymbol: nft.tradingAsset ?? ''),
                 ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  nft.buyPrice.toString(),
-                  style: sSubtitle2Style,
+                const SpaceW10(),
+                Baseline(
+                  baseline: 28,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    nft.buyPrice.toString(),
+                    style: sSubtitle2Style,
+                  ),
                 ),
               ],
             ),
           ],
           const SizedBox(
-            height: 8,
+            height: 18,
           ),
           if (showDivider) ...[
             const SDivider(),
@@ -89,33 +99,14 @@ class NFTCollectionNftItem extends StatelessWidget {
   }
 
   Widget image() {
-    /*
-    return Image.network(
-      '$shortUrl${nft.sImage}',
-      height: 154,
-      width: 154,
-    );
-    */
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: CachedNetworkImage(
         imageUrl: '$shortUrl${nft.sImage}',
-        /*
-        imageBuilder: (context, imageProvider) => DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        */
         imageBuilder: (context, imageProvider) {
           return Container(
             width: double.infinity,
-            height: 150,
+            height: 154,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               image: DecorationImage(

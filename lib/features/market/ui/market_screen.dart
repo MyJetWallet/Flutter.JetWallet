@@ -42,6 +42,22 @@ class _MarketScreenState extends State<MarketScreen> {
     return marketTabsLength;
   }
 
+  //late TabController _controller;
+  //int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //_controller = TabController(length: showCrypto ? 3 : 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    //_controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     //useProvider(keyValueNotipod);
@@ -83,77 +99,83 @@ class _MarketScreenState extends State<MarketScreen> {
       body: DefaultTabController(
         initialIndex: 1,
         length: showCrypto ? 3 : 2,
-        child: Stack(
-          children: [
-            TabBarView(
+        child: Builder(builder: (context) {
+          return Scaffold(
+            body: Stack(
               children: [
-                const WatchlistTabBarView(),
-                MarketNestedScrollView(
-                  items: cryptoPrices,
-                  nft: const [],
-                  showBanners: true,
-                  sourceScreen: FilterMarketTabAction.all,
+                TabBarView(
+                  children: [
+                    const WatchlistTabBarView(),
+                    MarketNestedScrollView(
+                      items: cryptoPrices,
+                      nft: const [],
+                      showBanners: true,
+                      sourceScreen: FilterMarketTabAction.all,
+                    ),
+                    if (showCrypto) ...[
+                      MarketNestedScrollView(
+                        items: const [],
+                        nft: nftMarket,
+                        showFilter: true,
+                        sourceScreen: FilterMarketTabAction.all,
+                      ),
+                    ],
+                    /*
+                      if (indices.isNotEmpty)
+                        MarketNestedScrollView(
+                          items: indices,
+                          sourceScreen: FilterMarketTabAction.cryptoSets,
+                        ),
+                      if (gainers.isNotEmpty)
+                        MarketNestedScrollView(
+                          items: gainers,
+                          sourceScreen: FilterMarketTabAction.gainers,
+                        ),
+                      if (losers.isNotEmpty)
+                        MarketNestedScrollView(
+                          items: losers,
+                          sourceScreen: FilterMarketTabAction.losers,
+                        ),
+                        */
+                  ],
                 ),
-                if (showCrypto) ...[
-                  MarketNestedScrollView(
-                    items: const [],
-                    nft: nftMarket,
-                    showFilter: true,
-                    sourceScreen: FilterMarketTabAction.all,
+                Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: BottomTabs(
+                    tabs: [
+                      const BottomTab(
+                        icon: SStarIcon(),
+                      ),
+                      BottomTab(text: intl.market_crypto),
+                      if (showCrypto) ...[
+                        BottomTab(
+                          text: intl.market_nft,
+                          isActive:
+                              DefaultTabController.of(context)!.index == 2,
+                          isTextBlue: true,
+                        ),
+                      ],
+                      /*
+                        if (indices.isNotEmpty)
+                          BottomTab(
+                            text: intl.market_bottomTabLabel3,
+                          ),
+                        if (gainers.isNotEmpty)
+                          BottomTab(
+                            text: intl.market_bottomTabLabel4,
+                          ),
+                        if (losers.isNotEmpty)
+                          BottomTab(
+                            text: intl.market_bottomTabLabel5,
+                          ),
+                          */
+                    ],
                   ),
-                ],
-                /*
-                if (indices.isNotEmpty)
-                  MarketNestedScrollView(
-                    items: indices,
-                    sourceScreen: FilterMarketTabAction.cryptoSets,
-                  ),
-                if (gainers.isNotEmpty)
-                  MarketNestedScrollView(
-                    items: gainers,
-                    sourceScreen: FilterMarketTabAction.gainers,
-                  ),
-                if (losers.isNotEmpty)
-                  MarketNestedScrollView(
-                    items: losers,
-                    sourceScreen: FilterMarketTabAction.losers,
-                  ),
-                  */
+                ),
               ],
             ),
-            Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: BottomTabs(
-                tabs: [
-                  const BottomTab(
-                    icon: SStarIcon(),
-                  ),
-                  BottomTab(text: intl.market_crypto),
-                  if (showCrypto) ...[
-                    BottomTab(
-                      text: intl.market_nft,
-                      isTextBlue: true,
-                    ),
-                  ],
-                  /*
-                  if (indices.isNotEmpty)
-                    BottomTab(
-                      text: intl.market_bottomTabLabel3,
-                    ),
-                  if (gainers.isNotEmpty)
-                    BottomTab(
-                      text: intl.market_bottomTabLabel4,
-                    ),
-                  if (losers.isNotEmpty)
-                    BottomTab(
-                      text: intl.market_bottomTabLabel5,
-                    ),
-                    */
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
