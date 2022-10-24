@@ -422,6 +422,7 @@ abstract class _SignalRModulesBase with Store {
               final index = currenciesList.indexOf(currency);
               final assetWithdrawalFees =
                   currenciesList[index].assetWithdrawalFees.toList();
+
               assetWithdrawalFees.add(assetFee);
               currenciesList[index] = currency.copyWith(
                 assetWithdrawalFees: assetWithdrawalFees,

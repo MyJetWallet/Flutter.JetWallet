@@ -23,6 +23,8 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 
+import 'withdrawal_amount_store.dart';
+
 part 'withdrawal_address_store.g.dart';
 
 class WithdrawalAddressStore extends _WithdrawalAddressStoreBase
@@ -108,7 +110,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
         ? currency!.hasTag
             ? addressValidation is Valid && tagValidation is Valid
             : addressValidation is Valid
-        : false;
+        : addressValidation is Valid;
   }
 
   @computed
@@ -118,6 +120,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void clearData() {
+    currencyModel = null;
+    nftModel = null;
+
     addressValidation = const Hide();
     tagValidation = const Hide();
 
@@ -130,6 +135,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void clearDataAndInit(WithdrawalModel wtd) {
+    currencyModel = null;
+    nftModel = null;
+
     addressValidation = const Hide();
     tagValidation = const Hide();
 
@@ -153,21 +161,31 @@ abstract class _WithdrawalAddressStoreBase with Store {
       nftModel = wtd.nft;
 
       networkController.text = nftModel!.blockchain!;
+      addressController.text = '0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C';
+
+      updateAddress('0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C',
+          validate: true);
     }
   }
 
   @action
   void setIsReadyToContinue() {
-    if (currency == null) return;
+    if (currencyModel != null) {
+      if (currency == null) return;
 
-    final condition1 = addressValidation is Hide || addressValidation is Valid;
-    final condition2 = tagValidation is Hide || tagValidation is Valid;
-    final condition3 = addressController.text.isNotEmpty;
-    final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
+      final condition1 =
+          addressValidation is Hide || addressValidation is Valid;
+      final condition2 = tagValidation is Hide || tagValidation is Valid;
+      final condition3 = addressController.text.isNotEmpty;
+      final condition4 = tag.isNotEmpty || networkController.text == earnRipple;
 
-    isReadyToContinue = tag.isNotEmpty
-        ? condition1 && condition2 && condition3 && condition4
-        : condition1 && condition3;
+      isReadyToContinue = tag.isNotEmpty
+          ? condition1 && condition2 && condition3 && condition4
+          : condition1 && condition3;
+    } else if (nftModel != null) {
+      isReadyToContinue =
+          networkController.text.isNotEmpty && addressValidation is Valid;
+    }
   }
 
   /*
@@ -643,13 +661,25 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @action
   void _pushWithdrawalAmount(BuildContext context) {
-    sRouter.push(
-      WithdrawalAmountRouter(
-        withdrawal: withdrawal!,
-        network: networkController.text,
-        addressStore: this as WithdrawalAddressStore,
-      ),
-    );
+    if (currencyModel != null) {
+      sRouter.push(
+        WithdrawalAmountRouter(
+          withdrawal: withdrawal!,
+          network: networkController.text,
+          addressStore: this as WithdrawalAddressStore,
+        ),
+      );
+    } else {
+      sRouter.push(
+        WithdrawalPreviewRouter(
+          withdrawal: withdrawal!,
+          network: networkController.text,
+          amountStore: WithdrawalAmountStore(
+              withdrawal!, this as WithdrawalAddressStore),
+          addressStore: this as WithdrawalAddressStore,
+        ),
+      );
+    }
   }
 
   @action

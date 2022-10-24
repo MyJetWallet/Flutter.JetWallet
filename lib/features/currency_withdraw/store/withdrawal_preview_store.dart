@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
@@ -51,6 +52,8 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
   static final _logger = Logger('WithdrawalPreviewStore');
 
+  final loader = StackLoaderStore();
+
   @observable
   String tag = '';
 
@@ -64,18 +67,22 @@ abstract class _WithdrawalPreviewStoreBase with Store {
   String operationId = '';
 
   @observable
-  bool loading = false;
-
-  @observable
   bool addressIsInternal = false;
 
   @observable
+  bool loading = false;
+
+  @observable
   BlockchainModel blockchain = const BlockchainModel();
+
+  @observable
+  bool isProcessing = false;
 
   @action
   Future<void> withdraw() async {
     _logger.log(notifier, 'withdraw');
 
+    loader.startLoading();
     loading = true;
 
     try {
@@ -113,6 +120,64 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     }
 
     loading = false;
+    loader.finishLoadingImmediately();
+  }
+
+  @action
+  Future<void> withdrawNFT() async {
+    _logger.log(notifier, 'withdrawNFT');
+
+    loading = true;
+    isProcessing = true;
+    loader.startLoading();
+
+    try {
+      final model = WithdrawRequestModel(
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        assetSymbol: withdrawal.nft!.symbol!,
+        amount: withdrawal.nft!.buyPrice!,
+        toAddress: address,
+        blockchain: withdrawal.nft!.blockchain!,
+      );
+
+      final response = await sNetwork.getWalletModule().postWithdraw(model);
+
+      response.pick(
+        onData: (data) {
+          sRouter.push(
+            SuccessScreenRouter(
+              secondaryText: intl.nft_send_confirm,
+              onSuccess: (context) {
+                sRouter.replaceAll([
+                  const HomeRouter(
+                    children: [
+                      PortfolioRouter(),
+                    ],
+                  ),
+                ]);
+              },
+            ),
+          );
+        },
+        onError: (error) {
+          _logger.log(stateFlow, 'withdraw', error.cause);
+
+          _showFailureScreen(error);
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, 'withdraw', error.cause);
+
+      _showFailureScreen(error);
+    } catch (error) {
+      _logger.log(stateFlow, 'withdraw', error);
+
+      _showNoResponseScreen();
+    }
+
+    loading = false;
+    isProcessing = false;
+    loader.finishLoadingImmediately();
   }
 
   @action
