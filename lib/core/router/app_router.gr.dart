@@ -775,8 +775,55 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: NFTDetailsScreen(
           key: args.key,
+          userNFT: args.userNFT,
           nft: args.nft,
         ),
+      );
+    },
+    NFTConfirmRouter.name: (routeData) {
+      final args = routeData.argsAs<NFTConfirmRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: NFTConfirmScreen(
+          key: args.key,
+          nft: args.nft,
+        ),
+      );
+    },
+    NFTCollectionSimpleListRouter.name: (routeData) {
+      final args = routeData.argsAs<NFTCollectionSimpleListRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: NFTCollectionSimpleListScreen(
+          key: args.key,
+          collection: args.collection,
+        ),
+      );
+    },
+    NFTSellRouter.name: (routeData) {
+      final args = routeData.argsAs<NFTSellRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: NFTSellScreen(
+          key: args.key,
+          nft: args.nft,
+        ),
+      );
+    },
+    NFTPreviewSellRouter.name: (routeData) {
+      final args = routeData.argsAs<NFTPreviewSellRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: NFTPreviewSellScreen(
+          key: args.key,
+          input: args.input,
+        ),
+      );
+    },
+    ReceiveNFTRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const ReceiveNFTScreen(),
       );
     },
     MarketRouter.name: (routeData) {
@@ -1165,6 +1212,26 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           NFTDetailsRouter.name,
           path: '/nft_details',
+        ),
+        RouteConfig(
+          NFTConfirmRouter.name,
+          path: '/nft_confirm',
+        ),
+        RouteConfig(
+          NFTCollectionSimpleListRouter.name,
+          path: '/nft_collection_simple_list_router',
+        ),
+        RouteConfig(
+          NFTSellRouter.name,
+          path: '/nft_sell',
+        ),
+        RouteConfig(
+          NFTPreviewSellRouter.name,
+          path: '/nft_preview_sell',
+        ),
+        RouteConfig(
+          ReceiveNFTRouter.name,
+          path: '/nft_receive',
         ),
       ];
 }
@@ -3628,12 +3695,14 @@ class NftCollectionDetailsRouterArgs {
 class NFTDetailsRouter extends PageRouteInfo<NFTDetailsRouterArgs> {
   NFTDetailsRouter({
     Key? key,
+    bool userNFT = false,
     required NftMarket nft,
   }) : super(
           NFTDetailsRouter.name,
           path: '/nft_details',
           args: NFTDetailsRouterArgs(
             key: key,
+            userNFT: userNFT,
             nft: nft,
           ),
         );
@@ -3644,6 +3713,43 @@ class NFTDetailsRouter extends PageRouteInfo<NFTDetailsRouterArgs> {
 class NFTDetailsRouterArgs {
   const NFTDetailsRouterArgs({
     this.key,
+    this.userNFT = false,
+    required this.nft,
+  });
+
+  final Key? key;
+
+  final bool userNFT;
+
+  final NftMarket nft;
+
+  @override
+  String toString() {
+    return 'NFTDetailsRouterArgs{key: $key, userNFT: $userNFT, nft: $nft}';
+  }
+}
+
+/// generated route for
+/// [NFTConfirmScreen]
+class NFTConfirmRouter extends PageRouteInfo<NFTConfirmRouterArgs> {
+  NFTConfirmRouter({
+    Key? key,
+    required NftMarket nft,
+  }) : super(
+          NFTConfirmRouter.name,
+          path: '/nft_confirm',
+          args: NFTConfirmRouterArgs(
+            key: key,
+            nft: nft,
+          ),
+        );
+
+  static const String name = 'NFTConfirmRouter';
+}
+
+class NFTConfirmRouterArgs {
+  const NFTConfirmRouterArgs({
+    this.key,
     required this.nft,
   });
 
@@ -3653,8 +3759,123 @@ class NFTDetailsRouterArgs {
 
   @override
   String toString() {
-    return 'NFTDetailsRouterArgs{key: $key, nft: $nft}';
+    return 'NFTConfirmRouterArgs{key: $key, nft: $nft}';
   }
+}
+
+/// generated route for
+/// [NFTCollectionSimpleListScreen]
+class NFTCollectionSimpleListRouter
+    extends PageRouteInfo<NFTCollectionSimpleListRouterArgs> {
+  NFTCollectionSimpleListRouter({
+    Key? key,
+    required NftModel collection,
+  }) : super(
+          NFTCollectionSimpleListRouter.name,
+          path: '/nft_collection_simple_list_router',
+          args: NFTCollectionSimpleListRouterArgs(
+            key: key,
+            collection: collection,
+          ),
+        );
+
+  static const String name = 'NFTCollectionSimpleListRouter';
+}
+
+class NFTCollectionSimpleListRouterArgs {
+  const NFTCollectionSimpleListRouterArgs({
+    this.key,
+    required this.collection,
+  });
+
+  final Key? key;
+
+  final NftModel collection;
+
+  @override
+  String toString() {
+    return 'NFTCollectionSimpleListRouterArgs{key: $key, collection: $collection}';
+  }
+}
+
+/// generated route for
+/// [NFTSellScreen]
+class NFTSellRouter extends PageRouteInfo<NFTSellRouterArgs> {
+  NFTSellRouter({
+    Key? key,
+    required NftMarket nft,
+  }) : super(
+          NFTSellRouter.name,
+          path: '/nft_sell',
+          args: NFTSellRouterArgs(
+            key: key,
+            nft: nft,
+          ),
+        );
+
+  static const String name = 'NFTSellRouter';
+}
+
+class NFTSellRouterArgs {
+  const NFTSellRouterArgs({
+    this.key,
+    required this.nft,
+  });
+
+  final Key? key;
+
+  final NftMarket nft;
+
+  @override
+  String toString() {
+    return 'NFTSellRouterArgs{key: $key, nft: $nft}';
+  }
+}
+
+/// generated route for
+/// [NFTPreviewSellScreen]
+class NFTPreviewSellRouter extends PageRouteInfo<NFTPreviewSellRouterArgs> {
+  NFTPreviewSellRouter({
+    Key? key,
+    required NftSellInput input,
+  }) : super(
+          NFTPreviewSellRouter.name,
+          path: '/nft_preview_sell',
+          args: NFTPreviewSellRouterArgs(
+            key: key,
+            input: input,
+          ),
+        );
+
+  static const String name = 'NFTPreviewSellRouter';
+}
+
+class NFTPreviewSellRouterArgs {
+  const NFTPreviewSellRouterArgs({
+    this.key,
+    required this.input,
+  });
+
+  final Key? key;
+
+  final NftSellInput input;
+
+  @override
+  String toString() {
+    return 'NFTPreviewSellRouterArgs{key: $key, input: $input}';
+  }
+}
+
+/// generated route for
+/// [ReceiveNFTScreen]
+class ReceiveNFTRouter extends PageRouteInfo<void> {
+  const ReceiveNFTRouter()
+      : super(
+          ReceiveNFTRouter.name,
+          path: '/nft_receive',
+        );
+
+  static const String name = 'ReceiveNFTRouter';
 }
 
 /// generated route for

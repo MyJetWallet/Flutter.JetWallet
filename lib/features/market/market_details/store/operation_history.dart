@@ -55,6 +55,8 @@ abstract class _OperationHistoryBase with Store {
 
       union = const OperationHistoryUnion.loaded();
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'initOperationHistory', e);
 
       sNotification.showError(
@@ -137,7 +139,8 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.recurringBuy ||
         item.operationType == oh_resp.OperationType.earningDeposit ||
         item.operationType == oh_resp.OperationType.earningWithdrawal ||
-        item.operationType == oh_resp.OperationType.cryptoInfo,
+        item.operationType == oh_resp.OperationType.cryptoInfo ||
+        item.operationType == oh_resp.OperationType.nftBuy,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

@@ -39,6 +39,7 @@ import 'package:simple_networking/modules/signal_r/models/market_info_model.dart
 import 'package:simple_networking/modules/signal_r/models/market_references_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_portfolio.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -763,21 +764,23 @@ abstract class _SignalRModulesBase with Store {
     });
 
     nftCollectionsOS.listen((value) {
-      nftList = ObservableList.of(value.collection
-          .map(
-            (e) => NftModel(
-              id: e.id,
-              name: e.name,
-              description: e.description,
-              category: NftCollectionCategoryEnum.values
-                  .firstWhere((x) => x.index == e.category),
-              tags: e.tags,
-              nftList: [],
-              sImage: e.sImage,
-              fImage: e.fImage,
-            ),
-          )
-          .toList());
+      nftList = ObservableList.of(
+        value.collection
+            .map(
+              (e) => NftModel(
+                id: e.id,
+                name: e.name,
+                description: e.description,
+                category: NftCollectionCategoryEnum.values
+                    .firstWhere((x) => x.index == e.category),
+                tags: e.tags,
+                nftList: [],
+                sImage: e.sImage,
+                fImage: e.fImage,
+              ),
+            )
+            .toList(),
+      );
     });
 
     nftMarketsOS.listen((value) {
@@ -786,9 +789,47 @@ abstract class _SignalRModulesBase with Store {
             .indexWhere((element) => element.id == value.nfts[i].collectionId);
 
         if (ind != -1) {
-          nftList[ind].nftList.add(value.nfts[i]);
+          /*
+          bool isContains = false;
+
+          for (var i = 0; i < nftList[ind].nftList.length; i++) {
+            if (nftList[ind].nftList[i].symbol == value.nfts[i].symbol) {
+              isContains = true;
+            }
+          }
+          */
+
+          final localInd = nftList[ind]
+              .nftList
+              .indexWhere((element) => element.symbol == value.nfts[i].symbol);
+
+          if (localInd != -1) {
+            nftList[ind].nftList[localInd] = nftList[ind].nftList[localInd].copyWith(
+                  sellAsset: value.nfts[i].sellAsset,
+                  sellPrice: value.nfts[i].sellPrice,
+                  collectionId: value.nfts[i].collectionId,
+                  buyPrice: value.nfts[i].buyPrice,
+                  buyAsset: value.nfts[i].buyAsset,
+                  ownerChangedAt: value.nfts[i].ownerChangedAt,
+                  tradingAsset: value.nfts[i].tradingAsset,
+                  fee: value.nfts[i].fee,
+                  onSell: value.nfts[i].onSell,
+                );
+          } else {
+            nftList[ind].nftList.add(value.nfts[i]);
+          }
         }
       }
+
+      if (userNFTPortfolio != null) {
+        updateUserNft(userNFTPortfolio!);
+      }
+    });
+
+    nftPortfolioOS.listen((value) {
+      userNFTPortfolio = value;
+
+      updateUserNft(value);
     });
   }
 
@@ -980,7 +1021,7 @@ abstract class _SignalRModulesBase with Store {
 
   @observable
   ObservableList<CurrencyModel> currenciesWithHiddenList =
-    ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   Decimal marketInfo = Decimal.zero;
@@ -1052,7 +1093,18 @@ abstract class _SignalRModulesBase with Store {
   );
 
   @observable
+  ObservableStream<NftPortfolio> nftPortfolioOS = ObservableStream(
+    getIt.get<SignalRService>().nftPortfolio(),
+  );
+
+  @observable
   ObservableList<NftModel> nftList = ObservableList.of([]);
+
+  @observable
+  NftPortfolio? userNFTPortfolio;
+
+  @observable
+  ObservableList<NftModel> userNFTList = ObservableList.of([]);
 
   @action
   void clearSignalRModule() {
@@ -1096,6 +1148,29 @@ abstract class _SignalRModulesBase with Store {
   @action
   updateBaseCurrency(BaseCurrencyModel newBaseCurrency) {
     baseCurrency = newBaseCurrency;
+  }
+
+  @action
+  updateUserNft(NftPortfolio value) {
+    userNFTList = ObservableList.of([]);
+
+    for (var i = 0; i < nftList.length; i++) {
+      final List<NftMarket> localNft = [];
+
+      for (var q = 0; q < nftList[i].nftList.length; q++) {
+        if (value.nfts!.contains(nftList[i].nftList[q].symbol)) {
+          localNft.add(nftList[i].nftList[q]);
+        }
+      }
+
+      if (localNft.isNotEmpty) {
+        userNFTList.add(
+          nftList[i].copyWith(
+            nftList: localNft,
+          ),
+        );
+      }
+    }
   }
 }
 

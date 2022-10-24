@@ -50,8 +50,6 @@ class _AboutBlockTextState extends State<AboutBlockText>
 
   @override
   Widget build(BuildContext context) {
-    print(widget.marketInfo);
-
     return SizedBox(
       width: double.infinity,
       child: Column(

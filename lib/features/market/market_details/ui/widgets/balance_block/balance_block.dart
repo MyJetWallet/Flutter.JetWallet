@@ -59,6 +59,8 @@ class _BalanceBlockBody extends StatelessObserverWidget {
     final recurringNotifier = getIt.get<RecurringBuysStore>();
     final languageCode = Localizations.localeOf(context).languageCode;
 
+    print(marketItem.name);
+
     return SizedBox(
       height: 156,
       child: Column(

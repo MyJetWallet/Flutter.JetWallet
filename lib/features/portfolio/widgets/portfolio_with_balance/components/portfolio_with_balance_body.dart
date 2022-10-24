@@ -15,10 +15,12 @@ import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/chart/ui/balance_chart.dart';
 import 'package:jetwallet/features/market/market_details/helper/period_change.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
+import 'package:jetwallet/features/nft/helper/get_user_nfts.dart';
 import 'package:jetwallet/features/portfolio/helper/currencies_without_balance_from.dart';
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
 import 'package:jetwallet/features/portfolio/helper/zero_balance_wallets_empty.dart';
+import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/portfolio_nft_list.dart';
 import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
@@ -108,6 +110,8 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final fiatsWithoutBalance = currenciesWithoutBalanceFrom(
       getMarketFiats(sSignalRModules.currenciesList),
     );
+    final userNft = sSignalRModules.userNFTList;
+
     final clientDetail = sSignalRModules.clientDetail;
 
     final baseCurrency = sSignalRModules.baseCurrency;
@@ -191,6 +195,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
     return CustomScrollView(
       controller: scrollController,
+      physics: const ClampingScrollPhysics(),
       slivers: [
         SliverAppBar(
           backgroundColor: colors.white,
@@ -362,7 +367,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       child: Row(
                         children: [
                           Text(
-                            intl.portfolioWithBalanceBody_portfolio,
+                            widget.tabController.index == 0
+                                ? intl.portfolioWithBalanceBody_portfolio
+                                : userNft.isNotEmpty
+                                    ? intl.portfolioWithBalanceBody_nft
+                                    : intl.portfolioWithBalanceBody_no_nft,
                             style: sTextH4Style,
                           ),
                           const Spacer(),
@@ -497,6 +506,9 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                               ),
                           ],
+                        ),
+                        PortfolioNftList(
+                          userNft: userNft,
                         ),
                         if (isCryptoVisible)
                           ListView(

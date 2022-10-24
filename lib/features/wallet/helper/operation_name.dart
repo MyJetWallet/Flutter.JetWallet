@@ -42,6 +42,8 @@ String operationName(
       return intl.operationName_buyWithCard;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
+    case OperationType.nftBuy:
+      return intl.operationName_return_from_earn;
     case OperationType.unknown:
       return 'Unknown';
   }

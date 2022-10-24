@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/convert/ui/widgets/widgets/convert_amount_cursor.dart';
@@ -9,7 +10,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
-class ConvertRow extends StatefulWidget {
+class ConvertRow extends StatefulObserverWidget {
   const ConvertRow({
     Key? key,
     this.fromAsset = false,

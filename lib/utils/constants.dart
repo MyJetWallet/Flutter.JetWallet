@@ -77,3 +77,7 @@ const itemSelected = 'itemSelected';
 // Biometric
 const bioFaceId = 'assets/images/face_id.png';
 const bioTouchId = 'assets/images/touch_id.png';
+
+// NFT
+const nftGradient = 'assets/images/gradient_1.png';
+const nftBTCAsset = 'assets/images/btc_asset.png';

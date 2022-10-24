@@ -90,7 +90,6 @@ class _MarketDetailsBody extends StatelessObserverWidget {
     final chart = ChartStore.of(context);
     final watchlistIdsN = WatchlistStore.of(context);
 
-
     final news = MarketNewsStore.of(context);
 
     final currency = currencyFrom(currencies, marketItem.symbol);
@@ -274,8 +273,6 @@ class _MarketDetailsBody extends StatelessObserverWidget {
             FutureBuilder<MarketInfoResponseModel?>(
               future: marketInfo,
               builder: (context, marketInfo) {
-                print(marketInfo.hasData);
-
                 if (marketInfo.hasData) {
                   return SPaddingH24(
                     child: Column(

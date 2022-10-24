@@ -106,10 +106,6 @@ abstract class _CirrencySellStoreBase with Store {
         accuracy: selectedCurrency!.accuracy,
       );
 
-      print(selectedCurrency);
-      print(target);
-      print(targetConversionValue);
-
       return '≈ $target ($base)';
     }
   }

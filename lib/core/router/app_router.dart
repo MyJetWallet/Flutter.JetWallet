@@ -67,11 +67,17 @@ import 'package:jetwallet/features/kyc/upload_documents/ui/upload_kyc_documents.
 import 'package:jetwallet/features/market/market_details/ui/market_details.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/features/market/nft_collection_details/ui/nft_collection_details_screen.dart';
-import 'package:jetwallet/features/market/nft_details/ui/nft_details_screen.dart';
+import 'package:jetwallet/features/nft/nft_collection_details/ui/nft_collection_details_screen.dart';
+import 'package:jetwallet/features/nft/nft_collection_simple_list/ui/nft_collection_simple_list_screen.dart';
+import 'package:jetwallet/features/nft/nft_confirm/ui/nft_confirm_screen.dart';
+import 'package:jetwallet/features/nft/nft_details/ui/nft_details_screen.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/news/ui/news_screen.dart';
 import 'package:jetwallet/features/news/ui/widgets/news_list/components/news_web_view.dart';
+import 'package:jetwallet/features/nft/nft_receive/ui/nft_receive_screen.dart';
+import 'package:jetwallet/features/nft/nft_sell/model/nft_sell_input.dart';
+import 'package:jetwallet/features/nft/nft_sell/ui/nft_preview_sell_screen.dart';
+import 'package:jetwallet/features/nft/nft_sell/ui/nft_sell_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
@@ -544,6 +550,31 @@ final sRouter = getIt.get<AppRouter>();
       name: 'NFTDetailsRouter',
       page: NFTDetailsScreen,
     ),
+    AutoRoute(
+      path: '/nft_confirm',
+      name: 'NFTConfirmRouter',
+      page: NFTConfirmScreen,
+    ),
+    AutoRoute(
+      path: '/nft_collection_simple_list_router',
+      name: 'NFTCollectionSimpleListRouter',
+      page: NFTCollectionSimpleListScreen,
+    ),
+    AutoRoute(
+      path: '/nft_sell',
+      name: 'NFTSellRouter',
+      page: NFTSellScreen,
+    ),
+    AutoRoute(
+      path: '/nft_preview_sell',
+      name: 'NFTPreviewSellRouter',
+      page: NFTPreviewSellScreen,
+    ),
+    AutoRoute(
+      path: '/nft_receive',
+      name: 'ReceiveNFTRouter',
+      page: ReceiveNFTScreen,
+    )
   ],
 )
 class AppRouter extends _$AppRouter {

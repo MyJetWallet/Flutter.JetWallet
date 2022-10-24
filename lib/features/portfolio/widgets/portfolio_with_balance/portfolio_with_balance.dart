@@ -36,11 +36,17 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       getMarketFiats(sSignalRModules.currenciesList),
     );
 
+    /*
     final tabsLength = _tabsLength(
       cryptosWithBalance.isEmpty,
       indicesWithBalance.isEmpty,
       fiatsWithBalance.isEmpty,
     );
+    */
+
+    final tabsLength = 2;
+
+    print(tabsLength);
 
     tabController = TabController(length: tabsLength, vsync: this);
   }
@@ -65,10 +71,13 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
 
     final isCryptoVisible = cryptosWithBalance.isNotEmpty &&
         (indicesWithBalance.isNotEmpty || fiatsWithBalance.isNotEmpty);
+
     final isFiatVisible = fiatsWithBalance.isNotEmpty &&
         (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+
     final isIndicesVisible = indicesWithBalance.isNotEmpty &&
         (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
+
     final isAllTabsVisible =
         isCryptoVisible || isFiatVisible || isIndicesVisible;
 
@@ -76,11 +85,15 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [
-          if (isAllTabsVisible) BottomTab(text: intl.portfolioWithBalance_all),
-          if (isCryptoVisible)
-            BottomTab(text: intl.portfolioWithBalance_crypto),
-          if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
-          if (isFiatVisible) BottomTab(text: intl.portfolioWithBalance_fiat),
+          BottomTab(text: intl.portfolioWithBalance_crypto),
+          BottomTab(text: intl.portfolioWithBalance_nft),
+          /*
+            if (isAllTabsVisible) BottomTab(text: intl.portfolioWithBalance_all),
+            if (isCryptoVisible)
+              BottomTab(text: intl.portfolioWithBalance_crypto),
+            if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
+            if (isFiatVisible) BottomTab(text: intl.portfolioWithBalance_fiat),
+          */
         ],
       ),
       child: PortfolioWithBalanceBody(

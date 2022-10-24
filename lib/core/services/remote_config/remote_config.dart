@@ -202,6 +202,7 @@ class RemoteConfig {
   void overrideNFTValues() {
     shortUrl = remoteConfig!.nft.shortUrl;
     fullUrl = remoteConfig!.nft.fullUrl;
+    shareLink = remoteConfig!.nft.shareLink;
   }
 
   @override

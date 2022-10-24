@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'dart:math' as math;
 
 class NFTDetailHeader extends StatelessWidget {
-  const NFTDetailHeader({super.key});
+  const NFTDetailHeader({
+    super.key,
+    required this.title,
+    required this.fImage,
+  });
+
+  final String title;
+  final String fImage;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +28,11 @@ class NFTDetailHeader extends StatelessWidget {
         final fadeStart = math.max(0.0, 1.0 - 260 / deltaExtent);
         const fadeEnd = 1.0;
         final opacity = 1.0 - Interval(fadeStart, fadeEnd).transform(t);
+
+        final mediaQuery = MediaQuery.of(context);
+        final screenHeight = mediaQuery.size.height;
+        final screenWidth = mediaQuery.size.width;
+        final qrCodeSize = screenWidth * 0.6;
 
         return Material(
           color: colors.white,
@@ -38,16 +51,19 @@ class NFTDetailHeader extends StatelessWidget {
                   Opacity(
                     opacity: 1 - opacity,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        'https://simple.app/nft/content/full/photo_2022-08-26_13-10-42.png',
+                        fImage,
                         width: 48,
                         height: 48,
                       ),
                     ),
                   ),
                   SIconButton(
-                    onTap: () {},
+                    onTap: () {
+                      NFTDetailStore.of(context)
+                          .share(qrCodeSize, screenWidth * 0.2);
+                    },
                     defaultIcon: const SShareIcon(),
                   ),
                 ],
@@ -59,7 +75,7 @@ class NFTDetailHeader extends StatelessWidget {
                     baseline: 56.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      'Very veryvesdaglajsdgl j aslgdk j long name',
+                      title,
                       textAlign: TextAlign.start,
                       maxLines: 3,
                       style: sTextH2Style,
