@@ -33,8 +33,14 @@ void showNFTFilterModalSheet(
     ),
     pinnedBottom: Material(
       color: colors.white,
-      child: SFloatingButtonFrame(
-        button: SimpleLightSecondaryButton1(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 24.0,
+          left: 24.0,
+          right: 24.0,
+          bottom: 24.0,
+        ),
+        child: SimpleLightSecondaryButton1(
           active: true,
           name: intl.market_nft_done,
           onTap: () {
