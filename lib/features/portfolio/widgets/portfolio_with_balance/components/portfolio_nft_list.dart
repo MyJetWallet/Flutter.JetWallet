@@ -12,6 +12,7 @@ import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/comp
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -30,12 +31,14 @@ class PortfolioNftList extends StatelessObserverWidget {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      userNft.first.nftList.first.tradingAsset ?? '',
-    );
+    CurrencyModel? currency;
 
-    print(userNft.first.nftList.first.buyPrice);
+    if (userNft.isNotEmpty) {
+      currency = currencyFrom(
+        sSignalRModules.currenciesList,
+        userNft.first.nftList.first.tradingAsset ?? '',
+      );
+    }
 
     return userNft.isEmpty
         ? emptyNFTList(context)
@@ -54,8 +57,8 @@ class PortfolioNftList extends StatelessObserverWidget {
                   primaryText: item.name ?? '',
                   amount: volumeFormat(
                     prefix: baseCurrency.prefix,
-                    decimal:
-                        currency.currentPrice * calculateNFTPrice(item.nftList),
+                    decimal: currency!.currentPrice *
+                        calculateNFTPrice(item.nftList),
                     symbol: baseCurrency.symbol,
                     accuracy: baseCurrency.accuracy,
                   ),

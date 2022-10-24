@@ -67,7 +67,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${withdrawal.dictionary.verb} ${currency.description}',
+          title: '${withdrawal.dictionary.verb} ${currency!.description}',
         ),
       ),
       child: Column(
@@ -224,7 +224,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
 
     final result = userWillreceive(
       amount: amount,
-      currency: currency,
+      currency: currency!,
       addressIsInternal: isInternal,
       network: network,
     );

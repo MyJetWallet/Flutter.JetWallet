@@ -9,6 +9,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/action_withdraw/widgets/withdraw_options.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -157,7 +158,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
-                            onSend: () {},
+                            onSend: () {
+                              updateActionState();
+
+                              sRouter.navigate(
+                                CurrencyWithdrawRouter(
+                                  withdrawal: WithdrawalModel(
+                                    nft: widget.nft,
+                                  ),
+                                ),
+                              );
+                            },
                             onReceive: () {},
                             onDissmis: updateActionState,
                             whenComplete: () {
@@ -217,7 +228,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
-                            onSend: () {},
+                            onSend: () {
+                              updateActionState();
+
+                              sRouter.navigate(
+                                CurrencyWithdrawRouter(
+                                  withdrawal: WithdrawalModel(
+                                    nft: widget.nft,
+                                  ),
+                                ),
+                              );
+                            },
                             onReceive: () {},
                             onDissmis: updateActionState,
                             whenComplete: () {

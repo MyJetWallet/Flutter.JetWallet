@@ -15,6 +15,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 part 'withdrawal_amount_store.g.dart';
 
 class WithdrawalAmountStore extends _WithdrawalAmountStoreBase
@@ -38,7 +39,11 @@ abstract class _WithdrawalAmountStoreBase with Store {
     baseCurrency = sSignalRModules.baseCurrency;
     blockchain = _address.network;
 
-    currencyModel = withdrawal.currency;
+    if (withdrawal.currency != null) {
+      currencyModel = withdrawal.currency!;
+    } else if (withdrawal.nft != null) {
+      nftModel = withdrawal.nft!;
+    }
   }
 
   final WithdrawalModel withdrawal;
@@ -46,6 +51,7 @@ abstract class _WithdrawalAmountStoreBase with Store {
   final WithdrawalAddressStore addressStore;
 
   late CurrencyModel currencyModel;
+  late NftMarket nftModel;
 
   @observable
   BaseCurrencyModel? baseCurrency;

@@ -30,7 +30,10 @@ class WithdrawalPreviewStore extends _WithdrawalPreviewStoreBase
 
 abstract class _WithdrawalPreviewStoreBase with Store {
   _WithdrawalPreviewStoreBase(
-      this.withdrawal, this.amountStore, this.addressStore,) {
+    this.withdrawal,
+    this.amountStore,
+    this.addressStore,
+  ) {
     final _amount = amountStore;
 
     tag = _amount.tag;
@@ -78,7 +81,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-        assetSymbol: withdrawal.currency.symbol,
+        assetSymbol: withdrawal.currency!.symbol,
         amount: Decimal.parse(amount),
         toAddress: address,
         toTag: tag,

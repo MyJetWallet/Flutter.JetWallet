@@ -20,6 +20,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 
 part 'withdrawal_address_store.g.dart';
@@ -50,7 +51,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
   @observable
   CurrencyModel? currency;
 
-  late CurrencyModel currencyModel;
+  CurrencyModel? currencyModel;
+  NftMarket? nftModel;
 
   @observable
   QRViewController? qrController;
@@ -102,10 +104,17 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @computed
   bool get credentialsValid {
-    return currency!.hasTag
-        ? addressValidation is Valid && tagValidation is Valid
-        : addressValidation is Valid;
+    return currency != null
+        ? currency!.hasTag
+            ? addressValidation is Valid && tagValidation is Valid
+            : addressValidation is Valid
+        : false;
   }
+
+  @computed
+  String get header => currencyModel != null
+      ? '${withdrawal!.dictionary.verb} ${currencyModel!.description}'
+      : '${intl.nft_send} ${nftModel!.name}';
 
   @action
   void clearData() {
@@ -132,13 +141,19 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     withdrawal = wtd;
 
-    currencyModel = wtd.currency;
+    if (wtd.currency != null) {
+      currencyModel = wtd.currency;
 
-    if (currencyModel.isSingleNetwork) {
-      updateNetwork(currencyModel.withdrawalBlockchains[0]);
+      if (currencyModel!.isSingleNetwork) {
+        updateNetwork(currencyModel!.withdrawalBlockchains[0]);
+      }
+
+      currency = currencyModel;
+    } else if (wtd.nft != null) {
+      nftModel = wtd.nft;
+
+      networkController.text = nftModel!.blockchain!;
     }
-
-    currency = currencyModel;
   }
 
   @action
@@ -171,16 +186,20 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
   @computed
   bool get requirementLoading {
-    return currency!.hasTag
-        ? addressValidation is Loading || tagValidation is Loading
-        : addressValidation is Loading;
+    return currency != null
+        ? currency!.hasTag
+            ? addressValidation is Loading || tagValidation is Loading
+            : addressValidation is Loading
+        : false;
   }
 
   @computed
   bool get isRequirementError {
-    return currency!.hasTag
-        ? addressValidation is Invalid || tagValidation is Invalid
-        : addressValidation is Invalid;
+    return currency != null
+        ? currency!.hasTag
+            ? addressValidation is Invalid || tagValidation is Invalid
+            : addressValidation is Invalid
+        : false;
   }
 
   @action
@@ -198,8 +217,6 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     network = net;
     networkController.text = net.description;
-
-    print(networkController.text);
 
     setIsReadyToContinue();
   }
@@ -263,6 +280,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
     setIsReadyToContinue();
   }
 
+  @action
   Future<void> pasteAddress(ScrollController scrollController) async {
     _logger.log(notifier, 'pasteAddress');
 
@@ -289,9 +307,13 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     final copiedText = await _copiedText();
     tagController.text = copiedText;
+
     _moveCursorAtTheEnd(tagController);
+
     tagFocus.requestFocus();
+
     updateTag(copiedText);
+
     await _validateAddressOrTag(
       _updateTagValidation,
       _triggerErrorOfTagField,
@@ -475,12 +497,21 @@ abstract class _WithdrawalAddressStoreBase with Store {
     updateValidation(const Loading());
 
     try {
-      final model = ValidateAddressRequestModel(
-        assetSymbol: currencyModel.symbol,
-        toAddress: addressController.text,
-        toTag: tag,
-        assetNetwork: network.id,
-      );
+      ValidateAddressRequestModel? model;
+
+      model = currencyModel != null
+          ? ValidateAddressRequestModel(
+              assetSymbol: currencyModel!.symbol,
+              toAddress: addressController.text,
+              toTag: tag,
+              assetNetwork: network.id,
+            )
+          : ValidateAddressRequestModel(
+              assetSymbol: nftModel!.symbol!,
+              toAddress: addressController.text,
+              toTag: tag,
+              assetNetwork: nftModel!.blockchain!,
+            );
 
       final response =
           await sNetwork.getWalletModule().postValidateAddress(model);
@@ -488,6 +519,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
       response.pick(
         onData: (data) {
           _updateAddressIsInternal(data.isInternal);
+
+          print(data);
 
           if (data.isValid) {
             updateValidation(const Valid());
@@ -526,7 +559,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
 
     try {
       final model = ValidateAddressRequestModel(
-        assetSymbol: currencyModel.symbol,
+        assetSymbol: currencyModel!.symbol,
         toAddress: addressController.text,
         toTag: tag,
         assetNetwork: network.id,
@@ -570,7 +603,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
   @action
   void _updateValidationOfBothFields(AddressValidationUnion value) {
     _updateAddressValidation(value);
-    if (currencyModel.hasTag) {
+    if (currencyModel!.hasTag) {
       _updateTagValidation(value);
     }
   }
@@ -578,7 +611,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
   @action
   void _triggerErrorOfBothFields() {
     _triggerErrorOfAddressField();
-    if (currencyModel.hasTag) {
+    if (currencyModel!.hasTag) {
       _triggerErrorOfTagField();
     }
   }
@@ -632,26 +665,30 @@ abstract class _WithdrawalAddressStoreBase with Store {
   }
 
   @computed
+  String get bassAsset =>
+      currencyModel != null ? currencyModel!.symbol : 'MATIC';
+
+  @computed
   String get validationResult {
     if (addressValidation is Loading || tagValidation is Loading) {
       return '${intl.withdrawalAddress_checking}...';
     } else if (addressValidation is Invalid) {
-      return '${intl.withdrawalAddress_invalid} ${currencyModel.symbol}'
+      return '${intl.withdrawalAddress_invalid} $bassAsset'
           ' ${intl.withdrawalAddress_address}';
     } else if (tagValidation is Invalid) {
-      return '${intl.withdrawalAddress_invalid} ${currencyModel.symbol}'
+      return '${intl.withdrawalAddress_invalid} $bassAsset'
           ' ${intl.tag}';
     } else if (addressValidation is Invalid && tagValidation is Invalid) {
-      return '${intl.withdrawalAddress_invalid} ${currencyModel.symbol}'
+      return '${intl.withdrawalAddress_invalid} $bassAsset'
           ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (addressValidation is Valid && tagValidation is Valid) {
-      return '${intl.valid} ${currencyModel.symbol}'
+      return '${intl.valid} $bassAsset'
           ' ${intl.withdrawalAddress_address} & ${intl.tag}';
     } else if (addressValidation is Valid) {
-      return '${intl.valid} ${currencyModel.symbol}'
+      return '${intl.valid} $bassAsset'
           ' ${intl.withdrawalAddress_address}';
     } else if (tagValidation is Valid) {
-      return '${intl.valid} ${currencyModel.symbol} ${intl.tag}';
+      return '${intl.valid} $bassAsset ${intl.tag}';
     } else {
       return intl.withdrawalAddress_error;
     }

@@ -592,7 +592,7 @@ final sRouter = getIt.get<AppRouter>();
       path: '/nft_receive',
       name: 'ReceiveNFTRouter',
       page: ReceiveNFTScreen,
-    )
+    ),
   ],
 )
 class AppRouter extends _$AppRouter {

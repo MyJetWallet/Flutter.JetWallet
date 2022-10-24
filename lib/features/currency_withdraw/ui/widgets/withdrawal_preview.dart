@@ -31,7 +31,8 @@ class WithdrawalPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<WithdrawalPreviewStore>(
-      create: (context) => WithdrawalPreviewStore(withdrawal, amountStore, addressStore),
+      create: (context) =>
+          WithdrawalPreviewStore(withdrawal, amountStore, addressStore),
       builder: (context, child) => _WithdrawalPreviewBody(
         withdrawal: withdrawal,
         network: network,
@@ -74,13 +75,13 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
         small: () {
           return SSmallHeader(
             title: '${intl.withdrawalPreview_confirm} $verb'
-                ' ${currency.description}',
+                ' ${currency!.description}',
           );
         },
         medium: () {
           return SMegaHeader(
             title: '${intl.withdrawalPreview_confirm} $verb'
-                ' ${currency.description}',
+                ' ${currency!.description}',
           );
         },
       ),
@@ -91,7 +92,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
             child: Column(
               children: [
                 SActionConfirmIconWithAnimation(
-                  iconUrl: currency.iconUrl,
+                  iconUrl: currency!.iconUrl,
                 ),
                 const Spacer(),
                 SActionConfirmText(

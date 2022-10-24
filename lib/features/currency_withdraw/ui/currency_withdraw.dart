@@ -54,16 +54,20 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
 
     final currency = withdrawal.currency;
 
+    final asset =
+        store.currencyModel != null ? store.currencyModel!.symbol : 'Matic';
+
     return SPageFrame(
       color: colors.grey5,
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
-          title: '${withdrawal.dictionary.verb} ${currency.description}',
+          title: store.header,
         ),
       ),
       child: CustomScrollView(
         controller: scrollController,
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -75,12 +79,14 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      if (currency.withdrawalBlockchains.length > 1) {
+                      if (store.currencyModel != null &&
+                          store.currencyModel!.withdrawalBlockchains.length >
+                              1) {
                         showNetworkBottomSheet(
                           context,
                           store.network,
-                          currency.withdrawalBlockchains,
-                          currency.iconUrl,
+                          store.currencyModel!.withdrawalBlockchains,
+                          store.currencyModel!.iconUrl,
                           store.updateNetwork,
                         );
                       }
@@ -88,14 +94,20 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         controller: store.networkController,
-                        labelText: (currency.withdrawalBlockchains.length > 1)
+                        labelText: (store.currencyModel != null &&
+                                store.currencyModel!.withdrawalBlockchains
+                                        .length >
+                                    1)
                             ? intl.currencyWithdraw_chooseNetwork
                             : intl.cryptoDeposit_network,
                         enabled: false,
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
                         suffixIcons: [
-                          if (currency.withdrawalBlockchains.length > 1)
+                          if (store.currencyModel != null &&
+                              store.currencyModel!.withdrawalBlockchains
+                                      .length >
+                                  1)
                             const SAngleDownIcon(),
                         ],
                       ),
@@ -109,7 +121,7 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                     child: SStandardField(
                       isError: store.addressError,
                       labelText: '${intl.currencyWithdraw_enter}'
-                          ' ${currency.symbol} '
+                          ' $asset '
                           '${intl.currencyWithdraw_address}',
                       focusNode: store.addressFocus,
                       controller: store.addressController,

@@ -167,7 +167,7 @@ abstract class _WithdrawalConfirmStoreBase with Store {
     sRouter.push(
       SuccessScreenRouter(
         secondaryText:
-            '${intl.withdrawalConfirm_your} ${withdrawal!.currency.symbol}'
+            '${intl.withdrawalConfirm_your} ${withdrawal!.currency!.symbol}'
             ' $_verb '
             '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
         onSuccess: (context) {
