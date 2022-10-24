@@ -151,6 +151,7 @@ class _$AppRouter extends RootStackRouter {
         child: UploadVerificationPhoto(
           key: args.key,
           isSelfie: args.isSelfie,
+          wasSelfie: args.wasSelfie,
           cardId: args.cardId,
           onSuccess: args.onSuccess,
         ),
@@ -343,6 +344,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           cardId: args.cardId,
           onSuccess: args.onSuccess,
+          wasSelfie: args.wasSelfie,
         ),
       );
     },
@@ -1539,6 +1541,7 @@ class UploadVerificationPhotoRouter
   UploadVerificationPhotoRouter({
     Key? key,
     bool isSelfie = false,
+    bool wasSelfie = false,
     required String cardId,
     required dynamic Function() onSuccess,
   }) : super(
@@ -1547,6 +1550,7 @@ class UploadVerificationPhotoRouter
           args: UploadVerificationPhotoRouterArgs(
             key: key,
             isSelfie: isSelfie,
+            wasSelfie: wasSelfie,
             cardId: cardId,
             onSuccess: onSuccess,
           ),
@@ -1559,6 +1563,7 @@ class UploadVerificationPhotoRouterArgs {
   const UploadVerificationPhotoRouterArgs({
     this.key,
     this.isSelfie = false,
+    this.wasSelfie = false,
     required this.cardId,
     required this.onSuccess,
   });
@@ -1567,13 +1572,15 @@ class UploadVerificationPhotoRouterArgs {
 
   final bool isSelfie;
 
+  final bool wasSelfie;
+
   final String cardId;
 
   final dynamic Function() onSuccess;
 
   @override
   String toString() {
-    return 'UploadVerificationPhotoRouterArgs{key: $key, isSelfie: $isSelfie, cardId: $cardId, onSuccess: $onSuccess}';
+    return 'UploadVerificationPhotoRouterArgs{key: $key, isSelfie: $isSelfie, wasSelfie: $wasSelfie, cardId: $cardId, onSuccess: $onSuccess}';
   }
 }
 
@@ -2222,6 +2229,7 @@ class VerifyingScreenRouter extends PageRouteInfo<VerifyingScreenRouterArgs> {
     Key? key,
     required String cardId,
     required dynamic Function() onSuccess,
+    required bool wasSelfie,
   }) : super(
           VerifyingScreenRouter.name,
           path: '/verifying_screen',
@@ -2229,6 +2237,7 @@ class VerifyingScreenRouter extends PageRouteInfo<VerifyingScreenRouterArgs> {
             key: key,
             cardId: cardId,
             onSuccess: onSuccess,
+            wasSelfie: wasSelfie,
           ),
         );
 
@@ -2240,6 +2249,7 @@ class VerifyingScreenRouterArgs {
     this.key,
     required this.cardId,
     required this.onSuccess,
+    required this.wasSelfie,
   });
 
   final Key? key;
@@ -2248,9 +2258,11 @@ class VerifyingScreenRouterArgs {
 
   final dynamic Function() onSuccess;
 
+  final bool wasSelfie;
+
   @override
   String toString() {
-    return 'VerifyingScreenRouterArgs{key: $key, cardId: $cardId, onSuccess: $onSuccess}';
+    return 'VerifyingScreenRouterArgs{key: $key, cardId: $cardId, onSuccess: $onSuccess, wasSelfie: $wasSelfie}';
   }
 }
 

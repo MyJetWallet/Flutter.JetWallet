@@ -153,6 +153,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
                     store.loader,
                     '',
                     () {},
+                    false,
                   );
                 },
                 name: store.buttonName(),

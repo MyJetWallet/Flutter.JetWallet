@@ -21,6 +21,21 @@ class CompleteDocumentSide extends StatelessWidget {
       height: isSelfie ? 320 : 200,
       child: Stack(
         children: [
+          Positioned(
+            child: Row(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0),
+                    child: const SSkeletonTextLoader(
+                      height: double.infinity,
+                      width: double.infinity,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Row(
             children: [
               Expanded(

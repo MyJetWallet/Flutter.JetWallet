@@ -17,7 +17,7 @@ import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/headers/simple_auth_header.dart';
+import 'package:simple_kit/modules/headers/simple_verification_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -25,12 +25,14 @@ class UploadVerificationPhoto extends StatelessWidget {
   const UploadVerificationPhoto({
     Key? key,
     this.isSelfie = false,
+    this.wasSelfie = false,
     required this.cardId,
     required this.onSuccess,
   })
       : super(key: key);
 
   final bool isSelfie;
+  final bool wasSelfie;
   final String cardId;
   final Function() onSuccess;
 
@@ -43,6 +45,7 @@ class UploadVerificationPhoto extends StatelessWidget {
           isSelfie: isSelfie,
           cardId: cardId,
           onSuccess: onSuccess,
+          wasSelfie: wasSelfie,
         ),
     );
   }
@@ -54,12 +57,14 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
     required this.isSelfie,
     required this.cardId,
     required this.onSuccess,
+    this.wasSelfie = false,
   })
       : super(key: key);
 
   final bool isSelfie;
   final String cardId;
   final Function() onSuccess;
+  final bool wasSelfie;
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +108,18 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
         loaderText: (store.loaderSuccess.loading)
             ? intl.uploadKycDocuments_done
             : intl.uploadKycDocuments_pleaseWait,
+
         loading: store.loader,
         loadSuccess: store.loaderSuccess,
-        header: SAuthHeader(
+        header: SVerificationHeader(
           progressValue: isSelfie ? 50 : 100,
           title: intl.cardVerification_title,
+          showSupportButton: true,
+          onSupportButtonTap: () => sRouter.push(
+            CrispRouter(
+              welcomeText: intl.crispSendMessage_hi,
+            ),
+          ),
         ),
         child: Stack(
           children: [
@@ -117,7 +129,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                   hasScrollBody: false,
                   child: Column(
                     children: [
-                      const Spacer(),
+                      const SpaceH10(),
                       SPaddingH24(
                         child: Row(
                           children: [
@@ -259,6 +271,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                       store.loader,
                       cardId,
                       onSuccess,
+                      wasSelfie,
                     );
                   } else {
                     await sRouter.push(
@@ -275,6 +288,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                             store.loader,
                             cardId,
                             onSuccess,
+                            wasSelfie,
                           );
                         },
                       ),

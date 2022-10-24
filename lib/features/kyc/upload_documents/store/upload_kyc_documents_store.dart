@@ -106,6 +106,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     bool isSelfie,
     String cardId,
     Function() onSuccess,
+    bool wasSelfie,
   ) async {
     _logger.log(notifier, 'uploadDocuments');
 
@@ -124,6 +125,11 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         isSelfie ? 8 : 9,
       );
 
+      loader.finishLoading();
+      loaderSuccess.finishLoading();
+      documentCard = null;
+      documentSelfie = null;
+
       response.pick(
         onNoData: () {
           if (isSelfie) {
@@ -131,6 +137,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               UploadVerificationPhotoRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: true,
               ),
             );
           } else {
@@ -138,6 +145,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               VerifyingScreenRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: wasSelfie,
               ),
             );
           }
@@ -148,6 +156,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               UploadVerificationPhotoRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: true,
               ),
             );
           } else {
@@ -155,6 +164,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               VerifyingScreenRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: wasSelfie,
               ),
             );
           }
@@ -165,6 +175,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               UploadVerificationPhotoRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: true,
               ),
             );
           } else {
@@ -172,6 +183,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
               VerifyingScreenRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: wasSelfie,
               ),
             );
           }
@@ -202,6 +214,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   Future<void> getVerificationId(
     Function() onSuccess,
     String cardId,
+    bool wasSelfie,
   ) async {
     _logger.log(notifier, 'getVerificationId');
     skippedWaiting = false;
@@ -224,6 +237,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             cardId,
             onSuccess,
             data.data.verificationId ?? '',
+            wasSelfie,
           );
         },
         onError: (error) {
@@ -256,6 +270,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     String cardId,
     Function() onSuccess,
     String verificationId,
+    bool wasSelfie,
   ) async {
     _logger.log(notifier, 'uploadDocuments');
 
@@ -276,9 +291,11 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             _showBlockedScreen();
           } else if (data.data.verificationState ==
               CardVerificationState.fail) {
+            clearVerification();
             _showFailureScreen(
               onSuccess,
               cardId,
+              wasSelfie,
             );
           } else if (data.data.verificationState ==
               CardVerificationState.success) {
@@ -385,6 +402,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
     StackLoaderStore loader,
     String? cardId,
     Function() onSuccess,
+    bool? wasSelfie,
   ) async {
     _logger.log(notifier, 'documentPageViewLogic');
 
@@ -399,6 +417,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             false,
             cardId ?? '',
             onSuccess,
+            wasSelfie ?? false,
           );
         }
       } else if (document == KycDocumentType.selfieWithCard) {
@@ -410,6 +429,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             true,
             cardId ?? '',
             onSuccess,
+            wasSelfie ?? false,
           );
         }
       } else if (document != KycDocumentType.passport) {
@@ -617,36 +637,36 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   void _showFailureScreen(
       Function() onSuccess,
       String cardId,
+      bool isSelfie,
     ) {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.cardVerification_reviewFailed,
         secondaryText: intl.cardVerification_reviewFailedDescription,
         primaryButtonName: intl.cardVerification_title,
-        onPrimaryButtonTap: () {
+        onPrimaryButtonTap: () async {
+          clearVerification();
           sRouter.removeUntil(
-                (route) => route.name == AddUnlimintCardRouter.name,
+            (route) => route.name == AddUnlimintCardRouter.name,
           );
-          loader.finishLoadingImmediately();
-          loaderSuccess.finishLoadingImmediately();
-          if (documentSelfie != null) {
-            sRouter.push(
+          clearVerification();
+          if (isSelfie) {
+            await sRouter.push(
               UploadVerificationPhotoRouter(
                 isSelfie: true,
                 cardId: cardId,
                 onSuccess: onSuccess,
+                wasSelfie: true,
               ),
             );
           } else {
-            sRouter.push(
+            await sRouter.push(
               UploadVerificationPhotoRouter(
                 cardId: cardId,
                 onSuccess: onSuccess,
               ),
             );
           }
-          documentSelfie = null;
-          documentCard = null;
         },
         secondaryButtonName: intl.cardVerification_close,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),
@@ -657,5 +677,15 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   @action
   void skipWaiting() {
     skippedWaiting = true;
+  }
+
+  @action
+  void clearVerification() {
+    documentCard = null;
+    documentSelfie = null;
+    loader.finishLoading();
+    loader.finishLoadingImmediately();
+    loaderSuccess.finishLoading();
+    loaderSuccess.finishLoadingImmediately();
   }
 }

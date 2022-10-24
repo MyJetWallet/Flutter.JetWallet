@@ -16,10 +16,12 @@ class VerifyingScreen extends StatelessWidget {
     Key? key,
     required this.cardId,
     required this.onSuccess,
+    required this.wasSelfie,
   }) : super(key: key);
 
   final String cardId;
   final Function() onSuccess;
+  final bool wasSelfie;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class VerifyingScreen extends StatelessWidget {
         _VerifyingScreenBody(
           cardId: cardId,
           onSuccess: onSuccess,
+          wasSelfie: wasSelfie,
         ),
     );
   }
@@ -39,10 +42,12 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
     Key? key,
     required this.cardId,
     required this.onSuccess,
+    required this.wasSelfie,
   }) : super(key: key);
 
   final Function() onSuccess;
   final String cardId;
+  final bool wasSelfie;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
     final store = UploadKycDocumentsStore.of(context);
     final deviceSize = sDeviceSize;
 
-    store.getVerificationId(onSuccess, cardId);
+    store.getVerificationId(onSuccess, cardId, wasSelfie);
 
     return WillPopScope(
       onWillPop: () {

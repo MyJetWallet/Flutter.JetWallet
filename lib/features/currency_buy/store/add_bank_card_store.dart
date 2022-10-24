@@ -201,6 +201,7 @@ abstract class _AddBankCardStoreBase with Store {
             await sRouter.push(
               UploadVerificationPhotoRouter(
                 isSelfie: true,
+                wasSelfie: true,
                 cardId: newCard.data?.data.cardId ?? '',
                 onSuccess: () {
                   showPreview(
