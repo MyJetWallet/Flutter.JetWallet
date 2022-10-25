@@ -83,6 +83,33 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
     currentNameColor =
         highlighted ? colors.white.withOpacity(0.8) : colors.white;
 
+    void sellNFT() {
+      updateActionState();
+      Navigator.pop(context);
+
+      sRouter.navigate(
+        NFTSellRouter(
+          nft: widget.nft,
+        ),
+      );
+    }
+
+    void sendNFT() {
+      updateActionState();
+      Navigator.pop(context);
+
+      sRouter.navigate(
+        CurrencyWithdrawRouter(
+          withdrawal: WithdrawalModel(
+            nft: widget.nft,
+          ),
+        ),
+      );
+    }
+
+    final kyc = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
+
     return Material(
       color: colors.white,
       child: Column(
@@ -147,29 +174,37 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () {
-                              updateActionState();
-                              Navigator.pop(context);
-
-                              sRouter.navigate(
-                                NFTSellRouter(
-                                  nft: widget.nft,
-                                ),
-                              );
+                              if (kyc.depositStatus ==
+                                  kycOperationStatus(KycStatus.allowed)) {
+                                sellNFT();
+                              } else {
+                                handler.handle(
+                                  status: kyc.depositStatus,
+                                  isProgress: kyc.verificationInProgress,
+                                  currentNavigate: () => sellNFT(),
+                                  requiredDocuments: kyc.requiredDocuments,
+                                  requiredVerifications:
+                                      kyc.requiredVerifications,
+                                );
+                              }
                             },
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () {
-                              updateActionState();
-                              Navigator.pop(context);
-
-                              sRouter.navigate(
-                                CurrencyWithdrawRouter(
-                                  withdrawal: WithdrawalModel(
-                                    nft: widget.nft,
-                                  ),
-                                ),
-                              );
+                              if (kyc.depositStatus ==
+                                  kycOperationStatus(KycStatus.allowed)) {
+                                sendNFT();
+                              } else {
+                                handler.handle(
+                                  status: kyc.depositStatus,
+                                  isProgress: kyc.verificationInProgress,
+                                  currentNavigate: () => sendNFT(),
+                                  requiredDocuments: kyc.requiredDocuments,
+                                  requiredVerifications:
+                                      kyc.requiredVerifications,
+                                );
+                              }
                             },
                             onReceive: () {},
                             onDissmis: updateActionState,
@@ -219,29 +254,37 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () {
-                              updateActionState();
-                              Navigator.pop(context);
-
-                              sRouter.navigate(
-                                NFTSellRouter(
-                                  nft: widget.nft,
-                                ),
-                              );
+                              if (kyc.depositStatus ==
+                                  kycOperationStatus(KycStatus.allowed)) {
+                                sellNFT();
+                              } else {
+                                handler.handle(
+                                  status: kyc.depositStatus,
+                                  isProgress: kyc.verificationInProgress,
+                                  currentNavigate: () => sellNFT(),
+                                  requiredDocuments: kyc.requiredDocuments,
+                                  requiredVerifications:
+                                      kyc.requiredVerifications,
+                                );
+                              }
                             },
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () {
-                              updateActionState();
-                              Navigator.pop(context);
-
-                              sRouter.navigate(
-                                CurrencyWithdrawRouter(
-                                  withdrawal: WithdrawalModel(
-                                    nft: widget.nft,
-                                  ),
-                                ),
-                              );
+                              if (kyc.depositStatus ==
+                                  kycOperationStatus(KycStatus.allowed)) {
+                                sendNFT();
+                              } else {
+                                handler.handle(
+                                  status: kyc.depositStatus,
+                                  isProgress: kyc.verificationInProgress,
+                                  currentNavigate: () => sendNFT(),
+                                  requiredDocuments: kyc.requiredDocuments,
+                                  requiredVerifications:
+                                      kyc.requiredVerifications,
+                                );
+                              }
                             },
                             onReceive: () {},
                             onDissmis: updateActionState,
