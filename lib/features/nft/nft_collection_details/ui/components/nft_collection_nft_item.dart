@@ -8,14 +8,14 @@ import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 class NFTCollectionNftItem extends StatelessWidget {
   const NFTCollectionNftItem({
     super.key,
-    this.onTap,
+    required this.onTap,
     this.showBuyInfo = false,
     this.showDivider = true,
     required this.nft,
   });
 
   final NftMarket nft;
-  final Function()? onTap;
+  final Function() onTap;
   final bool showBuyInfo;
   final bool showDivider;
 
@@ -25,7 +25,7 @@ class NFTCollectionNftItem extends StatelessWidget {
 
     bool isNameGrey = nft.sellPrice == null && !showBuyInfo;
 
-    return InkWell(
+    return STransparentInkWell(
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

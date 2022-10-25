@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/nft/nft_details/helpers/find_nft_by_symbol.dart';
 import 'package:jetwallet/features/nft/nft_details/helpers/show_not_enougn_for_buy_nft.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -44,8 +45,8 @@ abstract class _NFTDetailStoreBase with Store {
   final int shortLength = 39;
 
   @action
-  Future<void> init(NftMarket data) async {
-    nft = data;
+  Future<void> init(String nftSymbol) async {
+    nft = findNFTBySymbol(nftSymbol);
 
     currency =
         currencyFrom(sSignalRModules.currenciesList, nft!.tradingAsset ?? '');

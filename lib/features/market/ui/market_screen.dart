@@ -15,7 +15,12 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class MarketScreen extends StatefulObserverWidget {
-  const MarketScreen({Key? key}) : super(key: key);
+  const MarketScreen({
+    Key? key,
+    this.initIndex = 1,
+  }) : super(key: key);
+
+  final int initIndex;
 
   @override
   State<MarketScreen> createState() => _MarketScreenState();
@@ -97,7 +102,7 @@ class _MarketScreenState extends State<MarketScreen> {
 
     return Scaffold(
       body: DefaultTabController(
-        initialIndex: 1,
+        initialIndex: widget.initIndex,
         length: showCrypto ? 3 : 2,
         child: Builder(builder: (context) {
           return Scaffold(

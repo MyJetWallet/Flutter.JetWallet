@@ -18,18 +18,18 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 class NftCollectionDetails extends StatelessWidget {
   const NftCollectionDetails({
     super.key,
-    required this.nft,
+    //required this.nft,
+    required this.collectionID,
   });
 
-  final NftModel nft;
+  //final NftModel nft;
+  final String collectionID;
 
   @override
   Widget build(BuildContext context) {
     return Provider<NFTCollectionDetailStore>(
-      create: (context) => NFTCollectionDetailStore()..init(nft),
-      builder: (context, child) => _NftCollectionDetailsBody(
-        nft: nft,
-      ),
+      create: (context) => NFTCollectionDetailStore()..init(collectionID),
+      builder: (context, child) => const _NftCollectionDetailsBody(),
     );
   }
 }
@@ -37,10 +37,7 @@ class NftCollectionDetails extends StatelessWidget {
 class _NftCollectionDetailsBody extends StatelessObserverWidget {
   const _NftCollectionDetailsBody({
     super.key,
-    required this.nft,
   });
-
-  final NftModel nft;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
 
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      nft.bestOfferAsset ?? '',
+      store.nftModel?.bestOfferAsset ?? '',
     );
 
     final childAspectRatio = 0.9;
@@ -78,7 +75,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
             expandedHeight: 160.0,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
-                '$fullUrl${nft.fImage}',
+                '$fullUrl${store.nftModel!.fImage}',
                 fit: BoxFit.cover,
               ),
             ),
@@ -109,13 +106,13 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                     baseline: 41,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      nft.name ?? '',
+                      store.nftModel!.name ?? '',
                       maxLines: 3,
                       style: sTextH2Style,
                     ),
                   ),
-                  if (nft.description != null &&
-                      nft.description!.isNotEmpty) ...[
+                  if (store.nftModel!.description != null &&
+                      store.nftModel!.description!.isNotEmpty) ...[
                     const SizedBox(
                       height: 20,
                     ),
@@ -123,7 +120,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       baseline: 24,
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
-                        nft.description ?? '',
+                        store.nftModel!.description ?? '',
                         maxLines: 5,
                         style: sBodyText1Style,
                       ),
@@ -152,7 +149,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                             baseline: 24,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              '${nft.nftList.length}',
+                              '${store.nftModel!.nftList.length}',
                               style: sBodyText1Style,
                             ),
                           ),
@@ -178,7 +175,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                             baseline: 24,
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
-                              nft.ownerCount!.toString(),
+                              store.nftModel!.ownerCount!.toString(),
                               style: sBodyText1Style,
                             ),
                           ),
@@ -213,7 +210,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                               marketFormat(
                                 prefix: '\$',
                                 onlyFullPart: true,
-                                decimal: nft.totalVolumeUsd!,
+                                decimal: store.nftModel!.totalVolumeUsd!,
                                 accuracy: 2,
                                 symbol: '',
                               ),
@@ -243,8 +240,9 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                             baselineType: TextBaseline.alphabetic,
                             child: Text(
                               volumeFormat(
-                                decimal: Decimal.fromInt(nft.bestOffer!),
-                                symbol: nft.bestOfferAsset!,
+                                decimal:
+                                    Decimal.fromInt(store.nftModel!.bestOffer!),
+                                symbol: store.nftModel!.bestOfferAsset!,
                                 accuracy: currency.accuracy,
                               ),
                               style: sBodyText1Style,
@@ -322,7 +320,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       onTap: () {
                         sRouter.push(
                           NFTDetailsRouter(
-                            nft: store.availableNFTFiltred[index],
+                            nftSymbol: store.availableNFTFiltred[index].symbol!,
                           ),
                         );
                       },

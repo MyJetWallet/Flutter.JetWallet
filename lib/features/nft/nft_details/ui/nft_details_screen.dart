@@ -27,18 +27,19 @@ class NFTDetailsScreen extends StatelessWidget {
   const NFTDetailsScreen({
     super.key,
     this.userNFT = false,
-    required this.nft,
+    //required this.nft,
+    required this.nftSymbol,
   });
 
   final bool userNFT;
-  final NftMarket nft;
+  //final NftMarket nft;
+  final String nftSymbol;
 
   @override
   Widget build(BuildContext context) {
     return Provider<NFTDetailStore>(
-      create: (context) => NFTDetailStore()..init(nft),
+      create: (context) => NFTDetailStore()..init(nftSymbol),
       builder: (context, child) => _NFTDetailsScreenBody(
-        nft: nft,
         userNFT: userNFT,
       ),
     );
@@ -49,11 +50,9 @@ class _NFTDetailsScreenBody extends StatefulObserverWidget {
   const _NFTDetailsScreenBody({
     super.key,
     this.userNFT = false,
-    required this.nft,
   });
 
   final bool userNFT;
-  final NftMarket nft;
 
   @override
   State<_NFTDetailsScreenBody> createState() => _NFTDetailsScreenBodyState();
@@ -78,12 +77,14 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
 
+final store = NFTDetailStore.of(context);
+
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      widget.nft.tradingAsset ?? '',
+      store.nft?.tradingAsset ?? '',
     );
 
-    final store = NFTDetailStore.of(context);
+    
 
     final collection = sSignalRModules.nftList.firstWhere(
       (e) => e.id == store.nft!.collectionId,
@@ -104,10 +105,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     }
 
     final Decimal nftPrice = isUserNFT
-        ? widget.nft.sellPrice != null
-            ? widget.nft.sellPrice!
-            : widget.nft.buyPrice!
-        : widget.nft.sellPrice!;
+        ? store.nft!.sellPrice != null
+            ? store.nft!.sellPrice!
+            : store.nft!.buyPrice!
+        : store.nft!.sellPrice!;
 
     return SPageFrame(
       loading: store.loader,
@@ -128,11 +129,11 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                 )
               : ActionButtonNft(
                   transitionAnimationController: _animationController,
-                  nft: widget.nft,
+                  nft: store.nft!,
                 )
           : NFTDetailBottomBar(
               userNFT: widget.userNFT,
-              nft: widget.nft,
+              nft: store.nft!,
               onTap: () => store.clickBuy(),
             ),
       child: SShadeAnimationStack(
@@ -150,8 +151,8 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               automaticallyImplyLeading: false,
               flexibleSpace: SPaddingH24(
                 child: NFTDetailHeader(
-                  title: widget.nft.name ?? '',
-                  fImage: '$shortUrl${widget.nft.sImage}',
+                  title: store.nft!.name ?? '',
+                  fImage: '$shortUrl${store.nft!.sImage}',
                 ),
               ),
             ),
@@ -164,7 +165,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(16),
                         child: Image.network(
-                          '$fullUrl${widget.nft.fImage}',
+                          '$fullUrl${store.nft!.fImage}',
                         ),
                       ),
                     ),
@@ -176,7 +177,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                           padding: const EdgeInsets.only(top: 7.0),
                           child: SNetworkSvg24(
                             url: iconUrlFrom(
-                              assetSymbol: widget.nft.tradingAsset!,
+                              assetSymbol: store.nft!.tradingAsset!,
                             ),
                           ),
                         ),
@@ -187,7 +188,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                             Text(
                               volumeFormat(
                                 decimal: nftPrice,
-                                symbol: widget.nft.tradingAsset!,
+                                symbol: store.nft!.tradingAsset!,
                                 accuracy: currency.accuracy,
                               ),
                               style: sTextH2Style,
@@ -251,7 +252,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 const Spacer(),
                                 Text(
                                   DateFormat('yMMMd')
-                                      .format(widget.nft.ownerChangedAt!),
+                                      .format(store.nft!.ownerChangedAt!),
                                   style: sBodyText1Style,
                                 ),
                               ],
@@ -317,7 +318,9 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       text: collection.name ?? '',
                       onTap: () {
                         sRouter.push(
-                          NftCollectionDetailsRouter(nft: collection),
+                          NftCollectionDetailsRouter(
+                            collectionID: collection.id!,
+                          ),
                         );
                       },
                     ),

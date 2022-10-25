@@ -71,7 +71,7 @@ class PortfolioNftList extends StatelessObserverWidget {
                     if (item.nftList.length == 1) {
                       sRouter.push(
                         NFTDetailsRouter(
-                          nft: item.nftList.first,
+                          nftSymbol: item.nftList.first.symbol!,
                           userNFT: true,
                         ),
                       );
