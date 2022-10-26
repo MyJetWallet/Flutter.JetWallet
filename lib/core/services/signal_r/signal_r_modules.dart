@@ -786,7 +786,9 @@ abstract class _SignalRModulesBase with Store {
     });
 
     nftMarketsOS.listen((value) {
+      allNftList.clear();
       for (var i = 0; i < value.nfts.length; i++) {
+        allNftList.add(value.nfts[i]);
         final ind = nftList
             .indexWhere((element) => element.id == value.nfts[i].collectionId);
 
@@ -1102,6 +1104,9 @@ abstract class _SignalRModulesBase with Store {
 
   @observable
   ObservableList<NftModel> nftList = ObservableList.of([]);
+
+  @observable
+  ObservableList<NftMarket> allNftList = ObservableList.of([]);
 
   @observable
   NftPortfolio? userNFTPortfolio;

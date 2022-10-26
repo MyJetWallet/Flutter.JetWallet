@@ -42,9 +42,23 @@ String operationName(
       return intl.operationName_buyWithCard;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
-    case OperationType.nftBuy:
-      return intl.operationName_return_from_earn;
     case OperationType.unknown:
+      return 'Unknown';
+    case OperationType.nftSwap:
+      return intl.operationName_buyNFT;
+    case OperationType.nftBuyOpposite:
+      return intl.operationName_buyNFT;
+    case OperationType.nftSell:
+      return intl.operationName_sellNFT;
+    case OperationType.nftSellOpposite:
+      return intl.operationName_sellNFT;
+    case OperationType.nftDeposit:
+      return intl.operationName_receiveNFT;
+    case OperationType.nftWithdrawal:
+      return intl.operationName_sendNFT;
+    case OperationType.nftBuy:
+      return intl.operationName_buyNFT;
+    default:
       return 'Unknown';
   }
 }

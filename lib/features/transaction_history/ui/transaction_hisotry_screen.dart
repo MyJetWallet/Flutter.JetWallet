@@ -9,6 +9,9 @@ import 'package:jetwallet/widgets/bottom_tabs/bottom_tabs.dart';
 import 'package:jetwallet/widgets/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../wallet/helper/nft_types.dart';
+import '../../wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_main_list.dart';
+
 class TransactionHistory extends StatelessObserverWidget {
   const TransactionHistory({
     Key? key,
@@ -27,61 +30,143 @@ class TransactionHistory extends StatelessObserverWidget {
 
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
-    return DefaultTabController(
-      length: showCrypto ? 3 : 2,
-      child: Scaffold(
-        backgroundColor: colors.white,
-        bottomNavigationBar: BottomTabs(
-          tabs: [
-            const BottomTab(
-              icon: SStarIcon(),
-            ),
-            BottomTab(text: intl.market_crypto),
-            if (showCrypto) ...[
-              BottomTab(
-                text: intl.market_nft,
-                isTextBlue: true,
+    return Scaffold(
+        body: DefaultTabController(
+        length: showCrypto ? 3 : 2,
+        child: Scaffold(
+          backgroundColor: colors.white,
+          body: Stack(
+            children: [
+              TabBarView(
+                children: [
+                  NestedScrollView(
+                    controller: scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    headerSliverBuilder: (context, _) {
+                      return [
+                        SliverAppBar(
+                          toolbarHeight: deviceSize.when(
+                            small: () {
+                              return 80;
+                            },
+                            medium: () {
+                              return 60;
+                            },
+                          ),
+                          pinned: true,
+                          backgroundColor: colors.white,
+                          automaticallyImplyLeading: false,
+                          elevation: 0,
+                          flexibleSpace: SPaddingH24(
+                            child: SSmallHeader(
+                              title: _title(context, TransactionType.none),
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    body: TransactionsMainList(
+                      scrollController: scrollController,
+                      symbol: assetSymbol,
+                    ),
+                  ),
+                  NestedScrollView(
+                    controller: scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    headerSliverBuilder: (context, _) {
+                      return [
+                        SliverAppBar(
+                          toolbarHeight: deviceSize.when(
+                            small: () {
+                              return 80;
+                            },
+                            medium: () {
+                              return 60;
+                            },
+                          ),
+                          pinned: true,
+                          backgroundColor: colors.white,
+                          automaticallyImplyLeading: false,
+                          elevation: 0,
+                          flexibleSpace: SPaddingH24(
+                            child: SSmallHeader(
+                              title: _title(context, TransactionType.crypto),
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    body: TransactionsMainList(
+                      scrollController: scrollController,
+                      symbol: assetSymbol,
+                      filter: TransactionType.crypto,
+                    ),
+                  ),
+                  NestedScrollView(
+                    controller: scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    headerSliverBuilder: (context, _) {
+                      return [
+                        SliverAppBar(
+                          toolbarHeight: deviceSize.when(
+                            small: () {
+                              return 80;
+                            },
+                            medium: () {
+                              return 60;
+                            },
+                          ),
+                          pinned: true,
+                          backgroundColor: colors.white,
+                          automaticallyImplyLeading: false,
+                          elevation: 0,
+                          flexibleSpace: SPaddingH24(
+                            child: SSmallHeader(
+                              title: _title(context, TransactionType.nft),
+                            ),
+                          ),
+                        ),
+                      ];
+                    },
+                    body: TransactionsMainList(
+                      scrollController: scrollController,
+                      symbol: assetSymbol,
+                      filter: TransactionType.nft,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ],
-        ),
-        body: CustomScrollView(
-          controller: scrollController,
-          physics: const ClampingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              toolbarHeight: deviceSize.when(
-                small: () {
-                  return 80;
-                },
-                medium: () {
-                  return 60;
-                },
-              ),
-              pinned: true,
-              backgroundColor: colors.white,
-              automaticallyImplyLeading: false,
-              elevation: 0,
-              flexibleSpace: SPaddingH24(
-                child: SSmallHeader(
-                  title: _title(context),
+              Align(
+                alignment: FractionalOffset.bottomCenter,
+                child:
+                BottomTabs(
+                  tabs: [
+                    BottomTab(text: intl.market_all),
+                    BottomTab(text: intl.market_crypto),
+                    if (showCrypto) ...[
+                      BottomTab(
+                        text: intl.market_nft,
+                        isTextBlue: true,
+                      ),
+                    ],
+                  ],
                 ),
               ),
-            ),
-            TransactionsList(
-              scrollController: scrollController,
-              symbol: assetSymbol,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  String _title(BuildContext context) {
+  String _title(BuildContext context, TransactionType type) {
     return assetName != null && assetSymbol != null
         ? '${intl.transactionHistory_history} $assetName ($assetSymbol)'
-        : intl.transactionHistory_history;
+        : type == TransactionType.none
+          ? intl.transactionHistory_history
+          : type == TransactionType.crypto
+          ? intl.nft_history_crypto
+          : intl.nft_history_nft;
   }
 }
 
@@ -125,8 +210,8 @@ class _TransactionHistoryBody extends StatelessObserverWidget {
               alignment: FractionalOffset.bottomCenter,
               child: BottomTabs(
                 tabs: [
-                  const BottomTab(
-                    icon: SStarIcon(),
+                  BottomTab(
+                    text: intl.market_all,
                   ),
                   BottomTab(text: intl.market_crypto),
                   if (showCrypto) ...[
