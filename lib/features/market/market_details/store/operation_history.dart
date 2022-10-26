@@ -140,6 +140,12 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.earningDeposit ||
         item.operationType == oh_resp.OperationType.earningWithdrawal ||
         item.operationType == oh_resp.OperationType.cryptoInfo ||
+        item.operationType == oh_resp.OperationType.nftSwap ||
+        item.operationType == oh_resp.OperationType.nftBuyOpposite ||
+        item.operationType == oh_resp.OperationType.nftSell ||
+        item.operationType == oh_resp.OperationType.nftSellOpposite ||
+        item.operationType == oh_resp.OperationType.nftDeposit ||
+        item.operationType == oh_resp.OperationType.nftWithdrawal ||
         item.operationType == oh_resp.OperationType.nftBuy,
   )
       .map((item) {

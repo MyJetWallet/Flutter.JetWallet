@@ -7,9 +7,13 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
+import '../../../../../helper/nft_by_symbol.dart';
+import '../../../../../helper/nft_types.dart';
 import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
 import 'components/transaction_list_item_header_text.dart';
@@ -33,7 +37,7 @@ class TransactionListItem extends StatelessObserverWidget {
       currencies,
       transactionListItem.assetId,
     );
-    print(transactionListItem.buyInfo?.sellAssetId);
+
     final paymentCurrency = transactionListItem.buyInfo?.sellAssetId != null
         ? currencyFrom(
             currencies,
@@ -41,6 +45,11 @@ class TransactionListItem extends StatelessObserverWidget {
           )
         : currencies[0];
     final baseCurrency = sSignalRModules.baseCurrency;
+
+    final nftAsset = getNftItem(
+      transactionListItem,
+      sSignalRModules.allNftList,
+    );
 
     return InkWell(
       onTap: () => showTransactionDetails(
@@ -71,8 +80,8 @@ class TransactionListItem extends StatelessObserverWidget {
                         context,
                       ),
                       color: transactionListItem.status == Status.declined
-                          ? colors.red
-                          : colors.black,
+                        ? colors.red
+                        : colors.black,
                     ),
                   ),
                   Container(
@@ -81,15 +90,17 @@ class TransactionListItem extends StatelessObserverWidget {
                       minWidth: 100,
                     ),
                     child: AutoSizeText(
-                      volumeFormat(
-                        prefix: currency.prefixSymbol,
-                        decimal: transactionListItem.operationType ==
-                                OperationType.withdraw
-                            ? transactionListItem.balanceChange.abs()
-                            : transactionListItem.balanceChange,
-                        accuracy: currency.accuracy,
-                        symbol: currency.symbol,
-                      ),
+                      nftTypes.contains(transactionListItem.operationType)
+                        ? nftAsset.name ?? 'NFT'
+                        : volumeFormat(
+                          prefix: currency.prefixSymbol,
+                          decimal: transactionListItem.operationType ==
+                                  OperationType.withdraw
+                              ? transactionListItem.balanceChange.abs()
+                              : transactionListItem.balanceChange,
+                          accuracy: currency.accuracy,
+                          symbol: currency.symbol,
+                        ),
                       textAlign: TextAlign.end,
                       minFontSize: 4.0,
                       maxLines: 1,
@@ -126,6 +137,17 @@ class TransactionListItem extends StatelessObserverWidget {
                       color: colors.grey2,
                     ),
                   const Spacer(),
+                  if (
+                    transactionListItem.operationType ==
+                      OperationType.nftSellOpposite ||
+                    transactionListItem.operationType ==
+                        OperationType.nftBuyOpposite
+                  )
+                    TransactionListItemText(
+                      text: '${intl.transactionListItem_forText} '
+                          '${nftAsset.name}',
+                      color: colors.grey2,
+                    ),
                   if (transactionListItem.operationType == OperationType.sell)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_forText} '
@@ -275,8 +297,21 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.cryptoInfo:
         return SDepositIcon(color: isFailed ? color : null);
       case OperationType.nftBuy:
+        return SPlusIcon(color: isFailed ? color : null);
+      case OperationType.nftSwap:
+        return SPlusIcon(color: isFailed ? color : null);
+      case OperationType.nftSell:
+        return SMinusIcon(color: isFailed ? color : null);
+      case OperationType.nftSellOpposite:
+        return SPlusIcon(color: isFailed ? color : null);
+      case OperationType.nftBuyOpposite:
+        return SMinusIcon(color: isFailed ? color : null);
+      case OperationType.nftDeposit:
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.nftWithdrawal:
+        return SSendByPhoneIcon(color: isFailed ? color : null);
+      default:
         return SDepositIcon(color: isFailed ? color : null);
-        break;
     }
   }
 }

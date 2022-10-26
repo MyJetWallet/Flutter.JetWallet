@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_with_hidden_service.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
@@ -12,8 +13,11 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
+import '../../../../../../../../../../core/services/remote_config/remote_config_values.dart';
 import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
+import '../../../../../../../../helper/nft_by_symbol.dart';
+import '../../../../../../../../helper/nft_types.dart';
 import '../../../../../../../../helper/operation_name.dart';
 
 class CommonTransactionDetailsBlock extends StatelessObserverWidget {
@@ -28,9 +32,25 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
+    final catchingTypes =
+        transactionListItem.operationType == OperationType.nftBuy ||
+            transactionListItem.operationType == OperationType.nftSwap ||
+            transactionListItem.operationType == OperationType.nftSell;
+    final currencyForOperation =
+      transactionListItem.operationType == OperationType.nftBuy ||
+      transactionListItem.operationType == OperationType.nftSwap
+          ? transactionListItem.swapInfo?.sellAssetId ?? ''
+          : transactionListItem.operationType == OperationType.nftSell
+          ? transactionListItem.swapInfo?.buyAssetId ?? ''
+          : transactionListItem.assetId;
     final currency = currencyFromAll(
       sSignalRModules.currenciesList,
-      transactionListItem.assetId,
+      currencyForOperation,
+    );
+
+    final nftAsset = getNftItem(
+      transactionListItem,
+      sSignalRModules.allNftList,
     );
 
     return Column(
@@ -49,7 +69,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                 const SpaceW12(),
                 Expanded(
                   child: Text(
-                    _transactionHeader(transactionListItem, currency, context),
+                    _transactionHeader(
+                      transactionListItem,
+                      currency,
+                      context,
+                      nftAsset.name,
+                      intl,
+                    ),
                     style: sTextH5Style,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
@@ -63,41 +89,71 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ),
         if (transactionListItem.operationType != OperationType.recurringBuy)
           Text(
-            _transactionHeader(transactionListItem, currency, context),
+            _transactionHeader(
+              transactionListItem,
+              currency,
+              context,
+              nftAsset.name,
+              intl,
+            ),
             style: sTextH5Style,
           ),
-        const SpaceH67(),
-        SPaddingH24(
-          child: AutoSizeText(
-            '${operationAmount(transactionListItem)} ${currency.symbol}',
-            textAlign: TextAlign.center,
-            minFontSize: 4.0,
-            maxLines: 1,
-            strutStyle: const StrutStyle(
-              height: 1.20,
-              fontSize: 40.0,
-              fontFamily: 'Gilroy',
-            ),
-            style: TextStyle(
-              height: 1.20,
-              fontSize: 40.0,
-              fontFamily: 'Gilroy',
-              fontWeight: FontWeight.w600,
-              color: colors.black,
+        if (nftTypes.contains(transactionListItem.operationType))
+          const SpaceH25()
+          else
+          const SpaceH67(),
+        if (nftTypes.contains(transactionListItem.operationType)) ...[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.network(
+              '$fullUrl${nftAsset.fImage}',
+              height: 160.0,
+              width: 160.0,
+              fit: BoxFit.fill,
             ),
           ),
-        ),
-        if (transactionListItem.status == Status.completed)
-          Text(
-            convertToUsd(
-              transactionListItem.assetPriceInUsd,
-              operationAmount(transactionListItem),
-              baseCurrency,
-            ),
-            style: sBodyText2Style.copyWith(
-              color: colors.grey2,
+          if (catchingTypes) ...[
+            const SpaceH22(),
+          ] else ...[
+            const SpaceH35(),
+          ],
+        ],
+        if (!nftTypes.contains(transactionListItem.operationType) ||
+            catchingTypes) ...[
+          SPaddingH24(
+            child: AutoSizeText(
+              '${operationAmount(transactionListItem)} ${currency.symbol}',
+              textAlign: TextAlign.center,
+              minFontSize: 4.0,
+              maxLines: 1,
+              strutStyle: const StrutStyle(
+                height: 1.20,
+                fontSize: 40.0,
+                fontFamily: 'Gilroy',
+              ),
+              style: TextStyle(
+                height: 1.20,
+                fontSize: 40.0,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.w600,
+                color: colors.black,
+              ),
             ),
           ),
+          if (transactionListItem.status == Status.completed)
+            Text(
+              convertToUsd(
+                catchingTypes
+                  ? currency.currentPrice
+                  : transactionListItem.assetPriceInUsd,
+                operationAmount(transactionListItem),
+                baseCurrency,
+              ),
+              style: sBodyText2Style.copyWith(
+                color: colors.grey2,
+              ),
+            ),
+        ],
         Text(
           '${formatDateToDMY(transactionListItem.timeStamp)} '
           '- ${formatDateToHm(transactionListItem.timeStamp)}',
@@ -117,6 +173,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     OperationHistoryItem transactionListItem,
     CurrencyModel currency,
     BuildContext context,
+    String? nftName,
+    AppLocalizations intl,
   ) {
     if (transactionListItem.operationType == OperationType.simplexBuy) {
       return '${operationName(OperationType.buy, context)} '
@@ -141,6 +199,25 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       }
 
       return operationName(transactionListItem.operationType, context);
+    } else if (
+      transactionListItem.operationType == OperationType.nftBuy ||
+      transactionListItem.operationType == OperationType.nftSwap ||
+      transactionListItem.operationType == OperationType.nftBuyOpposite
+    ) {
+      return '${operationName(OperationType.buy, context)} $nftName';
+    } else if (
+      transactionListItem.operationType == OperationType.nftSell ||
+      transactionListItem.operationType == OperationType.nftSellOpposite
+    ) {
+      return '${operationName(OperationType.sell, context)} $nftName';
+    } else if (
+      transactionListItem.operationType == OperationType.nftWithdrawal
+    ) {
+      return '${intl.operationName_send} $nftName';
+    } else if (
+      transactionListItem.operationType == OperationType.nftDeposit
+    ) {
+      return '${intl.operationName_receive} $nftName';
     } else {
       return operationName(transactionListItem.operationType, context);
     }
@@ -172,6 +249,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
+    }
+    if (
+      transactionListItem.operationType == OperationType.nftBuy ||
+          transactionListItem.operationType == OperationType.nftSwap
+    ) {
+      return transactionListItem.swapInfo!.sellAmount;
+    }
+    if (transactionListItem.operationType == OperationType.nftSell) {
+      return transactionListItem.swapInfo!.buyAmount;
     }
 
     return transactionListItem.balanceChange;
