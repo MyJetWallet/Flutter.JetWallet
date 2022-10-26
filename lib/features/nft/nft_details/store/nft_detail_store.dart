@@ -131,13 +131,32 @@ abstract class _NFTDetailStoreBase with Store {
 
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
-    print(shareLink);
+    final shareLinkNFT = '$shareLink${nft!.symbol!}';
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
-      pinned: ActionBottomSheetHeader(
-        name: '${intl.nft_detail_share_nft}\n${nft!.name!}',
-        onChanged: (String value) {},
+      pinned: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Baseline(
+              baseline: 32,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                '${intl.nft_detail_share_nft}\n${nft!.name!}',
+                style: sTextH4Style,
+                maxLines: 5,
+              ),
+            ),
+          ),
+          SIconButton(
+            onTap: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+            },
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
+          ),
+        ],
       ),
       pinnedBottom: SizedBox(
         height: 104,
@@ -158,27 +177,24 @@ abstract class _NFTDetailStoreBase with Store {
           ],
         ),
       ),
-      removePinnedPadding: true,
       children: [
-        Column(
-          children: [
-            SQrCodeBox(
-              loading: false,
-              data: shareLink,
-              qrBoxSize: qrBoxSize,
-              logoSize: logoSize,
-            ),
-            const SpaceH20(),
-            SAddressFieldWithCopy(
-              header: intl.nft_receive_matic_wallet_address,
-              value: shareLink,
-              realValue: shareLink,
-              afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
-              valueLoading: false,
-              needPadding: true,
-              then: () {},
-            ),
-          ],
+        const SpaceH40(),
+        Align(
+          child: SQrCodeBox(
+            loading: false,
+            data: shareLinkNFT,
+            qrBoxSize: qrBoxSize,
+            logoSize: logoSize,
+          ),
+        ),
+        const SpaceH20(),
+        SAddressFieldWithCopy(
+          header: intl.nft_detail_nft_link,
+          value: shareLinkNFT,
+          realValue: shareLinkNFT,
+          afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
+          needFormatURL: false,
+          then: () {},
         ),
       ],
     );
