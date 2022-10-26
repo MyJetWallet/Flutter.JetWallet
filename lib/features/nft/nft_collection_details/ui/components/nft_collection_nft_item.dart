@@ -31,9 +31,7 @@ class NFTCollectionNftItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           image(),
-          const SizedBox(
-            height: 7,
-          ),
+          const SpaceH7(),
           Baseline(
             baseline: 24,
             baselineType: TextBaseline.alphabetic,
@@ -45,9 +43,7 @@ class NFTCollectionNftItem extends StatelessWidget {
             ),
           ),
           if (nft.sellPrice != null && !showBuyInfo) ...[
-            const SizedBox(
-              height: 3,
-            ),
+            const SpaceH3(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -66,9 +62,7 @@ class NFTCollectionNftItem extends StatelessWidget {
               ],
             ),
           ] else if (showBuyInfo) ...[
-            const SizedBox(
-              height: 3,
-            ),
+            const SpaceH3(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -87,9 +81,7 @@ class NFTCollectionNftItem extends StatelessWidget {
               ],
             ),
           ],
-          const SizedBox(
-            height: 18,
-          ),
+          const SpaceH20(),
           if (showDivider) ...[
             const SDivider(),
           ],
