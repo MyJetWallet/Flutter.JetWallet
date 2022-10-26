@@ -38,8 +38,10 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
     final store = NftReceiveStore.of(context);
 
     return SPageFrame(
-      header: SSmallHeader(
-        title: intl.nft_receive_header,
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.nft_receive_header,
+        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 104,
