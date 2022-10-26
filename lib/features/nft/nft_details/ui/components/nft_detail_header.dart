@@ -77,7 +77,7 @@ class NFTDetailHeader extends StatelessWidget {
                 Opacity(
                   opacity: opacity,
                   child: Baseline(
-                    baseline: 56.0,
+                    baseline: 41,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
                       title,

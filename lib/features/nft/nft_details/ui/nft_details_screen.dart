@@ -173,7 +173,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 7.0),
+                          padding: const EdgeInsets.only(top: 15),
                           child: SNetworkSvg24(
                             url: iconUrlFrom(
                               assetSymbol: store.nft!.tradingAsset!,
@@ -184,22 +184,30 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              volumeFormat(
-                                decimal: nftPrice,
-                                symbol: store.nft!.tradingAsset!,
-                                accuracy: currency.accuracy,
+                            Baseline(
+                              baseline: 40,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                volumeFormat(
+                                  decimal: nftPrice,
+                                  symbol: store.nft!.tradingAsset!,
+                                  accuracy: currency.accuracy,
+                                ),
+                                style: sTextH2Style,
                               ),
-                              style: sTextH2Style,
                             ),
-                            Text(
-                              volumeFormat(
-                                prefix: baseCurrency.prefix,
-                                decimal: currency.currentPrice * nftPrice,
-                                symbol: baseCurrency.symbol,
-                                accuracy: baseCurrency.accuracy,
+                            Baseline(
+                              baseline: 24,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                volumeFormat(
+                                  prefix: baseCurrency.prefix,
+                                  decimal: currency.currentPrice * nftPrice,
+                                  symbol: baseCurrency.symbol,
+                                  accuracy: baseCurrency.accuracy,
+                                ),
+                                style: sSubtitle3Style,
                               ),
-                              style: sSubtitle3Style,
                             ),
                           ],
                         ),
@@ -260,9 +268,13 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         ),
                       ),
                     ],
-                    Text(
-                      intl.nft_detail_nft_features,
-                      style: sTextH4Style,
+                    Baseline(
+                      baseline: 28.84,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        intl.nft_detail_nft_features,
+                        style: sTextH4Style,
+                      ),
                     ),
                     const SpaceH20(),
                     Row(
@@ -270,17 +282,26 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              intl.nft_detail_creation_date,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey2,
+                            Baseline(
+                              baseline: 21,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                intl.nft_detail_creation_date,
+                                style: sBodyText2Style.copyWith(
+                                  color: colors.grey2,
+                                ),
                               ),
                             ),
-                            Text(
-                              DateFormat('yMMMd').format(
-                                store.nft!.mintDate!,
+                            const SpaceH1(),
+                            Baseline(
+                              baseline: 24,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                DateFormat('yMMMd').format(
+                                  store.nft!.mintDate!,
+                                ),
+                                style: sBodyText1Style,
                               ),
-                              style: sBodyText1Style,
                             ),
                           ],
                         ),
@@ -290,15 +311,24 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              intl.nft_detail_rarity,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey2,
+                            Baseline(
+                              baseline: 21,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                intl.nft_detail_rarity,
+                                style: sBodyText2Style.copyWith(
+                                  color: colors.grey2,
+                                ),
                               ),
                             ),
-                            Text(
-                              '${store.nft?.rarityId ?? 1}/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
-                              style: sBodyText1Style,
+                            const SpaceH1(),
+                            Baseline(
+                              baseline: 24,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                '${store.nft?.rarityId ?? 1}/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
+                                style: sBodyText1Style,
+                              ),
                             ),
                           ],
                         ),
@@ -307,10 +337,14 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                     const SpaceH12(),
                     const SDivider(),
                     const SpaceH25(),
-                    Text(
-                      intl.nft_detail_collection,
-                      style: sBodyText2Style.copyWith(
-                        color: colors.grey2,
+                    Baseline(
+                      baseline: 21,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        intl.nft_detail_collection,
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey2,
+                        ),
                       ),
                     ),
                     ClickableUnderlinedText(
@@ -323,13 +357,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         );
                       },
                     ),
-                    const SpaceH32(),
-                    const SDivider(),
-                    const SpaceH32(),
-                    NFTAboutBlock(
-                      description: store.description,
-                      shortDescription: store.shortDescription,
-                    ),
+                    if (store.description.isNotEmpty) ...[
+                      const SpaceH32(),
+                      const SDivider(),
+                      const SpaceH32(),
+                      NFTAboutBlock(
+                        description: store.description,
+                        shortDescription: store.shortDescription,
+                      ),
+                    ],
                     const SpaceH16(),
                   ],
                 ),
