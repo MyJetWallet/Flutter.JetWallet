@@ -8,14 +8,14 @@ import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 class NFTCollectionNftItem extends StatelessWidget {
   const NFTCollectionNftItem({
     super.key,
-    this.onTap,
+    required this.onTap,
     this.showBuyInfo = false,
     this.showDivider = true,
     required this.nft,
   });
 
   final NftMarket nft;
-  final Function()? onTap;
+  final Function() onTap;
   final bool showBuyInfo;
   final bool showDivider;
 
@@ -25,15 +25,13 @@ class NFTCollectionNftItem extends StatelessWidget {
 
     bool isNameGrey = nft.sellPrice == null && !showBuyInfo;
 
-    return InkWell(
+    return STransparentInkWell(
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           image(),
-          const SizedBox(
-            height: 7,
-          ),
+          const SpaceH7(),
           Baseline(
             baseline: 24,
             baselineType: TextBaseline.alphabetic,
@@ -45,9 +43,7 @@ class NFTCollectionNftItem extends StatelessWidget {
             ),
           ),
           if (nft.sellPrice != null && !showBuyInfo) ...[
-            const SizedBox(
-              height: 3,
-            ),
+            const SpaceH3(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -66,9 +62,7 @@ class NFTCollectionNftItem extends StatelessWidget {
               ],
             ),
           ] else if (showBuyInfo) ...[
-            const SizedBox(
-              height: 3,
-            ),
+            const SpaceH3(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -87,9 +81,7 @@ class NFTCollectionNftItem extends StatelessWidget {
               ],
             ),
           ],
-          const SizedBox(
-            height: 18,
-          ),
+          const SpaceH20(),
           if (showDivider) ...[
             const SDivider(),
           ],

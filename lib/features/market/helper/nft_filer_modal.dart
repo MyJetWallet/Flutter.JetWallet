@@ -23,13 +23,35 @@ void showNFTFilterModalSheet(
       filterStore.nftFilterReset();
     },
     context: context,
-    scrollable: true,
+    scrollable: false,
     horizontalPinnedPadding: 0.0,
-    pinned: ActionBottomSheetHeader(
-      name: intl.market_nft_show,
-      onCloseTap: () {
-        filterStore.nftFilterReset();
-      },
+    pinned: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Baseline(
+              baseline: 20.0,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                intl.market_nft_show,
+                style: sTextH4Style,
+                maxLines: 2,
+              ),
+            ),
+          ),
+          SIconButton(
+            onTap: () {
+              filterStore.nftFilterReset();
+
+              Navigator.pop(context);
+            },
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
+          ),
+        ],
+      ),
     ),
     pinnedBottom: Material(
       color: colors.white,
@@ -88,15 +110,17 @@ Widget filterItem(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 18,
-          ),
+          const SpaceH18(),
           Row(
             children: [
-              Text(
-                item.name,
-                style: sSubtitle2Style.copyWith(
-                  color: isSelected ? colors.blue : colors.black,
+              Baseline(
+                baseline: 24,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  item.name,
+                  style: sSubtitle2Style.copyWith(
+                    color: isSelected ? colors.blue : colors.black,
+                  ),
                 ),
               ),
               if (isSelected) ...[
@@ -105,9 +129,7 @@ Widget filterItem(
               ],
             ],
           ),
-          const SizedBox(
-            height: 22,
-          ),
+          const SpaceH22(),
           if (!isLast) ...[
             const SDivider(),
           ],

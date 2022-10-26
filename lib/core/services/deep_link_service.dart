@@ -38,6 +38,9 @@ const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
 // when parameters come in "/" format as part of the link
 const _action = 'action';
+const _jw_nft_collection_id = 'jw_nft_collection_id';
+const _jw_nft_token_symbol = 'jw_nft_token_symbol';
+const _jw_promo_code = 'jw_promo_code';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -52,6 +55,10 @@ const _tradingStart = 'TradingStart';
 const _earnLanding = 'EarnLanding';
 const _recurringBuyStart = 'RecurringBuyStart';
 const _highYield = 'HighYield';
+
+const _NFTmarket = 'NFT_market';
+const _NFTcollection = 'NFT_collection';
+const _NFTtoken = 'NFT_token';
 
 enum SourceScreen {
   bannerOnMarket,
@@ -113,9 +120,46 @@ class DeepLinkService {
       _recurringBuyStartCommand();
     } else if (command == _highYield) {
       _highYieldStartCommand();
+    } else if (command == _NFTmarket) {
+      _nftMarketCommand();
+    } else if (command == _NFTcollection) {
+      _ndtCollectionCommand(parameters);
+    } else if (command == _NFTtoken) {
+      _ndtTokenCommand(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
+  }
+
+  void _ndtTokenCommand(Map<String, String> parameters) {
+    final tokenSymbol = parameters[_jw_nft_token_symbol]!;
+
+    sRouter.push(
+      NFTDetailsRouter(
+        nftSymbol: tokenSymbol,
+        userNFT: true,
+      ),
+    );
+  }
+
+  void _ndtCollectionCommand(Map<String, String> parameters) {
+    final collectionId = parameters[_jw_nft_collection_id]!;
+
+    sRouter.push(
+      NftCollectionDetailsRouter(
+        collectionID: collectionId,
+      ),
+    );
+  }
+
+  void _nftMarketCommand() {
+    sRouter.push(
+      HomeRouter(
+        children: [
+          MarketRouter(initIndex: 2),
+        ],
+      ),
+    );
   }
 
   void _highYieldStartCommand() {
@@ -156,7 +200,7 @@ class DeepLinkService {
       sRouter.push(const RewardsRouter());
     } else if (source == SourceScreen.bannerOnRewards) {
       sRouter.navigate(
-        const HomeRouter(
+        HomeRouter(
           children: [MarketRouter()],
         ),
       );

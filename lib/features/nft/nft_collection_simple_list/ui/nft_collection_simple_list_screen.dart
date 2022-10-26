@@ -60,7 +60,7 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         onTap: () {
                           sRouter.push(
                             NFTDetailsRouter(
-                              nft: collection.nftList[index],
+                              nftSymbol: collection.nftList[index].symbol!,
                               userNFT: true,
                             ),
                           );

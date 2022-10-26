@@ -19,10 +19,13 @@ class NFTAboutBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SpaceH6(),
-        Text(
-          intl.nft_detail_about,
-          style: sTextH4Style,
+        Baseline(
+          baseline: 28.84,
+          baselineType: TextBaseline.alphabetic,
+          child: Text(
+            intl.nft_detail_about,
+            style: sTextH4Style,
+          ),
         ),
         const SpaceH20(),
         NFTAboutBlockText(
@@ -97,9 +100,13 @@ class _NFTAboutBlockTextState extends State<NFTAboutBlockText>
           ],
           if (!expandText && widget.shortDescription.isNotEmpty) ...[
             const SpaceH18(),
-            ClickableUnderlinedText(
-              text: intl.nft_detail_readMore,
-              onTap: () => expandText = !expandText,
+            Baseline(
+              baseline: 21,
+              baselineType: TextBaseline.alphabetic,
+              child: ClickableUnderlinedText(
+                text: intl.nft_detail_readMore,
+                onTap: () => expandText = !expandText,
+              ),
             ),
           ],
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,8 @@ class NFTCollectionDetailStore extends _NFTCollectionDetailStoreBase
 }
 
 abstract class _NFTCollectionDetailStoreBase with Store {
+  NftModel? nftModel;
+
   @observable
   ObservableList<NFTCollectionFilter> filterValues = ObservableList.of([]);
 
@@ -54,7 +57,11 @@ abstract class _NFTCollectionDetailStoreBase with Store {
   void setIsSoldHide() => isSoldHide = !isSoldHide;
 
   @action
-  void init(NftModel nft) {
+  void init(String collectionID) {
+    nftModel = sSignalRModules.nftList
+        .where((element) => element.id == collectionID)
+        .first;
+
     filterValues = ObservableList.of([
       NFTCollectionFilter.priceLowToHigh,
       NFTCollectionFilter.priceHighToLow,
@@ -64,14 +71,17 @@ abstract class _NFTCollectionDetailStoreBase with Store {
       NFTCollectionFilter.leastRare,
     ]);
 
-    var avNFTList = nft.nftList
+    var avNFTList = nftModel!.nftList
         .where((e) => e.clientId == null && e.sellPrice != null)
         .toList();
 
-    var soldNFTList = nft.nftList.where((e) => e.sellPrice == null).toList();
+    var soldNFTList =
+        nftModel!.nftList.where((e) => e.sellPrice == null).toList();
 
     availableNFT = ObservableList.of(avNFTList);
     availableNFTFiltred = ObservableList.of(avNFTList);
+
+    isSoldHide = avNFTList.isEmpty ? false : true;
 
     soldNFT = ObservableList.of(soldNFTList);
     soldNFTFiltred = ObservableList.of(soldNFTList);

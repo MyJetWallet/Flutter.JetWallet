@@ -798,7 +798,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: NftCollectionDetails(
           key: args.key,
-          nft: args.nft,
+          collectionID: args.collectionID,
         ),
       );
     },
@@ -809,7 +809,7 @@ class _$AppRouter extends RootStackRouter {
         child: NFTDetailsScreen(
           key: args.key,
           userNFT: args.userNFT,
-          nft: args.nft,
+          nftSymbol: args.nftSymbol,
         ),
       );
     },
@@ -860,9 +860,14 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     MarketRouter.name: (routeData) {
+      final args = routeData.argsAs<MarketRouterArgs>(
+          orElse: () => const MarketRouterArgs());
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const MarketScreen(),
+        child: MarketScreen(
+          key: args.key,
+          initIndex: args.initIndex,
+        ),
       );
     },
     PortfolioRouter.name: (routeData) {
@@ -3825,13 +3830,13 @@ class NftCollectionDetailsRouter
     extends PageRouteInfo<NftCollectionDetailsRouterArgs> {
   NftCollectionDetailsRouter({
     Key? key,
-    required NftModel nft,
+    required String collectionID,
   }) : super(
           NftCollectionDetailsRouter.name,
           path: '/nft_collection',
           args: NftCollectionDetailsRouterArgs(
             key: key,
-            nft: nft,
+            collectionID: collectionID,
           ),
         );
 
@@ -3841,16 +3846,16 @@ class NftCollectionDetailsRouter
 class NftCollectionDetailsRouterArgs {
   const NftCollectionDetailsRouterArgs({
     this.key,
-    required this.nft,
+    required this.collectionID,
   });
 
   final Key? key;
 
-  final NftModel nft;
+  final String collectionID;
 
   @override
   String toString() {
-    return 'NftCollectionDetailsRouterArgs{key: $key, nft: $nft}';
+    return 'NftCollectionDetailsRouterArgs{key: $key, collectionID: $collectionID}';
   }
 }
 
@@ -3860,14 +3865,14 @@ class NFTDetailsRouter extends PageRouteInfo<NFTDetailsRouterArgs> {
   NFTDetailsRouter({
     Key? key,
     bool userNFT = false,
-    required NftMarket nft,
+    required String nftSymbol,
   }) : super(
           NFTDetailsRouter.name,
           path: '/nft_details',
           args: NFTDetailsRouterArgs(
             key: key,
             userNFT: userNFT,
-            nft: nft,
+            nftSymbol: nftSymbol,
           ),
         );
 
@@ -3878,18 +3883,18 @@ class NFTDetailsRouterArgs {
   const NFTDetailsRouterArgs({
     this.key,
     this.userNFT = false,
-    required this.nft,
+    required this.nftSymbol,
   });
 
   final Key? key;
 
   final bool userNFT;
 
-  final NftMarket nft;
+  final String nftSymbol;
 
   @override
   String toString() {
-    return 'NFTDetailsRouterArgs{key: $key, userNFT: $userNFT, nft: $nft}';
+    return 'NFTDetailsRouterArgs{key: $key, userNFT: $userNFT, nftSymbol: $nftSymbol}';
   }
 }
 
@@ -4044,14 +4049,36 @@ class ReceiveNFTRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [MarketScreen]
-class MarketRouter extends PageRouteInfo<void> {
-  const MarketRouter()
-      : super(
+class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
+  MarketRouter({
+    Key? key,
+    int initIndex = 1,
+  }) : super(
           MarketRouter.name,
           path: 'market',
+          args: MarketRouterArgs(
+            key: key,
+            initIndex: initIndex,
+          ),
         );
 
   static const String name = 'MarketRouter';
+}
+
+class MarketRouterArgs {
+  const MarketRouterArgs({
+    this.key,
+    this.initIndex = 1,
+  });
+
+  final Key? key;
+
+  final int initIndex;
+
+  @override
+  String toString() {
+    return 'MarketRouterArgs{key: $key, initIndex: $initIndex}';
+  }
 }
 
 /// generated route for

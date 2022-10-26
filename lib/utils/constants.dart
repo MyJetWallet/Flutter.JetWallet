@@ -82,4 +82,5 @@ const bioTouchId = 'assets/images/touch_id.png';
 
 // NFT
 const nftGradient = 'assets/images/gradient_1.png';
+const nftGradientSvg = 'assets/images/gradient_svg.svg';
 const nftBTCAsset = 'assets/images/btc_asset.png';

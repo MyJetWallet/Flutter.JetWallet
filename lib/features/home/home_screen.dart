@@ -8,18 +8,18 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
-List<PageRouteInfo<dynamic>> screens = const [
+List<PageRouteInfo<dynamic>> screens = [
   MarketRouter(),
-  PortfolioRouter(),
-  EarnRouter(),
-  AccountRouter(),
+  const PortfolioRouter(),
+  const EarnRouter(),
+  const AccountRouter(),
 ];
 
-List<PageRouteInfo<dynamic>> screensWithNews = const [
+List<PageRouteInfo<dynamic>> screensWithNews = [
   MarketRouter(),
-  PortfolioRouter(),
-  NewsRouter(),
-  AccountRouter(),
+  const PortfolioRouter(),
+  const NewsRouter(),
+  const AccountRouter(),
 ];
 
 class HomeScreen extends StatefulObserverWidget {
