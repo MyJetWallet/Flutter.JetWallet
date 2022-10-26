@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/nft_detail_bottom_bar/nft_detail_bottom_bar.dart';
+import 'package:jetwallet/features/nft/helper/get_rarity_nft.dart';
 import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_about_block.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_detail_header.dart';
@@ -77,14 +78,12 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
 
-final store = NFTDetailStore.of(context);
+    final store = NFTDetailStore.of(context);
 
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
       store.nft?.tradingAsset ?? '',
     );
-
-    
 
     final collection = sSignalRModules.nftList.firstWhere(
       (e) => e.id == store.nft!.collectionId,
@@ -298,7 +297,7 @@ final store = NFTDetailStore.of(context);
                               ),
                             ),
                             Text(
-                              '${store.nft?.rarityId ?? 1}/10 (Very rare)',
+                              '${store.nft?.rarityId ?? 1}/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
                               style: sBodyText1Style,
                             ),
                           ],
