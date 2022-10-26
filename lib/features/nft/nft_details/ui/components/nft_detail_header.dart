@@ -73,7 +73,7 @@ class NFTDetailHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              if (opacity >= 0.75) ...[
+              if (opacity >= 0.7) ...[
                 Opacity(
                   opacity: opacity,
                   child: Baseline(

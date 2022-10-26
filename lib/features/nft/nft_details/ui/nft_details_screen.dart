@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/features/nft/helper/get_rarity_nft.dart';
 import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_about_block.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_detail_header.dart';
+import 'package:jetwallet/features/nft/nft_details/ui/components/nft_full_image.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button_nft.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -23,6 +25,7 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+import 'package:photo_view/photo_view.dart';
 
 class NFTDetailsScreen extends StatelessWidget {
   const NFTDetailsScreen({
@@ -160,11 +163,70 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FullScreenWidget(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          '$fullUrl${store.nft!.fImage}',
+                    const SpaceH26(),
+                    Align(
+                      child: STransparentInkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              opaque: false,
+                              barrierColor: Colors.black,
+                              pageBuilder: (BuildContext context, _, __) {
+                                return FullScreenPage(
+                                  dark: true,
+                                  child: PhotoView(
+                                    filterQuality: FilterQuality.high,
+                                    initialScale:
+                                        PhotoViewComputedScale.contained * 1.7,
+                                    imageProvider: NetworkImage(
+                                      '$fullUrl${store.nft!.fImage}',
+
+                                      //fit: BoxFit.cover,
+                                      //height: double.infinity,
+                                      //width: double.infinity,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CachedNetworkImage(
+                            imageUrl: '$fullUrl${store.nft!.fImage}',
+                            cacheManager: CacheManager(
+                              Config(
+                                '$fullUrl${store.nft!.fImage}',
+                                stalePeriod: const Duration(hours: 10),
+                                maxNrOfCacheObjects: 1,
+                              ),
+                            ),
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                width: double.infinity,
+                                height: 327,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            },
+                            placeholder: (context, url) =>
+                                const SSkeletonTextLoader(
+                              height: 327,
+                              width: 327,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const SSkeletonTextLoader(
+                              height: 327,
+                              width: 327,
+                            ),
+                          ),
                         ),
                       ),
                     ),
