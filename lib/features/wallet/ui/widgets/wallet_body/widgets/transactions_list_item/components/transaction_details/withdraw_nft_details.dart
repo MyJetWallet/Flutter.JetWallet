@@ -76,7 +76,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
               children: [
                 TransactionDetailsValueText(
                   text:
-                      shortAddressOperationId(transactionListItem.operationId),
+                    shortAddressFormTwo(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(

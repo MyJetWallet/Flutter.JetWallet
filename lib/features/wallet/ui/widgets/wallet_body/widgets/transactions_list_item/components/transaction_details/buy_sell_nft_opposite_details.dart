@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../../../core/router/app_router.dart';
 import '../../../../../../../helper/nft_by_symbol.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
@@ -23,6 +24,7 @@ class BuySellNftOppositeDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final nftAsset = getNftItem(
       transactionListItem,
       sSignalRModules.allNftList,
@@ -37,7 +39,7 @@ class BuySellNftOppositeDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text: shortAddressFormTwo(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(
@@ -59,8 +61,21 @@ class BuySellNftOppositeDetails extends StatelessObserverWidget {
           const SpaceH14(),
           TransactionDetailsItem(
             text: intl.buySellDetails_forText,
-            value: TransactionDetailsValueText(
-              text: nftAsset.name ?? 'NFT',
+            value: InkWell(
+              onTap: () {
+                sRouter.push(
+                  NFTDetailsRouter(
+                    nftSymbol: nftAsset.symbol!,
+                  ),
+                );
+              },
+              child: Text(
+                nftAsset.name ?? 'NFT',
+                style: sSubtitle3Style.copyWith(
+                  color: colors.black,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ),
           const SpaceH40(),

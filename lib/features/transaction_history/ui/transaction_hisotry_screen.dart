@@ -65,9 +65,13 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                        child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                      ),
                     ),
                   ),
                   NestedScrollView(
@@ -96,10 +100,14 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
-                      filter: TransactionType.crypto,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                      child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                        filter: TransactionType.crypto,
+                      ),
                     ),
                   ),
                   NestedScrollView(
@@ -128,18 +136,22 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
-                      filter: TransactionType.nft,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                        child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                        filter: TransactionType.nft,
+                      ),
                     ),
                   ),
                 ],
               ),
               Align(
                 alignment: FractionalOffset.bottomCenter,
-                child:
-                BottomTabs(
+                child: BottomTabs(
+                  bottomPadding: 16,
                   tabs: [
                     BottomTab(text: intl.market_all),
                     BottomTab(text: intl.market_crypto),
