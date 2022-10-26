@@ -72,14 +72,39 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                 defaultIcon: const SBackIcon(),
               ),
             ),
+            pinned: true,
+            backgroundColor: Colors.white,
             expandedHeight: 160.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                '$fullUrl${store.nftModel!.fImage}',
-                fit: BoxFit.cover,
-              ),
+            flexibleSpace: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                final top = constraints.biggest.height;
+
+                return FlexibleSpaceBar(
+                  title: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity: top ==
+                            MediaQuery.of(context).padding.top + kToolbarHeight
+                        ? 1.0
+                        : 0.0,
+                    child: Baseline(
+                      baseline: 24,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        store.nftModel!.name ?? '',
+                        style: sTextH5Style.copyWith(
+                          color: colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  background: Image.network(
+                    '$fullUrl${store.nftModel!.fImage}',
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
             ),
-            actions: <Widget>[
+            actions: [
               /*
                 Container(
                   margin: const EdgeInsets.only(right: 16),

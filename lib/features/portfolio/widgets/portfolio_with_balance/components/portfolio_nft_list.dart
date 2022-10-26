@@ -64,7 +64,8 @@ class PortfolioNftList extends StatelessObserverWidget {
                   ),
                   secondaryText:
                       '${item.nftList.length} ${intl.nft_collection_details_items_small}',
-                  removeDivider: item == userNft.last,
+                  removeDivider: getNFTOnSell(item.nftList).isNotEmpty ||
+                      item == userNft.last,
                   onTap: () {
                     // If there is only 1 purchased NFT in the collection, immediately open the NFT screen
 
@@ -133,7 +134,15 @@ class PortfolioNftList extends StatelessObserverWidget {
                 icon: SPlusIcon(
                   color: colors.black,
                 ),
-                onTap: () {},
+                onTap: () {
+                  sRouter.push(
+                    HomeRouter(
+                      children: [
+                        MarketRouter(initIndex: 2),
+                      ],
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 width: 19,

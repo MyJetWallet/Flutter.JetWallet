@@ -81,6 +81,8 @@ abstract class _NFTCollectionDetailStoreBase with Store {
     availableNFT = ObservableList.of(avNFTList);
     availableNFTFiltred = ObservableList.of(avNFTList);
 
+    isSoldHide = avNFTList.isEmpty ? false : true;
+
     soldNFT = ObservableList.of(soldNFTList);
     soldNFTFiltred = ObservableList.of(soldNFTList);
   }

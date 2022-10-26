@@ -85,6 +85,28 @@ class _PortfolioWithBalanceBody extends StatefulObserverWidget {
 class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   bool showZeroBalanceWallets = false;
 
+  int tabIndex = 0;
+
+  @override
+  void initState() {
+    tabIndex = widget.tabController.index;
+
+    widget.tabController.addListener(updateTabIndex);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.tabController.removeListener(updateTabIndex);
+    super.dispose();
+  }
+
+  void updateTabIndex() {
+    setState(() {
+      tabIndex = widget.tabController.index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -367,7 +389,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       child: Row(
                         children: [
                           Text(
-                            widget.tabController.index == 0
+                            tabIndex == 0
                                 ? intl.portfolioWithBalanceBody_portfolio
                                 : userNft.isNotEmpty
                                     ? intl.portfolioWithBalanceBody_nft
@@ -394,7 +416,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                   Container(
                     color: colors.white,
                     height: _walletsListHeight(
-                      currentTabIndex: widget.tabController.index,
+                      currentTabIndex: tabIndex,
                       showZeroBalanceWallets: showZeroBalanceWallets,
                       itemsWithBalance: itemsWithBalance,
                       itemsWithoutBalance: itemsWithoutBalance,
