@@ -37,7 +37,7 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
 
     final store = NftReceiveStore.of(context);
 
-    return SPageFrameWithPadding(
+    return SPageFrame(
       header: SSmallHeader(
         title: intl.nft_receive_header,
       ),
@@ -86,40 +86,44 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: colors.grey4,
+          SPaddingH24(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: colors.grey4,
+                ),
+                borderRadius: BorderRadius.circular(16),
               ),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            width: double.infinity,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SInfoIcon(
-                  color: colors.red,
-                ),
-                const SpaceW12(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child: Text(
-                    intl.nft_receive_alert,
-                    style: sBodyText1Style,
-                    maxLines: 6,
+              width: double.infinity,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SInfoIcon(
+                    color: colors.red,
                   ),
-                ),
-              ],
+                  const SpaceW12(),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: Text(
+                      intl.nft_receive_alert,
+                      style: sBodyText1Style,
+                      maxLines: 6,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SpaceH24(),
-          Align(
-            child: SQrCodeBox(
-              loading: store.address.isEmpty,
-              data: store.address,
-              qrBoxSize: qrCodeSize,
-              logoSize: screenWidth * 0.2,
+          SPaddingH24(
+            child: Align(
+              child: SQrCodeBox(
+                loading: store.address.isEmpty,
+                data: store.address,
+                qrBoxSize: qrCodeSize,
+                logoSize: screenWidth * 0.2,
+              ),
             ),
           ),
           const Spacer(),
@@ -146,7 +150,7 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
             realValue: store.address,
             afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
             valueLoading: store.address.isEmpty,
-            needPadding: false,
+            needPadding: true,
             then: () {},
           ),
         ],
