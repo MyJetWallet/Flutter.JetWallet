@@ -17,10 +17,12 @@ class TransactionHistory extends StatelessObserverWidget {
     Key? key,
     this.assetName,
     this.assetSymbol,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   final String? assetName;
   final String? assetSymbol;
+  final int initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class TransactionHistory extends StatelessObserverWidget {
     return Scaffold(
         body: DefaultTabController(
         length: showCrypto ? 3 : 2,
+        initialIndex: initialIndex,
         child: Scaffold(
           backgroundColor: colors.white,
           body: Stack(
@@ -65,9 +68,13 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                        child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                      ),
                     ),
                   ),
                   NestedScrollView(
@@ -96,10 +103,14 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
-                      filter: TransactionType.crypto,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                      child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                        filter: TransactionType.crypto,
+                      ),
                     ),
                   ),
                   NestedScrollView(
@@ -128,18 +139,22 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body: TransactionsMainList(
-                      scrollController: scrollController,
-                      symbol: assetSymbol,
-                      filter: TransactionType.nft,
+                    body:
+                    Container(
+                      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                        child: TransactionsMainList(
+                        scrollController: scrollController,
+                        symbol: assetSymbol,
+                        filter: TransactionType.nft,
+                      ),
                     ),
                   ),
                 ],
               ),
               Align(
                 alignment: FractionalOffset.bottomCenter,
-                child:
-                BottomTabs(
+                child: BottomTabs(
+                  bottomPadding: 16,
                   tabs: [
                     BottomTab(text: intl.market_all),
                     BottomTab(text: intl.market_crypto),

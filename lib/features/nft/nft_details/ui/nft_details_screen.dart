@@ -372,7 +372,13 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 ),
                                 const Spacer(),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    sRouter.push(
+                                      TransactionHistoryRouter(
+                                        initialIndex: 2,
+                                      ),
+                                    );
+                                  },
                                   child: const SIndexHistoryIcon(),
                                 ),
                               ],

@@ -204,6 +204,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           assetName: args.assetName,
           assetSymbol: args.assetSymbol,
+          initialIndex: args.initialIndex,
         ),
       );
     },
@@ -1816,6 +1817,7 @@ class TransactionHistoryRouter
     Key? key,
     String? assetName,
     String? assetSymbol,
+    int initialIndex = 0,
   }) : super(
           TransactionHistoryRouter.name,
           path: '/transaction_history',
@@ -1823,6 +1825,7 @@ class TransactionHistoryRouter
             key: key,
             assetName: assetName,
             assetSymbol: assetSymbol,
+            initialIndex: initialIndex,
           ),
         );
 
@@ -1834,6 +1837,7 @@ class TransactionHistoryRouterArgs {
     this.key,
     this.assetName,
     this.assetSymbol,
+    this.initialIndex = 0,
   });
 
   final Key? key;
@@ -1842,9 +1846,11 @@ class TransactionHistoryRouterArgs {
 
   final String? assetSymbol;
 
+  final int initialIndex;
+
   @override
   String toString() {
-    return 'TransactionHistoryRouterArgs{key: $key, assetName: $assetName, assetSymbol: $assetSymbol}';
+    return 'TransactionHistoryRouterArgs{key: $key, assetName: $assetName, assetSymbol: $assetSymbol, initialIndex: $initialIndex}';
   }
 }
 

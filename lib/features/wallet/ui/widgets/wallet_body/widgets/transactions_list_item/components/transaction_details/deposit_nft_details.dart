@@ -29,7 +29,7 @@ class DepositNftDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text: shortAddressFormTwo(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(

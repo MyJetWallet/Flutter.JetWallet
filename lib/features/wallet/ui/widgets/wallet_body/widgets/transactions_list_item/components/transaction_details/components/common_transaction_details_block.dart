@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
@@ -103,14 +104,36 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           else
           const SpaceH67(),
         if (nftTypes.contains(transactionListItem.operationType)) ...[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              '$fullUrl${nftAsset.fImage}',
-              height: 160.0,
-              width: 160.0,
-              fit: BoxFit.fill,
-            ),
+          Stack(
+            children: [
+              Positioned(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: const SSkeletonTextLoader(
+                    height: 160,
+                    width: 160,
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  sRouter.push(
+                    NFTDetailsRouter(
+                      nftSymbol: nftAsset.symbol!,
+                    ),
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    '$fullUrl${nftAsset.fImage}',
+                    height: 160.0,
+                    width: 160.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ],
           ),
           if (catchingTypes) ...[
             const SpaceH22(),

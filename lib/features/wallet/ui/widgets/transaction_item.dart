@@ -37,6 +37,7 @@ class TransactionItem extends StatefulWidget {
 class _TransactionItemState extends State<TransactionItem>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
+  late Animation<Offset> scaleAnimation;
   String copiedText = '';
 
   @override
@@ -48,18 +49,9 @@ class _TransactionItemState extends State<TransactionItem>
       duration: const Duration(milliseconds: 200),
       reverseDuration: const Duration(milliseconds: 200),
     );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    final cancelTransfer = TransactionCancelStore();
-
-    final scaleAnimation = Tween(
-      begin: 64.0,
-      end: 0.0,
+    scaleAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 64.0),
+      end: const Offset(0.0, 0.0),
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -67,8 +59,23 @@ class _TransactionItemState extends State<TransactionItem>
         reverseCurve: Curves.easeIn,
       ),
     );
+    scaleAnimation.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
 
-    final translateOffset = Offset(0, scaleAnimation.value);
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    final cancelTransfer = TransactionCancelStore();
 
     void _onCopyAction() {
       animationController.forward().then(
@@ -90,7 +97,7 @@ class _TransactionItemState extends State<TransactionItem>
               children: [
                 if (isOperationSupportCopy(widget.transactionListItem))
                   Transform.translate(
-                    offset: translateOffset,
+                    offset: scaleAnimation.value,
                     child: Container(
                       color: colors.greenLight,
                       height: 64.0,

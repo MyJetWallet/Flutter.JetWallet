@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -73,6 +75,38 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         }
       }
     });
+
+    Timer(
+      const Duration(
+        milliseconds: 1000,
+      ),
+      () {
+        final listToShow = widget.isRecurring
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => i.operationType == OperationType.recurringBuy,
+        )
+            .toList()
+            : widget.filter == TransactionType.crypto
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => !nftTypes.contains(i.operationType),
+        ).toList()
+            : widget.filter == TransactionType.nft
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => nftTypes.contains(i.operationType),
+        ).toList()
+            : OperationHistory.of(context).operationHistoryItems;
+
+        if (!OperationHistory.of(context).nothingToLoad && listToShow.length < 20) {
+          OperationHistory.of(context).operationHistory(widget.symbol);
+        }
+      },
+    );
     super.initState();
   }
 
@@ -102,10 +136,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
             (i) => nftTypes.contains(i.operationType),
           ).toList()
         : OperationHistory.of(context).operationHistoryItems;
-    print(widget.isRecurring);
-    print(widget.filter == TransactionType.nft);
-    print(widget.filter == TransactionType.crypto);
-    print(listToShow);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -163,63 +193,67 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         },
         error: () {
           return listToShow.isEmpty
-            ? Container(
-              width: double.infinity,
-              height: 137,
-              margin: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  width: 2,
-                  color: colors.grey4,
-                ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            ? Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 137,
+                  margin: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      width: 2,
+                      color: colors.grey4,
+                    ),
+                  ),
+                  child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 22,
-                          top: 22,
-                          right: 12,
-                        ),
-                        child: SErrorIcon(
-                          color: colors.red,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 20,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 22,
+                              top: 22,
+                              right: 12,
+                            ),
+                            child: SErrorIcon(
+                              color: colors.red,
+                            ),
                           ),
-                          child: SizedBox(
-                            height: 77,
-                            child: Baseline(
-                              baseline: 38,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                intl.newsList_wentWrongText,
-                                style: sBodyText1Style,
-                                maxLines: 2,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: 20,
+                              ),
+                              child: SizedBox(
+                                height: 77,
+                                child: Baseline(
+                                  baseline: 38,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Text(
+                                    intl.newsList_wentWrongText,
+                                    style: sBodyText1Style,
+                                    maxLines: 2,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
+                      ),
+                      STextButton1(
+                        active: true,
+                        name: intl.transactionsList_retry,
+                        onTap: () {
+                          OperationHistory.of(context)
+                              .initOperationHistory();
+                        },
                       ),
                     ],
                   ),
-                  STextButton1(
-                    active: true,
-                    name: intl.transactionsList_retry,
-                    onTap: () {
-                      OperationHistory.of(context)
-                          .initOperationHistory();
-                    },
-                  ),
-                ],
-              ),
+                ),
+              ],
             )
             : GroupedListView<OperationHistoryItem, String>(
               elements: listToShow,
