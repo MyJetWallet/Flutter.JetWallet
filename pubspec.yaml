@@ -93,12 +93,12 @@ dependencies:
   auto_route: ^5.0.1
 
   # FIREBASE
-  firebase_core: ^1.19.1
-  firebase_messaging: ^11.4.4
-  firebase_dynamic_links: ^4.3.1
-  firebase_remote_config: ^2.0.11
-  firebase_crashlytics: ^2.8.4
-  firebase_analytics: ^9.1.12
+  firebase_core: ^2.1.1
+  firebase_messaging: ^14.0.3
+  firebase_dynamic_links: ^5.0.3
+  firebase_remote_config: ^3.0.3
+  firebase_crashlytics: ^3.0.3
+  firebase_analytics: ^10.0.3
 
   # NOTIFICATIONS
   flutter_local_notifications: ^9.7.0
