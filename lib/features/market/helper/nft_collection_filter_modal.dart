@@ -43,9 +43,6 @@ void showNFTCollectionFilterModalSheet(
 
               return InkWell(
                 onTap: () {
-                  print(store.filterValues[ind].toString());
-                  print(e.value);
-
                   store.activeFilter(
                     e,
                     isAvailableNFT,
@@ -57,15 +54,16 @@ void showNFTCollectionFilterModalSheet(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (ind != 0) ...[
-                        const SizedBox(
-                          height: 18,
-                        ),
-                      ],
-                      Text(
-                        e.value,
-                        style: sSubtitle2Style.copyWith(
-                          color: isFilterSelected ? colors.blue : colors.black,
+                      const SpaceH18(),
+                      Baseline(
+                        baseline: 24,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          e.value,
+                          style: sSubtitle2Style.copyWith(
+                            color:
+                                isFilterSelected ? colors.blue : colors.black,
+                          ),
                         ),
                       ),
                       const SizedBox(

@@ -130,9 +130,9 @@ abstract class _NFTCollectionDetailStoreBase with Store {
 
       case NFTCollectionFilter.priceHighToLow:
         if (isAvailableNFT) {
-          l.sort((a, b) => a.sellPrice!.compareTo(b.sellPrice!));
+          l.sort((a, b) => b.sellPrice!.compareTo(a.sellPrice!));
         } else {
-          l.sort((a, b) => a.buyPrice!.compareTo(b.buyPrice!));
+          l.sort((a, b) => b.buyPrice!.compareTo(a.buyPrice!));
         }
         break;
 
@@ -153,8 +153,6 @@ abstract class _NFTCollectionDetailStoreBase with Store {
         break;
       default:
     }
-
-    print(l);
 
     return l;
   }

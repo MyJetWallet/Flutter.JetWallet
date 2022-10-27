@@ -73,6 +73,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
               ),
             ),
             pinned: true,
+            elevation: 0.0,
             backgroundColor: Colors.white,
             expandedHeight: 160.0,
             flexibleSpace: LayoutBuilder(
@@ -81,7 +82,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
 
                 return FlexibleSpaceBar(
                   title: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 50),
                     opacity: top ==
                             MediaQuery.of(context).padding.top + kToolbarHeight
                         ? 1.0
