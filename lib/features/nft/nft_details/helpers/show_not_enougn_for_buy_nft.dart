@@ -19,6 +19,8 @@ void showBuyNFTNotEnougn(CurrencyModel currency) {
         children: [
           Image.asset(
             nftGradient,
+            width: 80,
+            height: 80,
           ),
           SNetworkSvg(
             url: iconUrlFrom(
