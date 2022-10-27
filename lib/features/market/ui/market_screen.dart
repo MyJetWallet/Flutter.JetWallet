@@ -155,8 +155,7 @@ class _MarketScreenState extends State<MarketScreen> {
                       if (showCrypto) ...[
                         BottomTab(
                           text: intl.market_nft,
-                          isActive:
-                              DefaultTabController.of(context)!.index == 2,
+                          //isActive: DefaultTabController.of(context)!.index == 2,
                           isTextBlue: true,
                         ),
                       ],

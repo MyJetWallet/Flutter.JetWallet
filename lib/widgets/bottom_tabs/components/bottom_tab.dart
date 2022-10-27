@@ -6,14 +6,14 @@ class BottomTab extends StatelessWidget {
     Key? key,
     this.text,
     this.icon,
-    this.isActive = false,
+    //this.isActive = false,
     this.isTextBlue = false,
   }) : super(key: key);
 
   final String? text;
   final Widget? icon;
 
-  final bool isActive;
+  //final bool isActive;
   final bool isTextBlue;
 
   @override
@@ -37,26 +37,34 @@ class BottomTab extends StatelessWidget {
         ),
         border: Border.all(
           color: isTextBlue
+              ? scolors.blue.withOpacity(0.4)
+              : scolors.grey2.withOpacity(0.4),
+          /*color: isTextBlue
               ? isActive
                   ? Colors.transparent
                   : scolors.blue.withOpacity(0.4)
               : scolors.grey2.withOpacity(0.4),
+              */
         ),
+        /*
         color: isTextBlue
             ? isActive
                 ? scolors.blue
                 : Colors.transparent
             : Colors.transparent,
+            */
       ),
       child: text != null
           ? Text(
               text ?? '',
               style: TextStyle(
-                color: isTextBlue
+                color: isTextBlue ? scolors.blue : scolors.black,
+                /*color: isTextBlue
                     ? isActive
                         ? scolors.white
                         : scolors.blue
                     : scolors.black,
+                    */
               ),
             )
           : icon,
