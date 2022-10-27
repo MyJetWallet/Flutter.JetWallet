@@ -123,6 +123,28 @@ class AboutUs extends StatelessObserverWidget {
             ),
             const SpaceH20(),
           ],
+          if (nftPolicyLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton7,
+                  onTap: () => launchURL(context, nftPolicyLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
+          if (nftTermsLink.isNotEmpty) ...[
+            Row(
+              children: [
+                SimpleAccountTermButton(
+                  name: intl.aboutUs_termButton8,
+                  onTap: () => launchURL(context, nftTermsLink),
+                ),
+              ],
+            ),
+            const SpaceH20(),
+          ],
           const SpaceH40(),
         ],
       ),

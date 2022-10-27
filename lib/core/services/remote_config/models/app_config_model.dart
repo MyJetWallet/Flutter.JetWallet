@@ -11,6 +11,8 @@ class AppConfigModel with _$AppConfigModel {
     required String userAgreementLink,
     required String privacyPolicyLink,
     required String referralPolicyLink,
+    @Default('https://nft.simple.app/terms-and-conditions') String nftTermsLink,
+    @Default('https://nft.simple.app/privacy-policy') String nftPolicyLink,
     required String refundPolicyLink,
     required String infoRewardsLink,
     required String infoEarnLink,
