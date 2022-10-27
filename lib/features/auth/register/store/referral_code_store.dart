@@ -329,6 +329,7 @@ abstract class _ReferallCodeStoreBase with Store {
     qrController = controller;
   }
 
+  @action
   void clearBottomSheetReferralCode() {
     bottomSheetReferralCode = null;
     updateReferralCode('', null);

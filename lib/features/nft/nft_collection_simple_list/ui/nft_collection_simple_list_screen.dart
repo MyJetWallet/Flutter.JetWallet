@@ -42,7 +42,7 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 19,
-                  childAspectRatio: 0.5823,
+                  childAspectRatio: 0.52,
                 ),
                 padding: const EdgeInsets.only(
                   left: 24,

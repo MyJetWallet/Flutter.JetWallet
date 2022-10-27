@@ -54,6 +54,8 @@ class NFTDetailBottomBar extends StatelessObserverWidget {
           const SDivider(),
           if (!userNFT) ...[
             SWalletItem(
+              currencyPrefix: baseCurrency.prefix,
+              currencySymbol: baseCurrency.symbol,
               decline: false,
               icon: SNetworkSvg24(
                 url: iconUrlFrom(assetSymbol: nft.sellAsset ?? ''),

@@ -93,6 +93,7 @@ abstract class _NFTConfirmStoreBase with Store {
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.nft_detail_confirm_order_completed,
+            showProgressBar: true,
             onSuccess: (context) {
               sRouter.replaceAll([
                 const HomeRouter(

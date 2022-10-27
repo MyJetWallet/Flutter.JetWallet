@@ -300,6 +300,7 @@ class _$AppRouter extends RootStackRouter {
           specialTextWidget: args.specialTextWidget,
           showActionButton: args.showActionButton,
           showProgressBar: args.showProgressBar,
+          showShareButton: args.showShareButton,
           buttonText: args.buttonText,
           time: args.time,
         ),
@@ -2135,6 +2136,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
     Widget? specialTextWidget,
     bool showActionButton = false,
     bool showProgressBar = false,
+    bool showShareButton = false,
     String? buttonText,
     int time = 3,
   }) : super(
@@ -2149,6 +2151,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
             specialTextWidget: specialTextWidget,
             showActionButton: showActionButton,
             showProgressBar: showProgressBar,
+            showShareButton: showShareButton,
             buttonText: buttonText,
             time: time,
           ),
@@ -2167,6 +2170,7 @@ class SuccessScreenRouterArgs {
     this.specialTextWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
+    this.showShareButton = false,
     this.buttonText,
     this.time = 3,
   });
@@ -2187,13 +2191,15 @@ class SuccessScreenRouterArgs {
 
   final bool showProgressBar;
 
+  final bool showShareButton;
+
   final String? buttonText;
 
   final int time;
 
   @override
   String toString() {
-    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, buttonText: $buttonText, time: $time}';
+    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, buttonText: $buttonText, time: $time}';
   }
 }
 

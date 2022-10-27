@@ -21,6 +21,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
+import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -138,6 +139,8 @@ Future<GetIt> getItInit({
   getIt.registerLazySingleton<SendByPhoneConfirmStore>(
     () => SendByPhoneConfirmStore(),
   );
+
+  getIt.registerLazySingleton<NFTPromoCodeStore>(() => NFTPromoCodeStore());
 
   //getIt.registerSingleton<AppStore>(
   //  AppStore(),

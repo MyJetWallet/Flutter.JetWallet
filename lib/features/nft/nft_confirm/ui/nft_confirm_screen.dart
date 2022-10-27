@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/nft/nft_confirm/store/nft_confirm_store.dart';
+import 'package:jetwallet/features/nft/nft_confirm/ui/show_nft_promo_code.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
@@ -66,32 +67,68 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
             borderRadius: BorderRadius.circular(16),
             child: Image.network(
               '$fullUrl${nft.fImage}',
-              height: 150.0,
-              width: 150.0,
+              height: 160.0,
+              width: 160.0,
               fit: BoxFit.fill,
             ),
           ),
           const Spacer(),
           Row(
             children: [
-              Text(
-                intl.nft_detail_confirm_price,
-                style: sBodyText2Style.copyWith(
-                  color: colors.grey1,
+              Baseline(
+                baseline: 21,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  intl.nft_detail_promo_discount,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                  ),
                 ),
               ),
               const Spacer(),
-              Text(
-                volumeFormat(
-                  decimal: nft.sellPrice!,
-                  symbol: nft.sellAsset!,
-                  accuracy: currency.accuracy,
+              Baseline(
+                baseline: 24,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  volumeFormat(
+                    decimal: nft.sellPrice!,
+                    symbol: nft.sellAsset!,
+                    accuracy: currency.accuracy,
+                  ),
+                  style: sSubtitle3Style,
                 ),
-                style: sSubtitle3Style,
               ),
             ],
           ),
-          const SpaceH16(),
+          const SpaceH19(),
+          Row(
+            children: [
+              Baseline(
+                baseline: 21,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  intl.nft_detail_confirm_price,
+                  style: sBodyText2Style.copyWith(
+                    color: colors.grey1,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Baseline(
+                baseline: 24,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  volumeFormat(
+                    decimal: nft.sellPrice!,
+                    symbol: nft.sellAsset!,
+                    accuracy: currency.accuracy,
+                  ),
+                  style: sSubtitle3Style,
+                ),
+              ),
+            ],
+          ),
+          const SpaceH32(),
           const SDivider(),
           const SpaceH16(),
           Row(
@@ -135,6 +172,14 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
             name: intl.nft_detail_confirm_confirm,
             onTap: () {
               NFTConfirmStore.of(context).confirm();
+            },
+          ),
+          const SpaceH10(),
+          SLinkButton2(
+            active: true,
+            name: intl.nft_detail_i_have_promo,
+            onTap: () {
+              showNFTPromoCodeBottomSheet();
             },
           ),
           const SpaceH24(),
