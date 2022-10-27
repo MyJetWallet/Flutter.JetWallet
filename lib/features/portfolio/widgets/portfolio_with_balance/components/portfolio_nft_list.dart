@@ -79,7 +79,7 @@ class PortfolioNftList extends StatelessObserverWidget {
                     } else {
                       sRouter.push(
                         NFTCollectionSimpleListRouter(
-                          collection: item,
+                          collectionID: item.id!,
                         ),
                       );
                     }

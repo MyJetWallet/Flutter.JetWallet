@@ -13,13 +13,18 @@ import 'package:simple_kit/modules/shared/page_frames/simple_page_frame_with_pad
 import 'package:simple_kit/simple_kit.dart';
 
 class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
-  const NFTCollectionSimpleListScreen({super.key, required this.collection});
+  const NFTCollectionSimpleListScreen({super.key, required this.collectionID});
 
-  final NftModel collection;
+  //final NftModel collection;
+  final String collectionID;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+
+    final collection = sSignalRModules.userNFTList.firstWhere(
+      (e) => e.id == collectionID,
+    );
 
     final currency = currencyFrom(
       sSignalRModules.currenciesList,

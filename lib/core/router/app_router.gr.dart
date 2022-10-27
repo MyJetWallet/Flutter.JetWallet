@@ -831,7 +831,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: NFTCollectionSimpleListScreen(
           key: args.key,
-          collection: args.collection,
+          collectionID: args.collectionID,
         ),
       );
     },
@@ -3950,13 +3950,13 @@ class NFTCollectionSimpleListRouter
     extends PageRouteInfo<NFTCollectionSimpleListRouterArgs> {
   NFTCollectionSimpleListRouter({
     Key? key,
-    required NftModel collection,
+    required String collectionID,
   }) : super(
           NFTCollectionSimpleListRouter.name,
           path: '/nft_collection_simple_list_router',
           args: NFTCollectionSimpleListRouterArgs(
             key: key,
-            collection: collection,
+            collectionID: collectionID,
           ),
         );
 
@@ -3966,16 +3966,16 @@ class NFTCollectionSimpleListRouter
 class NFTCollectionSimpleListRouterArgs {
   const NFTCollectionSimpleListRouterArgs({
     this.key,
-    required this.collection,
+    required this.collectionID,
   });
 
   final Key? key;
 
-  final NftModel collection;
+  final String collectionID;
 
   @override
   String toString() {
-    return 'NFTCollectionSimpleListRouterArgs{key: $key, collection: $collection}';
+    return 'NFTCollectionSimpleListRouterArgs{key: $key, collectionID: $collectionID}';
   }
 }
 
