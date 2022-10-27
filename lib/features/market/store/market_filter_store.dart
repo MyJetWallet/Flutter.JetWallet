@@ -60,6 +60,8 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void nftFilterReset() {
     nftFilterSelected = ObservableList.of([]);
+
+    filterDone();
   }
 
   @action

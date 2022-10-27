@@ -147,6 +147,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
           sRouter.push(
             SuccessScreenRouter(
               secondaryText: intl.nft_send_confirm,
+              showProgressBar: true,
               onSuccess: (context) {
                 sRouter.replaceAll([
                   const HomeRouter(
