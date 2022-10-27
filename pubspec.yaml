@@ -160,6 +160,7 @@ dependency_overrides:
   analyzer: 4.6.0
   dart_style: ^2.2.3
   build_resolvers: ^2.0.9
+  flutter_inappwebview: ^5.7.1
 
 flutter:
   generate: true
