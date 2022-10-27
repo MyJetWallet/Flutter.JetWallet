@@ -17,10 +17,12 @@ class TransactionHistory extends StatelessObserverWidget {
     Key? key,
     this.assetName,
     this.assetSymbol,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   final String? assetName;
   final String? assetSymbol;
+  final int initialIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class TransactionHistory extends StatelessObserverWidget {
     return Scaffold(
         body: DefaultTabController(
         length: showCrypto ? 3 : 2,
+        initialIndex: initialIndex,
         child: Scaffold(
           backgroundColor: colors.white,
           body: Stack(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -73,6 +75,38 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         }
       }
     });
+
+    Timer(
+      const Duration(
+        milliseconds: 1000,
+      ),
+      () {
+        final listToShow = widget.isRecurring
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => i.operationType == OperationType.recurringBuy,
+        )
+            .toList()
+            : widget.filter == TransactionType.crypto
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => !nftTypes.contains(i.operationType),
+        ).toList()
+            : widget.filter == TransactionType.nft
+            ? OperationHistory.of(context)
+            .operationHistoryItems
+            .where(
+              (i) => nftTypes.contains(i.operationType),
+        ).toList()
+            : OperationHistory.of(context).operationHistoryItems;
+
+        if (!OperationHistory.of(context).nothingToLoad && listToShow.length < 20) {
+          OperationHistory.of(context).operationHistory(widget.symbol);
+        }
+      },
+    );
     super.initState();
   }
 

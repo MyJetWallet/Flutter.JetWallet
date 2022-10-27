@@ -62,10 +62,14 @@ class BuySellNftOppositeDetails extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.buySellDetails_forText,
             value: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
               onTap: () {
                 sRouter.push(
                   NFTDetailsRouter(
                     nftSymbol: nftAsset.symbol!,
+                    userNFT: nftAsset.sellPrice == null,
                   ),
                 );
               },

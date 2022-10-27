@@ -104,23 +104,36 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           else
           const SpaceH67(),
         if (nftTypes.contains(transactionListItem.operationType)) ...[
-          InkWell(
-            onTap: () {
-              sRouter.push(
-                NFTDetailsRouter(
-                  nftSymbol: nftAsset.symbol!,
+          Stack(
+            children: [
+              Positioned(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: const SSkeletonTextLoader(
+                    height: 160,
+                    width: 160,
+                  ),
                 ),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                '$fullUrl${nftAsset.fImage}',
-                height: 160.0,
-                width: 160.0,
-                fit: BoxFit.fill,
               ),
-            ),
+              InkWell(
+                onTap: () {
+                  sRouter.push(
+                    NFTDetailsRouter(
+                      nftSymbol: nftAsset.symbol!,
+                    ),
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(
+                    '$fullUrl${nftAsset.fImage}',
+                    height: 160.0,
+                    width: 160.0,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ],
           ),
           if (catchingTypes) ...[
             const SpaceH22(),
