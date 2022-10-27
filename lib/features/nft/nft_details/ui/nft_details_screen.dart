@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +68,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
 
+  ScrollController scrollController = ScrollController();
+
+  bool showImage = true;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -73,7 +79,21 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
       vsync: this,
     );
 
+    scrollController.addListener(scrollControllerListener);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(scrollControllerListener);
+    super.dispose();
+  }
+
+  void scrollControllerListener() {
+    setState(() {
+      showImage = scrollController.offset >= 160 ? false : true;
+    });
   }
 
   @override
@@ -141,95 +161,143 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
         child: CustomScrollView(
+          controller: scrollController,
           physics: const ClampingScrollPhysics(),
           slivers: [
             SliverAppBar(
               backgroundColor: colors.white,
               pinned: true,
+              stretch: true,
               elevation: 0,
               expandedHeight: 180,
-              collapsedHeight: 75,
+              collapsedHeight: 100,
               floating: true,
               automaticallyImplyLeading: false,
               flexibleSpace: SPaddingH24(
                 child: NFTDetailHeader(
                   title: store.nft!.name ?? '',
                   fImage: '$shortUrl${store.nft!.sImage}',
+                  showImage: showImage,
                 ),
               ),
             ),
+
+            /*
+              flexibleSpace: FlexibleSpaceBar(
+                title: Align(
+                  child: SizedBox(
+                    width: max(
+                      100,
+                      280 -
+                          (scrollController.hasClients
+                              ? scrollController.offset * 0.4
+                              : 0),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: FittedBox(
+                        fit: BoxFit.fitHeight,
+                        child: Image(
+                          image: NetworkImage('$shortUrl${store.nft!.sImage}'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            */
             SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SpaceH26(),
-                    Align(
-                      child: STransparentInkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              opaque: false,
-                              barrierColor: Colors.black,
-                              pageBuilder: (BuildContext context, _, __) {
-                                return FullScreenPage(
-                                  dark: true,
-                                  child: PhotoView(
-                                    filterQuality: FilterQuality.high,
-                                    initialScale:
-                                        PhotoViewComputedScale.contained * 1.7,
-                                    imageProvider: NetworkImage(
-                                      '$fullUrl${store.nft!.fImage}',
+                    if (mounted) ...[
+                      Opacity(
+                        opacity: showImage ? 1 : 0,
+                        child: SizedBox(
+                          width: max(
+                            48,
+                            327 -
+                                (scrollController.hasClients
+                                    ? scrollController.offset * 1.3
+                                    : 0),
+                          ),
+                          height: max(
+                            48,
+                            327 -
+                                (scrollController.hasClients
+                                    ? scrollController.offset * 1.3
+                                    : 0),
+                          ),
+                          child: STransparentInkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  barrierColor: Colors.black,
+                                  pageBuilder: (BuildContext context, _, __) {
+                                    return FullScreenPage(
+                                      dark: true,
+                                      child: PhotoView(
+                                        filterQuality: FilterQuality.high,
+                                        initialScale:
+                                            PhotoViewComputedScale.contained *
+                                                1.7,
+                                        imageProvider: NetworkImage(
+                                          '$fullUrl${store.nft!.fImage}',
 
-                                      //fit: BoxFit.cover,
-                                      //height: double.infinity,
-                                      //width: double.infinity,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: CachedNetworkImage(
-                            imageUrl: '$fullUrl${store.nft!.fImage}',
-                            cacheManager: CacheManager(
-                              Config(
-                                '$fullUrl${store.nft!.fImage}',
-                                stalePeriod: const Duration(hours: 10),
-                                maxNrOfCacheObjects: 1,
-                              ),
-                            ),
-                            imageBuilder: (context, imageProvider) {
-                              return Container(
-                                width: double.infinity,
-                                height: 327,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
+                                          //fit: BoxFit.cover,
+                                          //height: double.infinity,
+                                          //width: double.infinity,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               );
                             },
-                            placeholder: (context, url) =>
-                                const SSkeletonTextLoader(
-                              height: 327,
-                              width: 327,
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const SSkeletonTextLoader(
-                              height: 327,
-                              width: 327,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: CachedNetworkImage(
+                                imageUrl: '$fullUrl${store.nft!.fImage}',
+                                cacheManager: CacheManager(
+                                  Config(
+                                    '$fullUrl${store.nft!.fImage}',
+                                    stalePeriod: const Duration(hours: 10),
+                                    maxNrOfCacheObjects: 1,
+                                  ),
+                                ),
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    width: double.infinity,
+                                    height: 327,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                placeholder: (context, url) =>
+                                    const SSkeletonTextLoader(
+                                  height: 327,
+                                  width: 327,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const SSkeletonTextLoader(
+                                  height: 327,
+                                  width: 327,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                     const SpaceH19(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,12 +398,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         ),
                       ),
                     ],
-                    Baseline(
-                      baseline: 28.84,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        intl.nft_detail_nft_features,
-                        style: sTextH4Style,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Baseline(
+                        baseline: 28.84,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_detail_nft_features,
+                          style: sTextH4Style,
+                        ),
                       ),
                     ),
                     const SpaceH20(),
@@ -399,25 +470,31 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                     const SpaceH12(),
                     const SDivider(),
                     const SpaceH25(),
-                    Baseline(
-                      baseline: 21,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        intl.nft_detail_collection,
-                        style: sBodyText2Style.copyWith(
-                          color: colors.grey2,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Baseline(
+                        baseline: 21,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_detail_collection,
+                          style: sBodyText2Style.copyWith(
+                            color: colors.grey2,
+                          ),
                         ),
                       ),
                     ),
-                    ClickableUnderlinedText(
-                      text: collection.name ?? '',
-                      onTap: () {
-                        sRouter.push(
-                          NftCollectionDetailsRouter(
-                            collectionID: collection.id!,
-                          ),
-                        );
-                      },
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: ClickableUnderlinedText(
+                        text: collection.name ?? '',
+                        onTap: () {
+                          sRouter.push(
+                            NftCollectionDetailsRouter(
+                              collectionID: collection.id!,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     if (store.description.isNotEmpty) ...[
                       const SpaceH32(),
