@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
@@ -171,7 +172,13 @@ abstract class _NFTDetailStoreBase with Store {
                 ),
                 active: true,
                 name: intl.cryptoDeposit_share,
-                onTap: () {},
+                onTap: () {
+                  try {
+                    Share.share(shareLinkNFT);
+                  } catch (e) {
+                    rethrow;
+                  }
+                },
               ),
             ),
           ],

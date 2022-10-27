@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:simple_kit/modules/icons/24x24/public/close/simple_close_icon.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class FullScreenPage extends StatefulWidget {
   FullScreenPage({
@@ -69,24 +71,25 @@ class _FullScreenPageState extends State<FullScreenPage> {
             ],
           ),
           SafeArea(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: MaterialButton(
-                padding: const EdgeInsets.all(15),
-                elevation: 0,
-                child: Icon(
-                  Icons.arrow_back,
-                  color: widget.dark ? Colors.white : Colors.black,
-                  size: 25,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: MaterialButton(
+                  padding: const EdgeInsets.all(8),
+                  elevation: 0,
+                  child: const SCloseIcon(
+                    color: Colors.black,
+                  ),
+                  color: Colors.white,
+                  highlightElevation: 0,
+                  minWidth: double.minPositive,
+                  height: double.minPositive,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
-                color: widget.dark ? Colors.black12 : Colors.white70,
-                highlightElevation: 0,
-                minWidth: double.minPositive,
-                height: double.minPositive,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
               ),
             ),
           ),
