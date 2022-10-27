@@ -76,7 +76,8 @@ Widget receiveItem({
 }) {
   final colors = sKit.colors;
 
-  return STransparentInkWell(
+  return InkWell(
+    highlightColor: colors.grey5,
     onTap: onTap,
     child: Padding(
       padding: const EdgeInsets.only(
