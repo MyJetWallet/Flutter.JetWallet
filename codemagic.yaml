@@ -97,6 +97,8 @@ definitions:
 
     #- name: Run tests
     #  script: flutter test --update-goldens
+    - name: Clear IOS
+      script: cd ios; pod deintegrate; pod install --repo-update;
     
     - name: Build IOS with automatic versioning
       script: |
