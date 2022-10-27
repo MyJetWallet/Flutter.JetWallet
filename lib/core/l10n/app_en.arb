@@ -1175,6 +1175,7 @@
   "nft_receive_alert": "You can only receive NFTs that are from the Simple app Catalogue. Sending any other NFT is NOT supported and will result in loss.",
   "nft_receive_matic_wallet_address": "MATIC Wallet address",
   "nft_receive_share": "My MATIC Address:",
+  "nft_new_nft": "My new NFT:",
   "nft_history_nft": "NFT transactions",
   "nft_history_crypto": "Crypto transactions",
   "nft_send": "Send",
