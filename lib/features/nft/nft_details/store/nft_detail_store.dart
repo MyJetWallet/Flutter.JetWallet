@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
@@ -260,14 +261,32 @@ abstract class _NFTDetailStoreBase with Store {
 
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
-    print(shareLink);
+    final shareLinkNFT = '$shareLink${nft!.symbol!}';
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
-      pinned: ActionBottomSheetHeader(
-        name: '${intl.nft_detail_share_nft}\n${nft!.name!}',
-        removePadding: true,
-        onChanged: (String value) {},
+      pinned: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Baseline(
+              baseline: 32,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                '${intl.nft_detail_share_nft}\n${nft!.name!}',
+                style: sTextH4Style,
+                maxLines: 5,
+              ),
+            ),
+          ),
+          SIconButton(
+            onTap: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+            },
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
+          ),
+        ],
       ),
       pinnedBottom: SizedBox(
         height: 104,
@@ -282,34 +301,38 @@ abstract class _NFTDetailStoreBase with Store {
                 ),
                 active: true,
                 name: intl.cryptoDeposit_share,
-                onTap: () {},
+                onTap: () {
+                  try {
+                    Share.share(shareLinkNFT);
+                  } catch (e) {
+                    rethrow;
+                  }
+                },
               ),
             ),
           ],
         ),
       ),
-      removePinnedPadding: true,
       children: [
-        Column(
-          children: [
-            SQrCodeBox(
-              loading: false,
-              data: shareLink,
-              qrBoxSize: qrBoxSize,
-              logoSize: logoSize,
-            ),
-            const SpaceH40(),
-            SAddressFieldWithCopy(
-              header: intl.nft_receive_matic_wallet_address,
-              value: shareLink,
-              realValue: shareLink,
-              afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
-              valueLoading: false,
-              needPadding: false,
-              needInnerPadding: true,
-              then: () {},
-            ),
-          ],
+      const SpaceH40(),
+        Align(
+          child: SQrCodeBox(
+            loading: false,
+            data: shareLinkNFT,
+            qrBoxSize: qrBoxSize,
+            logoSize: logoSize,
+          ),
+        ),
+        const SpaceH40(),
+        SAddressFieldWithCopy(
+          header: intl.nft_detail_nft_link,
+          value: shareLinkNFT,
+          realValue: shareLinkNFT,
+          afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
+          needPadding: false,
+          needInnerPadding: true,
+          needFormatURL: false,
+          then: () {},
         ),
       ],
     );

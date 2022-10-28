@@ -1,7 +1,10 @@
+import 'dart:math';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:intl/intl.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -15,6 +18,7 @@ import 'package:jetwallet/features/nft/helper/get_rarity_nft.dart';
 import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_about_block.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/components/nft_detail_header.dart';
+import 'package:jetwallet/features/nft/nft_details/ui/components/nft_full_image.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button_nft.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -23,6 +27,7 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../../../../core/services/user_info/user_info_service.dart';
 import '../../../../utils/constants.dart';
@@ -67,6 +72,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
 
+  ScrollController scrollController = ScrollController();
+
+  bool showImage = true;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -74,7 +83,21 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
       vsync: this,
     );
 
+    scrollController.addListener(scrollControllerListener);
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(scrollControllerListener);
+    super.dispose();
+  }
+
+  void scrollControllerListener() {
+    setState(() {
+      showImage = scrollController.offset >= 160 ? false : true;
+    });
   }
 
   @override
@@ -185,36 +208,143 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
         child: CustomScrollView(
+          controller: scrollController,
           physics: const ClampingScrollPhysics(),
           slivers: [
             SliverAppBar(
               backgroundColor: colors.white,
               pinned: true,
+              stretch: true,
               elevation: 0,
               expandedHeight: 180,
-              collapsedHeight: 75,
+              collapsedHeight: 100,
               floating: true,
               automaticallyImplyLeading: false,
               flexibleSpace: SPaddingH24(
                 child: NFTDetailHeader(
                   title: store.nft!.name ?? '',
                   fImage: '$shortUrl${store.nft!.sImage}',
+                  showImage: showImage,
                 ),
               ),
             ),
-            SliverToBoxAdapter(
-              child: SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FullScreenWidget(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          '$fullUrl${store.nft!.fImage}',
+
+            /*
+              flexibleSpace: FlexibleSpaceBar(
+                title: Align(
+                  child: SizedBox(
+                    width: max(
+                      100,
+                      280 -
+                          (scrollController.hasClients
+                              ? scrollController.offset * 0.4
+                              : 0),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: FittedBox(
+                        fit: BoxFit.fitHeight,
+                        child: Image(
+                          image: NetworkImage('$shortUrl${store.nft!.sImage}'),
                         ),
                       ),
                     ),
+                  ),
+                ),
+              ),
+            ),
+            */
+            SliverToBoxAdapter(
+              child: SPaddingH24(
+                child: Column(
+                  children: [
+                    const SpaceH26(),
+                    if (mounted) ...[
+                      Opacity(
+                        opacity: showImage ? 1 : 0,
+                        child: SizedBox(
+                          width: max(
+                            48,
+                            327 -
+                                (scrollController.hasClients
+                                    ? scrollController.offset * 1.3
+                                    : 0),
+                          ),
+                          height: max(
+                            48,
+                            327 -
+                                (scrollController.hasClients
+                                    ? scrollController.offset * 1.3
+                                    : 0),
+                          ),
+                          child: STransparentInkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  barrierColor: Colors.black,
+                                  pageBuilder: (BuildContext context, _, __) {
+                                    return FullScreenPage(
+                                      dark: true,
+                                      child: PhotoView(
+                                        filterQuality: FilterQuality.high,
+                                        initialScale:
+                                            PhotoViewComputedScale.contained *
+                                                1.7,
+                                        imageProvider: NetworkImage(
+                                          '$fullUrl${store.nft!.fImage}',
+
+                                          //fit: BoxFit.cover,
+                                          //height: double.infinity,
+                                          //width: double.infinity,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: CachedNetworkImage(
+                                imageUrl: '$fullUrl${store.nft!.fImage}',
+                                cacheManager: CacheManager(
+                                  Config(
+                                    '$fullUrl${store.nft!.fImage}',
+                                    stalePeriod: const Duration(hours: 10),
+                                    maxNrOfCacheObjects: 1,
+                                  ),
+                                ),
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    width: double.infinity,
+                                    height: 327,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                placeholder: (context, url) =>
+                                    const SSkeletonTextLoader(
+                                  height: 327,
+                                  width: 327,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const SSkeletonTextLoader(
+                                  height: 327,
+                                  width: 327,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                     const SpaceH19(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,12 +451,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         ),
                       ),
                     ],
-                    Baseline(
-                      baseline: 28.84,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        intl.nft_detail_nft_features,
-                        style: sTextH4Style,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Baseline(
+                        baseline: 28.84,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_detail_nft_features,
+                          style: sTextH4Style,
+                        ),
                       ),
                     ),
                     const SpaceH20(),
@@ -390,25 +523,31 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                     const SpaceH12(),
                     const SDivider(),
                     const SpaceH25(),
-                    Baseline(
-                      baseline: 21,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        intl.nft_detail_collection,
-                        style: sBodyText2Style.copyWith(
-                          color: colors.grey2,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Baseline(
+                        baseline: 21,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          intl.nft_detail_collection,
+                          style: sBodyText2Style.copyWith(
+                            color: colors.grey2,
+                          ),
                         ),
                       ),
                     ),
-                    ClickableUnderlinedText(
-                      text: collection.name ?? '',
-                      onTap: () {
-                        sRouter.push(
-                          NftCollectionDetailsRouter(
-                            collectionID: collection.id!,
-                          ),
-                        );
-                      },
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: ClickableUnderlinedText(
+                        text: collection.name ?? '',
+                        onTap: () {
+                          sRouter.push(
+                            NftCollectionDetailsRouter(
+                              collectionID: collection.id!,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     if (store.description.isNotEmpty) ...[
                       const SpaceH32(),

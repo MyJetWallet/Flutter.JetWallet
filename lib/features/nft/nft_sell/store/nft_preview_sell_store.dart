@@ -2,10 +2,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/nft/nft_sell/model/nft_sell_input.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_make_sell_order_request_model.dart';
@@ -130,6 +132,20 @@ abstract class _NFTPreviewSellStoreBase with Store {
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.nft_detail_confirm_order_completed,
+            showProgressBar: true,
+            showShareButton: true,
+            onActionButton: () {
+              final shareLinkNFT = '$shareLink${input!.nft.symbol!}';
+
+              try {
+                Share.share(
+                  '${intl.nft_new_nft} '
+                  '$shareLinkNFT ',
+                );
+              } catch (e) {
+                rethrow;
+              }
+            },
             onSuccess: (context) {
               sRouter.replaceAll([
                 const HomeRouter(

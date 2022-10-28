@@ -97,7 +97,7 @@ class NFTCollectionNftItem extends StatelessWidget {
         imageUrl: '$shortUrl${nft.sImage}',
         imageBuilder: (context, imageProvider) {
           return Container(
-            width: double.infinity,
+            width: 154,
             height: 154,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),

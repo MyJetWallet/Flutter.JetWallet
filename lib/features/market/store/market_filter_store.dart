@@ -39,8 +39,12 @@ abstract class _MarketFilterStoreBase with Store {
     cryptoList = ObservableList.of(crypto);
     cryptoListFiltred = ObservableList.of(crypto);
 
-    nftList = ObservableList.of(nft);
-    nftListFiltred = ObservableList.of(nft);
+    var nftSorted = nft.toList();
+
+    nftSorted.sort((a, b) => b.order!.compareTo(a.order!));
+
+    nftList = ObservableList.of(nftSorted);
+    nftListFiltred = ObservableList.of(nftSorted);
     nftFilterSelected = ObservableList.of([]);
   }
 
@@ -56,6 +60,8 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void nftFilterReset() {
     nftFilterSelected = ObservableList.of([]);
+
+    filterDone();
   }
 
   @action

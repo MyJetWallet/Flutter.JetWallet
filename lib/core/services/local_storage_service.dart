@@ -36,6 +36,7 @@ const timeSignalRCheckIFSent = 'timeSignalRCheckIFSent';
 const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
 const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 const lastUsedCard = 'lastUsedCard';
+const nftPromoCode = 'nftPromoCode';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -79,6 +80,7 @@ class LocalStorageService {
     await _storage.delete(key: checkedCircle);
     await _storage.delete(key: useBioKey);
     await _storage.delete(key: startApp);
+    await _storage.delete(key: nftPromoCode);
 
     await _storage.deleteAll();
   }

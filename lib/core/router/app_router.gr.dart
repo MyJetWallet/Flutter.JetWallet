@@ -301,6 +301,7 @@ class _$AppRouter extends RootStackRouter {
           specialTextWidget: args.specialTextWidget,
           showActionButton: args.showActionButton,
           showProgressBar: args.showProgressBar,
+          showShareButton: args.showShareButton,
           buttonText: args.buttonText,
           time: args.time,
         ),
@@ -830,7 +831,7 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: NFTCollectionSimpleListScreen(
           key: args.key,
-          collection: args.collection,
+          collectionID: args.collectionID,
         ),
       );
     },
@@ -2141,6 +2142,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
     Widget? specialTextWidget,
     bool showActionButton = false,
     bool showProgressBar = false,
+    bool showShareButton = false,
     String? buttonText,
     int time = 3,
   }) : super(
@@ -2155,6 +2157,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
             specialTextWidget: specialTextWidget,
             showActionButton: showActionButton,
             showProgressBar: showProgressBar,
+            showShareButton: showShareButton,
             buttonText: buttonText,
             time: time,
           ),
@@ -2173,6 +2176,7 @@ class SuccessScreenRouterArgs {
     this.specialTextWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
+    this.showShareButton = false,
     this.buttonText,
     this.time = 3,
   });
@@ -2193,13 +2197,15 @@ class SuccessScreenRouterArgs {
 
   final bool showProgressBar;
 
+  final bool showShareButton;
+
   final String? buttonText;
 
   final int time;
 
   @override
   String toString() {
-    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, buttonText: $buttonText, time: $time}';
+    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, buttonText: $buttonText, time: $time}';
   }
 }
 
@@ -3944,13 +3950,13 @@ class NFTCollectionSimpleListRouter
     extends PageRouteInfo<NFTCollectionSimpleListRouterArgs> {
   NFTCollectionSimpleListRouter({
     Key? key,
-    required NftModel collection,
+    required String collectionID,
   }) : super(
           NFTCollectionSimpleListRouter.name,
           path: '/nft_collection_simple_list_router',
           args: NFTCollectionSimpleListRouterArgs(
             key: key,
-            collection: collection,
+            collectionID: collectionID,
           ),
         );
 
@@ -3960,16 +3966,16 @@ class NFTCollectionSimpleListRouter
 class NFTCollectionSimpleListRouterArgs {
   const NFTCollectionSimpleListRouterArgs({
     this.key,
-    required this.collection,
+    required this.collectionID,
   });
 
   final Key? key;
 
-  final NftModel collection;
+  final String collectionID;
 
   @override
   String toString() {
-    return 'NFTCollectionSimpleListRouterArgs{key: $key, collection: $collection}';
+    return 'NFTCollectionSimpleListRouterArgs{key: $key, collectionID: $collectionID}';
   }
 }
 

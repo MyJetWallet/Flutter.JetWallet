@@ -99,11 +99,13 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
+            titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
           );
         },
         medium: () {
           return SMegaHeader(
+            titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
           );
         },

@@ -33,29 +33,91 @@ void showReceiveAction(BuildContext context) {
     children: [
       Column(
         children: [
-          SWalletItem(
-            icon: const SimpleLightWalletIcon(),
-            primaryText: intl.actionReceive_receive_crypto,
-            secondaryText: intl.actionReceive_receive_crypto,
+          receiveItem(
+            icon: const SizedBox(
+              width: 24,
+              height: 24,
+              child: SimpleLightWalletIcon(),
+            ),
+            text: intl.actionReceive_receive_crypto,
+            subtext: intl.actionReceive_receive_crypto,
             onTap: () {
               showCryptoReceiveAction(context);
             },
           ),
-          SWalletItem(
-            icon: SimpleLightQrCodeIcon(
-              color: colors.blue,
+          receiveItem(
+            icon: SizedBox(
+              width: 24,
+              height: 24,
+              child: SimpleLightQrCodeIcon(
+                color: colors.blue,
+              ),
             ),
-            primaryText: intl.actionReceive_receive_nft,
-            secondaryText: intl.actionReceive_receive_nft,
+            text: intl.actionReceive_receive_nft,
+            subtext: intl.actionReceive_receive_nft,
             onTap: () {
               sRouter.push(
                 const ReceiveNFTRouter(),
               );
             },
           ),
+          const SpaceH40(),
         ],
       ),
     ],
+  );
+}
+
+Widget receiveItem({
+  required Widget icon,
+  required String text,
+  required String subtext,
+  required Function() onTap,
+}) {
+  final colors = sKit.colors;
+
+  return InkWell(
+    highlightColor: colors.grey5,
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.only(
+        top: 8,
+        bottom: 11,
+        left: 24,
+        right: 24,
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 24,
+            height: 24,
+            child: icon,
+          ),
+          const SpaceW20(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Baseline(
+                baseline: 28,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  text,
+                  style: sSubtitle2Style,
+                ),
+              ),
+              Baseline(
+                baseline: 18,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  subtext,
+                  style: sCaptionTextStyle.copyWith(color: colors.grey3),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
   );
 }
 

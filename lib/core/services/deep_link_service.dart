@@ -16,6 +16,7 @@ import 'package:jetwallet/features/currency_withdraw/ui/widgets/withdrawal_confi
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
+import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
@@ -123,26 +124,33 @@ class DeepLinkService {
     } else if (command == _NFTmarket) {
       _nftMarketCommand();
     } else if (command == _NFTcollection) {
-      _ndtCollectionCommand(parameters);
+      _nftCollectionCommand(parameters);
     } else if (command == _NFTtoken) {
-      _ndtTokenCommand(parameters);
+      _nftTokenCommand(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
-  void _ndtTokenCommand(Map<String, String> parameters) {
+  Future<void> _nftTokenCommand(Map<String, String> parameters) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
+    final promoCode = parameters[_jw_promo_code]!;
 
-    sRouter.push(
+    final storage = sLocalStorageService;
+    final deviceInfo = sDeviceInfo.model;
+
+    await storage.setString(nftPromoCode, promoCode);
+
+    await getIt.get<NFTPromoCodeStore>().init();
+
+    await sRouter.push(
       NFTDetailsRouter(
         nftSymbol: tokenSymbol,
-        userNFT: true,
       ),
     );
   }
 
-  void _ndtCollectionCommand(Map<String, String> parameters) {
+  void _nftCollectionCommand(Map<String, String> parameters) {
     final collectionId = parameters[_jw_nft_collection_id]!;
 
     sRouter.push(

@@ -38,49 +38,53 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
     final store = NftReceiveStore.of(context);
 
     return SPageFrame(
-      header: SSmallHeader(
-        title: intl.nft_receive_header,
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.nft_receive_header,
+        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 104,
-        child: Column(
-          children: [
-            const SDivider(),
-            const SpaceH23(),
-            SPaddingH24(
-              child: SPrimaryButton2(
-                icon: SShareIcon(
-                  color: colors.white,
-                ),
-                active: true,
-                name: intl.cryptoDeposit_share,
-                onTap: () {
-                  if (store.canShare) {
-                    store.setCanShare(false);
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SDivider(),
+              const SpaceH23(),
+              SPaddingH24(
+                child: SPrimaryButton2(
+                  icon: SShareIcon(
+                    color: colors.white,
+                  ),
+                  active: true,
+                  name: intl.cryptoDeposit_share,
+                  onTap: () {
+                    if (store.canShare) {
+                      store.setCanShare(false);
 
-                    Timer(
-                      const Duration(
-                        seconds: 1,
-                      ),
-                      () => store.setCanShare(true),
-                    );
-
-                    try {
-                      Share.share(
-                        '${intl.nft_receive_share} '
-                        '${store.address} '
-                        '${store.tag != null ? ', ${intl.tag}: '
-                            '${store.tag}' : ''}',
+                      Timer(
+                        const Duration(
+                          seconds: 1,
+                        ),
+                        () => store.setCanShare(true),
                       );
-                    } catch (e) {
-                      rethrow;
+
+                      try {
+                        Share.share(
+                          '${intl.nft_receive_share} '
+                          '${store.address} '
+                          '${store.tag != null ? ', ${intl.tag}: '
+                              '${store.tag}' : ''}',
+                        );
+                      } catch (e) {
+                        rethrow;
+                      }
                     }
-                  }
-                },
+                  },
+                ),
               ),
-            ),
-            const SpaceH24(),
-          ],
+              const SpaceH24(),
+            ],
+          ),
         ),
       ),
       child: Column(

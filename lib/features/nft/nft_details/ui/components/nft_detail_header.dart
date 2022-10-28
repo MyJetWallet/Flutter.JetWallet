@@ -8,10 +8,12 @@ class NFTDetailHeader extends StatelessWidget {
     super.key,
     required this.title,
     required this.fImage,
+    required this.showImage,
   });
 
   final String title;
   final String fImage;
+  final bool showImage;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,8 @@ class NFTDetailHeader extends StatelessWidget {
                     pressedIcon: const SBackPressedIcon(),
                   ),
                   Opacity(
-                    opacity: 1 - opacity,
+                    //opacity: 1 - opacity,
+                    opacity: showImage ? 0 : 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
@@ -73,7 +76,7 @@ class NFTDetailHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              if (opacity >= 0.75) ...[
+              if (opacity >= 0.7) ...[
                 Opacity(
                   opacity: opacity,
                   child: Baseline(

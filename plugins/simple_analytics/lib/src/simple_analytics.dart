@@ -1618,4 +1618,25 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void nftPromoOpenPromo() {
+    _analytics.logEvent(EventType.iHavePromoCode);
+  }
+
+  void nftPromoEnterPromo() {
+    _analytics.logEvent(EventType.enterPromoCode);
+  }
+
+  void nftPromoClosePromo() {
+    _analytics.logEvent(EventType.closePromoCode);
+  }
+
+  void nftPromoContinuePromo({
+    required String promoCode,
+  }) {
+    _analytics.logEvent(
+      EventType.closePromoCode,
+      eventProperties: {'Promo code': promoCode},
+    );
+  }
 }

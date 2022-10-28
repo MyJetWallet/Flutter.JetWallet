@@ -7,18 +7,23 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'dart:io' show Platform;
 
 void showBuyNFTNotEnougn(CurrencyModel currency) {
   final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
     context: sRouter.navigatorKey.currentContext!,
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
     children: [
       Stack(
         alignment: Alignment.center,
         children: [
           Image.asset(
             nftGradient,
+            width: 80,
+            height: 80,
           ),
           SNetworkSvg(
             url: iconUrlFrom(
@@ -79,6 +84,9 @@ void showBuyNFTNotEnougn(CurrencyModel currency) {
           },
         ),
       ),
+      if (Platform.isAndroid) ...[
+        const SpaceH24(),
+      ],
     ],
   );
 }

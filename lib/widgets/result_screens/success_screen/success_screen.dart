@@ -21,6 +21,7 @@ class SuccessScreen extends StatelessWidget {
     this.specialTextWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
+    this.showShareButton = false,
     this.buttonText,
     this.time = 3,
   }) : super(key: key);
@@ -35,6 +36,7 @@ class SuccessScreen extends StatelessWidget {
   final int time;
   final bool showProgressBar;
   final bool showActionButton;
+  final bool showShareButton;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,7 @@ class SuccessScreen extends StatelessWidget {
         time: time,
         showProgressBar: showProgressBar,
         showActionButton: showActionButton,
+        showShareButton: showShareButton,
       ),
     );
   }
@@ -66,6 +69,7 @@ class _SuccessScreenBody extends StatefulWidget {
     this.specialTextWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
+    this.showShareButton = false,
     this.buttonText,
     this.time = 3,
   });
@@ -80,6 +84,7 @@ class _SuccessScreenBody extends StatefulWidget {
   final int time;
   final bool showProgressBar;
   final bool showActionButton;
+  final bool showShareButton;
 
   @override
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
@@ -176,6 +181,26 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                                   top: 32,
                                 ),
                                 child: SActionBuyIcon(
+                                  color: colors.black,
+                                ),
+                              ),
+                              onTap: () {
+                                setState(() {
+                                  shouldPop = false;
+                                });
+
+                                widget.onActionButton?.call();
+                              },
+                            ),
+                          if (widget.showShareButton)
+                            SSecondaryButton1(
+                              active: true,
+                              name: intl.nft_share,
+                              icon: Container(
+                                margin: const EdgeInsets.only(
+                                  top: 32,
+                                ),
+                                child: SShareIcon(
                                   color: colors.black,
                                 ),
                               ),
