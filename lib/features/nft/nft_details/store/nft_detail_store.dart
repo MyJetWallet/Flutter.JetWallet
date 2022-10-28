@@ -266,6 +266,7 @@ abstract class _NFTDetailStoreBase with Store {
       context: sRouter.navigatorKey.currentContext!,
       pinned: ActionBottomSheetHeader(
         name: '${intl.nft_detail_share_nft}\n${nft!.name!}',
+        removePadding: true,
         onChanged: (String value) {},
       ),
       pinnedBottom: SizedBox(
@@ -297,14 +298,15 @@ abstract class _NFTDetailStoreBase with Store {
               qrBoxSize: qrBoxSize,
               logoSize: logoSize,
             ),
-            const SpaceH20(),
+            const SpaceH40(),
             SAddressFieldWithCopy(
               header: intl.nft_receive_matic_wallet_address,
               value: shareLink,
               realValue: shareLink,
               afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
               valueLoading: false,
-              needPadding: true,
+              needPadding: false,
+              needInnerPadding: true,
               then: () {},
             ),
           ],
