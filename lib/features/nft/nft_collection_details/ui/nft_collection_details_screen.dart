@@ -75,7 +75,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
             pinned: true,
             elevation: 0.0,
             backgroundColor: Colors.white,
-            expandedHeight: 160.0,
+            expandedHeight: 130.0,
             flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 final top = constraints.biggest.height;

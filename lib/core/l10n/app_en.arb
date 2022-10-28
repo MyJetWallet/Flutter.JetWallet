@@ -1181,5 +1181,9 @@
   "nft_send": "Send",
   "nft_send_confirm": "Your order is complete",
   "nft_send_not_enough_1": "You don’t have enough",
-  "nft_send_not_enough_2": "balance to Send NFT"
+  "nft_send_not_enough_2": "balance to Send NFT",
+  "nft_promo_enter_code": "Enter promo code",
+  "nft_promo_code": "Promo code",
+  "nft_promo_valid": "Valid promo code",
+  "nft_promo_invalid": "Invalid promo code"
 }

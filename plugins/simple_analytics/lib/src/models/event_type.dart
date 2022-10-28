@@ -255,4 +255,11 @@ class EventType {
   static const paymentBillingView = 'Billing Address Screen View';
   static const paymentBillingContinue = 'Continue with Billing Address';
   static const paymentSuccess = 'Success Page - Card';
+
+  // NFT
+  static const iHavePromoCode = 'Tap on button - I have a promocode';
+  static const enterPromoCode = 'Enter promo code sheet view';
+  static const closePromoCode = 'Close Enter promo code sheet';
+  static const tapOnContinuePromoCode =
+      'Tap on Continue with promo code button';
 }

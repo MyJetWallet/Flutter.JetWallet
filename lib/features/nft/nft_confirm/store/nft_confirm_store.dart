@@ -1,8 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rational/rational.dart';
@@ -29,35 +32,49 @@ abstract class _NFTConfirmStoreBase with Store {
   bool isProcessing = false;
 
   @observable
-  Decimal fee = Decimal.zero;
+  Decimal discountPercentage = Decimal.zero;
 
-  @computed
-  double get feePrice => (nft!.sellPrice!.toDouble() * fee.toDouble()) / 100;
+  @observable
+  Decimal discountAmount = Decimal.zero;
 
-  @computed
-  Decimal get totalPay => nft!.sellPrice! + Decimal.parse(feePrice.toString());
+  @observable
+  Decimal totalPay = Decimal.zero;
+  //Decimal get totalPay => nft!.sellPrice! + Decimal.parse(feePrice.toString());
 
   @action
   Future<void> init(NftMarket n) async {
     loader.startLoading();
 
+    await getIt.get<NFTPromoCodeStore>().init();
+
     nft = n;
 
+    await validate();
+  }
+
+  @action
+  Future<void> validate() async {
+    print('VALIDATE');
+
     try {
-      final response =
-          await sNetwork.getWalletModule().getNFTMarketPreviewBuy(n.symbol!);
+      final response = await sNetwork.getWalletModule().getNFTMarketPreviewBuy(
+            symbol: nft!.symbol!,
+            promocode: getIt.get<NFTPromoCodeStore>().saved
+                ? getIt.get<NFTPromoCodeStore>().promoCode
+                : null,
+          );
 
       response.pick(
         onData: (data) {
-          print(data);
+          totalPay = data.paymentAmount;
+          discountAmount = data.discountAmount;
+          discountPercentage = data.discountPercentage;
 
-          fee = data.fee;
+          //fee = data.fee;
 
           loader.finishLoading();
         },
         onError: (error) {
-          print(error);
-
           loader.finishLoading();
         },
       );
@@ -78,6 +95,9 @@ abstract class _NFTConfirmStoreBase with Store {
       final model = NftMarketBuyOrderRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         symbol: nft!.symbol,
+        promoCode: getIt.get<NFTPromoCodeStore>().saved
+            ? getIt.get<NFTPromoCodeStore>().promoCode
+            : null,
       );
 
       final response =

@@ -206,7 +206,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
         ? currency!.hasTag
             ? addressValidation is Loading || tagValidation is Loading
             : addressValidation is Loading
-        : false;
+        : addressValidation is Loading;
   }
 
   @computed
@@ -215,7 +215,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
         ? currency!.hasTag
             ? addressValidation is Invalid || tagValidation is Invalid
             : addressValidation is Invalid
-        : false;
+        : addressValidation is Invalid;
   }
 
   @action
@@ -535,8 +535,6 @@ abstract class _WithdrawalAddressStoreBase with Store {
       response.pick(
         onData: (data) {
           _updateAddressIsInternal(data.isInternal);
-
-          print(data);
 
           if (data.isValid) {
             updateValidation(const Valid());
