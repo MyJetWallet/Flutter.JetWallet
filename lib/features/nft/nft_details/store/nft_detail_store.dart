@@ -21,6 +21,8 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_cancel_sell_order_request_model.dart';
 
 part 'nft_detail_store.g.dart';
@@ -43,6 +45,31 @@ abstract class _NFTDetailStoreBase with Store {
 
   @observable
   String description = '';
+
+  @observable
+  String? imageUrl;
+
+  @observable
+  ObservableList<DisclaimerModel> disclaimers = ObservableList.of([]);
+
+  @observable
+  bool send = false;
+
+  @observable
+  bool activeButton = false;
+
+  @observable
+  String disclaimerId = '';
+
+  @observable
+  String title = '';
+
+  @observable
+  String descriptionDisclaimer = '';
+
+  @observable
+  ObservableList<DisclaimerQuestionsModel> questions = ObservableList.of([]);
+
 
   final loader = StackLoaderStore();
 
@@ -73,7 +100,7 @@ abstract class _NFTDetailStoreBase with Store {
   }
 
   @action
-  Future<void> clickBuy() async {
+  Future<void> clickBuy(BuildContext context) async {
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
 
@@ -87,6 +114,108 @@ abstract class _NFTDetailStoreBase with Store {
         requiredDocuments: kyc.requiredDocuments,
         requiredVerifications: kyc.requiredVerifications,
       );
+    }
+  }
+
+
+  @action
+  Future<void> sendAnswers(Function() afterRequest) async {
+    if (!activeButton) {
+      return;
+    }
+
+    final answers = _prepareAnswers(questions);
+
+    final model = DisclaimersRequestModel(
+      disclaimerId: disclaimerId,
+      answers: answers,
+    );
+
+    try {
+      final _ = sNetwork.getWalletModule().postSaveDisclaimer(model);
+
+      send = true;
+      afterRequest();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  @action
+  List<DisclaimerAnswersModel> _prepareAnswers(
+      List<DisclaimerQuestionsModel> questions,
+      ) {
+    final answers = <DisclaimerAnswersModel>[];
+
+    for (final element in questions) {
+      answers.add(
+        DisclaimerAnswersModel(
+          clientId: '',
+          disclaimerId: '',
+          questionId: element.questionId,
+          result: true,
+        ),
+      );
+    }
+
+    return answers;
+  }
+
+  @action
+  bool isCheckBoxActive() {
+    return activeButton;
+  }
+
+  @action
+  void onCheckboxTap() {
+    activeButton = !activeButton;
+    print(activeButton);
+  }
+
+  @action
+  void disableCheckbox() {
+    activeButton = false;
+  }
+
+
+  @action
+  Future<void> initNftDisclaimer() async {
+
+    try {
+      final response =
+      await sNetwork.getWalletModule().getNftDisclaimers();
+
+      response.pick(
+        onData: (data) {
+          if (data.disclaimers != null) {
+            final _disclaimers = <DisclaimerModel>[];
+            for (final element in data.disclaimers!) {
+              _disclaimers.add(
+                DisclaimerModel(
+                  description: element.description,
+                  title: element.title,
+                  disclaimerId: element.disclaimerId,
+                  questions: element.questions,
+                  imageUrl: element.imageUrl,
+                ),
+              );
+            }
+
+            disclaimers = ObservableList.of([..._disclaimers]);
+            disclaimerId = _disclaimers[0].disclaimerId;
+            description = _disclaimers[0].description;
+            title = _disclaimers[0].title;
+            imageUrl = _disclaimers[0].imageUrl;
+            questions = ObservableList.of(_disclaimers[0].questions);
+            activeButton = false;
+          } else {
+            send = true;
+          }
+        },
+        onError: (error) {},
+      );
+    } catch (e) {
+      print('Failed to fetch disclaimers');
     }
   }
 

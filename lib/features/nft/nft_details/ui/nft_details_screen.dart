@@ -24,6 +24,10 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
+import '../../../../core/services/user_info/user_info_service.dart';
+import '../../../../utils/constants.dart';
+import 'components/nft_terms_alert.dart';
+
 class NFTDetailsScreen extends StatelessWidget {
   const NFTDetailsScreen({
     super.key,
@@ -133,7 +137,50 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
           : NFTDetailBottomBar(
               userNFT: widget.userNFT,
               nft: store.nft!,
-              onTap: () => store.clickBuy(),
+              onTap: () async {
+                final userInfo = getIt.get<UserInfoService>().userInfo;
+
+                if (userInfo.hasNftDisclaimers) {
+                  await store.initNftDisclaimer();
+                  if (store.send) {
+                    await store.clickBuy(context);
+                  } else {
+                    sShowNftTermsAlertPopup(
+                      context,
+                      store as NFTDetailStore,
+                      willPopScope: false,
+                      image: Image.asset(
+                        disclaimerAsset,
+                        width: 80,
+                        height: 80,
+                      ),
+                      primaryText: intl.nft_disclaimer_title,
+                      secondaryText: intl.nft_disclaimer_firstText,
+                      secondaryText2: intl.nft_disclaimer_terms,
+                      secondaryText3: intl.nft_disclaimer_secondText,
+                      primaryButtonName: intl.earn_terms_continue,
+                      onPrivacyPolicyTap: () {
+                        sRouter.navigate(
+                          HelpCenterWebViewRouter(
+                            link: nftTermsLink,
+                          ),
+                        );
+                      },
+                      onPrimaryButtonTap: () {
+                        store.sendAnswers(
+                              () {
+                            Navigator.pop(context);
+                            store.clickBuy(context);
+                          },
+                        );
+                      },
+                      child: const SizedBox(),
+                    );
+                  }
+                } else {
+                  await store.clickBuy(context);
+                }
+              },
             ),
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,

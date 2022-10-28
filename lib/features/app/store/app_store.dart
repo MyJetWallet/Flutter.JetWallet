@@ -97,6 +97,7 @@ abstract class _AppStoreBase with Store {
           phoneVerified: info.data!.phoneVerified,
           hasDisclaimers: info.data!.hasDisclaimers,
           hasHighYieldDisclaimers: info.data!.hasHighYieldDisclaimers,
+          hasNftDisclaimers: info.data!.hasNftDisclaimers,
         );
       }
       if (profileInfo.data != null) {

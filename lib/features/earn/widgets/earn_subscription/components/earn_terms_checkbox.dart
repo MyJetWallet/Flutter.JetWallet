@@ -5,6 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 class EarnTermsCheckbox extends StatefulWidget {
   const EarnTermsCheckbox({
     Key? key,
+    this.width,
     required this.firstText,
     required this.privacyPolicyText,
     required this.isChecked,
@@ -13,6 +14,7 @@ class EarnTermsCheckbox extends StatefulWidget {
     required this.colors,
   }) : super(key: key);
 
+  final double? width;
   final String firstText;
   final String privacyPolicyText;
   final bool isChecked;
@@ -68,24 +70,31 @@ class _EarnTermsCheckboxState extends State<EarnTermsCheckbox> {
               Column(
                 children: [
                   const SpaceH25(),
-                  RichText(
-                    text: TextSpan(
-                      text: widget.firstText,
-                      style: sCaptionTextStyle.copyWith(
-                        fontFamily: 'Gilroy',
-                        color: widget.colors.black,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: widget.privacyPolicyText,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = widget.onPrivacyPolicyTap,
-                          style: TextStyle(
-                            color: widget.colors.blue,
-                          ),
-                        ),
-                      ],
+                  Container(
+                    width: widget.width ?? double.infinity,
+                    margin: const EdgeInsets.only(
+                      top: 2,
                     ),
+                    child:
+                      RichText(
+                        text: TextSpan(
+                          text: widget.firstText,
+                          style: sCaptionTextStyle.copyWith(
+                            fontFamily: 'Gilroy',
+                            color: widget.colors.black,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: widget.privacyPolicyText,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = widget.onPrivacyPolicyTap,
+                              style: TextStyle(
+                                color: widget.colors.blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                   ),
                 ],
               ),
