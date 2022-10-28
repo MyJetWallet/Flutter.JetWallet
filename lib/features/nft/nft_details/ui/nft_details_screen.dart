@@ -169,8 +169,8 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               pinned: true,
               stretch: true,
               elevation: 0,
-              expandedHeight: 180,
-              collapsedHeight: 100,
+              expandedHeight: 160,
+              collapsedHeight: 65,
               floating: true,
               automaticallyImplyLeading: false,
               flexibleSpace: SPaddingH24(
@@ -181,37 +181,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                 ),
               ),
             ),
-
-            /*
-              flexibleSpace: FlexibleSpaceBar(
-                title: Align(
-                  child: SizedBox(
-                    width: max(
-                      100,
-                      280 -
-                          (scrollController.hasClients
-                              ? scrollController.offset * 0.4
-                              : 0),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: FittedBox(
-                        fit: BoxFit.fitHeight,
-                        child: Image(
-                          image: NetworkImage('$shortUrl${store.nft!.sImage}'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            */
             SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
                   children: [
-                    const SpaceH26(),
                     if (mounted) ...[
                       Opacity(
                         opacity: showImage ? 1 : 0,
@@ -245,6 +218,9 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                         initialScale:
                                             PhotoViewComputedScale.contained *
                                                 1.7,
+                                        enableRotation: true,
+                                        customSize:
+                                            MediaQuery.of(context).size * 1.5,
                                         imageProvider: NetworkImage(
                                           '$fullUrl${store.nft!.fImage}',
 
