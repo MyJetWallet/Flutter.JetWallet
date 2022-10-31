@@ -54,8 +54,6 @@ abstract class _NFTConfirmStoreBase with Store {
 
   @action
   Future<void> validate() async {
-    print('VALIDATE');
-
     try {
       final response = await sNetwork.getWalletModule().getNFTMarketPreviewBuy(
             symbol: nft!.symbol!,

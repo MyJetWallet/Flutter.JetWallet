@@ -50,7 +50,7 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
 
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      nft.sellAsset ?? '',
+      nft.tradingAsset ?? '',
     );
 
     return SPageFrameWithPadding(
@@ -127,7 +127,7 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
                 child: Text(
                   volumeFormat(
                     decimal: nft.sellPrice!,
-                    symbol: nft.sellAsset!,
+                    symbol: nft.tradingAsset!,
                     accuracy: currency.accuracy,
                   ),
                   style: sSubtitle3Style,

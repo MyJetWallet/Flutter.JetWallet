@@ -10,6 +10,7 @@ import 'package:jetwallet/features/nft/nft_collection_details/store/nft_collecti
 import 'package:jetwallet/features/nft/nft_collection_details/ui/components/nft_collection_nft_item.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:jetwallet/widgets/silver_fixed_height.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/24x24/public/sort/simple_sort_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -329,10 +330,13 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
           if (store.availableNFTFiltred.isNotEmpty &&
               !store.isAvailableHide) ...[
             SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate:
+                  const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                 crossAxisCount: 2,
-                childAspectRatio: childAspectRatio - 0.2,
+                //childAspectRatio: childAspectRatio - 0.2,
+                height: 235,
                 crossAxisSpacing: 19,
+                mainAxisSpacing: 20,
               ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -410,10 +414,13 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
             ),
             if (!store.isSoldHide) ...[
               SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                   crossAxisCount: 2,
-                  childAspectRatio: childAspectRatio - 0.09,
+                  //childAspectRatio: childAspectRatio - 0.09,
+                  height: 198,
                   crossAxisSpacing: 19,
+                  mainAxisSpacing: 20,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
