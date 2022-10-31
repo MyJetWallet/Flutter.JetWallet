@@ -40,7 +40,6 @@ const nftPromoCode = 'nftPromoCode';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
-@singleton
 class LocalStorageService {
   final _storage = const FlutterSecureStorage();
 

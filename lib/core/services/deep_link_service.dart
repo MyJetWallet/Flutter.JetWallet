@@ -132,12 +132,18 @@ class DeepLinkService {
     }
   }
 
+  void testFunc() {
+    _nftTokenCommand({
+      _jw_promo_code: 'test',
+      _jw_nft_token_symbol: 'NFT:SIMPL:22',
+    });
+  }
+
   Future<void> _nftTokenCommand(Map<String, String> parameters) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
     final promoCode = parameters[_jw_promo_code]!;
 
     final storage = sLocalStorageService;
-    final deviceInfo = sDeviceInfo.model;
 
     await storage.setString(nftPromoCode, promoCode);
 
