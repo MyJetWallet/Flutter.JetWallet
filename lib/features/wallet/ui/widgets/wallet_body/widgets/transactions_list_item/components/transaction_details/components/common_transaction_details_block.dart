@@ -120,6 +120,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   sRouter.push(
                     NFTDetailsRouter(
                       nftSymbol: nftAsset.symbol!,
+                      userNFT: nftAsset.sellPrice == null,
                     ),
                   );
                 },

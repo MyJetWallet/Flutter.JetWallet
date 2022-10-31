@@ -11,6 +11,8 @@ import 'package:simple_kit/modules/headers/simple_small_header.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../core/services/device_size/device_size.dart';
+
 class ReceiveNFTScreen extends StatelessWidget {
   const ReceiveNFTScreen({super.key});
 
@@ -29,11 +31,16 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final deviceSize = sDeviceSize;
 
     final mediaQuery = MediaQuery.of(context);
-    final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
     final qrCodeSize = screenWidth * 0.6;
+    var heightWidget = MediaQuery.of(context).size.height - 575;
+    deviceSize.when(
+      small: () => heightWidget = heightWidget - 120,
+      medium: () => heightWidget = heightWidget - 180,
+    );
 
     final store = NftReceiveStore.of(context);
 
@@ -87,51 +94,57 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
           ),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
-          SPaddingH24(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: colors.grey4,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              width: double.infinity,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SInfoIcon(
-                    color: colors.red,
-                  ),
-                  const SpaceW12(),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    child: Text(
-                      intl.nft_receive_alert,
-                      style: sBodyText1Style,
-                      maxLines: 6,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SPaddingH24(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: colors.grey4,
                     ),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ],
+                  width: double.infinity,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SInfoIcon(
+                        color: colors.red,
+                      ),
+                      const SpaceW12(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Text(
+                          intl.nft_receive_alert,
+                          style: sBodyText1Style,
+                          maxLines: 6,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SpaceH24(),
-          SPaddingH24(
-            child: Align(
-              child: SQrCodeBox(
-                loading: store.address.isEmpty,
-                data: store.address,
-                qrBoxSize: qrCodeSize,
-                logoSize: screenWidth * 0.2,
+              const SpaceH24(),
+              SPaddingH24(
+                child: Align(
+                  child: SQrCodeBox(
+                    loading: store.address.isEmpty,
+                    data: store.address,
+                    qrBoxSize: qrCodeSize,
+                    logoSize: screenWidth * 0.2,
+                  ),
+                ),
               ),
-            ),
-          ),
-          const Spacer(),
-          /*
+              if (heightWidget > 0) ...[
+                SizedBox(
+                  height: heightWidget,
+                ),
+              ],
+              /*
           Text(
             intl.nft_receive_network,
             style: sTextH5Style.copyWith(
@@ -148,14 +161,16 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
           const SDivider(),
           */
 
-          SAddressFieldWithCopy(
-            header: intl.nft_detail_nft_link,
-            value: shortAddressForm(store.address),
-            realValue: store.address,
-            afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
-            valueLoading: store.address.isEmpty,
-            needPadding: true,
-            then: () {},
+              SAddressFieldWithCopy(
+                header: intl.nft_detail_nft_link,
+                value: shortAddressForm(store.address),
+                realValue: store.address,
+                afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
+                valueLoading: store.address.isEmpty,
+                needPadding: true,
+                then: () {},
+              ),
+            ],
           ),
         ],
       ),
