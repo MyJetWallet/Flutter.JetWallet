@@ -41,7 +41,9 @@ class NFTDetailHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SpaceH64(),
+              SizedBox(
+                height: MediaQuery.of(context).padding.top,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
