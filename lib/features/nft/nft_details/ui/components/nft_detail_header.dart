@@ -16,7 +16,7 @@ class NFTDetailHeader extends StatelessWidget {
   final bool showImage;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext con) {
     final colors = sKit.colors;
 
     return LayoutBuilder(
@@ -27,7 +27,7 @@ class NFTDetailHeader extends StatelessWidget {
         final t =
             (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent)
                 .clamp(0.0, 1.0);
-        final fadeStart = math.max(0.0, 1.0 - 260 / deltaExtent);
+        final fadeStart = math.max(0.0, 1.0 - 220 / deltaExtent);
         const fadeEnd = 1.0;
         final opacity = 1.0 - Interval(fadeStart, fadeEnd).transform(t);
 
@@ -79,17 +79,14 @@ class NFTDetailHeader extends StatelessWidget {
                 ],
               ),
               if (opacity >= 0.7) ...[
+                const SpaceH25(),
                 Opacity(
                   opacity: opacity,
-                  child: Baseline(
-                    baseline: 41,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      style: sTextH2Style,
-                    ),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.start,
+                    maxLines: 3,
+                    style: sTextH2Style,
                   ),
                 ),
               ],

@@ -60,6 +60,14 @@ Future<GetIt> getItInit({
     () async => PackageInfoService().init(),
   );
 
+  getIt.registerLazySingleton<LocalStorageService>(
+    () => LocalStorageService(),
+  );
+
+  getIt.registerLazySingleton<NFTPromoCodeStore>(
+    () => NFTPromoCodeStore(),
+  );
+
   _logger.log(stateFlow, 'PackageInfoService LOADED');
 
   getIt.registerSingletonAsync<RemoteConfig>(
@@ -118,10 +126,6 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<LogoutService>(() => LogoutService());
 
-  getIt.registerSingleton<DeepLinkService>(
-    DeepLinkService(),
-  );
-
   getIt.registerLazySingleton<KycProfileCountriesStore>(
     () => KycProfileCountriesStore(),
   );
@@ -140,7 +144,9 @@ Future<GetIt> getItInit({
     () => SendByPhoneConfirmStore(),
   );
 
-  getIt.registerLazySingleton<NFTPromoCodeStore>(() => NFTPromoCodeStore());
+  getIt.registerSingleton<DeepLinkService>(
+    DeepLinkService(),
+  );
 
   //getIt.registerSingleton<AppStore>(
   //  AppStore(),

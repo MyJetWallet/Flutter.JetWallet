@@ -132,6 +132,11 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
             : store.nft!.buyPrice!
         : store.nft!.sellPrice!;
 
+    //final name = 'Very veryvesdaglajsdgl j aslgdk j long name Very veryvesdaglajsdgl';
+
+    final expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
+    //final expandedHeight = 130 + (name.length ?? 0).toDouble();
+
     return SPageFrame(
       loading: store.loader,
       bottomNavigationBar: widget.userNFT
@@ -169,13 +174,13 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               pinned: true,
               stretch: true,
               elevation: 0,
-              expandedHeight: 160,
+              expandedHeight: expandedHeight,
               collapsedHeight: 65,
               floating: true,
               automaticallyImplyLeading: false,
               flexibleSpace: SPaddingH24(
                 child: NFTDetailHeader(
-                  title: store.nft!.name ?? '',
+                  title: store.nft?.name ?? '',
                   fImage: '$shortUrl${store.nft!.sImage}',
                   showImage: showImage,
                 ),
@@ -185,6 +190,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               child: SPaddingH24(
                 child: Column(
                   children: [
+                    const SpaceH20(),
                     if (mounted) ...[
                       Opacity(
                         opacity: showImage ? 1 : 0,
