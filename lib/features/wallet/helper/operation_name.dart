@@ -56,6 +56,8 @@ String operationName(
       return intl.operationName_receiveNFT;
     case OperationType.nftWithdrawal:
       return intl.operationName_sendNFT;
+    case OperationType.nftWithdrawalFee:
+      return intl.operationName_sendNFT;
     case OperationType.nftBuy:
       return intl.operationName_buyNFT;
     default:

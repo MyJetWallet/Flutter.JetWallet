@@ -8,7 +8,9 @@ import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../../core/router/app_router.dart';
+import '../../../../../core/services/device_size/device_size.dart';
 import '../../../../../core/services/remote_config/remote_config_values.dart';
+import '../../../../../utils/helpers/widget_size_from.dart';
 import '../../../../earn/widgets/earn_subscription/components/earn_terms_checkbox.dart';
 
 void sShowNftTermsAlertPopup(
@@ -35,7 +37,7 @@ void sShowNftTermsAlertPopup(
 }) {
   showDialog(
     context: context,
-    barrierDismissible: barrierDismissible,
+    barrierDismissible: true,
     builder: (context) {
       return NftTermsAlert(
         store: store,
@@ -136,10 +138,12 @@ class _NftTermsAlertState extends State<NftTermsAlert> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final disclaimer = widget.store;
+    final deviceSize = sDeviceSize;
 
     return WillPopScope(
       onWillPop: () {
         widget.onWillPop?.call();
+        Navigator.pop(context);
 
         return Future.value(widget.willPopScope);
       },
@@ -147,7 +151,8 @@ class _NftTermsAlertState extends State<NftTermsAlert> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Dialog(
-            insetPadding: (Platform.isAndroid)
+            insetPadding: (Platform.isAndroid ||
+                widgetSizeFrom(deviceSize) == SWidgetSize.small)
                 ? const EdgeInsets.all(24.0)
                 : const EdgeInsets.symmetric(horizontal: 24.0),
             shape: RoundedRectangleBorder(
@@ -236,6 +241,8 @@ class _NftTermsAlertState extends State<NftTermsAlert> {
                       colors: colors,
                     ),
                   ),
+                  if (widgetSizeFrom(deviceSize) == SWidgetSize.small)
+                    const SpaceH20(),
                   if (widget.isNeedPrimaryButton) ...[
                     if (widget.primaryButtonType == SButtonType.primary1)
                       SPrimaryButton1(

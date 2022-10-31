@@ -313,7 +313,9 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.nftWithdrawal) ...[
+                    OperationType.nftWithdrawal ||
+                    widget.transactionListItem.operationType ==
+                    OperationType.nftWithdrawalFee) ...[
                   Material(
                     color: colors.white,
                     child: WithdrawNftDetails(

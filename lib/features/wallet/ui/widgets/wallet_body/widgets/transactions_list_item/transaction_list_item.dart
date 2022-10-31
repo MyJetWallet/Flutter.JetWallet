@@ -310,6 +310,8 @@ class TransactionListItem extends StatelessObserverWidget {
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.nftWithdrawal:
         return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.nftWithdrawalFee:
+        return SMinusIcon(color: isFailed ? color : null);
       default:
         return SDepositIcon(color: isFailed ? color : null);
     }

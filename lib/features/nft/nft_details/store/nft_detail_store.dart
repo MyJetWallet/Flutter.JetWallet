@@ -265,6 +265,7 @@ abstract class _NFTDetailStoreBase with Store {
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
+      scrollable: true,
       pinned: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

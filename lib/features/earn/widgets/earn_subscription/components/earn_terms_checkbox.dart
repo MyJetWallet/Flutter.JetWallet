@@ -69,7 +69,7 @@ class _EarnTermsCheckboxState extends State<EarnTermsCheckbox> {
               const SpaceW10(),
               Column(
                 children: [
-                  const SpaceH25(),
+                  const SpaceH22(),
                   Container(
                     width: widget.width ?? double.infinity,
                     margin: const EdgeInsets.only(

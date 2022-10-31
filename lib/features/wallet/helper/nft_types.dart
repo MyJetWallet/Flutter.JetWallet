@@ -20,6 +20,7 @@ List<OperationType> nftAllTypes = [
   OperationType.nftSellOpposite,
   OperationType.nftSwap,
   OperationType.nftWithdrawal,
+  OperationType.nftWithdrawalFee,
 ];
 
 enum TransactionType {

@@ -17,7 +17,8 @@ NftMarket getNftItem(
         OperationType.nftSellOpposite ||
         transactionListItem.operationType == OperationType.nftSell)
         ? transactionListItem.swapInfo?.sellAssetId
-        : transactionListItem.operationType == OperationType.nftWithdrawal
+        : (transactionListItem.operationType == OperationType.nftWithdrawal ||
+          transactionListItem.operationType == OperationType.nftWithdrawalFee)
         ? transactionListItem.withdrawalInfo?.withdrawalAssetId
         : transactionListItem.operationType == OperationType.nftDeposit
         ? transactionListItem.assetId
