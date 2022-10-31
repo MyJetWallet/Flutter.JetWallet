@@ -1619,6 +1619,8 @@ class SimpleAnalytics {
     );
   }
 
+  /// NFT
+
   void nftPromoOpenPromo() {
     _analytics.logEvent(EventType.iHavePromoCode);
   }
@@ -1637,6 +1639,136 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.closePromoCode,
       eventProperties: {'Promo code': promoCode},
+    );
+  }
+
+  void nftMarketOpen() {
+    _analytics.logEvent(EventType.nftMarketOpen);
+  }
+
+  void nftMarketTapCollection({
+    required String collectionTitle,
+    required String nftNumberPictures,
+    required String nftCategories,
+  }) {
+    _analytics.logEvent(
+        EventType.nftMarketTapCollection,
+        eventProperties: {
+          PropertyType.collectionTitle: collectionTitle,
+          PropertyType.nftNumberPictures: nftNumberPictures,
+          PropertyType.nftCategories: nftCategories,
+        },
+    );
+  }
+
+  void nftMarketTapFilter() {
+    _analytics.logEvent(EventType.nftMarketOpen);
+  }
+
+  void nftMarketFilterShowed() {
+    _analytics.logEvent(EventType.nftMarketOpen);
+  }
+
+  void nftMarketFilterClose({
+    required String nftCloseMethod,
+  }) {
+    _analytics.logEvent(
+      EventType.nftMarketFilterClose,
+      eventProperties: {
+        PropertyType.collectionTitle: nftCloseMethod,
+      },
+    );
+  }
+
+  void nftCollectionView({
+    required String nftCollectionID,
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.nftCollectionView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void nftCollectionTapSort() {
+    _analytics.logEvent(EventType.nftCollectionTapSort);
+  }
+
+  void nftCollectionSortView() {
+    _analytics.logEvent(EventType.nftCollectionSortView);
+  }
+
+  void nftCollectionSortClose({
+    required String nftSortingOption,
+  }) {
+    _analytics.logEvent(
+      EventType.nftCollectionSortClose,
+      eventProperties: {
+        PropertyType.nftSortingOption: nftSortingOption,
+      },
+    );
+  }
+
+  void nftCollectionSortApply({
+    required String nftSortingOption,
+  }) {
+    _analytics.logEvent(
+      EventType.nftCollectionSortApply,
+      eventProperties: {
+        PropertyType.nftSortingOption: nftSortingOption,
+      },
+    );
+  }
+
+  void nftCollectionTapHide() {
+    _analytics.logEvent(EventType.nftCollectionTapHide);
+  }
+
+  void nftCollectionTapShow() {
+    _analytics.logEvent(EventType.nftCollectionTapShow);
+  }
+
+  void nftObjectTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectView({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void nftObjectTapBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
     );
   }
 }
