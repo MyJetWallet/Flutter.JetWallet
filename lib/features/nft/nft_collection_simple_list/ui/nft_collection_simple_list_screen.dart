@@ -8,8 +8,7 @@ import 'package:jetwallet/features/nft/nft_collection_details/ui/components/nft_
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/balance_in_process.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame_with_padding.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
@@ -63,6 +62,21 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         showBuyInfo: true,
                         showDivider: false,
                         onTap: () {
+                          sAnalytics.nftWalletObjectFull(
+                            nftCollectionID: collection
+                                .nftList[index]
+                                .collectionId ?? '',
+                            nftObjectId: collection.nftList[index].symbol ?? '',
+                          );
+                          sAnalytics.nftObjectView(
+                            nftCollectionID: collection
+                                .nftList[index]
+                                .collectionId ?? '',
+                            nftObjectId: collection
+                                .nftList[index].symbol
+                                ?? '',
+                            source: 'Portfolio screen',
+                          );
                           sRouter.push(
                             NFTDetailsRouter(
                               nftSymbol: collection.nftList[index].symbol!,

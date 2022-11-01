@@ -35,6 +35,7 @@ import 'package:jetwallet/utils/helpers/market_crypto.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import '../../portfolio_header.dart';
@@ -102,6 +103,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   }
 
   void updateTabIndex() {
+    if (widget.tabController.index == 1) {
+      sAnalytics.nftPortfolioTapNft();
+      sAnalytics.nftPortfolioNFTView();
+    }
     setState(() {
       tabIndex = widget.tabController.index;
     });
@@ -399,9 +404,19 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              sRouter.push(
-                                TransactionHistoryRouter(),
-                              );
+                              if (tabIndex == 1) {
+                                sAnalytics.nftPortfolioHistory();
+                                sAnalytics.nftPortfolioHistoryView();
+                                sRouter.push(
+                                  TransactionHistoryRouter(
+                                    initialIndex: 2,
+                                  ),
+                                );
+                              } else {
+                                sRouter.push(
+                                  TransactionHistoryRouter(),
+                                );
+                              }
                             },
                             child: const SIndexHistoryIcon(),
                           ),

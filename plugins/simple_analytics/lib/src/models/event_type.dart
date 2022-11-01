@@ -316,7 +316,7 @@ class EventType {
   static const nftWalletActionView = 'NFT Action sheet view';
   static const nftWalletStatsTap = 'Tap on My Stats';
   static const nftWalletHistory = 'NFT Object history is displayed';
-  static const nftWalletTapHistoryObject = 'Tap on NFT Object history reccord';
+  static const nftWalletTapHistoryObject = 'Tap on NFT Object history record';
   static const nftWalletHistoryObjectView = 'NFT Object history record view';
   static const nftWalletTapCollection = 'Tap on bought NFT Collection';
   static const nftWalletCollectionView =

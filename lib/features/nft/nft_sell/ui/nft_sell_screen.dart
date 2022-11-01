@@ -133,6 +133,13 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${intl.currencySell_sell} ${store.nft!.name!}',
+          onBackButtonTap: () {
+            sAnalytics.nftSellPreviewBack(
+              nftCollectionID: store.nft!.collectionId ?? '',
+              nftObjectId: store.nft!.symbol ?? '',
+            );
+            Navigator.pop(context);
+          },
         ),
       ),
       child: Column(
@@ -214,6 +221,12 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
             submitButtonActive: store.inputValid,
             submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
+              sAnalytics.nftSellPreviewTap(
+                  nftCollectionID: store.nft!.collectionId ?? '',
+                  nftObjectId: store.nft!.symbol ?? '',
+                  asset: store.nft!.tradingAsset ?? '',
+                  nftPriceAmount: store.inputValue,
+              );
               sRouter.push(
                 NFTPreviewSellRouter(
                   input: NftSellInput(

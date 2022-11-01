@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/nft/nft_collection_details/store/nft_collection_store.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showNFTCollectionFilterModalSheet(
@@ -14,7 +15,11 @@ void showNFTCollectionFilterModalSheet(
   final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
-    onDissmis: () {},
+    onDissmis: () {
+      sAnalytics.nftCollectionSortClose(
+          nftSortingOption: store.availableFilter?.value ?? '',
+      );
+    },
     context: context,
     horizontalPinnedPadding: 0.0,
     pinned: ActionBottomSheetHeader(
@@ -43,6 +48,9 @@ void showNFTCollectionFilterModalSheet(
 
               return InkWell(
                 onTap: () {
+                  sAnalytics.nftCollectionSortApply(
+                    nftSortingOption: e.value,
+                  );
                   store.activeFilter(
                     e,
                     isAvailableNFT,

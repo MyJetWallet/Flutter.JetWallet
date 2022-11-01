@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'portfolio_divider.dart';
@@ -70,6 +71,15 @@ class PortfolioNftList extends StatelessObserverWidget {
                     // If there is only 1 purchased NFT in the collection, immediately open the NFT screen
 
                     if (item.nftList.length == 1) {
+                      sAnalytics.nftWalletCollectionView(
+                        nftCollectionID: item.id ?? '',
+                        nftObjectId: item.nftList.first.symbol!,
+                      );
+                      sAnalytics.nftObjectView(
+                        nftCollectionID: item.nftList.first.collectionId ?? '',
+                        nftObjectId: item.nftList.first.symbol ?? '',
+                        source: 'Portfolio',
+                      );
                       sRouter.push(
                         NFTDetailsRouter(
                           nftSymbol: item.nftList.first.symbol!,
@@ -77,6 +87,10 @@ class PortfolioNftList extends StatelessObserverWidget {
                         ),
                       );
                     } else {
+                      sAnalytics.nftWalletCollectionView(
+                          nftCollectionID: item.id ?? '',
+                          nftObjectId: '',
+                      );
                       sRouter.push(
                         NFTCollectionSimpleListRouter(
                           collectionID: item.id!,
@@ -135,6 +149,7 @@ class PortfolioNftList extends StatelessObserverWidget {
                   color: colors.black,
                 ),
                 onTap: () {
+                  sAnalytics.nftPortfolioBuy();
                   sRouter.push(
                     HomeRouter(
                       children: [
@@ -153,6 +168,8 @@ class PortfolioNftList extends StatelessObserverWidget {
                   color: colors.black,
                 ),
                 onTap: () {
+                  sAnalytics.nftPortfolioReceive();
+                  sAnalytics.nftReceiveTap(source: 'Portfolio');
                   sRouter.push(
                     const ReceiveNFTRouter(),
                   );

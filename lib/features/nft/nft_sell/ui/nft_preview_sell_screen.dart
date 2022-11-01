@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class NFTPreviewSellScreen extends StatelessWidget {
@@ -92,6 +93,15 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
             title: store.previewHeader,
             onBackButtonTap: () {
               //store.cancelTimer();
+              sAnalytics.nftSellConfirmBack(
+                nftCollectionID: store.input?.nft.collectionId ?? '',
+                nftObjectId: store.input?.nft.symbol ?? '',
+                asset: store.input?.nft.tradingAsset ?? '',
+                nftPriceAmount: store.input?.amount ?? '',
+                nftOperationFee: '${store.feePercentage}%',
+                nftCreatorFee: '${store.feePercentage}%',
+                nftAmountToGet: '${store.receiveAmount}',
+              );
               Navigator.pop(context);
             },
           );
@@ -102,6 +112,15 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
             title: store.previewHeader,
             onBackButtonTap: () {
               //store.cancelTimer();
+              sAnalytics.nftSellConfirmBack(
+                nftCollectionID: store.input?.nft.collectionId ?? '',
+                nftObjectId: store.input?.nft.symbol ?? '',
+                asset: store.input?.nft.tradingAsset ?? '',
+                nftPriceAmount: store.input?.amount ?? '',
+                nftOperationFee: '${store.feePercentage}%',
+                nftCreatorFee: '${store.feePercentage}%',
+                nftAmountToGet: '${store.receiveAmount}',
+              );
               Navigator.pop(context);
             },
           );

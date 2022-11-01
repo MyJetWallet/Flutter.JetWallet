@@ -8,6 +8,7 @@ import 'package:jetwallet/features/nft/nft_sell/model/nft_sell_input.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_make_sell_order_request_model.dart';
@@ -85,6 +86,16 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
           priceWithFee = price - Decimal.parse(feePrice.toString());
 
+          sAnalytics.nftSellConfirmView(
+            nftCollectionID: input!.nft.collectionId ?? '',
+            nftObjectId: input!.nft.symbol ?? '',
+            asset: input!.nft.tradingAsset ?? '',
+            nftPriceAmount: input?.amount ?? '',
+            nftOperationFee: '${data.feePercentage}%',
+            nftCreatorFee: '${data.feePercentage}%',
+            nftAmountToGet: '${data.receiveAmount}',
+          );
+
           isLoading = false;
         },
         onError: (error) {
@@ -106,7 +117,27 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
   @action
   Future<void> executeQuote() async {
+
+    sAnalytics.nftSellConfirmTap(
+      nftCollectionID: input!.nft.collectionId ?? '',
+      nftObjectId: input!.nft.symbol ?? '',
+      asset: input!.nft.tradingAsset ?? '',
+      nftPriceAmount: input?.amount ?? '',
+      nftOperationFee: '$feePercentage%',
+      nftCreatorFee: '$feePercentage%',
+      nftAmountToGet: '$receiveAmount',
+    );
     isProcessing = true;
+
+    sAnalytics.nftSellProcessing(
+      nftCollectionID: input!.nft.collectionId ?? '',
+      nftObjectId: input!.nft.symbol ?? '',
+      asset: input!.nft.tradingAsset ?? '',
+      nftPriceAmount: input?.amount ?? '',
+      nftOperationFee: '$feePercentage%',
+      nftCreatorFee: '$feePercentage%',
+      nftAmountToGet: '$receiveAmount',
+    );
 
     loader.startLoading();
 
@@ -128,6 +159,15 @@ abstract class _NFTPreviewSellStoreBase with Store {
         loader.finishLoading();
 
         isProcessing = false;
+        sAnalytics.nftSellSuccess(
+          nftCollectionID: input!.nft.collectionId ?? '',
+          nftObjectId: input!.nft.symbol ?? '',
+          asset: input!.nft.tradingAsset ?? '',
+          nftPriceAmount: input?.amount ?? '',
+          nftOperationFee: '$feePercentage%',
+          nftCreatorFee: '$feePercentage%',
+          nftAmountToGet: '$receiveAmount',
+        );
 
         await sRouter.push(
           SuccessScreenRouter(

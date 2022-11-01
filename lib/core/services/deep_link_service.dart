@@ -149,6 +149,11 @@ class DeepLinkService {
 
     await getIt.get<NFTPromoCodeStore>().init();
 
+    sAnalytics.nftObjectView(
+      nftCollectionID: '',
+      nftObjectId: tokenSymbol,
+      source: 'External link',
+    );
     await sRouter.push(
       NFTDetailsRouter(
         nftSymbol: tokenSymbol,
@@ -159,6 +164,10 @@ class DeepLinkService {
   void _nftCollectionCommand(Map<String, String> parameters) {
     final collectionId = parameters[_jw_nft_collection_id]!;
 
+    sAnalytics.nftCollectionView(
+      nftCollectionID: collectionId,
+      source: 'External link',
+    );
     sRouter.push(
       NftCollectionDetailsRouter(
         collectionID: collectionId,

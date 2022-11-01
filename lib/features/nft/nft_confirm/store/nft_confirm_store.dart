@@ -9,6 +9,7 @@ import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.da
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rational/rational.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_buy_order_request_model.dart';
@@ -85,8 +86,28 @@ abstract class _NFTConfirmStoreBase with Store {
 
   @action
   Future<void> confirm() async {
+    sAnalytics.nftPurchaseConfirmTap(
+      nftCollectionID: nft?.collectionId ?? '',
+      nftObjectId: nft?.symbol ?? '',
+      nftPrice: '${nft?.sellPrice}' ?? '',
+      currency: nft?.tradingAsset ?? '',
+      nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+      nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+          ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+          : '',
+    );
     isProcessing = true;
 
+    sAnalytics.nftPurchaseProcessing(
+      nftCollectionID: nft?.collectionId ?? '',
+      nftObjectId: nft?.symbol ?? '',
+      nftPrice: '${nft?.sellPrice}' ?? '',
+      currency: nft?.tradingAsset ?? '',
+      nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+      nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+          ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+          : '',
+    );
     loader.startLoading();
 
     try {
@@ -108,11 +129,25 @@ abstract class _NFTConfirmStoreBase with Store {
 
         isProcessing = false;
 
+        sAnalytics.nftPurchaseSuccess(
+          nftCollectionID: nft?.collectionId ?? '',
+          nftObjectId: nft?.symbol ?? '',
+          nftPrice: '${nft?.sellPrice}' ?? '',
+          currency: nft?.tradingAsset ?? '',
+          nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+          nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+              ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+              : '',
+        );
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.nft_detail_confirm_order_completed,
             showProgressBar: true,
             onSuccess: (context) {
+              sAnalytics.nftPurchaseDisplayed(
+                nftCollectionID: nft?.collectionId ?? '',
+                nftObjectId: nft?.symbol ?? '',
+              );
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [

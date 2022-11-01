@@ -7,6 +7,7 @@ import 'package:jetwallet/features/nft/nft_receive/store/nft_receive_store.dart'
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_small_header.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -48,6 +49,10 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.nft_receive_header,
+          onBackButtonTap: () {
+            sAnalytics.nftReceiveBack();
+            Navigator.pop(context);
+          },
         ),
       ),
       bottomNavigationBar: SizedBox(
@@ -67,6 +72,7 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
                   onTap: () {
                     if (store.canShare) {
                       store.setCanShare(false);
+                      sAnalytics.nftReceiveShareTap();
 
                       Timer(
                         const Duration(
@@ -168,7 +174,9 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
                 afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
                 valueLoading: store.address.isEmpty,
                 needPadding: true,
-                then: () {},
+                then: () {
+                  sAnalytics.nftReceiveCopyTap();
+                },
               ),
             ],
           ),

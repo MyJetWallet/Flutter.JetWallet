@@ -63,6 +63,15 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
         child: SMegaHeader(
           titleAlign: TextAlign.start,
           title: store.header,
+          onBackButtonTap: () {
+            if (withdrawal.nft != null) {
+              sAnalytics.nftSendBack(
+                  nftCollectionID: withdrawal.nft?.collectionId ?? '',
+                  nftObjectId: withdrawal.nft?.symbol ?? '',
+              );
+            }
+            Navigator.pop(context);
+          },
         ),
       ),
       child: CustomScrollView(
@@ -212,7 +221,16 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-                            sAnalytics.sendContinueAddress();
+                            if (withdrawal.nft != null) {
+                              sAnalytics.nftSendContinue(
+                                nftCollectionID: withdrawal.nft?.collectionId
+                                    ?? '',
+                                nftObjectId: withdrawal.nft?.symbol ?? '',
+                                network: store.network.description,
+                              );
+                            } else {
+                              sAnalytics.sendContinueAddress();
+                            }
                             store.validateOnContinue(context);
                           },
                         ),

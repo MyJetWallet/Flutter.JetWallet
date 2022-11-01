@@ -6,16 +6,28 @@ import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'dart:io' show Platform;
 
-void showBuyNFTNotEnougn(CurrencyModel currency) {
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+
+void showBuyNFTNotEnougn(CurrencyModel currency, NftMarket? nft) {
   final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
     context: sRouter.navigatorKey.currentContext!,
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
+    onDissmis: () {
+      sAnalytics.nftObjectCloseNotEnough(
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+        nftPrice: '${nft?.sellPrice}' ?? '',
+        currency: nft?.tradingAsset ?? '',
+        method: 'Swipe down',
+      );
+    },
     children: [
       Stack(
         alignment: Alignment.center,
@@ -67,6 +79,12 @@ void showBuyNFTNotEnougn(CurrencyModel currency) {
           name:
               '${intl.nft_collection_go_to} ${currency.description} ${intl.nft_collection_wallet}',
           onTap: () {
+            sAnalytics.nftObjectTapGetAsset(
+              nftCollectionID: nft?.collectionId ?? '',
+              nftObjectId: nft?.symbol ?? '',
+              nftPrice: '${nft?.sellPrice}' ?? '',
+              currency: nft?.tradingAsset ?? '',
+            );
             navigateToWallet(
               sRouter.navigatorKey.currentContext!,
               currency,
@@ -80,6 +98,13 @@ void showBuyNFTNotEnougn(CurrencyModel currency) {
           active: true,
           name: intl.previewSell_close,
           onTap: () {
+            sAnalytics.nftObjectCloseNotEnough(
+              nftCollectionID: nft?.collectionId ?? '',
+              nftObjectId: nft?.symbol ?? '',
+              nftPrice: '${nft?.sellPrice}' ?? '',
+              currency: nft?.tradingAsset ?? '',
+              method: 'Close button',
+            );
             sRouter.pop();
           },
         ),

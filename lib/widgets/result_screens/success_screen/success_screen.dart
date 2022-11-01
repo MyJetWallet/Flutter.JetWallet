@@ -9,6 +9,7 @@ import 'package:jetwallet/widgets/result_screens/success_screen/widgets/progress
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class SuccessScreen extends StatelessWidget {
@@ -205,6 +206,11 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                                 ),
                               ),
                               onTap: () {
+                                sAnalytics.nftObjectTapShareTap(
+                                  nftCollectionID: '',
+                                  nftObjectId: '',
+                                  source: 'Success Sell NFT screen',
+                                );
                                 setState(() {
                                   shouldPop = false;
                                 });

@@ -19,12 +19,15 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_cancel_sell_order_request_model.dart';
+
+import '../../nft_confirm/store/nft_promo_code_store.dart';
 
 part 'nft_detail_store.g.dart';
 
@@ -223,11 +226,27 @@ abstract class _NFTDetailStoreBase with Store {
   @action
   void buyNft() {
     if (currency!.assetBalance > nft!.sellPrice!) {
+      sAnalytics.nftPurchaseConfirmView(
+          nftCollectionID: nft?.collectionId ?? '',
+          nftObjectId: nft?.symbol ?? '',
+          nftPrice: '${nft?.sellPrice}' ?? '',
+          currency: nft?.tradingAsset ?? '',
+          nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+          nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+              ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+              : '',
+      );
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
       );
     } else {
-      showBuyNFTNotEnougn(currency!);
+      sAnalytics.nftObjectNotEnoughAsset(
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+        nftPrice: '${nft?.sellPrice}' ?? '',
+        currency: nft?.tradingAsset ?? '',
+      );
+      showBuyNFTNotEnougn(currency!, nft);
     }
   }
 
@@ -262,10 +281,21 @@ abstract class _NFTDetailStoreBase with Store {
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
     final shareLinkNFT = '$shareLink${nft!.symbol!}';
+    sAnalytics.nftObjectShareView(
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+    );
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
       scrollable: true,
+      onDissmis: () {
+        sAnalytics.nftObjectShareClose(
+          nftCollectionID: nft?.collectionId ?? '',
+          nftObjectId: nft?.symbol ?? '',
+          method: 'Swipe down',
+        );
+      },
       pinned: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -282,6 +312,11 @@ abstract class _NFTDetailStoreBase with Store {
           ),
           SIconButton(
             onTap: () {
+              sAnalytics.nftObjectShareClose(
+                nftCollectionID: nft?.collectionId ?? '',
+                nftObjectId: nft?.symbol ?? '',
+                method: 'Cross sign',
+              );
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
             defaultIcon: const SEraseIcon(),
@@ -303,6 +338,11 @@ abstract class _NFTDetailStoreBase with Store {
                 active: true,
                 name: intl.cryptoDeposit_share,
                 onTap: () {
+                  sAnalytics.nftObjectTapShareTap(
+                    nftCollectionID: nft?.collectionId ?? '',
+                    nftObjectId: nft?.symbol ?? '',
+                    source: 'NFT Object view,',
+                  );
                   try {
                     Share.share(shareLinkNFT);
                   } catch (e) {
@@ -333,7 +373,12 @@ abstract class _NFTDetailStoreBase with Store {
           needPadding: false,
           needInnerPadding: true,
           needFormatURL: false,
-          then: () {},
+          then: () {
+            sAnalytics.nftObjectTapCopy(
+              nftCollectionID: nft?.collectionId ?? '',
+              nftObjectId: nft?.symbol ?? '',
+            );
+          },
         ),
       ],
     );

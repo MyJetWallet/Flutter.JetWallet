@@ -101,6 +101,16 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
           return SSmallHeader(
             titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
+            onBackButtonTap: () {
+              if (currency == null) {
+                sAnalytics.nftSendConfirmBack(
+                  nftCollectionID: withdrawal.nft?.symbol ?? '',
+                  nftObjectId: withdrawal.nft?.collectionId ?? '',
+                  network: network,
+                  nftFee:'${matic.withdrawalFeeSize(network)}',
+                );
+              }
+            },
           );
         },
         medium: () {
@@ -217,6 +227,12 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
 
                       store.withdraw();
                     } else {
+                      sAnalytics.nftSendConfirmTap(
+                        nftCollectionID: withdrawal.nft?.symbol ?? '',
+                        nftObjectId: withdrawal.nft?.collectionId ?? '',
+                        network: network,
+                        nftFee:'${matic.withdrawalFeeSize(network)}',
+                      );
                       store.withdrawNFT();
                     }
                   },

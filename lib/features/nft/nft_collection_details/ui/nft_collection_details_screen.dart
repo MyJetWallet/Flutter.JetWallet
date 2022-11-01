@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/silver_fixed_height.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/sort/simple_sort_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -298,6 +299,8 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const Spacer(),
                         SIconButton(
                           onTap: () {
+                            sAnalytics.nftCollectionTapSort();
+                            sAnalytics.nftCollectionSortView();
                             showNFTCollectionFilterModalSheet(
                               context,
                               NFTCollectionDetailStore.of(context)
@@ -309,6 +312,11 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const SpaceW12(),
                         SIconButton(
                           onTap: () {
+                            if (store.isAvailableHide) {
+                              sAnalytics.nftCollectionTapShow();
+                            } else {
+                              sAnalytics.nftCollectionTapHide();
+                            }
                             store.setSsAvailableHide();
                           },
                           defaultIcon: store.isAvailableHide
@@ -348,6 +356,35 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                     child: NFTCollectionNftItem(
                       nft: store.availableNFTFiltred[index],
                       onTap: () {
+                        sAnalytics.nftWalletTapObject(
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
+                        );
+                        sAnalytics.nftWalletObjectView(
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
+                        );
+                        sAnalytics.nftObjectTap(
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
+                        );
+                        sAnalytics.nftObjectView(
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
+                          source: 'Collection screen',
+                        );
                         sRouter.push(
                           NFTDetailsRouter(
                             nftSymbol: store.availableNFTFiltred[index].symbol!,
@@ -379,6 +416,8 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const Spacer(),
                         SIconButton(
                           onTap: () {
+                            sAnalytics.nftCollectionTapSort();
+                            sAnalytics.nftCollectionSortView();
                             showNFTCollectionFilterModalSheet(
                               context,
                               NFTCollectionDetailStore.of(context)
@@ -391,6 +430,11 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const SpaceW12(),
                         SIconButton(
                           onTap: () {
+                            if (store.isSoldHide) {
+                              sAnalytics.nftCollectionTapShow();
+                            } else {
+                              sAnalytics.nftCollectionTapHide();
+                            }
                             store.setIsSoldHide();
                           },
                           defaultIcon: store.isSoldHide

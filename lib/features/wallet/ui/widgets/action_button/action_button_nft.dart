@@ -159,7 +159,15 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                         ),
                       ),
                       onTap: () {
+                        sAnalytics.nftWalletActionTap(
+                          nftCollectionID: widget.nft.symbol ?? '',
+                          nftObjectId: widget.nft.collectionId ?? '',
+                        );
                         if (actionActive) {
+                          sAnalytics.nftWalletActionView(
+                            nftCollectionID: widget.nft.symbol ?? '',
+                            nftObjectId: widget.nft.collectionId ?? '',
+                          );
                           sShowMenuActionSheet(
                             context: context,
                             isBuyAvailable: false,
@@ -174,9 +182,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () {
+                              sAnalytics.nftSellTap(
+                                nftCollectionID: widget.nft.symbol ?? '',
+                                nftObjectId: widget.nft.collectionId ?? '',
+                              );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
                                 sellNFT();
+                                sAnalytics.nftSellPreview(
+                                  nftCollectionID: widget.nft.symbol ?? '',
+                                  nftObjectId: widget.nft.collectionId ?? '',
+                                );
                               } else {
                                 handler.handle(
                                   status: kyc.depositStatus,
@@ -192,9 +208,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () {
+                              sAnalytics.nftSendTap(
+                                  nftCollectionID: widget.nft.symbol ?? '',
+                                  nftObjectId: widget.nft.collectionId ?? '',
+                              );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
                                 sendNFT();
+                                sAnalytics.nftSendView(
+                                  nftCollectionID: widget.nft.symbol ?? '',
+                                  nftObjectId: widget.nft.collectionId ?? '',
+                                );
                               } else {
                                 handler.handle(
                                   status: kyc.depositStatus,
@@ -239,7 +263,15 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             : const SActionActiveIcon(),
                       ),
                       onTap: () {
+                        sAnalytics.nftWalletActionTap(
+                          nftCollectionID: widget.nft.symbol ?? '',
+                          nftObjectId: widget.nft.collectionId ?? '',
+                        );
                         if (actionActive) {
+                          sAnalytics.nftWalletActionView(
+                            nftCollectionID: widget.nft.symbol ?? '',
+                            nftObjectId: widget.nft.collectionId ?? '',
+                          );
                           sShowMenuActionSheet(
                             context: context,
                             isBuyAvailable: false,
@@ -254,9 +286,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () {
+                              sAnalytics.nftSellTap(
+                                nftCollectionID: widget.nft.symbol ?? '',
+                                nftObjectId: widget.nft.collectionId ?? '',
+                              );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
                                 sellNFT();
+                                sAnalytics.nftSellPreview(
+                                  nftCollectionID: widget.nft.symbol ?? '',
+                                  nftObjectId: widget.nft.collectionId ?? '',
+                                );
                               } else {
                                 handler.handle(
                                   status: kyc.depositStatus,
@@ -272,9 +312,17 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () {
+                              sAnalytics.nftSendTap(
+                                nftCollectionID: widget.nft.symbol ?? '',
+                                nftObjectId: widget.nft.collectionId ?? '',
+                              );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
                                 sendNFT();
+                                sAnalytics.nftSendView(
+                                  nftCollectionID: widget.nft.symbol ?? '',
+                                  nftObjectId: widget.nft.collectionId ?? '',
+                                );
                               } else {
                                 handler.handle(
                                   status: kyc.depositStatus,

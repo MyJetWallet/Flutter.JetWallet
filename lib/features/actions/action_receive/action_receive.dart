@@ -56,6 +56,7 @@ void showReceiveAction(BuildContext context) {
             text: intl.actionReceive_receive_nft,
             subtext: intl.actionReceive_receive_nft,
             onTap: () {
+              sAnalytics.nftReceiveTap(source: "'S' Menu");
               sRouter.push(
                 const ReceiveNFTRouter(),
               );

@@ -135,6 +135,8 @@ class __MarketNestedScrollViewBodyState
                       activeFilters: store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
+                              sAnalytics.nftMarketTapFilter();
+                              sAnalytics.nftMarketFilterShowed();
                               showNFTFilterModalSheet(
                                 context,
                                 store as MarketFilterStore,
@@ -206,6 +208,7 @@ class __MarketNestedScrollViewBodyState
 
   Widget showNFTList() {
     final store = MarketFilterStore.of(context);
+    sAnalytics.nftMarketOpen();
 
     return Column(
       children: [
@@ -224,6 +227,21 @@ class __MarketNestedScrollViewBodyState
                   store.nftListFiltred[index].tags ?? [],
                 ),
                 onTap: () {
+                  sAnalytics.nftCollectionView(
+                    nftCollectionID: store.nftListFiltred[index].id!,
+                    source: 'Market',
+                  );
+                  sAnalytics.nftMarketTapCollection(
+                      collectionTitle: store.nftListFiltred[index].name ?? '',
+                      nftNumberPictures: '${store
+                          .nftListFiltred[index]
+                          .nftList
+                          .length}',
+                      nftCategories: store
+                          .nftListFiltred[index]
+                          .category
+                          .toString(),
+                  );
                   sRouter.push(
                     NftCollectionDetailsRouter(
                       collectionID: store.nftListFiltred[index].id!,

@@ -6,6 +6,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/secondary_button/light/simple_light_secondary_button_1.dart';
 import 'package:simple_kit/modules/icons/24x24/public/circle_done/circle_done.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -20,6 +21,9 @@ void showNFTFilterModalSheet(
 
   sShowBasicModalBottomSheet(
     onDissmis: () {
+      sAnalytics.nftMarketFilterClose(
+        nftCloseMethod: 'Swipe down',
+      );
       filterStore.nftFilterReset();
     },
     context: context,
@@ -43,6 +47,9 @@ void showNFTFilterModalSheet(
           ),
           SIconButton(
             onTap: () {
+              sAnalytics.nftMarketFilterClose(
+                nftCloseMethod: 'Cross sign',
+              );
               filterStore.nftFilterReset();
 
               Navigator.pop(context);

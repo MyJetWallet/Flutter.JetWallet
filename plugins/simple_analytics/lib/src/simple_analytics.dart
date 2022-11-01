@@ -1771,4 +1771,849 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void nftObjectTapCollection({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapCollection,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectTapCurrency({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String currency,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapCurrency,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.currency: currency,
+      },
+    );
+  }
+
+  void nftObjectTapBuy({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String currency,
+    required String nftPrice,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapBuy,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.currency: currency,
+        PropertyType.nftPrice: nftPrice,
+      },
+    );
+  }
+
+  void nftObjectNotEnoughAsset({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String currency,
+    required String nftPrice,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectNotEnoughAsset,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.currency: currency,
+        PropertyType.nftPrice: nftPrice,
+      },
+    );
+  }
+
+  void nftObjectTapGetAsset({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String currency,
+    required String nftPrice,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapGetAsset,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.currency: currency,
+        PropertyType.nftPrice: nftPrice,
+      },
+    );
+  }
+
+  void nftObjectCloseNotEnough({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String currency,
+    required String nftPrice,
+    required String method,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectCloseNotEnough,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.currency: currency,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.method: method,
+      },
+    );
+  }
+
+  void nftObjectTapPicture({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapPicture,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectPictureView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectPictureView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectPictureClose({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectPictureClose,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectTapShare({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapShare,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectShareView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectShareView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectTapCopy({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapCopy,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftObjectTapShareTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectTapShareTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void nftObjectShareClose({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String method,
+  }) {
+    _analytics.logEvent(
+      EventType.nftObjectShareClose,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.method: method,
+      },
+    );
+  }
+
+  void nftPurchaseConfirmView({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String nftPrice,
+    required String currency,
+    required String nftAmountToBePaid,
+    required String nftPromoCode,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseConfirmView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.currency: currency,
+        PropertyType.nftAmountToBePaid: nftAmountToBePaid,
+        PropertyType.nftPromoCode: nftPromoCode,
+      },
+    );
+  }
+
+  void nftPurchaseTapBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String nftPrice,
+    required String currency,
+    required String nftAmountToBePaid,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseTapBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.currency: currency,
+        PropertyType.nftAmountToBePaid: nftAmountToBePaid,
+      },
+    );
+  }
+
+  void nftPurchaseConfirmTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String nftPrice,
+    required String currency,
+    required String nftAmountToBePaid,
+    required String nftPromoCode,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseConfirmTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.currency: currency,
+        PropertyType.nftAmountToBePaid: nftAmountToBePaid,
+        PropertyType.nftPromoCode: nftPromoCode,
+      },
+    );
+  }
+
+  void nftPurchaseProcessing({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String nftPrice,
+    required String currency,
+    required String nftAmountToBePaid,
+    required String nftPromoCode,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseProcessing,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.currency: currency,
+        PropertyType.nftAmountToBePaid: nftAmountToBePaid,
+        PropertyType.nftPromoCode: nftPromoCode,
+      },
+    );
+  }
+
+  void nftPurchaseSuccess({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String nftPrice,
+    required String currency,
+    required String nftAmountToBePaid,
+    required String nftPromoCode,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseSuccess,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftPrice: nftPrice,
+        PropertyType.currency: currency,
+        PropertyType.nftAmountToBePaid: nftAmountToBePaid,
+        PropertyType.nftPromoCode: nftPromoCode,
+      },
+    );
+  }
+
+  void nftPurchaseDisplayed({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftPurchaseDisplayed,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftPortfolioTapNft() {
+    _analytics.logEvent(EventType.nftPortfolioTapNft);
+  }
+
+  void nftPortfolioNFTView() {
+    _analytics.logEvent(EventType.nftPortfolioNFTView);
+  }
+
+  void nftPortfolioHistory() {
+    _analytics.logEvent(EventType.nftPortfolioHistory);
+  }
+
+  void nftPortfolioHistoryView() {
+    _analytics.logEvent(EventType.nftPortfolioHistoryView);
+  }
+
+  void nftPortfolioBuy() {
+    _analytics.logEvent(EventType.nftPortfolioBuy);
+  }
+
+  void nftPortfolioReceive() {
+    _analytics.logEvent(EventType.nftPortfolioReceive);
+  }
+
+  void nftWalletTapObject({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletTapObject,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletObjectView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletObjectView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletActionTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletActionTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletActionView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletActionView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletStatsTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletStatsTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletHistory({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletHistory,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletTapHistoryObject({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletTapHistoryObject,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletHistoryObjectView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletHistoryObjectView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletTapCollection({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletTapCollection,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletCollectionView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletCollectionView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftWalletObjectFull({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftWalletObjectFull,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSellTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSellPreview({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellPreview,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSellPreviewTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellPreviewTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+      },
+    );
+  }
+
+  void nftSellConfirmView({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellConfirmView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellConfirmTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellConfirmTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellProcessing({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellProcessing,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellSuccess({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellSuccess,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellCancelTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellCancelTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellConfirmBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String asset,
+    required String nftPriceAmount,
+    required String nftOperationFee,
+    required String nftCreatorFee,
+    required String nftAmountToGet,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellConfirmBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.asset: asset,
+        PropertyType.nftPriceAmount: nftPriceAmount,
+        PropertyType.nftOperationFee: nftOperationFee,
+        PropertyType.nftCreatorFee: nftCreatorFee,
+        PropertyType.nftAmountToGet: nftAmountToGet,
+      },
+    );
+  }
+
+  void nftSellPreviewBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSellPreviewBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSendTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSendView({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSendBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+      },
+    );
+  }
+
+  void nftSendContinue({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendContinue,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+      },
+    );
+  }
+
+  void nftSendConfirmView({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+    required String nftFee,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendConfirmView,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+        PropertyType.nftFee: nftFee,
+      },
+    );
+  }
+
+  void nftSendConfirmBack({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+    required String nftFee,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendConfirmBack,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+        PropertyType.nftFee: nftFee,
+      },
+    );
+  }
+
+  void nftSendConfirmTap({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+    required String nftFee,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendConfirmTap,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+        PropertyType.nftFee: nftFee,
+      },
+    );
+  }
+
+  void nftSendProcessing({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+    required String nftFee,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendProcessing,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+        PropertyType.nftFee: nftFee,
+      },
+    );
+  }
+
+  void nftSendSuccess({
+    required String nftCollectionID,
+    required String nftObjectId,
+    required String network,
+    required String nftFee,
+  }) {
+    _analytics.logEvent(
+      EventType.nftSendSuccess,
+      eventProperties: {
+        PropertyType.nftCollectionID: nftCollectionID,
+        PropertyType.nftObjectId: nftObjectId,
+        PropertyType.nftNetwork: network,
+        PropertyType.nftFee: nftFee,
+      },
+    );
+  }
+
+  void nftReceiveTap({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.nftReceiveTap,
+      eventProperties: {
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void nftReceiveShareTap() {
+    _analytics.logEvent(EventType.nftReceiveShareTap);
+  }
+
+  void nftReceiveCopyTap() {
+    _analytics.logEvent(EventType.nftReceiveCopyTap);
+  }
+
+  void nftReceiveBack() {
+    _analytics.logEvent(EventType.nftReceiveBack);
+  }
 }
