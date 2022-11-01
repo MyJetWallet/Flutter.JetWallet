@@ -42,7 +42,7 @@ const _email = 'jw_email';
 const _action = 'action';
 const _jw_nft_collection_id = 'jw_nft_collection_id';
 const _jw_nft_token_symbol = 'jw_nft_token_symbol';
-const _jw_promo_code = 'jw_promo_code';
+const jw_promo_code = 'jw_promo_code';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -139,7 +139,7 @@ class DeepLinkService {
 
   Future<void> _nftTokenCommand(Map<String, String> parameters) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
-    final promoCode = parameters[_jw_promo_code]!;
+    final promoCode = parameters[jw_promo_code]!;
 
     final storage = sLocalStorageService;
 

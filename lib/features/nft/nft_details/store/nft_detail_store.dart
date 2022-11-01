@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -132,7 +133,13 @@ abstract class _NFTDetailStoreBase with Store {
 
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
-    final shareLinkNFT = '$shareLink${nft!.symbol!}';
+
+    String shareLinkNFT = '$shareLink${nft!.symbol!}';
+
+    if (sSignalRModules.referralInfo.nftPromoCode != null) {
+      shareLinkNFT =
+          '$shareLinkNFT&$jw_promo_code=${sSignalRModules.referralInfo.nftPromoCode}';
+    }
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
