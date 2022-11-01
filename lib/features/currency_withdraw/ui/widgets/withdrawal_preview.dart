@@ -142,7 +142,9 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   baseline: 35.0,
                   value: store.addressIsInternal
                       ? intl.noFee
-                      : matic.withdrawalFeeWithSymbol(network),
+                      : currency != null
+                          ? currency.withdrawalFeeWithSymbol(network)
+                          : matic.withdrawalFeeWithSymbol(network),
                 ),
                 const SBaselineChild(
                   baseline: 34.0,
