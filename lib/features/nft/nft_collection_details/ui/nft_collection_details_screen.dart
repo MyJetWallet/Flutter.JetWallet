@@ -475,7 +475,13 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ),
                       child: NFTCollectionNftItem(
                         nft: store.soldNFTFiltred[index],
-                        onTap: () {},
+                        onTap: () {
+                          sRouter.push(
+                            NFTDetailsRouter(
+                              nftSymbol: store.soldNFTFiltred[index].symbol!,
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

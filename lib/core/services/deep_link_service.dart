@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
@@ -41,7 +42,7 @@ const _email = 'jw_email';
 const _action = 'action';
 const _jw_nft_collection_id = 'jw_nft_collection_id';
 const _jw_nft_token_symbol = 'jw_nft_token_symbol';
-const _jw_promo_code = 'jw_promo_code';
+const jw_promo_code = 'jw_promo_code';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -133,15 +134,12 @@ class DeepLinkService {
   }
 
   void testFunc() {
-    _nftTokenCommand({
-      _jw_promo_code: 'test',
-      _jw_nft_token_symbol: 'NFT:SIMPL:22',
-    });
+    _nftMarketCommand();
   }
 
   Future<void> _nftTokenCommand(Map<String, String> parameters) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
-    final promoCode = parameters[_jw_promo_code]!;
+    final promoCode = parameters[jw_promo_code]!;
 
     final storage = sLocalStorageService;
 
@@ -154,11 +152,19 @@ class DeepLinkService {
       nftObjectId: tokenSymbol,
       source: 'External link',
     );
+    getIt<RouteQueryService>().addToQuery(
+      NFTDetailsRouter(
+        nftSymbol: tokenSymbol,
+      ),
+    );
+
+    /*
     await sRouter.push(
       NFTDetailsRouter(
         nftSymbol: tokenSymbol,
       ),
     );
+    */
   }
 
   void _nftCollectionCommand(Map<String, String> parameters) {
@@ -168,7 +174,7 @@ class DeepLinkService {
       nftCollectionID: collectionId,
       source: 'External link',
     );
-    sRouter.push(
+    getIt<RouteQueryService>().addToQuery(
       NftCollectionDetailsRouter(
         collectionID: collectionId,
       ),

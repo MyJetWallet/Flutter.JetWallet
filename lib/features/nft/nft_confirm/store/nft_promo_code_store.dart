@@ -135,16 +135,19 @@ abstract class _NFTPromoCodeStoreBase with Store {
             _moveCursorAtTheEnd();
           } else {
             promoStatus = const NftPromoCodeUnion.invalid();
+            isInputError = true;
           }
         },
         onError: (error) {
           promoStatus = const NftPromoCodeUnion.invalid();
+          isInputError = true;
 
           _triggerErrorOfReferralCodeField();
         },
       );
     } catch (error) {
       promoStatus = const NftPromoCodeUnion.invalid();
+      isInputError = true;
 
       _triggerErrorOfReferralCodeField();
     }
@@ -178,6 +181,12 @@ abstract class _NFTPromoCodeStoreBase with Store {
 
   @action
   void clearBottomSheetPromoCode() {
+    promoCode = null;
+    discount = null;
+    promoStatus = const NftPromoCodeUnion.input();
+    isInputError = false;
+    promoCodeController..text = '';
+
     bottomSheetReferralCode = null;
     updatePromoCode('');
     resetBottomSheetPromoCodeValidation();

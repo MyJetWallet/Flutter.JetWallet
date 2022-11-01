@@ -135,7 +135,9 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
         ? store.nft!.sellPrice != null
             ? store.nft!.sellPrice!
             : store.nft!.buyPrice!
-        : store.nft!.sellPrice!;
+        : store.nft!.sellPrice != null
+            ? store.nft!.sellPrice!
+            : store.nft!.buyPrice!;
 
     //final name = 'Very veryvesdaglajsdgl j aslgdk j long name Very veryvesdaglajsdgl';
 
@@ -144,79 +146,32 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
 
     return SPageFrame(
       loading: store.loader,
-      bottomNavigationBar: widget.userNFT
-          ? store.nft!.onSell!
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 24.0,
-                  ),
-                  child: SSecondaryButton1(
-                    active: true,
-                    name: intl.nft_detail_cancel_selling,
-                    onTap: () {
-                      store.cancelSellOrder();
-                    },
-                  ),
-                )
-              : ActionButtonNft(
-                  transitionAnimationController: _animationController,
-                  nft: store.nft!,
-                )
-          : NFTDetailBottomBar(
-              userNFT: widget.userNFT,
-              nft: store.nft!,
-              onTap: () async {
-                sAnalytics.nftObjectTapBuy(
-                  nftCollectionID: store.nft?.collectionId ?? '',
-                  nftObjectId: store.nft?.symbol ?? '',
-                  currency: store.nft?.tradingAsset ?? '',
-                  nftPrice: '${store.nft?.sellPrice}' ?? '',
-                );
-                final userInfo = getIt.get<UserInfoService>().userInfo;
-
-                if (userInfo.hasNftDisclaimers) {
-                  await store.initNftDisclaimer();
-                  if (store.send) {
-                    await store.clickBuy(context);
-                  } else {
-                    sShowNftTermsAlertPopup(
-                      context,
-                      store as NFTDetailStore,
-                      willPopScope: false,
-                      image: Image.asset(
-                        disclaimerAsset,
-                        width: 80,
-                        height: 80,
+      bottomNavigationBar: store.nft!.onSell!
+          ? widget.userNFT
+              ? store.nft!.onSell!
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0,
+                        vertical: 24.0,
                       ),
-                      primaryText: intl.nft_disclaimer_title,
-                      secondaryText: intl.nft_disclaimer_firstText,
-                      secondaryText2: intl.nft_disclaimer_terms,
-                      secondaryText3: intl.nft_disclaimer_secondText,
-                      primaryButtonName: intl.earn_terms_continue,
-                      onPrivacyPolicyTap: () {
-                        sRouter.navigate(
-                          HelpCenterWebViewRouter(
-                            link: nftTermsLink,
-                          ),
-                        );
-                      },
-                      onPrimaryButtonTap: () {
-                        store.sendAnswers(
-                              () {
-                            Navigator.pop(context);
-                            store.clickBuy(context);
-                          },
-                        );
-                      },
-                      child: const SizedBox(),
-                    );
-                  }
-                } else {
-                  await store.clickBuy(context);
-                }
-              },
-            ),
+                      child: SSecondaryButton1(
+                        active: true,
+                        name: intl.nft_detail_cancel_selling,
+                        onTap: () {
+                          store.cancelSellOrder();
+                        },
+                      ),
+                    )
+                  : ActionButtonNft(
+                      transitionAnimationController: _animationController,
+                      nft: store.nft!,
+                    )
+              : NFTDetailBottomBar(
+                  userNFT: widget.userNFT,
+                  nft: store.nft!,
+                  onTap: () => store.clickBuy(),
+                )
+          : null,
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
         child: CustomScrollView(

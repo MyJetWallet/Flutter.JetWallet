@@ -22,10 +22,14 @@ void showNFTCollectionFilterModalSheet(
     },
     context: context,
     horizontalPinnedPadding: 0.0,
+    removeBottomSheetBar: true,
+    removePinnedPadding: true,
+    horizontalPadding: 0,
     pinned: ActionBottomSheetHeader(
       name: intl.nft_collection_filter_header,
       onCloseTap: () {},
     ),
+    pinnedBottom: const SpaceH40(),
     children: [
       Observer(
         builder: (context) {
@@ -74,10 +78,10 @@ void showNFTCollectionFilterModalSheet(
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 22,
-                      ),
-                      const SDivider(),
+                      const SpaceH22(),
+                      if (store.filterValues.length - 1 != ind) ...[
+                        const SDivider(),
+                      ],
                     ],
                   ),
                 ),

@@ -59,6 +59,7 @@
 		<string>https://mobile.simple-spot.biz</string>
 		<string>https://jetwallet.page.link</string>
 		<string>https://promo.simple.app</string>
+		<string>http://simple-uat.simple-spot.biz</string>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
