@@ -20,6 +20,7 @@ void showNFTPromoCodeBottomSheet(Function() then) {
     color: colors.white,
     pinned: ActionBottomSheetHeader(
       name: intl.nft_promo_enter_code,
+      showCloseIcon: false,
     ),
     then: (test) {
       sAnalytics.nftPromoClosePromo();

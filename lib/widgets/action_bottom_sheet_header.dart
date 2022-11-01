@@ -6,6 +6,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
   const ActionBottomSheetHeader({
     Key? key,
     this.showSearch = false,
+    this.showCloseIcon = true,
     this.removePadding = false,
     this.onChanged,
     this.onCloseTap,
@@ -16,6 +17,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
   final Function(String)? onChanged;
   final Function()? onCloseTap;
   final bool showSearch;
+  final bool showCloseIcon;
   final bool removePadding;
 
   @override
@@ -38,7 +40,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              if (!showSearch)
+              if (showCloseIcon && !showSearch)
                 SIconButton(
                   onTap: () {
                     if (onCloseTap != null) {
