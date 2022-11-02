@@ -17,6 +17,10 @@ import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../../core/di/di.dart';
+import '../../../../kyc/helper/kyc_alert_handler.dart';
+import '../../../../kyc/kyc_service.dart';
+import '../../../../kyc/models/kyc_operation_status_model.dart';
 import 'portfolio_divider.dart';
 
 class PortfolioNftList extends StatelessObserverWidget {
@@ -135,6 +139,8 @@ class PortfolioNftList extends StatelessObserverWidget {
 
   Widget emptyNFTList(BuildContext context) {
     final colors = sKit.colors;
+    final kyc = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
 
     return SPaddingH24(
       child: Column(
@@ -170,9 +176,34 @@ class PortfolioNftList extends StatelessObserverWidget {
                 onTap: () {
                   sAnalytics.nftPortfolioReceive();
                   sAnalytics.nftReceiveTap(source: 'Portfolio');
-                  sRouter.push(
-                    const ReceiveNFTRouter(),
-                  );
+                  if (
+                  kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+                      kyc.withdrawalStatus ==
+                          kycOperationStatus(KycStatus.allowed) &&
+                      kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
+                  ) {
+                    sRouter.push(
+                      const ReceiveNFTRouter(),
+                    );
+                  } else {
+                    handler.handle(
+                      status: kyc.depositStatus !=
+                          kycOperationStatus(KycStatus.allowed)
+                          ? kyc.depositStatus
+                          : kyc.withdrawalStatus !=
+                          kycOperationStatus(KycStatus.allowed)
+                          ? kyc.withdrawalStatus
+                          : kyc.sellStatus,
+                      isProgress: kyc.verificationInProgress,
+                      currentNavigate: () {
+                        sRouter.push(
+                          const ReceiveNFTRouter(),
+                        );
+                      },
+                      requiredDocuments: kyc.requiredDocuments,
+                      requiredVerifications: kyc.requiredVerifications,
+                    );
+                  }
                 },
               ),
             ],

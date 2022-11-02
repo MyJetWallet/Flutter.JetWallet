@@ -109,11 +109,22 @@ abstract class _NFTDetailStoreBase with Store {
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
 
-    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+    if (
+    kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+        kyc.withdrawalStatus ==
+            kycOperationStatus(KycStatus.allowed) &&
+        kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
+    ) {
       buyNft();
     } else {
       handler.handle(
-        status: kyc.depositStatus,
+        status: kyc.depositStatus !=
+            kycOperationStatus(KycStatus.allowed)
+            ? kyc.depositStatus
+            : kyc.withdrawalStatus !=
+            kycOperationStatus(KycStatus.allowed)
+            ? kyc.withdrawalStatus
+            : kyc.sellStatus,
         isProgress: kyc.verificationInProgress,
         currentNavigate: () => buyNft(),
         requiredDocuments: kyc.requiredDocuments,
