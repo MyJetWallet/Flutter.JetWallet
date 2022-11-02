@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -84,6 +85,17 @@ abstract class _AppStoreBase with Store {
   bool withdrawDynamicLink = false;
   @action
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
+
+  @observable
+  int marketTab = 1;
+  @action
+  int setMarketTab(int value) => marketTab = value;
+
+  @observable
+  TabController? marketController;
+  @action
+  TabController setMarketController(TabController value) =>
+      marketController = value;
 
   @action
   Future<void> initSessionInfo() async {

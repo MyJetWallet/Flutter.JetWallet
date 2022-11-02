@@ -129,23 +129,22 @@ class DeepLinkService {
     } else if (command == _highYield) {
       _highYieldStartCommand();
     } else if (command == _NFTmarket) {
-      _nftMarketCommand(fromBG ?? false);
+      _nftMarketCommand();
     } else if (command == _NFTcollection) {
-      _nftCollectionCommand(parameters, fromBG ?? false);
+      _nftCollectionCommand(parameters);
     } else if (command == _NFTtoken) {
-      _nftTokenCommand(parameters, fromBG ?? false);
+      _nftTokenCommand(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
   void testFunc() {
-    _nftMarketCommand(false);
+    _nftMarketCommand();
   }
 
   Future<void> _nftTokenCommand(
     Map<String, String> parameters,
-    bool fromBG,
   ) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
     final promoCode = parameters[jw_promo_code];
@@ -176,9 +175,7 @@ class DeepLinkService {
     }
   }
 
-  void _nftCollectionCommand(Map<String, String> parameters, bool fromBG) {
-    print(parameters);
-
+  void _nftCollectionCommand(Map<String, String> parameters) {
     final collectionId = parameters[_jw_nft_collection_id]!;
 
     if (getIt.get<AppStore>().remoteConfigStatus is Success &&
@@ -200,16 +197,24 @@ class DeepLinkService {
     }
   }
 
-  void _nftMarketCommand(bool fromBG) {
+  void _nftMarketCommand() {
     if (getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      sRouter.replaceAll([
-        HomeRouter(
-          children: [
-            MarketRouter(initIndex: 2),
-          ],
-        ),
-      ]);
+      if (getIt<AppStore>().marketController != null) {
+        getIt<AppStore>().marketController!.animateTo(2);
+      }
+
+      sRouter.replaceAll(
+        [
+          HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 2,
+              ),
+            ],
+          ),
+        ],
+      );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
