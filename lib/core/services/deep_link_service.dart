@@ -144,13 +144,14 @@ class DeepLinkService {
   Future<void> _nftTokenCommand(
       Map<String, String> parameters, bool fromBG) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
-    final promoCode = parameters[jw_promo_code]!;
+    final promoCode = parameters[jw_promo_code];
 
-    final storage = sLocalStorageService;
+    if (promoCode != null) {
+      final storage = sLocalStorageService;
+      await storage.setString(nftPromoCode, promoCode);
 
-    await storage.setString(nftPromoCode, promoCode);
-
-    await getIt.get<NFTPromoCodeStore>().init();
+      await getIt.get<NFTPromoCodeStore>().init();
+    }
 
     if (fromBG) {
       getIt<RouteQueryService>().addToQuery(

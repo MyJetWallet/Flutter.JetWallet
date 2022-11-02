@@ -24,13 +24,13 @@ class DynamicLinkService {
       getIt.get<DeepLinkService>().handle(link, fromBG: true);
     };
 
-    _handleDynamicLink(data, handler);
+    _handleDynamicLink(data, handlerWithBG);
 
     // Register a link callback to fire if the app is opened up
     // from the background using a dynamic link.
     _firebaseDynamicLinks.onLink.listen(
       (data) async {
-        _handleDynamicLink(data, handlerWithBG);
+        _handleDynamicLink(data, handler);
       },
     ).onError(
       (error) {
