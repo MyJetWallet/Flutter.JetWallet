@@ -10,6 +10,7 @@ import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
@@ -156,7 +157,8 @@ class DeepLinkService {
       await getIt.get<NFTPromoCodeStore>().init();
     }
 
-    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
       await sRouter.push(
         NFTDetailsRouter(
           nftSymbol: tokenSymbol,
@@ -172,14 +174,6 @@ class DeepLinkService {
         ),
       );
     }
-
-    /*
-    await sRouter.push(
-      NFTDetailsRouter(
-        nftSymbol: tokenSymbol,
-      ),
-    );
-    */
   }
 
   void _nftCollectionCommand(Map<String, String> parameters, bool fromBG) {
@@ -187,7 +181,8 @@ class DeepLinkService {
 
     final collectionId = parameters[_jw_nft_collection_id]!;
 
-    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
       sRouter.push(
         NftCollectionDetailsRouter(
           collectionID: collectionId,
@@ -206,7 +201,8 @@ class DeepLinkService {
   }
 
   void _nftMarketCommand(bool fromBG) {
-    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
       sRouter.replaceAll([
         HomeRouter(
           children: [
