@@ -73,7 +73,11 @@ class DeepLinkService {
 
   final _logger = Logger('');
 
-  void handle(Uri link, [SourceScreen? source]) {
+  void handle(
+    Uri link, {
+    SourceScreen? source,
+    bool? fromBG,
+  }) {
     // old version
     var parameters = link.queryParameters;
 
@@ -123,21 +127,22 @@ class DeepLinkService {
     } else if (command == _highYield) {
       _highYieldStartCommand();
     } else if (command == _NFTmarket) {
-      _nftMarketCommand();
+      _nftMarketCommand(fromBG ?? false);
     } else if (command == _NFTcollection) {
-      _nftCollectionCommand(parameters);
+      _nftCollectionCommand(parameters, fromBG ?? false);
     } else if (command == _NFTtoken) {
-      _nftTokenCommand(parameters);
+      _nftTokenCommand(parameters, fromBG ?? false);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
   void testFunc() {
-    _nftMarketCommand();
+    _nftMarketCommand(false);
   }
 
-  Future<void> _nftTokenCommand(Map<String, String> parameters) async {
+  Future<void> _nftTokenCommand(
+      Map<String, String> parameters, bool fromBG) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
     final promoCode = parameters[jw_promo_code]!;
 
@@ -147,15 +152,23 @@ class DeepLinkService {
 
     await getIt.get<NFTPromoCodeStore>().init();
 
+    if (fromBG) {
+      getIt<RouteQueryService>().addToQuery(
+        NFTDetailsRouter(
+          nftSymbol: tokenSymbol,
+        ),
+      );
+    } else {
+      await sRouter.push(
+        NFTDetailsRouter(
+          nftSymbol: tokenSymbol,
+        ),
+      );
+    }
     sAnalytics.nftObjectView(
       nftCollectionID: '',
       nftObjectId: tokenSymbol,
       source: 'External link',
-    );
-    getIt<RouteQueryService>().addToQuery(
-      NFTDetailsRouter(
-        nftSymbol: tokenSymbol,
-      ),
     );
 
     /*
@@ -167,21 +180,29 @@ class DeepLinkService {
     */
   }
 
-  void _nftCollectionCommand(Map<String, String> parameters) {
+  void _nftCollectionCommand(Map<String, String> parameters, bool fromBG) {
     final collectionId = parameters[_jw_nft_collection_id]!;
 
+    if (fromBG) {
+      getIt<RouteQueryService>().addToQuery(
+        NftCollectionDetailsRouter(
+          collectionID: collectionId,
+        ),
+      );
+    } else {
+      sRouter.push(
+        NftCollectionDetailsRouter(
+          collectionID: collectionId,
+        ),
+      );
+    }
     sAnalytics.nftCollectionView(
       nftCollectionID: collectionId,
       source: 'External link',
     );
-    getIt<RouteQueryService>().addToQuery(
-      NftCollectionDetailsRouter(
-        collectionID: collectionId,
-      ),
-    );
   }
 
-  void _nftMarketCommand() {
+  void _nftMarketCommand(bool fromBG) {
     sRouter.push(
       HomeRouter(
         children: [

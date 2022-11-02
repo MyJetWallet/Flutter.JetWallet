@@ -269,7 +269,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                             child: Text(
                               volumeFormat(
                                 decimal:
-                                    Decimal.fromInt(store.nftModel!.bestOffer!),
+                                    store.nftModel!.bestOffer ?? Decimal.zero,
                                 symbol: store.nftModel!.bestOfferAsset!,
                                 accuracy: currency.accuracy,
                               ),

@@ -89,7 +89,7 @@ class _RewardsBody extends StatelessObserverWidget {
                 onTap: () {
                   deepLinkService.handle(
                     Uri.parse(item.campaign!.deepLink),
-                    SourceScreen.bannerOnRewards,
+                    source: SourceScreen.bannerOnRewards,
                   );
                 },
               ),
