@@ -138,7 +138,7 @@ abstract class _NFTDetailStoreBase with Store {
 
     if (sSignalRModules.referralInfo.nftPromoCode != null) {
       shareLinkNFT =
-          '$shareLinkNFT&$jw_promo_code=${sSignalRModules.referralInfo.nftPromoCode}';
+          '$shareLinkNFT?${jw_promo_code.replaceAll("jw_", "")}=${sSignalRModules.referralInfo.nftPromoCode}';
     }
 
     sShowBasicModalBottomSheet(

@@ -182,7 +182,7 @@ abstract class _NFTPromoCodeStoreBase with Store {
   }
 
   @action
-  void clearBottomSheetPromoCode() {
+  Future<void> clearBottomSheetPromoCode() async {
     promoCode = null;
     discount = null;
     promoStatus = const NftPromoCodeUnion.input();
@@ -190,8 +190,10 @@ abstract class _NFTPromoCodeStoreBase with Store {
     promoCodeController..text = '';
 
     bottomSheetReferralCode = null;
-    updatePromoCode('');
+    unawaited(updatePromoCode(''));
     resetBottomSheetPromoCodeValidation();
+
+    await sLocalStorageService.setString(nftPromoCode, null);
   }
 
   @action

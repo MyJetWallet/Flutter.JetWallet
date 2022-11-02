@@ -139,10 +139,13 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     final expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
     //final expandedHeight = 130 + (name.length ?? 0).toDouble();
 
+    final showBaottomBar = !widget.userNFT && !store.nft!.onSell!;
+
     return SPageFrame(
       loading: store.loader,
-      bottomNavigationBar: store.nft!.onSell!
-          ? widget.userNFT
+      bottomNavigationBar: !widget.userNFT && !store.nft!.onSell!
+          ? null
+          : widget.userNFT
               ? store.nft!.onSell!
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
@@ -165,8 +168,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                   userNFT: widget.userNFT,
                   nft: store.nft!,
                   onTap: () => store.clickBuy(),
-                )
-          : null,
+                ),
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
         child: CustomScrollView(

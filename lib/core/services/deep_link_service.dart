@@ -32,6 +32,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'local_storage_service.dart';
+import 'remote_config/models/remote_config_union.dart';
 
 /// Parameters
 const _code = 'jw_code';
@@ -142,7 +143,9 @@ class DeepLinkService {
   }
 
   Future<void> _nftTokenCommand(
-      Map<String, String> parameters, bool fromBG) async {
+    Map<String, String> parameters,
+    bool fromBG,
+  ) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
     final promoCode = parameters[jw_promo_code];
 
@@ -153,16 +156,19 @@ class DeepLinkService {
       await getIt.get<NFTPromoCodeStore>().init();
     }
 
-    if (fromBG) {
-      getIt<RouteQueryService>().addToQuery(
+    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+      await sRouter.push(
         NFTDetailsRouter(
           nftSymbol: tokenSymbol,
         ),
       );
     } else {
-      await sRouter.push(
-        NFTDetailsRouter(
-          nftSymbol: tokenSymbol,
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: NFTDetailsRouter(
+            nftSymbol: tokenSymbol,
+          ),
         ),
       );
     }
@@ -177,31 +183,49 @@ class DeepLinkService {
   }
 
   void _nftCollectionCommand(Map<String, String> parameters, bool fromBG) {
+    print(parameters);
+
     final collectionId = parameters[_jw_nft_collection_id]!;
 
-    if (fromBG) {
-      getIt<RouteQueryService>().addToQuery(
+    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+      sRouter.push(
         NftCollectionDetailsRouter(
           collectionID: collectionId,
         ),
       );
     } else {
-      sRouter.push(
-        NftCollectionDetailsRouter(
-          collectionID: collectionId,
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: NftCollectionDetailsRouter(
+            collectionID: collectionId,
+          ),
         ),
       );
     }
   }
 
   void _nftMarketCommand(bool fromBG) {
-    sRouter.push(
-      HomeRouter(
-        children: [
-          MarketRouter(initIndex: 2),
-        ],
-      ),
-    );
+    if (getIt.get<AppStore>().remoteConfigStatus is Success) {
+      sRouter.replaceAll([
+        HomeRouter(
+          children: [
+            MarketRouter(initIndex: 2),
+          ],
+        ),
+      ]);
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.replace,
+          query: HomeRouter(
+            children: [
+              MarketRouter(initIndex: 2),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   void _highYieldStartCommand() {
