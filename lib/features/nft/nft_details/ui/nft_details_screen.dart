@@ -169,7 +169,56 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               : NFTDetailBottomBar(
                   userNFT: widget.userNFT,
                   nft: store.nft!,
-                  onTap: () => store.clickBuy(),
+                  onTap: () async {
+                    sAnalytics.nftObjectTapBuy(
+                      nftCollectionID: store.nft?.collectionId ?? '',
+                      nftObjectId: store.nft?.symbol ?? '',
+                      currency: store.nft?.tradingAsset ?? '',
+                      nftPrice: '${store.nft?.sellPrice}' ?? '',
+                    );
+                    final userInfo = getIt.get<UserInfoService>().userInfo;
+
+                    if (userInfo.hasNftDisclaimers) {
+                      await store.initNftDisclaimer();
+                      if (store.send) {
+                        await store.clickBuy(context);
+                      } else {
+                        sShowNftTermsAlertPopup(
+                          context,
+                          store as NFTDetailStore,
+                          willPopScope: false,
+                          image: Image.asset(
+                            disclaimerAsset,
+                            width: 80,
+                            height: 80,
+                          ),
+                          primaryText: intl.nft_disclaimer_title,
+                          secondaryText: intl.nft_disclaimer_firstText,
+                          secondaryText2: intl.nft_disclaimer_terms,
+                          secondaryText3: intl.nft_disclaimer_secondText,
+                          primaryButtonName: intl.earn_terms_continue,
+                          onPrivacyPolicyTap: () {
+                            sRouter.navigate(
+                              HelpCenterWebViewRouter(
+                                link: nftTermsLink,
+                              ),
+                            );
+                          },
+                          onPrimaryButtonTap: () {
+                            store.sendAnswers(
+                                  () {
+                                Navigator.pop(context);
+                                store.clickBuy(context);
+                              },
+                            );
+                          },
+                          child: const SizedBox(),
+                        );
+                      }
+                    } else {
+                      await store.clickBuy(context);
+                    }
+                  },
                 )
           : null,
       child: SShadeAnimationStack(
