@@ -58,7 +58,7 @@ class _MarketBannersBody extends StatelessObserverWidget {
                       onTap: () {
                         deepLinkService.handle(
                           Uri.parse(campaign.deepLink),
-                          SourceScreen.bannerOnMarket,
+                          source: SourceScreen.bannerOnMarket,
                         );
                       },
                       child: Container(

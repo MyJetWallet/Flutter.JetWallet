@@ -17,7 +17,7 @@ class NftModel with _$NftModel {
     String? sImage,
     String? fImage,
     @DecimalNullSerialiser() Decimal? totalVolumeUsd,
-    int? bestOffer,
+    @DecimalNullSerialiser() Decimal? bestOffer,
     String? bestOfferAsset,
     int? ownerCount,
     int? order,

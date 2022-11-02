@@ -45,7 +45,7 @@ class RewardsDescriptionItem extends StatelessObserverWidget {
                   (String deepLink) {
                     deepLinkService.handle(
                       Uri.parse(deepLink),
-                      SourceScreen.bannerOnRewards,
+                      source: SourceScreen.bannerOnRewards,
                     );
                   },
                 ),

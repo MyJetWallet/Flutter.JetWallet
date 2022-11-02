@@ -16,7 +16,12 @@ class DynamicLinkService {
 
     // ignore: prefer_function_declarations_over_variables
     final Function(Uri) handler = (link) {
-      getIt.get<DeepLinkService>().handle(link);
+      getIt.get<DeepLinkService>().handle(link, fromBG: false);
+    };
+
+    // ignore: prefer_function_declarations_over_variables
+    final Function(Uri) handlerWithBG = (link) {
+      getIt.get<DeepLinkService>().handle(link, fromBG: true);
     };
 
     _handleDynamicLink(data, handler);
@@ -25,7 +30,7 @@ class DynamicLinkService {
     // from the background using a dynamic link.
     _firebaseDynamicLinks.onLink.listen(
       (data) async {
-        _handleDynamicLink(data, handler);
+        _handleDynamicLink(data, handlerWithBG);
       },
     ).onError(
       (error) {
