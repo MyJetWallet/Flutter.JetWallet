@@ -22,6 +22,7 @@ class NFTCollectionNftItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final height = (MediaQuery.of(context).size.width - 68) / 2;
 
     bool isNameGrey = nft.sellPrice == null && !showBuyInfo;
 
@@ -31,7 +32,7 @@ class NFTCollectionNftItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          image(),
+          image(height),
           const SpaceH6(),
           Text(
             nft.name ?? '',
@@ -91,14 +92,15 @@ class NFTCollectionNftItem extends StatelessWidget {
     );
   }
 
-  Widget image() {
+  Widget image(double height) {
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: CachedNetworkImage(
         imageUrl: '$shortUrl${nft.sImage}',
         imageBuilder: (context, imageProvider) {
           return Container(
-            height: 154,
+            height: height,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               image: DecorationImage(

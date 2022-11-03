@@ -462,19 +462,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
               ),
             ),
           ],
-          deviceSize.when(
-            small: () {
-              if (Platform.isIOS) {
-                return const SpaceH24();
-              }
-
-              return const SizedBox();
-            },
-            medium: () {
-              return const SizedBox();
-            },
-          ),
-          if (Platform.isAndroid) const SpaceH24(),
+          const SpaceH24(),
         ],
         context: context,
         then: (value) {
