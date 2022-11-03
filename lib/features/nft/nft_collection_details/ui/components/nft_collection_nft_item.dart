@@ -110,12 +110,12 @@ class NFTCollectionNftItem extends StatelessWidget {
             ),
           );
         },
-        placeholder: (context, url) => const SSkeletonTextLoader(
-          height: 154,
+        placeholder: (context, url) => SSkeletonTextLoader(
+          height: height,
           width: double.infinity,
         ),
-        errorWidget: (context, url, error) => const SSkeletonTextLoader(
-          height: 154,
+        errorWidget: (context, url, error) => SSkeletonTextLoader(
+          height: height,
           width: double.infinity,
         ),
       ),
