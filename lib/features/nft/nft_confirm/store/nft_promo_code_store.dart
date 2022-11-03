@@ -57,7 +57,8 @@ abstract class _NFTPromoCodeStoreBase with Store {
     final promoCodeStorage = await sLocalStorageService.getValue(nftPromoCode);
 
     if (promoCodeStorage != null) {
-      promoCodeController..text = promoCodeStorage;
+      promoCodeController = TextEditingController()..text = promoCodeStorage;
+      _moveCursorAtTheEnd();
 
       await validatePromoCode(promoCodeStorage);
 
