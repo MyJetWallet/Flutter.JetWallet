@@ -173,9 +173,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           if (transactionListItem.status == Status.completed)
             Text(
               convertToUsd(
-                catchingTypes
-                  ? currency.currentPrice
-                  : transactionListItem.assetPriceInUsd,
+                basePrice(
+                  catchingTypes
+                    ? currency.currentPrice
+                    : transactionListItem.assetPriceInUsd,
+                  baseCurrency,
+                  sSignalRModules.currenciesWithHiddenList,
+                ),
                 operationAmount(transactionListItem),
                 baseCurrency,
               ),
@@ -278,6 +282,25 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       symbol: baseCurrency.symbol,
       prefix: baseCurrency.prefix,
     )}';
+  }
+
+  Decimal basePrice(
+    Decimal assetPriceInUsd,
+    BaseCurrencyModel baseCurrency,
+    List<CurrencyModel> allCurrencies,
+  ) {
+
+    final baseCurrencyMain = currencyFromAll(
+      allCurrencies,
+      baseCurrency.symbol,
+    );
+    print(baseCurrency.symbol);
+    print(baseCurrencyMain.currentPrice);
+    if (baseCurrency.symbol == 'USD') {
+      return assetPriceInUsd;
+    }
+
+    return assetPriceInUsd * baseCurrencyMain.currentPrice;
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {

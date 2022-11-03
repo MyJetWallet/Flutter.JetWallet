@@ -334,6 +334,46 @@ abstract class _SignalRModulesBase with Store {
           );
         }
       }
+      if (currenciesWithHiddenList.isNotEmpty) {
+        for (final currency in currenciesWithHiddenList) {
+          final index = currenciesWithHiddenList.indexOf(currency);
+
+          final assetPrice = basePriceFrom(
+            prices: value.prices,
+            assetSymbol: currency.symbol,
+          );
+
+          final baseBalance = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetBalance,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseTotalEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetTotalEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseCurrentEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetCurrentEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          currenciesWithHiddenList[index] = currency.copyWith(
+            baseBalance: baseBalance,
+            currentPrice: assetPrice.currentPrice,
+            dayPriceChange: assetPrice.dayPriceChange,
+            dayPercentChange: assetPrice.dayPercentChange,
+            baseTotalEarnAmount: baseTotalEarnAmount,
+            baseCurrentEarnAmount: baseCurrentEarnAmount,
+          );
+        }
+      }
     });
 
     balances.listen((value) {
@@ -655,6 +695,47 @@ abstract class _SignalRModulesBase with Store {
           );
 
           currenciesList[index] = currency.copyWith(
+            baseBalance: baseBalance,
+            currentPrice: assetPrice.currentPrice,
+            dayPriceChange: assetPrice.dayPriceChange,
+            dayPercentChange: assetPrice.dayPercentChange,
+            baseTotalEarnAmount: baseTotalEarnAmount,
+            baseCurrentEarnAmount: baseCurrentEarnAmount,
+          );
+        }
+      }
+
+      if (currenciesWithHiddenList.isNotEmpty) {
+        for (final currency in currenciesWithHiddenList) {
+          final index = currenciesWithHiddenList.indexOf(currency);
+
+          final assetPrice = basePriceFrom(
+            prices: sSignalRModules.basePrices.value?.prices ?? [],
+            assetSymbol: currency.symbol,
+          );
+
+          final baseBalance = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetBalance,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseTotalEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetTotalEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          final baseCurrentEarnAmount = calculateBaseBalance(
+            assetSymbol: currency.symbol,
+            assetBalance: currency.assetCurrentEarnAmount,
+            assetPrice: assetPrice,
+            baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+          );
+
+          currenciesWithHiddenList[index] = currency.copyWith(
             baseBalance: baseBalance,
             currentPrice: assetPrice.currentPrice,
             dayPriceChange: assetPrice.dayPriceChange,
