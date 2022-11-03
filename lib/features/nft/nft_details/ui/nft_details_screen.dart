@@ -222,8 +222,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       await store.clickBuy(context);
                     }
                   },
-                )
-          : null,
+                ),
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
         child: CustomScrollView(
