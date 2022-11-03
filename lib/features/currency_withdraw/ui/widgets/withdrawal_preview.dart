@@ -107,7 +107,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   nftCollectionID: withdrawal.nft?.symbol ?? '',
                   nftObjectId: withdrawal.nft?.collectionId ?? '',
                   network: network,
-                  nftFee:'${matic.withdrawalFeeSize(network)}',
+                  nftFee: '${matic.withdrawalFeeSize(network)}',
                 );
               }
             },
@@ -206,7 +206,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.65,
                           child: Text(
-                            '${intl.nft_send_not_enough_1} ${matic.symbol} ${intl.nft_send_not_enough_2}',
+                            '${intl.nft_send_not_enough_1} ${currency != null ? currency.symbol : matic.symbol} ${intl.nft_send_not_enough_2}',
                             style: sBodyText1Style,
                             maxLines: 6,
                           ),
@@ -233,7 +233,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                         nftCollectionID: withdrawal.nft?.symbol ?? '',
                         nftObjectId: withdrawal.nft?.collectionId ?? '',
                         network: network,
-                        nftFee:'${matic.withdrawalFeeSize(network)}',
+                        nftFee: '${matic.withdrawalFeeSize(network)}',
                       );
                       store.withdrawNFT();
                     }
