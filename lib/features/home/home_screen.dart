@@ -58,29 +58,26 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return AutoTabsScaffold(
-          routes: earnEnabled ? screens : screensWithNews,
-          builder: (context, child, animation) {
-            return Observer(
-              builder: (context) {
-                return SShadeAnimationStack(
-                  showShade: getIt.get<AppStore>().actionMenuActive,
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
-                );
-              },
-            );
-          },
-          bottomNavigationBuilder: (_, tabsRouter) {
-            return BottomNavigationMenu(
-              transitionAnimationController: animationController,
-              currentIndex: tabsRouter.activeIndex,
-              onChanged: tabsRouter.setActiveIndex,
-            );
+    return AutoTabsScaffold(
+      routes: earnEnabled ? screens : screensWithNews,
+      builder: (context, child, animation) {
+        return SShadeAnimationStack(
+          showShade: getIt.get<AppStore>().actionMenuActive,
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
+      },
+      bottomNavigationBuilder: (_, tabsRouter) {
+        getIt.get<AppStore>().setTabsRouter(tabsRouter);
+
+        return BottomNavigationMenu(
+          transitionAnimationController: animationController,
+          currentIndex: getIt.get<AppStore>().homeTab,
+          onChanged: (int val) {
+            getIt<AppStore>().setHomeTab(val);
+            tabsRouter.setActiveIndex(val);
           },
         );
       },
