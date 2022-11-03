@@ -84,8 +84,9 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
             ' $descr'
         : '${intl.nft_send} ${withdrawal.nft!.name}';
 
-    final isUserEnoughForWithdraw =
-        matic.assetBalance > matic.withdrawalFeeSize(network);
+    final isUserEnoughMaticForWithdraw = currency == null
+        ? matic.assetBalance > matic.withdrawalFeeSize(network)
+        : true;
 
     return SPageFrameWithPadding(
       loading: store.loader,
@@ -186,7 +187,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   ),
                 ],
                 const SpaceH34(),
-                if (!isUserEnoughForWithdraw) ...[
+                if (!isUserEnoughMaticForWithdraw) ...[
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -217,7 +218,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                 ],
                 const SpaceH16(),
                 SPrimaryButton2(
-                  active: !store.loading && isUserEnoughForWithdraw,
+                  active: !store.loading && isUserEnoughMaticForWithdraw,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (currency != null) {
