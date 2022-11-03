@@ -239,7 +239,7 @@ class EarnOfferDetailsBody extends StatelessObserverWidget {
                 );
               },
             ),
-            if (Platform.isAndroid) const SpaceH24(),
+            const SpaceH24(),
           ],
         ],
       ),
