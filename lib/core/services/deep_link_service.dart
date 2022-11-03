@@ -10,6 +10,7 @@ import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
@@ -32,6 +33,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'local_storage_service.dart';
+import 'remote_config/models/remote_config_union.dart';
 
 /// Parameters
 const _code = 'jw_code';
@@ -127,41 +129,47 @@ class DeepLinkService {
     } else if (command == _highYield) {
       _highYieldStartCommand();
     } else if (command == _NFTmarket) {
-      _nftMarketCommand(fromBG ?? false);
+      _nftMarketCommand();
     } else if (command == _NFTcollection) {
-      _nftCollectionCommand(parameters, fromBG ?? false);
+      _nftCollectionCommand(parameters);
     } else if (command == _NFTtoken) {
-      _nftTokenCommand(parameters, fromBG ?? false);
+      _nftTokenCommand(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
   void testFunc() {
-    _nftMarketCommand(false);
+    _nftMarketCommand();
   }
 
   Future<void> _nftTokenCommand(
-      Map<String, String> parameters, bool fromBG) async {
+    Map<String, String> parameters,
+  ) async {
     final tokenSymbol = parameters[_jw_nft_token_symbol]!;
-    final promoCode = parameters[jw_promo_code]!;
+    final promoCode = parameters[jw_promo_code];
 
-    final storage = sLocalStorageService;
+    if (promoCode != null) {
+      final storage = sLocalStorageService;
+      await storage.setString(nftPromoCode, promoCode);
 
-    await storage.setString(nftPromoCode, promoCode);
+      await getIt.get<NFTPromoCodeStore>().init();
+    }
 
-    await getIt.get<NFTPromoCodeStore>().init();
-
-    if (fromBG) {
-      getIt<RouteQueryService>().addToQuery(
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
         NFTDetailsRouter(
           nftSymbol: tokenSymbol,
         ),
       );
     } else {
-      await sRouter.push(
-        NFTDetailsRouter(
-          nftSymbol: tokenSymbol,
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: NFTDetailsRouter(
+            nftSymbol: tokenSymbol,
+          ),
         ),
       );
     }
@@ -170,29 +178,25 @@ class DeepLinkService {
       nftObjectId: tokenSymbol,
       source: 'External link',
     );
-
-    /*
-    await sRouter.push(
-      NFTDetailsRouter(
-        nftSymbol: tokenSymbol,
-      ),
-    );
-    */
   }
 
-  void _nftCollectionCommand(Map<String, String> parameters, bool fromBG) {
+  void _nftCollectionCommand(Map<String, String> parameters) {
     final collectionId = parameters[_jw_nft_collection_id]!;
 
-    if (fromBG) {
-      getIt<RouteQueryService>().addToQuery(
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      sRouter.push(
         NftCollectionDetailsRouter(
           collectionID: collectionId,
         ),
       );
     } else {
-      sRouter.push(
-        NftCollectionDetailsRouter(
-          collectionID: collectionId,
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: NftCollectionDetailsRouter(
+            collectionID: collectionId,
+          ),
         ),
       );
     }
@@ -202,14 +206,36 @@ class DeepLinkService {
     );
   }
 
-  void _nftMarketCommand(bool fromBG) {
-    sRouter.push(
-      HomeRouter(
-        children: [
-          MarketRouter(initIndex: 2),
+  void _nftMarketCommand() {
+    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      if (getIt<AppStore>().marketController != null) {
+        getIt<AppStore>().marketController!.animateTo(2);
+      }
+
+      sRouter.replaceAll(
+        [
+          HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 2,
+              ),
+            ],
+          ),
         ],
-      ),
-    );
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.replace,
+          query: HomeRouter(
+            children: [
+              MarketRouter(initIndex: 2),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   void _highYieldStartCommand() {

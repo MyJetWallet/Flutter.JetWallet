@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/market_gainers.dart';
 import 'package:jetwallet/features/market/helper/market_indices.dart';
 import 'package:jetwallet/features/market/helper/market_losers.dart';
@@ -26,7 +28,8 @@ class MarketScreen extends StatefulObserverWidget {
   State<MarketScreen> createState() => _MarketScreenState();
 }
 
-class _MarketScreenState extends State<MarketScreen> {
+class _MarketScreenState extends State<MarketScreen>
+    with SingleTickerProviderStateMixin {
   int _marketTabsLength(
     bool gainersEmpty,
     bool losersEmpty,
@@ -47,19 +50,27 @@ class _MarketScreenState extends State<MarketScreen> {
     return marketTabsLength;
   }
 
-  //late TabController _controller;
+  late TabController _controller;
   //int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
-    //_controller = TabController(length: showCrypto ? 3 : 2, vsync: this);
+    final showCrypto = sSignalRModules.nftList.isNotEmpty;
+
+    _controller = TabController(
+      length: showCrypto ? 3 : 2,
+      initialIndex: widget.initIndex,
+      vsync: this,
+    );
+
+    getIt<AppStore>().setMarketController(_controller);
   }
 
   @override
   void dispose() {
-    //_controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -101,31 +112,27 @@ class _MarketScreenState extends State<MarketScreen> {
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
     return Scaffold(
-      body: DefaultTabController(
-        initialIndex: widget.initIndex,
-        length: showCrypto ? 3 : 2,
-        child: Builder(builder: (context) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                TabBarView(
-                  children: [
-                    const WatchlistTabBarView(),
-                    MarketNestedScrollView(
-                      items: cryptoPrices,
-                      nft: const [],
-                      showBanners: true,
-                      sourceScreen: FilterMarketTabAction.all,
-                    ),
-                    if (showCrypto) ...[
-                      MarketNestedScrollView(
-                        items: const [],
-                        nft: nftMarket,
-                        showFilter: true,
-                        sourceScreen: FilterMarketTabAction.all,
-                      ),
-                    ],
-                    /*
+      body: Stack(
+        children: [
+          TabBarView(
+            controller: getIt<AppStore>().marketController,
+            children: [
+              const WatchlistTabBarView(),
+              MarketNestedScrollView(
+                items: cryptoPrices,
+                nft: const [],
+                showBanners: true,
+                sourceScreen: FilterMarketTabAction.all,
+              ),
+              if (showCrypto) ...[
+                MarketNestedScrollView(
+                  items: const [],
+                  nft: nftMarket,
+                  showFilter: true,
+                  sourceScreen: FilterMarketTabAction.all,
+                ),
+              ],
+              /*
                       if (indices.isNotEmpty)
                         MarketNestedScrollView(
                           items: indices,
@@ -142,24 +149,25 @@ class _MarketScreenState extends State<MarketScreen> {
                           sourceScreen: FilterMarketTabAction.losers,
                         ),
                         */
-                  ],
+            ],
+          ),
+          Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: BottomTabs(
+              tabController: getIt<AppStore>().marketController,
+              tabs: [
+                const BottomTab(
+                  icon: SStarIcon(),
                 ),
-                Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: BottomTabs(
-                    tabs: [
-                      const BottomTab(
-                        icon: SStarIcon(),
-                      ),
-                      BottomTab(text: intl.market_crypto),
-                      if (showCrypto) ...[
-                        BottomTab(
-                          text: intl.market_nft,
-                          //isActive: DefaultTabController.of(context)!.index == 2,
-                          isTextBlue: true,
-                        ),
-                      ],
-                      /*
+                BottomTab(text: intl.market_crypto),
+                if (showCrypto) ...[
+                  BottomTab(
+                    text: intl.market_nft,
+                    //isActive: DefaultTabController.of(context)!.index == 2,
+                    isTextBlue: true,
+                  ),
+                ],
+                /*
                         if (indices.isNotEmpty)
                           BottomTab(
                             text: intl.market_bottomTabLabel3,
@@ -173,14 +181,25 @@ class _MarketScreenState extends State<MarketScreen> {
                             text: intl.market_bottomTabLabel5,
                           ),
                           */
-                    ],
-                  ),
-                ),
               ],
             ),
-          );
+          ),
+        ],
+      ),
+    );
+
+    /*
+    return Scaffold(
+      body: TabBarView(
+        //initialIndex: widget.initIndex,
+        //length: showCrypto ? 3 : 2,
+        controller: _controller,
+        children: [],
+        child: Builder(builder: (context) {
+          
         }),
       ),
     );
+    */
   }
 }

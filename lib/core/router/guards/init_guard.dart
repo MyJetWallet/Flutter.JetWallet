@@ -114,7 +114,9 @@ class InitGuard extends AutoRouteGuard {
 
               resolver.next();
 
-              getIt<RouteQueryService>().runQuery();
+              if (!getIt<RouteQueryService>().isNavigate) {
+                getIt<RouteQueryService>().runQuery();
+              }
             },
             askBioUsing: () {
               _logger.log(notifier, 'AuthStatus: AskBioUsing');

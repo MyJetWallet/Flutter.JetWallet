@@ -50,39 +50,42 @@ void showNFTCollectionFilterModalSheet(
                           : false
                       : false;
 
-              return InkWell(
-                onTap: () {
-                  sAnalytics.nftCollectionSortApply(
-                    nftSortingOption: e.value,
-                  );
-                  store.activeFilter(
-                    e,
-                    isAvailableNFT,
-                  );
+              return SizedBox(
+                width: double.infinity,
+                child: InkWell(
+                  onTap: () {
+                    sAnalytics.nftCollectionSortApply(
+                      nftSortingOption: e.value,
+                    );
+                    store.activeFilter(
+                      e,
+                      isAvailableNFT,
+                    );
 
-                  Navigator.of(context).pop();
-                },
-                child: SPaddingH24(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SpaceH18(),
-                      Baseline(
-                        baseline: 24,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          e.value,
-                          style: sSubtitle2Style.copyWith(
-                            color:
-                                isFilterSelected ? colors.blue : colors.black,
+                    Navigator.of(context).pop();
+                  },
+                  child: SPaddingH24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SpaceH18(),
+                        Baseline(
+                          baseline: 24,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            e.value,
+                            style: sSubtitle2Style.copyWith(
+                              color:
+                                  isFilterSelected ? colors.blue : colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                      const SpaceH22(),
-                      if (store.filterValues.length - 1 != ind) ...[
-                        const SDivider(),
+                        const SpaceH22(),
+                        if (store.filterValues.length - 1 != ind) ...[
+                          const SDivider(),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               );

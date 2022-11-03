@@ -109,9 +109,7 @@ void showBuyNFTNotEnougn(CurrencyModel currency, NftMarket? nft) {
           },
         ),
       ),
-      if (Platform.isAndroid) ...[
-        const SpaceH24(),
-      ],
+      const SpaceH24(),
     ],
   );
 }

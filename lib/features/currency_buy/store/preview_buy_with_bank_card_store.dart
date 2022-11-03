@@ -131,7 +131,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'EUR',
+      paymentAsset: 'USD',
       cardPaymentData: cardData,
     );
 
@@ -187,9 +187,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       context: sRouter.navigatorKey.currentContext!,
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
-          ' •••• ${input.cardNumber != null
-          ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4)
-          : ''}',
+          ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
         sRouter.pop();
