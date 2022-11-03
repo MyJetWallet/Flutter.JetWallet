@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/features/nft/nft_details/store/nft_detail_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'dart:math' as math;
 
@@ -9,10 +10,14 @@ class NFTDetailHeader extends StatelessWidget {
     required this.title,
     required this.fImage,
     required this.showImage,
+    required this.collectionId,
+    required this.objectId,
   });
 
   final String title;
   final String fImage;
+  final String collectionId;
+  final String objectId;
   final bool showImage;
 
   @override
@@ -48,7 +53,13 @@ class NFTDetailHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SIconButton(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      sAnalytics.nftObjectTapBack(
+                        nftCollectionID: collectionId,
+                        nftObjectId: objectId,
+                      );
+                      Navigator.pop(context);
+                    },
                     defaultIcon: const SBackIcon(),
                     pressedIcon: const SBackPressedIcon(),
                   ),
@@ -66,6 +77,10 @@ class NFTDetailHeader extends StatelessWidget {
                   ),
                   SIconButton(
                     onTap: () {
+                      sAnalytics.nftObjectTapShare(
+                        nftCollectionID: collectionId,
+                        nftObjectId: objectId,
+                      );
                       NFTDetailStore.of(context).share(
                         qrCodeSize,
                         screenWidth * 0.2,

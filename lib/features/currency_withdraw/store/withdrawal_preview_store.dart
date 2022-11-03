@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
@@ -10,10 +11,13 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
+
+import '../../../utils/helpers/currency_from.dart';
 
 part 'withdrawal_preview_store.g.dart';
 
@@ -131,6 +135,18 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     isProcessing = true;
     loader.startLoading();
 
+    final matic = currencyFrom(
+      sSignalRModules.currenciesList,
+      'MATIC',
+    );
+
+    sAnalytics.nftSendProcessing(
+      nftCollectionID: withdrawal.nft?.symbol ?? '',
+      nftObjectId: withdrawal.nft?.collectionId ?? '',
+      network: withdrawal.nft?.blockchain ?? '',
+      nftFee:'${matic.withdrawalFeeSize(withdrawal.nft?.blockchain ?? '')}',
+    );
+
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -144,6 +160,14 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
       response.pick(
         onData: (data) {
+          sAnalytics.nftSendSuccess(
+            nftCollectionID: withdrawal.nft?.symbol ?? '',
+            nftObjectId: withdrawal.nft?.collectionId ?? '',
+            network: withdrawal.nft?.blockchain ?? '',
+            nftFee:'${matic.withdrawalFeeSize(
+              withdrawal.nft?.blockchain?? '',
+            )}',
+          );
           sRouter.push(
             SuccessScreenRouter(
               secondaryText: intl.nft_send_confirm,

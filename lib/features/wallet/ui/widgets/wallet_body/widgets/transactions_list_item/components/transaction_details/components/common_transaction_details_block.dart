@@ -11,6 +11,7 @@ import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_na
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
@@ -117,9 +118,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
               InkWell(
                 onTap: () {
+                  sAnalytics.nftObjectView(
+                    nftCollectionID: nftAsset.collectionId ?? '',
+                    nftObjectId: nftAsset.symbol ?? '',
+                    source: 'History',
+                  );
                   sRouter.push(
                     NFTDetailsRouter(
                       nftSymbol: nftAsset.symbol!,
+                      userNFT: nftAsset.sellPrice == null,
                     ),
                   );
                 },
@@ -235,6 +242,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       return '${operationName(OperationType.sell, context)} $nftName';
     } else if (
       transactionListItem.operationType == OperationType.nftWithdrawal
+    ) {
+      return '${intl.operationName_send} $nftName';
+    } else if (
+      transactionListItem.operationType == OperationType.nftWithdrawalFee
     ) {
       return '${intl.operationName_send} $nftName';
     } else if (

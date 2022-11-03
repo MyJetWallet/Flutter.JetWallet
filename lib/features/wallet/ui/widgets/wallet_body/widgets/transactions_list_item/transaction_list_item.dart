@@ -8,6 +8,7 @@ import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_na
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -52,10 +53,22 @@ class TransactionListItem extends StatelessObserverWidget {
     );
 
     return InkWell(
-      onTap: () => showTransactionDetails(
-        context,
-        transactionListItem,
-      ),
+      onTap: () {
+        if (nftAsset.name != 'NFT') {
+          sAnalytics.nftWalletTapHistoryObject(
+              nftCollectionID: nftAsset.collectionId ?? '',
+              nftObjectId: nftAsset.symbol ?? '',
+          );
+          sAnalytics.nftWalletHistoryObjectView(
+              nftCollectionID: nftAsset.collectionId ?? '',
+              nftObjectId: nftAsset.symbol ?? '',
+          );
+        }
+        showTransactionDetails(
+          context,
+          transactionListItem,
+        );
+      },
       splashColor: Colors.transparent,
       highlightColor: colors.grey5,
       hoverColor: Colors.transparent,
@@ -310,6 +323,8 @@ class TransactionListItem extends StatelessObserverWidget {
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.nftWithdrawal:
         return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.nftWithdrawalFee:
+        return SMinusIcon(color: isFailed ? color : null);
       default:
         return SDepositIcon(color: isFailed ? color : null);
     }

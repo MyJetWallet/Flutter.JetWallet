@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
@@ -63,6 +64,16 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
       header: SMegaHeader(
         title: '${intl.nft_detail_confirm_buy} \n ${nft.name}',
         crossAxisAlignment: CrossAxisAlignment.center,
+        onBackButtonTap: () {
+          sAnalytics.nftPurchaseTapBack(
+            nftCollectionID: nft.collectionId ?? '',
+            nftObjectId: nft.symbol ?? '',
+            nftPrice: '${nft.sellPrice}' ?? '',
+            currency: nft.tradingAsset ?? '',
+            nftAmountToBePaid: '${nft.sellPrice}' ?? '',
+          );
+          Navigator.pop(context);
+        },
       ),
       child: Column(
         children: [

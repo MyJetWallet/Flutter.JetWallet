@@ -13,8 +13,14 @@ import 'package:simple_kit/modules/icons/24x24/light/wallet/simple_light_wallet_
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+import '../../kyc/helper/kyc_alert_handler.dart';
+import '../../kyc/kyc_service.dart';
+import '../../kyc/models/kyc_operation_status_model.dart';
+
 void showReceiveAction(BuildContext context) {
   final colors = sKit.colors;
+  final kyc = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
 
   sAnalytics.receiveChooseAsset();
   Navigator.pop(context);
@@ -56,9 +62,34 @@ void showReceiveAction(BuildContext context) {
             text: intl.actionReceive_receive_nft,
             subtext: intl.actionReceive_receive_nft,
             onTap: () {
-              sRouter.push(
-                const ReceiveNFTRouter(),
-              );
+              sAnalytics.nftReceiveTap(source: "'S' Menu");
+              if (
+                kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+                kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
+                kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
+              ) {
+                sRouter.push(
+                  const ReceiveNFTRouter(),
+                );
+              } else {
+                handler.handle(
+                  status: kyc.depositStatus !=
+                      kycOperationStatus(KycStatus.allowed)
+                      ? kyc.depositStatus
+                      : kyc.withdrawalStatus !=
+                      kycOperationStatus(KycStatus.allowed)
+                      ? kyc.withdrawalStatus
+                      : kyc.sellStatus,
+                  isProgress: kyc.verificationInProgress,
+                  currentNavigate: () {
+                    sRouter.push(
+                      const ReceiveNFTRouter(),
+                    );
+                  },
+                  requiredDocuments: kyc.requiredDocuments,
+                  requiredVerifications: kyc.requiredVerifications,
+                );
+              }
             },
           ),
           const SpaceH40(),

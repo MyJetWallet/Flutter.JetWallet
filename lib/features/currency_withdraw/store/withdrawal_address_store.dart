@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -23,6 +24,7 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 
+import '../../../core/services/signal_r/signal_r_modules.dart';
 import 'withdrawal_amount_store.dart';
 
 part 'withdrawal_address_store.g.dart';
@@ -563,7 +565,21 @@ abstract class _WithdrawalAddressStoreBase with Store {
     _logger.log(notifier, 'validateAddressAndTag');
 
     if (credentialsValid) {
-      sAnalytics.sendViews();
+      if (nftModel != null) {
+        final matic = currencyFrom(
+          sSignalRModules.currenciesList,
+          'MATIC',
+        );
+
+        sAnalytics.nftSendConfirmView(
+          nftCollectionID: nftModel?.collectionId ?? '',
+          nftObjectId: nftModel?.symbol ?? '',
+          network: nftModel?.blockchain ?? '',
+          nftFee: '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
+        );
+      } else {
+        sAnalytics.sendViews();
+      }
       _pushWithdrawalAmount(context);
 
       return;
@@ -594,7 +610,21 @@ abstract class _WithdrawalAddressStoreBase with Store {
           }
 
           if (credentialsValid) {
-            sAnalytics.sendViews();
+            if (nftModel != null) {
+              final matic = currencyFrom(
+                sSignalRModules.currenciesList,
+                'MATIC',
+              );
+
+              sAnalytics.nftSendConfirmView(
+                nftCollectionID: nftModel?.collectionId ?? '',
+                nftObjectId: nftModel?.symbol ?? '',
+                network: nftModel?.blockchain ?? '',
+                nftFee: '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
+              );
+            } else {
+              sAnalytics.sendViews();
+            }
 
             _pushWithdrawalAmount(context);
           }

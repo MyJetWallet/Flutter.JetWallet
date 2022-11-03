@@ -4,6 +4,8 @@ late int phoneVerificationCodeLength;
 late String userAgreementLink;
 late String privacyPolicyLink;
 late String referralPolicyLink;
+late String nftTermsLink;
+late String nftPolicyLink;
 late String refundPolicyLink;
 late String infoRewardsLink;
 late String infoEarnLink;

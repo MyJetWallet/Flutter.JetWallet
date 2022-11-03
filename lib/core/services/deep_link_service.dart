@@ -173,6 +173,11 @@ class DeepLinkService {
         ),
       );
     }
+    sAnalytics.nftObjectView(
+      nftCollectionID: '',
+      nftObjectId: tokenSymbol,
+      source: 'External link',
+    );
   }
 
   void _nftCollectionCommand(Map<String, String> parameters) {
@@ -195,6 +200,10 @@ class DeepLinkService {
         ),
       );
     }
+    sAnalytics.nftCollectionView(
+      nftCollectionID: collectionId,
+      source: 'External link',
+    );
   }
 
   void _nftMarketCommand() {

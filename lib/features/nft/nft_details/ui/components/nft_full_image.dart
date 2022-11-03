@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/close/simple_close_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
 class FullScreenPage extends StatefulWidget {
   FullScreenPage({
     required this.child,
     required this.dark,
+    this.nft,
   });
 
   final Widget child;
   final bool dark;
+  final NftMarket? nft;
 
   @override
   _FullScreenPageState createState() => _FullScreenPageState();
@@ -88,7 +92,13 @@ class _FullScreenPageState extends State<FullScreenPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {
+                    sAnalytics.nftObjectPictureClose(
+                      nftCollectionID: widget.nft?.collectionId ?? '',
+                      nftObjectId: widget.nft?.symbol ?? '',
+                    );
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
             ),

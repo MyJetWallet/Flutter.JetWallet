@@ -28,9 +28,9 @@ part 'disclaimer_store.g.dart';
 class DisclaimerStore = _DisclaimerStoreBase with _$DisclaimerStore;
 
 abstract class _DisclaimerStoreBase with Store {
-  _DisclaimerStoreBase() {
-    _init();
-  }
+  // _DisclaimerStoreBase() {
+  //   _init();
+  // }
 
   static final _logger = Logger('DisclaimerStore');
 
@@ -56,7 +56,7 @@ abstract class _DisclaimerStoreBase with Store {
   ObservableList<DisclaimerQuestionsModel> questions = ObservableList.of([]);
 
   @action
-  Future<void> _init() async {
+  Future<void> init() async {
     _logger.log(notifier, 'init DisclaimerNotifier');
 
     try {
@@ -93,6 +93,62 @@ abstract class _DisclaimerStoreBase with Store {
               () {
                 _displayDisclaimers(
                   disclaimerIndex: 0,
+                  onAgree: () {},
+                );
+              },
+            );
+          }
+        },
+        onError: (e) {
+          _logger.log(stateFlow, 'Failed to fetch disclaimers', e);
+        },
+      );
+    } catch (e) {
+      _logger.log(stateFlow, 'Failed to fetch disclaimers', e);
+    }
+  }
+
+  @action
+  Future<void> initNftDisclaimers(
+    Function() onAgree,
+  ) async {
+    _logger.log(notifier, 'init initNftDisclaimers');
+
+    try {
+      final response = await sNetwork.getWalletModule().getNftDisclaimers();
+
+      response.pick(
+        onData: (data) {
+          if (data.disclaimers != null) {
+            final _disclaimers = ObservableList<DisclaimerModel>.of([]);
+            for (final element in data.disclaimers!) {
+              _disclaimers.add(
+                DisclaimerModel(
+                  description: element.description,
+                  title: element.title,
+                  disclaimerId: element.disclaimerId,
+                  questions: element.questions,
+                  imageUrl: element.imageUrl,
+                ),
+              );
+            }
+
+            disclaimers = ObservableList.of([..._disclaimers]);
+            disclaimerId = _disclaimers[0].disclaimerId;
+            description = _disclaimers[0].description;
+            title = disclaimers[0].title;
+            imageUrl = _disclaimers[0].imageUrl;
+            questions = ObservableList.of(_disclaimers[0].questions);
+            activeButton = _checkActiveButtonStatus(_disclaimers[0].questions);
+          }
+
+          if (disclaimers.isNotEmpty) {
+            Timer(
+              Duration.zero,
+              () {
+                _displayDisclaimers(
+                  disclaimerIndex: 0,
+                  onAgree: onAgree,
                 );
               },
             );
@@ -110,6 +166,7 @@ abstract class _DisclaimerStoreBase with Store {
   @action
   void _displayDisclaimers({
     required int disclaimerIndex,
+    required Function() onAgree,
   }) {
     final context = sRouter.navigatorKey.currentContext!;
     final colors = sKit.colors;
@@ -223,6 +280,7 @@ abstract class _DisclaimerStoreBase with Store {
                                 await _sendAnswers(
                                   context,
                                   disclaimerIndex,
+                                  onAgree
                                 );
                               },
                             ),
@@ -292,7 +350,11 @@ abstract class _DisclaimerStoreBase with Store {
   }
 
   @action
-  Future<void> _sendAnswers(BuildContext context, int disclaimerIndex) async {
+  Future<void> _sendAnswers(
+    BuildContext context,
+    int disclaimerIndex,
+    Function() onAgree,
+  ) async {
     _logger.log(notifier, '_sendAnswers');
 
     final answers = _prepareAnswers(questions);
@@ -305,14 +367,16 @@ abstract class _DisclaimerStoreBase with Store {
     try {
       final _ = await sNetwork.getWalletModule().postSaveDisclaimer(model);
 
-      if (disclaimerIndex <= disclaimers.length) {
+      if (disclaimerIndex + 1 <= disclaimers.length) {
         await sRouter.pop();
 
         final index = disclaimerIndex + 1;
 
         _updateDisclaimer(index);
 
-        _displayDisclaimers(disclaimerIndex: index);
+        _displayDisclaimers(disclaimerIndex: index, onAgree: onAgree);
+      } else {
+        onAgree.call();
       }
     } catch (error) {
       _logger.log(stateFlow, '_sendAnswers', error);

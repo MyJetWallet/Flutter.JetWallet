@@ -20,10 +20,15 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/nft_market/nft_market_cancel_sell_order_request_model.dart';
+
+import '../../nft_confirm/store/nft_promo_code_store.dart';
 
 part 'nft_detail_store.g.dart';
 
@@ -45,6 +50,31 @@ abstract class _NFTDetailStoreBase with Store {
 
   @observable
   String description = '';
+
+  @observable
+  String? imageUrl;
+
+  @observable
+  ObservableList<DisclaimerModel> disclaimers = ObservableList.of([]);
+
+  @observable
+  bool send = false;
+
+  @observable
+  bool activeButton = false;
+
+  @observable
+  String disclaimerId = '';
+
+  @observable
+  String title = '';
+
+  @observable
+  String descriptionDisclaimer = '';
+
+  @observable
+  ObservableList<DisclaimerQuestionsModel> questions = ObservableList.of([]);
+
 
   final loader = StackLoaderStore();
 
@@ -75,15 +105,26 @@ abstract class _NFTDetailStoreBase with Store {
   }
 
   @action
-  Future<void> clickBuy() async {
+  Future<void> clickBuy(BuildContext context) async {
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
 
-    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+    if (
+    kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+        kyc.withdrawalStatus ==
+            kycOperationStatus(KycStatus.allowed) &&
+        kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
+    ) {
       buyNft();
     } else {
       handler.handle(
-        status: kyc.depositStatus,
+        status: kyc.depositStatus !=
+            kycOperationStatus(KycStatus.allowed)
+            ? kyc.depositStatus
+            : kyc.withdrawalStatus !=
+            kycOperationStatus(KycStatus.allowed)
+            ? kyc.withdrawalStatus
+            : kyc.sellStatus,
         isProgress: kyc.verificationInProgress,
         currentNavigate: () => buyNft(),
         requiredDocuments: kyc.requiredDocuments,
@@ -92,14 +133,132 @@ abstract class _NFTDetailStoreBase with Store {
     }
   }
 
+
+  @action
+  Future<void> sendAnswers(Function() afterRequest) async {
+    if (!activeButton) {
+      return;
+    }
+
+    final answers = _prepareAnswers(questions);
+
+    final model = DisclaimersRequestModel(
+      disclaimerId: disclaimerId,
+      answers: answers,
+    );
+
+    try {
+      final _ = sNetwork.getWalletModule().postSaveDisclaimer(model);
+
+      send = true;
+      afterRequest();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  @action
+  List<DisclaimerAnswersModel> _prepareAnswers(
+      List<DisclaimerQuestionsModel> questions,
+      ) {
+    final answers = <DisclaimerAnswersModel>[];
+
+    for (final element in questions) {
+      answers.add(
+        DisclaimerAnswersModel(
+          clientId: '',
+          disclaimerId: '',
+          questionId: element.questionId,
+          result: true,
+        ),
+      );
+    }
+
+    return answers;
+  }
+
+  @action
+  bool isCheckBoxActive() {
+    return activeButton;
+  }
+
+  @action
+  void onCheckboxTap() {
+    activeButton = !activeButton;
+    print(activeButton);
+  }
+
+  @action
+  void disableCheckbox() {
+    activeButton = false;
+  }
+
+
+  @action
+  Future<void> initNftDisclaimer() async {
+
+    try {
+      final response =
+      await sNetwork.getWalletModule().getNftDisclaimers();
+
+      response.pick(
+        onData: (data) {
+          if (data.disclaimers != null) {
+            final _disclaimers = <DisclaimerModel>[];
+            for (final element in data.disclaimers!) {
+              _disclaimers.add(
+                DisclaimerModel(
+                  description: element.description,
+                  title: element.title,
+                  disclaimerId: element.disclaimerId,
+                  questions: element.questions,
+                  imageUrl: element.imageUrl,
+                ),
+              );
+            }
+
+            disclaimers = ObservableList.of([..._disclaimers]);
+            disclaimerId = _disclaimers[0].disclaimerId;
+            description = _disclaimers[0].description;
+            title = _disclaimers[0].title;
+            imageUrl = _disclaimers[0].imageUrl;
+            questions = ObservableList.of(_disclaimers[0].questions);
+            activeButton = false;
+          } else {
+            send = true;
+          }
+        },
+        onError: (error) {},
+      );
+    } catch (e) {
+      print('Failed to fetch disclaimers');
+    }
+  }
+
   @action
   void buyNft() {
     if (currency!.assetBalance > nft!.sellPrice!) {
+      sAnalytics.nftPurchaseConfirmView(
+          nftCollectionID: nft?.collectionId ?? '',
+          nftObjectId: nft?.symbol ?? '',
+          nftPrice: '${nft?.sellPrice}' ?? '',
+          currency: nft?.tradingAsset ?? '',
+          nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+          nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+              ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+              : '',
+      );
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
       );
     } else {
-      showBuyNFTNotEnougn(currency!);
+      sAnalytics.nftObjectNotEnoughAsset(
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+        nftPrice: '${nft?.sellPrice}' ?? '',
+        currency: nft?.tradingAsset ?? '',
+      );
+      showBuyNFTNotEnougn(currency!, nft);
     }
   }
 
@@ -133,6 +292,10 @@ abstract class _NFTDetailStoreBase with Store {
 
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
+    sAnalytics.nftObjectShareView(
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+    );
 
     String shareLinkNFT = '$shareLink${nft!.symbol!}';
 
@@ -143,6 +306,14 @@ abstract class _NFTDetailStoreBase with Store {
 
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
+      scrollable: true,
+      onDissmis: () {
+        sAnalytics.nftObjectShareClose(
+          nftCollectionID: nft?.collectionId ?? '',
+          nftObjectId: nft?.symbol ?? '',
+          method: 'Swipe down',
+        );
+      },
       pinned: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -159,6 +330,11 @@ abstract class _NFTDetailStoreBase with Store {
           ),
           SIconButton(
             onTap: () {
+              sAnalytics.nftObjectShareClose(
+                nftCollectionID: nft?.collectionId ?? '',
+                nftObjectId: nft?.symbol ?? '',
+                method: 'Cross sign',
+              );
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
             defaultIcon: const SEraseIcon(),
@@ -180,6 +356,11 @@ abstract class _NFTDetailStoreBase with Store {
                 active: true,
                 name: intl.cryptoDeposit_share,
                 onTap: () {
+                  sAnalytics.nftObjectTapShareTap(
+                    nftCollectionID: nft?.collectionId ?? '',
+                    nftObjectId: nft?.symbol ?? '',
+                    source: 'NFT Object view,',
+                  );
                   try {
                     Share.share(shareLinkNFT);
                   } catch (e) {
@@ -201,14 +382,21 @@ abstract class _NFTDetailStoreBase with Store {
             logoSize: logoSize,
           ),
         ),
-        const SpaceH20(),
+        const SpaceH40(),
         SAddressFieldWithCopy(
           header: intl.nft_detail_nft_link,
           value: shareLinkNFT,
           realValue: shareLinkNFT,
           afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
+          needPadding: false,
+          needInnerPadding: true,
           needFormatURL: false,
-          then: () {},
+          then: () {
+            sAnalytics.nftObjectTapCopy(
+              nftCollectionID: nft?.collectionId ?? '',
+              nftObjectId: nft?.symbol ?? '',
+            );
+          },
         ),
       ],
     );

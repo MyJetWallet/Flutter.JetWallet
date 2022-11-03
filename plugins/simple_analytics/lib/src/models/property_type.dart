@@ -45,4 +45,20 @@ class PropertyType {
   static const time = 'Time';
   static const isLoaded = 'Is initFinished loaded';
   static const method = 'Method';
+  static const collectionTitle = 'Collection Title';
+  static const nftNumberPictures = 'Number of pictures in collection ';
+  static const nftCategories = 'Categories of this collection';
+  static const nftCloseMethod = 'Close Method';
+  static const nftCollectionID = 'Collection ID/Name';
+  static const nftSortingOption = 'Sorting option';
+  static const nftObjectId = 'Object ID/Name';
+  static const nftPrice = 'Price';
+  static const nftAmountToBePaid = 'Amount to be paid';
+  static const nftPromoCode = 'Promo code';
+  static const nftPriceAmount = 'Price/Amount';
+  static const nftOperationFee = 'Operation fee';
+  static const nftCreatorFee = 'Creator fee';
+  static const nftAmountToGet = 'Amount to get';
+  static const nftNetwork = 'Network';
+  static const nftFee = 'Fee';
 }

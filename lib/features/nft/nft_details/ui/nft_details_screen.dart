@@ -25,9 +25,14 @@ import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:photo_view/photo_view.dart';
+
+import '../../../../core/services/user_info/user_info_service.dart';
+import '../../../../utils/constants.dart';
+import 'components/nft_terms_alert.dart';
 
 class NFTDetailsScreen extends StatelessWidget {
   const NFTDetailsScreen({
@@ -167,7 +172,56 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               : NFTDetailBottomBar(
                   userNFT: widget.userNFT,
                   nft: store.nft!,
-                  onTap: () => store.clickBuy(),
+                  onTap: () async {
+                    sAnalytics.nftObjectTapBuy(
+                      nftCollectionID: store.nft?.collectionId ?? '',
+                      nftObjectId: store.nft?.symbol ?? '',
+                      currency: store.nft?.tradingAsset ?? '',
+                      nftPrice: '${store.nft?.sellPrice}' ?? '',
+                    );
+                    final userInfo = getIt.get<UserInfoService>().userInfo;
+
+                    if (userInfo.hasNftDisclaimers) {
+                      await store.initNftDisclaimer();
+                      if (store.send) {
+                        await store.clickBuy(context);
+                      } else {
+                        sShowNftTermsAlertPopup(
+                          context,
+                          store as NFTDetailStore,
+                          willPopScope: false,
+                          image: Image.asset(
+                            disclaimerAsset,
+                            width: 80,
+                            height: 80,
+                          ),
+                          primaryText: intl.nft_disclaimer_title,
+                          secondaryText: intl.nft_disclaimer_firstText,
+                          secondaryText2: intl.nft_disclaimer_terms,
+                          secondaryText3: intl.nft_disclaimer_secondText,
+                          primaryButtonName: intl.earn_terms_continue,
+                          onPrivacyPolicyTap: () {
+                            sRouter.navigate(
+                              HelpCenterWebViewRouter(
+                                link: nftTermsLink,
+                              ),
+                            );
+                          },
+                          onPrimaryButtonTap: () {
+                            store.sendAnswers(
+                                  () {
+                                Navigator.pop(context);
+                                store.clickBuy(context);
+                              },
+                            );
+                          },
+                          child: const SizedBox(),
+                        );
+                      }
+                    } else {
+                      await store.clickBuy(context);
+                    }
+                  },
                 ),
       child: SShadeAnimationStack(
         showShade: getIt.get<AppStore>().actionMenuActive,
@@ -189,6 +243,8 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                   title: store.nft?.name ?? '',
                   fImage: '$shortUrl${store.nft!.sImage}',
                   showImage: showImage,
+                  objectId: store.nft?.symbol ?? '',
+                  collectionId: store.nft?.collectionId ?? '',
                 ),
               ),
             ),
@@ -217,6 +273,14 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                           ),
                           child: STransparentInkWell(
                             onTap: () {
+                              sAnalytics.nftObjectTapPicture(
+                                nftCollectionID: store.nft?.collectionId ?? '',
+                                nftObjectId: store.nft?.symbol ?? '',
+                              );
+                              sAnalytics.nftObjectPictureView(
+                                nftCollectionID: store.nft?.collectionId ?? '',
+                                nftObjectId: store.nft?.symbol ?? '',
+                              );
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
@@ -225,6 +289,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                   pageBuilder: (BuildContext context, _, __) {
                                     return FullScreenPage(
                                       dark: true,
+                                      nft: store.nft,
                                       child: PhotoView(
                                         filterQuality: FilterQuality.high,
                                         initialScale:
@@ -361,6 +426,18 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 const Spacer(),
                                 InkWell(
                                   onTap: () {
+                                    sAnalytics.nftWalletStatsTap(
+                                      nftCollectionID: store.nft!.collectionId
+                                          ?? '',
+                                      nftObjectId: store.nft!.symbol
+                                          ?? '',
+                                    );
+                                    sAnalytics.nftWalletHistory(
+                                      nftCollectionID: store.nft!.collectionId
+                                          ?? '',
+                                      nftObjectId: store.nft!.symbol
+                                          ?? '',
+                                    );
                                     sRouter.push(
                                       TransactionHistoryRouter(
                                         initialIndex: 2,
@@ -482,6 +559,14 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       child: ClickableUnderlinedText(
                         text: collection.name ?? '',
                         onTap: () {
+                          sAnalytics.nftObjectTapCollection(
+                              nftCollectionID: collection.id!,
+                              nftObjectId: store.nft?.symbol ?? '',
+                          );
+                          sAnalytics.nftCollectionView(
+                            nftCollectionID: collection.id!,
+                            source: 'link from object screen',
+                          );
                           sRouter.push(
                             NftCollectionDetailsRouter(
                               collectionID: collection.id!,
