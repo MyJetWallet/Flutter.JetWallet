@@ -300,7 +300,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       return assetPriceInUsd;
     }
 
-    return assetPriceInUsd * baseCurrencyMain.currentPrice;
+    return Decimal.parse('${assetPriceInUsd / baseCurrencyMain.currentPrice}');
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
