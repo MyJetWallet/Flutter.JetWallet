@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -62,6 +63,11 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
+  TabsRouter? tabsRouter;
+  @action
+  setTabsRouter(TabsRouter value) => tabsRouter = value;
+
+  @observable
   AuthInfoState authState = const AuthInfoState();
 
   @observable
@@ -87,9 +93,13 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int marketTab = 1;
+  int homeTab = 0;
   @action
-  int setMarketTab(int value) => marketTab = value;
+  void setHomeTab(int value) {
+    print(value);
+
+    homeTab = value;
+  }
 
   @observable
   TabController? marketController;

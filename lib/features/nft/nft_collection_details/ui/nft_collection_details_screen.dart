@@ -459,7 +459,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
             if (!store.isSoldHide) ...[
               SliverGrid(
                 gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                  const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                   crossAxisCount: 2,
                   //childAspectRatio: childAspectRatio - 0.09,
                   height: 198,

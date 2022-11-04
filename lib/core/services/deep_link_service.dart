@@ -209,21 +209,43 @@ class DeepLinkService {
   void _nftMarketCommand() {
     if (getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      if (getIt<AppStore>().marketController != null) {
-        getIt<AppStore>().marketController!.animateTo(2);
-      }
+      print(sRouter.currentPath);
 
-      sRouter.replaceAll(
-        [
-          HomeRouter(
-            children: [
-              MarketRouter(
-                initIndex: 2,
+      if (sRouter.currentPath == '/home/market') {
+        if (getIt<AppStore>().marketController != null) {
+          getIt<AppStore>().marketController!.animateTo(2);
+        }
+      } else {
+        var homeTabs = [
+          '/home/portfolio',
+          '/home/earn',
+          '/home/news',
+          '/home/account',
+        ];
+
+        if (homeTabs.contains(sRouter.currentPath)) {
+          getIt<AppStore>().setHomeTab(0);
+          if (getIt<AppStore>().tabsRouter != null) {
+            getIt<AppStore>().tabsRouter!.setActiveIndex(0);
+          }
+
+          if (getIt<AppStore>().marketController != null) {
+            getIt<AppStore>().marketController!.animateTo(2);
+          }
+        } else {
+          sRouter.replaceAll(
+            [
+              HomeRouter(
+                children: [
+                  MarketRouter(
+                    initIndex: 2,
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
-      );
+          );
+        }
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(

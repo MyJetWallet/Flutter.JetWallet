@@ -163,7 +163,11 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    NFTConfirmStore.of(context).totalPay.toString(),
+                    volumeFormat(
+                      decimal: NFTConfirmStore.of(context).totalPay,
+                      accuracy: currency.accuracy,
+                      symbol: nft.tradingAsset!,
+                    ),
                     style: sSubtitle3Style.copyWith(
                       color: colors.blue,
                     ),

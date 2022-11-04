@@ -151,6 +151,7 @@ class _ActionRecurringBuy extends StatelessWidget {
                 onItemTap(RecurringBuysType.monthly);
               },
             ),
+            const SpaceH24(),
           ],
         ),
       ],

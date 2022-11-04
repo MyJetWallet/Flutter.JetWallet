@@ -147,8 +147,8 @@ class BuySellDetails extends StatelessObserverWidget {
                 text: _rateFor(sellCurrency, buyCurrency),
               ),
             ),
-            const SpaceH40(),
           ],
+          const SpaceH40(),
         ],
       ),
     );

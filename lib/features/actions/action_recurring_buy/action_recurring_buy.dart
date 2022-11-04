@@ -105,6 +105,7 @@ class _ActionRecurringBuy extends StatelessObserverWidget {
             },
           ),
         ],
+        const SpaceH24(),
       ],
     );
   }
