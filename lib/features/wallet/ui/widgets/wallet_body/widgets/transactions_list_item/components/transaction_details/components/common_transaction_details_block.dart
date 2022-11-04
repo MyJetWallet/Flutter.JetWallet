@@ -294,8 +294,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       allCurrencies,
       baseCurrency.symbol,
     );
-    print(baseCurrency.symbol);
-    print(baseCurrencyMain.currentPrice);
+
     if (baseCurrency.symbol == 'USD') {
       return assetPriceInUsd;
     }
