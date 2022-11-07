@@ -175,7 +175,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         store.nftModel!.description ?? '',
-                        maxLines: 5,
+                        maxLines: 10,
                         style: sBodyText1Style,
                       ),
                     ),

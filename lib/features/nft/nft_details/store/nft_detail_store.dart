@@ -95,11 +95,7 @@ abstract class _NFTDetailStoreBase with Store {
         print(data);
 
         description = data.description ?? '';
-
-        if (description.length >= shortLength) {
-          shortDescription =
-              description.replaceRange(shortLength, description.length, '...');
-        }
+        shortDescription = data.shortDescription ?? '';
       },
     );
   }

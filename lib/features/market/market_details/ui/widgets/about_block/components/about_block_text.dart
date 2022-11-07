@@ -24,6 +24,7 @@ class AboutBlockText extends StatefulObserverWidget {
 class _AboutBlockTextState extends State<AboutBlockText>
     with WidgetsBindingObserver {
   bool canTapOnLink = true;
+  bool expandText = false;
 
   @override
   void initState() {
@@ -46,7 +47,6 @@ class _AboutBlockTextState extends State<AboutBlockText>
     }
   }
 
-  bool expandText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,11 @@ class _AboutBlockTextState extends State<AboutBlockText>
             const SpaceH18(),
             ClickableUnderlinedText(
               text: intl.aboutBlockText_readMore,
-              onTap: () => expandText = !expandText,
+              onTap: () {
+                setState(() {
+                  expandText = !expandText;
+                });
+              },
             ),
           ],
           if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[

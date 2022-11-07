@@ -6,6 +6,8 @@ late String privacyPolicyLink;
 late String referralPolicyLink;
 late String nftTermsLink;
 late String nftPolicyLink;
+late String simpleCompanyName;
+late String simpleCompanyAddress;
 late String refundPolicyLink;
 late String infoRewardsLink;
 late String infoEarnLink;
