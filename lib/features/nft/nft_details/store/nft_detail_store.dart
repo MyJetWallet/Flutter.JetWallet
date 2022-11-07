@@ -75,7 +75,6 @@ abstract class _NFTDetailStoreBase with Store {
   @observable
   ObservableList<DisclaimerQuestionsModel> questions = ObservableList.of([]);
 
-
   final loader = StackLoaderStore();
 
   final int shortLength = 39;
@@ -109,22 +108,17 @@ abstract class _NFTDetailStoreBase with Store {
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
 
-    if (
-    kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-        kyc.withdrawalStatus ==
-            kycOperationStatus(KycStatus.allowed) &&
-        kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
-    ) {
+    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+        kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
+        kyc.sellStatus == kycOperationStatus(KycStatus.allowed)) {
       buyNft();
     } else {
       handler.handle(
-        status: kyc.depositStatus !=
-            kycOperationStatus(KycStatus.allowed)
+        status: kyc.depositStatus != kycOperationStatus(KycStatus.allowed)
             ? kyc.depositStatus
-            : kyc.withdrawalStatus !=
-            kycOperationStatus(KycStatus.allowed)
-            ? kyc.withdrawalStatus
-            : kyc.sellStatus,
+            : kyc.withdrawalStatus != kycOperationStatus(KycStatus.allowed)
+                ? kyc.withdrawalStatus
+                : kyc.sellStatus,
         isProgress: kyc.verificationInProgress,
         currentNavigate: () => buyNft(),
         requiredDocuments: kyc.requiredDocuments,
@@ -132,7 +126,6 @@ abstract class _NFTDetailStoreBase with Store {
       );
     }
   }
-
 
   @action
   Future<void> sendAnswers(Function() afterRequest) async {
@@ -159,8 +152,8 @@ abstract class _NFTDetailStoreBase with Store {
 
   @action
   List<DisclaimerAnswersModel> _prepareAnswers(
-      List<DisclaimerQuestionsModel> questions,
-      ) {
+    List<DisclaimerQuestionsModel> questions,
+  ) {
     final answers = <DisclaimerAnswersModel>[];
 
     for (final element in questions) {
@@ -193,13 +186,10 @@ abstract class _NFTDetailStoreBase with Store {
     activeButton = false;
   }
 
-
   @action
   Future<void> initNftDisclaimer() async {
-
     try {
-      final response =
-      await sNetwork.getWalletModule().getNftDisclaimers();
+      final response = await sNetwork.getWalletModule().getNftDisclaimers();
 
       response.pick(
         onData: (data) {
@@ -237,16 +227,16 @@ abstract class _NFTDetailStoreBase with Store {
 
   @action
   void buyNft() {
-    if (currency!.assetBalance > nft!.sellPrice!) {
+    if (currency!.assetBalance >= nft!.sellPrice!) {
       sAnalytics.nftPurchaseConfirmView(
-          nftCollectionID: nft?.collectionId ?? '',
-          nftObjectId: nft?.symbol ?? '',
-          nftPrice: '${nft?.sellPrice}' ?? '',
-          currency: nft?.tradingAsset ?? '',
-          nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
-          nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
-              ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
-              : '',
+        nftCollectionID: nft?.collectionId ?? '',
+        nftObjectId: nft?.symbol ?? '',
+        nftPrice: '${nft?.sellPrice}' ?? '',
+        currency: nft?.tradingAsset ?? '',
+        nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+        nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
+            ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
+            : '',
       );
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
@@ -293,8 +283,8 @@ abstract class _NFTDetailStoreBase with Store {
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
     sAnalytics.nftObjectShareView(
-        nftCollectionID: nft?.collectionId ?? '',
-        nftObjectId: nft?.symbol ?? '',
+      nftCollectionID: nft?.collectionId ?? '',
+      nftObjectId: nft?.symbol ?? '',
     );
 
     String shareLinkNFT = '$shareLink${nft!.symbol!}';

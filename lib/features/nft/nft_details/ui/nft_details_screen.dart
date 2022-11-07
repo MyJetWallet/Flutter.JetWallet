@@ -209,7 +209,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                           },
                           onPrimaryButtonTap: () {
                             store.sendAnswers(
-                                  () {
+                              () {
                                 Navigator.pop(context);
                                 store.clickBuy(context);
                               },
@@ -427,16 +427,14 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 InkWell(
                                   onTap: () {
                                     sAnalytics.nftWalletStatsTap(
-                                      nftCollectionID: store.nft!.collectionId
-                                          ?? '',
-                                      nftObjectId: store.nft!.symbol
-                                          ?? '',
+                                      nftCollectionID:
+                                          store.nft!.collectionId ?? '',
+                                      nftObjectId: store.nft!.symbol ?? '',
                                     );
                                     sAnalytics.nftWalletHistory(
-                                      nftCollectionID: store.nft!.collectionId
-                                          ?? '',
-                                      nftObjectId: store.nft!.symbol
-                                          ?? '',
+                                      nftCollectionID:
+                                          store.nft!.collectionId ?? '',
+                                      nftObjectId: store.nft!.symbol ?? '',
                                     );
                                     sRouter.push(
                                       TransactionHistoryRouter(
@@ -530,7 +528,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                               baseline: 24,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                '${store.nft?.rarityId ?? 1}/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
+                                '${collection.nftList.length}/${store.nft?.rarityId ?? 1} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
                                 style: sBodyText1Style,
                               ),
                             ),
@@ -560,8 +558,8 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         text: collection.name ?? '',
                         onTap: () {
                           sAnalytics.nftObjectTapCollection(
-                              nftCollectionID: collection.id!,
-                              nftObjectId: store.nft?.symbol ?? '',
+                            nftCollectionID: collection.id!,
+                            nftObjectId: store.nft?.symbol ?? '',
                           );
                           sAnalytics.nftCollectionView(
                             nftCollectionID: collection.id!,
