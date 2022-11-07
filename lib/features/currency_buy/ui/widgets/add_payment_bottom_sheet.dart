@@ -103,6 +103,7 @@ void showAddPaymentBottomSheet({
             },
           ),
         ],
+      const SpaceH24(),
     ],
   );
 }
