@@ -60,9 +60,9 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
     final totalISoldtemHeight =
         imageHeight + 44; // 81 height from figma without image;
 
-    return Scaffold(
-      backgroundColor: colors.white,
-      body: CustomScrollView(
+    return Material(
+      color: colors.white,
+      child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
           SliverAppBar(
