@@ -105,7 +105,11 @@ class _NFTAboutBlockTextState extends State<NFTAboutBlockText>
               baselineType: TextBaseline.alphabetic,
               child: ClickableUnderlinedText(
                 text: intl.nft_detail_readMore,
-                onTap: () => expandText = !expandText,
+                onTap: () {
+                  setState(() {
+                    expandText = !expandText;
+                  });
+                },
               ),
             ),
           ],
