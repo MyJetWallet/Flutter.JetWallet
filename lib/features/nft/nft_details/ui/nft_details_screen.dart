@@ -615,7 +615,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         shortDescription: store.shortDescription,
                       ),
                     ],
-                    const SpaceH16(),
+                    const SpaceH42(),
                   ],
                 ),
               ),
