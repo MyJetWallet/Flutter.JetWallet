@@ -118,6 +118,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       return SSkeletonTextLoader(
                         height: MediaQuery.of(context).size.height * 0.3,
                         width: double.infinity,
+                        borderRadius: BorderRadius.zero,
                       );
                     },
                     fit: BoxFit.cover,
