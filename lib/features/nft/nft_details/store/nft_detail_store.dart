@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -111,7 +112,10 @@ abstract class _NFTDetailStoreBase with Store {
     if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
         kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
         kyc.sellStatus == kycOperationStatus(KycStatus.allowed)) {
-      buyNft();
+      showSendTimerAlertOr(
+        context: context,
+        or: () => buyNft(),
+      );
     } else {
       handler.handle(
         status: kyc.depositStatus != kycOperationStatus(KycStatus.allowed)
@@ -120,7 +124,10 @@ abstract class _NFTDetailStoreBase with Store {
                 ? kyc.withdrawalStatus
                 : kyc.sellStatus,
         isProgress: kyc.verificationInProgress,
-        currentNavigate: () => buyNft(),
+        currentNavigate: () => showSendTimerAlertOr(
+          context: context,
+          or: () => buyNft(),
+        ),
         requiredDocuments: kyc.requiredDocuments,
         requiredVerifications: kyc.requiredVerifications,
       );
@@ -238,6 +245,7 @@ abstract class _NFTDetailStoreBase with Store {
             ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
             : '',
       );
+
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
       );
@@ -248,6 +256,7 @@ abstract class _NFTDetailStoreBase with Store {
         nftPrice: '${nft?.sellPrice}' ?? '',
         currency: nft?.tradingAsset ?? '',
       );
+
       showBuyNFTNotEnougn(currency!, nft);
     }
   }

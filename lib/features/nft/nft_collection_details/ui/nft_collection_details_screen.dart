@@ -108,6 +108,18 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   ),
                   background: Image.network(
                     '$fullUrl${store.nftModel!.fImage}',
+                    loadingBuilder: (
+                      BuildContext context,
+                      Widget child,
+                      ImageChunkEvent? loadingProgress,
+                    ) {
+                      if (loadingProgress == null) return child;
+
+                      return SSkeletonTextLoader(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        width: double.infinity,
+                      );
+                    },
                     fit: BoxFit.cover,
                   ),
                 );

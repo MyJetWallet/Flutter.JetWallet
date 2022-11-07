@@ -188,7 +188,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                               );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
-                                sellNFT();
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sellNFT(),
+                                );
                                 sAnalytics.nftSellPreview(
                                   nftCollectionID: widget.nft.symbol ?? '',
                                   nftObjectId: widget.nft.collectionId ?? '',
@@ -197,7 +200,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                                 handler.handle(
                                   status: kyc.depositStatus,
                                   isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => sellNFT(),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () => sellNFT(),
+                                  ),
                                   requiredDocuments: kyc.requiredDocuments,
                                   requiredVerifications:
                                       kyc.requiredVerifications,
@@ -209,12 +215,15 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             onWithdraw: () {},
                             onSend: () {
                               sAnalytics.nftSendTap(
-                                  nftCollectionID: widget.nft.symbol ?? '',
-                                  nftObjectId: widget.nft.collectionId ?? '',
+                                nftCollectionID: widget.nft.symbol ?? '',
+                                nftObjectId: widget.nft.collectionId ?? '',
                               );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
-                                sendNFT();
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sendNFT(),
+                                );
                                 sAnalytics.nftSendView(
                                   nftCollectionID: widget.nft.symbol ?? '',
                                   nftObjectId: widget.nft.collectionId ?? '',
@@ -223,7 +232,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                                 handler.handle(
                                   status: kyc.depositStatus,
                                   isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => sendNFT(),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () => sendNFT(),
+                                  ),
                                   requiredDocuments: kyc.requiredDocuments,
                                   requiredVerifications:
                                       kyc.requiredVerifications,
@@ -292,7 +304,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                               );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
-                                sellNFT();
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sellNFT(),
+                                );
                                 sAnalytics.nftSellPreview(
                                   nftCollectionID: widget.nft.symbol ?? '',
                                   nftObjectId: widget.nft.collectionId ?? '',
@@ -301,7 +316,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                                 handler.handle(
                                   status: kyc.depositStatus,
                                   isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => sellNFT(),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () => sellNFT(),
+                                  ),
                                   requiredDocuments: kyc.requiredDocuments,
                                   requiredVerifications:
                                       kyc.requiredVerifications,
@@ -318,7 +336,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                               );
                               if (kyc.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
-                                sendNFT();
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sendNFT(),
+                                );
                                 sAnalytics.nftSendView(
                                   nftCollectionID: widget.nft.symbol ?? '',
                                   nftObjectId: widget.nft.collectionId ?? '',
@@ -327,7 +348,10 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                                 handler.handle(
                                   status: kyc.depositStatus,
                                   isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => sendNFT(),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () => sendNFT(),
+                                  ),
                                   requiredDocuments: kyc.requiredDocuments,
                                   requiredVerifications:
                                       kyc.requiredVerifications,

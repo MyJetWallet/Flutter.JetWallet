@@ -146,71 +146,82 @@ class DeepLinkService {
   Future<void> _nftTokenCommand(
     Map<String, String> parameters,
   ) async {
-    final tokenSymbol = parameters[_jw_nft_token_symbol]!;
-    final promoCode = parameters[jw_promo_code];
+    try {
+      final tokenSymbol = parameters[_jw_nft_token_symbol];
+      final promoCode = parameters[jw_promo_code];
 
-    if (promoCode != null) {
-      final storage = sLocalStorageService;
-      await storage.setString(nftPromoCode, promoCode);
+      if (promoCode != null) {
+        final storage = sLocalStorageService;
+        await storage.setString(nftPromoCode, promoCode);
 
-      await getIt.get<NFTPromoCodeStore>().init();
+        await getIt.get<NFTPromoCodeStore>().init();
+      }
+
+      if (tokenSymbol != null) {
+        if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+            getIt.get<AppStore>().authorizedStatus is Home) {
+          await sRouter.push(
+            NFTDetailsRouter(
+              nftSymbol: tokenSymbol,
+            ),
+          );
+        } else {
+          getIt<RouteQueryService>().addToQuery(
+            RouteQueryModel(
+              action: RouteQueryAction.push,
+              query: NFTDetailsRouter(
+                nftSymbol: tokenSymbol,
+              ),
+            ),
+          );
+        }
+
+        sAnalytics.nftObjectView(
+          nftCollectionID: '',
+          nftObjectId: tokenSymbol,
+          source: 'External link',
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
-
-    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      await sRouter.push(
-        NFTDetailsRouter(
-          nftSymbol: tokenSymbol,
-        ),
-      );
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: NFTDetailsRouter(
-            nftSymbol: tokenSymbol,
-          ),
-        ),
-      );
-    }
-    sAnalytics.nftObjectView(
-      nftCollectionID: '',
-      nftObjectId: tokenSymbol,
-      source: 'External link',
-    );
   }
 
   void _nftCollectionCommand(Map<String, String> parameters) {
-    final collectionId = parameters[_jw_nft_collection_id]!;
+    try {
+      final collectionId = parameters[_jw_nft_collection_id];
 
-    if (getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      sRouter.push(
-        NftCollectionDetailsRouter(
-          collectionID: collectionId,
-        ),
-      );
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: NftCollectionDetailsRouter(
-            collectionID: collectionId,
-          ),
-        ),
-      );
+      if (collectionId != null) {
+        if (getIt.get<AppStore>().remoteConfigStatus is Success &&
+            getIt.get<AppStore>().authorizedStatus is Home) {
+          sRouter.push(
+            NftCollectionDetailsRouter(
+              collectionID: collectionId,
+            ),
+          );
+        } else {
+          getIt<RouteQueryService>().addToQuery(
+            RouteQueryModel(
+              action: RouteQueryAction.push,
+              query: NftCollectionDetailsRouter(
+                collectionID: collectionId,
+              ),
+            ),
+          );
+        }
+        sAnalytics.nftCollectionView(
+          nftCollectionID: collectionId,
+          source: 'External link',
+        );
+      }
+    } catch (e) {
+      rethrow;
     }
-    sAnalytics.nftCollectionView(
-      nftCollectionID: collectionId,
-      source: 'External link',
-    );
   }
 
   void _nftMarketCommand() {
     if (getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      print(sRouter.currentPath);
-
       if (sRouter.currentPath == '/home/market') {
         if (getIt<AppStore>().marketController != null) {
           getIt<AppStore>().marketController!.animateTo(2);
