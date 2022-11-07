@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
@@ -131,6 +132,10 @@ class StartupService {
 
       getIt.registerSingletonAsync<ProfileGetUserCountry>(
         () async => ProfileGetUserCountry().init(),
+      );
+
+      getIt.registerSingletonAsync<ForceServiceUpdate>(
+        () async => ForceServiceUpdate().init(),
       );
 
       await getIt.isReady<KycProfileCountries>();
