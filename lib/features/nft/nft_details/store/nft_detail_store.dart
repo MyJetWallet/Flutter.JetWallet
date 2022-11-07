@@ -95,7 +95,7 @@ abstract class _NFTDetailStoreBase with Store {
         print(data);
 
         description = data.description ?? '';
-        shortDescription = '${data.shortDescription ?? ''} shdbchsbdchsbdch csdhbchsdbch sdchsbdhcbsdhbc';
+        shortDescription = data.shortDescription ?? '';
       },
     );
   }
