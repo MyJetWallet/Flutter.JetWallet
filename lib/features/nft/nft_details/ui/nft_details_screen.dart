@@ -552,25 +552,58 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: ClickableUnderlinedText(
-                        text: collection.name ?? '',
-                        onTap: () {
-                          sAnalytics.nftObjectTapCollection(
-                            nftCollectionID: collection.id!,
-                            nftObjectId: store.nft?.symbol ?? '',
-                          );
-                          sAnalytics.nftCollectionView(
-                            nftCollectionID: collection.id!,
-                            source: 'link from object screen',
-                          );
-                          sRouter.push(
-                            NftCollectionDetailsRouter(
-                              collectionID: collection.id!,
+                    STransparentInkWell(
+                      onTap: () {
+                        sAnalytics.nftObjectTapCollection(
+                          nftCollectionID: collection.id!,
+                          nftObjectId: store.nft?.symbol ?? '',
+                        );
+                        sAnalytics.nftCollectionView(
+                          nftCollectionID: collection.id!,
+                          source: 'link from object screen',
+                        );
+                        sRouter.push(
+                          NftCollectionDetailsRouter(
+                            collectionID: collection.id!,
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: '$shortUrl${collection.sImage}',
+                            fadeOutDuration: const Duration(milliseconds: 500),
+                            fadeInDuration: const Duration(milliseconds: 250),
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(99),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                            placeholder: (context, url) =>
+                                const SSkeletonTextLoader(
+                              height: 24,
+                              width: 24,
                             ),
-                          );
-                        },
+                            errorWidget: (context, url, error) =>
+                                const SSkeletonTextLoader(
+                              height: 24,
+                              width: 24,
+                            ),
+                          ),
+                          const SpaceW10(),
+                          Text(
+                            collection.name ?? '',
+                            style: sSubtitle2Style,
+                          ),
+                        ],
                       ),
                     ),
                     if (store.description.isNotEmpty) ...[
