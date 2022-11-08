@@ -308,27 +308,18 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             type,
           );
 
-      response.pick(
-        onNoData: () {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onNoError: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onData: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
+      if (response.hasError) {
+        sAnalytics.kycIdentityUploadFailed(response.error.toString());
 
-          union = UploadKycDocumentsUnion.error(error);
+        union = UploadKycDocumentsUnion.error(response.error?.cause ?? '');
 
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-          );
-        },
-      );
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      } else {
+        union = const UploadKycDocumentsUnion.done();
+      }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
@@ -414,30 +405,25 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
-      final response = await sNetwork.getWalletModule().postUploadDocuments(
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleImageNetworking
+          .getWalletModule()
+          .postUploadDocuments(
             formData,
             type,
           );
 
-      response.pick(
-        onNoData: () {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onNoError: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onData: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
+      if (response.hasError) {
+        sAnalytics.kycIdentityUploadFailed(response.error.toString());
 
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-          );
-        },
-      );
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      } else {
+        union = const UploadKycDocumentsUnion.done();
+      }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
