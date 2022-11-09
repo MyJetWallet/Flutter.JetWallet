@@ -109,6 +109,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                     child: SFieldDividerFrame(
                       child: SStandardField(
                         labelText: intl.addCircleCard_expiryMonth,
+                        focusNode: store.monthNode,
                         keyboardType: TextInputType.number,
                         isError: store.expiryMonthError,
                         enableInteractiveSelection: false,
@@ -127,6 +128,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                       child: SStandardField(
                         labelText: intl.addCircleCard_expiryYear,
                         keyboardType: TextInputType.number,
+                        focusNode: store.yearNode,
                         isError: store.expiryYearError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
