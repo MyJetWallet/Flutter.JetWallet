@@ -113,12 +113,12 @@ definitions:
     - name: Build Android (AAB)
       script: |
         flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.7.10
+        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.710
     
     - name: Build Android (APK)
       script: |
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.7.10
+        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.710
   
   publishing: &publishing
     app_store_connect:             
