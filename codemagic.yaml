@@ -104,7 +104,7 @@ definitions:
         rm -f ios/Podfile.lock pubspec.lock
         rm -rf ios/Pods ios/Runner.xcworkspace
         flutter build ipa --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER \
+        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.7.10 \
         --dart-define=MY_APP_ENV=prod \
         --export-options-plist=/Users/builder/export_options.plist \
     - name: Decode keystore
@@ -113,12 +113,12 @@ definitions:
     - name: Build Android (AAB)
       script: |
         flutter build appbundle --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.7.10
     
     - name: Build Android (APK)
       script: |
         flutter build apk --release --target=$MAIN_TARGET --flavor=$FLAVOR \
-        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER
+        --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=1.7.10
   
   publishing: &publishing
     app_store_connect:             
