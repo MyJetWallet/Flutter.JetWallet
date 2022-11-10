@@ -1,0 +1,48 @@
+name: simple_networking
+description: Network layer for Simple App
+
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  rxdart: ^0.27.5
+
+  # Network
+  dio: ^4.0.6
+  http: ^0.13.4
+  signalr_core: ^1.1.1
+
+  # Logging
+  logging: ^1.0.2
+
+  # Util
+  decimal: ^2.2.0
+  data_channel: ^2.0.0+1
+  logger: ^1.1.0
+
+  # Models
+  freezed_annotation: ^2.0.3
+  json_annotation: ^4.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Lint
+  flutter_lints: ^2.0.0
+  dart_code_metrics: ^4.16.0
+
+  # Runner
+  build_runner: ^2.1.11
+  freezed: ^2.0.4
+  json_serializable: ^6.3.0
+
+flutter:
+#  generate: true
+  uses-material-design: true
