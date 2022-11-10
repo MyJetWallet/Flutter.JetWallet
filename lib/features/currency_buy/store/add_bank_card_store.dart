@@ -106,17 +106,21 @@ abstract class _AddBankCardStoreBase with Store {
   @computed
   bool get isExpiryMonthValid {
     if (int.parse(expiryMonth) > 12) return false;
-    if (expiryYear.length < 4) return true;
+    if (expiryYear.length != 4 && expiryYear.length != 2) return true;
 
     return CreditCardValidator()
-        .validateExpDate('$expiryMonth/${expiryYear[2]}${expiryYear[3]}')
+        .validateExpDate('$expiryMonth/'
+        '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
+        '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
         .isValid;
   }
 
   @computed
   bool get isExpiryYearValid {
     return CreditCardValidator()
-        .validateExpDate('$expiryMonth/${expiryYear[2]}${expiryYear[3]}')
+        .validateExpDate('$expiryMonth/'
+        '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
+        '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
         .isValid;
   }
 
@@ -128,7 +132,12 @@ abstract class _AddBankCardStoreBase with Store {
   @computed
 
   bool get isCardDetailsValid {
-    if (expiryYear.length < 4 || expiryMonth.length < 2) return false;
+    if (
+      (expiryYear.length != 4 && expiryYear.length != 2) ||
+          expiryMonth.length < 2
+    ) {
+      return false;
+    }
 
     return isCardNumberValid &&
         isExpiryMonthValid &&
@@ -175,7 +184,9 @@ abstract class _AddBankCardStoreBase with Store {
         requestGuid: const Uuid().v4(),
         encData: base64Encoded,
         expMonth: int.parse(expiryMonth),
-        expYear: int.parse(expiryYear),
+        expYear: int.parse(
+          expiryYear.length == 4 ? expiryYear : '20$expiryYear',
+        ),
         isActive: isPreview ? saveCard : true,
       );
 
@@ -307,7 +318,7 @@ abstract class _AddBankCardStoreBase with Store {
 
     expiryYear = expiryDate;
 
-    if (expiryDate.length >= 4) {
+    if (expiryDate.length == 4 || expiryDate.length == 2) {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     } else {
