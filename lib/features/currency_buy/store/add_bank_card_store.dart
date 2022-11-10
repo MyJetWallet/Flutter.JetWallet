@@ -89,6 +89,9 @@ abstract class _AddBankCardStoreBase with Store {
   bool saveCard = true;
 
   @observable
+  FocusNode cardNode = FocusNode();
+
+  @observable
   FocusNode monthNode = FocusNode();
 
   @observable
@@ -291,6 +294,9 @@ abstract class _AddBankCardStoreBase with Store {
         ? false
         : true
         : false;
+    if (cardNumber.length == 19 && isCardNumberValid) {
+      cardNode.nextFocus();
+    }
   }
 
   @action
@@ -318,7 +324,7 @@ abstract class _AddBankCardStoreBase with Store {
 
     expiryYear = expiryDate;
 
-    if (expiryDate.length == 4 || expiryDate.length == 2) {
+    if ((expiryDate.length == 4 || expiryDate.length == 2) && expiryDate != '20') {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     } else {
