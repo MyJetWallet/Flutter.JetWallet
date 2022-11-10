@@ -93,6 +93,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                       RegExp(r'[0-9\u2005]'),
                     ),
                   ],
+                  focusNode: store.cardNode,
                   controller: store.cardNumberController,
                   onChanged: store.updateCardNumber,
                   suffixIcons: [
@@ -109,6 +110,8 @@ class AddBankCardBody extends StatelessObserverWidget {
                     child: SFieldDividerFrame(
                       child: SStandardField(
                         labelText: intl.addCircleCard_expiryMonth,
+                        maxLength: 2,
+                        focusNode: store.monthNode,
                         keyboardType: TextInputType.number,
                         isError: store.expiryMonthError,
                         enableInteractiveSelection: false,
@@ -127,6 +130,8 @@ class AddBankCardBody extends StatelessObserverWidget {
                       child: SStandardField(
                         labelText: intl.addCircleCard_expiryYear,
                         keyboardType: TextInputType.number,
+                        maxLength: 4,
+                        focusNode: store.yearNode,
                         isError: store.expiryYearError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
