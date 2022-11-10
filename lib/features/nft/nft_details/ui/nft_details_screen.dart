@@ -528,7 +528,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                               baseline: 24,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                '${collection.nftList.length}/${store.nft?.rarityId ?? 1} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
+                                '1/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
                                 style: sBodyText1Style,
                               ),
                             ),
