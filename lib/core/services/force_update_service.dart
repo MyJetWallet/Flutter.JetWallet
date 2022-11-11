@@ -13,6 +13,7 @@ class ForceServiceUpdate {
   final _info = getIt.get<PackageInfoService>().info;
 
   Future<ForceServiceUpdate> init() async {
+    return this;
     final minimum = compareVersions(minimumVersion, _info.version);
     final recommended = compareVersions(recommendedVersion, _info.version);
 

@@ -7,8 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/payment_methods_service/payment_methods_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/payment_methods/models/payment_methods_union.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -66,9 +65,9 @@ abstract class _PaymentMethodsStoreBase with Store {
     Timer(const Duration(seconds: 2), () {
       cards = ObservableList.of(sSignalRModules.cards.cardInfos);
     });
-    final allPaymentMethods = sPaymentMethod.paymentMethods;
-    final useCircleCard = allPaymentMethods
-        .contains('PaymentMethodType.circleCard');
+    final allPaymentMethods = sSignalRModules.paymentMethods;
+    final useCircleCard =
+        allPaymentMethods.contains('PaymentMethodType.circleCard');
 
     if (useCircleCard) {
       _updateUnion(const PaymentMethodsUnion.loading());
@@ -82,7 +81,7 @@ abstract class _PaymentMethodsStoreBase with Store {
             final cardsFailing = data.cards
                 .where(
                   (element) => element.status == CircleCardStatus.failed,
-            )
+                )
                 .toList();
             if (cardsFailing.isNotEmpty &&
                 cardsFailing.any((element) => !cardsIds.contains(element.id))) {

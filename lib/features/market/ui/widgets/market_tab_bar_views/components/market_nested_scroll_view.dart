@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
@@ -173,27 +173,26 @@ class __MarketNestedScrollViewBodyState
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: store.cryptoListFiltred.length,
+            itemCount: widget.items.length,
             itemBuilder: (context, index) {
               return SMarketItem(
                 icon: SNetworkSvg24(
-                  url: store.cryptoListFiltred[index].iconUrl,
+                  url: widget.items[index].iconUrl,
                 ),
-                name: store.cryptoListFiltred[index].name,
+                name: widget.items[index].name,
                 price: marketFormat(
                   prefix: baseCurrency.prefix,
-                  decimal: store.cryptoListFiltred[index].lastPrice,
+                  decimal: widget.items[index].lastPrice,
                   symbol: baseCurrency.symbol,
-                  accuracy: store.cryptoListFiltred[index].priceAccuracy,
+                  accuracy: widget.items[index].priceAccuracy,
                 ),
-                ticker: store.cryptoListFiltred[index].symbol,
-                last: store.cryptoListFiltred[index] ==
-                    store.cryptoListFiltred.last,
-                percent: store.cryptoListFiltred[index].dayPercentChange,
+                ticker: widget.items[index].symbol,
+                last: widget.items[index] == widget.items.last,
+                percent: widget.items[index].dayPercentChange,
                 onTap: () {
                   sRouter.push(
                     MarketDetailsRouter(
-                      marketItem: store.cryptoListFiltred[index],
+                      marketItem: widget.items[index],
                     ),
                   );
                 },
@@ -232,15 +231,11 @@ class __MarketNestedScrollViewBodyState
                     source: 'Market',
                   );
                   sAnalytics.nftMarketTapCollection(
-                      collectionTitle: store.nftListFiltred[index].name ?? '',
-                      nftNumberPictures: '${store
-                          .nftListFiltred[index]
-                          .nftList
-                          .length}',
-                      nftCategories: store
-                          .nftListFiltred[index]
-                          .category
-                          .toString(),
+                    collectionTitle: store.nftListFiltred[index].name ?? '',
+                    nftNumberPictures:
+                        '${store.nftListFiltred[index].nftList.length}',
+                    nftCategories:
+                        store.nftListFiltred[index].category.toString(),
                   );
                   sRouter.push(
                     NftCollectionDetailsRouter(

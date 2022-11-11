@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
 import 'package:jetwallet/features/currency_buy/ui/widgets/transaction_fee_bottom_sheet.dart';
@@ -62,16 +62,18 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     );
 
     icon =
-    state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+        state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      customLoader: state.isChecked ? WaitingScreen(
-        wasAction: state.wasAction,
-        onSkip: () {
-          state.skippedWaiting();
-        },
-      ) : null,
+      customLoader: state.isChecked
+          ? WaitingScreen(
+              wasAction: state.wasAction,
+              onSkip: () {
+                state.skippedWaiting();
+              },
+            )
+          : null,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(
@@ -111,36 +113,36 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.buySimplexDetails_payFrom,
                     contentLoading: state.loader.loading,
-                    value: ' •••• ${input.cardNumber != null
-                        ? input.cardNumber?.substring(
-                              (input.cardNumber?.length ?? 4) - 4,
-                          )
-                        : ''}',
+                    value:
+                        ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
+                            (input.cardNumber?.length ?? 4) - 4,
+                          ) : ''}',
                     maxValueWidth: 200,
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_paymentFee,
                     contentLoading: state.loader.loading,
-                    value: state.depositFeeAmountMax ==
-                        state.depositFeeAmount ? volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: state.depositFeeAmount ?? Decimal.zero,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    ) : '≈ ${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      decimal: state.depositFeeAmountMax ?? Decimal.zero,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
-                    )}',
+                    value: state.depositFeeAmountMax == state.depositFeeAmount
+                        ? volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: state.depositFeeAmount ?? Decimal.zero,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          )
+                        : '≈ ${volumeFormat(
+                            prefix: baseCurrency.prefix,
+                            decimal: state.depositFeeAmountMax ?? Decimal.zero,
+                            accuracy: baseCurrency.accuracy,
+                            symbol: baseCurrency.symbol,
+                          )}',
                     maxValueWidth: 140,
                     infoIcon: true,
                     infoAction: () {
                       showTransactionFeeBottomSheet(
                         context: context,
                         colors: colors,
-                        isAbsolute: state.depositFeeAmountMax ==
-                            state.depositFeeAmount,
+                        isAbsolute:
+                            state.depositFeeAmountMax == state.depositFeeAmount,
                         tradeFeeAbsolute: volumeFormat(
                           prefix: baseCurrency.prefix,
                           decimal: state.depositFeeAmount ?? Decimal.zero,
@@ -227,10 +229,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                               betweenText: ', ',
                               privacyPolicyText:
-                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
                               onUserAgreementTap: () =>
                                   launchURL(context, userAgreementLink),
                               onPrivacyPolicyTap: () =>

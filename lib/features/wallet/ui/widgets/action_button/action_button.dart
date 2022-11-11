@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -378,10 +378,10 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    if (
-                                      widget.currency.isAssetBalanceNotEmpty &&
-                                      widget.currency.supportsCryptoWithdrawal
-                                    ) {
+                                    if (widget
+                                            .currency.isAssetBalanceNotEmpty &&
+                                        widget.currency
+                                            .supportsCryptoWithdrawal) {
                                       showSendOptions(
                                         context,
                                         widget.currency,
@@ -669,10 +669,8 @@ class _ActionButtonState extends State<ActionButton> {
                                     KycStatus.allowed,
                                   )) {
                                 Navigator.pop(context);
-                                if (
-                                  widget.currency.isAssetBalanceNotEmpty &&
-                                  widget.currency.supportsCryptoWithdrawal
-                                ) {
+                                if (widget.currency.isAssetBalanceNotEmpty &&
+                                    widget.currency.supportsCryptoWithdrawal) {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () {
@@ -697,10 +695,10 @@ class _ActionButtonState extends State<ActionButton> {
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
                                     Navigator.pop(context);
-                                    if (
-                                      widget.currency.isAssetBalanceNotEmpty &&
-                                      widget.currency.supportsCryptoWithdrawal
-                                    ) {
+                                    if (widget
+                                            .currency.isAssetBalanceNotEmpty &&
+                                        widget.currency
+                                            .supportsCryptoWithdrawal) {
                                       showSendTimerAlertOr(
                                         context: context,
                                         or: () => showSendOptions(

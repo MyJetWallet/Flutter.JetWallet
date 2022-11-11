@@ -2,11 +2,9 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert/helper/remove_currency_from_list.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -22,7 +20,7 @@ part 'convert_input_store.g.dart';
 
 class ConvertInputStore extends _ConvertInputStoreBase
     with _$ConvertInputStore {
-  ConvertInputStore(CurrencyModel? fromCurrency) : super(fromCurrency);
+  ConvertInputStore(super.fromCurrency);
 
   static _ConvertInputStoreBase of(BuildContext context) =>
       Provider.of<ConvertInputStore>(context, listen: false);

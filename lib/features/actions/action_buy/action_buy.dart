@@ -4,8 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/widgets/action_buy_subheader.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
@@ -101,12 +100,12 @@ void _showBuyAction({
 
 class _ActionBuy extends StatelessObserverWidget {
   const _ActionBuy({
-    Key? key,
+    super.key,
     required this.fromCard,
     required this.showRecurring,
     required this.searchStore,
     this.from,
-  }) : super(key: key);
+  });
 
   final bool fromCard;
   final bool showRecurring;

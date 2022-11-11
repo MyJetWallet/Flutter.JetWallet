@@ -2,7 +2,7 @@ import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
 import 'package:jetwallet/features/chart/helper/format_resolution.dart';

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/format_news_date.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
@@ -12,7 +13,6 @@ import 'package:jetwallet/utils/helpers/set_banner_color.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../core/services/signal_r/signal_r_modules.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
 import '../model/campaign_or_referral_model.dart';

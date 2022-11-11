@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/market_gainers.dart';
 import 'package:jetwallet/features/market/helper/market_indices.dart';
@@ -108,6 +108,8 @@ class _MarketScreenState extends State<MarketScreen>
 
     final cryptoPrices = sSignalRModules.getMarketPrices;
     final nftMarket = sSignalRModules.nftList;
+
+    print(cryptoPrices);
 
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 

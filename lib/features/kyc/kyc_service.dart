@@ -1,4 +1,4 @@
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:mobx/mobx.dart';
@@ -36,44 +36,37 @@ abstract class _KycServiceBase with Store {
 
   @action
   void init() {
-    sSignalRModules.clientDetails.listen(
-      (clientDetailData) {
-        final documents = <KycDocumentType>[];
+    final documents = <KycDocumentType>[];
 
-        print('KYC');
-        print(clientDetailData.requiredDocuments);
+    if (sSignalRModules.clientDetail.requiredDocuments.isNotEmpty) {
+      final sorted = sSignalRModules.clientDetail.requiredDocuments.toList();
+      sorted.sort((a, b) => a.compareTo(b));
 
-        if (clientDetailData.requiredDocuments.isNotEmpty) {
-          final sorted = clientDetailData.requiredDocuments.toList();
-          sorted.sort((a, b) => a.compareTo(b));
+      sSignalRModules.clientDetail.copyWith(
+        requiredDocuments: sorted,
+      );
 
-          clientDetailData.copyWith(
-            requiredDocuments: sorted,
-          );
+      for (final document in sSignalRModules.clientDetail.requiredDocuments) {
+        documents.add(kycDocumentType(document));
+      }
+    }
 
-          for (final document in clientDetailData.requiredDocuments) {
-            documents.add(kycDocumentType(document));
-          }
-        }
+    final requiredVerified = <RequiredVerified>[];
+    if (sSignalRModules.clientDetail.requiredVerifications.isNotEmpty) {
+      for (final item in sSignalRModules.clientDetail.requiredVerifications) {
+        requiredVerified.add(requiredVerifiedStatus(item));
+      }
+    }
 
-        final requiredVerified = <RequiredVerified>[];
-        if (clientDetailData.requiredVerifications.isNotEmpty) {
-          for (final item in clientDetailData.requiredVerifications) {
-            requiredVerified.add(requiredVerifiedStatus(item));
-          }
-        }
-
-        depositStatus = clientDetailData.depositStatus;
-        sellStatus = clientDetailData.tradeStatus;
-        withdrawalStatus = clientDetailData.withdrawalStatus;
-        requiredVerifications = ObservableList.of(requiredVerified);
-        requiredDocuments = ObservableList.of(documents);
-        verificationInProgress = kycInProgress(
-          clientDetailData.depositStatus,
-          clientDetailData.tradeStatus,
-          clientDetailData.withdrawalStatus,
-        );
-      },
+    depositStatus = sSignalRModules.clientDetail.depositStatus;
+    sellStatus = sSignalRModules.clientDetail.tradeStatus;
+    withdrawalStatus = sSignalRModules.clientDetail.withdrawalStatus;
+    requiredVerifications = ObservableList.of(requiredVerified);
+    requiredDocuments = ObservableList.of(documents);
+    verificationInProgress = kycInProgress(
+      sSignalRModules.clientDetail.depositStatus,
+      sSignalRModules.clientDetail.tradeStatus,
+      sSignalRModules.clientDetail.withdrawalStatus,
     );
   }
 

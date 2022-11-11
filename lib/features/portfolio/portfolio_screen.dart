@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/empty_apy_portfolio.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_portfolio/empty_porfolio.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/portfolio_with_balance.dart';

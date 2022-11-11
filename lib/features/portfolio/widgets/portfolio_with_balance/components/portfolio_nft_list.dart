@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/portfolio/helper/calculate_nft_price.dart';
 import 'package:jetwallet/features/portfolio/helper/zero_balance_wallets_empty.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/balance_in_process.dart';
@@ -92,8 +92,8 @@ class PortfolioNftList extends StatelessObserverWidget {
                       );
                     } else {
                       sAnalytics.nftWalletCollectionView(
-                          nftCollectionID: item.id ?? '',
-                          nftObjectId: '',
+                        nftCollectionID: item.id ?? '',
+                        nftObjectId: '',
                       );
                       sRouter.push(
                         NFTCollectionSimpleListRouter(
@@ -176,24 +176,23 @@ class PortfolioNftList extends StatelessObserverWidget {
                 onTap: () {
                   sAnalytics.nftPortfolioReceive();
                   sAnalytics.nftReceiveTap(source: 'Portfolio');
-                  if (
-                  kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+                  if (kyc.depositStatus ==
+                          kycOperationStatus(KycStatus.allowed) &&
                       kyc.withdrawalStatus ==
                           kycOperationStatus(KycStatus.allowed) &&
-                      kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
-                  ) {
+                      kyc.sellStatus == kycOperationStatus(KycStatus.allowed)) {
                     sRouter.push(
                       const ReceiveNFTRouter(),
                     );
                   } else {
                     handler.handle(
                       status: kyc.depositStatus !=
-                          kycOperationStatus(KycStatus.allowed)
+                              kycOperationStatus(KycStatus.allowed)
                           ? kyc.depositStatus
                           : kyc.withdrawalStatus !=
-                          kycOperationStatus(KycStatus.allowed)
-                          ? kyc.withdrawalStatus
-                          : kyc.sellStatus,
+                                  kycOperationStatus(KycStatus.allowed)
+                              ? kyc.withdrawalStatus
+                              : kyc.sellStatus,
                       isProgress: kyc.verificationInProgress,
                       currentNavigate: () {
                         sRouter.push(
