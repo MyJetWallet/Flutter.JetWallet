@@ -1662,11 +1662,11 @@ class SimpleAnalytics {
   }
 
   void nftMarketTapFilter() {
-    _analytics.logEvent(EventType.nftMarketOpen);
+    _analytics.logEvent(EventType.nftMarketTapFilter);
   }
 
   void nftMarketFilterShowed() {
-    _analytics.logEvent(EventType.nftMarketOpen);
+    _analytics.logEvent(EventType.nftMarketFilterShowed);
   }
 
   void nftMarketFilterClose({

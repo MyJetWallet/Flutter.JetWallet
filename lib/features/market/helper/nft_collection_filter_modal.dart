@@ -17,7 +17,7 @@ void showNFTCollectionFilterModalSheet(
   sShowBasicModalBottomSheet(
     onDissmis: () {
       sAnalytics.nftCollectionSortClose(
-          nftSortingOption: store.availableFilter?.value ?? '',
+        nftSortingOption: store.availableFilter?.value ?? '',
       );
     },
     context: context,
@@ -27,7 +27,11 @@ void showNFTCollectionFilterModalSheet(
     horizontalPadding: 0,
     pinned: ActionBottomSheetHeader(
       name: intl.nft_collection_filter_header,
-      onCloseTap: () {},
+      onCloseTap: () {
+        sAnalytics.nftCollectionSortClose(
+          nftSortingOption: store.availableFilter?.value ?? '',
+        );
+      },
     ),
     pinnedBottom: const SpaceH40(),
     children: [

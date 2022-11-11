@@ -226,7 +226,9 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                                 nftCollectionID: withdrawal.nft?.collectionId
                                     ?? '',
                                 nftObjectId: withdrawal.nft?.symbol ?? '',
-                                network: store.network.description,
+                                network: store.network.description.isNotEmpty
+                                    ? store.network.description
+                                    : store.network.id,
                               );
                             } else {
                               sAnalytics.sendContinueAddress();
