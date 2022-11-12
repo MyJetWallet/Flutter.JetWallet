@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -47,16 +48,6 @@ class ApiSelectorScreen extends StatelessObserverWidget {
                 ],
               ),
             ),
-            Text(
-              getIt<SignalRServiceUpdated>().currenciesList.first.symbol,
-            ),
-            Text(
-              getIt<SignalRServiceUpdated>()
-                  .currenciesList
-                  .first
-                  .currentPrice
-                  .toString(),
-            ),
             /*
             Expanded(
               child: CupertinoPicker(
@@ -80,19 +71,13 @@ class ApiSelectorScreen extends StatelessObserverWidget {
               onPressed: () {
                 dioProxy.proxySkip();
 
-                sRouter.replace(
-                  const HomeRouter(),
-                );
+                getIt<AppStore>().checkInitRouter();
               },
-              child: Observer(
-                builder: (context) {
-                  return Text(
-                    intl.serverCode0_ok,
-                    style: const TextStyle(
-                      fontSize: 30.0,
-                    ),
-                  );
-                },
+              child: Text(
+                intl.serverCode0_ok,
+                style: const TextStyle(
+                  fontSize: 30.0,
+                ),
               ),
             ),
             const Spacer(),

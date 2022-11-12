@@ -9,7 +9,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
+import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -19,6 +21,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -37,20 +40,79 @@ class AppStore = _AppStoreBase with _$AppStore;
 abstract class _AppStoreBase with Store {
   static final _logger = Logger('AppStore');
 
+  @observable
+  RouterUnion initRouter = const RouterUnion.loading();
+  @action
+  Future<void> checkInitRouter() async {
+    if (remoteConfigStatus is Success) {
+      final flavor = flavorService();
+      if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
+        if (!sRouter.isPathActive('/api_selector')) {
+          initRouter = const RouterUnion.apiSelector();
+        }
+
+        return;
+      }
+
+      authStatus.when(
+        loading: () {
+          initRouter = const RouterUnion.loading();
+        },
+        authorized: () {
+          authorizedStatus.when(
+            loading: () {
+              initRouter = const RouterUnion.loading();
+            },
+            twoFaVerification: () {
+              initRouter = const RouterUnion.twoFaVerification();
+            },
+            pinSetup: () {
+              initRouter = const RouterUnion.pinSetup();
+            },
+            pinVerification: () {
+              initRouter = const RouterUnion.pinVerification();
+            },
+            home: () {
+              initRouter = const RouterUnion.home();
+            },
+            askBioUsing: () {
+              initRouter = const RouterUnion.askBioUsing();
+            },
+            userDataVerification: () {
+              initRouter = const RouterUnion.userDataVerification();
+            },
+            singleIn: () {
+              initRouter = const RouterUnion.singleIn();
+            },
+            emailVerification: () {},
+          );
+        },
+        unauthorized: () {
+          initRouter = const RouterUnion.unauthorized();
+        },
+      );
+    } else {
+      initRouter = const RouterUnion.loading();
+    }
+  }
+
   /// Variable for storing the Auth user's state. Can be: authorized/unauthorized
   @observable
   AuthorizationUnion authStatus = const AuthorizationUnion.loading();
   @action
-  AuthorizationUnion setAuthStatus(AuthorizationUnion value) =>
-      authStatus = value;
+  void setAuthStatus(AuthorizationUnion value) {
+    authStatus = value;
+
+    checkInitRouter();
+  }
 
   @observable
   AuthorizedUnion authorizedStatus = const AuthorizedUnion.loading();
   @action
   void setAuthorizedStatus(AuthorizedUnion value) {
-    print('setAuthorizedStatus $value');
-
     authorizedStatus = value;
+
+    checkInitRouter();
   }
 
   @observable
@@ -60,12 +122,14 @@ abstract class _AppStoreBase with Store {
     _logger.log(stateFlow, 'REMOTE CONFIG STATUS: $value');
 
     remoteConfigStatus = value;
+
+    checkInitRouter();
   }
 
   @observable
   TabsRouter? tabsRouter;
   @action
-  setTabsRouter(TabsRouter value) => tabsRouter = value;
+  void setTabsRouter(TabsRouter value) => tabsRouter = value;
 
   @observable
   AuthInfoState authState = const AuthInfoState();
@@ -95,11 +159,7 @@ abstract class _AppStoreBase with Store {
   @observable
   int homeTab = 0;
   @action
-  void setHomeTab(int value) {
-    print(value);
-
-    homeTab = value;
-  }
+  void setHomeTab(int value) => homeTab = value;
 
   @observable
   TabController? marketController;
@@ -146,8 +206,6 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> getAuthStatus() async {
-    print('START: APP STORE - getAuthStatus');
-
     _logger.log(stateFlow, 'START: APP STORE - getAuthStatus');
 
     final storageService = getIt.get<LocalStorageService>();
@@ -249,9 +307,7 @@ abstract class _AppStoreBase with Store {
       }
     }
 
-    await getIt.get<AppRouter>().push(
-          const HomeRouter(),
-        );
+    unawaited(checkInitRouter());
   }
 
   @action

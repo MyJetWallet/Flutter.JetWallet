@@ -48,7 +48,7 @@ class StartupService {
 
     processStartupState().then((value) {
       /// Needed to dissmis Register/Login pushed screens
-      getIt.get<AppRouter>().push(const HomeRouter());
+      getIt.get<AppStore>().checkInitRouter();
     });
   }
 
@@ -91,11 +91,7 @@ class StartupService {
                   );
             }
 
-            unawaited(
-              sRouter.push(
-                const HomeRouter(),
-              ),
-            );
+            unawaited(getIt.get<AppStore>().checkInitRouter());
           },
           onError: (error) {
             _logger.log(stateFlow, 'Failed to fetch session info', error);
@@ -176,9 +172,7 @@ class StartupService {
           const Home(),
         );
 
-    sRouter.replaceAll([
-      const HomeRouter(),
-    ]);
+    getIt.get<AppStore>().checkInitRouter();
   }
 
   void _processPinState() {

@@ -4,24 +4,13 @@ import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:rive/rive.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key, this.runAnimation = true});
-
-  final bool runAnimation;
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late RiveAnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller =
-        SimpleAnimation('SplashScreen', autoplay: widget.runAnimation);
-  }
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -34,14 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return OnboardingFullScreenGradient(
+    return const OnboardingFullScreenGradient(
       child: Center(
         child: SizedBox(
           width: 320.0,
           height: 320.0,
           child: RiveAnimation.asset(
             splashAnimationAsset,
-            controllers: [_controller],
           ),
         ),
       ),

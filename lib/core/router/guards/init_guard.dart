@@ -50,7 +50,7 @@ class InitGuard extends AutoRouteGuard {
       appStore.authStatus.when(
         loading: () {
           router.replace(
-            SplashRoute(runAnimation: false),
+            SplashRoute(),
           );
         },
         authorized: () {
@@ -60,7 +60,7 @@ class InitGuard extends AutoRouteGuard {
           appStore.authorizedStatus.when(
             loading: () {
               router.replace(
-                SplashRoute(runAnimation: false),
+                SplashRoute(),
               );
             },
             emailVerification: () {
@@ -156,7 +156,7 @@ class InitGuard extends AutoRouteGuard {
       print('AuthStatus: SplashRoute');
 
       await router.replace(
-        SplashRoute(runAnimation: false),
+        SplashRoute(),
       );
     }
   }

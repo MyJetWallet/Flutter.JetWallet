@@ -13,24 +13,14 @@
 part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter({
-    GlobalKey<NavigatorState>? navigatorKey,
-    required this.initGuard,
-  }) : super(navigatorKey);
-
-  final InitGuard initGuard;
+  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
 
   @override
   final Map<String, PageFactory> pagesMap = {
     SplashRoute.name: (routeData) {
-      final args = routeData.argsAs<SplashRouteArgs>(
-          orElse: () => const SplashRouteArgs());
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: SplashScreen(
-          key: args.key,
-          runAnimation: args.runAnimation,
-        ),
+        child: const SplashScreen(),
       );
     },
     OnboardingRoute.name: (routeData) {
@@ -945,7 +935,6 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           HomeRouter.name,
           path: '/home',
-          guards: [initGuard],
           children: [
             RouteConfig(
               '#redirect',
@@ -1290,36 +1279,14 @@ class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [SplashScreen]
-class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
-  SplashRoute({
-    Key? key,
-    bool runAnimation = true,
-  }) : super(
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute()
+      : super(
           SplashRoute.name,
           path: '/splash',
-          args: SplashRouteArgs(
-            key: key,
-            runAnimation: runAnimation,
-          ),
         );
 
   static const String name = 'SplashRoute';
-}
-
-class SplashRouteArgs {
-  const SplashRouteArgs({
-    this.key,
-    this.runAnimation = true,
-  });
-
-  final Key? key;
-
-  final bool runAnimation;
-
-  @override
-  String toString() {
-    return 'SplashRouteArgs{key: $key, runAnimation: $runAnimation}';
-  }
 }
 
 /// generated route for
