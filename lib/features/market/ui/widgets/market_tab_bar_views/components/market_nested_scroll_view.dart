@@ -26,18 +26,19 @@ import '../../market_banners/market_banners.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 
+enum MarketShowType { Crypto, NFT }
+
 class MarketNestedScrollView extends StatelessWidget {
   const MarketNestedScrollView({
     super.key,
     this.showBanners = false,
     this.showFilter = false,
-    required this.items,
-    required this.nft,
+    required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final List<MarketItemModel> items;
-  final List<NftModel> nft;
+  final MarketShowType marketShowType;
+
   final bool showBanners;
   final bool showFilter;
   final FilterMarketTabAction sourceScreen;
@@ -45,13 +46,12 @@ class MarketNestedScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<MarketFilterStore>(
-      create: (context) => MarketFilterStore()..init(items, nft),
+      create: (context) => MarketFilterStore(),
       builder: (context, child) => _MarketNestedScrollViewBody(
         showBanners: showBanners,
         showFilter: showFilter,
-        items: items,
-        nft: nft,
         sourceScreen: sourceScreen,
+        marketShowType: marketShowType,
       ),
     );
   }
@@ -59,19 +59,16 @@ class MarketNestedScrollView extends StatelessWidget {
 
 class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
-    super.key,
     this.showBanners = false,
     this.showFilter = false,
-    required this.items,
-    required this.nft,
+    required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final List<MarketItemModel> items;
-  final List<NftModel> nft;
   final bool showBanners;
   final bool showFilter;
   final FilterMarketTabAction sourceScreen;
+  final MarketShowType marketShowType;
 
   @override
   State<_MarketNestedScrollViewBody> createState() =>
@@ -91,8 +88,8 @@ class __MarketNestedScrollViewBodyState
       resetMarketScrollPosition(
         context,
         MarketFilterStore.of(context).cryptoList.isNotEmpty
-            ? widget.items.length
-            : widget.nft.length,
+            ? MarketFilterStore.of(context).cryptoList.length
+            : MarketFilterStore.of(context).nftList.length,
         controller,
       );
     });
@@ -110,7 +107,8 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    final showPreloader = widget.items.isEmpty || widget.nft.isEmpty;
+    final showPreloader =
+        store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -155,7 +153,7 @@ class __MarketNestedScrollViewBodyState
       body: showPreloader
           ? ColoredBox(
               color: colors.white,
-              child: store.cryptoList.isNotEmpty
+              child: widget.marketShowType == MarketShowType.Crypto
                   ? showCryptoList(baseCurrency)
                   : showNFTList(),
             )
@@ -173,26 +171,27 @@ class __MarketNestedScrollViewBodyState
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: widget.items.length,
+            itemCount: store.cryptoListFiltred.length,
             itemBuilder: (context, index) {
               return SMarketItem(
                 icon: SNetworkSvg24(
-                  url: widget.items[index].iconUrl,
+                  url: store.cryptoListFiltred[index].iconUrl,
                 ),
-                name: widget.items[index].name,
+                name: store.cryptoListFiltred[index].name,
                 price: marketFormat(
                   prefix: baseCurrency.prefix,
-                  decimal: widget.items[index].lastPrice,
+                  decimal: store.cryptoListFiltred[index].lastPrice,
                   symbol: baseCurrency.symbol,
-                  accuracy: widget.items[index].priceAccuracy,
+                  accuracy: store.cryptoListFiltred[index].priceAccuracy,
                 ),
-                ticker: widget.items[index].symbol,
-                last: widget.items[index] == widget.items.last,
-                percent: widget.items[index].dayPercentChange,
+                ticker: store.cryptoListFiltred[index].symbol,
+                last: store.cryptoListFiltred[index] ==
+                    store.cryptoListFiltred.last,
+                percent: store.cryptoListFiltred[index].dayPercentChange,
                 onTap: () {
                   sRouter.push(
                     MarketDetailsRouter(
-                      marketItem: widget.items[index],
+                      marketItem: store.cryptoListFiltred[index],
                     ),
                   );
                 },

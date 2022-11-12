@@ -4,8 +4,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/secondary_button/light/simple_light_secondary_button_1.dart';
 import 'package:simple_kit/modules/icons/24x24/public/circle_done/circle_done.dart';
@@ -73,8 +71,6 @@ void showNFTFilterModalSheet(
           active: true,
           name: intl.market_nft_done,
           onTap: () {
-            filterStore.filterDone();
-
             Navigator.pop(context);
           },
         ),

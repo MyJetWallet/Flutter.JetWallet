@@ -76,20 +76,10 @@ class _MarketScreenState extends State<MarketScreen>
 
   @override
   Widget build(BuildContext context) {
-    //useProvider(keyValueNotipod);
-    //useProvider(watchlistIdsNotipod);
-
     //List<MarketItemModel> allItems = sSignalRModules.marketItems;
     //final indices = getMarketIndices();
     //final gainers = getMarketGainers();
     //final losers = getMarketLosers();
-
-    //Timer.periodic(
-    //  const Duration(milliseconds: 100),
-    //  (Timer t) => print(sSignalRModules.marketItems),
-    //);
-
-    // TODO: refactor
 
     //final timeTrackerN = useProvider(timeTrackingNotipod.notifier);
 
@@ -106,11 +96,6 @@ class _MarketScreenState extends State<MarketScreen>
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    final cryptoPrices = sSignalRModules.getMarketPrices;
-    final nftMarket = sSignalRModules.nftList;
-
-    print(cryptoPrices);
-
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
     return Scaffold(
@@ -120,37 +105,18 @@ class _MarketScreenState extends State<MarketScreen>
             controller: getIt<AppStore>().marketController,
             children: [
               const WatchlistTabBarView(),
-              MarketNestedScrollView(
-                items: cryptoPrices,
-                nft: const [],
+              const MarketNestedScrollView(
+                marketShowType: MarketShowType.Crypto,
                 showBanners: true,
                 sourceScreen: FilterMarketTabAction.all,
               ),
               if (showCrypto) ...[
-                MarketNestedScrollView(
-                  items: const [],
-                  nft: nftMarket,
+                const MarketNestedScrollView(
+                  marketShowType: MarketShowType.NFT,
                   showFilter: true,
                   sourceScreen: FilterMarketTabAction.all,
                 ),
               ],
-              /*
-                      if (indices.isNotEmpty)
-                        MarketNestedScrollView(
-                          items: indices,
-                          sourceScreen: FilterMarketTabAction.cryptoSets,
-                        ),
-                      if (gainers.isNotEmpty)
-                        MarketNestedScrollView(
-                          items: gainers,
-                          sourceScreen: FilterMarketTabAction.gainers,
-                        ),
-                      if (losers.isNotEmpty)
-                        MarketNestedScrollView(
-                          items: losers,
-                          sourceScreen: FilterMarketTabAction.losers,
-                        ),
-                        */
             ],
           ),
           Align(
@@ -169,39 +135,11 @@ class _MarketScreenState extends State<MarketScreen>
                     isTextBlue: true,
                   ),
                 ],
-                /*
-                        if (indices.isNotEmpty)
-                          BottomTab(
-                            text: intl.market_bottomTabLabel3,
-                          ),
-                        if (gainers.isNotEmpty)
-                          BottomTab(
-                            text: intl.market_bottomTabLabel4,
-                          ),
-                        if (losers.isNotEmpty)
-                          BottomTab(
-                            text: intl.market_bottomTabLabel5,
-                          ),
-                          */
               ],
             ),
           ),
         ],
       ),
     );
-
-    /*
-    return Scaffold(
-      body: TabBarView(
-        //initialIndex: widget.initIndex,
-        //length: showCrypto ? 3 : 2,
-        controller: _controller,
-        children: [],
-        child: Builder(builder: (context) {
-          
-        }),
-      ),
-    );
-    */
   }
 }
