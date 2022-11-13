@@ -220,7 +220,8 @@ class ObservableCurrencyModelListConverter
   @override
   ObservableList<CurrencyModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(CurrencyModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(CurrencyModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<CurrencyModel> list) =>
