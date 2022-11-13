@@ -42,6 +42,8 @@ class StartupService {
   void successfullAuthentication() {
     _logger.log(stateFlow, 'successfullAuthentication');
 
+    initSignaWasCall = false;
+
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);

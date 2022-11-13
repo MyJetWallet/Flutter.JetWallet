@@ -49,10 +49,12 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                     width: 48,
                     height: 48,
                     child: Text(
-                      showUserName
-                          ? '${userFirstName.substring(0, 1).toUpperCase()}'
-                              '${userLastName.substring(0, 1).toUpperCase()}'
-                          : userEmail.substring(0, 1).toUpperCase(),
+                      userEmail.isNotEmpty
+                          ? showUserName
+                              ? '${userFirstName.substring(0, 1).toUpperCase()}'
+                                  '${userLastName.substring(0, 1).toUpperCase()}'
+                              : userEmail.substring(0, 1).toUpperCase()
+                          : '',
                       style: sSubtitle2Style.copyWith(
                         color: SColorsLight().white,
                       ),

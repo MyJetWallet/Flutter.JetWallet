@@ -46,7 +46,7 @@ import 'package:simple_networking/modules/signal_r/models/referral_stats_respons
 
 part 'signal_r_service_new.g.dart';
 
-late final SignalRServiceUpdated sSignalRModules;
+late SignalRServiceUpdated sSignalRModules;
 
 class SignalRServiceUpdated = _SignalRServiceUpdatedBase
     with _$SignalRServiceUpdated;
