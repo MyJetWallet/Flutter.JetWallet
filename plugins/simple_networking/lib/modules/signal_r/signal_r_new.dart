@@ -27,6 +27,7 @@ class SignalRModuleNew {
   }) {
     handler = SignalRFuncHandler(
       sTransport: transport,
+      instance: this,
     );
   }
 
@@ -60,6 +61,10 @@ class SignalRModuleNew {
   bool isDisconnecting = false;
 
   Future<void> init() async {
+    print('INIT SIGNALR');
+
+    isDisconnecting = false;
+
     final defaultHeaders = MessageHeaders();
 
     defaultHeaders.setHeaderValue(
@@ -168,6 +173,8 @@ class SignalRModuleNew {
       await _hubConnection?.start();
     } catch (e) {
       _logger.log(signalR, 'Failed to start connection', e);
+
+      handleError('startconnection', Object());
       rethrow;
     }
 
@@ -186,8 +193,14 @@ class SignalRModuleNew {
 
   static Future<void> handlePackage() async {}
 
-  static void handleError(String msg, Object error) {
+  void handleError(String msg, Object error) {
     _logger.log(contract, msg, error);
+
+    print(msg);
+
+    if (msg == 'startconnection') {
+      unawaited(disconnect());
+    }
     //showEror(error.toString());
   }
 
@@ -237,24 +250,32 @@ class SignalRModuleNew {
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
   Future<void> _reconnect() async {
-    try {
-      await disableHandlerConnection();
+    print('_reconnect');
 
-      _pingTimer?.cancel();
-      _pongTimer?.cancel();
-      _messageTimer?.cancel();
+    if (!isDisconnecting) {
+      try {
+        await disableHandlerConnection();
 
-      await _hubConnection?.stop();
+        _pingTimer?.cancel();
+        _pongTimer?.cancel();
+        _messageTimer?.cancel();
 
-      await refreshToken();
+        await _hubConnection?.stop();
 
-      await init();
+        await disableHandlerConnection();
 
-      _reconnectTimer?.cancel();
-    } catch (e) {}
+        await refreshToken();
+
+        await init();
+
+        _reconnectTimer?.cancel();
+      } catch (e) {}
+    }
   }
 
   Future<void> disconnect() async {
+    print('DISCONNECTED');
+
     isDisconnecting = true;
 
     _pingTimer?.cancel();
@@ -264,6 +285,8 @@ class SignalRModuleNew {
     await disableHandlerConnection();
 
     await _hubConnection?.stop();
+
+    await disableHandlerConnection();
   }
 
   Future<void> disableHandlerConnection() async {

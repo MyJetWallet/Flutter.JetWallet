@@ -31,9 +31,11 @@ import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 class SignalRFuncHandler {
   SignalRFuncHandler({
     required this.sTransport,
+    required this.instance,
   });
 
   final SignalRTransport sTransport;
+  final SignalRModuleNew instance;
 
   /// This variable is created to track previous snapshot of base prices.
   /// This needed because when signlaR gets update from basePrices it
@@ -49,7 +51,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(cardsMessage, e);
+      instance.handleError(cardsMessage, e);
     }
   }
 
@@ -60,7 +62,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(cardsMessage, e);
+      instance.handleError(cardsMessage, e);
     }
   }
 
@@ -71,7 +73,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(cardLimitsMessage, e);
+      instance.handleError(cardLimitsMessage, e);
     }
   }
 
@@ -88,7 +90,7 @@ class SignalRFuncHandler {
 
         SignalRModuleNew.handlePackage();
       } catch (e) {
-        SignalRModuleNew.handleError(earnOffersMessage, e);
+        instance.handleError(earnOffersMessage, e);
       }
     }
   }
@@ -104,7 +106,7 @@ class SignalRFuncHandler {
 
         SignalRModuleNew.handlePackage();
       } catch (e) {
-        SignalRModuleNew.handleError(recurringBuyMessage, e);
+        instance.handleError(recurringBuyMessage, e);
       }
     }
   }
@@ -116,7 +118,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(kycCountriesMessage, e);
+      instance.handleError(kycCountriesMessage, e);
     }
   }
 
@@ -128,7 +130,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(kycCountriesMessage, e);
+      instance.handleError(kycCountriesMessage, e);
     }
   }
 
@@ -139,7 +141,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(campaignsBannersMessage, e);
+      instance.handleError(campaignsBannersMessage, e);
     }
   }
 
@@ -150,7 +152,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(referralStatsMessage, e);
+      instance.handleError(referralStatsMessage, e);
     }
   }
 
@@ -161,7 +163,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(assetsMessage, e);
+      instance.handleError(assetsMessage, e);
     }
   }
 
@@ -172,7 +174,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(balancesMessage, e);
+      instance.handleError(balancesMessage, e);
     }
   }
 
@@ -183,7 +185,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(instrumentsMessage, e);
+      instance.handleError(instrumentsMessage, e);
     }
   }
 
@@ -194,7 +196,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(blockchainsMessage, e);
+      instance.handleError(blockchainsMessage, e);
     }
   }
 
@@ -205,7 +207,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(marketReferenceMessage, e);
+      instance.handleError(marketReferenceMessage, e);
     }
   }
 
@@ -220,7 +222,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(basePricesMessage, e);
+      instance.handleError(basePricesMessage, e);
     }
   }
 
@@ -231,7 +233,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(periodPricesMessage, e);
+      instance.handleError(periodPricesMessage, e);
     }
   }
 
@@ -246,7 +248,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(clientDetailMessage, e);
+      instance.handleError(clientDetailMessage, e);
     }
   }
 
@@ -257,7 +259,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(assetWithdrawalFeeMessage, e);
+      instance.handleError(assetWithdrawalFeeMessage, e);
     }
   }
 
@@ -270,7 +272,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(keyValueMessage, e);
+      instance.handleError(keyValueMessage, e);
     }
   }
 
@@ -281,7 +283,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(indicesMessage, e);
+      instance.handleError(indicesMessage, e);
     }
   }
 
@@ -292,7 +294,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(convertPriceSettingsMessage, e);
+      instance.handleError(convertPriceSettingsMessage, e);
     }
   }
 
@@ -303,7 +305,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(paymentMethodsMessage, e);
+      instance.handleError(paymentMethodsMessage, e);
     }
   }
 
@@ -314,7 +316,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(referralInfoMessage, e);
+      instance.handleError(referralInfoMessage, e);
     }
   }
 
@@ -325,7 +327,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(nftCollectionsMessage, e);
+      instance.handleError(nftCollectionsMessage, e);
     }
   }
 
@@ -336,7 +338,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(nftMarketMessage, e);
+      instance.handleError(nftMarketMessage, e);
     }
   }
 
@@ -347,7 +349,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(nftPortfolioMessage, e);
+      instance.handleError(nftPortfolioMessage, e);
     }
   }
 
@@ -358,7 +360,7 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      SignalRModuleNew.handleError(fireblocksMessages, e);
+      instance.handleError(fireblocksMessages, e);
     }
   }
 

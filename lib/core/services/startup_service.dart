@@ -49,6 +49,8 @@ class StartupService {
     processStartupState().then((value) {
       /// Needed to dissmis Register/Login pushed screens
       getIt.get<AppStore>().checkInitRouter();
+
+      sRouter.replaceAll([const AppInitRoute()]);
     });
   }
 

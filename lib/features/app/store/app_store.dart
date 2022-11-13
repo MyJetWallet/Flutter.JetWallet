@@ -43,6 +43,11 @@ abstract class _AppStoreBase with Store {
   @observable
   RouterUnion initRouter = const RouterUnion.loading();
   @action
+  void manualUpdateRoute(RouterUnion route) {
+    initRouter = route;
+  }
+
+  @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
       final flavor = flavorService();
@@ -349,5 +354,20 @@ abstract class _AppStoreBase with Store {
     authState = authState.copyWith(
       verificationToken: verificationToken,
     );
+  }
+
+  @action
+  void resetAppStore() {
+    authStatus = const AuthorizationUnion.loading();
+    authorizedStatus = const AuthorizedUnion.loading();
+
+    tabsRouter = null;
+    authState = const AuthInfoState();
+    actionMenuActive = false;
+    openBottomMenu = false;
+    fromLoginRegister = false;
+    withdrawDynamicLink = false;
+    homeTab = 0;
+    marketController = null;
   }
 }

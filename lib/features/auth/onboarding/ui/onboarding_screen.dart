@@ -4,6 +4,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/app/init_router/router_union.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/onboarding/store/onboarding_store.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dart';
 import 'package:jetwallet/widgets/splash_screen_gradient.dart';

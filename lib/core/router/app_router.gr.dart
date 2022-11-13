@@ -17,6 +17,12 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AppInitRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const AppInitRouter(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -893,8 +899,12 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           '/#redirect',
           path: '/',
-          redirectTo: '/home',
+          redirectTo: '/init',
           fullMatch: true,
+        ),
+        RouteConfig(
+          AppInitRoute.name,
+          path: '/init',
         ),
         RouteConfig(
           SplashRoute.name,
@@ -936,13 +946,6 @@ class _$AppRouter extends RootStackRouter {
           HomeRouter.name,
           path: '/home',
           children: [
-            RouteConfig(
-              '#redirect',
-              path: '',
-              parent: HomeRouter.name,
-              redirectTo: 'market',
-              fullMatch: true,
-            ),
             RouteConfig(
               MarketRouter.name,
               path: 'market',
@@ -1275,6 +1278,18 @@ class _$AppRouter extends RootStackRouter {
           path: '/nft_receive',
         ),
       ];
+}
+
+/// generated route for
+/// [AppInitRouter]
+class AppInitRoute extends PageRouteInfo<void> {
+  const AppInitRoute()
+      : super(
+          AppInitRoute.name,
+          path: '/init',
+        );
+
+  static const String name = 'AppInitRoute';
 }
 
 /// generated route for

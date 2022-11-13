@@ -108,9 +108,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody> {
       data: widget.reactiveMediaQuery.copyWith(
         textScaleFactor: 1.0,
       ),
-      child: AppInitRouter(
-        child: widget.child,
-      ),
+      child: widget.child,
     );
   }
 }

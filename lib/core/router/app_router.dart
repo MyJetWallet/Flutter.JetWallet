@@ -17,6 +17,7 @@ import 'package:jetwallet/features/actions/action_recurring_info/action_recurrin
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
+import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/biometric/ui/components/allow_biometric.dart';
 import 'package:jetwallet/features/auth/email_verification/ui/email_verification_screen.dart';
@@ -134,6 +135,12 @@ final sRouter = getIt.get<AppRouter>();
   replaceInRouteName: 'Page,Route',
   routes: [
     AutoRoute(
+      initial: true,
+      path: '/init',
+      name: 'AppInitRoute',
+      page: AppInitRouter,
+    ),
+    AutoRoute(
       path: '/splash',
       name: 'SplashRoute',
       page: SplashScreen,
@@ -179,7 +186,7 @@ final sRouter = getIt.get<AppRouter>();
       page: ApiSelectorScreen,
     ),
     AutoRoute(
-      initial: true,
+      // initial: true,
       // guards: [InitGuard],
       path: '/home',
       name: 'HomeRouter',
@@ -189,7 +196,7 @@ final sRouter = getIt.get<AppRouter>();
           path: 'market',
           name: 'MarketRouter',
           page: MarketScreen,
-          initial: true,
+          //initial: true,
         ),
         AutoRoute(
           path: 'portfolio',

@@ -796,6 +796,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
   @action
   void clearSignalRModule() {
+    initFinished = false;
     earnOffersList = ObservableList.of([]);
     showPaymentsMethods = false;
     clientDetail = ClientDetailModel(
@@ -829,6 +830,17 @@ abstract class _SignalRServiceUpdatedBase with Store {
     kycCountries = ObservableList.of([]);
     nftList = ObservableList.of([]);
     userNFTList = ObservableList.of([]);
+    instruments = null;
+    allNftList = ObservableList.of([]);
+    nFTMarkets = null;
+    userNFTPortfolio = null;
+    currenciesWithHiddenList = ObservableList.of([]);
+    balancesModel = null;
+    blockchainsModel = null;
+    basePricesModel = null;
+    assetsWithdrawalFees = null;
+    assetPaymentMethods = null;
+    paymentMethods = ObservableList.of([]);
   }
 }
 

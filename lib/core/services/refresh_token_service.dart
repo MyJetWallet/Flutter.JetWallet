@@ -32,8 +32,8 @@ Future<RefreshTokenStatus> refreshToken() async {
 
     if (serverTimeResponse.hasError) {
       await getIt.get<LogoutService>().logout();
-        
-        return RefreshTokenStatus.caught;
+
+      return RefreshTokenStatus.caught;
     }
 
     print(serverTimeResponse.data);
@@ -42,9 +42,13 @@ Future<RefreshTokenStatus> refreshToken() async {
       final privateKey = await storageService.getValue(privateKeyKey);
       final refreshToken = authInfo.refreshToken;
 
+      if (privateKey == null) {
+        return RefreshTokenStatus.caught;
+      }
+
       final tokenDateTimeSignatureBase64 = rsaService.sign(
         refreshToken + serverTimeResponse.data!.time,
-        privateKey!,
+        privateKey,
       );
 
       final model = AuthRefreshRequestModel(
@@ -111,7 +115,7 @@ Future<RefreshTokenStatus> refreshToken() async {
       rethrow;
     }
   } catch (e) {
-    print('CATCH ERROR');
+    print('CATCH ERROR $e');
 
     await getIt.get<LogoutService>().logout();
 

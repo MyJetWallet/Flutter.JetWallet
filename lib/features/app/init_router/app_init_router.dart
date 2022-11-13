@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/account/crisp/crisp.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
@@ -11,6 +14,7 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
+import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -19,10 +23,7 @@ import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 class AppInitRouter extends StatelessObserverWidget {
   const AppInitRouter({
     super.key,
-    required this.child,
   });
-
-  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +86,23 @@ class AppInitRouter extends StatelessObserverWidget {
           getIt<RouteQueryService>().runQuery();
         }
 
-        return child;
+        sRouter.replaceAll([
+          HomeRouter(
+            children: [
+              MarketRouter(),
+            ],
+          ),
+        ]);
+
+        return const SplashScreen();
       },
       unauthorized: () {
         return const OnboardingScreen();
+      },
+      crisp: () {
+        return Crisp(
+          welcomeText: intl.crispSendMessage_hi,
+        );
       },
     );
   }
