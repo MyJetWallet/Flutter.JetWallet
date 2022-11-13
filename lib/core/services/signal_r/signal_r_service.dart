@@ -1,6 +1,7 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/local_cache_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -16,12 +17,18 @@ class SignalRService {
   late SignalRModuleNew signalR;
 
   /// CreateService and Start Init
-  void start() {
+  Future<void> start() async {
     //signalR = createService()..init();
 
-    signalR = createNewService()..init();
+    try {
+      final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
+      sSignalRModules = sRCache ?? SignalRServiceUpdated();
+    } catch (e) {
+      sSignalRModules = SignalRServiceUpdated();
+    }
 
-    sSignalRModules = getIt.get<SignalRServiceUpdated>();
+    signalR = await createNewService();
+    await signalR.init();
   }
 
   SignalRModule createService() {
@@ -39,39 +46,37 @@ class SignalRService {
     );
   }
 
-  SignalRModuleNew createNewService() {
+  Future<SignalRModuleNew> createNewService() async {
     final transport = SignalRTransport(
-      initFinished: getIt<SignalRServiceUpdated>().setInitFinished,
-      cards: getIt<SignalRServiceUpdated>().setCards,
-      cardLimits: getIt<SignalRServiceUpdated>().setCardLimitModel,
-      earnOffersList: getIt<SignalRServiceUpdated>().setEarnOffersList,
-      earnProfile: getIt<SignalRServiceUpdated>().setEarnProfile,
-      recurringBuys: getIt<SignalRServiceUpdated>().setRecurringBuys,
-      kycCountries: getIt<SignalRServiceUpdated>().setKYCCountries,
-      marketInfo: getIt<SignalRServiceUpdated>().setMarketInfo,
-      marketCampaigns: getIt<SignalRServiceUpdated>().setMarketCampaigns,
-      referralStats: getIt<SignalRServiceUpdated>().setReferralStats,
-      instruments: getIt<SignalRServiceUpdated>().setInstruments,
-      marketItems: getIt<SignalRServiceUpdated>().setMarketItems,
-      periodPrices: getIt<SignalRServiceUpdated>().setPeriodPrices,
-      clientDetail: getIt<SignalRServiceUpdated>().setClientDetail,
-      keyValue: getIt<SignalRServiceUpdated>().setKeyValue,
-      indicesDetails: getIt<SignalRServiceUpdated>().setIndicesDetails,
-      priceAccuracies: getIt<SignalRServiceUpdated>().setPriceAccuracies,
-      referralInfo: getIt<SignalRServiceUpdated>().setReferralInfo,
-      nftList: getIt<SignalRServiceUpdated>().setNFTList,
-      nftMarket: getIt<SignalRServiceUpdated>().setNFTMarket,
-      userNFTPortfolio: getIt<SignalRServiceUpdated>().setUserNFTPortfolio,
-      updateUserNft: getIt<SignalRServiceUpdated>().updateUserNft,
-      fireblockEventAction: getIt<SignalRServiceUpdated>().fireblockEventAction,
-      setAssets: getIt<SignalRServiceUpdated>().setAssets,
-      updateBalances: getIt<SignalRServiceUpdated>().updateBalances,
-      updateBlockchains: getIt<SignalRServiceUpdated>().updateBlockchains,
-      updateBasePrices: getIt<SignalRServiceUpdated>().updateBasePrices,
-      updateAssetsWithdrawalFees:
-          getIt<SignalRServiceUpdated>().updateAssetsWithdrawalFees,
-      updateAssetPaymentMethods:
-          getIt<SignalRServiceUpdated>().updateAssetPaymentMethods,
+      initFinished: sSignalRModules.setInitFinished,
+      cards: sSignalRModules.setCards,
+      cardLimits: sSignalRModules.setCardLimitModel,
+      earnOffersList: sSignalRModules.setEarnOffersList,
+      earnProfile: sSignalRModules.setEarnProfile,
+      recurringBuys: sSignalRModules.setRecurringBuys,
+      kycCountries: sSignalRModules.setKYCCountries,
+      marketInfo: sSignalRModules.setMarketInfo,
+      marketCampaigns: sSignalRModules.setMarketCampaigns,
+      referralStats: sSignalRModules.setReferralStats,
+      instruments: sSignalRModules.setInstruments,
+      marketItems: sSignalRModules.setMarketItems,
+      periodPrices: sSignalRModules.setPeriodPrices,
+      clientDetail: sSignalRModules.setClientDetail,
+      keyValue: sSignalRModules.setKeyValue,
+      indicesDetails: sSignalRModules.setIndicesDetails,
+      priceAccuracies: sSignalRModules.setPriceAccuracies,
+      referralInfo: sSignalRModules.setReferralInfo,
+      nftList: sSignalRModules.setNFTList,
+      nftMarket: sSignalRModules.setNFTMarket,
+      userNFTPortfolio: sSignalRModules.setUserNFTPortfolio,
+      updateUserNft: sSignalRModules.updateUserNft,
+      fireblockEventAction: sSignalRModules.fireblockEventAction,
+      setAssets: sSignalRModules.setAssets,
+      updateBalances: sSignalRModules.updateBalances,
+      updateBlockchains: sSignalRModules.updateBlockchains,
+      updateBasePrices: sSignalRModules.updateBasePrices,
+      updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
+      updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
     );
 
     return SignalRModuleNew(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -69,6 +70,8 @@ abstract class _LogoutServiceBase with Store {
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.currenciesList);
+
+      await getIt<LocalCacheService>().clearAllCache();
 
       /// Disconet from SignalR
       await getIt.get<SignalRService>().signalR.disconnect();

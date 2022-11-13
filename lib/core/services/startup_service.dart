@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -29,8 +28,8 @@ class StartupService {
   bool isServicesRegistred = false;
   bool isAlreadyInited = false;
 
-  void _initSignalRSynchronously() {
-    getIt.get<SignalRService>().start();
+  Future<void> _initSignalRSynchronously() async {
+    await getIt.get<SignalRService>().start();
   }
 
   void authenticatedBoot() {
@@ -69,7 +68,7 @@ class StartupService {
         infoRequest.pick(
           onData: (SessionCheckResponseModel info) async {
             if (!initSignaWasCall) {
-              _initSignalRSynchronously();
+              await _initSignalRSynchronously();
               initSignaWasCall = true;
             }
 
@@ -84,10 +83,6 @@ class StartupService {
             } else if (info.toSetupPin) {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const PinSetup(),
-                  );
-            } else if (info.toCheckPin) {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const PinVerification(),
                   );
             } else {
               getIt.get<AppStore>().setAuthorizedStatus(
@@ -118,6 +113,8 @@ class StartupService {
 
   Future<void> startingServices() async {
     try {
+      print('startingServices');
+
       getIt.registerSingleton<KycService>(
         KycService(),
       );
@@ -146,6 +143,7 @@ class StartupService {
       return;
     } catch (e) {
       _logger.log(stateFlow, 'Failed startingServices', e);
+      print(e);
     }
   }
 

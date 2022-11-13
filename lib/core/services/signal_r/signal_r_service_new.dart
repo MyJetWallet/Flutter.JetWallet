@@ -1,6 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/local_cache_service.dart';
+import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
@@ -14,6 +16,7 @@ import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -48,8 +51,16 @@ part 'signal_r_service_new.g.dart';
 
 late SignalRServiceUpdated sSignalRModules;
 
-class SignalRServiceUpdated = _SignalRServiceUpdatedBase
-    with _$SignalRServiceUpdated;
+@JsonSerializable()
+class SignalRServiceUpdated extends _SignalRServiceUpdatedBase
+    with _$SignalRServiceUpdated {
+  SignalRServiceUpdated() : super();
+
+  factory SignalRServiceUpdated.fromJson(Map<String, dynamic> json) =>
+      _$SignalRServiceUpdatedFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignalRServiceUpdatedToJson(this);
+}
 
 abstract class _SignalRServiceUpdatedBase with Store {
   @observable
@@ -73,6 +84,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
 
   @observable
+  @ObservableEarnOfferModelListConverter()
   ObservableList<EarnOfferModel> earnOffersList = ObservableList.of([]);
   @action
   void setEarnOffersList(List<EarnOfferModel> value) =>
@@ -84,6 +96,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setEarnProfile(EarnProfileModel value) => earnProfile = value;
 
   @observable
+  @ObservableRecurringBuysModelListConverter()
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
   void setRecurringBuys(RecurringBuysResponseModel value) =>
@@ -92,6 +105,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
       );
 
   @observable
+  @ObservableKycCountryModelListConverter()
   ObservableList<KycCountryModel> kycCountries = ObservableList.of([]);
   @action
   void setKYCCountries(KycCountriesResponseModel data) {
@@ -141,12 +155,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
       marketInfo = value.marketCapChange24H.round(scale: 2);
 
   @observable
+  @ObservableCampaignModelListConverter()
   ObservableList<CampaignModel> marketCampaigns = ObservableList.of([]);
   @action
   void setMarketCampaigns(CampaignResponseModel value) =>
       marketCampaigns = ObservableList.of(value.campaigns);
 
   @observable
+  @ObservableReferralStatsModelListConverter()
   ObservableList<ReferralStatsModel> referralStats = ObservableList.of([]);
   @action
   void setReferralStats(ReferralStatsResponseModel value) =>
@@ -158,6 +174,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setInstruments(InstrumentsModel value) => instruments = value;
 
   @observable
+  @ObservableMarketItemModelListConverter()
   ObservableList<MarketItemModel> marketItems = ObservableList.of([]);
   @observable
   MarketReferencesModel? marketReferencesModel;
@@ -248,12 +265,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setKeyValue(KeyValueModel value) => keyValue = value;
 
   @observable
+  @ObservableIndexModelListConverter()
   ObservableList<IndexModel> indicesDetails = ObservableList.of([]);
   @action
   void setIndicesDetails(IndicesModel value) =>
       indicesDetails = ObservableList.of(value.indices);
 
   @observable
+  @ObservablePriceAccuracyListConverter()
   ObservableList<PriceAccuracy> priceAccuracies = ObservableList.of([]);
   @action
   void setPriceAccuracies(PriceAccuracies value) =>
@@ -271,8 +290,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
   @observable
+  @ObservableNftModelListConverter()
   ObservableList<NftModel> nftList = ObservableList.of([]);
   @observable
+  @ObservableNftMarketListConverter()
   ObservableList<NftMarket> allNftList = ObservableList.of([]);
   @action
   void setNFTList(NftCollections value) => nftList = ObservableList.of(
@@ -349,6 +370,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
+  @ObservableNftModelListConverter()
   ObservableList<NftModel> userNFTList = ObservableList.of([]);
   @action
   void updateUserNft(NftPortfolio value) {
@@ -389,8 +411,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   ///
 
   @observable
+  @ObservableCurrencyModelListConverter()
   ObservableList<CurrencyModel> currenciesList = ObservableList.of([]);
   @observable
+  @ObservableCurrencyModelListConverter()
   ObservableList<CurrencyModel> currenciesWithHiddenList =
       ObservableList.of([]);
 
@@ -647,7 +671,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   BasePricesModel? basePricesModel;
   @action
-  void updateBasePrices(BasePricesModel value) {
+  Future<void> updateBasePrices(BasePricesModel value) async {
     basePricesModel = value;
 
     if (currenciesList.isNotEmpty) {
@@ -690,6 +714,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
         );
       }
     }
+
+    await getIt<LocalCacheService>().saveSignalR(
+      (this as SignalRServiceUpdated).toJson(),
+    );
   }
 
   @observable

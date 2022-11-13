@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'kyc_operation_status_model.dart';
 
 part 'kyc_country_model.freezed.dart';
+part 'kyc_country_model.g.dart';
 
 @freezed
 class KycCountriesState with _$KycCountriesState {
@@ -22,4 +23,7 @@ class KycCountryModel with _$KycCountryModel {
     required String countryCode,
     required String countryName,
   }) = _KycCountryModel;
+
+  factory KycCountryModel.fromJson(Map<String, dynamic> json) =>
+      _$KycCountryModelFromJson(json);
 }
