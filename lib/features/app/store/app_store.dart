@@ -361,13 +361,11 @@ abstract class _AppStoreBase with Store {
     authStatus = const AuthorizationUnion.loading();
     authorizedStatus = const AuthorizedUnion.loading();
 
-    tabsRouter = null;
     authState = const AuthInfoState();
     actionMenuActive = false;
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
     homeTab = 0;
-    marketController = null;
   }
 }

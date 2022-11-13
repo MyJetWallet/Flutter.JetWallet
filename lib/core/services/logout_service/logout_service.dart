@@ -65,7 +65,6 @@ abstract class _LogoutServiceBase with Store {
           .clearStorageForCrypto(sSignalRModules.currenciesList);
     } finally {
       print('FINALLY LOGOUT');
-      await sRouter.replaceAll([const AppInitRoute()]);
 
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
@@ -90,6 +89,8 @@ abstract class _LogoutServiceBase with Store {
 
       sSignalRModules.clearSignalRModule();
       getIt<AppStore>().resetAppStore();
+
+      await sRouter.replaceAll([const AppInitRoute()]);
     }
   }
 
