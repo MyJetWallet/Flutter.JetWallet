@@ -161,6 +161,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         active: true,
                         name: intl.nft_detail_cancel_selling,
                         onTap: () {
+                          sAnalytics.nftSellCancelTap(
+                              nftCollectionID: store.nft?.collectionId ?? '',
+                              nftObjectId: store.nft?.symbol ?? '',
+                              asset: store.nft?.tradingAsset ?? '',
+                              nftPriceAmount: '${store.nft?.sellPrice}',
+                              nftOperationFee: '',
+                              nftCreatorFee: '',
+                              nftAmountToGet: '',
+                          );
                           store.cancelSellOrder();
                         },
                       ),

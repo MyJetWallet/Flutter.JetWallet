@@ -4,6 +4,7 @@ import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 part 'market_filter_store.g.dart';
 
@@ -38,6 +39,9 @@ abstract class _MarketFilterStoreBase with Store {
   void init(List<MarketItemModel> crypto, List<NftModel> nft) {
     cryptoList = ObservableList.of(crypto);
     cryptoListFiltred = ObservableList.of(crypto);
+    if (crypto.isEmpty) {
+      sAnalytics.nftMarketOpen();
+    }
 
     var nftSorted = nft.toList();
 

@@ -1637,7 +1637,7 @@ class SimpleAnalytics {
     required String promoCode,
   }) {
     _analytics.logEvent(
-      EventType.closePromoCode,
+      EventType.tapOnContinuePromoCode,
       eventProperties: {'Promo code': promoCode},
     );
   }
