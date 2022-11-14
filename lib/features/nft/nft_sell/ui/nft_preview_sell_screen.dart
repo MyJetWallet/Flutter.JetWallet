@@ -92,6 +92,15 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
             titleAlign: TextAlign.center,
             title: store.previewHeader,
             onBackButtonTap: () {
+              sAnalytics.nftSellConfirmView(
+                nftCollectionID: store.input?.nft.collectionId ?? '',
+                nftObjectId: store.input?.nft.symbol ?? '',
+                asset: store.input?.nft.tradingAsset ?? '',
+                nftPriceAmount: store.input?.amount ?? '',
+                nftOperationFee: '${store.feePercentage}%',
+                nftCreatorFee: '${store.feePercentage}%',
+                nftAmountToGet: '${store.receiveAmount}',
+              );
               //store.cancelTimer();
               sAnalytics.nftSellConfirmBack(
                 nftCollectionID: store.input?.nft.collectionId ?? '',

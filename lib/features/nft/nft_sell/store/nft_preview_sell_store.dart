@@ -91,9 +91,9 @@ abstract class _NFTPreviewSellStoreBase with Store {
             nftObjectId: input!.nft.symbol ?? '',
             asset: input!.nft.tradingAsset ?? '',
             nftPriceAmount: input?.amount ?? '',
-            nftOperationFee: '${data.feePercentage}%',
-            nftCreatorFee: '${data.feePercentage}%',
-            nftAmountToGet: '${data.receiveAmount}',
+            nftOperationFee: '$feePercentage%',
+            nftCreatorFee: '$feePercentage%',
+            nftAmountToGet: '$receiveAmount',
           );
 
           isLoading = false;
@@ -117,6 +117,15 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
   @action
   Future<void> executeQuote() async {
+    sAnalytics.nftSellConfirmView(
+      nftCollectionID: input!.nft.collectionId ?? '',
+      nftObjectId: input!.nft.symbol ?? '',
+      asset: input!.nft.tradingAsset ?? '',
+      nftPriceAmount: input?.amount ?? '',
+      nftOperationFee: '$feePercentage%',
+      nftCreatorFee: '$feePercentage%',
+      nftAmountToGet: '$receiveAmount',
+    );
 
     sAnalytics.nftSellConfirmTap(
       nftCollectionID: input!.nft.collectionId ?? '',
