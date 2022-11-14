@@ -81,7 +81,7 @@ class _ActionRecurringBuy extends StatelessObserverWidget {
 
     final recurring = <RecurringBuysModel>[];
 
-    for (final element in state.recurringBuys) {
+    for (final element in state.recurringBuysFiltred) {
       if (currency.symbol == element.toAsset) {
         recurring.add(element);
       }

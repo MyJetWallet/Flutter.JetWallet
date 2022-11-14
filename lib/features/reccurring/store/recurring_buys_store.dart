@@ -23,21 +23,29 @@ part 'recurring_buys_store.g.dart';
 class RecurringBuysStore = _RecurringBuysStoreBase with _$RecurringBuysStore;
 
 abstract class _RecurringBuysStoreBase with Store {
-  _RecurringBuysStoreBase() {
-    recurringBuys = sSignalRModules.recurringBuys;
-
-    _init();
-  }
+  _RecurringBuysStoreBase();
 
   static final _logger = Logger('RecurringBuysNotifier');
 
-  @observable
-  ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
+  //@observable
+  //ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
+
+  @computed
+  List<RecurringBuysModel> get recurringBuys => sSignalRModules.recurringBuys;
+
+  @computed
+  List<RecurringBuysModel> get recurringBuysFiltred {
+    final localList = recurringBuys.toList();
+
+    localList.sort((a, b) => a.toAsset.compareTo(b.toAsset));
+
+    return localList.toList();
+  }
 
   @computed
   RecurringBuysStatus get recurringBuysStatus {
-    if (recurringBuys.isNotEmpty) {
-      final active = recurringBuys.where(
+    if (recurringBuysFiltred.isNotEmpty) {
+      final active = recurringBuysFiltred.where(
         (element) =>
             element.status == RecurringBuysStatus.active ||
             element.status == RecurringBuysStatus.paused,
@@ -52,8 +60,8 @@ abstract class _RecurringBuysStoreBase with Store {
 
   @computed
   RecurringBuysStatus get typeActiveOrEmpty {
-    if (recurringBuys.isNotEmpty) {
-      final activeRecurringBuysList = recurringBuys
+    if (recurringBuysFiltred.isNotEmpty) {
+      final activeRecurringBuysList = recurringBuysFiltred
           .where((element) => element.status == RecurringBuysStatus.active);
 
       if (activeRecurringBuysList.isNotEmpty) {
@@ -66,24 +74,18 @@ abstract class _RecurringBuysStoreBase with Store {
 
   @computed
   bool get recurringPausedNavigateToHistory {
-    if (recurringBuys.isNotEmpty) {
-      final pausedRecurringBuysList = recurringBuys
+    if (recurringBuysFiltred.isNotEmpty) {
+      final pausedRecurringBuysList = recurringBuysFiltred
           .where((element) => element.status == RecurringBuysStatus.paused);
 
       if (pausedRecurringBuysList.isNotEmpty &&
-          pausedRecurringBuysList.length == recurringBuys.length &&
-          recurringBuys.length > 1) {
+          pausedRecurringBuysList.length == recurringBuysFiltred.length &&
+          recurringBuysFiltred.length > 1) {
         return true;
       }
     }
 
     return false;
-  }
-
-  @action
-  void _init() {
-    recurringBuys.sort((a, b) => a.toAsset.compareTo(b.toAsset));
-    recurringBuys = ObservableList.of([...recurringBuys]);
   }
 
   @action
@@ -112,19 +114,19 @@ abstract class _RecurringBuysStoreBase with Store {
 
   @action
   RecurringBuysStatus typeByAllRecurringBuys() {
-    if (recurringBuys.isNotEmpty) {
-      final activeRecurringBuysList = recurringBuys
+    if (recurringBuysFiltred.isNotEmpty) {
+      final activeRecurringBuysList = recurringBuysFiltred
           .where((element) => element.status == RecurringBuysStatus.active);
 
       if (activeRecurringBuysList.isNotEmpty) {
         return RecurringBuysStatus.active;
       }
 
-      final pausedRecurringBuysList = recurringBuys
+      final pausedRecurringBuysList = recurringBuysFiltred
           .where((element) => element.status == RecurringBuysStatus.paused);
 
       if (pausedRecurringBuysList.isNotEmpty &&
-          pausedRecurringBuysList.length == recurringBuys.length) {
+          pausedRecurringBuysList.length == recurringBuysFiltred.length) {
         return RecurringBuysStatus.paused;
       }
     }
@@ -158,8 +160,8 @@ abstract class _RecurringBuysStoreBase with Store {
     } else {
       sRouter.push(
         ShowRecurringInfoActionRouter(
-          recurringItem: recurringBuys[0],
-          assetName: recurringBuys[0].toAsset,
+          recurringItem: recurringBuysFiltred[0],
+          assetName: recurringBuysFiltred[0].toAsset,
         ),
       );
     }
@@ -175,7 +177,7 @@ abstract class _RecurringBuysStoreBase with Store {
     var accumulate = Decimal.zero;
     var calculateTotal = false;
 
-    for (final element in recurringBuys) {
+    for (final element in recurringBuysFiltred) {
       if (element.toAsset == asset) {
         if (element.status == RecurringBuysStatus.active) {
           calculateTotal = true;
@@ -187,7 +189,7 @@ abstract class _RecurringBuysStoreBase with Store {
       return '';
     }
 
-    for (final element in recurringBuys) {
+    for (final element in recurringBuysFiltred) {
       if (element.toAsset == asset) {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset &&
@@ -212,7 +214,7 @@ abstract class _RecurringBuysStoreBase with Store {
 
     final array = <RecurringBuysModel>[];
 
-    for (final element in recurringBuys) {
+    for (final element in recurringBuysFiltred) {
       if (element.toAsset == asset) {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset) {
@@ -259,7 +261,7 @@ abstract class _RecurringBuysStoreBase with Store {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     var accumulate = Decimal.zero;
-    for (final element in recurringBuys) {
+    for (final element in recurringBuysFiltred) {
       if (element.status == RecurringBuysStatus.active) {
         for (final currency in currencies) {
           if (currency.symbol == element.fromAsset) {
@@ -301,7 +303,7 @@ abstract class _RecurringBuysStoreBase with Store {
   @action
   List<RecurringBuysModel> _recurringBuyAssetList(String asset) {
     final list = <RecurringBuysModel>[];
-    for (final element in recurringBuys) {
+    for (final element in recurringBuysFiltred) {
       if (element.toAsset == asset) {
         list.add(element);
       }
@@ -365,10 +367,5 @@ abstract class _RecurringBuysStoreBase with Store {
     }
 
     return true;
-  }
-
-  @action
-  void updateRecurringItems() {
-    recurringBuys = sSignalRModules.recurringBuys;
   }
 }

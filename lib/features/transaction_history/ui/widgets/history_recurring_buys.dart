@@ -29,7 +29,6 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
     final scrollController = ScrollController();
 
     final state = getIt.get<RecurringBuysStore>();
-    state.updateRecurringItems();
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -65,9 +64,9 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (state.recurringBuys.isNotEmpty)
+          if (state.recurringBuysFiltred.isNotEmpty)
             SliverGroupedListView<RecurringBuysModel, String>(
-              elements: state.recurringBuys,
+              elements: state.recurringBuysFiltred,
               groupBy: (recurring) {
                 return recurring.toAsset;
               },
@@ -78,11 +77,11 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
                 );
               },
               itemBuilder: (context, recurring) {
-                final index = state.recurringBuys.indexOf(recurring);
+                final index = state.recurringBuysFiltred.indexOf(recurring);
                 final currentAsset = recurring.toAsset;
                 var nextAsset = '';
-                if (index != (state.recurringBuys.length - 1)) {
-                  nextAsset = state.recurringBuys[index + 1].toAsset;
+                if (index != (state.recurringBuysFiltred.length - 1)) {
+                  nextAsset = state.recurringBuysFiltred[index + 1].toAsset;
                 }
                 final removeDividerForLastInGroup = currentAsset != nextAsset;
 

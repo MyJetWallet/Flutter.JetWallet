@@ -186,7 +186,7 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
                   const SpaceH20(),
                 ],
                 SPrimaryButton2(
-                  active: !store.isLoading,
+                  active: !store.isLoading && !store.connectingToServer,
                   name: intl.previewSell_confirm,
                   onTap: () {
                     store.executeQuote();

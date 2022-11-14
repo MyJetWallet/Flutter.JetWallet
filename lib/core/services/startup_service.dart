@@ -177,10 +177,6 @@ class StartupService {
     getIt.get<AppStore>().setAuthorizedStatus(
           const AskBioUsing(),
         );
-
-    sRouter.push(
-      BiometricRouter(),
-    );
   }
 
   void pinVerified() {

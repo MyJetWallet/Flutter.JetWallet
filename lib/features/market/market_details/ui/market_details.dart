@@ -100,7 +100,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
 
     var isInWatchlist = watchlistIdsN.state.contains(marketItem.associateAsset);
 
-    final filteredRecurringBuys = recurringNotifier.recurringBuys
+    final filteredRecurringBuys = recurringNotifier.recurringBuysFiltred
         .where(
           (element) => element.toAsset == currency.symbol,
         )

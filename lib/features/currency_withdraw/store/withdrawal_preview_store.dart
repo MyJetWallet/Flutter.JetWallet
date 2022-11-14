@@ -129,6 +129,9 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
   @action
   Future<void> withdrawNFT() async {
+    _showWithdrawConfirm();
+
+    /*
     _logger.log(notifier, 'withdrawNFT');
 
     loading = true;
@@ -208,6 +211,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     loading = false;
     isProcessing = false;
     loader.finishLoadingImmediately();
+    */
   }
 
   @action

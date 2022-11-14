@@ -55,7 +55,7 @@ class _WalletBodyState extends State<WalletBody>
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final filteredRecurringBuys = recurring.recurringBuys
+    final filteredRecurringBuys = recurring.recurringBuysFiltred
         .where(
           (element) => element.toAsset == widget.currency.symbol,
         )
