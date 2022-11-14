@@ -66,7 +66,22 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
   @action
-  void setBaseCurrency(BaseCurrencyModel value) => baseCurrency = value;
+  void setBaseCurrency(BaseCurrencyModel value) {
+    baseCurrency = value;
+  }
+
+  @action
+  void updateBaseCurrency() {
+    final elements = currenciesWithHiddenList.where(
+      (element) => element.symbol == clientDetail.baseAssetSymbol,
+    );
+
+    baseCurrency = BaseCurrencyModel(
+      prefix: elements.isEmpty ? null : elements.first.prefixSymbol,
+      symbol: clientDetail.baseAssetSymbol,
+      accuracy: elements.isEmpty ? 0 : elements.first.accuracy,
+    );
+  }
 
   @observable
   bool initFinished = false;
@@ -245,15 +260,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setClientDetail(ClientDetailModel value) {
     clientDetail = value;
 
-    final elements = currenciesList.where(
-      (element) => element.symbol == value.baseAssetSymbol,
-    );
-
-    baseCurrency = BaseCurrencyModel(
-      prefix: elements.isEmpty ? null : elements.first.prefixSymbol,
-      symbol: value.baseAssetSymbol,
-      accuracy: elements.isEmpty ? 0 : elements.first.accuracy,
-    );
+    updateBaseCurrency();
   }
 
   @observable
@@ -577,6 +584,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
           }
         }
       }
+    }
+
+    if (currenciesList.isNotEmpty) {
+      updateBaseCurrency();
     }
   }
 

@@ -71,8 +71,6 @@ abstract class _LogoutServiceBase with Store {
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.currenciesList);
 
-      await getIt<LocalCacheService>().clearAllCache();
-
       /// Disconet from SignalR
       await getIt.get<SignalRService>().signalR.disconnect();
 
@@ -92,6 +90,7 @@ abstract class _LogoutServiceBase with Store {
 
       sSignalRModules.clearSignalRModule();
       getIt<AppStore>().resetAppStore();
+      await getIt<LocalCacheService>().clearAllCache();
 
       await sRouter.replaceAll([const AppInitRoute()]);
     }
