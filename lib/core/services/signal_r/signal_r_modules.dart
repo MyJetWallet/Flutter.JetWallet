@@ -842,10 +842,15 @@ abstract class _SignalRModulesBase with Store {
     });
 
     fireblockEventsOS.listen((value) {
-      if (value.messages != null) {
-        for (final event in value.messages!) {
+      if (value.events != null) {
+        for (final event in value.events!) {
+          final messageType = event.eventType == 'Kyc'
+            ? 'kyc_successful'
+            : event.eventType == 'FirstTimeBuy'
+            ? 'first_time_buy'
+            : event.eventType ?? '';
           FirebaseAnalytics.instance.logEvent(
-            name: event.eventType ?? '',
+            name: messageType,
           );
           sNetwork.getWalletModule().postProfileReport(
             event.messageId ?? '',
