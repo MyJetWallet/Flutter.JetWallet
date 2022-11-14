@@ -168,21 +168,26 @@ abstract class _WithdrawalPreviewStoreBase with Store {
               withdrawal.nft?.blockchain ?? '',
             )}',
           );
-          sRouter.push(
-            SuccessScreenRouter(
-              secondaryText: intl.nft_send_confirm,
-              showProgressBar: true,
-              onSuccess: (context) {
-                sRouter.replaceAll([
-                  const HomeRouter(
-                    children: [
-                      PortfolioRouter(),
-                    ],
-                  ),
-                ]);
-              },
-            ),
-          );
+
+          /*
+            sRouter.push(
+              SuccessScreenRouter(
+                secondaryText: intl.nft_send_confirm,
+                showProgressBar: true,
+                onSuccess: (context) {
+                  sRouter.replaceAll([
+                    const HomeRouter(
+                      children: [
+                        PortfolioRouter(),
+                      ],
+                    ),
+                  ]);
+                },
+              ),
+            );
+          */
+
+          _showWithdrawConfirm();
         },
         onError: (error) {
           _logger.log(stateFlow, 'withdraw', error.cause);

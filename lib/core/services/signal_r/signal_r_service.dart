@@ -1,7 +1,7 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
-import 'package:jetwallet/core/services/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';

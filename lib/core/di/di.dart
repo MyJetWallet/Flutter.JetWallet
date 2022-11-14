@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
-import 'package:jetwallet/core/services/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';

@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/services/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';

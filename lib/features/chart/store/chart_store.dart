@@ -140,7 +140,9 @@ abstract class _ChartStoreBase with Store {
     _logger.log(notifier, 'fetchAssetCandles');
 
     try {
-      union = const ChartUnion.loading();
+      if (union != const ChartUnion.candles()) {
+        union = const ChartUnion.loading();
+      }
 
       final toDate = DateTime.now().toUtc();
       final depth = DataFeedUtil.calculateHistoryDepth(resolution);
