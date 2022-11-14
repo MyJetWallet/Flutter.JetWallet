@@ -41,9 +41,9 @@ import 'package:simple_networking/modules/wallet_api/models/market_info/market_i
 
 class MarketDetails extends StatelessWidget {
   const MarketDetails({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 
@@ -75,9 +75,9 @@ class MarketDetails extends StatelessWidget {
 
 class _MarketDetailsBody extends StatelessObserverWidget {
   const _MarketDetailsBody({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

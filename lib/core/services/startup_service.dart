@@ -74,6 +74,8 @@ class StartupService {
 
             if (!isServicesRegistred) {
               await startingServices();
+            } else {
+              await reCreateServices();
             }
 
             if (info.toCheckSimpleKyc) {
@@ -113,8 +115,6 @@ class StartupService {
 
   Future<void> startingServices() async {
     try {
-      print('startingServices');
-
       getIt.registerSingleton<KycService>(
         KycService(),
       );
@@ -145,6 +145,22 @@ class StartupService {
       _logger.log(stateFlow, 'Failed startingServices', e);
       print(e);
     }
+  }
+
+  Future<void> reCreateServices() async {
+    try {
+      if (getIt.isRegistered<KycService>()) {
+        getIt<KycService>().init();
+      }
+
+      if (getIt.isRegistered<KycProfileCountries>()) {
+        await getIt<KycProfileCountries>().init();
+      }
+
+      if (getIt.isRegistered<ProfileGetUserCountry>()) {
+        await getIt<ProfileGetUserCountry>().init();
+      }
+    } catch (e) {}
   }
 
   /// Called when user makes cold boot and has enabled 2FA
