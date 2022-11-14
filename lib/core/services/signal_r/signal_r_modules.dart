@@ -842,8 +842,8 @@ abstract class _SignalRModulesBase with Store {
     });
 
     fireblockEventsOS.listen((value) {
-      if (value.messages != null) {
-        for (final event in value.messages!) {
+      if (value.events != null) {
+        for (final event in value.events!) {
           FirebaseAnalytics.instance.logEvent(
             name: event.eventType ?? '',
           );
