@@ -129,13 +129,9 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
   @action
   Future<void> withdrawNFT() async {
-    _showWithdrawConfirm();
-
-    /*
     _logger.log(notifier, 'withdrawNFT');
 
     loading = true;
-    isProcessing = true;
     loader.startLoading();
 
     final matic = currencyFrom(
@@ -209,9 +205,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     }
 
     loading = false;
-    isProcessing = false;
     loader.finishLoadingImmediately();
-    */
   }
 
   @action

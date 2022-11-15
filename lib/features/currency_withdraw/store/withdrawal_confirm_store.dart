@@ -34,6 +34,7 @@ class WithdrawalConfirmStore extends _WithdrawalConfirmStoreBase
 abstract class _WithdrawalConfirmStoreBase with Store {
   _WithdrawalConfirmStoreBase();
 
+  @observable
   TextEditingController controller = TextEditingController();
 
   WithdrawalModel? withdrawal;
@@ -93,6 +94,8 @@ abstract class _WithdrawalConfirmStoreBase with Store {
 
     if (operationId == _operationId) {
       controller.text = code;
+
+      verifyCode();
     } else {
       sNotification.showError(
         intl.showError_youHaveConfirmed,
@@ -160,7 +163,21 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         if (withdrawal!.currency != null) {
           _showSuccessScreen();
         } else {
-          await withdrawNFT();
+          await sRouter.push(
+            SuccessScreenRouter(
+              secondaryText: intl.nft_send_confirm,
+              showProgressBar: true,
+              onSuccess: (context) {
+                sRouter.replaceAll([
+                  const HomeRouter(
+                    children: [
+                      PortfolioRouter(),
+                    ],
+                  ),
+                ]);
+              },
+            ),
+          );
         }
       }
     } on ServerRejectException catch (error) {
@@ -180,85 +197,6 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   @action
   void _updateIsResending(bool value) {
     isResending = value;
-  }
-
-  @action
-  Future<void> withdrawNFT() async {
-    _logger.log(notifier, 'withdrawNFT');
-    loader.startLoading();
-
-    isProcessing = true;
-
-    final matic = currencyFrom(
-      sSignalRModules.currenciesList,
-      'MATIC',
-    );
-
-    sAnalytics.nftSendProcessing(
-      nftCollectionID: withdrawal?.nft?.symbol ?? '',
-      nftObjectId: withdrawal?.nft?.collectionId ?? '',
-      network: withdrawal?.nft?.blockchain ?? '',
-      nftFee: '${matic.withdrawalFeeSize(withdrawal?.nft?.blockchain ?? '')}',
-    );
-
-    try {
-      final model = WithdrawRequestModel(
-        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-        assetSymbol: withdrawal!.nft!.symbol!,
-        amount: withdrawal!.nft!.buyPrice!,
-        toAddress: addressStore?.address ?? '',
-        blockchain: withdrawal!.nft!.blockchain!,
-      );
-
-      print(model);
-
-      final response = await sNetwork.getWalletModule().postWithdraw(model);
-
-      response.pick(
-        onData: (data) {
-          sAnalytics.nftSendSuccess(
-            nftCollectionID: withdrawal?.nft?.symbol ?? '',
-            nftObjectId: withdrawal?.nft?.collectionId ?? '',
-            network: withdrawal?.nft?.blockchain ?? '',
-            nftFee: '${matic.withdrawalFeeSize(
-              withdrawal?.nft?.blockchain ?? '',
-            )}',
-          );
-
-          sRouter.push(
-            SuccessScreenRouter(
-              secondaryText: intl.nft_send_confirm,
-              showProgressBar: true,
-              onSuccess: (context) {
-                sRouter.replaceAll([
-                  const HomeRouter(
-                    children: [
-                      PortfolioRouter(),
-                    ],
-                  ),
-                ]);
-              },
-            ),
-          );
-        },
-        onError: (error) {
-          _logger.log(stateFlow, 'withdraw', error.cause);
-
-          _showFailureScreen();
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, 'withdraw', error.cause);
-
-      _showFailureScreen();
-    } catch (error) {
-      _logger.log(stateFlow, 'withdraw', error);
-
-      _showFailureScreen();
-    }
-
-    isProcessing = false;
-    loader.finishLoadingImmediately();
   }
 
   @action

@@ -174,9 +174,9 @@ class StartupService {
   void pinSet() {
     _logger.log(notifier, 'pinSet');
 
-    getIt.get<AppStore>().setAuthorizedStatus(
-          const AskBioUsing(),
-        );
+    sRouter.push(
+      BiometricRouter(),
+    );
   }
 
   void pinVerified() {
