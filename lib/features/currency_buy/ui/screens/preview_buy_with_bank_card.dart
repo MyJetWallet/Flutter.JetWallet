@@ -221,17 +221,36 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       const SpaceW10(),
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 82,
-                        child: SPolicyText(
-                          firstText: intl.previewBuyWithUmlimint_disclaimer,
-                          userAgreementText:
-                          ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
-                          betweenText: ', ',
-                          privacyPolicyText:
-                          intl.previewBuyWithUmlimint_disclaimerPolicy,
-                          onUserAgreementTap: () =>
-                              launchURL(context, userAgreementLink),
-                          onPrivacyPolicyTap: () =>
-                              launchURL(context, privacyPolicyLink),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SPolicyText(
+                              firstText: intl.previewBuyWithUmlimint_disclaimer,
+                              userAgreementText:
+                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                              betweenText: ', ',
+                              privacyPolicyText:
+                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                              onUserAgreementTap: () =>
+                                  launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () =>
+                                  launchURL(context, privacyPolicyLink),
+                            ),
+                            const SpaceH7(),
+                            SDivider(
+                              color: colors.grey4,
+                            ),
+                            const SpaceH7(),
+                            Text(
+                              simpleCompanyName,
+                              style: sCaptionTextStyle,
+                            ),
+                            Text(
+                              simpleCompanyAddress,
+                              style: sCaptionTextStyle,
+                              maxLines: 2,
+                            ),
+                          ],
                         ),
                       ),
                     ],

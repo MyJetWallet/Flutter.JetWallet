@@ -144,6 +144,8 @@ class RemoteConfig {
     referralPolicyLink = remoteConfig!.appConfig.referralPolicyLink;
     nftTermsLink = remoteConfig!.appConfig.nftTermsLink;
     nftPolicyLink = remoteConfig!.appConfig.nftPolicyLink;
+    simpleCompanyName = remoteConfig!.appConfig.simpleCompanyName;
+    simpleCompanyAddress = remoteConfig!.appConfig.simpleCompanyAddress;
     infoRewardsLink = remoteConfig!.appConfig.infoRewardsLink;
     infoEarnLink = remoteConfig!.appConfig.infoEarnLink;
     paymentDelayDays = remoteConfig!.appConfig.paymentDelayDays;

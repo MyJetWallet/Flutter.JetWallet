@@ -30,6 +30,8 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
       collection.nftList.first.tradingAsset ?? '',
     );
 
+    final imageHeight = (MediaQuery.of(context).size.width - 68) / 2;
+
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
@@ -61,20 +63,17 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         nft: collection.nftList[index],
                         showBuyInfo: true,
                         showDivider: false,
+                        height: imageHeight,
                         onTap: () {
                           sAnalytics.nftWalletObjectFull(
-                            nftCollectionID: collection
-                                .nftList[index]
-                                .collectionId ?? '',
+                            nftCollectionID:
+                                collection.nftList[index].collectionId ?? '',
                             nftObjectId: collection.nftList[index].symbol ?? '',
                           );
                           sAnalytics.nftObjectView(
-                            nftCollectionID: collection
-                                .nftList[index]
-                                .collectionId ?? '',
-                            nftObjectId: collection
-                                .nftList[index].symbol
-                                ?? '',
+                            nftCollectionID:
+                                collection.nftList[index].collectionId ?? '',
+                            nftObjectId: collection.nftList[index].symbol ?? '',
                             source: 'Portfolio screen',
                           );
                           sRouter.push(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -81,9 +83,9 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @computed
   bool get buttonIcon {
-    return (documentFirstSide != null && documentSecondSide != null)
-        || documentSelfie != null
-        || documentCard != null;
+    return (documentFirstSide != null && documentSecondSide != null) ||
+        documentSelfie != null ||
+        documentCard != null;
   }
 
   @action
@@ -120,72 +122,38 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           .simpleImageNetworking
           .getWalletModule()
           .postUploadDocuments(
-        formData,
-        isSelfie ? 8 : 9,
-      );
-
-      response.pick(
-        onNoData: () {
-          if (isSelfie) {
-            sRouter.push(
-              UploadVerificationPhotoRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          } else {
-            sRouter.push(
-              VerifyingScreenRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          }
-        },
-        onNoError: (data) {
-          if (isSelfie) {
-            sRouter.push(
-              UploadVerificationPhotoRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          } else {
-            sRouter.push(
-              VerifyingScreenRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          }
-        },
-        onData: (data) {
-          if (isSelfie) {
-            sRouter.push(
-              UploadVerificationPhotoRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          } else {
-            sRouter.push(
-              VerifyingScreenRouter(
-                cardId: cardId,
-                onSuccess: onSuccess,
-              ),
-            );
-          }
-        },
-        onError: (error) {
-
-          union = UploadKycDocumentsUnion.error(error);
-
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
+            formData,
+            isSelfie ? 8 : 9,
           );
-        },
-      );
+
+      if (response.hasError) {
+        union = UploadKycDocumentsUnion.error(response.error?.cause ?? '');
+
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      } else {
+        if (isSelfie) {
+          unawaited(
+            sRouter.push(
+              UploadVerificationPhotoRouter(
+                cardId: cardId,
+                onSuccess: onSuccess,
+              ),
+            ),
+          );
+        } else {
+          unawaited(
+            sRouter.push(
+              VerifyingScreenRouter(
+                cardId: cardId,
+                onSuccess: onSuccess,
+              ),
+            ),
+          );
+        }
+      }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
@@ -211,11 +179,9 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         cardId: cardId,
       );
 
-      final response = await sNetwork
-        .getWalletModule()
-        .cardStart(
-          model,
-        );
+      final response = await sNetwork.getWalletModule().cardStart(
+            model,
+          );
 
       response.pick(
         onData: (data) {
@@ -264,11 +230,9 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         verificationId: verificationId,
       );
 
-      final response = await sNetwork
-          .getWalletModule()
-          .cardVerification(
-        model,
-      );
+      final response = await sNetwork.getWalletModule().cardVerification(
+            model,
+          );
 
       response.pick(
         onData: (data) async {
@@ -344,27 +308,18 @@ abstract class _UploadKycDocumentsStoreBase with Store {
             type,
           );
 
-      response.pick(
-        onNoData: () {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onNoError: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onData: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
+      if (response.hasError) {
+        sAnalytics.kycIdentityUploadFailed(response.error.toString());
 
-          union = UploadKycDocumentsUnion.error(error);
+        union = UploadKycDocumentsUnion.error(response.error?.cause ?? '');
 
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-          );
-        },
-      );
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      } else {
+        union = const UploadKycDocumentsUnion.done();
+      }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
@@ -450,32 +405,25 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
-      final response = await sNetwork
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleImageNetworking
           .getWalletModule()
           .postUploadDocuments(
             formData,
             type,
           );
 
-      response.pick(
-        onNoData: () {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onNoError: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onData: (data) {
-          union = const UploadKycDocumentsUnion.done();
-        },
-        onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
+      if (response.hasError) {
+        sAnalytics.kycIdentityUploadFailed(response.error.toString());
 
-          sNotification.showError(
-            intl.something_went_wrong_try_again,
-            id: 1,
-          );
-        },
-      );
+        sNotification.showError(
+          intl.something_went_wrong_try_again,
+          id: 1,
+        );
+      } else {
+        union = const UploadKycDocumentsUnion.done();
+      }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
 
@@ -516,12 +464,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   Future<void> _pickFile(
-      bool isAnimatePageView,
-      {
-        bool isSelfie = false,
-        bool isCard = false,
-      }
-  ) async {
+    bool isAnimatePageView, {
+    bool isSelfie = false,
+    bool isCard = false,
+  }) async {
     final imagePicker = ImagePicker();
     final file = await imagePicker.pickImage(source: ImageSource.camera);
     if (file != null) {
@@ -550,12 +496,10 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   void _updateDocumentSide(
-    File file,
-    {
-      bool isSelfie = false,
-      bool isCard = false,
-    }
-  ) {
+    File file, {
+    bool isSelfie = false,
+    bool isCard = false,
+  }) {
     if (isSelfie) {
       documentSelfie = file;
     } else if (isCard) {
@@ -574,14 +518,14 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
     if (isSelfie) {
       return documentSelfie == null
-        ? intl.cardVerification_takeSelfie
-        : intl.cardVerification_uploadPhoto;
+          ? intl.cardVerification_takeSelfie
+          : intl.cardVerification_uploadPhoto;
     }
 
     if (isCard) {
       return documentCard == null
-        ? intl.cardVerification_takePhoto
-        : intl.cardVerification_uploadPhoto;
+          ? intl.cardVerification_takePhoto
+          : intl.cardVerification_uploadPhoto;
     }
 
     return activeDocument?.document != KycDocumentType.passport
@@ -604,7 +548,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         primaryButtonName: intl.cardVerification_choosePaymentMethod,
         onPrimaryButtonTap: () {
           sRouter.removeUntil(
-                (route) => route.name == CurrencyBuyRouter.name,
+            (route) => route.name == CurrencyBuyRouter.name,
           );
         },
         secondaryButtonName: intl.cardVerification_close,
@@ -615,9 +559,9 @@ abstract class _UploadKycDocumentsStoreBase with Store {
 
   @action
   void _showFailureScreen(
-      Function() onSuccess,
-      String cardId,
-    ) {
+    Function() onSuccess,
+    String cardId,
+  ) {
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.cardVerification_reviewFailed,
@@ -625,7 +569,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         primaryButtonName: intl.cardVerification_title,
         onPrimaryButtonTap: () {
           sRouter.removeUntil(
-                (route) => route.name == AddUnlimintCardRouter.name,
+            (route) => route.name == AddUnlimintCardRouter.name,
           );
           loader.finishLoadingImmediately();
           loaderSuccess.finishLoadingImmediately();

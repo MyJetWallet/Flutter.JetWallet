@@ -23,6 +23,7 @@ import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -148,4 +149,7 @@ class SignalRService {
 
   Stream<NftPortfolio> nftPortfolio() =>
       signalR.nftPortfolio().asBroadcastStream();
+
+  Stream<FireblockEventsModel> fireblockEvents() =>
+      signalR.fireblockEvents().asBroadcastStream();
 }

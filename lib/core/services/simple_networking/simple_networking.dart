@@ -93,17 +93,6 @@ class SNetwork {
 
     return _client;
   }
-
-  static SimpleNetworking getImageClient() {
-    final _dio = setupImageDio();
-
-    final _client = SimpleNetworking(
-      _dio,
-      SimpleOptions(),
-    );
-
-    return _client;
-  }
 }
 
 Dio setupDio() {

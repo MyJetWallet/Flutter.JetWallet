@@ -16,7 +16,7 @@ Future<FormData> convertKycDocuments(
     final mimee = mimeTypeFirstSide!.split('/')[0];
     final type = mimeTypeFirstSide.split('/')[1];
 
-    formData.files.addAll([
+    formData.files.add(
       MapEntry(
         'FileSide1',
         await MultipartFile.fromFile(
@@ -24,7 +24,7 @@ Future<FormData> convertKycDocuments(
           contentType: MediaType(mimee, type),
         ),
       ),
-    ]);
+    );
   }
 
   if (documentSecondSide != null) {
@@ -33,7 +33,7 @@ Future<FormData> convertKycDocuments(
     final mimee1 = mimeTypeSecondSide!.split('/')[0];
     final type1 = mimeTypeSecondSide.split('/')[1];
 
-    formData.files.addAll([
+    formData.files.add(
       MapEntry(
         'FileSide2',
         await MultipartFile.fromFile(
@@ -41,7 +41,7 @@ Future<FormData> convertKycDocuments(
           contentType: MediaType(mimee1, type1),
         ),
       ),
-    ]);
+    );
   }
 
   return formData;

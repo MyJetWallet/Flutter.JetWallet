@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/currencies.dart';
@@ -31,6 +32,7 @@ import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
+import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -48,6 +50,8 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_response_model.dart';
 import 'package:logger/logger.dart' as logPrint;
+
+import '../simple_networking/simple_networking.dart';
 
 part 'signal_r_modules.g.dart';
 
@@ -917,6 +921,19 @@ abstract class _SignalRModulesBase with Store {
 
       updateUserNft(value);
     });
+
+    fireblockEventsOS.listen((value) {
+      if (value.messages != null) {
+        for (final event in value.messages!) {
+          FirebaseAnalytics.instance.logEvent(
+            name: event.eventType ?? '',
+          );
+          sNetwork.getWalletModule().postProfileReport(
+            event.messageId ?? '',
+          );
+        }
+      }
+    });
   }
 
   final log = logPrint.Logger();
@@ -1181,6 +1198,11 @@ abstract class _SignalRModulesBase with Store {
   @observable
   ObservableStream<NftPortfolio> nftPortfolioOS = ObservableStream(
     getIt.get<SignalRService>().nftPortfolio(),
+  );
+
+  @observable
+  ObservableStream<FireblockEventsModel> fireblockEventsOS = ObservableStream(
+    getIt.get<SignalRService>().fireblockEvents(),
   );
 
   @observable

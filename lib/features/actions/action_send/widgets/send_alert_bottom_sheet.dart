@@ -10,7 +10,6 @@ import '../../../../utils/constants.dart';
 import '../../action_buy/action_buy.dart';
 
 void sendAlertBottomSheet(BuildContext context) {
-
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 0.0,
@@ -28,56 +27,44 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
 
     return SPaddingH24(
-        child: Column(
-          children: [
-            Image.asset(
-              sendAlertAsset,
-              height: 80,
-              width: 80,
+      child: Column(
+        children: [
+          Image.asset(
+            sendAlertAsset,
+            height: 80,
+            width: 80,
+          ),
+          const SpaceH32(),
+          Text(
+            intl.sendAlert_description,
+            style: sTextH3Style.copyWith(
+              color: colors.black,
             ),
-            const SpaceH32(),
-            Text(
-              intl.sendAlert_description,
-              style: sTextH3Style.copyWith(
-                color: colors.black,
-              ),
-              maxLines: 2,
-              textAlign: TextAlign.center,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+          const SpaceH15(),
+          Text(
+            intl.sendAlert_buyText,
+            style: sBodyText1Style.copyWith(
+              color: colors.grey1,
             ),
-            const SpaceH15(),
-            Text(
-              intl.sendAlert_buyText,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
-              ),
-              maxLines: 2,
-            ),
-            const SpaceH32(),
-            SPrimaryButton1(
-              active: true,
-              name: intl.sendAlert_buyButton,
-              onTap: () {
-                showBuyAction(
-                  context: context,
-                  fromCard: true,
-                );
-              },
-            ),
-            deviceSize.when(
-              small: () {
-                if (Platform.isIOS) {
-                  return const SpaceH24();
-                }
-
-                return const SizedBox();
-              },
-              medium: () {
-                return const SizedBox();
-              },
-            ),
-            if (Platform.isAndroid) const SpaceH24(),
-          ],
-        ),
+            maxLines: 2,
+          ),
+          const SpaceH32(),
+          SPrimaryButton1(
+            active: true,
+            name: intl.sendAlert_buyButton,
+            onTap: () {
+              showBuyAction(
+                context: context,
+                fromCard: true,
+              );
+            },
+          ),
+          const SpaceH24(),
+        ],
+      ),
     );
   }
 }
