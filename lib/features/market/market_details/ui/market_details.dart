@@ -22,6 +22,7 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_day_change.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_price.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
+import 'package:jetwallet/features/market/market_details/ui/widgets/cpower_block/cpower_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_news_block/market_news_block.dart';
@@ -288,6 +289,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                           AboutBlock(
                             marketInfo: marketInfo.data!,
                             showDivider: news.news.isNotEmpty,
+                            isCpower: marketItem.symbol == 'CPWR',
                           ),
                         ],
                       ],
@@ -300,6 +302,11 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 }
               },
             ),
+            if (marketItem.symbol == 'CPWR') ...[
+              const SPaddingH24(
+                child: CpowerBlock(),
+              ),
+            ],
             if (news.isNewsLoaded) ...[
               MarketNewsBlock(
                 news: news.news,

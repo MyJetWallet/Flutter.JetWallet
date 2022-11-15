@@ -8,12 +8,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 import 'return_rate_item.dart';
 
-class ReturnRates extends StatelessObserverWidget {
+class ReturnRates extends StatelessWidget {
   const ReturnRates({
-    Key? key,
+    super.key,
     required this.assetSymbol,
     this.returnRates,
-  }) : super(key: key);
+  });
 
   final String assetSymbol;
   final ReturnRatesModel? returnRates;

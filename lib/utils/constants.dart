@@ -84,3 +84,8 @@ const bioTouchId = 'assets/images/touch_id.png';
 const nftGradient = 'assets/images/gradient_1.png';
 const nftGradientSvg = 'assets/images/gradient_svg.svg';
 const nftBTCAsset = 'assets/images/btc_asset.png';
+
+const cPowerSVGAsset = 'assets/images/cpower.svg';
+const cPowerAsset = 'assets/images/cpower.png';
+const cpowerBanner1Asset = 'assets/images/cpower_banner_1.svg';
+const cpowerBanner2Asset = 'assets/images/cpower_banner_2.svg';

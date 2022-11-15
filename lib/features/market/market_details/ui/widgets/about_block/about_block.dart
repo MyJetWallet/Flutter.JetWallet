@@ -9,10 +9,12 @@ class AboutBlock extends StatelessWidget {
     Key? key,
     required this.marketInfo,
     required this.showDivider,
+    required this.isCpower,
   }) : super(key: key);
 
   final MarketInfoResponseModel marketInfo;
   final bool showDivider;
+  final bool isCpower;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class AboutBlock extends StatelessWidget {
         AboutBlockText(
           marketInfo: marketInfo,
           showDivider: showDivider,
+          isCpower: isCpower,
         ),
       ],
     );

@@ -1192,5 +1192,18 @@
   "nft_promo_enter_code": "Enter promo code",
   "nft_promo_code": "Promo code",
   "nft_promo_valid": "Valid promo code",
-  "nft_promo_invalid": "Invalid promo code"
+  "nft_promo_invalid": "Invalid promo code",
+  "cpower_market_value_invetors": "Value for the Investors",
+  "cpower_market_value_text_1": "One big advantage of the CPower token is that its price is based on a growing business — not on pure speculation like the majority of tokens out there. This results in some serious advantages for the Investors:",
+  "cpower_market_value_text_2": "There is a fair price, determined by real business metrics.",
+  "cpower_market_value_text_3": "The price is protected by the trading system (NO “price dumps” possible).",
+  "cpower_market_value_text_4": "The price is pegged to the NFT trading volume (continuous growth).",
+  "cpower_market_value_crypto": "Value for the Crypto Ambassadors",
+  "cpower_market_crypto_text_1": "Dear Ambassadors, \nIncrease your Crypto Power by holding this token and you will get:",
+  "cpower_market_crypto_text_2": "Better Earnings",
+  "cpower_market_crypto_text_3": "Bigger Teams",
+  "cpower_market_crypto_text_4": "Better Prices",
+  "cpower_market_crypto_text_5": "Better Tokens",
+  "cpower_market_crypto_text_6": "Better Memberships",
+  "cpower_market_crypto_text_7": "Let this token power you up!"
 }
