@@ -59,7 +59,7 @@ List<Widget> createBannersList({
         },
         color: colors.redLight,
         header: '${intl.kycAlertHandler_youAreBlocked}!',
-        imageUrl: verifyNowAsset,
+        imageUrl: blockedAsset,
         description: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1} '
             '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
       ),
