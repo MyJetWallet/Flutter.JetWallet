@@ -12,6 +12,7 @@ List<Widget> createBannersList({
   Function()? onKycBannerTap,
   String? showChatChecker,
   required bool kycPassed,
+  required bool kycBlocked,
   required bool twoFaEnabled,
   required bool phoneVerified,
   required bool verificationInProgress,
@@ -22,7 +23,7 @@ List<Widget> createBannersList({
   final userInfo = sUserInfo;
   final bannersList = <Widget>[];
 
-  if (!verificationInProgress && !kycPassed) {
+  if (!verificationInProgress && !kycPassed && !kycBlocked) {
     bannersList.add(
       SimpleAccountBanner(
         onTap: () {
@@ -36,7 +37,7 @@ List<Widget> createBannersList({
     );
   }
 
-  if (verificationInProgress) {
+  if (verificationInProgress && !kycBlocked) {
     bannersList.add(
       SimpleAccountBanner(
         onTap: () {
@@ -46,6 +47,21 @@ List<Widget> createBannersList({
         header: intl.createBanners_header2,
         imageUrl: verifyNowAsset,
         description: intl.createBanners_bannerText2,
+      ),
+    );
+  }
+
+  if (kycBlocked) {
+    bannersList.add(
+      SimpleAccountBanner(
+        onTap: () {
+          onKycBannerTap?.call();
+        },
+        color: colors.redLight,
+        header: '${intl.kycAlertHandler_youAreBlocked}!',
+        imageUrl: verifyNowAsset,
+        description: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1} '
+            '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
       ),
     );
   }

@@ -94,6 +94,11 @@ class _AccountScreenState extends State<AccountScreen>
                         kycState.sellStatus,
                         kycState.withdrawalStatus,
                       ),
+                      kycBlocked: checkKycBlocked(
+                        kycState.depositStatus,
+                        kycState.sellStatus,
+                        kycState.withdrawalStatus,
+                      ),
                       verificationInProgress: kycState.inVerificationProgress,
                       twoFaEnabled: true,
                       phoneVerified: userInfo.phoneVerified,
