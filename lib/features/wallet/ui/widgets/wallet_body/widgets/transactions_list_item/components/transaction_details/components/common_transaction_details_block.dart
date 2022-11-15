@@ -295,11 +295,21 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       baseCurrency.symbol,
     );
 
+    final usdCurrency = currencyFromAll(
+      allCurrencies,
+      'USD',
+    );
+
     if (baseCurrency.symbol == 'USD') {
       return assetPriceInUsd;
     }
 
-    return Decimal.parse('${assetPriceInUsd / baseCurrencyMain.currentPrice}');
+    if (baseCurrencyMain.currentPrice == Decimal.zero) {
+      return assetPriceInUsd * usdCurrency.currentPrice;
+    }
+
+    return Decimal.parse('${double.parse('$assetPriceInUsd') /
+        double.parse('${baseCurrencyMain.currentPrice}')}');
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
