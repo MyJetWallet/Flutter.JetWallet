@@ -8,70 +8,67 @@ part 'kyc_service.g.dart';
 class KycService = _KycServiceBase with _$KycService;
 
 abstract class _KycServiceBase with Store {
-  _KycServiceBase() {
-    init();
-  }
-
-  @observable
-  int depositStatus = 0;
-
-  @observable
-  int sellStatus = 0;
-
-  @observable
-  int withdrawalStatus = 0;
-
-  @observable
-  ObservableList<KycDocumentType> requiredDocuments = ObservableList.of([]);
-
-  @observable
-  ObservableList<RequiredVerified> requiredVerifications =
-      ObservableList.of([]);
-
-  @observable
-  bool verificationInProgress = false;
+  @computed
+  int get depositStatus => sSignalRModules.clientDetail.depositStatus;
 
   @computed
-  bool get inVerificationProgress => verificationInProgress;
+  int get sellStatus => sSignalRModules.clientDetail.tradeStatus;
 
-  @action
-  void init() {
+  @computed
+  int get withdrawalStatus => sSignalRModules.clientDetail.withdrawalStatus;
+
+  @computed
+  List<KycDocumentType> get requiredDocuments {
     final documents = <KycDocumentType>[];
 
+    final reqDocs = sSignalRModules.clientDetail.requiredDocuments.toList();
+
     if (sSignalRModules.clientDetail.requiredDocuments.isNotEmpty) {
-      final sorted = sSignalRModules.clientDetail.requiredDocuments.toList();
+      final sorted = reqDocs.toList();
       sorted.sort((a, b) => a.compareTo(b));
 
       sSignalRModules.clientDetail.copyWith(
         requiredDocuments: sorted,
       );
 
-      for (final document in sSignalRModules.clientDetail.requiredDocuments) {
+      for (final document in reqDocs) {
         documents.add(kycDocumentType(document));
       }
     }
 
+    return documents;
+  }
+
+  @computed
+  List<RequiredVerified> get requiredVerifications {
     final requiredVerified = <RequiredVerified>[];
+
     if (sSignalRModules.clientDetail.requiredVerifications.isNotEmpty) {
       for (final item in sSignalRModules.clientDetail.requiredVerifications) {
         requiredVerified.add(requiredVerifiedStatus(item));
       }
     }
 
-    depositStatus = sSignalRModules.clientDetail.depositStatus;
-    sellStatus = sSignalRModules.clientDetail.tradeStatus;
-    withdrawalStatus = sSignalRModules.clientDetail.withdrawalStatus;
-    requiredVerifications = ObservableList.of(requiredVerified);
-    requiredDocuments = ObservableList.of(documents);
-    verificationInProgress = kycInProgress(
-      sSignalRModules.clientDetail.depositStatus,
-      sSignalRModules.clientDetail.tradeStatus,
-      sSignalRModules.clientDetail.withdrawalStatus,
-    );
+    return requiredVerified;
   }
+
+  @observable
+  bool manualUpdateKycStatus = false;
+
+  @computed
+  bool get verificationInProgress => manualUpdateKycStatus == false
+      ? kycInProgress(
+          sSignalRModules.clientDetail.depositStatus,
+          sSignalRModules.clientDetail.tradeStatus,
+          sSignalRModules.clientDetail.withdrawalStatus,
+        )
+      : manualUpdateKycStatus;
+
+  @computed
+  bool get inVerificationProgress => verificationInProgress;
 
   @action
   void updateKycStatus() {
-    verificationInProgress = true;
+    manualUpdateKycStatus = true;
   }
 }

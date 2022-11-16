@@ -149,9 +149,7 @@ class StartupService {
 
   Future<void> reCreateServices() async {
     try {
-      if (getIt.isRegistered<KycService>()) {
-        getIt<KycService>().init();
-      }
+      if (getIt.isRegistered<KycService>()) {}
 
       if (getIt.isRegistered<KycProfileCountries>()) {
         await getIt<KycProfileCountries>().init();

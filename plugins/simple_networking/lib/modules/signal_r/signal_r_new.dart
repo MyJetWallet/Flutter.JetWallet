@@ -61,8 +61,6 @@ class SignalRModuleNew {
   bool isDisconnecting = false;
 
   Future<void> init() async {
-    print('INIT SIGNALR');
-
     isDisconnecting = false;
 
     final defaultHeaders = MessageHeaders();
@@ -196,8 +194,6 @@ class SignalRModuleNew {
   void handleError(String msg, Object error) {
     _logger.log(contract, msg, error);
 
-    print(msg);
-
     if (msg == 'startconnection') {
       unawaited(disconnect());
     }
@@ -250,8 +246,6 @@ class SignalRModuleNew {
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
   Future<void> _reconnect() async {
-    print('_reconnect');
-
     if (!isDisconnecting) {
       try {
         await disableHandlerConnection();
@@ -274,8 +268,6 @@ class SignalRModuleNew {
   }
 
   Future<void> disconnect() async {
-    print('DISCONNECTED');
-
     isDisconnecting = true;
 
     _pingTimer?.cancel();
