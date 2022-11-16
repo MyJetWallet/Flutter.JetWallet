@@ -1573,12 +1573,11 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
-      getNFTMarketPreviewSellRequest(
-    String symbol,
-  ) async {
+      getNFTMarketPreviewSellRequest(String symbol, String assetSymbol) async {
     try {
       final response = await _apiClient.get(
         '${_apiClient.options.walletApi}/trading/nft-market/preview-sell/$symbol',
+        queryParameters: {'assetSymbol': assetSymbol},
       );
 
       try {

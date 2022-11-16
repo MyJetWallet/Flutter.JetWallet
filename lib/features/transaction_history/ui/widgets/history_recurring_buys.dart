@@ -20,8 +20,10 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 
 class HistoryRecurringBuys extends StatelessObserverWidget {
-  const HistoryRecurringBuys({Key? key, this.from}) : super(key: key);
+  const HistoryRecurringBuys({super.key, this.from});
+
   final Source? from;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -43,7 +45,7 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
       color: colors.white,
       child: CustomScrollView(
         controller: scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverAppBar(
             toolbarHeight: deviceSize.when(

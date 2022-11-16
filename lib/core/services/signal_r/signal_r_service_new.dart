@@ -114,10 +114,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @ObservableRecurringBuysModelListConverter()
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
-  void setRecurringBuys(RecurringBuysResponseModel value) =>
-      recurringBuys = ObservableList.of(
-        value.recurringBuys,
-      );
+  void setRecurringBuys(RecurringBuysResponseModel value) {
+    print('RECURRING BUY');
+
+    recurringBuys = ObservableList.of(
+      value.recurringBuys,
+    );
+  }
 
   @observable
   @ObservableKycCountryModelListConverter()

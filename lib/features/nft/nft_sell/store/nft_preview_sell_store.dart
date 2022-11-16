@@ -67,9 +67,10 @@ abstract class _NFTPreviewSellStoreBase with Store {
     price = Decimal.parse(value.amount);
 
     try {
-      final response = await sNetwork
-          .getWalletModule()
-          .getNFTMarketPreviewSell(input!.nft.symbol!);
+      final response = await sNetwork.getWalletModule().getNFTMarketPreviewSell(
+            input!.nft.symbol!,
+            input!.nft.tradingAsset!,
+          );
 
       response.pick(
         onData: (data) {
@@ -117,7 +118,6 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
   @action
   Future<void> executeQuote() async {
-
     sAnalytics.nftSellConfirmTap(
       nftCollectionID: input!.nft.collectionId ?? '',
       nftObjectId: input!.nft.symbol ?? '',
