@@ -136,6 +136,11 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   name: '$verb ${intl.to}',
                   value: shortAddressForm(store.address),
                 ),
+                SActionConfirmText(
+                  name: intl.cryptoDeposit_network,
+                  baseline: 36.0,
+                  value: network,
+                ),
                 if (currency != null) ...[
                   SActionConfirmText(
                     name: intl.withdrawalPreview_youWillSend,

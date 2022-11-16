@@ -143,6 +143,15 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
             const SpaceH10(),
           ],
+          if (transactionListItem.withdrawalInfo!.network != null) ...[
+            TransactionDetailsItem(
+              text: intl.cryptoDeposit_network,
+              value: TransactionDetailsValueText(
+                text: transactionListItem.withdrawalInfo!.network ?? '',
+              ),
+            ),
+            const SpaceH10(),
+          ],
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

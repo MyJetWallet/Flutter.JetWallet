@@ -12,6 +12,7 @@ class AccountBannerList extends StatefulObserverWidget {
     this.onChatBannerTap,
     this.onKycBannerTap,
     required this.kycPassed,
+    required this.kycBlocked,
     required this.twoFaEnabled,
     required this.phoneVerified,
     required this.verificationInProgress,
@@ -21,6 +22,7 @@ class AccountBannerList extends StatefulObserverWidget {
   final Function()? onChatBannerTap;
   final Function()? onKycBannerTap;
   final bool kycPassed;
+  final bool kycBlocked;
   final bool twoFaEnabled;
   final bool phoneVerified;
   final bool verificationInProgress;
@@ -90,7 +92,10 @@ class _AccountBannerListState extends State<AccountBannerList> {
   }
 
   double _bannerHeight() {
-    return widget.verificationInProgress || !widget.kycPassed ? 171 : 129;
+    return (widget.verificationInProgress || !widget.kycPassed) &&
+            !widget.kycBlocked
+        ? 171
+        : 129;
   }
 
   Future<List<Widget>> downloadData(
@@ -102,6 +107,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
     final showChatChecker = await storage.getValue(closedSupportBannerKey);
     final banners = createBannersList(
       kycPassed: widget.kycPassed,
+      kycBlocked: widget.kycBlocked,
       verificationInProgress: widget.verificationInProgress,
       twoFaEnabled: true,
       phoneVerified: widget.phoneVerified,
