@@ -41,13 +41,8 @@ class _NFTPromoButtonState extends State<NFTPromoButton> {
         child: SCircleDoneSelected(),
       );
     } else {
-      if (highlighted) {
-        currentColor = colors.black.withOpacity(0.8);
-        currentIcon = SGiftPortfolioIcon(color: colors.black.withOpacity(0.8));
-      } else {
-        currentColor = colors.black;
-        currentIcon = SGiftPortfolioIcon(color: colors.black);
-      }
+      currentColor = colors.black;
+      currentIcon = SGiftPortfolioIcon(color: colors.black);
     }
 
     return InkWell(
@@ -66,8 +61,11 @@ class _NFTPromoButtonState extends State<NFTPromoButton> {
           highlighted = value;
         });
       },
-      highlightColor: Colors.transparent,
+      highlightColor: colors.grey5,
       splashColor: Colors.transparent,
+      customBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Ink(
         height: 56.0,
         child: Center(
