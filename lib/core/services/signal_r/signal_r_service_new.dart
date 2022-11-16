@@ -408,9 +408,16 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void fireblockEventAction(FireblockEventsModel value) {
     if (value.messages != null) {
       for (final event in value.messages!) {
+        final messageType = event.eventType == 'Kyc'
+            ? 'kyc_successful'
+            : event.eventType == 'FirstTimeBuy'
+                ? 'first_time_buy'
+                : event.eventType ?? '';
+
         FirebaseAnalytics.instance.logEvent(
-          name: event.eventType ?? '',
+          name: messageType,
         );
+
         sNetwork.getWalletModule().postProfileReport(
               event.messageId ?? '',
             );
