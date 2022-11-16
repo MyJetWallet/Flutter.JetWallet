@@ -406,8 +406,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   void fireblockEventAction(FireblockEventsModel value) {
-    if (value.messages != null) {
-      for (final event in value.messages!) {
+    if (value.events != null) {
+      for (final event in value.events!) {
         final messageType = event.eventType == 'Kyc'
             ? 'kyc_successful'
             : event.eventType == 'FirstTimeBuy'
@@ -726,6 +726,47 @@ abstract class _SignalRServiceUpdatedBase with Store {
         );
 
         currenciesList[index] = currency.copyWith(
+          baseBalance: baseBalance,
+          currentPrice: assetPrice.currentPrice,
+          dayPriceChange: assetPrice.dayPriceChange,
+          dayPercentChange: assetPrice.dayPercentChange,
+          baseTotalEarnAmount: baseTotalEarnAmount,
+          baseCurrentEarnAmount: baseCurrentEarnAmount,
+        );
+      }
+    }
+
+    if (currenciesWithHiddenList.isNotEmpty) {
+      for (final currency in currenciesWithHiddenList) {
+        final index = currenciesWithHiddenList.indexOf(currency);
+
+        final assetPrice = basePriceFrom(
+          prices: value.prices,
+          assetSymbol: currency.symbol,
+        );
+
+        final baseBalance = calculateBaseBalance(
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetBalance,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+        );
+
+        final baseTotalEarnAmount = calculateBaseBalance(
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetTotalEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+        );
+
+        final baseCurrentEarnAmount = calculateBaseBalance(
+          assetSymbol: currency.symbol,
+          assetBalance: currency.assetCurrentEarnAmount,
+          assetPrice: assetPrice,
+          baseCurrencySymbol: sSignalRModules.baseCurrency.symbol,
+        );
+
+        currenciesWithHiddenList[index] = currency.copyWith(
           baseBalance: baseBalance,
           currentPrice: assetPrice.currentPrice,
           dayPriceChange: assetPrice.dayPriceChange,

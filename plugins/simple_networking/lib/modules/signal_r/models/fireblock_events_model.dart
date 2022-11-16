@@ -6,7 +6,7 @@ part 'fireblock_events_model.g.dart';
 @freezed
 class FireblockEventsModel with _$FireblockEventsModel {
   factory FireblockEventsModel({
-    List<FireblocksMessageModel>? messages,
+    List<FireblocksMessageModel>? events,
   }) = _FireblockEventsModel;
 
   factory FireblockEventsModel.fromJson(Map<String, dynamic> json) =>

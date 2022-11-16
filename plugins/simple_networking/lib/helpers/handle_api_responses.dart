@@ -63,7 +63,9 @@ void _validateFullResponse(
       throw const ServerRejectException('$emailPasswordIncorrectEn.');
     } else {
       final left = attempts['left'] as int;
-      throw ServerRejectException('$emailPasswordIncorrectEn, $left $attemptsRemainingEn.',);
+      throw ServerRejectException(
+        '$emailPasswordIncorrectEn, $left $attemptsRemainingEn.',
+      );
     }
   } else if (result == 'InvalidCode') {
     final data = json['rejectDetail'] as Map<String, dynamic>?;
@@ -81,7 +83,9 @@ void _validateFullResponse(
           final minutes = int.parse(blockerTimes[2]);
           var blockerTimesText = '';
           if (hours > 0) {
-            blockerTimesText = hours == 1 ? '1 $timeRemainingHourEn' : '$hours $timeRemainingHoursEn';
+            blockerTimesText = hours == 1
+                ? '1 $timeRemainingHourEn'
+                : '$hours $timeRemainingHoursEn';
           } else if (minutes > 1) {
             blockerTimesText = '$minutes $timeRemainingMinutesEn';
           } else {
@@ -93,7 +97,8 @@ void _validateFullResponse(
         }
       } else {
         final left = attempts['left'] as int;
-        throw ServerRejectException('$pinIncorrectEn, $left $attemptsRemainingEn.');
+        throw ServerRejectException(
+            '$pinIncorrectEn, $left $attemptsRemainingEn.');
       }
     }
   } else if (result != 'OK') {

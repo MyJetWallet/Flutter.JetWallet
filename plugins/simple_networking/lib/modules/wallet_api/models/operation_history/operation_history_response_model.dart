@@ -110,6 +110,7 @@ enum Status {
 class DepositInfo with _$DepositInfo {
   const factory DepositInfo({
     String? txId,
+    String? network,
     required double depositAmount,
   }) = _DepositInfo;
 
@@ -123,6 +124,7 @@ class WithdrawalInfo with _$WithdrawalInfo {
     String? txId,
     String? toAddress,
     String? feeAssetId,
+    String? network,
     required String withdrawalAssetId,
     @DecimalSerialiser() required Decimal withdrawalAmount,
     @DecimalSerialiser() required Decimal feeAmount,
@@ -138,6 +140,7 @@ class BuyInfo with _$BuyInfo {
   const factory BuyInfo({
     String? txId,
     String? feeAssetId,
+    String? network,
     required String sellAssetId,
     required String buyAssetId,
     @DecimalSerialiser() required Decimal sellAmount,
