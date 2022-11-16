@@ -263,7 +263,7 @@ class EventType {
   static const tapOnContinuePromoCode =
       'Tap on Continue with promo code button';
 
-  static const nftMarketOpen = 'Tap on NFT  button on Market';
+  static const nftMarketOpen = 'Tap on NFT button on Market';
   static const nftMarketTapCollection = 'Tap on NFT Collection';
   static const nftMarketTapFilter = 'Tap on NFT Filter';
   static const nftMarketFilterShowed = "Filter sheet 'Show' is displayed";

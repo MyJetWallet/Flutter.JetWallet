@@ -249,7 +249,8 @@ class __CryptoWithdrawBodyState extends State<_CurrencyWithdrawBody> {
                                     widget.withdrawal.nft?.collectionId ?? '',
                                 nftObjectId:
                                     widget.withdrawal.nft?.symbol ?? '',
-                                network: store.network.description,
+                                network:
+                                    widget.withdrawal.nft?.blockchain ?? '',
                               );
                             } else {
                               sAnalytics.sendContinueAddress();

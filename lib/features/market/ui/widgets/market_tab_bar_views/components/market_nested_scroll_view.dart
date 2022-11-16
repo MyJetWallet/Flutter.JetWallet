@@ -206,7 +206,6 @@ class __MarketNestedScrollViewBodyState
 
   Widget showNFTList() {
     final store = MarketFilterStore.of(context);
-    sAnalytics.nftMarketOpen();
 
     return Column(
       children: [
