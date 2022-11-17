@@ -91,10 +91,16 @@ class PortfolioNftList extends StatelessObserverWidget {
                         ),
                       );
                     } else {
+                      sAnalytics.nftWalletTapCollection(
+                        nftCollectionID: item.id ?? '',
+                        nftObjectId: '',
+                      );
+
                       sAnalytics.nftWalletCollectionView(
                         nftCollectionID: item.id ?? '',
                         nftObjectId: '',
                       );
+
                       sRouter.push(
                         NFTCollectionSimpleListRouter(
                           collectionID: item.id!,
@@ -175,7 +181,6 @@ class PortfolioNftList extends StatelessObserverWidget {
                 ),
                 onTap: () {
                   sAnalytics.nftPortfolioReceive();
-                  sAnalytics.nftReceiveTap(source: 'Portfolio');
                   if (kyc.depositStatus ==
                           kycOperationStatus(KycStatus.allowed) &&
                       kyc.withdrawalStatus ==

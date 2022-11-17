@@ -63,12 +63,16 @@ class _HomeScreenState extends State<HomeScreen>
         return AutoTabsScaffold(
           routes: earnEnabled ? screens : screensWithNews,
           builder: (context, child, animation) {
-            return SShadeAnimationStack(
-              showShade: getIt.get<AppStore>().actionMenuActive,
-              child: FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
+            return Observer(
+              builder: (context) {
+                return SShadeAnimationStack(
+                  showShade: getIt.get<AppStore>().actionMenuActive,
+                  child: FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  ),
+                );
+              },
             );
           },
           bottomNavigationBuilder: (_, tabsRouter) {

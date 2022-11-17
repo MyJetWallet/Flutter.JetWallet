@@ -1637,7 +1637,7 @@ class SimpleAnalytics {
     required String promoCode,
   }) {
     _analytics.logEvent(
-      EventType.closePromoCode,
+      EventType.tapOnContinuePromoCode,
       eventProperties: {'Promo code': promoCode},
     );
   }
@@ -1652,21 +1652,21 @@ class SimpleAnalytics {
     required String nftCategories,
   }) {
     _analytics.logEvent(
-        EventType.nftMarketTapCollection,
-        eventProperties: {
-          PropertyType.collectionTitle: collectionTitle,
-          PropertyType.nftNumberPictures: nftNumberPictures,
-          PropertyType.nftCategories: nftCategories,
-        },
+      EventType.nftMarketTapCollection,
+      eventProperties: {
+        PropertyType.collectionTitle: collectionTitle,
+        PropertyType.nftNumberPictures: nftNumberPictures,
+        PropertyType.nftCategories: nftCategories,
+      },
     );
   }
 
   void nftMarketTapFilter() {
-    _analytics.logEvent(EventType.nftMarketOpen);
+    _analytics.logEvent(EventType.nftMarketTapFilter);
   }
 
   void nftMarketFilterShowed() {
-    _analytics.logEvent(EventType.nftMarketOpen);
+    _analytics.logEvent(EventType.nftMarketFilterShowed);
   }
 
   void nftMarketFilterClose({

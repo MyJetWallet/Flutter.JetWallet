@@ -161,6 +161,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         active: true,
                         name: intl.nft_detail_cancel_selling,
                         onTap: () {
+                          sAnalytics.nftSellCancelTap(
+                            nftCollectionID: store.nft?.collectionId ?? '',
+                            nftObjectId: store.nft?.symbol ?? '',
+                            asset: store.nft?.tradingAsset ?? '',
+                            nftPriceAmount: '${store.nft?.sellPrice}',
+                            nftOperationFee: '',
+                            nftCreatorFee: '',
+                            nftAmountToGet: '',
+                          );
                           store.cancelSellOrder();
                         },
                       ),
@@ -528,7 +537,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                               baseline: 24,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                '${collection.nftList.length}/${store.nft?.rarityId ?? 1} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
+                                '1/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
                                 style: sBodyText1Style,
                               ),
                             ),

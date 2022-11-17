@@ -60,7 +60,7 @@ abstract class _NFTPromoCodeStoreBase with Store {
       promoCodeController = TextEditingController()..text = promoCodeStorage;
       _moveCursorAtTheEnd();
 
-      await validatePromoCode(promoCodeStorage);
+      await validatePromoCode(promoCodeStorage, isInit: true);
 
       saved = true;
     }
@@ -111,7 +111,7 @@ abstract class _NFTPromoCodeStoreBase with Store {
   }
 
   @action
-  Future<void> validatePromoCode(String code) async {
+  Future<void> validatePromoCode(String code, {bool isInit = false}) async {
     promoStatus = const NftPromoCodeUnion.loading();
     discount = null;
     //bottomSheetReferralCodeValidation = const Loading();
@@ -137,8 +137,13 @@ abstract class _NFTPromoCodeStoreBase with Store {
 
             _moveCursorAtTheEnd();
           } else {
-            promoStatus = const NftPromoCodeUnion.invalid();
-            isInputError = true;
+            if (isInit) {
+              promoCodeController = TextEditingController()..text = '';
+              promoStatus = const NftPromoCodeUnion.input();
+            } else {
+              promoStatus = const NftPromoCodeUnion.invalid();
+              isInputError = true;
+            }
           }
         },
         onError: (error) {

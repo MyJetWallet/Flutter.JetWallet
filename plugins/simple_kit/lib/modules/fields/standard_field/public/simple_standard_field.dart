@@ -36,6 +36,7 @@ class SStandardField extends StatelessObserverWidget {
     this.isError = false,
     this.hasManualError = false,
     this.validators = const [],
+    this.maxLength,
     required this.labelText,
   }) : super(key: key);
 
@@ -66,6 +67,7 @@ class SStandardField extends StatelessObserverWidget {
   final bool isError;
   final bool hasManualError;
   final List<Validator> validators;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +100,7 @@ class SStandardField extends StatelessObserverWidget {
             isError: isError,
             validators: validators,
             hasManualError: hasManualError,
+            maxLength: maxLength,
           )
         : SimpleLightStandardField(
             controller: controller,
@@ -127,6 +130,7 @@ class SStandardField extends StatelessObserverWidget {
             isError: isError,
             validators: validators,
             hasManualError: hasManualError,
+            maxLength: maxLength,
           );
   }
 }

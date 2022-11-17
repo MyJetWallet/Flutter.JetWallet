@@ -19,6 +19,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.eraseIcon,
     this.inputFormatters,
     this.textCapitalization,
+    this.maxLength,
     this.disableErrorOnChanged = true,
     this.enableInteractiveSelection = true,
     this.hideIconsIfError = true,
@@ -58,6 +59,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final bool isError;
   final bool hasManualError;
   final List<Validator> validators;
+  final int? maxLength;
 
   @override
   State<SimpleBaseStandardField> createState() =>
@@ -107,6 +109,10 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
           onChanged: (value) {
             widget.onChanged?.call(value);
           },
+          maxLength: widget.maxLength,
+          maxLengthEnforcement: widget.maxLength != null
+              ? MaxLengthEnforcement.truncateAfterCompositionEnds
+              : null,
           cursorWidth: 3.0,
           cursorColor: SColorsLight().blue,
           cursorRadius: Radius.zero,
@@ -135,6 +141,7 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
               fontSize: 16.0,
               color: SColorsLight().grey2,
             ),
+            counterText: '',
             errorText: null,
             errorMaxLines: null,
             suffixIconConstraints: const BoxConstraints(),

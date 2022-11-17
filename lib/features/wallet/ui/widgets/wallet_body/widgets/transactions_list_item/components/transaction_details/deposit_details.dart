@@ -47,6 +47,15 @@ class DepositDetails extends StatelessObserverWidget {
               ],
             ),
           ),
+          if (transactionListItem.depositInfo?.network != null) ...[
+            const SpaceH16(),
+            TransactionDetailsItem(
+              text: intl.cryptoDeposit_network,
+              value: TransactionDetailsValueText(
+                text: transactionListItem.depositInfo?.network ?? '',
+              ),
+            ),
+          ],
           const SpaceH16(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
