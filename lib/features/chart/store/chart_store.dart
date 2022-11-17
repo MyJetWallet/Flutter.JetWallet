@@ -39,9 +39,9 @@ abstract class _ChartStoreBase with Store {
       final showMonth = dateDifference > const Duration(days: 30).inHours;
       final showYear = dateDifference > const Duration(days: 365).inHours;
 
-      getDataFromCache();
-
       if (chartInput.instrumentId != null) {
+        getDataFromCache();
+
         fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
           (_) {
             final dayCandles = candles[Period.day];
@@ -61,6 +61,9 @@ abstract class _ChartStoreBase with Store {
           },
         );
       } else {
+        print('showWeek');
+        print(showWeek);
+
         fetchBalanceCandles(Period.day).then(
           (_) {
             final dayCandles = candles[Period.day];
@@ -142,13 +145,15 @@ abstract class _ChartStoreBase with Store {
           _logger.log(stateFlow, 'fetchBalanceCandles', e);
           print('onError fetchBalanceCandles');
 
-          updateCandles([], resolution);
+          //updateCandles([], resolution);
         },
       );
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
-      updateCandles([], resolution);
+      print(e);
+
+      //updateCandles([], resolution);
     }
   }
 
