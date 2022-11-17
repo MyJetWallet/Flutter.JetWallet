@@ -52,11 +52,13 @@ String responseOnInputAction({
   } else if (oldInput.isEmpty && newInput == period) {
     return specialPointCase;
   } else if (newInput == period) {
-    if (oldInput.contains(period)) {
+    if (oldInput.contains(period) || accuracy == 0) {
       return oldInput;
     }
   } else if (numberOfCharsAfterDecimal(oldInput) >= accuracy) {
-    return oldInput;
+    if (accuracy != 0) {
+      return oldInput;
+    }
   }
 
   return oldInput + newInput;
