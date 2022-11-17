@@ -264,7 +264,11 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                     );
                   }
                 },
-              ),
+              )
+            else ...[
+              const SDivider(),
+              const SpaceH32(),
+            ],
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,
@@ -284,6 +288,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                             const SpaceH20(),
                             MarketStatsBlock(
                               marketInfo: marketInfo.data!,
+                              isCPower: marketItem.symbol == 'CPWR',
                             ),
                           ],
                           AboutBlock(
@@ -307,24 +312,26 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 child: CpowerBlock(),
               ),
             ],
-            if (news.isNewsLoaded) ...[
-              MarketNewsBlock(
-                news: news.news,
-                assetId: marketItem.associateAsset,
-              ),
-            ] else ...[
-              SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SpaceH40(),
-                    SSkeletonTextLoader(
-                      height: 16,
-                      width: 133,
-                    ),
-                  ],
+            if (marketItem.symbol != 'CPWR') ...[
+              if (news.isNewsLoaded) ...[
+                MarketNewsBlock(
+                  news: news.news,
+                  assetId: marketItem.associateAsset,
                 ),
-              ),
+              ] else ...[
+                SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      SpaceH40(),
+                      SSkeletonTextLoader(
+                        height: 16,
+                        width: 133,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ],
         ),
