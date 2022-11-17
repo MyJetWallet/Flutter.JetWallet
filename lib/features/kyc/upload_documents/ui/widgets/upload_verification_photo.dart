@@ -134,20 +134,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                           ],
                         ),
                       ),
-                      const SpaceH20(),
-                      SPaddingH24(
-                        child: Row(
-                          children: [
-                            Text(
-                              intl.cardVerification_coveredDigits,
-                              maxLines: 2,
-                              style: sBodyText1Style.copyWith(
-                                color: colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       const SpaceH32(),
                       DocumentPageView(
                         pageController: store.pageViewController,
@@ -156,6 +142,23 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                         },
                         itemCount: 1,
                         banners: banners,
+                      ),
+                      const SpaceH32(),
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                intl.cardVerification_coverSymbols,
+                                maxLines: 2,
+                                style: sBodyText1Style.copyWith(
+                                  color: colors.grey1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       const SpaceH10(),
