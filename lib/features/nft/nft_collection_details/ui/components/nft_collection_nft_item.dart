@@ -11,7 +11,6 @@ class NFTCollectionNftItem extends StatelessWidget {
     required this.onTap,
     this.showBuyInfo = false,
     this.showDivider = true,
-    required this.height,
     required this.nft,
   });
 
@@ -19,11 +18,11 @@ class NFTCollectionNftItem extends StatelessWidget {
   final Function() onTap;
   final bool showBuyInfo;
   final bool showDivider;
-  final double height;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+    final height = (MediaQuery.of(context).size.width - 68) / 2;
 
     bool isNameGrey = nft.sellPrice == null && !showBuyInfo;
 
@@ -94,6 +93,7 @@ class NFTCollectionNftItem extends StatelessWidget {
   }
 
   Widget image(double height) {
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: CachedNetworkImage(
