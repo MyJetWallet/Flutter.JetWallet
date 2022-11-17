@@ -63,7 +63,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
               expandText
                   ? widget.marketInfo.aboutMore
                   : widget.marketInfo.aboutLess,
-              maxLines: expandText ? 10 : 4,
+              maxLines: expandText ? 20 : 4,
               style: sBodyText1Style.copyWith(color: Colors.black),
             ),
           Row(
@@ -87,7 +87,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
                   ],
                   if (_urlValid(widget.marketInfo.whitepaperUrl)) ...[
                     if (widget.marketInfo.aboutLess.isNotEmpty)
-                      const SpaceH13(),
+                      const SpaceH15(),
                     ClickableUnderlinedText(
                       text: intl.aboutBlockText_whitepaper,
                       onTap: () {
@@ -96,7 +96,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
                     ),
                   ],
                   if (_urlValid(widget.marketInfo.officialWebsiteUrl)) ...[
-                    const SpaceH13(),
+                    const SpaceH15(),
                     ClickableUnderlinedText(
                       text: intl.aboutBlockText_officialWebsite,
                       onTap: () {
@@ -127,7 +127,7 @@ class _AboutBlockTextState extends State<AboutBlockText>
             ],
           ),
           const SpaceH33(),
-          if (widget.showDivider) const SDivider(),
+          if (widget.showDivider || widget.isCpower) const SDivider(),
         ],
       ),
     );
