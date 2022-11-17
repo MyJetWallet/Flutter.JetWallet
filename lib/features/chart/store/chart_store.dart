@@ -2,6 +2,8 @@ import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
@@ -36,6 +38,8 @@ abstract class _ChartStoreBase with Store {
       final showWeek = dateDifference > const Duration(days: 7).inHours;
       final showMonth = dateDifference > const Duration(days: 30).inHours;
       final showYear = dateDifference > const Duration(days: 365).inHours;
+
+      getDataFromCache();
 
       if (chartInput.instrumentId != null) {
         fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
@@ -99,6 +103,19 @@ abstract class _ChartStoreBase with Store {
 
   @observable
   ChartUnion union = const ChartUnion.loading();
+
+  @action
+  Future<void> getDataFromCache() async {
+    if (chartInput.instrumentId != null) {
+      final getDataFromCache =
+          await getIt<LocalCacheService>().getChart(chartInput.instrumentId!);
+
+      if (getDataFromCache != null) {
+        candles = getDataFromCache.candle;
+        union = const Candles();
+      }
+    }
+  }
 
   @action
   Future<void> fetchBalanceCandles(String resolution) async {
@@ -195,6 +212,13 @@ abstract class _ChartStoreBase with Store {
 
     candles = currentCandles;
     union = const Candles();
+
+    if (chartInput.instrumentId != null) {
+      getIt<LocalCacheService>().saveChart(
+        chartInput.instrumentId!,
+        currentCandles,
+      );
+    }
   }
 
   @action
