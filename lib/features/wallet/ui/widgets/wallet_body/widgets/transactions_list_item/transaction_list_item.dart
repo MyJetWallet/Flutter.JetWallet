@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -56,12 +56,12 @@ class TransactionListItem extends StatelessObserverWidget {
       onTap: () {
         if (nftAsset.name != 'NFT') {
           sAnalytics.nftWalletTapHistoryObject(
-              nftCollectionID: nftAsset.collectionId ?? '',
-              nftObjectId: nftAsset.symbol ?? '',
+            nftCollectionID: nftAsset.collectionId ?? '',
+            nftObjectId: nftAsset.symbol ?? '',
           );
           sAnalytics.nftWalletHistoryObjectView(
-              nftCollectionID: nftAsset.collectionId ?? '',
-              nftObjectId: nftAsset.symbol ?? '',
+            nftCollectionID: nftAsset.collectionId ?? '',
+            nftObjectId: nftAsset.symbol ?? '',
           );
         }
         showTransactionDetails(
@@ -93,8 +93,8 @@ class TransactionListItem extends StatelessObserverWidget {
                         context,
                       ),
                       color: transactionListItem.status == Status.declined
-                        ? colors.red
-                        : colors.black,
+                          ? colors.red
+                          : colors.black,
                     ),
                   ),
                   Container(
@@ -104,16 +104,16 @@ class TransactionListItem extends StatelessObserverWidget {
                     ),
                     child: AutoSizeText(
                       nftTypes.contains(transactionListItem.operationType)
-                        ? nftAsset.name ?? 'NFT'
-                        : volumeFormat(
-                          prefix: currency.prefixSymbol,
-                          decimal: transactionListItem.operationType ==
-                                  OperationType.withdraw
-                              ? transactionListItem.balanceChange.abs()
-                              : transactionListItem.balanceChange,
-                          accuracy: currency.accuracy,
-                          symbol: currency.symbol,
-                        ),
+                          ? nftAsset.name ?? 'NFT'
+                          : volumeFormat(
+                              prefix: currency.prefixSymbol,
+                              decimal: transactionListItem.operationType ==
+                                      OperationType.withdraw
+                                  ? transactionListItem.balanceChange.abs()
+                                  : transactionListItem.balanceChange,
+                              accuracy: currency.accuracy,
+                              symbol: currency.symbol,
+                            ),
                       textAlign: TextAlign.end,
                       minFontSize: 4.0,
                       maxLines: 1,
@@ -150,12 +150,10 @@ class TransactionListItem extends StatelessObserverWidget {
                       color: colors.grey2,
                     ),
                   const Spacer(),
-                  if (
-                    transactionListItem.operationType ==
-                      OperationType.nftSellOpposite ||
-                    transactionListItem.operationType ==
-                        OperationType.nftBuyOpposite
-                  )
+                  if (transactionListItem.operationType ==
+                          OperationType.nftSellOpposite ||
+                      transactionListItem.operationType ==
+                          OperationType.nftBuyOpposite)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_forText} '
                           '${nftAsset.name}',

@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_recurring_buy.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
@@ -22,6 +22,7 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_day_change.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/asset_price.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
+import 'package:jetwallet/features/market/market_details/ui/widgets/cpower_block/cpower_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/index_allocation_block/index_allocation_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_info_loader_block/market_info_loader_block.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/market_news_block/market_news_block.dart';
@@ -41,9 +42,9 @@ import 'package:simple_networking/modules/wallet_api/models/market_info/market_i
 
 class MarketDetails extends StatelessWidget {
   const MarketDetails({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 
@@ -75,9 +76,9 @@ class MarketDetails extends StatelessWidget {
 
 class _MarketDetailsBody extends StatelessObserverWidget {
   const _MarketDetailsBody({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 
@@ -100,7 +101,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
 
     var isInWatchlist = watchlistIdsN.state.contains(marketItem.associateAsset);
 
-    final filteredRecurringBuys = recurringNotifier.recurringBuys
+    final filteredRecurringBuys = recurringNotifier.recurringBuysFiltred
         .where(
           (element) => element.toAsset == currency.symbol,
         )
@@ -263,7 +264,11 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                     );
                   }
                 },
-              ),
+              )
+            else ...[
+              const SDivider(),
+              const SpaceH32(),
+            ],
             if (marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: marketItem,
@@ -283,11 +288,13 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                             const SpaceH20(),
                             MarketStatsBlock(
                               marketInfo: marketInfo.data!,
+                              isCPower: marketItem.symbol == 'CPWR',
                             ),
                           ],
                           AboutBlock(
                             marketInfo: marketInfo.data!,
                             showDivider: news.news.isNotEmpty,
+                            isCpower: marketItem.symbol == 'CPWR',
                           ),
                         ],
                       ],
@@ -300,24 +307,31 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 }
               },
             ),
-            if (news.isNewsLoaded) ...[
-              MarketNewsBlock(
-                news: news.news,
-                assetId: marketItem.associateAsset,
+            if (marketItem.symbol == 'CPWR') ...[
+              const SPaddingH24(
+                child: CpowerBlock(),
               ),
-            ] else ...[
-              SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SpaceH40(),
-                    SSkeletonTextLoader(
-                      height: 16,
-                      width: 133,
-                    ),
-                  ],
+            ],
+            if (marketItem.symbol != 'CPWR') ...[
+              if (news.isNewsLoaded) ...[
+                MarketNewsBlock(
+                  news: news.news,
+                  assetId: marketItem.associateAsset,
                 ),
-              ),
+              ] else ...[
+                SPaddingH24(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      SpaceH40(),
+                      SSkeletonTextLoader(
+                        height: 16,
+                        width: 133,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ],
         ),

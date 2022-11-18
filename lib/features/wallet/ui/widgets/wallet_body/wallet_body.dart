@@ -4,8 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_recurring_buy.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
@@ -56,7 +55,7 @@ class _WalletBodyState extends State<WalletBody>
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final filteredRecurringBuys = recurring.recurringBuys
+    final filteredRecurringBuys = recurring.recurringBuysFiltred
         .where(
           (element) => element.toAsset == widget.currency.symbol,
         )

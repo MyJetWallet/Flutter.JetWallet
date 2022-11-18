@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/high_yield_buy/model/high_yield_buy_input.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';

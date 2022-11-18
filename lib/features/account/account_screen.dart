@@ -94,6 +94,11 @@ class _AccountScreenState extends State<AccountScreen>
                         kycState.sellStatus,
                         kycState.withdrawalStatus,
                       ),
+                      kycBlocked: checkKycBlocked(
+                        kycState.depositStatus,
+                        kycState.sellStatus,
+                        kycState.withdrawalStatus,
+                      ),
                       verificationInProgress: kycState.inVerificationProgress,
                       twoFaEnabled: true,
                       phoneVerified: userInfo.phoneVerified,
@@ -123,10 +128,10 @@ class _AccountScreenState extends State<AccountScreen>
                           kycState.requiredVerifications.length,
                           Source.accountBanner,
                         );
-                        final isDepositAllow = kycState.depositStatus ==
-                            kycOperationStatus(KycStatus.kycRequired);
-                        final isWithdrawalAllow = kycState.withdrawalStatus ==
-                            kycOperationStatus(KycStatus.kycRequired);
+                        final isDepositAllow = kycState.depositStatus !=
+                            kycOperationStatus(KycStatus.allowed);
+                        final isWithdrawalAllow = kycState.withdrawalStatus !=
+                            kycOperationStatus(KycStatus.allowed);
 
                         kycAlertHandler.handle(
                           status: isDepositAllow

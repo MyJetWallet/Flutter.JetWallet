@@ -1,4 +1,4 @@
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:mobx/mobx.dart';
@@ -8,77 +8,67 @@ part 'kyc_service.g.dart';
 class KycService = _KycServiceBase with _$KycService;
 
 abstract class _KycServiceBase with Store {
-  _KycServiceBase() {
-    init();
+  @computed
+  int get depositStatus => sSignalRModules.clientDetail.depositStatus;
+
+  @computed
+  int get sellStatus => sSignalRModules.clientDetail.tradeStatus;
+
+  @computed
+  int get withdrawalStatus => sSignalRModules.clientDetail.withdrawalStatus;
+
+  @computed
+  List<KycDocumentType> get requiredDocuments {
+    final documents = <KycDocumentType>[];
+
+    final reqDocs = sSignalRModules.clientDetail.requiredDocuments.toList();
+
+    if (sSignalRModules.clientDetail.requiredDocuments.isNotEmpty) {
+      final sorted = reqDocs.toList();
+      sorted.sort((a, b) => a.compareTo(b));
+
+      sSignalRModules.clientDetail.copyWith(
+        requiredDocuments: sorted,
+      );
+
+      for (final document in reqDocs) {
+        documents.add(kycDocumentType(document));
+      }
+    }
+
+    return documents;
+  }
+
+  @computed
+  List<RequiredVerified> get requiredVerifications {
+    final requiredVerified = <RequiredVerified>[];
+
+    if (sSignalRModules.clientDetail.requiredVerifications.isNotEmpty) {
+      for (final item in sSignalRModules.clientDetail.requiredVerifications) {
+        requiredVerified.add(requiredVerifiedStatus(item));
+      }
+    }
+
+    return requiredVerified;
   }
 
   @observable
-  int depositStatus = 0;
+  bool manualUpdateKycStatus = false;
 
-  @observable
-  int sellStatus = 0;
-
-  @observable
-  int withdrawalStatus = 0;
-
-  @observable
-  ObservableList<KycDocumentType> requiredDocuments = ObservableList.of([]);
-
-  @observable
-  ObservableList<RequiredVerified> requiredVerifications =
-      ObservableList.of([]);
-
-  @observable
-  bool verificationInProgress = false;
+  @computed
+  bool get verificationInProgress => manualUpdateKycStatus == false
+      ? kycInProgress(
+          sSignalRModules.clientDetail.depositStatus,
+          sSignalRModules.clientDetail.tradeStatus,
+          sSignalRModules.clientDetail.withdrawalStatus,
+        )
+      : manualUpdateKycStatus;
 
   @computed
   bool get inVerificationProgress => verificationInProgress;
 
   @action
-  void init() {
-    sSignalRModules.clientDetails.listen(
-      (clientDetailData) {
-        final documents = <KycDocumentType>[];
-
-        print('KYC');
-        print(clientDetailData.requiredDocuments);
-
-        if (clientDetailData.requiredDocuments.isNotEmpty) {
-          final sorted = clientDetailData.requiredDocuments.toList();
-          sorted.sort((a, b) => a.compareTo(b));
-
-          clientDetailData.copyWith(
-            requiredDocuments: sorted,
-          );
-
-          for (final document in clientDetailData.requiredDocuments) {
-            documents.add(kycDocumentType(document));
-          }
-        }
-
-        final requiredVerified = <RequiredVerified>[];
-        if (clientDetailData.requiredVerifications.isNotEmpty) {
-          for (final item in clientDetailData.requiredVerifications) {
-            requiredVerified.add(requiredVerifiedStatus(item));
-          }
-        }
-
-        depositStatus = clientDetailData.depositStatus;
-        sellStatus = clientDetailData.tradeStatus;
-        withdrawalStatus = clientDetailData.withdrawalStatus;
-        requiredVerifications = ObservableList.of(requiredVerified);
-        requiredDocuments = ObservableList.of(documents);
-        verificationInProgress = kycInProgress(
-          clientDetailData.depositStatus,
-          clientDetailData.tradeStatus,
-          clientDetailData.withdrawalStatus,
-        );
-      },
-    );
-  }
-
-  @action
   void updateKycStatus() {
-    verificationInProgress = true;
+    manualUpdateKycStatus = true;
   }
 }

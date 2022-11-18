@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logging/logging.dart';
@@ -19,37 +20,38 @@ class MarketFilterStore extends _MarketFilterStoreBase
 abstract class _MarketFilterStoreBase with Store {
   static final _logger = Logger('MarketFilterStore');
 
-  @observable
-  ObservableList<MarketItemModel> cryptoList = ObservableList.of([]);
+  @computed
+  List<NftModel> get nftList => sSignalRModules.nftList;
 
-  @observable
-  ObservableList<MarketItemModel> cryptoListFiltred = ObservableList.of([]);
+  @computed
+  List<NftModel> get nftListFiltred {
+    final localList = nftList.toList();
+    localList.sort((a, b) => b.order!.compareTo(a.order!));
 
-  @observable
-  ObservableList<NftModel> nftList = ObservableList.of([]);
+    if (nftFilterSelected.isEmpty) {
+      return localList;
+    }
 
-  @observable
-  ObservableList<NftModel> nftListFiltred = ObservableList.of([]);
+    final list = localList
+        .where((element) => nftFilterSelected.contains(element.category));
+
+    return list.toList();
+  }
 
   @observable
   ObservableList<NftCollectionCategoryEnum> nftFilterSelected =
       ObservableList.of([]);
 
-  @action
-  void init(List<MarketItemModel> crypto, List<NftModel> nft) {
-    cryptoList = ObservableList.of(crypto);
-    cryptoListFiltred = ObservableList.of(crypto);
-    if (crypto.isEmpty) {
+  @computed
+  List<MarketItemModel> get cryptoList => sSignalRModules.getMarketPrices;
+
+  @computed
+  List<MarketItemModel> get cryptoListFiltred {
+    if (cryptoList.isEmpty) {
       sAnalytics.nftMarketOpen();
     }
 
-    var nftSorted = nft.toList();
-
-    nftSorted.sort((a, b) => b.order!.compareTo(a.order!));
-
-    nftList = ObservableList.of(nftSorted);
-    nftListFiltred = ObservableList.of(nftSorted);
-    nftFilterSelected = ObservableList.of([]);
+    return cryptoList;
   }
 
   @action
@@ -64,21 +66,5 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void nftFilterReset() {
     nftFilterSelected = ObservableList.of([]);
-
-    filterDone();
-  }
-
-  @action
-  void filterDone() {
-    if (nftFilterSelected.isEmpty) {
-      nftListFiltred = ObservableList.of(nftList);
-
-      return;
-    }
-
-    final list = nftListFiltred
-        .where((element) => nftFilterSelected.contains(element.category));
-
-    nftListFiltred = ObservableList.of(list);
   }
 }

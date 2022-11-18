@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -29,8 +28,8 @@ class StartupService {
   bool isServicesRegistred = false;
   bool isAlreadyInited = false;
 
-  void _initSignalRSynchronously() {
-    getIt.get<SignalRService>().start();
+  Future<void> _initSignalRSynchronously() async {
+    await getIt.get<SignalRService>().start();
   }
 
   void authenticatedBoot() {
@@ -42,13 +41,17 @@ class StartupService {
   void successfullAuthentication() {
     _logger.log(stateFlow, 'successfullAuthentication');
 
+    initSignaWasCall = false;
+
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);
 
     processStartupState().then((value) {
       /// Needed to dissmis Register/Login pushed screens
-      getIt.get<AppRouter>().push(const HomeRouter());
+      getIt.get<AppStore>().checkInitRouter();
+
+      sRouter.replaceAll([const AppInitRoute()]);
     });
   }
 
@@ -65,12 +68,14 @@ class StartupService {
         infoRequest.pick(
           onData: (SessionCheckResponseModel info) async {
             if (!initSignaWasCall) {
-              _initSignalRSynchronously();
+              await _initSignalRSynchronously();
               initSignaWasCall = true;
             }
 
             if (!isServicesRegistred) {
               await startingServices();
+            } else {
+              await reCreateServices();
             }
 
             if (info.toCheckSimpleKyc) {
@@ -81,21 +86,13 @@ class StartupService {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const PinSetup(),
                   );
-            } else if (info.toCheckPin) {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const PinVerification(),
-                  );
             } else {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const PinVerification(),
                   );
             }
 
-            unawaited(
-              sRouter.push(
-                const HomeRouter(),
-              ),
-            );
+            unawaited(getIt.get<AppStore>().checkInitRouter());
           },
           onError: (error) {
             _logger.log(stateFlow, 'Failed to fetch session info', error);
@@ -146,7 +143,22 @@ class StartupService {
       return;
     } catch (e) {
       _logger.log(stateFlow, 'Failed startingServices', e);
+      print(e);
     }
+  }
+
+  Future<void> reCreateServices() async {
+    try {
+      if (getIt.isRegistered<KycService>()) {}
+
+      if (getIt.isRegistered<KycProfileCountries>()) {
+        await getIt<KycProfileCountries>().init();
+      }
+
+      if (getIt.isRegistered<ProfileGetUserCountry>()) {
+        await getIt<ProfileGetUserCountry>().init();
+      }
+    } catch (e) {}
   }
 
   /// Called when user makes cold boot and has enabled 2FA
@@ -160,10 +172,6 @@ class StartupService {
   void pinSet() {
     _logger.log(notifier, 'pinSet');
 
-    getIt.get<AppStore>().setAuthorizedStatus(
-          const AskBioUsing(),
-        );
-
     sRouter.push(
       BiometricRouter(),
     );
@@ -176,9 +184,7 @@ class StartupService {
           const Home(),
         );
 
-    sRouter.replaceAll([
-      const HomeRouter(),
-    ]);
+    getIt.get<AppStore>().checkInitRouter();
   }
 
   void _processPinState() {

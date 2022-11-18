@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/high_yield_buy/store/high_yeild_buy_store.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -18,17 +19,16 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 
-import '../../../core/services/signal_r/signal_r_modules.dart';
 import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
 
 class HighYieldBuy extends StatelessWidget {
   const HighYieldBuy({
-    Key? key,
+    super.key,
     this.topUp = false,
     required this.currency,
     required this.earnOffer,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
   final EarnOfferModel earnOffer;

@@ -14,7 +14,7 @@ class EarnAvailableBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final earnOffers = EarnOffersStore.of(context).earnOffers;
+    final earnOffers = EarnOffersStore.of(context).earnOffersFiltred;
 
     return Container(
       width: MediaQuery.of(context).size.width,

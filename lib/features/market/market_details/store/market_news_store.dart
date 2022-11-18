@@ -80,6 +80,11 @@ abstract class _MarketNewsStoreBase with Store {
   Future<void> loadNews(String id) async {
     isNewsLoaded = false;
 
+    if (id == 'CPWR') {
+      isNewsLoaded = true;
+
+      return;
+    }
     final response = await sNetwork.getWalletModule().postMarketNews(
           MarketNewsRequestModel(
             assetId: id,

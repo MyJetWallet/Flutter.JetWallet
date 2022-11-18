@@ -27,7 +27,7 @@ class EarnScreen extends StatelessWidget {
 }
 
 class EarnScreenBody extends StatelessObserverWidget {
-  const EarnScreenBody({Key? key}) : super(key: key);
+  const EarnScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {

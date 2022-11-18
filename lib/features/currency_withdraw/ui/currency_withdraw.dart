@@ -33,13 +33,35 @@ class CurrencyWithdraw extends StatelessWidget {
 }
 
 /// FLOW: WithdrawalAmount -> WithdrawalPreview -> WithdrawalConfirm
-class _CurrencyWithdrawBody extends StatelessObserverWidget {
+class _CurrencyWithdrawBody extends StatefulObserverWidget {
   const _CurrencyWithdrawBody({
     Key? key,
     required this.withdrawal,
   }) : super(key: key);
 
   final WithdrawalModel withdrawal;
+  @override
+  State<_CurrencyWithdrawBody> createState() => __CryptoWithdrawBodyState();
+}
+
+class __CryptoWithdrawBodyState extends State<_CurrencyWithdrawBody> {
+  @override
+  void initState() {
+    final withdraw = WithdrawalAddressStore.of(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.withdrawal.currency != null) {
+        if (!widget.withdrawal.currency!.isSingleNetwork) {
+          showNetworkBottomSheet(
+            context,
+            withdraw.network,
+            widget.withdrawal.currency!.depositBlockchains,
+            widget.withdrawal.currency!.iconUrl,
+            withdraw.updateNetwork,
+          );
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +74,7 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
     //useValueListenable(state.addressErrorNotifier!);
     //useValueListenable(state.tagErrorNotifier!);
 
-    final currency = withdrawal.currency;
+    final currency = widget.withdrawal.currency;
 
     final asset =
         store.currencyModel != null ? store.currencyModel!.symbol : 'Matic';
@@ -64,10 +86,10 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
           titleAlign: TextAlign.start,
           title: store.header,
           onBackButtonTap: () {
-            if (withdrawal.nft != null) {
+            if (widget.withdrawal.nft != null) {
               sAnalytics.nftSendBack(
-                  nftCollectionID: withdrawal.nft?.collectionId ?? '',
-                  nftObjectId: withdrawal.nft?.symbol ?? '',
+                nftCollectionID: widget.withdrawal.nft?.collectionId ?? '',
+                nftObjectId: widget.withdrawal.nft?.symbol ?? '',
               );
             }
             Navigator.pop(context);
@@ -221,12 +243,14 @@ class _CurrencyWithdrawBody extends StatelessObserverWidget {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-                            if (withdrawal.nft != null) {
+                            if (widget.withdrawal.nft != null) {
                               sAnalytics.nftSendContinue(
-                                nftCollectionID: withdrawal.nft?.collectionId
-                                    ?? '',
-                                nftObjectId: withdrawal.nft?.symbol ?? '',
-                                network: withdrawal.nft?.blockchain ?? '',
+                                nftCollectionID:
+                                    widget.withdrawal.nft?.collectionId ?? '',
+                                nftObjectId:
+                                    widget.withdrawal.nft?.symbol ?? '',
+                                network:
+                                    widget.withdrawal.nft?.blockchain ?? '',
                               );
                             } else {
                               sAnalytics.sendContinueAddress();

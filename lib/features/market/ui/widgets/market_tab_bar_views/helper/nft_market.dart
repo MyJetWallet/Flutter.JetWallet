@@ -1,5 +1,5 @@
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 
 String nftMarketDescr(int nftCount, List<String> tags) {

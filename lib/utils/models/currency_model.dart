@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
@@ -9,9 +10,13 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 
 part 'currency_model.freezed.dart';
+part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyModelFromJson(json);
+
   const factory CurrencyModel({
     String? prefixSymbol,
     RecurringBuysModel? recurringBuy,
@@ -96,30 +101,33 @@ class CurrencyModel with _$CurrencyModel {
     var feeCollection = assetWithdrawalFees;
     var newFeeCollection = assetWithdrawalFees;
     var feeBlockchainCollection = withdrawalBlockchains;
-    feeCollection =
-        feeCollection.where((element) {
-          if (network == '') {
-            return element.network == '' || element.network == null;
-          }
+    feeCollection = feeCollection.where((element) {
+      if (network == '') {
+        return element.network == '' || element.network == null;
+      }
 
-          return element.network == network;
-        }).toList();
+      return element.network == network;
+    }).toList();
     if (feeCollection.isEmpty) {
-      feeBlockchainCollection = feeBlockchainCollection.where(
-        (element) => element.description == network,
-      ).toList();
+      feeBlockchainCollection = feeBlockchainCollection
+          .where(
+            (element) => element.description == network,
+          )
+          .toList();
       if (feeBlockchainCollection.isNotEmpty) {
-        newFeeCollection = newFeeCollection.where(
-          (element) => element.network == feeBlockchainCollection[0].id,
-        ).toList();
+        newFeeCollection = newFeeCollection
+            .where(
+              (element) => element.network == feeBlockchainCollection[0].id,
+            )
+            .toList();
       }
     }
 
     return feeCollection.isNotEmpty
         ? feeCollection[0].size
         : newFeeCollection.isNotEmpty
-        ? newFeeCollection[0].size
-        : Decimal.zero;
+            ? newFeeCollection[0].size
+            : Decimal.zero;
   }
 
   bool get isGrowing => dayPercentChange > 0;
@@ -203,4 +211,19 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
+}
+
+class ObservableCurrencyModelListConverter
+    implements JsonConverter<ObservableList<CurrencyModel>, List<dynamic>> {
+  const ObservableCurrencyModelListConverter();
+
+  @override
+  ObservableList<CurrencyModel> fromJson(List<dynamic> json) =>
+      ObservableList.of(
+        json.cast<Map<String, dynamic>>().map(CurrencyModel.fromJson),
+      );
+
+  @override
+  List<Map<String, dynamic>> toJson(ObservableList<CurrencyModel> list) =>
+      list.map((e) => e.toJson()).toList();
 }

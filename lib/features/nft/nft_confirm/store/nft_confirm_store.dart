@@ -78,8 +78,6 @@ abstract class _NFTConfirmStoreBase with Store {
         },
       );
     } catch (e) {
-      print(e);
-
       loader.finishLoading();
     }
   }
@@ -89,9 +87,9 @@ abstract class _NFTConfirmStoreBase with Store {
     sAnalytics.nftPurchaseConfirmTap(
       nftCollectionID: nft?.collectionId ?? '',
       nftObjectId: nft?.symbol ?? '',
-      nftPrice: '${nft?.sellPrice}' ?? '',
+      nftPrice: '${nft?.sellPrice ?? ""}',
       currency: nft?.tradingAsset ?? '',
-      nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+      nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
       nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
           ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
           : '',
@@ -101,9 +99,9 @@ abstract class _NFTConfirmStoreBase with Store {
     sAnalytics.nftPurchaseProcessing(
       nftCollectionID: nft?.collectionId ?? '',
       nftObjectId: nft?.symbol ?? '',
-      nftPrice: '${nft?.sellPrice}' ?? '',
+      nftPrice: '${nft?.sellPrice ?? ""}',
       currency: nft?.tradingAsset ?? '',
-      nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+      nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
       nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
           ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
           : '',
@@ -123,7 +121,6 @@ abstract class _NFTConfirmStoreBase with Store {
           await sNetwork.getWalletModule().postNFTMarketBuyOrder(model);
 
       if (response.hasError) {
-        print(response.error!.cause);
       } else {
         loader.finishLoading();
 
@@ -132,9 +129,9 @@ abstract class _NFTConfirmStoreBase with Store {
         sAnalytics.nftPurchaseSuccess(
           nftCollectionID: nft?.collectionId ?? '',
           nftObjectId: nft?.symbol ?? '',
-          nftPrice: '${nft?.sellPrice}' ?? '',
+          nftPrice: '${nft?.sellPrice ?? ""}',
           currency: nft?.tradingAsset ?? '',
-          nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
+          nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
           nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
               ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
               : '',
@@ -159,8 +156,6 @@ abstract class _NFTConfirmStoreBase with Store {
           ),
         );
       }
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 }

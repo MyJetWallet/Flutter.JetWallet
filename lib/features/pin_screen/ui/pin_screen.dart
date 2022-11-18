@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -198,7 +199,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 hideBiometricButton: pin.hideBiometricButton,
                 onKeyPressed: (value) async {
                   await pin.updatePin(value).then(
-                        (value) => setState(() {}),
+                        (value) => setState(() {
+                          HapticFeedback.lightImpact();
+                        }),
                       );
                 },
               ),

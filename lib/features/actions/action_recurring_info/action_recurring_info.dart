@@ -1,10 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/widgets/action_recurring_info_details.dart';
 import 'package:jetwallet/features/actions/action_recurring_info/widgets/action_recurring_info_header.dart';
 import 'package:jetwallet/features/actions/action_recurring_manage/action_recurring_manage.dart';
@@ -18,10 +16,10 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 
 class ShowRecurringInfoAction extends StatelessObserverWidget {
   const ShowRecurringInfoAction({
-    Key? key,
+    super.key,
     required this.recurringItem,
     required this.assetName,
-  }) : super(key: key);
+  });
 
   final RecurringBuysModel recurringItem;
   final String assetName;
@@ -59,7 +57,7 @@ class ShowRecurringInfoAction extends StatelessObserverWidget {
             horizontal: 24,
             vertical: 24,
           ),
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(
                 color: colors.black,

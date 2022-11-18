@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/referral_program_gift/service/referral_gift_service.dart';
@@ -11,7 +12,6 @@ import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../core/services/signal_r/signal_r_modules.dart';
 import '../../../utils/formatting/base/base_currencies_format.dart';
 import '../../../utils/models/base_currency_model/base_currency_model.dart';
 
@@ -84,8 +84,8 @@ class PortfolioHeader extends StatelessObserverWidget {
                       if (gift == ReferralGiftStatus.showGift) ...[
                         Container(
                           margin: (_giftBonus(
-                              state.sortedCampaigns,
-                              baseCurrency,
+                            state.sortedCampaigns,
+                            baseCurrency,
                           ).isNotEmpty)
                               ? const EdgeInsets.only(right: 8)
                               : EdgeInsets.zero,
@@ -125,10 +125,12 @@ class PortfolioHeader extends StatelessObserverWidget {
       }
     }
 
-    return bonusGift == Decimal.zero ? '' :  baseCurrenciesFormat(
-      prefix: baseCurrency.prefix ?? '',
-      text: '$bonusGift',
-      symbol: baseCurrency.symbol,
-    );
+    return bonusGift == Decimal.zero
+        ? ''
+        : baseCurrenciesFormat(
+            prefix: baseCurrency.prefix ?? '',
+            text: '$bonusGift',
+            symbol: baseCurrency.symbol,
+          );
   }
 }

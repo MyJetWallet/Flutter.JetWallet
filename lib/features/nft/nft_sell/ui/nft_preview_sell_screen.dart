@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/nft/nft_sell/model/nft_sell_input.dart';
 import 'package:jetwallet/features/nft/nft_sell/store/nft_preview_sell_store.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -120,6 +120,15 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
             crossAxisAlignment: CrossAxisAlignment.center,
             title: store.previewHeader,
             onBackButtonTap: () {
+              sAnalytics.nftSellConfirmView(
+                nftCollectionID: store.input?.nft.collectionId ?? '',
+                nftObjectId: store.input?.nft.symbol ?? '',
+                asset: store.input?.nft.tradingAsset ?? '',
+                nftPriceAmount: store.input?.amount ?? '',
+                nftOperationFee: '${store.feePercentage}%',
+                nftCreatorFee: '${store.feePercentage}%',
+                nftAmountToGet: '${store.receiveAmount}',
+              );
               //store.cancelTimer();
               sAnalytics.nftSellConfirmBack(
                 nftCollectionID: store.input?.nft.collectionId ?? '',
@@ -195,7 +204,7 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
                   const SpaceH20(),
                 ],
                 SPrimaryButton2(
-                  active: !store.isLoading,
+                  active: !store.isLoading && !store.connectingToServer,
                   name: intl.previewSell_confirm,
                   onTap: () {
                     store.executeQuote();

@@ -60,9 +60,8 @@ class AddBankCardBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final store = AddBankCardStore.of(context);
 
-    icon = store.saveCard
-        ? const SCheckboxSelectedIcon()
-        : const SCheckboxIcon();
+    icon =
+        store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrame(
       loaderText: intl.addCircleCard_pleaseWait,

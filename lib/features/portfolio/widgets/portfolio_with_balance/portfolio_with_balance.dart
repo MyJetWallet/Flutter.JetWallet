@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';

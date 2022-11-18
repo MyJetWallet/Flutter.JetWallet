@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';

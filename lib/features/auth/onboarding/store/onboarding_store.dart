@@ -70,8 +70,9 @@ abstract class _OnboardingStoreBase with Store {
 
   @action
   void dispose() {
-    sliderController!.removeStatusListener(sliderListener);
-    sliderController!.dispose();
+    if (sliderController != null) {
+      sliderController!.removeStatusListener(sliderListener);
+    }
   }
 
   @action

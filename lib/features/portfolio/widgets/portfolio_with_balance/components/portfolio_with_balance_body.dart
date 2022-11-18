@@ -6,8 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';

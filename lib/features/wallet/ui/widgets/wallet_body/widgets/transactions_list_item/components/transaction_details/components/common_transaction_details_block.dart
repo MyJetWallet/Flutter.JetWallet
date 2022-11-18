@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -24,9 +24,9 @@ import '../../../../../../../../helper/operation_name.dart';
 
 class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   const CommonTransactionDetailsBlock({
-    Key? key,
+    super.key,
     required this.transactionListItem,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
 
@@ -39,12 +39,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.nftSwap ||
             transactionListItem.operationType == OperationType.nftSell;
     final currencyForOperation =
-      transactionListItem.operationType == OperationType.nftBuy ||
-      transactionListItem.operationType == OperationType.nftSwap
-          ? transactionListItem.swapInfo?.sellAssetId ?? ''
-          : transactionListItem.operationType == OperationType.nftSell
-          ? transactionListItem.swapInfo?.buyAssetId ?? ''
-          : transactionListItem.assetId;
+        transactionListItem.operationType == OperationType.nftBuy ||
+                transactionListItem.operationType == OperationType.nftSwap
+            ? transactionListItem.swapInfo?.sellAssetId ?? ''
+            : transactionListItem.operationType == OperationType.nftSell
+                ? transactionListItem.swapInfo?.buyAssetId ?? ''
+                : transactionListItem.assetId;
     final currency = currencyFromAll(
       sSignalRModules.currenciesList,
       currencyForOperation,
@@ -102,7 +102,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ),
         if (nftTypes.contains(transactionListItem.operationType))
           const SpaceH25()
-          else
+        else
           const SpaceH67(),
         if (nftTypes.contains(transactionListItem.operationType)) ...[
           Stack(
@@ -173,9 +173,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           if (transactionListItem.status == Status.completed)
             Text(
               convertToUsd(
-                catchingTypes
-                  ? currency.currentPrice
-                  : transactionListItem.assetPriceInUsd,
+                basePrice(
+                  catchingTypes
+                      ? currency.currentPrice
+                      : transactionListItem.assetPriceInUsd,
+                  baseCurrency,
+                  sSignalRModules.currenciesWithHiddenList,
+                ),
                 operationAmount(transactionListItem),
                 baseCurrency,
               ),
@@ -229,28 +233,20 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       }
 
       return operationName(transactionListItem.operationType, context);
-    } else if (
-      transactionListItem.operationType == OperationType.nftBuy ||
-      transactionListItem.operationType == OperationType.nftSwap ||
-      transactionListItem.operationType == OperationType.nftBuyOpposite
-    ) {
+    } else if (transactionListItem.operationType == OperationType.nftBuy ||
+        transactionListItem.operationType == OperationType.nftSwap ||
+        transactionListItem.operationType == OperationType.nftBuyOpposite) {
       return '${operationName(OperationType.buy, context)} $nftName';
-    } else if (
-      transactionListItem.operationType == OperationType.nftSell ||
-      transactionListItem.operationType == OperationType.nftSellOpposite
-    ) {
+    } else if (transactionListItem.operationType == OperationType.nftSell ||
+        transactionListItem.operationType == OperationType.nftSellOpposite) {
       return '${operationName(OperationType.sell, context)} $nftName';
-    } else if (
-      transactionListItem.operationType == OperationType.nftWithdrawal
-    ) {
+    } else if (transactionListItem.operationType ==
+        OperationType.nftWithdrawal) {
       return '${intl.operationName_send} $nftName';
-    } else if (
-      transactionListItem.operationType == OperationType.nftWithdrawalFee
-    ) {
+    } else if (transactionListItem.operationType ==
+        OperationType.nftWithdrawalFee) {
       return '${intl.operationName_send} $nftName';
-    } else if (
-      transactionListItem.operationType == OperationType.nftDeposit
-    ) {
+    } else if (transactionListItem.operationType == OperationType.nftDeposit) {
       return '${intl.operationName_receive} $nftName';
     } else {
       return operationName(transactionListItem.operationType, context);
@@ -280,14 +276,39 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     )}';
   }
 
+  Decimal basePrice(
+    Decimal assetPriceInUsd,
+    BaseCurrencyModel baseCurrency,
+    List<CurrencyModel> allCurrencies,
+  ) {
+    final baseCurrencyMain = currencyFromAll(
+      allCurrencies,
+      baseCurrency.symbol,
+    );
+
+    final usdCurrency = currencyFromAll(
+      allCurrencies,
+      'USD',
+    );
+
+    if (baseCurrency.symbol == 'USD') {
+      return assetPriceInUsd;
+    }
+
+    if (baseCurrencyMain.currentPrice == Decimal.zero) {
+      return assetPriceInUsd * usdCurrency.currentPrice;
+    }
+
+    return Decimal.parse(
+        '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+  }
+
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
-    if (
-      transactionListItem.operationType == OperationType.nftBuy ||
-          transactionListItem.operationType == OperationType.nftSwap
-    ) {
+    if (transactionListItem.operationType == OperationType.nftBuy ||
+        transactionListItem.operationType == OperationType.nftSwap) {
       return transactionListItem.swapInfo!.sellAmount;
     }
     if (transactionListItem.operationType == OperationType.nftSell) {

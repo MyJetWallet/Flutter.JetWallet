@@ -1652,12 +1652,12 @@ class SimpleAnalytics {
     required String nftCategories,
   }) {
     _analytics.logEvent(
-        EventType.nftMarketTapCollection,
-        eventProperties: {
-          PropertyType.collectionTitle: collectionTitle,
-          PropertyType.nftNumberPictures: nftNumberPictures,
-          PropertyType.nftCategories: nftCategories,
-        },
+      EventType.nftMarketTapCollection,
+      eventProperties: {
+        PropertyType.collectionTitle: collectionTitle,
+        PropertyType.nftNumberPictures: nftNumberPictures,
+        PropertyType.nftCategories: nftCategories,
+      },
     );
   }
 

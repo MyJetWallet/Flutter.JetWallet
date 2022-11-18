@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/referral_program_gift/helper/check_all_conditions_passed.dart';
 import 'package:jetwallet/features/referral_program_gift/helper/find_referral_program.dart';
 import 'package:jetwallet/features/rewards/store/reward_campaign_store.dart';
