@@ -63,7 +63,6 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         nft: collection.nftList[index],
                         showBuyInfo: true,
                         showDivider: false,
-                        height: imageHeight,
                         onTap: () {
                           sAnalytics.nftWalletTapObject(
                             nftCollectionID:
