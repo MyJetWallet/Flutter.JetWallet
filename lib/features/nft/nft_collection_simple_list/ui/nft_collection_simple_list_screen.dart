@@ -63,7 +63,6 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         nft: collection.nftList[index],
                         showBuyInfo: true,
                         showDivider: false,
-                        height: imageHeight,
                         onTap: () {
                           sAnalytics.nftWalletTapObject(
                             nftCollectionID:
@@ -89,6 +88,7 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                             ),
                           );
                         },
+                        height: imageHeight,
                       ),
                       if (collection.nftList[index].onSell ?? false) ...[
                         BalanceInProcess(

@@ -26,7 +26,7 @@ abstract class _MarketFilterStoreBase with Store {
   @computed
   List<NftModel> get nftListFiltred {
     final localList = nftList.toList();
-    localList.sort((a, b) => b.order!.compareTo(a.order!));
+    localList.sort((a, b) => a.order!.compareTo(b.order!));
 
     if (nftFilterSelected.isEmpty) {
       return localList;
