@@ -334,6 +334,8 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
+    print(parameters[_code]);
+
     getIt.get<EmailVerificationStore>().updateCode(
           parameters[_code],
         );

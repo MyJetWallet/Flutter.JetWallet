@@ -305,8 +305,6 @@ abstract class _PinScreenStoreBase with Store {
               'you have been logged out of your account.',
               duration: 5,
             );
-
-            await getIt.get<LogoutService>().logout();
           }
         },
       );
