@@ -88,6 +88,7 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                             ),
                           );
                         },
+                        height: imageHeight,
                       ),
                       if (collection.nftList[index].onSell ?? false) ...[
                         BalanceInProcess(

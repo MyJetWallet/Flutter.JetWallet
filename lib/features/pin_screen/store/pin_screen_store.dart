@@ -296,7 +296,11 @@ abstract class _PinScreenStoreBase with Store {
 
             await resetPin();
           } else {
-            sNotification.showError(error.cause);
+            sNotification.showError(
+              'Incorrect PIN has been entered more than $maxPinAttempts times, '
+              'you have been logged out of your account.',
+              duration: 5,
+            );
           }
         },
       );
