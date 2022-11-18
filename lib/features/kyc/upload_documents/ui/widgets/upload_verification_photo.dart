@@ -151,7 +151,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                               width: 280,
                               child: Text(
                                 intl.cardVerification_coverSymbols,
-                                maxLines: 2,
+                                maxLines: 5,
                                 style: sBodyText1Style.copyWith(
                                   color: colors.grey1,
                                 ),
