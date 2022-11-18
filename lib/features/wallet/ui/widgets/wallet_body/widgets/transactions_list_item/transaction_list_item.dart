@@ -178,7 +178,10 @@ class TransactionListItem extends StatelessObserverWidget {
                       text: '${intl.withText} ${volumeFormat(
                         prefix: currency.prefixSymbol,
                         decimal: transactionListItem.swapInfo!.sellAmount,
-                        accuracy: currency.accuracy,
+                        accuracy: currencyFrom(
+                          currencies,
+                          transactionListItem.swapInfo!.sellAssetId,
+                        ).accuracy,
                         symbol: transactionListItem.swapInfo!.sellAssetId,
                       )}',
                       color: colors.grey2,
