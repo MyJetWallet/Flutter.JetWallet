@@ -24,8 +24,7 @@ import 'package:uuid/uuid.dart';
 
 part 'add_bank_card_store.g.dart';
 
-class AddBankCardStore extends _AddBankCardStoreBase
-    with _$AddBankCardStore {
+class AddBankCardStore extends _AddBankCardStoreBase with _$AddBankCardStore {
   AddBankCardStore() : super();
 
   static _AddBankCardStoreBase of(BuildContext context) =>
@@ -100,7 +99,6 @@ abstract class _AddBankCardStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
-
   @computed
   bool get isCardNumberValid {
     return CreditCardValidator().validateCCNum(cardNumber).isValid;
@@ -113,8 +111,8 @@ abstract class _AddBankCardStoreBase with Store {
 
     return CreditCardValidator()
         .validateExpDate('$expiryMonth/'
-        '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
-        '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
+            '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
+            '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
         .isValid;
   }
 
@@ -122,8 +120,8 @@ abstract class _AddBankCardStoreBase with Store {
   bool get isExpiryYearValid {
     return CreditCardValidator()
         .validateExpDate('$expiryMonth/'
-        '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
-        '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
+            '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
+            '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
         .isValid;
   }
 
@@ -133,12 +131,9 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @computed
-
   bool get isCardDetailsValid {
-    if (
-      (expiryYear.length != 4 && expiryYear.length != 2) ||
-          expiryMonth.length < 2
-    ) {
+    if ((expiryYear.length != 4 && expiryYear.length != 2) ||
+        expiryMonth.length < 2) {
       return false;
     }
 
@@ -197,10 +192,8 @@ abstract class _AddBankCardStoreBase with Store {
       print(newCard);
 
       if (isPreview) {
-        final cardNumberFinal = cardNumber
-            .replaceAll('\u{2005}', '');
-        if (newCard.data?.data.status ==
-            CardStatus.verificationRequired) {
+        final cardNumberFinal = cardNumber.replaceAll('\u{2005}', '');
+        if (newCard.data?.data.status == CardStatus.verificationRequired) {
           if (newCard.data?.data.requiredVerification ==
               CardVerificationType.cardCheck) {
             await sRouter.push(
@@ -233,8 +226,7 @@ abstract class _AddBankCardStoreBase with Store {
               ),
             );
           }
-        } else if (newCard.data?.data.status ==
-            CardStatus.accepted) {
+        } else if (newCard.data?.data.status == CardStatus.accepted) {
           showPreview(
             cardNumber: cardNumberFinal,
             currency: currency!,
@@ -291,9 +283,10 @@ abstract class _AddBankCardStoreBase with Store {
     // [xxxx xxxx xxxx xxxx]
     cardNumberError = cardNumber.length == 19
         ? isCardNumberValid
-        ? false
-        : true
+            ? false
+            : true
         : false;
+
     if (cardNumber.length == 19 && isCardNumberValid) {
       cardNode.nextFocus();
     }
@@ -324,7 +317,8 @@ abstract class _AddBankCardStoreBase with Store {
 
     expiryYear = expiryDate;
 
-    if ((expiryDate.length == 4 || expiryDate.length == 2) && expiryDate != '20') {
+    if ((expiryDate.length == 4 || expiryDate.length == 2) &&
+        expiryDate != '20') {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     } else {
@@ -360,12 +354,10 @@ abstract class _AddBankCardStoreBase with Store {
             buffer.write(' ');
           }
         }
-
       } else {
         updateCardNumber(code);
         cardNumberController.text = code;
       }
-
     } catch (e) {
       return;
     }
@@ -385,7 +377,7 @@ abstract class _AddBankCardStoreBase with Store {
         primaryButtonName: intl.cardVerification_choosePaymentMethod,
         onPrimaryButtonTap: () {
           sRouter.removeUntil(
-                (route) => route.name == CurrencyBuyRouter.name,
+            (route) => route.name == CurrencyBuyRouter.name,
           );
         },
         secondaryButtonName: intl.cardVerification_close,

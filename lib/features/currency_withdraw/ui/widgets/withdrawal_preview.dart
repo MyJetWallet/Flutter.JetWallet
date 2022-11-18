@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
@@ -111,6 +111,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   nftFee: '${matic.withdrawalFeeSize(network)}',
                 );
               }
+              Navigator.pop(context);
             },
           );
         },
@@ -118,6 +119,17 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
           return SMegaHeader(
             titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
+            onBackButtonTap: () {
+              if (currency == null) {
+                sAnalytics.nftSendConfirmBack(
+                  nftCollectionID: withdrawal.nft?.symbol ?? '',
+                  nftObjectId: withdrawal.nft?.collectionId ?? '',
+                  network: network,
+                  nftFee: '${matic.withdrawalFeeSize(network)}',
+                );
+              }
+              Navigator.pop(context);
+            },
           );
         },
       ),
@@ -135,6 +147,11 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                 SActionConfirmText(
                   name: '$verb ${intl.to}',
                   value: shortAddressForm(store.address),
+                ),
+                SActionConfirmText(
+                  name: intl.cryptoDeposit_network,
+                  baseline: 36.0,
+                  value: network,
                 ),
                 if (currency != null) ...[
                   SActionConfirmText(

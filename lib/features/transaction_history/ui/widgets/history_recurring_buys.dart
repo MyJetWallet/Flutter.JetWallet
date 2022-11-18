@@ -4,9 +4,9 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
+
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_recurring_buy/widgets/recurring_buys_item.dart';
 import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -20,8 +20,10 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 
 class HistoryRecurringBuys extends StatelessObserverWidget {
-  const HistoryRecurringBuys({Key? key, this.from}) : super(key: key);
+  const HistoryRecurringBuys({super.key, this.from});
+
   final Source? from;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -29,7 +31,6 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
     final scrollController = ScrollController();
 
     final state = getIt.get<RecurringBuysStore>();
-    state.updateRecurringItems();
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -44,7 +45,7 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
       color: colors.white,
       child: CustomScrollView(
         controller: scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverAppBar(
             toolbarHeight: deviceSize.when(
@@ -65,9 +66,9 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (state.recurringBuys.isNotEmpty)
+          if (state.recurringBuysFiltred.isNotEmpty)
             SliverGroupedListView<RecurringBuysModel, String>(
-              elements: state.recurringBuys,
+              elements: state.recurringBuysFiltred,
               groupBy: (recurring) {
                 return recurring.toAsset;
               },
@@ -78,11 +79,11 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
                 );
               },
               itemBuilder: (context, recurring) {
-                final index = state.recurringBuys.indexOf(recurring);
+                final index = state.recurringBuysFiltred.indexOf(recurring);
                 final currentAsset = recurring.toAsset;
                 var nextAsset = '';
-                if (index != (state.recurringBuys.length - 1)) {
-                  nextAsset = state.recurringBuys[index + 1].toAsset;
+                if (index != (state.recurringBuysFiltred.length - 1)) {
+                  nextAsset = state.recurringBuysFiltred[index + 1].toAsset;
                 }
                 final removeDividerForLastInGroup = currentAsset != nextAsset;
 

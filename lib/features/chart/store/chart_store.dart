@@ -2,7 +2,9 @@ import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
 import 'package:jetwallet/features/chart/helper/format_resolution.dart';
@@ -38,6 +40,8 @@ abstract class _ChartStoreBase with Store {
       final showYear = dateDifference > const Duration(days: 365).inHours;
 
       if (chartInput.instrumentId != null) {
+        getDataFromCache();
+
         fetchAssetCandles(Period.day, chartInput.instrumentId!).then(
           (_) {
             final dayCandles = candles[Period.day];
@@ -57,6 +61,9 @@ abstract class _ChartStoreBase with Store {
           },
         );
       } else {
+        print('showWeek');
+        print(showWeek);
+
         fetchBalanceCandles(Period.day).then(
           (_) {
             final dayCandles = candles[Period.day];
@@ -101,6 +108,19 @@ abstract class _ChartStoreBase with Store {
   ChartUnion union = const ChartUnion.loading();
 
   @action
+  Future<void> getDataFromCache() async {
+    if (chartInput.instrumentId != null) {
+      final getDataFromCache =
+          await getIt<LocalCacheService>().getChart(chartInput.instrumentId!);
+
+      if (getDataFromCache != null) {
+        candles = getDataFromCache.candle;
+        union = const Candles();
+      }
+    }
+  }
+
+  @action
   Future<void> fetchBalanceCandles(String resolution) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
@@ -125,13 +145,15 @@ abstract class _ChartStoreBase with Store {
           _logger.log(stateFlow, 'fetchBalanceCandles', e);
           print('onError fetchBalanceCandles');
 
-          updateCandles([], resolution);
+          //updateCandles([], resolution);
         },
       );
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
 
-      updateCandles([], resolution);
+      print(e);
+
+      //updateCandles([], resolution);
     }
   }
 
@@ -140,7 +162,9 @@ abstract class _ChartStoreBase with Store {
     _logger.log(notifier, 'fetchAssetCandles');
 
     try {
-      union = const ChartUnion.loading();
+      if (union != const ChartUnion.candles()) {
+        union = const ChartUnion.loading();
+      }
 
       final toDate = DateTime.now().toUtc();
       final depth = DataFeedUtil.calculateHistoryDepth(resolution);
@@ -193,6 +217,13 @@ abstract class _ChartStoreBase with Store {
 
     candles = currentCandles;
     union = const Candles();
+
+    if (chartInput.instrumentId != null) {
+      getIt<LocalCacheService>().saveChart(
+        chartInput.instrumentId!,
+        currentCandles,
+      );
+    }
   }
 
   @action

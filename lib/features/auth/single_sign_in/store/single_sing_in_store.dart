@@ -92,8 +92,6 @@ abstract class _SingleSingInStoreBase with Store {
         idfa: advID,
       );
 
-      print(model);
-
       final response =
           await sNetwork.getAuthModule().postStartEmailLogin(model);
 
@@ -102,8 +100,6 @@ abstract class _SingleSingInStoreBase with Store {
           authInfoN.updateAuthState(email: credentials.email);
           authInfoN.updateVerificationToken(data.verificationToken);
 
-          print(data);
-
           data.rejectDetail == null
               ? union = const SingleSingInStateUnion.success()
               : union = SingleSingInStateUnion.errorString(
@@ -111,8 +107,6 @@ abstract class _SingleSingInStoreBase with Store {
                 );
         },
         onError: (error) {
-          print(error.cause);
-
           union = SingleSingInStateUnion.errorString(
             error.cause,
           );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert/ui/widgets/widgets/convert_amount_cursor.dart';
 import 'package:jetwallet/features/convert/ui/widgets/widgets/convert_auto_size_amount.dart';
 import 'package:jetwallet/features/convert/ui/widgets/widgets/convert_dropdown_button.dart';
@@ -193,6 +193,10 @@ class _ConvertRowState extends State<ConvertRow>
     final colors = sKit.colors;
 
     if (item.type == AssetType.indices) {
+      return null;
+    }
+
+    if (item.symbol == 'CPWR') {
       return null;
     }
 

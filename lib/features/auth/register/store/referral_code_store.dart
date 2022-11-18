@@ -115,7 +115,7 @@ abstract class _ReferallCodeStoreBase with Store {
   void resetBottomSheetReferralCodeValidation() {
     bottomSheetReferralCodeValidation = const Input();
     isInputError = false;
-    referralCodeController = TextEditingController()..text = referralCode ?? '';
+    referralCodeController.text = '';
   }
 
   @action

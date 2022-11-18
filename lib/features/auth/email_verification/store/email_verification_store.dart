@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
@@ -240,13 +241,16 @@ abstract class _EmailVerificationStoreBase with Store {
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
           getIt.get<StartupService>().successfullAuthentication();
 
+          unawaited(getIt.get<AppStore>().checkInitRouter());
+
           //_logger.log(stateFlow, 'verifyCode', state);
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
 
           union = error.cause.contains('50') || error.cause.contains('40')
-              ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
+              ? EmailVerificationUnion.error(
+                  intl.something_went_wrong_try_again)
               : EmailVerificationUnion.error(error.cause);
         },
       );

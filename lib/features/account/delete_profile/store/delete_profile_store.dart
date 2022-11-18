@@ -65,6 +65,8 @@ abstract class _DeleteProfileStoreBase with Store {
 
   @action
   Future<void> deleteProfile() async {
+    print('delete');
+
     final walletApi = sNetwork.getWalletModule();
 
     final request = await walletApi.postProfileDelete(
@@ -72,14 +74,9 @@ abstract class _DeleteProfileStoreBase with Store {
       selectedDeleteReason.map((e) => e.reasonId!).toList(),
     );
 
-    request.pick(
-      onData: (data) async {
-        await getIt.get<LogoutService>().logout().then(
-              (value) => sRouter.popUntilRoot(),
-            );
-      },
-      onError: (error) {},
-    );
+    await getIt.get<LogoutService>().logout().then(
+          (value) => sRouter.popUntilRoot(),
+        );
   }
 
   @action

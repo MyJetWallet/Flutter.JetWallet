@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';

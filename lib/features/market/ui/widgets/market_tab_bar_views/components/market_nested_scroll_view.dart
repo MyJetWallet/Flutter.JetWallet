@@ -5,7 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
@@ -26,18 +26,19 @@ import '../../market_banners/market_banners.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 
+enum MarketShowType { Crypto, NFT }
+
 class MarketNestedScrollView extends StatelessWidget {
   const MarketNestedScrollView({
     super.key,
     this.showBanners = false,
     this.showFilter = false,
-    required this.items,
-    required this.nft,
+    required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final List<MarketItemModel> items;
-  final List<NftModel> nft;
+  final MarketShowType marketShowType;
+
   final bool showBanners;
   final bool showFilter;
   final FilterMarketTabAction sourceScreen;
@@ -45,13 +46,12 @@ class MarketNestedScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<MarketFilterStore>(
-      create: (context) => MarketFilterStore()..init(items, nft),
+      create: (context) => MarketFilterStore(),
       builder: (context, child) => _MarketNestedScrollViewBody(
         showBanners: showBanners,
         showFilter: showFilter,
-        items: items,
-        nft: nft,
         sourceScreen: sourceScreen,
+        marketShowType: marketShowType,
       ),
     );
   }
@@ -59,19 +59,16 @@ class MarketNestedScrollView extends StatelessWidget {
 
 class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
-    super.key,
     this.showBanners = false,
     this.showFilter = false,
-    required this.items,
-    required this.nft,
+    required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final List<MarketItemModel> items;
-  final List<NftModel> nft;
   final bool showBanners;
   final bool showFilter;
   final FilterMarketTabAction sourceScreen;
+  final MarketShowType marketShowType;
 
   @override
   State<_MarketNestedScrollViewBody> createState() =>
@@ -91,8 +88,8 @@ class __MarketNestedScrollViewBodyState
       resetMarketScrollPosition(
         context,
         MarketFilterStore.of(context).cryptoList.isNotEmpty
-            ? widget.items.length
-            : widget.nft.length,
+            ? MarketFilterStore.of(context).cryptoList.length
+            : MarketFilterStore.of(context).nftList.length,
         controller,
       );
     });
@@ -110,7 +107,8 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    final showPreloader = widget.items.isEmpty || widget.nft.isEmpty;
+    final showPreloader =
+        store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -155,7 +153,7 @@ class __MarketNestedScrollViewBodyState
       body: showPreloader
           ? ColoredBox(
               color: colors.white,
-              child: store.cryptoList.isNotEmpty
+              child: widget.marketShowType == MarketShowType.Crypto
                   ? showCryptoList(baseCurrency)
                   : showNFTList(),
             )
@@ -208,7 +206,6 @@ class __MarketNestedScrollViewBodyState
 
   Widget showNFTList() {
     final store = MarketFilterStore.of(context);
-    sAnalytics.nftMarketOpen();
 
     return Column(
       children: [
@@ -232,15 +229,11 @@ class __MarketNestedScrollViewBodyState
                     source: 'Market',
                   );
                   sAnalytics.nftMarketTapCollection(
-                      collectionTitle: store.nftListFiltred[index].name ?? '',
-                      nftNumberPictures: '${store
-                          .nftListFiltred[index]
-                          .nftList
-                          .length}',
-                      nftCategories: store
-                          .nftListFiltred[index]
-                          .category
-                          .toString(),
+                    collectionTitle: store.nftListFiltred[index].name ?? '',
+                    nftNumberPictures:
+                        '${store.nftListFiltred[index].nftList.length}',
+                    nftCategories:
+                        store.nftListFiltred[index].category.toString(),
                   );
                   sRouter.push(
                     NftCollectionDetailsRouter(

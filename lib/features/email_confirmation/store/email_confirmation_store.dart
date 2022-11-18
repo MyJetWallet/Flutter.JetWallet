@@ -22,14 +22,21 @@ part 'email_confirmation_store.g.dart';
 
 class EmailConfirmationStore extends _EmailConfirmationStoreBase
     with _$EmailConfirmationStore {
-  EmailConfirmationStore(TimerStore timer) : super(timer);
+  EmailConfirmationStore() : super();
 
   static _EmailConfirmationStoreBase of(BuildContext context) =>
       Provider.of<EmailConfirmationStore>(context, listen: false);
 }
 
 abstract class _EmailConfirmationStoreBase with Store {
-  _EmailConfirmationStoreBase(this.timer) {
+  _EmailConfirmationStoreBase();
+
+  late TimerStore timer;
+
+  @action
+  void init(TimerStore t) {
+    timer = t;
+
     _updateEmail(getIt.get<AppStore>().authState.email);
 
     resendCode(
@@ -39,8 +46,6 @@ abstract class _EmailConfirmationStoreBase with Store {
       },
     );
   }
-
-  TimerStore timer;
 
   TextEditingController controller = TextEditingController();
 
@@ -106,6 +111,18 @@ abstract class _EmailConfirmationStoreBase with Store {
       final response =
           await sNetwork.getValidationModule().postSendEmailConfirmation(model);
 
+      if (response.hasError) {
+        _logger.log(stateFlow, 'sendCode', response.error);
+
+        updateIsResending(false);
+        showResendButton = true;
+        sNotification.showError(
+          '${intl.emailVerification_failedToResend}!',
+        );
+
+        return;
+      }
+
       response.pick(
         onData: (data) {
           sendEmailResponse = data;
@@ -144,6 +161,8 @@ abstract class _EmailConfirmationStoreBase with Store {
           .postVerifyEmailConfirmation(model);
 
       union = const EmailConfirmationUnion.input();
+
+      print('DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}');
 
       getIt.get<AppStore>().updateAuthState(
             deleteToken: sendEmailResponse?.tokenId ?? '',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../core/services/signal_r/signal_r_modules.dart';
 import '../../../../../../utils/formatting/base/base_currencies_format.dart';
 
 class EmptyWalletBalanceText extends StatelessWidget {

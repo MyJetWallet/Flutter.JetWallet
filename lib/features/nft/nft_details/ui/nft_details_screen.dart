@@ -10,7 +10,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/nft_detail_bottom_bar/nft_detail_bottom_bar.dart';
@@ -161,6 +161,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         active: true,
                         name: intl.nft_detail_cancel_selling,
                         onTap: () {
+                          sAnalytics.nftSellCancelTap(
+                            nftCollectionID: store.nft?.collectionId ?? '',
+                            nftObjectId: store.nft?.symbol ?? '',
+                            asset: store.nft?.tradingAsset ?? '',
+                            nftPriceAmount: '${store.nft?.sellPrice}',
+                            nftOperationFee: '',
+                            nftCreatorFee: '',
+                            nftAmountToGet: '',
+                          );
                           store.cancelSellOrder();
                         },
                       ),

@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -30,8 +31,6 @@ abstract class _LogoutServiceBase with Store {
   Future<void> logout({bool withLoading = true, bool resetPin = false}) async {
     _logger.log(notifier, 'logout');
 
-    print('LOGOUT');
-
     final authStore = getIt.get<AppStore>().authState;
 
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
@@ -50,7 +49,7 @@ abstract class _LogoutServiceBase with Store {
         union = const LogoutUnion.loading();
       }
 
-      if (authStore.token != null && authStore.token.isNotEmpty) {
+      if (authStore.token.isNotEmpty) {
         final model = LogoutRequestModel(
           token: authStore.token,
         );
@@ -66,11 +65,11 @@ abstract class _LogoutServiceBase with Store {
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.currenciesList);
     } finally {
+      print('FINALLY LOGOUT');
+
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.currenciesList);
-
-      sSignalRModules.clearSignalRModule();
 
       /// Disconet from SignalR
       await getIt.get<SignalRService>().signalR.disconnect();
@@ -90,8 +89,10 @@ abstract class _LogoutServiceBase with Store {
       AppBuilderBody.restart(sRouter.navigatorKey.currentContext!);
 
       sSignalRModules.clearSignalRModule();
+      getIt<AppStore>().resetAppStore();
+      await getIt<LocalCacheService>().clearAllCache();
 
-      await sRouter.push(const HomeRouter());
+      await sRouter.replaceAll([const AppInitRoute()]);
     }
   }
 

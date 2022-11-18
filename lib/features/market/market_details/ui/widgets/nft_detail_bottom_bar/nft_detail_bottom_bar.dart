@@ -1,23 +1,11 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
-import 'package:jetwallet/features/market/market_details/store/operation_history.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/balance_block.dart';
-import 'package:jetwallet/features/market/market_details/ui/widgets/balance_block/components/balance_action_buttons.dart';
-import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/simple_base_primary_button.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/secondary_button/light/simple_light_secondary_button_1.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
@@ -85,9 +73,9 @@ class NFTDetailBottomBar extends StatelessObserverWidget {
                   currency.description,
                 );
                 sAnalytics.nftObjectTapCurrency(
-                    nftCollectionID: nft.collectionId ?? '',
-                    nftObjectId: nft.symbol ?? '',
-                    currency: currency.description,
+                  nftCollectionID: nft.collectionId ?? '',
+                  nftObjectId: nft.symbol ?? '',
+                  currency: currency.description,
                 );
 
                 navigateToWallet(context, currency);

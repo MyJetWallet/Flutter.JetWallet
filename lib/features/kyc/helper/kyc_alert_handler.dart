@@ -143,7 +143,7 @@ class KycAlertHandler {
           '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
       primaryButtonName: intl.kycAlertHandler_support,
       onPrimaryButtonTap: () {
-        sRouter.navigateBack();
+        Navigator.pop(context);
 
         sRouter.push(
           CrispRouter(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/nft/nft_collection_details/ui/components/nft_collection_nft_item.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/balance_in_process.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
@@ -65,6 +65,12 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         showDivider: false,
                         height: imageHeight,
                         onTap: () {
+                          sAnalytics.nftWalletTapObject(
+                            nftCollectionID:
+                                collection.nftList[index].collectionId ?? '',
+                            nftObjectId: collection.nftList[index].symbol ?? '',
+                          );
+
                           sAnalytics.nftWalletObjectFull(
                             nftCollectionID:
                                 collection.nftList[index].collectionId ?? '',

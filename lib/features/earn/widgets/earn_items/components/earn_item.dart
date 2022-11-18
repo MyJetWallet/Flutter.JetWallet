@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/earn/store/earn_offers_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -12,10 +11,10 @@ import '../../earn_subscription/earn_subscriptions.dart';
 
 class EarnItem extends StatelessObserverWidget {
   const EarnItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.apy,
-  }) : super(key: key);
+  });
 
   final String name;
   final Decimal apy;

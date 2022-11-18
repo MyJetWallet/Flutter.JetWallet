@@ -4,6 +4,7 @@ import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
 part 'nft_model.freezed.dart';
+part 'nft_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class NftModel with _$NftModel {
@@ -22,6 +23,9 @@ class NftModel with _$NftModel {
     int? ownerCount,
     int? order,
   }) = _NftModel;
+
+  factory NftModel.fromJson(Map<String, dynamic> json) =>
+      _$NftModelFromJson(json);
 }
 
 enum NftCollectionCategoryEnum {

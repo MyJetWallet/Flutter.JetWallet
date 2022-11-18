@@ -1,11 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -21,6 +23,9 @@ class AssetPrice extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final chart = ChartStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
+
+    final currency = sSignalRModules.getMarketPrices
+        .firstWhere((element) => element.symbol == marketItem.associateAsset);
 
     return SizedBox(
       height: 40,
@@ -38,6 +43,7 @@ class AssetPrice extends StatelessObserverWidget {
               union: chart.union,
             ),
             baseCurrency,
+            currency,
           ),
           style: sTextH2Style,
         ),
@@ -49,6 +55,7 @@ class AssetPrice extends StatelessObserverWidget {
     MarketItemModel marketItem,
     ChartState chart,
     BaseCurrencyModel baseCurrency,
+    MarketItemModel currency,
   ) {
     return chart.selectedCandle != null
         ? marketFormat(
@@ -59,9 +66,9 @@ class AssetPrice extends StatelessObserverWidget {
           )
         : marketFormat(
             prefix: baseCurrency.prefix,
-            decimal: marketItem.lastPrice,
-            accuracy: marketItem.priceAccuracy,
+            decimal: currency.lastPrice,
             symbol: baseCurrency.symbol,
+            accuracy: currency.priceAccuracy,
           );
   }
 }

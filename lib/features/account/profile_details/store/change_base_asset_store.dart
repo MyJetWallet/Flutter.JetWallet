@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -7,8 +8,6 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
-
-import '../../../../core/services/signal_r/signal_r_modules.dart';
 
 part 'change_base_asset_store.g.dart';
 
@@ -43,7 +42,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
         final currencies = sSignalRModules.currenciesWithHiddenList;
         final baseCurrency = currencyFromAll(currencies, newAsset);
 
-        sSignalRModules.updateBaseCurrency(
+        sSignalRModules.setBaseCurrency(
           BaseCurrencyModel(
             prefix: baseCurrency.prefixSymbol,
             accuracy: baseCurrency.accuracy,

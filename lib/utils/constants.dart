@@ -41,6 +41,7 @@ const chatWithSupportAsset = 'assets/images/chat_with_support.png';
 const accountProfileAsset = 'assets/images/verify_your_profile.png';
 const lockerAsset = 'assets/images/locker.png';
 const verifyNowAsset = 'assets/images/verifying_now.png';
+const blockedAsset = 'assets/images/blocked_profile.png';
 
 // Recurring buy
 const recurringBuyImage = 'assets/images/recurring.png';
@@ -84,3 +85,8 @@ const bioTouchId = 'assets/images/touch_id.png';
 const nftGradient = 'assets/images/gradient_1.png';
 const nftGradientSvg = 'assets/images/gradient_svg.svg';
 const nftBTCAsset = 'assets/images/btc_asset.png';
+
+const cPowerSVGAsset = 'assets/images/cpower.svg';
+const cPowerAsset = 'assets/images/cpower.png';
+const cpowerBanner1Asset = 'assets/images/cpower_banner_1.svg';
+const cpowerBanner2Asset = 'assets/images/cpower_banner_2.svg';

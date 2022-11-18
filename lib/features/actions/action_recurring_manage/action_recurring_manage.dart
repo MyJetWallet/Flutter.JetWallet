@@ -105,7 +105,6 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                     isEnable: false,
                     instructionId: recurringItem.id!,
                   );
-                  getIt.get<RecurringBuysStore>().updateRecurringItems();
                   Navigator.of(context)
                     ..pop()
                     ..pop();

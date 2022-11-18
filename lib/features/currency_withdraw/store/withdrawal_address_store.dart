@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
@@ -24,7 +25,6 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 
-import '../../../core/services/signal_r/signal_r_modules.dart';
 import 'withdrawal_amount_store.dart';
 
 part 'withdrawal_address_store.g.dart';
@@ -163,6 +163,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
       nftModel = wtd.nft;
 
       networkController.text = nftModel!.blockchain!;
+
       //addressController.text = '0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C';
       //updateAddress('0xADc38bd99Ed01bAF0a10645aa7A96015C645bf6C',);
     }
@@ -620,7 +621,8 @@ abstract class _WithdrawalAddressStoreBase with Store {
                 nftCollectionID: nftModel?.collectionId ?? '',
                 nftObjectId: nftModel?.symbol ?? '',
                 network: nftModel?.blockchain ?? '',
-                nftFee: '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
+                nftFee:
+                    '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
               );
             } else {
               sAnalytics.sendViews();

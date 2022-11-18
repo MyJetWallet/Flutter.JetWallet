@@ -54,12 +54,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
 
     final childAspectRatio = 0.9;
 
-    final imageHeight = (MediaQuery.of(context).size.width - 68) / 2;
-    final totalItemHeight =
-        imageHeight + 81; // 81 height from figma without image;
-    final totalISoldtemHeight =
-        imageHeight + 44; // 81 height from figma without image;
-
     return Material(
       color: colors.white,
       child: CustomScrollView(
@@ -108,26 +102,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   ),
                   background: Image.network(
                     '$fullUrl${store.nftModel!.fImage}',
-                    loadingBuilder: (
-                      BuildContext context,
-                      Widget child,
-                      ImageChunkEvent? loadingProgress,
-                    ) {
-                      if (loadingProgress == null) return child;
-
-                      return SSkeletonTextLoader(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: double.infinity,
-                        borderRadius: BorderRadius.zero,
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return SSkeletonTextLoader(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: double.infinity,
-                        borderRadius: BorderRadius.zero,
-                      );
-                    },
                     fit: BoxFit.cover,
                   ),
                 );
@@ -175,7 +149,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         store.nftModel!.description ?? '',
-                        maxLines: 10,
+                        maxLines: 5,
                         style: sBodyText1Style,
                       ),
                     ),
@@ -365,10 +339,10 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
               !store.isAvailableHide) ...[
             SliverGrid(
               gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                  const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                 crossAxisCount: 2,
                 //childAspectRatio: childAspectRatio - 0.2,
-                height: totalItemHeight,
+                height: 235,
                 crossAxisSpacing: 19,
                 mainAxisSpacing: 20,
               ),
@@ -381,35 +355,34 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                     ),
                     child: NFTCollectionNftItem(
                       nft: store.availableNFTFiltred[index],
-                      height: imageHeight,
                       onTap: () {
                         sAnalytics.nftWalletTapObject(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
                         );
                         sAnalytics.nftWalletObjectView(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
                         );
                         sAnalytics.nftObjectTap(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
                         );
                         sAnalytics.nftObjectView(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
+                            nftCollectionID: store
+                                .availableNFTFiltred[index]
+                                .collectionId ?? '',
+                            nftObjectId: store.availableNFTFiltred[index].symbol
+                                ?? '',
                           source: 'Collection screen',
                         );
                         sRouter.push(
@@ -425,9 +398,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SliverToBoxAdapter(
-            child: SpaceH32(),
-          ),
           if (store.soldNFTFiltred.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: SPaddingH24(
@@ -489,9 +459,10 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
             if (!store.isSoldHide) ...[
               SliverGrid(
                 gridDelegate:
-                    SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                  const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                   crossAxisCount: 2,
-                  height: totalISoldtemHeight,
+                  //childAspectRatio: childAspectRatio - 0.09,
+                  height: 198,
                   crossAxisSpacing: 19,
                   mainAxisSpacing: 20,
                 ),
@@ -504,7 +475,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ),
                       child: NFTCollectionNftItem(
                         nft: store.soldNFTFiltred[index],
-                        height: imageHeight,
                         onTap: () {
                           sRouter.push(
                             NFTDetailsRouter(
@@ -520,9 +490,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
               ),
             ],
           ],
-          const SliverToBoxAdapter(
-            child: SpaceH24(),
-          ),
         ],
       ),
     );

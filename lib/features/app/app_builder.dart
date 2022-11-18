@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
+import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -41,38 +42,22 @@ class AppBuilder extends StatelessObserverWidget {
           );
         }
 
-        return Observer(
-          builder: (context) {
-            _logger.log(
-              notifier,
-              'remoteConfigStatus ${getIt.get<AppStore>().remoteConfigStatus}',
-            );
+        return FutureBuilder(
+          future: getIt.allReady(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            _logger.log(notifier, snapshot.connectionState);
 
-            return getIt.get<AppStore>().remoteConfigStatus is Success
-                ? FutureBuilder(
-                    future: getIt.allReady(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      _logger.log(notifier, snapshot.connectionState);
+            if (snapshot.hasError) {
+              _logger.log(stateFlow, 'ERROR ${snapshot.error}');
+            }
 
-                      if (snapshot.hasError) {
-                        _logger.log(stateFlow, 'ERROR ${snapshot.error}');
-                      }
-
-                      return snapshot.hasData
-                          ? Builder(
-                              builder: (context) {
-                                return AppBuilderBody(
-                                  reactiveMediaQuery: reactiveMediaQuery,
-                                  child: child ??
-                                      const SplashScreen(
-                                        runAnimation: false,
-                                      ),
-                                );
-                              },
-                            )
-                          : const SplashScreen(
-                              runAnimation: false,
-                            );
+            return snapshot.hasData
+                ? Builder(
+                    builder: (context) {
+                      return AppBuilderBody(
+                        reactiveMediaQuery: reactiveMediaQuery,
+                        child: child ?? const SplashScreen(),
+                      );
                     },
                   )
                 : const SplashScreen();
@@ -104,7 +89,6 @@ class AppBuilderBody extends StatefulWidget {
 class _AppBuilderBodyState extends State<AppBuilderBody> {
   @override
   void initState() {
-    print('INIT GET AUTH STATE');
     getIt.get<AppStore>().getAuthStatus();
     super.initState();
   }

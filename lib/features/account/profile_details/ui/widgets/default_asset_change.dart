@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../core/services/signal_r/signal_r_modules.dart';
 import '../../../../market/market_details/helper/currency_from_all.dart';
 import '../../store/change_base_asset_store.dart';
 
 class DefaultAssetChange extends StatelessObserverWidget {
-  const DefaultAssetChange({Key? key}) : super(key: key);
+  const DefaultAssetChange({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +70,9 @@ class DefaultAssetChange extends StatelessObserverWidget {
                               Text(
                                 asset.prefixSymbol ?? '?',
                                 style: sCaptionTextStyle.copyWith(
-                                  color: asset.symbol !=
-                                      baseAsset.checkedAsset
-                                        ? colors.black
-                                        : colors.blue,
+                                  color: asset.symbol != baseAsset.checkedAsset
+                                      ? colors.black
+                                      : colors.blue,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   height: 1.1,

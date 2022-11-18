@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_preview_store.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -16,6 +18,7 @@ import 'package:simple_kit/modules/fields/standard_field/base/standard_field_err
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
 part 'withdrawal_confirm_store.g.dart';
@@ -31,6 +34,7 @@ class WithdrawalConfirmStore extends _WithdrawalConfirmStoreBase
 abstract class _WithdrawalConfirmStoreBase with Store {
   _WithdrawalConfirmStoreBase();
 
+  @observable
   TextEditingController controller = TextEditingController();
 
   WithdrawalModel? withdrawal;
@@ -66,6 +70,9 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   @observable
   String _verb = '';
 
+  @observable
+  bool isProcessing = false;
+
   static final _logger = Logger('WithdrawalConfirmStore');
 
   FocusNode focusNode = FocusNode();
@@ -87,6 +94,8 @@ abstract class _WithdrawalConfirmStoreBase with Store {
 
     if (operationId == _operationId) {
       controller.text = code;
+
+      verifyCode();
     } else {
       sNotification.showError(
         intl.showError_youHaveConfirmed,
@@ -136,19 +145,47 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         brand: 'simple',
       );
 
-      final _ = sNetwork
+      final resp = await sNetwork
           .getValidationModule()
           .postVerifyWithdrawalVerificationCode(model);
 
-      union = const WithdrawalConfirmUnion.input();
+      if (resp.hasError) {
+        _logger.log(stateFlow, 'verifyCode', resp.error);
 
-      sAnalytics.sendSuccess(type: 'By phone');
-      _showSuccessScreen();
+        union = WithdrawalConfirmUnion.error(resp.error);
+
+        _showFailureScreen();
+      } else {
+        union = const WithdrawalConfirmUnion.input();
+
+        sAnalytics.sendSuccess(type: 'By phone');
+
+        if (withdrawal!.currency != null) {
+          _showSuccessScreen();
+        } else {
+          await sRouter.push(
+            SuccessScreenRouter(
+              secondaryText: intl.nft_send_confirm,
+              showProgressBar: true,
+              onSuccess: (context) {
+                sRouter.replaceAll([
+                  const HomeRouter(
+                    children: [
+                      PortfolioRouter(),
+                    ],
+                  ),
+                ]);
+              },
+            ),
+          );
+        }
+      }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
       union = WithdrawalConfirmUnion.error(error.cause);
     } catch (error) {
+      print(error);
       _logger.log(stateFlow, 'verifyCode', error);
 
       union = WithdrawalConfirmUnion.error(error);

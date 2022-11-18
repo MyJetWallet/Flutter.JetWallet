@@ -5,8 +5,8 @@ import 'components/market_info_loader_stat.dart';
 
 class MarketInfoLoaderBlock extends StatelessWidget {
   const MarketInfoLoaderBlock({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

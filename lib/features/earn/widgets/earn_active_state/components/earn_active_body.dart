@@ -11,8 +11,8 @@ import 'earn_active_accordion.dart';
 
 class EarnActiveBody extends StatefulObserverWidget {
   const EarnActiveBody({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<EarnActiveBody> createState() => _EarnActiveBodyState();
@@ -25,7 +25,7 @@ class _EarnActiveBodyState extends State<EarnActiveBody> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final earnOffers = EarnOffersStore.of(context).earnOffers;
+    final earnOffers = EarnOffersStore.of(context).earnOffersFiltred;
     List<EarnOfferModel> filteredOffers = earnOffers;
 
     filteredOffers = filteredOffers

@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/widgets/bottom_tabs/bottom_tabs.dart';
 import 'package:jetwallet/widgets/bottom_tabs/components/bottom_tab.dart';
@@ -33,7 +33,7 @@ class TransactionHistory extends StatelessObserverWidget {
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
     return Scaffold(
-        body: DefaultTabController(
+      body: DefaultTabController(
         length: showCrypto ? 3 : 2,
         initialIndex: initialIndex,
         child: Scaffold(
@@ -68,10 +68,9 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body:
-                    Container(
+                    body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
-                        child: TransactionsMainList(
+                      child: TransactionsMainList(
                         scrollController: scrollController,
                         symbol: assetSymbol,
                       ),
@@ -103,8 +102,7 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body:
-                    Container(
+                    body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
                         scrollController: scrollController,
@@ -139,10 +137,9 @@ class TransactionHistory extends StatelessObserverWidget {
                         ),
                       ];
                     },
-                    body:
-                    Container(
+                    body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
-                        child: TransactionsMainList(
+                      child: TransactionsMainList(
                         scrollController: scrollController,
                         symbol: assetSymbol,
                         filter: TransactionType.nft,
@@ -178,10 +175,10 @@ class TransactionHistory extends StatelessObserverWidget {
     return assetName != null && assetSymbol != null
         ? '${intl.transactionHistory_history} $assetName ($assetSymbol)'
         : type == TransactionType.none
-          ? intl.transactionHistory_history
-          : type == TransactionType.crypto
-          ? intl.nft_history_crypto
-          : intl.nft_history_nft;
+            ? intl.transactionHistory_history
+            : type == TransactionType.crypto
+                ? intl.nft_history_crypto
+                : intl.nft_history_nft;
   }
 }
 

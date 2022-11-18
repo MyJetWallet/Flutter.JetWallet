@@ -27,7 +27,7 @@ void showNetworkBottomSheet(
             Navigator.of(context).pop();
           },
         ),
-      const SpaceH7(),
+      const SpaceH24(),
     ],
   );
 }

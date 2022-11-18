@@ -4,8 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/currencies_service/currencies_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_checkbox.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_condition_menu.dart';
@@ -15,7 +14,7 @@ import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class DeleteProfile extends StatelessObserverWidget {
-  const DeleteProfile({Key? key}) : super(key: key);
+  const DeleteProfile({super.key});
 
   @override
   Widget build(BuildContext context) {

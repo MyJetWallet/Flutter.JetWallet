@@ -23,11 +23,11 @@ class CandleModel {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['open'] = open;
-    data['close'] = close;
-    data['high'] = high;
-    data['low'] = low;
-    data['date'] = date;
+    data['o'] = open;
+    data['c'] = close;
+    data['h'] = high;
+    data['l'] = low;
+    data['d'] = date;
     return data;
   }
 

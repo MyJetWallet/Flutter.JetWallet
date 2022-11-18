@@ -1,0 +1,1 @@
+enum RefreshTokenStatus { success, caught }

@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_modules.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
@@ -132,7 +132,6 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     _logger.log(notifier, 'withdrawNFT');
 
     loading = true;
-    isProcessing = true;
     loader.startLoading();
 
     final matic = currencyFrom(
@@ -144,7 +143,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
       nftCollectionID: withdrawal.nft?.symbol ?? '',
       nftObjectId: withdrawal.nft?.collectionId ?? '',
       network: withdrawal.nft?.blockchain ?? '',
-      nftFee:'${matic.withdrawalFeeSize(withdrawal.nft?.blockchain ?? '')}',
+      nftFee: '${matic.withdrawalFeeSize(withdrawal.nft?.blockchain ?? '')}',
     );
 
     try {
@@ -164,25 +163,30 @@ abstract class _WithdrawalPreviewStoreBase with Store {
             nftCollectionID: withdrawal.nft?.symbol ?? '',
             nftObjectId: withdrawal.nft?.collectionId ?? '',
             network: withdrawal.nft?.blockchain ?? '',
-            nftFee:'${matic.withdrawalFeeSize(
-              withdrawal.nft?.blockchain?? '',
+            nftFee: '${matic.withdrawalFeeSize(
+              withdrawal.nft?.blockchain ?? '',
             )}',
           );
-          sRouter.push(
-            SuccessScreenRouter(
-              secondaryText: intl.nft_send_confirm,
-              showProgressBar: true,
-              onSuccess: (context) {
-                sRouter.replaceAll([
-                  const HomeRouter(
-                    children: [
-                      PortfolioRouter(),
-                    ],
-                  ),
-                ]);
-              },
-            ),
-          );
+
+          /*
+            sRouter.push(
+              SuccessScreenRouter(
+                secondaryText: intl.nft_send_confirm,
+                showProgressBar: true,
+                onSuccess: (context) {
+                  sRouter.replaceAll([
+                    const HomeRouter(
+                      children: [
+                        PortfolioRouter(),
+                      ],
+                    ),
+                  ]);
+                },
+              ),
+            );
+          */
+
+          _showWithdrawConfirm();
         },
         onError: (error) {
           _logger.log(stateFlow, 'withdraw', error.cause);
@@ -201,7 +205,6 @@ abstract class _WithdrawalPreviewStoreBase with Store {
     }
 
     loading = false;
-    isProcessing = false;
     loader.finishLoadingImmediately();
   }
 

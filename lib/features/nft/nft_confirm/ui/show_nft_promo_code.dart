@@ -65,8 +65,6 @@ class _PromoCodeBody extends StatelessObserverWidget {
                 labelText: intl.nft_promo_code,
                 controller: getIt.get<NFTPromoCodeStore>().promoCodeController,
                 onChanged: (value) {
-                  sAnalytics.nftPromoEnterPromo();
-
                   getIt.get<NFTPromoCodeStore>().updatePromoCode(
                         value,
                       );
@@ -173,11 +171,9 @@ class _PromoCodeBottom extends StatelessObserverWidget {
                 getIt.get<NFTPromoCodeStore>().discount != null,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
-              if (getIt.get<NFTPromoCodeStore>().promoCode != null) {
-                sAnalytics.nftPromoContinuePromo(
-                  promoCode: getIt.get<NFTPromoCodeStore>().promoCode ?? '',
-                );
-              }
+              sAnalytics.nftPromoContinuePromo(
+                promoCode: getIt.get<NFTPromoCodeStore>().promoCode ?? '',
+              );
 
               getIt.get<NFTPromoCodeStore>().setSaved(true);
 

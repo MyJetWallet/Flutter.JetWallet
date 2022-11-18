@@ -32,14 +32,14 @@ class ForceServiceUpdate {
   }
 
   void showForceUpdateAlert() {
-    sShowAlertPopup(
-      sRouter.navigatorKey.currentContext!,
-      willPopScope: false,
-      primaryText: '${intl.update_timeToUpdate}!',
-      secondaryText: intl.update_downloadTheLatestVersion,
-      primaryButtonName: intl.update_update,
-      onPrimaryButtonTap: () => _storeRedirect(),
-    );
+    // sShowAlertPopup(
+    //   sRouter.navigatorKey.currentContext!,
+    //   willPopScope: false,
+    //   primaryText: '${intl.update_timeToUpdate}!',
+    //   secondaryText: intl.update_downloadTheLatestVersion,
+    //   primaryButtonName: intl.update_update,
+    //   onPrimaryButtonTap: () => _storeRedirect(),
+    // );
   }
 
   void showRecommendedUpdateAlert() {
