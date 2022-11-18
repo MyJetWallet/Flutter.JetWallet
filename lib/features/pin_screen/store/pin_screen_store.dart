@@ -270,7 +270,11 @@ abstract class _PinScreenStoreBase with Store {
           );
         },
         onError: (ServerRejectException error) async {
+          print(error);
+
           if (error.cause == 'InvalidCode') {
+            print('invalid code');
+
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');
@@ -301,6 +305,8 @@ abstract class _PinScreenStoreBase with Store {
               'you have been logged out of your account.',
               duration: 5,
             );
+
+            await getIt.get<LogoutService>().logout();
           }
         },
       );

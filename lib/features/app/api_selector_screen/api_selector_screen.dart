@@ -39,10 +39,13 @@ class ApiSelectorScreen extends StatelessObserverWidget {
                 children: [
                   const SErrorIcon(),
                   const SpaceW10(),
-                  Text(
-                    intl.apiSelector_justSkip,
-                    style: sBodyText2Style.copyWith(
-                      color: Colors.red,
+                  Flexible(
+                    child: Text(
+                      intl.apiSelector_justSkip,
+                      maxLines: 3,
+                      style: sBodyText2Style.copyWith(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ],
