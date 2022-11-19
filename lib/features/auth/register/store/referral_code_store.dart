@@ -74,6 +74,7 @@ abstract class _ReferallCodeStoreBase with Store {
     if (refCode != null) {
       referralCode = refCode;
       referralCodeValidation = const Loading();
+      referralCodeController.text = refCode;
 
       await _validateReferralCode(refCode, null);
     }
