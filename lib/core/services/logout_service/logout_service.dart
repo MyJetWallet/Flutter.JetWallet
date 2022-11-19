@@ -93,6 +93,9 @@ abstract class _LogoutServiceBase with Store {
       await getIt<LocalCacheService>().clearAllCache();
 
       await sRouter.replaceAll([const AppInitRoute()]);
+
+      await getIt<AppStore>().checkInitRouter();
+      await getIt<AppStore>().getAuthStatus();
     }
   }
 
