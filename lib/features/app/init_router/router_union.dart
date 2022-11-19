@@ -15,4 +15,5 @@ class RouterUnion with _$RouterUnion {
   const factory RouterUnion.unauthorized() = Unauthorized;
   const factory RouterUnion.apiSelector() = ApiSelector;
   const factory RouterUnion.crisp() = Crisp;
+  const factory RouterUnion.appUpdate() = AppUpdate;
 }

@@ -131,10 +131,6 @@ class StartupService {
         () async => ProfileGetUserCountry().init(),
       );
 
-      getIt.registerSingletonAsync<ForceServiceUpdate>(
-        () async => ForceServiceUpdate().init(),
-      );
-
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 

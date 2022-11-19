@@ -12,6 +12,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -57,6 +58,14 @@ abstract class _AppStoreBase with Store {
         }
 
         return;
+      }
+
+      if (!skipVersionCheck) {
+        if (await getIt<ForceServiceUpdate>().init()) {
+          initRouter = const RouterUnion.appUpdate();
+
+          return;
+        }
       }
 
       authStatus.when(
@@ -165,6 +174,11 @@ abstract class _AppStoreBase with Store {
   int homeTab = 0;
   @action
   void setHomeTab(int value) => homeTab = value;
+
+  @observable
+  bool skipVersionCheck = false;
+  @action
+  bool setSkipVersionCheck(bool value) => skipVersionCheck = value;
 
   @observable
   TabController? marketController;

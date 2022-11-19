@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/account/crisp/crisp.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/features/auth/biometric/ui/biometric.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
+import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
@@ -31,7 +33,15 @@ class AppInitRouter extends StatelessObserverWidget {
 
     return appStore.initRouter.when(
       loading: () {
-        return const SplashScreen();
+        return const SplashScreenNoAnimation();
+      },
+      appUpdate: () {
+        getIt<ForceServiceUpdate>().init(
+          context: context,
+          showPopup: true,
+        );
+
+        return const SplashScreenNoAnimation();
       },
       apiSelector: () {
         return const ApiSelectorScreen();
@@ -46,18 +56,22 @@ class AppInitRouter extends StatelessObserverWidget {
         return const Biometric();
       },
       twoFaVerification: () {
-        if (sUserInfo.userInfo.hasDisclaimers) {
-          getIt<DisclaimerStore>().init();
-        }
+        /*
+          if (sUserInfo.userInfo.hasDisclaimers) {
+            getIt<DisclaimerStore>().init();
+          }
+        */
 
         return const TwoFaPhone(
           trigger: TwoFaPhoneTriggerUnion.startup(),
         );
       },
       pinSetup: () {
-        if (sUserInfo.userInfo.hasDisclaimers) {
-          getIt<DisclaimerStore>().init();
-        }
+        /*
+          if (sUserInfo.userInfo.hasDisclaimers) {
+            getIt<DisclaimerStore>().init();
+          }
+        */
 
         return const PinScreen(
           union: Setup(),
@@ -65,9 +79,11 @@ class AppInitRouter extends StatelessObserverWidget {
         );
       },
       pinVerification: () {
-        if (sUserInfo.userInfo.hasDisclaimers) {
-          getIt<DisclaimerStore>().init();
-        }
+        /*
+          if (sUserInfo.userInfo.hasDisclaimers) {
+            getIt<DisclaimerStore>().init();
+          }
+        */
 
         return const PinScreen(
           union: Verification(),
@@ -76,9 +92,11 @@ class AppInitRouter extends StatelessObserverWidget {
         );
       },
       home: () {
-        if (sUserInfo.userInfo.hasDisclaimers) {
-          getIt<DisclaimerStore>().init();
-        }
+        /*
+          if (sUserInfo.userInfo.hasDisclaimers) {
+            getIt<DisclaimerStore>().init();
+          }
+        */
 
         getIt.get<AppStore>().initSessionInfo();
 
@@ -94,7 +112,7 @@ class AppInitRouter extends StatelessObserverWidget {
           ),
         ]);
 
-        return const SplashScreen();
+        return const SplashScreenNoAnimation();
       },
       unauthorized: () {
         return const OnboardingScreen();
