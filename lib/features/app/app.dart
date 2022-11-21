@@ -44,7 +44,7 @@ class _AppScreenState extends State<AppScreen> {
 
       getIt.registerSingletonWithDependencies<DynamicLinkService>(
         () => DynamicLinkService()..initDynamicLinks(),
-        dependsOn: [DeviceInfo, DeepLinkService],
+        dependsOn: [DeviceInfo],
         signalsReady: false,
       );
 
