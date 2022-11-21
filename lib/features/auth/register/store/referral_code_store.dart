@@ -113,10 +113,12 @@ abstract class _ReferallCodeStoreBase with Store {
   }
 
   @action
-  void resetBottomSheetReferralCodeValidation() {
+  void resetBottomSheetReferralCodeValidation({ bool isOpening = false }) {
+    if (!isOpening || isInputError) {
+      referralCodeController.text = '';
+    }
     bottomSheetReferralCodeValidation = const Input();
     isInputError = false;
-    referralCodeController.text = '';
   }
 
   @action

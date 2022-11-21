@@ -50,14 +50,14 @@ abstract class _NFTPromoCodeStoreBase with Store {
     discount = null;
     promoStatus = const NftPromoCodeUnion.input();
     isInputError = false;
-    promoCodeController.text = '';
+    promoCodeController..text = '';
 
     saved = false;
 
     final promoCodeStorage = await sLocalStorageService.getValue(nftPromoCode);
 
     if (promoCodeStorage != null) {
-      promoCodeController.text = promoCodeStorage;
+      promoCodeController = TextEditingController()..text = promoCodeStorage;
       _moveCursorAtTheEnd();
 
       await validatePromoCode(promoCodeStorage, isInit: true);
