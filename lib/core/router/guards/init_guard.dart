@@ -27,8 +27,10 @@ class InitGuard extends AutoRouteGuard {
   ) async {
     if (!getIt<RouteQueryService>().isNavigate) {
       getIt<RouteQueryService>().runQuery();
+
+      resolver.next();
     } else {
-      resolver.next(true);
+      resolver.next();
     }
 
     /*
