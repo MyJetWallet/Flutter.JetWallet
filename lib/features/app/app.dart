@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/logs/log_record_service.dart';
@@ -43,7 +44,7 @@ class _AppScreenState extends State<AppScreen> {
 
       getIt.registerSingletonWithDependencies<DynamicLinkService>(
         () => DynamicLinkService()..initDynamicLinks(),
-        dependsOn: [DeviceInfo],
+        dependsOn: [DeviceInfo, DeepLinkService],
         signalsReady: false,
       );
 

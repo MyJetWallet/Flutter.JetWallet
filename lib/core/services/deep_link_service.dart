@@ -104,8 +104,6 @@ class DeepLinkService {
 
     final command = parameters[_command];
 
-    print(command);
-
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
