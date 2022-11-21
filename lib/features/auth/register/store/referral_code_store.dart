@@ -195,6 +195,7 @@ abstract class _ReferallCodeStoreBase with Store {
 
           if (bottomSheetReferralCodeValidation is Valid &&
               (jwCode != null || code.isNotEmpty)) {
+            isInputError = false;
             referralCodeController.text = shortCode!;
           }
 
