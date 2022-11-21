@@ -1194,15 +1194,15 @@
     "nft_promo_invalid": "",
     "cpower_market_value_invetors": "Wartość dla inwestorów\n",
     "cpower_market_value_text_1": "Jedną wielką zaletą tokena CPower jest to, że jego cena opiera się na rosnącym biznesie, nie na czystej spekulacji, podobnie jak większość tokenów. Powoduje to poważne zalety dla inwestorów:",
-    "cpower_market_value_text_2": "",
-    "cpower_market_value_text_3": "",
-    "cpower_market_value_text_4": "",
-    "cpower_market_value_crypto": "",
+    "cpower_market_value_text_2": "Istnieje uczciwa cena, określona przez prawdziwe wskaźniki biznesowe.",
+    "cpower_market_value_text_3": "Cena jest chroniona przez system handlowy (brak możliwych „zrzutów ceny”).",
+    "cpower_market_value_text_4": "Cena jest ustalana do wolumenu obrotu NFT (ciągły wzrost).",
+    "cpower_market_value_crypto": "Wartość dla ambasadorów kryptograficznych",
     "cpower_market_crypto_text_1": "Drogi ambasador, zwiększ moc swoich kryptowalut, trzymając ten token, a dostaniesz:",
     "cpower_market_crypto_text_2": "Wyższe zarobki",
-    "cpower_market_crypto_text_3": "",
+    "cpower_market_crypto_text_3": "Większe zespoły",
     "cpower_market_crypto_text_4": "Lepsze ceny",
     "cpower_market_crypto_text_5": "Lepsze tokeny",
     "cpower_market_crypto_text_6": "Ulepszone członkostwo",
-    "cpower_market_crypto_text_7": ""
+    "cpower_market_crypto_text_7": "Pozwól, aby ten token cię zasilał!"
 }

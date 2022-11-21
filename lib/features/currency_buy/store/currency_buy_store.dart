@@ -366,41 +366,35 @@ abstract class _CurrencyBuyStoreBase with Store {
       if (currencyModel.supportsAtLeastOneBuyMethod &&
           currencyModel.buyMethods.length == 1) {
         if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.circleCard) {
-          if (circleCards.isNotEmpty) {
-            final circleCardsLast = circleCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (circleCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(circleCardsLast.last);
-            }
-
-            return updateSelectedCircleCard(circleCards.last);
+            PaymentMethodType.circleCard && circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
           }
+
+          return updateSelectedCircleCard(circleCards.last);
         } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.unlimintCard) {
-          if (unlimintCards.isNotEmpty) {
-            final unlimintCardsLast = unlimintCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedUnlimintCard(unlimintCardsLast.last);
-            }
-
-            return updateSelectedUnlimintCard(unlimintCards.last);
+            PaymentMethodType.unlimintCard && unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
           }
+
+          return updateSelectedUnlimintCard(unlimintCards.last);
         } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.bankCard) {
-          if (unlimintAltCards.isNotEmpty) {
-            final unlimintCardsLast = unlimintAltCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedAltUnlimintCard(unlimintCardsLast.last);
-            }
-
-            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
+            PaymentMethodType.bankCard && unlimintAltCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintAltCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintCardsLast.last);
           }
+
+          return updateSelectedAltUnlimintCard(unlimintAltCards.last);
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
         }
@@ -517,41 +511,35 @@ abstract class _CurrencyBuyStoreBase with Store {
       if (currencyModel.supportsAtLeastOneBuyMethod &&
           currencyModel.buyMethods.length == 1) {
         if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.circleCard) {
-          if (circleCards.isNotEmpty) {
-            final circleCardsLast = circleCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (circleCardsLast.isNotEmpty) {
-              return updateSelectedCircleCard(circleCardsLast.last);
-            }
-
-            return updateSelectedCircleCard(circleCards.last);
+            PaymentMethodType.circleCard && circleCards.isNotEmpty) {
+          final circleCardsLast = circleCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (circleCardsLast.isNotEmpty) {
+            return updateSelectedCircleCard(circleCardsLast.last);
           }
+
+          return updateSelectedCircleCard(circleCards.last);
         } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.unlimintCard) {
-          if (unlimintCards.isNotEmpty) {
-            final unlimintCardsLast = unlimintCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (unlimintCardsLast.isNotEmpty) {
-              return updateSelectedUnlimintCard(unlimintCardsLast.last);
-            }
-
-            return updateSelectedUnlimintCard(unlimintCards.last);
+            PaymentMethodType.unlimintCard && unlimintCards.isNotEmpty) {
+          final unlimintCardsLast = unlimintCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (unlimintCardsLast.isNotEmpty) {
+            return updateSelectedUnlimintCard(unlimintCardsLast.last);
           }
+
+          return updateSelectedUnlimintCard(unlimintCards.last);
         } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.bankCard) {
-          if (unlimintAltCards.isNotEmpty) {
-            final unlimintAltCardsLast = unlimintAltCards.where(
-              (element) => element.id == lastCardId,
-            );
-            if (unlimintAltCardsLast.isNotEmpty) {
-              return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
-            }
-
-            return updateSelectedAltUnlimintCard(unlimintAltCards.last);
+            PaymentMethodType.bankCard && unlimintAltCards.isNotEmpty) {
+          final unlimintAltCardsLast = unlimintAltCards.where(
+            (element) => element.id == lastCardId,
+          );
+          if (unlimintAltCardsLast.isNotEmpty) {
+            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
           }
+
+          return updateSelectedAltUnlimintCard(unlimintAltCards.last);
         } else {
           return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
         }

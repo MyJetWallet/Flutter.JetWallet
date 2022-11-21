@@ -47,7 +47,9 @@ class _ReferralCodeState extends State<ReferralCode> {
     return SPaddingH24(
       child: GestureDetector(
         onTap: () {
-          referallStore.resetBottomSheetReferralCodeValidation();
+          referallStore.resetBottomSheetReferralCodeValidation(
+            isOpening: true,
+          );
           showReferralCode(context);
         },
         child: Column(
