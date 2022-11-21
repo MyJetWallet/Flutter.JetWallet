@@ -187,7 +187,7 @@ final sRouter = getIt.get<AppRouter>();
     ),
     AutoRoute(
       // initial: true,
-      // guards: [InitGuard],
+      guards: [InitGuard],
       path: '/home',
       name: 'HomeRouter',
       page: HomeScreen,
@@ -603,6 +603,6 @@ final sRouter = getIt.get<AppRouter>();
   ],
 )
 class AppRouter extends _$AppRouter {
-  AppRouter();
-  //AppRouter({required super.initGuard});
+  //AppRouter();
+  AppRouter({required super.initGuard});
 }

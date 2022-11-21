@@ -13,7 +13,12 @@
 part of 'app_router.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+  _$AppRouter({
+    GlobalKey<NavigatorState>? navigatorKey,
+    required this.initGuard,
+  }) : super(navigatorKey);
+
+  final InitGuard initGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
@@ -945,6 +950,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           HomeRouter.name,
           path: '/home',
+          guards: [initGuard],
           children: [
             RouteConfig(
               MarketRouter.name,

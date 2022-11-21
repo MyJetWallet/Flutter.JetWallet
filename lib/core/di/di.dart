@@ -92,8 +92,7 @@ Future<GetIt> getItInit({
   _logger.log(stateFlow, 'SimpleAnalytics LOADED');
 
   getIt.registerSingleton<AppRouter>(
-    AppRouter(),
-    //AppRouter(initGuard: InitGuard()),
+    AppRouter(initGuard: InitGuard()),
   );
 
   _logger.log(stateFlow, 'AppRouter LOADED');

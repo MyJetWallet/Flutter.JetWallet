@@ -25,6 +25,13 @@ class InitGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
+    if (!getIt<RouteQueryService>().isNavigate) {
+      getIt<RouteQueryService>().runQuery();
+    } else {
+      resolver.next(true);
+    }
+
+    /*
     final appStore = getIt.get<AppStore>();
     final flavor = flavorService();
 
@@ -159,5 +166,6 @@ class InitGuard extends AutoRouteGuard {
         SplashRoute(),
       );
     }
+    */
   }
 }
