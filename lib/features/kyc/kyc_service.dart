@@ -21,15 +21,13 @@ abstract class _KycServiceBase with Store {
   List<KycDocumentType> get requiredDocuments {
     final documents = <KycDocumentType>[];
 
-    final reqDocs = sSignalRModules.clientDetail.requiredDocuments.toList();
+    var reqDocs = sSignalRModules.clientDetail.requiredDocuments.toList();
 
-    if (sSignalRModules.clientDetail.requiredDocuments.isNotEmpty) {
+    if (reqDocs.isNotEmpty) {
       final sorted = reqDocs.toList();
       sorted.sort((a, b) => a.compareTo(b));
 
-      sSignalRModules.clientDetail.copyWith(
-        requiredDocuments: sorted,
-      );
+      reqDocs = sorted;
 
       for (final document in reqDocs) {
         documents.add(kycDocumentType(document));
