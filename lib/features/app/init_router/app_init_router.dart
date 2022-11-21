@@ -100,9 +100,9 @@ class AppInitRouter extends StatelessObserverWidget {
 
         getIt.get<AppStore>().initSessionInfo();
 
-        if (!getIt<RouteQueryService>().isNavigate) {
-          getIt<RouteQueryService>().runQuery();
-        }
+        //if (!getIt<RouteQueryService>().isNavigate) {
+        // getIt<RouteQueryService>().runQuery();
+        //}
 
         sRouter.replaceAll([
           HomeRouter(
