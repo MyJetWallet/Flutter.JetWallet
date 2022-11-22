@@ -7,6 +7,7 @@ import 'package:charts/simple_chart.dart';
 
 /// The service is responsible for caching internal data in the application
 
+const String isFirstRunning = 'isFirstRunning';
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
 
@@ -17,6 +18,20 @@ class LocalCacheService {
     instance = await SharedPreferences.getInstance();
 
     return this;
+  }
+
+  ///
+
+  Future<bool> checkIsFirstRunning() async {
+    final val = instance.getBool(isFirstRunning);
+
+    if (val != true) {
+      await instance.setBool(isFirstRunning, true);
+
+      return true;
+    } else {
+      return false;
+    }
   }
 
   ///
