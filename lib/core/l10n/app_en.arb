@@ -1205,5 +1205,6 @@
   "cpower_market_crypto_text_4": "Better Prices",
   "cpower_market_crypto_text_5": "Better Tokens",
   "cpower_market_crypto_text_6": "Better Memberships",
-  "cpower_market_crypto_text_7": "Let this token power you up!"
+  "cpower_market_crypto_text_7": "Let this token power you up!",
+  "mailPicker_chooseMail": "Select an app"
 }
