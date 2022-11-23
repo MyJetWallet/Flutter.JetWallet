@@ -23,6 +23,7 @@ class SubscriptionsItem extends StatelessWidget {
   const SubscriptionsItem({
     super.key,
     this.days = 0,
+    this.onTap,
     required this.isHot,
     required this.earnOffer,
     required this.currency,
@@ -32,6 +33,7 @@ class SubscriptionsItem extends StatelessWidget {
   final int days;
   final EarnOfferModel earnOffer;
   final CurrencyModel currency;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,7 @@ class SubscriptionsItem extends StatelessWidget {
         isHot: isHot,
         earnOffer: earnOffer,
         currency: currency,
+        onTap: onTap,
       ),
     );
   }
@@ -50,6 +53,7 @@ class SubscriptionsItem extends StatelessWidget {
 class _SubscriptionsItemBody extends StatelessObserverWidget {
   const _SubscriptionsItemBody({
     Key? key,
+    this.onTap,
     this.days = 0,
     required this.isHot,
     required this.earnOffer,
@@ -60,6 +64,7 @@ class _SubscriptionsItemBody extends StatelessObserverWidget {
   final int days;
   final EarnOfferModel earnOffer;
   final CurrencyModel currency;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -85,96 +90,100 @@ class _SubscriptionsItemBody extends StatelessObserverWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            sAnalytics.earnSelectOffer(
-              assetName: currency.description,
-              offerType: earnOffer.term,
-            );
-            if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
-              sShowEarnTermsAlertPopup(
-                context,
-                disclaimer as HighYieldDisclaimer,
-                willPopScope: false,
-                image: Image.asset(
-                  disclaimerAsset,
-                  width: 80,
-                  height: 80,
-                ),
-                primaryText: intl.earn_terms_title,
-                secondaryText: intl.earn_terms_description,
-                primaryButtonName: intl.earn_terms_continue,
-                onPrimaryButtonTap: () {
-                  disclaimer.sendAnswers(
-                    () {
-                      if (kyc.depositStatus ==
-                          kycOperationStatus(KycStatus.allowed)) {
-                        Navigator.pop(context);
-                        sRouter.push(
-                          HighYieldBuyRouter(
-                            currency: currency,
-                            earnOffer: earnOffer,
-                          ),
-                        );
-                      } else {
-                        Navigator.pop(context);
-                        handler.handle(
-                          status: kyc.depositStatus,
-                          isProgress: kyc.verificationInProgress,
-                          currentNavigate: () => SubscriptionsItem(
-                            days: days,
-                            isHot: isHot,
-                            earnOffer: earnOffer,
-                            currency: currency,
-                          ),
-                          requiredDocuments: kyc.requiredDocuments,
-                          requiredVerifications: kyc.requiredVerifications,
-                        );
-                      }
-                    },
-                  );
-                },
-                secondaryButtonName: intl.earn_terms_cancel,
-                child: EarnTermsCheckbox(
-                  firstText: intl.earn_terms_checkbox,
-                  privacyPolicyText: intl.earn_terms_link,
-                  isChecked: disclaimer.isCheckBoxActive(),
-                  onCheckboxTap: () {
-                    disclaimer.onCheckboxTap();
-                  },
-                  onPrivacyPolicyTap: () {
-                    sRouter.navigate(
-                      HelpCenterWebViewRouter(
-                        link: privacyEarnLink,
-                      ),
+            if (onTap != null) {
+              onTap!.call();
+            } else {
+              sAnalytics.earnSelectOffer(
+                assetName: currency.description,
+                offerType: earnOffer.term,
+              );
+              if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
+                sShowEarnTermsAlertPopup(
+                  context,
+                  disclaimer as HighYieldDisclaimer,
+                  willPopScope: false,
+                  image: Image.asset(
+                    disclaimerAsset,
+                    width: 80,
+                    height: 80,
+                  ),
+                  primaryText: intl.earn_terms_title,
+                  secondaryText: intl.earn_terms_description,
+                  primaryButtonName: intl.earn_terms_continue,
+                  onPrimaryButtonTap: () {
+                    disclaimer.sendAnswers(
+                          () {
+                        if (kyc.depositStatus ==
+                            kycOperationStatus(KycStatus.allowed)) {
+                          Navigator.pop(context);
+                          sRouter.push(
+                            HighYieldBuyRouter(
+                              currency: currency,
+                              earnOffer: earnOffer,
+                            ),
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          handler.handle(
+                            status: kyc.depositStatus,
+                            isProgress: kyc.verificationInProgress,
+                            currentNavigate: () => SubscriptionsItem(
+                              days: days,
+                              isHot: isHot,
+                              earnOffer: earnOffer,
+                              currency: currency,
+                            ),
+                            requiredDocuments: kyc.requiredDocuments,
+                            requiredVerifications: kyc.requiredVerifications,
+                          );
+                        }
+                      },
                     );
                   },
-                  colors: colors,
-                ),
-                onSecondaryButtonTap: () {
-                  disclaimer.disableCheckbox();
-                  Navigator.pop(context);
-                },
-              );
-            } else if (kyc.depositStatus ==
-                kycOperationStatus(KycStatus.allowed)) {
-              sRouter.navigate(
-                HighYieldBuyRouter(
-                  currency: currency,
-                  earnOffer: earnOffer,
-                ),
-              );
-            } else {
-              handler.handle(
-                status: kyc.depositStatus,
-                isProgress: kyc.verificationInProgress,
-                currentNavigate: () => SubscriptionsItem(
-                  days: days,
-                  isHot: isHot,
-                  earnOffer: earnOffer,
-                  currency: currency,
-                ),
-                requiredDocuments: kyc.requiredDocuments,
-                requiredVerifications: kyc.requiredVerifications,
-              );
+                  secondaryButtonName: intl.earn_terms_cancel,
+                  child: EarnTermsCheckbox(
+                    firstText: intl.earn_terms_checkbox,
+                    privacyPolicyText: intl.earn_terms_link,
+                    isChecked: disclaimer.isCheckBoxActive(),
+                    onCheckboxTap: () {
+                      disclaimer.onCheckboxTap();
+                    },
+                    onPrivacyPolicyTap: () {
+                      sRouter.navigate(
+                        HelpCenterWebViewRouter(
+                          link: privacyEarnLink,
+                        ),
+                      );
+                    },
+                    colors: colors,
+                  ),
+                  onSecondaryButtonTap: () {
+                    disclaimer.disableCheckbox();
+                    Navigator.pop(context);
+                  },
+                );
+              } else if (kyc.depositStatus ==
+                  kycOperationStatus(KycStatus.allowed)) {
+                sRouter.navigate(
+                  HighYieldBuyRouter(
+                    currency: currency,
+                    earnOffer: earnOffer,
+                  ),
+                );
+              } else {
+                handler.handle(
+                  status: kyc.depositStatus,
+                  isProgress: kyc.verificationInProgress,
+                  currentNavigate: () => SubscriptionsItem(
+                    days: days,
+                    isHot: isHot,
+                    earnOffer: earnOffer,
+                    currency: currency,
+                  ),
+                  requiredDocuments: kyc.requiredDocuments,
+                  requiredVerifications: kyc.requiredVerifications,
+                );
+              }
             }
           },
           child: Ink(

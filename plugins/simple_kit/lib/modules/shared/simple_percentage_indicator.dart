@@ -82,7 +82,7 @@ class SimplePercentageIndicator extends StatelessWidget {
         return Expanded(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: tiers[1].active ? colorTheme[1] : SColorsLight().grey5,
+              color: colorTheme[1],
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Row(
@@ -116,17 +116,13 @@ class SimplePercentageIndicator extends StatelessWidget {
                       left: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: tiers[1].active
-                          ? colorTheme[1]
-                          : SColorsLight().grey5,
+                      color: colorTheme[1],
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Text(
                       '${tiers[1].apy}%',
                       style: sSubtitle3Style.copyWith(
-                        color: tiers[1].active
-                            ? SColorsLight().white
-                            : SColorsLight().grey3,
+                        color: SColorsLight().white,
                       ),
                     ),
                   ),
@@ -139,7 +135,7 @@ class SimplePercentageIndicator extends StatelessWidget {
         return Expanded(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: tiers[2].active ? colorTheme[2] : SColorsLight().grey5,
+              color: colorTheme[2],
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Stack(
@@ -148,8 +144,7 @@ class SimplePercentageIndicator extends StatelessWidget {
                   height: 32,
                   width: 107,
                   decoration: BoxDecoration(
-                    color:
-                        tiers[1].active ? colorTheme[1] : SColorsLight().grey5,
+                    color: colorTheme[1],
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                 ),
@@ -183,17 +178,13 @@ class SimplePercentageIndicator extends StatelessWidget {
                         right: expanded ? 32 : 16,
                       ),
                       decoration: BoxDecoration(
-                        color: tiers[1].active
-                            ? colorTheme[1]
-                            : SColorsLight().grey5,
+                        color: colorTheme[1],
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Text(
                         ' ${tiers[1].apy}% ',
                         style: sSubtitle3Style.copyWith(
-                          color: tiers[1].active
-                              ? SColorsLight().white
-                              : SColorsLight().grey3,
+                          color: SColorsLight().white,
                         ),
                       ),
                     ),
@@ -206,17 +197,13 @@ class SimplePercentageIndicator extends StatelessWidget {
                           left: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: tiers[2].active
-                              ? colorTheme[2]
-                              : SColorsLight().grey5,
+                          color: colorTheme[2],
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                         child: Text(
                           ' ${tiers[2].apy}% ',
                           style: sSubtitle3Style.copyWith(
-                            color: tiers[2].active
-                                ? SColorsLight().white
-                                : SColorsLight().grey3,
+                            color: SColorsLight().white,
                           ),
                         ),
                       ),

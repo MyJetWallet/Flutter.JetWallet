@@ -19,6 +19,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 
+import '../../earn/widgets/earn_subscription/components/subscriptions_item.dart';
+import '../../earn/widgets/earn_subscription/earn_subscriptions.dart';
 import '../model/high_yield_buy_input.dart';
 import '../model/preview_high_yield_buy_input.dart';
 
@@ -243,13 +245,6 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
                 ),
               ),
             ),
-            SActionConfirmText(
-              name: intl.earn_buy_current_apy,
-              baseline: 34.0,
-              value: state.currentApy != null ? '${state.currentApy}%' : '',
-              minValueWidth: 50,
-              maxValueWidth: 50,
-            ),
           ],
           SActionConfirmText(
             name: topUp
@@ -281,11 +276,16 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
             ),
           ),
           SActionConfirmText(
-            name: topUp ? intl.earn_buy_top_up_apy : intl.earn_buy_your_apy,
+            name: intl.earn_buy_interest_per_day,
             baseline: topUp ? 34.0 : 25.0,
-            value: state.apy != null ? '${state.apy}%' : '',
-            minValueWidth: 50,
-            maxValueWidth: 50,
+            value: volumeFormat(
+              prefix: currency.prefixSymbol,
+              decimal: state.expectedDailyProfit ?? Decimal.zero,
+              accuracy: currency.accuracy,
+              symbol: currency.symbol,
+            ),
+            minValueWidth: 200,
+            maxValueWidth: 200,
           ),
           const SpaceH19(),
           Row(
@@ -358,21 +358,23 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
             ),
           ),
           const Spacer(),
-          SHighYieldPercentageDescription(
-            widgetSize: widgetSizeFrom(deviceSize),
-            apy: state.apy != null
-                ? '${state.apy}%'
-                : '${earnOffer.currentApy}%',
-            onTap: () {
-              final source = topUp ? 'Top up' : 'Subscription';
-              sAnalytics.earnProgressBar(source: source);
-              _showHowWeCountSheet(source);
-            },
-            tiers:
-                state.simpleTiers.isNotEmpty ? state.simpleTiers : defaultTiers,
-            hot: earnOffer.offerTag == 'Hot',
-            error: (state.error && state.simpleTiers.isNotEmpty) ||
-                state.updatingNow,
+          SPaddingH24(
+            child: SubscriptionsItem(
+              earnOffer: earnOffer,
+              currency: currency,
+              isHot: earnOffer.offerTag == 'Hot',
+              days: earnOffer.endDate == null
+                  ? 0
+                  : calcDifference(
+                firstDate: earnOffer.startDate,
+                lastDate: earnOffer.endDate!,
+              ),
+              onTap: () {
+                final source = topUp ? 'Top up' : 'Subscription';
+                sAnalytics.earnProgressBar(source: source);
+                _showHowWeCountSheet(source);
+              },
+            ),
           ),
           deviceSize.when(
             small: () => const Spacer(),
