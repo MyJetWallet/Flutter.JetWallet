@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/di/di.dart';
+import '../../core/services/local_storage_service.dart';
 import 'list_of_mail_apps.dart';
 import 'show_plain_snackbar.dart';
 
@@ -33,26 +35,25 @@ Future<void> openEmailApp(BuildContext context) async {
     }
   }
 
-  // Android: Will open mail app or show native picker.
-  // iOS: Will open mail app if single mail app found.
-  final result = await OpenMailApp.openMailApp();
+  final result = await OpenMailApp.getMailApps();
 
-  // If no mail apps found, show only one method
-  if (!result.didOpen && !result.canOpen) {
-    showMailAppsOptions(
-      context,
-      [],
-      defaultFunction,
-    );
+  final storageService = getIt.get<LocalStorageService>();
+  final lastMail = await storageService.getValue(lastUsedMail);
+  if (lastMail != null) {
+    final lastResult = result
+        .where((element) => element.name == lastMail)
+        .toList();
+    if (lastResult.isNotEmpty) {
+      await OpenMailApp.openSpecificMailApp(lastResult[0]);
+      Navigator.pop(context);
 
-    // iOS: if multiple mail apps found, show dialog to select.
-    // There is no native intent/default app system in iOS so
-    // you have to do it yourself.
-  } else if (!result.didOpen && result.canOpen) {
-    showMailAppsOptions(
-      context,
-      result.options,
-      defaultFunction,
-    );
+      return;
+    }
   }
+
+  showMailAppsOptions(
+    context,
+    result,
+    defaultFunction,
+  );
 }

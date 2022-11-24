@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../core/di/di.dart';
+import '../../core/services/local_storage_service.dart';
 import '../constants.dart';
 
 void showMailAppsOptions(
@@ -27,7 +28,7 @@ void showMailAppsOptions(
   );
 }
 
-class _MailOptions extends StatelessObserverWidget {
+class _MailOptions extends StatefulObserverWidget {
   const _MailOptions({
     Key? key,
     required this.apps,
@@ -38,60 +39,125 @@ class _MailOptions extends StatelessObserverWidget {
   final Function() defaultAction;
 
   @override
+  State<_MailOptions> createState() => _MailOptionsBodyState();
+}
+
+class _MailOptionsBodyState extends State<_MailOptions> with
+    WidgetsBindingObserver {
+  var checked = false;
+  late Widget icon;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Column(
-      children: [
-        MailItem(
-          icon: _iconFrom('Mail', colors),
-          name: 'Mail',
-          withDivider: apps.isNotEmpty,
-          onTap: () {
-            defaultAction.call();
-            Navigator.pop(context);
-          },
-        ),
-        for (final app in apps)
-          MailItem(
-            icon: _iconFrom(app.name, colors),
-            name: app.name,
-            withDivider: app != apps.last,
-            onTap: () {
-              OpenMailApp.openSpecificMailApp(app);
+    icon = checked
+        ? const SCheckboxSelectedIcon()
+        : const SCheckboxIcon();
 
-              Navigator.pop(context);
-            },
-          ),
-        const SpaceH40(),
-      ],
+
+    return Observer(
+        builder: (context) {
+          return Column(
+            children: [
+              for (final app in widget.apps)
+                MailItem(
+                  icon: _iconFrom(app.name, colors),
+                  name: app.name,
+                  withDivider: true,
+                  onTap: () async {
+                    if (checked) {
+                      final storageService = getIt.get<LocalStorageService>();
+                      await storageService.setString(
+                        lastUsedMail,
+                        app.name,
+                      );
+                    }
+                    await OpenMailApp.openSpecificMailApp(app);
+
+                    Navigator.pop(context);
+                  },
+                ),
+              Container(
+                padding: const EdgeInsets.all(22),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Observer(
+                      builder: (context) {
+                        print('==');
+                        print(icon);
+                        print(checked);
+                        print('===');
+
+                        return SIconButton(
+                          onTap: () {
+                            setState(() {
+                              checked = !checked;
+                            });
+                          },
+                          defaultIcon: icon,
+                          pressedIcon: icon,
+                        );
+                      },
+                    ),
+                    const SpaceW10(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SpaceH3(),
+                        Text(
+                          intl.mailPicker_rememberChosen,
+                          style: sCaptionTextStyle.copyWith(
+                            fontFamily: 'Gilroy',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SpaceH40(),
+            ],
+          );
+        },
     );
   }
 }
 
 Widget _iconFrom(String name, SimpleColors colors) {
-  print(name);
   switch (name) {
-    case 'googlegmail':
+    case 'Gmail':
       return Image.asset(
         gmailAsset,
         height: 40,
         width: 40,
       );
-    case 'ymail':
+    case 'Yahoo Mail':
       return Image.asset(
         yahooAsset,
         height: 40,
         width: 40,
       );
-    case 'readdle-spark':
+    case 'Spark':
       return Image.asset(
         sparkAsset,
         height: 40,
         width: 40,
       );
     default:
-      print('here');
       return Container(
         decoration:  BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
@@ -120,7 +186,6 @@ class MailItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(icon);
     final colors = sKit.colors;
     final mainColor = colors.black;
 
