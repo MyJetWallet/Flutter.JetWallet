@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
+import 'package:jetwallet/utils/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
+import 'package:simple_kit/modules/headers/simple_auth_header.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+class Biometric extends StatelessWidget {
+  const Biometric({
+    Key? key,
+    this.isAccSettings = false,
+  }) : super(key: key);
+
+  final bool isAccSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<BiometricStore>(
+      create: (context) => BiometricStore(),
+      builder: (context, child) => _BiometricBody(
+        isAccSettings: isAccSettings,
+      ),
+    );
+  }
+}
+
+class _BiometricBody extends StatelessObserverWidget {
+  const _BiometricBody({
+    Key? key,
+    this.isAccSettings = false,
+  }) : super(key: key);
+
+  final bool isAccSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+    final biometric = BiometricStore.of(context);
+    final size = MediaQuery.of(context).size;
+    final deviceInfo = sDeviceInfo.model;
+    final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
+        deviceInfo.marketingName.contains('iPhone 12') ||
+        deviceInfo.marketingName.contains('iPhone 13') ||
+        deviceInfo.marketingName.contains('iPhone 14') ||
+        deviceInfo.marketingName.contains('iPhone X') ||
+        deviceInfo.marketingName.contains('iPhone x');
+
+    late String headerText;
+    late String buttonText;
+    late String image;
+
+    return FutureBuilder<BiometricStatus>(
+      future: biometricStatus(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == BiometricStatus.face || iosLatest) {
+            headerText = intl.bio_screen_face_id_title;
+            buttonText = intl.bio_screen_face_id_button_text;
+            image = bioFaceId;
+          } else {
+            headerText = intl.bio_screen_touch_id_title;
+            buttonText = intl.bio_screen_touch_id_button_text;
+            image = bioTouchId;
+          }
+
+          return SPageFrame(
+            header: SAuthHeader(
+              customIconButton: const SpaceH10(),
+              title: headerText,
+            ),
+            child: SPaddingH24(
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Image.asset(
+                    image,
+                    height: size.width * 0.6,
+                  ),
+                  const Spacer(),
+                  Text(
+                    intl.bio_screen_text,
+                    maxLines: 2,
+                    style: sBodyText1Style.copyWith(
+                      color: colors.grey1,
+                    ),
+                  ),
+                  const SpaceH40(),
+                  SPrimaryButton4(
+                    active: true,
+                    name: buttonText,
+                    onTap: () async {
+                      final bioStatus = await biometricStatus();
+                      final storageService = sLocalStorageService;
+                      await storageService.setString(useBioKey, 'true');
+                      final userInfoN = getIt.get<UserInfoService>();
+                      await userInfoN.initBiometricStatus();
+                      print(bioStatus);
+                      if (bioStatus == BiometricStatus.none) {
+                        await getIt.get<AppRouter>().push(
+                          const AllowBiometricRoute(),
+                        );
+                      } else {
+                        biometric.useBio(
+                          useBio: true,
+                          isAccSettings: isAccSettings,
+                          context: context,
+                        );
+                      }
+                    },
+                  ),
+                  const SpaceH10(),
+                  STextButton1(
+                    active: true,
+                    name: intl.bio_screen_button_late_text,
+                    onTap: () async {
+                      if (isAccSettings) {
+                        Navigator.pop(context);
+                      } else {
+                        biometric.useBio(
+                          useBio: false,
+                          context: context,
+                        );
+                      }
+                    },
+                  ),
+                  const SpaceH24(),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+}
