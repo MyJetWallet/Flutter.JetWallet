@@ -43,9 +43,9 @@ const nftPromoCode = 'nftPromoCode';
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
 class LocalStorageService {
-  LocalStorageService() {
-    checkIsFirstRun();
-  }
+  //LocalStorageService() {
+  //checkIsFirstRun();
+  //}
 
   final _storage = const FlutterSecureStorage();
 
@@ -116,11 +116,11 @@ class LocalStorageService {
     await _storage.delete(key: 'cleared');
   }
 
-  Future<void> checkIsFirstRun() async {
+  /*Future<void> checkIsFirstRun() async {
     final val = await getIt<LocalCacheService>().checkIsFirstRunning();
 
     if (val) {
       await clearedChange();
     }
-  }
+  }*/
 }
