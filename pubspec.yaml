@@ -1,0 +1,203 @@
+name: jetwallet
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # TOOLKIT
+  cupertino_icons: ^1.0.4 # IOS icons
+  universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
+  url_launcher: ^6.1.6 # plugin for launching a URL
+  font_awesome_flutter: ^10.2.1 # The Font Awesome Icon pack (1500+ icons)
+  pin_code_fields: ^7.4.0 # Generate pin code fields
+  qr_flutter: ^4.0.0 # QR code rendering
+  grouped_list: ^5.1.2 # List with grouped items
+  # qr_code_scanner: ^0.7.0 # Scans QR code with camera
+  qr_code_scanner:
+    git:
+      url: https://github.com/xeinebiu/qr_code_scanner.git
+      ref: fix_break_changes_platform
+  local_auth: ^2.1.2 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
+  intl_phone_number_input: ^0.7.1 # phone number in international format that uses Google's libphonenumber
+  flutter_svg: ^1.1.6 # SVG rendering and widget library
+  contacts_service: ^0.6.3 # contacts fetching
+  rive: ^0.9.1 # rive animations
+  permission_handler: ^10.2.0 # permissions handling
+  percent_indicator: ^4.2.2 # Percent indicator
+  auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
+  smooth_page_indicator: ^1.0.0+2 # Animated PageView indicators
+  timeago: ^3.3.0 # Date converter
+  image_picker: ^0.8.4+4 # For selecting images from the Android and iOS image library
+  mime_type: ^1.0.0 # MIME type library for Dart HTTP server applications
+  decimal: ^2.3.0 # deal with decimal numbers without losing precision
+  store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
+  crisp: ^0.3.1 # Library for support chart and knowledge base
+  flutter_webview_pro: ^3.0.1+4 # provides a WebView widget on Android and iOS
+  appsflyer_sdk: ^6.8.2  # plugin for AppsFlyer SDK with Android and iOS support
+  credit_card_validator: ^2.0.1 # Credit card validation helpers
+  #facebook_app_events: # ^0.18.0
+  #  git:
+  #    url: https://github.com/Hwan-seok/flutter_facebook_app_events
+  #    ref: fix/build-failed
+  flutter_holo_date_picker: ^1.1.0
+  flutter_cache_manager: ^3.3.0
+  cached_network_image: ^3.2.2
+  photo_view: ^0.14.0
+  shared_preferences: ^2.0.15
+
+  # RESPONSIVE UI
+  device_preview: ^1.1.0
+  pixel_perfect: ^1.1.1 # Mock designs
+
+  # PLUS PLUGINS
+  # packages without '_plus' was made originally by flutter team are not supported anymore
+  # Docs: https://plus.fluttercommunity.dev/docs/overview
+  android_intent_plus: ^3.1.5 # plugin for launching Android Intents
+  package_info_plus: ^1.4.2 # querying information about the application package NEED UPDATE
+  share_plus: ^4.0.10 # sharing content via the platform share UI NEED UPDATE
+  device_info_plus: ^3.2.4 # providing detailed information about the device
+  connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
+  device_marketing_names: ^0.4.1
+  android_id: ^0.1.3+1
+  flutter_native_splash: ^2.2.14
+
+  # NETWORKING:
+  http: ^0.13.5
+  dio: ^4.0.6 # http client
+  pretty_dio_logger: ^1.1.1 # logger for dio
+  signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
+  json_annotation: ^4.7.0 # annotations used by json_serializable
+
+  # INTERNATIONALIZATION:
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+
+  # LOCAL SECURE STORAGE:
+  flutter_secure_storage: ^6.0.0
+
+  # STATE MANAGEMENT
+  data_channel: ^2.0.0+1
+  mobx: ^2.1.1
+  flutter_mobx: ^2.0.6+4
+
+  # SL
+  injectable: ^1.5.4
+  get_it: ^7.2.0
+  provider: ^6.0.4
+
+  # Routing
+  auto_route: ^5.0.2
+
+  # FIREBASE
+  firebase_core: 2.1.1
+  firebase_messaging: 14.0.4
+  firebase_dynamic_links: 5.0.4
+  firebase_crashlytics: 3.0.4
+  firebase_analytics: 10.0.4
+
+  # NOTIFICATIONS
+  flutter_local_notifications: ^12.0.3
+  onesignal_flutter: 3.4.1
+
+  # OTHER:
+  freezed_annotation: ^2.2.0 # Annotations for the freezed
+  mocktail: ^0.3.0 # mocking library with null-safety support
+  logging: ^1.1.0 # APIs for debugging and error logging
+  uuid: ^3.0.6 # UUID Generator and Parser
+  app_tracking_transparency: ^2.0.3
+  flutter_displaymode: ^0.4.1
+  syncfusion_flutter_pdfviewer: ^20.3.56
+
+  # CRYPTOGRAPHY:
+  rsa_encrypt: 2.0.0 # RSA encryption
+  pointycastle: 3.6.0 # supplementary to rsa_encrypt
+  openpgp: 3.3.0 # OpenPGP encryption
+  crypto: 3.0.2 # Implementations of SHA, MD5, and HMAC
+  encrypt: 5.0.1 # Encryption and decryption helpers
+
+  # OWN LIBS:
+  simple_kit:
+    path: plugins/simple_kit
+  simple_networking:
+    path: plugins/simple_networking
+  simple_analytics:
+    path: plugins/simple_analytics
+  charts:
+    path: plugins/simple_chart
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # RULES:
+  lint: ^1.10.0
+  dart_code_metrics: ^5.0.1
+
+  # AUTOGEN:
+  freezed: ^2.2.1 # generation for immutable classes that has a simple syntax/API
+  build_runner: ^2.1.11 # generating files using Dart code
+  json_serializable: ^6.5.4 # dart build system builders for handling JSON
+  injectable_generator: ^1.5.5
+  mobx_codegen: ^2.0.7+3
+  auto_route_generator: ^5.0.2
+
+dependency_overrides:
+  analyzer: 4.6.0
+  dart_style: ^2.2.3
+  build_resolvers: 2.0.9
+  flutter_inappwebview: ^5.7.1
+
+flutter_native_splash:
+  background_image: "assets/images/bg.png"
+  image: "assets/images/bg.png"
+
+  web: false
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  fonts:
+    - family: Gilroy
+      fonts:
+        - asset: assets/fonts/Gilroy-Thin.otf
+          weight: 100
+
+        - asset: assets/fonts/Gilroy-UltraLight.otf
+          weight: 200
+
+        - asset: assets/fonts/Gilroy-Light.otf
+          weight: 300
+
+        - asset: assets/fonts/Gilroy-Regular.otf
+          weight: 400
+
+        - asset: assets/fonts/Gilroy-Medium.otf
+          weight: 500
+
+        - asset: assets/fonts/Gilroy-SemiBold.otf
+          weight: 600
+
+        - asset: assets/fonts/Gilroy-Bold.otf
+          weight: 700
+
+        - asset: assets/fonts/Gilroy-ExtraBold.otf
+          weight: 800
+
+        - asset: assets/fonts/Gilroy-Black.otf
+          weight: 900
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/animations/
+    - assets/flags/
