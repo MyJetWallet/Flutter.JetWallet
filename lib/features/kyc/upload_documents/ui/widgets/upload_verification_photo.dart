@@ -27,8 +27,7 @@ class UploadVerificationPhoto extends StatelessWidget {
     this.isSelfie = false,
     required this.cardId,
     required this.onSuccess,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   final bool isSelfie;
   final String cardId;
@@ -38,12 +37,11 @@ class UploadVerificationPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<UploadKycDocumentsStore>(
       create: (context) => UploadKycDocumentsStore(),
-      builder: (context, child) =>
-        _UploadVerificationPhotoBody(
-          isSelfie: isSelfie,
-          cardId: cardId,
-          onSuccess: onSuccess,
-        ),
+      builder: (context, child) => _UploadVerificationPhotoBody(
+        isSelfie: isSelfie,
+        cardId: cardId,
+        onSuccess: onSuccess,
+      ),
     );
   }
 }
@@ -54,8 +52,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
     required this.isSelfie,
     required this.cardId,
     required this.onSuccess,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   final bool isSelfie;
   final String cardId;
@@ -134,20 +131,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                           ],
                         ),
                       ),
-                      const SpaceH20(),
-                      SPaddingH24(
-                        child: Row(
-                          children: [
-                            Text(
-                              intl.cardVerification_coveredDigits,
-                              maxLines: 2,
-                              style: sBodyText1Style.copyWith(
-                                color: colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       const SpaceH32(),
                       DocumentPageView(
                         pageController: store.pageViewController,
@@ -156,6 +139,23 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                         },
                         itemCount: 1,
                         banners: banners,
+                      ),
+                      const SpaceH32(),
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                intl.cardVerification_coverSymbols,
+                                maxLines: 5,
+                                style: sBodyText1Style.copyWith(
+                                  color: colors.grey1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       const SpaceH10(),
@@ -264,7 +264,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                     await sRouter.push(
                       AllowCameraRoute(
                         permissionDescription:
-                        '${intl.chooseDocuments_permissionDescriptionText1} '
+                            '${intl.chooseDocuments_permissionDescriptionText1} '
                             '${intl.chooseDocument_camera}',
                         then: () async {
                           Navigator.pop(context);
