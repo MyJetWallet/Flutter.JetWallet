@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // KEYS
 const refreshTokenKey = 'refreshToken';
@@ -42,6 +44,10 @@ const lastUsedMail = 'lastUsedMail';
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
 class LocalStorageService {
+  //LocalStorageService() {
+  //checkIsFirstRun();
+  //}
+
   final _storage = const FlutterSecureStorage();
 
   Future<String?> getValue(String key) async {
@@ -110,4 +116,12 @@ class LocalStorageService {
   Future<void> clearedChange() async {
     await _storage.delete(key: 'cleared');
   }
+
+  /*Future<void> checkIsFirstRun() async {
+    final val = await getIt<LocalCacheService>().checkIsFirstRunning();
+
+    if (val) {
+      await clearedChange();
+    }
+  }*/
 }
