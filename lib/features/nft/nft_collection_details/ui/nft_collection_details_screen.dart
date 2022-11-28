@@ -95,14 +95,10 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                             MediaQuery.of(context).padding.top + kToolbarHeight
                         ? 1.0
                         : 0.0,
-                    child: Baseline(
-                      baseline: 24,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        store.nftModel!.name ?? '',
-                        style: sTextH5Style.copyWith(
-                          color: colors.black,
-                        ),
+                    child: Text(
+                      store.nftModel!.name ?? '',
+                      style: sTextH5Style.copyWith(
+                        color: colors.black,
                       ),
                     ),
                   ),
@@ -156,56 +152,36 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SpaceH25(),
-                  Baseline(
-                    baseline: 41,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      store.nftModel!.name ?? '',
-                      maxLines: 3,
-                      style: sTextH2Style,
-                    ),
+                  Text(
+                    store.nftModel!.name ?? '',
+                    maxLines: 3,
+                    style: sTextH2Style,
                   ),
                   if (store.nftModel!.description != null &&
                       store.nftModel!.description!.isNotEmpty) ...[
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Baseline(
-                      baseline: 24,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        store.nftModel!.description ?? '',
-                        maxLines: 10,
-                        style: sBodyText1Style,
-                      ),
+                    const SpaceH20(),
+                    Text(
+                      store.nftModel!.description ?? '',
+                      maxLines: 10,
+                      style: sBodyText1Style,
                     ),
                   ],
-                  const SizedBox(
-                    height: 18,
-                  ),
+                  const SpaceH18(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Baseline(
-                            baseline: 21,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              intl.nft_collection_details_items,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey1,
-                              ),
+                          Text(
+                            intl.nft_collection_details_items,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
                             ),
                           ),
-                          Baseline(
-                            baseline: 24,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              '${store.nftModel!.nftList.length}',
-                              style: sBodyText1Style,
-                            ),
+                          Text(
+                            '${store.nftModel!.nftList.length}',
+                            style: sBodyText1Style,
                           ),
                         ],
                       ),
@@ -215,23 +191,15 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Baseline(
-                            baseline: 21,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              intl.nft_collection_details_owners,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey1,
-                              ),
+                          Text(
+                            intl.nft_collection_details_owners,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
                             ),
                           ),
-                          Baseline(
-                            baseline: 24,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              store.nftModel!.ownerCount!.toString(),
-                              style: sBodyText1Style,
-                            ),
+                          Text(
+                            store.nftModel!.ownerCount!.toString(),
+                            style: sBodyText1Style,
                           ),
                         ],
                       ),
@@ -246,30 +214,22 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Baseline(
-                            baseline: 21,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              intl.nft_collection_details_total_volume,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey1,
-                              ),
+                          Text(
+                            intl.nft_collection_details_total_volume,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
                             ),
                           ),
-                          Baseline(
-                            baseline: 24,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              //nft.totalVolumeUsd!.toString(),
-                              marketFormat(
-                                prefix: '\$',
-                                onlyFullPart: true,
-                                decimal: store.nftModel!.totalVolumeUsd!,
-                                accuracy: 2,
-                                symbol: '',
-                              ),
-                              style: sBodyText1Style,
+                          Text(
+                            //nft.totalVolumeUsd!.toString(),
+                            marketFormat(
+                              prefix: '\$',
+                              onlyFullPart: true,
+                              decimal: store.nftModel!.totalVolumeUsd!,
+                              accuracy: 2,
+                              symbol: '',
                             ),
+                            style: sBodyText1Style,
                           ),
                         ],
                       ),
@@ -279,28 +239,20 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Baseline(
-                            baseline: 21,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              intl.nft_collection_details_best_offer,
-                              style: sBodyText2Style.copyWith(
-                                color: colors.grey1,
-                              ),
+                          Text(
+                            intl.nft_collection_details_best_offer,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
                             ),
                           ),
-                          Baseline(
-                            baseline: 24,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              volumeFormat(
-                                decimal:
-                                    store.nftModel!.bestOffer ?? Decimal.zero,
-                                symbol: store.nftModel!.bestOfferAsset!,
-                                accuracy: currency.accuracy,
-                              ),
-                              style: sBodyText1Style,
+                          Text(
+                            volumeFormat(
+                              decimal:
+                                  store.nftModel!.bestOffer ?? Decimal.zero,
+                              symbol: store.nftModel!.bestOfferAsset!,
+                              accuracy: currency.accuracy,
                             ),
+                            style: sBodyText1Style,
                           ),
                         ],
                       ),
@@ -314,13 +266,9 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   if (store.availableNFTFiltred.isNotEmpty) ...[
                     Row(
                       children: [
-                        Baseline(
-                          baseline: 32,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            intl.nft_collection_details_best_available_nfts,
-                            style: sTextH4Style,
-                          ),
+                        Text(
+                          intl.nft_collection_details_best_available_nfts,
+                          style: sTextH4Style,
                         ),
                         const Spacer(),
                         SIconButton(
@@ -352,7 +300,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ],
                     ),
                     if (store.isAvailableHide) ...[
-                      const SpaceH12(),
+                      const SpaceH20(),
                       const SDivider(),
                     ],
                     const SpaceH32(),
@@ -435,13 +383,9 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   children: [
                     Row(
                       children: [
-                        Baseline(
-                          baseline: 32,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            intl.nft_collection_details_best_sold_nfts,
-                            style: sTextH4Style,
-                          ),
+                        Text(
+                          intl.nft_collection_details_best_sold_nfts,
+                          style: sTextH4Style,
                         ),
                         const Spacer(),
                         SIconButton(
@@ -474,14 +418,10 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ],
                     ),
                     if (store.isSoldHide) ...[
-                      const SizedBox(
-                        height: 12,
-                      ),
+                      const SpaceH20(),
                       const SDivider(),
                     ],
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    const SpaceH32(),
                   ],
                 ),
               ),
