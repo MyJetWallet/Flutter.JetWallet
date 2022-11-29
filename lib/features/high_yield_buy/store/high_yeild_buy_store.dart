@@ -120,6 +120,12 @@ abstract class _HighYeildBuyStoreBase with Store {
   Decimal? expectedYearlyProfitBaseAsset;
 
   @observable
+  Decimal? expectedDailyProfit;
+
+  @observable
+  Decimal? expectedDailyProfitBaseAsset;
+
+  @observable
   bool amountTooLarge = false;
 
   @observable
@@ -316,6 +322,8 @@ abstract class _HighYeildBuyStoreBase with Store {
           currentBalance = data.currentBalance;
           expectedYearlyProfit = data.expectedYearlyProfit;
           expectedYearlyProfitBaseAsset = data.expectedYearlyProfitBaseAsset;
+          expectedDailyProfit = data.expectedDailyProfit;
+          expectedDailyProfitBaseAsset = data.expectedDailyProfitBaseAsset;
           amountTooLarge = data.amountTooLarge;
           maxSubscribeAmount = data.maxSubscribeAmount;
           amountTooLow = data.amountTooLow;

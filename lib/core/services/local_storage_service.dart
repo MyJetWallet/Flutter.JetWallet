@@ -39,6 +39,7 @@ const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
 const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 const lastUsedCard = 'lastUsedCard';
 const nftPromoCode = 'nftPromoCode';
+const lastUsedMail = 'lastUsedMail';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
