@@ -179,6 +179,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                       : transactionListItem.assetPriceInUsd,
                   baseCurrency,
                   sSignalRModules.currenciesWithHiddenList,
+                  transactionInCurrent: catchingTypes,
                 ),
                 operationAmount(transactionListItem),
                 baseCurrency,
@@ -280,6 +281,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     Decimal assetPriceInUsd,
     BaseCurrencyModel baseCurrency,
     List<CurrencyModel> allCurrencies,
+    {
+      bool transactionInCurrent = false,
+    }
   ) {
     final baseCurrencyMain = currencyFromAll(
       allCurrencies,
@@ -291,7 +295,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       'USD',
     );
 
-    if (baseCurrency.symbol == 'USD') {
+    if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
       return assetPriceInUsd;
     }
 
