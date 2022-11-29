@@ -82,6 +82,12 @@ abstract class _PreviewHighYieldBuyStoreBase with Store {
   @observable
   Decimal? expectedYearlyProfitBase;
 
+  @observable
+  Decimal? expectedDailyProfit;
+
+  @observable
+  Decimal? expectedDailyProfitBase;
+
   void _updateFrom(PreviewHighYieldBuyInput input) {
     fromAssetAmount = Decimal.parse(input.amount);
     fromAssetSymbol = input.fromCurrency.symbol;
@@ -108,6 +114,8 @@ abstract class _PreviewHighYieldBuyStoreBase with Store {
           apy = data.apy;
           expectedYearlyProfit = data.expectedYearlyProfit;
           expectedYearlyProfitBase = data.expectedYearlyProfitBaseAsset;
+          expectedDailyProfit = data.expectedDailyProfit;
+          expectedDailyProfitBase = data.expectedDailyProfitBaseAsset;
           union = const PreviewHighYieldBuyUnion.quoteSuccess();
         },
         onError: (error) {
