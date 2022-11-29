@@ -87,7 +87,7 @@ abstract class _NFTPromoCodeStoreBase with Store {
       //bottomSheetReferralCodeValidation = const Input();
       promoStatus = const NftPromoCodeUnion.input();
 
-      resetBottomSheetPromoCodeValidation();
+      resetBottomSheetPromoCodeValidation(fullEmpty: true);
     }
 
     timer = 0;
@@ -203,10 +203,12 @@ abstract class _NFTPromoCodeStoreBase with Store {
   }
 
   @action
-  void resetBottomSheetPromoCodeValidation() {
+  void resetBottomSheetPromoCodeValidation({ bool fullEmpty = false}) {
     //bottomSheetReferralCodeValidation = const Input();
     isInputError = false;
-    promoCodeController = TextEditingController()..text = promoCode ?? '';
+    promoCodeController = TextEditingController()..text = fullEmpty
+      ? ''
+      : promoCode ?? '';
   }
 
   Future<String> _copiedText() async {
