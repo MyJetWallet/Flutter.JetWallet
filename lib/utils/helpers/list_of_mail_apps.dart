@@ -93,11 +93,6 @@ class _MailOptionsBodyState extends State<_MailOptions>
                 children: [
                   Observer(
                     builder: (context) {
-                      print('==');
-                      print(icon);
-                      print(checked);
-                      print('===');
-
                       return SIconButton(
                         onTap: () {
                           setState(() {
