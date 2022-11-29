@@ -90,3 +90,8 @@ const cPowerSVGAsset = 'assets/images/cpower.svg';
 const cPowerAsset = 'assets/images/cpower.png';
 const cpowerBanner1Asset = 'assets/images/cpower_banner_1.svg';
 const cpowerBanner2Asset = 'assets/images/cpower_banner_2.svg';
+
+// Mail types
+const yahooAsset = 'assets/images/yahoo.png';
+const gmailAsset = 'assets/images/gmail.png';
+const sparkAsset = 'assets/images/spark.png';
