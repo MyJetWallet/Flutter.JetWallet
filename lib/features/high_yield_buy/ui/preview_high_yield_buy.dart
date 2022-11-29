@@ -105,13 +105,6 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
                     symbol: from.symbol,
                   ),
                 ),
-                SActionConfirmText(
-                  contentLoading: state.union is QuoteLoading,
-                  name:
-                      '${input.topUp ? '${intl.preview_earn_buy_top_up} ' : ''}${intl.preview_earn_buy_apy}',
-                  baseline: 35.0,
-                  value: '${state.apy}%',
-                ),
                 if (input.earnOffer.endDate != null)
                   SActionConfirmText(
                     name: intl.preview_earn_buy_expiry_date,
@@ -132,7 +125,7 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
                 ),
                 const SDivider(),
                 SActionConfirmText(
-                  name: intl.preview_earn_buy_expected_yearly_profit,
+                  name: intl.earn_buy_interest_per_day,
                   contentLoading: state.union is QuoteLoading,
                   baseline: deviceSize.when(
                     small: () => 37,
@@ -142,41 +135,12 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
                   minValueWidth: 170,
                   value: volumeFormat(
                     prefix: input.fromCurrency.prefixSymbol,
-                    decimal: state.expectedYearlyProfit ?? Decimal.zero,
+                    decimal: state.expectedDailyProfit ?? Decimal.zero,
                     accuracy: input.fromCurrency.accuracy,
                     symbol: input.fromCurrency.symbol,
                   ),
                 ),
-                if (state.union is QuoteLoading) const SpaceH6(),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: state.union is QuoteLoading
-                      ? Container(
-                          padding: const EdgeInsets.only(
-                            top: 2,
-                          ),
-                          margin: const EdgeInsets.only(
-                            bottom: 4,
-                          ),
-                          child: const SSkeletonTextLoader(
-                            height: 8,
-                            width: 100,
-                          ),
-                        )
-                      : Text(
-                          '${intl.preview_earn_buy_approx}. ${volumeFormat(
-                            prefix: baseCurrency.prefix,
-                            decimal:
-                                state.expectedYearlyProfitBase ?? Decimal.zero,
-                            accuracy: 2,
-                            symbol: baseCurrency.symbol,
-                          )}',
-                          style: sBodyText2Style.copyWith(
-                            color: colors.grey1,
-                          ),
-                        ),
-                ),
-                const SpaceH12(),
+                const SpaceH20(),
                 Text(
                   intl.preview_earn_buy_return_warning,
                   textAlign: TextAlign.start,
