@@ -196,10 +196,6 @@ class _ConvertRowState extends State<ConvertRow>
       return null;
     }
 
-    if (item.symbol == 'CPWR') {
-      return null;
-    }
-
     return widget.currency == item ? colors.blue : colors.black;
   }
 }
