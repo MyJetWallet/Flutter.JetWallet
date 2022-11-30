@@ -24,6 +24,8 @@ class Circle3dSecureWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late WebViewController controllerWeb;
+
     return WillPopScope(
       onWillPop: () {
         navigateToRouter();
@@ -47,6 +49,21 @@ class Circle3dSecureWebView extends StatelessWidget {
               child: WebView(
                 initialUrl: url,
                 javascriptMode: JavascriptMode.unrestricted,
+                onWebViewCreated: (controller) {
+                  controllerWeb = controller;
+                },
+                onPageFinished: (url){
+                    controllerWeb.runJavascript(
+                      "function toMobile(){"
+                          "var meta = document.createElement('meta'); "
+                          "meta.setAttribute('name', 'viewport');"
+                          " meta.setAttribute('content', 'width=device-width, initial-scale=1'); "
+                          "var head= document.getElementsByTagName('head')[0];"
+                          "head.appendChild(meta); "
+                        "}"
+                      "toMobile()"
+                  );
+                },
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
 
