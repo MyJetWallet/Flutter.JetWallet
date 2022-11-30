@@ -92,6 +92,10 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
 
+    if (code.isEmpty) {
+      return;
+    }
+
     if (operationId == _operationId) {
       controller.text = code;
 
@@ -135,6 +139,10 @@ abstract class _WithdrawalConfirmStoreBase with Store {
   @action
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
+
+    if (union is Loading) {
+      return;
+    }
 
     union = const WithdrawalConfirmUnion.loading();
 
