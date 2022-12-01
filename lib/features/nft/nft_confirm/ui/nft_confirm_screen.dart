@@ -88,7 +88,7 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
           ),
           const Spacer(),
           if (getIt.get<NFTPromoCodeStore>().saved &&
-              getIt.get<NFTPromoCodeStore>().discount != null) ...[
+              NFTConfirmStore.of(context).discountAmount != Decimal.zero) ...[
             Row(
               children: [
                 Baseline(
@@ -107,8 +107,7 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     volumeFormat(
-                      decimal: getIt.get<NFTPromoCodeStore>().discount ??
-                          Decimal.zero,
+                      decimal: NFTConfirmStore.of(context).discountAmount,
                       symbol: '%',
                       accuracy: 3,
                     ),
