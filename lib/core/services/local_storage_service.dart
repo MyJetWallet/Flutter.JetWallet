@@ -39,13 +39,14 @@ const timeSignalRReceiveIFSent = 'timeSignalRReceiveIFSent';
 const initFinishedOnMarketSent = 'initFinishedOnMarketSent';
 const lastUsedCard = 'lastUsedCard';
 const nftPromoCode = 'nftPromoCode';
+const lastUsedMail = 'lastUsedMail';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
 class LocalStorageService {
-  //LocalStorageService() {
-  //checkIsFirstRun();
-  //}
+  LocalStorageService() {
+    checkIsFirstRun();
+  }
 
   final _storage = const FlutterSecureStorage();
 
@@ -116,11 +117,11 @@ class LocalStorageService {
     await _storage.delete(key: 'cleared');
   }
 
-  /*Future<void> checkIsFirstRun() async {
+  Future<void> checkIsFirstRun() async {
     final val = await getIt<LocalCacheService>().checkIsFirstRunning();
 
     if (val) {
-      await clearedChange();
+      await _storage.deleteAll();
     }
-  }*/
+  }
 }

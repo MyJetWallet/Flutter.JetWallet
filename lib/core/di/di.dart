@@ -41,6 +41,14 @@ Future<GetIt> getItInit({
     SimpleKit(),
   );
 
+  getIt.registerSingletonAsync<LocalCacheService>(
+    () async => LocalCacheService().init(),
+  );
+
+  getIt.registerLazySingleton<LocalStorageService>(
+    () => LocalStorageService(),
+  );
+
   _logger.log(stateFlow, 'SIMPLE KIT LOADED');
 
   /*
@@ -55,14 +63,6 @@ Future<GetIt> getItInit({
 
   getIt.registerSingletonAsync<PackageInfoService>(
     () async => PackageInfoService().init(),
-  );
-
-  getIt.registerSingletonAsync<LocalCacheService>(
-    () async => LocalCacheService().init(),
-  );
-
-  getIt.registerLazySingleton<LocalStorageService>(
-    () => LocalStorageService(),
   );
 
   getIt.registerLazySingleton<NFTPromoCodeStore>(

@@ -116,6 +116,7 @@ dependencies:
   app_tracking_transparency: ^2.0.3
   flutter_displaymode: ^0.4.1
   syncfusion_flutter_pdfviewer: ^20.3.56
+  open_mail_app: ^0.4.5
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
