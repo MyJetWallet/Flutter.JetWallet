@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/indicators/step_indicator.dart';
@@ -17,6 +18,8 @@ class SAuthHeader extends StatelessWidget {
     this.showLink = false,
     this.showSearchButton = false,
     this.showSupportButton = false,
+    this.isAutoSize = false,
+    this.maxLines = 1,
     required this.title,
   }) : super(key: key);
 
@@ -28,8 +31,10 @@ class SAuthHeader extends StatelessWidget {
   final bool showLink;
   final bool showSearchButton;
   final bool showSupportButton;
+  final bool isAutoSize;
   final String title;
   final int progressValue;
+  final int maxLines;
   final Function()? onBackButtonTap;
 
   @override
@@ -75,7 +80,24 @@ class SAuthHeader extends StatelessWidget {
                       child: Baseline(
                         baseline: 56.0,
                         baselineType: TextBaseline.alphabetic,
-                        child: Text(
+                        child: isAutoSize ? AutoSizeText(
+                          title,
+                          textAlign: TextAlign.start,
+                          minFontSize: 4.0,
+                          maxLines: maxLines,
+                          strutStyle: const StrutStyle(
+                            height: 1.25,
+                            fontSize: 32.0,
+                            fontFamily: 'Gilroy',
+                          ),
+                          style: TextStyle(
+                            height: 1.25,
+                            fontSize: 32.0,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w600,
+                            color: SColorsLight().black,
+                          ),
+                        ) : Text(
                           title,
                           maxLines: 2,
                           style: sTextH2Style,

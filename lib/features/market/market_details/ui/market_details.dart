@@ -115,6 +115,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
     sAnalytics.assetView(marketItem.name);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: Material(
         color: chart.union != const ChartUnion.loading()
             ? Colors.transparent

@@ -309,6 +309,7 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
     }
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: (topUp ? '${intl.earn_buy_top_up} ' : '') + earnOffer.title,

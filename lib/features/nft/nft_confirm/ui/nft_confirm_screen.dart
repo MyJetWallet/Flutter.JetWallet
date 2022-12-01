@@ -55,6 +55,7 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
     );
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: NFTConfirmStore.of(context).loader,
       customLoader: NFTConfirmStore.of(context).isProcessing
           ? WaitingScreen(

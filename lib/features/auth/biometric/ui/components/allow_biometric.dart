@@ -91,6 +91,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with
     final size = MediaQuery.of(context).size;
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

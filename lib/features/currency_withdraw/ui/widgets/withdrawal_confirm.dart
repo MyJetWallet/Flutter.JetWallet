@@ -131,6 +131,7 @@ class _WithdrawalConfirmBody extends StatelessObserverWidget {
         );
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         loading: confirm.loader,
         customLoader: withdrawalModel.currency == null
             ? confirm.isProcessing

@@ -74,6 +74,7 @@ class _RecurringSuccessScreenBodyState
           return Future.value(false);
         },
         child: SPageFrameWithPadding(
+          loaderText: intl.register_pleaseWait,
           child: Column(
             children: [
               Row(), // to expand Column in the cross axis

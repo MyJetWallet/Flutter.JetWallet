@@ -101,6 +101,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
     final permission = SendByPhonePermission.of(context);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SMegaHeader(

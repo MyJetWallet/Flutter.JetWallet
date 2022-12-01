@@ -15,6 +15,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
     final store = getIt.get<DeleteProfileStore>();
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,

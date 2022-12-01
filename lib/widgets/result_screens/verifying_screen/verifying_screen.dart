@@ -57,6 +57,7 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
         return Future.value(false);
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         child: Column(
           children: [
             const SpaceH86(),

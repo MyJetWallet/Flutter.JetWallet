@@ -72,9 +72,12 @@ class _BiometricBody extends StatelessObserverWidget {
           }
 
           return SPageFrame(
+            loaderText: intl.register_pleaseWait,
             header: SAuthHeader(
               customIconButton: const SpaceH10(),
               title: headerText,
+              isAutoSize: true,
+              maxLines: 2,
             ),
             child: SPaddingH24(
               child: Column(

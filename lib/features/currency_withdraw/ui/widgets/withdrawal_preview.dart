@@ -89,6 +89,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
         : true;
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: store.loader,
       customLoader: currency == null
           ? store.isProcessing

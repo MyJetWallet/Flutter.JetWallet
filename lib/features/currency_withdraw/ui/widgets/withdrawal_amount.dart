@@ -65,6 +65,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
     final currency = withdrawal.currency;
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${withdrawal.dictionary.verb} ${currency!.description}',

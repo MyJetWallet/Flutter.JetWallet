@@ -33,6 +33,7 @@ class _SendByPhoneNotifyRecipientState
     sAnalytics.sendNotifyRecipient();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: SMegaHeader(
         titleAlign: TextAlign.start,
         title: intl.sendByPhoneRecipient_headerTitle,

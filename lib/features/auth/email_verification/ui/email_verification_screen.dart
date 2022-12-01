@@ -152,10 +152,12 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
         );
       },
       child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
         loading: verification.loader,
         header: SAuthHeader(
           title: intl.emailVerification_emailVerification,
           progressValue: 40,
+          isAutoSize: true,
         ),
         child: SingleChildScrollView(
           child: SPaddingH24(

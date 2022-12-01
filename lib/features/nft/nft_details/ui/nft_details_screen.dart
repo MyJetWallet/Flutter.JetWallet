@@ -147,6 +147,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     final showBaottomBar = !widget.userNFT && !store.nft!.onSell!;
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       loading: store.loader,
       bottomNavigationBar: !widget.userNFT && !store.nft!.onSell!
           ? null

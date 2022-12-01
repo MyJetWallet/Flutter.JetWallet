@@ -87,6 +87,7 @@ class _SingInBody extends StatelessObserverWidget {
       child: Observer(
         builder: (context) {
           return SPageFrame(
+            loaderText: intl.register_pleaseWait,
             color: colors.grey5,
             loading: signInStore.loader,
             header: SAuthHeader(

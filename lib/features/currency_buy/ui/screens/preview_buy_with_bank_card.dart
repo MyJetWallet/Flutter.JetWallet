@@ -65,6 +65,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
         state.isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: state.loader,
       customLoader: state.isChecked
           ? WaitingScreen(

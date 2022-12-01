@@ -73,6 +73,7 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
     sAnalytics.kycSuccessPageView();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       child: Column(
         children: [
           const Spacer(),

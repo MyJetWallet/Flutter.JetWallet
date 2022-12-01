@@ -51,6 +51,7 @@ class _AccountSecurityState extends State<AccountSecurity> {
   Widget build(BuildContext context) {
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.account_security,
