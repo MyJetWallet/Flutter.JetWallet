@@ -81,9 +81,9 @@ class NFTCollectionNftItem extends StatelessWidget {
             ),
           ],
           if (nft.sellPrice != null && !showBuyInfo || showBuyInfo) ...[
-            const SpaceH18(),
+            const SpaceH20(),
           ] else ...[
-            const SpaceH11(),
+            const SpaceH13(),
           ],
           if (showDivider) ...[
             const SDivider(),

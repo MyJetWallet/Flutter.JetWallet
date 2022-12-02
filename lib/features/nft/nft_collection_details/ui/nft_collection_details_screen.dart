@@ -159,14 +159,14 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   ),
                   if (store.nftModel!.description != null &&
                       store.nftModel!.description!.isNotEmpty) ...[
-                    const SpaceH20(),
+                    const SpaceH25(),
                     Text(
                       store.nftModel!.description ?? '',
                       maxLines: 10,
                       style: sBodyText1Style,
                     ),
                   ],
-                  const SpaceH18(),
+                  const SpaceH20(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -181,6 +181,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                                 color: colors.grey1,
                               ),
                             ),
+                            const SpaceH1(),
                             Text(
                               '${store.nftModel!.nftList.length}',
                               style: sBodyText1Style,
@@ -200,6 +201,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                                 color: colors.grey1,
                               ),
                             ),
+                            const SpaceH1(),
                             Text(
                               store.nftModel!.ownerCount!.toString(),
                               style: sBodyText1Style,
@@ -209,7 +211,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ),
                     ],
                   ),
-                  const SpaceH12(),
+                  const SpaceH16(),
                   const SDivider(),
                   const SpaceH25(),
                   Row(
@@ -226,6 +228,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                                 color: colors.grey1,
                               ),
                             ),
+                            const SpaceH1(),
                             Text(
                               //nft.totalVolumeUsd!.toString(),
                               marketFormat(
@@ -252,6 +255,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                                 color: colors.grey1,
                               ),
                             ),
+                            const SpaceH1(),
                             Text(
                               volumeFormat(
                                 decimal:
@@ -266,7 +270,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       ),
                     ],
                   ),
-                  const SpaceH12(),
+                  const SpaceH16(),
                   const SDivider(),
                   const SizedBox(
                     height: 25,
@@ -311,7 +315,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       const SpaceH20(),
                       const SDivider(),
                     ],
-                    const SpaceH32(),
+                    const SpaceH40(),
                   ],
                 ],
               ),

@@ -23,7 +23,7 @@ class NFTAboutBlock extends StatelessWidget {
           intl.nft_detail_about,
           style: sTextH4Style,
         ),
-        const SpaceH18(),
+        const SpaceH21(),
         NFTAboutBlockText(
           description: description,
           shortDescription: shortDescription,

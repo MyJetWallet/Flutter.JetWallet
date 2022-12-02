@@ -153,28 +153,39 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
           ? null
           : widget.userNFT
               ? store.nft!.onSell!
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 24.0,
-                      ),
-                      child: SSecondaryButton1(
-                        active: true,
-                        name: intl.nft_detail_cancel_selling,
-                        onTap: () {
-                          sAnalytics.nftSellCancelTap(
-                            nftCollectionID: store.nft?.collectionId ?? '',
-                            nftObjectId: store.nft?.symbol ?? '',
-                            asset: store.nft?.tradingAsset ?? '',
-                            nftPriceAmount: '${store.nft?.sellPrice}',
-                            nftOperationFee: '',
-                            nftCreatorFee: '',
-                            nftAmountToGet: '',
-                          );
-                          store.cancelSellOrder();
-                        },
-                      ),
-                    )
+                  ? Material(
+                    color: colors.white,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SDivider(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 24,
+                            right: 24,
+                            bottom: 24,
+                            top: 23,
+                          ),
+                          child: SSecondaryButton1(
+                            active: true,
+                            name: intl.nft_detail_cancel_selling,
+                            onTap: () {
+                              sAnalytics.nftSellCancelTap(
+                                nftCollectionID: store.nft?.collectionId ?? '',
+                                nftObjectId: store.nft?.symbol ?? '',
+                                asset: store.nft?.tradingAsset ?? '',
+                                nftPriceAmount: '${store.nft?.sellPrice}',
+                                nftOperationFee: '',
+                                nftCreatorFee: '',
+                                nftAmountToGet: '',
+                              );
+                              store.cancelSellOrder();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                   : ActionButtonNft(
                       transitionAnimationController: _animationController,
                       nft: store.nft!,
@@ -262,7 +273,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               child: SPaddingH24(
                 child: Column(
                   children: [
-                    const SpaceH20(),
+                    const SpaceH15(),
                     if (mounted) ...[
                       Opacity(
                         opacity: showImage ? 1 : 0,
@@ -366,7 +377,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.only(top: 8),
                           child: SNetworkSvg24(
                             url: iconUrlFrom(
                               assetSymbol: store.nft!.tradingAsset!,
@@ -408,8 +419,8 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         padding: const EdgeInsets.only(
                           left: 20,
                           right: 20,
-                          top: 18,
-                          bottom: 25,
+                          top: 20,
+                          bottom: 28,
                         ),
                         decoration: BoxDecoration(
                           color: colors.grey5,
@@ -448,7 +459,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 ),
                               ],
                             ),
-                            const SpaceH20(),
+                            const SpaceH18(),
                             Row(
                               children: [
                                 Text(
@@ -579,13 +590,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                           const SpaceW10(),
                           Text(
                             collection.name ?? '',
-                            style: sSubtitle2Style,
+                            style: sSubtitle2Style.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     if (store.description.isNotEmpty) ...[
-                      const SpaceH32(),
+                      const SpaceH34(),
                       const SDivider(),
                       const SpaceH32(),
                       NFTAboutBlock(
@@ -593,7 +606,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         shortDescription: store.shortDescription,
                       ),
                     ],
-                    const SpaceH42(),
+                    const SpaceH20(),
                   ],
                 ),
               ),

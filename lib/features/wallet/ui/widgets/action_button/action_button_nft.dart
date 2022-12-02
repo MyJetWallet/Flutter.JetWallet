@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -212,6 +214,18 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () async {
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 1,
+                                  ),
+                                      () => store.toggleClick(true),
+                                );
+                              } else {
+                                return;
+                              }
                               sAnalytics.nftSellTap(
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
@@ -298,6 +312,18 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 1,
+                                  ),
+                                      () => store.toggleClick(true),
+                                );
+                              } else {
+                                return;
+                              }
                               void sendClicked() {
                                 if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
                                     kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
@@ -432,6 +458,18 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 1,
+                                  ),
+                                      () => store.toggleClick(true),
+                                );
+                              } else {
+                                return;
+                              }
                               void sellClicked() {
                                 if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
                                     kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
@@ -514,6 +552,18 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 1,
+                                  ),
+                                      () => store.toggleClick(true),
+                                );
+                              } else {
+                                return;
+                              }
 
                               void sendClicked() {
                                 if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&

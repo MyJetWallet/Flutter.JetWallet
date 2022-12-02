@@ -94,7 +94,7 @@ class NFTDetailHeader extends StatelessWidget {
                 ],
               ),
               if (opacity >= 0.7) ...[
-                const SpaceH25(),
+                const SpaceH15(),
                 Opacity(
                   opacity: opacity,
                   child: Text(
