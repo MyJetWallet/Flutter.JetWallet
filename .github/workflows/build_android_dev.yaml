@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     # This job will run on ubuntu virtual machine
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
 
       - uses: actions/checkout@v1
