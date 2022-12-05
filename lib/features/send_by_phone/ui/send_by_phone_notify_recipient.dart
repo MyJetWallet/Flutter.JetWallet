@@ -64,7 +64,7 @@ class _SendByPhoneNotifyRecipientState
           SPrimaryButton2(
             active: true,
             name: intl.sendByPhoneNotifyRecipient_sendAMessage,
-            onTap: () {
+            onTap: () async {
               sAnalytics.sendTapOnSendMessage();
               if (canTapShare) {
                 setState(() {
@@ -79,15 +79,12 @@ class _SendByPhoneNotifyRecipientState
                 );
 
                 try {
-                  Share.share(
-                  '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
-                  '${intl.sendByPhoneRecipient_text4}.\n '
-                  '${userInfo.referralLink}',
-                );
-                } catch (e) {
-                  
-                }
-                
+                  await Share.share(
+                    '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
+                    '${intl.sendByPhoneRecipient_text4}.\n '
+                    '${userInfo.referralLink}',
+                  ).then((value) => Navigator.pop(context));
+                } catch (e) {}
               }
             },
           ),

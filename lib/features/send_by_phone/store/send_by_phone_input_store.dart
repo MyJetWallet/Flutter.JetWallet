@@ -283,6 +283,8 @@ abstract class _SendByPhoneInputStoreBase with Store {
     } else {
       updateContactName(contact);
     }
+
+    searchTextController.text = phoneNumberController.text;
   }
 
   @action
