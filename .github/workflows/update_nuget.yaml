@@ -1,0 +1,55 @@
+name: Update nuget
+
+on:
+  schedule:
+    - cron:  '0 8 * * *'   
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.*
+    
+    - name: Setup .NET Core 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.101
+      
+    - name: install dotnet-outdated-tool
+      run: dotnet tool install --global dotnet-outdated-tool || echo "success"
+      
+    - name: ls
+      run: ls -la
+      
+    - name: Build
+      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.0
+    
+    - name: find dotnet
+      run: whereis dotnet
+      
+    - name: update nugets
+      run: dotnet outdated -u
+      env:
+        PATH: "$PATH:/home/monfex/.dotnet/tools"
+      
+    - name: Commit & Push changes
+      uses: MyJetWallet/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        message: auto-update nugets
+
+    - name: Build
+      run: dotnet build --configuration Release /p:AssemblyVersion=0.0.0
+
+    - name: Test
+      run: dotnet test --no-build --configuration Release
+
