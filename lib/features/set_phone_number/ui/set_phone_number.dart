@@ -136,6 +136,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                                 userInfoN.updatePhone(store.phoneNumber());
 
                                 sAnalytics.accountSuccessPhone();
+                                store.phoneNumberController.text = '';
 
                                 sRouter.push(
                                   SuccessScreenRouter(
