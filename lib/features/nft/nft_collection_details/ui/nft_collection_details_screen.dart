@@ -272,9 +272,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                   ),
                   const SpaceH16(),
                   const SDivider(),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  const SpaceH32(),
                   if (store.availableNFTFiltred.isNotEmpty) ...[
                     Row(
                       children: [
@@ -315,7 +313,7 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       const SpaceH20(),
                       const SDivider(),
                     ],
-                    const SpaceH40(),
+                    const SpaceH34(),
                   ],
                 ],
               ),

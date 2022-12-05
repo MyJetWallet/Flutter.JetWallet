@@ -219,7 +219,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
 
                                 Timer(
                                   const Duration(
-                                    seconds: 1,
+                                    seconds: 2,
                                   ),
                                       () => store.toggleClick(true),
                                 );
@@ -317,7 +317,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
 
                                 Timer(
                                   const Duration(
-                                    seconds: 1,
+                                    seconds: 2,
                                   ),
                                       () => store.toggleClick(true),
                                 );
@@ -463,7 +463,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
 
                                 Timer(
                                   const Duration(
-                                    seconds: 1,
+                                    seconds: 2,
                                   ),
                                       () => store.toggleClick(true),
                                 );
@@ -557,7 +557,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
 
                                 Timer(
                                   const Duration(
-                                    seconds: 1,
+                                    seconds: 2,
                                   ),
                                       () => store.toggleClick(true),
                                 );

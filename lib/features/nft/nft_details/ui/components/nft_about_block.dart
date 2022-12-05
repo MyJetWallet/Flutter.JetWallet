@@ -23,7 +23,7 @@ class NFTAboutBlock extends StatelessWidget {
           intl.nft_detail_about,
           style: sTextH4Style,
         ),
-        const SpaceH21(),
+        const SpaceH14(),
         NFTAboutBlockText(
           description: description,
           shortDescription: shortDescription,
@@ -95,7 +95,7 @@ class _NFTAboutBlockTextState extends State<NFTAboutBlockText>
             ),
           ],
           if (!expandText && widget.shortDescription.isNotEmpty) ...[
-            const SpaceH18(),
+            const SpaceH17(),
             ClickableUnderlinedText(
               text: intl.nft_detail_readMore,
               onTap: () {

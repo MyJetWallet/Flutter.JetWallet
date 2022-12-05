@@ -141,7 +141,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
 
     //final name = 'Very veryvesdaglajsdgl j aslgdk j long name Very veryvesdaglajsdgl';
 
-    final expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
+    var expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
+    if ((store.nft?.name?.length ?? 0) < 30) {
+      expandedHeight = expandedHeight - 26;
+    }
     //final expandedHeight = 130 + (name.length ?? 0).toDouble();
 
     final showBaottomBar = !widget.userNFT && !store.nft!.onSell!;
@@ -403,17 +406,20 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 symbol: baseCurrency.symbol,
                                 accuracy: baseCurrency.accuracy,
                               ),
-                              style: sSubtitle3Style,
+                              style: sSubtitle3Style.copyWith(
+                                height: 1.2,
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
                     if (!widget.userNFT) ...[
-                      const SpaceH12(),
+                      const SpaceH15(),
                       const SDivider(),
                       const SpaceH32(),
                     ] else ...[
+                      const SpaceH3(),
                       Container(
                         margin: const EdgeInsets.only(top: 12, bottom: 32),
                         padding: const EdgeInsets.only(
