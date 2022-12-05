@@ -63,6 +63,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void clear() {
     updateCode('', _operationId);
+
+    loader.finishLoadingImmediately();
   }
 
   late String _operationId;

@@ -199,7 +199,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
       return !_isContactInSearch(element);
     });
 
-    if (newList.isEmpty && validWeakPhoneNumber(phoneSearch)) {
+    if (validWeakPhoneNumber(phoneSearch)) {
       final dialCode = dialCodeController.text;
       final number = phoneSearch;
 
@@ -207,7 +207,8 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
       phoneNumber = number.startsWith('+') ? number : '$dialCode $number';
 
-      newList.add(
+      newList.insert(
+        0,
         ContactModel(
           name: number,
           phoneNumber: phoneNumber,

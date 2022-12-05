@@ -81,7 +81,7 @@ class _DialCodes extends StatelessObserverWidget {
 
     return Column(
       children: [
-        if (userCountryCode.isNotEmpty)
+        if (userCountryCode.isNotEmpty) ...[
           DialCodeItem(
             dialCode: userCountryCode[0],
             active: store.activeDialCode?.isoCode == userCountryCode[0].isoCode,
@@ -92,18 +92,27 @@ class _DialCodes extends StatelessObserverWidget {
               sRouter.pop();
             },
           ),
-        for (final code in store.sortedDialCodes)
-          if (code.countryCode != countryCodeByUserRegister()?.countryCode)
-            DialCodeItem(
-              dialCode: code,
-              active: store.activeDialCode?.isoCode == code.isoCode,
-              onTap: () {
-                sAnalytics.changeCountryCode(code.countryName);
-                store.pickDialCodeFromSearch(code);
+        ],
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: store.sortedDialCodes.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            final code = store.sortedDialCodes[index];
 
-                sRouter.pop();
-              },
-            ),
+            return code.countryCode != countryCodeByUserRegister()?.countryCode
+                ? DialCodeItem(
+                    dialCode: code,
+                    active: store.activeDialCode?.isoCode == code.isoCode,
+                    onTap: () {
+                      sAnalytics.changeCountryCode(code.countryName);
+                      store.pickDialCodeFromSearch(code);
+                      sRouter.pop();
+                    },
+                  )
+                : const SizedBox.shrink();
+          },
+        ),
       ],
     );
   }
