@@ -63,13 +63,9 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void clear() {
     updateCode('', _operationId);
-<<<<<<< Updated upstream
-
     loader.finishLoadingImmediately();
-=======
     controller.text = '';
     union = const SendByPhoneConfirmUnion.input();
->>>>>>> Stashed changes
   }
 
   late String _operationId;
