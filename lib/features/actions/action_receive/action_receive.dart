@@ -155,6 +155,9 @@ Widget receiveItem({
 void showCryptoReceiveAction(BuildContext context) {
   final showSearch = showReceiveCurrencySearch(context);
 
+  getIt.get<ActionSearchStore>().init();
+  final searchStore = getIt.get<ActionSearchStore>();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -170,16 +173,25 @@ void showCryptoReceiveAction(BuildContext context) {
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
-    children: [const _ActionReceive()],
+    children: [
+      _ActionReceive(
+        searchStore: searchStore,
+      ),
+    ],
   );
 }
 
 class _ActionReceive extends StatelessObserverWidget {
-  const _ActionReceive({Key? key}) : super(key: key);
+  const _ActionReceive({
+    Key? key,
+    required this.searchStore,
+  }) : super(key: key);
+
+  final ActionSearchStore searchStore;
 
   @override
   Widget build(BuildContext context) {
-    final state = getIt.get<ActionSearchStore>()..init();
+    final state = searchStore;
     sortByBalanceAndWeight(state.filteredCurrencies);
 
     return Column(
@@ -205,6 +217,7 @@ class _ActionReceive extends StatelessObserverWidget {
                       );
                 },
               ),
+        const SpaceH24(),
       ],
     );
   }
