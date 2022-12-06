@@ -39,7 +39,9 @@ class SendByPhoneConfirmStore extends _SendByPhoneConfirmStoreBase
 }
 
 abstract class _SendByPhoneConfirmStoreBase with Store {
-  _SendByPhoneConfirmStoreBase();
+  _SendByPhoneConfirmStoreBase() {
+    loader.finishLoadingImmediately();
+  }
 
   CurrencyModel? currency;
 
@@ -118,6 +120,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
       _updateIsResending(false);
       onSuccess();
+
+      union = const SendByPhoneConfirmUnion.input();
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
@@ -132,8 +136,6 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
-
-    print('VERIFY CODE');
 
     if (union is Loading) {
       return;
