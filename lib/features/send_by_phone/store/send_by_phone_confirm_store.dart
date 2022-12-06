@@ -63,8 +63,13 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void clear() {
     updateCode('', _operationId);
+<<<<<<< Updated upstream
 
     loader.finishLoadingImmediately();
+=======
+    controller.text = '';
+    union = const SendByPhoneConfirmUnion.input();
+>>>>>>> Stashed changes
   }
 
   late String _operationId;
@@ -85,6 +90,10 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
+
+    if (code.isEmpty) {
+      return;
+    }
 
     if (operationId == _operationId) {
       controller.text = code;
@@ -130,6 +139,10 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
     print('VERIFY CODE');
 
+    if (union is Loading) {
+      return;
+    }
+
     union = const SendByPhoneConfirmUnion.loading();
 
     try {
@@ -154,6 +167,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
         sAnalytics.sendSuccess(type: 'By phone');
         _showSuccessScreen();
+        clear();
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
