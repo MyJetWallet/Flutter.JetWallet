@@ -69,6 +69,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
         return Future.value(true);
       },
       child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
           child: SSmallHeader(
             titleAlign: TextAlign.left,

@@ -29,6 +29,7 @@ class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SMarketHeaderClosed(
         title: intl.news,
         isDivider: true,

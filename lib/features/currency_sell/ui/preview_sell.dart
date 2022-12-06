@@ -93,6 +93,7 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
         );
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         loading: store.loader,
         header: deviceSize.when(
           small: () {

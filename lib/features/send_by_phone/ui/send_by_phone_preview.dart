@@ -61,6 +61,7 @@ class _SendByPhonePreviewBody extends StatelessObserverWidget {
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: state.loader,
       header: deviceSize.when(
         small: () {

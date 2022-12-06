@@ -33,6 +33,7 @@ class _SendByPhoneNotifyRecipientState
     sAnalytics.sendNotifyRecipient();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: SMegaHeader(
         titleAlign: TextAlign.start,
         title: intl.sendByPhoneRecipient_headerTitle,
@@ -64,7 +65,7 @@ class _SendByPhoneNotifyRecipientState
           SPrimaryButton2(
             active: true,
             name: intl.sendByPhoneNotifyRecipient_sendAMessage,
-            onTap: () async {
+            onTap: () {
               sAnalytics.sendTapOnSendMessage();
               if (canTapShare) {
                 setState(() {
@@ -79,11 +80,11 @@ class _SendByPhoneNotifyRecipientState
                 );
 
                 try {
-                  await Share.share(
+                  Share.share(
                     '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
                     '${intl.sendByPhoneRecipient_text4}.\n '
                     '${userInfo.referralLink}',
-                  ).then((value) => Navigator.pop(context));
+                  );
                 } catch (e) {}
               }
             },

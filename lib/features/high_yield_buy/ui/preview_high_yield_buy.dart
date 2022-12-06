@@ -60,6 +60,7 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: loader,
       header: deviceSize.when(
         small: () {

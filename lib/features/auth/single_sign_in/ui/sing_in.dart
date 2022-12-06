@@ -87,6 +87,7 @@ class _SingInBody extends StatelessObserverWidget {
       child: Observer(
         builder: (context) {
           return SPageFrame(
+            loaderText: intl.register_pleaseWait,
             color: colors.grey5,
             loading: signInStore.loader,
             header: SAuthHeader(
@@ -132,7 +133,8 @@ class _SingInBody extends StatelessObserverWidget {
                                 onErrorIconTap: () => sNotification.showError(
                                   intl.register_invalidEmail,
                                 ),
-                                isError: SingleSingInStore.of(context).isEmailError,
+                                isError:
+                                    SingleSingInStore.of(context).isEmailError,
                               ),
                             ),
                           ),
@@ -174,9 +176,11 @@ class _SingInBody extends StatelessObserverWidget {
                               if (credentials.emailValid) {
                                 signInStore.singleSingIn();
                               } else {
-                                SingleSingInStore.of(context).setIsEmailError(true);
+                                SingleSingInStore.of(context)
+                                    .setIsEmailError(true);
 
-                                sNotification.showError(intl.register_invalidEmail);
+                                sNotification
+                                    .showError(intl.register_invalidEmail);
                               }
                             },
                           ),

@@ -42,15 +42,16 @@ class _AccountSecurityState extends State<AccountSecurity> {
     Timer(const Duration(milliseconds: 200), () {
       setState(() {
         userInfo = getIt.get<UserInfoService>().userInfo;
-        userInfoDisable = getIt.get<UserInfoService>().userInfo.biometricDisabled;
+        userInfoDisable =
+            getIt.get<UserInfoService>().userInfo.biometricDisabled;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.account_security,
@@ -86,8 +87,8 @@ class _AccountSecurityState extends State<AccountSecurity> {
                     BiometricStatus.none.toString()) {
                   unawaited(
                     getIt.get<AppRouter>().push(
-                      const AllowBiometricRoute(),
-                    ),
+                          const AllowBiometricRoute(),
+                        ),
                   );
                 } else {
                   await sRouter.push(

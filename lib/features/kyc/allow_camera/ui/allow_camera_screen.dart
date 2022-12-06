@@ -89,6 +89,7 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody>
     getIt.get<SimpleAnalytics>().kycAllowCameraView();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

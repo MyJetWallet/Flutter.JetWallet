@@ -75,6 +75,14 @@ class ProfileDetails extends StatelessObserverWidget {
                               SetPhoneNumberRouter(
                                 successText:
                                     intl.profileDetails_newPhoneNumberConfirmed,
+                                then: () {
+                                  sRouter.popUntil(
+                                    (route) {
+                                      return route.settings.name ==
+                                          'ProfileDetailsRouter';
+                                    },
+                                  );
+                                },
                               ),
                             );
                           },
