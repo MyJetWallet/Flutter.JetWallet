@@ -14,12 +14,12 @@ dependencies:
 
   # TOOLKIT
   cupertino_icons: ^1.0.4 # IOS icons
-  universal_io: ^2.0.4 # Cross-platform 'dart:io' that works in all platforms
-  url_launcher: ^6.1.6 # plugin for launching a URL
-  font_awesome_flutter: ^10.2.1 # The Font Awesome Icon pack (1500+ icons)
-  pin_code_fields: ^7.4.0 # Generate pin code fields
-  qr_flutter: ^4.0.0 # QR code rendering
-  grouped_list: ^5.1.2 # List with grouped items
+  universal_io: 2.0.4 # Cross-platform 'dart:io' that works in all platforms
+  url_launcher: 6.1.7 # plugin for launching a URL
+  font_awesome_flutter: 10.3.0 # The Font Awesome Icon pack (1500+ icons)
+  pin_code_fields: 7.4.0 # Generate pin code fields
+  qr_flutter: 4.0.0 # QR code rendering
+  grouped_list: 5.1.2 # List with grouped items
   # qr_code_scanner: ^0.7.0 # Scans QR code with camera
   qr_code_scanner:
     git:
@@ -70,11 +70,11 @@ dependencies:
   flutter_native_splash: ^2.2.14
 
   # NETWORKING:
-  http: ^0.13.5
-  dio: ^4.0.6 # http client
-  pretty_dio_logger: ^1.1.1 # logger for dio
+  http: 0.13.5
+  dio: 4.0.6 # http client
+  pretty_dio_logger: ^1.2.0-beta-1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
-  json_annotation: ^4.7.0 # annotations used by json_serializable
+  json_annotation: 4.7.0 # annotations used by json_serializable
 
   # INTERNATIONALIZATION:
   flutter_localizations:
@@ -82,20 +82,20 @@ dependencies:
   intl: ^0.17.0
 
   # LOCAL SECURE STORAGE:
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage: 6.1.0
 
   # STATE MANAGEMENT
-  data_channel: ^2.0.0+1
-  mobx: ^2.1.1
-  flutter_mobx: ^2.0.6+4
+  data_channel: 2.0.0+1
+  mobx: 2.1.3
+  flutter_mobx: 2.0.6+5
 
   # SL
-  injectable: ^1.5.4
-  get_it: ^7.2.0
+  injectable: 2.1.0
+  get_it: 7.2.0
   provider: ^6.0.4
 
   # Routing
-  auto_route: ^5.0.2
+  auto_route: 5.0.4
 
   # FIREBASE
   firebase_core: 2.1.1
@@ -109,12 +109,12 @@ dependencies:
   onesignal_flutter: 3.4.1
 
   # OTHER:
-  freezed_annotation: ^2.2.0 # Annotations for the freezed
-  mocktail: ^0.3.0 # mocking library with null-safety support
-  logging: ^1.1.0 # APIs for debugging and error logging
-  uuid: ^3.0.6 # UUID Generator and Parser
-  app_tracking_transparency: ^2.0.3
-  flutter_displaymode: ^0.4.1
+  freezed_annotation: 2.2.0 # Annotations for the freezed
+  mocktail: 0.3.0 # mocking library with null-safety support
+  logging: 1.1.0 # APIs for debugging and error logging
+  uuid: 3.0.7 # UUID Generator and Parser
+  app_tracking_transparency: 2.0.3
+  flutter_displaymode: 0.4.1
   syncfusion_flutter_pdfviewer: ^20.3.56
   open_mail_app: ^0.4.5
 
@@ -144,12 +144,12 @@ dev_dependencies:
   dart_code_metrics: ^5.0.1
 
   # AUTOGEN:
-  freezed: ^2.2.1 # generation for immutable classes that has a simple syntax/API
+  freezed: 2.3.0 # generation for immutable classes that has a simple syntax/API
   build_runner: ^2.1.11 # generating files using Dart code
-  json_serializable: ^6.5.4 # dart build system builders for handling JSON
-  injectable_generator: ^1.5.5
-  mobx_codegen: ^2.0.7+3
-  auto_route_generator: ^5.0.2
+  json_serializable: 6.5.4 # dart build system builders for handling JSON
+  injectable_generator: 2.1.2
+  mobx_codegen: 2.1.1
+  auto_route_generator: 5.0.3
 
 dependency_overrides:
   analyzer: 4.6.0

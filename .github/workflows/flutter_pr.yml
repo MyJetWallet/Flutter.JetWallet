@@ -1,13 +1,14 @@
 name: Flutter pull request
 
 on:
-  pull_request:
-    branches: [ master, develop ]
+  workflow_dispatch:
+#   pull_request:
+#     branches: [ master, develop ]
 
 jobs:
   flutter_run_web:
     name: Test, build and release docker
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1

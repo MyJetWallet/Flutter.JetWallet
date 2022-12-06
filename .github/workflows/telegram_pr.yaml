@@ -1,10 +1,12 @@
 name: Telegram notification
 
 on:
-  push:
-    branches:
-      - develop
-      - master
+  workflow_dispatch:
+
+#   push:
+#     branches:
+#       - develop
+#       - master
 
 jobs:
   build:

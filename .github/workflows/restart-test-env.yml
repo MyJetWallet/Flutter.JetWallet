@@ -5,7 +5,7 @@ on:
 
 jobs:
   restart:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Restart service
       uses: Myjetwallet/kube-restart-pods@master
