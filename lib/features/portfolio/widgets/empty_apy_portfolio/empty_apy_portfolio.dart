@@ -15,7 +15,6 @@ class EmptyApyPortfolio extends StatelessWidget {
       header: const PortfolioHeader(
         emptyBalance: true,
       ),
-      child: EmptyApyPortfolioBody(),
       child: const EmptyApyPortfolioBody(),
     );
   }
