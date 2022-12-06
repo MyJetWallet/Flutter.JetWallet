@@ -142,8 +142,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
     //final name = 'Very veryvesdaglajsdgl j aslgdk j long name Very veryvesdaglajsdgl';
 
     var expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
-    if ((store.nft?.name?.length ?? 0) < 30) {
-      expandedHeight = expandedHeight - 26;
+    if ((store.nft?.name?.length ?? 0) < 22) {
+      expandedHeight = expandedHeight - 24 -
+          (store.nft?.name?.length ?? 0).toDouble();
+    } else if ((store.nft?.name?.length ?? 0) < 44) {
+      expandedHeight = expandedHeight + 17 -
+          (store.nft?.name?.length ?? 0).toDouble();
+    } else {
+      expandedHeight = expandedHeight + 57 -
+          (store.nft?.name?.length ?? 0).toDouble();
     }
     //final expandedHeight = 130 + (name.length ?? 0).toDouble();
 
