@@ -63,6 +63,7 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
     final state = ReturnToWalletStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.return_to_wallet_return_to_wallet,

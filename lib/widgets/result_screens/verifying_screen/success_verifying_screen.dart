@@ -71,6 +71,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
           return Future.value(false);
         },
         child: SPageFrameWithPadding(
+          loaderText: intl.register_pleaseWait,
           child: Observer(
             builder: (context) {
               return Stack(
@@ -82,9 +83,11 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                       Image.asset(
                         verifyYourProfileAsset,
                         width: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                            ? 160 : 225,
+                            ? 160
+                            : 225,
                         height: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                            ? 160 : 225,
+                            ? 160
+                            : 225,
                       ),
                       const Spacer(),
                       Baseline(

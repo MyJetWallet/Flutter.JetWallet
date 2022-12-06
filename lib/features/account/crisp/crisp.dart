@@ -66,6 +66,7 @@ class _CrispState extends State<Crisp> {
   @override
   Widget build(BuildContext context) {
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.crisp_support,

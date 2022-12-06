@@ -46,6 +46,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
       dispose: (context, store) => store.dispose(),
       builder: (context, child) {
         return SPageFrame(
+          loaderText: intl.register_pleaseWait,
           loading: birthDateInfo.loader,
           color: colors.grey5,
           header: SAuthHeader(

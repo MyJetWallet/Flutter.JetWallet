@@ -123,6 +123,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
           return Future.value(false);
         },
         child: SPageFrameWithPadding(
+          loaderText: intl.register_pleaseWait,
           child: Observer(
             builder: (context) {
               return Stack(

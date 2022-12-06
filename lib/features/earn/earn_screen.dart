@@ -8,6 +8,8 @@ import 'package:jetwallet/features/earn/widgets/earn_header.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../core/l10n/i10n.dart';
+
 class EarnScreen extends StatelessWidget {
   const EarnScreen({Key? key}) : super(key: key);
 
@@ -38,6 +40,7 @@ class EarnScreenBody extends StatelessObserverWidget {
     final isActive = store.isActiveState(store.earnOffers);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       child: CustomScrollView(
         controller: scrollController,
         physics: const AlwaysScrollableScrollPhysics(),

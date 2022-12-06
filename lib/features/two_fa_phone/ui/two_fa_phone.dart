@@ -85,6 +85,7 @@ class _TwoFaPhoneBody extends StatelessObserverWidget {
     return logout.union.when(
       result: (_, __) {
         return SPageFrameWithPadding(
+          loaderText: intl.register_pleaseWait,
           loading: twoFa.loader,
           header: SBigHeader(
             title: intl.twoFaPhone_phoneConfirmation,

@@ -88,6 +88,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
       child: WillPopScope(
         onWillPop: () => Future.value(!widget.cannotLeave),
         child: SPageFrame(
+          loaderText: intl.register_pleaseWait,
           header: Column(
             children: [
               pin.screenUnion.when(

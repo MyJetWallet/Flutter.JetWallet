@@ -80,6 +80,7 @@ class __CryptoWithdrawBodyState extends State<_CurrencyWithdrawBody> {
         store.currencyModel != null ? store.currencyModel!.symbol : 'Matic';
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SMegaHeader(

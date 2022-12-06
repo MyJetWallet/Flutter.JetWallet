@@ -12,6 +12,7 @@ class AboutUs extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: SSmallHeader(
         title: intl.account_aboutUs,
         onBackButtonTap: () => Navigator.pop(context),

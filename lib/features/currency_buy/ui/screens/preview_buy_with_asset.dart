@@ -115,6 +115,7 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
         );
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         loading: state.loader,
         header: deviceSize.when(
           small: () {

@@ -62,6 +62,7 @@ class _PreviewConvertState extends State<PreviewConvert>
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: loader,
       header: SMegaHeader(
         crossAxisAlignment: CrossAxisAlignment.center,

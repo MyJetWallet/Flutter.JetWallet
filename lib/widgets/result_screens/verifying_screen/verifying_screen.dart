@@ -25,11 +25,10 @@ class VerifyingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<UploadKycDocumentsStore>(
       create: (context) => UploadKycDocumentsStore(),
-      builder: (context, child) =>
-        _VerifyingScreenBody(
-          cardId: cardId,
-          onSuccess: onSuccess,
-        ),
+      builder: (context, child) => _VerifyingScreenBody(
+        cardId: cardId,
+        onSuccess: onSuccess,
+      ),
     );
   }
 }
@@ -57,16 +56,17 @@ class _VerifyingScreenBody extends StatelessObserverWidget {
         return Future.value(false);
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         child: Column(
           children: [
             const SpaceH86(),
             const Spacer(),
             Image.asset(
               verifyingNowAsset,
-              width: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 160 : 225,
-              height: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 160 : 225,
+              width:
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
+              height:
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 160 : 225,
             ),
             const Spacer(),
             Baseline(

@@ -5,6 +5,8 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/widgets/failure_animation.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/l10n/i10n.dart';
+
 class FailureScreen extends StatelessObserverWidget {
   const FailureScreen({
     Key? key,
@@ -33,6 +35,7 @@ class FailureScreen extends StatelessObserverWidget {
         return Future.value(false);
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         child: Column(
           children: [
             const SpaceH86(),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,12 +18,18 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/is_buy_with_currency_available_for.dart';
 import 'package:jetwallet/utils/helpers/localized_action_items.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
+import '../../../../../core/services/remote_config/remote_config_values.dart';
+import '../../../../../core/services/user_info/user_info_service.dart';
+import '../../../../../utils/constants.dart';
 import '../../../../actions/action_deposit/widgets/deposit_options.dart';
+import '../../../../nft/nft_details/store/nft_detail_store.dart';
+import '../../../../nft/nft_details/ui/components/nft_terms_alert.dart';
 
 const _expandInterval = Interval(
   0.0,
@@ -35,7 +43,7 @@ const _narrowInterval = Interval(
   curve: Cubic(1, 0, 0.58, 1),
 );
 
-class ActionButtonNft extends StatefulObserverWidget {
+class ActionButtonNft extends StatelessWidget {
   const ActionButtonNft({
     super.key,
     required this.transitionAnimationController,
@@ -46,10 +54,32 @@ class ActionButtonNft extends StatefulObserverWidget {
   final NftMarket nft;
 
   @override
-  State<ActionButtonNft> createState() => _ActionButtonNftState();
+  Widget build(BuildContext context) {
+    return Provider<NFTDetailStore>(
+      create: (context) => NFTDetailStore()..init(nft.symbol ?? ''),
+      builder: (context, child) => _ActionButtonNft(
+        nft: nft,
+        transitionAnimationController: transitionAnimationController,
+      ),
+    );
+  }
 }
 
-class _ActionButtonNftState extends State<ActionButtonNft> {
+class _ActionButtonNft extends StatefulObserverWidget {
+  const _ActionButtonNft({
+    super.key,
+    required this.transitionAnimationController,
+    required this.nft,
+  });
+
+  final AnimationController transitionAnimationController;
+  final NftMarket nft;
+
+  @override
+  State<_ActionButtonNft> createState() => _ActionButtonNftState();
+}
+
+class _ActionButtonNftState extends State<_ActionButtonNft> {
   bool actionActive = true;
   bool highlighted = false;
 
@@ -57,6 +87,8 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final currencies = sSignalRModules.currenciesList;
+
+    final store = NFTDetailStore.of(context);
 
     void updateActionState() {
       setState(() {
@@ -181,65 +213,209 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             isConvertAvailable: false,
                             onBuy: () {},
                             onBuyFromCard: () {},
-                            onSell: () {
+                            onSell: () async {
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 2,
+                                  ),
+                                  () => store.toggleClick(true),
+                                );
+                              } else {
+                                return;
+                              }
                               sAnalytics.nftSellTap(
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
-                              if (kyc.depositStatus ==
-                                  kycOperationStatus(KycStatus.allowed)) {
-                                showSendTimerAlertOr(
-                                  context: context,
-                                  or: () => sellNFT(),
-                                );
-                                sAnalytics.nftSellPreview(
-                                  nftCollectionID: widget.nft.symbol ?? '',
-                                  nftObjectId: widget.nft.collectionId ?? '',
-                                );
-                              } else {
-                                handler.handle(
-                                  status: kyc.depositStatus,
-                                  isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => showSendTimerAlertOr(
+                              void sellClicked() {
+                                if (kyc.depositStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.withdrawalStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.sellStatus ==
+                                        kycOperationStatus(KycStatus.allowed)) {
+                                  showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
-                                  ),
-                                  requiredDocuments: kyc.requiredDocuments,
-                                  requiredVerifications:
-                                      kyc.requiredVerifications,
-                                );
+                                  );
+                                  sAnalytics.nftSellPreview(
+                                    nftCollectionID: widget.nft.symbol ?? '',
+                                    nftObjectId: widget.nft.collectionId ?? '',
+                                  );
+                                } else {
+                                  handler.handle(
+                                    status: kyc.depositStatus !=
+                                            kycOperationStatus(
+                                                KycStatus.allowed)
+                                        ? kyc.depositStatus
+                                        : kyc.withdrawalStatus !=
+                                                kycOperationStatus(
+                                                    KycStatus.allowed)
+                                            ? kyc.withdrawalStatus
+                                            : kyc.sellStatus,
+                                    isProgress: kyc.verificationInProgress,
+                                    currentNavigate: () => showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => sellNFT(),
+                                    ),
+                                    requiredDocuments: kyc.requiredDocuments,
+                                    requiredVerifications:
+                                        kyc.requiredVerifications,
+                                  );
+                                }
+                              }
+
+                              final userInfo =
+                                  getIt.get<UserInfoService>().userInfo;
+
+                              if (userInfo.hasNftDisclaimers) {
+                                await store.initNftDisclaimer();
+                                if (store.send) {
+                                  sellClicked();
+                                } else {
+                                  sShowNftTermsAlertPopup(
+                                    context,
+                                    store as NFTDetailStore,
+                                    willPopScope: false,
+                                    image: Image.asset(
+                                      disclaimerAsset,
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                    primaryText: intl.nft_disclaimer_title,
+                                    secondaryText:
+                                        intl.nft_disclaimer_firstText,
+                                    secondaryText2: intl.nft_disclaimer_terms,
+                                    secondaryText3:
+                                        intl.nft_disclaimer_secondText,
+                                    primaryButtonName: intl.earn_terms_continue,
+                                    onPrivacyPolicyTap: () {
+                                      sRouter.navigate(
+                                        HelpCenterWebViewRouter(
+                                          link: nftTermsLink,
+                                        ),
+                                      );
+                                    },
+                                    onPrimaryButtonTap: () {
+                                      store.sendAnswers(
+                                        () {
+                                          Navigator.pop(context);
+                                          sellClicked();
+                                        },
+                                      );
+                                    },
+                                    child: const SizedBox(),
+                                  );
+                                }
+                              } else {
+                                sellClicked();
                               }
                             },
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
-                            onSend: () {
+                            onSend: () async {
                               sAnalytics.nftSendTap(
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
-                              if (kyc.depositStatus ==
-                                  kycOperationStatus(KycStatus.allowed)) {
-                                showSendTimerAlertOr(
-                                  context: context,
-                                  or: () => sendNFT(),
-                                );
-                                sAnalytics.nftSendView(
-                                  nftCollectionID: widget.nft.symbol ?? '',
-                                  nftObjectId: widget.nft.collectionId ?? '',
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 2,
+                                  ),
+                                  () => store.toggleClick(true),
                                 );
                               } else {
-                                handler.handle(
-                                  status: kyc.depositStatus,
-                                  isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => showSendTimerAlertOr(
+                                return;
+                              }
+                              void sendClicked() {
+                                if (kyc.depositStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.withdrawalStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.sellStatus ==
+                                        kycOperationStatus(KycStatus.allowed)) {
+                                  showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
-                                  ),
-                                  requiredDocuments: kyc.requiredDocuments,
-                                  requiredVerifications:
-                                      kyc.requiredVerifications,
-                                );
+                                  );
+                                  sAnalytics.nftSendView(
+                                    nftCollectionID: widget.nft.symbol ?? '',
+                                    nftObjectId: widget.nft.collectionId ?? '',
+                                  );
+                                } else {
+                                  handler.handle(
+                                    status: kyc.depositStatus !=
+                                            kycOperationStatus(
+                                                KycStatus.allowed)
+                                        ? kyc.depositStatus
+                                        : kyc.withdrawalStatus !=
+                                                kycOperationStatus(
+                                                    KycStatus.allowed)
+                                            ? kyc.withdrawalStatus
+                                            : kyc.sellStatus,
+                                    isProgress: kyc.verificationInProgress,
+                                    currentNavigate: () => showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => sendNFT(),
+                                    ),
+                                    requiredDocuments: kyc.requiredDocuments,
+                                    requiredVerifications:
+                                        kyc.requiredVerifications,
+                                  );
+                                }
+                              }
+
+                              final userInfo =
+                                  getIt.get<UserInfoService>().userInfo;
+
+                              if (userInfo.hasNftDisclaimers) {
+                                await store.initNftDisclaimer();
+                                if (store.send) {
+                                  sendClicked();
+                                } else {
+                                  sShowNftTermsAlertPopup(
+                                    context,
+                                    store as NFTDetailStore,
+                                    willPopScope: false,
+                                    image: Image.asset(
+                                      disclaimerAsset,
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                    primaryText: intl.nft_disclaimer_title,
+                                    secondaryText:
+                                        intl.nft_disclaimer_firstText,
+                                    secondaryText2: intl.nft_disclaimer_terms,
+                                    secondaryText3:
+                                        intl.nft_disclaimer_secondText,
+                                    primaryButtonName: intl.earn_terms_continue,
+                                    onPrivacyPolicyTap: () {
+                                      sRouter.navigate(
+                                        HelpCenterWebViewRouter(
+                                          link: nftTermsLink,
+                                        ),
+                                      );
+                                    },
+                                    onPrimaryButtonTap: () {
+                                      store.sendAnswers(
+                                        () {
+                                          Navigator.pop(context);
+                                          sendClicked();
+                                        },
+                                      );
+                                    },
+                                    child: const SizedBox(),
+                                  );
+                                }
+                              } else {
+                                sendClicked();
                               }
                             },
                             onReceive: () {},
@@ -297,65 +473,210 @@ class _ActionButtonNftState extends State<ActionButtonNft> {
                             isConvertAvailable: false,
                             onBuy: () {},
                             onBuyFromCard: () {},
-                            onSell: () {
+                            onSell: () async {
                               sAnalytics.nftSellTap(
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
-                              if (kyc.depositStatus ==
-                                  kycOperationStatus(KycStatus.allowed)) {
-                                showSendTimerAlertOr(
-                                  context: context,
-                                  or: () => sellNFT(),
-                                );
-                                sAnalytics.nftSellPreview(
-                                  nftCollectionID: widget.nft.symbol ?? '',
-                                  nftObjectId: widget.nft.collectionId ?? '',
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 2,
+                                  ),
+                                  () => store.toggleClick(true),
                                 );
                               } else {
-                                handler.handle(
-                                  status: kyc.depositStatus,
-                                  isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => showSendTimerAlertOr(
+                                return;
+                              }
+                              void sellClicked() {
+                                if (kyc.depositStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.withdrawalStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.sellStatus ==
+                                        kycOperationStatus(KycStatus.allowed)) {
+                                  showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
-                                  ),
-                                  requiredDocuments: kyc.requiredDocuments,
-                                  requiredVerifications:
-                                      kyc.requiredVerifications,
-                                );
+                                  );
+                                  sAnalytics.nftSellPreview(
+                                    nftCollectionID: widget.nft.symbol ?? '',
+                                    nftObjectId: widget.nft.collectionId ?? '',
+                                  );
+                                } else {
+                                  handler.handle(
+                                    status: kyc.depositStatus !=
+                                            kycOperationStatus(
+                                                KycStatus.allowed)
+                                        ? kyc.depositStatus
+                                        : kyc.withdrawalStatus !=
+                                                kycOperationStatus(
+                                                    KycStatus.allowed)
+                                            ? kyc.withdrawalStatus
+                                            : kyc.sellStatus,
+                                    isProgress: kyc.verificationInProgress,
+                                    currentNavigate: () => showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => sellNFT(),
+                                    ),
+                                    requiredDocuments: kyc.requiredDocuments,
+                                    requiredVerifications:
+                                        kyc.requiredVerifications,
+                                  );
+                                }
+                              }
+
+                              final userInfo =
+                                  getIt.get<UserInfoService>().userInfo;
+
+                              if (userInfo.hasNftDisclaimers) {
+                                await store.initNftDisclaimer();
+                                if (store.send) {
+                                  sellClicked();
+                                } else {
+                                  sShowNftTermsAlertPopup(
+                                    context,
+                                    store as NFTDetailStore,
+                                    willPopScope: false,
+                                    image: Image.asset(
+                                      disclaimerAsset,
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                    primaryText: intl.nft_disclaimer_title,
+                                    secondaryText:
+                                        intl.nft_disclaimer_firstText,
+                                    secondaryText2: intl.nft_disclaimer_terms,
+                                    secondaryText3:
+                                        intl.nft_disclaimer_secondText,
+                                    primaryButtonName: intl.earn_terms_continue,
+                                    onPrivacyPolicyTap: () {
+                                      sRouter.navigate(
+                                        HelpCenterWebViewRouter(
+                                          link: nftTermsLink,
+                                        ),
+                                      );
+                                    },
+                                    onPrimaryButtonTap: () {
+                                      store.sendAnswers(
+                                        () {
+                                          Navigator.pop(context);
+                                          sellClicked();
+                                        },
+                                      );
+                                    },
+                                    child: const SizedBox(),
+                                  );
+                                }
+                              } else {
+                                sellClicked();
                               }
                             },
                             onConvert: () {},
                             onDeposit: () {},
                             onWithdraw: () {},
-                            onSend: () {
+                            onSend: () async {
                               sAnalytics.nftSendTap(
                                 nftCollectionID: widget.nft.symbol ?? '',
                                 nftObjectId: widget.nft.collectionId ?? '',
                               );
-                              if (kyc.depositStatus ==
-                                  kycOperationStatus(KycStatus.allowed)) {
-                                showSendTimerAlertOr(
-                                  context: context,
-                                  or: () => sendNFT(),
-                                );
-                                sAnalytics.nftSendView(
-                                  nftCollectionID: widget.nft.symbol ?? '',
-                                  nftObjectId: widget.nft.collectionId ?? '',
+                              if (store.canCLick) {
+                                store.toggleClick(false);
+
+                                Timer(
+                                  const Duration(
+                                    seconds: 2,
+                                  ),
+                                  () => store.toggleClick(true),
                                 );
                               } else {
-                                handler.handle(
-                                  status: kyc.depositStatus,
-                                  isProgress: kyc.verificationInProgress,
-                                  currentNavigate: () => showSendTimerAlertOr(
+                                return;
+                              }
+
+                              void sendClicked() {
+                                if (kyc.depositStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.withdrawalStatus ==
+                                        kycOperationStatus(KycStatus.allowed) &&
+                                    kyc.sellStatus ==
+                                        kycOperationStatus(KycStatus.allowed)) {
+                                  showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
-                                  ),
-                                  requiredDocuments: kyc.requiredDocuments,
-                                  requiredVerifications:
-                                      kyc.requiredVerifications,
-                                );
+                                  );
+                                  sAnalytics.nftSendView(
+                                    nftCollectionID: widget.nft.symbol ?? '',
+                                    nftObjectId: widget.nft.collectionId ?? '',
+                                  );
+                                } else {
+                                  handler.handle(
+                                    status: kyc.depositStatus !=
+                                            kycOperationStatus(
+                                                KycStatus.allowed)
+                                        ? kyc.depositStatus
+                                        : kyc.withdrawalStatus !=
+                                                kycOperationStatus(
+                                                    KycStatus.allowed)
+                                            ? kyc.withdrawalStatus
+                                            : kyc.sellStatus,
+                                    isProgress: kyc.verificationInProgress,
+                                    currentNavigate: () => showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => sendNFT(),
+                                    ),
+                                    requiredDocuments: kyc.requiredDocuments,
+                                    requiredVerifications:
+                                        kyc.requiredVerifications,
+                                  );
+                                }
+                              }
+
+                              final userInfo =
+                                  getIt.get<UserInfoService>().userInfo;
+
+                              if (userInfo.hasNftDisclaimers) {
+                                await store.initNftDisclaimer();
+                                if (store.send) {
+                                  sendClicked();
+                                } else {
+                                  sShowNftTermsAlertPopup(
+                                    context,
+                                    store as NFTDetailStore,
+                                    willPopScope: false,
+                                    image: Image.asset(
+                                      disclaimerAsset,
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                    primaryText: intl.nft_disclaimer_title,
+                                    secondaryText:
+                                        intl.nft_disclaimer_firstText,
+                                    secondaryText2: intl.nft_disclaimer_terms,
+                                    secondaryText3:
+                                        intl.nft_disclaimer_secondText,
+                                    primaryButtonName: intl.earn_terms_continue,
+                                    onPrivacyPolicyTap: () {
+                                      sRouter.navigate(
+                                        HelpCenterWebViewRouter(
+                                          link: nftTermsLink,
+                                        ),
+                                      );
+                                    },
+                                    onPrimaryButtonTap: () {
+                                      store.sendAnswers(
+                                        () {
+                                          Navigator.pop(context);
+                                          sendClicked();
+                                        },
+                                      );
+                                    },
+                                    child: const SizedBox(),
+                                  );
+                                }
+                              } else {
+                                sendClicked();
                               }
                             },
                             onReceive: () {},
