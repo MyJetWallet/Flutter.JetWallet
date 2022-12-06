@@ -64,38 +64,49 @@ abstract class _LogoutServiceBase with Store {
       await sLocalStorageService.clearStorage();
       await sLocalStorageService
           .clearStorageForCrypto(sSignalRModules.currenciesList);
+      getIt<AppStore>().resetAppStore();
+
+      await sRouter.replaceAll([const AppInitRoute()]);
+      await getIt<AppStore>().checkInitRouter();
+      await getIt<AppStore>().getAuthStatus();
     } finally {
       print('FINALLY LOGOUT');
 
-      await sLocalStorageService.clearStorage();
-      await sLocalStorageService
-          .clearStorageForCrypto(sSignalRModules.currenciesList);
+      try {
+        await sLocalStorageService.clearStorage();
+        await sLocalStorageService
+            .clearStorageForCrypto(sSignalRModules.currenciesList);
 
-      /// Disconet from SignalR
-      await getIt.get<SignalRService>().signalR.disconnect();
+        /// Disconet from SignalR
+        await getIt.get<SignalRService>().signalR.disconnect();
 
-      /// Set Unauthorized status
-      getIt.get<AppStore>().setAuthStatus(const Unauthorized());
+        /// Set Unauthorized status
+        getIt.get<AppStore>().setAuthStatus(const Unauthorized());
 
-      /// Clear some user variables
-      sUserInfo.clear();
-      getIt.get<AppStore>().clearInitSessionReceived();
-      getIt.get<AppStore>().resetResendButton();
+        /// Clear some user variables
+        sUserInfo.clear();
+        getIt.get<AppStore>().clearInitSessionReceived();
+        getIt.get<AppStore>().resetResendButton();
 
-      unawaited(sAnalytics.logout());
+        unawaited(sAnalytics.logout());
 
-      union = const LogoutUnion.result();
+        union = const LogoutUnion.result();
 
-      AppBuilderBody.restart(sRouter.navigatorKey.currentContext!);
+        AppBuilderBody.restart(sRouter.navigatorKey.currentContext!);
 
-      sSignalRModules.clearSignalRModule();
-      getIt<AppStore>().resetAppStore();
-      await getIt<LocalCacheService>().clearAllCache();
+        sSignalRModules.clearSignalRModule();
+        getIt<AppStore>().resetAppStore();
+        await getIt<LocalCacheService>().clearAllCache();
 
-      await sRouter.replaceAll([const AppInitRoute()]);
+        await sRouter.replaceAll([const AppInitRoute()]);
 
-      await getIt<AppStore>().checkInitRouter();
-      await getIt<AppStore>().getAuthStatus();
+        await getIt<AppStore>().checkInitRouter();
+        await getIt<AppStore>().getAuthStatus();
+      } catch (e) {
+        await sRouter.replaceAll([const AppInitRoute()]);
+        await getIt<AppStore>().checkInitRouter();
+        await getIt<AppStore>().getAuthStatus();
+      }
     }
   }
 
