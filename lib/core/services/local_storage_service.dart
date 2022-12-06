@@ -88,7 +88,9 @@ class LocalStorageService {
     await _storage.delete(key: startApp);
     await _storage.delete(key: nftPromoCode);
 
+    final userMail = await _storage.read(key: lastUsedMail);
     await _storage.deleteAll();
+    await _storage.write(key: lastUsedMail, value: userMail);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -121,7 +123,9 @@ class LocalStorageService {
     final val = await getIt<LocalCacheService>().checkIsFirstRunning();
 
     if (val) {
+      final userMail = await _storage.read(key: lastUsedMail);
       await _storage.deleteAll();
+      await _storage.write(key: lastUsedMail, value: userMail);
     }
   }
 }
