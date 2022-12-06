@@ -74,6 +74,9 @@ abstract class _NFTDetailStoreBase with Store {
   String descriptionDisclaimer = '';
 
   @observable
+  bool canCLick = true;
+
+  @observable
   ObservableList<DisclaimerQuestionsModel> questions = ObservableList.of([]);
 
   final loader = StackLoaderStore();
@@ -187,6 +190,11 @@ abstract class _NFTDetailStoreBase with Store {
   @action
   void disableCheckbox() {
     activeButton = false;
+  }
+
+  @action
+  void toggleClick(bool value) {
+    canCLick = value;
   }
 
   @action

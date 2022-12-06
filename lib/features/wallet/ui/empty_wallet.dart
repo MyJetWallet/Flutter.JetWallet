@@ -54,6 +54,7 @@ class _EmptyWalletState extends State<EmptyWallet>
             showShade: getIt.get<AppStore>().actionMenuActive,
             //controller: animationController,
             child: SPageFrameWithPadding(
+              loaderText: intl.register_pleaseWait,
               header: SSmallHeader(
                 title: '${widget.currency.description} '
                     '${intl.emptyWallet_wallet}',

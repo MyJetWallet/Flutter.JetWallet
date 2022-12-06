@@ -50,6 +50,7 @@ class DeleteProfile extends StatelessObserverWidget {
     );
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SBigHeader(
           title: intl.deleteProfileConditions_title,

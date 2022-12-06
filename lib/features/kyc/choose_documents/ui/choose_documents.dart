@@ -26,6 +26,7 @@ class ChooseDocuments extends StatelessObserverWidget {
     final state = getIt.get<ChooseDocumentsStore>();
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: headerTitle,

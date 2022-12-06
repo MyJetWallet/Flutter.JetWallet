@@ -65,6 +65,7 @@ class __PreviewReturnToWalletBodyState
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: loader,
       header: deviceSize.when(
         small: () {

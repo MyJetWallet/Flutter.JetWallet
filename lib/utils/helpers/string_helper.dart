@@ -71,6 +71,10 @@ String lastNChars(String string, int n) {
 
 String removeCharsFrom(String string, int amount) {
   if (string.isEmpty) return '';
+  final substringAmount = string.substring(0, string.length - amount);
+  if (substringAmount[substringAmount.length - 1] == '.') {
+    return string.substring(0, string.length - amount - 1);
+  }
 
   return string.substring(0, string.length - amount);
 }

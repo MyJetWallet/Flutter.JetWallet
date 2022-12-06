@@ -33,6 +33,7 @@ class _SendByPhoneNotifyRecipientState
     sAnalytics.sendNotifyRecipient();
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: SMegaHeader(
         titleAlign: TextAlign.start,
         title: intl.sendByPhoneRecipient_headerTitle,
@@ -80,14 +81,11 @@ class _SendByPhoneNotifyRecipientState
 
                 try {
                   Share.share(
-                  '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
-                  '${intl.sendByPhoneRecipient_text4}.\n '
-                  '${userInfo.referralLink}',
-                );
-                } catch (e) {
-                  
-                }
-                
+                    '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
+                    '${intl.sendByPhoneRecipient_text4}.\n '
+                    '${userInfo.referralLink}',
+                  );
+                } catch (e) {}
               }
             },
           ),

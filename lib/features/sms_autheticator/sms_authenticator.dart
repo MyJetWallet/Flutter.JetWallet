@@ -14,6 +14,7 @@ class SmsAuthenticator extends StatelessObserverWidget {
     final userInfo = sUserInfo.userInfo;
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.smsAuth_headerTitle,

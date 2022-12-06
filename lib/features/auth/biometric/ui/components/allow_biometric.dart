@@ -30,11 +30,12 @@ class _AllowBiometricScreenBody extends StatefulObserverWidget {
   }) : super(key: key);
 
   @override
-  State<_AllowBiometricScreenBody> createState() => _AllowCameraScreenBodyState();
+  State<_AllowBiometricScreenBody> createState() =>
+      _AllowCameraScreenBodyState();
 }
 
-class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with
-    WidgetsBindingObserver {
+class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody>
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -91,6 +92,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody> with
     final size = MediaQuery.of(context).size;
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: deviceSize.when(
         small: () {
           return SSmallHeader(

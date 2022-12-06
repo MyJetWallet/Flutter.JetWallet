@@ -141,37 +141,60 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
 
     //final name = 'Very veryvesdaglajsdgl j aslgdk j long name Very veryvesdaglajsdgl';
 
-    final expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
+    var expandedHeight = 140 + (store.nft?.name?.length ?? 0).toDouble();
+    if ((store.nft?.name?.length ?? 0) < 22) {
+      expandedHeight =
+          expandedHeight - 24 - (store.nft?.name?.length ?? 0).toDouble();
+    } else if ((store.nft?.name?.length ?? 0) < 44) {
+      expandedHeight =
+          expandedHeight + 17 - (store.nft?.name?.length ?? 0).toDouble();
+    } else {
+      expandedHeight =
+          expandedHeight + 57 - (store.nft?.name?.length ?? 0).toDouble();
+    }
     //final expandedHeight = 130 + (name.length ?? 0).toDouble();
 
     final showBaottomBar = !widget.userNFT && !store.nft!.onSell!;
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       loading: store.loader,
       bottomNavigationBar: !widget.userNFT && !store.nft!.onSell!
           ? null
           : widget.userNFT
               ? store.nft!.onSell!
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0,
-                        vertical: 24.0,
-                      ),
-                      child: SSecondaryButton1(
-                        active: true,
-                        name: intl.nft_detail_cancel_selling,
-                        onTap: () {
-                          sAnalytics.nftSellCancelTap(
-                            nftCollectionID: store.nft?.collectionId ?? '',
-                            nftObjectId: store.nft?.symbol ?? '',
-                            asset: store.nft?.tradingAsset ?? '',
-                            nftPriceAmount: '${store.nft?.sellPrice}',
-                            nftOperationFee: '',
-                            nftCreatorFee: '',
-                            nftAmountToGet: '',
-                          );
-                          store.cancelSellOrder();
-                        },
+                  ? Material(
+                      color: colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SDivider(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 24,
+                              right: 24,
+                              bottom: 24,
+                              top: 23,
+                            ),
+                            child: SSecondaryButton1(
+                              active: true,
+                              name: intl.nft_detail_cancel_selling,
+                              onTap: () {
+                                sAnalytics.nftSellCancelTap(
+                                  nftCollectionID:
+                                      store.nft?.collectionId ?? '',
+                                  nftObjectId: store.nft?.symbol ?? '',
+                                  asset: store.nft?.tradingAsset ?? '',
+                                  nftPriceAmount: '${store.nft?.sellPrice}',
+                                  nftOperationFee: '',
+                                  nftCreatorFee: '',
+                                  nftAmountToGet: '',
+                                );
+                                store.cancelSellOrder();
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   : ActionButtonNft(
@@ -261,7 +284,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
               child: SPaddingH24(
                 child: Column(
                   children: [
-                    const SpaceH20(),
+                    const SpaceH15(),
                     if (mounted) ...[
                       Opacity(
                         opacity: showImage ? 1 : 0,
@@ -365,7 +388,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.only(top: 8),
                           child: SNetworkSvg24(
                             url: iconUrlFrom(
                               assetSymbol: store.nft!.tradingAsset!,
@@ -376,29 +399,23 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Baseline(
-                              baseline: 40,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                volumeFormat(
-                                  decimal: nftPrice,
-                                  symbol: store.nft!.tradingAsset!,
-                                  accuracy: currency.accuracy,
-                                ),
-                                style: sTextH2Style,
+                            Text(
+                              volumeFormat(
+                                decimal: nftPrice,
+                                symbol: store.nft!.tradingAsset!,
+                                accuracy: currency.accuracy,
                               ),
+                              style: sTextH2Style,
                             ),
-                            Baseline(
-                              baseline: 24,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                volumeFormat(
-                                  prefix: baseCurrency.prefix,
-                                  decimal: currency.currentPrice * nftPrice,
-                                  symbol: baseCurrency.symbol,
-                                  accuracy: baseCurrency.accuracy,
-                                ),
-                                style: sSubtitle3Style,
+                            Text(
+                              volumeFormat(
+                                prefix: baseCurrency.prefix,
+                                decimal: currency.currentPrice * nftPrice,
+                                symbol: baseCurrency.symbol,
+                                accuracy: baseCurrency.accuracy,
+                              ),
+                              style: sSubtitle3Style.copyWith(
+                                height: 1.2,
                               ),
                             ),
                           ],
@@ -406,17 +423,18 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                       ],
                     ),
                     if (!widget.userNFT) ...[
-                      const SpaceH12(),
+                      const SpaceH15(),
                       const SDivider(),
                       const SpaceH32(),
                     ] else ...[
+                      const SpaceH3(),
                       Container(
                         margin: const EdgeInsets.only(top: 12, bottom: 32),
                         padding: const EdgeInsets.only(
                           left: 20,
                           right: 20,
-                          top: 18,
-                          bottom: 25,
+                          top: 20,
+                          bottom: 28,
                         ),
                         decoration: BoxDecoration(
                           color: colors.grey5,
@@ -455,7 +473,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                                 ),
                               ],
                             ),
-                            const SpaceH20(),
+                            const SpaceH18(),
                             Row(
                               children: [
                                 Text(
@@ -478,13 +496,9 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                     ],
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Baseline(
-                        baseline: 28.84,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          intl.nft_detail_nft_features,
-                          style: sTextH4Style,
-                        ),
+                      child: Text(
+                        intl.nft_detail_nft_features,
+                        style: sTextH4Style,
                       ),
                     ),
                     const SpaceH20(),
@@ -493,26 +507,18 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Baseline(
-                              baseline: 21,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                intl.nft_detail_creation_date,
-                                style: sBodyText2Style.copyWith(
-                                  color: colors.grey2,
-                                ),
+                            Text(
+                              intl.nft_detail_creation_date,
+                              style: sBodyText2Style.copyWith(
+                                color: colors.grey2,
                               ),
                             ),
                             const SpaceH1(),
-                            Baseline(
-                              baseline: 24,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                DateFormat('yMMMd').format(
-                                  store.nft!.mintDate!,
-                                ),
-                                style: sBodyText1Style,
+                            Text(
+                              DateFormat('yMMMd').format(
+                                store.nft!.mintDate!,
                               ),
+                              style: sBodyText1Style,
                             ),
                           ],
                         ),
@@ -522,24 +528,16 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Baseline(
-                              baseline: 21,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                intl.nft_detail_rarity,
-                                style: sBodyText2Style.copyWith(
-                                  color: colors.grey2,
-                                ),
+                            Text(
+                              intl.nft_detail_rarity,
+                              style: sBodyText2Style.copyWith(
+                                color: colors.grey2,
                               ),
                             ),
                             const SpaceH1(),
-                            Baseline(
-                              baseline: 24,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                '1/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
-                                style: sBodyText1Style,
-                              ),
+                            Text(
+                              '1/${collection.nftList.length} (${getNFTRarity(store.nft?.rarityId ?? 1)})',
+                              style: sBodyText1Style,
                             ),
                           ],
                         ),
@@ -550,14 +548,10 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                     const SpaceH25(),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Baseline(
-                        baseline: 21,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          intl.nft_detail_collection,
-                          style: sBodyText2Style.copyWith(
-                            color: colors.grey2,
-                          ),
+                      child: Text(
+                        intl.nft_detail_collection,
+                        style: sBodyText2Style.copyWith(
+                          color: colors.grey2,
                         ),
                       ),
                     ),
@@ -610,13 +604,15 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                           const SpaceW10(),
                           Text(
                             collection.name ?? '',
-                            style: sSubtitle2Style,
+                            style: sSubtitle2Style.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     if (store.description.isNotEmpty) ...[
-                      const SpaceH32(),
+                      const SpaceH34(),
                       const SDivider(),
                       const SpaceH32(),
                       NFTAboutBlock(
@@ -624,7 +620,7 @@ class _NFTDetailsScreenBodyState extends State<_NFTDetailsScreenBody>
                         shortDescription: store.shortDescription,
                       ),
                     ],
-                    const SpaceH42(),
+                    const SpaceH20(),
                   ],
                 ),
               ),

@@ -87,7 +87,7 @@ class NFTDetailBottomBar extends StatelessObserverWidget {
               rightBlockTopPadding: 16,
             ),
           ] else ...[
-            const SpaceH20(),
+            const SpaceH13(),
           ],
           SPaddingH24(
             child: SPrimaryButton1(

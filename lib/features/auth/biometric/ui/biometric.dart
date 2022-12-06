@@ -72,9 +72,12 @@ class _BiometricBody extends StatelessObserverWidget {
           }
 
           return SPageFrame(
+            loaderText: intl.register_pleaseWait,
             header: SAuthHeader(
               customIconButton: const SpaceH10(),
               title: headerText,
+              isAutoSize: true,
+              maxLines: 2,
             ),
             child: SPaddingH24(
               child: Column(
@@ -105,8 +108,8 @@ class _BiometricBody extends StatelessObserverWidget {
                       print(bioStatus);
                       if (bioStatus == BiometricStatus.none) {
                         await getIt.get<AppRouter>().push(
-                          const AllowBiometricRoute(),
-                        );
+                              const AllowBiometricRoute(),
+                            );
                       } else {
                         biometric.useBio(
                           useBio: true,

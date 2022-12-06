@@ -103,6 +103,7 @@ class __EmailConfirmationScreenBodyState
         );
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         header: SSmallHeader(
           title: intl.emailConfirmation_title,
           showBackButton: false,
