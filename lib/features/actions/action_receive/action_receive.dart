@@ -153,10 +153,9 @@ Widget receiveItem({
 }
 
 void showCryptoReceiveAction(BuildContext context) {
-  final showSearch = showReceiveCurrencySearch(context);
-
   getIt.get<ActionSearchStore>().init();
   final searchStore = getIt.get<ActionSearchStore>();
+  final showSearch = showReceiveCurrencySearch(context);
 
   sShowBasicModalBottomSheet(
     context: context,

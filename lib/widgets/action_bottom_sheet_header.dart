@@ -8,6 +8,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
     this.showSearch = false,
     this.showCloseIcon = true,
     this.removePadding = false,
+    this.removeSearchPadding = false,
     this.onChanged,
     this.onCloseTap,
     required this.name,
@@ -19,6 +20,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
   final bool showSearch;
   final bool showCloseIcon;
   final bool removePadding;
+  final bool removeSearchPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +58,18 @@ class ActionBottomSheetHeader extends StatelessWidget {
           ),
         ),
         if (showSearch) ...[
-          SPaddingH24(
-            child: SStandardField(
+          if (removeSearchPadding)
+            SStandardField(
               labelText: intl.actionBottomSheetHeader_search,
               onChanged: onChanged,
+            )
+          else
+            SPaddingH24(
+              child: SStandardField(
+                labelText: intl.actionBottomSheetHeader_search,
+                onChanged: onChanged,
+              ),
             ),
-          ),
           const SDivider(),
         ] else
           const SpaceH24(),

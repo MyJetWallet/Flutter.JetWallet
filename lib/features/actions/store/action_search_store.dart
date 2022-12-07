@@ -29,6 +29,14 @@ abstract class _ActionSearchStoreBase with Store {
   @observable
   ObservableList<CurrencyModel> sendCurrencies = ObservableList.of([]);
 
+  @observable
+  ObservableList<CurrencyModel> convertCurrenciesWithBalance =
+    ObservableList.of([]);
+
+  @observable
+  ObservableList<CurrencyModel> convertCurrenciesWithoutBalance =
+    ObservableList.of([]);
+
   @action
   void init() {
     final _currencies = sSignalRModules.currenciesList;
@@ -60,6 +68,15 @@ abstract class _ActionSearchStoreBase with Store {
     buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(_receiveCurrencies);
     sendCurrencies = ObservableList.of(_sendCurrencies);
+  }
+
+  @action
+  void initConvert(
+    List<CurrencyModel> assetsWithBalance,
+    List<CurrencyModel> assetsWithoutBalance,
+  ) {
+    convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
+    convertCurrenciesWithoutBalance = ObservableList.of(assetsWithoutBalance);
   }
 
   @action
@@ -95,6 +112,41 @@ abstract class _ActionSearchStoreBase with Store {
 
       filteredCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
+    }
+  }
+
+  @action
+  void searchConvert(
+    String value,
+    List<CurrencyModel> assetsWithBalance,
+    List<CurrencyModel> assetsWithoutBalance,
+  ) {
+    if (value.isNotEmpty && assetsWithBalance.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<CurrencyModel>.from(assetsWithBalance);
+
+      _currencies.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      convertCurrenciesWithBalance = ObservableList.of(_currencies);
+    }
+    if (value.isNotEmpty && assetsWithoutBalance.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<CurrencyModel>.from(assetsWithoutBalance);
+
+      _currencies.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      convertCurrenciesWithoutBalance = ObservableList.of(_currencies);
+    }
+    if (value.isEmpty) {
+      convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
+      convertCurrenciesWithoutBalance =
+        ObservableList.of(assetsWithoutBalance);
     }
   }
 }
