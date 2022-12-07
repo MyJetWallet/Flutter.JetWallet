@@ -137,6 +137,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
 
+    loader.startLoading();
+
     if (union is Loading) {
       return;
     }
@@ -166,6 +168,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
         sAnalytics.sendSuccess(type: 'By phone');
         _showSuccessScreen();
         clear();
+
+        loader.finishLoadingImmediately();
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);

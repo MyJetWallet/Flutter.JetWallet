@@ -198,7 +198,6 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
               controller: confirm.controller,
               length: emailVerificationCodeLength,
               onCompleted: (_) {
-                confirm.loader.startLoading();
                 confirm.verifyCode();
               },
               autoFocus: true,
