@@ -33,7 +33,8 @@ class TransactionsMainList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
-      create: (context) => OperationHistory(symbol)..initOperationHistory(),
+      create: (context) =>
+          OperationHistory(symbol, filter, isRecurring)..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
@@ -68,9 +69,11 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     widget.scrollController.addListener(() {
       if (widget.scrollController.position.maxScrollExtent ==
           widget.scrollController.offset) {
+        print('UPDATE UPERATION');
         if (OperationHistory.of(context).union ==
                 const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
+          print('UPDATE UPERATION 2');
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
       }
@@ -83,26 +86,29 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
       () {
         final listToShow = widget.isRecurring
             ? OperationHistory.of(context)
-            .operationHistoryItems
-            .where(
-              (i) => i.operationType == OperationType.recurringBuy,
-        )
-            .toList()
+                .operationHistoryItems
+                .where(
+                  (i) => i.operationType == OperationType.recurringBuy,
+                )
+                .toList()
             : widget.filter == TransactionType.crypto
-            ? OperationHistory.of(context)
-            .operationHistoryItems
-            .where(
-              (i) => !nftTypes.contains(i.operationType),
-        ).toList()
-            : widget.filter == TransactionType.nft
-            ? OperationHistory.of(context)
-            .operationHistoryItems
-            .where(
-              (i) => nftTypes.contains(i.operationType),
-        ).toList()
-            : OperationHistory.of(context).operationHistoryItems;
+                ? OperationHistory.of(context)
+                    .operationHistoryItems
+                    .where(
+                      (i) => !nftTypes.contains(i.operationType),
+                    )
+                    .toList()
+                : widget.filter == TransactionType.nft
+                    ? OperationHistory.of(context)
+                        .operationHistoryItems
+                        .where(
+                          (i) => nftTypes.contains(i.operationType),
+                        )
+                        .toList()
+                    : OperationHistory.of(context).operationHistoryItems;
 
-        if (!OperationHistory.of(context).nothingToLoad && listToShow.length < 20) {
+        if (!OperationHistory.of(context).nothingToLoad &&
+            listToShow.length < 20) {
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
       },
@@ -124,18 +130,22 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
             )
             .toList()
         : widget.filter == TransactionType.crypto
-        ? OperationHistory.of(context)
-          .operationHistoryItems
-          .where(
-            (i) => !nftTypes.contains(i.operationType),
-          ).toList()
-        : widget.filter == TransactionType.nft
-        ? OperationHistory.of(context)
-          .operationHistoryItems
-          .where(
-            (i) => nftTypes.contains(i.operationType),
-          ).toList()
-        : OperationHistory.of(context).operationHistoryItems;
+            ? OperationHistory.of(context)
+                .operationHistoryItems
+                .where(
+                  (i) => !nftTypes.contains(i.operationType),
+                )
+                .toList()
+            : widget.filter == TransactionType.nft
+                ? OperationHistory.of(context)
+                    .operationHistoryItems
+                    .where(
+                      (i) => nftTypes.contains(i.operationType),
+                    )
+                    .toList()
+                : OperationHistory.of(context).operationHistoryItems;
+
+    print(listToShow.length);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -143,288 +153,293 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 const OperationHistoryUnion.error()
             ? 15
             : 0,
-        bottom: _addBottomPadding() ? 72 : 0,
+        bottom: _addBottomPadding() ? 25 : 0,
       ),
       child: OperationHistory.of(context).union.when(
         loaded: () {
           return listToShow.isEmpty
-            ? SizedBox(
-              height: screenHeight - screenHeight * 0.369,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    intl.transactionsList_noTransactionsYet,
-                    style: sTextH3Style,
-                  ),
-                  Text(
-                    intl.historyRecurringBuy_text1,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
-                    ),
-                  ),
-                ],
-              ),
-            )
-            : GroupedListView<OperationHistoryItem, String>(
-              elements: listToShow,
-              groupBy: (transaction) {
-                return formatDate(transaction.timeStamp);
-              },
-              sort: false,
-              groupSeparatorBuilder: (String date) {
-                return TransactionMonthSeparator(text: date);
-              },
-              itemBuilder: (context, transaction) {
-                final index = listToShow.indexOf(transaction);
-                final currentDate = formatDate(transaction.timeStamp);
-                var nextDate = '';
-                if (index != (listToShow.length - 1)) {
-                  nextDate = formatDate(listToShow[index + 1].timeStamp);
-                }
-                final removeDividerForLastInGroup = currentDate != nextDate;
-
-                return TransactionListItem(
-                  transactionListItem: transaction,
-                  removeDivider: removeDividerForLastInGroup,
-                );
-              },
-            );
-        },
-        error: () {
-          return listToShow.isEmpty
-            ? Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 137,
-                  margin: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      width: 2,
-                      color: colors.grey4,
-                    ),
-                  ),
+              ? SizedBox(
+                  height: screenHeight - screenHeight * 0.369,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 22,
-                              top: 22,
-                              right: 12,
-                            ),
-                            child: SErrorIcon(
-                              color: colors.red,
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 20,
-                              ),
-                              child: SizedBox(
-                                height: 77,
-                                child: Baseline(
-                                  baseline: 38,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Text(
-                                    intl.newsList_wentWrongText,
-                                    style: sBodyText1Style,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        intl.transactionsList_noTransactionsYet,
+                        style: sTextH3Style,
                       ),
-                      STextButton1(
-                        active: true,
-                        name: intl.transactionsList_retry,
-                        onTap: () {
-                          OperationHistory.of(context)
-                              .initOperationHistory();
-                        },
+                      Text(
+                        intl.historyRecurringBuy_text1,
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            )
-            : GroupedListView<OperationHistoryItem, String>(
-              elements: listToShow,
-              groupBy: (transaction) {
-                return formatDate(transaction.timeStamp);
-              },
-              groupSeparatorBuilder: (String date) {
-                return TransactionMonthSeparator(text: date);
-              },
-              groupComparator: (date1, date2) => 0,
-              itemBuilder: (context, transaction) {
-                final index = listToShow.indexOf(transaction);
-                final currentDate = formatDate(transaction.timeStamp);
-                var nextDate = '';
-                if (index != (listToShow.length - 1)) {
-                  nextDate = formatDate(listToShow[index + 1].timeStamp);
-                }
-                final removeDividerForLastInGroup = currentDate != nextDate;
+                )
+              : Observer(builder: (context) {
+                  return GroupedListView<OperationHistoryItem, String>(
+                    elements: OperationHistory.of(context).listToShow,
+                    groupBy: (transaction) {
+                      return formatDate(transaction.timeStamp);
+                    },
+                    sort: false,
+                    groupSeparatorBuilder: (String date) {
+                      return TransactionMonthSeparator(text: date);
+                    },
+                    controller: widget.scrollController,
+                    //physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, transaction) {
+                      final index = listToShow.indexOf(transaction);
+                      final currentDate = formatDate(transaction.timeStamp);
+                      var nextDate = '';
+                      if (index != (listToShow.length - 1)) {
+                        nextDate = formatDate(listToShow[index + 1].timeStamp);
+                      }
+                      final removeDividerForLastInGroup =
+                          currentDate != nextDate;
 
-                return listToShow.indexOf(transaction) ==
-                        listToShow.length - 1
-                  ? Column(
-                    children: [
-                      TransactionListItem(
+                      return TransactionListItem(
                         transactionListItem: transaction,
                         removeDivider: removeDividerForLastInGroup,
+                      );
+                    },
+                  );
+                });
+        },
+        error: () {
+          return listToShow.isEmpty
+              ? Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 137,
+                      margin: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          width: 2,
+                          color: colors.grey4,
+                        ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        height: 137,
-                        margin: const EdgeInsets.only(
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                          top: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            width: 2,
-                            color: colors.grey4,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 22,
-                                    top: 22,
-                                    right: 12,
-                                  ),
-                                  child: SErrorIcon(
-                                    color: colors.red,
-                                  ),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 22,
+                                  top: 22,
+                                  right: 12,
                                 ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 20,
-                                    ),
-                                    child: SizedBox(
-                                      height: 77,
-                                      child: Baseline(
-                                        baseline: 38,
-                                        baselineType:
-                                            TextBaseline.alphabetic,
-                                        child: Text(
-                                          intl.newsList_wentWrongText,
-                                          style: sBodyText1Style,
-                                          maxLines: 2,
-                                        ),
+                                child: SErrorIcon(
+                                  color: colors.red,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 20,
+                                  ),
+                                  child: SizedBox(
+                                    height: 77,
+                                    child: Baseline(
+                                      baseline: 38,
+                                      baselineType: TextBaseline.alphabetic,
+                                      child: Text(
+                                        intl.newsList_wentWrongText,
+                                        style: sBodyText1Style,
+                                        maxLines: 2,
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            STextButton1(
-                              active: true,
-                              name: intl.transactionsList_retry,
-                              onTap: () {
-                                OperationHistory.of(context)
-                                    .operationHistory(
-                                  widget.symbol,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                          STextButton1(
+                            active: true,
+                            name: intl.transactionsList_retry,
+                            onTap: () {
+                              OperationHistory.of(context)
+                                  .initOperationHistory();
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  )
-                  : TransactionListItem(
-                    transactionListItem: transaction,
-                    removeDivider: removeDividerForLastInGroup,
-                  );
-              },
-            );
+                    ),
+                  ],
+                )
+              : GroupedListView<OperationHistoryItem, String>(
+                  elements: listToShow,
+                  groupBy: (transaction) {
+                    return formatDate(transaction.timeStamp);
+                  },
+                  groupSeparatorBuilder: (String date) {
+                    return TransactionMonthSeparator(text: date);
+                  },
+                  groupComparator: (date1, date2) => 0,
+                  itemBuilder: (context, transaction) {
+                    final index = listToShow.indexOf(transaction);
+                    final currentDate = formatDate(transaction.timeStamp);
+                    var nextDate = '';
+                    if (index != (listToShow.length - 1)) {
+                      nextDate = formatDate(listToShow[index + 1].timeStamp);
+                    }
+                    final removeDividerForLastInGroup = currentDate != nextDate;
+
+                    return listToShow.indexOf(transaction) ==
+                            listToShow.length - 1
+                        ? Column(
+                            children: [
+                              TransactionListItem(
+                                transactionListItem: transaction,
+                                removeDivider: removeDividerForLastInGroup,
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: 137,
+                                margin: const EdgeInsets.only(
+                                  left: 24,
+                                  right: 24,
+                                  bottom: 24,
+                                  top: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    width: 2,
+                                    color: colors.grey4,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 22,
+                                            top: 22,
+                                            right: 12,
+                                          ),
+                                          child: SErrorIcon(
+                                            color: colors.red,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 20,
+                                            ),
+                                            child: SizedBox(
+                                              height: 77,
+                                              child: Baseline(
+                                                baseline: 38,
+                                                baselineType:
+                                                    TextBaseline.alphabetic,
+                                                child: Text(
+                                                  intl.newsList_wentWrongText,
+                                                  style: sBodyText1Style,
+                                                  maxLines: 2,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    STextButton1(
+                                      active: true,
+                                      name: intl.transactionsList_retry,
+                                      onTap: () {
+                                        OperationHistory.of(context)
+                                            .operationHistory(
+                                          widget.symbol,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : TransactionListItem(
+                            transactionListItem: transaction,
+                            removeDivider: removeDividerForLastInGroup,
+                          );
+                  },
+                );
         },
         loading: () {
           return listToShow.isEmpty
-            ? Column(
-              children: const [
-                TransactionListLoadingItem(
-                  opacity: 1,
-                ),
-                TransactionListLoadingItem(
-                  opacity: 0.8,
-                ),
-                TransactionListLoadingItem(
-                  opacity: 0.6,
-                ),
-                TransactionListLoadingItem(
-                  opacity: 0.4,
-                ),
-                TransactionListLoadingItem(
-                  opacity: 0.2,
-                  removeDivider: true,
-                ),
-              ],
-            )
-            : GroupedListView<OperationHistoryItem, String>(
-              elements: listToShow,
-              groupBy: (transaction) {
-                return formatDate(transaction.timeStamp);
-              },
-              sort: false,
-              groupSeparatorBuilder: (String date) {
-                return TransactionMonthSeparator(text: date);
-              },
-              itemBuilder: (context, transaction) {
-                final index = listToShow.indexOf(transaction);
-                final currentDate = formatDate(transaction.timeStamp);
-                var nextDate = '';
-                if (index != (listToShow.length - 1)) {
-                  nextDate = formatDate(listToShow[index + 1].timeStamp);
-                }
-                final removeDividerForLastInGroup = currentDate != nextDate;
+              ? Column(
+                  children: const [
+                    TransactionListLoadingItem(
+                      opacity: 1,
+                    ),
+                    TransactionListLoadingItem(
+                      opacity: 0.8,
+                    ),
+                    TransactionListLoadingItem(
+                      opacity: 0.6,
+                    ),
+                    TransactionListLoadingItem(
+                      opacity: 0.4,
+                    ),
+                    TransactionListLoadingItem(
+                      opacity: 0.2,
+                      removeDivider: true,
+                    ),
+                  ],
+                )
+              : GroupedListView<OperationHistoryItem, String>(
+                  elements: listToShow,
+                  groupBy: (transaction) {
+                    return formatDate(transaction.timeStamp);
+                  },
+                  sort: false,
+                  groupSeparatorBuilder: (String date) {
+                    return TransactionMonthSeparator(text: date);
+                  },
+                  itemBuilder: (context, transaction) {
+                    final index = listToShow.indexOf(transaction);
+                    final currentDate = formatDate(transaction.timeStamp);
+                    var nextDate = '';
+                    if (index != (listToShow.length - 1)) {
+                      nextDate = formatDate(listToShow[index + 1].timeStamp);
+                    }
+                    final removeDividerForLastInGroup = currentDate != nextDate;
 
-                return listToShow.indexOf(transaction) ==
-                      listToShow.length - 1
-                  ? Column(
-                    children: [
-                      TransactionListItem(
-                        transactionListItem: transaction,
-                        removeDivider: removeDividerForLastInGroup,
-                      ),
-                      const SpaceH24(),
-                      Container(
-                        width: 24.0,
-                        height: 24.0,
-                        decoration: BoxDecoration(
-                          color: colors.grey5,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const RiveAnimation.asset(
-                          loadingAnimationAsset,
-                        ),
-                      ),
-                    ],
-                  )
-                : TransactionListItem(
-                  transactionListItem: transaction,
-                  removeDivider: removeDividerForLastInGroup,
+                    return listToShow.indexOf(transaction) ==
+                            listToShow.length - 1
+                        ? Column(
+                            children: [
+                              TransactionListItem(
+                                transactionListItem: transaction,
+                                removeDivider: removeDividerForLastInGroup,
+                              ),
+                              const SpaceH24(),
+                              Container(
+                                width: 24.0,
+                                height: 24.0,
+                                decoration: BoxDecoration(
+                                  color: colors.grey5,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const RiveAnimation.asset(
+                                  loadingAnimationAsset,
+                                ),
+                              ),
+                            ],
+                          )
+                        : TransactionListItem(
+                            transactionListItem: transaction,
+                            removeDivider: removeDividerForLastInGroup,
+                          );
+                  },
                 );
-              },
-            );
         },
       ),
     );

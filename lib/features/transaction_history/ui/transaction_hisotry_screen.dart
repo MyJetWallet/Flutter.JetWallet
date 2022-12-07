@@ -43,8 +43,7 @@ class TransactionHistory extends StatelessObserverWidget {
               TabBarView(
                 children: [
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(
@@ -77,8 +76,7 @@ class TransactionHistory extends StatelessObserverWidget {
                     ),
                   ),
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(
@@ -112,8 +110,7 @@ class TransactionHistory extends StatelessObserverWidget {
                     ),
                   ),
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(

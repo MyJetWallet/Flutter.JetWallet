@@ -3,6 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
+import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -15,16 +16,19 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
-  OperationHistory(String? assetId) : super(assetId);
+  OperationHistory(String? assetId, TransactionType? filter, bool? isRecurring)
+      : super(assetId, filter, isRecurring);
 
   static _OperationHistoryBase of(BuildContext context) =>
       Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
-  _OperationHistoryBase(this.assetId);
+  _OperationHistoryBase(this.assetId, this.filter, this.isRecurring);
 
   final String? assetId;
+  final TransactionType? filter;
+  final bool? isRecurring;
 
   static final _logger = Logger('OperationHistoryStore');
 
@@ -37,6 +41,27 @@ abstract class _OperationHistoryBase with Store {
 
   @observable
   bool nothingToLoad = false;
+
+  @computed
+  List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
+      ? operationHistoryItems
+          .where(
+            (i) => i.operationType == oh_resp.OperationType.recurringBuy,
+          )
+          .toList()
+      : filter == TransactionType.crypto
+          ? operationHistoryItems
+              .where(
+                (i) => !nftTypes.contains(i.operationType),
+              )
+              .toList()
+          : filter == TransactionType.nft
+              ? operationHistoryItems
+                  .where(
+                    (i) => nftTypes.contains(i.operationType),
+                  )
+                  .toList()
+              : operationHistoryItems;
 
   @action
   Future<void> initOperationHistory() async {
@@ -103,6 +128,7 @@ abstract class _OperationHistoryBase with Store {
       operationHistoryItems = ObservableList.of(
         operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
       );
+
       union = const OperationHistoryUnion.loaded();
     }
   }

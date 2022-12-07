@@ -22,6 +22,8 @@ class ForceServiceUpdate {
   }) async {
     final _info = getIt.get<PackageInfoService>().info;
 
+    return false;
+
     final minimum = compareVersions(minimumVersion, _info.version);
     final recommended = compareVersions(recommendedVersion, _info.version);
 
