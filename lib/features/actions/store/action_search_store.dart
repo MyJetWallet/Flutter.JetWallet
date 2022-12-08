@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -13,6 +14,14 @@ abstract class _ActionSearchStoreBase with Store {
   _ActionSearchStoreBase() {
     init();
   }
+
+  @observable
+  ObservableList<MarketItemModel> marketCurrencies =
+    ObservableList.of([]);
+
+  @observable
+  ObservableList<MarketItemModel> filteredMarketCurrencies =
+    ObservableList.of([]);
 
   @observable
   ObservableList<CurrencyModel> filteredCurrencies = ObservableList.of([]);
@@ -36,6 +45,9 @@ abstract class _ActionSearchStoreBase with Store {
   @observable
   ObservableList<CurrencyModel> convertCurrenciesWithoutBalance =
     ObservableList.of([]);
+
+  @observable
+  String searchValue = '';
 
   @action
   void init() {
@@ -68,6 +80,14 @@ abstract class _ActionSearchStoreBase with Store {
     buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(_receiveCurrencies);
     sendCurrencies = ObservableList.of(_sendCurrencies);
+  }
+
+  @action
+  void initMarket() {
+    final _currencies = sSignalRModules.getMarketPrices;
+
+    marketCurrencies = ObservableList.of(_currencies);
+    filteredMarketCurrencies = ObservableList.of(marketCurrencies);
   }
 
   @action
@@ -147,6 +167,27 @@ abstract class _ActionSearchStoreBase with Store {
       convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
       convertCurrenciesWithoutBalance =
         ObservableList.of(assetsWithoutBalance);
+    }
+  }
+
+  @action
+  void searchMarket(
+    String value,
+  ) {
+    searchValue = value;
+    if (value.isNotEmpty && currencies.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<MarketItemModel>.from(marketCurrencies);
+
+      _currencies.removeWhere((element) {
+        return !(element.name.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      filteredMarketCurrencies = ObservableList.of(_currencies);
+    } else if (value.isEmpty) {
+      final _currencies = List<MarketItemModel>.from(marketCurrencies);
+      filteredMarketCurrencies = ObservableList.of(_currencies);
     }
   }
 }

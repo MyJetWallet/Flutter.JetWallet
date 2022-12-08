@@ -108,6 +108,8 @@ class _MarketScreenState extends State<MarketScreen>
               const MarketNestedScrollView(
                 marketShowType: MarketShowType.Crypto,
                 showBanners: true,
+                showSearch: true,
+                showFilter: true,
                 sourceScreen: FilterMarketTabAction.all,
               ),
               if (showCrypto) ...[

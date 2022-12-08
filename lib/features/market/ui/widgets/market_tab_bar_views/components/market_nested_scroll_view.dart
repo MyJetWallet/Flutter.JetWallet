@@ -20,6 +20,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
 
+import '../../../../helper/crypto_filer_modal.dart';
+import '../../../../helper/crypto_search_modal.dart';
 import '../../../../model/market_item_model.dart';
 import '../../fade_on_scroll.dart';
 import '../../market_banners/market_banners.dart';
@@ -33,6 +35,7 @@ class MarketNestedScrollView extends StatelessWidget {
     super.key,
     this.showBanners = false,
     this.showFilter = false,
+    this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
@@ -41,6 +44,7 @@ class MarketNestedScrollView extends StatelessWidget {
 
   final bool showBanners;
   final bool showFilter;
+  final bool showSearch;
   final FilterMarketTabAction sourceScreen;
 
   @override
@@ -50,6 +54,7 @@ class MarketNestedScrollView extends StatelessWidget {
       builder: (context, child) => _MarketNestedScrollViewBody(
         showBanners: showBanners,
         showFilter: showFilter,
+        showSearch: showSearch,
         sourceScreen: sourceScreen,
         marketShowType: marketShowType,
       ),
@@ -61,12 +66,14 @@ class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
     this.showBanners = false,
     this.showFilter = false,
+    this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
 
   final bool showBanners;
   final bool showFilter;
+  final bool showSearch;
   final FilterMarketTabAction sourceScreen;
   final MarketShowType marketShowType;
 
@@ -130,17 +137,35 @@ class __MarketNestedScrollViewBodyState
               ),
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
-                      activeFilters: store.nftFilterSelected.length,
+                      activeFilters:
+                        widget.marketShowType == MarketShowType.Crypto
+                            ? store.activeFilter == 'all'
+                              ? 0
+                              : 1
+                            : store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
-                              sAnalytics.nftMarketTapFilter();
-                              sAnalytics.nftMarketFilterShowed();
-                              showNFTFilterModalSheet(
-                                context,
-                                store as MarketFilterStore,
-                              );
+                              if (widget.marketShowType == MarketShowType.NFT) {
+                                sAnalytics.nftMarketTapFilter();
+                                sAnalytics.nftMarketFilterShowed();
+                                showNFTFilterModalSheet(
+                                  context,
+                                  store as MarketFilterStore,
+                                );
+                              } else {
+                                showCryptoFilterModalSheet(
+                                  context,
+                                  store as MarketFilterStore,
+                                );
+                              }
                             }
                           : null,
+                      onSearchButtonTap:
+                        widget.marketShowType == MarketShowType.Crypto
+                            ? () {
+                                showCryptoSearch(context);
+                              }
+                            : null,
                     )
                   : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(

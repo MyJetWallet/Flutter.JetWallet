@@ -32,6 +32,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.isError = false,
     this.validators = const [],
     this.hasManualError = false,
+    this.hideLabel = false,
     required this.labelText,
   }) : super(key: key);
 
@@ -58,6 +59,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final String labelText;
   final bool isError;
   final bool hasManualError;
+  final bool hideLabel;
   final List<Validator> validators;
   final int? maxLength;
 
@@ -141,6 +143,9 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
               fontSize: 16.0,
               color: SColorsLight().grey2,
             ),
+            floatingLabelBehavior: widget.hideLabel
+                ? FloatingLabelBehavior.never
+                : null,
             counterText: '',
             errorText: null,
             errorMaxLines: null,

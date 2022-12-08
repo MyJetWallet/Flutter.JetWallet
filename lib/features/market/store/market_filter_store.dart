@@ -7,6 +7,9 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
+import '../helper/market_gainers.dart';
+import '../helper/market_losers.dart';
+
 part 'market_filter_store.g.dart';
 
 class MarketFilterStore extends _MarketFilterStoreBase
@@ -19,6 +22,9 @@ class MarketFilterStore extends _MarketFilterStoreBase
 
 abstract class _MarketFilterStoreBase with Store {
   static final _logger = Logger('MarketFilterStore');
+
+  @observable
+  String activeFilter = 'all';
 
   @computed
   List<NftModel> get nftList => sSignalRModules.nftList;
@@ -50,6 +56,11 @@ abstract class _MarketFilterStoreBase with Store {
     if (cryptoList.isEmpty) {
       sAnalytics.nftMarketOpen();
     }
+    if (activeFilter == 'gainers') {
+      return getMarketGainers();
+    } else if (activeFilter == 'losers') {
+      return getMarketLosers();
+    }
 
     return cryptoList;
   }
@@ -66,5 +77,10 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void nftFilterReset() {
     nftFilterSelected = ObservableList.of([]);
+  }
+
+  @action
+  void cryptoFilterChange(String newFilter) {
+    activeFilter = newFilter;
   }
 }

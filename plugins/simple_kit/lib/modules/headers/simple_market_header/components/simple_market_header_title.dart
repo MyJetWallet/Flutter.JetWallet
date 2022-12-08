@@ -34,7 +34,13 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        if (onSearchButtonTap != null)
+        if (onFilterButtonTap != null)
+          SimpleMarketHeaderFilter(
+            onFilterButtonTap: onFilterButtonTap,
+            activeFilters: activeFilters,
+          ),
+        if (onSearchButtonTap != null) ...[
+          const SpaceW16(),
           Baseline(
             baseline: 24.0,
             baselineType: TextBaseline.alphabetic,
@@ -44,11 +50,7 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
               pressedIcon: const SSearchPressedIcon(),
             ),
           ),
-        if (onFilterButtonTap != null)
-          SimpleMarketHeaderFilter(
-            onFilterButtonTap: onFilterButtonTap,
-            activeFilters: activeFilters,
-          ),
+        ],
         /*
         if (onFilterButtonTap != null)
           SizedBox(
