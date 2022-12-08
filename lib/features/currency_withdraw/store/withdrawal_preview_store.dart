@@ -97,6 +97,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
         toAddress: address,
         toTag: tag,
         blockchain: blockchain.id,
+        lang: intl.localeName,
       );
 
       final response = await sNetwork.getWalletModule().postWithdraw(model);
@@ -153,6 +154,7 @@ abstract class _WithdrawalPreviewStoreBase with Store {
         amount: withdrawal.nft!.buyPrice!,
         toAddress: address,
         blockchain: withdrawal.nft!.blockchain!,
+        lang: intl.localeName,
       );
 
       final response = await sNetwork.getWalletModule().postWithdraw(model);
