@@ -28,7 +28,7 @@ class TransactionHistory extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final deviceSize = getIt.get<DeviceSize>().size;
-    final scrollController = ScrollController();
+    //final scrollController = ScrollController();
 
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
@@ -43,8 +43,7 @@ class TransactionHistory extends StatelessObserverWidget {
               TabBarView(
                 children: [
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(
@@ -71,14 +70,12 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                       ),
                     ),
                   ),
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(
@@ -105,15 +102,13 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                         filter: TransactionType.crypto,
                       ),
                     ),
                   ),
                   NestedScrollView(
-                    controller: scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     headerSliverBuilder: (context, _) {
                       return [
                         SliverAppBar(
@@ -140,7 +135,6 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                         filter: TransactionType.nft,
                       ),

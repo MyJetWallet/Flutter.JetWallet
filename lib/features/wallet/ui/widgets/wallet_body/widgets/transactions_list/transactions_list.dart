@@ -29,7 +29,8 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
-      create: (context) => OperationHistory(symbol)..initOperationHistory(),
+      create: (context) =>
+          OperationHistory(symbol, null, isRecurring)..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
