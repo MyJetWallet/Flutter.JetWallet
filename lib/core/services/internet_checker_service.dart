@@ -23,6 +23,12 @@ class InternetCheckerService {
     return this;
   }
 
+  Future<void> checkFromForeground() async {
+    final result = await _connectivity.checkConnectivity();
+
+    await _checkStatus(result);
+  }
+
   Future<void> _checkStatus(ConnectivityResult result) async {
     if (result == ConnectivityResult.mobile) {
       internetAvailable = true;
@@ -46,7 +52,6 @@ class InternetCheckerService {
   }
 
   void showNoConnectionAlert() {
-    ;
     isWaitAlert = true;
 
     Future.delayed(secondsBeforeOpen, () {
@@ -55,6 +60,8 @@ class InternetCheckerService {
 
         return;
       } else {
+        if (isAlertOpen) return;
+
         isAlertOpen = true;
 
         sShowAlertPopup(
