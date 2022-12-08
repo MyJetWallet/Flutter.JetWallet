@@ -65,23 +65,22 @@ class _Contacts extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: ListView.builder(
-        itemCount: store.sortedContacts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return SContactItem(
-            name: store.sortedContacts[index].name,
-            phone: store.sortedContacts[index].phoneNumber,
-            valid: store.sortedContacts[index].valid,
-            isManualEnter: store.sortedContacts[index].isCustomContact,
-            onTap: () {
-              store.pickNumberFromSearch(store.sortedContacts[index]);
-              Navigator.pop(context);
-            },
-          );
-        },
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: store.sortedContacts.length,
+      itemBuilder: (BuildContext context, int index) {
+        return SContactItem(
+          name: store.sortedContacts[index].name,
+          phone: store.sortedContacts[index].phoneNumber,
+          valid: store.sortedContacts[index].valid,
+          isManualEnter: store.sortedContacts[index].isCustomContact,
+          onTap: () {
+            store.pickNumberFromSearch(store.sortedContacts[index]);
+            Navigator.pop(context);
+          },
+        );
+      },
     );
   }
 }

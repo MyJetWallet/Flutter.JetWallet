@@ -39,7 +39,9 @@ class SendByPhoneConfirmStore extends _SendByPhoneConfirmStoreBase
 }
 
 abstract class _SendByPhoneConfirmStoreBase with Store {
-  _SendByPhoneConfirmStoreBase();
+  _SendByPhoneConfirmStoreBase() {
+    loader.finishLoadingImmediately();
+  }
 
   CurrencyModel? currency;
 
@@ -63,6 +65,9 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void clear() {
     updateCode('', _operationId);
+    loader.finishLoadingImmediately();
+    controller.text = '';
+    union = const SendByPhoneConfirmUnion.input();
   }
 
   late String _operationId;
@@ -83,6 +88,10 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   @action
   void updateCode(String code, String operationId) {
     _logger.log(notifier, 'updateCode');
+
+    if (code.isEmpty) {
+      return;
+    }
 
     if (operationId == _operationId) {
       controller.text = code;
@@ -111,6 +120,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
       _updateIsResending(false);
       onSuccess();
+
+      union = const SendByPhoneConfirmUnion.input();
     } catch (error) {
       _logger.log(stateFlow, 'transferResend', error);
       _updateIsResending(false);
@@ -126,7 +137,11 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
 
-    print('VERIFY CODE');
+    loader.startLoading();
+
+    if (union is Loading) {
+      return;
+    }
 
     union = const SendByPhoneConfirmUnion.loading();
 
@@ -152,6 +167,9 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
         sAnalytics.sendSuccess(type: 'By phone');
         _showSuccessScreen();
+        clear();
+
+        loader.finishLoadingImmediately();
       }
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);

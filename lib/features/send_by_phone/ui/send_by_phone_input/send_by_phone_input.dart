@@ -117,6 +117,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
       child: Stack(
         children: [
           ListView(
+            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.zero,
             children: [
               Material(

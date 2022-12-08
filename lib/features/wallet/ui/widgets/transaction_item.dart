@@ -261,9 +261,9 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.nftBuy ||
+                        OperationType.nftBuy ||
                     widget.transactionListItem.operationType ==
-                    OperationType.nftSwap) ...[
+                        OperationType.nftSwap) ...[
                   Material(
                     color: colors.white,
                     child: BuyNftDetails(
@@ -279,9 +279,9 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.nftBuyOpposite ||
+                        OperationType.nftBuyOpposite ||
                     widget.transactionListItem.operationType ==
-                    OperationType.nftSellOpposite) ...[
+                        OperationType.nftSellOpposite) ...[
                   Material(
                     color: colors.white,
                     child: BuySellNftOppositeDetails(
@@ -313,9 +313,9 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.nftWithdrawal ||
+                        OperationType.nftWithdrawal ||
                     widget.transactionListItem.operationType ==
-                    OperationType.nftWithdrawalFee) ...[
+                        OperationType.nftWithdrawalFee) ...[
                   Material(
                     color: colors.white,
                     child: WithdrawNftDetails(
@@ -353,10 +353,10 @@ class _TransactionItemState extends State<TransactionItem>
                                   ?.transferId !=
                               null,
                   child: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 24,
                       right: 24,
-                      bottom: Platform.isAndroid ? 24 : 0,
+                      bottom: 24,
                     ),
                     child: SSecondaryButton1(
                       active: !cancelTransfer.loading,

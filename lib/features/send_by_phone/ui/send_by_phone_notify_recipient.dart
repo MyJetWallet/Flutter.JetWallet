@@ -81,10 +81,11 @@ class _SendByPhoneNotifyRecipientState
 
                 try {
                   Share.share(
-                    '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber}. '
+                    '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber.replaceAll(" ", "")}. '
                     '${intl.sendByPhoneRecipient_text4}.\n '
                     '${userInfo.referralLink}',
                   );
+                  Navigator.pop(context);
                 } catch (e) {}
               }
             },
