@@ -33,7 +33,6 @@ class MarketNestedScrollView extends StatelessWidget {
     super.key,
     this.showBanners = false,
     this.showFilter = false,
-    this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
@@ -42,7 +41,6 @@ class MarketNestedScrollView extends StatelessWidget {
 
   final bool showBanners;
   final bool showFilter;
-  final bool showSearch;
   final FilterMarketTabAction sourceScreen;
 
   @override
@@ -52,7 +50,6 @@ class MarketNestedScrollView extends StatelessWidget {
       builder: (context, child) => _MarketNestedScrollViewBody(
         showBanners: showBanners,
         showFilter: showFilter,
-        showSearch: showSearch,
         sourceScreen: sourceScreen,
         marketShowType: marketShowType,
       ),
@@ -64,14 +61,12 @@ class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
     this.showBanners = false,
     this.showFilter = false,
-    this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
 
   final bool showBanners;
   final bool showFilter;
-  final bool showSearch;
   final FilterMarketTabAction sourceScreen;
   final MarketShowType marketShowType;
 
@@ -138,21 +133,14 @@ class __MarketNestedScrollViewBodyState
                       activeFilters: store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
-                              if (widget.marketShowType == MarketShowType.NFT) {
-                                sAnalytics.nftMarketTapFilter();
-                                sAnalytics.nftMarketFilterShowed();
-                                showNFTFilterModalSheet(
-                                  context,
-                                  store as MarketFilterStore,
-                                );
-                              }
+                              sAnalytics.nftMarketTapFilter();
+                              sAnalytics.nftMarketFilterShowed();
+                              showNFTFilterModalSheet(
+                                context,
+                                store as MarketFilterStore,
+                              );
                             }
                           : null,
-                      onSearchButtonTap:
-                        widget.marketShowType == MarketShowType.Crypto
-                            ? () {
-                              }
-                            : null,
                     )
                   : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(
