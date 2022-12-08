@@ -22,16 +22,16 @@ class TransactionsMainList extends StatelessWidget {
     this.isRecurring = false,
     this.symbol,
     this.filter = TransactionType.none,
-    required this.scrollController,
   });
 
-  final ScrollController scrollController;
   final String? symbol;
   final TransactionType filter;
   final bool isRecurring;
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = ScrollController();
+
     return Provider<OperationHistory>(
       create: (context) =>
           OperationHistory(symbol, filter, isRecurring)..initOperationHistory(),
@@ -69,11 +69,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     widget.scrollController.addListener(() {
       if (widget.scrollController.position.maxScrollExtent ==
           widget.scrollController.offset) {
-        print('UPDATE UPERATION');
         if (OperationHistory.of(context).union ==
                 const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
-          print('UPDATE UPERATION 2');
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
       }
@@ -145,8 +143,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     .toList()
                 : OperationHistory.of(context).operationHistoryItems;
 
-    print(listToShow.length);
-
     return Padding(
       padding: EdgeInsets.only(
         top: OperationHistory.of(context).union !=
@@ -176,35 +172,33 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     ],
                   ),
                 )
-              : Observer(builder: (context) {
-                  return GroupedListView<OperationHistoryItem, String>(
-                    elements: OperationHistory.of(context).listToShow,
-                    groupBy: (transaction) {
-                      return formatDate(transaction.timeStamp);
-                    },
-                    sort: false,
-                    groupSeparatorBuilder: (String date) {
-                      return TransactionMonthSeparator(text: date);
-                    },
-                    controller: widget.scrollController,
-                    //physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, transaction) {
-                      final index = listToShow.indexOf(transaction);
-                      final currentDate = formatDate(transaction.timeStamp);
-                      var nextDate = '';
-                      if (index != (listToShow.length - 1)) {
-                        nextDate = formatDate(listToShow[index + 1].timeStamp);
-                      }
-                      final removeDividerForLastInGroup =
-                          currentDate != nextDate;
+              : GroupedListView<OperationHistoryItem, String>(
+                  //elements: OperationHistory.of(context).listToShow,
+                  elements: listToShow,
+                  groupBy: (transaction) {
+                    return formatDate(transaction.timeStamp);
+                  },
+                  sort: false,
+                  groupSeparatorBuilder: (String date) {
+                    return TransactionMonthSeparator(text: date);
+                  },
+                  controller: widget.scrollController,
+                  //physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, transaction) {
+                    final index = listToShow.indexOf(transaction);
+                    final currentDate = formatDate(transaction.timeStamp);
+                    var nextDate = '';
+                    if (index != (listToShow.length - 1)) {
+                      nextDate = formatDate(listToShow[index + 1].timeStamp);
+                    }
+                    final removeDividerForLastInGroup = currentDate != nextDate;
 
-                      return TransactionListItem(
-                        transactionListItem: transaction,
-                        removeDivider: removeDividerForLastInGroup,
-                      );
-                    },
-                  );
-                });
+                    return TransactionListItem(
+                      transactionListItem: transaction,
+                      removeDivider: removeDividerForLastInGroup,
+                    );
+                  },
+                );
         },
         error: () {
           return listToShow.isEmpty

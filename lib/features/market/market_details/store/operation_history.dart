@@ -97,6 +97,8 @@ abstract class _OperationHistoryBase with Store {
   Future<void> operationHistory(String? assetId) async {
     _logger.log(notifier, 'operationHistory');
 
+    union = const OperationHistoryUnion.loading();
+
     try {
       final operationHistory = await _requestOperationHistory(
         oh_req.OperationHistoryRequestModel(

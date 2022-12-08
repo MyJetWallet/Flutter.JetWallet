@@ -28,7 +28,7 @@ class TransactionHistory extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final deviceSize = getIt.get<DeviceSize>().size;
-    final scrollController = ScrollController();
+    //final scrollController = ScrollController();
 
     final showCrypto = sSignalRModules.nftList.isNotEmpty;
 
@@ -70,7 +70,6 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                       ),
                     ),
@@ -103,7 +102,6 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                         filter: TransactionType.crypto,
                       ),
@@ -137,7 +135,6 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
-                        scrollController: scrollController,
                         symbol: assetSymbol,
                         filter: TransactionType.nft,
                       ),
