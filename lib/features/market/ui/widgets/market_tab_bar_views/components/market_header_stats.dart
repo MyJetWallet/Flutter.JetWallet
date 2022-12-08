@@ -10,10 +10,12 @@ class MarketHeaderStats extends StatelessObserverWidget {
     super.key,
     this.activeFilters = 0,
     this.onFilterButtonTap,
+    this.onSearchButtonTap,
   });
 
   final int activeFilters;
   final Function()? onFilterButtonTap;
+  final Function()? onSearchButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class MarketHeaderStats extends StatelessObserverWidget {
         showInfo: marketInfo != Decimal.zero,
         isLoader: false,
         onFilterButtonTap: onFilterButtonTap,
+        onSearchButtonTap: onSearchButtonTap,
         activeFilters: activeFilters,
       ),
     );
