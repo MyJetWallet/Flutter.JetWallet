@@ -197,7 +197,7 @@ abstract class _DisclaimerStoreBase with Store {
                               horizontal: 20.0,
                             ),
                             child: SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
+                              physics: const ClampingScrollPhysics(),
                               child: Column(
                                 children: [
                                   const SpaceH40(),
@@ -365,7 +365,7 @@ abstract class _DisclaimerStoreBase with Store {
       final _ = await sNetwork.getWalletModule().postSaveDisclaimer(model);
 
       if (disclaimerIndex + 1 <= disclaimers.length) {
-        await sRouter.pop();
+        Navigator.pop(context);
 
         final index = disclaimerIndex + 1;
 
