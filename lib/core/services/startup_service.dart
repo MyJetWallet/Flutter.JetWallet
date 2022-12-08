@@ -96,8 +96,6 @@ class StartupService {
           },
           onError: (error) {
             _logger.log(stateFlow, 'Failed to fetch session info', error);
-
-            getIt.get<LogoutService>().logout();
           },
         );
       } catch (e) {
@@ -224,8 +222,6 @@ class StartupService {
           );
         }
       }
-    } catch (e) {
-      getIt.get<LogoutService>().logout();
-    }
+    } catch (e) {}
   }
 }

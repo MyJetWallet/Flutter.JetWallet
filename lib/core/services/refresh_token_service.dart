@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -29,14 +28,6 @@ Future<RefreshTokenStatus> refreshToken() async {
         .simpleNetworkingWithoutInterceptor
         .getAuthModule()
         .getServerTime();
-
-    if (serverTimeResponse.hasError) {
-      await getIt.get<LogoutService>().logout();
-
-      return RefreshTokenStatus.caught;
-    }
-
-    print(serverTimeResponse.data);
 
     if (serverTimeResponse.data != null) {
       final privateKey = await storageService.getValue(privateKeyKey);
@@ -65,8 +56,6 @@ Future<RefreshTokenStatus> refreshToken() async {
           .postRefresh(model);
 
       if (refreshRequest.hasError) {
-        await getIt.get<LogoutService>().logout();
-
         return RefreshTokenStatus.caught;
       }
 
@@ -86,13 +75,9 @@ Future<RefreshTokenStatus> refreshToken() async {
 
         return RefreshTokenStatus.success;
       } else {
-        await getIt.get<LogoutService>().logout();
-
         return RefreshTokenStatus.caught;
       }
     } else {
-      await getIt.get<LogoutService>().logout();
-
       return RefreshTokenStatus.caught;
     }
   } on DioError catch (error) {
@@ -108,17 +93,12 @@ Future<RefreshTokenStatus> refreshToken() async {
       // remove refreshToken from storage
       await storageService.clearStorage();
 
-      await getIt.get<LogoutService>().logout();
-
       return RefreshTokenStatus.caught;
     } else {
       rethrow;
     }
   } catch (e) {
     print('CATCH ERROR $e');
-
-    await getIt.get<LogoutService>().logout();
-
     return RefreshTokenStatus.caught;
   }
 }
