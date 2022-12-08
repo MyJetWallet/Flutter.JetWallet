@@ -127,7 +127,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 ),
               ),
             if (marketItem.isBalanceEmpty) ...[
-              const SpaceW11(),
+              if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
+                const SpaceW11(),
               Expanded(
                 child: SSecondaryButton1(
                   name: intl.balanceActionButtons_receive,

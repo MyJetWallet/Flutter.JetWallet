@@ -149,6 +149,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
     }
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${intl.currencySell_sell} ${widget.currency.description}',

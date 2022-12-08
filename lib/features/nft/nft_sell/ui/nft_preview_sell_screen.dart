@@ -80,6 +80,7 @@ class _NFTPreviewSellScreenBodyState extends State<_NFTPreviewSellScreenBody>
     );
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       loading: store.loader,
       customLoader: store.isProcessing
           ? WaitingScreen(

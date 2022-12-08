@@ -82,6 +82,7 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
         isCryptoVisible || isFiatVisible || isIndicesVisible;
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       bottomNavigationBar: BottomTabs(
         tabController: tabController,
         tabs: [

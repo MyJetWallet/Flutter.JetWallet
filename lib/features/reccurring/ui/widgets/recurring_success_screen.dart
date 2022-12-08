@@ -74,6 +74,7 @@ class _RecurringSuccessScreenBodyState
           return Future.value(false);
         },
         child: SPageFrameWithPadding(
+          loaderText: intl.register_pleaseWait,
           child: Column(
             children: [
               Row(), // to expand Column in the cross axis
@@ -128,7 +129,6 @@ class _RecurringSuccessScreenBodyState
                     },
                     context: context,
                     onItemTap: (recurringType) {
-
                       sAnalytics.pickRecurringBuyFrequency(
                         assetName: widget.input.toCurrency.description,
                         frequency: recurringType.toFrequency,

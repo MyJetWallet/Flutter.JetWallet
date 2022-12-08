@@ -43,6 +43,7 @@ class _RewardsBody extends StatelessObserverWidget {
     final mediaQuery = MediaQuery.of(context);
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       header: SSmallHeader(
         title: intl.rewards_rewards,
       ),

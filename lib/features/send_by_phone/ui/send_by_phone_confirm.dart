@@ -109,6 +109,8 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
   void dispose() {
     focusNode.dispose();
 
+    print('DISPOSE');
+
     getIt.get<SendByPhoneConfirmStore>().clear();
     super.dispose();
   }
@@ -161,6 +163,7 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
         );
       },
       child: SPageFrameWithPadding(
+        loaderText: intl.register_pleaseWait,
         loading: confirm.loader,
         header: SMegaHeader(
           title: intl.sendByPhoneConfirm_confirmSendRequest,

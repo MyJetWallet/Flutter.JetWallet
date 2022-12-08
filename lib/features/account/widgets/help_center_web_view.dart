@@ -23,6 +23,7 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
     return WillPopScope(
       onWillPop: () => _onWillPop(),
       child: SPageFrame(
+        loaderText: intl.register_pleaseWait,
         header: SPaddingH24(
           child: SSmallHeader(
             title: intl.helpCenterWebView,

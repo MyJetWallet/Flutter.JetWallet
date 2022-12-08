@@ -32,6 +32,7 @@ class WaitingScreen extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return SPageFrameWithPadding(
+      loaderText: intl.register_pleaseWait,
       child: Column(
         children: [
           Row(), // to expand Column in the cross axis

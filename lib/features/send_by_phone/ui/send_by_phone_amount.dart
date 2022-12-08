@@ -55,6 +55,7 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
     final state = SendByPhoneAmmountStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${intl.sendByPhoneAmount_send} ${currency.description}',

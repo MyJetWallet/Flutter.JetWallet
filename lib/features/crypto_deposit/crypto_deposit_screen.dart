@@ -210,6 +210,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
     final deposit = CryptoDepositStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: '${widget.header} ${widget.currency.description}',

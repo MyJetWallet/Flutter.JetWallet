@@ -44,7 +44,6 @@ Future<void> openEmailApp(BuildContext context) async {
         result.where((element) => element.name == lastMail).toList();
     if (lastResult.isNotEmpty) {
       await OpenMailApp.openSpecificMailApp(lastResult[0]);
-      Navigator.pop(context);
 
       return;
     }
