@@ -26,6 +26,7 @@ import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -201,6 +202,11 @@ abstract class _AppStoreBase with Store {
           hasNftDisclaimers: info.data!.hasNftDisclaimers,
         );
       }
+
+      if (userInfo.userInfo.hasDisclaimers) {
+        await getIt<DisclaimerStore>().init();
+      }
+
       if (profileInfo.data != null) {
         userInfo.updateWithValuesFromProfileInfo(
           emailConfirmed: profileInfo.data!.emailConfirmed,
