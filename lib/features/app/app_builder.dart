@@ -86,7 +86,19 @@ class AppBuilderBody extends StatefulWidget {
   }
 }
 
-class _AppBuilderBodyState extends State<AppBuilderBody> {
+class _AppBuilderBodyState extends State<AppBuilderBody>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      if (getIt.isRegistered<InternetCheckerService>()) {
+        getIt<InternetCheckerService>().checkFromForeground();
+      }
+    }
+  }
+
   @override
   void initState() {
     getIt.get<AppStore>().getAuthStatus();
