@@ -107,7 +107,7 @@ class _MarketScreenState extends State<MarketScreen>
               const WatchlistTabBarView(),
               const MarketNestedScrollView(
                 marketShowType: MarketShowType.Crypto,
-                showBanners: true,z
+                showBanners: true,
                 sourceScreen: FilterMarketTabAction.all,
               ),
               if (showCrypto) ...[
