@@ -74,7 +74,7 @@ class MarketDetails extends StatelessWidget {
   }
 }
 
-class _MarketDetailsBody extends StatelessObserverWidget {
+class _MarketDetailsBody extends StatefulObserverWidget {
   const _MarketDetailsBody({
     super.key,
     required this.marketItem,
@@ -83,23 +83,37 @@ class _MarketDetailsBody extends StatelessObserverWidget {
   final MarketItemModel marketItem;
 
   @override
+  State<_MarketDetailsBody> createState() => _MarketDetailsBodyState();
+}
+
+class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
+  Future<MarketInfoResponseModel?>? marketInfo;
+
+  @override
+  void initState() {
+    super.initState();
+
+    marketInfo = getMarketInfo(widget.marketItem.associateAsset);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final currencies = sSignalRModules.currenciesList;
-    final marketInfo = getMarketInfo(marketItem.associateAsset);
 
     final chart = ChartStore.of(context);
     final watchlistIdsN = WatchlistStore.of(context);
 
     final news = MarketNewsStore.of(context);
 
-    final currency = currencyFrom(currencies, marketItem.symbol);
+    final currency = currencyFrom(currencies, widget.marketItem.symbol);
     final recurringNotifier = RecurringBuysStore();
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    var isInWatchlist = watchlistIdsN.state.contains(marketItem.associateAsset);
+    var isInWatchlist =
+        watchlistIdsN.state.contains(widget.marketItem.associateAsset);
 
     final filteredRecurringBuys = recurringNotifier.recurringBuysFiltred
         .where(
@@ -112,7 +126,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
     final lastRecurringItem =
         filteredRecurringBuys.isNotEmpty ? filteredRecurringBuys[0] : null;
 
-    sAnalytics.assetView(marketItem.name);
+    sAnalytics.assetView(widget.marketItem.name);
 
     return SPageFrame(
       header: Material(
@@ -121,16 +135,17 @@ class _MarketDetailsBody extends StatelessObserverWidget {
             : colors.grey5,
         child: SPaddingH24(
           child: SSmallHeader(
-            title: '${marketItem.name} (${marketItem.symbol})',
+            title: '${widget.marketItem.name} (${widget.marketItem.symbol})',
             showStarButton: true,
             isStarSelected: isInWatchlist,
             onStarButtonTap: () {
               if (isInWatchlist) {
-                watchlistIdsN.removeFromWatchlist(marketItem.associateAsset);
+                watchlistIdsN
+                    .removeFromWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = false;
               } else {
-                sAnalytics.addToWatchlist(marketItem.name);
-                watchlistIdsN.addToWatchlist(marketItem.associateAsset);
+                sAnalytics.addToWatchlist(widget.marketItem.name);
+                watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = true;
               }
             },
@@ -138,7 +153,7 @@ class _MarketDetailsBody extends StatelessObserverWidget {
         ),
       ),
       bottomNavigationBar: BalanceBlock(
-        marketItem: marketItem,
+        marketItem: widget.marketItem,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -149,10 +164,10 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 child: Column(
                   children: [
                     AssetPrice(
-                      marketItem: marketItem,
+                      marketItem: widget.marketItem,
                     ),
                     AssetDayChange(
-                      marketItem: marketItem,
+                      marketItem: widget.marketItem,
                     ),
                   ],
                 ),
@@ -179,16 +194,16 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 ),
               ),
             AssetChart(
-              marketItem: marketItem,
+              marketItem: widget.marketItem,
               onCandleSelected: (ChartInfoModel? chartInfo) {
                 chart.updateSelectedCandle(chartInfo?.right);
               },
             ),
             ReturnRatesBlock(
-              assetSymbol: marketItem.associateAsset,
+              assetSymbol: widget.marketItem.associateAsset,
             ),
             const SpaceH40(),
-            if (supportsRecurringBuy(marketItem.symbol, currencies))
+            if (supportsRecurringBuy(widget.marketItem.symbol, currencies))
               RecurringBuyBanner(
                 title: recurringNotifier.recurringBannerTitle(
                   asset: currency.symbol,
@@ -269,9 +284,9 @@ class _MarketDetailsBody extends StatelessObserverWidget {
               const SDivider(),
               const SpaceH32(),
             ],
-            if (marketItem.type == AssetType.indices) ...[
+            if (widget.marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
-                marketItem: marketItem,
+                marketItem: widget.marketItem,
               ),
               // const IndexOverviewBlock(),
             ],
@@ -284,17 +299,17 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (marketInfo.data != null) ...[
-                          if (marketItem.type != AssetType.indices) ...[
+                          if (widget.marketItem.type != AssetType.indices) ...[
                             const SpaceH20(),
                             MarketStatsBlock(
                               marketInfo: marketInfo.data!,
-                              isCPower: marketItem.symbol == 'CPWR',
+                              isCPower: widget.marketItem.symbol == 'CPWR',
                             ),
                           ],
                           AboutBlock(
                             marketInfo: marketInfo.data!,
                             showDivider: news.news.isNotEmpty,
-                            isCpower: marketItem.symbol == 'CPWR',
+                            isCpower: widget.marketItem.symbol == 'CPWR',
                           ),
                         ],
                       ],
@@ -307,16 +322,16 @@ class _MarketDetailsBody extends StatelessObserverWidget {
                 }
               },
             ),
-            if (marketItem.symbol == 'CPWR') ...[
+            if (widget.marketItem.symbol == 'CPWR') ...[
               const SPaddingH24(
                 child: CpowerBlock(),
               ),
             ],
-            if (marketItem.symbol != 'CPWR') ...[
+            if (widget.marketItem.symbol != 'CPWR') ...[
               if (news.isNewsLoaded) ...[
                 MarketNewsBlock(
                   news: news.news,
-                  assetId: marketItem.associateAsset,
+                  assetId: widget.marketItem.associateAsset,
                 ),
               ] else ...[
                 SPaddingH24(
