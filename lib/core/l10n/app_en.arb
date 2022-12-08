@@ -324,6 +324,8 @@
   "market_nft_items": "items",
   "market_nft_show": "Show",
   "market_nft_done": "Done",
+  "market_search_popular": "Most popular",
+  "market_search_results": "Results",
   "nft_collection_filter_header": "Sort by",
   "operationName_transferByPhone": "Transfer by Phone",
   "operationName_receiveByPhone": "Receive by Phone",

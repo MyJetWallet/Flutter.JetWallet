@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -15,6 +16,14 @@ abstract class _ActionSearchStoreBase with Store {
   }
 
   @observable
+  ObservableList<MarketItemModel> marketCurrencies =
+    ObservableList.of([]);
+
+  @observable
+  ObservableList<MarketItemModel> filteredMarketCurrencies =
+    ObservableList.of([]);
+
+  @observable
   ObservableList<CurrencyModel> filteredCurrencies = ObservableList.of([]);
 
   @observable
@@ -28,6 +37,17 @@ abstract class _ActionSearchStoreBase with Store {
 
   @observable
   ObservableList<CurrencyModel> sendCurrencies = ObservableList.of([]);
+
+  @observable
+  ObservableList<CurrencyModel> convertCurrenciesWithBalance =
+    ObservableList.of([]);
+
+  @observable
+  ObservableList<CurrencyModel> convertCurrenciesWithoutBalance =
+    ObservableList.of([]);
+
+  @observable
+  String searchValue = '';
 
   @action
   void init() {
@@ -63,6 +83,23 @@ abstract class _ActionSearchStoreBase with Store {
   }
 
   @action
+  void initMarket() {
+    final _currencies = sSignalRModules.getMarketPrices;
+
+    marketCurrencies = ObservableList.of(_currencies);
+    filteredMarketCurrencies = ObservableList.of(marketCurrencies);
+  }
+
+  @action
+  void initConvert(
+    List<CurrencyModel> assetsWithBalance,
+    List<CurrencyModel> assetsWithoutBalance,
+  ) {
+    convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
+    convertCurrenciesWithoutBalance = ObservableList.of(assetsWithoutBalance);
+  }
+
+  @action
   void search(String value) {
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();
@@ -95,6 +132,62 @@ abstract class _ActionSearchStoreBase with Store {
 
       filteredCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
+    }
+  }
+
+  @action
+  void searchConvert(
+    String value,
+    List<CurrencyModel> assetsWithBalance,
+    List<CurrencyModel> assetsWithoutBalance,
+  ) {
+    if (value.isNotEmpty && assetsWithBalance.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<CurrencyModel>.from(assetsWithBalance);
+
+      _currencies.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      convertCurrenciesWithBalance = ObservableList.of(_currencies);
+    }
+    if (value.isNotEmpty && assetsWithoutBalance.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<CurrencyModel>.from(assetsWithoutBalance);
+
+      _currencies.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      convertCurrenciesWithoutBalance = ObservableList.of(_currencies);
+    }
+    if (value.isEmpty) {
+      convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
+      convertCurrenciesWithoutBalance =
+        ObservableList.of(assetsWithoutBalance);
+    }
+  }
+
+  @action
+  void searchMarket(
+    String value,
+  ) {
+    searchValue = value;
+    if (value.isNotEmpty && currencies.isNotEmpty) {
+      final search = value.toLowerCase();
+
+      final _currencies = List<MarketItemModel>.from(marketCurrencies);
+
+      _currencies.removeWhere((element) {
+        return !(element.name.toLowerCase()).startsWith(search) &&
+            !(element.symbol.toLowerCase()).startsWith(search);
+      });
+      filteredMarketCurrencies = ObservableList.of(_currencies);
+    } else if (value.isEmpty) {
+      final _currencies = List<MarketItemModel>.from(marketCurrencies);
+      filteredMarketCurrencies = ObservableList.of(_currencies);
     }
   }
 }

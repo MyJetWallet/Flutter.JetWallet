@@ -10,7 +10,11 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
-class ConvertRow extends StatefulObserverWidget {
+import '../../../../core/di/di.dart';
+import '../../../../widgets/action_bottom_sheet_header.dart';
+import '../../../actions/store/action_search_store.dart';
+
+class ConvertRow extends StatelessObserverWidget {
   const ConvertRow({
     Key? key,
     this.fromAsset = false,
@@ -35,83 +39,42 @@ class ConvertRow extends StatefulObserverWidget {
   final Function(CurrencyModel?) onDropdown;
 
   @override
-  State<ConvertRow> createState() => _ConvertRowState();
-}
-
-class _ConvertRowState extends State<ConvertRow>
-    with SingleTickerProviderStateMixin {
-  late AnimationController cursorAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    cursorAnimation = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    cursorAnimation.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final baseCurrency = sSignalRModules.baseCurrency;
 
     void _showDropdownSheet() {
+      getIt.get<ActionSearchStore>().initConvert(
+        assetWithBalance,
+        assetWithoutBalance,
+      );
+      final searchStore = getIt.get<ActionSearchStore>();
+
       sShowBasicModalBottomSheet(
         context: context,
         scrollable: true,
-        pinned: SBottomSheetHeader(
-          name: widget.fromAsset ? intl.from : intl.to1,
+        pinned: ActionBottomSheetHeader(
+          name: fromAsset ? intl.from : intl.to1,
+          showSearch: assetWithBalance.length +
+              assetWithoutBalance.length > 7,
+          onChanged: (String value) {
+            getIt.get<ActionSearchStore>().searchConvert(
+              value,
+              assetWithBalance,
+              assetWithoutBalance,
+            );
+          },
+          removePadding: true,
+          removeSearchPadding: true,
         ),
         children: [
-          for (final item in widget.assetWithBalance)
-            SAssetItem(
-              isSelected: widget.currency == item,
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
-                color: _iconColor(item, context),
-              ),
-              name: item.description,
-              description: item.symbol,
-              amount: item.volumeBaseBalance(baseCurrency),
-              divider: item != widget.assetWithBalance.last,
-              onTap: () {
-                if (widget.currency == item) {
-                  Navigator.pop(context);
-                } else {
-                  Navigator.pop(context, item);
-                }
-              },
-            ),
-          for (final item in widget.assetWithoutBalance)
-            SAssetItem(
-              isSelected: widget.currency == item,
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
-                color: _iconColor(item, context),
-              ),
-              name: item.description,
-              description: item.symbol,
-              amount: item.volumeBaseBalance(baseCurrency),
-              divider: item != widget.assetWithoutBalance.last,
-              onTap: () {
-                if (widget.currency == item) {
-                  Navigator.pop(context);
-                } else {
-                  Navigator.pop(context, item);
-                }
-              },
-            ),
+          _ActionConvert(
+            searchStore: searchStore,
+            currency: currency,
+          ),
         ],
         then: (value) {
           if (value is CurrencyModel) {
-            widget.onDropdown(value);
+            onDropdown(value);
           }
         },
       );
@@ -135,19 +98,16 @@ class _ConvertRowState extends State<ConvertRow>
                     children: [
                       ConvertDropdownButton(
                         onTap: () => _showDropdownSheet(),
-                        currency: widget.currency,
+                        currency: currency,
                       ),
                       ConvertAutoSizeAmount(
-                        onTap: widget.onTap,
-                        value: widget.value,
-                        enabled: widget.enabled,
+                        onTap: onTap,
+                        value: value,
+                        enabled: enabled,
                       ),
-                      if (widget.enabled) ...[
-                        if (cursorAnimation.value > 0.5)
+                      if (enabled)
                           const ConvertAmountCursor()
-                        else
-                          const ConvertAmountCursorPlaceholder(),
-                      ] else
+                      else
                         const ConvertAmountCursorPlaceholder(),
                     ],
                   ),
@@ -158,11 +118,11 @@ class _ConvertRowState extends State<ConvertRow>
                   child: Row(
                     children: [
                       const SpaceW34(),
-                      if (widget.inputError == null ||
-                          widget.inputError == InputError.none)
+                      if (inputError == null ||
+                          inputError == InputError.none)
                         Text(
                           '${intl.convertRow_available}:'
-                          ' ${widget.currency.volumeAssetBalance}',
+                          ' ${currency.volumeAssetBalance}',
                           maxLines: 1,
                           style: sBodyText2Style.copyWith(
                             color: colors.grey2,
@@ -171,7 +131,7 @@ class _ConvertRowState extends State<ConvertRow>
                       else ...[
                         const Spacer(),
                         Text(
-                          widget.inputError!.value(),
+                          inputError!.value(),
                           maxLines: 1,
                           style: sSubtitle3Style.copyWith(
                             color: colors.red,
@@ -189,6 +149,72 @@ class _ConvertRowState extends State<ConvertRow>
     );
   }
 
+}
+
+class _ActionConvert extends StatelessObserverWidget {
+  const _ActionConvert({
+    Key? key,
+    required this.searchStore,
+    required this.currency,
+  }) : super(key: key);
+
+  final ActionSearchStore searchStore;
+  final CurrencyModel currency;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = searchStore;
+    final baseCurrency = sSignalRModules.baseCurrency;
+
+    return Observer(
+        builder: (context) {
+
+          return Column(
+            children: [
+              for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithBalance)
+                SAssetItem(
+                  isSelected: currency == item,
+                  icon: SNetworkSvg24(
+                    url: item.iconUrl,
+                    color: _iconColor(item, context),
+                  ),
+                  name: item.description,
+                  description: item.symbol,
+                  amount: item.volumeBaseBalance(baseCurrency),
+                  divider: item != state.convertCurrenciesWithBalance.last,
+                  onTap: () {
+                    if (currency == item) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, item);
+                    }
+                  },
+                ),
+              for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance)
+                SAssetItem(
+                  isSelected: currency == item,
+                  icon: SNetworkSvg24(
+                    url: item.iconUrl,
+                    color: _iconColor(item, context),
+                  ),
+                  name: item.description,
+                  description: item.symbol,
+                  amount: item.volumeBaseBalance(baseCurrency),
+                  divider: item != state.convertCurrenciesWithoutBalance.last,
+                  onTap: () {
+                    if (currency == item) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, item);
+                    }
+                  },
+                ),
+            ],
+          );
+        },
+    );
+  }
+
   Color? _iconColor(CurrencyModel item, BuildContext context) {
     final colors = sKit.colors;
 
@@ -196,6 +222,6 @@ class _ConvertRowState extends State<ConvertRow>
       return null;
     }
 
-    return widget.currency == item ? colors.blue : colors.black;
+    return currency == item ? colors.blue : colors.black;
   }
 }

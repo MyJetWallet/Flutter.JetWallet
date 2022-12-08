@@ -41,9 +41,7 @@ void sShowAlertPopup(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Dialog(
-              insetPadding: (Platform.isAndroid || size == SWidgetSize.small)
-                  ? const EdgeInsets.all(24.0)
-                  : const EdgeInsets.symmetric(horizontal: 24.0),
+              insetPadding: const EdgeInsets.all(24.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
               ),

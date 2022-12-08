@@ -30,6 +30,7 @@ class SimpleLightStandardField extends StatelessWidget {
     this.hideSpace = false,
     this.isError = false,
     this.hasManualError = false,
+    this.hideLabel = false,
     this.validators = const [],
     this.maxLength,
     required this.labelText,
@@ -66,6 +67,7 @@ class SimpleLightStandardField extends StatelessWidget {
   final String labelText;
   final bool isError;
   final bool hasManualError;
+  final bool hideLabel;
   final List<Validator> validators;
   final int? maxLength;
 
@@ -95,6 +97,7 @@ class SimpleLightStandardField extends StatelessWidget {
       inputFormatters: inputFormatters,
       hideSpace: hideSpace,
       hasManualError: hasManualError,
+      hideLabel: hideLabel,
       maxLength: maxLength,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
