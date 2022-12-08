@@ -15,6 +15,7 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
     required String toAddress,
     String? toTag,
     required String blockchain,
+    String? lang,
   }) = _WithdrawRequestModel;
 
   factory WithdrawRequestModel.fromJson(Map<String, dynamic> json) =>
