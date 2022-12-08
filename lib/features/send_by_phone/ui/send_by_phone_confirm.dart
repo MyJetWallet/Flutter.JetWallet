@@ -23,7 +23,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 late CurrencyModel currencyModel;
 
-class SendByPhoneConfirm extends StatefulWidget {
+class SendByPhoneConfirm extends StatefulObserverWidget {
   const SendByPhoneConfirm({
     Key? key,
     required this.currency,
@@ -83,7 +83,7 @@ class _SendByPhoneConfirmState extends State<SendByPhoneConfirm> {
   }
 }
 
-class _SendByPhoneConfirmBody extends StatefulWidget {
+class _SendByPhoneConfirmBody extends StatefulObserverWidget {
   const _SendByPhoneConfirmBody({
     Key? key,
     required this.currency,
