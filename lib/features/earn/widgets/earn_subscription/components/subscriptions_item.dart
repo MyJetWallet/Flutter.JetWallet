@@ -142,6 +142,7 @@ class _SubscriptionsItemBody extends StatelessObserverWidget {
                   },
                   secondaryButtonName: intl.earn_terms_cancel,
                   child: EarnTermsCheckbox(
+                    width: MediaQuery.of(context).size.width - 130,
                     firstText: intl.earn_terms_checkbox,
                     privacyPolicyText: intl.earn_terms_link,
                     isChecked: disclaimer.isCheckBoxActive(),
