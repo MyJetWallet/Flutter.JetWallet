@@ -49,7 +49,6 @@ class __EmailConfirmationScreenBodyState
   final pinError = StandardFieldErrorNotifier();
 
   final timer = TimerStore(emailResendCountdown);
-  final loader = StackLoaderStore();
 
   @override
   void initState() {
@@ -91,8 +90,11 @@ class __EmailConfirmationScreenBodyState
           (_) => confirmation.union,
           (result) {
             result.maybeWhen(
+              input: () {
+                confirmation.loader.finishLoadingImmediately();
+              },
               error: (Object? error) {
-                loader.finishLoading();
+                confirmation.loader.finishLoadingImmediately();
 
                 pinError.enableError();
               },
@@ -152,7 +154,7 @@ class __EmailConfirmationScreenBodyState
                         controller: confirmation.controller,
                         length: emailVerificationCodeLength,
                         onCompleted: (_) {
-                          loader.startLoading();
+                          confirmation.loader.startLoading();
                           confirmation.verifyCode();
                         },
                         autoFocus: true,
