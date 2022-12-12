@@ -169,11 +169,11 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 35.0,
-                  value: store.addressIsInternal
-                      ? intl.noFee
-                      : currency != null
-                          ? currency.withdrawalFeeWithSymbol(network)
-                          : matic.withdrawalFeeWithSymbol(network),
+                  value: currency != null
+                      ? store.addressIsInternal
+                          ? intl.noFee
+                          : currency.withdrawalFeeWithSymbol(network)
+                      : matic.withdrawalFeeWithSymbol(network),
                 ),
                 const SBaselineChild(
                   baseline: 34.0,
@@ -199,7 +199,7 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                       decimal:
                           matic.currentPrice * matic.withdrawalFeeSize(network),
                       symbol: baseCurrency.symbol,
-                      accuracy: 6,
+                      accuracy: matic.accuracy,
                     ),
                     valueColor: colors.blue,
                   ),
