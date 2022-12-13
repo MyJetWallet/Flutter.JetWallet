@@ -862,6 +862,12 @@ class _$AppRouter extends RootStackRouter {
         child: const ReceiveNFTScreen(),
       );
     },
+    LogsRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const LogsScreen(),
+      );
+    },
     MarketRouter.name: (routeData) {
       final args = routeData.argsAs<MarketRouterArgs>(
           orElse: () => const MarketRouterArgs());
@@ -1282,6 +1288,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           ReceiveNFTRouter.name,
           path: '/nft_receive',
+        ),
+        RouteConfig(
+          LogsRouter.name,
+          path: '/logs_debug',
         ),
       ];
 }
@@ -4045,6 +4055,18 @@ class ReceiveNFTRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'ReceiveNFTRouter';
+}
+
+/// generated route for
+/// [LogsScreen]
+class LogsRouter extends PageRouteInfo<void> {
+  const LogsRouter()
+      : super(
+          LogsRouter.name,
+          path: '/logs_debug',
+        );
+
+  static const String name = 'LogsRouter';
 }
 
 /// generated route for
