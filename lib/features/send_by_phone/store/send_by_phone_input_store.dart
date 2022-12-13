@@ -185,9 +185,28 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @action
   void updatePhoneSearch(String _phoneSearch) {
     _logger.log(notifier, 'updateSearch');
+    var finalPhone = _phoneSearch;
+    var mustToSubstring = false;
+    var charsToSubstring = 0;
+    if (_phoneSearch.length > 1 && phoneSearch.isEmpty) {
+      final dialString = dialCodeController.text.substring(1);
+      for (var char = 0; char < dialString.length; char++) {
+        final dialStringCheck = dialString.substring(char);
+        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        if (dialStringCheck == phoneSearchShort) {
+          mustToSubstring = true;
+          if (charsToSubstring < dialStringCheck.length) {
+            charsToSubstring = dialStringCheck.length;
+          }
+        }
+      }
+    }
 
-    phoneSearch = _phoneSearch;
-
+    if (mustToSubstring) {
+      finalPhone = finalPhone.substring(charsToSubstring);
+      searchTextController.text = finalPhone;
+    }
+    phoneSearch = finalPhone;
     _filterByPhoneSearchInput();
   }
 
