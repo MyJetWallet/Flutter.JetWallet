@@ -58,9 +58,7 @@ abstract class _AppStoreBase with Store {
   @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
-      final flavor = flavorService();
-      if ((flavor == Flavor.stage || env == 'stage') &&
-          !getIt.get<DioProxyService>().proxySkiped) {
+      if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
           initRouter = const RouterUnion.apiSelector();
         }
