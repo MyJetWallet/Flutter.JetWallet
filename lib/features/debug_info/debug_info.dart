@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -95,6 +96,14 @@ class _DebugInfoState extends State<DebugInfo>
                 ),
               ),
               const SpaceH20(),
+              TextButton(
+                onPressed: () {
+                  sRouter.push(const LogsRouter());
+                },
+                child: const Text(
+                  'Logs screen',
+                ),
+              ),
               // TextButton(
               //   onPressed: () {
               //     Navigator.pushReplacement(
