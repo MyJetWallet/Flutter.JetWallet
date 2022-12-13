@@ -49,6 +49,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   String dialCodeSearch = '';
 
   @observable
+  String phoneInput = '';
+
+  @observable
   bool isButtonActive = false;
 
   @observable
@@ -187,8 +190,30 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   void updatePhoneNumber(String phoneNumber) {
-    final number = _parsePhoneNumber(phoneNumber);
+    var finalPhone = phoneNumber;
+    var mustToSubstring = false;
+    var charsToSubstring = 0;
+    if (phoneNumber.length > 1 && phoneInput.isEmpty) {
+      final dialString = dialCodeController.text.substring(1);
+      for (var char = 0; char < dialString.length; char++) {
+        final dialStringCheck = dialString.substring(char);
+        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        if (dialStringCheck == phoneSearchShort) {
+          mustToSubstring = true;
+          if (charsToSubstring < dialStringCheck.length) {
+            charsToSubstring = dialStringCheck.length;
+          }
+        }
+      }
+    }
+
+    if (mustToSubstring) {
+      finalPhone = finalPhone.substring(charsToSubstring);
+      phoneNumberController.text = finalPhone;
+    }
+    final number = _parsePhoneNumber(finalPhone);
     final currentOffset = phoneNumberController.selection.base.offset;
+    phoneInput = number;
     phoneNumberController.text = number;
     phoneNumberController.selection = TextSelection.fromPosition(
       TextPosition(
