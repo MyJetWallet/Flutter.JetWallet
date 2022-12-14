@@ -106,6 +106,7 @@ import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
@@ -449,6 +450,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/currency_withdraw',
       name: 'CurrencyWithdrawRouter',
       page: CurrencyWithdraw,
+    ),
+    AutoRoute(
+      path: '/withdraw',
+      name: 'WithdrawRouter',
+      page: WithdrawalScreen,
     ),
     AutoRoute(
       path: '/currency_sell',

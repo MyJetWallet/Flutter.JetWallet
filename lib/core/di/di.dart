@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
@@ -40,6 +42,8 @@ Future<GetIt> getItInit({
   getIt.registerSingleton<SimpleKit>(
     SimpleKit(),
   );
+
+  getIt.registerSingleton<EventBus>(EventBus());
 
   getIt.registerSingletonAsync<LocalCacheService>(
     () async => LocalCacheService().init(),

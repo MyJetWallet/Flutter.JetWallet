@@ -558,6 +558,16 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    WithdrawRouter.name: (routeData) {
+      final args = routeData.argsAs<WithdrawRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: WithdrawalScreen(
+          key: args.key,
+          withdrawal: args.withdrawal,
+        ),
+      );
+    },
     CurrencySellRouter.name: (routeData) {
       final args = routeData.argsAs<CurrencySellRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -1162,6 +1172,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CurrencyWithdrawRouter.name,
           path: '/currency_withdraw',
+        ),
+        RouteConfig(
+          WithdrawRouter.name,
+          path: '/withdraw',
         ),
         RouteConfig(
           CurrencySellRouter.name,
@@ -2990,6 +3004,40 @@ class CurrencyWithdrawRouterArgs {
   @override
   String toString() {
     return 'CurrencyWithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
+  }
+}
+
+/// generated route for
+/// [WithdrawalScreen]
+class WithdrawRouter extends PageRouteInfo<WithdrawRouterArgs> {
+  WithdrawRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+  }) : super(
+          WithdrawRouter.name,
+          path: '/withdraw',
+          args: WithdrawRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+          ),
+        );
+
+  static const String name = 'WithdrawRouter';
+}
+
+class WithdrawRouterArgs {
+  const WithdrawRouterArgs({
+    this.key,
+    required this.withdrawal,
+  });
+
+  final Key? key;
+
+  final WithdrawalModel withdrawal;
+
+  @override
+  String toString() {
+    return 'WithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
   }
 }
 

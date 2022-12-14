@@ -131,7 +131,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
       Navigator.pop(context);
 
       sRouter.navigate(
-        CurrencyWithdrawRouter(
+        WithdrawRouter(
           withdrawal: WithdrawalModel(
             nft: widget.nft,
           ),

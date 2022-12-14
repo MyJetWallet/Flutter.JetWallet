@@ -74,7 +74,7 @@ class _WithdrawOptions extends StatelessWidget {
             description: '${currency.symbol} ${intl.withdrawOptions_wallet}',
             onTap: () {
               sRouter.navigate(
-                CurrencyWithdrawRouter(
+                WithdrawRouter(
                   withdrawal: WithdrawalModel(
                     currency: currency,
                     dictionary: const WithdrawalDictionaryModel.withdraw(),

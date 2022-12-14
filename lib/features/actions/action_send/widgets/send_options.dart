@@ -61,7 +61,7 @@ class _SendOptions extends StatelessObserverWidget {
           description: intl.sendOptions_actionItemDescription2,
           onTap: () {
             sRouter.navigate(
-              CurrencyWithdrawRouter(
+              WithdrawRouter(
                 withdrawal: WithdrawalModel(
                   currency: currency,
                 ),
