@@ -311,14 +311,14 @@ abstract class _WithdrawalStoreBase with Store {
         break;
       case WithdrawStep.Preview:
         withdrawStepController.animateToPage(
-          2,
+          withdrawalType == WithdrawalType.Asset ? 2 : 1,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeIn,
         );
         break;
       case WithdrawStep.Confirm:
         withdrawStepController.animateToPage(
-          3,
+          withdrawalType == WithdrawalType.Asset ? 3 : 2,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeIn,
         );
@@ -967,6 +967,9 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _previewConfirm() {
+    previewLoading = false;
+    previewLoader.finishLoadingImmediately();
+
     withdrawalPush(WithdrawStep.Confirm);
   }
 
@@ -1125,19 +1128,26 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
-  void updateCode(WithdrawalConfirmModel data) {
+  Future<void> updateCode(WithdrawalConfirmModel data) async {
     if (data.code.isEmpty) {
       return;
     }
 
-    if (operationId == data.operationID) {
-      confirmController.text = data.code;
+    confirmController.text = data.code;
 
-      verifyCode();
+    if (operationId == data.operationID) {
+      await verifyCode();
     } else {
       sNotification.showError(
         intl.showError_youHaveConfirmed,
         id: 1,
+      );
+
+      pinError.enableError();
+
+      await Future.delayed(
+        const Duration(seconds: 2),
+        () => confirmController.clear(),
       );
     }
   }

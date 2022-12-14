@@ -24,6 +24,10 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
+    if (store.withdrawalType == WithdrawalType.NFT) {
+      return const SizedBox.shrink();
+    }
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(

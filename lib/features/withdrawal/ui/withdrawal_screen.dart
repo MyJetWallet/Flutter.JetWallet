@@ -47,12 +47,18 @@ class _WithdrawalScreenBodyState extends State<WithdrawalScreenBody> {
     return PageView(
       controller: store.withdrawStepController,
       physics: const NeverScrollableScrollPhysics(),
-      children: const [
-        WithdrawalAddressScreen(),
-        WithdrawalAmmountScreen(),
-        WithdrawalPreviewScreen(),
-        WithdrawalConfirmScreen(),
-      ],
+      children: store.withdrawalType == WithdrawalType.Asset
+          ? const [
+              WithdrawalAddressScreen(),
+              WithdrawalAmmountScreen(),
+              WithdrawalPreviewScreen(),
+              WithdrawalConfirmScreen(),
+            ]
+          : const [
+              WithdrawalAddressScreen(),
+              WithdrawalPreviewScreen(),
+              WithdrawalConfirmScreen(),
+            ],
     );
   }
 }
