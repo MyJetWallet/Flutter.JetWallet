@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -237,5 +238,16 @@ abstract class _SetPhoneNumberStoreBase with Store {
         .replaceAll('(', '')
         .replaceAll(')', '')
         .replaceAll('-', '');
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pastePhone');
+
+    final data = await Clipboard.getData('text/plain');
+    final phonePasted = data?.text?.trim() ?? '';
+    if (phonePasted.isNotEmpty) {
+      updatePhoneNumber(phonePasted);
+    }
   }
 }

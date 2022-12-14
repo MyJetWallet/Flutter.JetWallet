@@ -16,6 +16,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
+import '../../../../../../utils/helpers/currency_from.dart';
+
 class PreviewBuyWithCircle extends StatelessWidget {
   const PreviewBuyWithCircle({
     Key? key,
@@ -49,8 +51,14 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithCircleStore.of(context);
+
+    final transactionFeeCurrency = currencyFrom(
+      currencies,
+      state.depositFeeAsset ?? '',
+    );
 
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
@@ -152,10 +160,10 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_creditCardFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: baseCurrency.prefix,
+                      prefix: transactionFeeCurrency.prefixSymbol,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
+                      accuracy: transactionFeeCurrency.accuracy,
+                      symbol: transactionFeeCurrency.symbol,
                     ),
                     maxValueWidth: 140,
                   ),
