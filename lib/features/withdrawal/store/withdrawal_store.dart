@@ -285,7 +285,7 @@ abstract class _WithdrawalStoreBase with Store {
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
 
-      //addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
+      addressController.text = '0x9fCD3018a923B5BD3488bBA507e2ceb002AECe1D';
     }
 
     withdrawSubscription =
@@ -298,29 +298,29 @@ abstract class _WithdrawalStoreBase with Store {
       case WithdrawStep.Address:
         withdrawStepController.animateToPage(
           0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeIn,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
         );
         break;
       case WithdrawStep.Ammount:
         withdrawStepController.animateToPage(
           1,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeIn,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
         );
         break;
       case WithdrawStep.Preview:
         withdrawStepController.animateToPage(
           withdrawalType == WithdrawalType.Asset ? 2 : 1,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeIn,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
         );
         break;
       case WithdrawStep.Confirm:
         withdrawStepController.animateToPage(
           withdrawalType == WithdrawalType.Asset ? 3 : 2,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeIn,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.ease,
         );
         break;
       default:
@@ -1013,7 +1013,7 @@ abstract class _WithdrawalStoreBase with Store {
           .postVerifyWithdrawalVerificationCode(model);
 
       if (resp.hasError) {
-        confirmUnion = confirm.WithdrawalConfirmUnion.error(resp.error);
+        confirmUnion = confirm.WithdrawalConfirmUnion.error(resp.error!.cause);
 
         pinError.enableError();
 

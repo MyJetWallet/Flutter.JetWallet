@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_confirm_union.dart';
-import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/open_email_app.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -15,7 +15,6 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 class WithdrawalConfirmScreen extends StatelessWidget {
   const WithdrawalConfirmScreen({super.key});

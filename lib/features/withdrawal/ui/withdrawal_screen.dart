@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
+import 'package:ios_willpop_transition_theme/ios_willpop_transition_theme.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
@@ -24,10 +26,22 @@ class WithdrawalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<WithdrawalStore>(
-      create: (context) => WithdrawalStore()..init(withdrawal),
-      builder: (context, child) => const WithdrawalScreenBody(),
-      dispose: (context, value) => value.dispose(),
+    return MaterialApp(
+      theme: ThemeData(
+        /// Set as needed
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.iOS: IOSWillPopTransitionsBuilder(),
+            TargetPlatform.android: IOSWillPopTransitionsBuilder(),
+            TargetPlatform.macOS: IOSWillPopTransitionsBuilder(),
+          },
+        ),
+      ),
+      home: Provider<WithdrawalStore>(
+        create: (context) => WithdrawalStore()..init(withdrawal),
+        builder: (context, child) => const WithdrawalScreenBody(),
+        dispose: (context, value) => value.dispose(),
+      ),
     );
   }
 }

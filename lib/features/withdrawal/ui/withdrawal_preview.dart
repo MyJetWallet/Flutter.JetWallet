@@ -84,6 +84,9 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
             titleAlign: store.withdrawalType == WithdrawalType.NFT
                 ? TextAlign.center
                 : TextAlign.start,
+            crossAxisAlignment: store.withdrawalType == WithdrawalType.NFT
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
             title: title,
             onBackButtonTap: () {
               if (store.withdrawalType == WithdrawalType.NFT) {
@@ -114,12 +117,17 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                     iconUrl: store.withdrawalInputModel!.currency!.iconUrl,
                   ),
                 ] else ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      '$shortUrl${store.withdrawalInputModel!.nft!.sImage}',
-                      width: 160,
-                      height: 160,
+                  Container(
+                    width: 160,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          '$shortUrl${store.withdrawalInputModel!.nft!.sImage}',
+                        ),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ],
