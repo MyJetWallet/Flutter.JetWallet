@@ -24,7 +24,7 @@ void sShowBasicModalBottomSheet({
   required List<Widget> children,
   required BuildContext context,
 }) {
-  showCupertinoModalBottomSheet(
+  showMaterialModalBottomSheet(
     context: context,
     shadow: const BoxShadow(color: Colors.transparent),
     backgroundColor: Colors.transparent,
