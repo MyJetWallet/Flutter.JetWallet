@@ -119,6 +119,7 @@ class ChartPainter extends BaseChartPainter {
     canvas.save();
     canvas.translate(mTranslateX * scaleX, 0.0);
     canvas.scale(scaleX, 1.0);
+
     for (var i = mStartIndex; i <= mStopIndex; i++) {
       final curPoint = datas[i];
       //TODO(Vova): Check this line
@@ -285,12 +286,13 @@ class ChartPainter extends BaseChartPainter {
     if (!isLongPress && isAssetChart) {
       //Plot the maximum and minimum values
       const x = 24.0;
+
       var y = getMainY(mMainLowMinValue!) + 40;
       if (x < mWidth / 2) {
         //Draw right
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 2,
+            accuracy: 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -301,7 +303,7 @@ class ChartPainter extends BaseChartPainter {
       } else {
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 2,
+            accuracy: 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -315,7 +317,7 @@ class ChartPainter extends BaseChartPainter {
         //Draw right
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 2,
+            accuracy: 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -326,7 +328,7 @@ class ChartPainter extends BaseChartPainter {
       } else {
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 2,
+            accuracy: 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             prefix: prefix,
             symbol: '',
