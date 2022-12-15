@@ -521,6 +521,7 @@
   "actionSend_bottomSheetHeaderName": "Choose asset to send",
   "actionWithdraw_bottomSheetHeaderName": "Choose asset to withdraw",
   "actionBottomSheetHeader_search": "Search",
+  "actionBottomSheetHeader_searchAssets": "Search assets",
   "showKycCountryPicker_search": "Search",
   "countrySelectorButton_country": "Country",
   "showDialCodePicker_searchCountry": "Search country",
