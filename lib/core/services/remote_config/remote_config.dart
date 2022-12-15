@@ -52,7 +52,11 @@ class RemoteConfig {
       final isSlotBActive = activeSlotUsing == 'slot b';
 
       remoteConfigURL = flavor == Flavor.prod
-          ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          ? isSlotBActive
+          ? 'https://wallet-api-stage.simple-spot.biz/api/v1/remote-config/config'
+          : 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          : isSlotBActive
+          ? 'https://wallet-api-uat-stage.simple-spot.biz/api/v1/remote-config/config'
           : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
       final response = await Dio().get(remoteConfigURL);
@@ -127,17 +131,38 @@ class RemoteConfig {
 
   /// Each index respresents different flavor (backend environment)
   void overrideApisFrom(int index, bool slotBActive) {
-    final flavor = slotBActive
-        ? remoteConfig?.connectionFlavorsSlave[index]
-        : remoteConfig?.connectionFlavors[index];
+    final flavor = remoteConfig?.connectionFlavors[index];
+    var candlesApi = flavor!.candlesApi;
+    var authApi = flavor.authApi;
+    var walletApi = flavor.walletApi;
+    var walletApiSignalR = flavor.walletApiSignalR;
+    var validationApi = flavor.validationApi;
+    var iconApi = flavor.iconApi;
+
+    String checkStringForStage(String activeUrl) {
+      if (activeUrl.contains('stage')) {
+        return activeUrl;
+      }
+
+      return activeUrl.replaceFirst('.simple-spot', '-stage.simple-spot');
+    }
+
+    if (slotBActive) {
+      candlesApi = checkStringForStage(candlesApi);
+      authApi = checkStringForStage(authApi);
+      walletApi = checkStringForStage(walletApi);
+      walletApiSignalR = checkStringForStage(walletApiSignalR);
+      validationApi = checkStringForStage(validationApi);
+      iconApi = checkStringForStage(iconApi);
+    }
 
     getIt.get<SNetwork>().simpleOptions = SimpleOptions(
-      candlesApi: flavor!.candlesApi,
-      authApi: flavor.authApi,
-      walletApi: flavor.walletApi,
-      walletApiSignalR: flavor.walletApiSignalR,
-      validationApi: flavor.validationApi,
-      iconApi: flavor.iconApi,
+      candlesApi: candlesApi,
+      authApi: authApi,
+      walletApi: walletApi,
+      walletApiSignalR: walletApiSignalR,
+      validationApi: validationApi,
+      iconApi: iconApi,
     );
   }
 

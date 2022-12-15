@@ -36,7 +36,6 @@ import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 
 part 'app_store.g.dart';
 
-@lazySingleton
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
@@ -49,6 +48,13 @@ abstract class _AppStoreBase with Store {
     initRouter = route;
   }
 
+  @observable
+  String env = '';
+  @action
+  void setEnv(String val) {
+    env = val;
+  }
+
   @action
   Future<void> pushToUnlogin() async {
     initRouter = const RouterUnion.unauthorized();
@@ -57,8 +63,7 @@ abstract class _AppStoreBase with Store {
   @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
-      final flavor = flavorService();
-      if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
+      if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
           initRouter = const RouterUnion.apiSelector();
         }

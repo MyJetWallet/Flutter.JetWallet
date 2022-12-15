@@ -91,8 +91,10 @@ class LocalStorageService {
     await _storage.delete(key: activeSlot);
 
     final userMail = await _storage.read(key: lastUsedMail);
+    final slot = await _storage.read(key: activeSlot);
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
+    await _storage.write(key: activeSlot, value: slot);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -126,8 +128,10 @@ class LocalStorageService {
 
     if (val) {
       final userMail = await _storage.read(key: lastUsedMail);
+      final slot = await _storage.read(key: activeSlot);
       await _storage.deleteAll();
       await _storage.write(key: lastUsedMail, value: userMail);
+      await _storage.write(key: activeSlot, value: slot);
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config_values.dart'
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_unlimint_store.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -48,6 +49,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithUnlimitStore.of(context);
 
@@ -58,6 +60,11 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     deviceSize.when(
       small: () => heightWidget = heightWidget - 120,
       medium: () => heightWidget = heightWidget - 180,
+    );
+
+    final transactionFeeCurrency = currencyFrom(
+      currencies,
+      state.tradeFeeAsset ?? '',
     );
 
     icon =
@@ -114,10 +121,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     name: intl.previewBuyWithCircle_creditCardFee,
                     contentLoading: state.loader.loading,
                     value: volumeFormat(
-                      prefix: baseCurrency.prefix,
+                      prefix: transactionFeeCurrency.prefixSymbol,
                       decimal: state.depositFeeAmount ?? Decimal.zero,
-                      accuracy: baseCurrency.accuracy,
-                      symbol: baseCurrency.symbol,
+                      accuracy: transactionFeeCurrency.accuracy,
+                      symbol: transactionFeeCurrency.symbol,
                     ),
                     maxValueWidth: 140,
                   ),
