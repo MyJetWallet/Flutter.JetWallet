@@ -18,6 +18,7 @@ import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/simple_networking.dart';
 
+import '../local_cache/local_cache_service.dart';
 import '../local_storage_service.dart';
 
 const _retryTime = 10; // in seconds
@@ -49,7 +50,9 @@ class RemoteConfig {
       var remoteConfigURL = '';
       final storageService = getIt.get<LocalStorageService>();
       final activeSlotUsing = await storageService.getValue(activeSlot);
-      final isSlotBActive = activeSlotUsing == 'slot b';
+      final isFirstRunning = await getIt<LocalCacheService>()
+          .checkIsFirstRunning();
+      final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
       remoteConfigURL = flavor == Flavor.prod
           ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
