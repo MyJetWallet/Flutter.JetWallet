@@ -153,7 +153,9 @@ class TransactionListItem extends StatelessObserverWidget {
                   if (transactionListItem.operationType ==
                           OperationType.nftSellOpposite ||
                       transactionListItem.operationType ==
-                          OperationType.nftBuyOpposite)
+                          OperationType.nftBuyOpposite ||
+                      transactionListItem.operationType ==
+                          OperationType.nftWithdrawalFee)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_forText} '
                           '${nftAsset.name}',
