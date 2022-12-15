@@ -34,6 +34,8 @@ class OnboardingScreenBody extends StatefulObserverWidget {
 
 class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
     with TickerProviderStateMixin {
+  int debugTapCounter = 0;
+
   late final AnimationController _slidesAnimationController =
       AnimationController(
     vsync: this,
@@ -146,10 +148,26 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                     );
                   },
                   medium: () {
-                    return Image.asset(
-                      OnboardingStore.of(context)
-                          .showImages(OnboardingStore.of(context).currentIndex),
-                      height: size.width,
+                    return InkWell(
+                      onTap: () {
+                        if (debugTapCounter >= 4) {
+                          sRouter.push(
+                            const LogsRouter(),
+                          );
+                          setState(() {
+                            debugTapCounter = 0;
+                          });
+                        } else {
+                          setState(() {
+                            debugTapCounter++;
+                          });
+                        }
+                      },
+                      child: Image.asset(
+                        OnboardingStore.of(context).showImages(
+                            OnboardingStore.of(context).currentIndex),
+                        height: size.width,
+                      ),
                     );
                   },
                 ),

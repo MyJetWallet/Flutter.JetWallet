@@ -50,6 +50,11 @@ abstract class _AppStoreBase with Store {
   }
 
   @action
+  Future<void> pushToUnlogin() async {
+    initRouter = const RouterUnion.unauthorized();
+  }
+
+  @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
       final flavor = flavorService();
