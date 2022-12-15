@@ -92,6 +92,12 @@ class SetPhoneNumber extends StatelessObserverWidget {
                               store.updatePhoneNumber(phone);
                             },
                             controller: store.phoneNumberController,
+                            suffixIcons: [
+                              SIconButton(
+                                onTap: () => store.clearPhone(),
+                                defaultIcon: const SEraseIcon(),
+                              ),
+                            ],
                           ),
                         ),
                       ),

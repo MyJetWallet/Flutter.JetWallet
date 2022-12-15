@@ -191,12 +191,21 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   void updatePhoneNumber(String phoneNumber) {
+    if (
+      !validWeakPhoneNumber(phoneNumber) &&
+      phoneNumber.isNotEmpty &&
+      phoneNumber != '+'
+    ) {
+      phoneNumberController.text = phoneInput;
+
+      return;
+    }
     var finalPhone = phoneNumber;
     var mustToSubstring = false;
     var charsToSubstring = 0;
     if (phoneNumber.length > 1 && phoneInput.isEmpty) {
-      final dialString = dialCodeController.text.substring(1);
-      for (var char = 0; char < dialString.length; char++) {
+      final dialString = dialCodeController.text;
+      for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
         final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
@@ -233,7 +242,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   String _formatPhoneNumber(String phoneNumber) {
     return phoneNumber
-        .replaceAll('+', '')
         .replaceAll(' ', '')
         .replaceAll('(', '')
         .replaceAll(')', '')
@@ -249,5 +257,13 @@ abstract class _SetPhoneNumberStoreBase with Store {
     if (phonePasted.isNotEmpty) {
       updatePhoneNumber(phonePasted);
     }
+  }
+
+  @action
+  Future<void> clearPhone() async {
+    _logger.log(notifier, 'clearPhone');
+
+    phoneNumberController.text = '';
+    phoneInput = '';
   }
 }

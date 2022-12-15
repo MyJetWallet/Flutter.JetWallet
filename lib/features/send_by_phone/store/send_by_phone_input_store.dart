@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -324,5 +325,16 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @action
   void updateActiveDialCode(SPhoneNumber? number) {
     activeDialCode = number;
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pastePhone');
+
+    final data = await Clipboard.getData('text/plain');
+    final phonePasted = data?.text?.trim() ?? '';
+    if (phonePasted.isNotEmpty) {
+      updatePhoneSearch(phonePasted);
+    }
   }
 }
