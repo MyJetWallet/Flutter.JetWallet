@@ -320,6 +320,7 @@
   "market_bottomTabLabel4": "Gainers",
   "market_bottomTabLabel5": "Losers",
   "market_crypto": "Crypto",
+  "market_allCrypto": "All crypto",
   "market_nft": "NFTs",
   "market_nft_items": "items",
   "market_nft_show": "Show",

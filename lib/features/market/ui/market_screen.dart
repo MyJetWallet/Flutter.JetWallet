@@ -96,7 +96,8 @@ class _MarketScreenState extends State<MarketScreen>
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    final showCrypto = sSignalRModules.nftList.isNotEmpty;
+    final showCrypto = sSignalRModules.nftList.isNotEmpty &&
+      sSignalRModules.clientDetail.isNftEnable;
 
     return Scaffold(
       body: Stack(
@@ -129,7 +130,11 @@ class _MarketScreenState extends State<MarketScreen>
                 const BottomTab(
                   icon: SStarIcon(),
                 ),
-                BottomTab(text: intl.market_crypto),
+                BottomTab(
+                  text: showCrypto
+                    ? intl.market_crypto
+                    : intl.market_allCrypto,
+                ),
                 if (showCrypto) ...[
                   BottomTab(
                     text: intl.market_nft,
