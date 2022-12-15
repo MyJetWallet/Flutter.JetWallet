@@ -69,8 +69,13 @@ class _AccountScreenState extends State<AccountScreen>
               SPaddingH24(
                 child: SimpleAccountCategoryHeader(
                   onIconTap: () {
-                    if (debugTapCounter >= 5) {
-                      //navigatorPush(context, const LogsScreen());
+                    if (debugTapCounter >= 4) {
+                      sRouter.push(
+                        const DebugInfoRouter(),
+                      );
+                      setState(() {
+                        debugTapCounter = 0;
+                      });
                     } else {
                       setState(() {
                         debugTapCounter++;
