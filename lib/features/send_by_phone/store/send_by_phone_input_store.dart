@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -185,9 +186,28 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @action
   void updatePhoneSearch(String _phoneSearch) {
     _logger.log(notifier, 'updateSearch');
+    var finalPhone = _phoneSearch;
+    var mustToSubstring = false;
+    var charsToSubstring = 0;
+    if (_phoneSearch.length > 1 && phoneSearch.isEmpty) {
+      final dialString = dialCodeController.text.substring(1);
+      for (var char = 0; char < dialString.length; char++) {
+        final dialStringCheck = dialString.substring(char);
+        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        if (dialStringCheck == phoneSearchShort) {
+          mustToSubstring = true;
+          if (charsToSubstring < dialStringCheck.length) {
+            charsToSubstring = dialStringCheck.length;
+          }
+        }
+      }
+    }
 
-    phoneSearch = _phoneSearch;
-
+    if (mustToSubstring) {
+      finalPhone = finalPhone.substring(charsToSubstring);
+      searchTextController.text = finalPhone;
+    }
+    phoneSearch = finalPhone;
     _filterByPhoneSearchInput();
   }
 
@@ -305,5 +325,16 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @action
   void updateActiveDialCode(SPhoneNumber? number) {
     activeDialCode = number;
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pastePhone');
+
+    final data = await Clipboard.getData('text/plain');
+    final phonePasted = data?.text?.trim() ?? '';
+    if (phonePasted.isNotEmpty) {
+      updatePhoneSearch(phonePasted);
+    }
   }
 }
