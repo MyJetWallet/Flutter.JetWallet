@@ -46,11 +46,7 @@ class WithdrawalConfirmScreenBody extends StatelessObserverWidget {
     final noun = store.withdrawalInputModel!.dictionary.noun.toLowerCase();
 
     return WillPopScope(
-      onWillPop: () async {
-        store.withdrawalPush(WithdrawStep.Preview);
-
-        return false;
-      },
+      onWillPop: () async => false,
       child: ReactionBuilder(
         builder: (context) {
           return reaction<WithdrawalConfirmUnion>(
