@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/remote_config/models/remote_config_union
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -53,13 +54,17 @@ class RemoteConfig {
 
       remoteConfigURL = flavor == Flavor.prod
           ? isSlotBActive
-          ? 'https://wallet-api-stage.simple-spot.biz/api/v1/remote-config/config'
-          : 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+              ? 'https://wallet-api-stage.simple-spot.biz/api/v1/remote-config/config'
+              : 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
           : isSlotBActive
-          ? 'https://wallet-api-uat-stage.simple-spot.biz/api/v1/remote-config/config'
-          : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
+              ? 'https://wallet-api-uat-stage.simple-spot.biz/api/v1/remote-config/config'
+              : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
-      final response = await Dio().get(remoteConfigURL);
+      // TODO: Добавить UserAgent
+      var dio = Dio();
+      //dio.options.headers['User-Agent'] = getUserAgent();
+
+      final response = await dio.get(remoteConfigURL);
 
       //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
 

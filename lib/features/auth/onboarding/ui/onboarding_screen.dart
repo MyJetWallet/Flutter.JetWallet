@@ -34,8 +34,6 @@ class OnboardingScreenBody extends StatefulObserverWidget {
 
 class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
     with TickerProviderStateMixin {
-  int debugTapCounter = 0;
-
   late final AnimationController _slidesAnimationController =
       AnimationController(
     vsync: this,
@@ -142,32 +140,18 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                 deviceSize.when(
                   small: () {
                     return Image.asset(
-                      OnboardingStore.of(context)
-                          .showImages(OnboardingStore.of(context).currentIndex),
+                      OnboardingStore.of(context).showImages(
+                        OnboardingStore.of(context).currentIndex,
+                      ),
                       height: size.width * 0.7,
                     );
                   },
                   medium: () {
-                    return InkWell(
-                      onTap: () {
-                        if (debugTapCounter >= 4) {
-                          sRouter.push(
-                            const LogsRouter(),
-                          );
-                          setState(() {
-                            debugTapCounter = 0;
-                          });
-                        } else {
-                          setState(() {
-                            debugTapCounter++;
-                          });
-                        }
-                      },
-                      child: Image.asset(
-                        OnboardingStore.of(context).showImages(
-                            OnboardingStore.of(context).currentIndex),
-                        height: size.width,
+                    return Image.asset(
+                      OnboardingStore.of(context).showImages(
+                        OnboardingStore.of(context).currentIndex,
                       ),
+                      height: size.width,
                     );
                   },
                 ),
@@ -181,7 +165,20 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                     );
                   },
                 ),
-                const SpaceH24(),
+                if (getIt<AppStore>().env == 'stage') ...[
+                  const SpaceH12(),
+                  STextButton1(
+                    active: true,
+                    name: 'Logs',
+                    onTap: () {
+                      sRouter.push(
+                        const LogsRouter(),
+                      );
+                    },
+                  ),
+                ] else ...[
+                  const SpaceH24(),
+                ],
               ],
             ),
           ),

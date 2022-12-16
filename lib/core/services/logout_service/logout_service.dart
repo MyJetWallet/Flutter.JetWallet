@@ -28,22 +28,32 @@ abstract class _LogoutServiceBase with Store {
   LogoutUnion union = const LogoutUnion.result();
 
   @action
-  Future<void> logout({
+  Future<void> logout(
+    String from, {
     bool withLoading = true,
     bool resetPin = false,
   }) async {
-    _logger.log(notifier, 'logout');
+    _logger.log(notifier, 'Logout start $from');
 
     final authStore = getIt.get<AppStore>().authState;
 
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
+      _logger.log(stateFlow, 'authStatus is Unauthorized');
+
       await sLocalStorageService.clearStorage();
-      sRouter.popUntilRoot();
+
+      // Make init router unauthorized
+      await getIt<AppStore>().pushToUnlogin();
+      await sRouter.replaceAll([
+        const AppInitRoute(),
+      ]);
 
       return;
     }
 
     if (resetPin) {
+      _logger.log(stateFlow, 'resetPin');
+
       final _ = await sNetwork.getAuthModule().postResetPin();
     }
 
@@ -57,39 +67,47 @@ abstract class _LogoutServiceBase with Store {
           token: authStore.token,
         );
 
+        _logger.log(stateFlow, '_syncLogout');
+
         _syncLogout(model);
       }
     } catch (e) {
-      print(e);
+      _logger.log(error, '_syncLogout e: ${e.toString()}');
     }
 
-    // Clear analytics
-    unawaited(sAnalytics.logout());
+    try {
+      // Clear analytics
+      unawaited(sAnalytics.logout());
 
-    // Disconet from SignalR
-    await getIt.get<SignalRService>().signalR.disconnect();
+      // Disconet from SignalR
+      await getIt.get<SignalRService>().signalR.disconnect();
 
-    // Clear all flutter_secure_storage and shared_preferences
-    await sLocalStorageService.clearStorage();
-    await getIt<LocalCacheService>().clearAllCache();
+      // Clear all flutter_secure_storage and shared_preferences
+      await sLocalStorageService.clearStorage();
+      await getIt<LocalCacheService>().clearAllCache();
 
-    /// Clear UserInfo
-    sUserInfo.clear();
+      /// Clear UserInfo
+      sUserInfo.clear();
 
-    // Reset User state
-    getIt<AppStore>().resetAppStore();
+      union = const LogoutUnion.result();
 
-    union = const LogoutUnion.result();
+      // Make init router unauthorized
+      await getIt<AppStore>().pushToUnlogin();
+      await sRouter.replaceAll([
+        const AppInitRoute(),
+      ]);
 
-    // Make init router unauthorized
-    await getIt<AppStore>().pushToUnlogin();
-    await sRouter.replaceAll([
-      const AppInitRoute(),
-    ]);
+      // Reset User state
+      getIt<AppStore>().resetAppStore();
 
-    sSignalRModules.clearSignalRModule();
+      sSignalRModules.clearSignalRModule();
 
-    await getIt<AppStore>().getAuthStatus();
+      await getIt<AppStore>().getAuthStatus();
+    } catch (e) {
+      _logger.log(error, 'Logout error: $e');
+    }
+
+    _logger.log(stateFlow, 'Logout success');
   }
 
   @action

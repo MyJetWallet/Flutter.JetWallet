@@ -260,7 +260,7 @@ class _AccountScreenState extends State<AccountScreen>
                     const SpaceH20(),
                     LogOutOption(
                       name: intl.log_out,
-                      onTap: () => logout.logout(),
+                      onTap: () => logout.logout('account logout'),
                     ),
                     const SpaceH20(),
                   ],
