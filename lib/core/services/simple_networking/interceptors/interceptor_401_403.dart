@@ -27,10 +27,9 @@ Future<void> interceptor401_403({
       handler.resolve(response);
     } else {
       handler.reject(dioError);
-      await getIt.get<LogoutService>().logout();
+      await getIt.get<LogoutService>().logout('INTERCEPTOR, cant update token');
     }
   } catch (_) {
     handler.reject(dioError);
-    await getIt.get<LogoutService>().logout();
   }
 }

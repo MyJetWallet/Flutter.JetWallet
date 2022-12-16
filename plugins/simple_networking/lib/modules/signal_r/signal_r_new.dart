@@ -61,6 +61,8 @@ class SignalRModuleNew {
   bool isDisconnecting = false;
 
   Future<void> init() async {
+    _logger.log(signalR, 'SignalR INIT');
+
     isDisconnecting = false;
 
     final defaultHeaders = MessageHeaders();
@@ -72,7 +74,7 @@ class SignalRModuleNew {
 
     final httpOptions = HttpConnectionOptions(
       headers: defaultHeaders,
-      logger: _logger,
+      //logger: _logger,
     );
 
     _hubConnection = HubConnectionBuilder()
@@ -81,7 +83,7 @@ class SignalRModuleNew {
           options: httpOptions,
         )
         .withAutomaticReconnect()
-        .configureLogging(_logger)
+        //.configureLogging(_logger)
         .build();
 
     _hubConnection?.onclose(({error}) => _startReconnect());
@@ -246,6 +248,8 @@ class SignalRModuleNew {
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
   Future<void> _reconnect() async {
+    _logger.log(signalR, 'SignalR Reconnect');
+
     if (!isDisconnecting) {
       try {
         await disableHandlerConnection();
@@ -268,6 +272,8 @@ class SignalRModuleNew {
   }
 
   Future<void> disconnect() async {
+    _logger.log(signalR, 'SignalR Disconnect');
+
     isDisconnecting = true;
 
     _pingTimer?.cancel();

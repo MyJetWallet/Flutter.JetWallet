@@ -88,6 +88,7 @@ class LocalStorageService {
     await _storage.delete(key: useBioKey);
     await _storage.delete(key: startApp);
     await _storage.delete(key: nftPromoCode);
+    await _storage.delete(key: activeSlot);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);
