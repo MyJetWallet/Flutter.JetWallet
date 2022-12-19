@@ -71,6 +71,7 @@ class TransactionHistory extends StatelessObserverWidget {
                     body: Container(
                       transform: Matrix4.translationValues(0.0, -50.0, 0.0),
                       child: TransactionsMainList(
+                        zeroPadding: !showCrypto,
                         symbol: assetSymbol,
                       ),
                     ),
