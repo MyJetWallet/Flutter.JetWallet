@@ -96,63 +96,65 @@ class _MarketScreenState extends State<MarketScreen>
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    return ReactionBuilder(
+    /*
+    ReactionBuilder(
       builder: (context) {
         return reaction<bool>(
           (_) => sSignalRModules.nftList.isNotEmpty,
           (result) {
-            setState(() {
+            /*setState(() {
               _controller = getController();
               getIt<AppStore>().setMarketController(_controller);
-            });
+            });*/
           },
           fireImmediately: true,
         );
       },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            TabBarView(
-              controller: getIt<AppStore>().marketController,
-              children: [
-                const WatchlistTabBarView(),
+      */
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          TabBarView(
+            controller: getIt<AppStore>().marketController,
+            children: [
+              const WatchlistTabBarView(),
+              const MarketNestedScrollView(
+                marketShowType: MarketShowType.Crypto,
+                showBanners: true,
+                showSearch: true,
+                showFilter: true,
+                sourceScreen: FilterMarketTabAction.all,
+              ),
+              if (getIt<AppStore>().marketController!.length == 3) ...[
                 const MarketNestedScrollView(
-                  marketShowType: MarketShowType.Crypto,
-                  showBanners: true,
-                  showSearch: true,
+                  marketShowType: MarketShowType.NFT,
                   showFilter: true,
                   sourceScreen: FilterMarketTabAction.all,
                 ),
+              ],
+            ],
+          ),
+          Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: BottomTabs(
+              tabController: getIt<AppStore>().marketController,
+              tabs: [
+                const BottomTab(
+                  icon: SStarIcon(),
+                ),
+                BottomTab(text: intl.market_crypto),
                 if (getIt<AppStore>().marketController!.length == 3) ...[
-                  const MarketNestedScrollView(
-                    marketShowType: MarketShowType.NFT,
-                    showFilter: true,
-                    sourceScreen: FilterMarketTabAction.all,
+                  BottomTab(
+                    text: intl.market_nft,
+                    //isActive: DefaultTabController.of(context)!.index == 2,
+                    isTextBlue: true,
                   ),
                 ],
               ],
             ),
-            Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: BottomTabs(
-                tabController: getIt<AppStore>().marketController,
-                tabs: [
-                  const BottomTab(
-                    icon: SStarIcon(),
-                  ),
-                  BottomTab(text: intl.market_crypto),
-                  if (getIt<AppStore>().marketController!.length == 3) ...[
-                    BottomTab(
-                      text: intl.market_nft,
-                      //isActive: DefaultTabController.of(context)!.index == 2,
-                      isTextBlue: true,
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
