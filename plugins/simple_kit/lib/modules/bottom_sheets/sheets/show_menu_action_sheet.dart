@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/asset_items/simple_action_item.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_bottom_sheet.dart';
+import 'package:simple_kit/modules/icons/24x24/public/action_buy_with_cash/action_buy_with_cash.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 // ignore: long-method
@@ -35,7 +36,7 @@ void sShowMenuActionSheet({
     onWillPop: () => Future.value(true),
     transitionAnimationController: transitionAnimationController,
     children: [
-      if (isBuyAvailable)
+      if (isNotEmptyBalance && isBuyAvailable)
         SActionItem(
           onTap: () => onBuy(),
           icon: const SActionBuyIcon(),
@@ -61,7 +62,7 @@ void sShowMenuActionSheet({
       if (isBuyFromCardAvailable)
         SActionItem(
           onTap: () => onBuyFromCard(),
-          icon: const SActionDepositIcon(),
+          icon: const SActionBuytWithCashIcon(),
           name: actionItemLocalized[4]['name']!,
           description: actionItemLocalized[4]['description']!,
         ),

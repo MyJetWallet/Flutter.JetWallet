@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/utils/helpers/device_helper.dart';
+import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 
 void setupHeaders(Dio dio, [String? token]) {
   final locale = intl.localeName;
@@ -29,7 +30,7 @@ void setupHeaders(Dio dio, [String? token]) {
   dio.options.headers['Authorization'] = 'Bearer $token';
   dio.options.headers['Accept-Language'] = locale;
   dio.options.headers['From'] = deviceInfo.deviceUid;
-  dio.options.headers['User-Agent'] =
-      '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-      '$devicePixelRatio;$locale;${deviceInfo.marketingName}';
+  dio.options.headers['User-Agent'] = getUserAgent();
+
+  /// Also change user agent for SignalR
 }

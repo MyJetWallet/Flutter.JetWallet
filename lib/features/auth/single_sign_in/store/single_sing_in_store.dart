@@ -67,7 +67,7 @@ abstract class _SingleSingInStoreBase with Store {
       union = const SingleSingInStateUnion.loading();
 
       String advID = '';
-      String _advertisingId = 'Unknown';
+      //String _advertisingId = 'Unknown';
       String adId = '';
 
       try {
@@ -76,7 +76,7 @@ abstract class _SingleSingInStoreBase with Store {
         adId = sDeviceInfo.model.deviceUid;
       } catch (e) {
         advID = '';
-        _advertisingId = '';
+        //_advertisingId = '';
         adId = '';
       }
 
@@ -87,7 +87,7 @@ abstract class _SingleSingInStoreBase with Store {
         lang: intl.localeName,
         application: currentAppPlatform,
         appsflyerId: appsFlyerID ?? '',
-        adid: _advertisingId,
+        //adid: _advertisingId,
         idfv: adId,
         idfa: advID,
       );

@@ -20,6 +20,7 @@ class TransactionsMainList extends StatelessWidget {
   const TransactionsMainList({
     super.key,
     this.isRecurring = false,
+    this.zeroPadding = false,
     this.symbol,
     this.filter = TransactionType.none,
   });
@@ -27,6 +28,7 @@ class TransactionsMainList extends StatelessWidget {
   final String? symbol;
   final TransactionType filter;
   final bool isRecurring;
+  final bool zeroPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class TransactionsMainList extends StatelessWidget {
         scrollController: scrollController,
         symbol: symbol,
         isRecurring: isRecurring,
+        zeroPadding: zeroPadding,
         filter: filter,
       ),
     );
@@ -49,6 +52,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
     Key? key,
     this.isRecurring = false,
+    this.zeroPadding = false,
     this.filter = TransactionType.none,
     this.symbol,
     required this.scrollController,
@@ -57,6 +61,7 @@ class _TransactionsListBody extends StatefulObserverWidget {
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
+  final bool zeroPadding;
   final TransactionType filter;
 
   @override
@@ -149,7 +154,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 const OperationHistoryUnion.error()
             ? 15
             : 0,
-        bottom: _addBottomPadding() ? 25 : 0,
+        bottom: widget.zeroPadding ? 0 : _addBottomPadding() ? 25 : 0,
       ),
       child: OperationHistory.of(context).union.when(
         loaded: () {

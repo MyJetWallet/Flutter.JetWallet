@@ -13,6 +13,7 @@ import 'package:simple_kit/modules/icons/24x24/light/wallet/simple_light_wallet_
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
@@ -25,78 +26,83 @@ void showReceiveAction(BuildContext context) {
   sAnalytics.receiveChooseAsset();
   Navigator.pop(context);
 
-  sShowBasicModalBottomSheet(
-    context: context,
-    then: (value) {
-      //sAnalytics.receiveChooseAssetClose();
-    },
-    pinned: ActionBottomSheetHeader(
-      name: intl.actionReceive_receive,
-      onChanged: (String value) {},
-    ),
-    horizontalPinnedPadding: 0.0,
-    removePinnedPadding: true,
-    children: [
-      Column(
-        children: [
-          receiveItem(
-            icon: const SizedBox(
-              width: 24,
-              height: 24,
-              child: SimpleLightWalletIcon(),
-            ),
-            text: intl.actionReceive_receive_crypto,
-            subtext: intl.actionReceive_receive_crypto,
-            onTap: () {
-              showCryptoReceiveAction(context);
-            },
-          ),
-          receiveItem(
-            icon: SizedBox(
-              width: 24,
-              height: 24,
-              child: SimpleLightQrCodeIcon(
-                color: colors.blue,
-              ),
-            ),
-            text: intl.actionReceive_receive_nft,
-            subtext: intl.actionReceive_receive_nft,
-            onTap: () {
-              sAnalytics.nftReceiveTap(source: "'S' Menu");
-              if (
-                kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-                kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
-                kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
-              ) {
-                sRouter.push(
-                  const ReceiveNFTRouter(),
-                );
-              } else {
-                handler.handle(
-                  status: kyc.depositStatus !=
-                      kycOperationStatus(KycStatus.allowed)
-                      ? kyc.depositStatus
-                      : kyc.withdrawalStatus !=
-                      kycOperationStatus(KycStatus.allowed)
-                      ? kyc.withdrawalStatus
-                      : kyc.sellStatus,
-                  isProgress: kyc.verificationInProgress,
-                  currentNavigate: () {
-                    sRouter.push(
-                      const ReceiveNFTRouter(),
-                    );
-                  },
-                  requiredDocuments: kyc.requiredDocuments,
-                  requiredVerifications: kyc.requiredVerifications,
-                );
-              }
-            },
-          ),
-          const SpaceH40(),
-        ],
+  final showCrypto = sSignalRModules.clientDetail.isNftEnable;
+  if (!showCrypto) {
+    showCryptoReceiveAction(context);
+  } else {
+    sShowBasicModalBottomSheet(
+      context: context,
+      then: (value) {
+        //sAnalytics.receiveChooseAssetClose();
+      },
+      pinned: ActionBottomSheetHeader(
+        name: intl.actionReceive_receive,
+        onChanged: (String value) {},
       ),
-    ],
-  );
+      horizontalPinnedPadding: 0.0,
+      removePinnedPadding: true,
+      children: [
+        Column(
+          children: [
+            receiveItem(
+              icon: const SizedBox(
+                width: 24,
+                height: 24,
+                child: SimpleLightWalletIcon(),
+              ),
+              text: intl.actionReceive_receive_crypto,
+              subtext: intl.actionReceive_receive_crypto,
+              onTap: () {
+                showCryptoReceiveAction(context);
+              },
+            ),
+            receiveItem(
+              icon: SizedBox(
+                width: 24,
+                height: 24,
+                child: SimpleLightQrCodeIcon(
+                  color: colors.blue,
+                ),
+              ),
+              text: intl.actionReceive_receive_nft,
+              subtext: intl.actionReceive_receive_nft,
+              onTap: () {
+                sAnalytics.nftReceiveTap(source: "'S' Menu");
+                if (
+                kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
+                    kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
+                    kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
+                ) {
+                  sRouter.push(
+                    const ReceiveNFTRouter(),
+                  );
+                } else {
+                  handler.handle(
+                    status: kyc.depositStatus !=
+                        kycOperationStatus(KycStatus.allowed)
+                        ? kyc.depositStatus
+                        : kyc.withdrawalStatus !=
+                        kycOperationStatus(KycStatus.allowed)
+                        ? kyc.withdrawalStatus
+                        : kyc.sellStatus,
+                    isProgress: kyc.verificationInProgress,
+                    currentNavigate: () {
+                      sRouter.push(
+                        const ReceiveNFTRouter(),
+                      );
+                    },
+                    requiredDocuments: kyc.requiredDocuments,
+                    requiredVerifications: kyc.requiredVerifications,
+                  );
+                }
+              },
+            ),
+            const SpaceH40(),
+          ],
+        ),
+      ],
+    );
+  }
 }
 
 Widget receiveItem({

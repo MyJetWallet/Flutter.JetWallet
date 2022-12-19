@@ -69,6 +69,7 @@ void _validateFullResponse(
     }
   } else if (result == 'InvalidCode') {
     final data = json['rejectDetail'] as Map<String, dynamic>?;
+
     if (data == null) {
       throw const ServerRejectException('$pinIncorrectEn.');
     } else {
@@ -97,8 +98,10 @@ void _validateFullResponse(
         }
       } else {
         final left = attempts['left'] as int;
+
         throw ServerRejectException(
-            '$pinIncorrectEn, $left $attemptsRemainingEn.');
+          '$pinIncorrectEn, $left $attemptsRemainingEn.',
+        );
       }
     }
   } else if (result != 'OK') {

@@ -135,7 +135,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   onTap: () {
                     sAnalytics.receiveClick(
                         source: 'Market -> Asset -> Receive');
-                    if (kycState.withdrawalStatus ==
+                    if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       sAnalytics.receiveAssetView(asset: currency.description);
                       sRouter.navigate(
@@ -146,7 +146,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       );
                     } else {
                       kycAlertHandler.handle(
-                        status: kycState.withdrawalStatus,
+                        status: kycState.depositStatus,
                         isProgress: kycState.verificationInProgress,
                         currentNavigate: () {
                           sAnalytics.receiveAssetView(

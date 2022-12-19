@@ -79,16 +79,26 @@ class SetPhoneNumber extends StatelessObserverWidget {
                   builder: (context) {
                     return Expanded(
                       child: SPaddingH24(
-                        child: SStandardField(
-                          labelText: intl.setPhoneNumber_phoneNumber,
-                          autofocus: true,
-                          autofillHints: const [AutofillHints.telephoneNumber],
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.next,
-                          onChanged: (String phone) {
-                            store.updatePhoneNumber(phone);
-                          },
-                          controller: store.phoneNumberController,
+                        child: GestureDetector(
+                          onLongPress: () => store.pasteCode(),
+                          onDoubleTap: () => store.pasteCode(),
+                          child: SStandardField(
+                            labelText: intl.setPhoneNumber_phoneNumber,
+                            autofocus: true,
+                            autofillHints: const [AutofillHints.telephoneNumber],
+                            keyboardType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                            onChanged: (String phone) {
+                              store.updatePhoneNumber(phone);
+                            },
+                            controller: store.phoneNumberController,
+                            suffixIcons: [
+                              SIconButton(
+                                onTap: () => store.clearPhone(),
+                                defaultIcon: const SEraseIcon(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

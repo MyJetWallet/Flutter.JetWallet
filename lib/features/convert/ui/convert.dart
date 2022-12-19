@@ -149,7 +149,13 @@ class ConvertBody extends StatelessObserverWidget {
               }
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.convertValid,
+            submitButtonActive: store.convertValid
+                && store.fromAssetAmount != ''
+                && store.fromAssetAmount != '0'
+                && store.toAssetAmount != ''
+                && store.toAssetAmount != '0'
+                && store.fromAsset != null
+                && store.toAsset != null,
             submitButtonName: intl.convert_previewConvert,
             onSubmitPressed: () {
               sAnalytics.convertTapPreview(

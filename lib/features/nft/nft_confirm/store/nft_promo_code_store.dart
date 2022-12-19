@@ -130,6 +130,7 @@ abstract class _NFTPromoCodeStoreBase with Store {
 
             promoStatus = const NftPromoCodeUnion.valid();
             promoCode = code;
+            isInputError = false;
 
             if (promoStatus is Valid && code.isNotEmpty) {
               promoCodeController.text = code;
