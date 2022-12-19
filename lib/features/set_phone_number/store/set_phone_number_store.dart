@@ -191,8 +191,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   void updatePhoneNumber(String phoneNumber) {
+    final checkStartNumber = _parsePhoneNumber(phoneNumber);
     if (
-      !validWeakPhoneNumber(phoneNumber) &&
+      !validWeakPhoneNumber(checkStartNumber) &&
       phoneNumber.isNotEmpty &&
       phoneNumber != '+'
     ) {
