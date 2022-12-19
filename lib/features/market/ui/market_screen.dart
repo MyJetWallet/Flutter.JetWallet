@@ -96,8 +96,6 @@ class _MarketScreenState extends State<MarketScreen>
       //await timeTrackerN.isFinishedOnMarketCheck();
     });
 
-    print(getIt<AppStore>().marketController!.length);
-
     return ReactionBuilder(
       builder: (context) {
         return reaction<bool>(
@@ -105,7 +103,7 @@ class _MarketScreenState extends State<MarketScreen>
           (result) {
             setState(() {
               _controller = getController();
-              getIt<AppStore>().setMarketController(getController());
+              getIt<AppStore>().setMarketController(_controller);
             });
           },
           fireImmediately: true,
