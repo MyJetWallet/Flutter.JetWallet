@@ -65,7 +65,8 @@ class _MarketScreenState extends State<MarketScreen>
   }
 
   TabController getController() {
-    final showNFT = sSignalRModules.nftList.isNotEmpty;
+    final showNFT = sSignalRModules.nftList.isNotEmpty &&
+        sSignalRModules.clientDetail.isNftEnable;
 
     return TabController(
       length: showNFT ? 3 : 2,
@@ -112,6 +113,9 @@ class _MarketScreenState extends State<MarketScreen>
       },
       */
 
+    final showNFT = sSignalRModules.nftList.isNotEmpty &&
+        sSignalRModules.clientDetail.isNftEnable;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -126,7 +130,8 @@ class _MarketScreenState extends State<MarketScreen>
                 showFilter: true,
                 sourceScreen: FilterMarketTabAction.all,
               ),
-              if (getIt<AppStore>().marketController!.length == 3) ...[
+              if (getIt<AppStore>().marketController!.length == 3 &&
+                  showNFT) ...[
                 const MarketNestedScrollView(
                   marketShowType: MarketShowType.NFT,
                   showFilter: true,
@@ -143,8 +148,11 @@ class _MarketScreenState extends State<MarketScreen>
                 const BottomTab(
                   icon: SStarIcon(),
                 ),
-                BottomTab(text: intl.market_crypto),
-                if (getIt<AppStore>().marketController!.length == 3) ...[
+                BottomTab(
+                  text: showNFT ? intl.market_crypto : intl.market_allCrypto,
+                ),
+                if (getIt<AppStore>().marketController!.length == 3 &&
+                    showNFT) ...[
                   BottomTab(
                     text: intl.market_nft,
                     //isActive: DefaultTabController.of(context)!.index == 2,
