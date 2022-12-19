@@ -16,7 +16,7 @@ Future<void> main() async {
     //,error: rxn.errorValue!.exception,);
   });
 
-  await appInitialization(Environment.test);
+  await appInitialization('stage');
 
   runZonedGuarded(
     () => runApp(

@@ -6,6 +6,7 @@ import 'package:simple_networking/core/simple_networking.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/repository/auth_api_repository.dart';
 import 'package:simple_networking/modules/candles_api/repository/candles_api_repository.dart';
+import 'package:simple_networking/modules/logs_api/repository/logs_api_repository.dart';
 import 'package:simple_networking/modules/remote_config/repository/remote_config_repository.dart';
 import 'package:simple_networking/modules/signal_r/signal_r.dart';
 import 'package:simple_networking/modules/validation_api/repository/validation_api_repository.dart';
@@ -80,5 +81,10 @@ class SimpleNetworkingImpl implements SimpleNetworking {
   @override
   RemoteConfigRepository getRemoteConfigModule() {
     return RemoteConfigRepository();
+  }
+
+  @override
+  LogsApiRepository getLogsApiModule() {
+    return LogsApiRepository(apiClient);
   }
 }

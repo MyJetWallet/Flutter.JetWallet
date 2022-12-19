@@ -11,12 +11,15 @@ import 'package:jetwallet/core/services/remote_config/models/remote_config_union
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/simple_networking.dart';
+
+import '../local_storage_service.dart';
 
 const _retryTime = 10; // in seconds
 const _defaultFlavorIndex = 0;
@@ -45,12 +48,23 @@ class RemoteConfig {
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
 
       var remoteConfigURL = '';
+      final storageService = getIt.get<LocalStorageService>();
+      final activeSlotUsing = await storageService.getValue(activeSlot);
+      final isSlotBActive = activeSlotUsing == 'slot b';
 
       remoteConfigURL = flavor == Flavor.prod
-          ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
-          : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
+          ? isSlotBActive
+              ? 'https://wallet-api-stage.simple-spot.biz/api/v1/remote-config/config'
+              : 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          : isSlotBActive
+              ? 'https://wallet-api-uat-stage.simple-spot.biz/api/v1/remote-config/config'
+              : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
-      final response = await Dio().get(remoteConfigURL);
+      // TODO: Добавить UserAgent
+      var dio = Dio();
+      //dio.options.headers['User-Agent'] = getUserAgent();
+
+      final response = await dio.get(remoteConfigURL);
 
       //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
 
@@ -76,7 +90,7 @@ class RemoteConfig {
       overrideCircleValues();
       overrideNFTValues();
 
-      overrideApisFrom(_defaultFlavorIndex);
+      overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
 
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
 
@@ -121,16 +135,39 @@ class RemoteConfig {
   }
 
   /// Each index respresents different flavor (backend environment)
-  void overrideApisFrom(int index) {
+  void overrideApisFrom(int index, bool slotBActive) {
     final flavor = remoteConfig?.connectionFlavors[index];
+    var candlesApi = flavor!.candlesApi;
+    var authApi = flavor.authApi;
+    var walletApi = flavor.walletApi;
+    var walletApiSignalR = flavor.walletApiSignalR;
+    var validationApi = flavor.validationApi;
+    var iconApi = flavor.iconApi;
+
+    String checkStringForStage(String activeUrl) {
+      if (activeUrl.contains('stage')) {
+        return activeUrl;
+      }
+
+      return activeUrl.replaceFirst('.simple-spot', '-stage.simple-spot');
+    }
+
+    if (slotBActive) {
+      candlesApi = checkStringForStage(candlesApi);
+      authApi = checkStringForStage(authApi);
+      walletApi = checkStringForStage(walletApi);
+      walletApiSignalR = checkStringForStage(walletApiSignalR);
+      validationApi = checkStringForStage(validationApi);
+      iconApi = checkStringForStage(iconApi);
+    }
 
     getIt.get<SNetwork>().simpleOptions = SimpleOptions(
-      candlesApi: flavor!.candlesApi,
-      authApi: flavor.authApi,
-      walletApi: flavor.walletApi,
-      walletApiSignalR: flavor.walletApiSignalR,
-      validationApi: flavor.validationApi,
-      iconApi: flavor.iconApi,
+      candlesApi: candlesApi,
+      authApi: authApi,
+      walletApi: walletApi,
+      walletApiSignalR: walletApiSignalR,
+      validationApi: validationApi,
+      iconApi: iconApi,
     );
   }
 

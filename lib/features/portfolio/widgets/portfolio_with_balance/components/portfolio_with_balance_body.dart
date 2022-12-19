@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
@@ -144,6 +146,9 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final chart = ChartStore.of(context);
+    Timer(const Duration(seconds: 5), () {
+      chart.fetchBalanceCandles(chart.resolution, isLocal: true);
+    });
 
     final periodChange = _periodChange(
       ChartState(
