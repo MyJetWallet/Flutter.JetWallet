@@ -185,13 +185,23 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
   @action
   void updatePhoneSearch(String _phoneSearch) {
+    final checkStartNumber = _parsePhoneNumber(_phoneSearch);
+    if (
+    !validWeakPhoneNumber(checkStartNumber) &&
+        _phoneSearch.isNotEmpty &&
+        _phoneSearch != '+'
+    ) {
+      phoneNumberController.text = phoneSearch;
+
+      return;
+    }
     _logger.log(notifier, 'updateSearch');
-    var finalPhone = _phoneSearch;
+    var finalPhone = checkStartNumber;
     var mustToSubstring = false;
     var charsToSubstring = 0;
-    if (_phoneSearch.length > 1 && phoneSearch.isEmpty) {
+    if (checkStartNumber.length > 1 && phoneSearch.isEmpty) {
       final dialString = dialCodeController.text.substring(1);
-      for (var char = 0; char < dialString.length; char++) {
+      for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
         final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
@@ -315,6 +325,22 @@ abstract class _SendByPhoneInputStoreBase with Store {
     final parsedNamber = number.replaceAll('-', '');
 
     return name.contains(search) || parsedNamber.contains(search);
+  }
+
+  @action
+  String _parsePhoneNumber(String phoneNumber) {
+    return phoneNumber.isNotEmpty
+        ? _formatPhoneNumber(phoneNumber)
+        : phoneNumber;
+  }
+
+  @action
+  String _formatPhoneNumber(String phoneNumber) {
+    return phoneNumber
+        .replaceAll(' ', '')
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll('-', '');
   }
 
   @action
