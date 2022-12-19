@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -8,6 +10,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_request_model.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 
 /// Returns [success] if
 /// Refreshed token successfully
@@ -17,7 +20,9 @@ import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_r
 /// 2. Caught 403 error
 ///
 /// Else [throws] an error
-Future<RefreshTokenStatus> refreshToken() async {
+Future<RefreshTokenStatus> refreshToken({
+  bool isResumed = false,
+}) async {
   final rsaService = getIt.get<RsaService>();
   final storageService = getIt.get<LocalStorageService>();
   final authInfo = getIt.get<AppStore>().authState;
@@ -41,6 +46,24 @@ Future<RefreshTokenStatus> refreshToken() async {
         refreshToken + serverTimeResponse.data!.time,
         privateKey,
       );
+
+      if (isResumed) {
+        unawaited(
+          getIt
+              .get<SNetwork>()
+              .simpleNetworkingWithoutInterceptor
+              .getLogsApiModule()
+              .postAddLog(
+                AddLogModel(
+                  level: 'info',
+                  message: 'Updating the token after minimising the app',
+                  source: 'AppLifecycleState',
+                  process: 'Resumed',
+                  token: await storageService.getValue(refreshTokenKey),
+                ),
+              ),
+        );
+      }
 
       final model = AuthRefreshRequestModel(
         refreshToken: refreshToken,
@@ -89,6 +112,22 @@ Future<RefreshTokenStatus> refreshToken() async {
       getIt.get<AppStore>().setAuthStatus(
             const AuthorizationUnion.unauthorized(),
           );
+
+      unawaited(
+        getIt
+            .get<SNetwork>()
+            .simpleNetworkingWithoutInterceptor
+            .getLogsApiModule()
+            .postAddLog(
+              AddLogModel(
+                level: 'error',
+                message: error.message,
+                source: 'RefreshToken',
+                process: 'DIOERROR',
+                token: await storageService.getValue(refreshTokenKey),
+              ),
+            ),
+      );
 
       // remove refreshToken from storage
       await storageService.clearStorage();

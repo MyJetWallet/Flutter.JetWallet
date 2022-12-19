@@ -98,7 +98,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
                   Expanded(
                     child: SStandardField(
                       enableInteractiveSelection: false,
-                      labelText: intl.actionBottomSheetHeader_search,
+                      labelText: intl.actionBottomSheetHeader_searchAssets,
                       hideLabel: true,
                       onChanged: onChanged,
                       alignLabelWithHint: true,

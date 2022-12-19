@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -47,6 +48,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @observable
   String dialCodeSearch = '';
+
+  @observable
+  String phoneInput = '';
 
   @observable
   bool isButtonActive = false;
@@ -187,8 +191,39 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   void updatePhoneNumber(String phoneNumber) {
-    final number = _parsePhoneNumber(phoneNumber);
+    if (
+      !validWeakPhoneNumber(phoneNumber) &&
+      phoneNumber.isNotEmpty &&
+      phoneNumber != '+'
+    ) {
+      phoneNumberController.text = phoneInput;
+
+      return;
+    }
+    var finalPhone = phoneNumber;
+    var mustToSubstring = false;
+    var charsToSubstring = 0;
+    if (phoneNumber.length > 1 && phoneInput.isEmpty) {
+      final dialString = dialCodeController.text;
+      for (var char = 0; char <= dialString.length; char++) {
+        final dialStringCheck = dialString.substring(char);
+        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        if (dialStringCheck == phoneSearchShort) {
+          mustToSubstring = true;
+          if (charsToSubstring < dialStringCheck.length) {
+            charsToSubstring = dialStringCheck.length;
+          }
+        }
+      }
+    }
+
+    if (mustToSubstring) {
+      finalPhone = finalPhone.substring(charsToSubstring);
+      phoneNumberController.text = finalPhone;
+    }
+    final number = _parsePhoneNumber(finalPhone);
     final currentOffset = phoneNumberController.selection.base.offset;
+    phoneInput = number;
     phoneNumberController.text = number;
     phoneNumberController.selection = TextSelection.fromPosition(
       TextPosition(
@@ -207,10 +242,28 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   String _formatPhoneNumber(String phoneNumber) {
     return phoneNumber
-        .replaceAll('+', '')
         .replaceAll(' ', '')
         .replaceAll('(', '')
         .replaceAll(')', '')
         .replaceAll('-', '');
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    _logger.log(notifier, 'pastePhone');
+
+    final data = await Clipboard.getData('text/plain');
+    final phonePasted = data?.text?.trim() ?? '';
+    if (phonePasted.isNotEmpty) {
+      updatePhoneNumber(phonePasted);
+    }
+  }
+
+  @action
+  Future<void> clearPhone() async {
+    _logger.log(notifier, 'clearPhone');
+
+    phoneNumberController.text = '';
+    phoneInput = '';
   }
 }

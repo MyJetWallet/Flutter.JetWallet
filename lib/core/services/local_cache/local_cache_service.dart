@@ -25,7 +25,7 @@ class LocalCacheService {
   Future<bool> checkIsFirstRunning() async {
     final val = instance.getBool(isFirstRunning);
 
-    if (val != true) {
+    if (val == false) {
       await instance.setBool(isFirstRunning, true);
 
       return true;
@@ -117,5 +117,6 @@ class LocalCacheService {
 
   Future<void> clearAllCache() async {
     await instance.clear();
+    await instance.setBool(isFirstRunning, true);
   }
 }

@@ -28,6 +28,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesList;
+    final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currencies,
       transactionListItem.assetId,
@@ -41,6 +42,11 @@ class BuyCryptoDetails extends StatelessObserverWidget {
     final paymentCurrency = currencyFrom(
       currencies,
       transactionListItem.cryptoBuyInfo!.paymentAssetId,
+    );
+
+    final depositCurrency = currencyFrom(
+      currenciesFull,
+      transactionListItem.cryptoBuyInfo!.depositFeeAsset,
     );
 
     String _rateFor() {
@@ -120,10 +126,10 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             text: intl.previewBuyWithCircle_creditCardFee,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: baseCurrency.prefix,
+                prefix: depositCurrency.prefixSymbol,
                 decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
-                accuracy: baseCurrency.accuracy,
-                symbol: baseCurrency.symbol,
+                accuracy: depositCurrency.accuracy,
+                symbol: depositCurrency.symbol,
               ),
             ),
           ),
