@@ -12,6 +12,8 @@ import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_request_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 
+import 'signal_r/signal_r_service.dart';
+
 /// Returns [success] if
 /// Refreshed token successfully
 ///
@@ -95,6 +97,9 @@ Future<RefreshTokenStatus> refreshToken({
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
+        getIt<SignalRService>().signalR.setUserToken(
+              refreshRequest.data!.token,
+            );
 
         return RefreshTokenStatus.success;
       } else {
