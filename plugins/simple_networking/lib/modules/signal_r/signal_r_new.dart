@@ -60,13 +60,6 @@ class SignalRModuleNew {
   /// Is Module Disconnecting
   bool isDisconnecting = false;
 
-  String? userToken;
-  void setUserToken(String value) {
-    userToken = value;
-
-    reconnectSignalR(needRefreshToken: false);
-  }
-
   Future<void> init() async {
     _logger.log(signalR, 'SignalR INIT');
 
@@ -188,12 +181,7 @@ class SignalRModuleNew {
     try {
       await _hubConnection?.invoke(
         initMessage,
-        args: [
-          userToken != null ? userToken! : token,
-          localeName,
-          deviceUid,
-          deviceType,
-        ],
+        args: [token, localeName, deviceUid, deviceType],
       );
     } catch (e) {
       handleError('invoke', e);
@@ -251,7 +239,7 @@ class SignalRModuleNew {
     if (_reconnectTimer == null || !_reconnectTimer!.isActive) {
       _reconnectTimer = Timer.periodic(
         const Duration(seconds: _reconnectTime),
-        (_) => reconnectSignalR(),
+        (_) => _reconnect(),
       );
     }
   }
@@ -259,9 +247,7 @@ class SignalRModuleNew {
   /// Sometimes there will be the following error: \
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
-  Future<void> reconnectSignalR({
-    bool needRefreshToken = true,
-  }) async {
+  Future<void> _reconnect() async {
     _logger.log(signalR, 'SignalR Reconnect');
 
     if (!isDisconnecting) {
@@ -276,9 +262,7 @@ class SignalRModuleNew {
 
         await disableHandlerConnection();
 
-        if (needRefreshToken) {
-          await refreshToken();
-        }
+        await refreshToken();
 
         await init();
 

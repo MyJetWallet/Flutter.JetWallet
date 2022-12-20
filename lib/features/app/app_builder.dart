@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -107,8 +106,6 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
       refreshToken(
         isResumed: true,
       );
-
-      //getIt<SignalRService>().signalR.reconnectSignalR();
 
       if (getIt.isRegistered<InternetCheckerService>()) {
         getIt<InternetCheckerService>().checkFromForeground();
