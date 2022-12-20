@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:simple_kit/simple_kit.dart';
+
+import '../../core/services/logs/helpers/beatify_logs_for_support.dart';
+import '../../core/services/logs/helpers/make_log_pretty.dart';
+import '../../core/services/logs/log_record_service.dart';
+
+class LogsScreen extends StatelessObserverWidget {
+  const LogsScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final logs = getIt.get<LogRecordsService>()
+        .logHistory.toList().reversed.toList();
+
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: 'Debug screen',
+          showInfoButton: true,
+          onInfoButtonTap: () => Share.share(beatifyLogsForShare(logs)),
+        ),
+      ),
+      child: SPaddingH24(
+        child: ListView.builder(
+          itemCount: logs.length,
+          itemBuilder: (context, index) {
+            return Text(makeLogPretty(logs[index], '\n'));
+          },
+        ),
+      ),
+    );
+  }
+}

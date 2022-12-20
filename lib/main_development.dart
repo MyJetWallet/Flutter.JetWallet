@@ -15,7 +15,7 @@ Future<void> main() async {
     //log.error('A mobx reaction error occured.',error: rxn.errorValue!.exception,);
   });
 
-  await appInitialization(Environment.dev);
+  await appInitialization('dev');
 
   runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {
     Logger.root.log(Level.SEVERE, 'ZonedGuarded', error, stackTrace);

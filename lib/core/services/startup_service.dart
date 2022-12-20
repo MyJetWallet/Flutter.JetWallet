@@ -101,8 +101,6 @@ class StartupService {
       } catch (e) {
         _logger.log(stateFlow, 'Failed to fetch session info', e);
 
-        await getIt.get<LogoutService>().logout();
-
         // TODO (discuss this flow)
         // In this case app will keep loading and nothing will happen
         // In order to retry user will need to reboot application
