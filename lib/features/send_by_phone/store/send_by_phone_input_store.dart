@@ -191,7 +191,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
         _phoneSearch.isNotEmpty &&
         _phoneSearch != '+'
     ) {
-      phoneNumberController.text = phoneSearch;
+      searchTextController.text = phoneSearch;
 
       return;
     }
@@ -359,6 +359,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
     final data = await Clipboard.getData('text/plain');
     final phonePasted = data?.text?.trim() ?? '';
+    searchTextController.text = phonePasted;
     if (phonePasted.isNotEmpty) {
       updatePhoneSearch(phonePasted);
     }
