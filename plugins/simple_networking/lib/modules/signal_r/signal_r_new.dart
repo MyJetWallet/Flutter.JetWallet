@@ -60,12 +60,12 @@ class SignalRModuleNew {
   /// Is Module Disconnecting
   bool isDisconnecting = false;
 
-  String? userToken;
-  void setUserToken(String value) {
-    userToken = value;
-
-    reconnectSignalR(needRefreshToken: false);
-  }
+  //String? userToken;
+  //void setUserToken(String value) {
+  //  userToken = value;
+  //
+  //  reconnectSignalR(needRefreshToken: false);
+  //}
 
   Future<void> init() async {
     _logger.log(signalR, 'SignalR INIT');
@@ -188,12 +188,15 @@ class SignalRModuleNew {
     try {
       await _hubConnection?.invoke(
         initMessage,
-        args: [
-          userToken != null ? userToken! : token,
-          localeName,
-          deviceUid,
-          deviceType,
-        ],
+        args: [token, localeName, deviceUid, deviceType],
+        /*
+          args: [
+            userToken != null ? userToken! : token,
+            localeName,
+            deviceUid,
+            deviceType,
+          ],
+          */
       );
     } catch (e) {
       handleError('invoke', e);

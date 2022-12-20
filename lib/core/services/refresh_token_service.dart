@@ -97,9 +97,9 @@ Future<RefreshTokenStatus> refreshToken({
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().recreateDio();
-        getIt<SignalRService>().signalR.setUserToken(
-              refreshRequest.data!.token,
-            );
+        //getIt<SignalRService>().signalR.setUserToken(
+        //      refreshRequest.data!.token,
+        //    );
 
         return RefreshTokenStatus.success;
       } else {
