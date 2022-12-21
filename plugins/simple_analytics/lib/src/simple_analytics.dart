@@ -619,6 +619,12 @@ class SimpleAnalytics {
     );
   }
 
+  void tapSkipWaiting() {
+    _analytics.logEvent(
+      EventType.tapSkipWaiting,
+    );
+  }
+
   void simplexView(String url) {
     _analytics.logEvent(
       EventType.simplexView,

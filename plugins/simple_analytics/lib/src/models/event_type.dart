@@ -131,6 +131,7 @@ class EventType {
   static const simplexSucsessView = 'Simplex success view';
   static const simplexFailureView = 'Simplex failure view';
   static const tapConfirmBuy = 'Tap on Confirm Buy';
+  static const tapSkipWaiting = 'Skip Waiting on Processing page(Unlimint)';
 
   /// Circle
   static const circleChooseMethod = 'Click on Choose Payment Method';
