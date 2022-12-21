@@ -13,7 +13,6 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/logging.dart';
 
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -172,8 +171,6 @@ abstract class _CredentialsServiceBase with Store {
         );
       }
     } catch (e) {
-      print(e.toString());
-
       if (operation == AuthOperation.login) {
         sAnalytics.loginFailure(email, e.toString());
       } else {
@@ -201,7 +198,7 @@ abstract class _CredentialsServiceBase with Store {
     getIt.get<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
 
     /// Recreating a dio object with a token
-    await getIt.get<SNetwork>().recreateDio();
+    await getIt.get<SNetwork>().init();
 
     getIt.get<StartupService>().successfullAuthentication();
   }

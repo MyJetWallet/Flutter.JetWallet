@@ -40,7 +40,9 @@ abstract class _LogoutServiceBase with Store {
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
       _logger.log(stateFlow, 'authStatus is Unauthorized');
 
+      // Clear all flutter_secure_storage and shared_preferences
       await sLocalStorageService.clearStorage();
+      await getIt<LocalCacheService>().clearAllCache();
 
       // Make init router unauthorized
       await getIt<AppStore>().pushToUnlogin();

@@ -298,7 +298,7 @@ abstract class _AppStoreBase with Store {
     unawaited(
       getIt
           .get<SNetwork>()
-          .simpleNetworkingWithoutInterceptor
+          .simpleNetworkingUnathorized
           .getLogsApiModule()
           .postAddLog(
             AddLogModel(
@@ -334,7 +334,7 @@ abstract class _AppStoreBase with Store {
         _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().recreateDio();
+        await getIt.get<SNetwork>().init();
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();

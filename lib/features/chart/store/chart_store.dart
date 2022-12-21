@@ -127,12 +127,12 @@ abstract class _ChartStoreBase with Store {
 
   @action
   Future<void> fetchBalanceCandles(
-      String resolution,
-      {
-        bool isLocal = false,
-      }
-  ) async {
+    String resolution, {
+    bool isLocal = false,
+  }) async {
     _logger.log(notifier, 'fetchBalanceCandles');
+
+    print('canFetch: $canFetch');
 
     try {
       if (!isLocal) {

@@ -11,10 +11,13 @@ import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 import 'package:simple_networking/simple_networking.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 class SignalRService {
   //late SignalRModule signalR;
   late SignalRModuleNew signalR;
+
+  final log = logPrint.Logger();
 
   /// CreateService and Start Init
   Future<void> start() async {
@@ -29,6 +32,10 @@ class SignalRService {
 
     signalR = await createNewService();
     await signalR.init();
+  }
+
+  Future<void> reCreateSignalR() async {
+    signalR = await createNewService();
   }
 
   SignalRModule createService() {
@@ -77,6 +84,10 @@ class SignalRService {
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
+    );
+
+    log.w(
+      'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
     );
 
     return SignalRModuleNew(
