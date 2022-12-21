@@ -7,6 +7,8 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/device_info/models/device_info_model.dart';
 
+import '../local_storage_service.dart';
+
 final sDeviceInfo = getIt.get<DeviceInfo>();
 
 class DeviceInfo {
@@ -17,10 +19,17 @@ class DeviceInfo {
     final deviceMarketingPlugin = DeviceMarketingNames();
     const _androidIdPlugin = AndroidId();
     final deviceMarketingName = await deviceMarketingPlugin.getSingleName();
+    final storageService = getIt.get<LocalStorageService>();
+    final deviceIdUsed = await storageService.getValue(deviceId);
 
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
-      final andriudId = await _androidIdPlugin.getId();
+      var andriudId = await _androidIdPlugin.getId();
+      if (deviceIdUsed != null) {
+        andriudId = deviceIdUsed;
+      } else {
+        await storageService.setString(deviceId, andriudId);
+      }
 
       final deviceInfo = DeviceInfoModel(
         deviceUid: andriudId ?? '',
@@ -34,8 +43,14 @@ class DeviceInfo {
       model = deviceInfo;
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;
+      var iosId = iosInfo.identifierForVendor;
+      if (deviceIdUsed != null) {
+        iosId = deviceIdUsed;
+      } else {
+        await storageService.setString(deviceId, iosId);
+      }
       final deviceInfo = DeviceInfoModel(
-        deviceUid: iosInfo.identifierForVendor ?? '',
+        deviceUid: iosId ?? '',
         osName: 'iOS',
         version: iosInfo.systemVersion ?? '',
         manufacturer: iosInfo.name ?? '',
