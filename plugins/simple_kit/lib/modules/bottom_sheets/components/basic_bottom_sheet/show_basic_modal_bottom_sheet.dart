@@ -29,6 +29,7 @@ void sShowBasicModalBottomSheet({
     shadow: const BoxShadow(color: Colors.transparent),
     backgroundColor: Colors.transparent,
     enableDrag: enableDrag,
+    barrierColor: Colors.black54,
     builder: (context) {
       return BasicBottomSheet(
         color: color ?? SColorsLight().white,

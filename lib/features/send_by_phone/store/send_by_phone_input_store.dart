@@ -187,20 +187,21 @@ abstract class _SendByPhoneInputStoreBase with Store {
   void updatePhoneSearch(String _phoneSearch) {
     final checkStartNumber = _parsePhoneNumber(_phoneSearch);
     if (
-    !validWeakPhoneNumber(checkStartNumber) &&
-        _phoneSearch.isNotEmpty &&
-        _phoneSearch != '+'
+      !validWeakPhoneNumber(checkStartNumber) &&
+      _phoneSearch.isNotEmpty &&
+      _phoneSearch != '+'
     ) {
       searchTextController.text = phoneSearch;
+      _filterByPhoneSearchInput();
 
       return;
     }
     _logger.log(notifier, 'updateSearch');
-    var finalPhone = checkStartNumber;
+    var finalPhone = _phoneSearch;
     var mustToSubstring = false;
     var charsToSubstring = 0;
-    if (checkStartNumber.length > 1 && phoneSearch.isEmpty) {
-      final dialString = dialCodeController.text.substring(1);
+    if (_phoneSearch.length > 1 && phoneSearch.isEmpty) {
+      final dialString = dialCodeController.text;
       for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
         final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
@@ -216,8 +217,27 @@ abstract class _SendByPhoneInputStoreBase with Store {
     if (mustToSubstring) {
       finalPhone = finalPhone.substring(charsToSubstring);
       searchTextController.text = finalPhone;
+      final number = _parsePhoneNumber(finalPhone);
+      phoneSearch = number;
+      searchTextController.text = number;
+      print(number.length);
+      print(searchTextController.selection.base.offset);
+      searchTextController.selection = TextSelection.fromPosition(
+        TextPosition(
+          offset: number.length,
+        ),
+      );
+    } else {
+      final number = _parsePhoneNumber(finalPhone);
+      phoneSearch = number;
+      final currentOffset = searchTextController.selection.base.offset;
+      searchTextController.text = number;
+      searchTextController.selection = TextSelection.fromPosition(
+        TextPosition(
+          offset: currentOffset,
+        ),
+      );
     }
-    phoneSearch = finalPhone;
     _filterByPhoneSearchInput();
   }
 
@@ -359,9 +379,9 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
     final data = await Clipboard.getData('text/plain');
     final phonePasted = data?.text?.trim() ?? '';
-    searchTextController.text = phonePasted;
+    searchTextController.text = _parsePhoneNumber(phonePasted);
     if (phonePasted.isNotEmpty) {
-      updatePhoneSearch(phonePasted);
+      updatePhoneSearch(_parsePhoneNumber(phonePasted));
     }
   }
 }
