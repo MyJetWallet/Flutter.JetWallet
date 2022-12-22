@@ -40,7 +40,9 @@ abstract class _LogoutServiceBase with Store {
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
       _logger.log(stateFlow, 'authStatus is Unauthorized');
 
+      // Clear all flutter_secure_storage and shared_preferences
       await sLocalStorageService.clearStorage();
+      await getIt<LocalCacheService>().clearAllCache();
 
       // Make init router unauthorized
       await getIt<AppStore>().pushToUnlogin();
@@ -72,7 +74,7 @@ abstract class _LogoutServiceBase with Store {
         _syncLogout(model);
       }
     } catch (e) {
-      _logger.log(error, '_syncLogout e: ${e.toString()}');
+      _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
     }
 
     try {
@@ -80,7 +82,9 @@ abstract class _LogoutServiceBase with Store {
       unawaited(sAnalytics.logout());
 
       // Disconet from SignalR
-      await getIt.get<SignalRService>().signalR.disconnect();
+      if (getIt.get<SignalRService>().signalR != null) {
+        await getIt.get<SignalRService>().signalR!.disconnect();
+      }
 
       // Clear all flutter_secure_storage and shared_preferences
       await sLocalStorageService.clearStorage();
@@ -104,7 +108,7 @@ abstract class _LogoutServiceBase with Store {
 
       await getIt<AppStore>().getAuthStatus();
     } catch (e) {
-      _logger.log(error, 'Logout error: $e');
+      _logger.log(errorLog, 'Logout error: $e');
     }
 
     _logger.log(stateFlow, 'Logout success');

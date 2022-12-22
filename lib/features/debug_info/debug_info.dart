@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/di/di.dart';
@@ -35,7 +37,6 @@ class _DebugInfoState extends State<DebugInfo>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
@@ -59,8 +60,7 @@ class _DebugInfoState extends State<DebugInfo>
               const SpaceH20(),
               SizedBox(
                 width: 200,
-                child:
-                Row(
+                child: Row(
                   children: [
                     const Text('Slot B'),
                     const Spacer(),
@@ -75,7 +75,7 @@ class _DebugInfoState extends State<DebugInfo>
                         value: isSlotA,
                         onChanged: (bool newValue) {
                           final storageService =
-                            getIt.get<LocalStorageService>();
+                              getIt.get<LocalStorageService>();
                           storageService.setString(
                             activeSlot,
                             newValue ? 'slot a' : 'slot b',
@@ -145,6 +145,32 @@ class _DebugInfoState extends State<DebugInfo>
                 },
                 child: const Text(
                   'Trigger error',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  getIt<AppStore>().updateAuthState(
+                    token: 'CRASHME',
+                  );
+
+                  final infoRequest =
+                      await sNetwork.getAuthModule().postSessionCheck();
+                },
+                child: const Text(
+                  'Simulate 401',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  getIt<AppStore>().updateAuthState(
+                    refreshToken: 'CRASHME',
+                  );
+
+                  final infoRequest =
+                      await sNetwork.getAuthModule().postSessionCheck();
+                },
+                child: const Text(
+                  'Simulate refresh token is break',
                 ),
               ),
             ],

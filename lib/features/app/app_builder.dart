@@ -12,11 +12,13 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 import '../../core/services/remote_config/models/remote_config_union.dart';
 
@@ -96,17 +98,24 @@ class AppBuilderBody extends StatefulWidget {
 class _AppBuilderBodyState extends State<AppBuilderBody>
     with WidgetsBindingObserver {
   static final _logger = Logger('AppBuilder');
+  final log = logPrint.Logger();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
+    log.w('AppLifecycleState $state');
+
     if (state == AppLifecycleState.resumed) {
       _logger.log(contract, 'AppLifecycleState RESUMED');
+      log.w('AppLifecycleState RESUMED');
 
-      refreshToken(
-        isResumed: true,
-      );
+      if (getIt.get<AppStore>().authStatus ==
+          const AuthorizationUnion.authorized()) {
+        refreshToken(
+          isResumed: true,
+        );
+      }
 
       //getIt<SignalRService>().signalR.reconnectSignalR();
 
@@ -119,7 +128,14 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
   @override
   void initState() {
     getIt.get<AppStore>().getAuthStatus();
+    WidgetsBinding.instance?.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
   }
 
   Key _key = UniqueKey();

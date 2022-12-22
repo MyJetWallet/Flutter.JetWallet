@@ -298,7 +298,7 @@ abstract class _AppStoreBase with Store {
     unawaited(
       getIt
           .get<SNetwork>()
-          .simpleNetworkingWithoutInterceptor
+          .simpleNetworkingUnathorized
           .getLogsApiModule()
           .postAddLog(
             AddLogModel(
@@ -329,12 +329,12 @@ abstract class _AppStoreBase with Store {
       try {
         final userInfo = getIt.get<UserInfoService>();
 
-        final result = await refreshToken();
+        final result = await refreshToken(updateSignalR: false);
 
         _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().recreateDio();
+        await getIt.get<SNetwork>().init();
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
@@ -350,10 +350,6 @@ abstract class _AppStoreBase with Store {
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
-
-          await getIt
-              .get<LogoutService>()
-              .logout('APP_STORE, TOKEN CANT UPDATE');
         }
       } catch (e) {
         _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);

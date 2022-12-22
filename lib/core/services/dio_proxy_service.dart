@@ -15,7 +15,7 @@ class DioProxyService {
     proxySkiped = true;
 
     if (isProxyEnabled) {
-      getIt.get<SNetwork>().recreateDio();
+      getIt.get<SNetwork>().init();
     }
   }
 

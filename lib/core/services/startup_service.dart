@@ -3,10 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -60,7 +58,7 @@ class StartupService {
 
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
-        await getIt.get<SNetwork>().recreateDio();
+        await getIt.get<SNetwork>().init();
 
         unawaited(getIt.get<PushNotification>().registerToken());
 

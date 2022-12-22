@@ -47,8 +47,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
 
     final tabsLength = showCrypto ? 2 : 1;
 
-    print(tabsLength);
-
     tabController = TabController(length: tabsLength, vsync: this);
   }
 
@@ -86,20 +84,22 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      bottomNavigationBar: showCrypto ? BottomTabs(
-        tabController: tabController,
-        tabs: [
-          BottomTab(text: intl.portfolioWithBalance_crypto),
-          BottomTab(text: intl.portfolioWithBalance_nft),
-          /*
+      bottomNavigationBar: showCrypto
+          ? BottomTabs(
+              tabController: tabController,
+              tabs: [
+                BottomTab(text: intl.portfolioWithBalance_crypto),
+                BottomTab(text: intl.portfolioWithBalance_nft),
+                /*
             if (isAllTabsVisible) BottomTab(text: intl.portfolioWithBalance_all),
             if (isCryptoVisible)
               BottomTab(text: intl.portfolioWithBalance_crypto),
             if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
             if (isFiatVisible) BottomTab(text: intl.portfolioWithBalance_fiat),
           */
-        ],
-      ) : null,
+              ],
+            )
+          : null,
       child: PortfolioWithBalanceBody(
         tabController: tabController,
       ),
