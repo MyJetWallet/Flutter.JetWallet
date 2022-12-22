@@ -337,7 +337,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
   @action
   Future<void> documentPageViewLogic(
     KycDocumentType? document,
-    StackLoaderStore loader,
     String? cardId,
     Function() onSuccess,
   ) async {
@@ -349,7 +348,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         if (documentCard == null) {
           await _pickFile(false, isCard: true);
         } else {
-          loader.startLoading();
+          loader.startLoadingImmediately();
           await uploadVerificationDocuments(
             false,
             cardId ?? '',
@@ -360,7 +359,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         if (documentSelfie == null) {
           await _pickFile(false, isSelfie: true);
         } else {
-          loader.startLoading();
+          loader.startLoadingImmediately();
           await uploadVerificationDocuments(
             true,
             cardId ?? '',
@@ -371,7 +370,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         if (documentFirstSide == null || documentSecondSide == null) {
           await _pickFile(true);
         } else {
-          loader.startLoading();
+          loader.startLoadingImmediately();
           sAnalytics.kycIdentityUploaded();
           await uploadDocuments(
             kycDocumentTypeInt(document!),
@@ -381,13 +380,14 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         if (documentFirstSide == null) {
           await _pickFile(false);
         } else {
-          loader.startLoading();
+          loader.startLoadingImmediately();
           sAnalytics.kycIdentityUploaded();
           await _uploadPassportDocument(
             kycDocumentTypeInt(document!),
           );
         }
       }
+
       await Future.delayed(const Duration(seconds: 1));
       uploadTapped = false;
     }
@@ -421,10 +421,16 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           intl.something_went_wrong_try_again,
           id: 1,
         );
+
+        union = const UploadKycDocumentsUnion.error(Object());
+
+        loader.finishLoadingImmediately();
       } else {
         union = const UploadKycDocumentsUnion.done();
       }
     } catch (error) {
+      print(error);
+
       _logger.log(stateFlow, 'uploadDocuments', error);
 
       sAnalytics.kycIdentityUploadFailed(error.toString());
@@ -435,6 +441,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         intl.something_went_wrong_try_again,
         id: 1,
       );
+
+      loader.finishLoadingImmediately();
     }
   }
 
