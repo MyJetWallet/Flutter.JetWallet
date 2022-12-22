@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 import 'setup_headers.dart';
 
@@ -11,6 +12,8 @@ Future<Response> retryRequest(
 ) async {
   final _dio = Dio();
 
+  final log = logPrint.Logger();
+
   requestOptions = setHeaders(requestOptions, false);
 
   final options = Options(
@@ -20,8 +23,12 @@ Future<Response> retryRequest(
 
   final authModel = getIt.get<AppStore>().authState;
   if (authModel.token.isNotEmpty) {
-    _dio.options.headers['Authorization'] = 'Bearer ${authModel.token}';
+    options.headers!['Authorization'] = 'Bearer ${authModel.token}';
   }
+
+  log.i(
+    'RETRY OPTIONS: ${options.headers}\nStore token: ${authModel.token}',
+  );
 
   return _dio.request(
     requestOptions.path,

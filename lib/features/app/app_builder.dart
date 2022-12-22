@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 import '../../core/services/remote_config/models/remote_config_union.dart';
 
@@ -96,13 +97,17 @@ class AppBuilderBody extends StatefulWidget {
 class _AppBuilderBodyState extends State<AppBuilderBody>
     with WidgetsBindingObserver {
   static final _logger = Logger('AppBuilder');
+  final log = logPrint.Logger();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
+    log.w('AppLifecycleState $state');
+
     if (state == AppLifecycleState.resumed) {
       _logger.log(contract, 'AppLifecycleState RESUMED');
+      log.w('AppLifecycleState RESUMED');
 
       refreshToken(
         isResumed: true,
@@ -119,7 +124,14 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
   @override
   void initState() {
     getIt.get<AppStore>().getAuthStatus();
+    WidgetsBinding.instance?.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
   }
 
   Key _key = UniqueKey();
