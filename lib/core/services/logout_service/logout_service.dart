@@ -71,7 +71,7 @@ abstract class _LogoutServiceBase with Store {
 
         _logger.log(stateFlow, '_syncLogout');
 
-        _syncLogout(model);
+        await sNetwork.getAuthModule().postLogout(model);
       }
     } catch (e) {
       _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
@@ -112,10 +112,5 @@ abstract class _LogoutServiceBase with Store {
     }
 
     _logger.log(stateFlow, 'Logout success');
-  }
-
-  @action
-  void _syncLogout(LogoutRequestModel model) {
-    final _ = sNetwork.getAuthModule().postLogout(model);
   }
 }

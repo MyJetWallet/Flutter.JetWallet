@@ -19,21 +19,8 @@ void setAuthInterceptor(
   dio.interceptors.add(
     QueuedInterceptorsWrapper(
       onRequest: (options, handler) async {
-        if (options.method == postRequest) {
-          ///make private
-          final requestBody = options.data;
-
-          final rsaService = getIt.get<RsaService>();
-          final storageService = getIt.get<LocalStorageService>();
-
-          final privateKey = await storageService.getValue(privateKeyKey);
-          final signature = privateKey != null
-              ? rsaService.sign(
-                  jsonEncode(requestBody),
-                  privateKey,
-                )
-              : '';
-          options.headers[signatureHeader] = signature;
+        if (!isImage) {
+          options = await _addSignature(options);
         }
 
         final authModel = getIt.get<AppStore>().authState;
@@ -83,4 +70,25 @@ void setAuthInterceptor(
       },
     ),
   );
+}
+
+Future<RequestOptions> _addSignature(RequestOptions options) async {
+  if (options.method == postRequest) {
+    ///make private
+    final requestBody = options.data;
+
+    final rsaService = getIt.get<RsaService>();
+    final storageService = getIt.get<LocalStorageService>();
+
+    final privateKey = await storageService.getValue(privateKeyKey);
+    final signature = privateKey != null
+        ? rsaService.sign(
+            jsonEncode(requestBody),
+            privateKey,
+          )
+        : '';
+    options.headers[signatureHeader] = signature;
+  }
+
+  return options;
 }

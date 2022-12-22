@@ -58,7 +58,7 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
           (result) {
             result.maybeWhen(
               error: (error) {
-                store.loader.finishLoading();
+                store.loader.finishLoadingImmediately();
               },
               done: () {
                 store.loaderSuccess.startLoading();

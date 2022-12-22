@@ -388,6 +388,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           );
         }
       }
+
       await Future.delayed(const Duration(seconds: 1));
       uploadTapped = false;
     }
@@ -421,10 +422,16 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           intl.something_went_wrong_try_again,
           id: 1,
         );
+
+        union = const UploadKycDocumentsUnion.error(Object());
+
+        loader.finishLoadingImmediately();
       } else {
         union = const UploadKycDocumentsUnion.done();
       }
     } catch (error) {
+      print(error);
+
       _logger.log(stateFlow, 'uploadDocuments', error);
 
       sAnalytics.kycIdentityUploadFailed(error.toString());
@@ -435,6 +442,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         intl.something_went_wrong_try_again,
         id: 1,
       );
+
+      loader.finishLoadingImmediately();
     }
   }
 
