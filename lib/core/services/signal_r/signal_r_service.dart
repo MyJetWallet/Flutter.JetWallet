@@ -28,9 +28,12 @@ class SignalRService {
   }
 
   Future<void> reCreateSignalR() async {
+    await signalR.disconnect();
+
     await _getSignalRModule();
 
     signalR = await createNewService();
+    await signalR.init();
   }
 
   Future<void> _getSignalRModule() async {
