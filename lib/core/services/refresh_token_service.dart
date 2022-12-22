@@ -8,6 +8,8 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/utils/logging.dart';
+import 'package:logging/logging.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_request_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
@@ -31,6 +33,8 @@ Future<RefreshTokenStatus> refreshToken({
   final authInfo = getIt.get<AppStore>().authState;
   final log = logPrint.Logger();
 
+  final _logger = Logger('RefreshToken');
+
   try {
     final serverTimeResponse = await getIt
         .get<SNetwork>()
@@ -43,6 +47,8 @@ Future<RefreshTokenStatus> refreshToken({
       final refreshToken = authInfo.refreshToken;
 
       if (privateKey == null) {
+        _logger.log(errorLog, 'PRVATE KEY EMPTY');
+
         return RefreshTokenStatus.caught;
       }
 
@@ -76,6 +82,11 @@ Future<RefreshTokenStatus> refreshToken({
         lang: intl.localeName,
       );
 
+      _logger.log(
+        contract,
+        'RefreshMode: ${model.toJson()}',
+      );
+
       final refreshRequest = await getIt
           .get<SNetwork>()
           .simpleNetworkingUnathorized
@@ -83,10 +94,20 @@ Future<RefreshTokenStatus> refreshToken({
           .postRefresh(model);
 
       if (refreshRequest.hasError) {
+        _logger.log(
+          errorLog,
+          'refreshRequest.hasError ${refreshRequest.error?.cause}',
+        );
+
         return RefreshTokenStatus.caught;
       }
 
       if (refreshRequest.data != null) {
+        _logger.log(
+          contract,
+          'Refresh Successs: ${refreshRequest.data?.toJson()}',
+        );
+
         await storageService.setString(
           refreshTokenKey,
           refreshRequest.data!.refreshToken,
@@ -110,14 +131,29 @@ Future<RefreshTokenStatus> refreshToken({
       } else {
         log.e('TOKEN CANT UPDATE\nReason: 1');
 
+        _logger.log(
+          errorLog,
+          'TOKEN CANT UPDATE\nReason: 1',
+        );
+
         return RefreshTokenStatus.caught;
       }
     } else {
       log.e('TOKEN CANT UPDATE\nReason: 2');
+      _logger.log(
+        errorLog,
+        'TOKEN CANT UPDATE\nReason: 2',
+      );
+
       return RefreshTokenStatus.caught;
     }
   } on DioError catch (error) {
     final code = error.response?.statusCode;
+
+    _logger.log(
+      errorLog,
+      'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
+    );
 
     log.e('TOKEN CANT UPDATE\nReason: 3');
 
@@ -145,6 +181,11 @@ Future<RefreshTokenStatus> refreshToken({
       rethrow;
     }
   } catch (e) {
+    _logger.log(
+      errorLog,
+      'TOKEN CANT UPDATE\nReason: 4\nCode: $e',
+    );
+
     return RefreshTokenStatus.caught;
   }
 }

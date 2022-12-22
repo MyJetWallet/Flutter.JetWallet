@@ -74,7 +74,7 @@ abstract class _LogoutServiceBase with Store {
         _syncLogout(model);
       }
     } catch (e) {
-      _logger.log(error, '_syncLogout e: ${e.toString()}');
+      _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
     }
 
     try {
@@ -106,7 +106,7 @@ abstract class _LogoutServiceBase with Store {
 
       await getIt<AppStore>().getAuthStatus();
     } catch (e) {
-      _logger.log(error, 'Logout error: $e');
+      _logger.log(errorLog, 'Logout error: $e');
     }
 
     _logger.log(stateFlow, 'Logout success');

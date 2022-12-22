@@ -30,4 +30,4 @@ const signalR = Level('🔔SignalR', 6);
 const pushNotifications = Level('💬Push Notifications', 7);
 const dynamicLinks = Level('🔗Dynamic Links', 8);
 
-const error = Level('⚠️ Error', 9);
+const errorLog = Level('⚠️ Error', 9);
