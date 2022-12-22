@@ -31,6 +31,23 @@ class _BalanceChartState extends State<BalanceChart>
   Widget build(BuildContext context) {
     final chartStore = ChartStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
+    final currentDate = DateTime.now().toLocal();
+    final localCreationDate = widget.walletCreationDate == null
+        ? currentDate
+        : DateTime.parse(widget.walletCreationDate).toLocal();
+    bool showWeek;
+    bool showMonth;
+    bool showYear;
+    if (localCreationDate == currentDate) {
+      showWeek = true;
+      showMonth = true;
+      showYear = true;
+    } else {
+      final dateDifference = currentDate.difference(localCreationDate).inHours;
+      showWeek = dateDifference > const Duration(days: 7).inHours;
+      showMonth = dateDifference > const Duration(days: 30).inHours;
+      showYear = dateDifference > const Duration(days: 365).inHours;
+    }
 
     return chartStore.union.when(
       candles: () => Chart(
@@ -63,6 +80,9 @@ class _BalanceChartState extends State<BalanceChart>
         onResolutionChanged: (resolution) {
           chartStore.updateResolution(resolution);
         },
+        showWeek: showWeek,
+        showMonth: showMonth,
+        showYear: showYear,
         loader: const LoaderSpinner(),
         isBalanceChart: true,
       ),

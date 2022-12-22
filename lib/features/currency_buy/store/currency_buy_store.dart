@@ -981,7 +981,8 @@ abstract class _CurrencyBuyStoreBase with Store {
               : pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
         }
         if (selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-            selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+            selectedPaymentMethod?.type == PaymentMethodType.simplex ||
+            selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
