@@ -82,7 +82,9 @@ abstract class _LogoutServiceBase with Store {
       unawaited(sAnalytics.logout());
 
       // Disconet from SignalR
-      await getIt.get<SignalRService>().signalR.disconnect();
+      if (getIt.get<SignalRService>().signalR != null) {
+        await getIt.get<SignalRService>().signalR!.disconnect();
+      }
 
       // Clear all flutter_secure_storage and shared_preferences
       await sLocalStorageService.clearStorage();

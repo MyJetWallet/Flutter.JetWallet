@@ -15,7 +15,7 @@ import 'package:logger/logger.dart' as logPrint;
 
 class SignalRService {
   //late SignalRModule signalR;
-  late SignalRModuleNew signalR;
+  SignalRModuleNew? signalR;
 
   final log = logPrint.Logger();
 
@@ -24,16 +24,18 @@ class SignalRService {
     await _getSignalRModule();
 
     signalR = await createNewService();
-    await signalR.init();
+    await signalR!.init();
   }
 
   Future<void> reCreateSignalR() async {
-    await signalR.disconnect();
+    if (signalR != null) {
+      await signalR!.disconnect();
+    }
 
     await _getSignalRModule();
 
     signalR = await createNewService();
-    await signalR.init();
+    await signalR!.init();
   }
 
   Future<void> _getSignalRModule() async {
