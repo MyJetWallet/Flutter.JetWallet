@@ -32,8 +32,6 @@ class SignalRService {
       await signalR!.disconnect();
     }
 
-    await _getSignalRModule();
-
     signalR = await createNewService();
     await signalR!.init();
   }
@@ -41,6 +39,9 @@ class SignalRService {
   Future<void> _getSignalRModule() async {
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
+
+      log.i('_getSignalRModule: sRCache is ${sRCache == null}');
+
       sSignalRModules = sRCache ?? SignalRServiceUpdated();
     } catch (e) {
       sSignalRModules = SignalRServiceUpdated();

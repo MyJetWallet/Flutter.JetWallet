@@ -329,7 +329,7 @@ abstract class _AppStoreBase with Store {
       try {
         final userInfo = getIt.get<UserInfoService>();
 
-        final result = await refreshToken();
+        final result = await refreshToken(updateSignalR: false);
 
         _logger.log(stateFlow, 'REFRESH RESULT: $result');
 

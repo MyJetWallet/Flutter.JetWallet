@@ -27,6 +27,7 @@ import 'signal_r/signal_r_service.dart';
 /// Else [throws] an error
 Future<RefreshTokenStatus> refreshToken({
   bool isResumed = false,
+  bool updateSignalR = true,
 }) async {
   final rsaService = getIt.get<RsaService>();
   final storageService = getIt.get<LocalStorageService>();
@@ -120,7 +121,10 @@ Future<RefreshTokenStatus> refreshToken({
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().init();
-        await getIt.get<SignalRService>().reCreateSignalR();
+        if (updateSignalR) {
+          await getIt.get<SignalRService>().reCreateSignalR();
+        }
+
         //getIt<SignalRService>().signalR.setUserToken(
         //      refreshRequest.data!.token,
         //    );

@@ -12,6 +12,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -109,9 +110,12 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
       _logger.log(contract, 'AppLifecycleState RESUMED');
       log.w('AppLifecycleState RESUMED');
 
-      refreshToken(
-        isResumed: true,
-      );
+      if (getIt.get<AppStore>().authStatus ==
+          const AuthorizationUnion.authorized()) {
+        refreshToken(
+          isResumed: true,
+        );
+      }
 
       //getIt<SignalRService>().signalR.reconnectSignalR();
 
