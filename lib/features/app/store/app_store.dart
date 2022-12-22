@@ -350,10 +350,6 @@ abstract class _AppStoreBase with Store {
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
-
-          await getIt
-              .get<LogoutService>()
-              .logout('APP_STORE, TOKEN CANT UPDATE');
         }
       } catch (e) {
         _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);

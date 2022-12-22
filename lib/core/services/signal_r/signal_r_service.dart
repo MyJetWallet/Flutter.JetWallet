@@ -21,21 +21,25 @@ class SignalRService {
 
   /// CreateService and Start Init
   Future<void> start() async {
-    //signalR = createService()..init();
-
-    try {
-      final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
-      sSignalRModules = sRCache ?? SignalRServiceUpdated();
-    } catch (e) {
-      sSignalRModules = SignalRServiceUpdated();
-    }
+    await _getSignalRModule();
 
     signalR = await createNewService();
     await signalR.init();
   }
 
   Future<void> reCreateSignalR() async {
+    await _getSignalRModule();
+
     signalR = await createNewService();
+  }
+
+  Future<void> _getSignalRModule() async {
+    try {
+      final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
+      sSignalRModules = sRCache ?? SignalRServiceUpdated();
+    } catch (e) {
+      sSignalRModules = SignalRServiceUpdated();
+    }
   }
 
   SignalRModule createService() {
