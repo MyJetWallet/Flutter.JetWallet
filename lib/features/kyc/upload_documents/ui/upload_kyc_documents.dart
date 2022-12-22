@@ -62,9 +62,12 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
               },
               done: () {
                 store.loaderSuccess.startLoading();
-                Timer(const Duration(seconds: 2), () {
-                  sRouter.navigate(const KycSelfieRouter());
-                });
+                Timer(
+                  const Duration(seconds: 2),
+                  () {
+                    sRouter.navigate(const KycSelfieRouter());
+                  },
+                );
               },
               orElse: () {},
             );
@@ -150,7 +153,6 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
                 onTap: () async {
                   await store.documentPageViewLogic(
                     activeDocument!.document,
-                    store.loader,
                     '',
                     () {},
                   );

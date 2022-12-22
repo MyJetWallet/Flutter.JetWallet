@@ -82,7 +82,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
           (result) {
             result.maybeWhen(
               error: (error) {
-                store.loader.finishLoading();
+                store.loader.finishLoadingImmediately();
               },
               done: () {
                 store.loaderSuccess.startLoading();
@@ -256,7 +256,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                       isSelfie
                           ? KycDocumentType.selfieWithCard
                           : KycDocumentType.creditCard,
-                      store.loader,
                       cardId,
                       onSuccess,
                     );
@@ -272,7 +271,6 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                             isSelfie
                                 ? KycDocumentType.selfieWithCard
                                 : KycDocumentType.creditCard,
-                            store.loader,
                             cardId,
                             onSuccess,
                           );
