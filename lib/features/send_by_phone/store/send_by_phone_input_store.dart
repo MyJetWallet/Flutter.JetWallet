@@ -228,15 +228,20 @@ abstract class _SendByPhoneInputStoreBase with Store {
         ),
       );
     } else {
-      final number = _parsePhoneNumber(finalPhone);
-      phoneSearch = number;
-      final currentOffset = searchTextController.selection.base.offset;
-      searchTextController.text = number;
-      searchTextController.selection = TextSelection.fromPosition(
-        TextPosition(
-          offset: currentOffset,
-        ),
-      );
+      if (finalPhone.isNotEmpty) {
+        final number = _parsePhoneNumber(finalPhone);
+        phoneSearch = number;
+        final currentOffset = searchTextController.selection.base.offset;
+        searchTextController.text = number;
+        searchTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: currentOffset,
+          ),
+        );
+      } else {
+        phoneSearch = '';
+        searchTextController.text = '';
+      }
     }
     _filterByPhoneSearchInput();
   }
