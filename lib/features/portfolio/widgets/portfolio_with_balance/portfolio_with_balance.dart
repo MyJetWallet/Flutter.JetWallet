@@ -43,11 +43,17 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       fiatsWithBalance.isEmpty,
     );
     */
-    final showCrypto = sSignalRModules.clientDetail.isNftEnable;
 
-    final tabsLength = showCrypto ? 2 : 1;
+    tabController = getController();
+  }
 
-    tabController = TabController(length: tabsLength, vsync: this);
+  TabController getController() {
+    final showNFT = sSignalRModules.clientDetail.isNftEnable;
+
+    return TabController(
+      length: showNFT ? 2 : 1,
+      vsync: this,
+    );
   }
 
   @override
@@ -80,23 +86,16 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
     final isAllTabsVisible =
         isCryptoVisible || isFiatVisible || isIndicesVisible;
 
-    final showCrypto = sSignalRModules.clientDetail.isNftEnable;
+    final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
-      bottomNavigationBar: showCrypto
+      bottomNavigationBar: showNFT
           ? BottomTabs(
               tabController: tabController,
               tabs: [
                 BottomTab(text: intl.portfolioWithBalance_crypto),
                 BottomTab(text: intl.portfolioWithBalance_nft),
-                /*
-            if (isAllTabsVisible) BottomTab(text: intl.portfolioWithBalance_all),
-            if (isCryptoVisible)
-              BottomTab(text: intl.portfolioWithBalance_crypto),
-            if (isIndicesVisible) BottomTab(text: intl.market_bottomTabLabel3),
-            if (isFiatVisible) BottomTab(text: intl.portfolioWithBalance_fiat),
-          */
               ],
             )
           : null,

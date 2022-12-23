@@ -120,7 +120,7 @@ Future<RefreshTokenStatus> refreshToken({
             );
 
         /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().init();
+        await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
         if (updateSignalR) {
           await getIt.get<SignalRService>().reCreateSignalR();
         }
@@ -159,7 +159,8 @@ Future<RefreshTokenStatus> refreshToken({
       'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
     );
 
-    log.e('TOKEN CANT UPDATE\nReason: 3');
+    log.e(
+        'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}');
 
     unawaited(
       getIt

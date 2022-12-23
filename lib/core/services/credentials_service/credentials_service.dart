@@ -198,7 +198,7 @@ abstract class _CredentialsServiceBase with Store {
     getIt.get<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
 
     /// Recreating a dio object with a token
-    await getIt.get<SNetwork>().init();
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
     getIt.get<StartupService>().successfullAuthentication();
   }

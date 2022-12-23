@@ -101,12 +101,14 @@ class _MarketScreenState extends State<MarketScreen>
     ReactionBuilder(
       builder: (context) {
         return reaction<bool>(
-          (_) => sSignalRModules.nftList.isNotEmpty,
+          (_) =>
+              sSignalRModules.nftList.isNotEmpty &&
+              sSignalRModules.clientDetail.isNftEnable,
           (result) {
-            /*setState(() {
+            setState(() {
               _controller = getController();
               getIt<AppStore>().setMarketController(_controller);
-            });*/
+            });
           },
           fireImmediately: true,
         );
@@ -130,8 +132,7 @@ class _MarketScreenState extends State<MarketScreen>
                 showFilter: true,
                 sourceScreen: FilterMarketTabAction.all,
               ),
-              if (getIt<AppStore>().marketController!.length == 3 &&
-                  showNFT) ...[
+              if (getIt<AppStore>().marketController!.length == 3) ...[
                 const MarketNestedScrollView(
                   marketShowType: MarketShowType.NFT,
                   showFilter: true,
@@ -151,8 +152,7 @@ class _MarketScreenState extends State<MarketScreen>
                 BottomTab(
                   text: showNFT ? intl.market_crypto : intl.market_allCrypto,
                 ),
-                if (getIt<AppStore>().marketController!.length == 3 &&
-                    showNFT) ...[
+                if (getIt<AppStore>().marketController!.length == 3) ...[
                   BottomTab(
                     text: intl.market_nft,
                     //isActive: DefaultTabController.of(context)!.index == 2,

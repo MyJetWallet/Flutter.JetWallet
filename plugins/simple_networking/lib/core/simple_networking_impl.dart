@@ -13,11 +13,13 @@ import 'package:simple_networking/modules/validation_api/repository/validation_a
 import 'package:simple_networking/modules/wallet_api/repository/wallet_api_repository.dart';
 
 class SimpleNetworkingImpl implements SimpleNetworking {
-  SimpleNetworkingImpl(this.dio, [SimpleOptions? options]) {
+  SimpleNetworkingImpl(this.dio, [SimpleOptions? options, String? sessionID]) {
     this.options = options ?? SimpleOptions();
+    this.sessionID = sessionID ?? '';
     apiClient = ApiClient(
       dio,
       this.options,
+      sessionID,
     );
   }
 
@@ -31,11 +33,15 @@ class SimpleNetworkingImpl implements SimpleNetworking {
   late SimpleOptions options;
 
   @override
+  late String sessionID;
+
+  @override
   void updateDio(Dio updatedDio) {
     updatedDio = dio;
     apiClient = ApiClient(
       dio,
       options,
+      sessionID,
     );
   }
 

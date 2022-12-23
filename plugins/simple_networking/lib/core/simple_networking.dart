@@ -12,20 +12,27 @@ import 'package:simple_networking/modules/signal_r/signal_r.dart';
 import 'package:simple_networking/modules/validation_api/repository/validation_api_repository.dart';
 import 'package:simple_networking/modules/wallet_api/repository/wallet_api_repository.dart';
 
-SimpleNetworking initSimpleNetworking(Dio dio, [SimpleOptions? options]) =>
+SimpleNetworking initSimpleNetworking(
+  Dio dio, [
+  SimpleOptions? options,
+  String? sessionID,
+]) =>
     SimpleNetworkingImpl(
       dio,
       options,
+      sessionID,
     );
 
 abstract class SimpleNetworking {
   factory SimpleNetworking(
     Dio dio, [
     SimpleOptions? options,
+    String? sessionID,
   ]) {
     return initSimpleNetworking(
       dio,
       options,
+      sessionID,
     );
   }
 
@@ -37,6 +44,8 @@ abstract class SimpleNetworking {
 
   /// Api Client
   late ApiClient apiClient;
+
+  late String sessionID;
 
   void updateDio(Dio updatedDio);
 

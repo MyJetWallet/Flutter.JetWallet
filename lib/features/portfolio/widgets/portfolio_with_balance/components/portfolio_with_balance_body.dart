@@ -162,6 +162,8 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
     final baseCurrency = sSignalRModules.baseCurrency;
 
+    final showNFT = sSignalRModules.clientDetail.isNftEnable;
+
     final chart = ChartStore.of(context);
 
     final periodChange = _periodChange(
@@ -563,9 +565,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                               ),
                           ],
                         ),
-                        PortfolioNftList(
-                          userNft: userNft,
-                        ),
+                        if (showNFT)
+                          PortfolioNftList(
+                            userNft: userNft,
+                          ),
                         if (isCryptoVisible)
                           ListView(
                             shrinkWrap: true,

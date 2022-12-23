@@ -54,6 +54,11 @@ class _DebugInfoState extends State<DebugInfo>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
+                getIt<AppStore>().sessionID,
+                style: sBodyText2Style,
+              ),
+              const SpaceH10(),
+              Text(
                 'Device pixel ratio: $devicePixelRatio',
                 style: sTextH4Style,
               ),
@@ -163,6 +168,7 @@ class _DebugInfoState extends State<DebugInfo>
               TextButton(
                 onPressed: () async {
                   getIt<AppStore>().updateAuthState(
+                    token: 'CRASHME',
                     refreshToken: 'CRASHME',
                   );
 
@@ -171,6 +177,14 @@ class _DebugInfoState extends State<DebugInfo>
                 },
                 child: const Text(
                   'Simulate refresh token is break',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  getIt<AppStore>().generateNewSessionID();
+                },
+                child: const Text(
+                  'Change Session ID (Simulate error)',
                 ),
               ),
             ],

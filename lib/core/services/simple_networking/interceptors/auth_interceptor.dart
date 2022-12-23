@@ -11,14 +11,33 @@ import 'package:jetwallet/core/services/simple_networking/helpers/setup_headers.
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 void setAuthInterceptor(
   Dio dio, {
   required bool isImage,
 }) {
+  final log = logPrint.Logger();
+
   dio.interceptors.add(
     QueuedInterceptorsWrapper(
       onRequest: (options, handler) async {
+        if (options.extra.containsKey('sessionID')) {
+          if (getIt<AppStore>().sessionID != options.extra['sessionID']) {
+            log.e(
+              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE',
+            );
+
+            handler.reject(
+              DioError(
+                requestOptions: options,
+              ),
+            );
+
+            return;
+          }
+        }
+
         if (!isImage) {
           options = await _addSignature(options);
         }
@@ -43,6 +62,17 @@ void setAuthInterceptor(
         return handler.next(options);
       },
       onError: (dioError, handler) async {
+        if (getIt.isRegistered<AppStore>()) {
+          if (getIt<AppStore>().appStatus == AppStatus.End) {
+            handler.reject(dioError);
+
+            return;
+          }
+        }
+
+        log.e(
+            'AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}');
+
         final code = dioError.response?.statusCode;
 
         if (code == 401 || code == 403) {
@@ -57,6 +87,7 @@ void setAuthInterceptor(
               handler.resolve(response);
             } else {
               handler.reject(dioError);
+
               await getIt.get<LogoutService>().logout(
                     'INTERCEPTOR, cant update token',
                   );
