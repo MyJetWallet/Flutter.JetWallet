@@ -1089,18 +1089,26 @@ abstract class _WithdrawalStoreBase with Store {
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText:
             '${intl.withdrawalConfirm_failedTo} ${withdrawalInputModel!.dictionary.verb.toLowerCase()}',
-        primaryButtonName: intl.withdrawalConfirm_editOrder,
+        primaryButtonName: withdrawalType == WithdrawalType.Asset
+            ? intl.withdrawalConfirm_editOrder
+            : intl.send_timer_alert_ok,
         onPrimaryButtonTap: () {
-          sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                PortfolioRouter(),
-              ],
-            ),
-            WithdrawRouter(withdrawal: withdrawalInputModel!),
-          ]);
+          if (withdrawalType == WithdrawalType.Asset) {
+            sRouter.replaceAll([
+              const HomeRouter(
+                children: [
+                  PortfolioRouter(),
+                ],
+              ),
+              WithdrawRouter(withdrawal: withdrawalInputModel!),
+            ]);
+          } else {
+            sRouter.popUntilRoot();
+          }
         },
-        secondaryButtonName: intl.withdrawalConfirm_close,
+        secondaryButtonName: withdrawalType == WithdrawalType.Asset
+            ? intl.withdrawalConfirm_close
+            : null,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );

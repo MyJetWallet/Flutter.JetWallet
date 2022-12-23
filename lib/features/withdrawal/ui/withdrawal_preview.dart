@@ -75,7 +75,11 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                       '${matic.withdrawalFeeSize(store.networkController.text)}',
                 );
               }
-              Navigator.pop(context);
+              store.withdrawalPush(
+                store.withdrawalType == WithdrawalType.NFT
+                  ? WithdrawStep.Address
+                  : WithdrawStep.Ammount,
+              );
             },
           );
         },
@@ -100,7 +104,11 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                       '${matic.withdrawalFeeSize(store.networkController.text)}',
                 );
               }
-              Navigator.pop(context);
+              store.withdrawalPush(
+                store.withdrawalType == WithdrawalType.NFT
+                    ? WithdrawStep.Address
+                    : WithdrawStep.Ammount,
+              );
             },
           );
         },
@@ -112,6 +120,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
+                const SpaceH24(),
                 if (store.withdrawalType == WithdrawalType.Asset) ...[
                   SActionConfirmIconWithAnimation(
                     iconUrl: store.withdrawalInputModel!.currency!.iconUrl,
