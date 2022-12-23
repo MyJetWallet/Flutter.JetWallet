@@ -163,6 +163,7 @@ class _DebugInfoState extends State<DebugInfo>
               TextButton(
                 onPressed: () async {
                   getIt<AppStore>().updateAuthState(
+                    token: 'CRASHME',
                     refreshToken: 'CRASHME',
                   );
 

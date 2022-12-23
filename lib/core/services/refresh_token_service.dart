@@ -159,7 +159,8 @@ Future<RefreshTokenStatus> refreshToken({
       'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
     );
 
-    log.e('TOKEN CANT UPDATE\nReason: 3');
+    log.e(
+        'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}');
 
     unawaited(
       getIt

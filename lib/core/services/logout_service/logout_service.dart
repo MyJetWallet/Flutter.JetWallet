@@ -17,6 +17,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 part 'logout_service.g.dart';
 
@@ -24,6 +26,7 @@ class LogoutService = _LogoutServiceBase with _$LogoutService;
 
 abstract class _LogoutServiceBase with Store {
   static final _logger = Logger('LogoutStore');
+  final log = logPrint.Logger();
 
   LogoutUnion union = const LogoutUnion.result();
 
@@ -33,51 +36,52 @@ abstract class _LogoutServiceBase with Store {
     bool withLoading = true,
     bool resetPin = false,
   }) async {
-    _logger.log(notifier, 'Logout start $from');
-
-    final authStore = getIt.get<AppStore>().authState;
-
-    if (getIt.get<AppStore>().authStatus is Unauthorized) {
-      _logger.log(stateFlow, 'authStatus is Unauthorized');
-
-      // Clear all flutter_secure_storage and shared_preferences
-      await sLocalStorageService.clearStorage();
-      await getIt<LocalCacheService>().clearAllCache();
-
-      // Make init router unauthorized
-      await getIt<AppStore>().pushToUnlogin();
-      await sRouter.replaceAll([
-        const AppInitRoute(),
-      ]);
-
-      return;
-    }
-
-    if (resetPin) {
-      _logger.log(stateFlow, 'resetPin');
-
-      final _ = await sNetwork.getAuthModule().postResetPin();
-    }
-
-    if (withLoading) {
-      union = const LogoutUnion.loading();
-    }
-
     try {
-      if (authStore.token.isNotEmpty) {
-        final model = LogoutRequestModel(
-          token: authStore.token,
-        );
+      _logger.log(notifier, 'Logout start $from');
 
-        _logger.log(stateFlow, '_syncLogout');
+      getIt<AppStore>().setAppStatus(AppStatus.End);
 
-        await sNetwork.getAuthModule().postLogout(model);
+      final authStore = getIt.get<AppStore>().authState;
+      if (getIt.get<AppStore>().authStatus is Unauthorized) {
+        _logger.log(stateFlow, 'authStatus is Unauthorized');
+
+        await _clearUserData();
+
+        // Make init router unauthorized
+        await pushToFirstPage();
+
+        union = const LogoutUnion.result();
+
+        return;
       }
-    } catch (e) {
-      _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
-    }
 
-    try {
+      if (resetPin) {
+        _logger.log(stateFlow, 'resetPin');
+
+        final _ = await sNetwork.getAuthModule().postResetPin();
+      }
+
+      if (withLoading) {
+        union = const LogoutUnion.loading();
+      }
+
+      try {
+        if (authStore.token.isNotEmpty) {
+          final model = LogoutRequestModel(
+            token: authStore.token,
+          );
+
+          _logger.log(stateFlow, '_syncLogout');
+
+          await sNetwork.getAuthModule().postLogout(model);
+        }
+      } catch (e) {
+        _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
+
+        await _clearUserData();
+        await pushToFirstPage();
+      }
+
       // Clear analytics
       unawaited(sAnalytics.logout());
 
@@ -86,31 +90,44 @@ abstract class _LogoutServiceBase with Store {
         await getIt.get<SignalRService>().signalR!.disconnect();
       }
 
-      // Clear all flutter_secure_storage and shared_preferences
-      await sLocalStorageService.clearStorage();
-      await getIt<LocalCacheService>().clearAllCache();
-
-      /// Clear UserInfo
-      sUserInfo.clear();
-
-      union = const LogoutUnion.result();
+      await _clearUserData();
 
       // Make init router unauthorized
-      await getIt<AppStore>().pushToUnlogin();
-      await sRouter.replaceAll([
-        const AppInitRoute(),
-      ]);
-
-      // Reset User state
-      getIt<AppStore>().resetAppStore();
+      await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
 
       await getIt<AppStore>().getAuthStatus();
+
+      _logger.log(stateFlow, 'Logout success');
+
+      union = const LogoutUnion.result();
     } catch (e) {
-      _logger.log(errorLog, 'Logout error: $e');
+      log.e('LOGOUT ERROR: $e');
+
+      await _clearUserData();
+      await pushToFirstPage();
+
+      union = const LogoutUnion.result();
+    }
+  }
+
+  Future<void> _clearUserData() async {
+    /// Clear UserInfo
+    if (getIt.isRegistered<UserInfoService>()) {
+      getIt.get<UserInfoService>().clear();
     }
 
-    _logger.log(stateFlow, 'Logout success');
+    // Clear all flutter_secure_storage and shared_preferences
+    await sLocalStorageService.clearStorage();
+    await getIt<LocalCacheService>().clearAllCache();
+    getIt<AppStore>().resetAppStore();
+  }
+
+  Future<void> pushToFirstPage() async {
+    await getIt<AppStore>().pushToUnlogin();
+    await sRouter.replaceAll([
+      const AppInitRoute(),
+    ]);
   }
 }

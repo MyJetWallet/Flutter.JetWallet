@@ -311,6 +311,8 @@ abstract class _AppStoreBase with Store {
           ),
     );
 
+    appStatus = AppStatus.Start;
+
     if (token == null) {
       _logger.log(stateFlow, 'TOKEN NULL');
 
@@ -412,6 +414,7 @@ abstract class _AppStoreBase with Store {
   void resetAppStore() {
     authStatus = const AuthorizationUnion.loading();
     authorizedStatus = const AuthorizedUnion.loading();
+    initRouter = const RouterUnion.unauthorized();
 
     authState = const AuthInfoState();
     actionMenuActive = false;
@@ -419,5 +422,6 @@ abstract class _AppStoreBase with Store {
     fromLoginRegister = false;
     withdrawDynamicLink = false;
     homeTab = 0;
+    appStatus = AppStatus.Start;
   }
 }
