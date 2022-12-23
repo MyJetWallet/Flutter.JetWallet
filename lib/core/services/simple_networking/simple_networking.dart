@@ -17,13 +17,13 @@ class SNetwork {
   late Dio imageDio;
   late Dio unauthorizedDio;
 
-  late SimpleNetworking simpleImageNetworking;
   late SimpleNetworking simpleNetworking;
+  late SimpleNetworking simpleImageNetworking;
   late SimpleNetworking simpleNetworkingUnathorized;
 
   late SimpleOptions simpleOptions;
 
-  Future<void> init() async {
+  Future<void> init(String sessionID) async {
     print('SimpleNetworking - init');
 
     _logger.log(stateFlow, 'SimpleNetworking - init');
@@ -35,16 +35,19 @@ class SNetwork {
     simpleNetworking = SimpleNetworking(
       authorizedDio,
       simpleOptions,
+      sessionID,
     );
 
     simpleImageNetworking = SimpleNetworking(
       imageDio,
       simpleOptions,
+      sessionID,
     );
 
     simpleNetworkingUnathorized = SimpleNetworking(
       unauthorizedDio,
       simpleOptions,
+      sessionID,
     );
 
     sNetwork = getIt.get<SNetwork>().simpleNetworking;

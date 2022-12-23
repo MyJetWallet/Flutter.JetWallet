@@ -58,7 +58,7 @@ class StartupService {
 
     if (getIt.get<AppStore>().authStatus is Authorized) {
       try {
-        await getIt.get<SNetwork>().init();
+        await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
         unawaited(getIt.get<PushNotification>().registerToken());
 

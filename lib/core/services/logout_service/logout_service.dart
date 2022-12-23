@@ -37,6 +37,8 @@ abstract class _LogoutServiceBase with Store {
     bool resetPin = false,
   }) async {
     try {
+      Stopwatch stopwatch = new Stopwatch()..start();
+
       _logger.log(notifier, 'Logout start $from');
 
       getIt<AppStore>().setAppStatus(AppStatus.End);
@@ -55,11 +57,15 @@ abstract class _LogoutServiceBase with Store {
         return;
       }
 
+      print('setAppStatus executed in ${stopwatch.elapsed}');
+
       if (resetPin) {
         _logger.log(stateFlow, 'resetPin');
 
         final _ = await sNetwork.getAuthModule().postResetPin();
       }
+
+      print('resetPin executed in ${stopwatch.elapsed}');
 
       if (withLoading) {
         union = const LogoutUnion.loading();
@@ -82,6 +88,8 @@ abstract class _LogoutServiceBase with Store {
         await pushToFirstPage();
       }
 
+      print('_syncLogout executed in ${stopwatch.elapsed}');
+
       // Clear analytics
       unawaited(sAnalytics.logout());
 
@@ -90,12 +98,18 @@ abstract class _LogoutServiceBase with Store {
         await getIt.get<SignalRService>().signalR!.disconnect();
       }
 
+      print('SignalR executed in ${stopwatch.elapsed}');
+
       await _clearUserData();
+
+      print('_clearUserData executed in ${stopwatch.elapsed}');
 
       // Make init router unauthorized
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
+
+      print('clearSignalRModule executed in ${stopwatch.elapsed}');
 
       await getIt<AppStore>().getAuthStatus();
 

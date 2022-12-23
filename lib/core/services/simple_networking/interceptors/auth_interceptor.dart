@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/simple_networking/helpers/retry_request.
 import 'package:jetwallet/core/services/simple_networking/helpers/setup_headers.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:logging/logging.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:logger/logger.dart' as logPrint;
 
@@ -23,6 +22,22 @@ void setAuthInterceptor(
   dio.interceptors.add(
     QueuedInterceptorsWrapper(
       onRequest: (options, handler) async {
+        if (options.extra.containsKey('sessionID')) {
+          if (getIt<AppStore>().sessionID != options.extra['sessionID']) {
+            log.e(
+              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE',
+            );
+
+            handler.reject(
+              DioError(
+                requestOptions: options,
+              ),
+            );
+
+            return;
+          }
+        }
+
         if (!isImage) {
           options = await _addSignature(options);
         }

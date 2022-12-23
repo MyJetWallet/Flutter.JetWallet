@@ -34,6 +34,7 @@ import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:uuid/uuid.dart';
 
 part 'app_store.g.dart';
 
@@ -43,6 +44,14 @@ class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
   static final _logger = Logger('AppStore');
+
+  @observable
+  String sessionID = '';
+  @action
+  void generateNewSessionID() {
+    const uuid = Uuid();
+    sessionID = uuid.v1();
+  }
 
   @observable
   AppStatus appStatus = AppStatus.Start;
@@ -268,7 +277,7 @@ abstract class _AppStoreBase with Store {
     }
 
     /// Init out API client
-    await getIt.get<SNetwork>().init();
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
     try {
       final deviceInfo = getIt.get<DeviceInfo>();
@@ -312,6 +321,7 @@ abstract class _AppStoreBase with Store {
     );
 
     appStatus = AppStatus.Start;
+    generateNewSessionID();
 
     if (token == null) {
       _logger.log(stateFlow, 'TOKEN NULL');
@@ -336,7 +346,7 @@ abstract class _AppStoreBase with Store {
         _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().init();
+        await getIt.get<SNetwork>().init(sessionID);
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();

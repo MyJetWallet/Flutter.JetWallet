@@ -116,53 +116,71 @@ class _MarketScreenState extends State<MarketScreen>
     final showNFT = sSignalRModules.nftList.isNotEmpty &&
         sSignalRModules.clientDetail.isNftEnable;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          TabBarView(
-            controller: getIt<AppStore>().marketController,
-            children: [
-              const WatchlistTabBarView(),
-              const MarketNestedScrollView(
-                marketShowType: MarketShowType.Crypto,
-                showBanners: true,
-                showSearch: true,
-                showFilter: true,
-                sourceScreen: FilterMarketTabAction.all,
-              ),
-              if (getIt<AppStore>().marketController!.length == 3 &&
-                  showNFT) ...[
+    print(showNFT);
+
+    return ReactionBuilder(
+      builder: (context) {
+        return reaction<bool>(
+          (_) =>
+              sSignalRModules.nftList.isNotEmpty &&
+              sSignalRModules.clientDetail.isNftEnable,
+          (result) {
+            setState(() {
+              _controller = getController();
+              getIt<AppStore>().setMarketController(_controller);
+            });
+          },
+          fireImmediately: true,
+        );
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            TabBarView(
+              controller: getIt<AppStore>().marketController,
+              children: [
+                const WatchlistTabBarView(),
                 const MarketNestedScrollView(
-                  marketShowType: MarketShowType.NFT,
+                  marketShowType: MarketShowType.Crypto,
+                  showBanners: true,
+                  showSearch: true,
                   showFilter: true,
                   sourceScreen: FilterMarketTabAction.all,
                 ),
-              ],
-            ],
-          ),
-          Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: BottomTabs(
-              tabController: getIt<AppStore>().marketController,
-              tabs: [
-                const BottomTab(
-                  icon: SStarIcon(),
-                ),
-                BottomTab(
-                  text: showNFT ? intl.market_crypto : intl.market_allCrypto,
-                ),
                 if (getIt<AppStore>().marketController!.length == 3 &&
                     showNFT) ...[
-                  BottomTab(
-                    text: intl.market_nft,
-                    //isActive: DefaultTabController.of(context)!.index == 2,
-                    isTextBlue: true,
+                  const MarketNestedScrollView(
+                    marketShowType: MarketShowType.NFT,
+                    showFilter: true,
+                    sourceScreen: FilterMarketTabAction.all,
                   ),
                 ],
               ],
             ),
-          ),
-        ],
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: BottomTabs(
+                tabController: getIt<AppStore>().marketController,
+                tabs: [
+                  const BottomTab(
+                    icon: SStarIcon(),
+                  ),
+                  BottomTab(
+                    text: showNFT ? intl.market_crypto : intl.market_allCrypto,
+                  ),
+                  if (getIt<AppStore>().marketController!.length == 3 &&
+                      showNFT) ...[
+                    BottomTab(
+                      text: intl.market_nft,
+                      //isActive: DefaultTabController.of(context)!.index == 2,
+                      isTextBlue: true,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
