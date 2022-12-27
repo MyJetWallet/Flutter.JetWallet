@@ -41,6 +41,8 @@ class _PreviewConvertState extends State<PreviewConvert>
   @override
   void dispose() {
     _animationController.dispose();
+
+    store.dispose();
     super.dispose();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:charts/utils/data_feed_util.dart';
@@ -105,6 +107,9 @@ abstract class _ChartStoreBase with Store {
   String resolution = Period.day;
 
   @observable
+  bool canFetch = true;
+
+  @observable
   ChartUnion union = const ChartUnion.loading();
 
   @action
@@ -121,11 +126,29 @@ abstract class _ChartStoreBase with Store {
   }
 
   @action
-  Future<void> fetchBalanceCandles(String resolution) async {
+  Future<void> fetchBalanceCandles(
+    String resolution, {
+    bool isLocal = false,
+  }) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
+    print('canFetch: $canFetch');
+
     try {
-      union = const ChartUnion.loading();
+      if (!isLocal) {
+        union = const ChartUnion.loading();
+      } else {
+        if (!canFetch) {
+          return;
+        }
+        canFetch = false;
+        Timer(
+          const Duration(seconds: 2),
+          () {
+            canFetch = true;
+          },
+        );
+      }
 
       final model = WalletHistoryRequestModel(
         targetAsset: sSignalRModules.baseCurrency.symbol,

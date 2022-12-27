@@ -60,7 +60,16 @@ class SignalRModuleNew {
   /// Is Module Disconnecting
   bool isDisconnecting = false;
 
+  //String? userToken;
+  //void setUserToken(String value) {
+  //  userToken = value;
+  //
+  //  reconnectSignalR(needRefreshToken: false);
+  //}
+
   Future<void> init() async {
+    _logger.log(signalR, 'SignalR INIT');
+
     isDisconnecting = false;
 
     final defaultHeaders = MessageHeaders();
@@ -72,7 +81,7 @@ class SignalRModuleNew {
 
     final httpOptions = HttpConnectionOptions(
       headers: defaultHeaders,
-      logger: _logger,
+      //logger: _logger,
     );
 
     _hubConnection = HubConnectionBuilder()
@@ -81,7 +90,7 @@ class SignalRModuleNew {
           options: httpOptions,
         )
         .withAutomaticReconnect()
-        .configureLogging(_logger)
+        //.configureLogging(_logger)
         .build();
 
     _hubConnection?.onclose(({error}) => _startReconnect());
@@ -180,6 +189,14 @@ class SignalRModuleNew {
       await _hubConnection?.invoke(
         initMessage,
         args: [token, localeName, deviceUid, deviceType],
+        /*
+          args: [
+            userToken != null ? userToken! : token,
+            localeName,
+            deviceUid,
+            deviceType,
+          ],
+          */
       );
     } catch (e) {
       handleError('invoke', e);
@@ -237,7 +254,7 @@ class SignalRModuleNew {
     if (_reconnectTimer == null || !_reconnectTimer!.isActive) {
       _reconnectTimer = Timer.periodic(
         const Duration(seconds: _reconnectTime),
-        (_) => _reconnect(),
+        (_) => reconnectSignalR(),
       );
     }
   }
@@ -245,7 +262,11 @@ class SignalRModuleNew {
   /// Sometimes there will be the following error: \
   /// Unhandled Exception: SocketException: Reading from a closed socket \
   /// There are probably some problems with the library
-  Future<void> _reconnect() async {
+  Future<void> reconnectSignalR({
+    bool needRefreshToken = true,
+  }) async {
+    _logger.log(signalR, 'SignalR Reconnect');
+
     if (!isDisconnecting) {
       try {
         await disableHandlerConnection();
@@ -258,7 +279,9 @@ class SignalRModuleNew {
 
         await disableHandlerConnection();
 
-        await refreshToken();
+        if (needRefreshToken) {
+          await refreshToken();
+        }
 
         await init();
 
@@ -268,6 +291,8 @@ class SignalRModuleNew {
   }
 
   Future<void> disconnect() async {
+    _logger.log(signalR, 'SignalR Disconnect');
+
     isDisconnecting = true;
 
     _pingTimer?.cancel();

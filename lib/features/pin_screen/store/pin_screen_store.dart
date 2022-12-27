@@ -112,7 +112,6 @@ abstract class _PinScreenStoreBase with Store {
     var bioStatus = BiometricStatus.none;
 
     final availableBio = await auth.getAvailableBiometrics();
-    print(availableBio);
 
     if (availableBio.contains(BiometricType.face)) {
       bioStatus = BiometricStatus.face;
@@ -239,6 +238,17 @@ abstract class _PinScreenStoreBase with Store {
 
       if (response.hasError) {
         await _errorFlow();
+        _updateNewPin('');
+        _updateConfirmPin('');
+
+        await resetPin();
+
+        sNotification.showError(
+          response.error?.cause ?? '',
+          id: 1,
+        );
+
+        return;
       }
 
       response.pick(
@@ -270,11 +280,9 @@ abstract class _PinScreenStoreBase with Store {
           );
         },
         onError: (ServerRejectException error) async {
-          print(error);
+          print(error.cause);
 
           if (error.cause == 'InvalidCode') {
-            print('invalid code');
-
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');
@@ -295,7 +303,7 @@ abstract class _PinScreenStoreBase with Store {
                 duration: 5,
               );
 
-              await getIt.get<LogoutService>().logout();
+              await getIt.get<LogoutService>().logout('PIN SCREEN, logout');
             }
 
             await resetPin();

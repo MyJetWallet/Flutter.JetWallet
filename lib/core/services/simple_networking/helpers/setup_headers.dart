@@ -6,7 +6,27 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/utils/helpers/device_helper.dart';
+import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 
+RequestOptions setHeaders(RequestOptions options, bool isImage) {
+  final locale = intl.localeName;
+  final deviceInfo = getIt.get<DeviceInfo>().model;
+
+  options.headers['accept'] = 'application/json';
+  options.headers['Accept-Language'] = locale;
+  options.headers['From'] = deviceInfo.deviceUid;
+  options.headers['User-Agent'] = getUserAgent();
+
+  if (isImage) {
+    options.headers['Content-Type'] = 'multipart/form-data';
+  } else {
+    options.headers['content-Type'] = 'application/json';
+  }
+
+  return options;
+}
+
+/*
 void setupHeaders(Dio dio, [String? token]) {
   final locale = intl.localeName;
   final deviceInfo = getIt.get<DeviceInfo>().model;
@@ -29,7 +49,8 @@ void setupHeaders(Dio dio, [String? token]) {
   dio.options.headers['Authorization'] = 'Bearer $token';
   dio.options.headers['Accept-Language'] = locale;
   dio.options.headers['From'] = deviceInfo.deviceUid;
-  dio.options.headers['User-Agent'] =
-      '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-      '$devicePixelRatio;$locale;${deviceInfo.marketingName}';
+  dio.options.headers['User-Agent'] = getUserAgent();
+
+  /// Also change user agent for SignalR
 }
+*/

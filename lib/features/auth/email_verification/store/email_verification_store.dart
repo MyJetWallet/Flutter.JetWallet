@@ -104,8 +104,11 @@ abstract class _EmailVerificationStoreBase with Store {
         application: currentAppPlatform,
         appsflyerId: appsFlyerID ?? '',
       );
-      final response =
-          await sNetwork.getAuthModule().postStartEmailLogin(model);
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postStartEmailLogin(model);
 
       response.pick(
         onData: (data) {
@@ -209,8 +212,11 @@ abstract class _EmailVerificationStoreBase with Store {
         email: authInfo.authState.email,
       );
 
-      final response =
-          await sNetwork.getAuthModule().postConfirmEmailLogin(model);
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postConfirmEmailLogin(model);
 
       response.pick(
         onData: (data) async {

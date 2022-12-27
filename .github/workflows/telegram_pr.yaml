@@ -3,10 +3,10 @@ name: Telegram notification
 on:
   workflow_dispatch:
 
-#   push:
-#     branches:
-#       - develop
-#       - master
+  push:
+    branches:
+      - develop
+      - master
 
 jobs:
   build:

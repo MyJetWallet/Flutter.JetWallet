@@ -15,6 +15,7 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default([]) List<ClientBlockerInfoModel> clientBlockers,
     required DateTime recivedAt,
     required String walletCreationDate,
+    required bool isNftEnable,
   }) = _ClientDetailModel;
   factory ClientDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ClientDetailModelFromJson(json);
