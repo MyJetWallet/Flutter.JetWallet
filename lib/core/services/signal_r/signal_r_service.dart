@@ -11,24 +11,41 @@ import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 import 'package:simple_networking/simple_networking.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 class SignalRService {
   //late SignalRModule signalR;
-  late SignalRModuleNew signalR;
+  SignalRModuleNew? signalR;
+
+  final log = logPrint.Logger();
 
   /// CreateService and Start Init
   Future<void> start() async {
-    //signalR = createService()..init();
+    await _getSignalRModule();
 
+    signalR = await createNewService();
+    await signalR!.init();
+  }
+
+  Future<void> reCreateSignalR() async {
+    if (signalR != null) {
+      await signalR!.disconnect();
+    }
+
+    signalR = await createNewService();
+    await signalR!.init();
+  }
+
+  Future<void> _getSignalRModule() async {
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
+
+      log.i('_getSignalRModule: sRCache is ${sRCache == null}');
+
       sSignalRModules = sRCache ?? SignalRServiceUpdated();
     } catch (e) {
       sSignalRModules = SignalRServiceUpdated();
     }
-
-    signalR = await createNewService();
-    await signalR.init();
   }
 
   SignalRModule createService() {
@@ -77,6 +94,10 @@ class SignalRService {
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
+    );
+
+    log.w(
+      'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
     );
 
     return SignalRModuleNew(

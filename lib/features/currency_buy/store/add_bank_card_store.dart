@@ -338,7 +338,8 @@ abstract class _AddBankCardStoreBase with Store {
     _logger.log(notifier, 'pasteCode');
 
     final data = await Clipboard.getData('text/plain');
-    final code = data?.text?.trim() ?? '';
+    var code = data?.text?.trim() ?? '';
+    code = code.replaceAll(' ', '');
 
     try {
       int.parse(code);

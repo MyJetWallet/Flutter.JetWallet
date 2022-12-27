@@ -29,6 +29,7 @@ class PreviewSell extends StatelessWidget {
       builder: (context, child) => PreviewSellBody(
         input: input,
       ),
+      dispose: (context, value) => value.dispose(),
     );
   }
 }
@@ -82,10 +83,10 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
           (_) => store.union,
           (result) {
             if (result is ExecuteLoading) {
-              store.loader.startLoading();
+              store.loader.startLoadingImmediately();
             } else {
               if (store.loader.loading) {
-                store.loader.finishLoading();
+                store.loader.finishLoadingImmediately();
               }
             }
           },

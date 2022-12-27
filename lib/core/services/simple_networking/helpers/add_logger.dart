@@ -5,7 +5,7 @@ void addLogger(Dio dio) {
   dio.interceptors.add(
     PrettyDioLogger(
       requestBody: true,
-      requestHeader: true,
+      requestHeader: false,
     ),
   );
 }

@@ -33,14 +33,30 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:uuid/uuid.dart';
 
 part 'app_store.g.dart';
 
-@lazySingleton
+enum AppStatus { Start, InProcess, End }
+
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
   static final _logger = Logger('AppStore');
+
+  @observable
+  String sessionID = '';
+  @action
+  void generateNewSessionID() {
+    const uuid = Uuid();
+    sessionID = uuid.v1();
+  }
+
+  @observable
+  AppStatus appStatus = AppStatus.Start;
+  @action
+  void setAppStatus(AppStatus status) => appStatus = status;
 
   @observable
   RouterUnion initRouter = const RouterUnion.loading();
@@ -49,11 +65,22 @@ abstract class _AppStoreBase with Store {
     initRouter = route;
   }
 
+  @observable
+  String env = '';
+  @action
+  void setEnv(String val) {
+    env = val;
+  }
+
+  @action
+  Future<void> pushToUnlogin() async {
+    initRouter = const RouterUnion.unauthorized();
+  }
+
   @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
-      final flavor = flavorService();
-      if (flavor == Flavor.stage && !getIt.get<DioProxyService>().proxySkiped) {
+      if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
           initRouter = const RouterUnion.apiSelector();
         }
@@ -184,7 +211,7 @@ abstract class _AppStoreBase with Store {
   @observable
   TabController? marketController;
   @action
-  TabController setMarketController(TabController value) =>
+  TabController? setMarketController(TabController? value) =>
       marketController = value;
 
   @action
@@ -235,9 +262,6 @@ abstract class _AppStoreBase with Store {
 
     final storageService = getIt.get<LocalStorageService>();
 
-    // TODO
-    final appsFlyerService = getIt.get<AppsFlyerService>();
-
     String? token;
     String? email;
     String parsedEmail;
@@ -253,7 +277,7 @@ abstract class _AppStoreBase with Store {
     }
 
     /// Init out API client
-    await getIt.get<SNetwork>().init();
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
     try {
       final deviceInfo = getIt.get<DeviceInfo>();
@@ -269,6 +293,9 @@ abstract class _AppStoreBase with Store {
         ),
       );
 
+      // TODO
+      final appsFlyerService = getIt.get<AppsFlyerService>();
+
       await appsFlyerService.init();
       await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
@@ -276,6 +303,25 @@ abstract class _AppStoreBase with Store {
 
       _logger.log(stateFlow, 'appsFlyerService');
     }
+
+    unawaited(
+      getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getLogsApiModule()
+          .postAddLog(
+            AddLogModel(
+              level: 'info',
+              message: 'Initialising the application for the user',
+              source: 'AppStore',
+              process: 'getAuthStatus',
+              token: token,
+            ),
+          ),
+    );
+
+    appStatus = AppStatus.Start;
+    generateNewSessionID();
 
     if (token == null) {
       _logger.log(stateFlow, 'TOKEN NULL');
@@ -295,12 +341,12 @@ abstract class _AppStoreBase with Store {
       try {
         final userInfo = getIt.get<UserInfoService>();
 
-        final result = await refreshToken();
+        final result = await refreshToken(updateSignalR: false);
 
         _logger.log(stateFlow, 'REFRESH RESULT: $result');
 
         /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().recreateDio();
+        await getIt.get<SNetwork>().init(sessionID);
 
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
@@ -316,8 +362,6 @@ abstract class _AppStoreBase with Store {
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
-
-          await getIt.get<LogoutService>().logout();
         }
       } catch (e) {
         _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);
@@ -326,7 +370,7 @@ abstract class _AppStoreBase with Store {
 
         authStatus = const AuthorizationUnion.unauthorized();
 
-        await getIt.get<LogoutService>().logout();
+        await getIt.get<LogoutService>().logout('APP_STORE, $e');
 
         sAnalytics.remoteConfigError();
       }
@@ -380,6 +424,7 @@ abstract class _AppStoreBase with Store {
   void resetAppStore() {
     authStatus = const AuthorizationUnion.loading();
     authorizedStatus = const AuthorizedUnion.loading();
+    initRouter = const RouterUnion.unauthorized();
 
     authState = const AuthInfoState();
     actionMenuActive = false;
@@ -387,5 +432,6 @@ abstract class _AppStoreBase with Store {
     fromLoginRegister = false;
     withdrawDynamicLink = false;
     homeTab = 0;
+    appStatus = AppStatus.Start;
   }
 }

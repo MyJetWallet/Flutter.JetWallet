@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 
 import 'simple_networking/simple_networking.dart';
 
@@ -15,7 +16,7 @@ class DioProxyService {
     proxySkiped = true;
 
     if (isProxyEnabled) {
-      getIt.get<SNetwork>().recreateDio();
+      getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
     }
   }
 

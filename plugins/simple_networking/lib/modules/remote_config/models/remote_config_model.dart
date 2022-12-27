@@ -23,6 +23,8 @@ class RemoteConfigModel with _$RemoteConfigModel {
     @JsonKey(name: 'Circle') required RemoteConfigCircle circle,
     @JsonKey(name: 'ConnectionFlavors')
         required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
+    @JsonKey(name: 'ConnectionFlavorsSlave')
+        required List<RemoteConfigConnectionFlavorModel> connectionFlavorsSlave,
     @JsonKey(name: 'Simplex') required RemoteConfogSimplexModel simplex,
     @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
     @JsonKey(name: 'Versioning')

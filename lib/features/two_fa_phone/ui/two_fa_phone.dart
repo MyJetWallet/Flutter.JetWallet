@@ -90,7 +90,8 @@ class _TwoFaPhoneBody extends StatelessObserverWidget {
           header: SBigHeader(
             title: intl.twoFaPhone_phoneConfirmation,
             onBackButtonTap: () => trigger.when(
-              startup: () => logout.logout(withLoading: false),
+              startup: () =>
+                  logout.logout('TWO FA, logout', withLoading: false),
               security: (_) => sRouter.pop(),
             ),
           ),

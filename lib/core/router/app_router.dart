@@ -124,6 +124,7 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
+import '../../features/debug_info/logs_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -605,6 +606,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/nft_receive',
       name: 'ReceiveNFTRouter',
       page: ReceiveNFTScreen,
+    ),
+    AutoRoute(
+      path: '/logs_debug',
+      name: 'LogsRouter',
+      page: LogsScreen,
     ),
   ],
 )

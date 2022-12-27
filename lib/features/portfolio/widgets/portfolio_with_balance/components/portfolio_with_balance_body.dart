@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 
@@ -88,17 +91,33 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
   int tabIndex = 0;
 
+  late Timer updateTimer;
+
   @override
   void initState() {
     tabIndex = widget.tabController.index;
 
     widget.tabController.addListener(updateTabIndex);
+
+    updateTimer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        if (getIt<AppRouter>().topRoute.name == 'PortfolioRouter') {
+          ChartStore.of(context).fetchBalanceCandles(
+            ChartStore.of(context).resolution,
+            isLocal: true,
+          );
+        }
+      },
+    );
     super.initState();
   }
 
   @override
   void dispose() {
     widget.tabController.removeListener(updateTabIndex);
+
+    updateTimer.cancel();
     super.dispose();
   }
 
@@ -142,6 +161,8 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final clientDetail = sSignalRModules.clientDetail;
 
     final baseCurrency = sSignalRModules.baseCurrency;
+
+    final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     final chart = ChartStore.of(context);
 
@@ -544,9 +565,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                               ),
                           ],
                         ),
-                        PortfolioNftList(
-                          userNft: userNft,
-                        ),
+                        if (widget.tabController.length == 2) ...[
+                          PortfolioNftList(
+                            userNft: userNft,
+                          ),
+                        ],
                         if (isCryptoVisible)
                           ListView(
                             shrinkWrap: true,

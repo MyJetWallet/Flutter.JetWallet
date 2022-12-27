@@ -6,17 +6,20 @@ import 'package:simple_networking/core/simple_networking.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/repository/auth_api_repository.dart';
 import 'package:simple_networking/modules/candles_api/repository/candles_api_repository.dart';
+import 'package:simple_networking/modules/logs_api/repository/logs_api_repository.dart';
 import 'package:simple_networking/modules/remote_config/repository/remote_config_repository.dart';
 import 'package:simple_networking/modules/signal_r/signal_r.dart';
 import 'package:simple_networking/modules/validation_api/repository/validation_api_repository.dart';
 import 'package:simple_networking/modules/wallet_api/repository/wallet_api_repository.dart';
 
 class SimpleNetworkingImpl implements SimpleNetworking {
-  SimpleNetworkingImpl(this.dio, [SimpleOptions? options]) {
+  SimpleNetworkingImpl(this.dio, [SimpleOptions? options, String? sessionID]) {
     this.options = options ?? SimpleOptions();
+    this.sessionID = sessionID ?? '';
     apiClient = ApiClient(
       dio,
       this.options,
+      sessionID,
     );
   }
 
@@ -30,11 +33,15 @@ class SimpleNetworkingImpl implements SimpleNetworking {
   late SimpleOptions options;
 
   @override
+  late String sessionID;
+
+  @override
   void updateDio(Dio updatedDio) {
     updatedDio = dio;
     apiClient = ApiClient(
       dio,
       options,
+      sessionID,
     );
   }
 
@@ -80,5 +87,10 @@ class SimpleNetworkingImpl implements SimpleNetworking {
   @override
   RemoteConfigRepository getRemoteConfigModule() {
     return RemoteConfigRepository();
+  }
+
+  @override
+  LogsApiRepository getLogsApiModule() {
+    return LogsApiRepository(apiClient);
   }
 }

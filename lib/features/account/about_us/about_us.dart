@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -124,7 +125,10 @@ class AboutUs extends StatelessObserverWidget {
             ),
             const SpaceH20(),
           ],
-          if (nftPolicyLink.isNotEmpty) ...[
+          if (
+            nftPolicyLink.isNotEmpty &&
+            sSignalRModules.clientDetail.isNftEnable
+          ) ...[
             Row(
               children: [
                 SimpleAccountTermButton(
@@ -135,7 +139,10 @@ class AboutUs extends StatelessObserverWidget {
             ),
             const SpaceH20(),
           ],
-          if (nftTermsLink.isNotEmpty) ...[
+          if (
+            nftTermsLink.isNotEmpty &&
+            sSignalRModules.clientDetail.isNftEnable
+          ) ...[
             Row(
               children: [
                 SimpleAccountTermButton(

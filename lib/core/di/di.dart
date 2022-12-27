@@ -61,6 +61,10 @@ Future<GetIt> getItInit({
   );
   */
 
+  getIt.registerSingleton<AppStore>(
+    AppStore()..setEnv(env ?? ''),
+  );
+
   getIt.registerLazySingleton<RouteQueryService>(
     () => RouteQueryService(),
   );

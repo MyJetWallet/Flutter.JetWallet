@@ -2,14 +2,13 @@ name: Flutter CI
 
 on:
   workflow_dispatch:
-
-#   push:
-#     branches: [ master, develop ]
+  push:
+    branches: [ master, develop ]
 
 jobs:
   flutter_test:
     name: Test, build and release docker
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
