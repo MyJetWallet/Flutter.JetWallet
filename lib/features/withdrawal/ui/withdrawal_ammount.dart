@@ -64,10 +64,10 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
                       symbol: store.withdrawalInputModel!.currency!.symbol,
                     ),
                     helper: '≈ ${marketFormat(
-                      accuracy: store.baseCurrency!.accuracy,
-                      prefix: store.baseCurrency!.prefix,
+                      accuracy: store.baseCurrency.accuracy,
+                      prefix: store.baseCurrency.prefix,
                       decimal: Decimal.parse(store.baseConversionValue),
-                      symbol: store.baseCurrency!.symbol,
+                      symbol: store.baseCurrency.symbol,
                     )}',
                     error: store.withAmmountInputError ==
                             InputError.enterHigherAmount

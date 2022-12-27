@@ -143,8 +143,8 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   String baseConversionValue = '0';
 
-  @observable
-  BaseCurrencyModel? baseCurrency;
+  @computed
+  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
 
   @observable
   InputError withAmmountInputError = InputError.none;
@@ -280,6 +280,8 @@ abstract class _WithdrawalStoreBase with Store {
       if (withdrawalInputModel!.currency!.isSingleNetwork) {
         updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
       }
+
+      //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
     } else if (withdrawalInputModel!.nft != null) {
       withdrawalType = WithdrawalType.NFT;
 
