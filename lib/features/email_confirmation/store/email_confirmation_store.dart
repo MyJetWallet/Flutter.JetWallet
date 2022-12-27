@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_request.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_response.dart';
@@ -32,6 +33,9 @@ abstract class _EmailConfirmationStoreBase with Store {
   _EmailConfirmationStoreBase();
 
   late TimerStore timer;
+
+  @observable
+  StackLoaderStore loader = StackLoaderStore();
 
   @action
   void init(TimerStore t) {
@@ -167,6 +171,8 @@ abstract class _EmailConfirmationStoreBase with Store {
       getIt.get<AppStore>().updateAuthState(
             deleteToken: sendEmailResponse?.tokenId ?? '',
           );
+
+      loader.finishLoadingImmediately();
 
       await sRouter.push(
         const DeleteReasonsScreenRouter(),

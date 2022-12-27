@@ -74,9 +74,7 @@ abstract class _DeleteProfileStoreBase with Store {
       selectedDeleteReason.map((e) => e.reasonId!).toList(),
     );
 
-    await getIt.get<LogoutService>().logout().then(
-          (value) => sRouter.popUntilRoot(),
-        );
+    await getIt.get<LogoutService>().logout('delete profile');
   }
 
   @action

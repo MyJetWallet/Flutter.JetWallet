@@ -67,7 +67,7 @@ abstract class _SingleSingInStoreBase with Store {
       union = const SingleSingInStateUnion.loading();
 
       String advID = '';
-      String _advertisingId = 'Unknown';
+      //String _advertisingId = 'Unknown';
       String adId = '';
 
       try {
@@ -76,7 +76,7 @@ abstract class _SingleSingInStoreBase with Store {
         adId = sDeviceInfo.model.deviceUid;
       } catch (e) {
         advID = '';
-        _advertisingId = '';
+        //_advertisingId = '';
         adId = '';
       }
 
@@ -87,13 +87,16 @@ abstract class _SingleSingInStoreBase with Store {
         lang: intl.localeName,
         application: currentAppPlatform,
         appsflyerId: appsFlyerID ?? '',
-        adid: _advertisingId,
+        //adid: _advertisingId,
         idfv: adId,
         idfa: advID,
       );
 
-      final response =
-          await sNetwork.getAuthModule().postStartEmailLogin(model);
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postStartEmailLogin(model);
 
       response.pick(
         onData: (data) {
@@ -107,18 +110,24 @@ abstract class _SingleSingInStoreBase with Store {
                 );
         },
         onError: (error) {
+          print(error);
+
           union = SingleSingInStateUnion.errorString(
             error.cause,
           );
         },
       );
     } on ServerRejectException catch (error) {
+      print(error);
+
       _logger.log(stateFlow, 'singleSingIn', error.cause);
 
       union = error.cause.contains('50') || error.cause.contains('40')
           ? SingleSingInStateUnion.error(intl.something_went_wrong_try_again)
           : SingleSingInStateUnion.error(error.cause);
     } catch (e) {
+      print(e);
+
       _logger.log(stateFlow, 'singleSingIn', e);
 
       union = e.toString().contains('50') || e.toString().contains('40')

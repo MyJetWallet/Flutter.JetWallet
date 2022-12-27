@@ -25,7 +25,7 @@ class SetNewPassword extends StatelessObserverWidget {
 
     changePassword.union.when(
       error: (error) {
-        loading.finishLoading();
+        loading.finishLoadingImmediately();
         sNotification.showError('$error', id: 1);
         Navigator.pop(context);
       },

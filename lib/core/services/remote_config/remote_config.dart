@@ -18,6 +18,9 @@ import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/simple_networking.dart';
 
+import '../local_cache/local_cache_service.dart';
+import '../local_storage_service.dart';
+
 const _retryTime = 10; // in seconds
 const _defaultFlavorIndex = 0;
 
@@ -45,6 +48,11 @@ class RemoteConfig {
       //final timeTrackerN = read(timeTrackingNotipod.notifier);
 
       var remoteConfigURL = '';
+      final storageService = getIt.get<LocalStorageService>();
+      final activeSlotUsing = await storageService.getValue(activeSlot);
+      final isFirstRunning = await getIt<LocalCacheService>()
+          .checkIsFirstRunning();
+      final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
       remoteConfigURL = flavor == Flavor.prod
           ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
@@ -76,7 +84,7 @@ class RemoteConfig {
       overrideCircleValues();
       overrideNFTValues();
 
-      overrideApisFrom(_defaultFlavorIndex);
+      overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
 
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
 
@@ -121,8 +129,10 @@ class RemoteConfig {
   }
 
   /// Each index respresents different flavor (backend environment)
-  void overrideApisFrom(int index) {
-    final flavor = remoteConfig?.connectionFlavors[index];
+  void overrideApisFrom(int index, bool slotBActive) {
+    final flavor = slotBActive
+        ? remoteConfig?.connectionFlavorsSlave[index]
+        : remoteConfig?.connectionFlavors[index];
 
     getIt.get<SNetwork>().simpleOptions = SimpleOptions(
       candlesApi: flavor!.candlesApi,

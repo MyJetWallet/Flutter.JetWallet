@@ -23,6 +23,9 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../app/store/app_store.dart';
+
 part 'preview_buy_with_asset_store.g.dart';
 
 class PreviewBuyWithAssetStore extends _PreviewBuyWithAssetStoreBase
@@ -253,6 +256,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         SuccessScreenRouter(
           secondaryText: intl.previewBuyWithAsset_orderProcessing,
           onSuccess: (context) {
+            getIt<AppStore>().setHomeTab(1);
             sRouter.push(
               const HomeRouter(
                 children: [

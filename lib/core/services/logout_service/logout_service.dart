@@ -17,6 +17,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:logger/logger.dart' as logPrint;
 
 part 'logout_service.g.dart';
 
@@ -24,94 +26,122 @@ class LogoutService = _LogoutServiceBase with _$LogoutService;
 
 abstract class _LogoutServiceBase with Store {
   static final _logger = Logger('LogoutStore');
+  final log = logPrint.Logger();
 
   LogoutUnion union = const LogoutUnion.result();
 
   @action
-  Future<void> logout({bool withLoading = true, bool resetPin = false}) async {
-    _logger.log(notifier, 'logout');
-
-    final authStore = getIt.get<AppStore>().authState;
-
-    if (getIt.get<AppStore>().authStatus is Unauthorized) {
-      await sLocalStorageService.clearStorage();
-      sRouter.popUntilRoot();
-
-      return;
-    }
-
-    if (resetPin) {
-      final _ = await sNetwork.getAuthModule().postResetPin();
-    }
-
+  Future<void> logout(
+    String from, {
+    bool withLoading = true,
+    bool resetPin = false,
+  }) async {
     try {
+      Stopwatch stopwatch = new Stopwatch()..start();
+
+      _logger.log(notifier, 'Logout start $from');
+
+      getIt<AppStore>().setAppStatus(AppStatus.End);
+
+      final authStore = getIt.get<AppStore>().authState;
+      if (getIt.get<AppStore>().authStatus is Unauthorized) {
+        _logger.log(stateFlow, 'authStatus is Unauthorized');
+
+        await _clearUserData();
+
+        // Make init router unauthorized
+        await pushToFirstPage();
+
+        union = const LogoutUnion.result();
+
+        return;
+      }
+
+      print('setAppStatus executed in ${stopwatch.elapsed}');
+
+      if (resetPin) {
+        _logger.log(stateFlow, 'resetPin');
+
+        final _ = await sNetwork.getAuthModule().postResetPin();
+      }
+
+      print('resetPin executed in ${stopwatch.elapsed}');
+
       if (withLoading) {
         union = const LogoutUnion.loading();
       }
 
-      if (authStore.token.isNotEmpty) {
-        final model = LogoutRequestModel(
-          token: authStore.token,
-        );
-
-        _syncLogout(model);
-      }
-    } catch (e) {
-      print(e);
-
-      _logger.log(stateFlow, 'logout', e);
-
-      await sLocalStorageService.clearStorage();
-      await sLocalStorageService
-          .clearStorageForCrypto(sSignalRModules.currenciesList);
-      getIt<AppStore>().resetAppStore();
-
-      await sRouter.replaceAll([const AppInitRoute()]);
-      await getIt<AppStore>().checkInitRouter();
-      await getIt<AppStore>().getAuthStatus();
-    } finally {
-      print('FINALLY LOGOUT');
-
       try {
-        await sLocalStorageService.clearStorage();
-        await sLocalStorageService
-            .clearStorageForCrypto(sSignalRModules.currenciesList);
+        if (authStore.token.isNotEmpty) {
+          final model = LogoutRequestModel(
+            token: authStore.token,
+          );
 
-        /// Disconet from SignalR
-        await getIt.get<SignalRService>().signalR.disconnect();
+          _logger.log(stateFlow, '_syncLogout');
 
-        /// Set Unauthorized status
-        getIt.get<AppStore>().setAuthStatus(const Unauthorized());
-
-        /// Clear some user variables
-        sUserInfo.clear();
-        getIt.get<AppStore>().clearInitSessionReceived();
-        getIt.get<AppStore>().resetResendButton();
-
-        unawaited(sAnalytics.logout());
-
-        union = const LogoutUnion.result();
-
-        AppBuilderBody.restart(sRouter.navigatorKey.currentContext!);
-
-        sSignalRModules.clearSignalRModule();
-        getIt<AppStore>().resetAppStore();
-        await getIt<LocalCacheService>().clearAllCache();
-
-        await sRouter.replaceAll([const AppInitRoute()]);
-
-        await getIt<AppStore>().checkInitRouter();
-        await getIt<AppStore>().getAuthStatus();
+          await sNetwork.getAuthModule().postLogout(model);
+        }
       } catch (e) {
-        await sRouter.replaceAll([const AppInitRoute()]);
-        await getIt<AppStore>().checkInitRouter();
-        await getIt<AppStore>().getAuthStatus();
+        _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
+
+        await _clearUserData();
+        await pushToFirstPage();
       }
+
+      print('_syncLogout executed in ${stopwatch.elapsed}');
+
+      // Clear analytics
+      unawaited(sAnalytics.logout());
+
+      // Disconet from SignalR
+      if (getIt.get<SignalRService>().signalR != null) {
+        await getIt.get<SignalRService>().signalR!.disconnect();
+      }
+
+      print('SignalR executed in ${stopwatch.elapsed}');
+
+      await _clearUserData();
+
+      print('_clearUserData executed in ${stopwatch.elapsed}');
+
+      // Make init router unauthorized
+      await pushToFirstPage();
+
+      sSignalRModules.clearSignalRModule();
+
+      print('clearSignalRModule executed in ${stopwatch.elapsed}');
+
+      await getIt<AppStore>().getAuthStatus();
+
+      _logger.log(stateFlow, 'Logout success');
+
+      union = const LogoutUnion.result();
+    } catch (e) {
+      log.e('LOGOUT ERROR: $e');
+
+      await _clearUserData();
+      await pushToFirstPage();
+
+      union = const LogoutUnion.result();
     }
   }
 
-  @action
-  void _syncLogout(LogoutRequestModel model) {
-    final _ = sNetwork.getAuthModule().postLogout(model);
+  Future<void> _clearUserData() async {
+    /// Clear UserInfo
+    if (getIt.isRegistered<UserInfoService>()) {
+      getIt.get<UserInfoService>().clear();
+    }
+
+    // Clear all flutter_secure_storage and shared_preferences
+    await sLocalStorageService.clearStorage();
+    await getIt<LocalCacheService>().clearAllCache();
+    getIt<AppStore>().resetAppStore();
+  }
+
+  Future<void> pushToFirstPage() async {
+    await getIt<AppStore>().pushToUnlogin();
+    await sRouter.replaceAll([
+      const AppInitRoute(),
+    ]);
   }
 }

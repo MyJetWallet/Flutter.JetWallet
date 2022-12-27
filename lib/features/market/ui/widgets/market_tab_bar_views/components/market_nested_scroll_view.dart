@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
@@ -138,11 +139,11 @@ class __MarketNestedScrollViewBodyState
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
                       activeFilters:
-                        widget.marketShowType == MarketShowType.Crypto
-                            ? store.activeFilter == 'all'
-                              ? 0
-                              : 1
-                            : store.nftFilterSelected.length,
+                          widget.marketShowType == MarketShowType.Crypto
+                              ? store.activeFilter == 'all'
+                                  ? 0
+                                  : 1
+                              : store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
                               if (widget.marketShowType == MarketShowType.NFT) {
@@ -161,11 +162,11 @@ class __MarketNestedScrollViewBodyState
                             }
                           : null,
                       onSearchButtonTap:
-                        widget.marketShowType == MarketShowType.Crypto
-                            ? () {
-                                showCryptoSearch(context);
-                              }
-                            : null,
+                          widget.marketShowType == MarketShowType.Crypto
+                              ? () {
+                                  showCryptoSearch(context);
+                                }
+                              : null,
                     )
                   : const MarketHeaderSkeletonStats(),
               permanentWidget: SMarketHeaderClosed(

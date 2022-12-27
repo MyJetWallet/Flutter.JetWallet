@@ -140,15 +140,17 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                 deviceSize.when(
                   small: () {
                     return Image.asset(
-                      OnboardingStore.of(context)
-                          .showImages(OnboardingStore.of(context).currentIndex),
+                      OnboardingStore.of(context).showImages(
+                        OnboardingStore.of(context).currentIndex,
+                      ),
                       height: size.width * 0.7,
                     );
                   },
                   medium: () {
                     return Image.asset(
-                      OnboardingStore.of(context)
-                          .showImages(OnboardingStore.of(context).currentIndex),
+                      OnboardingStore.of(context).showImages(
+                        OnboardingStore.of(context).currentIndex,
+                      ),
                       height: size.width,
                     );
                   },
@@ -163,7 +165,20 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                     );
                   },
                 ),
-                const SpaceH24(),
+                if (getIt<AppStore>().env == 'stage') ...[
+                  const SpaceH12(),
+                  STextButton1(
+                    active: true,
+                    name: 'Logs',
+                    onTap: () {
+                      sRouter.push(
+                        const LogsRouter(),
+                      );
+                    },
+                  ),
+                ] else ...[
+                  const SpaceH24(),
+                ],
               ],
             ),
           ),
