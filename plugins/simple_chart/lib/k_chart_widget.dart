@@ -23,6 +23,7 @@ class KChartWidget extends StatefulWidget {
     required this.chartWidth,
     this.selectedCandlePadding,
     this.prefix = '',
+    this.accuracy,
   });
 
   final List<CandleModel> datas;
@@ -42,6 +43,7 @@ class KChartWidget extends StatefulWidget {
   final double? selectedCandlePadding;
   final bool isAssetChart;
   final double chartWidth;
+  final int? accuracy;
 
   @override
   _KChartWidgetState createState() => _KChartWidgetState();
@@ -250,6 +252,7 @@ class _KChartWidgetState extends State<KChartWidget>
               isAssetChart: widget.isAssetChart,
               chartWidth: widget.chartWidth,
               prefix: widget.prefix,
+              accuracy: widget.accuracy,
             ),
           ),
         ],

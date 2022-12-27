@@ -55,6 +55,7 @@ class _AssetChartState extends State<AssetChart>
           walletCreationDate: widget.marketItem.startMarketTime,
           loader: const LoaderSpinner(),
           prefix: baseCurrency.prefix ?? '',
+          accuracy: widget.marketItem.priceAccuracy,
         );
       },
       loading: () => LoadingChartView(

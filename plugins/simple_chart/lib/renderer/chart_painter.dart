@@ -32,6 +32,7 @@ class ChartPainter extends BaseChartPainter {
     required this.chartWidth,
     required this.onCandleSelected,
     required this.formatPrice,
+    this.accuracy,
   }) : super(
           datas: datas,
           scaleX: scaleX,
@@ -60,6 +61,7 @@ class ChartPainter extends BaseChartPainter {
   final bool isAssetChart;
   final double chartWidth;
   late Color chartColor;
+  final int? accuracy;
 
   @override
   void initChartRenderer() {
@@ -292,7 +294,7 @@ class ChartPainter extends BaseChartPainter {
         //Draw right
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 3,
+            accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -303,7 +305,7 @@ class ChartPainter extends BaseChartPainter {
       } else {
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 3,
+            accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainLowMinValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -317,7 +319,7 @@ class ChartPainter extends BaseChartPainter {
         //Draw right
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 3,
+            accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             prefix: prefix,
             symbol: '',
@@ -328,7 +330,7 @@ class ChartPainter extends BaseChartPainter {
       } else {
         final tp = getTextPainter(
           formatPrice(
-            accuracy: 3,
+            accuracy: accuracy ?? 3,
             decimal: Decimal.parse(mMainHighMaxValue.toString()),
             prefix: prefix,
             symbol: '',
