@@ -565,10 +565,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                               ),
                           ],
                         ),
-                        if (showNFT)
+                        if (widget.tabController.length == 2) ...[
                           PortfolioNftList(
                             userNft: userNft,
                           ),
+                        ],
                         if (isCryptoVisible)
                           ListView(
                             shrinkWrap: true,
