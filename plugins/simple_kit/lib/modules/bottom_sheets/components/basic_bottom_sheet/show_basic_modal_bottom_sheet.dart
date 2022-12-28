@@ -24,9 +24,9 @@ void sShowBasicModalBottomSheet({
   required List<Widget> children,
   required BuildContext context,
 }) {
-  showCupertinoModalBottomSheet(
+  showMaterialModalBottomSheet(
     context: context,
-    shadow: const BoxShadow(color: Colors.transparent),
+    //shadow: const BoxShadow(color: Colors.transparent),
     backgroundColor: Colors.transparent,
     enableDrag: enableDrag,
     builder: (context) {
