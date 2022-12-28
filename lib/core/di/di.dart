@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -41,6 +42,8 @@ Future<GetIt> getItInit({
   getIt.registerSingleton<SimpleKit>(
     SimpleKit(),
   );
+
+  getIt.registerSingleton<EventBus>(EventBus());
 
   getIt.registerSingletonAsync<LocalCacheService>(
     () async => LocalCacheService().init(),

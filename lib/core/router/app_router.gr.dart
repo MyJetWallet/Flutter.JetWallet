@@ -359,43 +359,6 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    WithdrawalAmountRouter.name: (routeData) {
-      final args = routeData.argsAs<WithdrawalAmountRouterArgs>();
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: WithdrawalAmount(
-          key: args.key,
-          withdrawal: args.withdrawal,
-          network: args.network,
-          addressStore: args.addressStore,
-        ),
-      );
-    },
-    WithdrawalConfirmRouter.name: (routeData) {
-      final args = routeData.argsAs<WithdrawalConfirmRouterArgs>();
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: WithdrawalConfirm(
-          key: args.key,
-          withdrawal: args.withdrawal,
-          addressStore: args.addressStore,
-          previewStore: args.previewStore,
-        ),
-      );
-    },
-    WithdrawalPreviewRouter.name: (routeData) {
-      final args = routeData.argsAs<WithdrawalPreviewRouterArgs>();
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: WithdrawalPreview(
-          key: args.key,
-          withdrawal: args.withdrawal,
-          network: args.network,
-          addressStore: args.addressStore,
-          amountStore: args.amountStore,
-        ),
-      );
-    },
     SmsAuthenticatorRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -868,6 +831,16 @@ class _$AppRouter extends RootStackRouter {
         child: const LogsScreen(),
       );
     },
+    WithdrawRouter.name: (routeData) {
+      final args = routeData.argsAs<WithdrawRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: WithdrawalScreen(
+          key: args.key,
+          withdrawal: args.withdrawal,
+        ),
+      );
+    },
     MarketRouter.name: (routeData) {
       final args = routeData.argsAs<MarketRouterArgs>(
           orElse: () => const MarketRouterArgs());
@@ -901,6 +874,30 @@ class _$AppRouter extends RootStackRouter {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
         child: const AccountScreen(),
+      );
+    },
+    WithdrawalAddressRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalAddressScreen(),
+      );
+    },
+    WithdrawalAmmountRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalAmmountScreen(),
+      );
+    },
+    WithdrawalConfirmRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalConfirmScreen(),
+      );
+    },
+    WithdrawalPreviewRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalPreviewScreen(),
       );
     },
   };
@@ -1076,18 +1073,6 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           SuccessVerifyingScreenRouter.name,
           path: '/verifying_success_screen',
-        ),
-        RouteConfig(
-          WithdrawalAmountRouter.name,
-          path: '/withdrawal_ammount',
-        ),
-        RouteConfig(
-          WithdrawalConfirmRouter.name,
-          path: '/withdrawal_confirm',
-        ),
-        RouteConfig(
-          WithdrawalPreviewRouter.name,
-          path: '/withdrawal_preview',
         ),
         RouteConfig(
           SmsAuthenticatorRouter.name,
@@ -1292,6 +1277,39 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           LogsRouter.name,
           path: '/logs_debug',
+        ),
+        RouteConfig(
+          WithdrawRouter.name,
+          path: '/withdrawal',
+          children: [
+            RouteConfig(
+              '#redirect',
+              path: '',
+              parent: WithdrawRouter.name,
+              redirectTo: 'withdrawal_address',
+              fullMatch: true,
+            ),
+            RouteConfig(
+              WithdrawalAddressRouter.name,
+              path: 'withdrawal_address',
+              parent: WithdrawRouter.name,
+            ),
+            RouteConfig(
+              WithdrawalAmmountRouter.name,
+              path: 'withdrawal_ammount',
+              parent: WithdrawRouter.name,
+            ),
+            RouteConfig(
+              WithdrawalConfirmRouter.name,
+              path: 'withdrawal_confirm',
+              parent: WithdrawRouter.name,
+            ),
+            RouteConfig(
+              WithdrawalPreviewRouter.name,
+              path: 'withdrawal_preview',
+              parent: WithdrawRouter.name,
+            ),
+          ],
         ),
       ];
 }
@@ -2396,145 +2414,6 @@ class SuccessVerifyingScreenRouterArgs {
   @override
   String toString() {
     return 'SuccessVerifyingScreenRouterArgs{key: $key, onSuccess: $onSuccess}';
-  }
-}
-
-/// generated route for
-/// [WithdrawalAmount]
-class WithdrawalAmountRouter extends PageRouteInfo<WithdrawalAmountRouterArgs> {
-  WithdrawalAmountRouter({
-    Key? key,
-    required WithdrawalModel withdrawal,
-    required String network,
-    required WithdrawalAddressStore addressStore,
-  }) : super(
-          WithdrawalAmountRouter.name,
-          path: '/withdrawal_ammount',
-          args: WithdrawalAmountRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-            network: network,
-            addressStore: addressStore,
-          ),
-        );
-
-  static const String name = 'WithdrawalAmountRouter';
-}
-
-class WithdrawalAmountRouterArgs {
-  const WithdrawalAmountRouterArgs({
-    this.key,
-    required this.withdrawal,
-    required this.network,
-    required this.addressStore,
-  });
-
-  final Key? key;
-
-  final WithdrawalModel withdrawal;
-
-  final String network;
-
-  final WithdrawalAddressStore addressStore;
-
-  @override
-  String toString() {
-    return 'WithdrawalAmountRouterArgs{key: $key, withdrawal: $withdrawal, network: $network, addressStore: $addressStore}';
-  }
-}
-
-/// generated route for
-/// [WithdrawalConfirm]
-class WithdrawalConfirmRouter
-    extends PageRouteInfo<WithdrawalConfirmRouterArgs> {
-  WithdrawalConfirmRouter({
-    Key? key,
-    required WithdrawalModel withdrawal,
-    required WithdrawalAddressStore addressStore,
-    required WithdrawalPreviewStore previewStore,
-  }) : super(
-          WithdrawalConfirmRouter.name,
-          path: '/withdrawal_confirm',
-          args: WithdrawalConfirmRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-            addressStore: addressStore,
-            previewStore: previewStore,
-          ),
-        );
-
-  static const String name = 'WithdrawalConfirmRouter';
-}
-
-class WithdrawalConfirmRouterArgs {
-  const WithdrawalConfirmRouterArgs({
-    this.key,
-    required this.withdrawal,
-    required this.addressStore,
-    required this.previewStore,
-  });
-
-  final Key? key;
-
-  final WithdrawalModel withdrawal;
-
-  final WithdrawalAddressStore addressStore;
-
-  final WithdrawalPreviewStore previewStore;
-
-  @override
-  String toString() {
-    return 'WithdrawalConfirmRouterArgs{key: $key, withdrawal: $withdrawal, addressStore: $addressStore, previewStore: $previewStore}';
-  }
-}
-
-/// generated route for
-/// [WithdrawalPreview]
-class WithdrawalPreviewRouter
-    extends PageRouteInfo<WithdrawalPreviewRouterArgs> {
-  WithdrawalPreviewRouter({
-    Key? key,
-    required WithdrawalModel withdrawal,
-    required String network,
-    required WithdrawalAddressStore addressStore,
-    required WithdrawalAmountStore amountStore,
-  }) : super(
-          WithdrawalPreviewRouter.name,
-          path: '/withdrawal_preview',
-          args: WithdrawalPreviewRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-            network: network,
-            addressStore: addressStore,
-            amountStore: amountStore,
-          ),
-        );
-
-  static const String name = 'WithdrawalPreviewRouter';
-}
-
-class WithdrawalPreviewRouterArgs {
-  const WithdrawalPreviewRouterArgs({
-    this.key,
-    required this.withdrawal,
-    required this.network,
-    required this.addressStore,
-    required this.amountStore,
-  });
-
-  final Key? key;
-
-  final WithdrawalModel withdrawal;
-
-  final String network;
-
-  final WithdrawalAddressStore addressStore;
-
-  final WithdrawalAmountStore amountStore;
-
-  @override
-  String toString() {
-    return 'WithdrawalPreviewRouterArgs{key: $key, withdrawal: $withdrawal, network: $network, addressStore: $addressStore, amountStore: $amountStore}';
   }
 }
 
@@ -4070,6 +3949,42 @@ class LogsRouter extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [WithdrawalScreen]
+class WithdrawRouter extends PageRouteInfo<WithdrawRouterArgs> {
+  WithdrawRouter({
+    Key? key,
+    required WithdrawalModel withdrawal,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WithdrawRouter.name,
+          path: '/withdrawal',
+          args: WithdrawRouterArgs(
+            key: key,
+            withdrawal: withdrawal,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'WithdrawRouter';
+}
+
+class WithdrawRouterArgs {
+  const WithdrawRouterArgs({
+    this.key,
+    required this.withdrawal,
+  });
+
+  final Key? key;
+
+  final WithdrawalModel withdrawal;
+
+  @override
+  String toString() {
+    return 'WithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
+  }
+}
+
+/// generated route for
 /// [MarketScreen]
 class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
   MarketRouter({
@@ -4149,4 +4064,52 @@ class AccountRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'AccountRouter';
+}
+
+/// generated route for
+/// [WithdrawalAddressScreen]
+class WithdrawalAddressRouter extends PageRouteInfo<void> {
+  const WithdrawalAddressRouter()
+      : super(
+          WithdrawalAddressRouter.name,
+          path: 'withdrawal_address',
+        );
+
+  static const String name = 'WithdrawalAddressRouter';
+}
+
+/// generated route for
+/// [WithdrawalAmmountScreen]
+class WithdrawalAmmountRouter extends PageRouteInfo<void> {
+  const WithdrawalAmmountRouter()
+      : super(
+          WithdrawalAmmountRouter.name,
+          path: 'withdrawal_ammount',
+        );
+
+  static const String name = 'WithdrawalAmmountRouter';
+}
+
+/// generated route for
+/// [WithdrawalConfirmScreen]
+class WithdrawalConfirmRouter extends PageRouteInfo<void> {
+  const WithdrawalConfirmRouter()
+      : super(
+          WithdrawalConfirmRouter.name,
+          path: 'withdrawal_confirm',
+        );
+
+  static const String name = 'WithdrawalConfirmRouter';
+}
+
+/// generated route for
+/// [WithdrawalPreviewScreen]
+class WithdrawalPreviewRouter extends PageRouteInfo<void> {
+  const WithdrawalPreviewRouter()
+      : super(
+          WithdrawalPreviewRouter.name,
+          path: 'withdrawal_preview',
+        );
+
+  static const String name = 'WithdrawalPreviewRouter';
 }

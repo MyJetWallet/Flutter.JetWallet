@@ -106,6 +106,11 @@ import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
+import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
@@ -335,21 +340,6 @@ final sRouter = getIt.get<AppRouter>();
       path: '/verifying_success_screen',
       name: 'SuccessVerifyingScreenRouter',
       page: SuccessVerifyingScreen,
-    ),
-    AutoRoute(
-      path: '/withdrawal_ammount',
-      name: 'WithdrawalAmountRouter',
-      page: WithdrawalAmount,
-    ),
-    AutoRoute(
-      path: '/withdrawal_confirm',
-      name: 'WithdrawalConfirmRouter',
-      page: WithdrawalConfirm,
-    ),
-    AutoRoute(
-      path: '/withdrawal_preview',
-      name: 'WithdrawalPreviewRouter',
-      page: WithdrawalPreview,
     ),
     AutoRoute(
       path: '/sms_authenticator',
@@ -606,6 +596,34 @@ final sRouter = getIt.get<AppRouter>();
       name: 'LogsRouter',
       page: LogsScreen,
     ),
+    AutoRoute(
+      path: '/withdrawal',
+      name: 'WithdrawRouter',
+      page: WithdrawalScreen,
+      children: [
+        AutoRoute(
+          path: 'withdrawal_address',
+          name: 'WithdrawalAddressRouter',
+          page: WithdrawalAddressScreen,
+          initial: true,
+        ),
+        AutoRoute(
+          path: 'withdrawal_ammount',
+          name: 'WithdrawalAmmountRouter',
+          page: WithdrawalAmmountScreen,
+        ),
+        AutoRoute(
+          path: 'withdrawal_confirm',
+          name: 'WithdrawalConfirmRouter',
+          page: WithdrawalConfirmScreen,
+        ),
+        AutoRoute(
+          path: 'withdrawal_preview',
+          name: 'WithdrawalPreviewRouter',
+          page: WithdrawalPreviewScreen,
+        ),
+      ],
+    )
   ],
 )
 class AppRouter extends _$AppRouter {

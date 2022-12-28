@@ -1,3 +1,4 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -24,6 +25,7 @@ import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/compone
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
+import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -357,7 +359,11 @@ class DeepLinkService {
     final id = parameters[_operationId]!;
     final code = parameters[_code]!;
 
-    getIt.get<WithdrawalConfirmStore>().updateCode(code, id);
+    //getIt.get<WithdrawalConfirmStore>().updateCode(code, id);
+
+    getIt
+        .get<EventBus>()
+        .fire(WithdrawalConfirmModel(code: code, operationID: id));
   }
 
   void _confirmSendByPhoneCommand(Map<String, String> parameters) {

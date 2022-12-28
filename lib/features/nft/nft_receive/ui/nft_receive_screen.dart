@@ -39,8 +39,8 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
     final qrCodeSize = screenWidth * 0.6;
     var heightWidget = MediaQuery.of(context).size.height - 575;
     deviceSize.when(
-      small: () => heightWidget = heightWidget - 120,
-      medium: () => heightWidget = heightWidget - 180,
+      small: () => heightWidget = heightWidget - 75,
+      medium: () => heightWidget = heightWidget - 135,
     );
 
     final store = NftReceiveStore.of(context);
@@ -102,6 +102,7 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
         ),
       ),
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

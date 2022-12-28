@@ -2,73 +2,38 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/currency_withdraw/store/withdrawal_address_store.dart';
-import 'package:jetwallet/features/currency_withdraw/store/withdrawal_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
-import '../../helper/user_will_receive.dart';
-import '../../model/withdrawal_model.dart';
+import '../../currency_withdraw/helper/user_will_receive.dart';
 
-class WithdrawalAmount extends StatelessWidget {
-  const WithdrawalAmount({
-    super.key,
-    required this.withdrawal,
-    required this.network,
-    required this.addressStore,
-  });
-
-  final WithdrawalModel withdrawal;
-  final String network;
-  final WithdrawalAddressStore addressStore;
+class WithdrawalAmmountScreen extends StatelessObserverWidget {
+  const WithdrawalAmmountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Provider<WithdrawalAmountStore>(
-      create: (context) => WithdrawalAmountStore(withdrawal, addressStore),
-      builder: (context, child) => _WithdrawalAmountBody(
-        withdrawal: withdrawal,
-        network: network,
-        addressStore: addressStore,
-      ),
-    );
-  }
-}
+    final store = WithdrawalStore.of(context);
 
-class _WithdrawalAmountBody extends StatelessObserverWidget {
-  const _WithdrawalAmountBody({
-    Key? key,
-    required this.withdrawal,
-    required this.network,
-    required this.addressStore,
-  }) : super(key: key);
-
-  final WithdrawalModel withdrawal;
-  final String network;
-  final WithdrawalAddressStore addressStore;
-
-  @override
-  Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    final store = WithdrawalAmountStore.of(context);
-
-    final currency = withdrawal.currency;
+    if (store.withdrawalType == WithdrawalType.NFT) {
+      return const SizedBox.shrink();
+    }
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${withdrawal.dictionary.verb} ${currency!.description}',
+          title:
+              '${store.withdrawalInputModel!.dictionary.verb} ${store.withdrawalInputModel!.currency!.description}',
         ),
       ),
       child: Column(
@@ -93,21 +58,23 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
                   child: SActionPriceField(
                     widgetSize: widgetSizeFrom(deviceSize),
                     price: formatCurrencyStringAmount(
-                      prefix: currency.prefixSymbol,
-                      value: store.amount,
-                      symbol: currency.symbol,
+                      prefix:
+                          store.withdrawalInputModel?.currency?.prefixSymbol,
+                      value: store.withAmount,
+                      symbol: store.withdrawalInputModel!.currency!.symbol,
                     ),
                     helper: '≈ ${marketFormat(
-                      accuracy: store.baseCurrency!.accuracy,
-                      prefix: store.baseCurrency!.prefix,
+                      accuracy: store.baseCurrency.accuracy,
+                      prefix: store.baseCurrency.prefix,
                       decimal: Decimal.parse(store.baseConversionValue),
-                      symbol: store.baseCurrency!.symbol,
+                      symbol: store.baseCurrency.symbol,
                     )}',
-                    error: store.inputError == InputError.enterHigherAmount
+                    error: store.withAmmountInputError ==
+                            InputError.enterHigherAmount
                         ? '${intl.withdrawalAmount_enterMoreThan} '
-                            '${currency.withdrawalFeeWithSymbol(network)}'
-                        : store.inputError.value(),
-                    isErrorActive: store.inputError.isActive,
+                            '${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'
+                        : store.withAmmountInputError.value(),
+                    isErrorActive: store.withAmmountInputError.isActive,
                   ),
                 ),
                 Baseline(
@@ -120,10 +87,10 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
                     '${intl.withdrawalAmount_available}: '
                     '${volumeFormat(
                       decimal: Decimal.parse(
-                        '${currency.assetBalance.toDouble() - currency.cardReserve.toDouble()}',
+                        '${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
                       ),
-                      accuracy: currency.accuracy,
-                      symbol: currency.symbol,
+                      accuracy: store.withdrawalInputModel!.currency!.accuracy,
+                      symbol: store.withdrawalInputModel!.currency!.symbol,
                     )}',
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
@@ -144,7 +111,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
                       Text(
                         _feeDescription(
                           store.addressIsInternal,
-                          store.amount,
+                          store.withAmount,
                           context,
                         ),
                         style: sCaptionTextStyle.copyWith(
@@ -164,7 +131,8 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
               color: colors.black,
             ),
             name: shortAddressForm(store.address),
-            description: '${currency.symbol} ${intl.withdrawalAmount_wallet}',
+            description:
+                '${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -190,27 +158,18 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
               store.updateAmount(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.valid,
+            submitButtonActive: store.withValid,
             submitButtonName: '${intl.withdrawalAmount_preview}'
-                ' ${withdrawal.dictionary.verb}',
+                ' ${store.withdrawalInputModel!.dictionary.verb}',
             onSubmitPressed: () {
               sAnalytics.sendTapPreview(
-                currency: currency.symbol,
-                amount: store.amount,
+                currency: store.withdrawalInputModel?.currency?.symbol ?? '',
+                amount: store.withAmount,
                 type: 'By wallet',
                 percentage: store.tappedPreset ?? '',
               );
 
-              /*
-              sRouter.push(
-                WithdrawalPreviewRouter(
-                  withdrawal: withdrawal,
-                  network: network,
-                  amountStore: store as WithdrawalAmountStore,
-                  addressStore: addressStore,
-                ),
-              );
-              */
+              store.withdrawalPush(WithdrawStep.Preview);
             },
           ),
         ],
@@ -223,13 +182,15 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
     String amount,
     BuildContext context,
   ) {
-    final currency = withdrawal.currency;
+    final store = WithdrawalStore.of(context);
+
+    final currency = store.withdrawalInputModel!.currency!;
 
     final result = userWillreceive(
       amount: amount,
-      currency: currency!,
+      currency: store.withdrawalInputModel!.currency!,
       addressIsInternal: isInternal,
-      network: network,
+      network: store.networkController.text,
     );
 
     final youWillSend = '${intl.withdrawalAmount_youWillSend}: $result';
@@ -237,6 +198,6 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
     return isInternal
         ? '${intl.noFee} / $youWillSend'
         : '${intl.fee}: '
-            '${currency.withdrawalFeeWithSymbol(network)} / $youWillSend';
+            '${currency.withdrawalFeeWithSymbol(store.networkController.text)} / $youWillSend';
   }
 }

@@ -690,6 +690,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
   @action
   void _pushWithdrawalAmount(BuildContext context) {
     if (currencyModel != null) {
+      /*
       sRouter.push(
         WithdrawalAmountRouter(
           withdrawal: withdrawal!,
@@ -697,7 +698,9 @@ abstract class _WithdrawalAddressStoreBase with Store {
           addressStore: this as WithdrawalAddressStore,
         ),
       );
+      */
     } else {
+      /*
       sRouter.push(
         WithdrawalPreviewRouter(
           withdrawal: withdrawal!,
@@ -707,6 +710,7 @@ abstract class _WithdrawalAddressStoreBase with Store {
           addressStore: this as WithdrawalAddressStore,
         ),
       );
+      */
     }
   }
 
