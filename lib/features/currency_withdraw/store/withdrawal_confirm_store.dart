@@ -238,13 +238,13 @@ abstract class _WithdrawalConfirmStoreBase with Store {
         secondaryText: '${intl.withdrawalConfirm_failedTo} $_verb',
         primaryButtonName: intl.withdrawalConfirm_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.push(
+          /*sRouter.push(
             WithdrawalAmountRouter(
               withdrawal: withdrawal!,
               network: '',
               addressStore: addressStore!,
             ),
-          );
+          );*/
         },
         secondaryButtonName: intl.withdrawalConfirm_close,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),

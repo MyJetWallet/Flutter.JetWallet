@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -75,11 +76,8 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                       '${matic.withdrawalFeeSize(store.networkController.text)}',
                 );
               }
-              store.withdrawalPush(
-                store.withdrawalType == WithdrawalType.NFT
-                  ? WithdrawStep.Address
-                  : WithdrawStep.Ammount,
-              );
+
+              sRouter.navigateBack();
             },
           );
         },
@@ -104,11 +102,8 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                       '${matic.withdrawalFeeSize(store.networkController.text)}',
                 );
               }
-              store.withdrawalPush(
-                store.withdrawalType == WithdrawalType.NFT
-                    ? WithdrawStep.Address
-                    : WithdrawStep.Ammount,
-              );
+
+              sRouter.navigateBack();
             },
           );
         },

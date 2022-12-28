@@ -201,6 +201,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
                 percentage: store.tappedPreset ?? '',
               );
 
+              /*
               sRouter.push(
                 WithdrawalPreviewRouter(
                   withdrawal: withdrawal,
@@ -209,6 +210,7 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
                   addressStore: addressStore,
                 ),
               );
+              */
             },
           ),
         ],

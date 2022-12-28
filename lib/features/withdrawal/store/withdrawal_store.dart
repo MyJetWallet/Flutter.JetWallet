@@ -295,35 +295,46 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
-  void withdrawalPush(WithdrawStep step) {
+  void withdrawalPush(
+    WithdrawStep step, {
+    bool isReplace = false,
+  }) {
     switch (step) {
       case WithdrawStep.Address:
-        withdrawStepController.animateToPage(
-          0,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
+        if (isReplace) {
+          sRouter
+              .popUntil((route) => route.settings is WithdrawalAddressRouter);
+        } else {
+          sRouter.push(const WithdrawalAddressRouter());
+        }
+
         break;
       case WithdrawStep.Ammount:
-        withdrawStepController.animateToPage(
-          1,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
+        if (isReplace) {
+          sRouter
+              .popUntil((route) => route.settings is WithdrawalAmmountRouter);
+        } else {
+          sRouter.push(const WithdrawalAmmountRouter());
+        }
+
         break;
       case WithdrawStep.Preview:
-        withdrawStepController.animateToPage(
-          withdrawalType == WithdrawalType.Asset ? 2 : 1,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
+        if (isReplace) {
+          sRouter
+              .popUntil((route) => route.settings is WithdrawalPreviewRouter);
+        } else {
+          sRouter.push(const WithdrawalPreviewRouter());
+        }
+
         break;
       case WithdrawStep.Confirm:
-        withdrawStepController.animateToPage(
-          withdrawalType == WithdrawalType.Asset ? 3 : 2,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
+        if (isReplace) {
+          sRouter
+              .popUntil((route) => route.settings is WithdrawalConfirmRouter);
+        } else {
+          sRouter.push(const WithdrawalConfirmRouter());
+        }
+
         break;
       default:
     }
@@ -961,7 +972,12 @@ abstract class _WithdrawalStoreBase with Store {
         secondaryText: intl.showNoResponseScreen_text2,
         primaryButtonName: intl.serverCode0_ok,
         onPrimaryButtonTap: () {
-          withdrawalPush(WithdrawStep.Ammount);
+          sRouter.popUntilRoot();
+          sRouter.push(
+            WithdrawRouter(
+              withdrawal: withdrawalInputModel!,
+            ),
+          );
         },
       ),
     );
@@ -983,7 +999,12 @@ abstract class _WithdrawalStoreBase with Store {
         secondaryText: error.cause,
         primaryButtonName: intl.withdrawalPreview_editOrder,
         onPrimaryButtonTap: () {
-          withdrawalPush(WithdrawStep.Ammount);
+          sRouter.popUntilRoot();
+          sRouter.push(
+            WithdrawRouter(
+              withdrawal: withdrawalInputModel!,
+            ),
+          );
         },
         secondaryButtonName: intl.withdrawalPreview_close,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),

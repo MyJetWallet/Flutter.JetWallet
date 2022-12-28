@@ -217,13 +217,14 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
   @action
   void _showWithdrawConfirm() {
-    sRouter.push(
-      WithdrawalConfirmRouter(
+    /*sRouter.push(
+        WithdrawalConfirmRouter(
         withdrawal: withdrawal,
         previewStore: this as WithdrawalPreviewStore,
         addressStore: addressStore,
       ),
-    );
+      
+        );*/
   }
 
   @action
@@ -234,13 +235,13 @@ abstract class _WithdrawalPreviewStoreBase with Store {
         secondaryText: intl.showNoResponseScreen_text2,
         primaryButtonName: intl.serverCode0_ok,
         onPrimaryButtonTap: () {
-          sRouter.navigate(
+          /*sRouter.navigate(
             WithdrawalAmountRouter(
               withdrawal: withdrawal,
               network: '',
               addressStore: addressStore,
             ),
-          );
+          );*/
         },
       ),
     );
@@ -254,13 +255,13 @@ abstract class _WithdrawalPreviewStoreBase with Store {
         secondaryText: error.cause,
         primaryButtonName: intl.withdrawalPreview_editOrder,
         onPrimaryButtonTap: () {
-          sRouter.navigate(
+          /*sRouter.navigate(
             WithdrawalAmountRouter(
               withdrawal: withdrawal,
               network: blockchain.id,
               addressStore: addressStore,
             ),
-          );
+          );*/
         },
         secondaryButtonName: intl.withdrawalPreview_close,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),

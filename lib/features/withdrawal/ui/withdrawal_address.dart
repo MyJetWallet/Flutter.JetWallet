@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -63,7 +64,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                 nftObjectId: store.withdrawalInputModel?.nft?.symbol ?? '',
               );
             }
-            Navigator.pop(context);
+            sRouter.navigateBack();
           },
         ),
       ),
