@@ -41,6 +41,7 @@ const lastUsedCard = 'lastUsedCard';
 const nftPromoCode = 'nftPromoCode';
 const lastUsedMail = 'lastUsedMail';
 const activeSlot = 'activeSlot';
+const deviceId = 'deviceId';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -92,9 +93,11 @@ class LocalStorageService {
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);
+    final deviceIdUsed = await _storage.read(key: deviceId);
     await _storage.deleteAll();
     await _storage.write(key: lastUsedMail, value: userMail);
     await _storage.write(key: activeSlot, value: slot);
+    await _storage.write(key: deviceId, value: deviceIdUsed);
   }
 
   Future<void> clearStorageForCrypto(List<CurrencyModel> currencies) async {
@@ -129,9 +132,11 @@ class LocalStorageService {
     if (val) {
       final userMail = await _storage.read(key: lastUsedMail);
       final slot = await _storage.read(key: activeSlot);
+      final deviceIdUsed = await _storage.read(key: deviceId);
       await _storage.deleteAll();
       await _storage.write(key: lastUsedMail, value: userMail);
       await _storage.write(key: activeSlot, value: slot);
+      await _storage.write(key: deviceId, value: deviceIdUsed);
     }
   }
 }
