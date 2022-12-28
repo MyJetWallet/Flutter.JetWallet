@@ -138,15 +138,18 @@ abstract class BaseChartPainter extends CustomPainter {
         final maxPrice = item.high;
         final minPrice = item.low;
 
-        mMainMaxValue = max(mMainMaxValue, maxPrice);
-        mMainMinValue = min(mMainMinValue, minPrice);
+        //mMainMaxValue = max(mMainMaxValue, maxPrice);
+        //mMainMinValue = min(mMainMinValue, minPrice);
 
-        if (mMainHighMaxValue! < item.high) {
-          mMainHighMaxValue = item.high;
+        mMainMaxValue = max(mMainMaxValue, item.close);
+        mMainMinValue = min(mMainMinValue, item.close);
+
+        if (mMainHighMaxValue! < item.close) {
+          mMainHighMaxValue = item.close;
           mMainMaxIndex = i;
         }
-        if (mMainLowMinValue! > item.low) {
-          mMainLowMinValue = item.low;
+        if (mMainLowMinValue! > item.close) {
+          mMainLowMinValue = item.close;
           mMainMinIndex = i;
         }
         break;

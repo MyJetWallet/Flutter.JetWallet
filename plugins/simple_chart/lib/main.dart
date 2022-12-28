@@ -25,6 +25,7 @@ class Chart extends StatefulWidget {
     this.chartType = ChartType.line,
     this.walletCreationDate,
     this.selectedCandlePadding,
+    this.accuracy = 3,
   }) : super(key: key);
 
   final void Function(String) onResolutionChanged;
@@ -47,6 +48,7 @@ class Chart extends StatefulWidget {
   final bool isAssetChart;
   final Widget loader;
   final List<String> localizedChartResolutionButton;
+  final int accuracy;
 
   @override
   _ChartState createState() => _ChartState();
@@ -160,6 +162,7 @@ class _ChartState extends State<Chart> with SingleTickerProviderStateMixin {
                       isAssetChart: widget.isAssetChart,
                       chartWidth: chartWidth,
                       prefix: widget.prefix,
+                      accuracy: widget.accuracy,
                     ),
                     SlideTransition(
                       position: _offsetAnimation,
