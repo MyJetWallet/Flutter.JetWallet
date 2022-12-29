@@ -498,6 +498,7 @@ abstract class _WithdrawalStoreBase with Store {
   void updateNetwork(BlockchainModel net) {
     network = net;
     networkController.text = net.description;
+    blockchain = net;
 
     setIsReadyToContinue();
   }
