@@ -36,6 +36,8 @@ import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
 part 'withdrawal_store.g.dart';
@@ -193,6 +195,9 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   String operationId = '';
+
+  @observable
+  WithdrawalInfoResponseModel? nftInfo;
 
   ///
 
@@ -376,6 +381,8 @@ abstract class _WithdrawalStoreBase with Store {
           nftFee:
               '${matic.withdrawalFeeSize(withdrawalInputModel?.nft?.blockchain ?? '')}',
         );
+
+        await withdrawNFT();
       } else {
         sAnalytics.sendViews();
       }
@@ -498,6 +505,7 @@ abstract class _WithdrawalStoreBase with Store {
   void updateNetwork(BlockchainModel net) {
     network = net;
     networkController.text = net.description;
+    blockchain = net;
 
     setIsReadyToContinue();
   }
@@ -892,7 +900,7 @@ abstract class _WithdrawalStoreBase with Store {
         onData: (data) {
           operationId = data.operationId;
 
-          _previewConfirm();
+          previewConfirm();
         },
         onError: (error) {
           _showFailureScreen(error);
@@ -948,7 +956,9 @@ abstract class _WithdrawalStoreBase with Store {
 
           operationId = data.operationId;
 
-          _previewConfirm();
+          //_previewConfirm();
+
+          getWithdrawalInfo();
         },
         onError: (error) {
           _showFailureScreen(error);
@@ -984,7 +994,7 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @action
-  void _previewConfirm() {
+  void previewConfirm() {
     previewLoading = false;
     previewLoader.finishLoadingImmediately();
 
@@ -1181,6 +1191,21 @@ abstract class _WithdrawalStoreBase with Store {
         () => confirmController.clear(),
       );
     }
+  }
+
+  @action
+  Future<void> getWithdrawalInfo() async {
+    final model = WithdrawalInfoRequestModel(operationId: operationId);
+
+    final resp = await sNetwork.getWalletModule().postWithdrawalInfo(model);
+
+    resp.pick(
+      onData: (data) {
+        nftInfo = data;
+      },
+    );
+
+    print(nftInfo);
   }
 
   @action
