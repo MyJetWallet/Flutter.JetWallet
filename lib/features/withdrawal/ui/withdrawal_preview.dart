@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -28,7 +29,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
 
     final matic = currencyFrom(
       sSignalRModules.currenciesList,
-      'MATIC',
+      store.nftInfo?.feeAssetSymbol ?? 'MATIC',
     );
 
     final descr = store.withdrawalType == WithdrawalType.Asset
@@ -43,8 +44,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
 
     final isUserEnoughMaticForWithdraw =
         store.withdrawalType == WithdrawalType.NFT
-            ? matic.assetBalance >
-                matic.withdrawalFeeSize(store.networkController.text)
+            ? matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero)
             : true;
 
     return SPageFrameWithPadding(
@@ -160,16 +160,16 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 35.0,
-                  value: store.addressIsInternal
-                      ? intl.noFee
-                      : store.withdrawalType == WithdrawalType.Asset
-                          ? store.withdrawalInputModel!.currency!
+                  value: store.withdrawalType == WithdrawalType.Asset
+                      ? store.addressIsInternal
+                          ? intl.noFee
+                          : store.withdrawalInputModel!.currency!
                               .withdrawalFeeWithSymbol(
                               store.networkController.text,
                             )
-                          : matic.withdrawalFeeWithSymbol(
-                              store.networkController.text,
-                            ),
+                      : store.nftInfo?.feeAmount == Decimal.zero
+                          ? intl.noFee
+                          : '${store.nftInfo?.feeAmount} ${store.nftInfo?.feeAssetSymbol}',
                 ),
                 const SBaselineChild(
                   baseline: 34.0,
@@ -187,14 +187,13 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                     name: intl.withdrawalPreview_total,
                     value: volumeFormat(
                       accuracy: matic.accuracy,
-                      decimal:
-                          matic.withdrawalFeeSize(store.networkController.text),
+                      decimal: store.nftInfo?.feeAmount ?? Decimal.zero,
                       symbol: matic.symbol,
                     ),
                     valueDescription: volumeFormat(
                       prefix: baseCurrency.prefix,
                       decimal: matic.currentPrice *
-                          matic.withdrawalFeeSize(store.networkController.text),
+                          (store.nftInfo?.feeAmount ?? Decimal.zero),
                       symbol: baseCurrency.symbol,
                       accuracy: 6,
                     ),
@@ -222,7 +221,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.65,
                           child: Text(
-                            '${intl.nft_send_not_enough_1} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : matic.symbol} ${intl.nft_send_not_enough_2}',
+                            '${intl.nft_send_not_enough_1} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.nftInfo?.feeAssetSymbol} ${intl.nft_send_not_enough_2}',
                             style: sBodyText1Style,
                             maxLines: 6,
                           ),
@@ -254,7 +253,10 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                         nftFee:
                             '${matic.withdrawalFeeSize(store.networkController.text)}',
                       );
-                      store.withdrawNFT();
+
+                      //store.withdrawNFT();
+
+                      store.previewConfirm();
                     }
                   },
                 ),
