@@ -64,7 +64,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                 nftObjectId: store.withdrawalInputModel?.nft?.symbol ?? '',
               );
             }
-            sRouter.navigateBack();
+            sRouter.pop();
           },
         ),
       ),
