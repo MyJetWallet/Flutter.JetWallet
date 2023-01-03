@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 
 import '../helper/market_gainers.dart';
 import '../helper/market_losers.dart';
@@ -62,6 +69,28 @@ abstract class _MarketFilterStoreBase with Store {
       return getMarketLosers();
     }
 
+    if (watchList.isNotEmpty) {
+      List<MarketItemModel> newList = [];
+      List<MarketItemModel> localList = cryptoList.toList();
+
+      for (var i = 0; i < watchListIds.length; i++) {
+        final obj = cryptoList.indexWhere(
+          (element) => element.associateAsset == watchListIds[i],
+        );
+
+        if (obj != -1) {
+          newList.add(
+            cryptoList[obj],
+          );
+          localList.remove(
+            cryptoList[obj],
+          );
+        }
+      }
+
+      return newList + localList;
+    }
+
     return cryptoList;
   }
 
@@ -82,5 +111,55 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void cryptoFilterChange(String newFilter) {
     activeFilter = newFilter;
+  }
+
+  @computed
+  List<String> get watchList {
+    if (watchListLocal.isEmpty) {
+      watchListLocal = ObservableList.of(watchListIds);
+
+      return watchListIds;
+    }
+
+    return watchListLocal;
+  }
+
+  @computed
+  List<String> get watchListIds =>
+      sSignalRModules.keyValue.watchlist?.value ?? [];
+
+  @observable
+  ObservableList<String> watchListLocal = ObservableList.of([]);
+
+  @action
+  Future<void> removeFromWatchlist(String assetId) async {
+    watchListLocal.remove(assetId);
+
+    await getIt.get<KeyValuesService>().addToKeyValue(
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: watchlistKey,
+                value: jsonEncode(watchList),
+              ),
+            ],
+          ),
+        );
+  }
+
+  @action
+  Future<void> addToWatchlist(String assetId) async {
+    watchListLocal.add(assetId);
+
+    await getIt.get<KeyValuesService>().addToKeyValue(
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: watchlistKey,
+                value: jsonEncode(watchList),
+              ),
+            ],
+          ),
+        );
   }
 }

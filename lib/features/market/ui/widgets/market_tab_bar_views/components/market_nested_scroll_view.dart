@@ -189,6 +189,8 @@ class __MarketNestedScrollViewBodyState
 
   Widget showCryptoList(BaseCurrencyModel baseCurrency) {
     final store = MarketFilterStore.of(context);
+    final showNFT = sSignalRModules.nftList.isNotEmpty &&
+        sSignalRModules.clientDetail.isNftEnable;
 
     return Column(
       children: [
@@ -199,33 +201,60 @@ class __MarketNestedScrollViewBodyState
             padding: EdgeInsets.zero,
             itemCount: store.cryptoListFiltred.length,
             itemBuilder: (context, index) {
-              return SMarketItem(
-                icon: SNetworkSvg24(
-                  url: store.cryptoListFiltred[index].iconUrl,
-                ),
-                name: store.cryptoListFiltred[index].name,
-                price: marketFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: store.cryptoListFiltred[index].lastPrice,
-                  symbol: baseCurrency.symbol,
-                  accuracy: store.cryptoListFiltred[index].priceAccuracy,
-                ),
-                ticker: store.cryptoListFiltred[index].symbol,
-                last: store.cryptoListFiltred[index] ==
-                    store.cryptoListFiltred.last,
-                percent: store.cryptoListFiltred[index].dayPercentChange,
-                onTap: () {
-                  sRouter.push(
-                    MarketDetailsRouter(
-                      marketItem: store.cryptoListFiltred[index],
-                    ),
-                  );
-                },
-              );
+              return Observer(builder: (context) {
+                final isInWatchlist = store.watchList.contains(
+                  store.cryptoListFiltred[index].associateAsset,
+                );
+
+                return SMarketItem(
+                  key: Key(
+                    store.cryptoListFiltred[index].associateAsset,
+                  ),
+                  showFavoriteIcon: true,
+                  isStarActive: isInWatchlist,
+                  onStarButtonTap: () {
+                    if (isInWatchlist) {
+                      store.removeFromWatchlist(
+                        store.cryptoListFiltred[index].associateAsset,
+                      );
+                    } else {
+                      sAnalytics.addToWatchlist(
+                        store.cryptoListFiltred[index].name,
+                      );
+                      store.addToWatchlist(
+                        store.cryptoListFiltred[index].associateAsset,
+                      );
+                    }
+                  },
+                  icon: SNetworkSvg24(
+                    url: store.cryptoListFiltred[index].iconUrl,
+                  ),
+                  name: store.cryptoListFiltred[index].name,
+                  price: marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: store.cryptoListFiltred[index].lastPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: store.cryptoListFiltred[index].priceAccuracy,
+                  ),
+                  ticker: store.cryptoListFiltred[index].symbol,
+                  last: store.cryptoListFiltred[index] ==
+                      store.cryptoListFiltred.last,
+                  percent: store.cryptoListFiltred[index].dayPercentChange,
+                  onTap: () {
+                    sRouter.push(
+                      MarketDetailsRouter(
+                        marketItem: store.cryptoListFiltred[index],
+                      ),
+                    );
+                  },
+                );
+              });
             },
           ),
         ),
-        const SpaceH40(),
+        if (showNFT) ...[
+          const SpaceH40(),
+        ],
       ],
     );
   }
