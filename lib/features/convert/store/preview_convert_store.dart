@@ -82,7 +82,7 @@ abstract class _PreviewConvertStoreBase with Store {
 
   @computed
   String get previewHeader {
-    return '${intl.previewConvert_confirmConvert}\n'
+    return '${intl.previewConvert_confirmExchange}\n'
         '${input.fromCurrency.symbol} ${intl.to} ${input.toCurrency.symbol}';
   }
 

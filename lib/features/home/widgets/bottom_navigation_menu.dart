@@ -124,6 +124,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       sShowMenuActionSheet(
         context: context,
         isNotEmptyBalance: isNotEmptyBalance,
+        isBuyAvailable: false,
         onBuy: () {
           sAnalytics.tapOnBuy(Source.quickActions);
 
@@ -140,6 +141,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
             fromCard: true,
           );
         },
+        isSellAvailable: false,
         onSell: () {
           sAnalytics.sellClick(source: 's Menu');
           if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {

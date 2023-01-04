@@ -490,6 +490,39 @@ abstract class _CurrencyBuyStoreBase with Store {
           return updateSelectedCircleCard(circleCards.last);
         }
       }
+
+      // Case 11: if user haven't saved card and currencies
+      if (selectedCurrency == null) {
+        if (buyMethods
+            .where(
+              (element) => element.type == PaymentMethodType.bankCard,
+        )
+            .isNotEmpty) {
+          updateSelectedPaymentMethod(
+            buyMethods
+                .where(
+                  (element) => element.type == PaymentMethodType.bankCard,
+            )
+                .first,
+          );
+        } else if (buyMethods
+            .where(
+              (element) => element.type == PaymentMethodType.unlimintCard,
+        )
+            .isNotEmpty) {
+          updateSelectedPaymentMethod(
+            buyMethods
+                .where(
+                  (element) => element.type == PaymentMethodType.unlimintCard,
+            )
+                .first,
+          );
+        } else {
+          updateSelectedPaymentMethod(
+            buyMethods.first,
+          );
+        }
+      }
     } else {
       if (lastUsedPaymentMethod == '"circleCard"' &&
           currencyModel.supportsCircle) {
@@ -627,6 +660,39 @@ abstract class _CurrencyBuyStoreBase with Store {
           }
 
           return updateSelectedCircleCard(circleCards.last);
+        }
+      }
+
+      // Case 7: if user haven't saved card and currencies
+      if (selectedCurrency == null) {
+        if (buyMethods
+            .where(
+              (element) => element.type == PaymentMethodType.bankCard,
+        )
+            .isNotEmpty) {
+          updateSelectedPaymentMethod(
+            buyMethods
+                .where(
+                  (element) => element.type == PaymentMethodType.bankCard,
+            )
+                .first,
+          );
+        } else if (buyMethods
+            .where(
+              (element) => element.type == PaymentMethodType.unlimintCard,
+        )
+            .isNotEmpty) {
+          updateSelectedPaymentMethod(
+            buyMethods
+                .where(
+                  (element) => element.type == PaymentMethodType.unlimintCard,
+            )
+                .first,
+          );
+        } else {
+          updateSelectedPaymentMethod(
+            buyMethods.first,
+          );
         }
       }
     }

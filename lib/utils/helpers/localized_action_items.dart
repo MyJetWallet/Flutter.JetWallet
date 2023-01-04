@@ -4,7 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 List<Map<String, String>> localizedActionItems(BuildContext context) {
   final array = [
     {
-      'name': intl.actionBuy_bottomSheetItemTitle1,
+      'name': intl.localizedActionItems_buy,
       'description': intl.sActionItem_description1,
     },
     {
@@ -16,11 +16,11 @@ List<Map<String, String>> localizedActionItems(BuildContext context) {
       'description': intl.sActionItem_description3,
     },
     {
-      'name': intl.localizedActionItems_convert,
+      'name': intl.localizedActionItems_Exchange,
       'description': intl.sActionItem_description4,
     },
     {
-      'name': intl.actionBuy_bottomSheetItemTitle1,
+      'name': intl.localizedActionItems_buy,
       'description': intl.sActionItem_description1,
     },
     {

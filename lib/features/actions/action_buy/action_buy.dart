@@ -200,9 +200,7 @@ class _ActionBuy extends StatelessObserverWidget {
         const SpaceH10(),
         if (_displayDivider(state.filteredCurrencies, currencies))
           ActionBuySubheader(
-            text: fromCard
-                ? intl.actionBuy_bottomSheetItemTitle1
-                : intl.actionBuy_bottomSheetItemTitle2,
+            text: intl.actionBuy_bottomSheetItemTitle2,
           ),
         for (final currency in state.filteredCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)

@@ -64,7 +64,7 @@ class ConvertBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.convert_convert,
+          title: intl.convert_exchange,
         ),
       ),
       child: Column(
@@ -156,7 +156,7 @@ class ConvertBody extends StatelessObserverWidget {
                 && store.toAssetAmount != '0'
                 && store.fromAsset != null
                 && store.toAsset != null,
-            submitButtonName: intl.convert_previewConvert,
+            submitButtonName: intl.convert_previewExchange,
             onSubmitPressed: () {
               sAnalytics.convertTapPreview(
                 sourceCurrency: store.fromAsset!.description,
