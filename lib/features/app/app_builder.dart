@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -14,8 +15,7 @@ import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:logger/logger.dart' as logPrint;
@@ -36,8 +36,6 @@ class AppBuilder extends StatelessObserverWidget {
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 
-    final _logger = Logger('AppBuilder');
-
     return Builder(
       builder: (context) {
         getIt.get<DeviceSize>().setSize(reactiveMediaQuery.size.height);
@@ -54,12 +52,6 @@ class AppBuilder extends StatelessObserverWidget {
         return FutureBuilder(
           future: getIt.allReady(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            _logger.log(notifier, snapshot.connectionState);
-
-            if (snapshot.hasError) {
-              _logger.log(stateFlow, 'ERROR ${snapshot.error}');
-            }
-
             return snapshot.hasData
                 ? Builder(
                     builder: (context) {
@@ -97,18 +89,16 @@ class AppBuilderBody extends StatefulWidget {
 
 class _AppBuilderBodyState extends State<AppBuilderBody>
     with WidgetsBindingObserver {
-  static final _logger = Logger('AppBuilder');
-  final log = logPrint.Logger();
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    log.w('AppLifecycleState $state');
-
     if (state == AppLifecycleState.resumed) {
-      _logger.log(contract, 'AppLifecycleState RESUMED');
-      log.w('AppLifecycleState RESUMED');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'AppBuilder',
+            message: 'AppLifecycleState RESUMED',
+          );
 
       if (getIt.get<AppStore>().authStatus ==
           const AuthorizationUnion.authorized()) {

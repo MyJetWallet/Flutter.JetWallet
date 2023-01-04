@@ -11,15 +11,14 @@ import '../../core/services/logs/log_record_service.dart';
 
 class LogsScreen extends StatelessObserverWidget {
   const LogsScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    //final logs = getIt.get<LogRecordsService>().logHistory.toList().reversed.toList();
     final logs =
-        getIt.get<LogRecordsService>().logHistory.toList().reversed.toList();
-
-    final l = getIt.get<SimpleLoggerService>().logsForShare();
+        getIt.get<SimpleLoggerService>().logBuffer.toList().reversed.toList();
 
     return SPageFrame(
       header: SPaddingH24(
@@ -27,7 +26,7 @@ class LogsScreen extends StatelessObserverWidget {
           title: 'Debug screen',
           showInfoButton: true,
           //onInfoButtonTap: () => Share.share(beatifyLogsForShare(logs)),
-          onInfoButtonTap: () => Share.share(l),
+          onInfoButtonTap: () => Share.share(beatifyLogsForShare(logs)),
         ),
       ),
       child: SPaddingH24(
@@ -35,7 +34,7 @@ class LogsScreen extends StatelessObserverWidget {
           itemCount: logs.length,
           itemBuilder: (context, index) {
             //return Text(makeLogPretty(logs[index], '\n'));
-            return Text(l);
+            return Text(makeLogPretty(logs[index], '\n'));
           },
         ),
       ),

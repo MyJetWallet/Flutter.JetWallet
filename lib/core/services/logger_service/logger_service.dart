@@ -1,74 +1,60 @@
 import 'dart:collection';
 import 'package:logger/logger.dart';
+import 'package:logging/logging.dart' as logging;
 
 class SimpleLoggerService {
   SimpleLoggerService({Logger? logger}) {
-    _simpleOutput = SimpleLoggerOutput();
-
     _logger = logger ??
         Logger(
           printer: PrettyPrinter(),
-          output: _simpleOutput,
         );
   }
 
   late final Logger _logger;
-  late final SimpleLoggerOutput _simpleOutput;
-
   Logger get logger => _logger;
+
+  int get bufferSize => 60;
+
+  Queue<logging.LogRecord> logBuffer = Queue.from([]);
 
   void log({
     required Level level,
     required String place,
     required String message,
   }) {
+    if (logBuffer.length == bufferSize) {
+      logBuffer.removeFirst();
+    }
+
+    logBuffer.add(
+      logging.LogRecord(
+        convertLog(level),
+        message,
+        place,
+      ),
+    );
+
     logger.log(level, '$place - $message');
   }
 
-  String logsForShare() {
-    final buffer = StringBuffer();
-
-    for (final log in _simpleOutput.buffer) {
-      buffer.write(log);
-      buffer.write('\n');
+  logging.Level convertLog(Level level) {
+    switch (level) {
+      case Level.info:
+        return const logging.Level('ℹ️ Info', 1);
+      case Level.debug:
+        return const logging.Level('⚠️ Debug', 2);
+      case Level.error:
+        return const logging.Level('🆘 Error', 3);
+      case Level.warning:
+        return const logging.Level('⚠️ Warning', 4);
+      case Level.wtf:
+        return const logging.Level('⛔ WTF', 5);
+      default:
+        return const logging.Level('ℹ️ Info', 1);
     }
-
-    return buffer.toString();
   }
 
   void clear() {
-    _simpleOutput.buffer.clear();
+    logBuffer.clear();
   }
-}
-
-class SimpleLoggerOutput implements MemoryOutput {
-  SimpleLoggerOutput() {
-    buffer = ListQueue(bufferSize);
-  }
-
-  @override
-  late final ListQueue<OutputEvent> buffer;
-
-  @override
-  int get bufferSize => 60;
-
-  @override
-  void destroy() {}
-
-  @override
-  void init() {}
-
-  @override
-  void output(OutputEvent event) {
-    if (buffer.length == bufferSize) {
-      buffer.removeFirst();
-    }
-
-    buffer.add(event);
-
-    secondOutput?.output(event);
-  }
-
-  @override
-  LogOutput? get secondOutput => ConsoleOutput();
 }
