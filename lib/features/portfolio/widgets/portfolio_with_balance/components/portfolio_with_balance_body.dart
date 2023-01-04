@@ -477,8 +477,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 icon: SNetworkSvg24(
                                   url: item.iconUrl,
                                 ),
-                                isRecurring:
-                                    notifier.activeOrPausedType(item.symbol),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
                                 secondaryText: item.volumeAssetBalance,
@@ -517,8 +515,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   icon: SNetworkSvg24(
                                     url: item.iconUrl,
                                   ),
-                                  isRecurring:
-                                      notifier.activeOrPausedType(item.symbol),
                                   primaryText: item.description,
                                   amount: item.volumeBaseBalance(baseCurrency),
                                   secondaryText: item.volumeAssetBalance,
@@ -582,8 +578,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   icon: SNetworkSvg24(
                                     url: item.iconUrl,
                                   ),
-                                  isRecurring:
-                                      notifier.activeOrPausedType(item.symbol),
                                   primaryText: item.description,
                                   amount: item.volumeBaseBalance(baseCurrency),
                                   secondaryText: item.volumeAssetBalance,
@@ -658,8 +652,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   icon: SNetworkSvg24(
                                     url: item.iconUrl,
                                   ),
-                                  isRecurring:
-                                      notifier.activeOrPausedType(item.symbol),
                                   primaryText: item.description,
                                   amount: item.volumeBaseBalance(baseCurrency),
                                   secondaryText:
@@ -753,8 +745,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   icon: SNetworkSvg24(
                                     url: item.iconUrl,
                                   ),
-                                  isRecurring:
-                                      notifier.activeOrPausedType(item.symbol),
                                   primaryText: item.description,
                                   amount: item.volumeBaseBalance(baseCurrency),
                                   secondaryText: item.volumeAssetBalance,
@@ -781,8 +771,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                     icon: SNetworkSvg24(
                                       url: item.iconUrl,
                                     ),
-                                    isRecurring: notifier
-                                        .activeOrPausedType(item.symbol),
                                     primaryText: item.description,
                                     amount:
                                         item.volumeBaseBalance(baseCurrency),

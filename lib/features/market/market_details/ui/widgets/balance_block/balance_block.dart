@@ -77,7 +77,6 @@ class _BalanceBlockBody extends StatelessObserverWidget {
               languageCode: languageCode,
               isCapitalize: true,
             ),
-            isRecurring: recurringNotifier.activeOrPausedType(currency.symbol),
             amount: volumeFormat(
               prefix: baseCurrency.prefix,
               decimal: marketItem.baseBalance,

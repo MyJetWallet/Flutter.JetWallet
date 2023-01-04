@@ -105,57 +105,6 @@ class _RecurringSuccessScreenBodyState
                 ),
               ),
               const Spacer(),
-              SSecondaryButton1(
-                active: true,
-                name: intl.actionBuy_actionWithOutRecurringBuyTitle1,
-                onTap: () {
-                  setState(() {
-                    shouldPop = false;
-                  });
-
-                  sAnalytics.setupRecurringBuyView(
-                    widget.input.toCurrency.description,
-                    Source.successScreen,
-                  );
-
-                  showActionWithoutRecurringBuy(
-                    title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
-                    then: (_) {
-                      if (!shouldPop) navigateToRouter();
-
-                      setState(() {
-                        shouldPop = false;
-                      });
-                    },
-                    context: context,
-                    onItemTap: (recurringType) {
-                      sAnalytics.pickRecurringBuyFrequency(
-                        assetName: widget.input.toCurrency.description,
-                        frequency: recurringType.toFrequency,
-                        source: Source.successScreen,
-                      );
-
-                      sRouter.push(
-                        PreviewBuyWithAssetRouter(
-                          input: PreviewBuyWithAssetInput(
-                            amount: widget.input.amount,
-                            fromCurrency: widget.input.fromCurrency,
-                            toCurrency: widget.input.toCurrency,
-                            recurringType: recurringType,
-                          ),
-                          onBackButtonTap: () {
-                            navigateToRouter();
-                          },
-                        ),
-                      );
-                    },
-                    onDissmis: () => sAnalytics.closeRecurringBuySheet(
-                      widget.input.toCurrency.description,
-                      Source.successScreen,
-                    ),
-                  );
-                },
-              ),
               const SpaceH24(),
             ],
           ),

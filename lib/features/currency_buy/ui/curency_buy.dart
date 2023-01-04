@@ -554,15 +554,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     ],
                   ),
                 ),
-              ] else ...[
-                RecurringSelector(
-                  oneTimePurchaseOnly: state.isOneTimePurchaseOnly,
-                  currentSelection: state.recurringBuyType,
-                  onSelect: (selection) {
-                    state.updateRecurringBuyType(selection);
-                    Navigator.pop(context);
-                  },
-                ),
               ],
               deviceSize.when(
                 small: () => const SpaceH8(),

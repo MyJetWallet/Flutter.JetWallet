@@ -172,7 +172,7 @@ class _ActionButtonState extends State<ActionButton> {
                         if (actionActive) {
                           sShowMenuActionSheet(
                             context: context,
-                            isBuyAvailable: isBuyAvailable,
+                            isBuyAvailable: false,
                             isBuyFromCardAvailable:
                                 widget.currency.supportsAtLeastOneBuyMethod,
                             actionItemLocalized: localizedActionItems(context),
@@ -185,6 +185,7 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoWithdrawal,
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
+                            isSellAvailable: false,
                             onBuy: () {
                               sAnalytics.tapOnBuy(Source.actionButton);
                               _onBuy(false);
@@ -474,7 +475,8 @@ class _ActionButtonState extends State<ActionButton> {
                         if (actionActive) {
                           sShowMenuActionSheet(
                             context: context,
-                            isBuyAvailable: isBuyAvailable,
+                            isBuyAvailable: false,
+                            isSellAvailable: false,
                             isBuyFromCardAvailable:
                                 widget.currency.supportsAtLeastOneBuyMethod,
                             actionItemLocalized: localizedActionItems(context),

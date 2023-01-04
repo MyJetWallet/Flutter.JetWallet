@@ -120,68 +120,6 @@ class _WalletBodyState extends State<WalletBody>
                 ),
               ),
             ),
-            if (supportsRecurringBuy(widget.currency.symbol, currencies))
-              SliverToBoxAdapter(
-                child: RecurringBuyBanner(
-                  type: recurring.type(widget.currency.symbol),
-                  title: recurring.recurringBannerTitle(
-                    asset: widget.currency.symbol,
-                    context: context,
-                  ),
-                  onTap: () {
-                    // Todo: need refactor
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      if (recurring
-                          .activeOrPausedType(widget.currency.symbol)) {
-                        if (moveToRecurringInfo && lastRecurringItem != null) {
-                          sRouter.push(
-                            ShowRecurringInfoActionRouter(
-                              recurringItem: lastRecurringItem,
-                              assetName: widget.currency.description,
-                            ),
-                          );
-                        } else {
-                          showRecurringBuyAction(
-                            context: context,
-                            currency: widget.currency,
-                            total: recurring.totalRecurringByAsset(
-                              asset: widget.currency.symbol,
-                            ),
-                          );
-                        }
-                      } else {
-                        showActionWithoutRecurringBuy(
-                          title: intl.actionBuy_actionWithOutRecurringBuyTitle1,
-                          context: context,
-                          onItemTap: (RecurringBuysType type) {
-                            sRouter.navigate(
-                              CurrencyBuyRouter(
-                                currency: widget.currency,
-                                fromCard: false,
-                                recurringBuysType: type,
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    } else {
-                      sAnalytics.setupRecurringBuyView(
-                        widget.currency.description,
-                        Source.walletDetails,
-                      );
-
-                      kycAlertHandler.handle(
-                        status: kycState.depositStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => showSellAction(context),
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                ),
-              ),
             SliverToBoxAdapter(
               child: SPaddingH24(
                 child: Column(
