@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
+import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -55,7 +56,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               ),
             ],
           ),
-          const SpaceH42(),
+          const SpaceH30(),
           Text(
             intl.emptyEarnWalletBody_mainText1,
             textAlign: TextAlign.center,
@@ -68,7 +69,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               color: colors.blue,
             ),
           ),
-          const SpaceH70(),
+          const SpaceH34(),
           SPrimaryButton1(
             active: true,
             name: intl.emptyEarnWalletBody_buyWithCash,
@@ -79,6 +80,14 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
                 context: context,
                 from: Source.profile,
               );
+            },
+          ),
+          const SpaceH12(),
+          STextButton1(
+            active: true,
+            name: intl.actionReceive_receive_crypto,
+            onTap: () {
+              showReceiveAction(context, shouldPop: false);
             },
           ),
           const SpaceH24(),
