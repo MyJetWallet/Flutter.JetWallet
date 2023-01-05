@@ -11,6 +11,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
@@ -19,6 +20,8 @@ import 'package:jetwallet/features/chart/ui/balance_chart.dart';
 import 'package:jetwallet/features/market/market_details/helper/period_change.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
 import 'package:jetwallet/features/nft/helper/get_user_nfts.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
+import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/portfolio/helper/currencies_without_balance_from.dart';
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
@@ -241,6 +244,9 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final isIndicesVisible = indicesWithBalance.isNotEmpty &&
         (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
 
+    final isBalanceHideAndChartNotSelected =
+        chart.selectedCandle == null && getIt<AppStore>().isBalanceHide;
+
     return CustomScrollView(
       controller: scrollController,
       physics: const ClampingScrollPhysics(),
@@ -310,28 +316,71 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       color: colors.white,
                       child: PaddingL24(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (!balancesEmpty)
-                              Text(
-                                _price(
-                                  ChartState(
-                                    selectedCandle: chart.selectedCandle,
-                                    candles: chart.candles,
-                                    type: chart.type,
-                                    resolution: chart.resolution,
-                                    union: chart.union,
-                                  ),
-                                  itemsWithBalance,
-                                  baseCurrency,
-                                ),
-                                style: sTextH1Style,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (isBalanceHideAndChartNotSelected) ...[
+                                    for (int i = 0; i < 6; i++)
+                                      const PinBox(
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 2,
+                                        ),
+                                        state: PinBoxEnum.filled,
+                                      ),
+                                    const SpaceW8(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        getIt<AppStore>()
+                                            .setIsBalanceHide(false);
+                                      },
+                                      child: const SEyeCloseIcon(),
+                                    ),
+                                  ] else ...[
+                                    Text(
+                                      _price(
+                                        ChartState(
+                                          selectedCandle: chart.selectedCandle,
+                                          candles: chart.candles,
+                                          type: chart.type,
+                                          resolution: chart.resolution,
+                                          union: chart.union,
+                                        ),
+                                        itemsWithBalance,
+                                        baseCurrency,
+                                      ),
+                                      style: sTextH1Style,
+                                    ),
+                                    const SpaceW8(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        getIt<AppStore>()
+                                            .setIsBalanceHide(true);
+                                      },
+                                      child: SEyeOpenIcon(
+                                        color: colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
+                            if (isBalanceHideAndChartNotSelected)
+                              const SpaceH12(),
                             if (!balancesEmpty)
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  if (!isBalanceHideAndChartNotSelected) ...[
+                                    Text(
+                                      periodChange[0],
+                                      style: sSubtitle3Style.copyWith(
+                                        color: periodChangeColor,
+                                      ),
+                                    ),
+                                  ],
                                   Text(
-                                    periodChange,
+                                    periodChange[1],
                                     style: sSubtitle3Style.copyWith(
                                       color: periodChangeColor,
                                     ),
@@ -473,6 +522,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                           children: [
                             for (final item in itemsWithBalance) ...[
                               SWalletItem(
+                                isBalanceHide: getIt<AppStore>().isBalanceHide,
                                 decline: item.dayPercentChange.isNegative,
                                 icon: SNetworkSvg24(
                                   url: item.iconUrl,
@@ -873,7 +923,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
           );
   }
 
-  String _periodChange(
+  List<String> _periodChange(
     ChartState chart,
     BaseCurrencyModel baseCurrency,
   ) {
