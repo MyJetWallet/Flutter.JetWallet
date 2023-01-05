@@ -115,13 +115,13 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<String> get watchList {
-    if (watchListLocal.isEmpty) {
+    if (watchListLocal == null) {
       watchListLocal = ObservableList.of(watchListIds);
 
       return watchListIds;
     }
 
-    return watchListLocal;
+    return watchListLocal ?? [];
   }
 
   @computed
@@ -129,11 +129,11 @@ abstract class _MarketFilterStoreBase with Store {
       sSignalRModules.keyValue.watchlist?.value ?? [];
 
   @observable
-  ObservableList<String> watchListLocal = ObservableList.of([]);
+  ObservableList<String>? watchListLocal;
 
   @action
   Future<void> removeFromWatchlist(String assetId) async {
-    watchListLocal.remove(assetId);
+    if (watchListLocal != null) watchListLocal!.remove(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(
           KeyValueRequestModel(
@@ -149,7 +149,7 @@ abstract class _MarketFilterStoreBase with Store {
 
   @action
   Future<void> addToWatchlist(String assetId) async {
-    watchListLocal.add(assetId);
+    if (watchListLocal != null) watchListLocal!.add(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(
           KeyValueRequestModel(
