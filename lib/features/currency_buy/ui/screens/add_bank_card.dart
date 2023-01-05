@@ -106,17 +106,24 @@ class AddBankCardBody extends StatelessObserverWidget {
               Row(
                 children: [
                   Expanded(
-                    child: SFieldDividerFrame(
-                      child: SStandardField(
-                        labelText: intl.addCircleCard_expiryMonth,
-                        maxLength: 2,
-                        focusNode: store.monthNode,
-                        keyboardType: TextInputType.number,
-                        isError: store.expiryMonthError,
-                        enableInteractiveSelection: false,
-                        disableErrorOnChanged: false,
-                        controller: store.expiryMonthController,
-                        onChanged: store.updateExpiryMonth,
+                    child: Focus(
+                      onFocusChange: (hasFocus) {
+                        if (!hasFocus) {
+                          store.yearFieldTap();
+                        }
+                      },
+                      child: SFieldDividerFrame(
+                        child: SStandardField(
+                          labelText: intl.addCircleCard_expiryMonth,
+                          maxLength: 2,
+                          focusNode: store.monthNode,
+                          keyboardType: TextInputType.number,
+                          isError: store.expiryMonthError,
+                          enableInteractiveSelection: false,
+                          disableErrorOnChanged: false,
+                          controller: store.expiryMonthController,
+                          onChanged: store.updateExpiryMonth,
+                        ),
                       ),
                     ),
                   ),

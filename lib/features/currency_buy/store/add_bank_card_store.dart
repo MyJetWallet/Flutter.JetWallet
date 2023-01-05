@@ -307,7 +307,24 @@ abstract class _AddBankCardStoreBase with Store {
         expiryMonthError = true;
       }
     } else {
+      if (int.parse(expiryMonth) > 2) {
+        expiryMonth = '0$expiryDate';
+        expiryMonthController.text = '0$expiryDate';
+        monthNode.nextFocus();
+        updateExpiryYear(expiryYear);
+      }
       expiryMonthError = false;
+    }
+  }
+
+  @action
+  void yearFieldTap() {
+    if (expiryMonth == '2') {
+      expiryMonth = '02';
+      expiryMonthController.text = '02';
+    } else if (expiryMonth == '1') {
+      expiryMonth = '01';
+      expiryMonthController.text = '01';
     }
   }
 
