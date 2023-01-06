@@ -105,9 +105,9 @@ class AppInitRouter extends StatelessObserverWidget {
         //}
 
         sRouter.replaceAll([
-          HomeRouter(
+          const HomeRouter(
             children: [
-              MarketRouter(),
+              PortfolioRouter(),
             ],
           ),
         ]);

@@ -675,6 +675,7 @@
   "withdrawalAmount_wallet": "wallet",
   "withdrawalAmount_preview": "Preview",
   "walletBody_wallet": "wallet",
+  "walletBody_balance": "balance",
   "balanceBlock_wallet": "wallet",
   "emptyWallet_wallet": "wallet",
   "withdrawalPreview_youWillReceive": "You will receive",
