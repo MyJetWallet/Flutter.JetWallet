@@ -25,7 +25,7 @@ String operationName(
     case OperationType.feeSharePayment:
       return intl.operationName_feeSharePayment;
     case OperationType.swap:
-      return intl.operationName_swap;
+      return intl.operationName_exchange;
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:

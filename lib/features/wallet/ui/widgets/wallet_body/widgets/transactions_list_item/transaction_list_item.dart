@@ -271,6 +271,15 @@ class TransactionListItem extends StatelessObserverWidget {
               context,
               isToppedUp: true,
             );
+    } else if (transactionListItem.operationType ==
+        OperationType.buy) {
+      return '${operationName(
+        OperationType.swap,
+        context,
+      )}'
+          ' ${transactionListItem.swapInfo?.sellAssetId} '
+          '${intl.operationName_exchangeTo} '
+          '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
       return operationName(
         transactionListItem.operationType,
@@ -290,7 +299,7 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.receiveByPhone:
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.buy:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SSwapIcon(color: isFailed ? color : null);
       case OperationType.sell:
         return SMinusIcon(color: isFailed ? color : null);
       case OperationType.paidInterestRate:

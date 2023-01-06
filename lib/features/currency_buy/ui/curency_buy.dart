@@ -340,6 +340,52 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           state.pickedAltUnlimintCard == null)))) ...[
             const SpaceH24(),
             for (final method in widget.currency.buyMethods)
+              if (method.type == PaymentMethodType.bankCard) ...[
+                Builder(
+                  builder: (context) {
+                    return SActionItem(
+                      icon: SActionDepositIcon(
+                        color: colors.blue,
+                      ),
+                      isSelected: state.selectedPaymentMethod?.type ==
+                          PaymentMethodType.bankCard &&
+                          state.pickedAltUnlimintCard == null,
+                      name: intl.currencyBuy_card,
+                      withDivider: true,
+                      expanded: true,
+                      description:
+                      intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                      onTap: () {
+                        Navigator.pop(context, method);
+                      },
+                    );
+                  },
+                ),
+              ],
+            for (final method in widget.currency.buyMethods)
+              if (method.type == PaymentMethodType.unlimintCard) ...[
+                Builder(
+                  builder: (context) {
+                    return SActionItem(
+                      icon: SActionDepositIcon(
+                        color: colors.blue,
+                      ),
+                      isSelected: state.selectedPaymentMethod?.type ==
+                          PaymentMethodType.unlimintCard &&
+                          state.pickedUnlimintCard == null,
+                      name: intl.currencyBuy_card,
+                      withDivider: true,
+                      expanded: true,
+                      description:
+                      intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                      onTap: () {
+                        Navigator.pop(context, method);
+                      },
+                    );
+                  },
+                ),
+              ],
+            for (final method in widget.currency.buyMethods)
               if (method.type == PaymentMethodType.simplex) ...[
                 Builder(
                   builder: (context) {
@@ -385,50 +431,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           state.onCircleCardAdded(card);
                         },
                       ),
-                    );
-                  },
-                ),
-              ],
-            for (final method in widget.currency.buyMethods)
-              if (method.type == PaymentMethodType.unlimintCard) ...[
-                Builder(
-                  builder: (context) {
-                    return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
-                      ),
-                      isSelected: state.selectedPaymentMethod?.type ==
-                          PaymentMethodType.unlimintCard &&
-                          state.pickedUnlimintCard == null,
-                      name: intl.currencyBuy_card,
-                      withDivider: true,
-                      expanded: true,
-                      description:
-                      intl.curencyBuy_actionItemDescriptionWithoutApplePay,
-                      onTap: () {
-                        Navigator.pop(context, method);
-                      },
-                    );
-                  },
-                ),
-              ] else if (method.type == PaymentMethodType.bankCard) ...[
-                Builder(
-                  builder: (context) {
-                    return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
-                      ),
-                      isSelected: state.selectedPaymentMethod?.type ==
-                          PaymentMethodType.bankCard &&
-                          state.pickedAltUnlimintCard == null,
-                      name: intl.currencyBuy_card,
-                      withDivider: true,
-                      expanded: true,
-                      description:
-                      intl.curencyBuy_actionItemDescriptionWithoutApplePay,
-                      onTap: () {
-                        Navigator.pop(context, method);
-                      },
                     );
                   },
                 ),

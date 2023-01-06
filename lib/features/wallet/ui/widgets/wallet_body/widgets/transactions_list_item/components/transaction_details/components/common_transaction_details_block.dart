@@ -249,6 +249,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       return '${intl.operationName_send} $nftName';
     } else if (transactionListItem.operationType == OperationType.nftDeposit) {
       return '${intl.operationName_receive} $nftName';
+    } else if (transactionListItem.operationType ==
+        OperationType.buy) {
+      return '${operationName(
+        OperationType.swap,
+        context,
+      )}'
+          ' ${transactionListItem.swapInfo?.sellAssetId} '
+          '${intl.operationName_exchangeTo} '
+          '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
       return operationName(transactionListItem.operationType, context);
     }
