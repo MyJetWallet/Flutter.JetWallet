@@ -87,7 +87,11 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
             active: true,
             name: intl.actionReceive_receive_crypto,
             onTap: () {
-              showReceiveAction(context, shouldPop: false);
+              showReceiveAction(
+                context,
+                shouldPop: false,
+                checkKYC: true,
+              );
             },
           ),
           const SpaceH24(),

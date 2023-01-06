@@ -21,14 +21,38 @@ import '../../kyc/models/kyc_operation_status_model.dart';
 void showReceiveAction(
   BuildContext context, {
   bool shouldPop = true,
+  bool checkKYC = false,
 }) {
-  final colors = sKit.colors;
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
   sAnalytics.receiveChooseAsset();
 
   if (shouldPop) Navigator.pop(context);
+
+  if (checkKYC) {
+    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+      _showReceive(context);
+    } else {
+      sRouter.pop();
+
+      handler.handle(
+        status: kyc.depositStatus,
+        isProgress: kyc.verificationInProgress,
+        currentNavigate: () => _showReceive(context),
+        requiredDocuments: kyc.requiredDocuments,
+        requiredVerifications: kyc.requiredVerifications,
+      );
+    }
+  } else {
+    _showReceive(context);
+  }
+}
+
+void _showReceive(BuildContext context) {
+  final colors = sKit.colors;
+  final kyc = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
 
   final showCrypto = sSignalRModules.clientDetail.isNftEnable;
   if (!showCrypto) {
