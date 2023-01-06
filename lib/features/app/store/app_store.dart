@@ -443,7 +443,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 0;
+    homeTab = 1;
     isBalanceHide = true;
     appStatus = AppStatus.Start;
   }
