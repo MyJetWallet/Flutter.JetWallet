@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:logger/logger.dart' as logPrint;
-import 'package:logging/logging.dart';
 import 'package:signalr_netcore/ihub_protocol.dart';
 import 'package:signalr_netcore/signalr_client.dart';
+import 'package:logger/logger.dart';
 
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/config/options.dart';
@@ -23,6 +22,7 @@ class SignalRModuleNew {
     required this.headers,
     required this.localeName,
     required this.deviceUid,
+    required this.log,
     this.isDebug = false,
   }) {
     handler = SignalRFuncHandler(
@@ -42,13 +42,17 @@ class SignalRModuleNew {
   final String deviceUid;
 
   final bool isDebug;
-  static final _logger = Logger('SignalRService');
-
-  final log = logPrint.Logger();
+  final Function({
+    required Level level,
+    required String message,
+    required String place,
+  }) log;
 
   static const _pingTime = 3;
   static const _reconnectTime = 5;
   static const _messageTime = 10;
+
+  final _loggerValue = 'SignalR';
 
   Timer? _pongTimer;
   Timer? _pingTimer;
@@ -68,7 +72,16 @@ class SignalRModuleNew {
   //}
 
   Future<void> init() async {
-    _logger.log(signalR, 'SignalR INIT');
+    log(
+      level: Level.info,
+      place: _loggerValue,
+      message:
+          'SignalR Init \n isDisconnecting: $isDisconnecting Connection: ${_hubConnection?.state}',
+    );
+
+    if (_hubConnection?.state == HubConnectionState.Connected) {
+      return;
+    }
 
     isDisconnecting = false;
 
@@ -93,7 +106,7 @@ class SignalRModuleNew {
         //.configureLogging(_logger)
         .build();
 
-    _hubConnection?.onclose(({error}) => _startReconnect());
+    //_hubConnection?.onclose(({error}) => _startReconnect());
 
     ///
 
@@ -179,28 +192,36 @@ class SignalRModuleNew {
     try {
       await _hubConnection?.start();
     } catch (e) {
-      _logger.log(signalR, 'Failed to start connection', e);
+      log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'SignalR failed to start connection',
+      );
 
       handleError('startconnection', Object());
       rethrow;
     }
 
-    try {
-      await _hubConnection?.invoke(
-        initMessage,
-        args: [token, localeName, deviceUid, deviceType],
-        /*
-          args: [
-            userToken != null ? userToken! : token,
-            localeName,
-            deviceUid,
-            deviceType,
-          ],
-          */
+    if (_hubConnection?.state == HubConnectionState.Connected) {
+      try {
+        await _hubConnection?.invoke(
+          initMessage,
+          args: [token, localeName, deviceUid, deviceType],
+        );
+      } catch (e) {
+        handleError('invoke $e', e);
+        rethrow;
+      }
+    } else {
+      log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'SignalR error init ${_hubConnection?.state}',
       );
-    } catch (e) {
-      handleError('invoke', e);
-      rethrow;
+
+      if (!isDisconnecting) {
+        reconnectSignalR();
+      }
     }
 
     _startPing();
@@ -209,7 +230,11 @@ class SignalRModuleNew {
   static Future<void> handlePackage() async {}
 
   void handleError(String msg, Object error) {
-    _logger.log(contract, msg, error);
+    log(
+      level: Level.error,
+      place: _loggerValue,
+      message: msg,
+    );
 
     if (msg == 'startconnection') {
       unawaited(disconnect());
@@ -217,13 +242,18 @@ class SignalRModuleNew {
     //showEror(error.toString());
   }
 
-  void pongMessageHandler(List<Object?>? data) {
-    _pongTimer?.cancel();
-
-    _startPong();
+  void simulateError() {
+    _hubConnection?.stop();
+    _hubConnection?.invoke(pingMessage);
   }
 
   void _startPing() {
+    log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'Start Ping \n Status: ${_hubConnection?.state}',
+    );
+
     _pingTimer = Timer.periodic(
       const Duration(seconds: _pingTime),
       (_) {
@@ -231,8 +261,11 @@ class SignalRModuleNew {
           try {
             _hubConnection?.invoke(pingMessage);
           } catch (e) {
-            _logger.log(signalR, 'Failed to start ping', e);
-            rethrow;
+            log(
+              level: Level.error,
+              place: _loggerValue,
+              message: 'Failed to start ping',
+            );
           }
         } else {
           _startReconnect();
@@ -241,10 +274,22 @@ class SignalRModuleNew {
     );
   }
 
+  void pongMessageHandler(List<Object?>? data) {
+    _pongTimer?.cancel();
+
+    _startPong();
+  }
+
   void _startPong() {
     _pongTimer = Timer(
       const Duration(seconds: _pingTime * 3),
       () {
+        log(
+          level: Level.info,
+          place: _loggerValue,
+          message: 'Start pong reconnect',
+        );
+
         _startReconnect();
       },
     );
@@ -265,7 +310,11 @@ class SignalRModuleNew {
   Future<void> reconnectSignalR({
     bool needRefreshToken = true,
   }) async {
-    _logger.log(signalR, 'SignalR Reconnect');
+    log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
+    );
 
     if (!isDisconnecting) {
       try {
@@ -291,7 +340,11 @@ class SignalRModuleNew {
   }
 
   Future<void> disconnect() async {
-    _logger.log(signalR, 'SignalR Disconnect');
+    log(
+      level: Level.warning,
+      place: _loggerValue,
+      message: 'SignalR Disconnect',
+    );
 
     isDisconnecting = true;
 
@@ -307,6 +360,12 @@ class SignalRModuleNew {
   }
 
   Future<void> disableHandlerConnection() async {
+    log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'Disable Handler Connection',
+    );
+
     _hubConnection?.off(initFinished, method: handler.initFinishedHandler);
     _hubConnection?.off(cardsMessage, method: handler.cardsMessageHandler);
     _hubConnection?.off(

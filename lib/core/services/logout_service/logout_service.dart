@@ -77,6 +77,19 @@ abstract class _LogoutServiceBase with Store {
       }
 
       try {
+        // Disconet from SignalR
+        if (getIt.get<SignalRService>().signalR != null) {
+          await getIt.get<SignalRService>().signalR!.disconnect();
+        }
+      } catch (e) {
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Error with signalR: $e',
+        );
+      }
+
+      try {
         if (authStore.token.isNotEmpty) {
           final model = LogoutRequestModel(
             token: authStore.token,
@@ -103,11 +116,6 @@ abstract class _LogoutServiceBase with Store {
 
       // Clear analytics
       unawaited(sAnalytics.logout());
-
-      // Disconet from SignalR
-      if (getIt.get<SignalRService>().signalR != null) {
-        await getIt.get<SignalRService>().signalR!.disconnect();
-      }
 
       await _clearUserData();
 
