@@ -181,7 +181,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     );
 
     final periodChangeColor =
-        periodChange.contains('-') ? colors.red : colors.green;
+        (periodChange[0].contains('-') || periodChange[1].contains('-'))
+            ? colors.red
+            : colors.green;
+
     final currentCandles = chart.candles[chart.resolution];
     final isCurrentCandlesEmptyOrNull =
         currentCandles == null || currentCandles.isEmpty;
@@ -244,8 +247,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final isIndicesVisible = indicesWithBalance.isNotEmpty &&
         (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
 
-    final isBalanceHideAndChartNotSelected =
-        chart.selectedCandle == null && getIt<AppStore>().isBalanceHide;
+    final isBalanceHideAndChartNotSelected = getIt<AppStore>().isBalanceHide;
 
     return CustomScrollView(
       controller: scrollController,
@@ -318,55 +320,57 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                         child: Column(
                           children: [
                             if (!balancesEmpty)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (isBalanceHideAndChartNotSelected) ...[
-                                    for (int i = 0; i < 6; i++)
-                                      const PinBox(
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 2,
+                              SizedBox(
+                                height: 45,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (isBalanceHideAndChartNotSelected) ...[
+                                      for (int i = 0; i < 6; i++)
+                                        const PinBox(
+                                          margin: EdgeInsets.symmetric(
+                                            horizontal: 2,
+                                          ),
+                                          state: PinBoxEnum.filled,
                                         ),
-                                        state: PinBoxEnum.filled,
+                                      const SpaceW8(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          getIt<AppStore>()
+                                              .setIsBalanceHide(false);
+                                        },
+                                        child: const SEyeCloseIcon(),
                                       ),
-                                    const SpaceW8(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        getIt<AppStore>()
-                                            .setIsBalanceHide(false);
-                                      },
-                                      child: const SEyeCloseIcon(),
-                                    ),
-                                  ] else ...[
-                                    Text(
-                                      _price(
-                                        ChartState(
-                                          selectedCandle: chart.selectedCandle,
-                                          candles: chart.candles,
-                                          type: chart.type,
-                                          resolution: chart.resolution,
-                                          union: chart.union,
+                                    ] else ...[
+                                      Text(
+                                        _price(
+                                          ChartState(
+                                            selectedCandle:
+                                                chart.selectedCandle,
+                                            candles: chart.candles,
+                                            type: chart.type,
+                                            resolution: chart.resolution,
+                                            union: chart.union,
+                                          ),
+                                          itemsWithBalance,
+                                          baseCurrency,
                                         ),
-                                        itemsWithBalance,
-                                        baseCurrency,
+                                        style: sTextH1Style,
                                       ),
-                                      style: sTextH1Style,
-                                    ),
-                                    const SpaceW8(),
-                                    GestureDetector(
-                                      onTap: () {
-                                        getIt<AppStore>()
-                                            .setIsBalanceHide(true);
-                                      },
-                                      child: SEyeOpenIcon(
-                                        color: colors.black,
+                                      const SpaceW8(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          getIt<AppStore>()
+                                              .setIsBalanceHide(true);
+                                        },
+                                        child: SEyeOpenIcon(
+                                          color: colors.black,
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ],
-                                ],
+                                ),
                               ),
-                            if (isBalanceHideAndChartNotSelected)
-                              const SpaceH12(),
                             if (!balancesEmpty)
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -531,7 +535,9 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                     notifier.activeOrPausedType(item.symbol),
                                 primaryText: item.description,
                                 amount: item.volumeBaseBalance(baseCurrency),
-                                secondaryText: item.volumeAssetBalance,
+                                secondaryText: getIt<AppStore>().isBalanceHide
+                                    ? item.symbol
+                                    : item.volumeAssetBalance,
                                 onTap: () {
                                   if (item.type == AssetType.indices) {
                                     sRouter.push(
@@ -552,8 +558,12 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                               ),
                               if (item.isPendingDeposit) ...[
                                 BalanceInProcess(
-                                  text: _balanceInProgressText(item),
-                                  leadText: _balanceInProgressLeadText(item),
+                                  text: getIt<AppStore>().isBalanceHide
+                                      ? item.symbol
+                                      : _balanceInProgressText(item),
+                                  leadText: getIt<AppStore>().isBalanceHide
+                                      ? ''
+                                      : _balanceInProgressLeadText(item),
                                   removeDivider: item == itemsWithBalance.last,
                                   icon: _balanceInProgressIcon(item),
                                 ),
