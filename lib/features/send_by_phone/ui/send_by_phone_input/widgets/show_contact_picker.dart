@@ -13,7 +13,7 @@ void showContactPicker(
 ) {
   final store = getIt.get<SendByPhoneInputStore>()..initState(contactStore);
 
-  store.initPhoneSearch();
+  // store.initPhoneSearch();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -24,6 +24,9 @@ void showContactPicker(
     expanded: true,
     removeBarPadding: true,
     removePinnedPadding: true,
+    onDissmis: () {
+      store.updatePhoneSearch('');
+    },
     children: [
       _Contacts(
         store: store,
