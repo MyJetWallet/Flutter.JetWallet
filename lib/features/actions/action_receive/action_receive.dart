@@ -18,13 +18,41 @@ import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
-void showReceiveAction(BuildContext context) {
-  final colors = sKit.colors;
+void showReceiveAction(
+  BuildContext context, {
+  bool shouldPop = true,
+  bool checkKYC = false,
+}) {
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
   sAnalytics.receiveChooseAsset();
-  Navigator.pop(context);
+
+  if (shouldPop) Navigator.pop(context);
+
+  if (checkKYC) {
+    if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+      _showReceive(context);
+    } else {
+      sRouter.pop();
+
+      handler.handle(
+        status: kyc.depositStatus,
+        isProgress: kyc.verificationInProgress,
+        currentNavigate: () => _showReceive(context),
+        requiredDocuments: kyc.requiredDocuments,
+        requiredVerifications: kyc.requiredVerifications,
+      );
+    }
+  } else {
+    _showReceive(context);
+  }
+}
+
+void _showReceive(BuildContext context) {
+  final colors = sKit.colors;
+  final kyc = getIt.get<KycService>();
+  final handler = getIt.get<KycAlertHandler>();
 
   final showCrypto = sSignalRModules.clientDetail.isNftEnable;
   if (!showCrypto) {
@@ -68,23 +96,23 @@ void showReceiveAction(BuildContext context) {
               subtext: intl.actionReceive_receive_nft,
               onTap: () {
                 sAnalytics.nftReceiveTap(source: "'S' Menu");
-                if (
-                kyc.depositStatus == kycOperationStatus(KycStatus.allowed) &&
-                    kyc.withdrawalStatus == kycOperationStatus(KycStatus.allowed) &&
-                    kyc.sellStatus == kycOperationStatus(KycStatus.allowed)
-                ) {
+                if (kyc.depositStatus ==
+                        kycOperationStatus(KycStatus.allowed) &&
+                    kyc.withdrawalStatus ==
+                        kycOperationStatus(KycStatus.allowed) &&
+                    kyc.sellStatus == kycOperationStatus(KycStatus.allowed)) {
                   sRouter.push(
                     const ReceiveNFTRouter(),
                   );
                 } else {
                   handler.handle(
                     status: kyc.depositStatus !=
-                        kycOperationStatus(KycStatus.allowed)
+                            kycOperationStatus(KycStatus.allowed)
                         ? kyc.depositStatus
                         : kyc.withdrawalStatus !=
-                        kycOperationStatus(KycStatus.allowed)
-                        ? kyc.withdrawalStatus
-                        : kyc.sellStatus,
+                                kycOperationStatus(KycStatus.allowed)
+                            ? kyc.withdrawalStatus
+                            : kyc.sellStatus,
                     isProgress: kyc.verificationInProgress,
                     currentNavigate: () {
                       sRouter.push(
