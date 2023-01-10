@@ -28,9 +28,9 @@ class SNetwork {
 
     _logger.log(stateFlow, 'SimpleNetworking - init');
 
-    authorizedDio = setupDio();
-    imageDio = setupImageDio();
-    unauthorizedDio = setupDioWithoutInterceptors();
+    authorizedDio = await setupDio();
+    imageDio = await setupImageDio();
+    unauthorizedDio = await setupDioWithoutInterceptors();
 
     simpleNetworking = SimpleNetworking(
       authorizedDio,
@@ -56,30 +56,30 @@ class SNetwork {
   }
 }
 
-Dio setupDio() {
+Future<Dio> setupDio() async {
   final _dio = Dio();
 
   setAuthInterceptor(_dio, isImage: false);
-  addProxy(_dio);
+  await addProxy(_dio);
   addLogger(_dio);
 
   return _dio;
 }
 
-Dio setupImageDio() {
+Future<Dio> setupImageDio() async {
   final _dio = Dio();
 
   setAuthInterceptor(_dio, isImage: true);
-  addProxy(_dio);
+  await addProxy(_dio);
 
   return _dio;
 }
 
-Dio setupDioWithoutInterceptors() {
+Future<Dio> setupDioWithoutInterceptors() async {
   final _dio = Dio();
 
   setGuestInterceptor(_dio);
-  addProxy(_dio);
+  await addProxy(_dio);
   addLogger(_dio);
 
   return _dio;
