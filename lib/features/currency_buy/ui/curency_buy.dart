@@ -225,10 +225,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     unlimintIncludes.isNotEmpty) &&
                 !(state.unlimintAltCards.isNotEmpty &&
                     unlimintAltIncludes.isNotEmpty)) ...[
+              const SpaceH5(),
               SDivider(
                 color: colors.grey3,
               ),
-              const SpaceH10(),
+              const SpaceH15(),
             ],
           ],
           if (state.unlimintCards.isNotEmpty &&
@@ -276,10 +277,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
             const SpaceH10(),
             if (!(state.unlimintAltCards.isNotEmpty &&
                 unlimintAltIncludes.isNotEmpty)) ...[
+              const SpaceH5(),
               SDivider(
                 color: colors.grey3,
               ),
-              const SpaceH10(),
+              const SpaceH15(),
             ],
           ],
           if (state.unlimintAltCards.isNotEmpty &&
@@ -322,11 +324,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   );
                 },
               ),
-            const SpaceH10(),
+            const SpaceH15(),
             SDivider(
               color: colors.grey3,
             ),
-            const SpaceH10(),
+            const SpaceH15(),
           ],
           if (widget.currency.buyMethods.isNotEmpty &&
               !(widget.currency.buyMethods.length == 1 &&
@@ -338,7 +340,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       (state.selectedPaymentMethod?.type ==
                               PaymentMethodType.bankCard &&
                           state.pickedAltUnlimintCard == null)))) ...[
-            const SpaceH24(),
             for (final method in widget.currency.buyMethods)
               if (method.type == PaymentMethodType.bankCard) ...[
                 Builder(
@@ -740,7 +741,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     !state.loader.loading &&
                     !state.disableSubmit &&
                     !(cardType && cardLimit?.barProgress == 100) &&
-                    !(cardType && isLimitBlock),
+                    !(cardType && isLimitBlock) &&
+                    !(double.parse(state.inputValue) == 0.0),
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1

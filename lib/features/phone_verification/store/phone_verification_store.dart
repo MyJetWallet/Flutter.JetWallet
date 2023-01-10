@@ -47,6 +47,9 @@ abstract class _PhoneVerificationStoreBase with Store {
   @observable
   bool showResend = false;
 
+  @observable
+  bool resendTapped = false;
+
   TextEditingController controller = TextEditingController();
 
   @action
@@ -67,6 +70,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> sendCode() async {
     try {
+      resendTapped = true;
       final number = await decomposePhoneNumber(
         phoneNumber,
       );
@@ -76,6 +80,8 @@ abstract class _PhoneVerificationStoreBase with Store {
         phoneBody: number.body,
         phoneCode: '+${number.dialCode}',
         phoneIso: number.isoCode,
+        verificationType: 2,
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 
       final response = await sNetwork

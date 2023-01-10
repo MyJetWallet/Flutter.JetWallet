@@ -202,9 +202,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
             ReturnRatesBlock(
               assetSymbol: widget.marketItem.associateAsset,
             ),
-            const SpaceH40(),
+            const SpaceH20(),
             const SDivider(),
-            const SpaceH32(),
+            const SpaceH2(),
             if (widget.marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: widget.marketItem,

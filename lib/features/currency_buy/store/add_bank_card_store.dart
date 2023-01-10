@@ -289,6 +289,7 @@ abstract class _AddBankCardStoreBase with Store {
 
     if (cardNumber.length == 19 && isCardNumberValid) {
       cardNode.nextFocus();
+      monthNode.requestFocus();
     }
   }
 

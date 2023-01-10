@@ -256,6 +256,7 @@
   "withdrawalConfirm_text": "request by opening the link in the email we sent to",
   "withdrawalConfirm_cancelRequest": "Cancel Request",
   "twoFaPhone_youCanResendIn": "You can resend in",
+  "twoFaPhone_youCanReceive": "You can receive code via phone call in",
   "twoFaPhone_didntReceiveTheCode": "Didn't receive the code",
   "twoFaPhone_phoneConfirmation": "Phone Confirmation",
   "twoFaPhone_seconds": "seconds",
