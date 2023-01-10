@@ -391,15 +391,16 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   ),
                                   const SpaceW10(),
                                   if (!isCurrentCandlesEmptyOrNull)
-                                    Text(
-                                      _chartResolution(
-                                        chart.resolution,
-                                        context,
+                                    if (periodChange[1].isNotEmpty)
+                                      Text(
+                                        _chartResolution(
+                                          chart.resolution,
+                                          context,
+                                        ),
+                                        style: sBodyText2Style.copyWith(
+                                          color: colors.grey3,
+                                        ),
                                       ),
-                                      style: sBodyText2Style.copyWith(
-                                        color: colors.grey3,
-                                      ),
-                                    ),
                                 ],
                               ),
                             if (balancesEmpty)
@@ -561,9 +562,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                   text: getIt<AppStore>().isBalanceHide
                                       ? item.symbol
                                       : _balanceInProgressText(item),
-                                  leadText: getIt<AppStore>().isBalanceHide
-                                      ? ''
-                                      : _balanceInProgressLeadText(item),
+                                  leadText: _balanceInProgressLeadText(item),
                                   removeDivider: item == itemsWithBalance.last,
                                   icon: _balanceInProgressIcon(item),
                                 ),

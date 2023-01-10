@@ -209,7 +209,7 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int homeTab = 0;
+  int homeTab = 1;
   @action
   void setHomeTab(int value) => homeTab = value;
 
