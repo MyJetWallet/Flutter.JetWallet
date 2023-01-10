@@ -88,8 +88,8 @@ abstract class _RewardStoreBase with Store {
     }
 
     combinedArray.sort((a, b) {
-      final weight1 = a.campaign?.weight ?? a.referralState!.weight;
-      final weight2 = b.campaign?.weight ?? b.referralState!.weight;
+      final weight1 = b.campaign?.weight ?? b.referralState!.weight;
+      final weight2 = a.campaign?.weight ?? a.referralState!.weight;
 
       return weight2.compareTo(weight1);
     });
