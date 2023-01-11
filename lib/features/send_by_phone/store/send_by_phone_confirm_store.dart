@@ -86,7 +86,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   TextEditingController controller = TextEditingController();
 
   @action
-  void updateCode(String code, String operationId) {
+  void updateCode(String code, String operationId, { bool isDeepLink = false }) {
     _logger.log(notifier, 'updateCode');
 
     if (code.isEmpty) {
@@ -95,6 +95,9 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
 
     if (operationId == _operationId) {
       controller.text = code;
+      if (isDeepLink) {
+        verifyCode();
+      }
     } else {
       sNotification.showError(
         intl.showError_youHaveConfirmed,
