@@ -90,7 +90,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 child: Column(
                   children: [
                     SimpleCircleButton(
-                      defaultIcon: SPlusIcon(
+                      defaultIcon: STopUpIcon(
                         color: colors.white,
                       ),
                       onTap: () {
@@ -132,13 +132,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         }
                       },
                     ),
-                    Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 21,
-                      child: Text(
-                        intl.balanceActionButtons_buy,
-                        style: sBodyText2Style,
-                      ),
+                    const SpaceH9(),
+                    Text(
+                      intl.balanceActionButtons_buy,
+                      style: sBodyText2Style,
                     ),
                   ],
                 ),
@@ -185,13 +182,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       }
                     },
                   ),
-                  Baseline(
-                    baselineType: TextBaseline.alphabetic,
-                    baseline: 21,
-                    child: Text(
-                      intl.balanceActionButtons_receive,
-                      style: sBodyText2Style,
-                    ),
+                  const SpaceH9(),
+                  Text(
+                    intl.balanceActionButtons_receive,
+                    style: sBodyText2Style,
                   ),
                 ],
               ),
@@ -221,13 +215,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         }
                       },
                     ),
-                    Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 21,
-                      child: Text(
-                        intl.balanceActionButtons_send,
-                        style: sBodyText2Style,
-                      ),
+                    const SpaceH9(),
+                    Text(
+                      intl.balanceActionButtons_send,
+                      style: sBodyText2Style,
                     ),
                   ],
                 ),

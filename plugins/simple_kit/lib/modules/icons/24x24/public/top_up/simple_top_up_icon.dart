@@ -6,12 +6,17 @@ import 'package:simple_kit/modules/icons/24x24/light/top_up/simple_light_top_up_
 import 'package:simple_kit/utils/enum.dart';
 
 class STopUpIcon extends StatelessObserverWidget {
-  const STopUpIcon({Key? key}) : super(key: key);
+  const STopUpIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightTopUpIcon()
-        : const SimpleLightTopUpIcon();
+        ? SimpleLightTopUpIcon(color: color)
+        : SimpleLightTopUpIcon(color: color);
   }
 }
