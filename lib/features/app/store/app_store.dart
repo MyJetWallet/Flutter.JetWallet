@@ -13,6 +13,7 @@ import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
@@ -71,6 +72,15 @@ abstract class _AppStoreBase with Store {
   @action
   void setEnv(String val) {
     env = val;
+  }
+
+  @observable
+  bool isBalanceHide = true;
+  @action
+  void setIsBalanceHide(bool value) {
+    isBalanceHide = value;
+
+    getIt<LocalCacheService>().saveBalanceHide(value);
   }
 
   @action
@@ -351,6 +361,8 @@ abstract class _AppStoreBase with Store {
         email: parsedEmail,
       );
 
+      isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
+
       try {
         final userInfo = getIt.get<UserInfoService>();
 
@@ -457,6 +469,7 @@ abstract class _AppStoreBase with Store {
     fromLoginRegister = false;
     withdrawDynamicLink = false;
     homeTab = 1;
+    isBalanceHide = true;
     appStatus = AppStatus.Start;
   }
 }

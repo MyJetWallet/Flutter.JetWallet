@@ -5,10 +5,12 @@ import 'package:simple_kit/simple_kit.dart';
 class PinBox extends StatelessWidget {
   const PinBox({
     Key? key,
+    this.margin = const EdgeInsets.symmetric(horizontal: 15.0),
     required this.state,
   }) : super(key: key);
 
   final PinBoxEnum state;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class PinBox extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       padding: state == PinBoxEnum.empty ? const EdgeInsets.all(2.0) : null,
-      margin: const EdgeInsets.symmetric(horizontal: 15.0),
+      margin: margin,
       child: state == PinBoxEnum.empty
           ? DecoratedBox(
               decoration: BoxDecoration(

@@ -10,6 +10,7 @@ import 'package:charts/simple_chart.dart';
 const String isFirstRunning = 'isFirstRunning';
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
+const String isBalanceHide = 'isBalanceHide';
 
 class LocalCacheService {
   late SharedPreferences instance;
@@ -18,6 +19,16 @@ class LocalCacheService {
     instance = await SharedPreferences.getInstance();
 
     return this;
+  }
+
+  ///
+
+  Future<void> saveBalanceHide(bool value) async {
+    await instance.setBool(isBalanceHide, value);
+  }
+
+  Future<bool?> getBalanceHide() async {
+    return instance.getBool(isBalanceHide);
   }
 
   ///

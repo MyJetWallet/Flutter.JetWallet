@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/asset_items/components/recurring_icon.dart';
+import 'package:simple_kit/modules/asset_items/simple_hide_balance_dots.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
@@ -24,6 +25,7 @@ class SWalletItem extends StatelessWidget {
     this.showSecondaryText = true,
     this.isRecurring = false,
     this.isPendingDeposit = false,
+    this.isBalanceHide = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -47,6 +49,7 @@ class SWalletItem extends StatelessWidget {
   final bool showSecondaryText;
   final bool isRecurring;
   final bool isPendingDeposit;
+  final bool isBalanceHide;
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +58,10 @@ class SWalletItem extends StatelessWidget {
     final emptyCashText = '${currencyPrefix ?? ''}0'
         '${currencyPrefix == null ? ' $currencySymbol' : ''}';
     final formattedAmount = amountDecimal == 0 ? emptyCashText : amount;
-    final isSecondaryTextVisible =
-        showSecondaryText &&
-            !(isPendingDeposit && formattedAmount == emptyCashText);
-    final isAmountVisible =
-        amount != null &&
-            !(isPendingDeposit && formattedAmount == emptyCashText);
+    final isSecondaryTextVisible = showSecondaryText &&
+        !(isPendingDeposit && formattedAmount == emptyCashText);
+    final isAmountVisible = amount != null &&
+        !(isPendingDeposit && formattedAmount == emptyCashText);
 
     if (decline ?? false) {
       textColor = SColorsLight().red;
@@ -140,23 +141,29 @@ class SWalletItem extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(22.0),
                           ),
-                          child: Baseline(
-                            baseline: 27.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  formattedAmount!,
-                                  style: sSubtitle2Style.copyWith(
-                                    color: amountDecimal == 0
-                                        ? color
-                                        : textColor,
+                          child: !isBalanceHide
+                              ? Baseline(
+                                  baseline: 27.0,
+                                  baselineType: TextBaseline.alphabetic,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        formattedAmount!,
+                                        style: sSubtitle2Style.copyWith(
+                                          color: amountDecimal == 0
+                                              ? color
+                                              : textColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                )
+                              : SimpleHideBalanceDots(
+                                  color: amountDecimal == 0
+                                      ? (color ?? textColor)
+                                      : textColor,
                                 ),
-                              ],
-                            ),
-                          ),
                         ),
                       ],
                     ),
