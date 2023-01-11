@@ -16,7 +16,6 @@ dependencies:
   cupertino_icons: ^1.0.5 # IOS icons
   universal_io: 2.0.4 # Cross-platform 'dart:io' that works in all platforms
   url_launcher: 6.1.7 # plugin for launching a URL
-  font_awesome_flutter: 10.3.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: 7.4.0 # Generate pin code fields
   qr_flutter: 4.0.0 # QR code rendering
   grouped_list: 5.1.2 # List with grouped items
@@ -118,8 +117,8 @@ dependencies:
   uuid: 3.0.7 # UUID Generator and Parser
   app_tracking_transparency: 2.0.3
   flutter_displaymode: 0.5.0
-  syncfusion_flutter_pdfviewer: ^20.4.42
   open_mail_app: ^0.4.5
+  flutter_pdfview: ^1.2.5
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
