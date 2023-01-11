@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:jetwallet/core/services/logger_service/simple_http_logger.dart';
 
 void addLogger(Dio dio) {
   dio.interceptors.add(
-    PrettyDioLogger(
+    //PrettyDioLogger(
+    SimpleHTTPLogger(
       requestBody: true,
       requestHeader: false,
     ),

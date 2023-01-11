@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
@@ -12,21 +13,19 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
+import 'package:signalr_core/signalr_core.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
-import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
-import 'package:logger/logger.dart' as logPrint;
 
 part 'logout_service.g.dart';
 
 class LogoutService = _LogoutServiceBase with _$LogoutService;
 
 abstract class _LogoutServiceBase with Store {
-  static final _logger = Logger('LogoutStore');
-  final log = logPrint.Logger();
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'LogoutStore';
 
   LogoutUnion union = const LogoutUnion.result();
 
@@ -37,15 +36,21 @@ abstract class _LogoutServiceBase with Store {
     bool resetPin = false,
   }) async {
     try {
-      Stopwatch stopwatch = new Stopwatch()..start();
-
-      _logger.log(notifier, 'Logout start $from');
+      _logger.log(
+        level: Level.info,
+        place: _loggerValue,
+        message: 'User start logout from $from',
+      );
 
       getIt<AppStore>().setAppStatus(AppStatus.End);
 
       final authStore = getIt.get<AppStore>().authState;
       if (getIt.get<AppStore>().authStatus is Unauthorized) {
-        _logger.log(stateFlow, 'authStatus is Unauthorized');
+        _logger.log(
+          level: Level.warning,
+          place: _loggerValue,
+          message: 'User already is Unauthorized',
+        );
 
         await _clearUserData();
 
@@ -57,18 +62,31 @@ abstract class _LogoutServiceBase with Store {
         return;
       }
 
-      print('setAppStatus executed in ${stopwatch.elapsed}');
-
       if (resetPin) {
-        _logger.log(stateFlow, 'resetPin');
+        _logger.log(
+          level: Level.info,
+          place: _loggerValue,
+          message: 'Reset PIN',
+        );
 
         final _ = await sNetwork.getAuthModule().postResetPin();
       }
 
-      print('resetPin executed in ${stopwatch.elapsed}');
-
       if (withLoading) {
         union = const LogoutUnion.loading();
+      }
+
+      try {
+        // Disconet from SignalR
+        if (getIt.get<SignalRService>().signalR != null) {
+          await getIt.get<SignalRService>().signalR!.disconnect();
+        }
+      } catch (e) {
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Error with signalR: $e',
+        );
       }
 
       try {
@@ -77,47 +95,50 @@ abstract class _LogoutServiceBase with Store {
             token: authStore.token,
           );
 
-          _logger.log(stateFlow, '_syncLogout');
+          _logger.log(
+            level: Level.info,
+            place: _loggerValue,
+            message: 'Send logout request to server',
+          );
 
           await sNetwork.getAuthModule().postLogout(model);
         }
       } catch (e) {
-        _logger.log(errorLog, '_syncLogout e: ${e.toString()}');
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Error with logout request: $e',
+        );
 
         await _clearUserData();
         await pushToFirstPage();
       }
 
-      print('_syncLogout executed in ${stopwatch.elapsed}');
-
       // Clear analytics
       unawaited(sAnalytics.logout());
 
-      // Disconet from SignalR
-      if (getIt.get<SignalRService>().signalR != null) {
-        await getIt.get<SignalRService>().signalR!.disconnect();
-      }
-
-      print('SignalR executed in ${stopwatch.elapsed}');
-
       await _clearUserData();
-
-      print('_clearUserData executed in ${stopwatch.elapsed}');
 
       // Make init router unauthorized
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
 
-      print('clearSignalRModule executed in ${stopwatch.elapsed}');
-
       await getIt<AppStore>().getAuthStatus();
 
-      _logger.log(stateFlow, 'Logout success');
+      _logger.log(
+        level: Level.debug,
+        place: _loggerValue,
+        message: 'Logout success',
+      );
 
       union = const LogoutUnion.result();
     } catch (e) {
-      log.e('LOGOUT ERROR: $e');
+      _logger.log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'LOGOUT ERROR: $e',
+      );
 
       await _clearUserData();
       await pushToFirstPage();

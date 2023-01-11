@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config.dart';
@@ -44,6 +45,10 @@ Future<GetIt> getItInit({
   );
 
   getIt.registerSingleton<EventBus>(EventBus());
+
+  getIt.registerSingleton<SimpleLoggerService>(
+    SimpleLoggerService(),
+  );
 
   getIt.registerSingletonAsync<LocalCacheService>(
     () async => LocalCacheService().init(),
