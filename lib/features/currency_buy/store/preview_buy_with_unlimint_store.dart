@@ -291,6 +291,9 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
             if (isWaitingSkipped) {
               return;
             }
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -342,12 +345,12 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '$buyAmount ${input.currency.symbol}',
             time: input.card != null ? 3 : 5,
             showActionButton: input.card == null,
             buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: input.card == null,
+            showProgressBar: true,
             onActionButton: () async {
               tapped = true;
               final _ =

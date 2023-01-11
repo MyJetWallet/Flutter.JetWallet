@@ -382,6 +382,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               frequency: RecurringFrequency.oneTime,
               source: 'Circle',
             );
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             throw Exception();
@@ -428,8 +431,8 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '$buyAmount ${input.currency.symbol}',
           ),
         )
         .then(

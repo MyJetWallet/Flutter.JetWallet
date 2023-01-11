@@ -329,6 +329,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
               frequency: RecurringFrequency.oneTime,
               source: 'Unlimint',
             );
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -382,8 +385,8 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '$buyAmount ${input.currency.symbol}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),

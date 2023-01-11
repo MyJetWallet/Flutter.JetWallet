@@ -239,6 +239,7 @@
   "update_notNow": "Not Now",
   "appInitFpod_emailNotFound": "Email not found",
   "successScreen_success": "Success",
+  "successScreen_youBought": "You bought",
   "successKycScreen_success": "Success",
   "successKycScreen_done": "Done",
   "recurringSuccessScreen_success": "Success",

@@ -168,10 +168,12 @@ class PhoneVerificationBody extends StatelessObserverWidget {
 
             /// TODO update legacy resend
             if (store.resendTapped)
-              Text(
-                intl.profileDetails_waitForCall,
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey2,
+              Center(
+                child: Text(
+                  intl.profileDetails_waitForCall,
+                  style: sCaptionTextStyle.copyWith(
+                    color: colors.grey2,
+                  ),
                 ),
               )
             else ...[
