@@ -42,7 +42,7 @@ class AssetDayChange extends StatelessObserverWidget {
         baseline: 24,
         baselineType: TextBaseline.alphabetic,
         child: Text(
-          periodChange,
+          periodChange[0] + ' ' + periodChange[1],
           style: sSubtitle3Style.copyWith(
             color: periodChange.contains('-') ? colors.red : colors.green,
           ),
@@ -51,7 +51,7 @@ class AssetDayChange extends StatelessObserverWidget {
     );
   }
 
-  String _periodChange(
+  List<String> _periodChange(
     ChartState chartState,
     MarketItemModel marketItem,
     BaseCurrencyModel baseCurrency,

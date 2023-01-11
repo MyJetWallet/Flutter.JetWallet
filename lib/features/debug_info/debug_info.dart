@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -185,6 +186,14 @@ class _DebugInfoState extends State<DebugInfo>
                 },
                 child: const Text(
                   'Change Session ID (Simulate error)',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  getIt.get<SignalRService>().signalR!.simulateError();
+                },
+                child: const Text(
+                  'Simulate signalr error',
                 ),
               ),
             ],

@@ -53,7 +53,6 @@ class MarketNestedScrollView extends StatelessWidget {
     return Provider<MarketFilterStore>(
       create: (context) => MarketFilterStore(),
       builder: (context, child) => _MarketNestedScrollViewBody(
-        showBanners: showBanners,
         showFilter: showFilter,
         showSearch: showSearch,
         sourceScreen: sourceScreen,
@@ -65,14 +64,12 @@ class MarketNestedScrollView extends StatelessWidget {
 
 class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
-    this.showBanners = false,
     this.showFilter = false,
     this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final bool showBanners;
   final bool showFilter;
   final bool showSearch;
   final FilterMarketTabAction sourceScreen;
@@ -192,7 +189,6 @@ class __MarketNestedScrollViewBodyState
 
     return Column(
       children: [
-        if (widget.showBanners) const MarketBanners(),
         Flexible(
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -235,7 +231,6 @@ class __MarketNestedScrollViewBodyState
 
     return Column(
       children: [
-        if (widget.showBanners) const MarketBanners(),
         Flexible(
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),

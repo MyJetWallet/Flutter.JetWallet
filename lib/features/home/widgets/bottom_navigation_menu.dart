@@ -219,7 +219,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
 
             showSendAction(context, isNotEmptyBalance: isNotEmptyBalance);
           } else {
-            sRouter.pop();
+            Navigator.pop(context);
 
             kycAlertHandler.handle(
               status: kycState.withdrawalStatus,
@@ -238,7 +238,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);
           } else {
-            sRouter.pop();
+            Navigator.pop(context);
 
             kycAlertHandler.handle(
               status: kycState.depositStatus,

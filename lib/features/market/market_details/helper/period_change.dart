@@ -8,7 +8,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'percent_change.dart';
 
-String periodChange({
+List<String> periodChange({
   CandleModel? selectedCandle,
   MarketItemModel? marketItem,
   required ChartState chart,
@@ -25,13 +25,29 @@ String periodChange({
     var periodPercentChangeString = '';
     if (periodPercentChange.isFinite) {
       periodPercentChangeString =
-          '(${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
+          '(${periodPercentChange >= 0 ? '+' : ''}${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
     }
 
     return marketItem != null
-        ? '${marketFormat(prefix: baseCurrency.prefix, decimal: Decimal.parse(periodPriceChange.toString()), accuracy: marketItem.priceAccuracy, symbol: baseCurrency.symbol)} $periodPercentChangeString'
-        : '${volumeFormat(prefix: baseCurrency.prefix, decimal: Decimal.parse(periodPriceChange.toString()), accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)} $periodPercentChangeString';
+        ? [
+            marketFormat(
+              prefix: baseCurrency.prefix,
+              decimal: Decimal.parse(periodPriceChange.toString()),
+              accuracy: marketItem.priceAccuracy,
+              symbol: baseCurrency.symbol,
+            ),
+            periodPercentChangeString,
+          ]
+        : [
+            volumeFormat(
+              prefix: baseCurrency.prefix,
+              decimal: Decimal.parse(periodPriceChange.toString()),
+              accuracy: baseCurrency.accuracy,
+              symbol: baseCurrency.symbol,
+            ),
+            periodPercentChangeString,
+          ];
   } else {
-    return '';
+    return ['', ''];
   }
 }

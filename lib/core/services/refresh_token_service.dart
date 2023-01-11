@@ -4,16 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/refresh/auth_refresh_request_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
-import 'package:logger/logger.dart' as logPrint;
 
 import 'signal_r/signal_r_service.dart';
 
@@ -32,9 +31,6 @@ Future<RefreshTokenStatus> refreshToken({
   final rsaService = getIt.get<RsaService>();
   final storageService = getIt.get<LocalStorageService>();
   final authInfo = getIt.get<AppStore>().authState;
-  final log = logPrint.Logger();
-
-  final _logger = Logger('RefreshToken');
 
   try {
     final serverTimeResponse = await getIt
@@ -48,7 +44,11 @@ Future<RefreshTokenStatus> refreshToken({
       final refreshToken = authInfo.refreshToken;
 
       if (privateKey == null) {
-        _logger.log(errorLog, 'PRVATE KEY EMPTY');
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'RefreshToken',
+              message: 'privateKey is null',
+            );
 
         return RefreshTokenStatus.caught;
       }
@@ -83,11 +83,6 @@ Future<RefreshTokenStatus> refreshToken({
         lang: intl.localeName,
       );
 
-      _logger.log(
-        contract,
-        'RefreshMode: ${model.toJson()}',
-      );
-
       final refreshRequest = await getIt
           .get<SNetwork>()
           .simpleNetworkingUnathorized
@@ -95,19 +90,22 @@ Future<RefreshTokenStatus> refreshToken({
           .postRefresh(model);
 
       if (refreshRequest.hasError) {
-        _logger.log(
-          errorLog,
-          'refreshRequest.hasError ${refreshRequest.error?.cause}',
-        );
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'RefreshToken',
+              message:
+                  'Refresh request return error: ${refreshRequest.error?.cause}',
+            );
 
         return RefreshTokenStatus.caught;
       }
 
       if (refreshRequest.data != null) {
-        _logger.log(
-          contract,
-          'Refresh Successs: ${refreshRequest.data?.toJson()}',
-        );
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.info,
+              place: 'RefreshToken',
+              message: 'Refresh Successs: ${refreshRequest.data?.toJson()}',
+            );
 
         await storageService.setString(
           refreshTokenKey,
@@ -129,38 +127,34 @@ Future<RefreshTokenStatus> refreshToken({
         //      refreshRequest.data!.token,
         //    );
 
-        log.w('TOKEN UPDATED\nToken: ${refreshRequest.data!.token}');
-
         return RefreshTokenStatus.success;
       } else {
-        log.e('TOKEN CANT UPDATE\nReason: 1');
-
-        _logger.log(
-          errorLog,
-          'TOKEN CANT UPDATE\nReason: 1',
-        );
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'RefreshToken',
+              message: 'TOKEN CANT UPDATE Reason: 1',
+            );
 
         return RefreshTokenStatus.caught;
       }
     } else {
-      log.e('TOKEN CANT UPDATE\nReason: 2');
-      _logger.log(
-        errorLog,
-        'TOKEN CANT UPDATE\nReason: 2',
-      );
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'RefreshToken',
+            message: 'TOKEN CANT UPDATE Reason: 2',
+          );
 
       return RefreshTokenStatus.caught;
     }
   } on DioError catch (error) {
     final code = error.response?.statusCode;
 
-    _logger.log(
-      errorLog,
-      'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
-    );
-
-    log.e(
-        'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'RefreshToken',
+          message:
+              'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
+        );
 
     unawaited(
       getIt
@@ -186,10 +180,11 @@ Future<RefreshTokenStatus> refreshToken({
       rethrow;
     }
   } catch (e) {
-    _logger.log(
-      errorLog,
-      'TOKEN CANT UPDATE\nReason: 4\nCode: $e',
-    );
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'RefreshToken',
+          message: 'TOKEN CANT UPDATE\nReason: 4\nCode: $e',
+        );
 
     return RefreshTokenStatus.caught;
   }

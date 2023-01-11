@@ -2,6 +2,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_client.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -11,13 +12,14 @@ import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 import 'package:simple_networking/simple_networking.dart';
-import 'package:logger/logger.dart' as logPrint;
+import 'package:logger/logger.dart';
 
 class SignalRService {
   //late SignalRModule signalR;
   SignalRModuleNew? signalR;
 
-  final log = logPrint.Logger();
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'SignalRService';
 
   /// CreateService and Start Init
   Future<void> start() async {
@@ -40,27 +42,16 @@ class SignalRService {
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
 
-      log.i('_getSignalRModule: sRCache is ${sRCache == null}');
+      _logger.log(
+        level: Level.info,
+        place: _loggerValue,
+        message: 'sRCache is ${sRCache == null}',
+      );
 
       sSignalRModules = sRCache ?? SignalRServiceUpdated();
     } catch (e) {
       sSignalRModules = SignalRServiceUpdated();
     }
-  }
-
-  SignalRModule createService() {
-    return SignalRModule(
-      options: getIt.get<SNetwork>().simpleOptions,
-      signalRClient: SignalRClient(
-        defaultHeaders: {
-          'User-Agent': getUserAgent(),
-        },
-      ),
-      token: getIt.get<AppStore>().authState.token,
-      deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
-      localeName: intl.localeName,
-      refreshToken: refreshToken,
-    );
   }
 
   Future<SignalRModuleNew> createNewService() async {
@@ -96,8 +87,11 @@ class SignalRService {
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
     );
 
-    log.w(
-      'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message:
+          'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
     );
 
     return SignalRModuleNew(
@@ -108,6 +102,7 @@ class SignalRService {
       localeName: intl.localeName,
       refreshToken: refreshToken,
       transport: transport,
+      log: _logger.log,
     );
   }
 }
