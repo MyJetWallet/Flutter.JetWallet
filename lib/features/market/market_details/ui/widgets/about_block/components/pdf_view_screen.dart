@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
 
 class PDFViewScreen extends StatefulWidget {
@@ -38,6 +39,16 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
       body: FutureBuilder<Uint8List>(
         future: _downloadFileFromUrl(widget.url),
         builder: (context, snapshot) {
