@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/nft_market_item.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
@@ -20,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
+import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../helper/crypto_filer_modal.dart';
 import '../../../../helper/crypto_search_modal.dart';
@@ -191,6 +194,41 @@ class __MarketNestedScrollViewBodyState
     final store = MarketFilterStore.of(context);
     final showNFT = sSignalRModules.nftList.isNotEmpty &&
         sSignalRModules.clientDetail.isNftEnable;
+
+    return SliverGroupedListView<MarketItemModel, String>(
+      elements: store.cryptoListFiltred,
+      groupBy: (transaction) {
+        return 'formatDate(transaction.timeStamp)';
+      },
+      sort: false,
+      groupSeparatorBuilder: (String text) {
+        return MarketSeparator(text: text);
+      },
+      itemBuilder: (context, item) {
+        return SMarketItem(
+          icon: SNetworkSvg24(
+            url: item.iconUrl,
+          ),
+          name: item.name,
+          price: marketFormat(
+            prefix: baseCurrency.prefix,
+            decimal: item.lastPrice,
+            symbol: baseCurrency.symbol,
+            accuracy: item.priceAccuracy,
+          ),
+          ticker: item.symbol,
+          last: item == store.cryptoListFiltred.last,
+          percent: item.dayPercentChange,
+          onTap: () {
+            sRouter.push(
+              MarketDetailsRouter(
+                marketItem: item,
+              ),
+            );
+          },
+        );
+      },
+    );
 
     return Column(
       children: [
