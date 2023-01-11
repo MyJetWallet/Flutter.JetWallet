@@ -41,71 +41,70 @@ class LoadingChartView extends StatelessWidget {
             Positioned(
               left: 0,
               right: 0,
-              top: 80,
+              top: 30,
               child: loader,
             ),
-          if (!showLoader)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: isBalanceChart ? 40 : 0,
-              child: SizedBox(
-                height: 36,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: isBalanceChart ? 40 : 0,
+            child: SizedBox(
+              height: 36,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ResolutionButton(
+                    text: '1${localizedChartResolutionButton[0]}',
+                    showUnderline: resolution == Period.day,
+                    onTap: resolution == Period.day
+                        ? null
+                        : () {
+                            onResolutionChanged(Period.day);
+                          },
+                  ),
+                  if (showWeek)
                     ResolutionButton(
-                      text: '1${localizedChartResolutionButton[0]}',
-                      showUnderline: resolution == Period.day,
-                      onTap: resolution == Period.day
+                      text: '1${localizedChartResolutionButton[1]}',
+                      showUnderline: resolution == Period.week,
+                      onTap: resolution == Period.week
                           ? null
                           : () {
-                              onResolutionChanged(Period.day);
+                              onResolutionChanged(Period.week);
                             },
                     ),
-                    if (showWeek)
-                      ResolutionButton(
-                        text: '1${localizedChartResolutionButton[1]}',
-                        showUnderline: resolution == Period.week,
-                        onTap: resolution == Period.week
-                            ? null
-                            : () {
-                                onResolutionChanged(Period.week);
-                              },
-                      ),
-                    if (showMonth)
-                      ResolutionButton(
-                        text: '1${localizedChartResolutionButton[2]}',
-                        showUnderline: resolution == Period.month,
-                        onTap: resolution == Period.month
-                            ? null
-                            : () {
-                                onResolutionChanged(Period.month);
-                              },
-                      ),
-                    if (showYear)
-                      ResolutionButton(
-                        text: '1${localizedChartResolutionButton[3]}',
-                        showUnderline: resolution == Period.year,
-                        onTap: resolution == Period.year
-                            ? null
-                            : () {
-                                onResolutionChanged(Period.year);
-                              },
-                      ),
+                  if (showMonth)
                     ResolutionButton(
-                      text: localizedChartResolutionButton[4],
-                      showUnderline: resolution == Period.all,
-                      onTap: resolution == Period.all
+                      text: '1${localizedChartResolutionButton[2]}',
+                      showUnderline: resolution == Period.month,
+                      onTap: resolution == Period.month
                           ? null
                           : () {
-                              onResolutionChanged(Period.all);
+                              onResolutionChanged(Period.month);
                             },
                     ),
-                  ],
-                ),
+                  if (showYear)
+                    ResolutionButton(
+                      text: '1${localizedChartResolutionButton[3]}',
+                      showUnderline: resolution == Period.year,
+                      onTap: resolution == Period.year
+                          ? null
+                          : () {
+                              onResolutionChanged(Period.year);
+                            },
+                    ),
+                  ResolutionButton(
+                    text: localizedChartResolutionButton[4],
+                    showUnderline: resolution == Period.all,
+                    onTap: resolution == Period.all
+                        ? null
+                        : () {
+                            onResolutionChanged(Period.all);
+                          },
+                  ),
+                ],
               ),
             ),
+          ),
         ],
       ),
     );
