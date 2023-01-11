@@ -60,7 +60,7 @@ class _BalanceBlockBody extends StatelessObserverWidget {
     final languageCode = Localizations.localeOf(context).languageCode;
 
     return SizedBox(
-      height: 156,
+      height: 166,
       child: Column(
         children: [
           const SDivider(),
@@ -115,7 +115,7 @@ class _BalanceBlockBody extends StatelessObserverWidget {
           BalanceActionButtons(
             marketItem: marketItem,
           ),
-          const SpaceH24(),
+          const SpaceH16(),
         ],
       ),
     );

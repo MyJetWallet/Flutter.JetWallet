@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -33,6 +34,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
     final isBalanceEmpty = areBalancesEmpty(currencies);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+    final colors = sKit.colors;
 
     return SPaddingH24(
       child: Row(
@@ -84,28 +87,15 @@ class BalanceActionButtons extends StatelessObserverWidget {
           ] else ...[
             if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
               Expanded(
-                child: SPrimaryButton1(
-                  name: intl.balanceActionButtons_buy,
-                  onTap: () {
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      sAnalytics.buyView(
-                        Source.assetScreen,
-                        currency.description,
-                      );
-
-                      sRouter.push(
-                        CurrencyBuyRouter(
-                          currency: currency,
-                          fromCard: isBalanceEmpty,
-                        ),
-                      );
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.depositStatus,
-                        isProgress: kycState.verificationInProgress,
-                        navigatePop: true,
-                        currentNavigate: () {
+                child: Column(
+                  children: [
+                    SimpleCircleButton(
+                      defaultIcon: SPlusIcon(
+                        color: colors.white,
+                      ),
+                      onTap: () {
+                        if (kycState.depositStatus ==
+                            kycOperationStatus(KycStatus.allowed)) {
                           sAnalytics.buyView(
                             Source.assetScreen,
                             currency.description,
@@ -117,88 +107,129 @@ class BalanceActionButtons extends StatelessObserverWidget {
                               fromCard: isBalanceEmpty,
                             ),
                           );
-                        },
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                  active: true,
-                ),
-              ),
-            if (marketItem.isBalanceEmpty) ...[
-              if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
-                const SpaceW11(),
-              Expanded(
-                child: SSecondaryButton1(
-                  name: intl.balanceActionButtons_receive,
-                  onTap: () {
-                    sAnalytics.receiveClick(
-                        source: 'Market -> Asset -> Receive');
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      sAnalytics.receiveAssetView(asset: currency.description);
-                      sRouter.navigate(
-                        CryptoDepositRouter(
-                          header: intl.balanceActionButtons_receive,
-                          currency: currency,
-                        ),
-                      );
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.depositStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () {
-                          sAnalytics.receiveAssetView(
-                            asset: currency.description,
-                          );
+                        } else {
+                          kycAlertHandler.handle(
+                            status: kycState.depositStatus,
+                            isProgress: kycState.verificationInProgress,
+                            navigatePop: true,
+                            currentNavigate: () {
+                              sAnalytics.buyView(
+                                Source.assetScreen,
+                                currency.description,
+                              );
 
-                          sRouter.navigate(
-                            CryptoDepositRouter(
-                              header: intl.balanceActionButtons_receive,
-                              currency: currency,
-                            ),
+                              sRouter.push(
+                                CurrencyBuyRouter(
+                                  currency: currency,
+                                  fromCard: isBalanceEmpty,
+                                ),
+                              );
+                            },
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
                           );
-                        },
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                  active: true,
+                        }
+                      },
+                    ),
+                    Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 21,
+                      child: Text(
+                        intl.balanceActionButtons_buy,
+                        style: sBodyText2Style,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
+              const SpaceW11(),
+            Expanded(
+              child: Column(
+                children: [
+                  SimpleCircleButton(
+                    defaultIcon: const SArrowDownIcon(),
+                    onTap: () {
+                      sAnalytics.receiveClick(
+                          source: 'Market -> Asset -> Receive');
+                      if (kycState.depositStatus ==
+                          kycOperationStatus(KycStatus.allowed)) {
+                        sAnalytics.receiveAssetView(
+                            asset: currency.description);
+                        sRouter.navigate(
+                          CryptoDepositRouter(
+                            header: intl.balanceActionButtons_receive,
+                            currency: currency,
+                          ),
+                        );
+                      } else {
+                        kycAlertHandler.handle(
+                          status: kycState.depositStatus,
+                          isProgress: kycState.verificationInProgress,
+                          currentNavigate: () {
+                            sAnalytics.receiveAssetView(
+                              asset: currency.description,
+                            );
+
+                            sRouter.navigate(
+                              CryptoDepositRouter(
+                                header: intl.balanceActionButtons_receive,
+                                currency: currency,
+                              ),
+                            );
+                          },
+                          requiredDocuments: kycState.requiredDocuments,
+                          requiredVerifications: kycState.requiredVerifications,
+                        );
+                      }
+                    },
+                  ),
+                  Baseline(
+                    baselineType: TextBaseline.alphabetic,
+                    baseline: 21,
+                    child: Text(
+                      intl.balanceActionButtons_receive,
+                      style: sBodyText2Style,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             if (!marketItem.isBalanceEmpty) ...[
               const SpaceW11(),
               Expanded(
-                child: SSecondaryButton1(
-                  name: intl.balanceActionButtons_sell,
-                  onTap: () {
-                    if (kycState.sellStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      sRouter.push(
-                        CurrencySellRouter(
-                          currency: currency,
-                        ),
-                      );
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.sellStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () {
-                          sRouter.push(
-                            CurrencySellRouter(
-                              currency: currency,
-                            ),
+                child: Column(
+                  children: [
+                    SimpleCircleButton(
+                      defaultIcon: const SArrowUpIcon(),
+                      onTap: () {
+                        if (kycState.sellStatus ==
+                            kycOperationStatus(KycStatus.allowed)) {
+                          showSendOptions(context, currency);
+                        } else {
+                          kycAlertHandler.handle(
+                            status: kycState.sellStatus,
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () {
+                              showSendOptions(context, currency);
+                            },
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
                           );
-                        },
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                  active: true,
+                        }
+                      },
+                    ),
+                    Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 21,
+                      child: Text(
+                        intl.balanceActionButtons_send,
+                        style: sBodyText2Style,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
