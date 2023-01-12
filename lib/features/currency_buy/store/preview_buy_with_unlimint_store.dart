@@ -26,6 +26,8 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/unlimint/add_unlimint_card_request_model.dart';
 
+import '../../../utils/formatting/base/volume_format.dart';
+
 part 'preview_buy_with_unlimint_store.g.dart';
 
 class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase
@@ -346,7 +348,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
         .push(
           SuccessScreenRouter(
             secondaryText: '${intl.successScreen_youBought} '
-                '$buyAmount ${input.currency.symbol}',
+                '${volumeFormat(
+              decimal: buyAmount ?? Decimal.zero,
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )} ${input.currency.symbol}',
             time: input.card != null ? 3 : 5,
             showActionButton: input.card == null,
             buttonText: intl.previewBuyWithUmlimint_saveCard,

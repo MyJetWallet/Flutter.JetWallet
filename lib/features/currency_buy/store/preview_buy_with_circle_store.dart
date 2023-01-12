@@ -31,6 +31,8 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 
+import '../../../utils/formatting/base/volume_format.dart';
+
 part 'preview_buy_with_circle_store.g.dart';
 
 class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
@@ -432,7 +434,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         .push(
           SuccessScreenRouter(
             secondaryText: '${intl.successScreen_youBought} '
-                '$buyAmount ${input.currency.symbol}',
+                '${volumeFormat(
+              decimal: buyAmount ?? Decimal.zero,
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )} ${input.currency.symbol}',
           ),
         )
         .then(
