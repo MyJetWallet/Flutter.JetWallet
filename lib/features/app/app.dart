@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/logs/log_record_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/features/app/app_builder.dart';
+import 'package:jetwallet/features/app/route_observer.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 
@@ -80,7 +81,11 @@ class _AppScreenState extends State<AppScreen> {
       ],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routeInformationParser: getIt.get<AppRouter>().defaultRouteParser(),
-      routerDelegate: getIt.get<AppRouter>().delegate(),
+      //routerDelegate: getIt.get<AppRouter>().delegate(),
+      routerDelegate: AutoRouterDelegate(
+        getIt.get<AppRouter>(),
+        navigatorObservers: () => [SimpleRouteObserver()],
+      ),
       builder: (_, child) => AppBuilder(child),
     );
   }

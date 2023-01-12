@@ -13,7 +13,9 @@ import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/dynamic_link_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
@@ -28,13 +30,12 @@ import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:uuid/uuid.dart';
+import 'package:logger/logger.dart';
 
 part 'app_store.g.dart';
 
@@ -43,7 +44,8 @@ enum AppStatus { Start, InProcess, End }
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
-  static final _logger = Logger('AppStore');
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'AppStore';
 
   @observable
   String sessionID = '';
@@ -70,6 +72,15 @@ abstract class _AppStoreBase with Store {
   @action
   void setEnv(String val) {
     env = val;
+  }
+
+  @observable
+  bool isBalanceHide = true;
+  @action
+  void setIsBalanceHide(bool value) {
+    isBalanceHide = value;
+
+    getIt<LocalCacheService>().saveBalanceHide(value);
   }
 
   @action
@@ -161,7 +172,11 @@ abstract class _AppStoreBase with Store {
   RemoteConfigUnion remoteConfigStatus = const RemoteConfigUnion.loading();
   @action
   void setRemoteConfigStatus(RemoteConfigUnion value) {
-    _logger.log(stateFlow, 'REMOTE CONFIG STATUS: $value');
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'REMOTE CONFIG STATUS: $value',
+    );
 
     remoteConfigStatus = value;
 
@@ -199,7 +214,7 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int homeTab = 0;
+  int homeTab = 1;
   @action
   void setHomeTab(int value) => homeTab = value;
 
@@ -258,7 +273,11 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> getAuthStatus() async {
-    _logger.log(stateFlow, 'START: APP STORE - getAuthStatus');
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'User start init App Store - getAuthStatus()',
+    );
 
     final storageService = getIt.get<LocalStorageService>();
 
@@ -299,9 +318,11 @@ abstract class _AppStoreBase with Store {
       await appsFlyerService.init();
       await appsFlyerService.updateServerUninstallToken();
     } catch (error, stackTrace) {
-      Logger.root.log(Level.SEVERE, 'appsFlyerService', error, stackTrace);
-
-      _logger.log(stateFlow, 'appsFlyerService');
+      _logger.log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'appsFlyerService $error $stackTrace',
+      );
     }
 
     unawaited(
@@ -323,27 +344,35 @@ abstract class _AppStoreBase with Store {
     appStatus = AppStatus.Start;
     generateNewSessionID();
 
-    if (token == null) {
-      _logger.log(stateFlow, 'TOKEN NULL');
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'User token: $token',
+    );
 
+    if (token == null) {
       // TODO
       //await sAnalytics.init(analyticsApiKey);
 
       authStatus = const AuthorizationUnion.unauthorized();
     } else {
-      _logger.log(stateFlow, 'TOKEN NOT NULL');
-
       updateAuthState(
         refreshToken: token,
         email: parsedEmail,
       );
+
+      isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
 
       try {
         final userInfo = getIt.get<UserInfoService>();
 
         final result = await refreshToken(updateSignalR: false);
 
-        _logger.log(stateFlow, 'REFRESH RESULT: $result');
+        _logger.log(
+          level: Level.info,
+          place: _loggerValue,
+          message: 'Start update token when init APPSTORE status: $result',
+        );
 
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().init(sessionID);
@@ -357,14 +386,22 @@ abstract class _AppStoreBase with Store {
 
           await getIt.get<StartupService>().processStartupState();
         } else {
-          _logger.log(stateFlow, 'TOKEN CANT UPDATE');
+          _logger.log(
+            level: Level.error,
+            place: _loggerValue,
+            message: 'RefreshToken func return error, we cant update our token',
+          );
 
           await sAnalytics.init(analyticsApiKey);
 
           authStatus = const AuthorizationUnion.unauthorized();
         }
       } catch (e) {
-        _logger.log(stateFlow, 'TOKEN CANT UPDATE 2', e);
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Something goes wrong on refreshToken: $e',
+        );
 
         await sAnalytics.init(analyticsApiKey);
 
@@ -431,7 +468,8 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 0;
+    homeTab = 1;
+    isBalanceHide = true;
     appStatus = AppStatus.Start;
   }
 }

@@ -13,10 +13,9 @@ dependencies:
     sdk: flutter
 
   # TOOLKIT
-  cupertino_icons: ^1.0.4 # IOS icons
+  cupertino_icons: ^1.0.5 # IOS icons
   universal_io: 2.0.4 # Cross-platform 'dart:io' that works in all platforms
   url_launcher: 6.1.7 # plugin for launching a URL
-  font_awesome_flutter: 10.3.0 # The Font Awesome Icon pack (1500+ icons)
   pin_code_fields: 7.4.0 # Generate pin code fields
   qr_flutter: 4.0.0 # QR code rendering
   grouped_list: 5.1.2 # List with grouped items
@@ -25,12 +24,12 @@ dependencies:
     git:
       url: https://github.com/xeinebiu/qr_code_scanner.git
       ref: fix_break_changes_platform
-  local_auth: ^2.1.2 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
+  local_auth: 2.1.3 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   intl_phone_number_input: ^0.7.1 # phone number in international format that uses Google's libphonenumber
   flutter_svg: ^1.1.6 # SVG rendering and widget library
   contacts_service: ^0.6.3 # contacts fetching
-  rive: ^0.9.1 # rive animations
-  permission_handler: ^10.2.0 # permissions handling
+  rive: 0.10.0 # rive animations
+  permission_handler: 10.2.0 # permissions handling
   percent_indicator: ^4.2.2 # Percent indicator
   auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds
   smooth_page_indicator: ^1.0.0+2 # Animated PageView indicators
@@ -53,7 +52,8 @@ dependencies:
   photo_view: ^0.14.0
   shared_preferences: ^2.0.15
   event_bus: ^2.0.0
-  ios_willpop_transition_theme: ^0.0.6
+  native_flutter_proxy: ^0.1.15
+  http_proxy: ^1.2.1
 
   # RESPONSIVE UI
   device_preview: ^1.1.0
@@ -65,11 +65,11 @@ dependencies:
   android_intent_plus: ^3.1.5 # plugin for launching Android Intents
   package_info_plus: ^1.4.2 # querying information about the application package NEED UPDATE
   share_plus: ^4.0.10 # sharing content via the platform share UI NEED UPDATE
-  device_info_plus: ^3.2.4 # providing detailed information about the device
+  device_info_plus: 8.0.0 # providing detailed information about the device
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
-  device_marketing_names: ^0.4.1
+  device_marketing_names: 0.6.0
   android_id: ^0.1.3+1
-  flutter_native_splash: ^2.2.14
+  flutter_native_splash: ^2.2.16
 
   # NETWORKING:
   http: 0.13.5
@@ -84,7 +84,7 @@ dependencies:
   intl: ^0.17.0
 
   # LOCAL SECURE STORAGE:
-  flutter_secure_storage: 6.1.0
+  flutter_secure_storage: 7.0.1
 
   # STATE MANAGEMENT
   data_channel: 2.0.0+1
@@ -94,21 +94,21 @@ dependencies:
   # SL
   injectable: 2.1.0
   get_it: 7.2.0
-  provider: ^6.0.4
+  provider: 6.0.5
 
   # Routing
   auto_route: 5.0.4
 
   # FIREBASE
-  firebase_core: 2.1.1
-  firebase_messaging: 14.0.4
-  firebase_dynamic_links: 5.0.4
-  firebase_crashlytics: 3.0.4
-  firebase_analytics: 10.0.4
+  firebase_core: 2.4.1
+  firebase_messaging: 14.2.1
+  firebase_dynamic_links: 5.0.11
+  firebase_crashlytics: 3.0.9
+  firebase_analytics: 10.1.0
 
   # NOTIFICATIONS
-  flutter_local_notifications: ^12.0.3
-  onesignal_flutter: 3.4.1
+  flutter_local_notifications: 13.0.0
+  onesignal_flutter: 3.5.0
 
   # OTHER:
   freezed_annotation: 2.2.0 # Annotations for the freezed
@@ -116,14 +116,14 @@ dependencies:
   logging: 1.1.0 # APIs for debugging and error logging
   uuid: 3.0.7 # UUID Generator and Parser
   app_tracking_transparency: 2.0.3
-  flutter_displaymode: 0.4.1
-  syncfusion_flutter_pdfviewer: ^20.3.56
+  flutter_displaymode: 0.5.0
   open_mail_app: ^0.4.5
+  flutter_pdfview: ^1.2.5
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
   pointycastle: 3.6.0 # supplementary to rsa_encrypt
-  openpgp: 3.3.0 # OpenPGP encryption
+  openpgp: 3.5.1 # OpenPGP encryption
   crypto: 3.0.2 # Implementations of SHA, MD5, and HMAC
   encrypt: 5.0.1 # Encryption and decryption helpers
 
@@ -146,10 +146,10 @@ dev_dependencies:
   dart_code_metrics: ^5.0.1
 
   # AUTOGEN:
-  freezed: 2.3.0 # generation for immutable classes that has a simple syntax/API
+  freezed: 2.3.2 # generation for immutable classes that has a simple syntax/API
   build_runner: ^2.1.11 # generating files using Dart code
   json_serializable: 6.5.4 # dart build system builders for handling JSON
-  injectable_generator: 2.1.2
+  injectable_generator: 2.1.3
   mobx_codegen: 2.1.1
   auto_route_generator: 5.0.3
 

@@ -3989,7 +3989,7 @@ class WithdrawRouterArgs {
 class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
   MarketRouter({
     Key? key,
-    int initIndex = 1,
+    int initIndex = 0,
   }) : super(
           MarketRouter.name,
           path: 'market',
@@ -4005,7 +4005,7 @@ class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
 class MarketRouterArgs {
   const MarketRouterArgs({
     this.key,
-    this.initIndex = 1,
+    this.initIndex = 0,
   });
 
   final Key? key;

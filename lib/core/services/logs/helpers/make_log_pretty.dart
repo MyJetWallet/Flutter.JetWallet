@@ -5,8 +5,11 @@ import 'package:logging/logging.dart';
 import 'debug_logging.dart';
 
 String makeLogPretty(LogRecord r, String breaker) {
+  return '[${r.level.name}] [${r.loggerName}] [${logTime(r)}] \n${r.message}'
+      '$breaker';
+
   if (isConventionLevel(r)) {
-    return '[${r.level.name}][${r.loggerName}][${r.message}][${logTime(r)}]'
+    return '[${r.level.name}] [${r.loggerName}] [${logTime(r)} \n${r.message}]'
         '$breaker${r.error} ${'-' * 80}';
   } else if (r.level.value == notifier.value) {
     return '${r.level.name} [${r.loggerName}] method [${r.message}] '
@@ -24,7 +27,7 @@ String makeLogPretty(LogRecord r, String breaker) {
     return '${'-' * 80}$breaker$action$breaker'
         "${value != null ? '$pline$breaker[Value]: $value' : pline}";
   } else {
-    return '[${r.level.name}]${loggerName(r)}[${logTime(r)}]'
+    return '[${r.level.name}] ${loggerName(r)} [${logTime(r)}]'
         '$breaker${mainLog(r, '-')}';
   }
 }

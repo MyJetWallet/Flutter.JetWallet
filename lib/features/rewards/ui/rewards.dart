@@ -53,6 +53,21 @@ class _RewardsBody extends StatelessObserverWidget {
         children: [
           const SpaceH20(),
           for (final item in state.sortedCampaigns) ...[
+            if (_displayRewardBanner(item)) ...[
+              SRewardBanner(
+                color: setBannerColor(item),
+                primaryText: item.campaign!.title,
+                secondaryText: item.campaign!.description,
+                imageUrl: item.campaign!.imageUrl,
+                onTap: () {
+                  deepLinkService.handle(
+                    Uri.parse(item.campaign!.deepLink),
+                    source: SourceScreen.bannerOnRewards,
+                  );
+                },
+              ),
+              const SpaceH20(),
+            ],
             if (_displayThreeStepsRewardBanner(item)) ...[
               SThreeStepsRewardBanner(
                 primaryText: item.campaign!.title,
@@ -78,21 +93,6 @@ class _RewardsBody extends StatelessObserverWidget {
                   );
                 },
                 showInfoIcon: infoRewardsLink.isNotEmpty,
-              ),
-              const SpaceH20(),
-            ],
-            if (_displayRewardBanner(item)) ...[
-              SRewardBanner(
-                color: setBannerColor(item),
-                primaryText: item.campaign!.title,
-                secondaryText: item.campaign!.description,
-                imageUrl: item.campaign!.imageUrl,
-                onTap: () {
-                  deepLinkService.handle(
-                    Uri.parse(item.campaign!.deepLink),
-                    source: SourceScreen.bannerOnRewards,
-                  );
-                },
               ),
               const SpaceH20(),
             ],

@@ -225,17 +225,27 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
     if (mustToSubstring) {
       finalPhone = finalPhone.substring(charsToSubstring);
-      phoneNumberController.text = finalPhone;
+      final number = _parsePhoneNumber(finalPhone);
+      phoneInput = number;
+      phoneNumberController.text = number;
+      print(number.length);
+      print(phoneNumberController.selection.base.offset);
+      phoneNumberController.selection = TextSelection.fromPosition(
+        TextPosition(
+          offset: number.length,
+        ),
+      );
+    } else {
+      final number = _parsePhoneNumber(finalPhone);
+      phoneInput = number;
+      final currentOffset = phoneNumberController.selection.base.offset;
+      phoneNumberController.text = number;
+      phoneNumberController.selection = TextSelection.fromPosition(
+        TextPosition(
+          offset: currentOffset,
+        ),
+      );
     }
-    final number = _parsePhoneNumber(finalPhone);
-    final currentOffset = phoneNumberController.selection.base.offset;
-    phoneInput = number;
-    phoneNumberController.text = number;
-    phoneNumberController.selection = TextSelection.fromPosition(
-      TextPosition(
-        offset: currentOffset,
-      ),
-    );
   }
 
   @action

@@ -9,9 +9,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 void showSendOptions(
   BuildContext context,
-  CurrencyModel currency,
-) {
-  Navigator.pop(context);
+  CurrencyModel currency, {
+  bool navigateBack = true,
+}) {
+  if (navigateBack) {
+    Navigator.pop(context);
+  }
 
   sShowBasicModalBottomSheet(
     context: context,

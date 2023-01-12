@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/nft_market_item.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
@@ -20,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
+import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../helper/crypto_filer_modal.dart';
 import '../../../../helper/crypto_search_modal.dart';
@@ -53,7 +56,6 @@ class MarketNestedScrollView extends StatelessWidget {
     return Provider<MarketFilterStore>(
       create: (context) => MarketFilterStore(),
       builder: (context, child) => _MarketNestedScrollViewBody(
-        showBanners: showBanners,
         showFilter: showFilter,
         showSearch: showSearch,
         sourceScreen: sourceScreen,
@@ -65,14 +67,12 @@ class MarketNestedScrollView extends StatelessWidget {
 
 class _MarketNestedScrollViewBody extends StatefulObserverWidget {
   const _MarketNestedScrollViewBody({
-    this.showBanners = false,
     this.showFilter = false,
     this.showSearch = false,
     required this.marketShowType,
     required this.sourceScreen,
   });
 
-  final bool showBanners;
   final bool showFilter;
   final bool showSearch;
   final FilterMarketTabAction sourceScreen;
@@ -189,43 +189,106 @@ class __MarketNestedScrollViewBodyState
 
   Widget showCryptoList(BaseCurrencyModel baseCurrency) {
     final store = MarketFilterStore.of(context);
+    final showNFT = sSignalRModules.nftList.isNotEmpty &&
+        sSignalRModules.clientDetail.isNftEnable;
+
+    return SliverGroupedListView<MarketItemModel, String>(
+      elements: store.cryptoListFiltred,
+      groupBy: (transaction) {
+        return 'formatDate(transaction.timeStamp)';
+      },
+      sort: false,
+      groupSeparatorBuilder: (String text) {
+        return MarketSeparator(text: text);
+      },
+      itemBuilder: (context, item) {
+        return SMarketItem(
+          icon: SNetworkSvg24(
+            url: item.iconUrl,
+          ),
+          name: item.name,
+          price: marketFormat(
+            prefix: baseCurrency.prefix,
+            decimal: item.lastPrice,
+            symbol: baseCurrency.symbol,
+            accuracy: item.priceAccuracy,
+          ),
+          ticker: item.symbol,
+          last: item == store.cryptoListFiltred.last,
+          percent: item.dayPercentChange,
+          onTap: () {
+            sRouter.push(
+              MarketDetailsRouter(
+                marketItem: item,
+              ),
+            );
+          },
+        );
+      },
+    );
 
     return Column(
       children: [
-        if (widget.showBanners) const MarketBanners(),
         Flexible(
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             itemCount: store.cryptoListFiltred.length,
             itemBuilder: (context, index) {
-              return SMarketItem(
-                icon: SNetworkSvg24(
-                  url: store.cryptoListFiltred[index].iconUrl,
-                ),
-                name: store.cryptoListFiltred[index].name,
-                price: marketFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: store.cryptoListFiltred[index].lastPrice,
-                  symbol: baseCurrency.symbol,
-                  accuracy: store.cryptoListFiltred[index].priceAccuracy,
-                ),
-                ticker: store.cryptoListFiltred[index].symbol,
-                last: store.cryptoListFiltred[index] ==
-                    store.cryptoListFiltred.last,
-                percent: store.cryptoListFiltred[index].dayPercentChange,
-                onTap: () {
-                  sRouter.push(
-                    MarketDetailsRouter(
-                      marketItem: store.cryptoListFiltred[index],
-                    ),
-                  );
-                },
-              );
+              return Observer(builder: (context) {
+                final isInWatchlist = store.watchList.contains(
+                  store.cryptoListFiltred[index].associateAsset,
+                );
+
+                return SMarketItem(
+                  key: Key(
+                    store.cryptoListFiltred[index].associateAsset,
+                  ),
+                  showFavoriteIcon: true,
+                  isStarActive: isInWatchlist,
+                  onStarButtonTap: () {
+                    if (isInWatchlist) {
+                      store.removeFromWatchlist(
+                        store.cryptoListFiltred[index].associateAsset,
+                      );
+                    } else {
+                      sAnalytics.addToWatchlist(
+                        store.cryptoListFiltred[index].name,
+                      );
+                      store.addToWatchlist(
+                        store.cryptoListFiltred[index].associateAsset,
+                      );
+                    }
+                  },
+                  icon: SNetworkSvg24(
+                    url: store.cryptoListFiltred[index].iconUrl,
+                  ),
+                  name: store.cryptoListFiltred[index].name,
+                  price: marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: store.cryptoListFiltred[index].lastPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: store.cryptoListFiltred[index].priceAccuracy,
+                  ),
+                  ticker: store.cryptoListFiltred[index].symbol,
+                  last: store.cryptoListFiltred[index] ==
+                      store.cryptoListFiltred.last,
+                  percent: store.cryptoListFiltred[index].dayPercentChange,
+                  onTap: () {
+                    sRouter.push(
+                      MarketDetailsRouter(
+                        marketItem: store.cryptoListFiltred[index],
+                      ),
+                    );
+                  },
+                );
+              });
             },
           ),
         ),
-        const SpaceH40(),
+        if (showNFT) ...[
+          const SpaceH40(),
+        ],
       ],
     );
   }
@@ -235,7 +298,6 @@ class __MarketNestedScrollViewBodyState
 
     return Column(
       children: [
-        if (widget.showBanners) const MarketBanners(),
         Flexible(
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
