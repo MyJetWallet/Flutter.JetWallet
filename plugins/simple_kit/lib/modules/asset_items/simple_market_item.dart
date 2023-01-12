@@ -3,16 +3,15 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
-
-import '../icons/16x16/public/minus/simple_minus_icon.dart';
-import '../icons/16x16/public/small_arrow/simple_small_arrow_negative_icon.dart';
-import '../icons/16x16/public/small_arrow/simple_small_arrow_positive_icon.dart';
-import '../texts/simple_text_styles.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 class SMarketItem extends StatelessWidget {
   const SMarketItem({
     Key? key,
     this.last = false,
+    this.showFavoriteIcon = false,
+    this.isStarActive = false,
+    this.onStarButtonTap,
     required this.icon,
     required this.name,
     required this.price,
@@ -28,6 +27,9 @@ class SMarketItem extends StatelessWidget {
   final bool last;
   final double percent;
   final Function() onTap;
+  final bool showFavoriteIcon;
+  final Function()? onStarButtonTap;
+  final bool isStarActive;
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +120,15 @@ class SMarketItem extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (showFavoriteIcon) ...[
+                    const SpaceW10(),
+                    SIconButton(
+                      onTap: onStarButtonTap,
+                      defaultIcon:
+                          isStarActive ? const SStarSelectedIcon() : const SStarIcon(),
+                      pressedIcon: const SStarPressedIcon(),
+                    ),
+                  ],
                 ],
               ),
               const Spacer(),
