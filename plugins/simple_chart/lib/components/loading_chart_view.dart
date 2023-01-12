@@ -41,7 +41,7 @@ class LoadingChartView extends StatelessWidget {
             Positioned(
               left: 0,
               right: 0,
-              top: 80,
+              top: 30,
               child: loader,
             ),
           Positioned(
