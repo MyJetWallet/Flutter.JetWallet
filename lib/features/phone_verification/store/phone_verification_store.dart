@@ -90,6 +90,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
+        resendTapped = false;
 
         sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
 
@@ -100,6 +101,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       }
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+      resendTapped = false;
 
       sAnalytics.kycPhoneConfirmFailed(
         intl.something_went_wrong,
@@ -133,6 +135,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);
+        pinFieldError.enableError();
 
         sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
 
@@ -145,6 +148,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       }
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
+      pinFieldError.enableError();
 
       sAnalytics.kycPhoneConfirmFailed(
         intl.something_went_wrong,

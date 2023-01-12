@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -127,6 +129,18 @@ class SetPhoneNumber extends StatelessObserverWidget {
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
+                    if (store.canCLick) {
+                      store.toggleClick(false);
+
+                      Timer(
+                        const Duration(
+                          seconds: 2,
+                        ),
+                            () => store.toggleClick(true),
+                      );
+                    } else {
+                      return;
+                    }
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
                     store.sendCode(

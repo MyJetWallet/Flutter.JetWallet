@@ -19,6 +19,11 @@ final errorCodesDescriptionEn = {
   'NotSupported':
       'There was a problem loading wallet address. Try again in a moment.',
   'PaymentFailed': 'Payment failed. Please try again later or contact support.',
+  'InvalidCode': 'The code you entered is incorrect',
+  'UnsuccessfulSend': 'Something went wrong',
+  'InvalidPhone': 'Invalid phone',
+  'OperationBlocked': 'Operation blocked',
+  'OperationNotAllowed': 'Operation not allowed',
 
   //Auth
   'InvalidUserNameOrPassword': 'Invalid login or password',
