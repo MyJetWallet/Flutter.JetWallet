@@ -51,24 +51,25 @@ class WaitingScreen extends StatelessObserverWidget {
               style: sTextH2Style,
             ),
           ),
-          Baseline(
-            baseline: 31.4,
-            baselineType: TextBaseline.alphabetic,
-            child: Text(
-              secondaryText ?? intl.waitingScreen_description,
-              maxLines: 10,
-              textAlign: TextAlign.center,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
+          if (secondaryText != null)
+            Baseline(
+              baseline: 31.4,
+              baselineType: TextBaseline.alphabetic,
+              child: Text(
+                secondaryText ?? intl.waitingScreen_description,
+                maxLines: 10,
+                textAlign: TextAlign.center,
+                style: sBodyText1Style.copyWith(
+                  color: colors.grey1,
+                ),
               ),
             ),
-          ),
           if (specialTextWidget != null) specialTextWidget!,
           if (wasAction) ...[
             const Spacer(),
             SSecondaryButton1(
               active: true,
-              name: intl.previewBuyWithUmlimint_skipWait,
+              name: intl.previewBuyWithUmlimint_close,
               onTap: () {
                 sAnalytics.tapSkipWaiting();
                 onSkip();

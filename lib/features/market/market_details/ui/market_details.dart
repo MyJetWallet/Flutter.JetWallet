@@ -202,88 +202,9 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
             ReturnRatesBlock(
               assetSymbol: widget.marketItem.associateAsset,
             ),
-            const SpaceH40(),
-            if (supportsRecurringBuy(widget.marketItem.symbol, currencies))
-              RecurringBuyBanner(
-                title: recurringNotifier.recurringBannerTitle(
-                  asset: currency.symbol,
-                  context: context,
-                ),
-                type: recurringNotifier.type(currency.symbol),
-                topMargin: 0,
-                onTap: () {
-                  // Todo: need refactor
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    if (recurringNotifier.activeOrPausedType(currency.symbol)) {
-                      if (moveToRecurringInfo && lastRecurringItem != null) {
-                        sRouter.push(
-                          ShowRecurringInfoActionRouter(
-                            recurringItem: lastRecurringItem,
-                            assetName: currency.description,
-                          ),
-                        );
-                      } else {
-                        showRecurringBuyAction(
-                          context: context,
-                          currency: currency,
-                          total: recurringNotifier.totalRecurringByAsset(
-                            asset: currency.symbol,
-                          ),
-                        );
-                      }
-                    } else {
-                      var dismissWasCall = false;
-                      showActionWithoutRecurringBuy(
-                        title: intl.recurringBuysName_empty,
-                        context: context,
-                        onItemTap: (RecurringBuysType type) {
-                          sRouter.navigate(
-                            CurrencyBuyRouter(
-                              currency: currency,
-                              fromCard: false,
-                              recurringBuysType: type,
-                            ),
-                          );
-                        },
-                        onDissmis: () => {
-                          dismissWasCall = true,
-                          sAnalytics.closeRecurringBuySheet(
-                            currency.description,
-                            Source.marketScreen,
-                          ),
-                        },
-                        then: (val) => {
-                          if (val == null && !dismissWasCall)
-                            {
-                              sAnalytics.closeRecurringBuySheet(
-                                currency.description,
-                                Source.marketScreen,
-                              ),
-                            },
-                        },
-                      );
-                    }
-                  } else {
-                    sAnalytics.setupRecurringBuyView(
-                      currency.description,
-                      Source.assetScreen,
-                    );
-
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSellAction(context),
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                    );
-                  }
-                },
-              )
-            else ...[
-              const SDivider(),
-              const SpaceH32(),
-            ],
+            const SpaceH20(),
+            const SDivider(),
+            const SpaceH2(),
             if (widget.marketItem.type == AssetType.indices) ...[
               IndexAllocationBlock(
                 marketItem: widget.marketItem,

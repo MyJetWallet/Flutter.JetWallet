@@ -289,6 +289,8 @@ abstract class _TwoFaPhoneStoreBase with Store {
           phoneBody: number.body,
           phoneCode: '+${number.dialCode}',
           phoneIso: number.isoCode,
+          verificationType: 0,
+          requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         );
 
         final _ = await sNetwork

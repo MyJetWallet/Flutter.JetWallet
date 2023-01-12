@@ -7,6 +7,7 @@ import 'package:simple_kit/simple_kit.dart';
 // ignore: long-method
 void sShowMenuActionSheet({
   bool isBuyAvailable = true,
+  bool isSellAvailable = true,
   bool isDepositAvailable = true,
   bool isWithdrawAvailable = true,
   bool isBuyFromCardAvailable = true,
@@ -43,22 +44,6 @@ void sShowMenuActionSheet({
           name: actionItemLocalized[1]['name']!,
           description: actionItemLocalized[1]['description']!,
         ),
-      if (isNotEmptyBalance) ...[
-        SActionItem(
-          onTap: onSell,
-          icon: const SActionSellIcon(),
-          name: actionItemLocalized[2]['name']!,
-          description: actionItemLocalized[2]['description']!,
-        ),
-        if (isConvertAvailable) ...[
-          SActionItem(
-            onTap: onConvert,
-            icon: const SActionConvertIcon(),
-            name: actionItemLocalized[3]['name']!,
-            description: actionItemLocalized[3]['description']!,
-          ),
-        ],
-      ],
       if (isBuyFromCardAvailable)
         SActionItem(
           onTap: () => onBuyFromCard(),
@@ -73,6 +58,23 @@ void sShowMenuActionSheet({
           name: actionItemLocalized[5]['name']!,
           description: actionItemLocalized[5]['description']!,
         ),
+      ],
+      if (isNotEmptyBalance) ...[
+        if (isSellAvailable)
+          SActionItem(
+            onTap: onSell,
+            icon: const SActionSellIcon(),
+            name: actionItemLocalized[2]['name']!,
+            description: actionItemLocalized[2]['description']!,
+          ),
+        if (isConvertAvailable) ...[
+          SActionItem(
+            onTap: onConvert,
+            icon: const SActionConvertIcon(),
+            name: actionItemLocalized[3]['name']!,
+            description: actionItemLocalized[3]['description']!,
+          ),
+        ],
       ],
       SActionItem(
         onTap: onSend,

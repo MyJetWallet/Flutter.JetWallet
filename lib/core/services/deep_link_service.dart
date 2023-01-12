@@ -372,7 +372,7 @@ class DeepLinkService {
 
     final notifier = getIt.get<SendByPhoneConfirmStore>();
 
-    notifier.updateCode(code, id);
+    notifier.updateCode(code, id, isDeepLink: true);
   }
 
   void _inviteFriendCommand(SourceScreen? source) {

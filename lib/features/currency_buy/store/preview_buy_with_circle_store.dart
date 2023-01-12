@@ -31,6 +31,8 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 
+import '../../../utils/formatting/base/volume_format.dart';
+
 part 'preview_buy_with_circle_store.g.dart';
 
 class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
@@ -382,6 +384,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               frequency: RecurringFrequency.oneTime,
               source: 'Circle',
             );
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             throw Exception();
@@ -428,8 +433,12 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '${volumeFormat(
+              decimal: buyAmount ?? Decimal.zero,
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )}',
           ),
         )
         .then(

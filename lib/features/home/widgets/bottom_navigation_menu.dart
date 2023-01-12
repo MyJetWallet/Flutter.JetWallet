@@ -124,6 +124,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       sShowMenuActionSheet(
         context: context,
         isNotEmptyBalance: isNotEmptyBalance,
+        isBuyAvailable: false,
         onBuy: () {
           sAnalytics.tapOnBuy(Source.quickActions);
 
@@ -140,6 +141,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
             fromCard: true,
           );
         },
+        isSellAvailable: false,
         onSell: () {
           sAnalytics.sellClick(source: 's Menu');
           if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
@@ -219,7 +221,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
 
             showSendAction(context, isNotEmptyBalance: isNotEmptyBalance);
           } else {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
 
             kycAlertHandler.handle(
               status: kycState.withdrawalStatus,
@@ -238,7 +240,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
             showReceiveAction(context);
           } else {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
 
             kycAlertHandler.handle(
               status: kycState.depositStatus,

@@ -7,9 +7,11 @@ class ResendRichText extends StatelessObserverWidget {
   const ResendRichText({
     Key? key,
     required this.onTap,
+    this.isPhone = false,
   }) : super(key: key);
 
   final Function() onTap;
+  final bool isPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,9 @@ class ResendRichText extends StatelessObserverWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: intl.resetRichText_resend,
+            name: isPhone
+                ? intl.profileDetails_receiveCall
+                : intl.resetRichText_resend,
             onTap: onTap,
           ),
         ],

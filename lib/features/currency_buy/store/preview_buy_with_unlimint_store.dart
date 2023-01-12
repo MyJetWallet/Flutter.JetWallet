@@ -26,6 +26,8 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/unlimint/add_unlimint_card_request_model.dart';
 
+import '../../../utils/formatting/base/volume_format.dart';
+
 part 'preview_buy_with_unlimint_store.g.dart';
 
 class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase
@@ -291,6 +293,9 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
             if (isWaitingSkipped) {
               return;
             }
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -342,12 +347,16 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '${volumeFormat(
+              decimal: buyAmount ?? Decimal.zero,
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )}',
             time: input.card != null ? 3 : 5,
             showActionButton: input.card == null,
             buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: input.card == null,
+            showProgressBar: true,
             onActionButton: () async {
               tapped = true;
               final _ =

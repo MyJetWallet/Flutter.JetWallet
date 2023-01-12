@@ -56,6 +56,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   bool isButtonActive = false;
 
   @observable
+  bool canCLick = true;
+
+  @observable
   ObservableList<SPhoneNumber> sortedDialCodes = ObservableList.of([]);
 
   late TextEditingController dialCodeController;
@@ -97,6 +100,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
         phoneBody: number.body,
         phoneCode: '+${number.dialCode}',
         phoneIso: number.isoCode,
+        verificationType: 1,
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 
       final resp = await sNetwork
@@ -268,6 +273,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
     if (phonePasted.isNotEmpty) {
       updatePhoneNumber(phonePasted);
     }
+  }
+
+  @action
+  void toggleClick(bool value) {
+    canCLick = value;
   }
 
   @action

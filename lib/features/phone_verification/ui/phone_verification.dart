@@ -46,7 +46,7 @@ class PhoneVerification extends StatelessWidget {
           dispose: (context, store) => store.dispose(),
         ),
         Provider<TimerStore>(
-          create: (_) => TimerStore(emailResendCountdown),
+          create: (_) => TimerStore(30),
           dispose: (context, store) => store.dispose(),
         ),
       ],
@@ -167,22 +167,40 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             ),
 
             /// TODO update legacy resend
-            if (timer.time > 0 && !store.showResend)
-              ResendInText(
-                text: '${intl.phoneVerification_youCanResendIn} ${timer.time}'
-                    ' ${intl.phoneVerification_seconds}',
+            if (store.resendTapped)
+              Center(
+                child: Text(
+                  intl.profileDetails_waitForCall,
+                  style: sCaptionTextStyle.copyWith(
+                    color: colors.grey2,
+                  ),
+                ),
               )
             else ...[
-              ResendRichText(
-                onTap: () async {
-                  await store.sendCode();
-                  timer.refreshTimer();
+              if (timer.time > 0 && !store.showResend) ...[
+                ResendInText(
+                  text: '${intl.twoFaPhone_youCanReceive} ${timer.time}'
+                      ' ${intl.phoneVerification_seconds}',
+                ),
+                const SpaceH10(),
+                STextButton1(
+                  active: false,
+                  name: intl.profileDetails_receiveCall,
+                  onTap: () {},
+                ),
+              ] else ...[
+                ResendRichText(
+                  isPhone: true,
+                  onTap: () async {
+                    await store.sendCode();
+                    timer.refreshTimer();
 
-                  store.updateShowResend(
-                    sResend: false,
-                  );
-                },
-              ),
+                    store.updateShowResend(
+                      sResend: false,
+                    );
+                  },
+                ),
+              ],
             ],
           ],
         ),

@@ -65,28 +65,17 @@ class ProfileDetails extends StatelessObserverWidget {
 
                     Navigator.pop(context);
                     sRouter.push(
-                      PhoneVerificationRouter(
-                        args: PhoneVerificationArgs(
-                          phoneNumber: userInfo.phone,
-                          showChangeTextAlert: true,
-                          onVerified: () {
-                            Navigator.pop(context);
-                            sRouter.push(
-                              SetPhoneNumberRouter(
-                                successText:
-                                    intl.profileDetails_newPhoneNumberConfirmed,
-                                then: () {
-                                  sRouter.popUntil(
-                                    (route) {
-                                      return route.settings.name ==
-                                          'ProfileDetailsRouter';
-                                    },
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
+                      SetPhoneNumberRouter(
+                        successText:
+                            intl.profileDetails_newPhoneNumberConfirmed,
+                        then: () {
+                          sRouter.popUntil(
+                            (route) {
+                              return route.settings.name ==
+                                  'ProfileDetailsRouter';
+                            },
+                          );
+                        },
                       ),
                     );
                   },

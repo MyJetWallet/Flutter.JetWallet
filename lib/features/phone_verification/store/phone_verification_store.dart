@@ -47,6 +47,9 @@ abstract class _PhoneVerificationStoreBase with Store {
   @observable
   bool showResend = false;
 
+  @observable
+  bool resendTapped = false;
+
   TextEditingController controller = TextEditingController();
 
   @action
@@ -67,6 +70,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> sendCode() async {
     try {
+      resendTapped = true;
       final number = await decomposePhoneNumber(
         phoneNumber,
       );
@@ -76,6 +80,8 @@ abstract class _PhoneVerificationStoreBase with Store {
         phoneBody: number.body,
         phoneCode: '+${number.dialCode}',
         phoneIso: number.isoCode,
+        verificationType: 2,
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 
       final response = await sNetwork
@@ -84,6 +90,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
+        resendTapped = false;
 
         sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
 
@@ -94,6 +101,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       }
     } catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+      resendTapped = false;
 
       sAnalytics.kycPhoneConfirmFailed(
         intl.something_went_wrong,
@@ -127,6 +135,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);
+        pinFieldError.enableError();
 
         sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
 
@@ -139,6 +148,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       }
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
+      pinFieldError.enableError();
 
       sAnalytics.kycPhoneConfirmFailed(
         intl.something_went_wrong,

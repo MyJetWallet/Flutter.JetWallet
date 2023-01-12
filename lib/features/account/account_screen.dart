@@ -191,18 +191,6 @@ class _AccountScreenState extends State<AccountScreen>
                       },
                     ),
                     SimpleAccountCategoryButton(
-                      title: intl.account_recurringBuy,
-                      icon: const SRecurringBuysIcon(),
-                      isSDivider: true,
-                      onTap: () {
-                        sRouter.push(
-                          HistoryRecurringBuysRouter(
-                            from: Source.profile,
-                          ),
-                        );
-                      },
-                    ),
-                    SimpleAccountCategoryButton(
                       title: intl.account_history,
                       icon: const SIndexHistoryIcon(),
                       isSDivider: true,

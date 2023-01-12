@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -329,6 +330,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
               frequency: RecurringFrequency.oneTime,
               source: 'Unlimint',
             );
+            if (data.buyInfo != null) {
+              buyAmount = data.buyInfo!.buyAmount;
+            }
             unawaited(_showSuccessScreen());
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -382,8 +386,12 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.buyWithCircle_paymentWillBeProcessed} \n'
-                ' ≈ 10-30 ${intl.buyWithCircle_minutes}',
+            secondaryText: '${intl.successScreen_youBought} '
+                '${volumeFormat(
+                  decimal: buyAmount ?? Decimal.zero,
+                  accuracy: input.currency.accuracy,
+                  symbol: input.currency.symbol,
+                )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),
