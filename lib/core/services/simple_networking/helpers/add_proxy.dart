@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:http_proxy/http_proxy.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
+import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:native_flutter_proxy/native_proxy_reader.dart';
 
@@ -13,7 +14,9 @@ Future<void> addProxy(
 ) async {
   final dioProxy = getIt.get<DioProxyService>();
 
-  if (getIt<AppStore>().env == 'stage') {
+  final flavor = flavorService();
+
+  if (getIt<AppStore>().env == 'stage' || flavor == Flavor.stage) {
     final settings = await NativeProxyReader.proxySetting;
 
     if (settings.enabled) {
