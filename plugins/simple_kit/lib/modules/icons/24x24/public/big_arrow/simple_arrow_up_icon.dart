@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/core/di.dart';
 import 'package:simple_kit/core/simple_kit.dart';
+import 'package:simple_kit/modules/icons/24x24/light/big_arrow/simple_light_arrow_down.dart';
 import 'package:simple_kit/modules/icons/24x24/light/big_arrow/simple_light_arrow_up.dart';
 import 'package:simple_kit/utils/enum.dart';
 
@@ -13,5 +14,16 @@ class SArrowUpIcon extends StatelessObserverWidget {
     return sKit.currentTheme == STheme.dark
         ? const SimpleLightArrowUpIcon()
         : const SimpleLightArrowUpIcon();
+  }
+}
+
+class SArrowDownIcon extends StatelessObserverWidget {
+  const SArrowDownIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return sKit.currentTheme == STheme.dark
+        ? const SimpleLightArrowDownIcon()
+        : const SimpleLightArrowDownIcon();
   }
 }

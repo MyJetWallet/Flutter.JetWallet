@@ -470,6 +470,7 @@
   "balanceActionButtons_sell": "Sell",
   "balanceActionButtons_buy": "Buy",
   "balanceActionButtons_receive": "Receive",
+  "balanceActionButtons_send": "Send",
   "actionReceive_bottomSheetHeaderName1": "Choose asset to receive",
   "actionReceive_receive": "Receive",
   "actionReceive_receive_crypto": "Receive Crypto",
