@@ -352,7 +352,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               decimal: buyAmount ?? Decimal.zero,
               accuracy: input.currency.accuracy,
               symbol: input.currency.symbol,
-            )} ${input.currency.symbol}',
+            )}',
             time: input.card != null ? 3 : 5,
             showActionButton: input.card == null,
             buttonText: intl.previewBuyWithUmlimint_saveCard,

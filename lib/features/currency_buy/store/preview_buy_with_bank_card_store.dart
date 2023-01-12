@@ -391,7 +391,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
                   decimal: buyAmount ?? Decimal.zero,
                   accuracy: input.currency.accuracy,
                   symbol: input.currency.symbol,
-                )} ${input.currency.symbol}',
+                )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),

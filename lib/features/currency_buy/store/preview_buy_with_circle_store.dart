@@ -438,7 +438,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               decimal: buyAmount ?? Decimal.zero,
               accuracy: input.currency.accuracy,
               symbol: input.currency.symbol,
-            )} ${input.currency.symbol}',
+            )}',
           ),
         )
         .then(
