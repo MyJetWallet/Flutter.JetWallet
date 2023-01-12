@@ -24,6 +24,12 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
 
   @override
   Widget build(BuildContext context) {
+    late Color currentColor;
+
+    currentColor = highlighted
+        ? widget.backgroundColor.withOpacity(0.8)
+        : widget.backgroundColor;
+
     return InkWell(
       onTap: widget.onTap,
       onHighlightChanged: (value) {
@@ -37,7 +43,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
         height: 48.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: widget.backgroundColor,
+          color: currentColor,
         ),
         padding: const EdgeInsets.all(12),
         child: highlighted

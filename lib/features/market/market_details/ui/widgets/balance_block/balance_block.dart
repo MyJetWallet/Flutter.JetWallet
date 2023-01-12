@@ -73,7 +73,7 @@ class _BalanceBlockBody extends StatelessObserverWidget {
             ),
             primaryText: sortWordDependingLang(
               text: marketItem.name,
-              swappedText: intl.balanceBlock_wallet,
+              swappedText: intl.walletBody_balance,
               languageCode: languageCode,
               isCapitalize: true,
             ),

@@ -93,6 +93,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       defaultIcon: STopUpIcon(
                         color: colors.white,
                       ),
+                      pressedIcon: STopUpIcon(
+                        color: colors.white.withOpacity(0.7),
+                      ),
                       onTap: () {
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
@@ -200,7 +203,11 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       onTap: () {
                         if (kycState.sellStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          showSendOptions(context, currency);
+                          showSendOptions(
+                            context,
+                            currency,
+                            navigateBack: false,
+                          );
                         } else {
                           kycAlertHandler.handle(
                             status: kycState.sellStatus,
