@@ -8,13 +8,17 @@ import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
+import 'package:logging/logging.dart' as logging;
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
+
+import '../../../core/di/di.dart';
+import '../../../core/services/logger_service/logger_service.dart';
 part 'set_phone_number_store.g.dart';
 
 @lazySingleton
@@ -35,7 +39,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     phoneNumberController.addListener(phoneControllerListener);
   }
 
-  static final _logger = Logger('SetPhoneNumberStore');
+  static final _logger = logging.Logger('SetPhoneNumberStore');
 
   @observable
   SPhoneNumber? activeDialCode;
@@ -86,17 +90,34 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   Future<void> sendCode({required void Function() then}) async {
+    getIt.get<SimpleLoggerService>().log(
+      level: Level.info,
+      place: 'sendCode',
+      message: 'sendCode start',
+    );
     _logger.log(notifier, 'sendCode');
 
     loader!.startLoading();
 
     try {
-      _logger.log(notifier, 'try sendCode');
-      _logger.log(notifier, phoneNumber());
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: 'try sendCode',
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: phoneNumber(),
+      );
       final number = await decomposePhoneNumber(
         phoneNumber(),
       );
-      _logger.log(notifier, '$number');
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$number',
+      );
 
       final model = PhoneVerificationRequestModel(
         locale: intl.localeName,
@@ -106,13 +127,25 @@ abstract class _SetPhoneNumberStoreBase with Store {
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
-      _logger.log(notifier, '$model');
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$model',
+      );
 
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
-      _logger.log(notifier, 'response received');
-      _logger.log(notifier, '$resp');
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: 'response received',
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$resp',
+      );
 
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
