@@ -92,10 +92,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
     try {
       _logger.log(notifier, 'sendCode', 'try sendCode');
-      _logger.log(notifier, 'sendCode','$phoneNumber');
+      _logger.log(notifier, 'sendCode', phoneNumber());
       final number = await decomposePhoneNumber(
         phoneNumber(),
       );
+      _logger.log(notifier, 'sendCode', '$number');
 
       final model = PhoneVerificationRequestModel(
         locale: intl.localeName,
