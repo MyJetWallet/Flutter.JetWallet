@@ -91,6 +91,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
     loader!.startLoading();
 
     try {
+      _logger.log(notifier, 'sendCode', 'try sendCode');
+      _logger.log(notifier, 'sendCode','$phoneNumber');
       final number = await decomposePhoneNumber(
         phoneNumber(),
       );
@@ -103,10 +105,12 @@ abstract class _SetPhoneNumberStoreBase with Store {
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
+      _logger.log(notifier, 'sendCode','$model');
 
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
+      _logger.log(notifier, 'sendCode','response received');
 
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
