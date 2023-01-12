@@ -5,6 +5,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/widgets/waiting_animation.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class WaitingScreen extends StatelessObserverWidget {
@@ -69,6 +70,7 @@ class WaitingScreen extends StatelessObserverWidget {
               active: true,
               name: intl.previewBuyWithUmlimint_skipWait,
               onTap: () {
+                sAnalytics.tapSkipWaiting();
                 onSkip();
                 navigateToRouter();
               },
