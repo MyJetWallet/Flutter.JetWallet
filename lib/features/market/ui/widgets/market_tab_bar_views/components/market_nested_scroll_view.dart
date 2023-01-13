@@ -115,6 +115,10 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      store.syncWatchListLocal();
+    });
+
     final showPreloader =
         store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
 
@@ -212,6 +216,8 @@ class __MarketNestedScrollViewBodyState
                   showFavoriteIcon: true,
                   isStarActive: isInWatchlist,
                   onStarButtonTap: () {
+                    print(isInWatchlist);
+
                     if (isInWatchlist) {
                       store.removeFromWatchlist(
                         store.cryptoListFiltred[index].associateAsset,
