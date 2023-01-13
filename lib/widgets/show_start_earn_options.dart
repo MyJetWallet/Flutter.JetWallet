@@ -40,7 +40,7 @@ void showStartEarnOptions({
             sRouter.push(
               CurrencyBuyRouter(
                 currency: currency,
-                fromCard: balancesEmpty,
+                fromCard: true,
               ),
             );
           } else {
@@ -60,7 +60,7 @@ void showStartEarnOptions({
                 sRouter.push(
                   CurrencyBuyRouter(
                     currency: currency,
-                    fromCard: balancesEmpty,
+                    fromCard: true,
                   ),
                 );
               },

@@ -307,9 +307,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
           sRouter.navigate(
             CurrencyBuyRouter(
               currency: input.toCurrency,
-              fromCard: areBalancesEmpty(
-                sSignalRModules.currenciesList,
-              ),
+              fromCard: true,
             ),
           );
         },

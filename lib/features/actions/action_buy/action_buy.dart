@@ -138,7 +138,7 @@ class _ActionBuy extends StatelessObserverWidget {
             getIt.get<AppRouter>().navigate(
                   CurrencyBuyRouter(
                     currency: currency,
-                    fromCard: false,
+                    fromCard: true,
                     recurringBuysType: type,
                   ),
                 );
@@ -167,7 +167,7 @@ class _ActionBuy extends StatelessObserverWidget {
         getIt.get<AppRouter>().navigate(
               CurrencyBuyRouter(
                 currency: currency,
-                fromCard: fromCard,
+                fromCard: true,
               ),
             );
       }
