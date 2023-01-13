@@ -112,6 +112,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
       );
       final number = await decomposePhoneNumber(
         phoneNumber(),
+        isoCodeNumber: activeDialCode?.isoCode ?? '',
       );
       getIt.get<SimpleLoggerService>().log(
         level: Level.info,
@@ -148,6 +149,12 @@ abstract class _SetPhoneNumberStoreBase with Store {
       );
 
       if (resp.hasError) {
+
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'sendCode',
+          message: '${resp.error}',
+        );
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
 
@@ -160,12 +167,22 @@ abstract class _SetPhoneNumberStoreBase with Store {
       then();
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$e',
+      );
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
       print(e);
 
       _logger.log(stateFlow, 'sendCode', e);
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$e',
+      );
 
       sNotification.showError(
         intl.something_went_wrong,
