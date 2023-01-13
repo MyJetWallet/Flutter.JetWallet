@@ -84,15 +84,18 @@ abstract class _RewardStoreBase with Store {
     final referralStatsArray = List<ReferralStatsModel>.from(referralStats);
 
     for (final campaign in campaignsArray) {
-      combinedArray.add(CampaignOrReferralModel(campaign: campaign));
+      if (campaign.conditions == null ||
+          (campaign.conditions != null && campaign.conditions!.isEmpty)) {
+        combinedArray.add(CampaignOrReferralModel(campaign: campaign));
+      }
     }
 
-    combinedArray.sort((a, b) {
-      final weight1 = b.campaign?.weight ?? b.referralState!.weight;
-      final weight2 = a.campaign?.weight ?? a.referralState!.weight;
-
-      return weight2.compareTo(weight1);
-    });
+    for (final campaign in campaignsArray) {
+      if (campaign.conditions != null &&
+          (campaign.conditions != null && campaign.conditions!.isNotEmpty)) {
+        combinedArray.add(CampaignOrReferralModel(campaign: campaign));
+      }
+    }
 
     for (final referralStat in referralStatsArray) {
       combinedArray.add(CampaignOrReferralModel(referralState: referralStat));

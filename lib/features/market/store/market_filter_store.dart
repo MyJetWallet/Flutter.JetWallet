@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
@@ -130,9 +131,17 @@ abstract class _MarketFilterStoreBase with Store {
 
   @observable
   ObservableList<String>? watchListLocal;
+  @action
+  void syncWatchListLocal() {
+    watchListLocal = ObservableList.of(watchListIds);
+  }
 
   @action
   Future<void> removeFromWatchlist(String assetId) async {
+    if (!ListEquality().equals(watchListLocal, watchListIds)) {
+      syncWatchListLocal();
+    }
+
     if (watchListLocal != null) watchListLocal!.remove(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(
@@ -149,6 +158,10 @@ abstract class _MarketFilterStoreBase with Store {
 
   @action
   Future<void> addToWatchlist(String assetId) async {
+    if (!ListEquality().equals(watchListLocal, watchListIds)) {
+      syncWatchListLocal();
+    }
+
     if (watchListLocal != null) watchListLocal!.add(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(

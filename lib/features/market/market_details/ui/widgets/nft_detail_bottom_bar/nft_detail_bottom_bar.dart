@@ -50,7 +50,7 @@ class NFTDetailBottomBar extends StatelessObserverWidget {
               ),
               primaryText: sortWordDependingLang(
                 text: currency.description,
-                swappedText: intl.balanceBlock_wallet,
+                swappedText: intl.balanceBlock_balance,
                 languageCode: languageCode,
                 isCapitalize: true,
               ),

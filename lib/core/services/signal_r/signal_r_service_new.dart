@@ -273,7 +273,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
     keys: [],
   );
   @action
-  void setKeyValue(KeyValueModel value) => keyValue = value;
+  void setKeyValue(KeyValueModel value) {
+    print(value);
+
+    keyValue = value;
+  }
 
   @observable
   @ObservableIndexModelListConverter()

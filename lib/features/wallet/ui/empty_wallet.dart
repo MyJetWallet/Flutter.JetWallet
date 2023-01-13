@@ -57,7 +57,7 @@ class _EmptyWalletState extends State<EmptyWallet>
               loaderText: intl.register_pleaseWait,
               header: SSmallHeader(
                 title: '${widget.currency.description} '
-                    '${intl.emptyWallet_wallet}',
+                    '${intl.emptyWallet_balance}',
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(
