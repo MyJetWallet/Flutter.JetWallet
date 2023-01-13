@@ -7,10 +7,12 @@ class SPaymentSelectEmptyBalance extends StatelessWidget {
   const SPaymentSelectEmptyBalance({
     Key? key,
     required this.text,
+    this.secondaryText,
     required this.widgetSize,
   }) : super(key: key);
 
   final String text;
+  final String? secondaryText;
   final SWidgetSize widgetSize;
 
   @override
@@ -27,22 +29,48 @@ class SPaymentSelectEmptyBalance extends StatelessWidget {
         child: Column(
           children: [
             // + 1px border
-            if (widgetSize == SWidgetSize.small) const SpaceH19(),
+            if (widgetSize == SWidgetSize.small) ...[
+              if (secondaryText != null)
+                const SpaceH7()
+              else
+                const SpaceH19(),
+            ],
             // + 1px border
-            if (widgetSize == SWidgetSize.medium) const SpaceH31(),
+            if (widgetSize == SWidgetSize.medium) ...[
+              if (secondaryText != null)
+                const SpaceH19()
+              else
+                const SpaceH31(),
+            ],
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
                 const SErrorIcon(),
                 const SpaceW10(),
-                Baseline(
-                  baseline: 18.0,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    text,
-                    style: sSubtitle2Style,
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Baseline(
+                      baseline: 18.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        text,
+                        style: sSubtitle2Style,
+                      ),
+                    ),
+                    if (secondaryText != null) ...[
+                      Baseline(
+                        baseline: 18.0,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          secondaryText!,
+                          style: sSubtitle2Style,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
                 const Spacer(),
               ],

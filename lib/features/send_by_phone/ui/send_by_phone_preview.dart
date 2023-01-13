@@ -18,11 +18,13 @@ class SendByPhonePreview extends StatelessWidget {
     required this.currency,
     required this.amountStoreAmount,
     required this.pickedContact,
+    required this.activeDialCode,
   });
 
   final CurrencyModel currency;
   final String amountStoreAmount;
   final ContactModel pickedContact;
+  final SPhoneNumber activeDialCode;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class SendByPhonePreview extends StatelessWidget {
         currency,
         amountStoreAmount,
         pickedContact,
+        activeDialCode,
       ),
       builder: (context, child) => _SendByPhonePreviewBody(
         currency: currency,

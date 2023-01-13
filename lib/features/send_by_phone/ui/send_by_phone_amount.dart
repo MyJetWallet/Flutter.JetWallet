@@ -23,15 +23,21 @@ class SendByPhoneAmount extends StatelessWidget {
     super.key,
     required this.currency,
     this.pickedContact,
+    this.activeDialCode,
   });
 
   final CurrencyModel currency;
   final ContactModel? pickedContact;
+  final SPhoneNumber? activeDialCode;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendByPhoneAmmountStore>(
-      create: (context) => SendByPhoneAmmountStore(currency, pickedContact),
+      create: (context) => SendByPhoneAmmountStore(
+        currency,
+        pickedContact,
+        activeDialCode,
+      ),
       builder: (context, child) => _SendByPhoneAmountBody(
         currency: currency,
       ),
@@ -165,6 +171,7 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
                   currency: currency,
                   amountStoreAmount: state.amount,
                   pickedContact: state.pickedContact!,
+                  activeDialCode: state.activeDialCode!,
                 ),
               );
             },

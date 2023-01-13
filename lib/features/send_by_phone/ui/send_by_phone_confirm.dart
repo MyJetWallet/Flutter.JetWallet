@@ -31,6 +31,7 @@ class SendByPhoneConfirm extends StatefulObserverWidget {
     required this.receiverIsRegistered,
     required this.amountStoreAmount,
     required this.pickedContact,
+    required this.activeDialCode,
   }) : super(key: key);
 
   final CurrencyModel currency;
@@ -38,6 +39,7 @@ class SendByPhoneConfirm extends StatefulObserverWidget {
   final bool receiverIsRegistered;
   final String amountStoreAmount;
   final ContactModel pickedContact;
+  final SPhoneNumber activeDialCode;
 
   @override
   State<SendByPhoneConfirm> createState() => _SendByPhoneConfirmState();
@@ -71,6 +73,7 @@ class _SendByPhoneConfirmState extends State<SendByPhoneConfirm> {
             widget.currency,
             widget.amountStoreAmount,
             widget.pickedContact,
+            widget.activeDialCode,
           ),
         ),
       ],

@@ -96,7 +96,7 @@ class _ActionButtonState extends State<ActionButton> {
         sRouter.navigate(
           CurrencyBuyRouter(
             currency: widget.currency,
-            fromCard: fromCard,
+            fromCard: true,
           ),
         );
       } else {
@@ -111,7 +111,7 @@ class _ActionButtonState extends State<ActionButton> {
           currentNavigate: () => sRouter.navigate(
             CurrencyBuyRouter(
               currency: widget.currency,
-              fromCard: fromCard,
+              fromCard: true,
             ),
           ),
           requiredDocuments: kycState.requiredDocuments,

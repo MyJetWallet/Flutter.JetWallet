@@ -149,6 +149,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                           PhoneVerificationRouter(
                             args: PhoneVerificationArgs(
                               phoneNumber: store.phoneNumber(),
+                              activeDialCode: store.activeDialCode,
                               sendCodeOnInitState: false,
                               onVerified: () {
                                 final userInfoN = sUserInfo;

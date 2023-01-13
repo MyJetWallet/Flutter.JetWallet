@@ -8,13 +8,17 @@ import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
+import 'package:logging/logging.dart' as logging;
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
+
+import '../../../core/di/di.dart';
+import '../../../core/services/logger_service/logger_service.dart';
 part 'set_phone_number_store.g.dart';
 
 @lazySingleton
@@ -35,7 +39,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     phoneNumberController.addListener(phoneControllerListener);
   }
 
-  static final _logger = Logger('SetPhoneNumberStore');
+  static final _logger = logging.Logger('SetPhoneNumberStore');
 
   @observable
   SPhoneNumber? activeDialCode;
@@ -86,29 +90,74 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @action
   Future<void> sendCode({required void Function() then}) async {
+    getIt.get<SimpleLoggerService>().log(
+      level: Level.info,
+      place: 'sendCode',
+      message: 'sendCode start',
+    );
     _logger.log(notifier, 'sendCode');
 
     loader!.startLoading();
 
     try {
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: 'try sendCode',
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: phoneNumber(),
+      );
       final number = await decomposePhoneNumber(
         phoneNumber(),
+        isoCodeNumber: activeDialCode?.isoCode ?? '',
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$number',
       );
 
       final model = PhoneVerificationRequestModel(
         locale: intl.localeName,
-        phoneBody: number.body,
-        phoneCode: '+${number.dialCode}',
+        phoneBody: number.body.replaceAll(
+          activeDialCode?.countryCode ?? dialCodeController.text,
+          '',
+        ),
+        phoneCode: activeDialCode?.countryCode ?? dialCodeController.text,
         phoneIso: number.isoCode,
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$model',
       );
 
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: 'response received',
+      );
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$resp',
+      );
 
       if (resp.hasError) {
+
+        getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'sendCode',
+          message: '${resp.error}',
+        );
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
 
@@ -121,12 +170,22 @@ abstract class _SetPhoneNumberStoreBase with Store {
       then();
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$e',
+      );
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
       print(e);
 
       _logger.log(stateFlow, 'sendCode', e);
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: 'sendCode',
+        message: '$e',
+      );
 
       sNotification.showError(
         intl.something_went_wrong,

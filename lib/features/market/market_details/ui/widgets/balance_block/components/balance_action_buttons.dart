@@ -55,7 +55,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     sRouter.push(
                       CurrencyBuyRouter(
                         currency: currency,
-                        fromCard: isBalanceEmpty,
+                        fromCard: true,
                       ),
                     );
                   } else {
@@ -72,7 +72,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: currency,
-                            fromCard: isBalanceEmpty,
+                            fromCard: true,
                           ),
                         );
                       },
@@ -85,66 +85,64 @@ class BalanceActionButtons extends StatelessObserverWidget {
               ),
             ),
           ] else ...[
-            if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
-              Expanded(
-                child: Column(
-                  children: [
-                    SimpleCircleButton(
-                      defaultIcon: STopUpIcon(
-                        color: colors.white,
-                      ),
-                      pressedIcon: STopUpIcon(
-                        color: colors.white.withOpacity(0.7),
-                      ),
-                      onTap: () {
-                        if (kycState.depositStatus ==
-                            kycOperationStatus(KycStatus.allowed)) {
-                          sAnalytics.buyView(
-                            Source.assetScreen,
-                            currency.description,
-                          );
-
-                          sRouter.push(
-                            CurrencyBuyRouter(
-                              currency: currency,
-                              fromCard: isBalanceEmpty,
-                            ),
-                          );
-                        } else {
-                          kycAlertHandler.handle(
-                            status: kycState.depositStatus,
-                            isProgress: kycState.verificationInProgress,
-                            navigatePop: true,
-                            currentNavigate: () {
-                              sAnalytics.buyView(
-                                Source.assetScreen,
-                                currency.description,
-                              );
-
-                              sRouter.push(
-                                CurrencyBuyRouter(
-                                  currency: currency,
-                                  fromCard: isBalanceEmpty,
-                                ),
-                              );
-                            },
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
-                          );
-                        }
-                      },
+            Expanded(
+              child: Column(
+                children: [
+                  SimpleCircleButton(
+                    defaultIcon: STopUpIcon(
+                      color: colors.white,
                     ),
-                    const SpaceH9(),
-                    Text(
-                      intl.balanceActionButtons_buy,
-                      style: sBodyText2Style,
+                    pressedIcon: STopUpIcon(
+                      color: colors.white.withOpacity(0.7),
                     ),
-                  ],
-                ),
+                    onTap: () {
+                      if (kycState.depositStatus ==
+                          kycOperationStatus(KycStatus.allowed)) {
+                        sAnalytics.buyView(
+                          Source.assetScreen,
+                          currency.description,
+                        );
+
+                        sRouter.push(
+                          CurrencyBuyRouter(
+                            currency: currency,
+                            fromCard: true,
+                          ),
+                        );
+                      } else {
+                        kycAlertHandler.handle(
+                          status: kycState.depositStatus,
+                          isProgress: kycState.verificationInProgress,
+                          navigatePop: true,
+                          currentNavigate: () {
+                            sAnalytics.buyView(
+                              Source.assetScreen,
+                              currency.description,
+                            );
+
+                            sRouter.push(
+                              CurrencyBuyRouter(
+                                currency: currency,
+                                fromCard: true,
+                              ),
+                            );
+                          },
+                          requiredDocuments: kycState.requiredDocuments,
+                          requiredVerifications:
+                              kycState.requiredVerifications,
+                        );
+                      }
+                    },
+                  ),
+                  const SpaceH9(),
+                  Text(
+                    intl.balanceActionButtons_buy,
+                    style: sBodyText2Style,
+                  ),
+                ],
               ),
-            if (isBuyWithCurrencyAvailableFor(currency.symbol, currencies))
-              const SpaceW11(),
+            ),
+            const SpaceW11(),
             Expanded(
               child: Column(
                 children: [

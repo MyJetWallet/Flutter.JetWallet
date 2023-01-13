@@ -19,8 +19,11 @@ part 'send_by_phone_amount_store.g.dart';
 
 class SendByPhoneAmmountStore extends _SendByPhoneAmmountStoreBase
     with _$SendByPhoneAmmountStore {
-  SendByPhoneAmmountStore(CurrencyModel currency, ContactModel? pickedContact)
-      : super(currency, pickedContact);
+  SendByPhoneAmmountStore(
+      CurrencyModel currency,
+      ContactModel? pickedContact,
+      SPhoneNumber? activeDialCode,
+  ) : super(currency, pickedContact, activeDialCode);
 
   static _SendByPhoneAmmountStoreBase of(BuildContext context) =>
       Provider.of<SendByPhoneAmmountStore>(context, listen: false);
@@ -30,6 +33,7 @@ abstract class _SendByPhoneAmmountStoreBase with Store {
   _SendByPhoneAmmountStoreBase(
     this.currency,
     this.pickedContact,
+    this.activeDialCode,
   );
 
   final CurrencyModel currency;
@@ -47,6 +51,9 @@ abstract class _SendByPhoneAmmountStoreBase with Store {
 
   @observable
   ContactModel? pickedContact;
+
+  @observable
+  SPhoneNumber? activeDialCode;
 
   @observable
   String amount = '0';
