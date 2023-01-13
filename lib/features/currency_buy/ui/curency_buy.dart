@@ -707,7 +707,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
               else
                 SPaymentSelectEmptyBalance(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  text: intl.sPaymentSelectEmpty_buyOnlyWithCrypto,
+                  text: intl.sPaymentSelectEmpty_somethingWentWrong,
+                  secondaryText: intl.sPaymentSelectEmpty_contactSupport,
                 ),
               deviceSize.when(
                 small: () => const SpaceH9(),

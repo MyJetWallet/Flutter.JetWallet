@@ -120,6 +120,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';

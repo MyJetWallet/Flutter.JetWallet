@@ -302,6 +302,7 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                         SendByPhoneAmountRouter(
                           currency: widget.currency,
                           pickedContact: input.pickedContact,
+                          activeDialCode: input.activeDialCode,
                         ),
                       );
                     },

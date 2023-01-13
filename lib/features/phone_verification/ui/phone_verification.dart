@@ -21,12 +21,14 @@ class PhoneVerificationArgs {
     this.sendCodeOnInitState = true,
     required this.phoneNumber,
     required this.onVerified,
+    this.activeDialCode,
   });
 
   final bool sendCodeOnInitState;
   final bool showChangeTextAlert;
   final String phoneNumber;
   final void Function() onVerified;
+  final SPhoneNumber? activeDialCode;
 }
 
 class PhoneVerification extends StatelessWidget {

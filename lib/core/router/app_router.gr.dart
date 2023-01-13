@@ -697,6 +697,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           currency: args.currency,
           pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
         ),
       );
     },
@@ -711,6 +712,7 @@ class _$AppRouter extends RootStackRouter {
           receiverIsRegistered: args.receiverIsRegistered,
           amountStoreAmount: args.amountStoreAmount,
           pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
         ),
       );
     },
@@ -723,6 +725,7 @@ class _$AppRouter extends RootStackRouter {
           currency: args.currency,
           amountStoreAmount: args.amountStoreAmount,
           pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
         ),
       );
     },
@@ -3489,6 +3492,7 @@ class SendByPhoneAmountRouter
     Key? key,
     required CurrencyModel currency,
     ContactModel? pickedContact,
+    SPhoneNumber? activeDialCode,
   }) : super(
           SendByPhoneAmountRouter.name,
           path: '/send_by_phone_amount',
@@ -3496,6 +3500,7 @@ class SendByPhoneAmountRouter
             key: key,
             currency: currency,
             pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
           ),
         );
 
@@ -3507,6 +3512,7 @@ class SendByPhoneAmountRouterArgs {
     this.key,
     required this.currency,
     this.pickedContact,
+    this.activeDialCode,
   });
 
   final Key? key;
@@ -3515,9 +3521,11 @@ class SendByPhoneAmountRouterArgs {
 
   final ContactModel? pickedContact;
 
+  final SPhoneNumber? activeDialCode;
+
   @override
   String toString() {
-    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency, pickedContact: $pickedContact}';
+    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
   }
 }
 
@@ -3532,6 +3540,7 @@ class SendByPhoneConfirmRouter
     required bool receiverIsRegistered,
     required String amountStoreAmount,
     required ContactModel pickedContact,
+    required SPhoneNumber activeDialCode,
   }) : super(
           SendByPhoneConfirmRouter.name,
           path: '/send_by_phone_confirm',
@@ -3542,6 +3551,7 @@ class SendByPhoneConfirmRouter
             receiverIsRegistered: receiverIsRegistered,
             amountStoreAmount: amountStoreAmount,
             pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
           ),
         );
 
@@ -3556,6 +3566,7 @@ class SendByPhoneConfirmRouterArgs {
     required this.receiverIsRegistered,
     required this.amountStoreAmount,
     required this.pickedContact,
+    required this.activeDialCode,
   });
 
   final Key? key;
@@ -3570,9 +3581,11 @@ class SendByPhoneConfirmRouterArgs {
 
   final ContactModel pickedContact;
 
+  final SPhoneNumber activeDialCode;
+
   @override
   String toString() {
-    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency, operationId: $operationId, receiverIsRegistered: $receiverIsRegistered, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact}';
+    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency, operationId: $operationId, receiverIsRegistered: $receiverIsRegistered, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
   }
 }
 
@@ -3585,6 +3598,7 @@ class SendByPhonePreviewRouter
     required CurrencyModel currency,
     required String amountStoreAmount,
     required ContactModel pickedContact,
+    required SPhoneNumber activeDialCode,
   }) : super(
           SendByPhonePreviewRouter.name,
           path: '/send_by_phone_preview',
@@ -3593,6 +3607,7 @@ class SendByPhonePreviewRouter
             currency: currency,
             amountStoreAmount: amountStoreAmount,
             pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
           ),
         );
 
@@ -3605,6 +3620,7 @@ class SendByPhonePreviewRouterArgs {
     required this.currency,
     required this.amountStoreAmount,
     required this.pickedContact,
+    required this.activeDialCode,
   });
 
   final Key? key;
@@ -3615,9 +3631,11 @@ class SendByPhonePreviewRouterArgs {
 
   final ContactModel pickedContact;
 
+  final SPhoneNumber activeDialCode;
+
   @override
   String toString() {
-    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact}';
+    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
   }
 }
 

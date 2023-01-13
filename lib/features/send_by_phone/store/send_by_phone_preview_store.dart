@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/tranfer_by_phone/transfer_by_phone_request_model.dart';
@@ -24,7 +25,8 @@ class SendByPreviewStore extends _SendByPreviewStoreBase
     CurrencyModel currency,
     String amountStoreAmount,
     ContactModel pickedContact,
-  ) : super(currency, amountStoreAmount, pickedContact);
+    SPhoneNumber activeDialCode,
+  ) : super(currency, amountStoreAmount, pickedContact, activeDialCode);
 
   static _SendByPreviewStoreBase of(BuildContext context) =>
       Provider.of<SendByPreviewStore>(context, listen: false);
@@ -35,9 +37,11 @@ abstract class _SendByPreviewStoreBase with Store {
     this.currency,
     this.amountStoreAmount,
     this.pickedContact,
+    this.activeDialCode,
   ) {
     amount = amountStoreAmount;
     pickedContact = pickedContact;
+    activeDialCode = activeDialCode;
   }
 
   final CurrencyModel currency;
@@ -50,6 +54,9 @@ abstract class _SendByPreviewStoreBase with Store {
 
   @observable
   ContactModel? pickedContact;
+
+  @observable
+  SPhoneNumber? activeDialCode;
 
   @observable
   String amount = '0';
@@ -73,14 +80,18 @@ abstract class _SendByPreviewStoreBase with Store {
     try {
       final number = await decomposePhoneNumber(
         pickedContact!.phoneNumber,
+        isoCodeNumber: activeDialCode?.isoCode ?? '',
       );
 
       final model = TransferByPhoneRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         assetSymbol: currency.symbol,
         amount: Decimal.parse(amount),
-        toPhoneBody: number.body,
-        toPhoneCode: number.dialCode,
+        toPhoneBody: number.body.replaceAll(
+          activeDialCode?.countryCode ?? '',
+          '',
+        ),
+        toPhoneCode: activeDialCode?.countryCode ?? '',
         toPhoneIso: number.isoCode,
         locale: intl.localeName,
       );
@@ -133,6 +144,7 @@ abstract class _SendByPreviewStoreBase with Store {
         receiverIsRegistered: receiverIsRegistered,
         amountStoreAmount: amount,
         pickedContact: pickedContact!,
+        activeDialCode: activeDialCode!,
       ),
     );
   }
