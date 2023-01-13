@@ -319,32 +319,6 @@ abstract class _CurrencyBuyStoreBase with Store {
     final lastCardId = await sLocalStorageService.getValue(lastUsedCard);
 
     if (currencies.isNotEmpty) {
-      if (!cardPreferred) {
-        // Case 1: If user has baseCurrency wallet with balance more than zero
-        for (final currency in currencies) {
-          if (currency.symbol == baseCurrency!.symbol) {
-            return updateSelectedCurrency(currency);
-          }
-        }
-      }
-
-      if (!cardPreferred) {
-        // Case 3: If the user has a crypt, then we choose the largest
-        for (final currency in currencies) {
-          if (currency.type != AssetType.fiat) {
-            return updateSelectedCurrency(currency);
-          }
-        }
-      }
-
-      if (!cardPreferred) {
-        // Case 2: If user has at least one fiat wallet
-        for (final currency in currencies) {
-          if (currency.type == AssetType.fiat) {
-            return updateSelectedCurrency(currency);
-          }
-        }
-      }
 
       if (lastUsedPaymentMethod == '"circleCard"' &&
           currencyModel.supportsCircle) {
@@ -443,11 +417,6 @@ abstract class _CurrencyBuyStoreBase with Store {
         );
       }
 
-      // Case 8: If user has at least one crypto wallet and haven't any
-      // another buy method
-      if (!currencyModel.supportsAtLeastOneBuyMethod) {
-        return updateSelectedCurrency(currencies.first);
-      }
 
       // Case 9: If asset supports more then one Payment method and use bankCard
       if (buyMethods

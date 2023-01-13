@@ -55,7 +55,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     sRouter.push(
                       CurrencyBuyRouter(
                         currency: currency,
-                        fromCard: isBalanceEmpty,
+                        fromCard: true,
                       ),
                     );
                   } else {
@@ -72,7 +72,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: currency,
-                            fromCard: isBalanceEmpty,
+                            fromCard: true,
                           ),
                         );
                       },
@@ -107,7 +107,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                           sRouter.push(
                             CurrencyBuyRouter(
                               currency: currency,
-                              fromCard: isBalanceEmpty,
+                              fromCard: true,
                             ),
                           );
                         } else {
@@ -124,7 +124,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                               sRouter.push(
                                 CurrencyBuyRouter(
                                   currency: currency,
-                                  fromCard: isBalanceEmpty,
+                                  fromCard: true,
                                 ),
                               );
                             },
