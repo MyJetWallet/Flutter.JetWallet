@@ -123,7 +123,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
       final model = PhoneVerificationRequestModel(
         locale: intl.localeName,
         phoneBody: number.body,
-        phoneCode: '+${number.dialCode}',
+        phoneCode: activeDialCode?.countryCode ?? dialCodeController.text,
         phoneIso: number.isoCode,
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
