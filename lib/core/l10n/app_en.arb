@@ -482,7 +482,7 @@
   "balanceActionButtons_send": "Send",
   "actionReceive_bottomSheetHeaderName1": "Choose asset to receive",
   "actionReceive_receive": "Receive",
-  "actionReceive_receive_crypto": "Receive Crypto",
+  "actionReceive_receive_crypto": "Receive crypto",
   "actionReceive_receive_nft": "Receive NFT",
   "maximum": "Maximum",
   "medium": "Medium",
