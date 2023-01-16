@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -195,6 +196,76 @@ class __MarketNestedScrollViewBodyState
     final store = MarketFilterStore.of(context);
     final showNFT = sSignalRModules.nftList.isNotEmpty &&
         sSignalRModules.clientDetail.isNftEnable;
+
+    return GroupedListView<MarketItemModel, String>(
+      elements: store.cryptoListFiltred,
+      groupBy: (item) {
+        final isInWatchlist = store.watchList.contains(
+          item.associateAsset,
+        );
+
+        return isInWatchlist ? intl.favorite : intl.assets;
+      },
+      padding: EdgeInsets.zero,
+      sort: false,
+      groupSeparatorBuilder: (String text) {
+        return MarketSeparator(text: text);
+      },
+      itemBuilder: (context, item) {
+        final isInWatchlist = store.watchList.contains(
+          item.associateAsset,
+        );
+
+        return SMarketItem(
+          key: Key(
+            item.associateAsset,
+          ),
+          showFavoriteIcon: true,
+          isStarActive: isInWatchlist,
+          onStarButtonTap: () {
+            print(isInWatchlist);
+
+            if (isInWatchlist) {
+              store.removeFromWatchlist(
+                item.associateAsset,
+              );
+            } else {
+              sAnalytics.addToWatchlist(
+                item.name,
+              );
+              store.addToWatchlist(
+                item.associateAsset,
+              );
+            }
+          },
+          icon: SNetworkSvg24(
+            url: item.iconUrl,
+          ),
+          name: item.name,
+          price: marketFormat(
+            prefix: baseCurrency.prefix,
+            decimal: item.lastPrice,
+            symbol: baseCurrency.symbol,
+            accuracy: item.priceAccuracy,
+          ),
+          ticker: item.symbol,
+          last: item == store.cryptoListFiltred.last ||
+                  store.watchListLocal != null
+              ? store.watchListLocal?.isNotEmpty ?? false
+                  ? item.symbol == (store.watchListLocal?.last ?? '')
+                  : false
+              : false,
+          percent: item.dayPercentChange,
+          onTap: () {
+            sRouter.push(
+              MarketDetailsRouter(
+                marketItem: item,
+              ),
+            );
+          },
+        );
+      },
+    );
 
     return Column(
       children: [
