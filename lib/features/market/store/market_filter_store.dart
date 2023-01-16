@@ -61,30 +61,32 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<MarketItemModel> get cryptoListFiltred {
+    var localCryptoList = cryptoList;
+
     if (cryptoList.isEmpty) {
       sAnalytics.nftMarketOpen();
     }
     if (activeFilter == 'gainers') {
-      return getMarketGainers();
+      localCryptoList = getMarketGainers();
     } else if (activeFilter == 'losers') {
-      return getMarketLosers();
+      localCryptoList = getMarketLosers();
     }
 
     if (watchList.isNotEmpty) {
       List<MarketItemModel> newList = [];
-      List<MarketItemModel> localList = cryptoList.toList();
+      List<MarketItemModel> localList = localCryptoList.toList();
 
       for (var i = 0; i < watchListIds.length; i++) {
-        final obj = cryptoList.indexWhere(
+        final obj = localCryptoList.indexWhere(
           (element) => element.associateAsset == watchListIds[i],
         );
 
         if (obj != -1) {
           newList.add(
-            cryptoList[obj],
+            localCryptoList[obj],
           );
           localList.remove(
-            cryptoList[obj],
+            localCryptoList[obj],
           );
         }
       }
