@@ -290,7 +290,10 @@ abstract class _SendByPhoneInputStoreBase with Store {
       );
 
       final phoneNumber = PhoneNumber(
-        phoneNumber: info.phoneNumber,
+        phoneNumber: info.phoneNumber?.replaceAll(
+          activeDialCode?.countryCode ?? dialCodeController.text,
+          '',
+        ),
         isoCode: info.isoCode,
       );
 
