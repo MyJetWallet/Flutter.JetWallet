@@ -132,9 +132,12 @@ String shortAddressOperationId(String address) {
   return part1;
 }
 
-Future<bool> isPhoneNumberValid(String phoneNumber) async {
+Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
   try {
-    final number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber);
+    final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
+      phoneNumber,
+      isoCode ?? '',
+    );
 
     number.parseNumber();
 
@@ -155,9 +158,12 @@ Future<bool> isPhoneNumberValid(String phoneNumber) async {
 }
 
 /// International only format
-Future<bool> isInternationalPhoneNumberValid(String phoneNumber) async {
+Future<bool> isInternationalPhoneNumberValid(String phoneNumber, String? isoCode) async {
   try {
-    final number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber);
+    final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
+      phoneNumber,
+      isoCode ?? '',
+    );
 
     number.parseNumber();
 

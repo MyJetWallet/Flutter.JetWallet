@@ -186,16 +186,16 @@ abstract class _SendByPhoneInputStoreBase with Store {
   @action
   void updatePhoneSearch(String _phoneSearch) {
     final checkStartNumber = _parsePhoneNumber(_phoneSearch);
-    if (
-      !validWeakPhoneNumber(checkStartNumber) &&
-      _phoneSearch.isNotEmpty &&
-      _phoneSearch != '+'
-    ) {
-      searchTextController.text = phoneSearch;
-      _filterByPhoneSearchInput();
-
-      return;
-    }
+    // if (
+    //   !validWeakPhoneNumber(checkStartNumber) &&
+    //   _phoneSearch.isNotEmpty &&
+    //   _phoneSearch != '+'
+    // ) {
+    //   searchTextController.text = phoneSearch;
+    //   _filterByPhoneSearchInput();
+    //
+    //   return;
+    // }
     _logger.log(notifier, 'updateSearch');
     var finalPhone = _phoneSearch;
     var mustToSubstring = false;
@@ -268,7 +268,10 @@ abstract class _SendByPhoneInputStoreBase with Store {
           name: number,
           phoneNumber: phoneNumber,
           isCustomContact: true,
-          valid: await isInternationalPhoneNumberValid(phoneNumber),
+          valid: await isInternationalPhoneNumberValid(
+            phoneNumber,
+            activeDialCode?.isoCode ?? '',
+          ),
         ),
       );
     }
@@ -283,6 +286,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
     if (contact.phoneNumber[0] == '+') {
       final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
         contact.phoneNumber,
+        activeDialCode?.isoCode ?? '',
       );
 
       final phoneNumber = PhoneNumber(
