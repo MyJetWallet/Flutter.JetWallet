@@ -307,7 +307,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
       }
 
       if (info.dialCode != null && validNumber) {
-        dialCodeController.text = '+${info.dialCode!}';
+        dialCodeController.text = code.countryCode ?? '';
         phoneNumberController.text = parsable;
 
         updateActiveDialCode(code);
