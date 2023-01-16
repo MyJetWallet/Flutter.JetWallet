@@ -223,8 +223,6 @@ class __MarketNestedScrollViewBodyState
           showFavoriteIcon: true,
           isStarActive: isInWatchlist,
           onStarButtonTap: () {
-            print(isInWatchlist);
-
             if (isInWatchlist) {
               store.removeFromWatchlist(
                 item.associateAsset,
@@ -252,7 +250,7 @@ class __MarketNestedScrollViewBodyState
           last: item == store.cryptoListFiltred.last ||
                   store.watchListLocal != null
               ? store.watchListLocal?.isNotEmpty ?? false
-                  ? item.symbol == (store.watchListLocal?.last ?? '')
+                  ? item.symbol == (store.watchListFilted.last)
                   : false
               : false,
           percent: item.dayPercentChange,

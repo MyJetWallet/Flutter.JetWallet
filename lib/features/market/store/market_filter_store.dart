@@ -60,6 +60,29 @@ abstract class _MarketFilterStoreBase with Store {
   List<MarketItemModel> get cryptoList => sSignalRModules.getMarketPrices;
 
   @computed
+  List<String> get watchListFilted {
+    if (watchListLocal != null) {
+      var output = watchListLocal!.where((element) {
+        var a = false;
+
+        cryptoListFiltred.forEach(
+          (e) {
+            if (e.symbol == element) {
+              a = true;
+            }
+          },
+        );
+
+        return a;
+      }).toList();
+
+      return output;
+    } else {
+      return watchList;
+    }
+  }
+
+  @computed
   List<MarketItemModel> get cryptoListFiltred {
     var localCryptoList = cryptoList;
 
