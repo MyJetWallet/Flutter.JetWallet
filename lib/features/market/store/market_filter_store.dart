@@ -90,9 +90,9 @@ abstract class _MarketFilterStoreBase with Store {
       sAnalytics.nftMarketOpen();
     }
     if (activeFilter == 'gainers') {
-      localCryptoList = getMarketGainers();
+      return getMarketGainers();
     } else if (activeFilter == 'losers') {
-      localCryptoList = getMarketLosers();
+      return getMarketLosers();
     }
 
     if (watchList.isNotEmpty) {
