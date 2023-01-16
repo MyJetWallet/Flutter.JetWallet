@@ -72,7 +72,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
           const SpaceH34(),
           SPrimaryButton1(
             active: true,
-            name: intl.emptyEarnWalletBody_buyWithCash,
+            name: intl.emptyEarnWalletBody_buyCrypto,
             onTap: () {
               showBuyAction(
                 shouldPop: false,

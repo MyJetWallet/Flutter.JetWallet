@@ -983,6 +983,7 @@
     "earn_in_progress": "Los fondos se acreditarán al\nmonedero durante las próximas 24 horas",
     "aboutUs_termButton4": "Gana, Términos y Condiciones",
     "emptyEarnWalletBody_buyWithCash": "comprar con tarjeta",
+    "emptyEarnWalletBody_buyCrypto": "Compre criptomonedas",
     "emptyEarnWalletBody_mainText1": "Compre criptomonedas con",
     "emptyEarnWalletBody_mainText2": "Comisión baja",
     "emptyEarnWalletBody_subText": "Compre criptoactivos con una comisión baja",
