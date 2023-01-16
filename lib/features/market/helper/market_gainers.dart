@@ -6,7 +6,11 @@ List<MarketItemModel> getMarketGainers() {
     final items = sSignalRModules.getMarketPrices;
     final gainers = items.where((item) => item.dayPercentChange > 0).toList();
 
-    gainers.sort((a, b) => b.dayPercentChange.compareTo(a.dayPercentChange));
+    gainers.sort(
+      (a, b) => b.dayPercentChange.compareTo(
+        a.dayPercentChange,
+      ),
+    );
 
     return gainers;
   } catch (e) {
