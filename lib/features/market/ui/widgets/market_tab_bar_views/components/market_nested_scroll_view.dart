@@ -250,7 +250,9 @@ class __MarketNestedScrollViewBodyState
           last: item == store.cryptoListFiltred.last ||
                   store.watchListLocal != null
               ? store.watchListLocal?.isNotEmpty ?? false
-                  ? item.symbol == (store.watchListFilted.last)
+                  ? store.watchListFilted.isNotEmpty
+                      ? item.symbol == (store.watchListFilted.last)
+                      : false
                   : false
               : false,
           percent: item.dayPercentChange,
