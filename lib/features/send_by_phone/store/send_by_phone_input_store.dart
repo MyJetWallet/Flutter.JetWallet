@@ -158,7 +158,10 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
     updateActiveDialCode(code);
 
-    final number = '${code.countryCode} ${phoneNumberController.text}';
+    final number = '${code.countryCode} ${phoneNumberController.text.replaceAll(
+      activeDialCode?.countryCode ?? dialCodeController.text,
+      '',
+    )}';
     updateContactName(
       ContactModel(
         name: number,
@@ -311,7 +314,10 @@ abstract class _SendByPhoneInputStoreBase with Store {
 
       if (info.dialCode != null && validNumber) {
         dialCodeController.text = code.countryCode ?? '';
-        phoneNumberController.text = parsable;
+        phoneNumberController.text = parsable.replaceAll(
+          activeDialCode?.countryCode ?? dialCodeController.text,
+          '',
+        );
 
         updateActiveDialCode(code);
       } else {
