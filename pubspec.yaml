@@ -54,6 +54,7 @@ dependencies:
   event_bus: ^2.0.0
   native_flutter_proxy: ^0.1.15
   http_proxy: ^1.2.1
+  animated_list_plus: ^0.4.4
 
   # RESPONSIVE UI
   device_preview: ^1.1.0

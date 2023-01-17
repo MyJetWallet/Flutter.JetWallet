@@ -84,6 +84,7 @@ class SMarketItem extends StatelessWidget {
                           baselineType: TextBaseline.alphabetic,
                           child: Text(
                             price,
+                            overflow: TextOverflow.ellipsis,
                             style: sSubtitle2Style,
                           ),
                         ),
@@ -100,6 +101,7 @@ class SMarketItem extends StatelessWidget {
                                 child: Text(
                                   _formatPercent(percent),
                                   textAlign: TextAlign.end,
+                                  overflow: TextOverflow.ellipsis,
                                   style: sBodyText2Style.copyWith(
                                     color: percent == 0
                                         ? SColorsLight().grey3
@@ -124,8 +126,9 @@ class SMarketItem extends StatelessWidget {
                     const SpaceW10(),
                     SIconButton(
                       onTap: onStarButtonTap,
-                      defaultIcon:
-                          isStarActive ? const SStarSelectedIcon() : const SStarIcon(),
+                      defaultIcon: isStarActive
+                          ? const SStarSelectedIcon()
+                          : const SStarIcon(),
                       pressedIcon: const SStarPressedIcon(),
                     ),
                   ],
