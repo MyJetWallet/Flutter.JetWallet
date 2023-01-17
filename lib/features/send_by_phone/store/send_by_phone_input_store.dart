@@ -13,6 +13,8 @@ import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../utils/helpers/country_code_by_user_register.dart';
 part 'send_by_phone_input_store.g.dart';
 
 @lazySingleton
@@ -31,7 +33,9 @@ abstract class _SendByPhoneInputStoreBase with Store {
     dialCodeController.addListener(controllersListener);
     phoneNumberController.addListener(controllersListener);
 
+    dialCodeController.text = sPhoneNumbers[0].countryCode;
     searchTextController = TextEditingController(text: phoneSearch);
+    _registerCountryUser();
   }
 
   SendByPhonePermission? permission;
@@ -79,6 +83,18 @@ abstract class _SendByPhoneInputStoreBase with Store {
             phoneNumberController.text.isNotEmpty
         ? true
         : false;
+  }
+
+  @action
+  void _registerCountryUser() {
+    final phoneNumber = countryCodeByUserRegister();
+
+    if (phoneNumber != null) {
+      activeDialCode = phoneNumber;
+      dialCodeController = TextEditingController(
+        text: phoneNumber.countryCode,
+      );
+    }
   }
 
   @action
