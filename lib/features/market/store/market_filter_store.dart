@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
@@ -29,10 +30,25 @@ class MarketFilterStore extends _MarketFilterStoreBase
 }
 
 abstract class _MarketFilterStoreBase with Store {
-  static final _logger = Logger('MarketFilterStore');
+  _MarketFilterStoreBase() {
+    reaction(
+      (_) => watchListIds,
+      (msg) => syncWatchListLocal(msg as List<String>),
+    );
+
+    watchListLocal = ObservableList.of(watchListIds);
+  }
+
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'MarketFilterStore';
 
   @observable
   String activeFilter = 'all';
+
+  @observable
+  bool isReordable = false;
+  @action
+  setIsReordable(bool value) => isReordable = value;
 
   @computed
   List<NftModel> get nftList => sSignalRModules.nftList;
@@ -84,40 +100,52 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<MarketItemModel> get cryptoListFiltred {
-    var localCryptoList = cryptoList;
-
     if (cryptoList.isEmpty) {
       sAnalytics.nftMarketOpen();
     }
     if (activeFilter == 'gainers') {
-      localCryptoList = getMarketGainers();
+      return getMarketGainers();
     } else if (activeFilter == 'losers') {
-      localCryptoList = getMarketLosers();
+      return getMarketLosers();
+    } else {
+      return cryptoList;
     }
+  }
 
-    if (watchList.isNotEmpty) {
-      List<MarketItemModel> newList = [];
-      List<MarketItemModel> localList = localCryptoList.toList();
+  @computed
+  List<MarketItemModel> get cryptoFiltred {
+    var localCryptoList = cryptoListFiltred.toList();
 
+    if (watchListLocal.isNotEmpty) {
       for (var i = 0; i < watchListIds.length; i++) {
         final obj = localCryptoList.indexWhere(
           (element) => element.associateAsset == watchListIds[i],
         );
 
         if (obj != -1) {
-          newList.add(
-            localCryptoList[obj],
-          );
-          localList.remove(
+          localCryptoList.remove(
             localCryptoList[obj],
           );
         }
       }
-
-      return newList + localList;
     }
 
-    return cryptoList;
+    return localCryptoList;
+  }
+
+  @computed
+  List<MarketItemModel> get watchListFiltred {
+    List<MarketItemModel> output = [];
+
+    for (var i = 0; i < watchListIds.length; i++) {
+      final obj = cryptoListFiltred
+          .indexWhere((element) => element.symbol == watchListIds[i]);
+      if (obj != -1) {
+        output.add(cryptoListFiltred[obj]);
+      }
+    }
+
+    return output;
   }
 
   @action
@@ -140,41 +168,40 @@ abstract class _MarketFilterStoreBase with Store {
   }
 
   @computed
-  List<String> get watchList {
-    if (watchListLocal == null) {
-      watchListLocal = ObservableList.of(watchListIds);
-
-      return watchListIds;
-    }
-
-    return watchListLocal ?? [];
-  }
-
-  @computed
   List<String> get watchListIds =>
       sSignalRModules.keyValue.watchlist?.value ?? [];
 
   @observable
-  ObservableList<String>? watchListLocal;
+  ObservableList<String> watchListLocal = ObservableList.of([]);
   @action
-  void syncWatchListLocal() {
-    watchListLocal = ObservableList.of(watchListIds);
+  void syncWatchListLocal(List<String> newList, {bool needUpdate = false}) {
+    print(newList);
+    print('SYNC ${const ListEquality().equals(watchListLocal, newList)}');
+
+    if (!const ListEquality().equals(watchListLocal, newList)) {
+      watchListLocal = ObservableList.of(newList);
+      if (needUpdate) {
+        saveWatchlist();
+      }
+
+      _logger.log(
+        level: Level.info,
+        place: _loggerValue,
+        message: 'syncWatchListLocal: $watchListLocal',
+      );
+    }
   }
 
   @action
   Future<void> removeFromWatchlist(String assetId) async {
-    if (!ListEquality().equals(watchListLocal, watchListIds)) {
-      syncWatchListLocal();
-    }
-
-    if (watchListLocal != null) watchListLocal!.remove(assetId);
+    watchListLocal.remove(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(
           KeyValueRequestModel(
             keys: [
               KeyValueResponseModel(
                 key: watchlistKey,
-                value: jsonEncode(watchList),
+                value: jsonEncode(watchListLocal),
               ),
             ],
           ),
@@ -183,18 +210,28 @@ abstract class _MarketFilterStoreBase with Store {
 
   @action
   Future<void> addToWatchlist(String assetId) async {
-    if (!ListEquality().equals(watchListLocal, watchListIds)) {
-      syncWatchListLocal();
-    }
-
-    if (watchListLocal != null) watchListLocal!.add(assetId);
+    watchListLocal.add(assetId);
 
     await getIt.get<KeyValuesService>().addToKeyValue(
           KeyValueRequestModel(
             keys: [
               KeyValueResponseModel(
                 key: watchlistKey,
-                value: jsonEncode(watchList),
+                value: jsonEncode(watchListLocal),
+              ),
+            ],
+          ),
+        );
+  }
+
+  @action
+  Future<void> saveWatchlist() async {
+    await getIt.get<KeyValuesService>().addToKeyValue(
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: watchlistKey,
+                value: jsonEncode(watchListLocal),
               ),
             ],
           ),
