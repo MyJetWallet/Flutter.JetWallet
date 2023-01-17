@@ -114,9 +114,11 @@ abstract class _MarketFilterStoreBase with Store {
   List<MarketItemModel> get watchListFiltred {
     List<MarketItemModel> output = [];
 
-    for (var i = 0; i < cryptoListFiltred.length; i++) {
-      if (watchListIds.contains(cryptoListFiltred[i].symbol)) {
-        output.add(cryptoListFiltred[i]);
+    for (var i = 0; i < watchListIds.length; i++) {
+      final obj = cryptoListFiltred
+          .indexWhere((element) => element.symbol == watchListIds[i]);
+      if (obj != -1) {
+        output.add(cryptoListFiltred[obj]);
       }
     }
 
@@ -149,9 +151,15 @@ abstract class _MarketFilterStoreBase with Store {
   @observable
   ObservableList<String> watchListLocal = ObservableList.of([]);
   @action
-  void syncWatchListLocal(List<String> newList) {
+  void syncWatchListLocal(List<String> newList, {bool needUpdate = false}) {
+    print(newList);
+    print('SYNC ${const ListEquality().equals(watchListLocal, newList)}');
+
     if (!const ListEquality().equals(watchListLocal, newList)) {
-      watchListLocal = ObservableList.of(watchListIds);
+      watchListLocal = ObservableList.of(newList);
+      if (needUpdate) {
+        saveWatchlist();
+      }
 
       _logger.log(
         level: Level.info,
@@ -181,6 +189,20 @@ abstract class _MarketFilterStoreBase with Store {
   Future<void> addToWatchlist(String assetId) async {
     watchListLocal.add(assetId);
 
+    await getIt.get<KeyValuesService>().addToKeyValue(
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: watchlistKey,
+                value: jsonEncode(watchListLocal),
+              ),
+            ],
+          ),
+        );
+  }
+
+  @action
+  Future<void> saveWatchlist() async {
     await getIt.get<KeyValuesService>().addToKeyValue(
           KeyValueRequestModel(
             keys: [

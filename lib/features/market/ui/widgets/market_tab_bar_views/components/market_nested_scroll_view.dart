@@ -1,6 +1,7 @@
 import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:animated_list_plus/transitions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
@@ -286,7 +287,10 @@ class __MarketNestedScrollViewBodyState
             shrinkWrap: true,
             items: store.watchListFiltred,
             onReorderFinished: (item, from, to, newItems) {
-              store.syncWatchListLocal(newItems.map((e) => e.symbol).toList());
+              store.syncWatchListLocal(
+                newItems.map((e) => e.symbol).toList(),
+                needUpdate: true,
+              );
             },
             areItemsTheSame: (a, b) => a == b,
             itemBuilder: (context, itemAnimation, item, index) {
@@ -314,6 +318,8 @@ class __MarketNestedScrollViewBodyState
                           isStarActive: isInWatchlist,
                           onStarButtonTap: () {
                             if (isInWatchlist) {
+                              HapticFeedback.lightImpact();
+
                               store.removeFromWatchlist(
                                 item.associateAsset,
                               );
@@ -379,10 +385,14 @@ class __MarketNestedScrollViewBodyState
                 isStarActive: isInWatchlist,
                 onStarButtonTap: () {
                   if (isInWatchlist) {
+                    HapticFeedback.lightImpact();
+
                     store.removeFromWatchlist(
                       item.associateAsset,
                     );
                   } else {
+                    HapticFeedback.lightImpact();
+
                     sAnalytics.addToWatchlist(
                       item.name,
                     );
