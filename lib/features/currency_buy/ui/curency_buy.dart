@@ -522,7 +522,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   onTap: () {
                     sShowAlertPopup(
                       context,
-                      primaryText: intl.actionBuy_alertPopup,
+                      primaryText: intl.actionBuy_alertPopupSecond,
                       primaryButtonName: intl.actionBuy_goToKYC,
                       onPrimaryButtonTap: () {
                         kycAlertHandler.handle(

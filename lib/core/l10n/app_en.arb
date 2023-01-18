@@ -497,6 +497,7 @@
   "actionBuy_gotIt": "Got It",
   "actionBuy_goToKYC": "Go to KYC",
   "actionBuy_alertPopup": "You may perform only one transaction for up to $1000. Withdrawal or adding more funds will require completing KYC.",
+  "actionBuy_alertPopupSecond": "You may perform only one transaction for up to $700 (or the equivalent amount in another fiat currency). Withdrawing or adding more funds will require completing KYC.",
   "depositOptions_depositWith": "Deposit With",
   "depositOptions_wireTransfer": "Wire transfer",
   "depositOptions_addBankCard": "Add bank card",
