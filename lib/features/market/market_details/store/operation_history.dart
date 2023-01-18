@@ -30,7 +30,8 @@ abstract class _OperationHistoryBase with Store {
   final TransactionType? filter;
   final bool? isRecurring;
 
-  static final _logger = Logger('OperationHistoryStore');
+  @observable
+  ScrollController scrollController = ScrollController();
 
   @observable
   ObservableList<oh_resp.OperationHistoryItem> operationHistoryItems =
@@ -42,6 +43,9 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool nothingToLoad = false;
 
+  @observable
+  bool isLoading = false;
+
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -49,24 +53,16 @@ abstract class _OperationHistoryBase with Store {
             (i) => i.operationType == oh_resp.OperationType.recurringBuy,
           )
           .toList()
-      : filter == TransactionType.crypto
-          ? operationHistoryItems
-              .where(
-                (i) => !nftTypes.contains(i.operationType),
-              )
-              .toList()
-          : filter == TransactionType.nft
-              ? operationHistoryItems
-                  .where(
-                    (i) => nftTypes.contains(i.operationType),
-                  )
-                  .toList()
-              : operationHistoryItems;
+      : operationHistoryItems
+          .where(
+            (i) => !nftTypes.contains(i.operationType),
+          )
+          .toList();
 
   @action
   Future<void> initOperationHistory() async {
-    _logger.log(notifier, 'initOperationHistory');
     union = const OperationHistoryUnion.loading();
+    isLoading = true;
 
     try {
       final operationHistory = await _requestOperationHistory(
@@ -82,8 +78,6 @@ abstract class _OperationHistoryBase with Store {
     } catch (e) {
       print(e);
 
-      _logger.log(stateFlow, 'initOperationHistory', e);
-
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -91,34 +85,32 @@ abstract class _OperationHistoryBase with Store {
 
       union = const OperationHistoryUnion.error();
     }
+
+    isLoading = false;
   }
 
   @action
   Future<void> operationHistory(String? assetId) async {
-    _logger.log(notifier, 'operationHistory');
+    if (operationHistoryItems.isEmpty) return;
 
     union = const OperationHistoryUnion.loading();
+    isLoading = true;
 
-    try {
-      final operationHistory = await _requestOperationHistory(
-        oh_req.OperationHistoryRequestModel(
-          assetId: assetId,
-          batchSize: 20,
-          lastDate: operationHistoryItems.last.timeStamp,
-        ),
-      );
+    print('LOAD NEW PAGE');
 
-      _updateOperationHistory(operationHistory.operationHistory);
-    } catch (e) {
-      _logger.log(stateFlow, 'operationHistory', e);
+    final operationHistory = await _requestOperationHistory(
+      oh_req.OperationHistoryRequestModel(
+        assetId: assetId,
+        batchSize: 20,
+        lastDate: operationHistoryItems.last.timeStamp,
+      ),
+    );
 
-      sNotification.showError(
-        intl.something_went_wrong,
-        id: 2,
-      );
+    _updateOperationHistory(operationHistory.operationHistory);
 
-      union = const OperationHistoryUnion.error();
-    }
+    union = const OperationHistoryUnion.loaded();
+
+    isLoading = false;
   }
 
   @action
