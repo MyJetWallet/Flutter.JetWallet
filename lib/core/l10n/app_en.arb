@@ -1236,5 +1236,7 @@
   "mailPicker_chooseMail": "Select an app",
   "mailPicker_rememberChosen": "Remember my choice",
   "favorite": "Favorite",
-  "assets": "Assets"
+  "assets": "Assets",
+  "bottom_bar_my_assets": "My assets",
+  "bottom_bar_market": "Market"
 }

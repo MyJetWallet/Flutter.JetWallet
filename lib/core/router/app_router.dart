@@ -74,8 +74,6 @@ import 'package:jetwallet/features/nft/nft_collection_simple_list/ui/nft_collect
 import 'package:jetwallet/features/nft/nft_confirm/ui/nft_confirm_screen.dart';
 import 'package:jetwallet/features/nft/nft_details/ui/nft_details_screen.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
-import 'package:jetwallet/features/news/ui/news_screen.dart';
-import 'package:jetwallet/features/news/ui/widgets/news_list/components/news_web_view.dart';
 import 'package:jetwallet/features/nft/nft_receive/ui/nft_receive_screen.dart';
 import 'package:jetwallet/features/nft/nft_sell/model/nft_sell_input.dart';
 import 'package:jetwallet/features/nft/nft_sell/ui/nft_preview_sell_screen.dart';
@@ -209,21 +207,6 @@ final sRouter = getIt.get<AppRouter>();
           path: 'portfolio',
           name: 'PortfolioRouter',
           page: PortfolioScreen,
-        ),
-        AutoRoute(
-          path: 'earn',
-          name: 'EarnRouter',
-          page: EarnScreen,
-        ),
-        AutoRoute(
-          path: 'news',
-          name: 'NewsRouter',
-          page: NewsScreen,
-        ),
-        AutoRoute(
-          path: 'account',
-          name: 'AccountRouter',
-          page: AccountScreen,
         ),
       ],
     ),
@@ -371,11 +354,6 @@ final sRouter = getIt.get<AppRouter>();
       path: '/payments_methods',
       name: 'PaymentMethodsRouter',
       page: PaymentMethods,
-    ),
-    AutoRoute(
-      path: '/news_web_view',
-      name: 'NewsWebViewRouter',
-      page: NewsWebView,
     ),
     AutoRoute(
       path: '/pin_screen',

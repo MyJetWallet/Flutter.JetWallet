@@ -214,7 +214,7 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int homeTab = 1;
+  int homeTab = 0;
   @action
   void setHomeTab(int value) => homeTab = value;
 
@@ -468,7 +468,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 1;
+    homeTab = 0;
     isBalanceHide = true;
     appStatus = AppStatus.Start;
   }

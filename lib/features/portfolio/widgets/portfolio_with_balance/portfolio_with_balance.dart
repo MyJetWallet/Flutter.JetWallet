@@ -36,14 +36,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       getMarketFiats(sSignalRModules.currenciesList),
     );
 
-    /*
-    final tabsLength = _tabsLength(
-      cryptosWithBalance.isEmpty,
-      indicesWithBalance.isEmpty,
-      fiatsWithBalance.isEmpty,
-    );
-    */
-
     tabController = getController();
   }
 

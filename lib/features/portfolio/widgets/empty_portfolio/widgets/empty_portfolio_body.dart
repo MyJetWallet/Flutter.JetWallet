@@ -12,7 +12,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class EmptyPortfolioBody extends StatelessObserverWidget {
-  const EmptyPortfolioBody({Key? key}) : super(key: key);
+  const EmptyPortfolioBody({super.key});
 
   @override
   Widget build(BuildContext context) {

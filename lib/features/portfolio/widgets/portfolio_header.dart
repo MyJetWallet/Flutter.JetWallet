@@ -68,69 +68,15 @@ class PortfolioHeader extends StatelessObserverWidget {
 
                   sRouter.push(const RewardsRouter());
                 },
-                child: Container(
-                  height: 28,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: colors.green,
-                  ),
-                  child: Row(
-                    children: [
-                      const SGiftPortfolioIcon(),
-                      if (gift == ReferralGiftStatus.showGift) ...[
-                        Container(
-                          margin: (_giftBonus(
-                            state.sortedCampaigns,
-                            baseCurrency,
-                          ).isNotEmpty)
-                              ? const EdgeInsets.only(right: 8)
-                              : EdgeInsets.zero,
-                          child: Text(
-                            _giftBonus(state.sortedCampaigns, baseCurrency),
-                            style: sSubtitle3Style.copyWith(
-                              color: colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+                child: const SNotificationsIcon(),
               ),
-              const SpaceW24(),
+              const SpaceW34(),
+              const SProfileDetailsIcon(),
+              const SpaceW26(),
             ],
           ),
         ],
       ),
     );
-  }
-
-  String _giftBonus(
-    List<CampaignOrReferralModel> rewards,
-    BaseCurrencyModel baseCurrency,
-  ) {
-    var bonusGift = Decimal.zero;
-
-    for (final item in rewards) {
-      if (item.campaign?.conditions?.isNotEmpty ?? false) {
-        for (final condition in item.campaign!.conditions!) {
-          if (condition.reward != null) {
-            bonusGift = bonusGift + condition.reward!.amount;
-          }
-        }
-      }
-    }
-
-    return bonusGift == Decimal.zero
-        ? ''
-        : baseCurrenciesFormat(
-            prefix: baseCurrency.prefix ?? '',
-            text: '$bonusGift',
-            symbol: baseCurrency.symbol,
-          );
   }
 }
