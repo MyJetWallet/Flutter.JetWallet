@@ -211,6 +211,11 @@ final sRouter = getIt.get<AppRouter>();
       ],
     ),
     AutoRoute(
+      path: '/account',
+      name: 'AccountRouter',
+      page: AccountScreen,
+    ),
+    AutoRoute(
       path: '/crisp',
       name: 'CrispRouter',
       page: Crisp,

@@ -53,7 +53,7 @@ class SWalletItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textColor = SColorsLight().green;
+    var textColor = SColorsLight().black;
     var borderColor = SColorsLight().greenLight;
     final emptyCashText = '${currencyPrefix ?? ''}0'
         '${currencyPrefix == null ? ' $currencySymbol' : ''}';
@@ -62,11 +62,6 @@ class SWalletItem extends StatelessWidget {
         !(isPendingDeposit && formattedAmount == emptyCashText);
     final isAmountVisible = amount != null &&
         !(isPendingDeposit && formattedAmount == emptyCashText);
-
-    if (decline ?? false) {
-      textColor = SColorsLight().red;
-      borderColor = SColorsLight().redLight;
-    }
 
     return InkWell(
       highlightColor: SColorsLight().grey5,

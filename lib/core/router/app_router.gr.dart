@@ -98,6 +98,12 @@ class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    AccountRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const AccountScreen(),
+      );
+    },
     CrispRouter.name: (routeData) {
       final args = routeData.argsAs<CrispRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -942,6 +948,10 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          AccountRouter.name,
+          path: '/account',
+        ),
+        RouteConfig(
           CrispRouter.name,
           path: '/crisp',
         ),
@@ -1449,6 +1459,18 @@ class HomeRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [AccountScreen]
+class AccountRouter extends PageRouteInfo<void> {
+  const AccountRouter()
+      : super(
+          AccountRouter.name,
+          path: '/account',
+        );
+
+  static const String name = 'AccountRouter';
 }
 
 /// generated route for

@@ -30,6 +30,14 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       height: 120.0,
       child: Row(
         children: <Widget>[
+          SIconButton(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    defaultIcon: const SBackIcon(),
+                    pressedIcon: const SBackPressedIcon(),
+                  ),
+          const SpaceW20(),
           STransparentInkWell(
             onTap: onIconTap,
             child: Stack(
@@ -39,7 +47,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: SColorsLight().blue,
+                    color: SColorsLight().black,
                     borderRadius: BorderRadius.circular(24.0),
                   ),
                 ),
