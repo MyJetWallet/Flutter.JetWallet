@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/balance_in_process.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/portfolio_sliver_appbar.dart';
+import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
+import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/actual_in_progress_operation.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -14,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/portfolio_screen_gradient.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 class PortfolioBalance extends StatefulObserverWidget {
   const PortfolioBalance({super.key});
@@ -25,32 +29,32 @@ class PortfolioBalance extends StatefulObserverWidget {
 class _PortfolioBalanceState extends State<PortfolioBalance> {
   ScrollController scrollController = ScrollController();
 
+  DraggableScrollableController controller = DraggableScrollableController();
+
   bool lastStatus = true;
+  double _offset = 0;
 
   @override
   void initState() {
-    scrollController.addListener(_scrollListener);
+    //scrollController.addListener(_scrollListener);
+    controller.addListener(_draggableListener);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    scrollController.removeListener(_scrollListener);
+    //scrollController.removeListener(_scrollListener);
+    controller.removeListener(_draggableListener);
     super.dispose();
   }
 
-  void _scrollListener() {
-    if (_isShrink != lastStatus) {
-      setState(() {
-        lastStatus = _isShrink;
-      });
-    }
-  }
-
-  bool get _isShrink {
-    return scrollController.hasClients &&
-        scrollController.offset > (220 - kToolbarHeight);
+  void _draggableListener() {
+    setState(() {
+      //441
+      //588
+      _offset = controller.size;
+    });
   }
 
   Widget _balanceInProgressIcon(
@@ -116,6 +120,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
 
     final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesList;
+    final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
 
     return ScrollsToTop(
@@ -136,15 +141,16 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                   collapsedHeight: 116,
                   floating: true,
                   flexibleSpace: PortfolioSliverAppBar(
-                    isShrink: _isShrink,
+                    shrinkOffset: _offset,
                   ),
                 ),
               ],
             ),
             DraggableScrollableSheet(
-              maxChildSize: 0.76,
-              minChildSize: 0.605,
-              initialChildSize: 0.605,
+              maxChildSize: 0.77,
+              minChildSize: 0.6,
+              initialChildSize: 0.6,
+              controller: controller,
               builder: (context, sCon) => DecoratedBox(
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -159,7 +165,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                   physics: const ClampingScrollPhysics(),
                   //crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SpaceH32(),
+                    const SpaceH30(),
                     SPaddingH24(
                       child: Text(
                         intl.portfolioWithBalanceBody_my_assets,
@@ -167,60 +173,82 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                       ),
                     ),
                     const SpaceH12(),
-                    Observer(builder: (context) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemCount: itemsWithBalance.length,
-                        //controller: sCon,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              SWalletItem(
-                                isBalanceHide: getIt<AppStore>().isBalanceHide,
-                                decline: itemsWithBalance[index]
-                                    .dayPercentChange
-                                    .isNegative,
-                                icon: SNetworkSvg24(
-                                  url: itemsWithBalance[index].iconUrl,
-                                ),
-                                primaryText:
-                                    itemsWithBalance[index].description,
-                                amount: itemsWithBalance[index]
-                                    .volumeBaseBalance(baseCurrency),
-                                secondaryText: getIt<AppStore>().isBalanceHide
-                                    ? itemsWithBalance[index].symbol
-                                    : itemsWithBalance[index]
-                                        .volumeAssetBalance,
-                                onTap: () {},
-                                removeDivider:
-                                    index == itemsWithBalance.length - 1,
-                                isPendingDeposit:
-                                    itemsWithBalance[index].isPendingDeposit,
-                              ),
-                              if (itemsWithBalance[index].isPendingDeposit) ...[
-                                BalanceInProcess(
-                                  text: getIt<AppStore>().isBalanceHide
+                    ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: itemsWithBalance.length,
+                      //controller: sCon,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Observer(
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                SWalletItem(
+                                  key: UniqueKey(),
+                                  isBalanceHide:
+                                      getIt<AppStore>().isBalanceHide,
+                                  decline: itemsWithBalance[index]
+                                      .dayPercentChange
+                                      .isNegative,
+                                  icon: SNetworkSvg24(
+                                    url: itemsWithBalance[index].iconUrl,
+                                  ),
+                                  primaryText:
+                                      itemsWithBalance[index].description,
+                                  amount: itemsWithBalance[index]
+                                      .volumeBaseBalance(baseCurrency),
+                                  secondaryText: getIt<AppStore>().isBalanceHide
                                       ? itemsWithBalance[index].symbol
-                                      : _balanceInProgressText(
-                                          itemsWithBalance[index],
+                                      : itemsWithBalance[index]
+                                          .volumeAssetBalance,
+                                  onTap: () {
+                                    if (itemsWithBalance[index].type ==
+                                        AssetType.indices) {
+                                      sRouter.push(
+                                        MarketDetailsRouter(
+                                          marketItem: marketItemFrom(
+                                            marketItems,
+                                            itemsWithBalance[index].symbol,
+                                          ),
                                         ),
-                                  leadText: _balanceInProgressLeadText(
-                                    itemsWithBalance[index],
-                                  ),
-                                  removeDivider: itemsWithBalance[index] ==
-                                      itemsWithBalance.last,
-                                  icon: _balanceInProgressIcon(
-                                    itemsWithBalance[index],
-                                  ),
+                                      );
+                                    } else {
+                                      navigateToWallet(
+                                        context,
+                                        itemsWithBalance[index],
+                                      );
+                                    }
+                                  },
+                                  removeDivider:
+                                      index == itemsWithBalance.length - 1,
+                                  isPendingDeposit:
+                                      itemsWithBalance[index].isPendingDeposit,
                                 ),
+                                if (itemsWithBalance[index]
+                                    .isPendingDeposit) ...[
+                                  BalanceInProcess(
+                                    text: getIt<AppStore>().isBalanceHide
+                                        ? itemsWithBalance[index].symbol
+                                        : _balanceInProgressText(
+                                            itemsWithBalance[index],
+                                          ),
+                                    leadText: _balanceInProgressLeadText(
+                                      itemsWithBalance[index],
+                                    ),
+                                    removeDivider: itemsWithBalance[index] ==
+                                        itemsWithBalance.last,
+                                    icon: _balanceInProgressIcon(
+                                      itemsWithBalance[index],
+                                    ),
+                                  ),
+                                ],
                               ],
-                            ],
-                          );
-                        },
-                      );
-                    }),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

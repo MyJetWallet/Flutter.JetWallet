@@ -26,7 +26,7 @@ class CircleActionBuy extends StatelessWidget {
             ),
             onTap: onTap,
           ),
-          const SpaceH9(),
+          const SpaceH6(),
           Text(
             intl.balanceActionButtons_buy,
             style: sBodyText2Style,

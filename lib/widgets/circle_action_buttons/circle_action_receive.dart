@@ -26,7 +26,7 @@ class CircleActionReceive extends StatelessWidget {
             ),
             onTap: onTap,
           ),
-          const SpaceH9(),
+          const SpaceH6(),
           Text(
             intl.balanceActionButtons_receive,
             style: sBodyText2Style,

@@ -6,12 +6,17 @@ import 'package:simple_kit/modules/icons/24x24/light/eye_close/simple_light_eye_
 import 'package:simple_kit/utils/enum.dart';
 
 class SEyeCloseIcon extends StatelessObserverWidget {
-  const SEyeCloseIcon({Key? key}) : super(key: key);
+  const SEyeCloseIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightEyeCloseIcon()
-        : const SimpleLightEyeCloseIcon();
+        ? SimpleLightEyeCloseIcon(color: color)
+        : SimpleLightEyeCloseIcon(color: color);
   }
 }

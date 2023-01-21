@@ -26,7 +26,7 @@ class CircleActionExchange extends StatelessWidget {
             ),
             onTap: onTap,
           ),
-          const SpaceH9(),
+          const SpaceH6(),
           Text(
             intl.balanceActionButtons_exchange,
             style: sBodyText2Style,

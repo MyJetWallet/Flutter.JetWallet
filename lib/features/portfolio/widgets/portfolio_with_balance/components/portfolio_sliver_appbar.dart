@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -23,15 +25,14 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.da
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'dart:math' as math;
 
 class PortfolioSliverAppBar extends StatelessObserverWidget {
   const PortfolioSliverAppBar({
     super.key,
-    required this.isShrink,
+    required this.shrinkOffset,
   });
 
-  final bool isShrink;
+  final double shrinkOffset;
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +46,18 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
+    final expendPercentage = (shrinkOffset.clamp(0.6, 0.7) - 0.6) / (0.7 - 0.6);
+
+    final interpolatedTextStyle = TextStyle.lerp(
+      sTextH1Style,
+      sTextH3Style,
+      expendPercentage,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [const SpaceH64(),
+      children: [
+        const SpaceH68(),
         Row(
           children: [
             const SpaceW24(),
@@ -58,7 +68,21 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                   style: sTextH5Style,
                 ),
                 const SpaceW8(),
-                GestureDetector(
+                SIconButton(
+                  defaultIcon: getIt<AppStore>().isBalanceHide
+                      ? SEyeCloseIcon(
+                          color: colors.black,
+                        )
+                      : SEyeOpenIcon(
+                          color: colors.black,
+                        ),
+                  pressedIcon: getIt<AppStore>().isBalanceHide
+                      ? SEyeCloseIcon(
+                          color: colors.black.withOpacity(0.7),
+                        )
+                      : SEyeOpenIcon(
+                          color: colors.black.withOpacity(0.7),
+                        ),
                   onTap: () {
                     if (getIt<AppStore>().isBalanceHide) {
                       getIt<AppStore>().setIsBalanceHide(false);
@@ -66,29 +90,34 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                       getIt<AppStore>().setIsBalanceHide(true);
                     }
                   },
-                  child: getIt<AppStore>().isBalanceHide
-                      ? const SEyeCloseIcon()
-                      : SEyeOpenIcon(
-                          color: colors.black,
-                        ),
                 ),
               ],
             ),
             const Spacer(),
-            GestureDetector(
+            SIconButton(
+              defaultIcon: SNotificationsIcon(
+                color: colors.black,
+              ),
+              pressedIcon: SNotificationsIcon(
+                color: colors.black.withOpacity(0.7),
+              ),
               onTap: () {
                 sAnalytics.rewardsScreenView(Source.giftIcon);
 
                 sRouter.push(const RewardsRouter());
               },
-              child: const SNotificationsIcon(),
             ),
             const SpaceW34(),
-            GestureDetector(
+            SIconButton(
+              defaultIcon: SProfileDetailsIcon(
+                color: colors.black,
+              ),
+              pressedIcon: SProfileDetailsIcon(
+                color: colors.black.withOpacity(0.7),
+              ),
               onTap: () {
-                sRouter.push(AccountRouter());
+                sRouter.push(const AccountRouter());
               },
-              child: const SProfileDetailsIcon(),
             ),
             const SpaceW26(),
           ],
@@ -98,95 +127,93 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
           child: Text(
             !getIt<AppStore>().isBalanceHide
                 ? _price(itemsWithBalance, baseCurrency)
-                : '€*******',
-            style: sTextH1Style,
+                : '${baseCurrency.prefix}*******',
+            style: interpolatedTextStyle,
           ),
         ),
         const SpaceH24(),
-        if (!isShrink) ...[
-          const SpaceH16(),
-          Opacity(
-            opacity: 1,
-            child: Row(
-              children: [
-                CircleActionBuy(
-                  onTap: () {
-                    showBuyAction(
-                      fromCard: true,
-                      shouldPop: false,
-                      context: context,
-                    );
-                  },
-                ),
-                CircleActionReceive(
-                  onTap: () {
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      showReceiveAction(context, shouldPop: false);
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.depositStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => showSendAction(
-                          context,
-                          isNotEmptyBalance: isNotEmptyBalance,
-                          shouldPop: false,
-                        ),
-                        navigatePop: false,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                ),
-                CircleActionSend(
-                  onTap: () {
-                    if (kycState.withdrawalStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      showSendAction(
+        const SpaceH16(),
+        Opacity(
+          opacity: 1,
+          child: Row(
+            children: [
+              CircleActionBuy(
+                onTap: () {
+                  showBuyAction(
+                    fromCard: true,
+                    shouldPop: false,
+                    context: context,
+                  );
+                },
+              ),
+              CircleActionReceive(
+                onTap: () {
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    showReceiveAction(context, shouldPop: false);
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.depositStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => showSendAction(
                         context,
                         isNotEmptyBalance: isNotEmptyBalance,
                         shouldPop: false,
-                      );
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.withdrawalStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => showSendAction(
-                          context,
-                          isNotEmptyBalance: isNotEmptyBalance,
-                          shouldPop: false,
-                        ),
-                        navigatePop: false,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                ),
-                CircleActionExchange(
-                  onTap: () {
-                    if (kycState.sellStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      sRouter.push(ConvertRouter());
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.sellStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => sRouter.push(
-                          ConvertRouter(),
-                        ),
-                        navigatePop: false,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
+                      ),
+                      navigatePop: false,
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications: kycState.requiredVerifications,
+                    );
+                  }
+                },
+              ),
+              CircleActionSend(
+                onTap: () {
+                  if (kycState.withdrawalStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    showSendAction(
+                      context,
+                      isNotEmptyBalance: isNotEmptyBalance,
+                      shouldPop: false,
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.withdrawalStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => showSendAction(
+                        context,
+                        isNotEmptyBalance: isNotEmptyBalance,
+                        shouldPop: false,
+                      ),
+                      navigatePop: false,
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications: kycState.requiredVerifications,
+                    );
+                  }
+                },
+              ),
+              CircleActionExchange(
+                onTap: () {
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.push(ConvertRouter());
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => sRouter.push(
+                        ConvertRouter(),
+                      ),
+                      navigatePop: false,
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications: kycState.requiredVerifications,
+                    );
+                  }
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ],
     );
   }
