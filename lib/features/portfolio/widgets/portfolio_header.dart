@@ -62,16 +62,31 @@ class PortfolioHeader extends StatelessObserverWidget {
                 style: sTextH5Style,
               ),
               const Spacer(),
-              GestureDetector(
+              SIconButton(
+                defaultIcon: SNotificationsIcon(
+                  color: colors.black,
+                ),
+                pressedIcon: SNotificationsIcon(
+                  color: colors.black.withOpacity(0.7),
+                ),
                 onTap: () {
                   sAnalytics.rewardsScreenView(Source.giftIcon);
 
                   sRouter.push(const RewardsRouter());
                 },
-                child: const SNotificationsIcon(),
               ),
               const SpaceW34(),
-              const SProfileDetailsIcon(),
+              SIconButton(
+                defaultIcon: SProfileDetailsIcon(
+                  color: colors.black,
+                ),
+                pressedIcon: SProfileDetailsIcon(
+                  color: colors.black.withOpacity(0.7),
+                ),
+                onTap: () {
+                  sRouter.push(const AccountRouter());
+                },
+              ),
               const SpaceW26(),
             ],
           ),
