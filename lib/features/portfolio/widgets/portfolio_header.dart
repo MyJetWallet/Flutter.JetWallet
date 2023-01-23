@@ -48,50 +48,46 @@ class PortfolioHeader extends StatelessObserverWidget {
           : colors.grey5;
     }
 
-    return Container(
-      height: 120,
-      color: getContainerColor(),
-      child: Column(
-        children: [
-          const SpaceH64(),
-          Row(
-            children: [
-              const SpaceW24(),
-              Text(
-                '${intl.portfolioHeader_balance}${showPrice ? ': $price' : ''}',
-                style: sTextH5Style,
+    return Column(
+      children: [
+        const SpaceH68(),
+        Row(
+          children: [
+            const SpaceW24(),
+            Text(
+              '${intl.portfolioHeader_balance}${showPrice ? ': $price' : ''}',
+              style: sTextH5Style,
+            ),
+            const Spacer(),
+            SIconButton(
+              defaultIcon: SNotificationsIcon(
+                color: colors.black,
               ),
-              const Spacer(),
-              SIconButton(
-                defaultIcon: SNotificationsIcon(
-                  color: colors.black,
-                ),
-                pressedIcon: SNotificationsIcon(
-                  color: colors.black.withOpacity(0.7),
-                ),
-                onTap: () {
-                  sAnalytics.rewardsScreenView(Source.giftIcon);
+              pressedIcon: SNotificationsIcon(
+                color: colors.black.withOpacity(0.7),
+              ),
+              onTap: () {
+                sAnalytics.rewardsScreenView(Source.giftIcon);
 
-                  sRouter.push(const RewardsRouter());
-                },
+                sRouter.push(const RewardsRouter());
+              },
+            ),
+            const SpaceW34(),
+            SIconButton(
+              defaultIcon: SProfileDetailsIcon(
+                color: colors.black,
               ),
-              const SpaceW34(),
-              SIconButton(
-                defaultIcon: SProfileDetailsIcon(
-                  color: colors.black,
-                ),
-                pressedIcon: SProfileDetailsIcon(
-                  color: colors.black.withOpacity(0.7),
-                ),
-                onTap: () {
-                  sRouter.push(const AccountRouter());
-                },
+              pressedIcon: SProfileDetailsIcon(
+                color: colors.black.withOpacity(0.7),
               ),
-              const SpaceW26(),
-            ],
-          ),
-        ],
-      ),
+              onTap: () {
+                sRouter.push(const AccountRouter());
+              },
+            ),
+            const SpaceW26(),
+          ],
+        ),
+      ],
     );
   }
 }
