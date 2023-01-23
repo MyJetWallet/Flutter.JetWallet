@@ -56,7 +56,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               ),
             ],
           ),
-          const SpaceH45(),
+          const Spacer(),
           Text(
             intl.emptyEarnWalletBody_mainText1,
             textAlign: TextAlign.center,
