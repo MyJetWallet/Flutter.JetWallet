@@ -43,7 +43,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
         child: Column(
           children: [
             const SDivider(),
-            const SpaceH13(),
+            const SpaceH11(),
             Row(
               children: [
                 const Spacer(),
@@ -59,6 +59,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                         widget.myAssetsText,
                         style: sBodyText2Style.copyWith(
                           fontWeight: FontWeight.w600,
+                          height: 1.38,
                           color: widget.selectedIndex == 0
                               ? SColorsLight().black
                               : SColorsLight().grey3,
@@ -80,6 +81,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                         widget.marketText,
                         style: sBodyText2Style.copyWith(
                           fontWeight: FontWeight.w600,
+                          height: 1.38,
                           color: widget.selectedIndex == 1
                               ? SColorsLight().black
                               : SColorsLight().grey3,
