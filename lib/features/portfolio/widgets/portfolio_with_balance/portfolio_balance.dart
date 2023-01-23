@@ -114,6 +114,38 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     );
   }
 
+  double getMaxChildSize() {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    if (devicePixelRatio <= 2.2) {
+      return 0.7;
+    }
+    if (devicePixelRatio >= 2.2 && devicePixelRatio < 3) {
+      return 0.77;
+    }
+    if (devicePixelRatio >= 3) {
+      return 0.8;
+    }
+
+    return 0.77;
+  }
+
+  double getMinChildSize() {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    if (devicePixelRatio <= 2.2) {
+      return 0.48;
+    }
+    if (devicePixelRatio >= 2.2 && devicePixelRatio < 3) {
+      return 0.6;
+    }
+    if (devicePixelRatio >= 3) {
+      return 0.63;
+    }
+
+    return 0.6;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -142,14 +174,16 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                   floating: true,
                   flexibleSpace: PortfolioSliverAppBar(
                     shrinkOffset: _offset,
+                    max: getMaxChildSize(),
+                    min: getMinChildSize(),
                   ),
                 ),
               ],
             ),
             DraggableScrollableSheet(
-              maxChildSize: 0.77,
-              minChildSize: 0.6,
-              initialChildSize: 0.6,
+              maxChildSize: getMaxChildSize(),
+              minChildSize: getMinChildSize(),
+              initialChildSize: getMinChildSize(),
               controller: controller,
               builder: (context, sCon) => DecoratedBox(
                 decoration: const BoxDecoration(

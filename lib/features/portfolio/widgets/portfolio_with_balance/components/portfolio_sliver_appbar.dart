@@ -30,9 +30,14 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
   const PortfolioSliverAppBar({
     super.key,
     required this.shrinkOffset,
+    required this.max,
+    required this.min,
   });
 
   final double shrinkOffset;
+
+  final double max;
+  final double min;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    final expendPercentage = (shrinkOffset.clamp(0.6, 0.7) - 0.6) / (0.7 - 0.6);
+    final expendPercentage = (shrinkOffset.clamp(min, max) - min) / (max - min);
 
     final interpolatedTextStyle = TextStyle.lerp(
       sTextH1Style,
