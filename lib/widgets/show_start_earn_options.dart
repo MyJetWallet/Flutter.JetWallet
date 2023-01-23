@@ -38,10 +38,7 @@ void showStartEarnOptions({
 
             Navigator.pop(context);
             sRouter.push(
-              CurrencyBuyRouter(
-                currency: currency,
-                fromCard: true,
-              ),
+              PaymentMethodRouter(currency: currency),
             );
           } else {
             Navigator.of(context).pop();
@@ -58,10 +55,7 @@ void showStartEarnOptions({
 
                 Navigator.pop(context);
                 sRouter.push(
-                  CurrencyBuyRouter(
-                    currency: currency,
-                    fromCard: true,
-                  ),
+                  PaymentMethodRouter(currency: currency),
                 );
               },
               requiredDocuments: kycState.requiredDocuments,

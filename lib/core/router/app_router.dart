@@ -121,6 +121,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -129,6 +130,8 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
+import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
+import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 
 part 'app_router.gr.dart';
@@ -271,6 +274,16 @@ final sRouter = getIt.get<AppRouter>();
       path: '/currency_buy',
       name: 'CurrencyBuyRouter',
       page: CurrencyBuy,
+    ),
+    AutoRoute(
+      path: '/choose_asset',
+      name: 'ChooseAssetRouter',
+      page: ChooseAssetScreen,
+    ),
+    AutoRoute(
+      path: '/payment_method',
+      name: 'PaymentMethodRouter',
+      page: PaymentMethodScreen,
     ),
     AutoRoute(
       path: '/crypto_deposit',

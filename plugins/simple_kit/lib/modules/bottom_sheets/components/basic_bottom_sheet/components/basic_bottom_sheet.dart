@@ -20,6 +20,7 @@ class BasicBottomSheet extends StatefulWidget {
     this.removeBottomSheetBar = false,
     this.removeBarPadding = false,
     this.removePinnedPadding = false,
+    this.fullScreen = false,
     required this.color,
     required this.scrollable,
     required this.children,
@@ -42,6 +43,7 @@ class BasicBottomSheet extends StatefulWidget {
   final Color color;
   final List<Widget> children;
   final bool scrollable;
+  final bool fullScreen;
   final double? horizontalPinnedPadding;
 
   @override
@@ -111,6 +113,7 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
               removeBarPadding: widget.removeBarPadding,
               removePinnedPadding: widget.removePinnedPadding,
               pinnedBottom: widget.pinnedBottom,
+              fullScreen: widget.fullScreen,
             );
 
             return Column(
@@ -200,6 +203,7 @@ double _listViewMaxHeight({
   required bool removeBottomSheetBar,
   required bool removeBarPadding,
   required bool removePinnedPadding,
+  required bool fullScreen,
   required Size? pinnedSize,
   required Size? pinnedBottomSize,
   required Widget? pinnedBottom,
@@ -224,6 +228,10 @@ double _listViewMaxHeight({
 
   if (pinnedBottomSize != null) {
     max = max - pinnedBottomSize.height;
+  }
+
+  if (fullScreen) {
+    return max;
   }
 
   return max - 60; // required spacing from the top edge of the device;

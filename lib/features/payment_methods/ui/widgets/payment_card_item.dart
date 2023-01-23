@@ -9,18 +9,22 @@ class PaymentCardItem extends StatelessObserverWidget {
   const PaymentCardItem({
     Key? key,
     this.removeDivider = false,
+    this.showDelete = true,
     required this.name,
     required this.expirationDate,
     required this.expired,
     required this.onDelete,
+    required this.onTap,
     required this.status,
   }) : super(key: key);
 
   final bool removeDivider;
+  final bool showDelete;
   final String name;
   final String expirationDate;
   final bool expired;
   final Function() onDelete;
+  final Function() onTap;
   final CircleCardStatus status;
 
   @override
@@ -33,14 +37,15 @@ class PaymentCardItem extends StatelessObserverWidget {
       highlightColor: colors.grey5,
       splashColor: Colors.transparent,
       onTap: () {
+        onTap();
         if (status == CircleCardStatus.failed) {
           notifier.showFailure();
         }
       },
       child: Container(
-        height: 88.0,
+        height: 64.0,
         padding: const EdgeInsets.only(
-          top: 24.0,
+          top: 9.0,
           left: 24.0,
           right: 24.0,
         ),
@@ -50,7 +55,7 @@ class PaymentCardItem extends StatelessObserverWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SActionDepositIcon(
-                  color: isDisabled ? colors.grey2 : colors.black,
+                  color: colors.blue,
                 ),
                 const SpaceW20(),
                 Expanded(
@@ -72,13 +77,14 @@ class PaymentCardItem extends StatelessObserverWidget {
                             ),
                           ),
                           const SpaceW10(),
-                          Container(
-                            transform: Matrix4.translationValues(9, 0, 0),
-                            child: SIconButton(
-                              onTap: onDelete,
-                              defaultIcon: const SDeleteIcon(),
+                          if (showDelete)
+                            Container(
+                              transform: Matrix4.translationValues(9, 0, 0),
+                              child: SIconButton(
+                                onTap: onDelete,
+                                defaultIcon: const SDeleteIcon(),
+                              ),
                             ),
-                          ),
                         ],
                       ),
                       Row(

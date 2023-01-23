@@ -361,7 +361,7 @@ abstract class _AddBankCardStoreBase with Store {
 
     try {
       int.parse(code);
-      if (code.length == 12) {
+      if (code.length == 16) {
         final buffer = StringBuffer();
 
         for (var i = 0; i < code.length; i++) {

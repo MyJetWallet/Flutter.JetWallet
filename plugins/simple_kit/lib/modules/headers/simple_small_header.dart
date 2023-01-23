@@ -9,10 +9,16 @@ class SSmallHeader extends StatelessWidget {
     this.onStarButtonTap,
     this.onInfoButtonTap,
     this.onBackButtonTap,
+    this.onCLoseButton,
+    this.onEditButtonTap,
+    this.onDoneButtonTap,
     this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
     this.showInfoButton = false,
+    this.showEditButton = false,
+    this.showCloseButton = false,
+    this.showDoneButton = false,
     this.isStarSelected = false,
     required this.title,
   }) : super(key: key);
@@ -21,10 +27,17 @@ class SSmallHeader extends StatelessWidget {
   final Function()? onStarButtonTap;
   final Function()? onInfoButtonTap;
   final Function()? onBackButtonTap;
+  final Function()? onEditButtonTap;
+  final Function()? onDoneButtonTap;
+  final Function()? onCLoseButton;
   final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
   final bool showInfoButton;
+  final bool showEditButton;
+  final bool showDoneButton;
+  final bool showCloseButton;
+
   final bool isStarSelected;
   final String title;
 
@@ -71,6 +84,24 @@ class SSmallHeader extends StatelessWidget {
                   onTap: onInfoButtonTap,
                   defaultIcon: const SInfoIcon(),
                   pressedIcon: const SInfoPressedIcon(),
+                )
+              else if (showEditButton)
+                SIconButton(
+                  onTap: onEditButtonTap,
+                  defaultIcon: const SEditIcon(),
+                  pressedIcon: const SEditIcon(),
+                )
+              else if (showDoneButton)
+                SIconButton(
+                  onTap: onDoneButtonTap,
+                  defaultIcon: const SDoneIcon(),
+                  pressedIcon: const SDoneIcon(),
+                )
+              else if (showCloseButton)
+                SIconButton(
+                  onTap: onCLoseButton,
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
                 )
               else
                 const _IconPlaceholder(),

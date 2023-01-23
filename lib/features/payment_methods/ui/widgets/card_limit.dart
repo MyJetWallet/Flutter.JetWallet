@@ -23,7 +23,7 @@ class CardLimit extends StatelessObserverWidget {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final currentWidth = MediaQuery.of(context).size.width - 48;
+    final currentWidth = MediaQuery.of(context).size.width - 130;
     var width = currentWidth / 100 * cardLimit.barProgress;
     var colorToUse = colors.blue;
     var isWidthDifferenceSmall = (currentWidth - width) < 6;
@@ -77,67 +77,86 @@ class CardLimit extends StatelessObserverWidget {
         '${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}';
 
     return SPaddingH24(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Text(
-                text,
-                style: sSubtitle3Style.copyWith(
-                  color: colors.grey1,
-                ),
-              ),
-              const Spacer(),
-              SIconButton(
-                onTap: () {
-                  showCardLimitsBottomSheet(
-                    context: context,
-                    cardLimits: cardLimit,
-                  );
-                },
-                defaultIcon: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                  ),
-                  child: SInfoIcon(color: colors.grey3),
-                ),
-              ),
-            ],
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          color: colors.grey5,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 10,
+            bottom: 12,
           ),
-          const SpaceH13(),
-          Stack(
+          child: Column(
             children: [
-              Container(
-                width: currentWidth,
-                height: small ? 4 : 12,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                  color: colors.blueLight,
-                ),
-              ),
-              Positioned(
-                child: Container(
-                  width: width,
-                  height: small ? 4 : 12,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(6),
-                      bottomLeft: const Radius.circular(6),
-                      topRight: isWidthDifferenceSmall
-                          ? const Radius.circular(6)
-                          : Radius.zero,
-                      bottomRight: isWidthDifferenceSmall
-                          ? const Radius.circular(6)
-                          : Radius.zero,
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        text,
+                        style: sSubtitle3Style.copyWith(
+                          color: colors.grey1,
+                        ),
+                      ),
+                      const SpaceH13(),
+                      Stack(
+                        children: [
+                          Container(
+                            width: currentWidth,
+                            height: small ? 4 : 12,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(6)),
+                              color: colors.grey4,
+                            ),
+                          ),
+                          Positioned(
+                            child: Container(
+                              width: width,
+                              height: small ? 4 : 12,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(6),
+                                  bottomLeft: const Radius.circular(6),
+                                  topRight: isWidthDifferenceSmall
+                                      ? const Radius.circular(6)
+                                      : Radius.zero,
+                                  bottomRight: isWidthDifferenceSmall
+                                      ? const Radius.circular(6)
+                                      : Radius.zero,
+                                ),
+                                color:
+                                cardLimit.barProgress == 100 ? colors.red : colorToUse,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SpaceW16(),
+                  SIconButton(
+                    onTap: () {
+                      showCardLimitsBottomSheet(
+                        context: context,
+                        cardLimits: cardLimit,
+                      );
+                    },
+                    defaultIcon: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                      ),
+                      child: SInfoIcon(color: colors.grey3),
                     ),
-                    color:
-                        cardLimit.barProgress == 100 ? colors.red : colorToUse,
                   ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

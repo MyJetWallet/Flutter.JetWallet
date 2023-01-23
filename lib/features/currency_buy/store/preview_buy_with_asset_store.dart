@@ -303,14 +303,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error.cause,
         primaryButtonName: intl.previewBuyWithAsset_editOrder,
-        onPrimaryButtonTap: () {
-          sRouter.navigate(
-            CurrencyBuyRouter(
-              currency: input.toCurrency,
-              fromCard: true,
-            ),
-          );
-        },
+        onPrimaryButtonTap: () {},
         secondaryButtonName: intl.previewBuyWithAsset_close,
         onSecondaryButtonTap: () => navigateToRouter(),
       ),

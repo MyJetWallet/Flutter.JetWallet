@@ -180,8 +180,29 @@ class _$AppRouter extends RootStackRouter {
         child: CurrencyBuy(
           key: args.key,
           recurringBuysType: args.recurringBuysType,
+          circleCard: args.circleCard,
+          unlimintCard: args.unlimintCard,
+          bankCard: args.bankCard,
+          newBankCardId: args.newBankCardId,
           currency: args.currency,
           fromCard: args.fromCard,
+          paymentMethod: args.paymentMethod,
+        ),
+      );
+    },
+    ChooseAssetRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: ChooseAssetScreen(),
+      );
+    },
+    PaymentMethodRouter.name: (routeData) {
+      final args = routeData.argsAs<PaymentMethodRouterArgs>();
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: PaymentMethodScreen(
+          key: args.key,
+          currency: args.currency,
         ),
       );
     },
@@ -1022,6 +1043,14 @@ class _$AppRouter extends RootStackRouter {
           path: '/currency_buy',
         ),
         RouteConfig(
+          ChooseAssetRouter.name,
+          path: '/choose_asset',
+        ),
+        RouteConfig(
+          PaymentMethodRouter.name,
+          path: '/payment_method',
+        ),
+        RouteConfig(
           CryptoDepositRouter.name,
           path: '/crypto_deposit',
         ),
@@ -1751,16 +1780,26 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
   CurrencyBuyRouter({
     Key? key,
     RecurringBuysType? recurringBuysType,
+    CircleCard? circleCard,
+    CircleCard? unlimintCard,
+    CircleCard? bankCard,
+    String? newBankCardId,
     required CurrencyModel currency,
     required bool fromCard,
+    required PaymentMethodType paymentMethod,
   }) : super(
           CurrencyBuyRouter.name,
           path: '/currency_buy',
           args: CurrencyBuyRouterArgs(
             key: key,
             recurringBuysType: recurringBuysType,
+            circleCard: circleCard,
+            unlimintCard: unlimintCard,
+            bankCard: bankCard,
+            newBankCardId: newBankCardId,
             currency: currency,
             fromCard: fromCard,
+            paymentMethod: paymentMethod,
           ),
         );
 
@@ -1771,21 +1810,82 @@ class CurrencyBuyRouterArgs {
   const CurrencyBuyRouterArgs({
     this.key,
     this.recurringBuysType,
+    this.circleCard,
+    this.unlimintCard,
+    this.bankCard,
+    this.newBankCardId,
     required this.currency,
     required this.fromCard,
+    required this.paymentMethod,
   });
 
   final Key? key;
 
   final RecurringBuysType? recurringBuysType;
 
+  final CircleCard? circleCard;
+
+  final CircleCard? unlimintCard;
+
+  final CircleCard? bankCard;
+
+  final String? newBankCardId;
+
   final CurrencyModel currency;
 
   final bool fromCard;
 
+  final PaymentMethodType paymentMethod;
+
   @override
   String toString() {
-    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, currency: $currency, fromCard: $fromCard}';
+    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
+  }
+}
+
+/// generated route for
+/// [ChooseAssetScreen]
+class ChooseAssetRouter extends PageRouteInfo<void> {
+  const ChooseAssetRouter()
+      : super(
+          ChooseAssetRouter.name,
+          path: '/choose_asset',
+        );
+
+  static const String name = 'ChooseAssetRouter';
+}
+
+/// generated route for
+/// [PaymentMethodScreen]
+class PaymentMethodRouter extends PageRouteInfo<PaymentMethodRouterArgs> {
+  PaymentMethodRouter({
+    Key? key,
+    required CurrencyModel currency,
+  }) : super(
+          PaymentMethodRouter.name,
+          path: '/payment_method',
+          args: PaymentMethodRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+        );
+
+  static const String name = 'PaymentMethodRouter';
+}
+
+class PaymentMethodRouterArgs {
+  const PaymentMethodRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'PaymentMethodRouterArgs{key: $key, currency: $currency}';
   }
 }
 
