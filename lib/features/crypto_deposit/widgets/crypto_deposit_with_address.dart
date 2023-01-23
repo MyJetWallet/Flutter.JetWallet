@@ -51,10 +51,11 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
           SAddressFieldWithCopy(
             header: '${currency.symbol}'
                 ' ${intl.cryptoDepositWithAddress_walletAddress}',
-            value: shortAddressForm(deposit.address),
+            value: deposit.address,
             realValue: deposit.address,
             afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
             valueLoading: deposit.union is Loading,
+            longString: true,
             then: () {
               sAnalytics.receiveCopy(asset: currency.description);
             },

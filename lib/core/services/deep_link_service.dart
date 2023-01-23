@@ -480,7 +480,7 @@ class DeepLinkService {
               } catch (e) {}
             },
           ),
-          expandedHeight: 333,
+          expandedHeight: 153,
           children: [
             SReferralInviteBody(
               primaryText: referralInfo.title,

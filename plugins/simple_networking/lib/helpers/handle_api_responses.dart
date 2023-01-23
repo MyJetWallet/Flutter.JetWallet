@@ -165,7 +165,7 @@ String _blockerMessage(Duration duration) {
 
   final d = duration.inDays;
   final h = duration.inHours;
-  final m = duration.inMinutes;
+  final m = duration.inMinutes - h * 60;
 
   final dEnd = _pluralEnd(d);
   final hEnd = _pluralEnd(h);
@@ -187,7 +187,7 @@ String _blockerNumberMessage(Duration duration) {
 
   final d = duration.inDays;
   final h = duration.inHours;
-  final m = duration.inMinutes;
+  final m = duration.inMinutes - h * 60;
 
   final dEnd = _pluralEnd(d);
   final hEnd = _pluralEnd(h);
