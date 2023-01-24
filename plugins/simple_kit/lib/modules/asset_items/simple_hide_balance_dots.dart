@@ -6,10 +6,8 @@ class SimpleHideBalanceDots extends StatelessWidget {
     Key? key,
     this.margin = const EdgeInsets.symmetric(horizontal: 1.0),
     this.baseCurrPrefix = '',
-    required this.color,
   }) : super(key: key);
 
-  final Color color;
   final EdgeInsetsGeometry margin;
   final String baseCurrPrefix;
 

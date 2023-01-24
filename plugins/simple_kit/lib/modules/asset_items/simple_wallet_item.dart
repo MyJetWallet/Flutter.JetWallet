@@ -135,15 +135,15 @@ class SWalletItem extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: borderColor,
+                              color: SColorsLight().grey5,
                             ),
                             borderRadius: BorderRadius.circular(22.0),
                           ),
-                          child: !isBalanceHide
-                              ? Baseline(
-                                  baseline: 27.0,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Row(
+                          child: Baseline(
+                            baseline: 28.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: !isBalanceHide
+                                ? Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
@@ -155,14 +155,11 @@ class SWalletItem extends StatelessWidget {
                                         ),
                                       ),
                                     ],
+                                  )
+                                : SimpleHideBalanceDots(
+                                    baseCurrPrefix: baseCurrPrefix ?? '',
                                   ),
-                                )
-                              : SimpleHideBalanceDots(
-                                  color: amountDecimal == 0
-                                      ? (color ?? textColor)
-                                      : textColor,
-                                  baseCurrPrefix: baseCurrPrefix ?? '',
-                                ),
+                          ),
                         ),
                       ],
                     ),
