@@ -228,6 +228,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                   icon: SNetworkSvg24(
                                     url: itemsWithBalance[index].iconUrl,
                                   ),
+                                  baseCurrPrefix: baseCurrency.prefix,
                                   primaryText:
                                       itemsWithBalance[index].description,
                                   amount: itemsWithBalance[index]

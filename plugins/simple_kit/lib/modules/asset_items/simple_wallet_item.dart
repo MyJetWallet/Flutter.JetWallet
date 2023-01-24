@@ -18,6 +18,7 @@ class SWalletItem extends StatelessWidget {
     this.removeDivider = false,
     this.color,
     this.onTap,
+    this.baseCurrPrefix,
     this.leftBlockTopPadding = 22,
     this.balanceTopMargin = 22,
     this.height = 88,
@@ -50,6 +51,8 @@ class SWalletItem extends StatelessWidget {
   final bool isRecurring;
   final bool isPendingDeposit;
   final bool isBalanceHide;
+
+  final String? baseCurrPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +161,7 @@ class SWalletItem extends StatelessWidget {
                                   color: amountDecimal == 0
                                       ? (color ?? textColor)
                                       : textColor,
+                                  baseCurrPrefix: baseCurrPrefix ?? '',
                                 ),
                         ),
                       ],

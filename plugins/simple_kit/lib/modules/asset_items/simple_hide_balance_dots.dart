@@ -5,11 +5,13 @@ class SimpleHideBalanceDots extends StatelessWidget {
   const SimpleHideBalanceDots({
     Key? key,
     this.margin = const EdgeInsets.symmetric(horizontal: 1.0),
+    this.baseCurrPrefix = '',
     required this.color,
   }) : super(key: key);
 
   final Color color;
   final EdgeInsetsGeometry margin;
+  final String baseCurrPrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +20,10 @@ class SimpleHideBalanceDots extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (int i = 0; i < 4; i++)
-          Container(
-            width: 4.0,
-            height: 4.0,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
-            margin: margin,
-            child: const SizedBox.shrink(),
-          ),
+        Text(
+          '$baseCurrPrefix******',
+          style: sSubtitle2Style,
+        ),
       ],
     );
   }

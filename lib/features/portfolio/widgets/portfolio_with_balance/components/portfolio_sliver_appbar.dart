@@ -74,14 +74,14 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 ),
                 const SpaceW8(),
                 SIconButton(
-                  defaultIcon: getIt<AppStore>().isBalanceHide
+                  defaultIcon: !getIt<AppStore>().isBalanceHide
                       ? SEyeCloseIcon(
                           color: colors.black,
                         )
                       : SEyeOpenIcon(
                           color: colors.black,
                         ),
-                  pressedIcon: getIt<AppStore>().isBalanceHide
+                  pressedIcon: !getIt<AppStore>().isBalanceHide
                       ? SEyeCloseIcon(
                           color: colors.black.withOpacity(0.7),
                         )
