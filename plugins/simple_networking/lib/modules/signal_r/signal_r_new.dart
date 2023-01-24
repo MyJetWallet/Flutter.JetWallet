@@ -172,6 +172,11 @@ class SignalRModuleNew {
       handler.paymentMethodsMessageHandler,
     );
 
+    _hubConnection?.on(
+      paymentMethodsNewMessage,
+      handler.paymentMethodsNewMessageHandler,
+    );
+
     _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
 
     _hubConnection?.on(
@@ -441,6 +446,10 @@ class SignalRModuleNew {
     _hubConnection?.off(
       paymentMethodsMessage,
       method: handler.paymentMethodsMessageHandler,
+    );
+    _hubConnection?.off(
+      paymentMethodsNewMessage,
+      method: handler.paymentMethodsNewMessageHandler,
     );
     _hubConnection?.off(
       referralInfoMessage,

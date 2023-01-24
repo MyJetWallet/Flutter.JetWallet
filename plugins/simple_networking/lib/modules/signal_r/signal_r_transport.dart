@@ -26,6 +26,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 class SignalRTransport {
   SignalRTransport({
@@ -58,6 +59,7 @@ class SignalRTransport {
     required this.updateBasePrices,
     required this.updateAssetsWithdrawalFees,
     required this.updateAssetPaymentMethods,
+    required this.updateAssetPaymentMethodsNew,
   });
 
   final void Function(bool) initFinished;
@@ -93,4 +95,5 @@ class SignalRTransport {
   final void Function(BasePricesModel) updateBasePrices;
   final void Function(AssetWithdrawalFeeModel) updateAssetsWithdrawalFees;
   final void Function(AssetPaymentMethods) updateAssetPaymentMethods;
+  final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
 }

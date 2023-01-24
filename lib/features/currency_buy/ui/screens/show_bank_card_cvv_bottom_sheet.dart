@@ -33,7 +33,7 @@ void showBankCardCvvBottomSheet({
     horizontalPinnedPadding: 24,
     children: [
       Provider<PreviewBuyWithBankCardStore>(
-        create: (context) => PreviewBuyWithBankCardStore(input),
+        create: (context) => PreviewBuyWithBankCardStore(input, false),
         builder: (context, child) => CvvBottomSheetBody(
           onCompleted: onCompleted,
           input: input,

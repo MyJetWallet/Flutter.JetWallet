@@ -27,7 +27,7 @@ class PreviewBuyWithBankCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<PreviewBuyWithBankCardStore>(
-      create: (context) => PreviewBuyWithBankCardStore(input),
+      create: (context) => PreviewBuyWithBankCardStore(input, true),
       builder: (context, child) => _PreviewBuyWithBankCardBody(
         input: input,
       ),

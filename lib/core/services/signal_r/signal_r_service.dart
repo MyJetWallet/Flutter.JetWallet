@@ -85,6 +85,7 @@ class SignalRService {
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
+      updateAssetPaymentMethodsNew: sSignalRModules.updateAssetPaymentMethodsNew,
     );
 
     _logger.log(

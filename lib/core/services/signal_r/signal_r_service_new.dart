@@ -20,6 +20,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
@@ -571,7 +572,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
 
     if (assetPaymentMethods != null) {
+      print('here 1');
       updateAssetPaymentMethods(assetPaymentMethods!);
+    }
+
+    if (assetPaymentMethodsNew != null) {
+      print('here 2');
+      updateAssetPaymentMethodsNew(assetPaymentMethodsNew!);
     }
 
     if (balancesModel != null) {
@@ -816,11 +823,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   AssetPaymentMethods? assetPaymentMethods;
   @observable
+  AssetPaymentMethodsNew? assetPaymentMethodsNew;
+  @observable
   List<String> paymentMethods = [];
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
     showPaymentsMethods = value.showCardsInProfile;
     assetPaymentMethods = value;
+    print('here 11');
 
     if (currenciesList.isNotEmpty) {
       for (final info in value.assets) {
@@ -847,6 +857,39 @@ abstract class _SignalRServiceUpdatedBase with Store {
         paymentMethods.add(method.type.toString());
       }
     }
+  }
+
+  @action
+  void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
+    showPaymentsMethods = value.showCardsInProfile;
+    assetPaymentMethodsNew = value;
+    print('here 22');
+
+    // if (currenciesList.isNotEmpty) {
+    //   for (final info in value.assets) {
+    //     for (final currency in currenciesList) {
+    //       if (currency.symbol == info.symbol) {
+    //         final index = currenciesList.indexOf(currency);
+    //         final methods = List<PaymentMethod>.from(info.buyMethods);
+    //
+    //         methods.removeWhere((element) {
+    //           return element.type == PaymentMethodType.unsupported;
+    //         });
+    //
+    //         currenciesList[index] = currency.copyWith(
+    //           buyMethods: methods,
+    //         );
+    //       }
+    //     }
+    //   }
+    // }
+    //
+    // paymentMethods.clear();
+    // for (final asset in value.assets) {
+    //   for (final method in asset.buyMethods) {
+    //     paymentMethods.add(method.type.toString());
+    //   }
+    // }
   }
 
   @action
@@ -936,6 +979,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
     basePricesModel = null;
     assetsWithdrawalFees = null;
     assetPaymentMethods = null;
+    assetPaymentMethodsNew = null;
     paymentMethods = ObservableList.of([]);
   }
 }

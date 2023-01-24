@@ -21,6 +21,7 @@ const indicesMessage = 'index-details';
 const convertPriceSettingsMessage = 'convert-price-settings';
 const marketInfoMessage = 'market-info';
 const paymentMethodsMessage = 'payment-methods';
+const paymentMethodsNewMessage = 'payment-methods-2';
 const blockchainsMessage = 'blockchains';
 const referralInfoMessage = 'referral-info';
 const recurringBuyMessage = 'recurring-buys';
