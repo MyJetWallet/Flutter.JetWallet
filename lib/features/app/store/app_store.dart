@@ -242,6 +242,7 @@ abstract class _AppStoreBase with Store {
           hasDisclaimers: info.data!.hasDisclaimers,
           hasHighYieldDisclaimers: info.data!.hasHighYieldDisclaimers,
           hasNftDisclaimers: info.data!.hasNftDisclaimers,
+          isTechClient: info.data!.isTechClient,
         );
       }
 
@@ -380,7 +381,11 @@ abstract class _AppStoreBase with Store {
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
 
-          await sAnalytics.init(analyticsApiKey, parsedEmail);
+          await sAnalytics.init(
+            analyticsApiKey,
+            userInfo.userInfo.isTechClient,
+            parsedEmail,
+          );
 
           authStatus = const AuthorizationUnion.authorized();
 
@@ -392,7 +397,10 @@ abstract class _AppStoreBase with Store {
             message: 'RefreshToken func return error, we cant update our token',
           );
 
-          await sAnalytics.init(analyticsApiKey);
+          await sAnalytics.init(
+            analyticsApiKey,
+            userInfo.userInfo.isTechClient,
+          );
 
           authStatus = const AuthorizationUnion.unauthorized();
         }
@@ -403,7 +411,10 @@ abstract class _AppStoreBase with Store {
           message: 'Something goes wrong on refreshToken: $e',
         );
 
-        await sAnalytics.init(analyticsApiKey);
+        await sAnalytics.init(
+          analyticsApiKey,
+          false,
+        );
 
         authStatus = const AuthorizationUnion.unauthorized();
 

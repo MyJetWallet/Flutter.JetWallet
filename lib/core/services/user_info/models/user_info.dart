@@ -23,6 +23,7 @@ class UserInfoState with _$UserInfoState {
     @Default(false) bool hasHighYieldDisclaimers,
     @Default(false) bool isJustLogged,
     @Default(false) bool biometricDisabled,
+    @Default(false) bool isTechClient,
     @Default('') String email,
     @Default('') String phone,
     @Default('') String referralLink,
