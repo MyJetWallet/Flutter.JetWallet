@@ -139,9 +139,8 @@ class SWalletItem extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(22.0),
                           ),
-                          child: Baseline(
-                            baseline: 28.0,
-                            baselineType: TextBaseline.alphabetic,
+                          child: SizedBox(
+                            height: 28.0,
                             child: !isBalanceHide
                                 ? Row(
                                     mainAxisSize: MainAxisSize.min,
