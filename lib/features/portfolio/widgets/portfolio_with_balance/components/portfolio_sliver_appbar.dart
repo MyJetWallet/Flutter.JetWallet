@@ -14,8 +14,10 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
+import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -24,6 +26,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.d
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class PortfolioSliverAppBar extends StatelessObserverWidget {
@@ -62,8 +65,9 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SpaceH68(),
+        const SpaceH54(),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SpaceW24(),
             Row(
@@ -112,17 +116,39 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 sRouter.push(const RewardsRouter());
               },
             ),
-            const SpaceW34(),
-            SIconButton(
-              defaultIcon: SProfileDetailsIcon(
-                color: colors.black,
+            const SpaceW18(),
+            SizedBox(
+              width: 56.0,
+              height: 56.0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SIconButton(
+                    defaultIcon: SProfileDetailsIcon(
+                      color: colors.black,
+                    ),
+                    pressedIcon: SProfileDetailsIcon(
+                      color: colors.black.withOpacity(0.7),
+                    ),
+                    onTap: () {
+                      sRouter.push(const AccountRouter());
+                    },
+                  ),
+                  NotificationBox(
+                    notifications: _profileNotificationLength(
+                      KycModel(
+                        depositStatus: kycState.depositStatus,
+                        sellStatus: kycState.sellStatus,
+                        withdrawalStatus: kycState.withdrawalStatus,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                        verificationInProgress: kycState.verificationInProgress,
+                      ),
+                      true,
+                    ),
+                  ),
+                ],
               ),
-              pressedIcon: SProfileDetailsIcon(
-                color: colors.black.withOpacity(0.7),
-              ),
-              onTap: () {
-                sRouter.push(const AccountRouter());
-              },
             ),
             const SpaceW26(),
           ],
@@ -221,6 +247,26 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         ),
       ],
     );
+  }
+
+  int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
+    var notificationLength = 0;
+
+    final passed = checkKycPassed(
+      kycState.depositStatus,
+      kycState.sellStatus,
+      kycState.withdrawalStatus,
+    );
+
+    if (!passed) {
+      notificationLength += 1;
+    }
+
+    if (!twoFaEnable) {
+      notificationLength += 1;
+    }
+
+    return notificationLength;
   }
 
   String _price(

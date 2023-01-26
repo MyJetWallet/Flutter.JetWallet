@@ -21,6 +21,7 @@ class NotificationBox extends StatelessWidget {
         ? const SizedBox()
         : Positioned(
             right: 0,
+            top: -5,
             child: Container(
               margin: const EdgeInsets.only(
                 top: 6.0,
