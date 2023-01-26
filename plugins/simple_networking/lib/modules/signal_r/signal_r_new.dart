@@ -177,6 +177,22 @@ class SignalRModuleNew {
       handler.paymentMethodsNewMessageHandler,
     );
 
+    _hubConnection?.on(
+      paymentMethodsMessage,
+      (List<Object?>? value) {
+        print('paymentMethodsMessage complete');
+        print(value);
+      },
+    );
+
+    _hubConnection?.on(
+      paymentMethodsNewMessage,
+      (List<Object?>? value) {
+        print('paymentMethodsNewMessage complete');
+        print(value);
+      },
+    );
+
     _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
 
     _hubConnection?.on(

@@ -5,6 +5,7 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -28,9 +29,9 @@ class CurrencyModel with _$CurrencyModel {
     @Default(TagType.none) TagType tagType,
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
-    @Default([]) List<PaymentMethod> buyMethods,
-    @Default([]) List<DepositMethods> depositMethods,
-    @Default([]) List<WithdrawalMethods> withdrawalMethods,
+    @Default([]) List<BuyMethodDto> buyMethods,
+    @Default([]) List<ReceiveMethodDto> depositMethods,
+    @Default([]) List<SendMethodDto> withdrawalMethods,
     @Default([]) List<BlockchainModel> depositBlockchains,
     @Default([]) List<BlockchainModel> withdrawalBlockchains,
     @Default([]) List<AssetFeeModel> assetWithdrawalFees,
@@ -164,7 +165,7 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsCircle {
     for (final method in buyMethods) {
-      if (method.type == PaymentMethodType.circleCard) {
+      if (method.id == PaymentMethodType.circleCard) {
         return true;
       }
     }

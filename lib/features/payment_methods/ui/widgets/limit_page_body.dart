@@ -74,7 +74,7 @@ class LimitPageBody extends StatelessObserverWidget {
         children: [
           Text(
             intl.paymentMethodsSheet_cardsLimit,
-            style: sTextH1Style.copyWith(
+            style: sTextH2Style.copyWith(
               color: colors.black,
             ),
           ),

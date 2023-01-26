@@ -77,15 +77,15 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
 
 
     final unlimintIncludes = widget.currency.buyMethods.where(
-          (element) => element.type == PaymentMethodType.unlimintCard,
+          (element) => element.id == PaymentMethodType.unlimintCard,
     );
 
     final unlimintAltIncludes = widget.currency.buyMethods.where(
-          (element) => element.type == PaymentMethodType.bankCard,
+          (element) => element.id == PaymentMethodType.bankCard,
     );
 
     final isUnlimintCardEnabled = widget.currency.buyMethods.where(
-      (element) => element.type == PaymentMethodType.bankCard,
+      (element) => element.id == PaymentMethodType.bankCard,
     ).toList().isNotEmpty;
 
     final isLimitBlock = cardLimit?.day1State == StateLimitType.block ||
@@ -93,7 +93,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         cardLimit?.day30State == StateLimitType.block;
 
     final isEmptyPaymentScreen = widget.currency.buyMethods.length == 1 &&
-        widget.currency.buyMethods[0].type == PaymentMethodType.bankCard &&
+        widget.currency.buyMethods[0].id == PaymentMethodType.bankCard &&
         state.unlimintAltCards.isEmpty;
 
     final isEmptyPaymentCards = state.circleCards.isEmpty &&
@@ -150,17 +150,17 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         children: [
           if (widget.currency.buyMethods.isNotEmpty &&
               !(widget.currency.buyMethods.length == 1 &&
-                  widget.currency.buyMethods.first.type ==
+                  widget.currency.buyMethods.first.id ==
                       PaymentMethodType.bankCard)) ...[
             for (final method in widget.currency.buyMethods)
-              if (method.type == PaymentMethodType.simplex) ...[
+              if (method.id == PaymentMethodType.simplex) ...[
                 Builder(
                   builder: (context) {
                     return SActionItem(
                       icon: SActionDepositIcon(
                         color: colors.blue,
                       ),
-                      isSelected: state.selectedPaymentMethod?.type ==
+                      isSelected: state.selectedPaymentMethod?.id ==
                           PaymentMethodType.simplex,
                       name: intl.currencyBuy_card,
                       description: intl.curencyBuy_actionItemDescription,
@@ -169,21 +169,21 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                           CurrencyBuyRouter(
                             currency: widget.currency,
                             fromCard: true,
-                            paymentMethod: method.type,
+                            paymentMethod: method.id,
                           ),
                         );
                       },
                     );
                   },
                 ),
-              ] else if (method.type == PaymentMethodType.circleCard) ...[
+              ] else if (method.id == PaymentMethodType.circleCard) ...[
                 SActionItem(
                   icon: SActionDepositIcon(
                     color: colors.blue,
                   ),
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
-                  isSelected: state.selectedPaymentMethod?.type ==
+                  isSelected: state.selectedPaymentMethod?.id ==
                       PaymentMethodType.circleCard &&
                       state.pickedCircleCard == null,
                   onTap: () {
@@ -203,14 +203,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                     );
                   },
                 ),
-              ] else if (method.type == PaymentMethodType.unlimintCard) ...[
+              ] else if (method.id == PaymentMethodType.unlimintCard) ...[
                 Builder(
                   builder: (context) {
                     return SActionItem(
                       icon: SActionDepositIcon(
                         color: colors.blue,
                       ),
-                      isSelected: state.selectedPaymentMethod?.type ==
+                      isSelected: state.selectedPaymentMethod?.id ==
                           PaymentMethodType.unlimintCard &&
                           state.pickedUnlimintCard == null,
                       name: intl.currencyBuy_card,
@@ -221,7 +221,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                           CurrencyBuyRouter(
                             currency: widget.currency,
                             fromCard: true,
-                            paymentMethod: method.type,
+                            paymentMethod: method.id,
                           ),
                         );
                       },
@@ -238,9 +238,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     Widget savedCards() {
       return Column(
         children: [
-          ActionBuySubheader(
-            text: intl.actionBuy_cards,
-          ),
+          if (
+            widget.currency.buyMethods.isNotEmpty &&
+            !(widget.currency.buyMethods.length == 1 &&
+                widget.currency.buyMethods[0].id == PaymentMethodType.bankCard)
+          )
+            ActionBuySubheader(
+              text: intl.actionBuy_cards,
+            ),
           if (cardLimit != null && !state.editMode) ...[
             const SpaceH12(),
             CardLimit(

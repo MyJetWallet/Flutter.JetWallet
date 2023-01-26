@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../helpers/decimal_serialiser.dart';
+import 'asset_payment_methods.dart';
 
 part 'asset_payment_methods_new.freezed.dart';
 part 'asset_payment_methods_new.g.dart';
@@ -23,12 +24,14 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 @freezed
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
-    required String id,
-    required String iconUrl,
-    required int orderId,
+    @PaymentTypeSerialiser()
+    @JsonKey(name: 'id')
+    required PaymentMethodType id,
+    String? iconUrl,
+    int? orderId,
     required bool termsAccepted,
-    required List<String> allowedForSymbols,
-    required List<PaymentAsset> paymentAssets,
+    List<String>? allowedForSymbols,
+    List<PaymentAsset>? paymentAssets,
   }) = _BuyMethodDto;
 
   factory BuyMethodDto.fromJson(Map<String, dynamic> json) =>
@@ -38,10 +41,12 @@ class BuyMethodDto with _$BuyMethodDto {
 @freezed
 class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
-    required String id,
-    required String iconUrl,
-    required int orderId,
-    required List<String> allowedForSymbols,
+    @PaymentTypeSerialiser()
+    @JsonKey(name: 'id')
+    required PaymentMethodType id,
+    String? iconUrl,
+    int? orderId,
+    List<String>? allowedForSymbols,
   }) = _SendMethodDto;
 
   factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
@@ -51,10 +56,12 @@ class SendMethodDto with _$SendMethodDto {
 @freezed
 class ReceiveMethodDto with _$ReceiveMethodDto {
   const factory ReceiveMethodDto({
-    required String id,
-    required String iconUrl,
-    required int orderId,
-    required List<String> allowedForSymbols,
+    @PaymentTypeSerialiser()
+    @JsonKey(name: 'id')
+    required PaymentMethodType id,
+    String? iconUrl,
+    int? orderId,
+    List<String>? allowedForSymbols,
   }) = _ReceiveMethodDto;
 
   factory ReceiveMethodDto.fromJson(Map<String, dynamic> json) =>
@@ -67,7 +74,7 @@ class PaymentAsset with _$PaymentAsset {
     required String asset,
     @DecimalSerialiser() required Decimal minAmount,
     @DecimalSerialiser() required Decimal maxAmount,
-    required int orderId,
+    int? orderId,
     LimitDescription? limits,
   }) = _PaymentAsset;
 

@@ -35,6 +35,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -131,7 +132,13 @@ abstract class _CurrencyBuyStoreBase with Store {
   FormattedCircleCard? selectedCircleCard;
 
   @observable
-  PaymentMethod? selectedPaymentMethod;
+  BuyMethodDto? selectedPaymentMethod;
+
+  @observable
+  PaymentAsset? selectedPaymentAsset;
+
+  @observable
+  CurrencyModel? paymentCurrency;
 
   @observable
   CurrencyModel? selectedCurrency;
@@ -178,38 +185,14 @@ abstract class _CurrencyBuyStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
-  @computed
-  String get preset1Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '50',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : '25%';
-  }
+  @observable
+  String preset1Name = '';
 
-  @computed
-  String get preset2Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '100',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : '50%';
-  }
+  @observable
+  String preset2Name = '';
 
-  @computed
-  String get preset3Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '500',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : 'MAX';
-  }
+  @observable
+  String preset3Name = '';
 
   @computed
   bool get isInputErrorActive {
@@ -229,16 +212,16 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @computed
   String get selectedCurrencySymbol {
-    return selectedCurrency == null
+    return paymentCurrency == null
         ? baseCurrency!.symbol
-        : selectedCurrency!.symbol;
+        : paymentCurrency!.symbol;
   }
 
   @computed
   int get selectedCurrencyAccuracy {
-    return selectedCurrency == null
+    return paymentCurrency == null
         ? baseCurrency!.accuracy
-        : selectedCurrency!.accuracy;
+        : paymentCurrency!.accuracy;
   }
 
   @action
@@ -250,32 +233,19 @@ abstract class _CurrencyBuyStoreBase with Store {
       accuracy: currency.accuracy,
     );
 
-    final base = volumeFormat(
-      accuracy: baseCurrency!.accuracy,
-      prefix: baseCurrency!.prefix,
-      decimal: Decimal.parse(baseConversionValue),
-      symbol: baseCurrency!.symbol,
-    );
-
-    if (selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+    if (selectedPaymentMethod?.id == PaymentMethodType.simplex) {
       return '';
     }
 
-    if (selectedCurrency == null) {
-      return '≈ $target';
-    } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
-      return '≈ $target';
-    } else {
-      return '≈ $target ($base)';
-    }
+    return '≈ $target';
   }
 
   @computed
   bool get isOneTimePurchaseOnly {
-    final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
-    final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
-    final cond3 = selectedPaymentMethod?.type == PaymentMethodType.unlimintCard;
-    final cond4 = selectedPaymentMethod?.type == PaymentMethodType.bankCard;
+    final cond1 = selectedPaymentMethod?.id == PaymentMethodType.simplex;
+    final cond2 = selectedPaymentMethod?.id == PaymentMethodType.circleCard;
+    final cond3 = selectedPaymentMethod?.id == PaymentMethodType.unlimintCard;
+    final cond4 = selectedPaymentMethod?.id == PaymentMethodType.bankCard;
 
     return cond1 || cond2 || cond3 || cond4;
   }
@@ -324,7 +294,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             if (dataCards.isNotEmpty) {
               circleCards = ObservableList.of(dataCards);
 
-              print(circleCards);
             }
           },
         );
@@ -340,16 +309,16 @@ abstract class _CurrencyBuyStoreBase with Store {
 
     await _fetchCircleCards();
     final isSimplexCanUse = currencyModel.buyMethods.where(
-          (element) => element.type == PaymentMethodType.simplex,
+          (element) => element.id == PaymentMethodType.simplex,
     ).toList();
     final isCircleCanUse = currencyModel.buyMethods.where(
-          (element) => element.type == PaymentMethodType.simplex,
+          (element) => element.id == PaymentMethodType.circleCard,
     ).toList();
     final isUnlimintCanUse = currencyModel.buyMethods.where(
-          (element) => element.type == PaymentMethodType.simplex,
+          (element) => element.id == PaymentMethodType.unlimintCard,
     ).toList();
     final isBankCardCanUse = currencyModel.buyMethods.where(
-          (element) => element.type == PaymentMethodType.simplex,
+          (element) => element.id == PaymentMethodType.bankCard,
     ).toList();
 
     if (
@@ -405,6 +374,47 @@ abstract class _CurrencyBuyStoreBase with Store {
         );
       }
     }
+    await initDefaultPaymentAsset();
+  }
+
+  @action
+  Future<void> initDefaultPaymentAsset() async {
+    final baseCurrencyInPayment = selectedPaymentMethod?.paymentAssets?.where(
+      (element) => element.asset == baseCurrency!.symbol,
+    ).toList();
+    selectedPaymentAsset = baseCurrencyInPayment != null &&
+      baseCurrencyInPayment.isNotEmpty
+        ? baseCurrencyInPayment[0]
+        : selectedPaymentMethod?.paymentAssets?[0];
+    if (selectedPaymentAsset != null) {
+      final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
+        (element) => element.symbol == selectedPaymentAsset!.asset,
+      ).toList();
+      if (currenciesPayment.isNotEmpty) {
+        paymentCurrency = currenciesPayment[0];
+        preset1Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '50',
+          symbol: paymentCurrency?.symbol ?? '',
+        )
+            : '25%';
+        preset2Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '10',
+          symbol: paymentCurrency?.symbol ?? '',
+        )
+            : '50%';
+        preset3Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '500',
+          symbol: paymentCurrency?.symbol ?? '',
+        )
+            : 'MAX';
+      }
+    }
   }
 
   @action
@@ -416,7 +426,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void updateSelectedPaymentMethod(
-    PaymentMethod? method, {
+    BuyMethodDto? method, {
     bool isLocalUse = false,
   }) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
@@ -426,10 +436,10 @@ abstract class _CurrencyBuyStoreBase with Store {
     pickedUnlimintCard = isLocalUse ? pickedUnlimintCard : null;
     pickedAltUnlimintCard = isLocalUse ? pickedAltUnlimintCard : null;
 
-    if (method?.type == PaymentMethodType.simplex ||
-        method?.type == PaymentMethodType.circleCard ||
-        method?.type == PaymentMethodType.unlimintCard ||
-        method?.type == PaymentMethodType.bankCard) {
+    if (method?.id == PaymentMethodType.simplex ||
+        method?.id == PaymentMethodType.circleCard ||
+        method?.id == PaymentMethodType.unlimintCard ||
+        method?.id == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -443,11 +453,54 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
+  void updatePaymentCurrency(PaymentAsset? asset) {
+    _logger.log(notifier, 'updatePaymentCurrency');
+
+    if (asset != selectedPaymentAsset) {
+      selectedPaymentAsset = asset;
+      if (selectedPaymentAsset != null) {
+        final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
+              (element) => element.symbol == selectedPaymentAsset!.asset,
+        ).toList();
+        if (currenciesPayment.isNotEmpty) {
+          paymentCurrency = currenciesPayment[0];
+          preset1Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '50',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : '25%';
+          preset2Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '10',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : '50%';
+          preset3Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '500',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : 'MAX';
+        }
+      }
+      if (inputValue == '0') {
+        updateInputValue('0');
+      } else {
+        updateInputValue('');
+      }
+    }
+  }
+
+  @action
   void updateSelectedCircleCard(CircleCard card) {
     _logger.log(notifier, 'updateSelectedCircleCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.circleCard;
+      return method.id == PaymentMethodType.circleCard;
     });
 
     pickedCircleCard = card;
@@ -461,7 +514,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     _logger.log(notifier, 'updateSelectedUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.unlimintCard;
+      return method.id == PaymentMethodType.unlimintCard;
     });
 
     pickedUnlimintCard = card;
@@ -474,7 +527,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     _logger.log(notifier, 'updateSelectedAltUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.bankCard;
+      return method.id == PaymentMethodType.bankCard;
     });
 
     pickedAltUnlimintCard = card;
@@ -605,7 +658,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _calculateTargetConversion() {
-    if (selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+    if (selectedPaymentMethod?.id == PaymentMethodType.simplex) {
       _calculateTargetConversionForSimplex();
     } else {
       _calculateTargetConversionForCrypto();
@@ -731,13 +784,13 @@ abstract class _CurrencyBuyStoreBase with Store {
       }
 
       final value = double.parse(inputValue);
-      var min = selectedPaymentMethod!.minAmount;
-      var max = selectedPaymentMethod!.maxAmount;
+      var min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
+      var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
 
-      if (selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
-          selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-          selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-          selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
+      if (selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
+          selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
+          selectedPaymentMethod?.id == PaymentMethodType.simplex ||
+          selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
         if (cardLimit != null) {
@@ -747,7 +800,7 @@ abstract class _CurrencyBuyStoreBase with Store {
                   ? (cardLimit!.day7Limit - cardLimit!.day7Amount).toDouble()
                   : (cardLimit!.day30Limit - cardLimit!.day30Amount).toDouble();
         }
-        if (selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard) {
           limitMax = pickedCircleCard?.paymentDetails.maxAmount.toDouble();
           min = pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
           max = (limitMax ?? 0) <
@@ -755,9 +808,9 @@ abstract class _CurrencyBuyStoreBase with Store {
               ? limitMax ?? 0
               : pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
         }
-        if (selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-            selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-            selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
+        if (selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
+            selectedPaymentMethod?.id == PaymentMethodType.simplex ||
+            selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
@@ -768,22 +821,22 @@ abstract class _CurrencyBuyStoreBase with Store {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: baseCurrency!.accuracy,
-            symbol: baseCurrency!.symbol,
-            prefix: baseCurrency!.prefix,
+            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
+            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
           )}',
         );
       } else if (value > max) {
-        if (selectedPaymentMethod?.type == PaymentMethodType.circleCard &&
+        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
             pickedCircleCard == null) {
           return;
         }
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: baseCurrency!.accuracy,
-            symbol: baseCurrency!.symbol,
-            prefix: baseCurrency!.prefix,
+            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
+            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
           )}',
         );
       } else {

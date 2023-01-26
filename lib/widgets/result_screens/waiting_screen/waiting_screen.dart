@@ -76,7 +76,7 @@ class WaitingScreen extends StatelessObserverWidget {
                 navigateToRouter();
               },
             ),
-            const SpaceH24(),
+            const SpaceH42(),
           ],
         ],
       ),

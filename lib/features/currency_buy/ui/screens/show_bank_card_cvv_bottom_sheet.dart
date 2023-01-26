@@ -5,7 +5,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
-import 'package:jetwallet/features/currency_buy/store/preview_buy_with_circle_store.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -64,7 +63,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          intl.previewBuyWithCircle_cvvDescription,
+          intl.previewBuyWithCircle_cvvNewDescription,
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),

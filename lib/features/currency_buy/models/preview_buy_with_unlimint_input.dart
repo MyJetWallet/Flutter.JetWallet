@@ -9,6 +9,7 @@ class PreviewBuyWithUnlimintInput with _$PreviewBuyWithUnlimintInput {
   const factory PreviewBuyWithUnlimintInput({
     required String amount,
     required CurrencyModel currency,
+    required CurrencyModel currencyPayment,
     CircleCard? card,
   }) = _PreviewBuyWithUnlimintInput;
 }

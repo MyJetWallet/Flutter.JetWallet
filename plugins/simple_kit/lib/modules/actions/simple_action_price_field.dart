@@ -6,6 +6,7 @@ import '../../simple_kit.dart';
 class SActionPriceField extends StatelessWidget {
   const SActionPriceField({
     Key? key,
+    this.additionalWidget,
     required this.price,
     required this.helper,
     required this.error,
@@ -18,6 +19,7 @@ class SActionPriceField extends StatelessWidget {
   final String error;
   final bool isErrorActive;
   final SWidgetSize widgetSize;
+  final Widget? additionalWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +31,39 @@ class SActionPriceField extends StatelessWidget {
             child: Baseline(
               baseline: widgetSize == SWidgetSize.small ? 32 : 22,
               baselineType: TextBaseline.alphabetic,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  price,
-                  maxLines: 1,
-                  style: sTextH1Style.copyWith(
-                    color: isErrorActive
-                        ? SColorsLight().red
-                        : SColorsLight().black,
-                  ),
+              child: additionalWidget == null
+                ? FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      price,
+                      maxLines: 1,
+                      style: sTextH1Style.copyWith(
+                        color: isErrorActive
+                            ? SColorsLight().red
+                            : SColorsLight().black,
+                      ),
+                    ),
+                  )
+                : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    additionalWidget!,
+                    const SpaceW8(),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        price,
+                        maxLines: 1,
+                        style: sTextH1Style.copyWith(
+                          color: isErrorActive
+                              ? SColorsLight().red
+                              : SColorsLight().black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
             ),
           ),
           SPaddingH24(

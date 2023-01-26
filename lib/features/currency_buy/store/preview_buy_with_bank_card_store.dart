@@ -144,7 +144,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: input.currencyPayment.symbol,
       cardPaymentData: cardData,
     );
 

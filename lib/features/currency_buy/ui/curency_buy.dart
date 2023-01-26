@@ -11,10 +11,12 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_circle_i
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/store/currency_buy_store.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/show_payment_currecies_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
+import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -24,6 +26,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -129,11 +132,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
     final isLimitBlock = cardLimit?.day1State == StateLimitType.block ||
         cardLimit?.day7State == StateLimitType.block ||
         cardLimit?.day30State == StateLimitType.block;
-    final cardType = state.selectedPaymentMethod?.type ==
+    final cardType = state.selectedPaymentMethod?.id ==
             PaymentMethodType.circleCard ||
-        state.selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-        state.selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-        state.selectedPaymentMethod?.type == PaymentMethodType.bankCard;
+        state.selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
+        state.selectedPaymentMethod?.id == PaymentMethodType.simplex ||
+        state.selectedPaymentMethod?.id == PaymentMethodType.bankCard;
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -218,11 +221,47 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   baselineType: TextBaseline.alphabetic,
                   child: SActionPriceField(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    price: formatCurrencyStringAmount(
-                      prefix: state.selectedCurrency?.prefixSymbol,
-                      value: state.inputValue,
-                      symbol: state.selectedCurrencySymbol,
+                    additionalWidget: GestureDetector(
+                      onTap: () {
+                        showPaymentCurrenciesBottomSheet(
+                          context: context,
+                          header: intl.currencyBuy_chooseCurrency,
+                          onTap: (PaymentAsset value) {
+                            Navigator.pop(context);
+                            state.updatePaymentCurrency(value);
+                          },
+                          activeAsset: state.selectedPaymentAsset,
+                          assets: state.selectedPaymentMethod?.paymentAssets
+                            ?? [],
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          top: 4,
+                          bottom: 4,
+                          left: 14.5,
+                          right: 10.5,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24.0),
+                          border: Border.all(
+                            color: colors.grey4,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              state.paymentCurrency?.prefixSymbol ??
+                                  state.paymentCurrency?.symbol ?? '',
+                              style: sTextH4Style,
+                            ),
+                            const SpaceW4(),
+                            const SAngleDownIcon(),
+                          ],
+                        ),
+                      ),
                     ),
+                    price: state.inputValue,
                     helper: state.conversionText(widget.currency),
                     error: state.inputErrorValue,
                     isErrorActive: state.isInputErrorActive,
@@ -276,7 +315,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 small: () => const SpaceH8(),
                 medium: () => const SpaceH16(),
               ),
-              if (state.selectedPaymentMethod?.type ==
+              if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.simplex)
                 SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -290,7 +329,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                   onTap: () => showLimits(),
                 )
-              else if (state.selectedPaymentMethod?.type ==
+              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.unlimintCard)
                 if (state.pickedUnlimintCard != null)
                   SPaymentSelectCreditCard(
@@ -300,14 +339,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           ? colors.grey2
                           : colors.black,
                     ),
-                    name: state.pickedUnlimintCard!.network,
-                    amount: state.pickedUnlimintCard!.last4,
-                    helper: limitText,
-                    description: state.pickedUnlimintCard?.status ==
-                            CircleCardStatus.pending
-                        ? intl.paymentMethod_CardIsProcessing
-                        : '${state.pickedUnlimintCard!.expMonth}/'
-                            '${state.pickedUnlimintCard!.expYear}',
+                    name: '${state.pickedUnlimintCard!.network} '
+                        '${state.pickedUnlimintCard!.last4}',
+                    description: limitText,
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
@@ -324,7 +358,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
-              else if (state.selectedPaymentMethod?.type ==
+              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.bankCard)
                 if (state.pickedAltUnlimintCard != null)
                   SPaymentSelectCreditCard(
@@ -334,14 +368,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           ? colors.grey2
                           : colors.black,
                     ),
-                    name: state.pickedAltUnlimintCard!.network,
-                    amount: state.pickedAltUnlimintCard!.last4,
-                    helper: limitText,
-                    description: state.pickedAltUnlimintCard?.status ==
-                            CircleCardStatus.pending
-                        ? intl.paymentMethod_CardIsProcessing
-                        : '${state.pickedAltUnlimintCard!.expMonth}/'
-                            '${state.pickedAltUnlimintCard!.expYear}',
+                    name: '${state.pickedAltUnlimintCard!.network} '
+                        '${state.pickedAltUnlimintCard!.last4}',
+                    description: limitText,
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
@@ -358,7 +387,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
-              else if (state.selectedPaymentMethod?.type ==
+              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.circleCard)
                 if (state.circleCards.isEmpty)
                   SPaymentSelectDefault(
@@ -375,13 +404,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           ? colors.grey2
                           : colors.black,
                     ),
-                    name: state.selectedCircleCard!.name,
-                    amount: state.selectedCircleCard!.last4Digits,
-                    helper: limitText,
-                    description: state.pickedCircleCard?.status ==
-                            CircleCardStatus.pending
-                        ? intl.paymentMethod_CardIsProcessing
-                        : state.selectedCircleCard!.expDate,
+                    name: '${state.selectedCircleCard!.name} '
+                        '${state.selectedCircleCard!.last4Digits}',
+                    description: limitText,
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
@@ -461,7 +486,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 submitButtonName:
                     state.recurringBuyType != RecurringBuysType.oneTimePurchase
                         ? intl.curencyBuy_NumericKeyboardButtonName1
-                        : state.selectedPaymentMethod?.type ==
+                        : state.selectedPaymentMethod?.id ==
                                     PaymentMethodType.bankCard &&
                                 state.pickedAltUnlimintCard == null
                             ? intl.addCircleCard_continue
@@ -469,7 +494,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     assetName: widget.currency.description,
-                    paymentMethod: state.selectedPaymentMethod?.type.name ??
+                    paymentMethod: state.selectedPaymentMethod?.id.name ??
                         intl.curencyBuy_crypto,
                     amount: formatCurrencyStringAmount(
                       prefix: state.selectedCurrency?.prefixSymbol,
@@ -480,7 +505,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     preset: state.tappedPreset,
                   );
 
-                  if (state.selectedPaymentMethod?.type ==
+                  if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.simplex) {
                     state.disableSubmit = true;
                     state.loader.startLoading();
@@ -499,11 +524,11 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                         SimplexWebViewRouter(url: response),
                       );
                     }
-                  } else if (state.selectedPaymentMethod?.type ==
+                  } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.circleCard) {
                     sAnalytics.previewBuyView(
                       assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                      paymentMethod: state.selectedPaymentMethod?.id.name ??
                           intl.curencyBuy_crypto,
                       amount: formatCurrencyStringAmount(
                         prefix: state.selectedCurrency?.prefixSymbol,
@@ -520,14 +545,16 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           amount: state.inputValue,
                           card: state.pickedCircleCard!,
                           currency: widget.currency,
+                          currencyPayment: state.paymentCurrency ??
+                              widget.currency,
                         ),
                       ),
                     );
-                  } else if (state.selectedPaymentMethod?.type ==
+                  } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.unlimintCard) {
                     sAnalytics.previewBuyView(
                       assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                      paymentMethod: state.selectedPaymentMethod?.id.name ??
                           intl.curencyBuy_crypto,
                       amount: formatCurrencyStringAmount(
                         prefix: state.selectedCurrency?.prefixSymbol,
@@ -542,14 +569,16 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           amount: state.inputValue,
                           currency: widget.currency,
                           card: state.pickedUnlimintCard,
+                          currencyPayment: state.paymentCurrency ??
+                              widget.currency,
                         ),
                       ),
                     );
-                  } else if (state.selectedPaymentMethod?.type ==
+                  } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.bankCard) {
                     sAnalytics.previewBuyView(
                       assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.type.name ??
+                      paymentMethod: state.selectedPaymentMethod?.id.name ??
                           intl.curencyBuy_crypto,
                       amount: formatCurrencyStringAmount(
                         prefix: state.selectedCurrency?.prefixSymbol,
@@ -576,6 +605,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             currency: widget.currency,
                             cardId: state.pickedAltUnlimintCard!.id,
                             cardNumber: state.pickedAltUnlimintCard!.last4,
+                            currencyPayment: state.paymentCurrency ??
+                                widget.currency,
                           ),
                         ),
                       );

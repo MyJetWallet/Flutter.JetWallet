@@ -45,7 +45,7 @@ class SFloatingButtonFrame extends StatelessWidget {
                   SPaddingH24(
                     child: button,
                   ),
-                const SpaceH24(),
+                const SpaceH42(),
               ],
             ),
           ),

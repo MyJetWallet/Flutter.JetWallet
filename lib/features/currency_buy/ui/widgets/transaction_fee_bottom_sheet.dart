@@ -24,20 +24,28 @@ void showTransactionFeeBottomSheet({
       const SpaceH24(),
       SPaddingH24(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SActionConfirmText(
-              name: intl.previewBuyWithUnlimint_thirdFee,
-              value: isAbsolute
+            Text(
+              isAbsolute
                   ? tradeFeeAbsolute ?? ''
                   : '${intl.previewBuyWithUnlimint_from} $tradeFeePercentage%',
+              style: sTextH4Style,
             ),
-            const SpaceH32(),
-            const SDivider(),
-            const SpaceH25(),
+            const SpaceH4(),
             Text(
-              intl.previewBuyWithUnlimint_feeDescription,
+              intl.previewBuyWithUnlimint_thirdFee,
               style: sBodyText2Style.copyWith(
                 color: colors.grey1,
+              ),
+            ),
+            const SpaceH11(),
+            const SDivider(),
+            const SpaceH12(),
+            Text(
+              intl.previewBuyWithUnlimint_feeNewDescription,
+              style: sCaptionTextStyle.copyWith(
+                color: colors.grey3,
               ),
               maxLines: 3,
             ),

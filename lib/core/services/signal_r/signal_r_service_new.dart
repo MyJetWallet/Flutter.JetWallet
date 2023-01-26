@@ -475,9 +475,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
           withdrawalMode: asset.withdrawalMode,
           tagType: asset.tagType,
           type: asset.type,
-          depositMethods: asset.depositMethods,
           fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
           depositBlockchains: depositBlockchains,
           withdrawalBlockchains: withdrawalBlockchains,
           iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
@@ -534,9 +532,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
           withdrawalMode: asset.withdrawalMode,
           tagType: asset.tagType,
           type: asset.type,
-          depositMethods: asset.depositMethods,
           fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
           iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
           selectedIndexIconUrl: iconUrlFrom(
             assetSymbol: asset.symbol,
@@ -572,12 +568,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
 
     if (assetPaymentMethods != null) {
-      print('here 1');
       updateAssetPaymentMethods(assetPaymentMethods!);
     }
 
     if (assetPaymentMethodsNew != null) {
-      print('here 2');
       updateAssetPaymentMethodsNew(assetPaymentMethodsNew!);
     }
 
@@ -828,56 +822,46 @@ abstract class _SignalRServiceUpdatedBase with Store {
   List<String> paymentMethods = [];
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
-    showPaymentsMethods = value.showCardsInProfile;
-    assetPaymentMethods = value;
-    print('here 11');
-
-    if (currenciesList.isNotEmpty) {
-      for (final info in value.assets) {
-        for (final currency in currenciesList) {
-          if (currency.symbol == info.symbol) {
-            final index = currenciesList.indexOf(currency);
-            final methods = List<PaymentMethod>.from(info.buyMethods);
-
-            methods.removeWhere((element) {
-              return element.type == PaymentMethodType.unsupported;
-            });
-
-            currenciesList[index] = currency.copyWith(
-              buyMethods: methods,
-            );
-          }
-        }
-      }
-    }
-
-    paymentMethods.clear();
-    for (final asset in value.assets) {
-      for (final method in asset.buyMethods) {
-        paymentMethods.add(method.type.toString());
-      }
-    }
-  }
-
-  @action
-  void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
-    showPaymentsMethods = value.showCardsInProfile;
-    assetPaymentMethodsNew = value;
-    print('here 22');
-
+    // showPaymentsMethods = value.showCardsInProfile;
+    // assetPaymentMethods = value;
+    //
     // if (currenciesList.isNotEmpty) {
     //   for (final info in value.assets) {
     //     for (final currency in currenciesList) {
     //       if (currency.symbol == info.symbol) {
     //         final index = currenciesList.indexOf(currency);
     //         final methods = List<PaymentMethod>.from(info.buyMethods);
+    //         final newMethods = List<BuyMethodDto>.from([]);
     //
     //         methods.removeWhere((element) {
     //           return element.type == PaymentMethodType.unsupported;
     //         });
+    //         for (final method in methods) {
+    //           newMethods.add(BuyMethodDto(
+    //             id: method.type,
+    //             iconUrl: 'iconUrl',
+    //             orderId: 1,
+    //             termsAccepted: false,
+    //             allowedForSymbols: ['ETH', 'BTC'],
+    //             paymentAssets: [
+    //               PaymentAsset(
+    //                 asset: 'EURO',
+    //                 minAmount: Decimal.parse('10'),
+    //                 maxAmount: Decimal.parse('100'),
+    //                 orderId: 2,
+    //               ),
+    //               PaymentAsset(
+    //                 asset: 'USD',
+    //                 minAmount: Decimal.parse('10'),
+    //                 maxAmount: Decimal.parse('100'),
+    //                 orderId: 1,
+    //               ),
+    //             ],
+    //           ));
+    //         }
     //
     //         currenciesList[index] = currency.copyWith(
-    //           buyMethods: methods,
+    //           buyMethods: newMethods,
     //         );
     //       }
     //     }
@@ -890,6 +874,50 @@ abstract class _SignalRServiceUpdatedBase with Store {
     //     paymentMethods.add(method.type.toString());
     //   }
     // }
+  }
+
+  @action
+  void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
+    showPaymentsMethods = value.showCardsInProfile;
+    assetPaymentMethodsNew = value;
+    print('updateAssetPaymentMethodsNew');
+    print('$assetPaymentMethodsNew');
+
+    for (final currency in currenciesList) {
+      final index = currenciesList.indexOf(currency);
+      final buyMethodsFull = List<BuyMethodDto>.from(value.buy);
+      final buyMethods = List<BuyMethodDto>.from([]);
+      final sendMethods = List<SendMethodDto>.from([]);
+      final receiveMethods = List<ReceiveMethodDto>.from([]);
+      buyMethodsFull.removeWhere((element) {
+        return element.id == PaymentMethodType.unsupported;
+      });
+      for (final buyMethod in buyMethodsFull) {
+        if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          buyMethods.add(buyMethod);
+        }
+      }
+      for (final sendMethod in value.send) {
+        if (sendMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          sendMethods.add(sendMethod);
+        }
+      }
+      for (final receiveMethod in value.receive) {
+        if (receiveMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          receiveMethods.add(receiveMethod);
+        }
+      }
+      currenciesList[index] = currency.copyWith(
+        buyMethods: buyMethods,
+        withdrawalMethods: sendMethods,
+        depositMethods: receiveMethods,
+      );
+    }
+
+    paymentMethods.clear();
+    for (final asset in value.buy) {
+      paymentMethods.add(asset.id.toString());
+    }
   }
 
   @action

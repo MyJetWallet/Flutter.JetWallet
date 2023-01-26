@@ -119,7 +119,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       paymentMethod: CirclePaymentMethod.unlimint,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: input.currencyPayment.symbol,
     );
 
     try {

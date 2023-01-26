@@ -35,6 +35,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_remove/card_remove_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -109,7 +110,7 @@ abstract class _PaymentMethodsStoreBase with Store {
   FormattedCircleCard? selectedCircleCard;
 
   @observable
-  PaymentMethod? selectedPaymentMethod;
+  BuyMethodDto? selectedPaymentMethod;
 
   @observable
   CurrencyModel? selectedCurrency;
@@ -196,7 +197,7 @@ abstract class _PaymentMethodsStoreBase with Store {
 
   @action
   void updateSelectedPaymentMethod(
-    PaymentMethod? method, {
+    BuyMethodDto? method, {
     bool isLocalUse = false,
   }) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
@@ -220,7 +221,7 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'updateSelectedCircleCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.circleCard;
+      return method.id == PaymentMethodType.circleCard;
     });
 
     pickedCircleCard = card;
@@ -234,7 +235,7 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'updateSelectedUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.unlimintCard;
+      return method.id == PaymentMethodType.unlimintCard;
     });
 
     pickedUnlimintCard = card;
@@ -247,7 +248,7 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'updateSelectedAltUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.bankCard;
+      return method.id == PaymentMethodType.bankCard;
     });
 
     pickedAltUnlimintCard = card;

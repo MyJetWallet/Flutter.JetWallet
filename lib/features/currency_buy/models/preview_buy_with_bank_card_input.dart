@@ -9,6 +9,7 @@ class PreviewBuyWithBankCardInput with _$PreviewBuyWithBankCardInput {
   const factory PreviewBuyWithBankCardInput({
     required String amount,
     required CurrencyModel currency,
+    required CurrencyModel currencyPayment,
     String? cardId,
     String? cardNumber,
   }) = _PreviewBuyWithBankCardInput;

@@ -301,8 +301,6 @@ class SignalRFuncHandler {
 
   void paymentMethodsMessageHandler(List<Object?>? data) {
     try {
-      print('data 1');
-      print(data);
       final info = AssetPaymentMethods.fromJson(_json(data));
       sTransport.updateAssetPaymentMethods(info);
 
@@ -314,14 +312,14 @@ class SignalRFuncHandler {
 
   void paymentMethodsNewMessageHandler(List<Object?>? data) {
     try {
-      print('data 2');
+      print('paymentMethodsNewMessageHandler');
       print(data);
       final info = AssetPaymentMethodsNew.fromJson(_json(data));
+      print('paymentMethodsNewMessageHandler $info');
       sTransport.updateAssetPaymentMethodsNew(info);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      print('data 2');
       print(e);
       instance.handleError(paymentMethodsNewMessage, e);
     }
