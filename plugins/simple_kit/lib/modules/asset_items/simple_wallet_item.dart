@@ -129,9 +129,11 @@ class SWalletItem extends StatelessWidget {
                           constraints: const BoxConstraints(
                             maxWidth: 157.0,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 8.0,
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                            right: 16,
+                            top: 8,
+                            bottom: 5.75,
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -139,26 +141,19 @@ class SWalletItem extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(22.0),
                           ),
-                          child: SizedBox(
-                            height: 28.0,
-                            child: !isBalanceHide
-                                ? Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        formattedAmount!,
-                                        style: sSubtitle2Style.copyWith(
-                                          color: amountDecimal == 0
-                                              ? color
-                                              : textColor,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : SimpleHideBalanceDots(
-                                    baseCurrPrefix: baseCurrPrefix ?? '',
+                          child: !isBalanceHide
+                              ? Text(
+                                  formattedAmount!,
+                                  style: sSubtitle2Style.copyWith(
+                                    color:
+                                        amountDecimal == 0 ? color : textColor,
+                                    height: 1,
                                   ),
-                          ),
+                                  softWrap: true,
+                                )
+                              : SimpleHideBalanceDots(
+                                  baseCurrPrefix: baseCurrPrefix ?? '',
+                                ),
                         ),
                       ],
                     ),
