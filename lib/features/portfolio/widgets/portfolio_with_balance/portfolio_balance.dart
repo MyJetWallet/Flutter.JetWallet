@@ -255,7 +255,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                       );
                                     }
                                   },
-                                  removeDivider:
+                                  removeDivider: itemsWithBalance[index]
+                                          .isPendingDeposit ||
                                       index == itemsWithBalance.length - 1,
                                   isPendingDeposit:
                                       itemsWithBalance[index].isPendingDeposit,

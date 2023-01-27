@@ -1,57 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/asset_items/components/recurring_icon.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-
-import '../../simple_kit.dart';
-
-/// TODO remove dependecy on Market details
-/// This arguments are redundant, seperate widget for MarketDetails needed
-class SWalletItem extends StatelessWidget {
-  const SWalletItem({
-    Key? key,
-    this.currencyPrefix,
-    this.currencySymbol = '',
-    this.amountDecimal,
-    this.amount,
-    this.decline,
-    this.removeDivider = false,
-    this.color,
+import 'package:simple_kit/simple_kit.dart';
+/*
+class BlockAssetInfo extends StatelessWidget {
+  const BlockAssetInfo({
+    super.key,
     this.onTap,
-    this.baseCurrPrefix,
-    this.leftBlockTopPadding = 22,
-    this.balanceTopMargin = 22,
     this.height = 88,
-    this.rightBlockTopPadding = 22,
-    this.showSecondaryText = true,
-    this.isRecurring = false,
-    this.isPendingDeposit = false,
-    this.isBalanceHide = false,
-    required this.icon,
-    required this.primaryText,
-    required this.secondaryText,
-  }) : super(key: key);
+  });
 
-  final bool? decline;
-  final String? currencyPrefix;
-  final String currencySymbol;
-  final double? amountDecimal;
-  final String? amount;
-  final bool removeDivider;
-  final Color? color;
   final Function()? onTap;
-  final Widget icon;
-  final String primaryText;
-  final String secondaryText;
-  final double leftBlockTopPadding;
-  final double balanceTopMargin;
-  final double height;
-  final double rightBlockTopPadding;
-  final bool showSecondaryText;
-  final bool isRecurring;
-  final bool isPendingDeposit;
-  final bool isBalanceHide;
 
-  final String? baseCurrPrefix;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -174,3 +134,4 @@ class SWalletItem extends StatelessWidget {
     );
   }
 }
+*/

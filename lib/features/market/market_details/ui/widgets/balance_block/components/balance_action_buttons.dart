@@ -12,6 +12,7 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/is_buy_with_currency_available_for.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
+import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -88,6 +89,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
               ),
             ),
           ] else ...[
+            if (marketItem.isBalanceEmpty) ...[
+              const Spacer(),
+            ],
             CircleActionBuy(
               onTap: () {
                 if (kycState.depositStatus ==
@@ -186,7 +190,33 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   }
                 },
               ),
-            ],
+              const SpaceW11(),
+              CircleActionExchange(
+                onTap: () {
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.push(ConvertRouter(
+                      fromCurrency: currency,
+                    ));
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => sRouter.push(
+                        ConvertRouter(
+                          fromCurrency: currency,
+                        ),
+                      ),
+                      navigatePop: false,
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications: kycState.requiredVerifications,
+                    );
+                  }
+                },
+              ),
+            ] else ...[
+              Spacer(),
+            ]
           ],
         ],
       ),
