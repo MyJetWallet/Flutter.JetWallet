@@ -39,11 +39,11 @@ class SReferralInviteBody extends StatelessWidget {
           ),
           const SpaceH16(),
         ],
-        const SpaceH24(),
+        const SpaceH16(),
         const SPaddingH24(
           child: SDivider(),
         ),
-        const SpaceH20(),
+        const SpaceH25(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -62,13 +62,7 @@ class SReferralInviteBody extends StatelessWidget {
             ),
           ],
         ),
-        const SpaceH20(),
-        SAddressFieldWithCopy(
-          afterCopyText: copiedText,
-          value: referralLink,
-          header: referralText,
-        ),
-        const SpaceH20(),
+        const SpaceH25(),
       ],
     );
   }

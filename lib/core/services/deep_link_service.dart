@@ -393,86 +393,58 @@ class DeepLinkService {
       sAnalytics.inviteFriendView(Source.accountScreen);
     }
 
-    showModalBottomSheet(
+    sShowBasicModalBottomSheet(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return EarnBottomSheetContainer(
-          removePinnedPadding: true,
-          horizontalPinnedPadding: 0,
-          scrollable: true,
-          color: Colors.white,
-          pinned: SReferralInvitePinned(
-            child: SPaddingH24(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 203.0,
-                    child: Baseline(
-                      baseline: 34.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        referralInfo.title,
-                        maxLines: 3,
-                        style: sTextH2Style,
-                      ),
-                    ),
-                  ),
-                  if (referralInfo.descriptionLink.isNotEmpty)
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      child: Baseline(
-                        baseline: 94,
-                        baselineType: TextBaseline.alphabetic,
-                        child: ClickableUnderlinedText(
-                          text: intl.deepLinkService_readMore,
-                          onTap: () {
-                            launchURL(
-                              context,
-                              referralInfo.descriptionLink,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
+      removePinnedPadding: true,
+      horizontalPinnedPadding: 0,
+      scrollable: true,
+      color: Colors.white,
+      pinned: SPaddingH24(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: 203.0,
+              child: Baseline(
+                baseline: 34.0,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  referralInfo.title,
+                  maxLines: 3,
+                  style: sTextH3Style,
+                ),
               ),
             ),
-          ),
-          pinnedSmall: Stack(
-            children: [
-              SizedBox(
-                height: 115,
-                child: Row(
+            if (referralInfo.descriptionLink.isNotEmpty)
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: RichText(
-                        text: TextSpan(
-                          text: referralInfo.title,
-                          style: sTextH5Style.copyWith(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
+                    ClickableUnderlinedText(
+                      text: intl.deepLinkService_readMore,
+                      onTap: () {
+                        launchURL(
+                          context,
+                          referralInfo.descriptionLink,
+                        );
+                      },
                     ),
+                    const SpaceH3(),
                   ],
                 ),
               ),
-              Positioned(
-                top: 24.0,
-                right: 24.0,
-                child: SIconButton(
-                  onTap: () => Navigator.pop(context),
-                  defaultIcon: const SErasePressedIcon(),
-                  pressedIcon: const SEraseMarketIcon(),
-                ),
-              ),
-            ],
+          ],
+        ),
+      ),
+      pinnedBottom: Column(
+        children: [
+          SAddressFieldWithCopy(
+            afterCopyText: intl.deepLinkService_referralLinkCopied,
+            value: referralInfo.referralLink,
+            header: intl.deepLinkService_referralLink,
           ),
-          pinnedBottom: SReferralInviteBottomPinned(
+          SReferralInviteBottomPinned(
             text: intl.deepLinkService_share,
             onShare: () {
               try {
@@ -480,26 +452,25 @@ class DeepLinkService {
               } catch (e) {}
             },
           ),
-          expandedHeight: 153,
-          children: [
-            SReferralInviteBody(
-              primaryText: referralInfo.title,
-              referralLink: referralInfo.referralLink,
-              conditions: referralInfo.referralTerms,
-              showReadMore: referralInfo.descriptionLink.isNotEmpty,
-              copiedText: intl.deepLinkService_referralLinkCopied,
-              referralText: intl.deepLinkService_referralLink,
-              logoSize: logoSize,
-              onReadMoreTap: () {
-                launchURL(
-                  context,
-                  referralInfo.descriptionLink,
-                );
-              },
-            ),
-          ],
-        );
-      },
+        ],
+      ),
+      children: [
+        SReferralInviteBody(
+          primaryText: referralInfo.title,
+          referralLink: referralInfo.referralLink,
+          conditions: referralInfo.referralTerms,
+          showReadMore: referralInfo.descriptionLink.isNotEmpty,
+          copiedText: intl.deepLinkService_referralLinkCopied,
+          referralText: intl.deepLinkService_referralLink,
+          logoSize: logoSize,
+          onReadMoreTap: () {
+            launchURL(
+              context,
+              referralInfo.descriptionLink,
+            );
+          },
+        ),
+      ],
     );
   }
 

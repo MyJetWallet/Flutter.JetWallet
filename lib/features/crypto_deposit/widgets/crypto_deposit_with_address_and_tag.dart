@@ -46,6 +46,7 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
               afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
               valueLoading: deposit.union is Loading,
               longString: true,
+              expanded: true,
               actionIcon: deposit.isAddressOpen
                   ? const SAngleUpIcon()
                   : const SAngleDownIcon(),
@@ -89,6 +90,7 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
               afterCopyText: intl.cryptoDepositWithAddress_tagCopied,
               valueLoading: deposit.union is Loading,
               longString: true,
+              expanded: true,
               then: () {
                 sAnalytics.receiveCopy(asset: currency.description);
               },
