@@ -124,7 +124,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
       return 0.77;
     }
     if (devicePixelRatio >= 3) {
-      return 0.8;
+      return 0.77;
     }
 
     return 0.77;
@@ -140,10 +140,10 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
       return 0.6;
     }
     if (devicePixelRatio >= 3) {
-      return 0.63;
+      return 0.565;
     }
 
-    return 0.6;
+    return 0.565;
   }
 
   @override
