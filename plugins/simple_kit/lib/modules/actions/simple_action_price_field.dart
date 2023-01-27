@@ -66,6 +66,7 @@ class SActionPriceField extends StatelessWidget {
                 ),
             ),
           ),
+          const SpaceH4(),
           SPaddingH24(
             child: Baseline(
               baseline: 13,
@@ -75,7 +76,7 @@ class SActionPriceField extends StatelessWidget {
                 maxLines: 1,
                 style: sSubtitle3Style.copyWith(
                   color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().black,
+                      isErrorActive ? SColorsLight().red : SColorsLight().grey1,
                 ),
               ),
             ),

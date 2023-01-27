@@ -88,6 +88,10 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       (element) => element.id == PaymentMethodType.bankCard,
     ).toList().isNotEmpty;
 
+    final showSubheader = widget.currency.buyMethods.isNotEmpty &&
+        !(widget.currency.buyMethods.length == 1 &&
+            widget.currency.buyMethods[0].id == PaymentMethodType.bankCard);
+
     final isLimitBlock = cardLimit?.day1State == StateLimitType.block ||
         cardLimit?.day7State == StateLimitType.block ||
         cardLimit?.day30State == StateLimitType.block;
@@ -140,6 +144,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
+            currency: widget.currency,
           ),
         ],
       );
@@ -229,8 +234,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   },
                 ),
               ],
+            const SpaceH16(),
           ],
-          const SpaceH16(),
         ],
       );
     }
@@ -238,23 +243,11 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     Widget savedCards() {
       return Column(
         children: [
-          if (
-            widget.currency.buyMethods.isNotEmpty &&
-            !(widget.currency.buyMethods.length == 1 &&
-                widget.currency.buyMethods[0].id == PaymentMethodType.bankCard)
-          )
+          if (showSubheader)
             ActionBuySubheader(
               text: intl.actionBuy_cards,
             ),
-          if (cardLimit != null && !state.editMode) ...[
-            const SpaceH12(),
-            CardLimit(
-              cardLimit: cardLimit,
-              small: true,
-            ),
-            const SpaceH12(),
-          ],
-          if (cardLimit == null || state.editMode) const SpaceH16(),
+          if (!state.editMode && showSubheader) const SpaceH16(),
           if (state.circleCards.isNotEmpty) ...[
             for (final card in state.circleCards)
               Builder(

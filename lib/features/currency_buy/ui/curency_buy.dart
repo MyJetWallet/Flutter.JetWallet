@@ -184,7 +184,14 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
     }
 
     final limitText = cardLimit != null
-        ? '${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.currencyBuy_limit}: ${checkLimitText()}'
+        ? '${(cardLimit.barInterval == StateBarType.day1 ||
+            cardLimit.day1State == StateLimitType.block)
+          ? intl.paymentMethodsSheet_daily
+          : (cardLimit.barInterval == StateBarType.day7 ||
+            cardLimit.day7State == StateLimitType.block)
+          ? intl.paymentMethodsSheet_weekly
+          : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'
+          ': ${checkLimitText()}'
         : '';
 
     void showLimits() {
@@ -369,6 +376,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           : colors.black,
                     ),
                     name: '${state.pickedAltUnlimintCard!.network} '
+                        '${state.pickedAltUnlimintCard!.last4[0] == '•'
+                          ? ''
+                          :'•••• '}'
                         '${state.pickedAltUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock ? 100 : cardLimit?.barProgress ?? 0,

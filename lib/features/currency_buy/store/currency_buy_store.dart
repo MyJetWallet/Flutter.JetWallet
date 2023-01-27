@@ -360,12 +360,22 @@ abstract class _CurrencyBuyStoreBase with Store {
           bankCard!,
         );
       } else if (newBankCardId != null) {
+
+        final uAC = sSignalRModules.cards.cardInfos.where(
+              (element) => element.integration == IntegrationType.unlimintAlt,
+        );
+
+        unlimintAltCards = ObservableList.of(uAC);
         final newCard = unlimintAltCards.where(
           (element) => element.id == newBankCardId,
         ).toList();
         if (newCard.isNotEmpty) {
           updateSelectedAltUnlimintCard(
             newCard[0],
+          );
+        } else {
+          updateSelectedPaymentMethod(
+            isBankCardCanUse[0],
           );
         }
       } else {
@@ -402,7 +412,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         preset2Name = selectedPaymentMethod != null
             ? baseCurrenciesFormat(
           prefix: paymentCurrency?.prefixSymbol ?? '',
-          text: '10',
+          text: '100',
           symbol: paymentCurrency?.symbol ?? '',
         )
             : '50%';
@@ -474,7 +484,7 @@ abstract class _CurrencyBuyStoreBase with Store {
           preset2Name = selectedPaymentMethod != null
               ? baseCurrenciesFormat(
             prefix: paymentCurrency?.prefixSymbol ?? '',
-            text: '10',
+            text: '100',
             symbol: paymentCurrency?.symbol ?? '',
           )
               : '50%';

@@ -39,7 +39,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widgetSize == SWidgetSize.medium ? 422 : 322,
+      height: widgetSize == SWidgetSize.medium ? 440 : 340,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
@@ -101,7 +101,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
                       onTap: onSubmitPressed,
                     ),
             ),
-            const SpaceH24(),
+            const SpaceH42(),
           ],
         ),
       ),
