@@ -424,13 +424,15 @@ class DeepLinkService {
                     ClickableUnderlinedText(
                       text: intl.deepLinkService_readMore,
                       onTap: () {
-                        launchURL(
-                          context,
-                          referralInfo.descriptionLink,
+                        sRouter.push(
+                          InfoWebViewRouter(
+                            link: referralInfo.descriptionLink,
+                            title: intl.rewards_rewards,
+                          ),
                         );
                       },
                     ),
-                    const SpaceH3(),
+                    const SpaceH10(),
                   ],
                 ),
               ),

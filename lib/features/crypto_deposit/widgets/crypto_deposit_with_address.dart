@@ -12,8 +12,8 @@ import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/widget_size_from.dart';
 
 // Header, ShareButton bar, DepositInfo, NetworkSelector
-const screenWidgets = 120 + 104 + 88 + 88;
-const sAddressFieldWithCopyHeight = 88;
+const screenWidgets = 120 + 122 + 88 + 88;
+const sAddressFieldWithCopyHeight = 146;
 
 class CryptoDepositWithAddress extends StatelessObserverWidget {
   const CryptoDepositWithAddress({
@@ -28,12 +28,9 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
     final deposit = CryptoDepositStore.of(context);
 
     final mediaQuery = MediaQuery.of(context);
-    final deviceSize = sDeviceSize;
     final screenHeight = mediaQuery.size.height;
     final screenWidth = mediaQuery.size.width;
-    final qrCodeSize = widgetSizeFrom(deviceSize) == SWidgetSize.medium
-      ? screenWidth * 0.6
-      : screenWidth * 0.45;
+    final qrCodeSize = screenWidth * 0.6;
 
     final extraScrollArea =
         screenHeight - qrCodeSize - screenWidgets - sAddressFieldWithCopyHeight;

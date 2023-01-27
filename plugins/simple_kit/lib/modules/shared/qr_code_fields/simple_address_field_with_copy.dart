@@ -131,15 +131,16 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    Text(
-                      realValue ?? '',
-                      style: sBodyText1Style.copyWith(
-                        color: SColorsLight().green,
-                        fontWeight: FontWeight.bold,
+                    if (realValue != null)
+                      Text(
+                        realValue ?? '',
+                        style: sBodyText1Style.copyWith(
+                          color: SColorsLight().green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
                       ),
-                      maxLines: 3,
-                      textAlign: TextAlign.center,
-                    ),
                   ],
                 ),
               ),
