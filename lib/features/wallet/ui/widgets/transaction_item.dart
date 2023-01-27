@@ -347,6 +347,29 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 Visibility(
+                  visible: true,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                    ),
+                    child: SSecondaryButton1(
+                      active: !cancelTransfer.loading,
+                      name: intl.transactionItem_cancel_cancel,
+                      icon: const SNetworkIcon(),
+                      onTap: () {
+                        cancelTransfer.cancelTransaction(
+                          widget.transactionListItem.transferByPhoneInfo
+                              ?.transferId,
+                        );
+                      },
+                      textColor: colors.blue,
+                      borderColor: colors.blue,
+                    ),
+                  ),
+                ),
+                Visibility(
                   visible:
                       widget.transactionListItem.status == Status.inProgress &&
                           widget.transactionListItem.transferByPhoneInfo
