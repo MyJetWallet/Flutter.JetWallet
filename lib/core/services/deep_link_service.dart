@@ -405,7 +405,7 @@ class DeepLinkService {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             SizedBox(
-              width: 203.0,
+              width: MediaQuery.of(context).size.width - 147,
               child: Baseline(
                 baseline: 34.0,
                 baselineType: TextBaseline.alphabetic,
