@@ -11,8 +11,8 @@ part 'asset_payment_methods_new.g.dart';
 class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
   const factory AssetPaymentMethodsNew({
     required List<BuyMethodDto> buy,
-    required List<SendMethodDto> send,
-    required List<ReceiveMethodDto> receive,
+    List<SendMethodDto>? send,
+    List<ReceiveMethodDto>? receive,
     @Default(false) bool showCardsInProfile,
     @Default(false) bool showBanksInProfile,
   }) = _AssetPaymentMethodsNew;

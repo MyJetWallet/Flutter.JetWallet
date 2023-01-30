@@ -897,14 +897,18 @@ abstract class _SignalRServiceUpdatedBase with Store {
           buyMethods.add(buyMethod);
         }
       }
-      for (final sendMethod in value.send) {
-        if (sendMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
-          sendMethods.add(sendMethod);
+      if (value.send != null) {
+        for (final sendMethod in value.send!) {
+          if (sendMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+            sendMethods.add(sendMethod);
+          }
         }
       }
-      for (final receiveMethod in value.receive) {
-        if (receiveMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
-          receiveMethods.add(receiveMethod);
+      if (value.receive != null) {
+        for (final receiveMethod in value.receive!) {
+          if (receiveMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+            receiveMethods.add(receiveMethod);
+          }
         }
       }
       currenciesList[index] = currency.copyWith(

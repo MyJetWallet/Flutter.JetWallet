@@ -133,9 +133,9 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                     ListView(
                       padding: const EdgeInsets.only(bottom: 100.0),
                       children: [
-                        ActionBuySubheader(
-                          text: intl.actionBuy_cards,
-                        ),
+                        if (cardLimitsState != null)
+                          CardLimit(cardLimit: cardLimitsState),
+                        const SpaceH10(),
                         for (final card in state.cards)
                           PaymentCardItem(
                             name: '${card.network} •••• ${card.last4}',
@@ -155,17 +155,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             removeDivider: true,
                             onTap: () {},
                           ),
-                        SCreditCardItem(
-                          icon: SPlusIcon(
-                            color: colors.blue,
-                          ),
-                          name: intl.actionBuy_addACard,
-                          amount: '',
-                          helper: intl.depositOptions_actionItemDescription1,
-                          description: '',
-                          removeDivider: true,
-                          onTap: () {},
-                        ),
                       ],
                     ),
                   ],

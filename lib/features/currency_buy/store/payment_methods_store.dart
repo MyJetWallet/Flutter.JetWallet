@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
@@ -296,13 +297,30 @@ abstract class _PaymentMethodsStoreBase with Store {
       if (card.integration == IntegrationType.circle ||
           card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().postDeleteCard(model);
+        final _ = await sNetwork.getWalletModule().postDeleteCard(model);
+        Timer(const Duration(milliseconds: 1500), () {
+          _fetchCircleCards();
+        });
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+        final _ = await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+        Timer(const Duration(milliseconds: 1500), () {
+          final uC = sSignalRModules.cards.cardInfos.where(
+                (element) => element.integration == IntegrationType.unlimint,
+          );
+          unlimintCards = ObservableList.of(uC);
+        });
       } else if (card.integration == IntegrationType.unlimintAlt) {
         final model = CardRemoveRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().cardRemove(model);
+        final _ = await sNetwork.getWalletModule().cardRemove(model);
+        Timer(const Duration(milliseconds: 1500), () {
+
+          final uAC = sSignalRModules.cards.cardInfos.where(
+                (element) => element.integration == IntegrationType.unlimintAlt,
+          );
+
+          unlimintAltCards = ObservableList.of(uAC);
+        });
       }
     } catch (e) {
       sNotification.showError(

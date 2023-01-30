@@ -20,6 +20,7 @@ class ChooseAssetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchStore = getIt.get<ActionSearchStore>();
+    searchStore.init();
     final showSearch = showBuyCurrencySearch(
       context,
       fromCard: true,
