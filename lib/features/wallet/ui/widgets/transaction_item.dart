@@ -356,7 +356,7 @@ class _TransactionItemState extends State<TransactionItem>
                     padding: const EdgeInsets.only(
                       left: 24,
                       right: 24,
-                      bottom: 24,
+                      bottom: 42,
                     ),
                     child: SSecondaryButton1(
                       active: !cancelTransfer.loading,

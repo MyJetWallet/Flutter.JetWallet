@@ -18,6 +18,7 @@ class TransactionDetailsValueText extends StatelessWidget {
       style: sSubtitle3Style.copyWith(
         color: color,
       ),
+      maxLines: 5,
     );
   }
 }
