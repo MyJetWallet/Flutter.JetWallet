@@ -36,6 +36,10 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
+  void updateTechAccValue(bool techAcc) {
+    isTechAcc = techAcc;
+  }
+
   void onboardingView() {
     _analytics.logEvent(
       EventType.onboardingView,

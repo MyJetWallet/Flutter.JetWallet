@@ -245,7 +245,7 @@ abstract class _AppStoreBase with Store {
           isTechClient: info.data!.isTechClient,
         );
       }
-
+      
       if (userInfo.userInfo.hasDisclaimers) {
         await getIt<DisclaimerStore>().init();
       }
@@ -266,6 +266,11 @@ abstract class _AppStoreBase with Store {
           lastName: profileInfo.data!.lastName ?? '',
         );
       }
+
+      sAnalytics.updateTechAccValue(
+        userInfo.userInfo.isTechClient,
+      );
+
       authState = authState.copyWith(
         initSessionReceived: true,
       );
