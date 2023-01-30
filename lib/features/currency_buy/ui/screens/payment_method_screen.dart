@@ -120,33 +120,33 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     void onAddCardTap() {
-      sShowBasicModalBottomSheet(
-        context: context,
-        scrollable: true,
-        pinned: SPaddingH24(
-          child: SSmallHeader(
-            title: intl.addCircleCard_bigHeaderTitle,
-            showBackButton: false,
-            onCLoseButton: () {
-              sRouter.pop();
-            },
-            showCloseButton: true,
-          ),
+
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          opaque: false,
+          barrierColor: Colors.white,
+          pageBuilder: (BuildContext context, _, __) {
+            return AddBankCard(
+              onCardAdded: () {},
+              amount: '',
+              isPreview: true,
+              currency: widget.currency,
+            );
+          },
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
         ),
-        horizontalPinnedPadding: 0.0,
-        removePinnedPadding: true,
-        removeBottomSheetBar: true,
-        removeBarPadding: true,
-        expanded: true,
-        fullScreen: true,
-        children: [
-          AddBankCard(
-            onCardAdded: () {},
-            amount: '',
-            isPreview: true,
-            currency: widget.currency,
-          ),
-        ],
       );
     }
 

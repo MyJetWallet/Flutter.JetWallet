@@ -398,15 +398,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     onTap: () => showLimits(),
                   )
               else if (state.selectedPaymentMethod?.id ==
-                  PaymentMethodType.circleCard)
-                if (state.circleCards.isEmpty)
-                  SPaymentSelectDefault(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    icon: const SActionBuyIcon(),
-                    name: intl.currencyBuy_choosePaymentMethod,
-                    onTap: () => showLimits(),
-                  )
-                else
+                  PaymentMethodType.circleCard &&
+                      state.selectedCircleCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: SActionDepositIcon(
@@ -443,14 +436,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   amount: state.selectedCurrency!.volumeBaseBalance(
                     state.baseCurrency!,
                   ),
-                  onTap: () => showLimits(),
-                )
-              else if (widget.fromCard &&
-                  widget.currency.supportsAtLeastOneBuyMethod)
-                SPaymentSelectDefault(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  icon: const SActionBuyIcon(),
-                  name: intl.currencyBuy_choosePaymentMethod,
                   onTap: () => showLimits(),
                 )
               else

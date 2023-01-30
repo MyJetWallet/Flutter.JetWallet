@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'dart:async';
+
 import 'package:credit_card_validator/credit_card_validator.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
@@ -264,14 +266,16 @@ abstract class _AddBankCardStoreBase with Store {
     required String cardId,
   }) {
     sRouter.pop();
-    sRouter.push(
-      CurrencyBuyRouter(
-        newBankCardId: cardId,
-        currency: currency,
-        fromCard: true,
-        paymentMethod: PaymentMethodType.bankCard,
-      ),
-    );
+    Timer(const Duration(milliseconds: 500), () {
+      sRouter.push(
+        CurrencyBuyRouter(
+          newBankCardId: cardId,
+          currency: currency,
+          fromCard: true,
+          paymentMethod: PaymentMethodType.bankCard,
+        ),
+      );
+    });
   }
 
   @action
@@ -358,7 +362,6 @@ abstract class _AddBankCardStoreBase with Store {
     final data = await Clipboard.getData('text/plain');
     var code = data?.text?.trim() ?? '';
     code = code.replaceAll(' ', '');
-
     try {
       int.parse(code);
       if (code.length == 16) {
@@ -373,6 +376,8 @@ abstract class _AddBankCardStoreBase with Store {
             buffer.write(' ');
           }
         }
+        updateCardNumber(buffer.toString());
+        cardNumberController.text = buffer.toString();
       } else {
         updateCardNumber(code);
         cardNumberController.text = code;

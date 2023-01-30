@@ -66,7 +66,7 @@ class SActionPriceField extends StatelessWidget {
                 ),
             ),
           ),
-          const SpaceH4(),
+          const SpaceH10(),
           SPaddingH24(
             child: Baseline(
               baseline: 13,
