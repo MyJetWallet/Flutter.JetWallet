@@ -15,8 +15,22 @@ void showPaymentCurrenciesBottomSheet({
 }) {
   final colors = sKit.colors;
   final currencies = sSignalRModules.currenciesWithHiddenList;
+  final baseCurrency = sSignalRModules.baseCurrency;
   final iterableAssets = <CurrencyModel>[];
-  final sortedAssets = assets;
+  final sortedAssets = List<PaymentAsset>.from(assets);
+  if (sortedAssets.isNotEmpty) {
+    sortedAssets.sort(
+      (a, b) {
+        if (a.asset == baseCurrency.symbol) {
+          return 0.compareTo(1);
+        } else if (b.asset == baseCurrency.symbol) {
+          return 1.compareTo(0);
+        }
+
+        return (a.orderId ?? 0).compareTo(b.orderId ?? 0);
+      },
+    );
+  }
 
   for (final asset in sortedAssets) {
     final currencyByAsset = currencyFromAll(currencies, asset.asset);
@@ -33,154 +47,77 @@ void showPaymentCurrenciesBottomSheet({
     horizontalPinnedPadding: 24,
     children: [
       for (final asset in sortedAssets) ...[
-        if (asset.asset == activeAsset?.asset) ...[
-          InkWell(
-            onTap: () {
-              onTap(asset);
-            },
-            splashColor: Colors.transparent,
-            highlightColor: colors.grey5,
-            hoverColor: Colors.transparent,
-            child: SPaddingH24(
-              child: Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                height: 88,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 20,
-                      ),
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          border: Border.all(
-                            width: 2,
-                            color: asset.asset != activeAsset?.asset
-                                ? colors.black
-                                : colors.blue,
-                          ),
+        InkWell(
+          onTap: () {
+            onTap(asset);
+          },
+          splashColor: Colors.transparent,
+          highlightColor: colors.grey5,
+          hoverColor: Colors.transparent,
+          child: SPaddingH24(
+            child: Container(
+              alignment: Alignment.centerLeft,
+              width: double.infinity,
+              height: 88,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: 20,
+                    ),
+                    child: Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                          width: 2,
+                          color: asset.asset != activeAsset?.asset
+                              ? colors.black
+                              : colors.blue,
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              iterableAssets[assets.indexOf(asset)]
-                                  .prefixSymbol ?? '?',
-                              style: sCaptionTextStyle.copyWith(
-                                color: asset.asset != activeAsset?.asset
-                                    ? colors.black
-                                    : colors.blue,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                height: 1.1,
-                              ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            iterableAssets[assets.indexOf(asset)]
+                                .prefixSymbol ?? '?',
+                            style: sCaptionTextStyle.copyWith(
+                              color: asset.asset != activeAsset?.asset
+                                  ? colors.black
+                                  : colors.blue,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              height: 1.1,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          iterableAssets[assets.indexOf(asset)]
-                              .description ?? '',
-                          style: sSubtitle2Style.copyWith(
-                            color: asset.asset != activeAsset?.asset
-                                ? colors.black
-                                : colors.blue,
-                          ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        iterableAssets[assets.indexOf(asset)]
+                            .description ?? '',
+                        style: sSubtitle2Style.copyWith(
+                          color: asset.asset != activeAsset?.asset
+                              ? colors.black
+                              : colors.blue,
                         ),
-                        const SpaceH4(),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      const SpaceH4(),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
-          if (sortedAssets.length > 1)
-            const SPaddingH24(child: SDivider()),
-        ],
-      ],
-      for (final asset in sortedAssets) ...[
-        if (asset.asset != activeAsset?.asset) ...[
-          InkWell(
-            onTap: () {
-              onTap(asset);
-            },
-            splashColor: Colors.transparent,
-            highlightColor: colors.grey5,
-            hoverColor: Colors.transparent,
-            child: SPaddingH24(
-              child: Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                height: 88,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 20,
-                      ),
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          border: Border.all(
-                            width: 2,
-                            color: asset.asset != activeAsset?.asset
-                                ? colors.black
-                                : colors.blue,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              iterableAssets[assets.indexOf(asset)]
-                                  .prefixSymbol ?? '?',
-                              style: sCaptionTextStyle.copyWith(
-                                color: asset.asset != activeAsset?.asset
-                                    ? colors.black
-                                    : colors.blue,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                height: 1.1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          iterableAssets[assets.indexOf(asset)]
-                              .description ?? '',
-                          style: sSubtitle2Style.copyWith(
-                            color: asset.asset != activeAsset?.asset
-                                ? colors.black
-                                : colors.blue,
-                          ),
-                        ),
-                        const SpaceH4(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          if (asset != assets.last && assets.length > 2)
-            const SPaddingH24(child: SDivider()),
-        ],
+      ),
+        if (asset != assets.last)
+          const SPaddingH24(child: SDivider()),
       ],
       const SpaceH67(),
     ],

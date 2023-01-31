@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../helpers/decimal_serialiser.dart';
+import 'asset_model.dart';
 import 'asset_payment_methods.dart';
 
 part 'asset_payment_methods_new.freezed.dart';
@@ -43,10 +44,10 @@ class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
     @PaymentTypeSerialiser()
     @JsonKey(name: 'id')
-    required PaymentMethodType id,
+    required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
-    List<String>? allowedForSymbols,
+    List<String>? symbols,
   }) = _SendMethodDto;
 
   factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
@@ -58,10 +59,10 @@ class ReceiveMethodDto with _$ReceiveMethodDto {
   const factory ReceiveMethodDto({
     @PaymentTypeSerialiser()
     @JsonKey(name: 'id')
-    required PaymentMethodType id,
+    required DepositMethods id,
     String? iconUrl,
     int? orderId,
-    List<String>? allowedForSymbols,
+    List<String>? symbols,
   }) = _ReceiveMethodDto;
 
   factory ReceiveMethodDto.fromJson(Map<String, dynamic> json) =>

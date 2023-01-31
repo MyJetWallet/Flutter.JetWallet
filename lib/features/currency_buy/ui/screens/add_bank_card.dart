@@ -93,62 +93,6 @@ class AddBankCardBody extends StatelessObserverWidget {
           showCloseButton: true,
         ),
       ),
-      bottomNavigationBar: Container(
-        color: colors.grey5,
-        height: 144,
-        child: Column(
-          children: [
-            if (isPreview) ...[
-              const SpaceH12(),
-              SPaddingH24(
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        SIconButton(
-                          onTap: () {
-                            store.checkSetter();
-                          },
-                          defaultIcon: icon,
-                          pressedIcon: icon,
-                        ),
-                      ],
-                    ),
-                    const SpaceW10(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 82,
-                      child: SPolicyText(
-                        firstText: intl.addCircleCard_saveCard,
-                        userAgreementText: '',
-                        betweenText: '',
-                        privacyPolicyText: '',
-                        onUserAgreementTap: () {},
-                        onPrivacyPolicyTap: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            ContinueButtonFrame(
-              child: SPrimaryButton2(
-                active: store.isCardDetailsValid,
-                name: intl.addCircleCard_continue,
-                onTap: () async {
-                  sAnalytics.paymentDetailsContinue(source: 'Unlimint');
-                  await store.addCard(
-                    onSuccess: onCardAdded,
-                    onError: () {},
-                    isPreview: isPreview,
-                    amount: amount,
-                    currency: currency,
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
       child: Column(
         children: [
           SFieldDividerFrame(
@@ -237,6 +181,63 @@ class AddBankCardBody extends StatelessObserverWidget {
                 ),
               ),
             ),
+          const Spacer(),
+          Container(
+            color: colors.grey5,
+            height: 144,
+            child: Column(
+              children: [
+                if (isPreview) ...[
+                  const SpaceH12(),
+                  SPaddingH24(
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            SIconButton(
+                              onTap: () {
+                                store.checkSetter();
+                              },
+                              defaultIcon: icon,
+                              pressedIcon: icon,
+                            ),
+                          ],
+                        ),
+                        const SpaceW10(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 82,
+                          child: SPolicyText(
+                            firstText: intl.addCircleCard_saveCard,
+                            userAgreementText: '',
+                            betweenText: '',
+                            privacyPolicyText: '',
+                            onUserAgreementTap: () {},
+                            onPrivacyPolicyTap: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                ContinueButtonFrame(
+                  child: SPrimaryButton2(
+                    active: store.isCardDetailsValid,
+                    name: intl.addCircleCard_continue,
+                    onTap: () async {
+                      sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                      await store.addCard(
+                        onSuccess: onCardAdded,
+                        onError: () {},
+                        isPreview: isPreview,
+                        amount: amount,
+                        currency: currency,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

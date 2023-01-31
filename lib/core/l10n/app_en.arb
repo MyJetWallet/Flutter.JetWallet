@@ -845,6 +845,7 @@
   "sPaymentSelectEmpty_buyOnlyWithCrypto": "Buy only with crypto",
   "sPaymentSelectEmpty_somethingWentWrong": "Oh, something went wrong",
   "sPaymentSelectEmpty_contactSupport": "Please contact our support",
+  "sPaymentSelectEmpty_tryOnceAgain": "Please try again once again.",
   "sLightStandart_bothProvidedText": "Controller and initialValue can't be both provided",
   "sDocumentRecommendation_primaryText1": "The document should clearly show",
   "sDocumentRecommendation_primaryText2": "Your Full Name",

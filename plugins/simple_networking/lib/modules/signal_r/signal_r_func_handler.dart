@@ -312,15 +312,11 @@ class SignalRFuncHandler {
 
   void paymentMethodsNewMessageHandler(List<Object?>? data) {
     try {
-      print('paymentMethodsNewMessageHandler');
-      print(data);
       final info = AssetPaymentMethodsNew.fromJson(_json(data));
-      print('paymentMethodsNewMessageHandler $info');
       sTransport.updateAssetPaymentMethodsNew(info);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      print(e);
       instance.handleError(paymentMethodsNewMessage, e);
     }
   }

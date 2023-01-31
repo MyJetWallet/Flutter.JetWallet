@@ -133,7 +133,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
         children: [
           ListView(
             padding: const EdgeInsets.only(
-              bottom: 100.0,
+              bottom: 260.0,
             ),
             children: [
               Column(

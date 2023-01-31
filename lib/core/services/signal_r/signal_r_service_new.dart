@@ -880,9 +880,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
     showPaymentsMethods = value.showCardsInProfile;
     assetPaymentMethodsNew = value;
-    print('updateAssetPaymentMethodsNew');
-    print('$assetPaymentMethodsNew');
-
     for (final currency in currenciesList) {
       final index = currenciesList.indexOf(currency);
       final buyMethodsFull = List<BuyMethodDto>.from(value.buy);
@@ -899,17 +896,22 @@ abstract class _SignalRServiceUpdatedBase with Store {
       }
       if (value.send != null) {
         for (final sendMethod in value.send!) {
-          if (sendMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          if (sendMethod.symbols?.contains(currency.symbol) ?? false) {
             sendMethods.add(sendMethod);
           }
         }
       }
       if (value.receive != null) {
         for (final receiveMethod in value.receive!) {
-          if (receiveMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          if (receiveMethod.symbols?.contains(currency.symbol) ?? false) {
             receiveMethods.add(receiveMethod);
           }
         }
+      }
+      if (buyMethods.isNotEmpty) {
+        buyMethods.sort(
+          (a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0),
+        );
       }
       currenciesList[index] = currency.copyWith(
         buyMethods: buyMethods,

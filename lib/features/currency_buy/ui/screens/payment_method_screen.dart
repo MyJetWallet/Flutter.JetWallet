@@ -272,7 +272,11 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 && !isLimitBlock) {
+                      if (
+                        cardLimit?.barProgress != 100
+                        && !isLimitBlock
+                        && !state.editMode
+                      ) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -313,7 +317,11 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 && !isLimitBlock) {
+                      if (
+                        cardLimit?.barProgress != 100 &&
+                        !isLimitBlock &&
+                        !state.editMode
+                      ) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -355,7 +363,11 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (cardLimit?.barProgress != 100 && !isLimitBlock) {
+                      if (
+                        cardLimit?.barProgress != 100 &&
+                        !isLimitBlock &&
+                        !state.editMode
+                      ) {
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,

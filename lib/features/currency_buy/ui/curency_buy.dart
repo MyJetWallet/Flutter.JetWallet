@@ -194,6 +194,14 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
           ': ${checkLimitText()}'
         : '';
 
+    final isPaymentMethodActive = widget.currency.buyMethods.where(
+      (element) => element.id == widget.paymentMethod,
+    ).toList();
+
+    final isMethodHaveAssets = isPaymentMethodActive.isNotEmpty &&
+      isPaymentMethodActive[0].paymentAssets != null &&
+      isPaymentMethodActive[0].paymentAssets!.isNotEmpty;
+
     void showLimits() {
       showCardLimitsBottomSheet(
         context: context,
@@ -230,17 +238,22 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     additionalWidget: GestureDetector(
                       onTap: () {
-                        showPaymentCurrenciesBottomSheet(
-                          context: context,
-                          header: intl.currencyBuy_chooseCurrency,
-                          onTap: (PaymentAsset value) {
-                            Navigator.pop(context);
-                            state.updatePaymentCurrency(value);
-                          },
-                          activeAsset: state.selectedPaymentAsset,
-                          assets: state.selectedPaymentMethod?.paymentAssets
-                            ?? [],
-                        );
+                        if (
+                          (state.selectedPaymentMethod?.paymentAssets?.length
+                              ?? 0) > 1
+                        ) {
+                          showPaymentCurrenciesBottomSheet(
+                            context: context,
+                            header: intl.currencyBuy_chooseCurrency,
+                            onTap: (PaymentAsset value) {
+                              Navigator.pop(context);
+                              state.updatePaymentCurrency(value);
+                            },
+                            activeAsset: state.selectedPaymentAsset,
+                            assets: state.selectedPaymentMethod?.paymentAssets
+                                ?? [],
+                          );
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.only(
@@ -322,7 +335,25 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 small: () => const SpaceH8(),
                 medium: () => const SpaceH16(),
               ),
-              if (state.selectedPaymentMethod?.id ==
+              if (!isMethodHaveAssets)
+                Column(
+                  children: [
+                    Text(
+                      '${intl.sPaymentSelectEmpty_somethingWentWrong}.',
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.red,
+                      ),
+                    ),
+                    Text(
+                      intl.sPaymentSelectEmpty_tryOnceAgain,
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.red,
+                      ),
+                    ),
+                    const SpaceH12(),
+                  ],
+                )
+              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.simplex)
                 SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -439,10 +470,22 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   onTap: () => showLimits(),
                 )
               else
-                SPaymentSelectEmptyBalance(
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  text: intl.sPaymentSelectEmpty_somethingWentWrong,
-                  secondaryText: intl.sPaymentSelectEmpty_contactSupport,
+                Column(
+                  children: [
+                    Text(
+                      '${intl.sPaymentSelectEmpty_somethingWentWrong}.',
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.red,
+                      ),
+                    ),
+                    Text(
+                      intl.sPaymentSelectEmpty_tryOnceAgain,
+                      style: sSubtitle3Style.copyWith(
+                        color: colors.red,
+                      ),
+                    ),
+                    const SpaceH12(),
+                  ],
                 ),
               deviceSize.when(
                 small: () => const SpaceH9(),
@@ -477,15 +520,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     !state.disableSubmit &&
                     !(cardType && cardLimit?.barProgress == 100) &&
                     !(cardType && isLimitBlock) &&
-                    !(double.parse(state.inputValue) == 0.0),
-                submitButtonName:
-                    state.recurringBuyType != RecurringBuysType.oneTimePurchase
-                        ? intl.curencyBuy_NumericKeyboardButtonName1
-                        : state.selectedPaymentMethod?.id ==
-                                    PaymentMethodType.bankCard &&
-                                state.pickedAltUnlimintCard == null
-                            ? intl.addCircleCard_continue
-                            : intl.curencyBuy_NumericKeyboardButtonName2,
+                    !(double.parse(state.inputValue) == 0.0) &&
+                    isMethodHaveAssets,
+                submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () async {
                   sAnalytics.tapPreviewBuy(
                     assetName: widget.currency.description,

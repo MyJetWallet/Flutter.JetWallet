@@ -396,6 +396,11 @@ abstract class _CurrencyBuyStoreBase with Store {
       baseCurrencyInPayment.isNotEmpty
         ? baseCurrencyInPayment[0]
         : selectedPaymentMethod?.paymentAssets?[0];
+    selectedPaymentAsset ??= PaymentAsset(
+      asset: baseCurrency!.symbol,
+      minAmount: Decimal.zero,
+      maxAmount: Decimal.zero,
+    );
     if (selectedPaymentAsset != null) {
       final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
         (element) => element.symbol == selectedPaymentAsset!.asset,

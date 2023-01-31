@@ -178,7 +178,8 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportsCryptoDeposit {
-    return depositMethods.contains(DepositMethods.cryptoDeposit);
+    return depositMethods.where((element) => element.id == DepositMethods.cryptoDeposit).isNotEmpty ||
+        depositMethods.where((element) => element.id == DepositMethods.blockchainReceive).isNotEmpty;
   }
 
   bool get supportsCardDeposit {
@@ -200,7 +201,8 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportsCryptoWithdrawal {
-    return withdrawalMethods.contains(WithdrawalMethods.cryptoWithdrawal);
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.cryptoWithdrawal).isNotEmpty ||
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty;
   }
 
   bool get supportsSepaWithdrawal {
