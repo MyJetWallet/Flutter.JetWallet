@@ -12,13 +12,17 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 
+import '../../../../utils/models/currency_model.dart';
+
 class LimitPageBody extends StatelessObserverWidget {
   const LimitPageBody({
     Key? key,
     required this.cardLimit,
+    this.currency,
   }) : super(key: key);
 
   final CardLimitsModel cardLimit;
+  final CurrencyModel? currency;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,22 @@ class LimitPageBody extends StatelessObserverWidget {
     }
 
     String checkLimitText(Decimal amount, Decimal limit) {
+      if (currency != null) {
+        return '${volumeFormat(
+          prefix: currency!.prefixSymbol,
+          decimal: amount,
+          symbol: currency!.symbol,
+          accuracy: currency!.accuracy,
+          onlyFullPart: true,
+        )} / ${volumeFormat(
+          prefix: currency!.prefixSymbol,
+          decimal: limit,
+          symbol: currency!.symbol,
+          accuracy: currency!.accuracy,
+          onlyFullPart: true,
+        )}';
+      }
+
       return '${volumeFormat(
         prefix: baseCurrency.prefix,
         decimal: amount,
@@ -145,26 +165,41 @@ class LimitPageBody extends StatelessObserverWidget {
           TransactionDetailsItem(
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: baseCurrency.prefix,
-                decimal: cardLimit.minAmount,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-                onlyFullPart: true,
-              ),
+              text: currency == null
+                ? volumeFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: cardLimit.minAmount,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                    onlyFullPart: true,
+                  )
+                : volumeFormat(
+                  prefix: currency!.prefixSymbol,
+                  decimal: cardLimit.minAmount,
+                  symbol: currency!.symbol,
+                  accuracy: currency!.accuracy,
+                  onlyFullPart: true,
+                ),
             ),
           ),
           const SpaceH19(),
           TransactionDetailsItem(
             text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: baseCurrency.prefix,
-                decimal: cardLimit.maxAmount,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-                onlyFullPart: true,
-              ),
+              text: currency == null
+                ? volumeFormat(
+                  prefix: baseCurrency.prefix,
+                  decimal: cardLimit.maxAmount,
+                  symbol: baseCurrency.symbol,
+                  accuracy: baseCurrency.accuracy,
+                  onlyFullPart: true,
+                ) : volumeFormat(
+                  prefix: currency!.prefixSymbol,
+                  decimal: cardLimit.maxAmount,
+                  symbol: currency!.symbol,
+                  accuracy: currency!.accuracy,
+                  onlyFullPart: true,
+                ),
             ),
           ),
           const SpaceH19(),

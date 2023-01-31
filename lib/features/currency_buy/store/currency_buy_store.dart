@@ -144,6 +144,9 @@ abstract class _CurrencyBuyStoreBase with Store {
   CurrencyModel? selectedCurrency;
 
   @observable
+  CardLimitsModel? limitByAsset;
+
+  @observable
   SKeyboardPreset? selectedPreset;
 
   @observable
@@ -402,6 +405,7 @@ abstract class _CurrencyBuyStoreBase with Store {
       maxAmount: Decimal.zero,
     );
     if (selectedPaymentAsset != null) {
+      updateLimitModel(selectedPaymentAsset!);
       final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
         (element) => element.symbol == selectedPaymentAsset!.asset,
       ).toList();
@@ -440,6 +444,97 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
+  void updateLimitModel(PaymentAsset asset) {
+    int calcPercentage(Decimal first, Decimal second) {
+      if (first == Decimal.zero) {
+        return 0;
+      }
+      final doubleFirst = double.parse('$first');
+      final doubleSecond = double.parse('$second');
+      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
+
+      return (doubleFinal * 100).round();
+    }
+
+    if (asset.limits != null) {
+      var finalInterval = StateBarType.day1;
+      var finalProgress = 0;
+      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var monthState = asset.limits!.monthValue == asset.limits!.monthLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      if (monthState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day30;
+        weekState = weekState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+      } else if (weekState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day7;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else if (dayState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day1;
+        weekState = StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else {
+        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
+        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
+        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
+        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
+          finalInterval = StateBarType.day1;
+          finalProgress = calcPercentage(asset.limits!.dayValue, asset.limits!.dayLimit);
+          dayState = StateLimitType.active;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.none;
+        } else if (weekLeft <= monthLeft) {
+          finalInterval = StateBarType.day7;
+          finalProgress = calcPercentage(asset.limits!.weekValue, asset.limits!.weekLimit);
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.active;
+          monthState = StateLimitType.none;
+        } else {
+          finalInterval = StateBarType.day30;
+          finalProgress = calcPercentage(asset.limits!.monthValue, asset.limits!.monthLimit);
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.active;
+        }
+      }
+
+      final limitModel = CardLimitsModel(
+        minAmount: asset.minAmount,
+        maxAmount: asset.maxAmount,
+        day1Amount: asset.limits!.dayValue,
+        day1Limit: asset.limits!.dayLimit,
+        day1State: dayState,
+        day7Amount: asset.limits!.weekValue,
+        day7Limit: asset.limits!.weekLimit,
+        day7State: weekState,
+        day30Amount: asset.limits!.monthValue,
+        day30Limit: asset.limits!.monthLimit,
+        day30State: monthState,
+        barInterval: finalInterval,
+        barProgress: finalProgress,
+        leftHours: 0,
+      );
+      limitByAsset = limitModel;
+    }
+  }
+
+  @action
   void updateSelectedPaymentMethod(
     BuyMethodDto? method, {
     bool isLocalUse = false,
@@ -474,11 +569,13 @@ abstract class _CurrencyBuyStoreBase with Store {
     if (asset != selectedPaymentAsset) {
       selectedPaymentAsset = asset;
       if (selectedPaymentAsset != null) {
+        updateLimitModel(selectedPaymentAsset!);
         final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
               (element) => element.symbol == selectedPaymentAsset!.asset,
         ).toList();
         if (currenciesPayment.isNotEmpty) {
           paymentCurrency = currenciesPayment[0];
+          _calculateTargetConversionForCrypto();
           preset1Name = selectedPaymentMethod != null
               ? baseCurrenciesFormat(
             prefix: paymentCurrency?.prefixSymbol ?? '',
@@ -808,12 +905,12 @@ abstract class _CurrencyBuyStoreBase with Store {
           selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
-        if (cardLimit != null) {
-          limitMax = cardLimit!.barInterval == StateBarType.day1
-              ? (cardLimit!.day1Limit - cardLimit!.day1Amount).toDouble()
-              : cardLimit!.barInterval == StateBarType.day7
-                  ? (cardLimit!.day7Limit - cardLimit!.day7Amount).toDouble()
-                  : (cardLimit!.day30Limit - cardLimit!.day30Amount).toDouble();
+        if (limitByAsset != null) {
+          limitMax = limitByAsset!.barInterval == StateBarType.day1
+              ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
+              : limitByAsset!.barInterval == StateBarType.day7
+                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
         }
         if (selectedPaymentMethod?.id == PaymentMethodType.circleCard) {
           limitMax = pickedCircleCard?.paymentDetails.maxAmount.toDouble();
