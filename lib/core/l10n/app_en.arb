@@ -337,7 +337,7 @@
   "operationName_transferByPhone": "Transfer by Phone",
   "operationName_receiveByPhone": "Receive by Phone",
   "operationName_interestRate": "Interest Rate",
-  "operationName_withdrawal": "Withdrawal",
+  "operationName_withdrawal": "Send",
   "operationName_sell": "Sell",
   "operationName_buy": "Buy",
   "operationName_deposit": "Deposit",

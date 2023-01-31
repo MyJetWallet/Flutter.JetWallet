@@ -158,7 +158,8 @@ Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
 }
 
 /// International only format
-Future<bool> isInternationalPhoneNumberValid(String phoneNumber, String? isoCode) async {
+Future<bool> isInternationalPhoneNumberValid(
+    String phoneNumber, String? isoCode) async {
   try {
     final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
       phoneNumber,

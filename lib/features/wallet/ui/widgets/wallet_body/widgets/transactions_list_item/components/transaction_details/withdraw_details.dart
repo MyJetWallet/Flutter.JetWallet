@@ -36,18 +36,6 @@ class WithdrawDetails extends StatelessObserverWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: intl.withdrawDetails_amount,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: currency.prefixSymbol,
-                decimal: transactionListItem.withdrawalInfo!.withdrawalAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
-            ),
-          ),
-          const SpaceH10(),
-          TransactionDetailsItem(
             text: '${intl.transaction} ${intl.withdrawDetails_fee}',
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
@@ -87,40 +75,69 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ),
           ),
           const SpaceH10(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TransactionDetailsNameText(
-                text: '${intl.transaction} ID',
+          if (transactionListItem.withdrawalInfo!.txId != null) ...[
+            TransactionDetailsItem(
+              text: 'Txhash',
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: shortAddressForm(
+                      transactionListItem.withdrawalInfo!.txId ?? '',
+                    ),
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.withdrawalInfo!.txId ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txhash');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.2,
-              ),
-              Flexible(
-                child: TransactionDetailsValueText(
-                  text: shortAddressOperationId(
-                    transactionListItem.operationId,
+            ),
+          ],
+          if (transactionListItem.withdrawalInfo!.isInternal) ...[
+            /*Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TransactionDetailsNameText(
+                  text: 'Txhash',
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                ),
+                Flexible(
+                  child: TransactionDetailsValueText(
+                    text: shortAddressOperationId(
+                      transactionListItem.operationId,
+                    ),
                   ),
                 ),
-              ),
-              const SpaceW10(),
-              SIconButton(
-                onTap: () {
-                  Clipboard.setData(
-                    ClipboardData(
-                      text: transactionListItem.operationId,
-                    ),
-                  );
+                const SpaceW10(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: transactionListItem.operationId,
+                      ),
+                    );
 
-                  onCopyAction('${intl.transaction} ID');
-                },
-                defaultIcon: const SCopyIcon(),
-                pressedIcon: const SCopyPressedIcon(),
-              ),
-            ],
-          ),
-          /*
+                    onCopyAction('${intl.transaction} ID');
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
+            ),*/
+            /*
           TransactionDetailsItem(
             text: '${intl.transaction} ID',
             value: Row(
@@ -150,36 +167,37 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
           ),
           */
-          const SpaceH10(),
+            const SpaceH10(),
+          ],
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
-            TransactionDetailsItem(
-              text: intl.withdrawDetails_withdrawalTo,
-              value: Row(
-                children: [
-                  TransactionDetailsValueText(
-                    text: transactionListItem.withdrawalInfo!.toAddress != null
-                        ? shortAddressForm(
-                            transactionListItem.withdrawalInfo!.toAddress!,
-                          )
-                        : '',
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TransactionDetailsNameText(
+                  text: intl.withdrawDetails_withdrawalTo,
+                ),
+                const SpaceW12(),
+                Flexible(
+                  child: TransactionDetailsValueText(
+                    text: transactionListItem.withdrawalInfo!.toAddress ?? '',
                   ),
-                  const SpaceW10(),
-                  SIconButton(
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: transactionListItem.withdrawalInfo!.toAddress ??
-                              '',
-                        ),
-                      );
+                ),
+                const SpaceW8(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text:
+                            transactionListItem.withdrawalInfo!.toAddress ?? '',
+                      ),
+                    );
 
-                      onCopyAction(intl.withdrawDetails_withdrawalTo);
-                    },
-                    defaultIcon: const SCopyIcon(),
-                    pressedIcon: const SCopyPressedIcon(),
-                  ),
-                ],
-              ),
+                    onCopyAction(intl.withdrawDetails_withdrawalTo);
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
             ),
             const SpaceH10(),
           ],
