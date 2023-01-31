@@ -131,7 +131,11 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 }
               },
             ),
-            const SpaceW11(),
+            if (marketItem.isBalanceEmpty) ...[
+              const SpaceW37(),
+            ] else ...[
+              const SpaceW11(),
+            ],
             CircleActionReceive(
               onTap: () {
                 sAnalytics.receiveClick(source: 'Market -> Asset -> Receive');

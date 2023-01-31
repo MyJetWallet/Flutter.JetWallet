@@ -60,10 +60,10 @@ class _BalanceBlockBody extends StatelessObserverWidget {
     final languageCode = Localizations.localeOf(context).languageCode;
 
     return SizedBox(
-      height: 227,
+      height: 127,
       child: Column(
         children: [
-          SPaddingH24(
+          /*SPaddingH24(
             child: SWalletItem(
               currencyPrefix: baseCurrency.prefix,
               currencySymbol: baseCurrency.symbol,
@@ -112,9 +112,9 @@ class _BalanceBlockBody extends StatelessObserverWidget {
               showSecondaryText: !marketItem.isBalanceEmpty,
             ),
           ),
-          const SpaceH12(),
+          */
           const SDivider(),
-          const SpaceH15(),
+          const SpaceH16(),
           BalanceActionButtons(
             marketItem: marketItem,
           ),
