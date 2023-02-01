@@ -133,6 +133,22 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   double getMinChildSize() {
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
+    if (MediaQuery.of(context).size.height <= 700) {
+      return 0.45;
+    }
+
+    if (MediaQuery.of(context).size.height <= 880) {
+      return 0.585;
+    }
+
+    if (MediaQuery.of(context).size.height <= 920) {
+      return 0.6;
+    }
+
+    if (MediaQuery.of(context).size.height <= 950) {
+      return 0.62;
+    }
+
     if (devicePixelRatio <= 2.2) {
       return 0.48;
     }
