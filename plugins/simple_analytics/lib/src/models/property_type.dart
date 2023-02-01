@@ -1,5 +1,6 @@
 /// The data we send together with event
 class PropertyType {
+  static const techAcc = 'TechAcc';
   static const id = 'ID';
   static const email = 'Email';
   static const error = 'Error text';
