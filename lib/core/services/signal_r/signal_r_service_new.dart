@@ -20,6 +20,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
@@ -474,9 +475,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
           withdrawalMode: asset.withdrawalMode,
           tagType: asset.tagType,
           type: asset.type,
-          depositMethods: asset.depositMethods,
           fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
           depositBlockchains: depositBlockchains,
           withdrawalBlockchains: withdrawalBlockchains,
           iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
@@ -533,9 +532,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
           withdrawalMode: asset.withdrawalMode,
           tagType: asset.tagType,
           type: asset.type,
-          depositMethods: asset.depositMethods,
           fees: asset.fees,
-          withdrawalMethods: asset.withdrawalMethods,
           iconUrl: iconUrlFrom(assetSymbol: asset.symbol),
           selectedIndexIconUrl: iconUrlFrom(
             assetSymbol: asset.symbol,
@@ -572,6 +569,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
     if (assetPaymentMethods != null) {
       updateAssetPaymentMethods(assetPaymentMethods!);
+    }
+
+    if (assetPaymentMethodsNew != null) {
+      updateAssetPaymentMethodsNew(assetPaymentMethodsNew!);
     }
 
     if (balancesModel != null) {
@@ -820,36 +821,112 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   AssetPaymentMethods? assetPaymentMethods;
   @observable
+  AssetPaymentMethodsNew? assetPaymentMethodsNew;
+  @observable
   List<String> paymentMethods = [];
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
+    // showPaymentsMethods = value.showCardsInProfile;
+    // assetPaymentMethods = value;
+    //
+    // if (currenciesList.isNotEmpty) {
+    //   for (final info in value.assets) {
+    //     for (final currency in currenciesList) {
+    //       if (currency.symbol == info.symbol) {
+    //         final index = currenciesList.indexOf(currency);
+    //         final methods = List<PaymentMethod>.from(info.buyMethods);
+    //         final newMethods = List<BuyMethodDto>.from([]);
+    //
+    //         methods.removeWhere((element) {
+    //           return element.type == PaymentMethodType.unsupported;
+    //         });
+    //         for (final method in methods) {
+    //           newMethods.add(BuyMethodDto(
+    //             id: method.type,
+    //             iconUrl: 'iconUrl',
+    //             orderId: 1,
+    //             termsAccepted: false,
+    //             allowedForSymbols: ['ETH', 'BTC'],
+    //             paymentAssets: [
+    //               PaymentAsset(
+    //                 asset: 'EURO',
+    //                 minAmount: Decimal.parse('10'),
+    //                 maxAmount: Decimal.parse('100'),
+    //                 orderId: 2,
+    //               ),
+    //               PaymentAsset(
+    //                 asset: 'USD',
+    //                 minAmount: Decimal.parse('10'),
+    //                 maxAmount: Decimal.parse('100'),
+    //                 orderId: 1,
+    //               ),
+    //             ],
+    //           ));
+    //         }
+    //
+    //         currenciesList[index] = currency.copyWith(
+    //           buyMethods: newMethods,
+    //         );
+    //       }
+    //     }
+    //   }
+    // }
+    //
+    // paymentMethods.clear();
+    // for (final asset in value.assets) {
+    //   for (final method in asset.buyMethods) {
+    //     paymentMethods.add(method.type.toString());
+    //   }
+    // }
+  }
+
+  @action
+  void updateAssetPaymentMethodsNew(AssetPaymentMethodsNew value) {
     showPaymentsMethods = value.showCardsInProfile;
-    assetPaymentMethods = value;
-
-    if (currenciesList.isNotEmpty) {
-      for (final info in value.assets) {
-        for (final currency in currenciesList) {
-          if (currency.symbol == info.symbol) {
-            final index = currenciesList.indexOf(currency);
-            final methods = List<PaymentMethod>.from(info.buyMethods);
-
-            methods.removeWhere((element) {
-              return element.type == PaymentMethodType.unsupported;
-            });
-
-            currenciesList[index] = currency.copyWith(
-              buyMethods: methods,
-            );
+    assetPaymentMethodsNew = value;
+    for (final currency in currenciesList) {
+      final index = currenciesList.indexOf(currency);
+      final buyMethodsFull = List<BuyMethodDto>.from(value.buy);
+      final buyMethods = List<BuyMethodDto>.from([]);
+      final sendMethods = List<SendMethodDto>.from([]);
+      final receiveMethods = List<ReceiveMethodDto>.from([]);
+      buyMethodsFull.removeWhere((element) {
+        return element.id == PaymentMethodType.unsupported;
+      });
+      for (final buyMethod in buyMethodsFull) {
+        if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
+          buyMethods.add(buyMethod);
+        }
+      }
+      if (value.send != null) {
+        for (final sendMethod in value.send!) {
+          if (sendMethod.symbols?.contains(currency.symbol) ?? false) {
+            sendMethods.add(sendMethod);
           }
         }
       }
+      if (value.receive != null) {
+        for (final receiveMethod in value.receive!) {
+          if (receiveMethod.symbols?.contains(currency.symbol) ?? false) {
+            receiveMethods.add(receiveMethod);
+          }
+        }
+      }
+      if (buyMethods.isNotEmpty) {
+        buyMethods.sort(
+          (a, b) => (a.orderId ?? 0).compareTo(b.orderId ?? 0),
+        );
+      }
+      currenciesList[index] = currency.copyWith(
+        buyMethods: buyMethods,
+        withdrawalMethods: sendMethods,
+        depositMethods: receiveMethods,
+      );
     }
 
     paymentMethods.clear();
-    for (final asset in value.assets) {
-      for (final method in asset.buyMethods) {
-        paymentMethods.add(method.type.toString());
-      }
+    for (final asset in value.buy) {
+      paymentMethods.add(asset.id.toString());
     }
   }
 
@@ -940,6 +1017,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
     basePricesModel = null;
     assetsWithdrawalFees = null;
     assetPaymentMethods = null;
+    assetPaymentMethodsNew = null;
     paymentMethods = ObservableList.of([]);
   }
 }

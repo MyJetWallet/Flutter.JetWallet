@@ -237,8 +237,7 @@ abstract class _RecurringBuysStoreBase with Store {
     }
 
     return array.length == 1 && array.first.status == RecurringBuysStatus.active
-        ? '${intl.recurringBuys_recurring_pl_prefix}'
-            '${recurringBuysOperationName(array.first.scheduleType)} '
+        ? '${recurringBuysOperationName(array.first.scheduleType)} '
             '${intl.recurringBuys_recurring}'
             ' ${intl.recurringBuys_buy2}'
         : '${intl.account_recurringBuy} (${array.length})';

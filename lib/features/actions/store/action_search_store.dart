@@ -80,6 +80,13 @@ abstract class _ActionSearchStoreBase with Store {
     buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     receiveCurrencies = ObservableList.of(_receiveCurrencies);
     sendCurrencies = ObservableList.of(_sendCurrencies);
+    search(searchValue);
+  }
+
+  @action
+  void refreshSearch() {
+    searchValue = '';
+    search(searchValue);
   }
 
   @action
@@ -103,6 +110,7 @@ abstract class _ActionSearchStoreBase with Store {
   void search(String value) {
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();
+      searchValue = search;
       final _buyFromCardCurrencies = <CurrencyModel>[];
 
       final _currencies = List<CurrencyModel>.from(currencies);
@@ -121,6 +129,7 @@ abstract class _ActionSearchStoreBase with Store {
       filteredCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     } else if (value.isEmpty) {
+      searchValue = '';
       final _currencies = List<CurrencyModel>.from(currencies);
       final _buyFromCardCurrencies = <CurrencyModel>[];
 

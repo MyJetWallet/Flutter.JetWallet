@@ -84,6 +84,8 @@ class PaymentTypeSerialiser
       return PaymentMethodType.circleCard;
     } else if (value == 'UnlimintCard') {
       return PaymentMethodType.unlimintCard;
+    } else if (value == 'Unlimint') {
+      return PaymentMethodType.unlimintCard;
     } else if (value == 'UnlimintAlternative') {
       return PaymentMethodType.unlimintAlternative;
     } else if (value == 'BankCard') {

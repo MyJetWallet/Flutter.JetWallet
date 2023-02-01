@@ -94,10 +94,7 @@ class _ActionButtonState extends State<ActionButton> {
     void _onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
         sRouter.navigate(
-          CurrencyBuyRouter(
-            currency: widget.currency,
-            fromCard: true,
-          ),
+          PaymentMethodRouter(currency: widget.currency),
         );
       } else {
         defineKycVerificationsScope(
@@ -109,10 +106,7 @@ class _ActionButtonState extends State<ActionButton> {
           status: kycState.depositStatus,
           isProgress: kycState.verificationInProgress,
           currentNavigate: () => sRouter.navigate(
-            CurrencyBuyRouter(
-              currency: widget.currency,
-              fromCard: true,
-            ),
+            PaymentMethodRouter(currency: widget.currency),
           ),
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,

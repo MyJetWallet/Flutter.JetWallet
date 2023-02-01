@@ -12,6 +12,12 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/router/app_router.dart';
+import '../../../../core/services/device_size/device_size.dart';
+import '../../../kyc/kyc_service.dart';
+import '../../../kyc/models/kyc_operation_status_model.dart';
+
 class AddBankCard extends StatelessWidget {
   const AddBankCard({
     Key? key,
@@ -57,23 +63,194 @@ class AddBankCardBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     late Widget icon;
+    final deviceSize = sDeviceSize;
     final colors = sKit.colors;
     final store = AddBankCardStore.of(context);
+    final kycState = getIt.get<KycService>();
+    final status = kycOperationStatus(KycStatus.kycRequired);
 
+    final isUserVerified = kycState.depositStatus != status &&
+        kycState.sellStatus != status &&
+        kycState.withdrawalStatus != status;
     icon =
         store.saveCard ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
+    var heightOfSpace = MediaQuery.of(context).size.height - 402;
+    if (!isUserVerified) {
+      heightOfSpace -= heightOfSpace;
+    }
+    if (isPreview) {
+      heightOfSpace -= 24;
+    }
+
     return SPageFrame(
-      loaderText: intl.addCircleCard_pleaseWait,
-      loading: store.loader,
+      color: colors.grey5,
       header: SPaddingH24(
-        child: SBigHeader(
+        child: SSmallHeader(
           title: intl.addCircleCard_bigHeaderTitle,
+          showBackButton: false,
+          onCLoseButton: () {
+            sRouter.pop();
+          },
+          showCloseButton: true,
         ),
       ),
-      child: Column(
-        children: [
-          ScrollingFrame(
+      child: deviceSize.when(
+        small: () {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: intl.addCircleCard_cardNumber,
+                    keyboardType: TextInputType.number,
+                    isError: store.cardNumberError,
+                    disableErrorOnChanged: false,
+                    // In formatting \u2005 is used instead of \u0020
+                    // to avoid \u0020 input from the user
+                    inputFormatters: [
+                      MaskedTextInputFormatter(
+                        mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+                        separator: '\u{2005}',
+                      ),
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[0-9\u2005]'),
+                      ),
+                    ],
+                    focusNode: store.cardNode,
+                    controller: store.cardNumberController,
+                    onChanged: store.updateCardNumber,
+                    suffixIcons: [
+                      SIconButton(
+                        onTap: () => store.pasteCode(),
+                        defaultIcon: const SPasteIcon(),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Focus(
+                        onFocusChange: (hasFocus) {
+                          if (!hasFocus) {
+                            store.yearFieldTap();
+                          }
+                        },
+                        child: SFieldDividerFrame(
+                          child: SStandardField(
+                            labelText: intl.addCircleCard_expiryMonth,
+                            maxLength: 2,
+                            focusNode: store.monthNode,
+                            keyboardType: TextInputType.number,
+                            isError: store.expiryMonthError,
+                            enableInteractiveSelection: false,
+                            disableErrorOnChanged: false,
+                            controller: store.expiryMonthController,
+                            onChanged: store.updateExpiryMonth,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SDivider(
+                      width: 1.0,
+                      height: 88.0,
+                    ),
+                    Expanded(
+                      child: SFieldDividerFrame(
+                        child: SStandardField(
+                          labelText: intl.addCircleCard_expiryYear,
+                          keyboardType: TextInputType.number,
+                          maxLength: 4,
+                          focusNode: store.yearNode,
+                          isError: store.expiryYearError,
+                          enableInteractiveSelection: false,
+                          disableErrorOnChanged: false,
+                          controller: store.expiryYearController,
+                          onChanged: store.updateExpiryYear,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (!isUserVerified)
+                  Material(
+                    color: colors.white,
+                    child: SPaddingH24(
+                      child: SStandardField(
+                        labelText: intl.addCircleCard_cardholderName,
+                        textCapitalization: TextCapitalization.sentences,
+                        onChanged: store.updateCardholderName,
+                        controller: store.cardholderNameController,
+                        hideSpace: true,
+                      ),
+                    ),
+                  ),
+                SizedBox(
+                  height: heightOfSpace,
+                ),
+                Container(
+                  color: colors.grey5,
+                  height: 144,
+                  child: Column(
+                    children: [
+                      if (isPreview) ...[
+                        const SpaceH12(),
+                        SPaddingH24(
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  SIconButton(
+                                    onTap: () {
+                                      store.checkSetter();
+                                    },
+                                    defaultIcon: icon,
+                                    pressedIcon: icon,
+                                  ),
+                                ],
+                              ),
+                              const SpaceW10(),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 82,
+                                child: SPolicyText(
+                                  firstText: intl.addCircleCard_saveCard,
+                                  userAgreementText: '',
+                                  betweenText: '',
+                                  privacyPolicyText: '',
+                                  onUserAgreementTap: () {},
+                                  onPrivacyPolicyTap: () {},
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      ContinueButtonFrame(
+                        child: SPrimaryButton2(
+                          active: store.isCardDetailsValid,
+                          name: intl.addCircleCard_continue,
+                          onTap: () async {
+                            sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                            await store.addCard(
+                              onSuccess: onCardAdded,
+                              onError: () {},
+                              isPreview: isPreview,
+                              amount: amount,
+                              currency: currency,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        medium: () {
+          return Column(
             children: [
               SFieldDividerFrame(
                 child: SStandardField(
@@ -148,70 +325,79 @@ class AddBankCardBody extends StatelessObserverWidget {
                   ),
                 ],
               ),
-              Material(
-                color: colors.white,
-                child: SPaddingH24(
-                  child: SStandardField(
-                    labelText: intl.addCircleCard_cardholderName,
-                    textCapitalization: TextCapitalization.sentences,
-                    onChanged: store.updateCardholderName,
-                    controller: store.cardholderNameController,
-                    hideSpace: true,
+              if (!isUserVerified)
+                Material(
+                  color: colors.white,
+                  child: SPaddingH24(
+                    child: SStandardField(
+                      labelText: intl.addCircleCard_cardholderName,
+                      textCapitalization: TextCapitalization.sentences,
+                      onChanged: store.updateCardholderName,
+                      controller: store.cardholderNameController,
+                      hideSpace: true,
+                    ),
                   ),
                 ),
-              ),
-              if (isPreview) ...[
-                const SpaceH20(),
-                SPaddingH24(
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          SIconButton(
-                            onTap: () {
-                              store.checkSetter();
-                            },
-                            defaultIcon: icon,
-                            pressedIcon: icon,
-                          ),
-                        ],
-                      ),
-                      const SpaceW10(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 82,
-                        child: SPolicyText(
-                          firstText: intl.addCircleCard_saveCard,
-                          userAgreementText: '',
-                          betweenText: '',
-                          privacyPolicyText: '',
-                          onUserAgreementTap: () {},
-                          onPrivacyPolicyTap: () {},
+              const Spacer(),
+              Container(
+                color: colors.grey5,
+                height: 144,
+                child: Column(
+                  children: [
+                    if (isPreview) ...[
+                      const SpaceH12(),
+                      SPaddingH24(
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                SIconButton(
+                                  onTap: () {
+                                    store.checkSetter();
+                                  },
+                                  defaultIcon: icon,
+                                  pressedIcon: icon,
+                                ),
+                              ],
+                            ),
+                            const SpaceW10(),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 82,
+                              child: SPolicyText(
+                                firstText: intl.addCircleCard_saveCard,
+                                userAgreementText: '',
+                                betweenText: '',
+                                privacyPolicyText: '',
+                                onUserAgreementTap: () {},
+                                onPrivacyPolicyTap: () {},
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ],
-              const Spacer(),
-              ContinueButtonFrame(
-                child: SPrimaryButton2(
-                  active: store.isCardDetailsValid,
-                  name: intl.addCircleCard_continue,
-                  onTap: () async {
-                    sAnalytics.paymentDetailsContinue(source: 'Unlimint');
-                    await store.addCard(
-                      onSuccess: onCardAdded,
-                      onError: () {},
-                      isPreview: isPreview,
-                      amount: amount,
-                      currency: currency,
-                    );
-                  },
+                    ContinueButtonFrame(
+                      child: SPrimaryButton2(
+                        active: store.isCardDetailsValid,
+                        name: intl.addCircleCard_continue,
+                        onTap: () async {
+                          sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                          await store.addCard(
+                            onSuccess: onCardAdded,
+                            onError: () {},
+                            isPreview: isPreview,
+                            amount: amount,
+                            currency: currency,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

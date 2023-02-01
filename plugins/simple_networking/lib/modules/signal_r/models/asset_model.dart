@@ -92,6 +92,8 @@ enum FeeType {
 enum DepositMethods {
   @JsonValue('CryptoDeposit')
   cryptoDeposit,
+  @JsonValue('BlockchainReceive')
+  blockchainReceive,
   @JsonValue('SepaDeposit')
   sepaDeposit,
   @JsonValue('SwiftDeposit')
@@ -101,6 +103,8 @@ enum DepositMethods {
 }
 
 enum WithdrawalMethods {
+  @JsonValue('BlockchainSend')
+  blockchainSend,
   @JsonValue('CryptoWithdrawal')
   cryptoWithdrawal,
   @JsonValue('SepaWithdrawal')

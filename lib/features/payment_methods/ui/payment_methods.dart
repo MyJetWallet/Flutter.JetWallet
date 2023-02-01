@@ -17,6 +17,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../actions/action_buy/widgets/action_buy_subheader.dart';
+
 class PaymentMethods extends StatelessWidget {
   const PaymentMethods({super.key});
 
@@ -51,8 +53,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryText}?',
-        primaryButtonName: intl.paymentMethod_delete,
+        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryFullText}?',
+        primaryButtonName: intl.paymentMethod_yesDelete,
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
@@ -150,16 +152,10 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                 loader.finishLoading();
                               },
                             ),
-                            removeDivider: card.id == state.cards.last.id,
+                            removeDivider: true,
+                            onTap: () {},
                           ),
                       ],
-                    ),
-                    SFloatingButtonFrame(
-                      button: useCircleCard
-                          ? AddButton(
-                              onTap: () => checkKyc(),
-                            )
-                          : const SizedBox(),
                     ),
                   ],
                 );

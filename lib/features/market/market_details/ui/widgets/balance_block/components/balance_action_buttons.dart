@@ -57,10 +57,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     );
 
                     sRouter.push(
-                      CurrencyBuyRouter(
-                        currency: currency,
-                        fromCard: true,
-                      ),
+                      PaymentMethodRouter(currency: currency),
                     );
                   } else {
                     kycAlertHandler.handle(
@@ -74,10 +71,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         );
 
                         sRouter.push(
-                          CurrencyBuyRouter(
-                            currency: currency,
-                            fromCard: true,
-                          ),
+                          PaymentMethodRouter(currency: currency),
                         );
                       },
                       requiredDocuments: kycState.requiredDocuments,
@@ -102,10 +96,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   );
 
                   sRouter.push(
-                    CurrencyBuyRouter(
-                      currency: currency,
-                      fromCard: true,
-                    ),
+                    PaymentMethodRouter(currency: currency),
                   );
                 } else {
                   kycAlertHandler.handle(
@@ -119,10 +110,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       );
 
                       sRouter.push(
-                        CurrencyBuyRouter(
-                          currency: currency,
-                          fromCard: true,
-                        ),
+                        PaymentMethodRouter(currency: currency),
                       );
                     },
                     requiredDocuments: kycState.requiredDocuments,

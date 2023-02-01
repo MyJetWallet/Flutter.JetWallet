@@ -35,6 +35,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -47,14 +48,35 @@ import '../../../utils/formatting/base/base_currencies_format.dart';
 part 'currency_buy_store.g.dart';
 
 class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
-  CurrencyBuyStore(CurrencyModel currencyModel) : super(currencyModel);
+  CurrencyBuyStore(
+    CurrencyModel currencyModel,
+    PaymentMethodType paymentMethod,
+    CircleCard? circleCard,
+    CircleCard? unlimintCard,
+    CircleCard? bankCard,
+    String? newBankCardId,
+  ) : super(
+    currencyModel,
+    paymentMethod,
+    circleCard,
+    unlimintCard,
+    bankCard,
+    newBankCardId,
+  );
 
   static _CurrencyBuyStoreBase of(BuildContext context) =>
       Provider.of<CurrencyBuyStore>(context, listen: false);
 }
 
 abstract class _CurrencyBuyStoreBase with Store {
-  _CurrencyBuyStoreBase(this.currencyModel) {
+  _CurrencyBuyStoreBase(
+    this.currencyModel,
+    this.paymentMethod,
+    this.circleCard,
+    this.unlimintCard,
+    this.bankCard,
+    this.newBankCardId,
+  ) {
     lastUsedPaymentMethod = sSignalRModules.keyValue.lastUsedPaymentMethod;
 
     final uC = sSignalRModules.cards.cardInfos.where(
@@ -74,6 +96,11 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   late final CurrencyModel currencyModel;
+  late final PaymentMethodType paymentMethod;
+  late final CircleCard? circleCard;
+  late final CircleCard? unlimintCard;
+  late final CircleCard? bankCard;
+  late final String? newBankCardId;
   late final String? lastUsedPaymentMethod;
 
   static final _logger = Logger('CurrencyBuyStore');
@@ -105,10 +132,19 @@ abstract class _CurrencyBuyStoreBase with Store {
   FormattedCircleCard? selectedCircleCard;
 
   @observable
-  PaymentMethod? selectedPaymentMethod;
+  BuyMethodDto? selectedPaymentMethod;
+
+  @observable
+  PaymentAsset? selectedPaymentAsset;
+
+  @observable
+  CurrencyModel? paymentCurrency;
 
   @observable
   CurrencyModel? selectedCurrency;
+
+  @observable
+  CardLimitsModel? limitByAsset;
 
   @observable
   SKeyboardPreset? selectedPreset;
@@ -152,38 +188,14 @@ abstract class _CurrencyBuyStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
-  @computed
-  String get preset1Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '50',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : '25%';
-  }
+  @observable
+  String preset1Name = '';
 
-  @computed
-  String get preset2Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '100',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : '50%';
-  }
+  @observable
+  String preset2Name = '';
 
-  @computed
-  String get preset3Name {
-    return selectedPaymentMethod != null
-        ? baseCurrenciesFormat(
-            prefix: baseCurrency?.prefix ?? '',
-            text: '500',
-            symbol: baseCurrency?.symbol ?? '',
-          )
-        : 'MAX';
-  }
+  @observable
+  String preset3Name = '';
 
   @computed
   bool get isInputErrorActive {
@@ -203,16 +215,16 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @computed
   String get selectedCurrencySymbol {
-    return selectedCurrency == null
+    return paymentCurrency == null
         ? baseCurrency!.symbol
-        : selectedCurrency!.symbol;
+        : paymentCurrency!.symbol;
   }
 
   @computed
   int get selectedCurrencyAccuracy {
-    return selectedCurrency == null
+    return paymentCurrency == null
         ? baseCurrency!.accuracy
-        : selectedCurrency!.accuracy;
+        : paymentCurrency!.accuracy;
   }
 
   @action
@@ -224,36 +236,22 @@ abstract class _CurrencyBuyStoreBase with Store {
       accuracy: currency.accuracy,
     );
 
-    final base = volumeFormat(
-      accuracy: baseCurrency!.accuracy,
-      prefix: baseCurrency!.prefix,
-      decimal: Decimal.parse(baseConversionValue),
-      symbol: baseCurrency!.symbol,
-    );
-
-    if (selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+    if (selectedPaymentMethod?.id == PaymentMethodType.simplex) {
       return '';
     }
-
     if (Decimal.parse(targetConversionValue) == Decimal.zero) {
       return target;
     }
 
-    if (selectedCurrency == null) {
-      return '≈ $target';
-    } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
-      return '≈ $target';
-    } else {
-      return '≈ $target ($base)';
-    }
+    return '≈ $target';
   }
 
   @computed
   bool get isOneTimePurchaseOnly {
-    final cond1 = selectedPaymentMethod?.type == PaymentMethodType.simplex;
-    final cond2 = selectedPaymentMethod?.type == PaymentMethodType.circleCard;
-    final cond3 = selectedPaymentMethod?.type == PaymentMethodType.unlimintCard;
-    final cond4 = selectedPaymentMethod?.type == PaymentMethodType.bankCard;
+    final cond1 = selectedPaymentMethod?.id == PaymentMethodType.simplex;
+    final cond2 = selectedPaymentMethod?.id == PaymentMethodType.circleCard;
+    final cond3 = selectedPaymentMethod?.id == PaymentMethodType.unlimintCard;
+    final cond4 = selectedPaymentMethod?.id == PaymentMethodType.bankCard;
 
     return cond1 || cond2 || cond3 || cond4;
   }
@@ -302,7 +300,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             if (dataCards.isNotEmpty) {
               circleCards = ObservableList.of(dataCards);
 
-              print(circleCards);
             }
           },
         );
@@ -317,356 +314,127 @@ abstract class _CurrencyBuyStoreBase with Store {
     _logger.log(notifier, 'initDefaultPaymentMethod');
 
     await _fetchCircleCards();
+    final isSimplexCanUse = currencyModel.buyMethods.where(
+          (element) => element.id == PaymentMethodType.simplex,
+    ).toList();
+    final isCircleCanUse = currencyModel.buyMethods.where(
+          (element) => element.id == PaymentMethodType.circleCard,
+    ).toList();
+    final isUnlimintCanUse = currencyModel.buyMethods.where(
+          (element) => element.id == PaymentMethodType.unlimintCard,
+    ).toList();
+    final isBankCardCanUse = currencyModel.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
 
-    final cardPreferred = fromCard && currencyModel.supportsAtLeastOneBuyMethod;
-    final buyMethods = currencyModel.buyMethods;
-    final lastCardId = await sLocalStorageService.getValue(lastUsedCard);
-
-    if (currencies.isNotEmpty) {
-
-      if (lastUsedPaymentMethod == '"circleCard"' &&
-          currencyModel.supportsCircle) {
-        // Case 4: If user has at least one saved circle
-        // card and use circle last time
-        if (circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
-
-          return updateSelectedCircleCard(circleCards.last);
-        }
-      }
-
-      // Case 5: If asset supports only one Payment method
-      if (currencyModel.supportsAtLeastOneBuyMethod &&
-          currencyModel.buyMethods.length == 1) {
-        if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.circleCard && circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
-
-          return updateSelectedCircleCard(circleCards.last);
-        } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.unlimintCard && unlimintCards.isNotEmpty) {
-          final unlimintCardsLast = unlimintCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintCardsLast.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCardsLast.last);
-          }
-
-          return updateSelectedUnlimintCard(unlimintCards.last);
-        } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.bankCard && unlimintAltCards.isNotEmpty) {
-          final unlimintCardsLast = unlimintAltCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintCardsLast.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintCardsLast.last);
-          }
-
-          return updateSelectedAltUnlimintCard(unlimintAltCards.last);
-        } else {
-          return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
-        }
-      }
-
-      // Case 6: If asset supports more then one Payment method and use unlimint
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.unlimintCard,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"unlimintCard"') {
-        if (unlimintCards.isNotEmpty) {
-          final unlimintCardsLast = unlimintCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintCardsLast.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCardsLast.last);
-          }
-
-          return updateSelectedUnlimintCard(unlimintCards[0]);
-        }
-
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.unlimintCard,
-              )
-              .first,
+    if (
+      paymentMethod == PaymentMethodType.simplex && isSimplexCanUse.isNotEmpty
+    ) {
+      updateSelectedPaymentMethod(
+        isSimplexCanUse[0],
+      );
+    } else if (
+      paymentMethod == PaymentMethodType.circleCard && isCircleCanUse.isNotEmpty
+    ) {
+      if (circleCard != null) {
+        updateSelectedCircleCard(
+          circleCard!,
+        );
+      } else {
+        updateSelectedPaymentMethod(
+          isCircleCanUse[0],
         );
       }
-
-      // Case 7: If asset supports more then one Payment method and use simplex
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.simplex,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"simplex"') {
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.simplex,
-              )
-              .first,
+    } else if (
+      paymentMethod == PaymentMethodType.unlimintCard &&
+      isUnlimintCanUse.isNotEmpty
+    ) {
+      if (unlimintCard != null) {
+        updateSelectedUnlimintCard(
+          unlimintCard!,
+        );
+      } else {
+        updateSelectedPaymentMethod(
+          isUnlimintCanUse[0],
         );
       }
-
-
-      // Case 9: If asset supports more then one Payment method and use bankCard
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.bankCard,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"bankCard"') {
-        if (unlimintAltCards.isNotEmpty) {
-          final unlimintAltCardsLast = unlimintAltCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintAltCardsLast.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
-          }
-
-          return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
-        }
-
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.bankCard,
-              )
-              .first,
+    } else if (
+      paymentMethod == PaymentMethodType.bankCard && isBankCardCanUse.isNotEmpty
+    ) {
+      if (bankCard != null) {
+        updateSelectedAltUnlimintCard(
+          bankCard!,
         );
-      }
+      } else if (newBankCardId != null) {
 
-      if (currencyModel.supportsCircle) {
-        // Case 10: If user has at least one saved circle
-        // card and haven't saved methods
-        if (circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
+        final uAC = sSignalRModules.cards.cardInfos.where(
+              (element) => element.integration == IntegrationType.unlimintAlt,
+        );
 
-          return updateSelectedCircleCard(circleCards.last);
-        }
-      }
-
-      // Case 11: if user haven't saved card and currencies
-      if (selectedCurrency == null) {
-        if (buyMethods
-            .where(
-              (element) => element.type == PaymentMethodType.bankCard,
-        )
-            .isNotEmpty) {
-          updateSelectedPaymentMethod(
-            buyMethods
-                .where(
-                  (element) => element.type == PaymentMethodType.bankCard,
-            )
-                .first,
-          );
-        } else if (buyMethods
-            .where(
-              (element) => element.type == PaymentMethodType.unlimintCard,
-        )
-            .isNotEmpty) {
-          updateSelectedPaymentMethod(
-            buyMethods
-                .where(
-                  (element) => element.type == PaymentMethodType.unlimintCard,
-            )
-                .first,
+        unlimintAltCards = ObservableList.of(uAC);
+        final newCard = unlimintAltCards.where(
+          (element) => element.id == newBankCardId,
+        ).toList();
+        if (newCard.isNotEmpty) {
+          updateSelectedAltUnlimintCard(
+            newCard[0],
           );
         } else {
           updateSelectedPaymentMethod(
-            buyMethods.first,
+            isBankCardCanUse[0],
           );
         }
-      }
-    } else {
-      if (lastUsedPaymentMethod == '"circleCard"' &&
-          currencyModel.supportsCircle) {
-        // Case 1: If user has at least one saved circle
-        // card and use circle last time
-        if (circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
-
-          return updateSelectedCircleCard(circleCards.last);
-        }
-      }
-
-      // Case 2: If asset supports only one Payment method
-      if (currencyModel.supportsAtLeastOneBuyMethod &&
-          currencyModel.buyMethods.length == 1) {
-        if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.circleCard && circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
-
-          return updateSelectedCircleCard(circleCards.last);
-        } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.unlimintCard && unlimintCards.isNotEmpty) {
-          final unlimintCardsLast = unlimintCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintCardsLast.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCardsLast.last);
-          }
-
-          return updateSelectedUnlimintCard(unlimintCards.last);
-        } else if (currencyModel.buyMethods.first.type ==
-            PaymentMethodType.bankCard && unlimintAltCards.isNotEmpty) {
-          final unlimintAltCardsLast = unlimintAltCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintAltCardsLast.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
-          }
-
-          return updateSelectedAltUnlimintCard(unlimintAltCards.last);
-        } else {
-          return updateSelectedPaymentMethod(currencyModel.buyMethods.first);
-        }
-      }
-
-      // Case 3: If asset supports more then one Payment method and use unlimint
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.unlimintCard,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"unlimintCard"') {
-        if (unlimintCards.isNotEmpty) {
-          final unlimintCardsLast = unlimintCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintCardsLast.isNotEmpty) {
-            return updateSelectedUnlimintCard(unlimintCardsLast.last);
-          }
-
-          return updateSelectedUnlimintCard(unlimintCards[0]);
-        }
-
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.unlimintCard,
-              )
-              .first,
+      } else {
+        updateSelectedPaymentMethod(
+          isBankCardCanUse[0],
         );
       }
+    }
+    await initDefaultPaymentAsset();
+  }
 
-      // Case 4: If asset supports more then one Payment method and use simplex
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.simplex,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"simplex"') {
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.simplex,
-              )
-              .first,
-        );
-      }
-
-      // Case 5: If asset supports more then one Payment method and use bankCard
-      if (buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.bankCard,
-              )
-              .isNotEmpty &&
-          lastUsedPaymentMethod == '"bankCard"') {
-        if (unlimintAltCards.isNotEmpty) {
-          final unlimintAltCardsLast = unlimintAltCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (unlimintAltCardsLast.isNotEmpty) {
-            return updateSelectedAltUnlimintCard(unlimintAltCardsLast.last);
-          }
-
-          return updateSelectedAltUnlimintCard(unlimintAltCards[0]);
-        }
-
-        return updateSelectedPaymentMethod(
-          buyMethods
-              .where(
-                (element) => element.type == PaymentMethodType.bankCard,
-              )
-              .first,
-        );
-      }
-
-      if (currencyModel.supportsCircle) {
-        // Case 6: If user has at least one saved circle
-        // card and haven't saved methods
-        if (circleCards.isNotEmpty) {
-          final circleCardsLast = circleCards.where(
-            (element) => element.id == lastCardId,
-          );
-          if (circleCardsLast.isNotEmpty) {
-            return updateSelectedCircleCard(circleCardsLast.last);
-          }
-
-          return updateSelectedCircleCard(circleCards.last);
-        }
-      }
-
-      // Case 7: if user haven't saved card and currencies
-      if (selectedCurrency == null) {
-        if (buyMethods
-            .where(
-              (element) => element.type == PaymentMethodType.bankCard,
+  @action
+  Future<void> initDefaultPaymentAsset() async {
+    final baseCurrencyInPayment = selectedPaymentMethod?.paymentAssets?.where(
+      (element) => element.asset == baseCurrency!.symbol,
+    ).toList();
+    selectedPaymentAsset = baseCurrencyInPayment != null &&
+      baseCurrencyInPayment.isNotEmpty
+        ? baseCurrencyInPayment[0]
+        : selectedPaymentMethod?.paymentAssets?[0];
+    selectedPaymentAsset ??= PaymentAsset(
+      asset: baseCurrency!.symbol,
+      minAmount: Decimal.zero,
+      maxAmount: Decimal.zero,
+    );
+    if (selectedPaymentAsset != null) {
+      updateLimitModel(selectedPaymentAsset!);
+      final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
+        (element) => element.symbol == selectedPaymentAsset!.asset,
+      ).toList();
+      if (currenciesPayment.isNotEmpty) {
+        paymentCurrency = currenciesPayment[0];
+        preset1Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '50',
+          symbol: paymentCurrency?.symbol ?? '',
         )
-            .isNotEmpty) {
-          updateSelectedPaymentMethod(
-            buyMethods
-                .where(
-                  (element) => element.type == PaymentMethodType.bankCard,
-            )
-                .first,
-          );
-        } else if (buyMethods
-            .where(
-              (element) => element.type == PaymentMethodType.unlimintCard,
+            : '25%';
+        preset2Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '100',
+          symbol: paymentCurrency?.symbol ?? '',
         )
-            .isNotEmpty) {
-          updateSelectedPaymentMethod(
-            buyMethods
-                .where(
-                  (element) => element.type == PaymentMethodType.unlimintCard,
-            )
-                .first,
-          );
-        } else {
-          updateSelectedPaymentMethod(
-            buyMethods.first,
-          );
-        }
+            : '50%';
+        preset3Name = selectedPaymentMethod != null
+            ? baseCurrenciesFormat(
+          prefix: paymentCurrency?.prefixSymbol ?? '',
+          text: '500',
+          symbol: paymentCurrency?.symbol ?? '',
+        )
+            : 'MAX';
       }
     }
   }
@@ -679,8 +447,99 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
+  void updateLimitModel(PaymentAsset asset) {
+    int calcPercentage(Decimal first, Decimal second) {
+      if (first == Decimal.zero) {
+        return 0;
+      }
+      final doubleFirst = double.parse('$first');
+      final doubleSecond = double.parse('$second');
+      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
+
+      return (doubleFinal * 100).round();
+    }
+
+    if (asset.limits != null) {
+      var finalInterval = StateBarType.day1;
+      var finalProgress = 0;
+      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var monthState = asset.limits!.monthValue == asset.limits!.monthLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      if (monthState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day30;
+        weekState = weekState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+      } else if (weekState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day7;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else if (dayState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day1;
+        weekState = StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else {
+        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
+        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
+        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
+        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
+          finalInterval = StateBarType.day1;
+          finalProgress = calcPercentage(asset.limits!.dayValue, asset.limits!.dayLimit);
+          dayState = StateLimitType.active;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.none;
+        } else if (weekLeft <= monthLeft) {
+          finalInterval = StateBarType.day7;
+          finalProgress = calcPercentage(asset.limits!.weekValue, asset.limits!.weekLimit);
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.active;
+          monthState = StateLimitType.none;
+        } else {
+          finalInterval = StateBarType.day30;
+          finalProgress = calcPercentage(asset.limits!.monthValue, asset.limits!.monthLimit);
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.active;
+        }
+      }
+
+      final limitModel = CardLimitsModel(
+        minAmount: asset.minAmount,
+        maxAmount: asset.maxAmount,
+        day1Amount: asset.limits!.dayValue,
+        day1Limit: asset.limits!.dayLimit,
+        day1State: dayState,
+        day7Amount: asset.limits!.weekValue,
+        day7Limit: asset.limits!.weekLimit,
+        day7State: weekState,
+        day30Amount: asset.limits!.monthValue,
+        day30Limit: asset.limits!.monthLimit,
+        day30State: monthState,
+        barInterval: finalInterval,
+        barProgress: finalProgress,
+        leftHours: 0,
+      );
+      limitByAsset = limitModel;
+    }
+  }
+
+  @action
   void updateSelectedPaymentMethod(
-    PaymentMethod? method, {
+    BuyMethodDto? method, {
     bool isLocalUse = false,
   }) {
     _logger.log(notifier, 'updateSelectedPaymentMethod');
@@ -690,10 +549,10 @@ abstract class _CurrencyBuyStoreBase with Store {
     pickedUnlimintCard = isLocalUse ? pickedUnlimintCard : null;
     pickedAltUnlimintCard = isLocalUse ? pickedAltUnlimintCard : null;
 
-    if (method?.type == PaymentMethodType.simplex ||
-        method?.type == PaymentMethodType.circleCard ||
-        method?.type == PaymentMethodType.unlimintCard ||
-        method?.type == PaymentMethodType.bankCard) {
+    if (method?.id == PaymentMethodType.simplex ||
+        method?.id == PaymentMethodType.circleCard ||
+        method?.id == PaymentMethodType.unlimintCard ||
+        method?.id == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -707,11 +566,56 @@ abstract class _CurrencyBuyStoreBase with Store {
   }
 
   @action
+  void updatePaymentCurrency(PaymentAsset? asset) {
+    _logger.log(notifier, 'updatePaymentCurrency');
+
+    if (asset != selectedPaymentAsset) {
+      selectedPaymentAsset = asset;
+      if (selectedPaymentAsset != null) {
+        updateLimitModel(selectedPaymentAsset!);
+        final currenciesPayment = sSignalRModules.currenciesWithHiddenList.where(
+              (element) => element.symbol == selectedPaymentAsset!.asset,
+        ).toList();
+        if (currenciesPayment.isNotEmpty) {
+          paymentCurrency = currenciesPayment[0];
+          _calculateTargetConversionForCrypto();
+          preset1Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '50',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : '25%';
+          preset2Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '100',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : '50%';
+          preset3Name = selectedPaymentMethod != null
+              ? baseCurrenciesFormat(
+            prefix: paymentCurrency?.prefixSymbol ?? '',
+            text: '500',
+            symbol: paymentCurrency?.symbol ?? '',
+          )
+              : 'MAX';
+        }
+      }
+      if (inputValue == '0') {
+        updateInputValue('0');
+      } else {
+        updateInputValue('');
+      }
+    }
+  }
+
+  @action
   void updateSelectedCircleCard(CircleCard card) {
     _logger.log(notifier, 'updateSelectedCircleCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.circleCard;
+      return method.id == PaymentMethodType.circleCard;
     });
 
     pickedCircleCard = card;
@@ -725,7 +629,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     _logger.log(notifier, 'updateSelectedUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.unlimintCard;
+      return method.id == PaymentMethodType.unlimintCard;
     });
 
     pickedUnlimintCard = card;
@@ -738,7 +642,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     _logger.log(notifier, 'updateSelectedAltUnlimintCard');
 
     final method = currencyModel.buyMethods.where((method) {
-      return method.type == PaymentMethodType.bankCard;
+      return method.id == PaymentMethodType.bankCard;
     });
 
     pickedAltUnlimintCard = card;
@@ -869,7 +773,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _calculateTargetConversion() {
-    if (selectedPaymentMethod?.type == PaymentMethodType.simplex) {
+    if (selectedPaymentMethod?.id == PaymentMethodType.simplex) {
       _calculateTargetConversionForSimplex();
     } else {
       _calculateTargetConversionForCrypto();
@@ -995,23 +899,23 @@ abstract class _CurrencyBuyStoreBase with Store {
       }
 
       final value = double.parse(inputValue);
-      var min = selectedPaymentMethod!.minAmount;
-      var max = selectedPaymentMethod!.maxAmount;
+      var min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
+      var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
 
-      if (selectedPaymentMethod?.type == PaymentMethodType.circleCard ||
-          selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-          selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-          selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
+      if (selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
+          selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
+          selectedPaymentMethod?.id == PaymentMethodType.simplex ||
+          selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
-        if (cardLimit != null) {
-          limitMax = cardLimit!.barInterval == StateBarType.day1
-              ? (cardLimit!.day1Limit - cardLimit!.day1Amount).toDouble()
-              : cardLimit!.barInterval == StateBarType.day7
-                  ? (cardLimit!.day7Limit - cardLimit!.day7Amount).toDouble()
-                  : (cardLimit!.day30Limit - cardLimit!.day30Amount).toDouble();
+        if (limitByAsset != null) {
+          limitMax = limitByAsset!.barInterval == StateBarType.day1
+              ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
+              : limitByAsset!.barInterval == StateBarType.day7
+                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
         }
-        if (selectedPaymentMethod?.type == PaymentMethodType.circleCard) {
+        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard) {
           limitMax = pickedCircleCard?.paymentDetails.maxAmount.toDouble();
           min = pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
           max = (limitMax ?? 0) <
@@ -1019,9 +923,9 @@ abstract class _CurrencyBuyStoreBase with Store {
               ? limitMax ?? 0
               : pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
         }
-        if (selectedPaymentMethod?.type == PaymentMethodType.unlimintCard ||
-            selectedPaymentMethod?.type == PaymentMethodType.simplex ||
-            selectedPaymentMethod?.type == PaymentMethodType.bankCard) {
+        if (selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
+            selectedPaymentMethod?.id == PaymentMethodType.simplex ||
+            selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
@@ -1032,22 +936,22 @@ abstract class _CurrencyBuyStoreBase with Store {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: baseCurrency!.accuracy,
-            symbol: baseCurrency!.symbol,
-            prefix: baseCurrency!.prefix,
+            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
+            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
           )}',
         );
       } else if (value > max) {
-        if (selectedPaymentMethod?.type == PaymentMethodType.circleCard &&
+        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
             pickedCircleCard == null) {
           return;
         }
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: baseCurrency!.accuracy,
-            symbol: baseCurrency!.symbol,
-            prefix: baseCurrency!.prefix,
+            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
+            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
           )}',
         );
       } else {

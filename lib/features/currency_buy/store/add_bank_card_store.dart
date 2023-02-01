@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'dart:async';
+
 import 'package:credit_card_validator/credit_card_validator.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_response_model.dart';
 import 'package:uuid/uuid.dart';
@@ -262,16 +265,17 @@ abstract class _AddBankCardStoreBase with Store {
     required String cardNumber,
     required String cardId,
   }) {
-    sRouter.push(
-      PreviewBuyWithBankCardRouter(
-        input: PreviewBuyWithBankCardInput(
-          amount: amount,
+    sRouter.pop();
+    Timer(const Duration(milliseconds: 500), () {
+      sRouter.push(
+        CurrencyBuyRouter(
+          newBankCardId: cardId,
           currency: currency,
-          cardNumber: cardNumber,
-          cardId: cardId,
+          fromCard: true,
+          paymentMethod: PaymentMethodType.bankCard,
         ),
-      ),
-    );
+      );
+    });
   }
 
   @action
@@ -358,10 +362,9 @@ abstract class _AddBankCardStoreBase with Store {
     final data = await Clipboard.getData('text/plain');
     var code = data?.text?.trim() ?? '';
     code = code.replaceAll(' ', '');
-
     try {
       int.parse(code);
-      if (code.length == 12) {
+      if (code.length == 16) {
         final buffer = StringBuffer();
 
         for (var i = 0; i < code.length; i++) {
@@ -373,6 +376,8 @@ abstract class _AddBankCardStoreBase with Store {
             buffer.write(' ');
           }
         }
+        updateCardNumber(buffer.toString());
+        cardNumberController.text = buffer.toString();
       } else {
         updateCardNumber(code);
         cardNumberController.text = code;

@@ -19,6 +19,7 @@ void sShowBasicModalBottomSheet({
   bool removeBarPadding = false,
   bool removePinnedPadding = false,
   bool scrollable = false,
+  bool fullScreen = false,
   double? horizontalPinnedPadding,
   Widget? pinnedBottom,
   required List<Widget> children,
@@ -45,6 +46,7 @@ void sShowBasicModalBottomSheet({
         removePinnedPadding: removePinnedPadding,
         removeBarPadding: removeBarPadding,
         scrollable: scrollable,
+        fullScreen: fullScreen,
         pinnedBottom: pinnedBottom,
         children: children,
       );

@@ -16,7 +16,9 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
+import '../../../../../../utils/constants.dart';
 import '../../../../../../utils/helpers/currency_from.dart';
+import '../../../../../../utils/helpers/widget_size_from.dart';
 
 class PreviewBuyWithCircle extends StatelessWidget {
   const PreviewBuyWithCircle({
@@ -131,8 +133,10 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(
-              bottom: 100.0,
+            padding:  EdgeInsets.only(
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                  ? 310.0
+                  : 260.0,
             ),
             children: [
               Column(
@@ -142,16 +146,42 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     medium: () => const SpaceH3(),
                   ),
                   Center(
-                    child: SActionConfirmIconWithAnimation(
-                      iconUrl: input.currency.iconUrl,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          disclaimerAsset,
+                          width: 80,
+                          height: 80,
+                        ),
+                        const SpaceH16(),
+                        Text(
+                          intl.previewBuy_orderSummary,
+                          style: sTextH5Style,
+                        ),
+                        const SpaceH34(),
+                      ],
                     ),
                   ),
-                  if (!state.wasPending && heightWidget > 0) ...[
-                    SizedBox(
-                      height: heightWidget,
-                    ),
-                  ],
-                  // const Spacer(),
+                  SActionConfirmText(
+                    name: intl.previewBuyWithCircle_youWillGet,
+                    contentLoading: state.loader.loading,
+                    value: '≈ ${volumeFormat(
+                      prefix: input.currency.prefixSymbol,
+                      symbol: input.currency.symbol,
+                      accuracy: input.currency.accuracy,
+                      decimal: state.buyAmount ?? Decimal.zero,
+                    )}',
+                  ),
+                  SActionConfirmText(
+                    name: intl.previewBuyWithCircle_rate,
+                    contentLoading: state.loader.loading,
+                    value: '1${input.currency.symbol} = ${volumeFormat(
+                      prefix: input.currencyPayment.prefixSymbol,
+                      symbol: input.currencyPayment.symbol,
+                      accuracy: input.currencyPayment.accuracy,
+                      decimal: state.rate ?? Decimal.zero,
+                    )}',
+                  ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_payFrom,
                     value: '${state.card?.network} •••• ${state.card?.last4}',
@@ -178,27 +208,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     ),
                     maxValueWidth: 140,
                   ),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_youWillGet,
-                    contentLoading: state.loader.loading,
-                    value: '≈ ${volumeFormat(
-                      prefix: input.currency.prefixSymbol,
-                      symbol: input.currency.symbol,
-                      accuracy: input.currency.accuracy,
-                      decimal: state.buyAmount ?? Decimal.zero,
-                    )}',
-                  ),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_rate,
-                    contentLoading: state.loader.loading,
-                    value: '≈ ${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      decimal: state.rate ?? Decimal.zero,
-                    )}',
-                  ),
-                  const SpaceH20(),
+                  const SpaceH16(),
                   Text(
                     intl.previewBuyWithCircle_description,
                     maxLines: 3,
@@ -206,18 +216,29 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                       color: colors.grey3,
                     ),
                   ),
-                  const SpaceH24(),
-                  const SDivider(),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_youWillPay,
-                    contentLoading: state.loader.loading,
-                    valueColor: colors.blue,
-                    value: volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      decimal: state.amountToPay!,
-                    ),
+                  const SpaceH15(),
+                  deviceSize.when(
+                    small: () {
+                      return const SizedBox();
+                    },
+                    medium: () {
+                      return Column(
+                        children: [
+                          const SDivider(),
+                          SActionConfirmText(
+                            name: intl.currencyBuy_total,
+                            contentLoading: state.loader.loading,
+                            valueColor: colors.blue,
+                            value: volumeFormat(
+                              prefix: input.currencyPayment.prefixSymbol,
+                              symbol: input.currencyPayment.symbol,
+                              accuracy: input.currencyPayment.accuracy,
+                              decimal: state.amountToPay!,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SpaceH20(),
                   if (state.wasPending) ...[
@@ -268,36 +289,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     ),
                     const SpaceH10(),
                   ],
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          SIconButton(
-                            onTap: () {
-                              state.checkSetter();
-                            },
-                            defaultIcon: icon,
-                            pressedIcon: icon,
-                          ),
-                        ],
-                      ),
-                      const SpaceW10(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 82,
-                        child: RichText(
-                          text: TextSpan(
-                            text: '${intl.previewBuyWithCircle_disclaimer} '
-                                '$paymentDelayDays '
-                                '${intl.previewBuyWithCircle_disclaimerEnd}',
-                            style: sCaptionTextStyle.copyWith(
-                              color: colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                   const SpaceH16(),
                 ],
               ),
@@ -305,24 +296,83 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
           ),
           SFloatingButtonFrame(
             hidePadding: true,
-            button: SPrimaryButton2(
-              active:
+            button: Column(
+              children: [
+                deviceSize.when(
+                  small: () {
+                    return Column(
+                      children: [
+                        const SDivider(),
+                        SActionConfirmText(
+                          name: intl.currencyBuy_total,
+                          contentLoading: state.loader.loading,
+                          valueColor: colors.blue,
+                          value: volumeFormat(
+                            prefix: input.currencyPayment.prefixSymbol,
+                            symbol: input.currencyPayment.symbol,
+                            accuracy: input.currencyPayment.accuracy,
+                            decimal: state.amountToPay!,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  medium: () {
+                    return const SizedBox();
+                  },
+                ),
+                const SpaceH20(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        SIconButton(
+                          onTap: () {
+                            state.checkSetter();
+                          },
+                          defaultIcon: icon,
+                          pressedIcon: icon,
+                        ),
+                      ],
+                    ),
+                    const SpaceW10(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 82,
+                      child: RichText(
+                        text: TextSpan(
+                          text: '${intl.previewBuyWithCircle_disclaimer} '
+                              '$paymentDelayDays '
+                              '${intl.previewBuyWithCircle_disclaimerEnd}',
+                          style: sCaptionTextStyle.copyWith(
+                            color: colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SpaceH24(),
+                SPrimaryButton2(
+                  active:
                   !state.loader.loading && !state.isPending && state.isChecked,
-              name: intl.previewBuyWithAsset_confirm,
-              onTap: () {
-                sAnalytics.tapConfirmBuy(
-                  assetName: input.currency.description,
-                  paymentMethod: 'circleCard',
-                  amount: formatCurrencyStringAmount(
-                    prefix: baseCurrency.prefix,
-                    value: input.amount,
-                    symbol: baseCurrency.symbol,
-                  ),
-                  frequency: RecurringFrequency.oneTime,
-                );
+                  name: intl.previewBuyWithAsset_confirm,
+                  onTap: () {
+                    sAnalytics.tapConfirmBuy(
+                      assetName: input.currency.description,
+                      paymentMethod: 'circleCard',
+                      amount: formatCurrencyStringAmount(
+                        prefix: input.currencyPayment.prefixSymbol,
+                        value: input.amount,
+                        symbol: input.currencyPayment.symbol,
+                      ),
+                      frequency: RecurringFrequency.oneTime,
+                    );
 
-                state.onConfirm();
-              },
+                    state.onConfirm();
+                  },
+                ),
+              ],
             ),
           ),
         ],

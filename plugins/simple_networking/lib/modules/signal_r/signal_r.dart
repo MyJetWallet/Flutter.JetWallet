@@ -36,6 +36,8 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:http/http.dart' as http;
 
+import 'models/asset_payment_methods_new.dart';
+
 class SignalRModule {
   SignalRModule({
     required this.options,
@@ -106,6 +108,8 @@ class SignalRModule {
       StreamController<TotalMarketInfoModel>();
   StreamController<AssetPaymentMethods> _assetPaymentMethodsController =
       StreamController<AssetPaymentMethods>();
+  StreamController<AssetPaymentMethodsNew> _assetPaymentMethodsNewController =
+      StreamController<AssetPaymentMethodsNew>();
   StreamController<BlockchainsModel> _blockchainsController =
       StreamController<BlockchainsModel>();
   StreamController<ReferralInfoModel> _referralInfoController =
@@ -157,6 +161,7 @@ class SignalRModule {
     _priceAccuraciesController = StreamController<PriceAccuracies>();
     _marketInfoController = StreamController<TotalMarketInfoModel>();
     _assetPaymentMethodsController = StreamController<AssetPaymentMethods>();
+    _assetPaymentMethodsNewController = StreamController<AssetPaymentMethodsNew>();
     _blockchainsController = StreamController<BlockchainsModel>();
     _referralInfoController = StreamController<ReferralInfoModel>();
     _recurringBuyController = StreamController<RecurringBuysResponseModel>();
@@ -502,11 +507,28 @@ class SignalRModule {
 
     _connection?.on(paymentMethodsMessage, (data) {
       try {
+        print(paymentMethodsMessage);
+        print(data);
         final info = AssetPaymentMethods.fromJson(_json(data));
 
         _assetPaymentMethodsController.add(info);
       } catch (e) {
         _logger.log(contract, paymentMethodsMessage, e);
+
+        showEror(e.toString());
+      }
+    });
+
+    _connection?.on(paymentMethodsNewMessage, (data) {
+      try {
+        print(paymentMethodsNewMessage);
+        print(data);
+        final info = AssetPaymentMethodsNew.fromJson(_json(data));
+        print(info);
+
+        _assetPaymentMethodsNewController.add(info);
+      } catch (e) {
+        _logger.log(contract, paymentMethodsNewMessage, e);
 
         showEror(e.toString());
       }
@@ -648,6 +670,9 @@ class SignalRModule {
 
   Stream<AssetPaymentMethods> paymentMethods() =>
       _assetPaymentMethodsController.stream;
+
+  Stream<AssetPaymentMethodsNew> paymentMethodsNew() =>
+      _assetPaymentMethodsNewController.stream;
 
   Stream<BlockchainsModel> blockchains() => _blockchainsController.stream;
 

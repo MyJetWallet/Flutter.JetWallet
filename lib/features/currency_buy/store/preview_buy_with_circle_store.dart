@@ -136,7 +136,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
       paymentMethod: CirclePaymentMethod.circle,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: input.currencyPayment.symbol,
       circlePaymentData: CirclePaymentDataModel(
         cardId: card!.id,
       ),

@@ -11,5 +11,6 @@ class PreviewBuyWithCircleInput with _$PreviewBuyWithCircleInput {
     required String amount,
     required CircleCard card,
     required CurrencyModel currency,
+    required CurrencyModel currencyPayment,
   }) = _PreviewBuyWithAssetInput;
 }

@@ -99,6 +99,8 @@ flutter:
     - assets/icons/light/24x24/angle_down/
     - assets/icons/light/24x24/angle_up/
     - assets/icons/light/24x24/copy/
+    - assets/icons/light/24x24/edit/
+    - assets/icons/light/24x24/done/
     - assets/icons/light/24x24/delete/
     - assets/icons/light/24x24/pause/
     - assets/icons/light/24x24/share/

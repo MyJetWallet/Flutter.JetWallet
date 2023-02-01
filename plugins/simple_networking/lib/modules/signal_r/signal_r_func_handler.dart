@@ -1,6 +1,7 @@
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
@@ -306,6 +307,17 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(paymentMethodsMessage, e);
+    }
+  }
+
+  void paymentMethodsNewMessageHandler(List<Object?>? data) {
+    try {
+      final info = AssetPaymentMethodsNew.fromJson(_json(data));
+      sTransport.updateAssetPaymentMethodsNew(info);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(paymentMethodsNewMessage, e);
     }
   }
 

@@ -1337,9 +1337,13 @@
     "actionBuy_addACard": "Dodaj kartę",
     "paymentMethod_yesDelete": "Tak, usuń kartę",
     "paymentMethod_showAlertPopupSecondaryFullText": "Czy na pewno chcesz trwale usunąć tę kartę ze swojego konta",
-    "previewBuyWithCircle_cvvNewDescription": "",
-    "currencyBuy_chooseCurrency": "",
+    "previewBuyWithCircle_cvvNewDescription": "Zwykle kod CVV znajduje się na odwrocie karty",
+    "currencyBuy_chooseCurrency": "Wybierz walutę",
     "currencyBuy_total": "Łącznie",
-    "previewBuy_orderSummary": "",
-    "previewBuyWithUnlimint_feeNewDescription": ""
+    "previewBuy_orderSummary": "Podsumowanie zamówienia",
+    "previewBuyWithUnlimint_feeNewDescription": "Opłata ta jest pobierana przez Simple w celu pokrycia usług naszych partnerów przetwarzania transakcji",
+    "paymentMethodsSheet_daily": "Codziennie",
+    "paymentMethodsSheet_weekly": "Co tydzień",
+    "paymentMethodsSheet_monthly": "Miesięczny",
+    "paymentMethodsSheet_limit": "limit"
 }

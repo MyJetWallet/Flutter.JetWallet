@@ -15,6 +15,10 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+
+import '../../../../utils/constants.dart';
+import '../../../../utils/helpers/widget_size_from.dart';
 
 class PreviewBuyWithBankCard extends StatelessWidget {
   const PreviewBuyWithBankCard({
@@ -27,7 +31,7 @@ class PreviewBuyWithBankCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<PreviewBuyWithBankCardStore>(
-      create: (context) => PreviewBuyWithBankCardStore(input),
+      create: (context) => PreviewBuyWithBankCardStore(input, true),
       builder: (context, child) => _PreviewBuyWithBankCardBody(
         input: input,
       ),
@@ -51,10 +55,12 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final state = PreviewBuyWithBankCardStore.of(context);
+    final buyMethod = input.currency.buyMethods.where(
+      (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
 
-    final title =
-        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
-        '${input.currency.description}';
+
     var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
       small: () => heightWidget = heightWidget - 120,
@@ -75,23 +81,16 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
               },
             )
           : null,
-      header: deviceSize.when(
-        small: () {
-          return SSmallHeader(
-            title: title,
-          );
-        },
-        medium: () {
-          return SMegaHeader(
-            title: title,
-          );
-        },
+      header: const SSmallHeader(
+        title: '',
       ),
       child: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(
-              bottom: 100.0,
+            padding: EdgeInsets.only(
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                ? 310.0
+                : 260.0,
             ),
             children: [
               Column(
@@ -101,18 +100,44 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     medium: () => const SpaceH3(),
                   ),
                   Center(
-                    child: SActionConfirmIconWithAnimation(
-                      iconUrl: input.currency.iconUrl,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          disclaimerAsset,
+                          width: 80,
+                          height: 80,
+                        ),
+                        const SpaceH16(),
+                        Text(
+                          intl.previewBuy_orderSummary,
+                          style: sTextH5Style,
+                        ),
+                        const SpaceH34(),
+                      ],
                     ),
                   ),
-                  if (heightWidget > 0) ...[
-                    SizedBox(
-                      height: heightWidget,
-                    ),
-                  ],
-                  // const Spacer(),
                   SActionConfirmText(
-                    name: intl.buySimplexDetails_payFrom,
+                    name: intl.previewBuyWithCircle_youWillGet,
+                    contentLoading: state.loader.loading,
+                    value: '≈ ${volumeFormat(
+                      prefix: input.currency.prefixSymbol,
+                      symbol: input.currency.symbol,
+                      accuracy: input.currency.accuracy,
+                      decimal: state.buyAmount ?? Decimal.zero,
+                    )}',
+                  ),
+                  SActionConfirmText(
+                    name: intl.previewBuyWithCircle_rate,
+                    contentLoading: state.loader.loading,
+                    value: '1${input.currency.symbol} = ${volumeFormat(
+                      prefix: input.currencyPayment.prefixSymbol,
+                      symbol: input.currencyPayment.symbol,
+                      accuracy: input.currencyPayment.accuracy,
+                      decimal: state.rate ?? Decimal.zero,
+                    )}',
+                  ),
+                  SActionConfirmText(
+                    name: intl.curencyBuy_payFrom,
                     contentLoading: state.loader.loading,
                     value:
                         ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
@@ -125,16 +150,16 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     contentLoading: state.loader.loading,
                     value: state.depositFeeAmountMax == state.depositFeeAmount
                         ? volumeFormat(
-                            prefix: baseCurrency.prefix,
+                            prefix: input.currencyPayment.prefixSymbol,
                             decimal: state.depositFeeAmount ?? Decimal.zero,
-                            accuracy: baseCurrency.accuracy,
-                            symbol: baseCurrency.symbol,
+                            accuracy: input.currencyPayment.accuracy,
+                            symbol: input.currencyPayment.symbol,
                           )
                         : '≈ ${volumeFormat(
-                            prefix: baseCurrency.prefix,
+                            prefix: input.currencyPayment.prefixSymbol,
                             decimal: state.depositFeeAmountMax ?? Decimal.zero,
-                            accuracy: baseCurrency.accuracy,
-                            symbol: baseCurrency.symbol,
+                            accuracy: input.currencyPayment.accuracy,
+                            symbol: input.currencyPayment.symbol,
                           )}',
                     maxValueWidth: 140,
                     infoIcon: true,
@@ -165,27 +190,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     ),
                     maxValueWidth: 140,
                   ),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_youWillGet,
-                    contentLoading: state.loader.loading,
-                    value: '≈ ${volumeFormat(
-                      prefix: input.currency.prefixSymbol,
-                      symbol: input.currency.symbol,
-                      accuracy: input.currency.accuracy,
-                      decimal: state.buyAmount ?? Decimal.zero,
-                    )}',
-                  ),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_rate,
-                    contentLoading: state.loader.loading,
-                    value: '≈ ${volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      decimal: state.rate ?? Decimal.zero,
-                    )}',
-                  ),
-                  const SpaceH20(),
+                  const SpaceH16(),
                   Text(
                     intl.previewBuyWithCircle_description,
                     maxLines: 3,
@@ -193,94 +198,130 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       color: colors.grey3,
                     ),
                   ),
-                  const SpaceH24(),
-                  const SDivider(),
-                  SActionConfirmText(
-                    name: intl.previewBuyWithCircle_youWillPay,
-                    contentLoading: state.loader.loading,
-                    valueColor: colors.blue,
-                    value: volumeFormat(
-                      prefix: baseCurrency.prefix,
-                      symbol: baseCurrency.symbol,
-                      accuracy: baseCurrency.accuracy,
-                      decimal: state.amountToPay!,
-                    ),
-                  ),
-                  const SpaceH20(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
+                  const SpaceH15(),
+                  deviceSize.when(
+                    small: () {
+                      return const SizedBox();
+                    },
+                    medium: () {
+                      return Column(
                         children: [
-                          SIconButton(
-                            onTap: () {
-                              state.checkSetter();
-                            },
-                            defaultIcon: icon,
-                            pressedIcon: icon,
+                          const SDivider(),
+                          SActionConfirmText(
+                            name: intl.currencyBuy_total,
+                            contentLoading: state.loader.loading,
+                            valueColor: colors.blue,
+                            value: volumeFormat(
+                              prefix: input.currencyPayment.prefixSymbol,
+                              symbol: input.currencyPayment.symbol,
+                              accuracy: input.currencyPayment.accuracy,
+                              decimal: state.amountToPay!,
+                            ),
                           ),
                         ],
-                      ),
-                      const SpaceW10(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 82,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SPolicyText(
-                              firstText: intl.previewBuyWithUmlimint_disclaimer,
-                              userAgreementText:
-                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
-                              betweenText: ', ',
-                              privacyPolicyText:
-                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
-                              onUserAgreementTap: () =>
-                                  launchURL(context, userAgreementLink),
-                              onPrivacyPolicyTap: () =>
-                                  launchURL(context, privacyPolicyLink),
-                            ),
-                            const SpaceH7(),
-                            SDivider(
-                              color: colors.grey4,
-                            ),
-                            const SpaceH7(),
-                            Text(
-                              simpleCompanyName,
-                              style: sCaptionTextStyle,
-                            ),
-                            Text(
-                              simpleCompanyAddress,
-                              style: sCaptionTextStyle,
-                              maxLines: 2,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                  const SpaceH16(),
                 ],
               ),
             ],
           ),
           SFloatingButtonFrame(
             hidePadding: true,
-            button: SPrimaryButton2(
-              active: !state.loader.loading && state.isChecked,
-              name: intl.previewBuyWithAsset_confirm,
-              onTap: () {
-                sAnalytics.tapConfirmBuy(
-                  assetName: input.currency.description,
-                  paymentMethod: 'bankCard',
-                  amount: formatCurrencyStringAmount(
-                    prefix: baseCurrency.prefix,
-                    value: input.amount,
-                    symbol: baseCurrency.symbol,
-                  ),
-                  frequency: RecurringFrequency.oneTime,
-                );
-                state.onConfirm();
-              },
+            button: Column(
+              children: [
+                deviceSize.when(
+                  small: () {
+                    return Column(
+                      children: [
+                        const SDivider(),
+                        SActionConfirmText(
+                          name: intl.currencyBuy_total,
+                          contentLoading: state.loader.loading,
+                          valueColor: colors.blue,
+                          value: volumeFormat(
+                            prefix: input.currencyPayment.prefixSymbol,
+                            symbol: input.currencyPayment.symbol,
+                            accuracy: input.currencyPayment.accuracy,
+                            decimal: state.amountToPay!,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  medium: () {
+                    return const SizedBox();
+                  },
+                ),
+                const SpaceH20(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        SIconButton(
+                          onTap: () {
+                            state.checkSetter();
+                          },
+                          defaultIcon: icon,
+                          pressedIcon: icon,
+                        ),
+                      ],
+                    ),
+                    const SpaceW10(),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 82,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!hideCheckbox) ...[
+                            SPolicyText(
+                              firstText: intl.previewBuyWithUmlimint_disclaimer,
+                              userAgreementText:
+                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                              betweenText: ', ',
+                              privacyPolicyText:
+                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                              onUserAgreementTap: () =>
+                                  launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () =>
+                                  launchURL(context, privacyPolicyLink),
+                            ),
+                            const SpaceH14(),
+                          ],
+                          Text(
+                            simpleCompanyName,
+                            style: sCaptionTextStyle,
+                          ),
+                          Text(
+                            simpleCompanyAddress,
+                            style: sCaptionTextStyle,
+                            maxLines: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SpaceH24(),
+                SPrimaryButton2(
+                  active: !state.loader.loading && state.isChecked,
+                  name: intl.previewBuyWithAsset_confirm,
+                  onTap: () {
+                    sAnalytics.tapConfirmBuy(
+                      assetName: input.currency.description,
+                      paymentMethod: 'bankCard',
+                      amount: formatCurrencyStringAmount(
+                        prefix: input.currencyPayment.prefixSymbol,
+                        value: input.amount,
+                        symbol: input.currencyPayment.symbol,
+                      ),
+                      frequency: RecurringFrequency.oneTime,
+                    );
+                    state.onConfirm();
+                  },
+                ),
+              ],
             ),
           ),
         ],

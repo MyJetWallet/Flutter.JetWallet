@@ -1336,7 +1336,7 @@
     "actionBuy_cards": "Tarjetas",
     "actionBuy_addACard": "Añada una tarjeta",
     "paymentMethod_yesDelete": "Sí, eliminar la tarjeta",
-    "paymentMethod_showAlertPopupSecondaryFullText": "¿Está seguro de que desea eliminar permanentemente esta tarjeta de su cuenta?",
+    "paymentMethod_showAlertPopupSecondaryFullText": "¿Está seguro de que desea eliminar permanentemente esta tarjeta de su cuenta",
     "previewBuyWithCircle_cvvNewDescription": "Usualmente, el CVV está en el reverso de la tarjeta",
     "currencyBuy_chooseCurrency": "Elegir moneda",
     "currencyBuy_total": "Total",

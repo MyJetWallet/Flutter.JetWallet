@@ -44,10 +44,10 @@ class SCreditCardItem extends StatelessWidget {
       splashColor: Colors.transparent,
       onTap: onTap,
       child: SizedBox(
-        height: (!removeDivider && !divider) ? 108.0 : 88.0,
+        height: 64.0,
         child: Column(
           children: [
-            const SpaceH22(),
+            const SpaceH9(),
             SPaddingH24(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

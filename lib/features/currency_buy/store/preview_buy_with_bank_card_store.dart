@@ -35,19 +35,31 @@ part 'preview_buy_with_bank_card_store.g.dart';
 
 class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase
     with _$PreviewBuyWithBankCardStore {
-  PreviewBuyWithBankCardStore(PreviewBuyWithBankCardInput input) : super(input);
+  PreviewBuyWithBankCardStore(
+    PreviewBuyWithBankCardInput input,
+    bool sendPreview,
+  ) : super (
+    input,
+    sendPreview,
+  );
 
   static _PreviewBuyWithBankCardStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithBankCardStore>(context, listen: false);
 }
 
 abstract class _PreviewBuyWithBankCardStoreBase with Store {
-  _PreviewBuyWithBankCardStoreBase(this.input) {
+  _PreviewBuyWithBankCardStoreBase(
+    this.input,
+    this.sendPreview,
+  ) {
     _initState();
-    _requestPreview();
+    if (sendPreview) {
+      _requestPreview();
+    }
   }
 
   final PreviewBuyWithBankCardInput input;
+  final bool sendPreview;
 
   static final _logger = Logger('PreviewBuyWithBankCardStore');
 
@@ -132,7 +144,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
-      paymentAsset: 'USD',
+      paymentAsset: input.currencyPayment.symbol,
       cardPaymentData: cardData,
     );
 
