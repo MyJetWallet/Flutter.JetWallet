@@ -842,7 +842,7 @@
   "transferDetails_transfer": "Transfer",
   "withdrawDetails_amount": "Amount",
   "withdrawDetails_internalTransfer": "Internal transfer",
-  "withdrawDetails_withdrawalTo": "Withdrawal to",
+  "withdrawDetails_withdrawalTo": "Send to",
   "withdrawDetails_fee": "fee",
   "sActionConfirm_defaultAlert": "Connecting to server… Please wait or try again later",
   "sPaymentSelectEmpty_buyOnlyWithCrypto": "Buy only with crypto",
