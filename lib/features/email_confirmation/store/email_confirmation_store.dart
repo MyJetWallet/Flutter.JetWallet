@@ -164,19 +164,36 @@ abstract class _EmailConfirmationStoreBase with Store {
           .getValidationModule()
           .postVerifyEmailConfirmation(model);
 
-      union = const EmailConfirmationUnion.input();
+      _.pick(
+        onData: (data) async {
+          union = const EmailConfirmationUnion.input();
 
       print('DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}');
 
-      getIt.get<AppStore>().updateAuthState(
-            deleteToken: sendEmailResponse?.tokenId ?? '',
+          getIt.get<AppStore>().updateAuthState(
+                deleteToken: sendEmailResponse?.tokenId ?? '',
+              );
+
+          await sRouter.push(
+            const DeleteReasonsScreenRouter(),
           );
+        },
+        onError: (error) {
+          _logger.log(stateFlow, 'verifyCode', error.cause);
+
+          union = error.cause.contains('50') || error.cause.contains('40')
+              ? EmailConfirmationUnion.error(
+                  intl.something_went_wrong_try_again,
+                )
+              : EmailConfirmationUnion.error(error.cause);
+          sNotification.showError(
+            error.cause,
+          );
+        },
+      );
 
       loader.finishLoadingImmediately();
 
-      await sRouter.push(
-        const DeleteReasonsScreenRouter(),
-      );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 
