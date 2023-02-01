@@ -91,6 +91,7 @@ class _AccountScreenState extends State<AccountScreen>
           ),
           Expanded(
             child: ListView(
+              physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.zero,
               children: [
                 AccountBannerList(
@@ -250,7 +251,7 @@ class _AccountScreenState extends State<AccountScreen>
                   name: intl.log_out,
                   onTap: () => logout.logout('account logout'),
                 ),
-                const SpaceH20(),
+                const SpaceH42(),
               ],
             ),
           ),

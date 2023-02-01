@@ -21,6 +21,8 @@ class SAddressFieldWithCopy extends StatefulObserverWidget {
     this.needPadding = true,
     this.needFormatURL = true,
     this.needInnerPadding = false,
+    this.longString = false,
+    this.expanded = false,
     required this.header,
     required this.value,
     required this.afterCopyText,
@@ -34,9 +36,11 @@ class SAddressFieldWithCopy extends StatefulObserverWidget {
   final bool needPadding;
   final bool needFormatURL;
   final bool needInnerPadding;
+  final bool expanded;
   final String header;
   final String value;
   final String afterCopyText;
+  final bool longString;
 
   @override
   State<SAddressFieldWithCopy> createState() => _SAddressFieldWithCopyState();
@@ -59,7 +63,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     );
     scaleAnimation = Tween<Offset>(
       begin: const Offset(0.0, 0.0),
-      end: Offset(0.0, -64.0),
+      end: widget.expanded ? Offset(0.0, -112.0) : Offset(0.0, -64.0),
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -112,13 +116,32 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
           offset: scaleAnimation.value,
           child: Container(
             color: SColorsLight().greenLight,
-            height: 64.0,
+            height: widget.expanded ? 112.0 : 64,
             width: double.infinity,
             child: Center(
-              child: Text(
-                afterCopyText,
-                style: sBodyText1Style.copyWith(
-                  color: SColorsLight().green,
+              child: SPaddingH24(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      afterCopyText,
+                      style: sBodyText1Style.copyWith(
+                        color: SColorsLight().green,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    if (realValue != null)
+                      Text(
+                        realValue ?? '',
+                        style: sBodyText1Style.copyWith(
+                          color: SColorsLight().green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -140,7 +163,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                   horizontal: widget.needPadding ? 24.0 : 0,
                 ),
                 child: SizedBox(
-                  height: 88.0,
+                  height: widget.longString ? 116 : 88.0,
                   child: Row(
                     children: [
                       Expanded(
@@ -169,6 +192,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                                       ? _shortReferralLink(value)
                                       : value,
                                   style: sSubtitle2Style,
+                                  maxLines: widget.longString ? 2 : 1,
                                 ),
                               ),
                           ],

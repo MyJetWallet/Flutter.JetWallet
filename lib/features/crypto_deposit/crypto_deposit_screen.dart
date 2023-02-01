@@ -121,7 +121,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         onTap: () {
           sShowAlertPopup(
             context,
-            primaryText: intl.actionBuy_alertPopup,
+            primaryText: intl.actionBuy_alertPopupSecond,
             primaryButtonName: intl.actionBuy_goToKYC,
             onPrimaryButtonTap: () {
               kycAlertHandler.handle(
@@ -217,7 +217,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: 104,
+        height: 122,
         child: Column(
           children: [
             const SDivider(),
@@ -260,7 +260,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 },
               ),
             ),
-            const SpaceH24(),
+            const SpaceH42(),
           ],
         ),
       ),

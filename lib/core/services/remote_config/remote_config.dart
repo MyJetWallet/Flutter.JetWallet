@@ -50,8 +50,8 @@ class RemoteConfig {
       var remoteConfigURL = '';
       final storageService = getIt.get<LocalStorageService>();
       final activeSlotUsing = await storageService.getValue(activeSlot);
-      final isFirstRunning = await getIt<LocalCacheService>()
-          .checkIsFirstRunning();
+      final isFirstRunning =
+          await getIt<LocalCacheService>().checkIsFirstRunning();
       final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
       remoteConfigURL = flavor == Flavor.prod
@@ -70,7 +70,6 @@ class RemoteConfig {
 
       final respModel = RemoteConfigModel.fromJson(responseData);
 
-      print('REMOTE CONFIG LOADED');
       _logger.log(notifier, 'Loading Remote LOADED');
 
       remoteConfig = respModel;
@@ -87,8 +86,6 @@ class RemoteConfig {
       overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
 
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
-
-      print('PUSH TO HOMEROUTER');
 
       sAnalytics.remoteConfig();
 
