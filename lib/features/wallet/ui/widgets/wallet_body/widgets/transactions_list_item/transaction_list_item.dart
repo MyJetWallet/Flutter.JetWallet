@@ -269,7 +269,16 @@ class TransactionListItem extends StatelessObserverWidget {
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
-      return transactionListItem.assetId;
+      /*
+
+      */
+
+      return transactionListItem.operationType == OperationType.buy ||
+              transactionListItem.operationType == OperationType.sell
+          ? '${transactionListItem.swapInfo?.sellAssetId} '
+              '${intl.operationName_exchangeTo} '
+              '${transactionListItem.swapInfo?.buyAssetId}'
+          : transactionListItem.assetId;
 
       operationName(
         transactionListItem.operationType,
