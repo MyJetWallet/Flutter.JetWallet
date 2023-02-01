@@ -1,5 +1,5 @@
-NSCameraUsageDescription = "To take pictures and detect your face";
-NSPhotoLibraryUsageDescription = "Security and fraud prevention reasons";
-NSContactsUsageDescription = "This app requires contacts access to function properly";
-NSFaceIDUsageDescription = "We need your face ID";
-NSUserTrackingUsageDescription = "Your data will be used by our ad partners to improve and personalize your ad experience.";
+NSCameraUsageDescription = "Aby robić zdjęcia i wykrywać Twoją twarz";
+NSPhotoLibraryUsageDescription = "Względy bezpieczeństwa i zapobiegania oszustwom";
+NSContactsUsageDescription = "Ta aplikacja do prawidłowego działania wymaga dostępu do kontaktów";
+NSFaceIDUsageDescription = "Potrzebujemy Twojego face ID";
+NSUserTrackingUsageDescription = "Twoje dane będą wykorzystywane przez naszych partnerów reklamowych do ulepszania i personalizowania reklam.";
