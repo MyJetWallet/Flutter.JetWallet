@@ -59,7 +59,7 @@ void sShowSlideAlertPopup(
         borderRadius: BorderRadius.circular(24.0),
       ),
       child: SizedBox(
-        height: 468,
+        height: 555,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
@@ -272,7 +272,7 @@ void sShowSlideAlertPopup(
             Stack(
               children: [
                 SizedBox(
-                  height: 468,
+                  height: 555,
                   child: PageView.builder(
                     controller: controller,
                     physics: const NeverScrollableScrollPhysics(),

@@ -27,14 +27,10 @@ class _FullScreenPageState extends State<FullScreenPage> {
     var color = widget.dark ? Colors.black12 : Colors.white70;
 
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: color,
-      statusBarColor: color,
-      statusBarBrightness: brightness,
-      statusBarIconBrightness: brightness,
-      systemNavigationBarDividerColor: color,
-      systemNavigationBarIconBrightness: brightness,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),);
     super.initState();
   }
 
