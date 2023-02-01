@@ -84,7 +84,6 @@ class TransactionListItem extends StatelessObserverWidget {
                     transactionListItem.operationType,
                     transactionListItem.status == Status.declined,
                     colors.red,
-                    colors.blue,
                   ),
                   const SpaceW10(),
                   Expanded(
@@ -139,10 +138,12 @@ class TransactionListItem extends StatelessObserverWidget {
                   const SpaceW30(),
                   if (transactionListItem.status != Status.inProgress)
                     TransactionListItemText(
-                      text: '${formatDateToDMY(
+                      /*text: '${formatDateToDMY(
                         transactionListItem.timeStamp,
                       )} '
                           '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                          */
+                      text: transactionListItem.operationType.toString(),
                       color: colors.grey2,
                     ),
                   if (transactionListItem.status == Status.inProgress)
@@ -243,55 +244,85 @@ class TransactionListItem extends StatelessObserverWidget {
     OperationHistoryItem transactionListItem,
     BuildContext context,
   ) {
-    return transactionListItem.operationType == OperationType.buy ||
-        transactionListItem.operationType == OperationType.sell
-        ? '${transactionListItem.swapInfo?.sellAssetId} '
+    if (transactionListItem.operationType == OperationType.simplexBuy) {
+      return '${operationName(
+        OperationType.buy,
+        context,
+      )}'
+          ' ${transactionListItem.assetId} - '
+          '${operationName(
+        transactionListItem.operationType,
+        context,
+      )}';
+    } else if (transactionListItem.operationType ==
+        OperationType.earningDeposit) {
+      return transactionListItem.earnInfo?.totalBalance ==
+              transactionListItem.balanceChange.abs()
+          ? operationName(transactionListItem.operationType, context)
+          : operationName(
+              transactionListItem.operationType,
+              context,
+              isToppedUp: true,
+            );
+    } else if (transactionListItem.operationType == OperationType.buy) {
+      return '${transactionListItem.swapInfo?.sellAssetId} '
           '${intl.operationName_exchangeTo} '
-          '${transactionListItem.swapInfo?.buyAssetId}'
-        : transactionListItem.assetId;
+          '${transactionListItem.swapInfo?.buyAssetId}';
+    } else {
+      /*
+
+      */
+
+      return transactionListItem.operationType == OperationType.buy ||
+              transactionListItem.operationType == OperationType.sell
+          ? '${transactionListItem.swapInfo?.sellAssetId} '
+              '${intl.operationName_exchangeTo} '
+              '${transactionListItem.swapInfo?.buyAssetId}'
+          : transactionListItem.assetId;
+
+      operationName(
+        transactionListItem.operationType,
+        context,
+      );
+    }
   }
 
-  Widget _iconFrom(
-      OperationType type,
-      bool isFailed,
-      Color color,
-      Color mainColor,
-  ) {
+  Widget _iconFrom(OperationType type, bool isFailed, Color color) {
     switch (type) {
       case OperationType.deposit:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SDepositIcon(color: isFailed ? color : null);
       case OperationType.withdraw:
-        return SMinusIcon(color: isFailed ? color : null);
+        return SWithdrawalFeeIcon(color: isFailed ? color : null);
       case OperationType.transferByPhone:
-        return SMinusIcon(color: isFailed ? color : null);
+        return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.receiveByPhone:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.buy:
-        return const SActionConvertIcon();
+        return SSwapIcon(color: isFailed ? color : null);
       case OperationType.sell:
-        return const SActionConvertIcon();
-      case OperationType.paidInterestRate:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.feeSharePayment:
-        return SPlusIcon(color: isFailed ? color : null);
-      case OperationType.withdrawalFee:
         return SMinusIcon(color: isFailed ? color : null);
+      case OperationType.paidInterestRate:
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
+      case OperationType.feeSharePayment:
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
+      case OperationType.withdrawalFee:
+        return SWithdrawalFeeIcon(color: isFailed ? color : null);
       case OperationType.swap:
-        return const SActionConvertIcon();
+        return SSwapIcon(color: isFailed ? color : null);
       case OperationType.rewardPayment:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SRewardPaymentIcon(color: isFailed ? color : null);
       case OperationType.simplexBuy:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SDepositIcon(color: isFailed ? color : null);
       case OperationType.recurringBuy:
         return SPlusIcon(color: isFailed ? color : null);
       case OperationType.earningWithdrawal:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SPaidInterestRateIcon(color: isFailed ? color : null);
       case OperationType.earningDeposit:
-        return SMinusIcon(color: isFailed ? color : null);
+        return SEarnDepositIcon(color: isFailed ? color : null);
       case OperationType.unknown:
         return const SizedBox();
       case OperationType.cryptoInfo:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SDepositIcon(color: isFailed ? color : null);
       case OperationType.nftBuy:
         return SPlusIcon(color: isFailed ? color : null);
       case OperationType.nftSwap:
@@ -309,7 +340,7 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.nftWithdrawalFee:
         return SMinusIcon(color: isFailed ? color : null);
       default:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SDepositIcon(color: isFailed ? color : null);
     }
   }
 }

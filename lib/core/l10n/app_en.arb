@@ -1241,5 +1241,6 @@
   "favorite": "Favorite",
   "assets": "Assets",
   "bottom_bar_my_assets": "My assets",
-  "bottom_bar_market": "Market"
+  "bottom_bar_market": "Market",
+  "open_in_explorer": "Open in Explorer"
 }

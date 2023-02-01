@@ -120,6 +120,7 @@ flutter:
     - assets/icons/light/24x24/earn/
     - assets/icons/light/24x24/filter/
     - assets/icons/light/24x24/sort/
+    - assets/icons/light/24x24/network/
     - assets/icons/light/24x24/action_buy_with_cash/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/

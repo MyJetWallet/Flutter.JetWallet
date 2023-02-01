@@ -7,6 +7,8 @@ class SimpleLightSecondaryButton1 extends StatelessWidget {
   const SimpleLightSecondaryButton1({
     Key? key,
     this.icon,
+    this.textColor,
+    this.borderColor,
     required this.active,
     required this.name,
     required this.onTap,
@@ -17,6 +19,9 @@ class SimpleLightSecondaryButton1 extends StatelessWidget {
   final String name;
   final Function() onTap;
 
+  final Color? textColor;
+  final Color? borderColor;
+
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSecondaryButton(
@@ -24,8 +29,8 @@ class SimpleLightSecondaryButton1 extends StatelessWidget {
       name: name,
       onTap: onTap,
       icon: icon,
-      activeColor: SColorsLight().black,
-      activeNameColor: SColorsLight().black,
+      activeColor: borderColor?? SColorsLight().black,
+      activeNameColor: textColor ?? SColorsLight().black,
       activeBackgroundColor: SColorsLight().grey5,
       inactiveColor: SColorsLight().grey4,
       inactiveNameColor: SColorsLight().grey4,

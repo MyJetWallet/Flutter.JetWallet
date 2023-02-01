@@ -5,6 +5,7 @@ class SimpleBaseSecondaryButton extends StatefulWidget {
   const SimpleBaseSecondaryButton({
     Key? key,
     this.icon,
+    this.borderColor,
     required this.active,
     required this.name,
     required this.onTap,
@@ -26,6 +27,7 @@ class SimpleBaseSecondaryButton extends StatefulWidget {
   final Color inactiveColor;
   final Color inactiveNameColor;
   final Color inactiveBackgroundColor;
+  final Color? borderColor;
 
   @override
   State<SimpleBaseSecondaryButton> createState() =>
