@@ -1102,11 +1102,13 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
       final _ = await sNetwork.getWalletModule().postWithdrawalResend(model);
+      confirmUnion = const confirm.WithdrawalConfirmUnion.input();
 
       isResending = false;
       onSuccess();
     } catch (error) {
       isResending = false;
+      confirmUnion = const confirm.WithdrawalConfirmUnion.input();
 
       sNotification.showError(
         '${intl.withdrawalConfirm_failedToResend}!',
