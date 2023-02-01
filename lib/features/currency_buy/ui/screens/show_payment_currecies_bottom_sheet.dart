@@ -81,7 +81,7 @@ void showPaymentCurrenciesBottomSheet({
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            iterableAssets[assets.indexOf(asset)]
+                            iterableAssets[sortedAssets.indexOf(asset)]
                                 .prefixSymbol ?? '?',
                             style: sCaptionTextStyle.copyWith(
                               color: asset.asset != activeAsset?.asset
@@ -100,7 +100,7 @@ void showPaymentCurrenciesBottomSheet({
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        iterableAssets[assets.indexOf(asset)]
+                        iterableAssets[sortedAssets.indexOf(asset)]
                             .description ?? '',
                         style: sSubtitle2Style.copyWith(
                           color: asset.asset != activeAsset?.asset
@@ -116,7 +116,7 @@ void showPaymentCurrenciesBottomSheet({
             ),
           ),
       ),
-        if (asset != assets.last)
+        if (asset != sortedAssets.last)
           const SPaddingH24(child: SDivider()),
       ],
       const SpaceH67(),
