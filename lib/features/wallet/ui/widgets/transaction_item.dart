@@ -16,8 +16,11 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
+import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
@@ -346,6 +349,33 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
+                Visibility(
+                  visible: isTXIDExist(widget.transactionListItem) != null &&
+                      getBlockChainURL(widget.transactionListItem).isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      bottom: 42,
+                    ),
+                    child: SSecondaryButton1(
+                      active: !cancelTransfer.loading,
+                      name: intl.open_in_explorer,
+                      icon: const SNetworkIcon(),
+                      onTap: () async {
+                        if (!await launchUrlString(
+                          getBlockChainURL(
+                            widget.transactionListItem,
+                          ),
+                        )) {
+                          throw Exception('Could not launch');
+                        }
+                      },
+                      textColor: colors.blue,
+                      borderColor: colors.blue,
+                    ),
+                  ),
+                ),
                 Visibility(
                   visible:
                       widget.transactionListItem.status == Status.inProgress &&

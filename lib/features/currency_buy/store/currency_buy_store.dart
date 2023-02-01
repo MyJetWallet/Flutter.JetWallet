@@ -239,6 +239,9 @@ abstract class _CurrencyBuyStoreBase with Store {
     if (selectedPaymentMethod?.id == PaymentMethodType.simplex) {
       return '';
     }
+    if (Decimal.parse(targetConversionValue) == Decimal.zero) {
+      return target;
+    }
 
     return '≈ $target';
   }

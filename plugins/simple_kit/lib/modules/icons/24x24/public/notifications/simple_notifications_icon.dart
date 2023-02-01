@@ -6,12 +6,17 @@ import 'package:simple_kit/modules/icons/24x24/light/notifications/simple_notifi
 import 'package:simple_kit/utils/enum.dart';
 
 class SNotificationsIcon extends StatelessObserverWidget {
-  const SNotificationsIcon({Key? key}) : super(key: key);
+  const SNotificationsIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightNotificationsIcon()
-        : const SimpleLightNotificationsIcon();
+        ? SimpleLightNotificationsIcon(color: color)
+        : SimpleLightNotificationsIcon(color: color);
   }
 }

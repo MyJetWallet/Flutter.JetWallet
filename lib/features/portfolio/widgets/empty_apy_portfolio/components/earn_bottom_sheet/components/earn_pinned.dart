@@ -19,29 +19,8 @@ class EarnPinned extends StatelessObserverWidget {
       children: [
         Stack(
           children: [
-            Container(
-              height: 180,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0),
-                ),
-                image: DecorationImage(
-                  image: AssetImage(
-                    earnGroupImageAsset,
-                  ),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 24.0,
-              right: 24.0,
-              child: SIconButton(
-                onTap: () => Navigator.pop(context),
-                defaultIcon: const SEraseMarketIcon(),
-                pressedIcon: const SErasePressedIcon(),
-              ),
+            const SizedBox(
+              height: 0,
             ),
             Positioned(
               width: mediaQuery.size.width,
@@ -52,9 +31,9 @@ class EarnPinned extends StatelessObserverWidget {
                   Container(
                     width: 35.0,
                     height: 4.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
+                    decoration: BoxDecoration(
+                      color: colors.grey4,
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(4.0),
                       ),
                     ),

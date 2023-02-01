@@ -60,57 +60,60 @@ class _BalanceBlockBody extends StatelessObserverWidget {
     final languageCode = Localizations.localeOf(context).languageCode;
 
     return SizedBox(
-      height: 189,
+      height: 127,
       child: Column(
         children: [
-          const SDivider(),
-          SWalletItem(
-            currencyPrefix: baseCurrency.prefix,
-            currencySymbol: baseCurrency.symbol,
-            decline: marketItem.dayPercentChange.isNegative,
-            icon: SNetworkSvg24(
-              url: marketItem.iconUrl,
-            ),
-            primaryText: sortWordDependingLang(
-              text: marketItem.name,
-              swappedText: intl.walletBody_balance,
-              languageCode: languageCode,
-              isCapitalize: true,
-            ),
-            amount: volumeFormat(
-              prefix: baseCurrency.prefix,
-              decimal: marketItem.baseBalance,
-              symbol: baseCurrency.symbol,
-              accuracy: baseCurrency.accuracy,
-            ),
-            amountDecimal: double.parse('${marketItem.baseBalance}'),
-            secondaryText: volumeFormat(
-              prefix: marketItem.prefixSymbol,
-              decimal: marketItem.assetBalance,
-              symbol: marketItem.symbol,
-              accuracy: marketItem.assetAccuracy,
-            ),
-            onTap: () {
-              sAnalytics.walletAssetView(
-                Source.assetScreen,
-                currency.description,
-              );
+          /*SPaddingH24(
+            child: SWalletItem(
+              currencyPrefix: baseCurrency.prefix,
+              currencySymbol: baseCurrency.symbol,
+              decline: marketItem.dayPercentChange.isNegative,
+              icon: SNetworkSvg24(
+                url: marketItem.iconUrl,
+              ),
+              primaryText: sortWordDependingLang(
+                text: marketItem.name,
+                swappedText: intl.walletBody_balance,
+                languageCode: languageCode,
+                isCapitalize: true,
+              ),
+              amount: volumeFormat(
+                prefix: baseCurrency.prefix,
+                decimal: marketItem.baseBalance,
+                symbol: baseCurrency.symbol,
+                accuracy: baseCurrency.accuracy,
+              ),
+              amountDecimal: double.parse('${marketItem.baseBalance}'),
+              secondaryText: volumeFormat(
+                prefix: marketItem.prefixSymbol,
+                decimal: marketItem.assetBalance,
+                symbol: marketItem.symbol,
+                accuracy: marketItem.assetAccuracy,
+              ),
+              onTap: () {
+                sAnalytics.walletAssetView(
+                  Source.assetScreen,
+                  currency.description,
+                );
 
-              onMarketItemTap(
-                context: context,
-                marketItem: marketItem,
-                currency: currency,
-                isIndexTransactionEmpty:
-                    transactionHistory.operationHistoryItems.isEmpty,
-              );
-            },
-            removeDivider: true,
-            leftBlockTopPadding: _leftBlockTopPadding(),
-            balanceTopMargin: 16,
-            height: 75,
-            rightBlockTopPadding: 16,
-            showSecondaryText: !marketItem.isBalanceEmpty,
+                onMarketItemTap(
+                  context: context,
+                  marketItem: marketItem,
+                  currency: currency,
+                  isIndexTransactionEmpty:
+                      transactionHistory.operationHistoryItems.isEmpty,
+                );
+              },
+              removeDivider: true,
+              leftBlockTopPadding: _leftBlockTopPadding(),
+              balanceTopMargin: 16,
+              height: 75,
+              rightBlockTopPadding: 16,
+              showSecondaryText: !marketItem.isBalanceEmpty,
+            ),
           ),
+          */
+          const SDivider(),
           const SpaceH16(),
           BalanceActionButtons(
             marketItem: marketItem,

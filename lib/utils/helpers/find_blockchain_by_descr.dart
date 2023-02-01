@@ -1,0 +1,66 @@
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+
+String? isTXIDExist(OperationHistoryItem transactionListItem) {
+  if (transactionListItem.operationType == OperationType.withdraw) {
+    if (!transactionListItem.withdrawalInfo!.isInternal) {
+      if (transactionListItem.withdrawalInfo?.txId != null &&
+          transactionListItem.withdrawalInfo!.txId!.isNotEmpty) {
+        return transactionListItem.withdrawalInfo!.txId;
+      }
+    }
+  } else if (transactionListItem.operationType == OperationType.deposit) {
+    if (transactionListItem.depositInfo?.txId != null &&
+        transactionListItem.depositInfo!.txId!.isNotEmpty) {
+      return transactionListItem.depositInfo!.txId;
+    }
+  }
+
+  return null;
+}
+
+String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
+  if (transactionListItem.operationType == OperationType.withdraw) {
+    if (!transactionListItem.withdrawalInfo!.isInternal) {
+      if (transactionListItem.withdrawalInfo?.network != null &&
+          transactionListItem.withdrawalInfo!.network!.isNotEmpty) {
+        return transactionListItem.withdrawalInfo?.network;
+      }
+    }
+  } else if (transactionListItem.operationType == OperationType.deposit) {
+    if (transactionListItem.depositInfo?.network != null &&
+        transactionListItem.depositInfo!.network!.isNotEmpty) {
+      return transactionListItem.depositInfo?.network;
+    }
+  }
+
+  return null;
+}
+
+bool showBlockchainButton(String network) {
+  final block = findBlockchaonByDescription(network);
+
+  return block.blockchainExplorerUrlTemplate.isNotEmpty ? true : false;
+}
+
+BlockchainModel findBlockchaonByDescription(String value) {
+  return sSignalRModules.blockchainsModel!.blockchains
+      .firstWhere((element) => element.description == value);
+}
+
+String getBlockChainURL(OperationHistoryItem transactionListItem) {
+  final g = getNetworkFromItem(transactionListItem);
+
+  if (g != null) {
+    final block = findBlockchaonByDescription(g);
+
+    final id = isTXIDExist(transactionListItem);
+
+    return block.blockchainExplorerUrlTemplate.replaceAll('{txHash}', id!);
+  }
+
+  return '';
+
+  //https://goerli.etherscan.io/tx/{txHash}
+}

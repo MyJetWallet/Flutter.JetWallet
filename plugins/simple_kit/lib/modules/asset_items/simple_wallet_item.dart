@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/asset_items/components/recurring_icon.dart';
-import 'package:simple_kit/modules/asset_items/simple_hide_balance_dots.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
@@ -18,6 +17,7 @@ class SWalletItem extends StatelessWidget {
     this.removeDivider = false,
     this.color,
     this.onTap,
+    this.baseCurrPrefix,
     this.leftBlockTopPadding = 22,
     this.balanceTopMargin = 22,
     this.height = 88,
@@ -51,9 +51,11 @@ class SWalletItem extends StatelessWidget {
   final bool isPendingDeposit;
   final bool isBalanceHide;
 
+  final String? baseCurrPrefix;
+
   @override
   Widget build(BuildContext context) {
-    var textColor = SColorsLight().green;
+    var textColor = SColorsLight().black;
     var borderColor = SColorsLight().greenLight;
     final emptyCashText = '${currencyPrefix ?? ''}0'
         '${currencyPrefix == null ? ' $currencySymbol' : ''}';
@@ -62,11 +64,6 @@ class SWalletItem extends StatelessWidget {
         !(isPendingDeposit && formattedAmount == emptyCashText);
     final isAmountVisible = amount != null &&
         !(isPendingDeposit && formattedAmount == emptyCashText);
-
-    if (decline ?? false) {
-      textColor = SColorsLight().red;
-      borderColor = SColorsLight().redLight;
-    }
 
     return InkWell(
       highlightColor: SColorsLight().grey5,
@@ -131,38 +128,33 @@ class SWalletItem extends StatelessWidget {
                           constraints: const BoxConstraints(
                             maxWidth: 157.0,
                           ),
-                          height: 44.0,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                            right: 16,
+                            top: 8,
+                            bottom: 5.75,
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: borderColor,
+                              color: SColorsLight().grey5,
                             ),
                             borderRadius: BorderRadius.circular(22.0),
                           ),
                           child: !isBalanceHide
-                              ? Baseline(
-                                  baseline: 27.0,
-                                  baselineType: TextBaseline.alphabetic,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        formattedAmount!,
-                                        style: sSubtitle2Style.copyWith(
-                                          color: amountDecimal == 0
-                                              ? color
-                                              : textColor,
-                                        ),
-                                      ),
-                                    ],
+                              ? Text(
+                                  formattedAmount!,
+                                  style: sSubtitle2Style.copyWith(
+                                    color:
+                                        amountDecimal == 0 ? color : textColor,
+                                    height: 1,
                                   ),
+                                  softWrap: true,
                                 )
-                              : SimpleHideBalanceDots(
-                                  color: amountDecimal == 0
-                                      ? (color ?? textColor)
-                                      : textColor,
+                              : Text(
+                                  '$baseCurrPrefix******',
+                                  style: sSubtitle2Style.copyWith(
+                                    height: 1,
+                                  ),
                                 ),
                         ),
                       ],

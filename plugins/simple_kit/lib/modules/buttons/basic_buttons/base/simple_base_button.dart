@@ -11,6 +11,7 @@ class SimpleBaseButton extends StatelessWidget {
     this.icon,
     this.onTap,
     this.baseline = 33.5,
+    this.borderColor,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
@@ -24,6 +25,7 @@ class SimpleBaseButton extends StatelessWidget {
   final BoxDecoration decoration;
   final String name;
   final Color nameColor;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class SimpleBaseButton extends StatelessWidget {
         height: 56.0,
         decoration: decoration.copyWith(
           borderRadius: _baseButtonRadius,
+          border: borderColor != null ? Border.all(color: borderColor!) : null,
         ),
         child: Baseline(
           baseline: baseline,

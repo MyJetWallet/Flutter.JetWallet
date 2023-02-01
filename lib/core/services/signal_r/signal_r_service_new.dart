@@ -666,6 +666,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
                         .copyWith(
                           tagType: blockchain.tagType,
                           description: blockchain.description,
+                          blockchainExplorerUrlTemplate:
+                              blockchain.blockchainExplorerUrlTemplate,
                         );
               }
             }
@@ -686,6 +688,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
                         .copyWith(
                           tagType: blockchain.tagType,
                           description: blockchain.description,
+                          blockchainExplorerUrlTemplate:
+                              blockchain.blockchainExplorerUrlTemplate,
                         );
               }
             }

@@ -96,3 +96,5 @@ const cpowerBanner2Asset = 'assets/images/cpower_banner_2.svg';
 const yahooAsset = 'assets/images/yahoo.png';
 const gmailAsset = 'assets/images/gmail.png';
 const sparkAsset = 'assets/images/spark.png';
+
+const portfolioGradientBG = 'assets/images/gradient_bg.png';

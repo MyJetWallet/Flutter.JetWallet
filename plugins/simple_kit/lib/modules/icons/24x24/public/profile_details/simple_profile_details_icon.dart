@@ -6,12 +6,14 @@ import 'package:simple_kit/modules/icons/24x24/light/profile_details/simple_ligh
 import 'package:simple_kit/utils/enum.dart';
 
 class SProfileDetailsIcon extends StatelessObserverWidget {
-  const SProfileDetailsIcon({Key? key}) : super(key: key);
+  const SProfileDetailsIcon({Key? key, this.color,}) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightProfileDetailsIcon()
-        : const SimpleLightProfileDetailsIcon();
+        ? SimpleLightProfileDetailsIcon(color:color)
+        : SimpleLightProfileDetailsIcon(color:color);
   }
 }

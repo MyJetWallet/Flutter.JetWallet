@@ -8,9 +8,12 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/services/device_size/device_size.dart';
+import '../../../utils/helpers/widget_size_from.dart';
+
 // Header, ShareButton bar, DepositInfo, NetworkSelector
-const screenWidgets = 120 + 104 + 88 + 88;
-const sAddressFieldWithCopyHeight = 88;
+const screenWidgets = 120 + 122 + 88 + 88;
+const sAddressFieldWithCopyHeight = 146;
 
 class CryptoDepositWithAddress extends StatelessObserverWidget {
   const CryptoDepositWithAddress({
@@ -51,10 +54,12 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
           SAddressFieldWithCopy(
             header: '${currency.symbol}'
                 ' ${intl.cryptoDepositWithAddress_walletAddress}',
-            value: shortAddressForm(deposit.address),
+            value: deposit.address,
             realValue: deposit.address,
             afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
             valueLoading: deposit.union is Loading,
+            longString: true,
+            expanded: true,
             then: () {
               sAnalytics.receiveCopy(asset: currency.description);
             },

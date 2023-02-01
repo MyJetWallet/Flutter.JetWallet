@@ -138,10 +138,12 @@ class TransactionListItem extends StatelessObserverWidget {
                   const SpaceW30(),
                   if (transactionListItem.status != Status.inProgress)
                     TransactionListItemText(
-                      text: '${formatDateToDMY(
+                      /*text: '${formatDateToDMY(
                         transactionListItem.timeStamp,
                       )} '
                           '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                          */
+                      text: transactionListItem.operationType.toString(),
                       color: colors.grey2,
                     ),
                   if (transactionListItem.status == Status.inProgress)
@@ -253,15 +255,6 @@ class TransactionListItem extends StatelessObserverWidget {
         context,
       )}';
     } else if (transactionListItem.operationType ==
-        OperationType.recurringBuy) {
-      return '${recurringBuysOperationByString(
-        transactionListItem.recurringBuyInfo!.scheduleType ?? '',
-      )} '
-          '${operationName(
-        transactionListItem.operationType,
-        context,
-      )}';
-    } else if (transactionListItem.operationType ==
         OperationType.earningDeposit) {
       return transactionListItem.earnInfo?.totalBalance ==
               transactionListItem.balanceChange.abs()
@@ -271,17 +264,23 @@ class TransactionListItem extends StatelessObserverWidget {
               context,
               isToppedUp: true,
             );
-    } else if (transactionListItem.operationType ==
-        OperationType.buy) {
-      return '${operationName(
-        OperationType.swap,
-        context,
-      )}'
-          ' ${transactionListItem.swapInfo?.sellAssetId} '
+    } else if (transactionListItem.operationType == OperationType.buy) {
+      return '${transactionListItem.swapInfo?.sellAssetId} '
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
-      return operationName(
+      /*
+
+      */
+
+      return transactionListItem.operationType == OperationType.buy ||
+              transactionListItem.operationType == OperationType.sell
+          ? '${transactionListItem.swapInfo?.sellAssetId} '
+              '${intl.operationName_exchangeTo} '
+              '${transactionListItem.swapInfo?.buyAssetId}'
+          : transactionListItem.assetId;
+
+      operationName(
         transactionListItem.operationType,
         context,
       );

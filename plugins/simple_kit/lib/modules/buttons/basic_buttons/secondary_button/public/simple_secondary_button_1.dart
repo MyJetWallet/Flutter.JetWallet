@@ -9,6 +9,8 @@ class SSecondaryButton1 extends StatelessObserverWidget {
   const SSecondaryButton1({
     Key? key,
     this.icon,
+    this.textColor,
+    this.borderColor,
     required this.active,
     required this.name,
     required this.onTap,
@@ -19,6 +21,9 @@ class SSecondaryButton1 extends StatelessObserverWidget {
   final String name;
   final Function() onTap;
 
+  final Color? textColor;
+  final Color? borderColor;
+
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
@@ -27,12 +32,16 @@ class SSecondaryButton1 extends StatelessObserverWidget {
             name: name,
             icon: icon,
             onTap: onTap,
+            //textColor: textColor,
+            //borderColor: borderColor,
           )
         : SimpleLightSecondaryButton1(
             active: active,
             name: name,
             icon: icon,
             onTap: onTap,
+            textColor: textColor,
+            borderColor: borderColor,
           );
   }
 }

@@ -26,6 +26,7 @@ class UserInfoService {
     required bool hasDisclaimers,
     required bool hasHighYieldDisclaimers,
     required bool hasNftDisclaimers,
+    required bool isTechClient,
   }) {
     _logger.log(notifier, 'updateWithValuesFromSessionInfo');
 
@@ -35,6 +36,7 @@ class UserInfoService {
       hasDisclaimers: hasDisclaimers,
       hasHighYieldDisclaimers: hasHighYieldDisclaimers,
       hasNftDisclaimers: hasNftDisclaimers,
+      isTechClient: isTechClient,
     );
   }
 

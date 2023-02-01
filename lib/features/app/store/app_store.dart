@@ -214,7 +214,7 @@ abstract class _AppStoreBase with Store {
   bool setWithdrawDynamicLink(bool value) => withdrawDynamicLink = value;
 
   @observable
-  int homeTab = 1;
+  int homeTab = 0;
   @action
   void setHomeTab(int value) => homeTab = value;
 
@@ -242,9 +242,10 @@ abstract class _AppStoreBase with Store {
           hasDisclaimers: info.data!.hasDisclaimers,
           hasHighYieldDisclaimers: info.data!.hasHighYieldDisclaimers,
           hasNftDisclaimers: info.data!.hasNftDisclaimers,
+          isTechClient: info.data!.isTechClient,
         );
       }
-
+      
       if (userInfo.userInfo.hasDisclaimers) {
         await getIt<DisclaimerStore>().init();
       }
@@ -265,6 +266,11 @@ abstract class _AppStoreBase with Store {
           lastName: profileInfo.data!.lastName ?? '',
         );
       }
+
+      sAnalytics.updateTechAccValue(
+        userInfo.userInfo.isTechClient,
+      );
+
       authState = authState.copyWith(
         initSessionReceived: true,
       );
@@ -380,7 +386,11 @@ abstract class _AppStoreBase with Store {
         if (result == RefreshTokenStatus.success) {
           await userInfo.initPinStatus();
 
-          await sAnalytics.init(analyticsApiKey, parsedEmail);
+          await sAnalytics.init(
+            analyticsApiKey,
+            userInfo.userInfo.isTechClient,
+            parsedEmail,
+          );
 
           authStatus = const AuthorizationUnion.authorized();
 
@@ -392,7 +402,10 @@ abstract class _AppStoreBase with Store {
             message: 'RefreshToken func return error, we cant update our token',
           );
 
-          await sAnalytics.init(analyticsApiKey);
+          await sAnalytics.init(
+            analyticsApiKey,
+            userInfo.userInfo.isTechClient,
+          );
 
           authStatus = const AuthorizationUnion.unauthorized();
         }
@@ -403,7 +416,10 @@ abstract class _AppStoreBase with Store {
           message: 'Something goes wrong on refreshToken: $e',
         );
 
-        await sAnalytics.init(analyticsApiKey);
+        await sAnalytics.init(
+          analyticsApiKey,
+          false,
+        );
 
         authStatus = const AuthorizationUnion.unauthorized();
 
@@ -468,7 +484,7 @@ abstract class _AppStoreBase with Store {
     openBottomMenu = false;
     fromLoginRegister = false;
     withdrawDynamicLink = false;
-    homeTab = 1;
+    homeTab = 0;
     isBalanceHide = true;
     appStatus = AppStatus.Start;
   }

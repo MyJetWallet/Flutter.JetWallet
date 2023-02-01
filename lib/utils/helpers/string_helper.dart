@@ -72,14 +72,6 @@ String lastNChars(String string, int n) {
 String removeCharsFrom(String string, int amount) {
   if (string.isEmpty) return '';
 
-  final substringAmount = string.substring(0, string.length - amount);
-
-  if (substringAmount.isNotEmpty) {
-    if (substringAmount[substringAmount.length - 1] == '.') {
-      return string.substring(0, string.length - amount - 1);
-    }
-  }
-
   return string.substring(0, string.length - amount);
 }
 
@@ -110,6 +102,21 @@ String shortAddressForm(String address) {
   final part2 = address.substring(length - 4, length);
 
   return '$part1 •••• $part2';
+}
+
+String shortTxhashFrom(String address) {
+  final length = address.length;
+
+  var len = length / 2;
+
+  print(length);
+
+  if (length <= 16) return address;
+
+  final part1 = address.substring(0, 8);
+  final part2 = address.substring(length - 8, length);
+
+  return '$part1...$part2';
 }
 
 String shortAddressFormTwo(String address) {
@@ -158,7 +165,8 @@ Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
 }
 
 /// International only format
-Future<bool> isInternationalPhoneNumberValid(String phoneNumber, String? isoCode) async {
+Future<bool> isInternationalPhoneNumberValid(
+    String phoneNumber, String? isoCode) async {
   try {
     final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
       phoneNumber,

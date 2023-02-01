@@ -18,25 +18,44 @@ class SimpleAnalytics {
 
   final _analytics = Amplitude.getInstance();
 
+  bool isTechAcc = false;
+
   /// Run at the start of the app
   ///
   /// Provide:
   /// 1. environmentKey for Amplitude workspace
   /// 2. userEmail if user is already authenticated
-  Future<void> init(String environmentKey, [String? userEmail]) async {
+  Future<void> init(String environmentKey, bool techAcc,
+      [String? userEmail]) async {
     await _analytics.init(environmentKey);
 
     if (userEmail != null) {
       await _analytics.setUserId(userEmail);
     }
+
+    isTechAcc = techAcc;
+  }
+
+  void updateTechAccValue(bool techAcc) {
+    isTechAcc = techAcc;
   }
 
   void onboardingView() {
-    _analytics.logEvent(EventType.onboardingView);
+    _analytics.logEvent(
+      EventType.onboardingView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void signUpView() {
-    _analytics.logEvent(EventType.signUpView);
+    _analytics.logEvent(
+      EventType.signUpView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   Future<void> signUpSuccess(String userEmail) async {
@@ -47,7 +66,12 @@ class SimpleAnalytics {
       ..set(UserType.kycStatus, 'Unknown');
 
     await _analytics.identify(identify);
-    await _analytics.logEvent(EventType.signUpSuccess);
+    await _analytics.logEvent(
+      EventType.signUpSuccess,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void signUpFailure(String userEmail, String error) {
@@ -57,25 +81,46 @@ class SimpleAnalytics {
         PropertyType.error: error,
         PropertyType.email: userEmail,
         PropertyType.id: hashString(userEmail),
+        PropertyType.techAcc: isTechAcc,
       },
     );
   }
 
   void emailVerificationView() {
-    _analytics.logEvent(EventType.emailVerificationView);
+    _analytics.logEvent(
+      EventType.emailVerificationView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void emailConfirmed() {
-    _analytics.logEvent(EventType.emailConfirmed);
+    _analytics.logEvent(
+      EventType.emailConfirmed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void loginView() {
-    _analytics.logEvent(EventType.loginView);
+    _analytics.logEvent(
+      EventType.loginView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   Future<void> loginSuccess(String userEmail) async {
     await _analytics.setUserId(userEmail);
-    await _analytics.logEvent(EventType.loginSuccess);
+    await _analytics.logEvent(
+      EventType.loginSuccess,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void loginFailure(String userEmail, String error) {
@@ -85,6 +130,7 @@ class SimpleAnalytics {
         PropertyType.error: error,
         PropertyType.email: userEmail,
         PropertyType.id: hashString(userEmail),
+        PropertyType.techAcc: isTechAcc,
       },
     );
   }
@@ -93,84 +139,126 @@ class SimpleAnalytics {
   void account() {
     _analytics.logEvent(
       EventType.account,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePassword() {
     _analytics.logEvent(
       EventType.accountChangePassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePasswordWarning() {
     _analytics.logEvent(
       EventType.accountChangePasswordWarning,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePasswordContinue() {
     _analytics.logEvent(
       EventType.accountChangePasswordContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePasswordCancel() {
     _analytics.logEvent(
       EventType.accountChangePasswordCancel,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountEnterOldPassword() {
     _analytics.logEvent(
       EventType.accountEnterOldPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountSetNewPassword() {
     _analytics.logEvent(
       EventType.accountSetNewPassword,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountSuccessChange() {
     _analytics.logEvent(
       EventType.accountSuccessChange,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePhone() {
     _analytics.logEvent(
       EventType.accountChangePhone,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePhoneWarning() {
     _analytics.logEvent(
       EventType.accountChangePhoneWarning,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePhoneContinue() {
     _analytics.logEvent(
       EventType.accountChangePhoneContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountChangePhoneCancel() {
     _analytics.logEvent(
       EventType.accountChangePhoneCancel,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountEnterNumber() {
     _analytics.logEvent(
       EventType.accountEnterNumber,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void accountSuccessPhone() {
     _analytics.logEvent(
       EventType.accountSuccessPhone,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -179,6 +267,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.assetView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
       },
     );
@@ -188,6 +277,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnProgramView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
       },
     );
@@ -197,6 +287,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycVerifyProfile,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
         PropertyType.kysScope: scope.name,
       },
@@ -207,6 +298,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.changeCountryCode,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.country: country,
       },
     );
@@ -219,6 +311,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.identityParametersChoosed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.countryOfIssue: countryName,
         PropertyType.documentType: documentType,
       },
@@ -229,6 +322,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.marketFilters,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.marketFilter: marketFilter.name,
       },
     );
@@ -238,6 +332,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.addToWatchlist,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
       },
     );
@@ -247,6 +342,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.clickMarketBanner,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.campaignName: campaignName,
         PropertyType.action: action.name,
       },
@@ -257,6 +353,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.rewardsScreenView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
       },
     );
@@ -266,6 +363,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.inviteFriendView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
       },
     );
@@ -275,6 +373,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.buyView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
         PropertyType.assetName: assetName,
       },
@@ -287,6 +386,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnDetailsView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
       },
     );
@@ -296,6 +396,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.walletAssetView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
         PropertyType.assetName: assetName,
       },
@@ -306,6 +407,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycCameraAllowed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: KycScope.kycCameraAllowed.name,
       },
     );
@@ -315,6 +417,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycCameraNotAllowed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: KycScope.kycCameraNotAllowed.name,
       },
     );
@@ -324,6 +427,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycIdentityUploaded,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: KycScope.kycIdentityUploaded.name,
       },
     );
@@ -333,6 +437,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycIdentityUploadFailed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: KycScope.kycIdentityUploadFailed.name,
         PropertyType.error: error,
       },
@@ -343,6 +448,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycSelfieUploaded,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: KycScope.kycIdentityUploaded.name,
       },
     );
@@ -351,24 +457,36 @@ class SimpleAnalytics {
   void kycPhoneConfirmationView() {
     _analytics.logEvent(
       EventType.kycPhoneConfirmationView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycPhoneConfirmed() {
     _analytics.logEvent(
       EventType.kycPhoneConfirmed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycChangePhoneNumber() {
     _analytics.logEvent(
       EventType.kycChangePhoneNumber,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycIdentityScreenView() {
     _analytics.logEvent(
       EventType.kycIdentityScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -376,6 +494,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.kycPhoneConfirmFailed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.kycPhoneConfirmFailed: error,
       },
     );
@@ -384,48 +503,72 @@ class SimpleAnalytics {
   void kycEnterPhoneNumber() {
     _analytics.logEvent(
       EventType.kycEnterPhoneNumber,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycAllowCameraView() {
     _analytics.logEvent(
       EventType.kycAllowCameraView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycSelfieView() {
     _analytics.logEvent(
       EventType.kycSelfieView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycSuccessPageView() {
     _analytics.logEvent(
       EventType.kycSuccessPageView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycAllowCamera() {
     _analytics.logEvent(
       EventType.kycAllowCamera,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycGiveCameraPermission() {
     _analytics.logEvent(
       EventType.kycGiveCameraPermission,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycTapOnGoToSettings() {
     _analytics.logEvent(
       EventType.kycTapOnGoToSettings,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void kycTapOnEnableCamera() {
     _analytics.logEvent(
       EventType.kycTapOnEnableCamera,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -433,7 +576,12 @@ class SimpleAnalytics {
   /// It will clean unique userId and will generate deviceId,
   /// so the user will appear as a brand new one.
   Future<void> logout() async {
-    await _analytics.logEvent(EventType.logout);
+    await _analytics.logEvent(
+      EventType.logout,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
     await _analytics.setUserId(null);
   }
 
@@ -444,29 +592,55 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sellClick,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sellSource: source,
       },
     );
   }
 
   void sellChooseAsset() {
-    _analytics.logEvent(EventType.sellChooseAsset);
+    _analytics.logEvent(
+      EventType.sellChooseAsset,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sellChooseAssetClose() {
-    _analytics.logEvent(EventType.sellChooseAssetClose);
+    _analytics.logEvent(
+      EventType.sellChooseAssetClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sellChooseDestination() {
-    _analytics.logEvent(EventType.sellChooseDestination);
+    _analytics.logEvent(
+      EventType.sellChooseDestination,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sellForView() {
-    _analytics.logEvent(EventType.sellForView);
+    _analytics.logEvent(
+      EventType.sellForView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sellCloseFor() {
-    _analytics.logEvent(EventType.sellCloseFor);
+    _analytics.logEvent(
+      EventType.sellCloseFor,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sellTapPreview({
@@ -479,6 +653,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sellTapPreview,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceCurrency: sourceCurrency,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationCurrency: destinationCurrency,
@@ -497,6 +672,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sellConfirm,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceCurrency: sourceCurrency,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationCurrency: destinationCurrency,
@@ -506,7 +682,12 @@ class SimpleAnalytics {
   }
 
   void sellSuccess() {
-    _analytics.logEvent(EventType.sellSuccess);
+    _analytics.logEvent(
+      EventType.sellSuccess,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   /// Sell
@@ -516,17 +697,28 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.convertClick,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sellSource: source,
       },
     );
   }
 
   void convertPageView() {
-    _analytics.logEvent(EventType.convertPageView);
+    _analytics.logEvent(
+      EventType.convertPageView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void convertSuccess() {
-    _analytics.logEvent(EventType.convertSuccess);
+    _analytics.logEvent(
+      EventType.convertSuccess,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void convertTapPreview({
@@ -539,6 +731,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.convertTapPreview,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceCurrency: sourceCurrency,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationCurrency: destinationCurrency,
@@ -557,6 +750,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.convertConfirm,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceCurrency: sourceCurrency,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationCurrency: destinationCurrency,
@@ -576,6 +770,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.tapPreviewBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
@@ -594,6 +789,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.previewBuyView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
@@ -611,6 +807,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.tapConfirmBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.amount: amount,
@@ -622,6 +819,9 @@ class SimpleAnalytics {
   void tapSkipWaiting() {
     _analytics.logEvent(
       EventType.tapSkipWaiting,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -629,38 +829,74 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.simplexView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.url: url,
       },
     );
   }
 
   void simplexSucsessView(String url) {
-    _analytics.logEvent(EventType.simplexSucsessView);
+    _analytics.logEvent(
+      EventType.simplexSucsessView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void simplexFailureView(String url) {
-    _analytics.logEvent(EventType.simplexFailureView);
+    _analytics.logEvent(
+      EventType.simplexFailureView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   /// Circle
   void circleChooseMethod() {
-    _analytics.logEvent(EventType.circleChooseMethod);
+    _analytics.logEvent(
+      EventType.circleChooseMethod,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circlePayFromView() {
-    _analytics.logEvent(EventType.circlePayFromView);
+    _analytics.logEvent(
+      EventType.circlePayFromView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleTapAddCard() {
-    _analytics.logEvent(EventType.circleTapAddCard);
+    _analytics.logEvent(
+      EventType.circleTapAddCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleContinueDetails() {
-    _analytics.logEvent(EventType.circleContinueDetails);
+    _analytics.logEvent(
+      EventType.circleContinueDetails,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleContinueAddress() {
-    _analytics.logEvent(EventType.circleContinueAddress);
+    _analytics.logEvent(
+      EventType.circleContinueAddress,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleCVVView({
@@ -669,18 +905,27 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.circleCVVView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.method: source,
       },
     );
   }
 
   void circleCloseCVV() {
-    _analytics.logEvent(EventType.circleCloseCVV);
+    _analytics.logEvent(
+      EventType.circleCloseCVV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleRedirect() {
     _analytics.logEvent(
       EventType.circleRedirect,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -692,6 +937,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.circleSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: asset,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -700,15 +946,30 @@ class SimpleAnalytics {
   }
 
   void circleFailed() {
-    _analytics.logEvent(EventType.circleFailed);
+    _analytics.logEvent(
+      EventType.circleFailed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleAdd() {
-    _analytics.logEvent(EventType.circleAdd);
+    _analytics.logEvent(
+      EventType.circleAdd,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void circleCancel() {
-    _analytics.logEvent(EventType.circleCancel);
+    _analytics.logEvent(
+      EventType.circleCancel,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   /// Quick actions
@@ -716,6 +977,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.tapOnBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
       },
     );
@@ -725,6 +987,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.tapOnBuyFromCard,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceScreen: source.name,
       },
     );
@@ -735,23 +998,35 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.receiveClick,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceReceive: source,
       },
     );
   }
 
   void receiveChooseAsset() {
-    _analytics.logEvent(EventType.receiveChooseAsset);
+    _analytics.logEvent(
+      EventType.receiveChooseAsset,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void receiveChooseAssetClose() {
-    _analytics.logEvent(EventType.receiveChooseAssetClose);
+    _analytics.logEvent(
+      EventType.receiveChooseAssetClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void receiveAssetView({required String asset}) {
     _analytics.logEvent(
       EventType.receiveAssetView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetReceive: asset,
       },
     );
@@ -761,6 +1036,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.receiveCopy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetReceive: asset,
       },
     );
@@ -770,6 +1046,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.receiveShare,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetReceive: asset,
       },
     );
@@ -780,45 +1057,91 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sendClick,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sourceReceive: source,
       },
     );
   }
 
   void sendChooseAsset() {
-    _analytics.logEvent(EventType.sendChooseAsset);
+    _analytics.logEvent(
+      EventType.sendChooseAsset,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendChooseAssetClose() {
-    _analytics.logEvent(EventType.sendChooseAssetClose);
+    _analytics.logEvent(
+      EventType.sendChooseAssetClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendToView() {
-    _analytics.logEvent(EventType.sendToView);
+    _analytics.logEvent(
+      EventType.sendToView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendToViewClose() {
-    _analytics.logEvent(EventType.sendToViewClose);
+    _analytics.logEvent(
+      EventType.sendToViewClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendChoosePhone() {
-    _analytics.logEvent(EventType.sendChoosePhone);
+    _analytics.logEvent(
+      EventType.sendChoosePhone,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendChoosePhoneClose() {
-    _analytics.logEvent(EventType.sendChoosePhoneClose);
+    _analytics.logEvent(
+      EventType.sendChoosePhoneClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendContinuePhone() {
-    _analytics.logEvent(EventType.sendContinuePhone);
+    _analytics.logEvent(
+      EventType.sendContinuePhone,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendContinueAddress() {
-    _analytics.logEvent(EventType.sendContinueAddress);
+    _analytics.logEvent(
+      EventType.sendContinueAddress,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendViews() {
-    _analytics.logEvent(EventType.sendViews);
+    _analytics.logEvent(
+      EventType.sendViews,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendTapPreview({
@@ -830,6 +1153,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sendTapPreview,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.percentageReceive: percentage,
         PropertyType.amount: amount,
         PropertyType.currency: currency,
@@ -846,6 +1170,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sendConfirm,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.amount: amount,
         PropertyType.currency: currency,
         PropertyType.sendType: type,
@@ -859,30 +1184,45 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.sendSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.sendType: type,
       },
     );
   }
 
   void sendConfirmSend() {
-    _analytics.logEvent(EventType.sendConfirmSend);
+    _analytics.logEvent(
+      EventType.sendConfirmSend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void sendNotifyRecipient() {
     _analytics.logEvent(
       EventType.sendNotifyRecipient,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void sendTapOnSendMessage() {
     _analytics.logEvent(
       EventType.sendTapOnSendMessage,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void sendTapOnSendLater() {
     _analytics.logEvent(
       EventType.sendTapOnSendLater,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -895,6 +1235,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.setupRecurringBuyView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.sourceScreen: source.name,
       },
@@ -909,6 +1250,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.pickRecurringBuyFrequency,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.sourceScreen: source.name,
@@ -920,6 +1262,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.closeRecurringBuySheet,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.sourceScreen: source.name,
       },
@@ -936,6 +1279,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.tapManageButton,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -951,6 +1295,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.recurringBuyDeletionSheetView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -966,6 +1311,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.cancelRecurringBuyDeletion,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -981,6 +1327,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.deleteRecurringBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -996,6 +1343,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.pauseRecurringBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -1011,6 +1359,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.startRecurringBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.assetName: assetName,
         PropertyType.frequency: frequency.name,
         PropertyType.amount: amount,
@@ -1025,24 +1374,36 @@ class SimpleAnalytics {
   void earnClickInfoButton() {
     _analytics.logEvent(
       EventType.earnClickInfoButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void earnOnBoardingView() {
     _analytics.logEvent(
       EventType.earnOnBoardingView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void earnClickMore() {
     _analytics.logEvent(
       EventType.earnClickMore,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void earnCloseOnboarding() {
     _analytics.logEvent(
       EventType.earnCloseOnboarding,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -1052,6 +1413,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnTapAvailable,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
       },
     );
@@ -1063,6 +1425,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnAvailableView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
       },
     );
@@ -1075,6 +1438,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnSelectOffer,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.offerType: offerType,
       },
@@ -1087,6 +1451,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnProgressBar,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1098,6 +1463,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnCalculationView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1114,6 +1480,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnPreview,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1134,6 +1501,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnConfirm,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1146,6 +1514,9 @@ class SimpleAnalytics {
   void earnSuccessPage() {
     _analytics.logEvent(
       EventType.earnSuccessPage,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -1159,6 +1530,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnTapActive,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1178,6 +1550,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnActiveSheetView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1197,6 +1570,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnCloseActiveSheet,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1216,6 +1590,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnTapManage,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1235,6 +1610,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnManageView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1254,6 +1630,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnCloseManage,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1273,6 +1650,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnClickTopUp,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1293,6 +1671,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnPreviewTopUp,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.topUpAmount: amount,
         PropertyType.topUpAPY: apy,
@@ -1313,6 +1692,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnConfirmTopUp,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.topUpAmount: amount,
         PropertyType.topUpAPY: apy,
@@ -1332,6 +1712,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnSuccessTopUp,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.topUpAmount: amount,
         PropertyType.topUpAPY: apy,
@@ -1351,6 +1732,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnClickReclaim,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.amount: amount,
         PropertyType.apy: apy,
@@ -1371,6 +1753,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnPreviewReclaim,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.reclaimAmount: amount,
         PropertyType.reclaimAPY: apy,
@@ -1391,6 +1774,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnConfirmReclaim,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.reclaimAmount: amount,
         PropertyType.reclaimAPY: apy,
@@ -1410,6 +1794,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.earnSuccessReclaim,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.asset: assetName,
         PropertyType.reclaimAmount: amount,
         PropertyType.reclaimAPY: apy,
@@ -1422,6 +1807,9 @@ class SimpleAnalytics {
   void uploadIdentityDocument() {
     _analytics.logEvent(
       EventType.kycScanDoc,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -1432,6 +1820,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.accountBannerClick,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.bannerName: bannerName,
       },
     );
@@ -1443,6 +1832,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.accountBannerClose,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.bannerName: bannerName,
       },
     );
@@ -1455,6 +1845,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.clickNotification,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.campaignId: campaignId,
       },
     );
@@ -1467,6 +1858,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.timeStartMarket,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.time: time,
       },
     );
@@ -1478,6 +1870,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.timeStartInitFinished,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.time: time,
       },
     );
@@ -1489,6 +1882,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.timeStartConfig,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.time: time,
       },
     );
@@ -1500,6 +1894,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.timeSignalRCheckIF,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.time: time,
       },
     );
@@ -1511,6 +1906,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.timeSignalRReceiveIF,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.time: time,
       },
     );
@@ -1522,6 +1918,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.initFinishedOnMarket,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.isLoaded: isFinished,
       },
     );
@@ -1530,18 +1927,27 @@ class SimpleAnalytics {
   void initFinished() {
     _analytics.logEvent(
       EventType.initFinished,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void remoteConfig() {
     _analytics.logEvent(
       EventType.remoteConfig,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void remoteConfigError() {
     _analytics.logEvent(
       EventType.remoteConfigError,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -1549,18 +1955,27 @@ class SimpleAnalytics {
   void paymentTap() {
     _analytics.logEvent(
       EventType.paymentTap,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void paymentView() {
     _analytics.logEvent(
       EventType.paymentView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void paymentAdd() {
     _analytics.logEvent(
       EventType.paymentAdd,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
@@ -1570,6 +1985,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.paymentDetailsView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1581,6 +1997,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.paymentDetailsContinue,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1592,6 +2009,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.paymentBillingView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1603,6 +2021,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.paymentBillingContinue,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
@@ -1617,6 +2036,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.paymentSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.method: source,
         PropertyType.assetName: asset,
         PropertyType.frequency: frequency.name,
@@ -1628,15 +2048,30 @@ class SimpleAnalytics {
   /// NFT
 
   void nftPromoOpenPromo() {
-    _analytics.logEvent(EventType.iHavePromoCode);
+    _analytics.logEvent(
+      EventType.iHavePromoCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPromoEnterPromo() {
-    _analytics.logEvent(EventType.enterPromoCode);
+    _analytics.logEvent(
+      EventType.enterPromoCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPromoClosePromo() {
-    _analytics.logEvent(EventType.closePromoCode);
+    _analytics.logEvent(
+      EventType.closePromoCode,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPromoContinuePromo({
@@ -1644,12 +2079,20 @@ class SimpleAnalytics {
   }) {
     _analytics.logEvent(
       EventType.tapOnContinuePromoCode,
-      eventProperties: {'Promo code': promoCode},
+      eventProperties: {
+        'Promo code': promoCode,
+        PropertyType.techAcc: isTechAcc,
+      },
     );
   }
 
   void nftMarketOpen() {
-    _analytics.logEvent(EventType.nftMarketOpen);
+    _analytics.logEvent(
+      EventType.nftMarketOpen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftMarketTapCollection({
@@ -1660,6 +2103,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftMarketTapCollection,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.collectionTitle: collectionTitle,
         PropertyType.nftNumberPictures: nftNumberPictures,
         PropertyType.nftCategories: nftCategories,
@@ -1668,11 +2112,21 @@ class SimpleAnalytics {
   }
 
   void nftMarketTapFilter() {
-    _analytics.logEvent(EventType.nftMarketTapFilter);
+    _analytics.logEvent(
+      EventType.nftMarketTapFilter,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftMarketFilterShowed() {
-    _analytics.logEvent(EventType.nftMarketFilterShowed);
+    _analytics.logEvent(
+      EventType.nftMarketFilterShowed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftMarketFilterClose({
@@ -1681,6 +2135,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftMarketFilterClose,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.collectionTitle: nftCloseMethod,
       },
     );
@@ -1693,6 +2148,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftCollectionView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.source: source,
       },
@@ -1700,11 +2156,21 @@ class SimpleAnalytics {
   }
 
   void nftCollectionTapSort() {
-    _analytics.logEvent(EventType.nftCollectionTapSort);
+    _analytics.logEvent(
+      EventType.nftCollectionTapSort,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftCollectionSortView() {
-    _analytics.logEvent(EventType.nftCollectionSortView);
+    _analytics.logEvent(
+      EventType.nftCollectionSortView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftCollectionSortClose({
@@ -1713,6 +2179,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftCollectionSortClose,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftSortingOption: nftSortingOption,
       },
     );
@@ -1724,17 +2191,28 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftCollectionSortApply,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftSortingOption: nftSortingOption,
       },
     );
   }
 
   void nftCollectionTapHide() {
-    _analytics.logEvent(EventType.nftCollectionTapHide);
+    _analytics.logEvent(
+      EventType.nftCollectionTapHide,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftCollectionTapShow() {
-    _analytics.logEvent(EventType.nftCollectionTapShow);
+    _analytics.logEvent(
+      EventType.nftCollectionTapShow,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftObjectTap({
@@ -1744,6 +2222,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1758,6 +2237,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.source: source,
@@ -1772,6 +2252,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1785,6 +2266,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapCollection,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1799,6 +2281,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapCurrency,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.currency: currency,
@@ -1815,6 +2298,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapBuy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.currency: currency,
@@ -1832,6 +2316,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectNotEnoughAsset,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.currency: currency,
@@ -1849,6 +2334,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapGetAsset,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.currency: currency,
@@ -1867,6 +2353,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectCloseNotEnough,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.currency: currency,
@@ -1883,6 +2370,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapPicture,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1896,6 +2384,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectPictureView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1909,6 +2398,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectPictureClose,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1922,6 +2412,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapShare,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1935,6 +2426,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectShareView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1948,6 +2440,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapCopy,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -1962,6 +2455,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectTapShareTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.source: source,
@@ -1977,6 +2471,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftObjectShareClose,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.method: method,
@@ -1995,6 +2490,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseConfirmView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftPrice: nftPrice,
@@ -2015,6 +2511,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseTapBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftPrice: nftPrice,
@@ -2035,6 +2532,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseConfirmTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftPrice: nftPrice,
@@ -2056,6 +2554,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseProcessing,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftPrice: nftPrice,
@@ -2077,6 +2576,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftPrice: nftPrice,
@@ -2094,6 +2594,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftPurchaseDisplayed,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2101,27 +2602,57 @@ class SimpleAnalytics {
   }
 
   void nftPortfolioTapNft() {
-    _analytics.logEvent(EventType.nftPortfolioTapNft);
+    _analytics.logEvent(
+      EventType.nftPortfolioTapNft,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPortfolioNFTView() {
-    _analytics.logEvent(EventType.nftPortfolioNFTView);
+    _analytics.logEvent(
+      EventType.nftPortfolioNFTView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPortfolioHistory() {
-    _analytics.logEvent(EventType.nftPortfolioHistory);
+    _analytics.logEvent(
+      EventType.nftPortfolioHistory,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPortfolioHistoryView() {
-    _analytics.logEvent(EventType.nftPortfolioHistoryView);
+    _analytics.logEvent(
+      EventType.nftPortfolioHistoryView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPortfolioBuy() {
-    _analytics.logEvent(EventType.nftPortfolioBuy);
+    _analytics.logEvent(
+      EventType.nftPortfolioBuy,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftPortfolioReceive() {
-    _analytics.logEvent(EventType.nftPortfolioReceive);
+    _analytics.logEvent(
+      EventType.nftPortfolioReceive,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftWalletTapObject({
@@ -2131,6 +2662,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletTapObject,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2144,6 +2676,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletObjectView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2157,6 +2690,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletActionTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2170,6 +2704,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletActionView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2183,6 +2718,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletStatsTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2196,6 +2732,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletHistory,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2209,6 +2746,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletTapHistoryObject,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2222,6 +2760,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletHistoryObjectView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2235,6 +2774,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletTapCollection,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2248,6 +2788,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletCollectionView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2261,6 +2802,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftWalletObjectFull,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2274,6 +2816,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2287,6 +2830,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellPreview,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2302,6 +2846,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellPreviewTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2322,6 +2867,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellConfirmView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2345,6 +2891,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellConfirmTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2368,6 +2915,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellProcessing,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2391,6 +2939,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2414,6 +2963,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellCancelTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2437,6 +2987,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellConfirmBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.asset: asset,
@@ -2455,6 +3006,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSellPreviewBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2468,6 +3020,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2481,6 +3034,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2494,6 +3048,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
       },
@@ -2508,6 +3063,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendContinue,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2524,6 +3080,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendConfirmView,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2541,6 +3098,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendConfirmBack,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2558,6 +3116,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendConfirmTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2575,6 +3134,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendProcessing,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2592,6 +3152,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftSendSuccess,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.nftCollectionID: nftCollectionID,
         PropertyType.nftObjectId: nftObjectId,
         PropertyType.nftNetwork: network,
@@ -2606,20 +3167,36 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.nftReceiveTap,
       eventProperties: {
+        PropertyType.techAcc: isTechAcc,
         PropertyType.source: source,
       },
     );
   }
 
   void nftReceiveShareTap() {
-    _analytics.logEvent(EventType.nftReceiveShareTap);
+    _analytics.logEvent(
+      EventType.nftReceiveShareTap,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftReceiveCopyTap() {
-    _analytics.logEvent(EventType.nftReceiveCopyTap);
+    _analytics.logEvent(
+      EventType.nftReceiveCopyTap,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 
   void nftReceiveBack() {
-    _analytics.logEvent(EventType.nftReceiveBack);
+    _analytics.logEvent(
+      EventType.nftReceiveBack,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+      },
+    );
   }
 }

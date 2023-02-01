@@ -423,6 +423,7 @@
   "portfolioWithBalanceBody_month": "Month",
   "portfolioWithBalanceBody_today": "Today",
   "portfolioWithBalanceBody_portfolio": "Portfolio",
+  "portfolioWithBalanceBody_my_assets": "My assets",
   "portfolioWithBalanceBody_nft": "NFTs",
   "portfolioWithBalanceBody_no_nft": "No NFT yet",
   "portfolioWithBalanceBody_buy_nft": "Buy NFT",
@@ -481,6 +482,7 @@
   "balanceActionButtons_buy": "Buy",
   "balanceActionButtons_receive": "Receive",
   "balanceActionButtons_send": "Send",
+  "balanceActionButtons_exchange": "Exchange",
   "actionReceive_bottomSheetHeaderName1": "Choose asset to receive",
   "actionReceive_receive": "Receive",
   "actionReceive_receive_crypto": "Receive crypto",
@@ -498,6 +500,7 @@
   "actionBuy_gotIt": "Got It",
   "actionBuy_goToKYC": "Go to KYC",
   "actionBuy_alertPopup": "You may perform only one transaction for up to $1000. Withdrawal or adding more funds will require completing KYC.",
+  "actionBuy_alertPopupSecond": "You may perform only one transaction for up to $700 (or the equivalent amount in another fiat currency). Withdrawing or adding more funds will require completing KYC.",
   "actionBuy_chooseAsset": "Choose asset",
   "actionBuy_cards": "Cards",
   "actionBuy_addACard": "Add a card",
@@ -1026,7 +1029,7 @@
   "emptyEarnWalletBody_buyWithCash": "Buy with card",
   "emptyEarnWalletBody_buyCrypto": "Buy crypto",
   "emptyEarnWalletBody_mainText1": "Buy crypto with",
-  "emptyEarnWalletBody_mainText2": "Low commission",
+  "emptyEarnWalletBody_mainText2": "low commission",
   "emptyEarnWalletBody_subText": "Buy Crypto with Low commission",
   "earn_terms_title": "Terms & Conditions",
   "earn_terms_description": "By proceeding to the earn section you agree to terms and conditions set below.",
@@ -1250,5 +1253,8 @@
   "mailPicker_chooseMail": "Select an app",
   "mailPicker_rememberChosen": "Remember my choice",
   "favorite": "Favorite",
-  "assets": "Assets"
+  "assets": "Assets",
+  "bottom_bar_my_assets": "My assets",
+  "bottom_bar_market": "Market",
+  "open_in_explorer": "Open in Explorer"
 }

@@ -40,6 +40,10 @@ Future<GetIt> getItInit({
   String? env,
   EnvironmentFilter? environmentFilter,
 }) async {
+  getIt.registerSingleton<AppRouter>(
+    AppRouter(initGuard: InitGuard()),
+  );
+
   getIt.registerSingleton<SimpleKit>(
     SimpleKit(),
   );
@@ -103,10 +107,6 @@ Future<GetIt> getItInit({
   );
 
   _logger.log(stateFlow, 'SimpleAnalytics LOADED');
-
-  getIt.registerSingleton<AppRouter>(
-    AppRouter(initGuard: InitGuard()),
-  );
 
   _logger.log(stateFlow, 'AppRouter LOADED');
 

@@ -81,10 +81,6 @@ class AppBuilderBody extends StatefulWidget {
 
   @override
   State<AppBuilderBody> createState() => _AppBuilderBodyState();
-
-  static restart(BuildContext context) {
-    context.findAncestorStateOfType<_AppBuilderBodyState>()!.restartApp();
-  }
 }
 
 class _AppBuilderBodyState extends State<AppBuilderBody>
@@ -118,28 +114,18 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
   @override
   void initState() {
     getIt.get<AppStore>().getAuthStatus();
-    WidgetsBinding.instance?.addObserver(this);
+
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
-  }
-
-  Key _key = UniqueKey();
-
-  Future<void> restartApp() async {
-    setState(() {
-      _key = UniqueKey();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      key: _key,
       data: widget.reactiveMediaQuery.copyWith(
         textScaleFactor: 1.0,
       ),

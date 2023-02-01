@@ -21,6 +21,7 @@ class BlockchainModel with _$BlockchainModel {
     @Default('') String id,
     @Default(TagType.none) TagType tagType,
     @Default('') String description,
+    @Default('') String blockchainExplorerUrlTemplate,
   }) = _BlockchainModel;
 
   factory BlockchainModel.fromJson(Map<String, dynamic> json) =>

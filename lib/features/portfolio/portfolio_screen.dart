@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/empty_apy_portfolio.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_portfolio/empty_porfolio.dart';
+import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/portfolio_balance.dart';
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/portfolio_with_balance.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
@@ -28,7 +29,8 @@ class PortfolioScreen extends StatelessObserverWidget {
         return const EmptyApyPortfolio();
       }
     } else {
-      return const PortfolioWithBalance();
+      return const PortfolioBalance();
+      //return const PortfolioWithBalance();
     }
   }
 }
