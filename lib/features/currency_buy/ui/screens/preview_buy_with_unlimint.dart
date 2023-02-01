@@ -17,6 +17,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../utils/constants.dart';
+import '../../../../utils/helpers/widget_size_from.dart';
 
 class PreviewBuyWithUnlimint extends StatelessWidget {
   const PreviewBuyWithUnlimint({
@@ -98,8 +99,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(
-              bottom: 260.0,
+            padding: EdgeInsets.only(
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                  ? 400.0
+                  : 260.0,
             ),
             children: [
               Column(

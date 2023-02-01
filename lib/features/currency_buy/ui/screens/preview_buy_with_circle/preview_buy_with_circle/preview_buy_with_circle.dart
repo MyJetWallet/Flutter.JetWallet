@@ -18,6 +18,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 import '../../../../../../utils/constants.dart';
 import '../../../../../../utils/helpers/currency_from.dart';
+import '../../../../../../utils/helpers/widget_size_from.dart';
 
 class PreviewBuyWithCircle extends StatelessWidget {
   const PreviewBuyWithCircle({
@@ -132,8 +133,10 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(
-              bottom: 260.0,
+            padding:  EdgeInsets.only(
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                  ? 400.0
+                  : 260.0,
             ),
             children: [
               Column(

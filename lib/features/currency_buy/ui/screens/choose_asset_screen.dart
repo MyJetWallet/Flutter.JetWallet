@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -21,10 +23,17 @@ class ChooseAssetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final searchStore = getIt.get<ActionSearchStore>();
     searchStore.init();
+    searchStore.refreshSearch();
     final showSearch = showBuyCurrencySearch(
       context,
       fromCard: true,
       searchStore: searchStore,
+    );
+    Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        searchStore.init();
+      },
     );
 
     return SPageFrame(

@@ -18,6 +18,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 import '../../../../utils/constants.dart';
+import '../../../../utils/helpers/widget_size_from.dart';
 
 class PreviewBuyWithBankCard extends StatelessWidget {
   const PreviewBuyWithBankCard({
@@ -86,8 +87,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            padding: const EdgeInsets.only(
-              bottom: 260.0,
+            padding: EdgeInsets.only(
+              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                ? 400.0
+                : 260.0,
             ),
             children: [
               Column(
