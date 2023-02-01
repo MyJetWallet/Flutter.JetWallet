@@ -33,6 +33,7 @@ class ChooseAssetScreen extends StatelessWidget {
       const Duration(seconds: 1),
       (timer) {
         searchStore.init();
+        sortByBalanceAndWeight(searchStore.filteredCurrencies);
       },
     );
 

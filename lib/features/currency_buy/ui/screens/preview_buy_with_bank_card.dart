@@ -89,7 +89,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
           ListView(
             padding: EdgeInsets.only(
               bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                ? 400.0
+                ? 310.0
                 : 260.0,
             ),
             children: [
