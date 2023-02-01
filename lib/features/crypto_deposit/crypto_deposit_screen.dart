@@ -217,7 +217,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         ),
       ),
       bottomNavigationBar: SizedBox(
-        height: 104,
+        height: 122,
         child: Column(
           children: [
             const SDivider(),
@@ -260,7 +260,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 },
               ),
             ),
-            const SpaceH24(),
+            const SpaceH42(),
           ],
         ),
       ),

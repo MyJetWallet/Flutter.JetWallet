@@ -26,6 +26,26 @@ Map<String, dynamic> handleFullResponse<T>(
   }
 }
 
+Map<String, dynamic> handleFullNumberResponse<T>(
+  Map<String, dynamic> json,
+) {
+  final result = json['result'] as String;
+
+  _handleFullNumberResponse(result, json);
+
+  final data = json['data'];
+
+  if (T == Map) {
+    try {
+      return data as Map<String, dynamic>;
+    } catch (e) {
+      return json;
+    }
+  } else {
+    return json;
+  }
+}
+
 /// Handles common response with just [result] from the API
 void handleResultResponse(
   Map<String, dynamic> json,
@@ -109,6 +129,22 @@ void _validateFullResponse(
   }
 }
 
+void _handleFullNumberResponse(
+  String result,
+  Map<String, dynamic> json,
+) {
+  if (result == 'OperationBlocked') {
+    final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;
+    if (rejectDetail != null) {
+      final blocker = rejectDetail['blocker'] as Map<String, dynamic>;
+      final expired = blocker['expired'] as String;
+      throw ServerRejectException(_blockerNumberMessage(timespanToDuration(expired)));
+    }
+  } else if (result != 'OK') {
+    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
+  }
+}
+
 void _validateResultResponse(String result) {
   if (result != 'OK') {
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
@@ -129,7 +165,29 @@ String _blockerMessage(Duration duration) {
 
   final d = duration.inDays;
   final h = duration.inHours;
-  final m = duration.inMinutes;
+  final m = duration.inMinutes - h * 60;
+
+  final dEnd = _pluralEnd(d);
+  final hEnd = _pluralEnd(h);
+  final mEnd = _pluralEnd(m);
+
+  if (d != 0) {
+    return '$phrase1 $d day$dEnd $h hour$hEnd.';
+  } else if (h != 0) {
+    return '$phrase1 $h hour$hEnd $m minute$mEnd.';
+  } else if (m != 0) {
+    return '$phrase1 $m minute$mEnd.';
+  } else {
+    return '$phrase1 < 1 minute.';
+  }
+}
+
+String _blockerNumberMessage(Duration duration) {
+  const phrase1 = 'Operation blocked for';
+
+  final d = duration.inDays;
+  final h = duration.inHours;
+  final m = duration.inMinutes - h * 60;
 
   final dEnd = _pluralEnd(d);
   final hEnd = _pluralEnd(h);

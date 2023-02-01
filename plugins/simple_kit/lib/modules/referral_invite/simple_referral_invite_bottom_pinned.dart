@@ -27,7 +27,7 @@ class _SReferralInviteBottomPinnedState
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-        bottom: 24,
+        bottom: 42,
         top: 24,
       ),
       decoration: BoxDecoration(
