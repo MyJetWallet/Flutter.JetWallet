@@ -155,9 +155,10 @@ dev_dependencies:
   auto_route_generator: 5.0.3
 
 dependency_overrides:
-  analyzer: 4.6.0
-  dart_style: ^2.2.3
-  build_resolvers: 2.0.9
+  analyzer: 5.4.0
+  collection: ^1.17.1
+  dart_style: ^2.2.4
+  build_resolvers: 2.1.0
   flutter_inappwebview: ^5.7.1
 
 flutter_native_splash:
