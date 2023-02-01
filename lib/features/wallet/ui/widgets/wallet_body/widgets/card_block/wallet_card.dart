@@ -142,13 +142,14 @@ class WalletCard extends StatelessObserverWidget {
                         assetName: currency.description,
                       );
                     } else {
-                      sRouter.navigate(
+                      /*sRouter.navigate(
                         const HomeRouter(
                           children: [
                             EarnRouter(),
                           ],
                         ),
                       );
+                      */
                       Navigator.pop(context);
                     }
                   }

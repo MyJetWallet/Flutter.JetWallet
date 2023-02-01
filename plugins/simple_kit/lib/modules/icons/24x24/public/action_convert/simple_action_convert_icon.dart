@@ -6,12 +6,17 @@ import 'package:simple_kit/modules/icons/24x24/light/action_convert/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SActionConvertIcon extends StatelessObserverWidget {
-  const SActionConvertIcon({Key? key}) : super(key: key);
+  const SActionConvertIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightActionConvertIcon()
-        : const SimpleLightActionConvertIcon();
+        ? SimpleLightActionConvertIcon(color: color)
+        : SimpleLightActionConvertIcon(color: color);
   }
 }

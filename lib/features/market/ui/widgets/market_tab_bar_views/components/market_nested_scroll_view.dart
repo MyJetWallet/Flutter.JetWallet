@@ -3,15 +3,10 @@ import 'package:animated_list_plus/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
@@ -19,20 +14,15 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/nft_market_item.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/helpers/nft_count_items_in_collection.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_collections.dart';
-import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
 import '../../../../helper/crypto_filer_modal.dart';
 import '../../../../helper/crypto_search_modal.dart';
 import '../../../../model/market_item_model.dart';
 import '../../fade_on_scroll.dart';
-import '../../market_banners/market_banners.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 

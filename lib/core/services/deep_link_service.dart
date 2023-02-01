@@ -278,6 +278,7 @@ class DeepLinkService {
   }
 
   void _highYieldStartCommand() {
+    /*
     sRouter.navigate(
       const HomeRouter(
         children: [
@@ -285,6 +286,7 @@ class DeepLinkService {
         ],
       ),
     );
+    */
   }
 
   void _recurringBuyStartCommand() {

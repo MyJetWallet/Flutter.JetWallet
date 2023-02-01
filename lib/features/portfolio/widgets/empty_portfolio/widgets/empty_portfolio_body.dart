@@ -12,7 +12,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class EmptyPortfolioBody extends StatelessObserverWidget {
-  const EmptyPortfolioBody({Key? key}) : super(key: key);
+  const EmptyPortfolioBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
-          const Spacer(),
+          const SpaceH56(),
           Stack(
             alignment: AlignmentDirectional.center,
             children: [
@@ -37,7 +37,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
                 medium: () {
                   return Image.asset(
                     simpleEllipseAsset,
-                    width: 320,
+                    width: 280,
                   );
                 },
               ),
@@ -56,20 +56,23 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               ),
             ],
           ),
-          const SpaceH30(),
+          const Spacer(),
           Text(
             intl.emptyEarnWalletBody_mainText1,
             textAlign: TextAlign.center,
-            style: sTextH3Style,
+            style: sTextH3Style.copyWith(
+              height: 1.28,
+            ),
           ),
           Text(
             intl.emptyEarnWalletBody_mainText2,
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
+              height: 1.28,
               color: colors.blue,
             ),
           ),
-          const SpaceH34(),
+          const SpaceH38(),
           SPrimaryButton1(
             active: true,
             name: intl.emptyEarnWalletBody_buyCrypto,
@@ -82,7 +85,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               );
             },
           ),
-          const SpaceH12(),
+          const SpaceH8(),
           STextButton1(
             active: true,
             name: intl.actionReceive_receive_crypto,
@@ -94,7 +97,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
               );
             },
           ),
-          const SpaceH24(),
+          const SpaceH8(),
         ],
       ),
     );

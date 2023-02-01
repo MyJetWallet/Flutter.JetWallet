@@ -17,8 +17,11 @@ void showSendAction(
   BuildContext context, {
   bool isSendAvailable = true,
   bool isNotEmptyBalance = true,
+  bool shouldPop = true,
 }) {
-  Navigator.pop(context);
+  if (shouldPop) {
+    Navigator.pop(context);
+  }
 
   if (isNotEmptyBalance && isSendAvailable) {
     showSendTimerAlertOr(

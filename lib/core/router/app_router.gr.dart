@@ -98,6 +98,12 @@ class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    AccountRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const AccountScreen(),
+      );
+    },
     CrispRouter.name: (routeData) {
       final args = routeData.argsAs<CrispRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -402,17 +408,6 @@ class _$AppRouter extends RootStackRouter {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
         child: const PaymentMethods(),
-      );
-    },
-    NewsWebViewRouter.name: (routeData) {
-      final args = routeData.argsAs<NewsWebViewRouterArgs>();
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: NewsWebView(
-          key: args.key,
-          link: args.link,
-          topic: args.topic,
-        ),
       );
     },
     PinScreenRoute.name: (routeData) {
@@ -861,24 +856,6 @@ class _$AppRouter extends RootStackRouter {
         child: const PortfolioScreen(),
       );
     },
-    EarnRouter.name: (routeData) {
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: const EarnScreen(),
-      );
-    },
-    NewsRouter.name: (routeData) {
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: const NewsScreen(),
-      );
-    },
-    AccountRouter.name: (routeData) {
-      return CupertinoPageX<dynamic>(
-        routeData: routeData,
-        child: const AccountScreen(),
-      );
-    },
     WithdrawalAddressRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -968,22 +945,11 @@ class _$AppRouter extends RootStackRouter {
               path: 'portfolio',
               parent: HomeRouter.name,
             ),
-            RouteConfig(
-              EarnRouter.name,
-              path: 'earn',
-              parent: HomeRouter.name,
-            ),
-            RouteConfig(
-              NewsRouter.name,
-              path: 'news',
-              parent: HomeRouter.name,
-            ),
-            RouteConfig(
-              AccountRouter.name,
-              path: 'account',
-              parent: HomeRouter.name,
-            ),
           ],
+        ),
+        RouteConfig(
+          AccountRouter.name,
+          path: '/account',
         ),
         RouteConfig(
           CrispRouter.name,
@@ -1100,10 +1066,6 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           PaymentMethodsRouter.name,
           path: '/payments_methods',
-        ),
-        RouteConfig(
-          NewsWebViewRouter.name,
-          path: '/news_web_view',
         ),
         RouteConfig(
           PinScreenRoute.name,
@@ -1497,6 +1459,18 @@ class HomeRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [AccountScreen]
+class AccountRouter extends PageRouteInfo<void> {
+  const AccountRouter()
+      : super(
+          AccountRouter.name,
+          path: '/account',
+        );
+
+  static const String name = 'AccountRouter';
 }
 
 /// generated route for
@@ -2540,45 +2514,6 @@ class PaymentMethodsRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'PaymentMethodsRouter';
-}
-
-/// generated route for
-/// [NewsWebView]
-class NewsWebViewRouter extends PageRouteInfo<NewsWebViewRouterArgs> {
-  NewsWebViewRouter({
-    Key? key,
-    required String link,
-    required String topic,
-  }) : super(
-          NewsWebViewRouter.name,
-          path: '/news_web_view',
-          args: NewsWebViewRouterArgs(
-            key: key,
-            link: link,
-            topic: topic,
-          ),
-        );
-
-  static const String name = 'NewsWebViewRouter';
-}
-
-class NewsWebViewRouterArgs {
-  const NewsWebViewRouterArgs({
-    this.key,
-    required this.link,
-    required this.topic,
-  });
-
-  final Key? key;
-
-  final String link;
-
-  final String topic;
-
-  @override
-  String toString() {
-    return 'NewsWebViewRouterArgs{key: $key, link: $link, topic: $topic}';
-  }
 }
 
 /// generated route for
@@ -4046,42 +3981,6 @@ class PortfolioRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'PortfolioRouter';
-}
-
-/// generated route for
-/// [EarnScreen]
-class EarnRouter extends PageRouteInfo<void> {
-  const EarnRouter()
-      : super(
-          EarnRouter.name,
-          path: 'earn',
-        );
-
-  static const String name = 'EarnRouter';
-}
-
-/// generated route for
-/// [NewsScreen]
-class NewsRouter extends PageRouteInfo<void> {
-  const NewsRouter()
-      : super(
-          NewsRouter.name,
-          path: 'news',
-        );
-
-  static const String name = 'NewsRouter';
-}
-
-/// generated route for
-/// [AccountScreen]
-class AccountRouter extends PageRouteInfo<void> {
-  const AccountRouter()
-      : super(
-          AccountRouter.name,
-          path: 'account',
-        );
-
-  static const String name = 'AccountRouter';
 }
 
 /// generated route for

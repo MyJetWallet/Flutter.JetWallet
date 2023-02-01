@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:collection/collection.dart';
+import 'package:quiver/collection.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
@@ -114,9 +115,9 @@ abstract class _MarketFilterStoreBase with Store {
   List<MarketItemModel> get watchListFiltred {
     List<MarketItemModel> output = [];
 
-    for (var i = 0; i < watchListIds.length; i++) {
+    for (var i = 0; i < watchListLocal.length; i++) {
       final obj = cryptoListFiltred
-          .indexWhere((element) => element.symbol == watchListIds[i]);
+          .indexWhere((element) => element.symbol == watchListLocal[i]);
       if (obj != -1) {
         output.add(cryptoListFiltred[obj]);
       }
@@ -153,9 +154,10 @@ abstract class _MarketFilterStoreBase with Store {
   @action
   void syncWatchListLocal(List<String> newList, {bool needUpdate = false}) {
     print(newList);
+    print(watchListLocal);
     print('SYNC ${const ListEquality().equals(watchListLocal, newList)}');
 
-    if (!const ListEquality().equals(watchListLocal, newList)) {
+    if (!compareLists(newList.toList(), watchListLocal.toList())) {
       watchListLocal = ObservableList.of(newList);
       if (needUpdate) {
         saveWatchlist();
@@ -167,38 +169,26 @@ abstract class _MarketFilterStoreBase with Store {
         message: 'syncWatchListLocal: $watchListLocal',
       );
     }
+
+    print(watchListLocal);
+  }
+
+  bool compareLists(List<String> a, List<String> b) {
+    return listsEqual(a, b);
   }
 
   @action
   Future<void> removeFromWatchlist(String assetId) async {
     watchListLocal.remove(assetId);
 
-    await getIt.get<KeyValuesService>().addToKeyValue(
-          KeyValueRequestModel(
-            keys: [
-              KeyValueResponseModel(
-                key: watchlistKey,
-                value: jsonEncode(watchListLocal),
-              ),
-            ],
-          ),
-        );
+    await saveWatchlist();
   }
 
   @action
   Future<void> addToWatchlist(String assetId) async {
     watchListLocal.add(assetId);
 
-    await getIt.get<KeyValuesService>().addToKeyValue(
-          KeyValueRequestModel(
-            keys: [
-              KeyValueResponseModel(
-                key: watchlistKey,
-                value: jsonEncode(watchListLocal),
-              ),
-            ],
-          ),
-        );
+    await saveWatchlist();
   }
 
   @action

@@ -13,7 +13,7 @@ class SimpleLightEyeCloseIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
-      assetName: 'assets/icons/light/24x24/eye_close/eye_close.svg',
+      assetName: 'assets/icons/light/24x24/eye_close/eye_closed.svg',
       color: color,
     );
   }
