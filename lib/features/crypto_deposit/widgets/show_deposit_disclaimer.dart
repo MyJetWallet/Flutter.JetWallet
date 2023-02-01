@@ -43,7 +43,7 @@ void showDepositDisclaimer({
           curve: Curves.linear,
         );
       },
-      primaryText1: intl.actionBuy_alertPopup,
+      primaryText1: intl.actionBuy_alertPopupSecond,
       primaryButtonName1: intl.actionBuy_goToKYC,
       onPrimaryButtonTap1: () {
         kycAlertHandler.handle(

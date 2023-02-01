@@ -235,6 +235,10 @@ abstract class _CurrencyBuyStoreBase with Store {
       return '';
     }
 
+    if (Decimal.parse(targetConversionValue) == Decimal.zero) {
+      return target;
+    }
+
     if (selectedCurrency == null) {
       return '≈ $target';
     } else if (selectedCurrency!.symbol == baseCurrency!.symbol) {
