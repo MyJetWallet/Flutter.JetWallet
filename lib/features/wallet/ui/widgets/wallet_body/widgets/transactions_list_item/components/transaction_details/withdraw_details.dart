@@ -81,7 +81,7 @@ class WithdrawDetails extends StatelessObserverWidget {
               value: Row(
                 children: [
                   TransactionDetailsValueText(
-                    text: shortAddressForm(
+                    text: shortTxhashFrom(
                       transactionListItem.withdrawalInfo!.txId ?? '',
                     ),
                   ),
@@ -102,6 +102,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                 ],
               ),
             ),
+            const SpaceH10(),
           ],
           if (transactionListItem.withdrawalInfo!.isInternal) ...[
             /*Row(
@@ -176,7 +177,8 @@ class WithdrawDetails extends StatelessObserverWidget {
                 TransactionDetailsNameText(
                   text: intl.withdrawDetails_withdrawalTo,
                 ),
-                const SpaceW12(),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.275),
+                //const SpaceW12(),
                 Flexible(
                   child: TransactionDetailsValueText(
                     text: transactionListItem.withdrawalInfo!.toAddress ?? '',

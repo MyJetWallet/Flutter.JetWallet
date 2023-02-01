@@ -112,6 +112,21 @@ String shortAddressForm(String address) {
   return '$part1 •••• $part2';
 }
 
+String shortTxhashFrom(String address) {
+  final length = address.length;
+
+  var len = length / 2;
+
+  print(length);
+
+  if (length <= 16) return address;
+
+  final part1 = address.substring(0, 8);
+  final part2 = address.substring(length - 8, length);
+
+  return '$part1...$part2';
+}
+
 String shortAddressFormTwo(String address) {
   final length = address.length;
 
