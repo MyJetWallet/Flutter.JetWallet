@@ -1,0 +1,5 @@
+NSCameraUsageDescription = "Para tomar fotos y detectar tu rostro";
+NSPhotoLibraryUsageDescription = "Razones de seguridad y prevención del fraude";
+NSContactsUsageDescription = "Esta aplicación requiere acceso a los contactos para funcionar correctamente";
+NSFaceIDUsageDescription = "Necesitamos su face ID";
+NSUserTrackingUsageDescription = "Sus datos serán utilizados por nuestros socios para mejorar y personalizar su experiencia con la publicidad.";
