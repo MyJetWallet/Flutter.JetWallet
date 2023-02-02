@@ -1345,5 +1345,6 @@
     "paymentMethodsSheet_daily": "Codziennie",
     "paymentMethodsSheet_weekly": "Co tydzień",
     "paymentMethodsSheet_monthly": "Miesięczny",
-    "paymentMethodsSheet_limit": "limit"
+    "paymentMethodsSheet_limit": "limit",
+    "sPaymentSelectEmpty_tryOnceAgain": ""
 }
