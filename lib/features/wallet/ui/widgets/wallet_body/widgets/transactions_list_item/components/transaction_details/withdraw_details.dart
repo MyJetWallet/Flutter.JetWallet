@@ -75,7 +75,8 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ),
           ),
           const SpaceH10(),
-          if (transactionListItem.withdrawalInfo!.txId != null) ...[
+          if (transactionListItem.withdrawalInfo!.txId != null &&
+              !transactionListItem.withdrawalInfo!.isInternal) ...[
             TransactionDetailsItem(
               text: 'Txhash',
               value: Row(
@@ -177,7 +178,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                 TransactionDetailsNameText(
                   text: intl.withdrawDetails_withdrawalTo,
                 ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.275),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
                 //const SpaceW12(),
                 Flexible(
                   child: TransactionDetailsValueText(
