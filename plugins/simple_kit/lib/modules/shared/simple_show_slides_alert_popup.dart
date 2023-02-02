@@ -59,7 +59,7 @@ void sShowSlideAlertPopup(
         borderRadius: BorderRadius.circular(24.0),
       ),
       child: SizedBox(
-        height: 500,
+        height: 530,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
@@ -217,9 +217,9 @@ void sShowSlideAlertPopup(
                 ),
               ),
             if (isNeedPrimaryButton1) ...[
-              if (useSmallSizes) const SpaceH22() else const SpaceH36(),
+              const SpaceH22(),
             ] else ...[
-              if (useSmallSizes) const SpaceH10() else const SpaceH20(),
+              const SpaceH10(),
             ],
             if (child1 != null) child1,
             const Spacer(),
@@ -282,7 +282,7 @@ void sShowSlideAlertPopup(
             Stack(
               children: [
                 SizedBox(
-                  height: 500,
+                  height: 530,
                   child: PageView.builder(
                     controller: controller,
                     physics: const NeverScrollableScrollPhysics(),
