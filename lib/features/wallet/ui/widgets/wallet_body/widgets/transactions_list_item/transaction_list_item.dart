@@ -253,13 +253,13 @@ class TransactionListItem extends StatelessObserverWidget {
   Widget _iconFrom(OperationType type, bool isFailed, Color color) {
     switch (type) {
       case OperationType.deposit:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.withdraw:
-        return SMinusIcon(color: isFailed ? color : null);
+        return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.transferByPhone:
-        return SMinusIcon(color: isFailed ? color : null);
+        return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.receiveByPhone:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.buy:
         return const SActionConvertIcon();
       case OperationType.sell:
