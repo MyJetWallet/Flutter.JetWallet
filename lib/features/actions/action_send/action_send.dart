@@ -7,6 +7,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -62,6 +63,11 @@ class _ActionSend extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
+    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    currencyFiltered = currencyFiltered.where(
+      (element) => element.isAssetBalanceNotEmpty &&
+          element.supportsCryptoWithdrawal,
+    ).toList();
 
     return Column(
       children: [
@@ -74,7 +80,7 @@ class _ActionSend extends StatelessObserverWidget {
                   url: currency.iconUrl,
                 ),
                 primaryText: currency.description,
-                removeDivider: currency == state.filteredCurrencies.last,
+                removeDivider: currency == currencyFiltered.last,
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
@@ -82,6 +88,7 @@ class _ActionSend extends StatelessObserverWidget {
                   showSendOptions(context, currency);
                 },
               ),
+        const SpaceH42(),
       ],
     );
   }

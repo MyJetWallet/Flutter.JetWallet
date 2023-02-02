@@ -44,7 +44,7 @@ class AssetDayChange extends StatelessObserverWidget {
         child: Text(
           periodChange[0] + ' ' + periodChange[1],
           style: sSubtitle3Style.copyWith(
-            color: periodChange.contains('-') ? colors.red : colors.green,
+            color: periodChange[0].contains('-') ? colors.red : colors.green,
           ),
         ),
       ),

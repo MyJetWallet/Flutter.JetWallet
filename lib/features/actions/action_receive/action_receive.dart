@@ -14,6 +14,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
+import '../../../utils/models/currency_model.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
@@ -226,6 +227,11 @@ class _ActionReceive extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final state = searchStore;
     sortByBalanceAndWeight(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    currencyFiltered = currencyFiltered.where(
+          (element) => element.type == AssetType.crypto &&
+          element.supportsCryptoDeposit,
+    ).toList();
 
     return Column(
       children: [
@@ -238,7 +244,7 @@ class _ActionReceive extends StatelessObserverWidget {
                 ),
                 primaryText: currency.description,
                 secondaryText: currency.symbol,
-                removeDivider: currency == state.filteredCurrencies.last,
+                removeDivider: currency == currencyFiltered.last,
                 onTap: () {
                   sAnalytics.receiveAssetView(asset: currency.description);
 
@@ -250,7 +256,7 @@ class _ActionReceive extends StatelessObserverWidget {
                       );
                 },
               ),
-        const SpaceH24(),
+        const SpaceH42(),
       ],
     );
   }

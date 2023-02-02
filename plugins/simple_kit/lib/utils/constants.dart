@@ -2,6 +2,7 @@ const loadingAnimationAsset = 'assets/animations/loader.riv';
 const confirmActionAnimationAsset = 'assets/animations/confirm_action.riv';
 const sQrLogo = 'assets/images/qr_logo.png';
 const ellipsisAsset = 'assets/images/ellipsis.png';
+const infoDepositAsset = 'assets/images/info.png';
 const referralInviteFriendsAsset = 'assets/images/referral_invite_friends.png';
 const recurringBuysAsset = 'assets/images/recurring.png';
 const phoneChangeAsset = 'assets/images/phone_change.png';
