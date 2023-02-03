@@ -129,7 +129,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
-                    value: '1${input.currency.symbol} = ${volumeFormat(
+                    value: '1 ${input.currency.symbol} = ${volumeFormat(
                       prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
