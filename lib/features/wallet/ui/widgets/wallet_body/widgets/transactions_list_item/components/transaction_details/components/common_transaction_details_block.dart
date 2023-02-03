@@ -199,7 +199,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ),
         ),
         if (isOperationSupportCopy(transactionListItem))
-          const SpaceH8()
+          //const SpaceH8()
+          const SizedBox.shrink()
         else
           const SpaceH72(),
       ],

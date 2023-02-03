@@ -26,7 +26,7 @@ class DepositDetails extends StatelessObserverWidget {
         children: [
           if (transactionListItem.depositInfo!.txId != null) ...[
             TransactionDetailsItem(
-              text: 'Txhash',
+              text: 'Txid',
               value: Row(
                 children: [
                   TransactionDetailsValueText(
@@ -42,6 +42,8 @@ class DepositDetails extends StatelessObserverWidget {
                           text: transactionListItem.depositInfo!.txId ?? '',
                         ),
                       );
+
+                      onCopyAction('Txid');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
