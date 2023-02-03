@@ -138,6 +138,10 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
       return 0.45;
     }
 
+    if (MediaQuery.of(context).size.height <= 835) {
+      return 0.55;
+    }
+
     if (MediaQuery.of(context).size.height <= 880) {
       return 0.585;
     }
@@ -196,7 +200,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                   pinned: true,
                   stretch: true,
                   elevation: 0,
-                  expandedHeight: 240,
+                  expandedHeight:
+                      MediaQuery.of(context).size.height <= 830 ? 269 : 240,
                   collapsedHeight: 116,
                   floating: true,
                   flexibleSpace: PortfolioSliverAppBar(

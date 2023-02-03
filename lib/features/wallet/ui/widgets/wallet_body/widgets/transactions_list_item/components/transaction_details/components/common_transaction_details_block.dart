@@ -55,6 +55,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       sSignalRModules.allNftList,
     );
 
+    final devicePR = MediaQuery.of(context).devicePixelRatio;
+
     return Column(
       children: [
         if (transactionListItem.operationType == OperationType.recurringBuy)
@@ -103,7 +105,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         if (nftTypes.contains(transactionListItem.operationType))
           const SpaceH25()
         else
-          const SpaceH67(),
+          devicePR == 2 ? const SpaceH30() : const SpaceH67(),
         if (nftTypes.contains(transactionListItem.operationType)) ...[
           Stack(
             children: [
@@ -249,9 +251,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       return '${intl.operationName_send} $nftName';
     } else if (transactionListItem.operationType == OperationType.nftDeposit) {
       return '${intl.operationName_receive} $nftName';
-    } else if (transactionListItem.operationType ==
-        OperationType.buy || transactionListItem.operationType ==
-        OperationType.sell) {
+    } else if (transactionListItem.operationType == OperationType.buy ||
+        transactionListItem.operationType == OperationType.sell) {
       return '${operationName(
         OperationType.swap,
         context,
@@ -260,7 +261,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
-      return operationName(transactionListItem.operationType, context);
+      return operationName(
+        transactionListItem.operationType,
+        context,
+        asset: transactionListItem.assetId,
+      );
     }
   }
 

@@ -24,29 +24,33 @@ class DepositDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
-          TransactionDetailsItem(
-            text: '${intl.transaction} ID',
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
-                ),
-                const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-                    onCopyAction('${intl.transaction} ID');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
-              ],
+          if (transactionListItem.depositInfo!.txId != null) ...[
+            TransactionDetailsItem(
+              text: 'Txhash',
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: shortTxhashFrom(
+                      transactionListItem.depositInfo!.txId ?? '',
+                    ),
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.depositInfo!.txId ?? '',
+                        ),
+                      );
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
             ),
-          ),
+            const SpaceH10(),
+          ],
           if (transactionListItem.depositInfo?.network != null) ...[
             const SpaceH16(),
             TransactionDetailsItem(

@@ -987,7 +987,7 @@
     "aboutUs_termButton4": "Regulamin Earn",
     "emptyEarnWalletBody_buyWithCash": "Kup z kartą",
     "emptyEarnWalletBody_mainText1": "Kup krypto z",
-    "emptyEarnWalletBody_mainText2": "Niska prowizja",
+    "emptyEarnWalletBody_mainText2": "niska prowizja",
     "emptyEarnWalletBody_subText": "Kup krypto z niską prowizją",
     "earn_terms_title": "Regulamin",
     "earn_terms_description": "Przechodząc do sekcji Earn, zgadzasz się na regulamin określony poniżej.",
@@ -1348,5 +1348,6 @@
     "paymentMethodsSheet_daily": "Codziennie",
     "paymentMethodsSheet_weekly": "Co tydzień",
     "paymentMethodsSheet_monthly": "Miesięczny",
-    "paymentMethodsSheet_limit": "limit"
+    "paymentMethodsSheet_limit": "limit",
+    "sPaymentSelectEmpty_tryOnceAgain": ""
 }

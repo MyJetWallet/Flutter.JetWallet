@@ -75,7 +75,8 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ),
           ),
           const SpaceH10(),
-          if (transactionListItem.withdrawalInfo!.txId != null) ...[
+          if (transactionListItem.withdrawalInfo!.txId != null &&
+              !transactionListItem.withdrawalInfo!.isInternal) ...[
             TransactionDetailsItem(
               text: 'Txhash',
               value: Row(
@@ -104,72 +105,6 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
             const SpaceH10(),
           ],
-          if (transactionListItem.withdrawalInfo!.isInternal) ...[
-            /*Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TransactionDetailsNameText(
-                  text: 'Txhash',
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                ),
-                Flexible(
-                  child: TransactionDetailsValueText(
-                    text: shortAddressOperationId(
-                      transactionListItem.operationId,
-                    ),
-                  ),
-                ),
-                const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    onCopyAction('${intl.transaction} ID');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
-              ],
-            ),*/
-            /*
-          TransactionDetailsItem(
-            text: '${intl.transaction} ID',
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: shortAddressOperationId(
-                    transactionListItem.operationId,
-                  ),
-                ),
-                const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    print(transactionListItem.withdrawalInfo!.txId);
-
-                    onCopyAction('${intl.transaction} ID');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
-              ],
-            ),
-          ),
-          */
-            const SpaceH10(),
-          ],
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +112,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                 TransactionDetailsNameText(
                   text: intl.withdrawDetails_withdrawalTo,
                 ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.275),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
                 //const SpaceW12(),
                 Flexible(
                   child: TransactionDetailsValueText(

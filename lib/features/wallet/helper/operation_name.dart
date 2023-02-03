@@ -6,12 +6,13 @@ String operationName(
   OperationType type,
   BuildContext context, {
   bool? isToppedUp,
+  String? asset,
 }) {
   switch (type) {
     case OperationType.deposit:
-      return intl.operationName_deposit;
+      return '${intl.operationName_deposit} $asset';
     case OperationType.withdraw:
-      return intl.operationName_withdrawal;
+      return '${intl.operationName_withdrawal} $asset';
     case OperationType.transferByPhone:
       return intl.operationName_transferByPhone;
     case OperationType.receiveByPhone:
