@@ -31,7 +31,8 @@ void showDepositDisclaimer({
       controller: controller,
       slidesControllers: slidesControllers,
       primaryText: '$action ${intl.showDepositDisclaimer_only} '
-          '$assetSymbol ${intl.showDepositDisclaimer_primatyText}',
+          '$assetSymbol ${intl.showDepositDisclaimer_primatyTextTitle}',
+      secondaryText: intl.showDepositDisclaimer_primatyTextSecond,
       primaryButtonName: intl.showDepositDisclaimer_next,
       barrierDismissible: false,
       willPopScope: false,
@@ -43,7 +44,8 @@ void showDepositDisclaimer({
           curve: Curves.linear,
         );
       },
-      primaryText1: intl.actionBuy_alertPopupSecond,
+      primaryText1: '${intl.showDepositDisclaimer_primatyTextOnly} \$700',
+      secondaryText1: intl.actionBuy_alertPopupSecond,
       primaryButtonName1: intl.actionBuy_goToKYC,
       onPrimaryButtonTap1: () {
         kycAlertHandler.handle(

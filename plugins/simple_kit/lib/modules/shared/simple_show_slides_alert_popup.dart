@@ -59,7 +59,7 @@ void sShowSlideAlertPopup(
         borderRadius: BorderRadius.circular(24.0),
       ),
       child: SizedBox(
-        height: 468,
+        height: 530,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,
@@ -76,31 +76,41 @@ void sShowSlideAlertPopup(
                 image
               else
                 Image.asset(
-                  ellipsisAsset,
+                  phoneChangeAsset,
                   height: 80,
                   width: 80,
                   package: 'simple_kit',
                 ),
-              Baseline(
-                baseline: 40.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  primaryText,
-                  maxLines: (secondaryText != null) ? 5 : 12,
-                  textAlign: TextAlign.center,
-                  style: sTextH5Style.copyWith(
-                    overflow: TextOverflow.visible,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
+                child: Baseline(
+                  baseline: 40.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    primaryText,
+                    maxLines: (secondaryText != null) ? 5 : 12,
+                    textAlign: TextAlign.center,
+                    style: sTextH5Style.copyWith(
+                      overflow: TextOverflow.visible,
+                    ),
                   ),
                 ),
               ),
               const SpaceH7(),
               if (secondaryText != null)
-                Text(
-                  secondaryText,
-                  maxLines: 6,
-                  textAlign: TextAlign.center,
-                  style: sBodyText1Style.copyWith(
-                    color: SColorsLight().grey1,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                  ),
+                  child: Text(
+                    secondaryText,
+                    maxLines: 6,
+                    textAlign: TextAlign.center,
+                    style: sBodyText1Style.copyWith(
+                      color: SColorsLight().grey1,
+                    ),
                   ),
                 ),
               if (isNeedPrimaryButton) ...[
@@ -179,7 +189,7 @@ void sShowSlideAlertPopup(
               image1
             else
               Image.asset(
-                ellipsisAsset,
+                phoneChangeAsset,
                 height: 80,
                 width: 80,
                 package: 'simple_kit',
@@ -207,12 +217,21 @@ void sShowSlideAlertPopup(
                 ),
               ),
             if (isNeedPrimaryButton1) ...[
-              if (useSmallSizes) const SpaceH22() else const SpaceH36(),
+              const SpaceH22(),
             ] else ...[
-              if (useSmallSizes) const SpaceH10() else const SpaceH20(),
+              const SpaceH10(),
             ],
             if (child1 != null) child1,
             const Spacer(),
+            if (onSecondaryButtonTap1 != null &&
+                secondaryButtonName1 != null) ...[
+              STextButton1(
+                name: secondaryButtonName1,
+                active: true,
+                onTap: () => onSecondaryButtonTap1(),
+              ),
+              const SpaceH10(),
+            ],
             if (isNeedPrimaryButton1) ...[
               if (primaryButtonType1 == SButtonType.primary1)
                 SPrimaryButton1(
@@ -232,15 +251,6 @@ void sShowSlideAlertPopup(
                   active: activePrimaryButton1,
                   onTap: () => onPrimaryButtonTap1(),
                 ),
-              if (onSecondaryButtonTap1 != null &&
-                  secondaryButtonName1 != null) ...[
-                const SpaceH10(),
-                STextButton1(
-                  name: secondaryButtonName1,
-                  active: true,
-                  onTap: () => onSecondaryButtonTap1(),
-                ),
-              ],
             ],
             if (isNeedCancelButton1) ...[
               const SpaceH10(),
@@ -272,7 +282,7 @@ void sShowSlideAlertPopup(
             Stack(
               children: [
                 SizedBox(
-                  height: 468,
+                  height: 530,
                   child: PageView.builder(
                     controller: controller,
                     physics: const NeverScrollableScrollPhysics(),

@@ -147,7 +147,7 @@ class _ActionBuy extends StatelessObserverWidget {
               ).toList().last,
             ),
         ],
-        const SpaceH34(),
+        const SpaceH42(),
       ],
     );
   }
