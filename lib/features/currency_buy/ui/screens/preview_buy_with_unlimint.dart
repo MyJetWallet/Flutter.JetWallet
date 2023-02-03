@@ -15,6 +15,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
@@ -64,6 +65,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
       small: () => heightWidget = heightWidget - 120,
       medium: () => heightWidget = heightWidget - 180,
     );
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.unlimintCard,
+    ).toList();
+    final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
 
     final transactionFeeCurrency = currencyFrom(
       currencies,
@@ -238,40 +243,39 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        SIconButton(
-                          onTap: () {
-                            state.checkSetter();
-                          },
-                          defaultIcon: icon,
-                          pressedIcon: icon,
-                        ),
-                      ],
-                    ),
+                    if (!hideCheckbox)
+                      Column(
+                        children: [
+                          SIconButton(
+                            onTap: () {
+                              state.checkSetter();
+                            },
+                            defaultIcon: icon,
+                            pressedIcon: icon,
+                          ),
+                        ],
+                      ),
                     const SpaceW10(),
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 82,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SPolicyText(
-                            firstText: intl.previewBuyWithUmlimint_disclaimer,
-                            userAgreementText:
-                            ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
-                            betweenText: ', ',
-                            privacyPolicyText:
-                            intl.previewBuyWithUmlimint_disclaimerPolicy,
-                            onUserAgreementTap: () =>
-                                launchURL(context, userAgreementLink),
-                            onPrivacyPolicyTap: () =>
-                                launchURL(context, privacyPolicyLink),
-                          ),
-                          const SpaceH7(),
-                          SDivider(
-                            color: colors.grey4,
-                          ),
-                          const SpaceH7(),
+                          if (!hideCheckbox) ...[
+                            SPolicyText(
+                              firstText: intl.previewBuyWithUmlimint_disclaimer,
+                              userAgreementText:
+                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                              betweenText: ', ',
+                              privacyPolicyText:
+                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                              onUserAgreementTap: () =>
+                                  launchURL(context, userAgreementLink),
+                              onPrivacyPolicyTap: () =>
+                                  launchURL(context, privacyPolicyLink),
+                            ),
+                            const SpaceH14(),
+                          ],
                           Text(
                             simpleCompanyName,
                             style: sCaptionTextStyle,
@@ -288,7 +292,8 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                 ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active: !state.loader.loading && state.isChecked,
+                  active: !state.loader.loading &&
+                    (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     sAnalytics.tapConfirmBuy(
