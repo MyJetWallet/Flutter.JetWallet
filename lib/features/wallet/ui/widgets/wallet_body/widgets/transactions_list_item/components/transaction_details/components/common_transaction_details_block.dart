@@ -261,7 +261,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
     } else {
-      return operationName(transactionListItem.operationType, context);
+      return operationName(
+        transactionListItem.operationType,
+        context,
+        asset: transactionListItem.assetId,
+      );
     }
   }
 
