@@ -69,6 +69,10 @@ void _validateFullResponse(
   String result,
   Map<String, dynamic> json,
 ) {
+  throw ServerRejectException(
+    json['message'],
+  );
+
   if (result == 'OperationBlocked') {
     final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;
     if (rejectDetail != null) {
@@ -138,7 +142,8 @@ void _handleFullNumberResponse(
     if (rejectDetail != null) {
       final blocker = rejectDetail['blocker'] as Map<String, dynamic>;
       final expired = blocker['expired'] as String;
-      throw ServerRejectException(_blockerNumberMessage(timespanToDuration(expired)));
+      throw ServerRejectException(
+          _blockerNumberMessage(timespanToDuration(expired)));
     }
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
