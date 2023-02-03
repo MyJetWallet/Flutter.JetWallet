@@ -69,9 +69,11 @@ void _validateFullResponse(
   String result,
   Map<String, dynamic> json,
 ) {
-  throw ServerRejectException(
-    json['message'],
-  );
+  if (result != 'OK') {
+    throw ServerRejectException(
+      json['message'],
+    );
+  }
 
   if (result == 'OperationBlocked') {
     final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;

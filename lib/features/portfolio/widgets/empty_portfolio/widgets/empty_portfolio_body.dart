@@ -63,6 +63,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
             style: sTextH3Style.copyWith(
               height: 1.28,
             ),
+            maxLines: 2,
           ),
           Text(
             intl.emptyEarnWalletBody_mainText2,
