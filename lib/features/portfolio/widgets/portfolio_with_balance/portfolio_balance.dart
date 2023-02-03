@@ -176,16 +176,6 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
 
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarDividerColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.light,
-      ),
-    );
-
     return ScrollsToTop(
       onScrollsToTop: _onScrollsToTop,
       child: PortfolioScreenGradient(

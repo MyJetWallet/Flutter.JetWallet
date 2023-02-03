@@ -66,11 +66,7 @@ class _WalletBodyState extends State<WalletBody>
     final lastRecurringItem =
         filteredRecurringBuys.isNotEmpty ? filteredRecurringBuys[0] : null;
 
-    var walletBackground = walletGreenBackgroundImageAsset;
-
-    if (!widget.currency.isGrowing) {
-      walletBackground = walletRedBackgroundImageAsset;
-    }
+    const walletBackground = walletGreenBackgroundImageAsset;
 
     return Material(
       color: colors.white,
