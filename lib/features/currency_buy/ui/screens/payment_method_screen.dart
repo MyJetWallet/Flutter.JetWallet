@@ -247,7 +247,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             ActionBuySubheader(
               text: intl.actionBuy_cards,
             ),
-          if (!state.editMode && showSubheader) const SpaceH16(),
           if (state.circleCards.isNotEmpty) ...[
             for (final card in state.circleCards)
               Builder(
