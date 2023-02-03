@@ -97,156 +97,172 @@ class AddBankCardBody extends StatelessObserverWidget {
       ),
       child: deviceSize.when(
         small: () {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                SFieldDividerFrame(
-                  child: SStandardField(
-                    labelText: intl.addCircleCard_cardNumber,
-                    keyboardType: TextInputType.number,
-                    isError: store.cardNumberError,
-                    disableErrorOnChanged: false,
-                    // In formatting \u2005 is used instead of \u0020
-                    // to avoid \u0020 input from the user
-                    inputFormatters: [
-                      MaskedTextInputFormatter(
-                        mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
-                        separator: '\u{2005}',
-                      ),
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'[0-9\u2005]'),
-                      ),
-                    ],
-                    focusNode: store.cardNode,
-                    controller: store.cardNumberController,
-                    onChanged: store.updateCardNumber,
-                    suffixIcons: [
-                      SIconButton(
-                        onTap: () => store.pasteCode(),
-                        defaultIcon: const SPasteIcon(),
-                      ),
-                    ],
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+            child: Observer(
+              builder: (context) {
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
                   ),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Focus(
-                        onFocusChange: (hasFocus) {
-                          if (!hasFocus) {
-                            store.yearFieldTap();
-                          }
-                        },
-                        child: SFieldDividerFrame(
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        SFieldDividerFrame(
                           child: SStandardField(
-                            labelText: intl.addCircleCard_expiryMonth,
-                            maxLength: 2,
-                            focusNode: store.monthNode,
+                            labelText: intl.addCircleCard_cardNumber,
                             keyboardType: TextInputType.number,
-                            isError: store.expiryMonthError,
-                            enableInteractiveSelection: false,
+                            isError: store.cardNumberError,
                             disableErrorOnChanged: false,
-                            controller: store.expiryMonthController,
-                            onChanged: store.updateExpiryMonth,
+                            // In formatting \u2005 is used instead of \u0020
+                            // to avoid \u0020 input from the user
+                            inputFormatters: [
+                              MaskedTextInputFormatter(
+                                mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+                                separator: '\u{2005}',
+                              ),
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\u2005]'),
+                              ),
+                            ],
+                            focusNode: store.cardNode,
+                            controller: store.cardNumberController,
+                            onChanged: store.updateCardNumber,
+                            suffixIcons: [
+                              SIconButton(
+                                onTap: () => store.pasteCode(),
+                                defaultIcon: const SPasteIcon(),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                    const SDivider(
-                      width: 1.0,
-                      height: 88.0,
-                    ),
-                    Expanded(
-                      child: SFieldDividerFrame(
-                        child: SStandardField(
-                          labelText: intl.addCircleCard_expiryYear,
-                          keyboardType: TextInputType.number,
-                          maxLength: 4,
-                          focusNode: store.yearNode,
-                          isError: store.expiryYearError,
-                          enableInteractiveSelection: false,
-                          disableErrorOnChanged: false,
-                          controller: store.expiryYearController,
-                          onChanged: store.updateExpiryYear,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                if (!isUserVerified)
-                  Material(
-                    color: colors.white,
-                    child: SPaddingH24(
-                      child: SStandardField(
-                        labelText: intl.addCircleCard_cardholderName,
-                        textCapitalization: TextCapitalization.sentences,
-                        onChanged: store.updateCardholderName,
-                        controller: store.cardholderNameController,
-                        hideSpace: true,
-                      ),
-                    ),
-                  ),
-                SizedBox(
-                  height: heightOfSpace,
-                ),
-                Container(
-                  color: colors.grey5,
-                  height: 144,
-                  child: Column(
-                    children: [
-                      if (isPreview) ...[
-                        const SpaceH12(),
-                        SPaddingH24(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  SIconButton(
-                                    onTap: () {
-                                      store.checkSetter();
-                                    },
-                                    defaultIcon: icon,
-                                    pressedIcon: icon,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Focus(
+                                onFocusChange: (hasFocus) {
+                                  if (!hasFocus) {
+                                    store.yearFieldTap();
+                                  }
+                                },
+                                child: SFieldDividerFrame(
+                                  child: SStandardField(
+                                    labelText: intl.addCircleCard_expiryMonth,
+                                    maxLength: 2,
+                                    focusNode: store.monthNode,
+                                    keyboardType: TextInputType.number,
+                                    isError: store.expiryMonthError,
+                                    enableInteractiveSelection: false,
+                                    disableErrorOnChanged: false,
+                                    controller: store.expiryMonthController,
+                                    onChanged: store.updateExpiryMonth,
                                   ),
-                                ],
+                                ),
                               ),
-                              const SpaceW10(),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 82,
-                                child: SPolicyText(
-                                  firstText: intl.addCircleCard_saveCard,
-                                  userAgreementText: '',
-                                  betweenText: '',
-                                  privacyPolicyText: '',
-                                  onUserAgreementTap: () {},
-                                  onPrivacyPolicyTap: () {},
+                            ),
+                            const SDivider(
+                              width: 1.0,
+                              height: 88.0,
+                            ),
+                            Expanded(
+                              child: SFieldDividerFrame(
+                                child: SStandardField(
+                                  labelText: intl.addCircleCard_expiryYear,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 4,
+                                  focusNode: store.yearNode,
+                                  isError: store.expiryYearError,
+                                  enableInteractiveSelection: false,
+                                  disableErrorOnChanged: false,
+                                  controller: store.expiryYearController,
+                                  onChanged: store.updateExpiryYear,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (!isUserVerified)
+                          Material(
+                            color: colors.white,
+                            child: SPaddingH24(
+                              child: SStandardField(
+                                labelText: intl.addCircleCard_cardholderName,
+                                textCapitalization: TextCapitalization.sentences,
+                                onChanged: store.updateCardholderName,
+                                controller: store.cardholderNameController,
+                                hideSpace: true,
+                              ),
+                            ),
+                          ),
+                        const Expanded(
+                          child: SizedBox(),
+                        ),
+                        Container(
+                          color: colors.grey5,
+                          height: 144,
+                          child: Column(
+                            children: [
+                              if (isPreview) ...[
+                                const SpaceH12(),
+                                SPaddingH24(
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          SIconButton(
+                                            onTap: () {
+                                              store.checkSetter();
+                                            },
+                                            defaultIcon: icon,
+                                            pressedIcon: icon,
+                                          ),
+                                        ],
+                                      ),
+                                      const SpaceW10(),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width - 82,
+                                        child: SPolicyText(
+                                          firstText: intl.addCircleCard_saveCard,
+                                          userAgreementText: '',
+                                          betweenText: '',
+                                          privacyPolicyText: '',
+                                          onUserAgreementTap: () {},
+                                          onPrivacyPolicyTap: () {},
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              ContinueButtonFrame(
+                                child: SPrimaryButton2(
+                                  active: store.isCardDetailsValid,
+                                  name: intl.addCircleCard_continue,
+                                  onTap: () async {
+                                    sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                                    await store.addCard(
+                                      onSuccess: onCardAdded,
+                                      onError: () {},
+                                      isPreview: isPreview,
+                                      amount: amount,
+                                      currency: currency,
+                                    );
+                                  },
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ],
-                      ContinueButtonFrame(
-                        child: SPrimaryButton2(
-                          active: store.isCardDetailsValid,
-                          name: intl.addCircleCard_continue,
-                          onTap: () async {
-                            sAnalytics.paymentDetailsContinue(source: 'Unlimint');
-                            await store.addCard(
-                              onSuccess: onCardAdded,
-                              onError: () {},
-                              isPreview: isPreview,
-                              amount: amount,
-                              currency: currency,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
+            );
+            },
           );
         },
         medium: () {

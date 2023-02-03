@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
@@ -71,12 +72,25 @@ class SActionPriceField extends StatelessWidget {
             child: Baseline(
               baseline: 13,
               baselineType: TextBaseline.alphabetic,
-              child: Text(
+              child: AutoSizeText(
                 isErrorActive ? error : helper,
+                textAlign: TextAlign.center,
+                minFontSize: 4.0,
                 maxLines: 1,
-                style: sSubtitle3Style.copyWith(
-                  color:
-                      isErrorActive ? SColorsLight().red : SColorsLight().grey1,
+                strutStyle: const StrutStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  height: 1.50,
+                  fontFamily: 'Gilroy',
+                ),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  height: 1.50,
+                  fontFamily: 'Gilroy',
+                  color: isErrorActive
+                    ? SColorsLight().red
+                    : SColorsLight().grey1,
                 ),
               ),
             ),

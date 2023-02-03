@@ -265,6 +265,7 @@ abstract class _AddBankCardStoreBase with Store {
     required String cardNumber,
     required String cardId,
   }) {
+    final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
       sRouter.push(
@@ -273,6 +274,7 @@ abstract class _AddBankCardStoreBase with Store {
           currency: currency,
           fromCard: true,
           paymentMethod: PaymentMethodType.bankCard,
+          newBankCardNumber: finalCardNumber,
         ),
       );
     });

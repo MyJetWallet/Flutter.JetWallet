@@ -190,6 +190,7 @@ class _$AppRouter extends RootStackRouter {
           unlimintCard: args.unlimintCard,
           bankCard: args.bankCard,
           newBankCardId: args.newBankCardId,
+          newBankCardNumber: args.newBankCardNumber,
           currency: args.currency,
           fromCard: args.fromCard,
           paymentMethod: args.paymentMethod,
@@ -1758,6 +1759,7 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
     CircleCard? unlimintCard,
     CircleCard? bankCard,
     String? newBankCardId,
+    String? newBankCardNumber,
     required CurrencyModel currency,
     required bool fromCard,
     required PaymentMethodType paymentMethod,
@@ -1771,6 +1773,7 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
             unlimintCard: unlimintCard,
             bankCard: bankCard,
             newBankCardId: newBankCardId,
+            newBankCardNumber: newBankCardNumber,
             currency: currency,
             fromCard: fromCard,
             paymentMethod: paymentMethod,
@@ -1788,6 +1791,7 @@ class CurrencyBuyRouterArgs {
     this.unlimintCard,
     this.bankCard,
     this.newBankCardId,
+    this.newBankCardNumber,
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
@@ -1805,6 +1809,8 @@ class CurrencyBuyRouterArgs {
 
   final String? newBankCardId;
 
+  final String? newBankCardNumber;
+
   final CurrencyModel currency;
 
   final bool fromCard;
@@ -1813,7 +1819,7 @@ class CurrencyBuyRouterArgs {
 
   @override
   String toString() {
-    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
+    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, newBankCardNumber: $newBankCardNumber, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
   }
 }
 

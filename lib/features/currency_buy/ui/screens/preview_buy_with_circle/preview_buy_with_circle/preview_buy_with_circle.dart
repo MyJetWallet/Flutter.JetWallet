@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 import '../../../../../../utils/constants.dart';
@@ -61,6 +62,10 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       currencies,
       state.depositFeeAsset ?? '',
     );
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.circleCard,
+    ).toList();
+    final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
 
     final title =
         '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
@@ -120,13 +125,13 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       loaderText: intl.previewBuyWithCircle_pleaseWait,
       header: deviceSize.when(
         small: () {
-          return SSmallHeader(
-            title: title,
+          return const SSmallHeader(
+            title: '',
           );
         },
         medium: () {
-          return SMegaHeader(
-            title: title,
+          return const SMegaHeader(
+            title: '',
           );
         },
       ),
@@ -175,7 +180,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
-                    value: '1${input.currency.symbol} = ${volumeFormat(
+                    value: '1 ${input.currency.symbol} = ${volumeFormat(
                       prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
@@ -322,40 +327,42 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   },
                 ),
                 const SpaceH20(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        SIconButton(
-                          onTap: () {
-                            state.checkSetter();
-                          },
-                          defaultIcon: icon,
-                          pressedIcon: icon,
-                        ),
-                      ],
-                    ),
-                    const SpaceW10(),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 82,
-                      child: RichText(
-                        text: TextSpan(
-                          text: '${intl.previewBuyWithCircle_disclaimer} '
-                              '$paymentDelayDays '
-                              '${intl.previewBuyWithCircle_disclaimerEnd}',
-                          style: sCaptionTextStyle.copyWith(
-                            color: colors.black,
+                if (!hideCheckbox)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          SIconButton(
+                            onTap: () {
+                              state.checkSetter();
+                            },
+                            defaultIcon: icon,
+                            pressedIcon: icon,
+                          ),
+                        ],
+                      ),
+                      const SpaceW10(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 82,
+                        child: RichText(
+                          text: TextSpan(
+                            text: '${intl.previewBuyWithCircle_disclaimer} '
+                                '$paymentDelayDays '
+                                '${intl.previewBuyWithCircle_disclaimerEnd}',
+                            style: sCaptionTextStyle.copyWith(
+                              color: colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active:
-                  !state.loader.loading && !state.isPending && state.isChecked,
+                  active: !state.loader.loading &&
+                    !state.isPending &&
+                    (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     sAnalytics.tapConfirmBuy(

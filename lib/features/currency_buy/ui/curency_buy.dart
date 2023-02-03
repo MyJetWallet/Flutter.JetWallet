@@ -41,6 +41,7 @@ class CurrencyBuy extends StatelessWidget {
     this.unlimintCard,
     this.bankCard,
     this.newBankCardId,
+    this.newBankCardNumber,
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
@@ -54,6 +55,7 @@ class CurrencyBuy extends StatelessWidget {
   final CircleCard? unlimintCard;
   final CircleCard? bankCard;
   final String? newBankCardId;
+  final String? newBankCardNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class CurrencyBuy extends StatelessWidget {
         unlimintCard: unlimintCard,
         bankCard: bankCard,
         newBankCardId: newBankCardId,
+        newBankCardNumber: newBankCardNumber,
       ),
     );
   }
@@ -88,6 +91,7 @@ class _CurrencyBuyBody extends StatefulObserverWidget {
     this.unlimintCard,
     this.bankCard,
     this.newBankCardId,
+    this.newBankCardNumber,
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
@@ -101,6 +105,7 @@ class _CurrencyBuyBody extends StatefulObserverWidget {
   final CircleCard? unlimintCard;
   final CircleCard? bankCard;
   final String? newBankCardId;
+  final String? newBankCardNumber;
 
   @override
   State<_CurrencyBuyBody> createState() => _CurrencyBuyBodyState();
@@ -424,6 +429,19 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     limit: isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
                     onTap: () => showLimits(),
                   )
+                else if (widget.newBankCardNumber != null)
+                  SPaymentSelectCreditCard(
+                    widgetSize: widgetSizeFrom(deviceSize),
+                    icon: SActionDepositIcon(
+                      color: (state.limitByAsset?.barProgress == 100 || isLimitBlock)
+                          ? colors.grey2
+                          : colors.black,
+                    ),
+                    name: '•••• ${widget.newBankCardNumber}',
+                    description: limitText,
+                    limit: isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
+                    onTap: () => showLimits(),
+                  )
                 else
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
@@ -631,11 +649,15 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     if (state.pickedAltUnlimintCard == null) {
                       sAnalytics.paymentDetailsView(source: 'Unlimint');
                       await sRouter.push(
-                        AddUnlimintCardRouter(
-                          onCardAdded: () {},
-                          isPreview: true,
-                          amount: state.inputValue,
-                          currency: widget.currency,
+                        PreviewBuyWithBankCardRouter(
+                          input: PreviewBuyWithBankCardInput(
+                            amount: state.inputValue,
+                            currency: widget.currency,
+                            cardId: widget.newBankCardId,
+                            cardNumber: '•••• ${widget.newBankCardNumber}',
+                            currencyPayment: state.paymentCurrency ??
+                                widget.currency,
+                          ),
                         ),
                       );
                     } else {

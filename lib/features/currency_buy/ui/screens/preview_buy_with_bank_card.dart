@@ -129,7 +129,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
-                    value: '1${input.currency.symbol} = ${volumeFormat(
+                    value: '1 ${input.currency.symbol} = ${volumeFormat(
                       prefix: input.currencyPayment.prefixSymbol,
                       symbol: input.currencyPayment.symbol,
                       accuracy: input.currencyPayment.accuracy,
@@ -257,17 +257,18 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        SIconButton(
-                          onTap: () {
-                            state.checkSetter();
-                          },
-                          defaultIcon: icon,
-                          pressedIcon: icon,
-                        ),
-                      ],
-                    ),
+                    if (!hideCheckbox)
+                      Column(
+                        children: [
+                          SIconButton(
+                            onTap: () {
+                              state.checkSetter();
+                            },
+                            defaultIcon: icon,
+                            pressedIcon: icon,
+                          ),
+                        ],
+                      ),
                     const SpaceW10(),
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 82,
@@ -305,7 +306,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                 ),
                 const SpaceH24(),
                 SPrimaryButton2(
-                  active: !state.loader.loading && state.isChecked,
+                  active: !state.loader.loading &&
+                      (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     sAnalytics.tapConfirmBuy(
