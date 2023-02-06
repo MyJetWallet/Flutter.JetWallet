@@ -24,8 +24,6 @@ class CurrencyModel with _$CurrencyModel {
     @Default('unknown') String symbol,
     @Default('unknown') String description,
     @Default(0) int accuracy,
-    @Default(0) int depositMode,
-    @Default(0) int withdrawalMode,
     @Default(TagType.none) TagType tagType,
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
@@ -65,10 +63,6 @@ class CurrencyModel with _$CurrencyModel {
   }) = _CurrencyModel;
 
   const CurrencyModel._();
-
-  bool get isDepositMode => depositMode == 0;
-
-  bool get isWithdrawalMode => withdrawalMode == 0;
 
   bool get noPendingDeposit =>
       buysInProcessTotal == Decimal.zero &&
