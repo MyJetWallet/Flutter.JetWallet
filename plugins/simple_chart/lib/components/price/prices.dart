@@ -13,19 +13,19 @@ class Prices extends StatelessWidget {
         ? Column(
             children: [
               Text(
-                'Open: ${candle?.open.toString()}',
+                'Open: ${candle?.open}',
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                'Close: ${candle?.close.toString()}',
+                'Close: ${candle?.close}',
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                'High: ${candle?.high.toString()}',
+                'High: ${candle?.high}',
                 style: const TextStyle(color: Colors.white),
               ),
               Text(
-                'Low: ${candle?.low.toString()}',
+                'Low: ${candle?.low}',
                 style: const TextStyle(color: Colors.white),
               ),
             ],
