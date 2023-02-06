@@ -38,10 +38,10 @@ class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase
   PreviewBuyWithBankCardStore(
     PreviewBuyWithBankCardInput input,
     bool sendPreview,
-  ) : super (
-    input,
-    sendPreview,
-  );
+  ) : super(
+          input,
+          sendPreview,
+        );
 
   static _PreviewBuyWithBankCardStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithBankCardStore>(context, listen: false);
@@ -400,22 +400,22 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           SuccessScreenRouter(
             secondaryText: '${intl.successScreen_youBought} '
                 '${volumeFormat(
-                  decimal: buyAmount ?? Decimal.zero,
-                  accuracy: input.currency.accuracy,
-                  symbol: input.currency.symbol,
-                )}',
+              decimal: buyAmount ?? Decimal.zero,
+              accuracy: input.currency.accuracy,
+              symbol: input.currency.symbol,
+            )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),
         )
         .then(
-          (value) => sRouter.push(
+          (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
                 PortfolioRouter(),
               ],
             ),
-          ),
+          ]),
         );
   }
 
