@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -29,6 +30,8 @@ import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -90,10 +93,16 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> checkInitRouter() async {
+    FlutterNativeSplash.remove();
+
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
-          initRouter = const RouterUnion.apiSelector();
+          //initRouter = const RouterUnion.apiSelector();
+
+          await getIt<AppRouter>().replaceAll([
+            const ApiSelectorRouter(),
+          ]);
         }
 
         return;
@@ -101,7 +110,12 @@ abstract class _AppStoreBase with Store {
 
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
-          initRouter = const RouterUnion.appUpdate();
+          //initRouter = const RouterUnion.appUpdate();
+
+          await getIt<ForceServiceUpdate>().init(
+            context: getIt.get<AppRouter>().navigatorKey.currentContext!,
+            showPopup: true,
+          );
 
           return;
         }
@@ -109,39 +123,88 @@ abstract class _AppStoreBase with Store {
 
       authStatus.when(
         loading: () {
-          initRouter = const RouterUnion.loading();
+          //initRouter = const RouterUnion.loading();
         },
         authorized: () {
           authorizedStatus.when(
             loading: () {
-              initRouter = const RouterUnion.loading();
+              //initRouter = const RouterUnion.loading();
             },
             twoFaVerification: () {
-              initRouter = const RouterUnion.twoFaVerification();
+              //initRouter = const RouterUnion.twoFaVerification();
+
+              getIt<AppRouter>().replaceAll([
+                TwoFaPhoneRouter(
+                  trigger: TwoFaPhoneTriggerUnion.startup(),
+                ),
+              ]);
             },
             pinSetup: () {
-              initRouter = const RouterUnion.pinSetup();
+              //initRouter = const RouterUnion.pinSetup();
+
+              getIt<AppRouter>().replaceAll([
+                PinScreenRoute(
+                  union: Setup(),
+                  cannotLeave: true,
+                ),
+              ]);
             },
             pinVerification: () {
-              initRouter = const RouterUnion.pinVerification();
+              //initRouter = const RouterUnion.pinVerification();
+
+              getIt<AppRouter>().replaceAll([
+                PinScreenRoute(
+                  union: Verification(),
+                  cannotLeave: true,
+                  displayHeader: false,
+                ),
+              ]);
             },
             home: () {
-              initRouter = const RouterUnion.home();
+              //initRouter = const RouterUnion.home();
+
+              getIt.get<AppStore>().initSessionInfo();
+
+              sRouter.replaceAll([
+                const HomeRouter(
+                  children: [
+                    PortfolioRouter(),
+                  ],
+                ),
+              ]);
             },
             askBioUsing: () {
-              initRouter = const RouterUnion.askBioUsing();
+              //initRouter = const RouterUnion.askBioUsing();
+
+              getIt<AppRouter>().replaceAll([
+                BiometricRouter(),
+              ]);
             },
             userDataVerification: () {
-              initRouter = const RouterUnion.userDataVerification();
+              //initRouter = const RouterUnion.userDataVerification();
+
+              getIt<AppRouter>().replaceAll([
+                UserDataScreenRouter(),
+              ]);
             },
             singleIn: () {
-              initRouter = const RouterUnion.singleIn();
+              //initRouter = const RouterUnion.singleIn();
+
+              getIt<AppRouter>().replaceAll([
+                SingInRouter(),
+              ]);
             },
             emailVerification: () {},
           );
         },
         unauthorized: () {
-          initRouter = const RouterUnion.unauthorized();
+          //initRouter = const RouterUnion.unauthorized();
+
+          print('unauthorized');
+
+          getIt<AppRouter>().replaceAll([
+            OnboardingRoute(),
+          ]);
         },
       );
     } else {
@@ -245,7 +308,7 @@ abstract class _AppStoreBase with Store {
           isTechClient: info.data!.isTechClient,
         );
       }
-      
+
       if (userInfo.userInfo.hasDisclaimers) {
         await getIt<DisclaimerStore>().init();
       }
