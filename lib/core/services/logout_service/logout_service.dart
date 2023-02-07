@@ -162,7 +162,7 @@ abstract class _LogoutServiceBase with Store {
   Future<void> pushToFirstPage() async {
     await getIt<AppStore>().pushToUnlogin();
     await sRouter.replaceAll([
-      const AppInitRoute(),
+      const OnboardingRoute(),
     ]);
   }
 }

@@ -64,8 +64,8 @@ abstract class _BiometricStoreBase with Store {
   }
 
   Future<void> handleBiometricPermissionAfterSettingsChange(
-      BuildContext context,
-      ) async {
+    BuildContext context,
+  ) async {
     _logger.log(notifier, 'handleBiometricPermissionAfterSettingsChange');
     final storageService = sLocalStorageService;
 

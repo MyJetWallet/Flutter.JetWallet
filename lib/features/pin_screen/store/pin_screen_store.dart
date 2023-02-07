@@ -80,6 +80,9 @@ abstract class _PinScreenStoreBase with Store {
   int lockTime = 0;
 
   @observable
+  bool isBioBeenUsed = false;
+
+  @observable
   GlobalKey<ShakeWidgetState> shakePinKey = GlobalKey<ShakeWidgetState>();
 
   @observable
@@ -531,11 +534,17 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<String> _authenticateWithBio() async {
-    final success = await makeAuthWithBiometrics(
-      intl.pinScreen_weNeedYouToConfirmYourIdentity,
-    );
+    if (!isBioBeenUsed) {
+      final success = await makeAuthWithBiometrics(
+        intl.pinScreen_weNeedYouToConfirmYourIdentity,
+      );
 
-    return success ? _userInfo.pin ?? '' : '';
+      isBioBeenUsed = true;
+
+      return success ? _userInfo.pin ?? '' : '';
+    } else {
+      return '';
+    }
   }
 
   @action

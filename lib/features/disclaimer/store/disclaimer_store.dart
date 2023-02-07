@@ -278,7 +278,10 @@ abstract class _DisclaimerStoreBase with Store {
                               active: activeButton,
                               onTap: () async {
                                 await _sendAnswers(
-                                    context, disclaimerIndex, onAgree);
+                                  context,
+                                  disclaimerIndex,
+                                  onAgree,
+                                );
                               },
                             ),
                           ),
