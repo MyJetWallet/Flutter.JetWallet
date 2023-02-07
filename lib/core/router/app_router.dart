@@ -102,6 +102,7 @@ import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_sc
 import 'package:jetwallet/features/transaction_history/ui/widgets/history_recurring_buys.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
+import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
@@ -212,6 +213,11 @@ final sRouter = getIt.get<AppRouter>();
           page: PortfolioScreen,
         ),
       ],
+    ),
+    AutoRoute(
+      path: '/verification_screen',
+      name: 'VerificationRouter',
+      page: VerificationScreen,
     ),
     AutoRoute(
       path: '/account',

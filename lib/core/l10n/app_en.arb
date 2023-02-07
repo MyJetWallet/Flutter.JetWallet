@@ -1259,5 +1259,16 @@
   "assets": "Assets",
   "bottom_bar_my_assets": "My assets",
   "bottom_bar_market": "Market",
-  "open_in_explorer": "Open in Explorer"
+  "open_in_explorer": "Open in Explorer",
+  "verification_your_profile": "Verification your profile",
+  "verification_your_profile_descr": "In accordance with KYC and AML Policy, you are required to pass the verification process.",
+  "logout": "Logout",
+  "email_verification": "Email verification",
+  "phone_number": "Phone number",
+  "provide_information": "Provide information",
+  "personal_details":"Personal details",
+  "personal_details_descr": "First name, last name, date of birth and country",
+  "pin_code": "PIN code",
+  "pin_code_descr": "Secure PIN for your Simple wallet",
+  "create_pin_code": "Create PIN"
 }

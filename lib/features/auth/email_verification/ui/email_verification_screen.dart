@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -156,6 +157,13 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
         loading: verification.loader,
         header: SAuthHeader(
           title: intl.emailVerification_emailVerification,
+          customIconButton: SIconButton(
+            onTap: () {
+              sRouter.push(VerificationRouter());
+            },
+            defaultIcon: const SCloseIcon(),
+            pressedIcon: const SClosePressedIcon(),
+          ),
           progressValue: 40,
           isAutoSize: true,
         ),

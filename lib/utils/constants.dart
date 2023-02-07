@@ -98,3 +98,4 @@ const gmailAsset = 'assets/images/gmail.png';
 const sparkAsset = 'assets/images/spark.png';
 
 const portfolioGradientBG = 'assets/images/gradient_bg.png';
+const simpleLogo = 'assets/images/simple_logo.png';

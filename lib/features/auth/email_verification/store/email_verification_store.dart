@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -18,6 +19,7 @@ import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
+import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -244,10 +246,16 @@ abstract class _EmailVerificationStoreBase with Store {
 
           await startSession(authInfo.authState.email);
 
-          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
-          getIt.get<StartupService>().successfullAuthentication();
+          await sRouter.push(
+            TwoFaPhoneRouter(
+              trigger: TwoFaPhoneTriggerUnion.startup(),
+            ),
+          );
 
-          unawaited(getIt.get<AppStore>().checkInitRouter());
+          //authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          //getIt.get<StartupService>().successfullAuthentication();
+
+          //unawaited(getIt.get<AppStore>().checkInitRouter());
 
           //_logger.log(stateFlow, 'verifyCode', state);
         },

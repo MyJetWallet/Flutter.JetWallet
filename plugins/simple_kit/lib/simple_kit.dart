@@ -173,6 +173,7 @@ export 'modules/icons/24x24/public/erase/simple_erase_pressed_icon.dart';
 export 'modules/icons/24x24/public/earn/simple_earn_withdrawal_icon.dart';
 export 'modules/icons/24x24/public/edit/simple_edit_icon.dart';
 export 'modules/icons/24x24/public/done/simple_done_icon.dart';
+export 'modules/icons/24x24/public/done/simple_blue_done_icon.dart';
 export 'modules/icons/24x24/public/error/simple_error_icon.dart';
 export 'modules/icons/24x24/public/error/simple_error_pressed_icon.dart';
 export 'modules/icons/24x24/public/eye_close/simple_eye_close_icon.dart';

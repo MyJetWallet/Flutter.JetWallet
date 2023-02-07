@@ -98,6 +98,12 @@ class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    VerificationRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const VerificationScreen(),
+      );
+    },
     AccountRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -970,6 +976,10 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        ),
+        RouteConfig(
           AccountRouter.name,
           path: '/account',
         ),
@@ -1489,6 +1499,18 @@ class HomeRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [VerificationScreen]
+class VerificationRouter extends PageRouteInfo<void> {
+  const VerificationRouter()
+      : super(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        );
+
+  static const String name = 'VerificationRouter';
 }
 
 /// generated route for

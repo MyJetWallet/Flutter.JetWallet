@@ -91,8 +91,9 @@ class _SingInBody extends StatelessObserverWidget {
             color: colors.grey5,
             loading: signInStore.loader,
             header: SAuthHeader(
-              customIconButton: const SpaceH24(),
+              //customIconButton: const SpaceH24(),
               title: intl.register_enterYourEmail,
+
               showSupportButton: false,
               /*onSupportButtonTap: () => sRouter.push(
                 CrispRouter(

@@ -172,7 +172,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                     name: 'Logs',
                     onTap: () {
                       sRouter.push(
-                        const LogsRouter(),
+                        const VerificationRouter(),
                       );
                     },
                   ),
