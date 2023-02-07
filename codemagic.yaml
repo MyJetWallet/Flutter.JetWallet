@@ -7,7 +7,7 @@ definitions:
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: 3.3.8
+    flutter: 3.7.1
     xcode: latest
     cocoapods: default
 

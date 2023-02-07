@@ -40,7 +40,7 @@ dependencies:
   store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
   flutter_webview_pro: ^3.0.1+4 # provides a WebView widget on Android and iOS
-  appsflyer_sdk: ^6.8.2  # plugin for AppsFlyer SDK with Android and iOS support
+  appsflyer_sdk: 6.9.3  # plugin for AppsFlyer SDK with Android and iOS support
   credit_card_validator: ^2.0.1 # Credit card validation helpers
   #facebook_app_events: # ^0.18.0
   #  git:
@@ -55,7 +55,7 @@ dependencies:
   native_flutter_proxy: ^0.1.15
   http_proxy: ^1.2.1
   animated_list_plus: ^0.4.4
-  scrolls_to_top: ^2.0.0
+  scrolls_to_top: 2.0.0
 
   # RESPONSIVE UI
   device_preview: ^1.1.0
@@ -110,7 +110,6 @@ dependencies:
 
   # NOTIFICATIONS
   flutter_local_notifications: 13.0.0
-  onesignal_flutter: 3.5.0
 
   # OTHER:
   freezed_annotation: 2.2.0 # Annotations for the freezed
