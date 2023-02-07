@@ -8,7 +8,6 @@ import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 Future<void> main() async {
   mainContext.onReactionError((_, rxn) {
@@ -35,5 +34,5 @@ Future<void> main() async {
     }).sendPort,
   );
 
-  await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');
+  //await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');
 }

@@ -36,7 +36,7 @@ class LocalCacheService {
   Future<bool> checkIsFirstRunning() async {
     final val = instance.getBool(isFirstRunning);
 
-    if (val == false) {
+    if (val == false || val == null) {
       await instance.setBool(isFirstRunning, true);
 
       return true;

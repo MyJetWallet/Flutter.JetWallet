@@ -93,12 +93,13 @@ class _SingInBody extends StatelessObserverWidget {
             header: SAuthHeader(
               customIconButton: const SpaceH24(),
               title: intl.register_enterYourEmail,
-              showSupportButton: true,
-              onSupportButtonTap: () => sRouter.push(
+              showSupportButton: false,
+              /*onSupportButtonTap: () => sRouter.push(
                 CrispRouter(
                   welcomeText: intl.crispSendMessage_hi,
                 ),
               ),
+              */
               progressValue: 20,
             ),
             child: CustomScrollView(
@@ -129,10 +130,21 @@ class _SingInBody extends StatelessObserverWidget {
                                 ],
                                 onChanged: (value) {
                                   credentials.updateAndValidateEmail(value);
+
+                                  if (value.isEmpty) {
+                                    SingleSingInStore.of(context)
+                                        .setIsEmailError(false);
+                                  }
                                 },
-                                onErrorIconTap: () => sNotification.showError(
-                                  intl.register_invalidEmail,
-                                ),
+                                onErase: () {
+                                  SingleSingInStore.of(context)
+                                      .setIsEmailError(false);
+                                },
+                                onErrorIconTap: () {
+                                  sNotification.showError(
+                                    intl.register_invalidEmail,
+                                  );
+                                },
                                 isError:
                                     SingleSingInStore.of(context).isEmailError,
                               ),

@@ -133,7 +133,9 @@ class LocalStorageService {
       final userMail = await _storage.read(key: lastUsedMail);
       final slot = await _storage.read(key: activeSlot);
       final deviceIdUsed = await _storage.read(key: deviceId);
+
       await _storage.deleteAll();
+
       await _storage.write(key: lastUsedMail, value: userMail);
       await _storage.write(key: activeSlot, value: slot);
       await _storage.write(key: deviceId, value: deviceIdUsed);
