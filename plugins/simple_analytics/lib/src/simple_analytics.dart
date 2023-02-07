@@ -759,240 +759,6 @@ class SimpleAnalytics {
     );
   }
 
-  /// Buy
-  void tapPreviewBuy({
-    required String assetName,
-    required String paymentMethod,
-    required String amount,
-    required RecurringFrequency frequency,
-    String? preset,
-  }) {
-    _analytics.logEvent(
-      EventType.tapPreviewBuy,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.assetName: assetName,
-        PropertyType.paymentMethod: paymentMethod,
-        PropertyType.amount: amount,
-        PropertyType.frequency: frequency.name,
-        PropertyType.preset: preset,
-      },
-    );
-  }
-
-  void previewBuyView({
-    required String assetName,
-    required String paymentMethod,
-    required String amount,
-    required RecurringFrequency frequency,
-  }) {
-    _analytics.logEvent(
-      EventType.previewBuyView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.assetName: assetName,
-        PropertyType.paymentMethod: paymentMethod,
-        PropertyType.amount: amount,
-        PropertyType.frequency: frequency.name,
-      },
-    );
-  }
-
-  void tapConfirmBuy({
-    required String assetName,
-    required String paymentMethod,
-    required String amount,
-    required RecurringFrequency frequency,
-  }) {
-    _analytics.logEvent(
-      EventType.tapConfirmBuy,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.assetName: assetName,
-        PropertyType.paymentMethod: paymentMethod,
-        PropertyType.amount: amount,
-        PropertyType.frequency: frequency.name,
-      },
-    );
-  }
-
-  void tapSkipWaiting() {
-    _analytics.logEvent(
-      EventType.tapSkipWaiting,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void simplexView(String url) {
-    _analytics.logEvent(
-      EventType.simplexView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.url: url,
-      },
-    );
-  }
-
-  void simplexSucsessView(String url) {
-    _analytics.logEvent(
-      EventType.simplexSucsessView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void simplexFailureView(String url) {
-    _analytics.logEvent(
-      EventType.simplexFailureView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  /// Circle
-  void circleChooseMethod() {
-    _analytics.logEvent(
-      EventType.circleChooseMethod,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circlePayFromView() {
-    _analytics.logEvent(
-      EventType.circlePayFromView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleTapAddCard() {
-    _analytics.logEvent(
-      EventType.circleTapAddCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleContinueDetails() {
-    _analytics.logEvent(
-      EventType.circleContinueDetails,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleContinueAddress() {
-    _analytics.logEvent(
-      EventType.circleContinueAddress,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleCVVView({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.circleCVVView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.method: source,
-      },
-    );
-  }
-
-  void circleCloseCVV() {
-    _analytics.logEvent(
-      EventType.circleCloseCVV,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleRedirect() {
-    _analytics.logEvent(
-      EventType.circleRedirect,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleSuccess({
-    required String asset,
-    required String amount,
-    required RecurringFrequency frequency,
-  }) {
-    _analytics.logEvent(
-      EventType.circleSuccess,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.assetName: asset,
-        PropertyType.frequency: frequency.name,
-        PropertyType.amount: amount,
-      },
-    );
-  }
-
-  void circleFailed() {
-    _analytics.logEvent(
-      EventType.circleFailed,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleAdd() {
-    _analytics.logEvent(
-      EventType.circleAdd,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void circleCancel() {
-    _analytics.logEvent(
-      EventType.circleCancel,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  /// Quick actions
-  void tapOnBuy(Source source) {
-    _analytics.logEvent(
-      EventType.tapOnBuy,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.sourceScreen: source.name,
-      },
-    );
-  }
-
-  void tapOnBuyFromCard(Source source) {
-    _analytics.logEvent(
-      EventType.tapOnBuyFromCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.sourceScreen: source.name,
-      },
-    );
-  }
-
   /// Receive
   void receiveClick({required String source}) {
     _analytics.logEvent(
@@ -1947,100 +1713,6 @@ class SimpleAnalytics {
       EventType.remoteConfigError,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  /// Payment methods
-  void paymentTap() {
-    _analytics.logEvent(
-      EventType.paymentTap,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void paymentView() {
-    _analytics.logEvent(
-      EventType.paymentView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void paymentAdd() {
-    _analytics.logEvent(
-      EventType.paymentAdd,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-      },
-    );
-  }
-
-  void paymentDetailsView({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentDetailsView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.source: source,
-      },
-    );
-  }
-
-  void paymentDetailsContinue({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentDetailsContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.source: source,
-      },
-    );
-  }
-
-  void paymentBillingView({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentBillingView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.source: source,
-      },
-    );
-  }
-
-  void paymentBillingContinue({
-    required String source,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentBillingContinue,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.source: source,
-      },
-    );
-  }
-
-  void paymentSuccess({
-    required String source,
-    required String asset,
-    required String amount,
-    required RecurringFrequency frequency,
-  }) {
-    _analytics.logEvent(
-      EventType.paymentSuccess,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.method: source,
-        PropertyType.assetName: asset,
-        PropertyType.frequency: frequency.name,
-        PropertyType.amount: amount,
       },
     );
   }
@@ -3196,6 +2868,371 @@ class SimpleAnalytics {
       EventType.nftReceiveBack,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
+      },
+    );
+  }
+
+  /// New buy flow
+  void newBuyZeroScreenView() {
+    _analytics.logEvent(
+      EventType.newBuyZeroScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '1',
+      },
+    );
+  }
+
+  void newBuyTapBuy() {
+    _analytics.logEvent(
+      EventType.newBuyTapBuy,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '2',
+      },
+    );
+  }
+
+  void newBuyChooseAssetView() {
+    _analytics.logEvent(
+      EventType.newBuyChooseAssetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '3',
+      },
+    );
+  }
+
+  void newBuyNoSavedCard() {
+    _analytics.logEvent(
+      EventType.newBuyNoSavedCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '4',
+      },
+    );
+  }
+
+  void newBuyTapAddCard() {
+    _analytics.logEvent(
+      EventType.newBuyTapAddCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '5',
+      },
+    );
+  }
+
+  void newBuyEnterCardDetailsView({
+    required String nameVisible,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyEnterCardDetailsView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '6',
+        PropertyType.nameLastName: nameVisible,
+      },
+    );
+  }
+
+  void newBuyTapSaveCard() {
+    _analytics.logEvent(
+      EventType.newBuyTapSaveCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '7',
+      },
+    );
+  }
+
+  void newBuyTapCardContinue({
+    required String saveCard,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyTapCardContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '8',
+        PropertyType.saveCard: saveCard,
+      },
+    );
+  }
+
+  void newBuyBuyAssetView({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyBuyAssetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '9',
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void newBuyErrorLimit({
+    required String errorCode,
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyErrorLimit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '10',
+        PropertyType.asset: asset,
+        PropertyType.errorCode: errorCode,
+      },
+    );
+  }
+
+  void newBuyTapCardLimits() {
+    _analytics.logEvent(
+      EventType.newBuyTapCardLimits,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '11',
+      },
+    );
+  }
+
+  void newBuyCardLimitsView() {
+    _analytics.logEvent(
+      EventType.newBuyCardLimitsView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '12',
+      },
+    );
+  }
+
+  void newBuyTapCurrency() {
+    _analytics.logEvent(
+      EventType.newBuyTapCurrency,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '13',
+      },
+    );
+  }
+
+  void newBuyChooseCurrencyView() {
+    _analytics.logEvent(
+      EventType.newBuyChooseCurrencyView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '14',
+      },
+    );
+  }
+
+  void newBuyTapContinue({
+    required String sourceCurrency,
+    required String destinationCurrency,
+    required String paymentMethod,
+    required String sourceAmount,
+    required String destinationAmount,
+    required String quickAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyTapContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '15',
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationAmount: destinationAmount,
+        PropertyType.quickAmount: quickAmount,
+      },
+    );
+  }
+
+  void newBuyOrderSummaryView() {
+    _analytics.logEvent(
+      EventType.newBuyOrderSummaryView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '16',
+      },
+    );
+  }
+
+  void newBuyTapAgreement() {
+    _analytics.logEvent(
+      EventType.newBuyTapAgreement,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '17',
+      },
+    );
+  }
+
+  void newBuyTapConfirm({
+    required String sourceCurrency,
+    required String destinationCurrency,
+    required String paymentMethod,
+    required String sourceAmount,
+    required String destinationAmount,
+    required String exchangeRate,
+    required String paymentFee,
+    required String firstTimeBuy,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyTapConfirm,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '18',
+        PropertyType.sourceCurrency: sourceCurrency,
+        PropertyType.sourceAmount: sourceAmount,
+        PropertyType.destinationCurrency: destinationCurrency,
+        PropertyType.destinationAmount: destinationAmount,
+        PropertyType.exchangeRate: exchangeRate,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.paymentFee: paymentFee,
+        PropertyType.firstTimeBuy: firstTimeBuy,
+      },
+    );
+  }
+
+  void newBuyTapPaymentFee() {
+    _analytics.logEvent(
+      EventType.newBuyTapPaymentFee,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '19',
+      },
+    );
+  }
+
+  void newBuyFeeView({
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyFeeView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '20',
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void newBuyEnterCvvView({
+    required String firstTimeBuy,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyEnterCvvView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '21',
+        PropertyType.firstTimeBuy: firstTimeBuy,
+      },
+    );
+  }
+
+  void newBuyProcessingView({
+    required String firstTimeBuy,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyProcessingView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '22',
+        PropertyType.firstTimeBuy: firstTimeBuy,
+      },
+    );
+  }
+
+  void newBuyTapCloseProcessing({
+    required String firstTimeBuy,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyTapCloseProcessing,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '23',
+        PropertyType.firstTimeBuy: firstTimeBuy,
+      },
+    );
+  }
+
+  void newBuySuccessView({
+    required String firstTimeBuy,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuySuccessView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '24',
+        PropertyType.firstTimeBuy: firstTimeBuy,
+      },
+    );
+  }
+
+  void newBuyFailedView({
+    required String firstTimeBuy,
+    required String errorCode,
+  }) {
+    _analytics.logEvent(
+      EventType.newBuyFailedView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '25',
+        PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.errorCode: errorCode,
+      },
+    );
+  }
+
+  void newBuyTapEdit() {
+    _analytics.logEvent(
+      EventType.newBuyTapEdit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '26',
+      },
+    );
+  }
+
+  void newBuyTapDelete() {
+    _analytics.logEvent(
+      EventType.newBuyTapDelete,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '27',
+      },
+    );
+  }
+
+  void newBuyDeleteView() {
+    _analytics.logEvent(
+      EventType.newBuyDeleteView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '28',
+      },
+    );
+  }
+
+  void newBuyTapYesDelete() {
+    _analytics.logEvent(
+      EventType.newBuyTapYesDelete,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '29',
+      },
+    );
+  }
+
+  void newBuyTapCancelDelete() {
+    _analytics.logEvent(
+      EventType.newBuyTapCancelDelete,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '30',
       },
     );
   }

@@ -85,21 +85,16 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: state.wasAction,
               onSkip: () {
+                sAnalytics.newBuyTapCloseProcessing(
+                  firstTimeBuy: '$hideCheckbox',
+                );
                 state.skippedWaiting();
               },
             )
           : null,
-      header: deviceSize.when(
-        small: () {
-          return const SSmallHeader(
-            title: '',
-          );
-        },
-        medium: () {
-          return const SMegaHeader(
-            title: '',
-          );
-        },
+      header: const SSmallHeader(
+        isShortVersion: true,
+        title: '',
       ),
       child: Stack(
         children: [
@@ -248,6 +243,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
+                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,
@@ -296,16 +292,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                     (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    sAnalytics.tapConfirmBuy(
-                      assetName: input.currency.description,
-                      paymentMethod: 'unlimintCard',
-                      amount: formatCurrencyStringAmount(
-                        prefix: input.currencyPayment.prefixSymbol,
-                        value: input.amount,
-                        symbol: input.currencyPayment.symbol,
-                      ),
-                      frequency: RecurringFrequency.oneTime,
-                    );
                     state.onConfirm();
                   },
                 ),

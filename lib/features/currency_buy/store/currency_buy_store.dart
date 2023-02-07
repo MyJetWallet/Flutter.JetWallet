@@ -29,6 +29,7 @@ import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_kit/modules/keyboards/simple_numeric_keyboard_amount.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -879,6 +880,12 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _updatePaymentMethodInputError(String? error) {
+    if (error != null) {
+      sAnalytics.newBuyErrorLimit(
+        errorCode: error,
+        asset: currencyModel.symbol,
+      );
+    }
     paymentMethodInputError = error;
   }
 
@@ -942,6 +949,7 @@ abstract class _CurrencyBuyStoreBase with Store {
           )}',
         );
       } else if (value > max) {
+        sAnalytics.newBuyErrorLimit(errorCode: '', asset: currencyModel.symbol);
         if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
             pickedCircleCard == null) {
           return;

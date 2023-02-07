@@ -24,12 +24,16 @@ import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
+
+import '../../../core/services/signal_r/signal_r_service_new.dart';
 
 part 'preview_buy_with_bank_card_store.g.dart';
 
@@ -195,11 +199,34 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     storage.setString(checkedBankCard, 'true');
-    sAnalytics.circleCVVView(source: 'Unlimint');
+    final buyMethod = input.currency.buyMethods.where(
+      (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuyTapConfirm(
+      sourceCurrency: input.currencyPayment.symbol,
+      destinationCurrency: input.currency.symbol,
+      paymentMethod: 'Bank card',
+      sourceAmount: '$paymentAmount',
+      destinationAmount: '$buyAmount',
+      exchangeRate: '$rate',
+      paymentFee: '$depositFeeAmount',
+      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+    );
+    sAnalytics.newBuyEnterCvvView(
+      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+    );
+
+    final uAC = sSignalRModules.cards.cardInfos.where(
+          (element) => element.integration == IntegrationType.unlimintAlt,
+    ).toList();
+    final activeCard = uAC.where((element) => element.id == input.cardId)
+        .toList();
+
     showBankCardCvvBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
+          '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
           ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
@@ -215,10 +242,17 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuyProcessingView(
+      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+    );
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, paymentId) {
+          isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
               url: url,
@@ -290,6 +324,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPayment', error.cause);
 
+
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
       _logger.log(stateFlow, '_requestPayment', error);
@@ -336,12 +371,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             if (isWaitingSkipped) {
               return;
             }
-            sAnalytics.paymentSuccess(
-              asset: input.currency.description,
-              amount: input.amount,
-              frequency: RecurringFrequency.oneTime,
-              source: 'Unlimint',
-            );
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
@@ -388,12 +417,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    sAnalytics.paymentSuccess(
-      asset: input.currency.description,
-      amount: input.amount,
-      frequency: RecurringFrequency.oneTime,
-      source: 'Unlimint',
-    );
 
     return sRouter
         .push(
@@ -425,14 +448,10 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_editOrder,
+        primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
-          sRouter.removeUntil(
-            (route) => route.name == CurrencyBuyRouter.name,
-          );
+          navigateToRouter();
         },
-        secondaryButtonName: intl.previewBuyWithAsset_close,
-        onSecondaryButtonTap: () => navigateToRouter(),
       ),
     );
   }

@@ -184,8 +184,6 @@ class _AccountScreenState extends State<AccountScreen>
                       isSDivider: true,
                       notification: false,
                       onTap: () {
-                        sAnalytics.paymentTap();
-                        sAnalytics.paymentView();
                         sRouter.push(
                           const PaymentMethodsRouter(),
                         );

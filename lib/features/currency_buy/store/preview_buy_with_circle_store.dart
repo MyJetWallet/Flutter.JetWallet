@@ -23,6 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -184,10 +185,21 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     final storage = sLocalStorageService;
 
     storage.setString(checkedCircle, 'true');
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.circleCard,
+    ).toList();
+    sAnalytics.newBuyTapConfirm(
+      sourceCurrency: input.currencyPayment.symbol,
+      destinationCurrency: input.currency.symbol,
+      paymentMethod: 'Circle card',
+      sourceAmount: '$paymentAmount',
+      destinationAmount: '$buyAmount',
+      exchangeRate: '$rate',
+      paymentFee: '$depositFeeAmount',
+      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+    );
 
     if (cvvEnabled) {
-      sAnalytics.circleCVVView(source: 'Circle');
-
       showCircleCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV '
@@ -214,7 +226,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     await _requestPayment(() async {
       await _requestPaymentInfo(
         (url, onSuccess, paymentId) {
-          sAnalytics.circleRedirect();
 
           sRouter.push(
             Circle3dSecureWebViewRouter(
@@ -378,12 +389,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
-            sAnalytics.paymentSuccess(
-              asset: input.currency.description,
-              amount: input.amount,
-              frequency: RecurringFrequency.oneTime,
-              source: 'Circle',
-            );
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
@@ -423,12 +428,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    sAnalytics.paymentSuccess(
-      asset: currencySymbol,
-      amount: input.amount,
-      frequency: RecurringFrequency.oneTime,
-      source: 'Circle',
-    );
 
     return sRouter
         .push(
@@ -479,13 +478,10 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_editOrder,
+        primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
-          sRouter.pop();
-          sRouter.pop();
+          navigateToRouter();
         },
-        secondaryButtonName: intl.previewBuyWithAsset_close,
-        onSecondaryButtonTap: () => navigateToRouter(),
       ),
     );
   }
@@ -514,7 +510,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
   void showFailure() {
     if (!failureShowed) {
       setFailureShowed(fShowed: true);
-      sAnalytics.circleFailed();
 
       sRouter.push(
         FailureScreenRouter(
@@ -522,7 +517,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           secondaryText: intl.previewBuyWithCircle_failureDescription,
           primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
           onPrimaryButtonTap: () {
-            sAnalytics.circleAdd();
 
             sRouter.navigate(
               AddCircleCardRouter(
@@ -536,7 +530,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           },
           secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
           onSecondaryButtonTap: () {
-            sAnalytics.circleCancel();
 
             sRouter.pop();
             sRouter.pop();

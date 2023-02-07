@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
@@ -53,6 +54,11 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
+    final uAC = sSignalRModules.cards.cardInfos.where(
+          (element) => element.integration == IntegrationType.unlimintAlt,
+    ).toList();
+    final activeCard = uAC.where((element) => element.id == input.cardId)
+        .toList();
 
     final state = PreviewBuyWithBankCardStore.of(context);
     final buyMethod = input.currency.buyMethods.where(
@@ -77,11 +83,15 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: state.wasAction,
               onSkip: () {
+                sAnalytics.newBuyTapCloseProcessing(
+                  firstTimeBuy: '$hideCheckbox',
+                );
                 state.skippedWaiting();
               },
             )
           : null,
       header: const SSmallHeader(
+        isShortVersion: true,
         title: '',
       ),
       child: Stack(
@@ -140,7 +150,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     name: intl.curencyBuy_payFrom,
                     contentLoading: state.loader.loading,
                     value:
-                        ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
+                        '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                            ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
                             (input.cardNumber?.length ?? 4) - 4,
                           ) : ''}',
                     maxValueWidth: 200,
@@ -164,6 +175,17 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     maxValueWidth: 140,
                     infoIcon: true,
                     infoAction: () {
+                      sAnalytics.newBuyTapPaymentFee();
+                      sAnalytics.newBuyFeeView(
+                        paymentFee: state.depositFeeAmountMax == state.depositFeeAmount
+                            ? volumeFormat(
+                              prefix: baseCurrency.prefix,
+                              decimal: state.depositFeeAmount ?? Decimal.zero,
+                              accuracy: baseCurrency.accuracy,
+                              symbol: baseCurrency.symbol,
+                            )
+                            : '${state.depositFeePerc}%',
+                      );
                       showTransactionFeeBottomSheet(
                         context: context,
                         colors: colors,
@@ -262,6 +284,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
+                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,
@@ -310,16 +333,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    sAnalytics.tapConfirmBuy(
-                      assetName: input.currency.description,
-                      paymentMethod: 'bankCard',
-                      amount: formatCurrencyStringAmount(
-                        prefix: input.currencyPayment.prefixSymbol,
-                        value: input.amount,
-                        symbol: input.currencyPayment.symbol,
-                      ),
-                      frequency: RecurringFrequency.oneTime,
-                    );
                     state.onConfirm();
                   },
                 ),

@@ -78,6 +78,7 @@ class EmptyPortfolioBody extends StatelessObserverWidget {
             active: true,
             name: intl.emptyEarnWalletBody_buyCrypto,
             onTap: () {
+              sAnalytics.newBuyTapBuy();
               showBuyAction(
                 shouldPop: false,
                 fromCard: true,

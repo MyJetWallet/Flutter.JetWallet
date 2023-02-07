@@ -18,6 +18,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -268,6 +269,7 @@ abstract class _AddBankCardStoreBase with Store {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
+      sAnalytics.newBuyBuyAssetView(asset: currency.symbol);
       sRouter.push(
         CurrencyBuyRouter(
           newBankCardId: cardId,

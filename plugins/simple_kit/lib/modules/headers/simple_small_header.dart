@@ -20,6 +20,7 @@ class SSmallHeader extends StatelessWidget {
     this.showCloseButton = false,
     this.showDoneButton = false,
     this.isStarSelected = false,
+    this.isShortVersion = false,
     required this.title,
   }) : super(key: key);
 
@@ -37,6 +38,7 @@ class SSmallHeader extends StatelessWidget {
   final bool showEditButton;
   final bool showDoneButton;
   final bool showCloseButton;
+  final bool isShortVersion;
 
   final bool isStarSelected;
   final String title;
@@ -44,7 +46,7 @@ class SSmallHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 120.0,
+      height: isShortVersion ? 88.0 : 120.0,
       child: Column(
         children: [
           const SpaceH64(),
