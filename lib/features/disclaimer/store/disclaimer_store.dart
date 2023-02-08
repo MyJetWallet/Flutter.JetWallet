@@ -35,6 +35,9 @@ abstract class _DisclaimerStoreBase with Store {
   static final _logger = Logger('DisclaimerStore');
 
   @observable
+  bool disclaimerShowed = false;
+
+  @observable
   String? imageUrl;
 
   @observable
@@ -168,8 +171,12 @@ abstract class _DisclaimerStoreBase with Store {
     required int disclaimerIndex,
     required Function() onAgree,
   }) {
+    if (disclaimerShowed) return;
+
     final context = sRouter.navigatorKey.currentContext!;
     final colors = sKit.colors;
+
+    disclaimerShowed = true;
 
     showsDisclaimer(
       context: context,
@@ -355,6 +362,7 @@ abstract class _DisclaimerStoreBase with Store {
     int disclaimerIndex,
     Function() onAgree,
   ) async {
+    Navigator.pop(context);
     _logger.log(notifier, '_sendAnswers');
 
     final answers = _prepareAnswers(questions);
@@ -368,11 +376,11 @@ abstract class _DisclaimerStoreBase with Store {
       final _ = await sNetwork.getWalletModule().postSaveDisclaimer(model);
 
       if (disclaimerIndex + 1 <= disclaimers.length) {
-        Navigator.pop(context);
-
         final index = disclaimerIndex + 1;
 
         _updateDisclaimer(index);
+
+        disclaimerShowed = false;
 
         _displayDisclaimers(disclaimerIndex: index, onAgree: onAgree);
       } else {
