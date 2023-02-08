@@ -12,6 +12,7 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
 void showSendAction(
@@ -23,8 +24,13 @@ void showSendAction(
   if (shouldPop) {
     Navigator.pop(context);
   }
+  final searchState = getIt.get<ActionSearchStore>();
+  final sendAssets = searchState.filteredCurrencies.where(
+    (element) => element.isAssetBalanceNotEmpty &&
+      element.supportsCryptoWithdrawal,
+  ).toList();
 
-  if (isNotEmptyBalance && isSendAvailable) {
+  if (isNotEmptyBalance && isSendAvailable && sendAssets.isNotEmpty) {
     showSendTimerAlertOr(
       context: context,
       or: () => _showSendAction(context),
@@ -34,8 +40,11 @@ void showSendAction(
   }
 }
 
-void _showSendAction(BuildContext context) {
+Future<void> _showSendAction(BuildContext context) async {
   final showSearch = showSendCurrencySearch(context);
+
+  final storageService = getIt.get<LocalStorageService>();
+  final lastCurrency = await storageService.getValue(lastAssetSend);
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -49,7 +58,7 @@ void _showSendAction(BuildContext context) {
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
-    children: [const _ActionSend()],
+    children: [_ActionSend(lastCurrency: lastCurrency)],
     then: (value) {
       sAnalytics.sendChooseAssetClose();
     },
@@ -57,7 +66,12 @@ void _showSendAction(BuildContext context) {
 }
 
 class _ActionSend extends StatelessObserverWidget {
-  const _ActionSend({Key? key}) : super(key: key);
+  const _ActionSend({
+    Key? key,
+    this.lastCurrency,
+  }) : super(key: key);
+
+  final String? lastCurrency;
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +82,21 @@ class _ActionSend extends StatelessObserverWidget {
       (element) => element.isAssetBalanceNotEmpty &&
           element.supportsCryptoWithdrawal,
     ).toList();
+    currencyFiltered.sort((a,b) {
+      if (lastCurrency != null) {
+        if (a.symbol == lastCurrency) {
+          return 0.compareTo(1);
+        } else if (b.symbol == lastCurrency) {
+          return 1.compareTo(0);
+        }
+      }
+
+      return b.baseBalance.compareTo(a.baseBalance);
+    });
 
     return Column(
       children: [
-        for (final currency in state.filteredCurrencies)
+        for (final currency in currencyFiltered)
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsCryptoWithdrawal)
               SWalletItem(

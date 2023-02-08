@@ -42,6 +42,7 @@ const nftPromoCode = 'nftPromoCode';
 const lastUsedMail = 'lastUsedMail';
 const activeSlot = 'activeSlot';
 const deviceId = 'deviceId';
+const lastAssetSend = 'lastAssetSend';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -90,6 +91,7 @@ class LocalStorageService {
     await _storage.delete(key: startApp);
     await _storage.delete(key: nftPromoCode);
     await _storage.delete(key: activeSlot);
+    await _storage.delete(key: lastAssetSend);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);

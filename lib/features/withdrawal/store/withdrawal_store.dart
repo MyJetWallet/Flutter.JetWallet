@@ -882,6 +882,13 @@ abstract class _WithdrawalStoreBase with Store {
   Future<void> withdraw() async {
     previewLoader.startLoadingImmediately();
     previewLoading = true;
+    final storageService = getIt.get<LocalStorageService>();
+    if (withdrawalInputModel != null && withdrawalInputModel?.currency != null) {
+      await storageService.setString(
+        lastAssetSend,
+        withdrawalInputModel!.currency!.symbol,
+      );
+    }
 
     try {
       final model = WithdrawRequestModel(
