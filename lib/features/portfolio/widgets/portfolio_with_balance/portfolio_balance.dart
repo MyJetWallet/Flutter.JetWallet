@@ -59,8 +59,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   Widget _balanceInProgressIcon(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (!currency.isSingleTypeInProgress) {
       return const SDepositTotalIcon();
     }
@@ -76,8 +76,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressText(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (currency.isSingleTypeInProgress) {
       return volumeFormat(
         decimal: currency.totalAmountInProcess,
@@ -91,8 +91,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressLeadText(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (currency.isSingleTypeInProgress) {
       return actualInProcessOperationName(
         currency,
@@ -103,16 +103,6 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     }
 
     return '${counterOfOperationInProgressTransactions(currency)} ';
-  }
-
-  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
-    print('asd');
-
-    await scrollController.animateTo(
-      event.to,
-      duration: event.duration,
-      curve: event.curve,
-    );
   }
 
   double getMaxChildSize() {
@@ -176,143 +166,138 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
 
-    return ScrollsToTop(
-      onScrollsToTop: _onScrollsToTop,
-      child: PortfolioScreenGradient(
-        child: Stack(
-          children: <Widget>[
-            CustomScrollView(
-              controller: scrollController,
-              physics: const ClampingScrollPhysics(),
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  pinned: true,
-                  stretch: true,
-                  elevation: 0,
-                  expandedHeight:
-                      MediaQuery.of(context).size.height <= 830 ? 269 : 240,
-                  collapsedHeight: 116,
-                  floating: true,
-                  flexibleSpace: PortfolioSliverAppBar(
-                    shrinkOffset: _offset,
-                    max: getMaxChildSize(),
-                    min: getMinChildSize(),
-                  ),
-                ),
-              ],
-            ),
-            DraggableScrollableSheet(
-              maxChildSize: getMaxChildSize(),
-              minChildSize: getMinChildSize(),
-              initialChildSize: getMinChildSize(),
-              controller: controller,
-              builder: (context, sCon) => DecoratedBox(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                  color: Colors.white,
-                ),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  controller: sCon,
-                  physics: const ClampingScrollPhysics(),
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceH30(),
-                    SPaddingH24(
-                      child: Text(
-                        intl.portfolioWithBalanceBody_my_assets,
-                        style: sTextH4Style,
-                      ),
-                    ),
-                    const SpaceH12(),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: itemsWithBalance.length,
-                      //controller: sCon,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Observer(
-                          builder: (context) {
-                            return Column(
-                              children: [
-                                SWalletItem(
-                                  key: UniqueKey(),
-                                  isBalanceHide:
-                                      getIt<AppStore>().isBalanceHide,
-                                  decline: itemsWithBalance[index]
-                                      .dayPercentChange
-                                      .isNegative,
-                                  icon: SNetworkSvg24(
-                                    url: itemsWithBalance[index].iconUrl,
-                                  ),
-                                  baseCurrPrefix: baseCurrency.prefix,
-                                  primaryText:
-                                      itemsWithBalance[index].description,
-                                  amount: itemsWithBalance[index]
-                                      .volumeBaseBalance(baseCurrency),
-                                  secondaryText: getIt<AppStore>().isBalanceHide
-                                      ? itemsWithBalance[index].symbol
-                                      : itemsWithBalance[index]
-                                          .volumeAssetBalance,
-                                  onTap: () {
-                                    if (itemsWithBalance[index].type ==
-                                        AssetType.indices) {
-                                      sRouter.push(
-                                        MarketDetailsRouter(
-                                          marketItem: marketItemFrom(
-                                            marketItems,
-                                            itemsWithBalance[index].symbol,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      navigateToWallet(
-                                        context,
-                                        itemsWithBalance[index],
-                                      );
-                                    }
-                                  },
-                                  removeDivider: itemsWithBalance[index]
-                                          .isPendingDeposit ||
-                                      index == itemsWithBalance.length - 1,
-                                  isPendingDeposit:
-                                      itemsWithBalance[index].isPendingDeposit,
-                                ),
-                                if (itemsWithBalance[index]
-                                    .isPendingDeposit) ...[
-                                  BalanceInProcess(
-                                    text: getIt<AppStore>().isBalanceHide
-                                        ? itemsWithBalance[index].symbol
-                                        : _balanceInProgressText(
-                                            itemsWithBalance[index],
-                                          ),
-                                    leadText: _balanceInProgressLeadText(
-                                      itemsWithBalance[index],
-                                    ),
-                                    removeDivider: itemsWithBalance[index] ==
-                                        itemsWithBalance.last,
-                                    icon: _balanceInProgressIcon(
-                                      itemsWithBalance[index],
-                                    ),
-                                  ),
-                                ],
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
+    return PortfolioScreenGradient(
+      child: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            controller: scrollController,
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                backgroundColor: Colors.transparent,
+                pinned: true,
+                stretch: true,
+                elevation: 0,
+                expandedHeight:
+                MediaQuery.of(context).size.height <= 830 ? 269 : 240,
+                collapsedHeight: 116,
+                floating: true,
+                flexibleSpace: PortfolioSliverAppBar(
+                  shrinkOffset: _offset,
+                  max: getMaxChildSize(),
+                  min: getMinChildSize(),
                 ),
               ),
+            ],
+          ),
+          DraggableScrollableSheet(
+            maxChildSize: getMaxChildSize(),
+            minChildSize: getMinChildSize(),
+            initialChildSize: getMinChildSize(),
+            controller: controller,
+            builder: (context, sCon) => DecoratedBox(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                color: Colors.white,
+              ),
+              child: ListView(
+                padding: EdgeInsets.zero,
+                controller: sCon,
+                physics: const ClampingScrollPhysics(),
+                //crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceH30(),
+                  SPaddingH24(
+                    child: Text(
+                      intl.portfolioWithBalanceBody_my_assets,
+                      style: sTextH4Style,
+                    ),
+                  ),
+                  const SpaceH12(),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: itemsWithBalance.length,
+                    //controller: sCon,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Observer(
+                        builder: (context) {
+                          return Column(
+                            children: [
+                              SWalletItem(
+                                key: UniqueKey(),
+                                isBalanceHide: getIt<AppStore>().isBalanceHide,
+                                decline: itemsWithBalance[index]
+                                    .dayPercentChange
+                                    .isNegative,
+                                icon: SNetworkSvg24(
+                                  url: itemsWithBalance[index].iconUrl,
+                                ),
+                                baseCurrPrefix: baseCurrency.prefix,
+                                primaryText:
+                                itemsWithBalance[index].description,
+                                amount: itemsWithBalance[index]
+                                    .volumeBaseBalance(baseCurrency),
+                                secondaryText: getIt<AppStore>().isBalanceHide
+                                    ? itemsWithBalance[index].symbol
+                                    : itemsWithBalance[index]
+                                    .volumeAssetBalance,
+                                onTap: () {
+                                  if (itemsWithBalance[index].type ==
+                                      AssetType.indices) {
+                                    sRouter.push(
+                                      MarketDetailsRouter(
+                                        marketItem: marketItemFrom(
+                                          marketItems,
+                                          itemsWithBalance[index].symbol,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    navigateToWallet(
+                                      context,
+                                      itemsWithBalance[index],
+                                    );
+                                  }
+                                },
+                                removeDivider:
+                                itemsWithBalance[index].isPendingDeposit ||
+                                    index == itemsWithBalance.length - 1,
+                                isPendingDeposit:
+                                itemsWithBalance[index].isPendingDeposit,
+                              ),
+                              if (itemsWithBalance[index].isPendingDeposit) ...[
+                                BalanceInProcess(
+                                  text: getIt<AppStore>().isBalanceHide
+                                      ? itemsWithBalance[index].symbol
+                                      : _balanceInProgressText(
+                                    itemsWithBalance[index],
+                                  ),
+                                  leadText: _balanceInProgressLeadText(
+                                    itemsWithBalance[index],
+                                  ),
+                                  removeDivider: itemsWithBalance[index] ==
+                                      itemsWithBalance.last,
+                                  icon: _balanceInProgressIcon(
+                                    itemsWithBalance[index],
+                                  ),
+                                ),
+                              ],
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

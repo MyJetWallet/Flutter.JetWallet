@@ -89,7 +89,7 @@
     "pinScreen_changePin": "Cambiar PIN",
     "pinScreen_weNeedYouToConfirmYourIdentity": "Necesitamos que confirmes tu identidad",
     "accountSecurity_changePin": "Cambiar PIN",
-    "accountSecurity_accountCategoryButtonTitle1": "Identificación facial/táctil y PIN",
+    "accountSecurity_accountCategoryButtonTitle1": "Identificación facial/táctil",
     "accountSecurity_accountCategoryButtonTitle3": "Autenticación de 2 factores",
     "register_enterYourEmail": "Introduce tu correo electrónico",
     "register_invalidEmail": "Correo electrónico no válido, revise la corrección y asegúrese de que no haya espacios",

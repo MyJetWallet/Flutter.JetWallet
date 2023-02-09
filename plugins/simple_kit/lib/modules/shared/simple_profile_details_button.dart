@@ -7,11 +7,15 @@ import '../../../../simple_kit.dart';
 class SProfileDetailsButton extends StatelessWidget {
   const SProfileDetailsButton({
     Key? key,
+    this.showIcon = false,
+    this.isDivider = true,
     required this.onTap,
     required this.label,
     required this.value,
   }) : super(key: key);
 
+  final bool showIcon;
+  final bool isDivider;
   final String label;
   final String value;
   final Function() onTap;
@@ -22,30 +26,43 @@ class SProfileDetailsButton extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: Container(
+          width: double.infinity,
           alignment: Alignment.centerLeft,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              Baseline(
-                baseline: 38.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  label,
-                  style: sBodyText2Style.copyWith(
-                    color: SColorsLight().grey1,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Baseline(
+                    baseline: 38.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      label,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().grey1,
+                      ),
+                    ),
                   ),
-                ),
+                  Baseline(
+                    baseline: 24.0,
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      value,
+                      style: sBodyText1Style,
+                    ),
+                  ),
+                  const SpaceH20(),
+                  SDivider(
+                    color: isDivider ? SColorsLight().grey4 : Colors.transparent,
+                  ),
+                ],
               ),
-              Baseline(
-                baseline: 24.0,
-                baselineType: TextBaseline.alphabetic,
-                child: Text(
-                  value,
-                  style: sBodyText1Style,
+              if (showIcon)
+                const Positioned(
+                  right: 24.0,
+                  top: 32.0,
+                  child: SEditIcon(),
                 ),
-              ),
-              const SpaceH20(),
-              const SDivider(),
             ],
           ),
         ),

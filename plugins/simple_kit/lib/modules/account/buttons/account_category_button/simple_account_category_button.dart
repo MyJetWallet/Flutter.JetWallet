@@ -14,6 +14,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
     this.onSwitchChanged,
     this.switchValue = false,
     this.notification = false,
+    this.showEditIcon = false,
   }) : super(key: key);
 
   final Widget icon;
@@ -23,6 +24,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
   final Function(bool)? onSwitchChanged;
   final bool switchValue;
   final bool notification;
+  final bool showEditIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,12 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                       right: 0,
                       top: 3,
                       child: SErrorIcon(),
+                    ),
+                  if (showEditIcon)
+                    const Positioned(
+                      right: 0,
+                      top: 0,
+                      child: SEditIcon(),
                     ),
                 ],
               ),
