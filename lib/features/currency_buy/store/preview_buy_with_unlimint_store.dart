@@ -140,6 +140,15 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           tradeFeeAsset = data.tradeFeeAsset;
           rate = data.rate;
           paymentId = data.paymentId ?? '';
+
+          sAnalytics.newBuyTapContinue(
+            sourceCurrency: input.currencyPayment.symbol,
+            destinationCurrency: input.currency.symbol,
+            paymentMethod: 'Unlimint card',
+            sourceAmount: '$paymentAmount',
+            destinationAmount: '$buyAmount',
+            quickAmount: input.quickAmount,
+          );
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestPreview', error.cause);
@@ -178,9 +187,14 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       paymentMethod: 'Unlimint card',
       sourceAmount: '$paymentAmount',
       destinationAmount: '$buyAmount',
-      exchangeRate: '$rate',
+      exchangeRate: '1 ${input.currency.symbol} = ${volumeFormat(
+        prefix: input.currencyPayment.prefixSymbol,
+        symbol: input.currencyPayment.symbol,
+        accuracy: input.currencyPayment.accuracy,
+        decimal: rate ?? Decimal.zero,
+      )}',
       paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
     await _createPayment();
@@ -195,7 +209,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           (element) => element.id == PaymentMethodType.unlimintCard,
     ).toList();
     sAnalytics.newBuyProcessingView(
-      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
     await _requestPayment(() async {

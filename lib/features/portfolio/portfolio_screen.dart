@@ -25,8 +25,6 @@ class PortfolioScreen extends StatelessObserverWidget {
     if (balancesEmpty && noDeposits) {
       // ignore: prefer-conditional-expressions
       if (apyCurrencies.isEmpty) {
-        sAnalytics.newBuyZeroScreenView();
-
         return const EmptyPortfolio();
       } else {
         return const EmptyApyPortfolio();

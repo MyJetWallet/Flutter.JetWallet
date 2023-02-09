@@ -84,7 +84,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
               wasAction: state.wasAction,
               onSkip: () {
                 sAnalytics.newBuyTapCloseProcessing(
-                  firstTimeBuy: '$hideCheckbox',
+                  firstTimeBuy: '${!hideCheckbox}',
                 );
                 state.skippedWaiting();
               },

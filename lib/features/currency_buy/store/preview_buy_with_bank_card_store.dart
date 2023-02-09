@@ -170,6 +170,15 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           paymentId = data.paymentId ?? '';
           depositFeeAmountMax = data.depositFeeAmountMax;
           depositFeePerc = data.depositFeePerc;
+
+          sAnalytics.newBuyTapContinue(
+            sourceCurrency: input.currencyPayment.symbol,
+            destinationCurrency: input.currency.symbol,
+            paymentMethod: 'Bank card',
+            sourceAmount: '$paymentAmount',
+            destinationAmount: '$buyAmount',
+            quickAmount: input.quickAmount,
+          );
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestPreview', error.cause);
@@ -208,12 +217,17 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       paymentMethod: 'Bank card',
       sourceAmount: '$paymentAmount',
       destinationAmount: '$buyAmount',
-      exchangeRate: '$rate',
+      exchangeRate: '1 ${input.currency.symbol} = ${volumeFormat(
+        prefix: input.currencyPayment.prefixSymbol,
+        symbol: input.currencyPayment.symbol,
+        accuracy: input.currencyPayment.accuracy,
+        decimal: rate ?? Decimal.zero,
+      )}',
       paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
     sAnalytics.newBuyEnterCvvView(
-      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
     final uAC = sSignalRModules.cards.cardInfos.where(
@@ -246,7 +260,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
     ).toList();
     sAnalytics.newBuyProcessingView(
-      firstTimeBuy: '${buyMethod.isNotEmpty && buyMethod[0].termsAccepted}',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
     await _requestPayment(() async {

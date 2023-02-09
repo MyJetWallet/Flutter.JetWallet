@@ -128,7 +128,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     if (!analyticSent && isEmptyPaymentCards) {
-
+      analyticSent = true;
       sAnalytics.newBuyNoSavedCard();
     }
 

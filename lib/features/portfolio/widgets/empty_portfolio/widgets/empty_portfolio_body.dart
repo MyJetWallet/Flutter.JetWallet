@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,8 +13,32 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class EmptyPortfolioBody extends StatelessObserverWidget {
-  const EmptyPortfolioBody({super.key});
+class EmptyPortfolioBody extends StatefulObserverWidget {
+  const EmptyPortfolioBody({
+  Key? key,
+  }) : super(key: key);
+
+  @override
+  State<EmptyPortfolioBody> createState() => _EmptyPortfolioBodyState();
+}
+
+class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
+  bool analyticSent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      const Duration(seconds: 1),
+      () {
+        if (!analyticSent) {
+          analyticSent = true;
+
+          sAnalytics.newBuyZeroScreenView();
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

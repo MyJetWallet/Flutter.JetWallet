@@ -566,7 +566,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       paymentMethod: 'Simplex',
                       sourceAmount: state.inputValue,
                       destinationAmount: state.conversionText(widget.currency),
-                      quickAmount: state.tappedPreset ?? '',
+                      quickAmount: state.tappedPreset ?? 'false',
                     );
 
                     final response = await state.makeSimplexRequest();
@@ -585,14 +585,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     }
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.circleCard) {
-                    sAnalytics.newBuyTapContinue(
-                      sourceCurrency: state.paymentCurrency?.symbol ?? '',
-                      destinationCurrency: state.currencyModel.symbol,
-                      paymentMethod: 'Circle card',
-                      sourceAmount: state.inputValue,
-                      destinationAmount: state.conversionText(widget.currency),
-                      quickAmount: state.tappedPreset ?? '',
-                    );
                     sAnalytics.newBuyOrderSummaryView();
 
                     await sRouter.push(
@@ -604,19 +596,12 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           currency: widget.currency,
                           currencyPayment: state.paymentCurrency ??
                               widget.currency,
+                          quickAmount: state.tappedPreset ?? 'false',
                         ),
                       ),
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.unlimintCard) {
-                    sAnalytics.newBuyTapContinue(
-                      sourceCurrency: state.paymentCurrency?.symbol ?? '',
-                      destinationCurrency: state.currencyModel.symbol,
-                      paymentMethod: 'Unlimint card',
-                      sourceAmount: state.inputValue,
-                      destinationAmount: state.conversionText(widget.currency),
-                      quickAmount: state.tappedPreset ?? '',
-                    );
                     sAnalytics.newBuyOrderSummaryView();
                     await sRouter.push(
                       PreviewBuyWithUnlimintRouter(
@@ -626,19 +611,12 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           card: state.pickedUnlimintCard,
                           currencyPayment: state.paymentCurrency ??
                               widget.currency,
+                          quickAmount: state.tappedPreset ?? 'false',
                         ),
                       ),
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.bankCard) {
-                    sAnalytics.newBuyTapContinue(
-                      sourceCurrency: state.paymentCurrency?.symbol ?? '',
-                      destinationCurrency: state.currencyModel.symbol,
-                      paymentMethod: 'Bank card',
-                      sourceAmount: state.inputValue,
-                      destinationAmount: state.conversionText(widget.currency),
-                      quickAmount: state.tappedPreset ?? '',
-                    );
                     sAnalytics.newBuyOrderSummaryView();
                     if (state.pickedAltUnlimintCard == null) {
                       await sRouter.push(
@@ -650,6 +628,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             cardNumber: '•••• ${widget.newBankCardNumber}',
                             currencyPayment: state.paymentCurrency ??
                                 widget.currency,
+                            quickAmount: state.tappedPreset ?? 'false',
                           ),
                         ),
                       );
@@ -663,6 +642,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             cardNumber: state.pickedAltUnlimintCard!.last4,
                             currencyPayment: state.paymentCurrency ??
                                 widget.currency,
+                            quickAmount: state.tappedPreset ?? 'false',
                           ),
                         ),
                       );

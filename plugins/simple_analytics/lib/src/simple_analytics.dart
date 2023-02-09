@@ -19,6 +19,7 @@ class SimpleAnalytics {
   final _analytics = Amplitude.getInstance();
 
   bool isTechAcc = false;
+  bool newBuyZeroScreenViewSent = false;
 
   /// Run at the start of the app
   ///
@@ -2874,13 +2875,16 @@ class SimpleAnalytics {
 
   /// New buy flow
   void newBuyZeroScreenView() {
-    _analytics.logEvent(
-      EventType.newBuyZeroScreenView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '1',
-      },
-    );
+    if (!newBuyZeroScreenViewSent) {
+      newBuyZeroScreenViewSent = true;
+      _analytics.logEvent(
+        EventType.newBuyZeroScreenView,
+        eventProperties: {
+          PropertyType.techAcc: isTechAcc,
+          PropertyType.eventId: '1',
+        },
+      );
+    }
   }
 
   void newBuyTapBuy() {
@@ -3045,7 +3049,7 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationAmount: destinationAmount,
-        PropertyType.quickAmount: quickAmount,
+        PropertyType.preset: quickAmount,
       },
     );
   }
