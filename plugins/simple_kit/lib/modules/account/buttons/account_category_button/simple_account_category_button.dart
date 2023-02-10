@@ -29,7 +29,9 @@ class SimpleAccountCategoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      highlightColor: SColorsLight().grey5,
+      highlightColor: showEditIcon ? Colors.transparent : SColorsLight().grey5,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
       onTap: onTap,
       child: SPaddingH24(
         child: Column(
@@ -77,10 +79,14 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                       child: SErrorIcon(),
                     ),
                   if (showEditIcon)
-                    const Positioned(
+                    Positioned(
                       right: 0,
                       top: 0,
-                      child: SEditIcon(),
+                      child: SIconButton(
+                        onTap: onTap,
+                        defaultIcon: const SEditIcon(),
+                        pressedIcon: SEditIcon(color: SColorsLight().grey3),
+                      ),
                     ),
                 ],
               ),

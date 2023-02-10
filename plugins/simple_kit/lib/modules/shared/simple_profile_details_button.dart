@@ -58,10 +58,14 @@ class SProfileDetailsButton extends StatelessWidget {
                 ],
               ),
               if (showIcon)
-                const Positioned(
-                  right: 24.0,
+                Positioned(
+                  right: 0,
                   top: 32.0,
-                  child: SEditIcon(),
+                  child: SIconButton(
+                    onTap: onTap,
+                    defaultIcon: const SEditIcon(),
+                    pressedIcon: SEditIcon(color: SColorsLight().grey3),
+                  ),
                 ),
             ],
           ),
