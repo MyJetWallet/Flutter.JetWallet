@@ -30,18 +30,34 @@ const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
 
 class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
-  PinScreenStore(PinFlowUnion flowUnionflowUnion) : super(flowUnionflowUnion);
+  PinScreenStore(
+    PinFlowUnion flowUnionflowUnion,
+    {
+      bool isChangePhone = false,
+      Function(String)? onChangePhone,
+    }
+  ) : super(
+    flowUnionflowUnion,
+    isChangePhone,
+    onChangePhone,
+  );
 
   static _PinScreenStoreBase of(BuildContext context) =>
       Provider.of<PinScreenStore>(context, listen: false);
 }
 
 abstract class _PinScreenStoreBase with Store {
-  _PinScreenStoreBase(this.flowUnion) {
+  _PinScreenStoreBase(
+      this.flowUnion,
+      this.isChangePhone,
+      this.onChangePhone,
+  ) {
     _initDefaultScreen();
   }
 
   final PinFlowUnion flowUnion;
+  final bool isChangePhone;
+  final Function(String)? onChangePhone;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -52,6 +68,9 @@ abstract class _PinScreenStoreBase with Store {
 
   @observable
   bool hideBiometricButton = true;
+
+  @observable
+  bool showForgot = false;
 
   @observable
   String screenHeader = '';
@@ -273,14 +292,20 @@ abstract class _PinScreenStoreBase with Store {
             },
             orElse: () async {
               await _animateCorrect();
-
-              await _updateHideBiometricButton(true);
-              _updateScreenUnion(const NewPin());
+              if (isChangePhone && onChangePhone != null) {
+                onChangePhone!(enterPin);
+              } else {
+                await _updateHideBiometricButton(true);
+                _updateScreenUnion(const NewPin());
+              }
             },
           );
         },
         onError: (ServerRejectException error) async {
           print(error.cause);
+          if (isChangePhone) {
+            showForgot = true;
+          }
 
           if (error.cause == 'InvalidCode') {
             await _errorFlow();

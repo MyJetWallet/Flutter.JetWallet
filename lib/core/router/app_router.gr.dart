@@ -400,6 +400,7 @@ class _$AppRouter extends RootStackRouter {
         child: SetPhoneNumber(
           key: args.key,
           then: args.then,
+          isChangePhone: args.isChangePhone,
           successText: args.successText,
         ),
       );
@@ -440,6 +441,8 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           displayHeader: args.displayHeader,
           cannotLeave: args.cannotLeave,
+          isChangePhone: args.isChangePhone,
+          onChangePhone: args.onChangePhone,
           union: args.union,
         ),
       );
@@ -2518,6 +2521,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
   SetPhoneNumberRouter({
     Key? key,
     dynamic Function()? then,
+    bool isChangePhone = false,
     required String successText,
   }) : super(
           SetPhoneNumberRouter.name,
@@ -2525,6 +2529,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
           args: SetPhoneNumberRouterArgs(
             key: key,
             then: then,
+            isChangePhone: isChangePhone,
             successText: successText,
           ),
         );
@@ -2536,6 +2541,7 @@ class SetPhoneNumberRouterArgs {
   const SetPhoneNumberRouterArgs({
     this.key,
     this.then,
+    this.isChangePhone = false,
     required this.successText,
   });
 
@@ -2543,11 +2549,13 @@ class SetPhoneNumberRouterArgs {
 
   final dynamic Function()? then;
 
+  final bool isChangePhone;
+
   final String successText;
 
   @override
   String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, successText: $successText}';
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, successText: $successText}';
   }
 }
 
@@ -2629,6 +2637,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     Key? key,
     bool displayHeader = true,
     bool cannotLeave = false,
+    bool isChangePhone = false,
+    dynamic Function(String)? onChangePhone,
     required PinFlowUnion union,
   }) : super(
           PinScreenRoute.name,
@@ -2637,6 +2647,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             key: key,
             displayHeader: displayHeader,
             cannotLeave: cannotLeave,
+            isChangePhone: isChangePhone,
+            onChangePhone: onChangePhone,
             union: union,
           ),
         );
@@ -2649,6 +2661,8 @@ class PinScreenRouteArgs {
     this.key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    this.isChangePhone = false,
+    this.onChangePhone,
     required this.union,
   });
 
@@ -2658,11 +2672,15 @@ class PinScreenRouteArgs {
 
   final bool cannotLeave;
 
+  final bool isChangePhone;
+
+  final dynamic Function(String)? onChangePhone;
+
   final PinFlowUnion union;
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, onChangePhone: $onChangePhone, union: $union}';
   }
 }
 

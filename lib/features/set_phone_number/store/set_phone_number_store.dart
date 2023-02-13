@@ -57,6 +57,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   String phoneInput = '';
 
   @observable
+  String pin = '';
+
+  @observable
   bool isButtonActive = false;
 
   @observable
@@ -86,6 +89,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
     isButtonActive = dialCodeController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty &&
         validWeakPhoneNumber(phoneNumber());
+  }
+
+  @action
+  void updatePin(String value) {
+    pin = value;
   }
 
   @action
@@ -130,6 +138,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
         phoneIso: number.isoCode,
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        pin: pin,
       );
       getIt.get<SimpleLoggerService>().log(
         level: Level.info,

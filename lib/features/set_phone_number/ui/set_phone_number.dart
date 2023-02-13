@@ -12,6 +12,8 @@ import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phon
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../pin_screen/model/pin_flow_union.dart';
+
 /// Called in 2 cases:
 /// 1. when we want to change number
 /// 2. when we are enabling 2FA but we haven't added phone number yet
@@ -19,11 +21,13 @@ class SetPhoneNumber extends StatelessObserverWidget {
   const SetPhoneNumber({
     Key? key,
     this.then,
+    this.isChangePhone = false,
     required this.successText,
   }) : super(key: key);
 
   final Function()? then;
   final String successText;
+  final bool isChangePhone;
 
   @override
   Widget build(BuildContext context) {
@@ -143,40 +147,57 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     }
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
-                    store.sendCode(
-                      then: () {
-                        sRouter.push(
-                          PhoneVerificationRouter(
-                            args: PhoneVerificationArgs(
-                              phoneNumber: store.phoneNumber(),
-                              activeDialCode: store.activeDialCode,
-                              sendCodeOnInitState: false,
-                              onVerified: () {
-                                final userInfoN = sUserInfo;
+                    void finalSend({required String newPin}) {
+                      store.updatePin(newPin);
+                      store.sendCode(
+                        then: () {
+                          sRouter.push(
+                            PhoneVerificationRouter(
+                              args: PhoneVerificationArgs(
+                                phoneNumber: store.phoneNumber(),
+                                activeDialCode: store.activeDialCode,
+                                sendCodeOnInitState: false,
+                                onVerified: () {
+                                  final userInfoN = sUserInfo;
 
-                                userInfoN.updatePhoneVerified(
-                                  phoneVerified: true,
-                                );
-                                userInfoN.updateTwoFaStatus(enabled: true);
-                                userInfoN.updatePhone(store.phoneNumber());
+                                  userInfoN.updatePhoneVerified(
+                                    phoneVerified: true,
+                                  );
+                                  userInfoN.updateTwoFaStatus(enabled: true);
+                                  userInfoN.updatePhone(store.phoneNumber());
 
-                                sAnalytics.accountSuccessPhone();
-                                store.phoneNumberController.text = '';
+                                  sAnalytics.accountSuccessPhone();
+                                  store.phoneNumberController.text = '';
 
-                                sRouter.push(
-                                  SuccessScreenRouter(
-                                    secondaryText: successText,
-                                    onSuccess: (context) {
-                                      then!();
-                                    },
-                                  ),
-                                );
-                              },
+                                  sRouter.push(
+                                    SuccessScreenRouter(
+                                      secondaryText: successText,
+                                      onSuccess: (context) {
+                                        then!();
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
+                          );
+                        },
+                      );
+                    }
+
+                    if (isChangePhone) {
+                      sRouter.push(
+                        PinScreenRoute(
+                          union: const Change(),
+                          isChangePhone: true,
+                          onChangePhone: (String newPin) {
+                            finalSend(newPin: newPin);
+                          },
+                        ),
+                      );
+                    } else {
+                      finalSend(newPin: '');
+                    }
                   },
                 ),
               );
