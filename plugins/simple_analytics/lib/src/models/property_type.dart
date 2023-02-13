@@ -70,4 +70,5 @@ class PropertyType {
   static const exchangeRate = 'Exchange rate';
   static const paymentFee = 'Payment Fee';
   static const firstTimeBuy = 'FirstTimeBuy';
+  static const newBuyPreset = 'Preset';
 }

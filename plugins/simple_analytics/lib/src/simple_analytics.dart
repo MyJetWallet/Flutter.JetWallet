@@ -3049,7 +3049,7 @@ class SimpleAnalytics {
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationAmount: destinationAmount,
-        PropertyType.preset: quickAmount,
+        PropertyType.newBuyPreset: quickAmount,
       },
     );
   }

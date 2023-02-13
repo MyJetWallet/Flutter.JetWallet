@@ -441,6 +441,12 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuySuccessView(
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+    );
 
     return sRouter
         .push(
@@ -487,6 +493,14 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuyFailedView(
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+      errorCode: error,
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
