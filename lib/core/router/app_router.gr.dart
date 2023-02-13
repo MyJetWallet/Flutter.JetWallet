@@ -645,6 +645,7 @@ class _$AppRouter extends RootStackRouter {
           args.onSuccess,
           args.onCancel,
           args.paymentId,
+          args.onFailed,
         ),
       );
     },
@@ -3275,6 +3276,7 @@ class Circle3dSecureWebViewRouter
         onSuccess,
     required dynamic Function(String)? onCancel,
     required String paymentId,
+    required dynamic Function(String) onFailed,
   }) : super(
           Circle3dSecureWebViewRouter.name,
           path: '/circle_3d_secure',
@@ -3285,6 +3287,7 @@ class Circle3dSecureWebViewRouter
             onSuccess: onSuccess,
             onCancel: onCancel,
             paymentId: paymentId,
+            onFailed: onFailed,
           ),
         );
 
@@ -3299,6 +3302,7 @@ class Circle3dSecureWebViewRouterArgs {
     required this.onSuccess,
     required this.onCancel,
     required this.paymentId,
+    required this.onFailed,
   });
 
   final String url;
@@ -3316,9 +3320,11 @@ class Circle3dSecureWebViewRouterArgs {
 
   final String paymentId;
 
+  final dynamic Function(String) onFailed;
+
   @override
   String toString() {
-    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId}';
+    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
   }
 }
 

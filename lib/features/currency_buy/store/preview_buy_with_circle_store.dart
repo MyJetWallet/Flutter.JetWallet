@@ -246,6 +246,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
               amount: input.amount,
               asset: currencySymbol,
               onSuccess: onSuccess,
+              onFailed: _showFailureScreen,
               onCancel: (value) {},
               paymentId: paymentId,
             ),

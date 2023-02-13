@@ -214,7 +214,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
-        (url, onSuccess, onCancel, paymentId) {
+        (url, onSuccess, onCancel, onFailed, paymentId) {
           isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
@@ -222,6 +222,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               asset: currencySymbol,
               amount: input.amount,
               onSuccess: onSuccess,
+              onFailed: onFailed,
               onCancel: onCancel,
               paymentId: paymentId,
             ),
@@ -297,6 +298,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       String,
       Function(String, String),
       Function(String),
+      Function(String),
       String,
     )
         onAction,
@@ -351,6 +353,10 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               },
               (payment) {
                 sRouter.pop();
+              },
+              (error) {
+                sRouter.pop();
+                _showFailureScreen(error);
               },
               paymentId,
             );

@@ -1080,6 +1080,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _clearPercent() {
+    tappedPreset = null;
     selectedPreset = null;
   }
 }
