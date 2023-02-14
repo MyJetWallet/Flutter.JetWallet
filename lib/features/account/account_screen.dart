@@ -19,6 +19,8 @@ import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../utils/constants.dart';
+
 class AccountScreen extends StatefulObserverWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
@@ -87,6 +89,17 @@ class _AccountScreenState extends State<AccountScreen>
               userLastName: userInfo.lastName,
               showUserName:
                   userInfo.firstName.isNotEmpty && userInfo.lastName.isNotEmpty,
+              isVerified: checkKycPassed(
+                kycState.depositStatus,
+                kycState.sellStatus,
+                kycState.withdrawalStatus,
+              ),
+              icon: Image.asset(
+                verifiedAsset,
+                width: 16,
+                height: 16,
+              ),
+              iconText: intl.account_verified,
             ),
           ),
           Expanded(

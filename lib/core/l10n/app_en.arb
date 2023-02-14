@@ -310,6 +310,7 @@
   "account_support": "Support",
   "account_aboutUs": "About us",
   "account_debugInfo": "Debug Info",
+  "account_verified": "Verified",
   "transactionHistory_history": "History",
   "log_out": "Log out",
   "emptyWatchlist_createYourWatchlist": "Create your Watchlist",
