@@ -140,6 +140,7 @@
   "profileDetails_profileDetails": "Profile details",
   "profileDetails_changePasswordAlert": "When changing the password, the withdrawal of funds will be locked for ",
   "profileDetails_changePhoneAlert": "When changing the phone number, the withdrawal of funds will be locked for ",
+  "profileDetails_changePhoneAlert2": "Please be aware that after changing your phone number, all withdrawals will be locked for ",
   "profileDetails_cancel": "Cancel",
   "profileDetails_email": "Email",
   "profileDetails_payAttention": "Pay attention",

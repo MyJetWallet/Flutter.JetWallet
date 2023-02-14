@@ -34,6 +34,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final store = getIt.get<SetPhoneNumberStore>();
+    final userInfo = sUserInfo.userInfo;
 
     sAnalytics.kycPhoneConfirmationView();
 
@@ -42,8 +43,8 @@ class SetPhoneNumber extends StatelessObserverWidget {
       loading: store.loader,
       color: colors.grey5,
       header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.setPhoneNumber_enterPhoneNumber,
+        child: SBigHeader(
+          title: intl.setPhoneNumber_phoneNumber,
         ),
       ),
       child: Column(
@@ -113,18 +114,6 @@ class SetPhoneNumber extends StatelessObserverWidget {
               ],
             ),
           ),
-          SPaddingH24(
-            child: Baseline(
-              baselineType: TextBaseline.alphabetic,
-              baseline: 24,
-              child: Text(
-                intl.setPhoneNumber_text1,
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey1,
-                ),
-              ),
-            ),
-          ),
           const Spacer(),
           Observer(
             builder: (context) {
@@ -133,6 +122,11 @@ class SetPhoneNumber extends StatelessObserverWidget {
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
+                    if (userInfo.phone == store.phoneNumber()) {
+                      sRouter.pop();
+
+                      return;
+                    }
                     if (store.canCLick) {
                       store.toggleClick(false);
 
@@ -169,14 +163,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                                   sAnalytics.accountSuccessPhone();
                                   store.phoneNumberController.text = '';
 
-                                  sRouter.push(
-                                    SuccessScreenRouter(
-                                      secondaryText: successText,
-                                      onSuccess: (context) {
-                                        then!();
-                                      },
-                                    ),
-                                  );
+                                  then!();
                                 },
                               ),
                             ),

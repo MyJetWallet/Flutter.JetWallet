@@ -79,7 +79,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceW20(),
+          const SpaceW16(),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,14 +96,21 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                 const SpaceH2(),
                 if (isVerified)
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       icon,
                       const SpaceW4(),
-                      Text(
-                        iconText,
-                        style: sBodyText2Style.copyWith(
-                          color: SColorsLight().green,
-                        ),
+                      Column(
+                        children: [
+                          const SpaceH2(),
+                          Text(
+                            iconText,
+                            style: sBodyText2Style.copyWith(
+                              color: SColorsLight().green,
+                              height: 1,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -4,6 +4,8 @@ import 'package:simple_kit/modules/buttons/basic_buttons/base/simple_base_button
 class SimpleBaseTextButton extends StatefulWidget {
   const SimpleBaseTextButton({
     Key? key,
+    this.icon,
+    this.addPadding = false,
     required this.active,
     required this.name,
     required this.onTap,
@@ -12,7 +14,9 @@ class SimpleBaseTextButton extends StatefulWidget {
     required this.inactiveColor,
   }) : super(key: key);
 
+  final Widget? icon;
   final bool active;
+  final bool addPadding;
   final String name;
   final Function() onTap;
   final Color activeColor;
@@ -52,6 +56,8 @@ class _SimpleBaseTextButtonState extends State<SimpleBaseTextButton> {
           highlighted = value;
         });
       },
+      icon: widget.icon,
+      addPadding: widget.addPadding,
       nameColor: currentColor,
       decoration: BoxDecoration(
         color: currentBackgroundColor,

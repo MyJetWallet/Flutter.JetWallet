@@ -27,7 +27,9 @@ class ResendRichText extends StatelessObserverWidget {
             ),
           ),
           const SpaceH10(),
-          STextButton1(
+          STextButton2(
+            icon: isPhone ? const SPhoneCallIcon() : null,
+            addPadding: isPhone,
             active: true,
             name: isPhone
                 ? intl.profileDetails_receiveCall

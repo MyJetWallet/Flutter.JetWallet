@@ -20,6 +20,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/check_pin/check_pin_response_model.dart';
@@ -68,6 +69,8 @@ abstract class _PinScreenStoreBase with Store {
 
   @observable
   bool hideBiometricButton = true;
+
+  StackLoaderStore loader = StackLoaderStore();
 
   @observable
   bool showForgot = false;
@@ -253,6 +256,9 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _enterPinFlow() async {
     try {
+      if (isChangePhone) {
+        loader.startLoading();
+      }
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
@@ -303,11 +309,11 @@ abstract class _PinScreenStoreBase with Store {
         },
         onError: (ServerRejectException error) async {
           print(error.cause);
-          if (isChangePhone) {
-            showForgot = true;
-          }
 
           if (error.cause == 'InvalidCode') {
+            if (isChangePhone) {
+              showForgot = true;
+            }
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');
@@ -333,6 +339,10 @@ abstract class _PinScreenStoreBase with Store {
 
             await resetPin();
           } else {
+            if (isChangePhone) {
+              await sRouter.pop();
+              await sRouter.pop();
+            }
             sNotification.showError(
               'Incorrect PIN has been entered more than $maxPinAttempts times, '
               'you have been logged out of your account.',
