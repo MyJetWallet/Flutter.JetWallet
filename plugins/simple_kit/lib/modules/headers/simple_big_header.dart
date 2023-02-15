@@ -14,6 +14,7 @@ class SBigHeader extends StatelessWidget {
     this.showLink = false,
     this.showSearchButton = false,
     this.showSupportButton = false,
+    this.isSmallSize = false,
     required this.title,
   }) : super(key: key);
 
@@ -25,13 +26,14 @@ class SBigHeader extends StatelessWidget {
   final bool showLink;
   final bool showSearchButton;
   final bool showSupportButton;
+  final bool isSmallSize;
   final String title;
   final Function()? onBackButtonTap;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.0,
+      height: isSmallSize ? 150.0 : 180.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -60,13 +62,15 @@ class SBigHeader extends StatelessWidget {
                 ),
             ],
           ),
+          if (isSmallSize)
+            const SpaceH6(),
           Row(
             textBaseline: TextBaseline.alphabetic,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             children: [
               Expanded(
                 child: Baseline(
-                  baseline: 56.0,
+                  baseline: isSmallSize ? 40.0 : 56.0,
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     title,

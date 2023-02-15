@@ -183,7 +183,7 @@ abstract class _PinScreenStoreBase with Store {
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
     if (usingBio == true.toString() && _userInfo.pin != null) {
-      await updatePin(await _authenticateWithBio());
+      await updatePin(face);
     }
   }
 
@@ -256,9 +256,6 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _enterPinFlow() async {
     try {
-      if (isChangePhone) {
-        loader.startLoading();
-      }
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
@@ -299,6 +296,9 @@ abstract class _PinScreenStoreBase with Store {
             orElse: () async {
               await _animateCorrect();
               if (isChangePhone && onChangePhone != null) {
+                if (isChangePhone) {
+                  loader.startLoading();
+                }
                 onChangePhone!(enterPin);
               } else {
                 await _updateHideBiometricButton(true);

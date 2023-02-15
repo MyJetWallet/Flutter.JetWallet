@@ -95,13 +95,13 @@ class PhoneVerificationBody extends StatelessObserverWidget {
         child: SBigHeader(
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
+          isSmallSize: true,
         ),
       ),
       child: SPaddingH24(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SpaceH10(),
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
               boldText: store.phoneNumber,
@@ -135,7 +135,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ),
               ),
             ],
-            const SpaceH18(),
+            const SpaceH45(),
             GestureDetector(
               onLongPress: () => store.pasteCode(),
               onDoubleTap: () => store.pasteCode(),
@@ -154,7 +154,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   length: codeLength,
                   controller: store.controller,
                   autoFocus: true,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   onCompleted: (_) => store.verifyCode(),
                   onChanged: (_) {
                     store.pinFieldError.disableError();

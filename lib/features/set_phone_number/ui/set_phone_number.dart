@@ -45,6 +45,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SBigHeader(
           title: intl.setPhoneNumber_phoneNumber,
+          isSmallSize: true,
         ),
       ),
       child: Column(
