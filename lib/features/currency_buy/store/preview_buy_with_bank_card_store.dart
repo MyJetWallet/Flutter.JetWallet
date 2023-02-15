@@ -381,6 +381,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           if (pending ||
               (actionRequired &&
                   lastAction == data.clientAction!.checkoutUrl)) {
+            if (isWaitingSkipped) {
+              return;
+            }
             await Future.delayed(const Duration(seconds: 1));
             await _requestPaymentInfo(onAction, lastAction);
           } else if (complete) {
@@ -391,12 +394,17 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
               buyAmount = data.buyInfo!.buyAmount;
             }
             unawaited(_showSuccessScreen());
+            skippedWaiting();
           } else if (failed) {
             if (isWaitingSkipped) {
               return;
             }
+            skippedWaiting();
             throw Exception();
           } else if (actionRequired) {
+            if (isWaitingSkipped) {
+              return;
+            }
             onAction(
               data.clientAction!.checkoutUrl ?? '',
               (payment, lastAction) {
