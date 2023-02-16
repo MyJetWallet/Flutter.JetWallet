@@ -30,7 +30,7 @@ class PinScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<PinScreenStore>(
-      create: (context) => PinScreenStore(union),
+      create: (context) => PinScreenStore(union)..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
         cannotLeave: cannotLeave,

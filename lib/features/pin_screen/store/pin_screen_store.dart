@@ -37,9 +37,7 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
 }
 
 abstract class _PinScreenStoreBase with Store {
-  _PinScreenStoreBase(this.flowUnion) {
-    _initDefaultScreen();
-  }
+  _PinScreenStoreBase(this.flowUnion) {}
 
   final PinFlowUnion flowUnion;
 
@@ -109,8 +107,12 @@ abstract class _PinScreenStoreBase with Store {
     return pin.length >= boxId ? PinBoxEnum.filled : PinBoxEnum.empty;
   }
 
+  bool inited = false;
+
   @action
-  Future<void> _initDefaultScreen() async {
+  Future<void> initDefaultScreen() async {
+    if (inited) return;
+
     final auth = LocalAuthentication();
     var bioStatus = BiometricStatus.none;
 
@@ -127,6 +129,8 @@ abstract class _PinScreenStoreBase with Store {
     }
 
     final hideBio = bioStatus == BiometricStatus.none;
+
+    inited = true;
 
     await flowUnion.when(
       change: () async {
