@@ -124,33 +124,6 @@ class EventType {
   static const convertConfirm = 'Tap on Confirm Convert Button';
   static const convertSuccess = 'Success Page - Convert';
 
-  /// Buy screen
-  static const tapPreviewBuy = 'Tap preview buy';
-  static const previewBuyView = '"Preview Buy" View';
-  static const simplexView = 'Simplex view';
-  static const simplexSucsessView = 'Simplex success view';
-  static const simplexFailureView = 'Simplex failure view';
-  static const tapConfirmBuy = 'Tap on Confirm Buy';
-  static const tapSkipWaiting = 'Skip Waiting on Processing page(Unlimint)';
-
-  /// Circle
-  static const circleChooseMethod = 'Click on Choose Payment Method';
-  static const circlePayFromView = 'Pay from sheet view';
-  static const circleTapAddCard = 'Click on Add Bank Card - Circle';
-  static const circleContinueDetails = 'Continue with Card Details';
-  static const circleContinueAddress = 'Continue with Billing Address';
-  static const circleCVVView = 'CVV Sheet view';
-  static const circleCloseCVV = 'Close CVV Sheet ';
-  static const circleRedirect = 'Redirect to 3D-S';
-  static const circleSuccess = 'Success Page - Circle';
-  static const circleFailed = 'Card Failed Screen View';
-  static const circleAdd = 'Click Add Bank Card after Fail';
-  static const circleCancel = 'Click Cancel after Fail';
-
-  /// Quick actions
-  /// User taps on "Buy" in Quick Actions
-  static const tapOnBuy = 'Tap on buy';
-
   /// Receive
   static const receiveClick = 'Tap on Receive';
   static const receiveChooseAsset = 'Choose asset to receive sheet view';
@@ -178,9 +151,6 @@ class EventType {
       "Notify the recepient about sent' page view'";
   static const sendTapOnSendMessage = "Tap on 'Send a Message'";
   static const sendTapOnSendLater = "Tap on 'Later'";
-
-  /// User taps on "Buy from card" in Quick Actions
-  static const tapOnBuyFromCard = 'Tap on buy from card';
 
   // [START] Recurring buy ->
   static const setupRecurringBuyView = '"Setup recurring buy" sheet view';
@@ -247,17 +217,8 @@ class EventType {
   static const remoteConfig = 'remoteConfig received';
   static const remoteConfigError = 'remoteConfig error';
 
-  /// Payment methods
-  static const paymentTap = 'Tap on Payment Methods Tab';
-  static const paymentView = 'Payment Methods page view';
-  static const paymentAdd = 'Tap on "Add Bank Card" button';
-  static const paymentDetailsView = 'Enter Card Details screen view';
-  static const paymentDetailsContinue = 'Continue with Card Details';
-  static const paymentBillingView = 'Billing Address Screen View';
-  static const paymentBillingContinue = 'Continue with Billing Address';
-  static const paymentSuccess = 'Success Page - Card';
 
-  // NFT
+  /// NFT
   static const iHavePromoCode = 'Tap on button - I have a promocode';
   static const enterPromoCode = 'Enter promo code sheet view';
   static const closePromoCode = 'Close Enter promo code sheet';
@@ -349,4 +310,42 @@ class EventType {
   static const nftReceiveShareTap = 'Tap on Share NFT Receive address';
   static const nftReceiveCopyTap = 'Tap on Copy Receive NFT address button';
   static const nftReceiveBack = 'Go Back from Receive NFT screen';
+
+  /// New buy flow
+  static const newBuyZeroScreenView = '‘My assets - Zero balance’ screen view';
+  static const newBuyTapBuy = 'Tap on the ‘Buy Crypto’ button';
+  static const newBuyChooseAssetView = '‘Choose asset’ screen view';
+  static const newBuyNoSavedCard =
+      '‘Payment method - No Saved Cards’ screen view';
+  static const newBuyTapAddCard = 'Tap on the ‘Add a Card’ button';
+  static const newBuyEnterCardDetailsView = '‘Enter card details’ screen view ';
+  static const newBuyTapSaveCard = 'Tap on the ‘Save card’ button';
+  static const newBuyTapCardContinue =
+      'Tap on the ‘Continue’ with Card Details button';
+  static const newBuyBuyAssetView = '‘Buy Asset’ screen view';
+  static const newBuyErrorLimit = 'Error - Buy Limit Exceeded';
+  static const newBuyTapCardLimits = 'Tap on the  ‘Card - limits’ button';
+  static const newBuyCardLimitsView = '‘Card Limits’ screen view';
+  static const newBuyTapCurrency = 'Tap on the ‘Currency’ button';
+  static const newBuyChooseCurrencyView = '‘Choose currency’ screen view';
+  static const newBuyTapContinue =
+      'Tap on the button ‘Continue’ with Buy Asset';
+  static const newBuyOrderSummaryView = '‘Order summary‘ screen view';
+  static const newBuyTapAgreement =
+      'Tap to agree to the T&C and Privacy Policy';
+  static const newBuyTapConfirm = 'Tap on the button ‘Confirm’ Order Summary ';
+  static const newBuyTapPaymentFee = 'Tap on the  button ‘Payment Fee - info’';
+  static const newBuyFeeView = '‘Transaction fee’ screen view';
+  static const newBuyEnterCvvView = '‘Enter CVV’ screen view';
+  static const newBuyProcessingView = '‘Processing Buy’ screen view';
+  static const newBuyTapCloseProcessing =
+      'Tap on the button ‘Close’ Processing screen ';
+  static const newBuySuccessView = '‘Success Buy’ screen view';
+  static const newBuyFailedView = '‘Failed Buy’ screen view';
+  static const newBuyTapEdit = 'Tap on the button ‘Edit’ payment methods';
+  static const newBuyTapDelete = 'Tap on the button ‘Delete’ card';
+  static const newBuyDeleteView = '‘Delete card?’ screen view';
+  static const newBuyTapYesDelete = 'Tap on the button ‘Yes, delete the card’';
+  static const newBuyTapCancelDelete =
+      'Tap on the button ‘Cancel’ deleting the card';
 }

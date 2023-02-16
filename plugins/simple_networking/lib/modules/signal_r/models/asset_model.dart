@@ -27,13 +27,9 @@ class AssetModel with _$AssetModel {
     required String description,
     required double accuracy,
     required int weight,
-    required int depositMode,
-    required int withdrawalMode,
     required TagType tagType,
     @JsonKey(name: 'assetType') required AssetType type,
     required AssetFeesModel fees,
-    required List<DepositMethods> depositMethods,
-    required List<WithdrawalMethods> withdrawalMethods,
     required List<String> depositBlockchains,
     required List<String> withdrawalBlockchains,
   }) = _AssetModel;

@@ -207,7 +207,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
       isPaymentMethodActive[0].paymentAssets!.isNotEmpty;
 
     void showLimits() {
+      sAnalytics.newBuyTapCardLimits();
       if (state.limitByAsset != null) {
+        sAnalytics.newBuyCardLimitsView();
         showCardLimitsBottomSheet(
           context: context,
           cardLimits: state.limitByAsset!,
@@ -245,10 +247,12 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     additionalWidget: GestureDetector(
                       onTap: () {
+                        sAnalytics.newBuyTapCurrency();
                         if (
                           (state.selectedPaymentMethod?.paymentAssets?.length
                               ?? 0) > 1
                         ) {
+                          sAnalytics.newBuyChooseCurrencyView();
                           showPaymentCurrenciesBottomSheet(
                             context: context,
                             header: intl.currencyBuy_chooseCurrency,
@@ -551,23 +555,19 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     isMethodHaveAssets,
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () async {
-                  sAnalytics.tapPreviewBuy(
-                    assetName: widget.currency.description,
-                    paymentMethod: state.selectedPaymentMethod?.id.name ??
-                        intl.curencyBuy_crypto,
-                    amount: formatCurrencyStringAmount(
-                      prefix: state.selectedCurrency?.prefixSymbol,
-                      value: state.inputValue,
-                      symbol: state.selectedCurrencySymbol,
-                    ),
-                    frequency: state.recurringBuyType.toFrequency,
-                    preset: state.tappedPreset,
-                  );
 
                   if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.simplex) {
                     state.disableSubmit = true;
                     state.loader.startLoading();
+                    sAnalytics.newBuyTapContinue(
+                      sourceCurrency: state.paymentCurrency?.symbol ?? '',
+                      destinationCurrency: state.currencyModel.symbol,
+                      paymentMethod: 'Simplex',
+                      sourceAmount: state.inputValue,
+                      destinationAmount: state.conversionText(widget.currency),
+                      quickAmount: state.tappedPreset ?? 'false',
+                    );
 
                     final response = await state.makeSimplexRequest();
 
@@ -585,17 +585,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     }
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.circleCard) {
-                    sAnalytics.previewBuyView(
-                      assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.id.name ??
-                          intl.curencyBuy_crypto,
-                      amount: formatCurrencyStringAmount(
-                        prefix: state.selectedCurrency?.prefixSymbol,
-                        value: state.inputValue,
-                        symbol: state.selectedCurrencySymbol,
-                      ),
-                      frequency: state.recurringBuyType.toFrequency,
-                    );
+                    sAnalytics.newBuyOrderSummaryView();
 
                     await sRouter.push(
                       PreviewBuyWithCircleRouter(
@@ -606,22 +596,13 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           currency: widget.currency,
                           currencyPayment: state.paymentCurrency ??
                               widget.currency,
+                          quickAmount: state.tappedPreset ?? 'false',
                         ),
                       ),
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.unlimintCard) {
-                    sAnalytics.previewBuyView(
-                      assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.id.name ??
-                          intl.curencyBuy_crypto,
-                      amount: formatCurrencyStringAmount(
-                        prefix: state.selectedCurrency?.prefixSymbol,
-                        value: state.inputValue,
-                        symbol: state.selectedCurrencySymbol,
-                      ),
-                      frequency: state.recurringBuyType.toFrequency,
-                    );
+                    sAnalytics.newBuyOrderSummaryView();
                     await sRouter.push(
                       PreviewBuyWithUnlimintRouter(
                         input: PreviewBuyWithUnlimintInput(
@@ -630,24 +611,14 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           card: state.pickedUnlimintCard,
                           currencyPayment: state.paymentCurrency ??
                               widget.currency,
+                          quickAmount: state.tappedPreset ?? 'false',
                         ),
                       ),
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.bankCard) {
-                    sAnalytics.previewBuyView(
-                      assetName: widget.currency.description,
-                      paymentMethod: state.selectedPaymentMethod?.id.name ??
-                          intl.curencyBuy_crypto,
-                      amount: formatCurrencyStringAmount(
-                        prefix: state.selectedCurrency?.prefixSymbol,
-                        value: state.inputValue,
-                        symbol: state.selectedCurrencySymbol,
-                      ),
-                      frequency: state.recurringBuyType.toFrequency,
-                    );
+                    sAnalytics.newBuyOrderSummaryView();
                     if (state.pickedAltUnlimintCard == null) {
-                      sAnalytics.paymentDetailsView(source: 'Unlimint');
                       await sRouter.push(
                         PreviewBuyWithBankCardRouter(
                           input: PreviewBuyWithBankCardInput(
@@ -657,6 +628,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             cardNumber: '•••• ${widget.newBankCardNumber}',
                             currencyPayment: state.paymentCurrency ??
                                 widget.currency,
+                            quickAmount: state.tappedPreset ?? 'false',
                           ),
                         ),
                       );
@@ -670,6 +642,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             cardNumber: state.pickedAltUnlimintCard!.last4,
                             currencyPayment: state.paymentCurrency ??
                                 widget.currency,
+                            quickAmount: state.tappedPreset ?? 'false',
                           ),
                         ),
                       );
