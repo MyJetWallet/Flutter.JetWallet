@@ -91,6 +91,9 @@ abstract class _AppStoreBase with Store {
     initRouter = const RouterUnion.unauthorized();
   }
 
+  /// Костыль, позже убрать
+  var openPinVerification = false;
+
   @action
   Future<void> checkInitRouter() async {
     FlutterNativeSplash.remove();
@@ -142,23 +145,30 @@ abstract class _AppStoreBase with Store {
             pinSetup: () {
               //initRouter = const RouterUnion.pinSetup();
 
-              getIt<AppRouter>().replaceAll([
-                PinScreenRoute(
-                  union: Setup(),
-                  cannotLeave: true,
-                ),
-              ]);
+              if (sRouter.current.path != '/pin_screen') {
+                getIt<AppRouter>().replaceAll([
+                  PinScreenRoute(
+                    union: Setup(),
+                    cannotLeave: true,
+                  ),
+                ]);
+              }
             },
             pinVerification: () {
               //initRouter = const RouterUnion.pinVerification();
 
-              getIt<AppRouter>().replaceAll([
-                PinScreenRoute(
-                  union: Verification(),
-                  cannotLeave: true,
-                  displayHeader: false,
-                ),
-              ]);
+              if (openPinVerification) return;
+              openPinVerification = true;
+
+              if (sRouter.current.path != '/pin_screen') {
+                getIt<AppRouter>().replaceAll([
+                  PinScreenRoute(
+                    union: Verification(),
+                    cannotLeave: true,
+                    displayHeader: false,
+                  ),
+                ]);
+              }
             },
             home: () {
               //initRouter = const RouterUnion.home();
@@ -550,5 +560,7 @@ abstract class _AppStoreBase with Store {
     homeTab = 0;
     isBalanceHide = true;
     appStatus = AppStatus.Start;
+
+    openPinVerification = false;
   }
 }
