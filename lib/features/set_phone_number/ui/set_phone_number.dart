@@ -143,10 +143,11 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
                     void finalSend({required String newPin}) {
+                      FocusScope.of(context).unfocus();
                       store.updatePin(newPin);
                       store.sendCode(
                         then: () {
-                          sRouter.push(
+                          sRouter.replace(
                             PhoneVerificationRouter(
                               args: PhoneVerificationArgs(
                                 phoneNumber: store.phoneNumber(),
@@ -175,11 +176,12 @@ class SetPhoneNumber extends StatelessObserverWidget {
 
                     if (isChangePhone) {
                       FocusScope.of(context).unfocus();
-                      sRouter.push(
+                      sRouter.replace(
                         PinScreenRoute(
                           union: const Change(),
                           isChangePhone: true,
                           onChangePhone: (String newPin) {
+                            FocusScope.of(context).unfocus();
                             finalSend(newPin: newPin);
                           },
                         ),

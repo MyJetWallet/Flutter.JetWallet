@@ -96,8 +96,6 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () {
             Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
           },
           isSmallSize: true,
         ),
