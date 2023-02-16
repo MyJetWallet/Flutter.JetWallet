@@ -63,7 +63,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
 
     void _onAddCardTap() {
       if (useCircleCard) {
-        sAnalytics.paymentDetailsView(source: 'Circle');
         sRouter.push(
           AddCircleCardRouter(
             onCardAdded: (_) {
@@ -77,7 +76,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     }
 
     void checkKyc() {
-      sAnalytics.paymentAdd();
       final status = kycOperationStatus(KycStatus.allowed);
       if (kycState.depositStatus == status) {
         _onAddCardTap();

@@ -67,16 +67,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
     final notifier = PreviewBuyWithAssetStore.of(context);
 
     notifier.updateTimerAnimation(_animationController);
-    sAnalytics.previewBuyView(
-      assetName: widget.input.toCurrency.description,
-      paymentMethod: intl.previewBuyWithAsset_crypto,
-      amount: formatCurrencyStringAmount(
-        prefix: widget.input.fromCurrency.prefixSymbol,
-        value: widget.input.amount,
-        symbol: widget.input.fromCurrency.symbol,
-      ),
-      frequency: widget.input.recurringType.toFrequency,
-    );
     super.initState();
   }
 
@@ -246,16 +236,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
                     active: state.union is QuoteSuccess,
                     name: intl.previewBuyWithAsset_confirm,
                     onTap: () {
-                      sAnalytics.tapConfirmBuy(
-                        assetName: widget.input.toCurrency.description,
-                        paymentMethod: intl.previewBuyWithAsset_crypto,
-                        amount: formatCurrencyStringAmount(
-                          prefix: widget.input.fromCurrency.prefixSymbol,
-                          value: widget.input.amount,
-                          symbol: widget.input.fromCurrency.symbol,
-                        ),
-                        frequency: widget.input.recurringType.toFrequency,
-                      );
 
                       state.executeQuote();
                     },

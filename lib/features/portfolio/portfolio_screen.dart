@@ -8,6 +8,7 @@ import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/port
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 class PortfolioScreen extends StatelessObserverWidget {
   const PortfolioScreen({Key? key}) : super(key: key);

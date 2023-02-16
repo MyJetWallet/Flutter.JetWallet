@@ -90,10 +90,6 @@ class _ActionBuy extends StatelessObserverWidget {
     sortByBalanceAndWeight(state.filteredCurrencies);
 
     void _onItemTap(CurrencyModel currency, bool fromCard) {
-      sAnalytics.buyView(
-        Source.quickActions,
-        currency.description,
-      );
 
       getIt.get<AppRouter>().navigate(
         PaymentMethodRouter(

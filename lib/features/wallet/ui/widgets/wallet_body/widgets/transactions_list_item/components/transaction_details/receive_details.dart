@@ -38,9 +38,10 @@ class ReceiveDetails extends StatelessObserverWidget {
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                TransactionDetailsValueText(
-                  text: fromPhoneNumber,
-                ),
+                if (fromPhoneNumber.isNotEmpty)
+                  TransactionDetailsValueText(
+                    text: fromPhoneNumber,
+                  ),
                 if (senderName.isNotEmpty) ...[
                   Text(
                     senderName,

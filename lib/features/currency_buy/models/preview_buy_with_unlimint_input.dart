@@ -10,6 +10,7 @@ class PreviewBuyWithUnlimintInput with _$PreviewBuyWithUnlimintInput {
     required String amount,
     required CurrencyModel currency,
     required CurrencyModel currencyPayment,
+    required String quickAmount,
     CircleCard? card,
   }) = _PreviewBuyWithUnlimintInput;
 }
