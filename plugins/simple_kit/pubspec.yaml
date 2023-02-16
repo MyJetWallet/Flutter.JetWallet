@@ -87,6 +87,7 @@ flutter:
     - assets/icons/light/24x24/forward/
     - assets/icons/light/24x24/profile/about_us/
     - assets/icons/light/24x24/profile/faq/
+    - assets/icons/light/24x24/profile/invite_friends/
     - assets/icons/light/24x24/profile/log_out/
     - assets/icons/light/24x24/profile/notifications/
     - assets/icons/light/24x24/profile/profile_details/

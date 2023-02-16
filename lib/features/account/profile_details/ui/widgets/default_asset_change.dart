@@ -28,7 +28,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.profileDetails_defaultCurrency,
+          title: intl.profileDetails_baseCurrency,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
