@@ -174,6 +174,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     }
 
                     if (isChangePhone) {
+                      FocusScope.of(context).unfocus();
                       sRouter.push(
                         PinScreenRoute(
                           union: const Change(),
