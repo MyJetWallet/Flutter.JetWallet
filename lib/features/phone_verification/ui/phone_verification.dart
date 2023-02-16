@@ -92,16 +92,16 @@ class PhoneVerificationBody extends StatelessObserverWidget {
       loaderText: intl.phoneVerification_pleaseWait,
       loading: store.loader,
       header: SPaddingH24(
-        child: SSmallHeader(
+        child: SBigHeader(
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
+          isSmallSize: true,
         ),
       ),
       child: SPaddingH24(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SpaceH10(),
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
               boldText: store.phoneNumber,
@@ -134,12 +134,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   ],
                 ),
               ),
-            ] else
-              SClickableLinkText(
-                text: intl.phoneVerification_changeNumber,
-                onTap: () => Navigator.pop(context),
-              ),
-            const SpaceH18(),
+            ],
+            const SpaceH45(),
             GestureDetector(
               onLongPress: () => store.pasteCode(),
               onDoubleTap: () => store.pasteCode(),
@@ -158,7 +154,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   length: codeLength,
                   controller: store.controller,
                   autoFocus: true,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   onCompleted: (_) => store.verifyCode(),
                   onChanged: (_) {
                     store.pinFieldError.disableError();
@@ -183,12 +179,6 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendInText(
                   text: '${intl.twoFaPhone_youCanReceive} ${timer.time}'
                       ' ${intl.phoneVerification_seconds}',
-                ),
-                const SpaceH10(),
-                STextButton1(
-                  active: false,
-                  name: intl.profileDetails_receiveCall,
-                  onTap: () {},
                 ),
               ] else ...[
                 ResendRichText(

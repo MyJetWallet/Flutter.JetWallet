@@ -49,6 +49,7 @@ abstract class _KycSelfieStoreBase with Store {
 
       final file = await picker.pickImage(
         source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.front,
       );
 
       if (file != null) {

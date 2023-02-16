@@ -68,7 +68,7 @@ class ProfileDetails extends StatelessObserverWidget {
                   context,
                   willPopScope: false,
                   primaryText: intl.profileDetails_payAttention,
-                  secondaryText: '${intl.profileDetails_changePhoneAlert} '
+                  secondaryText: '${intl.profileDetails_changePhoneAlert2} '
                       '$changePhoneLockHours ${intl.hours}.',
                   primaryButtonName: intl.profileDetails_continue,
                   image: infoImage,
@@ -80,6 +80,7 @@ class ProfileDetails extends StatelessObserverWidget {
                       SetPhoneNumberRouter(
                         successText:
                             intl.profileDetails_newPhoneNumberConfirmed,
+                        isChangePhone: true,
                         then: () {
                           sRouter.popUntil(
                             (route) {

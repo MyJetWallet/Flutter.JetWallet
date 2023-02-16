@@ -200,6 +200,7 @@ export 'modules/icons/24x24/public/paste/simple_paste_pressed_icon.dart';
 export 'modules/icons/24x24/public/pause/simple_pause_icon.dart';
 export 'modules/icons/24x24/public/paused/simple_paused_icon.dart';
 export 'modules/icons/24x24/public/persona/simple_selfie_icon.dart';
+export 'modules/icons/24x24/public/phone_call/simple_phone_call_icon.dart';
 export 'modules/icons/24x24/public/phone/simple_phone_icon.dart';
 export 'modules/icons/24x24/public/photo/simple_photo_icon.dart';
 export 'modules/icons/24x24/public/photo/simple_photo_pressed_icon.dart';
