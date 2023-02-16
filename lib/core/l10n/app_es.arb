@@ -603,9 +603,6 @@
     "tag": "Etiqueta",
     "depositInfo_text": "Asegúrese de que la red que elija para depositar coincida con la red de retiro",
     "showDepositDisclaimer_primatyText": "a esta dirección de depósito. Recibir cualquier otra moneda o token en esta dirección puede resultar en la pérdida del monto de la transferencia.",
-    "showDepositDisclaimer_primatyTextTitle": "a esta dirección de depósito.",
-    "showDepositDisclaimer_primatyTextSecond": "Recibir cualquier otra moneda o token en esta dirección puede resultar en la pérdida del monto de la transferencia.",
-    "showDepositDisclaimer_primatyTextOnly": "Solamente",
     "showDepositDisclaimer_gotIt": "Entiendo",
     "showDepositDisclaimer_next": "Siguiente",
     "showDepositDisclaimer_only": "solamente",
@@ -1349,5 +1346,14 @@
     "paymentMethodsSheet_weekly": "Semanalmente",
     "paymentMethodsSheet_monthly": "Mensual",
     "paymentMethodsSheet_limit": "límite",
-    "sPaymentSelectEmpty_tryOnceAgain": ""
+    "sPaymentSelectEmpty_tryOnceAgain": "Por favor inténtalo de nuevo una vez más.",
+    "open_in_explorer": "Abrir en el Explorador",
+    "accountSecurity_accountPIN": "PIN",
+    "profileDetails_baseCurrency": "Moneda base",
+    "account_transactionHistory": "Historial de transacciones",
+    "showDepositDisclaimer_primatyTextTitle": "a esta dirección de depósito.",
+    "showDepositDisclaimer_primatyTextSecond": "Recibir cualquier otra moneda o token en esta dirección puede resultar en la pérdida del monto de la transferencia.",
+    "showDepositDisclaimer_primatyTextOnly": "Solo",
+    "profileDetails_changePhoneAlert2": "",
+    "account_verified": ""
 }

@@ -603,9 +603,6 @@
     "tag": "Tag",
     "depositInfo_text": "Upewnij się, że sieć, którą wybierzesz do wpłaty, odpowiada sieci wypłat",
     "showDepositDisclaimer_primatyText": "na ten adres wpłaty. Odebranie jakiegokolwiek innego coina lub tokena na ten adres może spowodować utratę kwoty przelewu.",
-    "showDepositDisclaimer_primatyTextTitle": "na ten adres wpłaty.",
-    "showDepositDisclaimer_primatyTextSecond": "Odebranie jakiegokolwiek innego coina lub tokena na ten adres może spowodować utratę kwoty przelewu.",
-    "showDepositDisclaimer_primatyTextOnly": "Tylko",
     "showDepositDisclaimer_gotIt": "Rozumiem",
     "showDepositDisclaimer_next": "Następny",
     "showDepositDisclaimer_only": "tylko",
@@ -1349,5 +1346,14 @@
     "paymentMethodsSheet_weekly": "Co tydzień",
     "paymentMethodsSheet_monthly": "Miesięczny",
     "paymentMethodsSheet_limit": "limit",
-    "sPaymentSelectEmpty_tryOnceAgain": ""
+    "sPaymentSelectEmpty_tryOnceAgain": "Proszę spróbować ponownie.",
+    "open_in_explorer": "Otwórz w programie Explorer",
+    "accountSecurity_accountPIN": "PIN",
+    "profileDetails_baseCurrency": "Waluta bazowa",
+    "account_transactionHistory": "Historia transakcji",
+    "showDepositDisclaimer_primatyTextTitle": "na ten adres wpłaty.",
+    "showDepositDisclaimer_primatyTextSecond": "Otrzymanie jakiegokolwiek innego coina lub żetonu na ten adres może spowodować utratę kwoty przelewu.",
+    "showDepositDisclaimer_primatyTextOnly": "Tylko",
+    "profileDetails_changePhoneAlert2": "",
+    "account_verified": ""
 }
