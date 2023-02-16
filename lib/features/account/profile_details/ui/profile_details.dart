@@ -11,6 +11,7 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../utils/helpers/country_code_by_user_register.dart';
 import '../../../market/market_details/helper/currency_from_all.dart';
 
 class ProfileDetails extends StatelessObserverWidget {
@@ -22,6 +23,16 @@ class ProfileDetails extends StatelessObserverWidget {
     final baseAsset = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
     final baseCurrency = currencyFromAll(currencies, baseAsset.symbol);
+    final phoneNumber = countryCodeByUserRegister();
+
+    var finalPhone = userInfo.phone;
+    if (phoneNumber != null) {
+      finalPhone = userInfo.phone.replaceFirst(
+        phoneNumber.countryCode,
+        '${phoneNumber.countryCode} ',
+      );
+    }
+
 
     final infoImage = Image.asset(
       phoneChangeAsset,
@@ -46,8 +57,9 @@ class ProfileDetails extends StatelessObserverWidget {
           ),
           if (userInfo.isPhoneNumberSet)
             SProfileDetailsButton(
-              label: intl.profileDetails_changePhoneNumber,
-              value: userInfo.phone,
+              showIcon: true,
+              label: intl.setPhoneNumber_phoneNumber,
+              value: finalPhone,
               onTap: () {
                 sAnalytics.accountChangePhone();
                 sAnalytics.accountChangePhoneWarning();
@@ -89,7 +101,9 @@ class ProfileDetails extends StatelessObserverWidget {
               },
             ),
           SProfileDetailsButton(
-            label: intl.profileDetails_defaultCurrency,
+            isDivider: false,
+            showIcon: true,
+            label: intl.profileDetails_baseCurrency,
             value: baseCurrency.description,
             onTap: () {
               sRouter.push(
@@ -99,7 +113,7 @@ class ProfileDetails extends StatelessObserverWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
             child: SSecondaryButton1(
               active: true,
               icon: const SCircleMinusIcon(),

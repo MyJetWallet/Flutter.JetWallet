@@ -59,6 +59,8 @@ class _PaymentMethodScreen extends StatefulObserverWidget {
 }
 
 class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
+  bool analyticSent = false;
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +109,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           unlimintAltIncludes.isNotEmpty);
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
+      sAnalytics.newBuyTapDelete();
+      sAnalytics.newBuyDeleteView();
+
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
@@ -115,12 +120,25 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
-        onSecondaryButtonTap: () => Navigator.pop(context),
+        onSecondaryButtonTap: () {
+          sAnalytics.newBuyTapCancelDelete();
+          Navigator.pop(context);
+        },
       );
     }
 
-    void onAddCardTap() {
+    if (!analyticSent && isEmptyPaymentCards) {
+      analyticSent = true;
+      sAnalytics.newBuyNoSavedCard();
+    }
 
+    void onAddCardTap() {
+      final kycState = getIt.get<KycService>();
+      final status = kycOperationStatus(KycStatus.kycRequired);
+      final isUserVerified = kycState.depositStatus != status &&
+          kycState.sellStatus != status &&
+          kycState.withdrawalStatus != status;
+      sAnalytics.newBuyEnterCardDetailsView(nameVisible: '${!isUserVerified}');
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -150,6 +168,22 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       );
     }
 
+    void checkKyc() {
+      sAnalytics.newBuyTapAddCard();
+      final status = kycOperationStatus(KycStatus.allowed);
+      if (kycState.depositStatus == status) {
+        onAddCardTap();
+      } else {
+        kycHandler.handle(
+          status: kycState.depositStatus,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () => onAddCardTap(),
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications: kycState.requiredVerifications,
+        );
+      }
+    }
+
     Widget paymentMethods() {
       return Column(
         children: [
@@ -170,6 +204,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       name: intl.currencyBuy_card,
                       description: intl.curencyBuy_actionItemDescription,
                       onTap: () {
+                        sAnalytics.newBuyBuyAssetView(
+                          asset: widget.currency.symbol,
+                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -192,8 +229,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       PaymentMethodType.circleCard &&
                       state.pickedCircleCard == null,
                   onTap: () {
-                    sAnalytics.circleTapAddCard();
-                    sAnalytics.paymentDetailsView(source: 'Circle');
 
                     sRouter.navigate(
                       AddCircleCardRouter(
@@ -222,6 +257,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       description:
                       intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                       onTap: () {
+                        sAnalytics.newBuyBuyAssetView(
+                          asset: widget.currency.symbol,
+                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -276,6 +314,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         && !isLimitBlock
                         && !state.editMode
                       ) {
+                        sAnalytics.newBuyBuyAssetView(
+                          asset: widget.currency.symbol,
+                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -321,6 +362,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         !isLimitBlock &&
                         !state.editMode
                       ) {
+                        sAnalytics.newBuyBuyAssetView(
+                          asset: widget.currency.symbol,
+                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -367,6 +411,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         !isLimitBlock &&
                         !state.editMode
                       ) {
+                        sAnalytics.newBuyBuyAssetView(
+                          asset: widget.currency.symbol,
+                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -382,37 +429,22 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 },
               ),
           ],
-          SCreditCardItem(
-            icon: SPlusIcon(
-              color: colors.blue,
+          if (isUnlimintCardEnabled)
+            SCreditCardItem(
+              icon: SPlusIcon(
+                color: colors.blue,
+              ),
+              name: intl.actionBuy_addACard,
+              amount: '',
+              helper: intl.depositOptions_actionItemDescription1,
+              description: '',
+              removeDivider: true,
+              onTap: () {
+                checkKyc();
+              },
             ),
-            name: intl.actionBuy_addACard,
-            amount: '',
-            helper: intl.depositOptions_actionItemDescription1,
-            description: '',
-            removeDivider: true,
-            onTap: () {
-              onAddCardTap();
-            },
-          ),
         ],
       );
-    }
-
-    void checkKyc() {
-      sAnalytics.paymentAdd();
-      final status = kycOperationStatus(KycStatus.allowed);
-      if (kycState.depositStatus == status) {
-        onAddCardTap();
-      } else {
-        kycHandler.handle(
-          status: kycState.depositStatus,
-          isProgress: kycState.verificationInProgress,
-          currentNavigate: () => onAddCardTap(),
-          requiredDocuments: kycState.requiredDocuments,
-          requiredVerifications: kycState.requiredVerifications,
-        );
-      }
     }
 
     return SPageFrame(
@@ -424,6 +456,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           showDoneButton: !isEmptyPaymentCards && state.editMode,
 
           onEditButtonTap: () {
+            sAnalytics.newBuyTapEdit();
             state.toggleEditMode();
           },
           onDoneButtonTap: () {

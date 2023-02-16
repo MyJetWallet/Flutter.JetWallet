@@ -19,6 +19,9 @@ import 'package:jetwallet/widgets/loaders/loader.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../core/services/deep_link_service.dart';
+import '../../core/services/signal_r/signal_r_service_new.dart';
+
 import '../../utils/constants.dart';
 
 class AccountScreen extends StatefulObserverWidget {
@@ -50,6 +53,11 @@ class _AccountScreenState extends State<AccountScreen>
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+    final deepLinkService = getIt.get<DeepLinkService>();
+    final marketCampaigns = sSignalRModules.marketCampaigns.where(
+      (element) => element.deepLink.contains('InviteFriend'),
+    ).toList();
 
     /*
     logout.union.when(
@@ -179,6 +187,18 @@ class _AccountScreenState extends State<AccountScreen>
                         );
                       },
                     ),
+                    if (marketCampaigns.isNotEmpty)
+                      SimpleAccountCategoryButton(
+                        title: intl.onboarding_inviteFriends,
+                        icon: const SInviteFriendsIcon(),
+                        isSDivider: true,
+                        onTap: () {
+                          deepLinkService.handle(
+                            Uri.parse(marketCampaigns[0].deepLink ?? ''),
+                            source: SourceScreen.bannerOnRewards,
+                          );
+                        },
+                      ),
                     SimpleAccountCategoryButton(
                       title: intl.account_security,
                       icon: const SSecurityIcon(),
@@ -197,15 +217,13 @@ class _AccountScreenState extends State<AccountScreen>
                       isSDivider: true,
                       notification: false,
                       onTap: () {
-                        sAnalytics.paymentTap();
-                        sAnalytics.paymentView();
                         sRouter.push(
                           const PaymentMethodsRouter(),
                         );
                       },
                     ),
                     SimpleAccountCategoryButton(
-                      title: intl.account_history,
+                      title: intl.account_transactionHistory,
                       icon: const SIndexHistoryIcon(),
                       isSDivider: true,
                       onTap: () => sRouter.push(
