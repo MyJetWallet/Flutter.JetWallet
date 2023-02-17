@@ -34,6 +34,12 @@ class _$AppRouter extends RootStackRouter {
         child: const SplashScreen(),
       );
     },
+    SplashNoAnimationRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const SplashScreenNoAnimation(),
+      );
+    },
     OnboardingRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -925,6 +931,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/splash',
         ),
         RouteConfig(
+          SplashNoAnimationRoute.name,
+          path: '/splash_no_animation',
+        ),
+        RouteConfig(
           OnboardingRoute.name,
           path: '/splash_screen',
         ),
@@ -1335,6 +1345,18 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+}
+
+/// generated route for
+/// [SplashScreenNoAnimation]
+class SplashNoAnimationRoute extends PageRouteInfo<void> {
+  const SplashNoAnimationRoute()
+      : super(
+          SplashNoAnimationRoute.name,
+          path: '/splash_no_animation',
+        );
+
+  static const String name = 'SplashNoAnimationRoute';
 }
 
 /// generated route for

@@ -135,7 +135,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
         await sRouter.pop();
-        await sRouter.pop();
 
         return;
       }
@@ -152,12 +151,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
         message: '$e',
       );
       await sRouter.pop();
-      await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
-      print(e);
-      await sRouter.pop();
       await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);

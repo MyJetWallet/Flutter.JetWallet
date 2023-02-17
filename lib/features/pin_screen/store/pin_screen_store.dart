@@ -341,7 +341,6 @@ abstract class _PinScreenStoreBase with Store {
           } else {
             if (isChangePhone) {
               await sRouter.pop();
-              await sRouter.pop();
             }
             sNotification.showError(
               'Incorrect PIN has been entered more than $maxPinAttempts times, '
