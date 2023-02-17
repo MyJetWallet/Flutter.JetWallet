@@ -222,7 +222,9 @@ abstract class _AppStoreBase with Store {
         },
       );
     } else {
-      initRouter = const RouterUnion.loading();
+      await getIt<AppRouter>().replaceAll([
+        SplashNoAnimationRoute(),
+      ]);
     }
   }
 

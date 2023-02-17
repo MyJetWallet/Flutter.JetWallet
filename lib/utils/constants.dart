@@ -25,6 +25,7 @@ const buyCryptoImageAsset = 'assets/images/buy_crypto.png';
 const cryptoIndeciesImageAsset = 'assets/images/crypto_indecies.png';
 const inviteFriendsImageAsset = 'assets/images/invite_friends.png';
 const simpleAppImageAsset = 'assets/images/simple_app.png';
+const simpleLogoAsset = 'assets/images/logo.png';
 
 // KYC
 const verifyYourProfileAsset = 'assets/images/verify_your_profile.png';

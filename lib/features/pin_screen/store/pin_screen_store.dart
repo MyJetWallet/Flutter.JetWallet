@@ -356,6 +356,10 @@ abstract class _PinScreenStoreBase with Store {
 
             await resetPin();
           } else {
+
+            if (isChangePhone) {
+              await sRouter.pop();
+            }
             sNotification.showError(
               'Incorrect PIN has been entered more than $maxPinAttempts times, '
               'you have been logged out of your account.',

@@ -153,7 +153,6 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   focusNode: store.focusNode,
                   length: codeLength,
                   controller: store.controller,
-                  autoFocus: true,
                   mainAxisAlignment: MainAxisAlignment.center,
                   onCompleted: (_) => store.verifyCode(),
                   onChanged: (_) {
