@@ -173,8 +173,6 @@ abstract class _AppStoreBase with Store {
             home: () {
               //initRouter = const RouterUnion.home();
 
-              getIt.get<AppStore>().initSessionInfo();
-
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [
@@ -441,6 +439,8 @@ abstract class _AppStoreBase with Store {
       );
 
       isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
+
+      unawaited(initSessionInfo());
 
       try {
         final userInfo = getIt.get<UserInfoService>();
