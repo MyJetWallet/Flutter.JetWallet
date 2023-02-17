@@ -20,6 +20,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/check_pin/check_pin_response_model.dart';
@@ -30,16 +31,30 @@ const pinBoxAnimationDuration = Duration(milliseconds: 800);
 const pinBoxErrorDuration = Duration(milliseconds: 400);
 
 class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
-  PinScreenStore(PinFlowUnion flowUnionflowUnion) : super(flowUnionflowUnion);
+  PinScreenStore(
+    PinFlowUnion flowUnionflowUnion, {
+    bool isChangePhone = false,
+    Function(String)? onChangePhone,
+  }) : super(
+          flowUnionflowUnion,
+          isChangePhone,
+          onChangePhone,
+        );
 
   static _PinScreenStoreBase of(BuildContext context) =>
       Provider.of<PinScreenStore>(context, listen: false);
 }
 
 abstract class _PinScreenStoreBase with Store {
-  _PinScreenStoreBase(this.flowUnion);
+  _PinScreenStoreBase(
+    this.flowUnion,
+    this.isChangePhone,
+    this.onChangePhone,
+  );
 
   final PinFlowUnion flowUnion;
+  final bool isChangePhone;
+  final Function(String)? onChangePhone;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -50,6 +65,11 @@ abstract class _PinScreenStoreBase with Store {
 
   @observable
   bool hideBiometricButton = true;
+
+  StackLoaderStore loader = StackLoaderStore();
+
+  @observable
+  bool showForgot = false;
 
   @observable
   String screenHeader = '';
@@ -175,7 +195,7 @@ abstract class _PinScreenStoreBase with Store {
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
     if (usingBio == true.toString() && _userInfo.pin != null) {
-      await updatePin(await _authenticateWithBio());
+      await updatePin(face);
     }
   }
 
@@ -288,8 +308,15 @@ abstract class _PinScreenStoreBase with Store {
             orElse: () async {
               await _animateCorrect();
 
-              await _updateHideBiometricButton(true);
-              _updateScreenUnion(const NewPin());
+              if (isChangePhone && onChangePhone != null) {
+                if (isChangePhone) {
+                  loader.startLoading();
+                }
+                onChangePhone!(enterPin);
+              } else {
+                await _updateHideBiometricButton(true);
+                _updateScreenUnion(const NewPin());
+              }
             },
           );
         },
@@ -297,6 +324,9 @@ abstract class _PinScreenStoreBase with Store {
           print(error.cause);
 
           if (error.cause == 'InvalidCode') {
+            if (isChangePhone) {
+              showForgot = true;
+            }
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');
@@ -311,6 +341,10 @@ abstract class _PinScreenStoreBase with Store {
               _updateNewPin('');
               _updatePinBoxState(PinBoxEnum.empty);
             } else {
+              if (isChangePhone) {
+                await sRouter.pop();
+                await sRouter.pop();
+              }
               sNotification.showError(
                 'Incorrect PIN has been entered more than $maxPinAttempts times, '
                 'you have been logged out of your account.',

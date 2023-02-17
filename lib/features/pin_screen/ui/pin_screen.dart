@@ -38,7 +38,7 @@ class PinScreen extends StatelessWidget {
         union,
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
-      ),
+      )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
         cannotLeave: cannotLeave,
