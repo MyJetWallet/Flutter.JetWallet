@@ -109,24 +109,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
     loader!.startLoading();
 
     try {
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: 'try sendCode',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: phoneNumber(),
-      );
       final number = await decomposePhoneNumber(
         phoneNumber(),
         isoCodeNumber: activeDialCode?.isoCode ?? '',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$number',
       );
 
       final model = PhoneVerificationRequestModel(
@@ -141,33 +126,12 @@ abstract class _SetPhoneNumberStoreBase with Store {
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
         pin: pin,
       );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$model',
-      );
 
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: 'response received',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$resp',
-      );
 
       if (resp.hasError) {
-
-        getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: 'sendCode',
-          message: '${resp.error}',
-        );
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
         await sRouter.pop();
