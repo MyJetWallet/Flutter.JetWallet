@@ -26,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return const OnboardingFullScreenGradient(
       child: Center(
         child: SizedBox(
-          width: 320.0,
-          height: 320.0,
+          width: 160.0,
+          height: 160.0,
           child: RiveAnimation.asset(
             splashAnimationAsset,
           ),
