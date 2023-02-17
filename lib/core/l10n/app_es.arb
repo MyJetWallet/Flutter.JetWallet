@@ -1353,7 +1353,5 @@
     "account_transactionHistory": "Historial de transacciones",
     "showDepositDisclaimer_primatyTextTitle": "a esta dirección de depósito.",
     "showDepositDisclaimer_primatyTextSecond": "Recibir cualquier otra moneda o token en esta dirección puede resultar en la pérdida del monto de la transferencia.",
-    "showDepositDisclaimer_primatyTextOnly": "Solo",
-    "profileDetails_changePhoneAlert2": "",
-    "account_verified": ""
+    "showDepositDisclaimer_primatyTextOnly": "Solo"
 }

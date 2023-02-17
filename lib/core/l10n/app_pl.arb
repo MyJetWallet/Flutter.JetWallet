@@ -1353,7 +1353,5 @@
     "account_transactionHistory": "Historia transakcji",
     "showDepositDisclaimer_primatyTextTitle": "na ten adres wpłaty.",
     "showDepositDisclaimer_primatyTextSecond": "Otrzymanie jakiegokolwiek innego coina lub żetonu na ten adres może spowodować utratę kwoty przelewu.",
-    "showDepositDisclaimer_primatyTextOnly": "Tylko",
-    "profileDetails_changePhoneAlert2": "",
-    "account_verified": ""
+    "showDepositDisclaimer_primatyTextOnly": "Tylko"
 }
