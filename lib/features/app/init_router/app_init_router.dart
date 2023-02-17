@@ -111,14 +111,6 @@ class _AppInitRouterState extends State<AppInitRouter> {
         // getIt<RouteQueryService>().runQuery();
         //}
 
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              PortfolioRouter(),
-            ],
-          ),
-        ]);
-
         return const SplashScreenNoAnimation();
       },
       unauthorized: () {

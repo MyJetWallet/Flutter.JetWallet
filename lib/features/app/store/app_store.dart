@@ -93,6 +93,7 @@ abstract class _AppStoreBase with Store {
 
   /// Костыль, позже убрать
   var openPinVerification = false;
+  var homeOpened = false;
 
   @action
   Future<void> checkInitRouter() async {
@@ -172,6 +173,9 @@ abstract class _AppStoreBase with Store {
             },
             home: () {
               //initRouter = const RouterUnion.home();
+
+              if (homeOpened) return;
+              homeOpened = true;
 
               sRouter.replaceAll([
                 const HomeRouter(
@@ -562,5 +566,6 @@ abstract class _AppStoreBase with Store {
     appStatus = AppStatus.Start;
 
     openPinVerification = false;
+    homeOpened = false;
   }
 }
