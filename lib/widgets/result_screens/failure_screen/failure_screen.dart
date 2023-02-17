@@ -66,7 +66,7 @@ class FailureScreen extends StatelessObserverWidget {
                 ),
               ),
             const Spacer(),
-            SPrimaryButton1(
+            SSecondaryButton1(
               active: true,
               name: primaryButtonName,
               onTap: onPrimaryButtonTap,

@@ -6,18 +6,24 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 class SimpleLightTextButton2 extends StatelessWidget {
   const SimpleLightTextButton2({
     Key? key,
+    this.icon,
+    this.addPadding = false,
     required this.active,
     required this.name,
     required this.onTap,
   }) : super(key: key);
 
+  final Widget? icon;
   final bool active;
+  final bool addPadding;
   final String name;
   final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return SimpleBaseTextButton(
+      addPadding: addPadding,
+      icon: icon,
       active: active,
       name: name,
       onTap: onTap,

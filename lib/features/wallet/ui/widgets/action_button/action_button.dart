@@ -181,11 +181,9 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoDeposit,
                             isSellAvailable: false,
                             onBuy: () {
-                              sAnalytics.tapOnBuy(Source.actionButton);
                               _onBuy(false);
                             },
                             onBuyFromCard: () {
-                              sAnalytics.tapOnBuyFromCard(Source.actionButton);
                               _onBuy(true);
                             },
                             onSell: () {
@@ -484,11 +482,9 @@ class _ActionButtonState extends State<ActionButton> {
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
-                              sAnalytics.tapOnBuy(Source.actionButton);
                               _onBuy(false);
                             },
                             onBuyFromCard: () {
-                              sAnalytics.tapOnBuyFromCard(Source.actionButton);
                               _onBuy(true);
                             },
                             onSell: () {

@@ -12,6 +12,8 @@ import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phon
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../pin_screen/model/pin_flow_union.dart';
+
 /// Called in 2 cases:
 /// 1. when we want to change number
 /// 2. when we are enabling 2FA but we haven't added phone number yet
@@ -19,17 +21,20 @@ class SetPhoneNumber extends StatelessObserverWidget {
   const SetPhoneNumber({
     Key? key,
     this.then,
+    this.isChangePhone = false,
     required this.successText,
   }) : super(key: key);
 
   final Function()? then;
   final String successText;
+  final bool isChangePhone;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
     final store = getIt.get<SetPhoneNumberStore>();
+    final userInfo = sUserInfo.userInfo;
 
     sAnalytics.kycPhoneConfirmationView();
 
@@ -38,8 +43,9 @@ class SetPhoneNumber extends StatelessObserverWidget {
       loading: store.loader,
       color: colors.grey5,
       header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.setPhoneNumber_enterPhoneNumber,
+        child: SBigHeader(
+          title: intl.setPhoneNumber_phoneNumber,
+          isSmallSize: true,
         ),
       ),
       child: Column(
@@ -109,18 +115,6 @@ class SetPhoneNumber extends StatelessObserverWidget {
               ],
             ),
           ),
-          SPaddingH24(
-            child: Baseline(
-              baselineType: TextBaseline.alphabetic,
-              baseline: 24,
-              child: Text(
-                intl.setPhoneNumber_text1,
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey1,
-                ),
-              ),
-            ),
-          ),
           const Spacer(),
           Observer(
             builder: (context) {
@@ -129,6 +123,11 @@ class SetPhoneNumber extends StatelessObserverWidget {
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
+                    if (userInfo.phone == store.phoneNumber()) {
+                      sRouter.pop();
+
+                      return;
+                    }
                     if (store.canCLick) {
                       store.toggleClick(false);
 
@@ -143,40 +142,50 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     }
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
-                    store.sendCode(
-                      then: () {
-                        sRouter.push(
-                          PhoneVerificationRouter(
-                            args: PhoneVerificationArgs(
-                              phoneNumber: store.phoneNumber(),
-                              activeDialCode: store.activeDialCode,
-                              sendCodeOnInitState: false,
-                              onVerified: () {
-                                final userInfoN = sUserInfo;
+                    void finalSend({required String newPin}) {
+                      store.updatePin(newPin);
+                      store.sendCode(
+                        then: () {
+                          sRouter.push(
+                            PhoneVerificationRouter(
+                              args: PhoneVerificationArgs(
+                                phoneNumber: store.phoneNumber(),
+                                activeDialCode: store.activeDialCode,
+                                sendCodeOnInitState: false,
+                                onVerified: () {
+                                  final userInfoN = sUserInfo;
 
-                                userInfoN.updatePhoneVerified(
-                                  phoneVerified: true,
-                                );
-                                userInfoN.updateTwoFaStatus(enabled: true);
-                                userInfoN.updatePhone(store.phoneNumber());
+                                  userInfoN.updatePhoneVerified(
+                                    phoneVerified: true,
+                                  );
+                                  userInfoN.updateTwoFaStatus(enabled: true);
+                                  userInfoN.updatePhone(store.phoneNumber());
 
-                                sAnalytics.accountSuccessPhone();
-                                store.phoneNumberController.text = '';
+                                  sAnalytics.accountSuccessPhone();
+                                  store.phoneNumberController.text = '';
 
-                                sRouter.push(
-                                  SuccessScreenRouter(
-                                    secondaryText: successText,
-                                    onSuccess: (context) {
-                                      then!();
-                                    },
-                                  ),
-                                );
-                              },
+                                  then!();
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
+                          );
+                        },
+                      );
+                    }
+
+                    if (isChangePhone) {
+                      sRouter.push(
+                        PinScreenRoute(
+                          union: const Change(),
+                          isChangePhone: true,
+                          onChangePhone: (String newPin) {
+                            finalSend(newPin: newPin);
+                          },
+                        ),
+                      );
+                    } else {
+                      finalSend(newPin: '');
+                    }
                   },
                 ),
               );

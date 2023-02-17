@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
@@ -57,6 +58,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   String phoneInput = '';
 
   @observable
+  String pin = '';
+
+  @observable
   bool isButtonActive = false;
 
   @observable
@@ -86,6 +90,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
     isButtonActive = dialCodeController.text.isNotEmpty &&
         phoneNumberController.text.isNotEmpty &&
         validWeakPhoneNumber(phoneNumber());
+  }
+
+  @action
+  void updatePin(String value) {
+    pin = value;
   }
 
   @action
@@ -130,6 +139,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
         phoneIso: number.isoCode,
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
+        pin: pin,
       );
       getIt.get<SimpleLoggerService>().log(
         level: Level.info,
@@ -160,6 +170,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
         );
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
+        await sRouter.pop();
+        await sRouter.pop();
 
         return;
       }
@@ -175,10 +187,14 @@ abstract class _SetPhoneNumberStoreBase with Store {
         place: 'sendCode',
         message: '$e',
       );
+      await sRouter.pop();
+      await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
       print(e);
+      await sRouter.pop();
+      await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(

@@ -20,17 +20,25 @@ class PinScreen extends StatelessWidget {
     Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    this.isChangePhone = false,
+    this.onChangePhone,
     required this.union,
   }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;
+  final bool isChangePhone;
+  final Function(String)? onChangePhone;
   final PinFlowUnion union;
 
   @override
   Widget build(BuildContext context) {
     return Provider<PinScreenStore>(
-      create: (context) => PinScreenStore(union)..initDefaultScreen(),
+      create: (context) => PinScreenStore(
+        union,
+        isChangePhone: isChangePhone,
+        onChangePhone: onChangePhone,
+      ),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
         cannotLeave: cannotLeave,
@@ -89,6 +97,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
         onWillPop: () => Future.value(!widget.cannotLeave),
         child: SPageFrame(
           loaderText: intl.register_pleaseWait,
+          loading: pin.loader,
           header: Column(
             children: [
               pin.screenUnion.when(
@@ -151,7 +160,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader)
+              if (!widget.displayHeader || pin.showForgot)
                 InkWell(
                   highlightColor: colors.grey5,
                   onTap: () => sShowAlertPopup(

@@ -89,7 +89,7 @@
     "pinScreen_changePin": "Zmień PIN",
     "pinScreen_weNeedYouToConfirmYourIdentity": "Musimy potwierdzić twoją tożsamość",
     "accountSecurity_changePin": "Zmień PIN",
-    "accountSecurity_accountCategoryButtonTitle1": "Identyfikator twarzy/dotyku i PIN",
+    "accountSecurity_accountCategoryButtonTitle1": "Identyfikator twarzy/dotyku",
     "accountSecurity_accountCategoryButtonTitle3": "Weryfikacja dwuetapowa",
     "register_enterYourEmail": "Wprowadź swój email",
     "register_invalidEmail": "Nieprawidłowy e-mail, sprawdź poprawność i upewnij się, że nie ma spacji",

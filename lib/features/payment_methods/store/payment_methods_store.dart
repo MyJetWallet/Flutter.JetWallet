@@ -166,7 +166,6 @@ abstract class _PaymentMethodsStoreBase with Store {
 
   @action
   void showFailure() {
-    sAnalytics.circleFailed();
 
     sRouter.push(
       FailureScreenRouter(
@@ -174,7 +173,6 @@ abstract class _PaymentMethodsStoreBase with Store {
         secondaryText: intl.previewBuyWithCircle_failureDescription,
         primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
         onPrimaryButtonTap: () {
-          sAnalytics.circleAdd();
 
           sRouter.navigate(
             AddCircleCardRouter(
@@ -186,7 +184,6 @@ abstract class _PaymentMethodsStoreBase with Store {
         },
         secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
         onSecondaryButtonTap: () {
-          sAnalytics.circleCancel();
 
           sRouter.pop();
         },
