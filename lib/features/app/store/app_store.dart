@@ -177,6 +177,8 @@ abstract class _AppStoreBase with Store {
               if (homeOpened) return;
               homeOpened = true;
 
+              initSessionInfo();
+
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [
@@ -444,7 +446,7 @@ abstract class _AppStoreBase with Store {
 
       isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
 
-      unawaited(initSessionInfo());
+      //unawaited(initSessionInfo());
 
       try {
         final userInfo = getIt.get<UserInfoService>();
