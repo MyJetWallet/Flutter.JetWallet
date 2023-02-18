@@ -59,8 +59,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   Widget _balanceInProgressIcon(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (!currency.isSingleTypeInProgress) {
       return const SDepositTotalIcon();
     }
@@ -76,8 +76,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressText(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (currency.isSingleTypeInProgress) {
       return volumeFormat(
         decimal: currency.totalAmountInProcess,
@@ -91,8 +91,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressLeadText(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (currency.isSingleTypeInProgress) {
       return actualInProcessOperationName(
         currency,
@@ -179,7 +179,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                 stretch: true,
                 elevation: 0,
                 expandedHeight:
-                MediaQuery.of(context).size.height <= 830 ? 269 : 240,
+                    MediaQuery.of(context).size.height <= 830 ? 269 : 240,
                 collapsedHeight: 116,
                 floating: true,
                 flexibleSpace: PortfolioSliverAppBar(
@@ -239,13 +239,13 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                 ),
                                 baseCurrPrefix: baseCurrency.prefix,
                                 primaryText:
-                                itemsWithBalance[index].description,
+                                    itemsWithBalance[index].description,
                                 amount: itemsWithBalance[index]
                                     .volumeBaseBalance(baseCurrency),
                                 secondaryText: getIt<AppStore>().isBalanceHide
                                     ? itemsWithBalance[index].symbol
                                     : itemsWithBalance[index]
-                                    .volumeAssetBalance,
+                                        .volumeAssetBalance,
                                 onTap: () {
                                   if (itemsWithBalance[index].type ==
                                       AssetType.indices) {
@@ -265,18 +265,18 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                   }
                                 },
                                 removeDivider:
-                                itemsWithBalance[index].isPendingDeposit ||
-                                    index == itemsWithBalance.length - 1,
+                                    itemsWithBalance[index].isPendingDeposit ||
+                                        index == itemsWithBalance.length - 1,
                                 isPendingDeposit:
-                                itemsWithBalance[index].isPendingDeposit,
+                                    itemsWithBalance[index].isPendingDeposit,
                               ),
                               if (itemsWithBalance[index].isPendingDeposit) ...[
                                 BalanceInProcess(
                                   text: getIt<AppStore>().isBalanceHide
                                       ? itemsWithBalance[index].symbol
                                       : _balanceInProgressText(
-                                    itemsWithBalance[index],
-                                  ),
+                                          itemsWithBalance[index],
+                                        ),
                                   leadText: _balanceInProgressLeadText(
                                     itemsWithBalance[index],
                                   ),
