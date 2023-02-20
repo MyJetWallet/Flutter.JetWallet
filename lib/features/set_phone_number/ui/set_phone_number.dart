@@ -93,7 +93,9 @@ class SetPhoneNumber extends StatelessObserverWidget {
                           child: SStandardField(
                             labelText: intl.setPhoneNumber_phoneNumber,
                             autofocus: true,
-                            autofillHints: const [AutofillHints.telephoneNumber],
+                            autofillHints: const [
+                              AutofillHints.telephoneNumber
+                            ],
                             keyboardType: TextInputType.phone,
                             textInputAction: TextInputAction.next,
                             onChanged: (String phone) {
@@ -136,13 +138,14 @@ class SetPhoneNumber extends StatelessObserverWidget {
                         const Duration(
                           seconds: 2,
                         ),
-                            () => store.toggleClick(true),
+                        () => store.toggleClick(true),
                       );
                     } else {
                       return;
                     }
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
+
                     void finalSend({required String newPin}) {
                       store.updatePin(newPin);
                       store.sendCode(
