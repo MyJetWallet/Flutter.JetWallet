@@ -147,6 +147,8 @@ class SetPhoneNumber extends StatelessObserverWidget {
                       store.updatePin(newPin);
                       store.sendCode(
                         then: () {
+                          store.loader?.finishLoading();
+                          store.loader?.finishLoadingImmediately();
                           sRouter.replace(
                             PhoneVerificationRouter(
                               args: PhoneVerificationArgs(

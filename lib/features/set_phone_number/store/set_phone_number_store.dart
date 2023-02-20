@@ -33,6 +33,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     );
 
     loader = StackLoaderStore();
+    loader!.finishLoading();
     phoneFieldError = StandardFieldErrorNotifier();
 
     _registerCountryUser();
@@ -106,7 +107,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     );
     _logger.log(notifier, 'sendCode');
 
-    loader!.startLoading();
+    loader?.startLoading();
 
     try {
       final number = await decomposePhoneNumber(
@@ -134,6 +135,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
+        loader?.finishLoading();
         await sRouter.pop();
 
         return;
@@ -142,8 +144,10 @@ abstract class _SetPhoneNumberStoreBase with Store {
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();
 
+      loader?.finishLoading();
       then();
     } on ServerRejectException catch (e) {
+      loader?.finishLoading();
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
         level: Level.info,
@@ -154,6 +158,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
+      loader?.finishLoading();
       await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
@@ -168,7 +173,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
         id: 1,
       );
     } finally {
-      loader!.finishLoading();
+      loader?.finishLoading();
     }
   }
 
