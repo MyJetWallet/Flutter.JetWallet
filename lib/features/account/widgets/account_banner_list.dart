@@ -46,7 +46,6 @@ class _AccountBannerListState extends State<AccountBannerList> {
 
         return Column(
           children: [
-            const SpaceH20(),
             SizedBox(
               height: _bannerHeight(),
               child: PageView.builder(

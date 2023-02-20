@@ -46,7 +46,7 @@ class PinCodeField extends StatelessObserverWidget {
       keyboardType: TextInputType.number,
       pinTheme: PinTheme(
         fieldWidth: length == 4 ? 56.0 : 48.0,
-        fieldHeight: 42.0,
+        fieldHeight: 40.0,
         // colors of the selected box (body and border)
         selectedColor: colors.white,
         // color of the filled box (body and border)

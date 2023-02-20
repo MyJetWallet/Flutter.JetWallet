@@ -127,6 +127,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
+import '../../features/auth/splash/splash_screen_no_animation.dart';
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
@@ -153,6 +154,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/splash',
       name: 'SplashRoute',
       page: SplashScreen,
+    ),
+    AutoRoute(
+      path: '/splash_no_animation',
+      name: 'SplashNoAnimationRoute',
+      page: SplashScreenNoAnimation,
     ),
     AutoRoute(
       path: '/splash_screen',

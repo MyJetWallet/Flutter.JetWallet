@@ -18,6 +18,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -169,7 +170,9 @@ abstract class _AddBankCardStoreBase with Store {
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
 
-      final cardNumberString = cardNumber.replaceAll('\u{2005}', '');
+      final cardNumberString = cardNumber
+          .replaceAll('\u{2005}', '')
+          .replaceAll(' ', '');
 
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -194,53 +197,66 @@ abstract class _AddBankCardStoreBase with Store {
       final newCard = await sNetwork.getWalletModule().cardAdd(model);
       print(newCard);
 
-      if (isPreview) {
-        final cardNumberFinal = cardNumber.replaceAll('\u{2005}', '');
-        if (newCard.data?.data.status == CardStatus.verificationRequired) {
-          if (newCard.data?.data.requiredVerification ==
-              CardVerificationType.cardCheck) {
-            await sRouter.push(
-              UploadVerificationPhotoRouter(
-                cardId: newCard.data?.data.cardId ?? '',
-                onSuccess: () {
-                  showPreview(
-                    cardNumber: cardNumberFinal,
-                    currency: currency!,
-                    amount: amount,
+      newCard.pick(
+        onData: (data) async {
+          if (isPreview) {
+            final cardNumberFinal = cardNumber.replaceAll('\u{2005}', '');
+            if (newCard.data?.data.status == CardStatus.verificationRequired) {
+              if (newCard.data?.data.requiredVerification ==
+                  CardVerificationType.cardCheck) {
+                await sRouter.push(
+                  UploadVerificationPhotoRouter(
                     cardId: newCard.data?.data.cardId ?? '',
-                  );
-                },
-              ),
-            );
-          } else if (newCard.data?.data.requiredVerification ==
-              CardVerificationType.cardWithSelfieCheck) {
-            await sRouter.push(
-              UploadVerificationPhotoRouter(
-                isSelfie: true,
-                cardId: newCard.data?.data.cardId ?? '',
-                onSuccess: () {
-                  showPreview(
-                    cardNumber: cardNumberFinal,
-                    currency: currency!,
-                    amount: amount,
+                    onSuccess: () {
+                      showPreview(
+                        cardNumber: cardNumberFinal,
+                        currency: currency!,
+                        amount: amount,
+                        cardId: newCard.data?.data.cardId ?? '',
+                      );
+                    },
+                  ),
+                );
+              } else if (newCard.data?.data.requiredVerification ==
+                  CardVerificationType.cardWithSelfieCheck) {
+                await sRouter.push(
+                  UploadVerificationPhotoRouter(
+                    isSelfie: true,
                     cardId: newCard.data?.data.cardId ?? '',
-                  );
-                },
-              ),
-            );
+                    onSuccess: () {
+                      showPreview(
+                        cardNumber: cardNumberFinal,
+                        currency: currency!,
+                        amount: amount,
+                        cardId: newCard.data?.data.cardId ?? '',
+                      );
+                    },
+                  ),
+                );
+              }
+            } else if (newCard.data?.data.status == CardStatus.accepted) {
+              showPreview(
+                cardNumber: cardNumberFinal,
+                currency: currency!,
+                amount: amount,
+                cardId: newCard.data?.data.cardId ?? '',
+              );
+            } else {
+              _showFailureScreen();
+            }
           }
-        } else if (newCard.data?.data.status == CardStatus.accepted) {
-          showPreview(
-            cardNumber: cardNumberFinal,
-            currency: currency!,
-            amount: amount,
-            cardId: newCard.data?.data.cardId ?? '',
+          loader.finishLoading(onFinish: () => onSuccess());
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            duration: 4,
+            id: 1,
           );
-        } else {
-          _showFailureScreen();
-        }
-      }
-      loader.finishLoading(onFinish: () => onSuccess());
+          loader.finishLoading(onFinish: onError);
+        },
+      );
+
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
@@ -268,6 +284,7 @@ abstract class _AddBankCardStoreBase with Store {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
+      sAnalytics.newBuyBuyAssetView(asset: currency.symbol);
       sRouter.push(
         CurrencyBuyRouter(
           newBankCardId: cardId,

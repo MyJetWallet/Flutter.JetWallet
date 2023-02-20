@@ -81,31 +81,5 @@ List<Widget> createBannersList({
     );
   }
 
-  if (showChatChecker != '3' && !userInfo.userInfo.chatClosedOnThisSession) {
-    bannersList.add(
-      SimpleAccountBanner(
-        onTap: () {
-          onChatBannerTap?.call();
-        },
-        imageUrl: chatWithSupportAsset,
-        color: colors.violet,
-        header: intl.createBanners_header4,
-        description: '${intl.createBanners_bannerText4Part1}?\n'
-            '${intl.createBanners_bannerText4Part2}',
-        canClose: true,
-        onClose: () async {
-          sAnalytics.bannerClose(bannerName: 'Chat with support');
-          final closed = await storage.getValue(closedSupportBannerKey);
-          userInfo.updateChatClosed();
-          var closedCounter = 1;
-          if (closed != null) {
-            closedCounter = int.parse(closed) + 1;
-          }
-          await storage.setString(closedSupportBannerKey, '$closedCounter');
-        },
-      ),
-    );
-  }
-
   return bannersList;
 }

@@ -189,6 +189,7 @@ export 'modules/icons/24x24/public/gift_portfolio/simple_gift_portfolio_icon.dar
 export 'modules/icons/24x24/public/index_history/simple_index_history_icon.dart';
 export 'modules/icons/24x24/public/info/simple_info_icon.dart';
 export 'modules/icons/24x24/public/info/simple_info_pressed_icon.dart';
+export 'modules/icons/24x24/public/invite_friends/simple_invite_friends_icon.dart';
 export 'modules/icons/24x24/public/kyc/simple_document_icon.dart';
 export 'modules/icons/24x24/public/lock/simple_lock_icon.dart';
 export 'modules/icons/24x24/public/log_out/simple_log_out_icon.dart';
@@ -200,6 +201,7 @@ export 'modules/icons/24x24/public/paste/simple_paste_pressed_icon.dart';
 export 'modules/icons/24x24/public/pause/simple_pause_icon.dart';
 export 'modules/icons/24x24/public/paused/simple_paused_icon.dart';
 export 'modules/icons/24x24/public/persona/simple_selfie_icon.dart';
+export 'modules/icons/24x24/public/phone_call/simple_phone_call_icon.dart';
 export 'modules/icons/24x24/public/phone/simple_phone_icon.dart';
 export 'modules/icons/24x24/public/photo/simple_photo_icon.dart';
 export 'modules/icons/24x24/public/photo/simple_photo_pressed_icon.dart';

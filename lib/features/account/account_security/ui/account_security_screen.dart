@@ -107,9 +107,10 @@ class _AccountSecurityState extends State<AccountSecurity> {
           ),
           if (userInfo.pinEnabled)
             SimpleAccountCategoryButton(
-              title: intl.accountSecurity_changePin,
+              title: intl.accountSecurity_accountPIN,
+              showEditIcon: true,
               icon: const SChangePinIcon(),
-              isSDivider: true,
+              isSDivider: false,
               onTap: () => sRouter.push(PinScreenRoute(union: const Change())),
             ),
         ],

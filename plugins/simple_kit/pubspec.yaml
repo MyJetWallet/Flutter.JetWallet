@@ -87,6 +87,7 @@ flutter:
     - assets/icons/light/24x24/forward/
     - assets/icons/light/24x24/profile/about_us/
     - assets/icons/light/24x24/profile/faq/
+    - assets/icons/light/24x24/profile/invite_friends/
     - assets/icons/light/24x24/profile/log_out/
     - assets/icons/light/24x24/profile/notifications/
     - assets/icons/light/24x24/profile/profile_details/
@@ -110,6 +111,7 @@ flutter:
     - assets/icons/light/24x24/qr_code/
     - assets/icons/light/24x24/adv_cash/
     - assets/icons/light/24x24/phone/
+    - assets/icons/light/24x24/phone_call/
     - assets/icons/light/24x24/wallet/
     - assets/icons/light/24x24/wire/
     - assets/icons/light/24x24/complete/

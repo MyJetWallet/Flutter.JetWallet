@@ -22,7 +22,6 @@ class _SimplexWebViewState extends State<SimplexWebView> {
   @override
   void initState() {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-    sAnalytics.simplexView(widget.url);
 
     super.initState();
   }
@@ -42,7 +41,6 @@ class _SimplexWebViewState extends State<SimplexWebView> {
             (value) =>
                 sRouter.push(const HomeRouter(children: [PortfolioRouter()])),
           );
-      sAnalytics.simplexSucsessView(widget.url);
     }
 
     void _showFailure() {
@@ -59,7 +57,6 @@ class _SimplexWebViewState extends State<SimplexWebView> {
           onSecondaryButtonTap: () => navigateToRouter(),
         ),
       );
-      sAnalytics.simplexFailureView(widget.url);
     }
 
     return WillPopScope(

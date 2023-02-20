@@ -7,12 +7,17 @@ import 'package:simple_kit/modules/icons/24x24/light/edit/simple_light_edit_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SEditIcon extends StatelessObserverWidget {
-  const SEditIcon({Key? key}) : super(key: key);
+  const SEditIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightEditIcon()
-        : const SimpleLightEditIcon();
+        ? SimpleLightEditIcon(color: color)
+        : SimpleLightEditIcon(color: color);
   }
 }

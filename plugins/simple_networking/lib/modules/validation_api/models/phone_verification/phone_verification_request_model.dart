@@ -12,6 +12,7 @@ class PhoneVerificationRequestModel with _$PhoneVerificationRequestModel {
     required String phoneIso,
     required int verificationType,
     required String requestId,
+    String? pin,
   }) = _PhoneVerificationRequestModel;
 
   factory PhoneVerificationRequestModel.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -13,6 +15,7 @@ class Circle3dSecureWebView extends StatelessWidget {
     this.onSuccess,
     this.onCancel,
     this.paymentId,
+    this.onFailed,
   );
 
   final String url;
@@ -20,6 +23,7 @@ class Circle3dSecureWebView extends StatelessWidget {
   final String amount;
   final String paymentId;
   final Function(String, String) onSuccess;
+  final Function(String) onFailed;
   final Function(String)? onCancel;
 
   @override
@@ -68,22 +72,32 @@ class Circle3dSecureWebView extends StatelessWidget {
 
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
-                    sRouter.push(
-                      FailureScreenRouter(
-                        primaryText: intl.previewBuyWithAsset_failure,
-                        secondaryText: intl.something_went_wrong,
-                        primaryButtonName: intl.previewBuyWithAsset_editOrder,
-                        onPrimaryButtonTap: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        secondaryButtonName: intl.previewBuyWithAsset_close,
-                        onSecondaryButtonTap: () {
+                    if (onFailed != null) {
+                      onFailed!.call(intl.something_went_wrong);
+                      Timer(
+                        const Duration(seconds: 3),
+                        () {
                           navigateToRouter();
                         },
-                      ),
-                    );
+                      );
+                    } else {
+                      sRouter.push(
+                        FailureScreenRouter(
+                          primaryText: intl.previewBuyWithAsset_failure,
+                          secondaryText: intl.something_went_wrong,
+                          primaryButtonName: intl.previewBuyWithAsset_editOrder,
+                          onPrimaryButtonTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          secondaryButtonName: intl.previewBuyWithAsset_close,
+                          onSecondaryButtonTap: () {
+                            navigateToRouter();
+                          },
+                        ),
+                      );
+                    }
                   } else if (uri.path == '/circle/success' ||
                       uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
