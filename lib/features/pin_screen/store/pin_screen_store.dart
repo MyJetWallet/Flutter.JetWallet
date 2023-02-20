@@ -32,16 +32,14 @@ const pinBoxErrorDuration = Duration(milliseconds: 400);
 
 class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
   PinScreenStore(
-    PinFlowUnion flowUnionflowUnion,
-    {
-      bool isChangePhone = false,
-      Function(String)? onChangePhone,
-    }
-  ) : super(
-    flowUnionflowUnion,
-    isChangePhone,
-    onChangePhone,
-  );
+    PinFlowUnion flowUnionflowUnion, {
+    bool isChangePhone = false,
+    Function(String)? onChangePhone,
+  }) : super(
+          flowUnionflowUnion,
+          isChangePhone,
+          onChangePhone,
+        );
 
   static _PinScreenStoreBase of(BuildContext context) =>
       Provider.of<PinScreenStore>(context, listen: false);
@@ -49,12 +47,10 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
 
 abstract class _PinScreenStoreBase with Store {
   _PinScreenStoreBase(
-      this.flowUnion,
-      this.isChangePhone,
-      this.onChangePhone,
-  ) {
-    _initDefaultScreen();
-  }
+    this.flowUnion,
+    this.isChangePhone,
+    this.onChangePhone,
+  );
 
   final PinFlowUnion flowUnion;
   final bool isChangePhone;
@@ -102,6 +98,9 @@ abstract class _PinScreenStoreBase with Store {
   int lockTime = 0;
 
   @observable
+  bool isBioBeenUsed = false;
+
+  @observable
   GlobalKey<ShakeWidgetState> shakePinKey = GlobalKey<ShakeWidgetState>();
 
   @observable
@@ -128,8 +127,21 @@ abstract class _PinScreenStoreBase with Store {
     return pin.length >= boxId ? PinBoxEnum.filled : PinBoxEnum.empty;
   }
 
+  @observable
+  bool inited = false;
+
   @action
-  Future<void> _initDefaultScreen() async {
+  Future<void> initDefaultScreen() async {
+    //print('initDefaultScreen $inited');
+
+    print(getIt<AppRouter>().currentPath);
+
+    if (inited) return;
+
+    inited = true;
+
+    //print('initDefaultScreen $inited');
+
     final auth = LocalAuthentication();
     var bioStatus = BiometricStatus.none;
 
@@ -295,6 +307,7 @@ abstract class _PinScreenStoreBase with Store {
             },
             orElse: () async {
               await _animateCorrect();
+
               if (isChangePhone && onChangePhone != null) {
                 if (isChangePhone) {
                   loader.startLoading();
@@ -328,6 +341,10 @@ abstract class _PinScreenStoreBase with Store {
               _updateNewPin('');
               _updatePinBoxState(PinBoxEnum.empty);
             } else {
+              if (isChangePhone) {
+                await sRouter.pop();
+                await sRouter.pop();
+              }
               sNotification.showError(
                 'Incorrect PIN has been entered more than $maxPinAttempts times, '
                 'you have been logged out of your account.',
@@ -339,6 +356,7 @@ abstract class _PinScreenStoreBase with Store {
 
             await resetPin();
           } else {
+
             if (isChangePhone) {
               await sRouter.pop();
             }
@@ -565,11 +583,17 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<String> _authenticateWithBio() async {
-    final success = await makeAuthWithBiometrics(
-      intl.pinScreen_weNeedYouToConfirmYourIdentity,
-    );
+    if (!isBioBeenUsed) {
+      final success = await makeAuthWithBiometrics(
+        intl.pinScreen_weNeedYouToConfirmYourIdentity,
+      );
 
-    return success ? _userInfo.pin ?? '' : '';
+      isBioBeenUsed = true;
+
+      return success ? _userInfo.pin ?? '' : '';
+    } else {
+      return '';
+    }
   }
 
   @action
