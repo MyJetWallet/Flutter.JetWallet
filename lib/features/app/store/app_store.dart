@@ -222,14 +222,9 @@ abstract class _AppStoreBase with Store {
         },
       );
     } else {
-      Timer(
-        const Duration(milliseconds: 500),
-        () {
-          getIt<AppRouter>().replaceAll([
-            const SplashNoAnimationRoute(),
-          ]);
-        },
-      );
+      await getIt<AppRouter>().replaceAll([
+        const SplashNoAnimationRoute(),
+      ]);
     }
   }
 
