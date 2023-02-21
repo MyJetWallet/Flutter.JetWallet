@@ -223,7 +223,7 @@ abstract class _AppStoreBase with Store {
       );
     } else {
       await getIt<AppRouter>().replaceAll([
-        SplashNoAnimationRoute(),
+        const SplashNoAnimationRoute(),
       ]);
     }
   }
