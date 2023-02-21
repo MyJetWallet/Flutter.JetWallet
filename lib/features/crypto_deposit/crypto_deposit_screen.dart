@@ -251,7 +251,9 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         ' ${intl.cryptoDeposit_address}: '
                         '${deposit.address} '
                         '${deposit.tag != null ? ', ${intl.tag}: '
-                            '${deposit.tag}' : ''}',
+                            '${deposit.tag}' : ''} \n'
+                        '${intl.cryptoDeposit_network}: '
+                        '${deposit.network.description}',
                       );
                     } catch (e) {
                       rethrow;
