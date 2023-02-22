@@ -9,6 +9,7 @@ const processingAnimationAsset = 'assets/animations/processing.riv';
 const watchlistImageAsset = 'assets/images/watchlist.png';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
 const simpleEllipseAsset = 'assets/images/simple_ellipse.png';
+const emptyHistoryAsset = 'assets/images/history_empty.png';
 
 // Portfolio
 const earnImageAsset = 'assets/images/earn.png';
