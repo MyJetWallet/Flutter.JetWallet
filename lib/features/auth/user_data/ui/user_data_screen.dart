@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
@@ -50,9 +51,16 @@ class _UserDataScreenBody extends StatelessObserverWidget {
           loading: birthDateInfo.loader,
           color: colors.grey5,
           header: SAuthHeader(
-            customIconButton: const SpaceH24(),
+            //customIconButton: const SpaceH24(),
             progressValue: 60,
             title: intl.user_data_whats_your_name,
+            customIconButton: SIconButton(
+              onTap: () {
+                sRouter.push(const VerificationRouter());
+              },
+              defaultIcon: const SCloseIcon(),
+              pressedIcon: const SClosePressedIcon(),
+            ),
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),

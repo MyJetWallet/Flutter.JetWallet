@@ -246,11 +246,14 @@ abstract class _EmailVerificationStoreBase with Store {
 
           await startSession(authInfo.authState.email);
 
-          await sRouter.push(
-            TwoFaPhoneRouter(
-              trigger: TwoFaPhoneTriggerUnion.startup(),
-            ),
-          );
+          print(getIt.get<AppStore>().authStatus);
+
+          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          getIt
+              .get<StartupService>()
+              .successfullAuthentication(needPush: false);
+
+          print(getIt.get<AppStore>().sessionID);
 
           //authInfo.setAuthStatus(const AuthorizationUnion.authorized());
           //getIt.get<StartupService>().successfullAuthentication();

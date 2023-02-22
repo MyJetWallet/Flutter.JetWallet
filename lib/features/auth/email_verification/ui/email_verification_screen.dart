@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -159,7 +160,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
           title: intl.emailVerification_emailVerification,
           customIconButton: SIconButton(
             onTap: () {
-              sRouter.push(VerificationRouter());
+              sRouter.replaceAll([const OnboardingRoute()]);
             },
             defaultIcon: const SCloseIcon(),
             pressedIcon: const SClosePressedIcon(),

@@ -22,12 +22,14 @@ class SetPhoneNumber extends StatelessObserverWidget {
     Key? key,
     this.then,
     this.isChangePhone = false,
+    this.fromRegister = false,
     required this.successText,
   }) : super(key: key);
 
   final Function()? then;
   final String successText;
   final bool isChangePhone;
+  final bool fromRegister;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,15 @@ class SetPhoneNumber extends StatelessObserverWidget {
         child: SBigHeader(
           title: intl.setPhoneNumber_phoneNumber,
           isSmallSize: true,
+          customIconButton: fromRegister
+              ? SIconButton(
+                  onTap: () {
+                    sRouter.push(const VerificationRouter());
+                  },
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
+                )
+              : null,
         ),
       ),
       child: Column(
@@ -131,6 +142,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
 
                       return;
                     }
+
                     if (store.canCLick) {
                       store.toggleClick(false);
 
@@ -143,6 +155,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     } else {
                       return;
                     }
+
                     sAnalytics.kycEnterPhoneNumber();
                     sAnalytics.accountEnterNumber();
 
@@ -150,7 +163,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                       store.updatePin(newPin);
                       store.sendCode(
                         then: () {
-                          sRouter.replace(
+                          sRouter.push(
                             PhoneVerificationRouter(
                               args: PhoneVerificationArgs(
                                 phoneNumber: store.phoneNumber(),

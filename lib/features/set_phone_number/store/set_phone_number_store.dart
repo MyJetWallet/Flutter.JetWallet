@@ -100,10 +100,10 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   Future<void> sendCode({required void Function() then}) async {
     getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'sendCode',
-      message: 'sendCode start',
-    );
+          level: Level.info,
+          place: 'sendCode',
+          message: 'sendCode start',
+        );
     _logger.log(notifier, 'sendCode');
 
     loader!.startLoading();
@@ -146,29 +146,33 @@ abstract class _SetPhoneNumberStoreBase with Store {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$e',
-      );
+            level: Level.info,
+            place: 'sendCode',
+            message: '$e',
+          );
       await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
+      print(e);
+
+      loader!.finishLoadingImmediately();
+
       await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$e',
-      );
+            level: Level.info,
+            place: 'sendCode',
+            message: '$e',
+          );
 
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
       );
     } finally {
-      loader!.finishLoading();
+      loader!.finishLoadingImmediately();
     }
   }
 
@@ -232,11 +236,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   void updatePhoneNumber(String phoneNumber) {
     final checkStartNumber = _parsePhoneNumber(phoneNumber);
-    if (
-      !validWeakPhoneNumber(checkStartNumber) &&
-      phoneNumber.isNotEmpty &&
-      phoneNumber != '+'
-    ) {
+    if (!validWeakPhoneNumber(checkStartNumber) &&
+        phoneNumber.isNotEmpty &&
+        phoneNumber != '+') {
       phoneNumberController.text = phoneInput;
 
       return;
@@ -248,7 +250,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
       final dialString = dialCodeController.text;
       for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
-        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        final phoneSearchShort =
+            finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
           mustToSubstring = true;
           if (charsToSubstring < dialStringCheck.length) {

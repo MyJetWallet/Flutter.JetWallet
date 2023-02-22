@@ -4,21 +4,17 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
-import 'package:jetwallet/core/services/dynamic_link_service.dart';
-import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -29,6 +25,7 @@ import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -99,6 +96,8 @@ abstract class _AppStoreBase with Store {
   Future<void> checkInitRouter() async {
     FlutterNativeSplash.remove();
 
+    print('checkInitRouter');
+
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
@@ -137,14 +136,29 @@ abstract class _AppStoreBase with Store {
             twoFaVerification: () {
               //initRouter = const RouterUnion.twoFaVerification();
 
-              getIt<AppRouter>().replaceAll([
+              /*getIt<AppRouter>().replaceAll([
                 TwoFaPhoneRouter(
                   trigger: TwoFaPhoneTriggerUnion.startup(),
+                ),
+              ]);
+              */
+
+              getIt<AppRouter>().replaceAll([
+                SetPhoneNumberRouter(
+                  successText: intl.profileDetails_newPhoneNumberConfirmed,
+                  fromRegister: true,
+                  then: () {
+                    getIt.get<StartupService>().authenticatedBoot();
+
+                    getIt.get<VerificationStore>().phoneDone();
+                  },
                 ),
               ]);
             },
             pinSetup: () {
               //initRouter = const RouterUnion.pinSetup();
+
+              print('pin setup');
 
               if (sRouter.current.path != '/pin_screen') {
                 getIt<AppRouter>().replaceAll([
@@ -157,6 +171,8 @@ abstract class _AppStoreBase with Store {
             },
             pinVerification: () {
               //initRouter = const RouterUnion.pinVerification();
+
+              print('pinVerification');
 
               if (openPinVerification) return;
               openPinVerification = true;

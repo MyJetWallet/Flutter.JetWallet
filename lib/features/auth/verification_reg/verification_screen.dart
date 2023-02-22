@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 
-class VerificationScreen extends StatelessWidget {
+class VerificationScreen extends StatelessObserverWidget {
   const VerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+
+    final store = getIt<VerificationStore>();
 
     return SPageFrameWithPadding(
       child: Column(
@@ -63,24 +71,43 @@ class VerificationScreen extends StatelessWidget {
           _verificationItem(
             intl.email_verification,
             '1',
-            isDone: true,
+            isDone: store.isEmailDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.phone_number,
             '2',
-            haveLink: true,
+            haveLink: !store.isPhoneDone,
             linkText: intl.provide_information,
-            isDisabled: true,
+            linkAction: () {
+              sRouter.replace(
+                SetPhoneNumberRouter(
+                  successText: intl.profileDetails_newPhoneNumberConfirmed,
+                  fromRegister: true,
+                  then: () {
+                    getIt.get<StartupService>().authenticatedBoot();
+
+                    getIt.get<VerificationStore>().phoneDone();
+                  },
+                ),
+              );
+            },
+            isDisabled: store.step != VerificationScreenStep.Phone,
+            isDone: store.isPhoneDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.personal_details,
             '3',
             haveSubText: true,
+            haveLink: store.step == VerificationScreenStep.PersonalDetail,
             linkText: intl.provide_information,
+            linkAction: () {
+              sRouter.replace(const UserDataScreenRouter());
+            },
             subtext: intl.personal_details_descr,
-            isDisabled: true,
+            isDisabled: store.step != VerificationScreenStep.PersonalDetail,
+            isDone: store.isPersonalDetailsDone,
           ),
           const SpaceH24(),
           _verificationItem(
@@ -88,8 +115,18 @@ class VerificationScreen extends StatelessWidget {
             '4',
             haveSubText: true,
             subtext: intl.pin_code_descr,
+            haveLink: store.step == VerificationScreenStep.Pin,
             linkText: intl.create_pin_code,
+            linkAction: () {
+              getIt<AppRouter>().replaceAll([
+                PinScreenRoute(
+                  union: Setup(),
+                  cannotLeave: true,
+                ),
+              ]);
+            },
             isDisabled: true,
+            isDone: store.isCreatePinDone,
           ),
         ],
       ),
@@ -104,6 +141,7 @@ class VerificationScreen extends StatelessWidget {
     String? subtext,
     bool haveLink = false,
     String? linkText,
+    Function()? linkAction,
     bool isDisabled = false,
   }) {
     final colors = sKit.colors;
@@ -162,7 +200,7 @@ class VerificationScreen extends StatelessWidget {
               if (haveLink) ...[
                 const SpaceH12(),
                 InkWell(
-                  onTap: () {},
+                  onTap: linkAction,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,

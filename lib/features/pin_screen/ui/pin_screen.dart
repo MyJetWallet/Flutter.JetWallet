@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
@@ -123,6 +124,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     onBackButtonTap: () {
                       onbackButton!();
                     },
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        sRouter.push(const VerificationRouter());
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
                   );
                 },
               ),

@@ -413,6 +413,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           then: args.then,
           isChangePhone: args.isChangePhone,
+          fromRegister: args.fromRegister,
           successText: args.successText,
         ),
       );
@@ -2567,6 +2568,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
     Key? key,
     dynamic Function()? then,
     bool isChangePhone = false,
+    bool fromRegister = false,
     required String successText,
   }) : super(
           SetPhoneNumberRouter.name,
@@ -2575,6 +2577,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
             key: key,
             then: then,
             isChangePhone: isChangePhone,
+            fromRegister: fromRegister,
             successText: successText,
           ),
         );
@@ -2587,6 +2590,7 @@ class SetPhoneNumberRouterArgs {
     this.key,
     this.then,
     this.isChangePhone = false,
+    this.fromRegister = false,
     required this.successText,
   });
 
@@ -2596,11 +2600,13 @@ class SetPhoneNumberRouterArgs {
 
   final bool isChangePhone;
 
+  final bool fromRegister;
+
   final String successText;
 
   @override
   String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, successText: $successText}';
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, fromRegister: $fromRegister, successText: $successText}';
   }
 }
 
