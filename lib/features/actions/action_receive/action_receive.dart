@@ -226,7 +226,8 @@ class _ActionReceive extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = searchStore;
-    sortByBalanceAndWeight(state.filteredCurrencies);
+    final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
+    sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
     currencyFiltered = currencyFiltered.where(
           (element) => element.type == AssetType.crypto &&

@@ -71,6 +71,7 @@ class ConvertRow extends StatelessObserverWidget {
             searchStore: searchStore,
             currency: currency,
           ),
+          const SpaceH42(),
         ],
         then: (value) {
           if (value is CurrencyModel) {
@@ -168,7 +169,6 @@ class _ActionConvert extends StatelessObserverWidget {
 
     return Observer(
         builder: (context) {
-
           return Column(
             children: [
               for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithBalance)
@@ -181,7 +181,8 @@ class _ActionConvert extends StatelessObserverWidget {
                   name: item.description,
                   description: item.symbol,
                   amount: item.volumeBaseBalance(baseCurrency),
-                  divider: item != state.convertCurrenciesWithBalance.last,
+                  removeDivider: item == getIt.get<ActionSearchStore>()
+                      .convertCurrenciesWithBalance.last,
                   onTap: () {
                     if (currency == item) {
                       Navigator.pop(context);
@@ -190,6 +191,11 @@ class _ActionConvert extends StatelessObserverWidget {
                     }
                   },
                 ),
+              const SpaceH11(),
+              SDivider(
+                color: sKit.colors.grey3,
+              ),
+              const SpaceH11(),
               for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance)
                 SAssetItem(
                   isSelected: currency == item,
@@ -200,7 +206,8 @@ class _ActionConvert extends StatelessObserverWidget {
                   name: item.description,
                   description: item.symbol,
                   amount: item.volumeBaseBalance(baseCurrency),
-                  divider: item != state.convertCurrenciesWithoutBalance.last,
+                  removeDivider: item == getIt.get<ActionSearchStore>()
+                      .convertCurrenciesWithoutBalance.last,
                   onTap: () {
                     if (currency == item) {
                       Navigator.pop(context);
