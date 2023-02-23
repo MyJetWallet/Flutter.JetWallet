@@ -82,7 +82,7 @@
   "serverCode217_paymentFailed": "Payment failed",
   "serverCode218_cardFirstAndLastNameCannotBeEmpty": "Card first and last name cannot be empty",
   "serverCode219_invalidGuid": "Invalid guid",
-  "pinScreen_setNewPin": "Create a PIN code",
+  "pinScreen_setNewPin": "Create PIN code",
   "pinScreen_confirmNewPin": "Confirm PIN code",
   "pinScreen_enterYourPIN": "Enter your PIN",
   "pinScreen_enterPin": "Enter PIN",

@@ -129,121 +129,97 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
     sAnalytics.emailVerificationView();
 
-    return ReactionBuilder(
-      builder: (context) {
-        return reaction<EmailVerificationUnion>(
-          (_) => verification.union,
-          (result) {
-            result.maybeWhen(
-              error: (Object? error) {
-                verification.loader.finishLoading();
-                verification.pinError.enableError();
-                sNotification.showError(
-                  error.toString(),
-                  id: 1,
-                );
-
-                verification.updateCode('');
-                focusNode.requestFocus();
-              },
-              orElse: () {},
-            );
+    return SPageFrame(
+      loaderText: intl.register_pleaseWait,
+      loading: verification.loader,
+      header: SAuthHeader(
+        title: intl.emailVerification_emailVerification,
+        customIconButton: SIconButton(
+          onTap: () {
+            sRouter.replaceAll([const OnboardingRoute()]);
           },
-          fireImmediately: true,
-        );
-      },
-      child: SPageFrame(
-        loaderText: intl.register_pleaseWait,
-        loading: verification.loader,
-        header: SAuthHeader(
-          title: intl.emailVerification_emailVerification,
-          customIconButton: SIconButton(
-            onTap: () {
-              sRouter.replaceAll([const OnboardingRoute()]);
-            },
-            defaultIcon: const SCloseIcon(),
-            pressedIcon: const SClosePressedIcon(),
-          ),
-          isAutoSize: true,
+          defaultIcon: const SCloseIcon(),
+          pressedIcon: const SClosePressedIcon(),
         ),
-        child: SingleChildScrollView(
-          child: SPaddingH24(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SpaceH4(),
-                FittedBox(
-                  child: Text(
-                    intl.emailVerification_enterCode,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
-                    ),
+        isAutoSize: true,
+      ),
+      child: SingleChildScrollView(
+        child: SPaddingH24(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceH4(),
+              FittedBox(
+                child: Text(
+                  intl.emailVerification_enterCode,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
                   ),
                 ),
-                Text(
-                  authInfo.email,
-                  style: sBodyText1Style,
-                ),
-                const SpaceH16(),
-                SClickableLinkText(
-                  text: intl.emailVerification_openEmail,
-                  onTap: () => openEmailApp(context),
-                ),
-                const SpaceH61(),
-                GestureDetector(
-                  onLongPress: () => verification.pasteCode(),
-                  onDoubleTap: () => verification.pasteCode(),
-                  onTap: () {
-                    focusNode.unfocus();
-                    Future.delayed(const Duration(microseconds: 100), () {
-                      if (!focusNode.hasFocus) {
-                        focusNode.requestFocus();
-                      }
-                    });
-                  },
-                  // AbsorbPointer needed to avoid TextField glitch onTap
-                  // when it's focused
-                  child: AbsorbPointer(
-                    child: PinCodeField(
-                      focusNode: focusNode,
-                      controller: verification.controller,
-                      length: emailVerificationCodeLength,
-                      onCompleted: (_) {
-                        userInfoN.updateIsJustLogged(value: true);
-                        verification.loader.startLoadingImmediately();
-                        verification.verifyCode();
-                      },
-                      autoFocus: true,
-                      onChanged: (_) {
-                        verification.pinError.disableError();
-                      },
-                      pinError: verification.pinError,
-                    ),
-                  ),
-                ),
-                // const Spacer(),
-                if (timer.time > 0 && !verification.isResending) ...[
-                  ResendInText(
-                    text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
-                        ' ${intl.twoFaPhone_seconds}',
-                  ),
-                ] else ...[
-                  ResendInText(
-                    text: '${intl.twoFaPhone_didntReceiveTheCode}?',
-                  ),
-                  const SpaceH30(),
-                  STextButton1(
-                    active: !verification.isResending,
-                    name: intl.twoFaPhone_resend,
-                    onTap: () {
-                      timer.refreshTimer();
-                      verification.resendCode(timer);
+              ),
+              Text(
+                authInfo.email,
+                style: sBodyText1Style,
+              ),
+              const SpaceH16(),
+              SClickableLinkText(
+                text: intl.emailVerification_openEmail,
+                onTap: () => openEmailApp(context),
+              ),
+              const SpaceH61(),
+              GestureDetector(
+                onLongPress: () => verification.pasteCode(),
+                onDoubleTap: () => verification.pasteCode(),
+                onTap: () {
+                  focusNode.unfocus();
+                  Future.delayed(const Duration(microseconds: 100), () {
+                    if (!focusNode.hasFocus) {
+                      focusNode.requestFocus();
+                    }
+                  });
+                },
+                // AbsorbPointer needed to avoid TextField glitch onTap
+                // when it's focused
+                child: AbsorbPointer(
+                  child: PinCodeField(
+                    focusNode: focusNode,
+                    controller: verification.controller,
+                    length: emailVerificationCodeLength,
+                    onCompleted: (_) {
+                      userInfoN.updateIsJustLogged(value: true);
+                      verification.loader.startLoadingImmediately();
+                      verification.verifyCode();
                     },
+                    autoFocus: true,
+                    onChanged: (_) {
+                      verification.pinError.disableError();
+                    },
+                    pinError: verification.pinError,
                   ),
-                ],
-                const SpaceH24(),
+                ),
+              ),
+              // const Spacer(),
+              if (timer.time > 0 && !verification.isResending) ...[
+                ResendInText(
+                  text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
+                      ' ${intl.twoFaPhone_seconds}',
+                ),
+              ] else ...[
+                ResendInText(
+                  text: '${intl.twoFaPhone_didntReceiveTheCode}?',
+                ),
+                const SpaceH30(),
+                STextButton1(
+                  active: !verification.isResending,
+                  name: intl.twoFaPhone_resend,
+                  onTap: () {
+                    timer.refreshTimer();
+                    verification.resendCode(timer);
+                  },
+                ),
               ],
-            ),
+              const SpaceH24(),
+            ],
           ),
         ),
       ),

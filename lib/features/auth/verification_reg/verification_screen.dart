@@ -29,6 +29,8 @@ class VerificationScreen extends StatelessObserverWidget {
           Align(
             alignment: Alignment.centerRight,
             child: InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onTap: () {
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
@@ -203,7 +205,7 @@ class VerificationScreen extends StatelessObserverWidget {
               if (haveLink) ...[
                 const SpaceH12(),
                 InkWell(
-                  highlightColor: colors.grey5,
+                  highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onTap: linkAction,
                   child: Row(

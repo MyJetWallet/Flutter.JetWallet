@@ -55,6 +55,7 @@ class _DialCodes extends StatelessObserverWidget {
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
 
     return ListView.builder(
+      padding: EdgeInsets.zero,
       itemCount: store.sortedDialCodes.length,
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),

@@ -267,14 +267,22 @@ abstract class _EmailVerificationStoreBase with Store {
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
 
-          union = error.cause.contains('50') || error.cause.contains('40')
-              ? EmailVerificationUnion.error(
-                  intl.something_went_wrong_try_again)
-              : EmailVerificationUnion.error(error.cause);
+          pinError.enableError();
+
+          loader.finishLoading();
+
+          sNotification.showError(
+            error.cause.contains('50') || error.cause.contains('40')
+                ? intl.something_went_wrong_try_again
+                : error.cause,
+            id: 1,
+          );
         },
       );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
+
+      pinError.enableError();
 
       union = error.cause.contains('50') || error.cause.contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
@@ -282,76 +290,12 @@ abstract class _EmailVerificationStoreBase with Store {
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
 
+      pinError.enableError();
+
       union = error.toString().contains('50') || error.toString().contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
           : EmailVerificationUnion.error(error);
     }
-
-    /*
-    union = const EmailVerificationUnion.loading();
-
-    final authService = read(authServicePod);
-    final storageService = sLocalStorageService;
-    final rsaService = getIt.get<RsaService>();
-
-    final authInfo = getIt.get<AppStore>().authState;
-    final authInfoN = read(authInfoNotipod.notifier);
-    final router = read(authorizationStpod.notifier);
-
-    rsaService.init();
-    await rsaService.savePrivateKey(storageService);
-    final publicKey = rsaService.publicKey;
-
-    try {
-      final model = ConfirmEmailLoginRequestModel(
-        verificationToken: authInfo.verificationToken,
-        code: controller.text,
-        publicKeyPem: publicKey,
-        email: authInfo.email,
-      );
-
-      final response =
-          await sNetwork.getAuthModule().postConfirmEmailLogin(model);
-
-      response.pick(
-        onData: (data) async {
-          read(authInfoNotipod.notifier).state.copyWith(token: response.token);
-
-          await storageService.setString(
-            refreshTokenKey,
-            data.refreshToken,
-          );
-          await storageService.setString(userEmailKey, authInfo.email);
-
-          authInfoN.updateToken(data.token);
-          authInfoN.updateRefreshToken(data.refreshToken);
-
-          router.state = const Authorized();
-
-          read(startupNotipod.notifier).successfullAuthentication();
-
-          union = const EmailVerificationUnion.input();
-
-          await startSession(authInfo.email);
-
-          _logger.log(stateFlow, 'verifyCode', state);
-        },
-        onError: (error) {
-          _logger.log(stateFlow, 'verifyCode', error.cause);
-
-          union = EmailVerificationUnion.error(error.cause);
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, 'verifyCode', error.cause);
-
-      union = EmailVerificationUnion.error(error.cause);
-    } catch (error) {
-      _logger.log(stateFlow, 'verifyCode', error);
-
-      union = EmailVerificationUnion.error(error);
-    }
-    */
   }
 
   @action

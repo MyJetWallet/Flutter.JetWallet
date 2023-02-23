@@ -111,16 +111,18 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 confirmPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
-                    onBackButtonTap: () {
-                      onbackButton!();
-                    },
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        sRouter.push(const VerificationRouter());
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
                   );
                 },
                 newPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
                     onBackButtonTap: () {
                       onbackButton!();
                     },
@@ -151,6 +153,14 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   ),
                 ),
               const Spacer(),
+              Opacity(
+                opacity: pin.isError ? 1 : 0,
+                child: Text(
+                  'Incorrect PIN',
+                  style: sSubtitle3Style.copyWith(color: colors.red),
+                ),
+              ),
+              const SpaceH53(),
               Observer(
                 builder: (context) {
                   return ShakeWidget(
