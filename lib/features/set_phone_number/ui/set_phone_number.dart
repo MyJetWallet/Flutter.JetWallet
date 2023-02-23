@@ -70,6 +70,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
     sAnalytics.kycPhoneConfirmationView();
 
     return SPageFrame(
+      key: UniqueKey(),
       loaderText: intl.setPhoneNumber_pleaseWait,
       loading: store.loader,
       color: colors.grey5,
@@ -117,6 +118,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           labelText: intl.setPhoneNumber_code,
                           readOnly: true,
                           hideClearButton: true,
+                          focusNode: store.dialFocusNode,
                           controller: store.dialCodeController,
                         ),
                       ),
@@ -133,7 +135,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           child: SStandardField(
                             labelText: intl.setPhoneNumber_phoneNumber,
                             focusNode: store.focusNode,
-                            autofocus: true,
                             autofillHints: const [
                               AutofillHints.telephoneNumber,
                             ],

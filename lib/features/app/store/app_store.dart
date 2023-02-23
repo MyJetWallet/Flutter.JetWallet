@@ -91,6 +91,7 @@ abstract class _AppStoreBase with Store {
   /// Костыль, позже убрать
   var openPinVerification = false;
   var homeOpened = false;
+  String lastRoute = '';
 
   @action
   Future<void> checkInitRouter() async {
@@ -141,26 +142,24 @@ abstract class _AppStoreBase with Store {
               ]);
               */
 
-              print(sRouter.current.path);
+              if (lastRoute != 'verification_screen') {
+                getIt<AppRouter>().replaceAll([
+                  SetPhoneNumberRouter(
+                    successText: intl.profileDetails_newPhoneNumberConfirmed,
+                    fromRegister: true,
+                    then: () {
+                      getIt.get<StartupService>().authenticatedBoot();
 
-              getIt<AppRouter>().replaceAll([
-                SetPhoneNumberRouter(
-                  successText: intl.profileDetails_newPhoneNumberConfirmed,
-                  fromRegister: true,
-                  then: () {
-                    getIt.get<StartupService>().authenticatedBoot();
+                      getIt.get<VerificationStore>().phoneDone();
+                    },
+                  ),
+                ]);
+              }
 
-                    getIt.get<VerificationStore>().phoneDone();
-                  },
-                ),
-              ]);
+              lastRoute = 'verification_screen';
             },
             pinSetup: () {
-              //initRouter = const RouterUnion.pinSetup();
-
-              print('pin setup');
-
-              if (sRouter.current.path != '/pin_screen') {
+              if (lastRoute != '/pin_screen') {
                 getIt<AppRouter>().replaceAll([
                   PinScreenRoute(
                     union: Setup(),
@@ -168,12 +167,10 @@ abstract class _AppStoreBase with Store {
                   ),
                 ]);
               }
+
+              lastRoute = 'pin_screen';
             },
             pinVerification: () {
-              //initRouter = const RouterUnion.pinVerification();
-
-              print('pinVerification');
-
               if (openPinVerification) return;
               openPinVerification = true;
 
@@ -205,24 +202,33 @@ abstract class _AppStoreBase with Store {
             },
             askBioUsing: () {
               //initRouter = const RouterUnion.askBioUsing();
+              if (lastRoute != 'askBioUsing') {
+                getIt<AppRouter>().replaceAll([
+                  BiometricRouter(),
+                ]);
+              }
 
-              getIt<AppRouter>().replaceAll([
-                BiometricRouter(),
-              ]);
+              lastRoute = 'askBioUsing';
             },
             userDataVerification: () {
-              //initRouter = const RouterUnion.userDataVerification();
+              if (lastRoute != 'userDataVerification') {
+                getIt<AppRouter>().replaceAll([
+                  UserDataScreenRouter(),
+                ]);
+              }
 
-              getIt<AppRouter>().replaceAll([
-                UserDataScreenRouter(),
-              ]);
+              lastRoute = 'userDataVerification';
             },
             singleIn: () {
               //initRouter = const RouterUnion.singleIn();
 
-              getIt<AppRouter>().replaceAll([
-                SingInRouter(),
-              ]);
+              if (lastRoute != 'singleIn') {
+                getIt<AppRouter>().replaceAll([
+                  SingInRouter(),
+                ]);
+              }
+
+              lastRoute = 'singleIn';
             },
             emailVerification: () {},
           );

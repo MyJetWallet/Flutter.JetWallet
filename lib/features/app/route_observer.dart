@@ -7,7 +7,7 @@ class SimpleRouteObserver extends AutoRouterObserver {
   @override
   void didPush(Route route, Route? previousRoute) {
     getIt.get<SimpleLoggerService>().logger.d(
-          'SimpleRouteObserver - didPush: ${route.settings.name}',
+          'SimpleRouteObserver - didPush: ${route.settings.name} ${previousRoute?.settings.name}',
         );
   }
 

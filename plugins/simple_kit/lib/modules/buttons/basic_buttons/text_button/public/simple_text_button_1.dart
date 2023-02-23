@@ -8,6 +8,7 @@ import 'package:simple_kit/utils/enum.dart';
 class STextButton1 extends StatelessObserverWidget {
   const STextButton1({
     Key? key,
+    this.color,
     required this.active,
     required this.name,
     required this.onTap,
@@ -16,11 +17,12 @@ class STextButton1 extends StatelessObserverWidget {
   final bool active;
   final String name;
   final Function() onTap;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
         ? SimpleDarkTextButton1(active: active, name: name, onTap: onTap)
-        : SimpleLightTextButton1(active: active, name: name, onTap: onTap);
+        : SimpleLightTextButton1(active: active, name: name, onTap: onTap, color: color,);
   }
 }

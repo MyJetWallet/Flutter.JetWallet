@@ -6,6 +6,7 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 class SimpleLightTextButton1 extends StatelessWidget {
   const SimpleLightTextButton1({
     Key? key,
+    this.color,
     required this.active,
     required this.name,
     required this.onTap,
@@ -15,13 +16,20 @@ class SimpleLightTextButton1 extends StatelessWidget {
   final String name;
   final Function() onTap;
 
+  final Color? color;
+
   @override
   Widget build(BuildContext context) {
+    late Color activeColor;
+
+    activeColor =
+        color != null ? color ?? SColorsLight().black : SColorsLight().black;
+
     return SimpleBaseTextButton(
       active: active,
       name: name,
       onTap: onTap,
-      activeColor: SColorsLight().blue,
+      activeColor: activeColor,
       inactiveColor: SColorsLight().grey4,
       activeBackgroundColor: SColorsLight().grey5.withOpacity(0.5),
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -38,7 +40,10 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
     phoneNumberController.addListener(phoneControllerListener);
 
-    //FocusScope.of(getIt<AppRouter>().).requestFocus(focusNode);
+    Timer(Duration(milliseconds: 500), () {
+      FocusScope.of(getIt.get<AppRouter>().navigatorKey.currentContext!)
+          .requestFocus(focusNode);
+    });
   }
 
   static final _logger = logging.Logger('SetPhoneNumberStore');
@@ -77,6 +82,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   TextEditingController phoneNumberController = TextEditingController();
 
+  FocusNode dialFocusNode = FocusNode();
   FocusNode focusNode = FocusNode();
 
   String phoneNumber() =>

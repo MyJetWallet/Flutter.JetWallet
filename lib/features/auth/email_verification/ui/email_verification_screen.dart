@@ -212,6 +212,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                 STextButton1(
                   active: !verification.isResending,
                   name: intl.twoFaPhone_resend,
+                  color: colors.blue,
                   onTap: () {
                     timer.refreshTimer();
                     verification.resendCode(timer);
