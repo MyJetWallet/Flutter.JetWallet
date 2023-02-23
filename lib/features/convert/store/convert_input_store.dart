@@ -122,6 +122,7 @@ abstract class _ConvertInputStoreBase with Store {
         ),
       ),
     );
+    _calculateConversion();
   }
 
   @action
@@ -184,6 +185,11 @@ abstract class _ConvertInputStoreBase with Store {
     _updateFromAsset(value);
     if (fromAssetEnabled) {
       _resetAssetsAmount();
+    } else {
+      setUpdateTargetConversionPrice(
+        fromAsset!.symbol,
+        toAsset!.symbol,
+      );
     }
     _validateInput();
   }
@@ -196,6 +202,11 @@ abstract class _ConvertInputStoreBase with Store {
     _updateToAsset(value);
     if (toAssetEnabled) {
       _resetAssetsAmount();
+    } else {
+      setUpdateTargetConversionPrice(
+        fromAsset!.symbol,
+        toAsset!.symbol,
+      );
     }
     _validateInput();
   }
