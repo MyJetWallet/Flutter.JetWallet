@@ -21,7 +21,7 @@ class SimpleLightTextButton1 extends StatelessWidget {
       active: active,
       name: name,
       onTap: onTap,
-      activeColor: SColorsLight().black,
+      activeColor: SColorsLight().blue,
       inactiveColor: SColorsLight().grey4,
       activeBackgroundColor: SColorsLight().grey5.withOpacity(0.5),
     );

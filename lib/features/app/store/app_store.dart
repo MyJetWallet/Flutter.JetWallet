@@ -96,8 +96,6 @@ abstract class _AppStoreBase with Store {
   Future<void> checkInitRouter() async {
     FlutterNativeSplash.remove();
 
-    print('checkInitRouter');
-
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
@@ -142,6 +140,8 @@ abstract class _AppStoreBase with Store {
                 ),
               ]);
               */
+
+              print(sRouter.current.path);
 
               getIt<AppRouter>().replaceAll([
                 SetPhoneNumberRouter(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -117,13 +118,11 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
     final userInfoN = getIt.get<UserInfoService>();
 
-    final pinError = StandardFieldErrorNotifier();
-
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
           verification.controller.value.text.length ==
               emailVerificationCodeLength &&
-          pinError.value) {
+          verification.pinError.value) {
         verification.controller.clear();
       }
     });
@@ -138,7 +137,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
             result.maybeWhen(
               error: (Object? error) {
                 verification.loader.finishLoading();
-                pinError.enableError();
+                verification.pinError.enableError();
                 sNotification.showError(
                   error.toString(),
                   id: 1,
@@ -165,7 +164,6 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
             defaultIcon: const SCloseIcon(),
             pressedIcon: const SClosePressedIcon(),
           ),
-          progressValue: 40,
           isAutoSize: true,
         ),
         child: SingleChildScrollView(
@@ -173,7 +171,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SpaceH7(),
+                const SpaceH4(),
                 FittedBox(
                   child: Text(
                     intl.emailVerification_enterCode,
@@ -186,12 +184,12 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                   authInfo.email,
                   style: sBodyText1Style,
                 ),
-                const SpaceH17(),
+                const SpaceH16(),
                 SClickableLinkText(
                   text: intl.emailVerification_openEmail,
                   onTap: () => openEmailApp(context),
                 ),
-                const SpaceH62(),
+                const SpaceH61(),
                 GestureDetector(
                   onLongPress: () => verification.pasteCode(),
                   onDoubleTap: () => verification.pasteCode(),
@@ -217,9 +215,9 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                       },
                       autoFocus: true,
                       onChanged: (_) {
-                        pinError.disableError();
+                        verification.pinError.disableError();
                       },
-                      pinError: pinError,
+                      pinError: verification.pinError,
                     ),
                   ),
                 ),
@@ -233,6 +231,7 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                   ResendInText(
                     text: '${intl.twoFaPhone_didntReceiveTheCode}?',
                   ),
+                  const SpaceH30(),
                   STextButton1(
                     active: !verification.isResending,
                     name: intl.twoFaPhone_resend,

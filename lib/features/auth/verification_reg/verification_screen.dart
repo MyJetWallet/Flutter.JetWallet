@@ -92,28 +92,30 @@ class VerificationScreen extends StatelessObserverWidget {
                 ),
               );
             },
-            isDisabled: store.step != VerificationScreenStep.Phone,
+            isDisabled: !store.isPhoneDone &&
+                store.step != VerificationScreenStep.Phone,
             isDone: store.isPhoneDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.personal_details,
             '3',
-            haveSubText: true,
+            haveSubText: store.step == VerificationScreenStep.PersonalDetail,
             haveLink: store.step == VerificationScreenStep.PersonalDetail,
             linkText: intl.provide_information,
             linkAction: () {
               sRouter.replace(const UserDataScreenRouter());
             },
             subtext: intl.personal_details_descr,
-            isDisabled: store.step != VerificationScreenStep.PersonalDetail,
+            isDisabled: !store.isPersonalDetailsDone &&
+                store.step != VerificationScreenStep.PersonalDetail,
             isDone: store.isPersonalDetailsDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.pin_code,
             '4',
-            haveSubText: true,
+            haveSubText: store.step == VerificationScreenStep.Pin,
             subtext: intl.pin_code_descr,
             haveLink: store.step == VerificationScreenStep.Pin,
             linkText: intl.create_pin_code,
@@ -125,7 +127,8 @@ class VerificationScreen extends StatelessObserverWidget {
                 ),
               ]);
             },
-            isDisabled: true,
+            isDisabled: !store.isCreatePinDone &&
+                store.step != VerificationScreenStep.Pin,
             isDone: store.isCreatePinDone,
           ),
         ],
@@ -200,6 +203,8 @@ class VerificationScreen extends StatelessObserverWidget {
               if (haveLink) ...[
                 const SpaceH12(),
                 InkWell(
+                  highlightColor: colors.grey5,
+                  splashColor: Colors.transparent,
                   onTap: linkAction,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,

@@ -40,7 +40,7 @@ class SAuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180.5,
+      height: 150,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,11 +127,6 @@ class SAuthHeader extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          const Spacer(),
-          const SpaceH24(),
-          SStepIndicator(
-            loadedPercent: progressValue,
           ),
         ],
       ),

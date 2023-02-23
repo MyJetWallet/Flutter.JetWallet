@@ -22,7 +22,6 @@ import '../../../core/di/di.dart';
 import '../../../core/services/logger_service/logger_service.dart';
 part 'set_phone_number_store.g.dart';
 
-@lazySingleton
 class SetPhoneNumberStore = _SetPhoneNumberStoreBase with _$SetPhoneNumberStore;
 
 abstract class _SetPhoneNumberStoreBase with Store {
@@ -38,9 +37,14 @@ abstract class _SetPhoneNumberStoreBase with Store {
     _registerCountryUser();
 
     phoneNumberController.addListener(phoneControllerListener);
+
+    //FocusScope.of(getIt<AppRouter>().).requestFocus(focusNode);
   }
 
   static final _logger = logging.Logger('SetPhoneNumberStore');
+
+  bool fromRegister = false;
+  void setFromRegister(bool value) => fromRegister = value;
 
   @observable
   SPhoneNumber? activeDialCode;
@@ -72,6 +76,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
   late TextEditingController dialCodeController;
 
   TextEditingController phoneNumberController = TextEditingController();
+
+  FocusNode focusNode = FocusNode();
 
   String phoneNumber() =>
       '${dialCodeController.text}${phoneNumberController.text}';
@@ -106,8 +112,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
         );
     _logger.log(notifier, 'sendCode');
 
-    loader!.startLoading();
-
     try {
       final number = await decomposePhoneNumber(
         phoneNumber(),
@@ -127,6 +131,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
         pin: pin,
       );
 
+      loader!.startLoadingImmediately();
+
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
@@ -134,7 +140,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
-        await sRouter.pop();
+
+        if (!fromRegister) await sRouter.pop();
 
         return;
       }
@@ -144,13 +151,15 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
       then();
     } on ServerRejectException catch (e) {
+      loader!.finishLoadingImmediately();
+
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
             place: 'sendCode',
             message: '$e',
           );
-      await sRouter.pop();
+      if (!fromRegister) await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
@@ -158,7 +167,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
       loader!.finishLoadingImmediately();
 
-      await sRouter.pop();
+      if (!fromRegister) await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
@@ -174,6 +183,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
     } finally {
       loader!.finishLoadingImmediately();
     }
+
+    loader!.finishLoadingImmediately();
   }
 
   @action
