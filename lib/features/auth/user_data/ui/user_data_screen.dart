@@ -133,24 +133,20 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       const SpaceH1(),
                       ColoredBox(
                         color: colors.white,
-                        child: GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            showBirthDatePicker(
-                              context,
-                              birthDateInfo,
-                              UserDataStore.of(context),
-                            );
-                          },
-                          child: AbsorbPointer(
-                            child: SPaddingH24(
-                              child: SStandardField(
-                                labelText: intl.user_data_date_of_birth,
-                                hideClearButton: true,
-                                readOnly: true,
-                                controller: birthDateController,
-                              ),
-                            ),
+                        child: SPaddingH24(
+                          child: SStandardField(
+                            labelText: intl.user_data_date_of_birth,
+                            hideClearButton: false,
+                            readOnly: true,
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              showBirthDatePicker(
+                                context,
+                                birthDateInfo,
+                                UserDataStore.of(context),
+                              );
+                            },
+                            controller: birthDateController,
                           ),
                         ),
                       ),
@@ -172,7 +168,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           active: UserDataStore.of(context).activeButton,
                         ),
                       ),
-                      const SpaceH24(),
+                      const SpaceH42(),
                     ],
                   ),
                 ),

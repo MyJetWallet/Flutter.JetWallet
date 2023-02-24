@@ -28,21 +28,17 @@ class VerificationScreen extends StatelessObserverWidget {
           const SpaceH64(),
           Align(
             alignment: Alignment.centerRight,
-            child: InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
+            child: SimpleBaseLinkText(
+              active: true,
+              name: intl.logout,
               onTap: () {
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
                   withLoading: false,
                 );
               },
-              child: Text(
-                intl.logout,
-                style: sSubtitle3Style.copyWith(
-                  color: colors.blue,
-                ),
-              ),
+              activeColor: colors.blue,
+              inactiveColor: colors.grey4,
             ),
           ),
           const SizedBox(
@@ -194,35 +190,28 @@ class VerificationScreen extends StatelessObserverWidget {
               ),
               if (haveSubText) ...[
                 const SpaceH4(),
-                Text(
-                  subtext ?? '',
-                  maxLines: 2,
-                  style: sBodyText2Style.copyWith(
-                    color: colors.grey1,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 300),
+                  child: Text(
+                    subtext ?? '',
+                    maxLines: 2,
+                    style: sBodyText2Style.copyWith(
+                      color: colors.grey1,
+                    ),
                   ),
                 ),
               ],
               if (haveLink) ...[
                 const SpaceH12(),
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: linkAction,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 1),
-                        child: Text(
-                          linkText ?? '',
-                          style: sButtonTextStyle.copyWith(color: colors.blue),
-                        ),
-                      ),
-                      const SpaceW4(),
-                      const SBlueRightArrowIcon(),
-                    ],
+                SLinkButtonText(
+                  active: true,
+                  name: linkText ?? '',
+                  onTap: linkAction ?? () {},
+                  defaultIcon: const SBlueRightArrowIcon(),
+                  pressedIcon: SBlueRightArrowIcon(
+                    color: colors.blue.withOpacity(0.8),
                   ),
+                  inactiveIcon: const SBlueRightArrowIcon(),
                 ),
               ],
             ],

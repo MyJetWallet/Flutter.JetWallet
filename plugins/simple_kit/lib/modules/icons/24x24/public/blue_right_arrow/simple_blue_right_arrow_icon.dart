@@ -6,12 +6,17 @@ import 'package:simple_kit/modules/icons/24x24/light/blue_right_arrow/simple_lig
 import 'package:simple_kit/utils/enum.dart';
 
 class SBlueRightArrowIcon extends StatelessObserverWidget {
-  const SBlueRightArrowIcon({Key? key}) : super(key: key);
+  const SBlueRightArrowIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightBlueRightArrowIcon()
-        : const SimpleLightBlueRightArrowIcon();
+        ? SimpleLightBlueRightArrowIcon(color: color)
+        : SimpleLightBlueRightArrowIcon(color: color);
   }
 }

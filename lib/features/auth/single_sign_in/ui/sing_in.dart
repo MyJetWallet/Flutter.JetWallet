@@ -189,7 +189,7 @@ class _SingInBody extends StatelessObserverWidget {
                             },
                           ),
                         ),
-                        const SpaceH24(),
+                        const SpaceH42(),
                       ],
                     ),
                   ),
