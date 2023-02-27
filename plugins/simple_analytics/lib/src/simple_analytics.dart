@@ -415,7 +415,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.signInFlowWelcomeView,
       eventProperties: {
-        PropertyType.techAcc: isTechAcc,
+        PropertyType.techAcc: 'none',
         PropertyType.eventId: '31',
       },
     );
@@ -425,7 +425,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.signInFlowTapGetStarted,
       eventProperties: {
-        PropertyType.techAcc: isTechAcc,
+        PropertyType.techAcc: 'none',
         PropertyType.eventId: '36',
       },
     );
@@ -435,7 +435,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.signInFlowEnterEmailView,
       eventProperties: {
-        PropertyType.techAcc: isTechAcc,
+        PropertyType.techAcc: 'none',
         PropertyType.eventId: '37',
       },
     );
@@ -445,7 +445,7 @@ class SimpleAnalytics {
     _analytics.logEvent(
       EventType.signInFlowEmailVerificationView,
       eventProperties: {
-        PropertyType.techAcc: isTechAcc,
+        PropertyType.techAcc: 'none',
         PropertyType.eventId: '40',
       },
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -77,7 +79,10 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
     Function()? onbackButton;
 
     if (widget.union is Verification) {
-      onbackButton = () => logoutN.logout('PIN SCREEN, logout');
+      onbackButton = () => logoutN.logout(
+        'PIN SCREEN, logout',
+        callbackAfterSend: () {},
+      );
     } else if (widget.cannotLeave) {
       onbackButton = null;
     } else {
@@ -204,7 +209,14 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                       package: 'simple_kit',
                     ),
                     onPrimaryButtonTap: () {
-                      logoutN.logout('PIN SCREEN', resetPin: true);
+                      pin.loader.startLoading();
+                      logoutN.logout(
+                        'PIN SCREEN',
+                        resetPin: true,
+                        callbackAfterSend: () {
+                          pin.loader.finishLoading();
+                        },
+                      );
                       Navigator.pop(context);
                     },
                     secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,

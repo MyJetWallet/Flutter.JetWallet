@@ -528,7 +528,10 @@ abstract class _AppStoreBase with Store {
 
         authStatus = const AuthorizationUnion.unauthorized();
 
-        await getIt.get<LogoutService>().logout('APP_STORE, $e');
+        await getIt.get<LogoutService>().logout(
+          'APP_STORE, $e',
+          callbackAfterSend: () {},
+        );
 
       }
     }

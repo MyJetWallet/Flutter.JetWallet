@@ -35,6 +35,7 @@ class VerificationScreen extends StatelessObserverWidget {
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
                   withLoading: false,
+                  callbackAfterSend: () {},
                 );
 
                 getIt<AppRouter>().pop();

@@ -173,7 +173,10 @@ Future<RefreshTokenStatus> refreshToken({
     );
 
     if (code == 401 || code == 403) {
-      await getIt<LogoutService>().logout('REFRESH_TOKEN');
+      await getIt<LogoutService>().logout(
+        'REFRESH_TOKEN',
+        callbackAfterSend: () {},
+      );
 
       return RefreshTokenStatus.caught;
     } else {

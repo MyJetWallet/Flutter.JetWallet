@@ -339,7 +339,10 @@ class DeepLinkService {
   }
 
   void _loginCommand(Map<String, String> parameters) {
-    getIt.get<LogoutService>().logout('DEEPLINK logincommand');
+    getIt.get<LogoutService>().logout(
+      'DEEPLINK logincommand',
+      callbackAfterSend: () {},
+    );
 
     sRouter.push(
       SingInRouter(
