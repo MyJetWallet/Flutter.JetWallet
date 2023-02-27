@@ -220,10 +220,11 @@ final sRouter = getIt.get<AppRouter>();
         ),
       ],
     ),
-    AutoRoute(
+    CustomRoute(
       path: '/verification_screen',
       name: 'VerificationRouter',
       page: VerificationScreen,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
     AutoRoute(
       path: '/account',

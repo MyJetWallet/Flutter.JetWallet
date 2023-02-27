@@ -105,9 +105,12 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     VerificationRouter.name: (routeData) {
-      return CupertinoPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: const VerificationScreen(),
+        transitionsBuilder: TransitionsBuilders.slideBottom,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     AccountRouter.name: (routeData) {

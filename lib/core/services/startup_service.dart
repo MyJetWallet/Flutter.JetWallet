@@ -13,6 +13,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -77,6 +78,13 @@ class StartupService {
             if (!initSignaWasCall) {
               await _initSignalRSynchronously();
               initSignaWasCall = true;
+            }
+
+            if (!info.toSetupPhone) {
+              getIt.get<VerificationStore>().phoneDone();
+            }
+            if (!info.toCheckSimpleKyc) {
+              getIt.get<VerificationStore>().personalDetailDone();
             }
 
             if (info.toSetupPhone) {
