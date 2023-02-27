@@ -141,8 +141,8 @@ abstract class _AppStoreBase with Store {
                 ),
               ]);
               */
-
               if (lastRoute != 'verification_screen') {
+                sAnalytics.signInFlowPhoneNumberView();
                 getIt<AppRouter>().replaceAll([
                   SetPhoneNumberRouter(
                     successText: intl.profileDetails_newPhoneNumberConfirmed,
@@ -175,6 +175,7 @@ abstract class _AppStoreBase with Store {
               openPinVerification = true;
 
               if (sRouter.current.path != '/pin_screen') {
+                sAnalytics.signInFlowEnterPinView();
                 getIt<AppRouter>().replaceAll([
                   PinScreenRoute(
                     union: Verification(),
@@ -212,6 +213,7 @@ abstract class _AppStoreBase with Store {
             },
             userDataVerification: () {
               if (lastRoute != 'userDataVerification') {
+                sAnalytics.signInFlowPersonalDetailsView();
                 getIt<AppRouter>().replaceAll([
                   UserDataScreenRouter(),
                 ]);

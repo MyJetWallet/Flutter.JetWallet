@@ -41,7 +41,7 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
-  /// New buy flow
+  /// Buy flow
   void newBuyZeroScreenView() {
     if (!newBuyZeroScreenViewSent) {
       newBuyZeroScreenViewSent = true;
@@ -405,6 +405,131 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '30',
+      },
+    );
+  }
+
+  /// Sign Up & Sign In Flow
+
+  void signInFlowWelcomeView() {
+    _analytics.logEvent(
+      EventType.signInFlowWelcomeView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '31',
+      },
+    );
+  }
+
+  void signInFlowTapGetStarted() {
+    _analytics.logEvent(
+      EventType.signInFlowTapGetStarted,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '36',
+      },
+    );
+  }
+
+  void signInFlowEnterEmailView() {
+    _analytics.logEvent(
+      EventType.signInFlowEnterEmailView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '37',
+      },
+    );
+  }
+
+  void signInFlowEmailVerificationView() {
+    _analytics.logEvent(
+      EventType.signInFlowEmailVerificationView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '40',
+      },
+    );
+  }
+
+  void signInFlowPhoneNumberView() {
+    _analytics.logEvent(
+      EventType.signInFlowPhoneNumberView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '47',
+      },
+    );
+  }
+
+  void signInFlowPersonalDetailsView() {
+    _analytics.logEvent(
+      EventType.signInFlowPersonalDetailsView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '52',
+      },
+    );
+  }
+
+  void signInFlowDateSheetView() {
+    _analytics.logEvent(
+      EventType.signInFlowDateSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '53',
+      },
+    );
+  }
+
+  void signInFlowSelectCountryView() {
+    _analytics.logEvent(
+      EventType.signInFlowSelectCountryView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '55',
+      },
+    );
+  }
+
+  void signInFlowCreatePinView() {
+    _analytics.logEvent(
+      EventType.signInFlowCreatePinView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '63',
+      },
+    );
+  }
+
+  void signInFlowEnableBiometricView({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowEnableBiometricView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '66',
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowEnterPinView() {
+    _analytics.logEvent(
+      EventType.signInFlowEnterPinView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '72',
+      },
+    );
+  }
+
+  void signInFlowVerificationPassed() {
+    _analytics.logEvent(
+      EventType.signInFlowVerificationPassed,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '73',
       },
     );
   }

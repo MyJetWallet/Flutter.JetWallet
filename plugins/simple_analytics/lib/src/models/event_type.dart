@@ -37,4 +37,21 @@ class EventType {
   static const newBuyTapYesDelete = 'Tap on the button ‘Yes, delete the card’';
   static const newBuyTapCancelDelete =
       'Tap on the button ‘Cancel’ deleting the card';
+
+  /// Sign Up & Sign In Flow
+  static const signInFlowWelcomeView = '‘Welcome Screen‘ view';
+  static const signInFlowTapGetStarted = 'Tap on ‘Get Started’ button';
+  static const signInFlowEnterEmailView = '‘Enter your email’ screen view';
+  static const signInFlowEmailVerificationView =
+      '‘Email verification’ screen view';
+  static const signInFlowPhoneNumberView = '‘Phone number’ screen view';
+  static const signInFlowPersonalDetailsView = '‘Personal Details‘ screen view';
+  static const signInFlowDateSheetView = '‘Date of birth’ screen view';
+  static const signInFlowSelectCountryView = '‘Select country’ screen view';
+  static const signInFlowCreatePinView = '‘Create a PIN code’ screen view';
+  static const signInFlowEnableBiometricView =
+      '‘Enable Face ID/biometrics to instantly login’ screen view';
+  static const signInFlowEnterPinView = '‘Enter your PIN code’ screen view';
+  static const signInFlowVerificationPassed =
+      '‘Verification passed’(Portfolio) screen view';
 }

@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/auth/biometric/store/biometric_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -62,10 +63,16 @@ class _BiometricBody extends StatelessObserverWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data == BiometricStatus.face || iosLatest) {
+            sAnalytics.signInFlowEnableBiometricView(
+              biometric: 'Face ID',
+            );
             headerText = intl.bio_screen_face_id_title;
             buttonText = intl.bio_screen_face_id_button_text;
             image = bioFaceId;
           } else {
+            sAnalytics.signInFlowEnableBiometricView(
+              biometric: 'Biometrics',
+            );
             headerText = intl.bio_screen_touch_id_title;
             buttonText = intl.bio_screen_touch_id_button_text;
             image = bioTouchId;
@@ -111,6 +118,9 @@ class _BiometricBody extends StatelessObserverWidget {
                               const AllowBiometricRoute(),
                             );
                       } else {
+                        if (userInfoN.userInfo.isJustLogged) {
+                          sAnalytics.signInFlowVerificationPassed();
+                        }
                         biometric.useBio(
                           useBio: true,
                           isAccSettings: isAccSettings,
@@ -127,6 +137,10 @@ class _BiometricBody extends StatelessObserverWidget {
                       if (isAccSettings) {
                         Navigator.pop(context);
                       } else {
+                        final userInfoN = getIt.get<UserInfoService>();
+                        if (userInfoN.userInfo.isJustLogged) {
+                          sAnalytics.signInFlowVerificationPassed();
+                        }
                         biometric.useBio(
                           useBio: false,
                           context: context,
