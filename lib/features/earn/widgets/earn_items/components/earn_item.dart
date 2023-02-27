@@ -48,7 +48,6 @@ class EarnItem extends StatelessObserverWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            sAnalytics.earnTapAvailable(assetName: currentCurrency.description);
             showSubscriptionBottomSheet(
               context: context,
               offers: currentOffers,

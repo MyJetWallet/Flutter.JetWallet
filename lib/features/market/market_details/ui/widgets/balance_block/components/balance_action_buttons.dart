@@ -51,10 +51,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 onTap: () {
                   if (kycState.depositStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
-                    sAnalytics.buyView(
-                      Source.assetScreen,
-                      currency.description,
-                    );
 
                     sRouter.push(
                       PaymentMethodRouter(currency: currency),
@@ -65,10 +61,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       isProgress: kycState.verificationInProgress,
                       navigatePop: true,
                       currentNavigate: () {
-                        sAnalytics.buyView(
-                          Source.assetScreen,
-                          currency.description,
-                        );
 
                         sRouter.push(
                           PaymentMethodRouter(currency: currency),
@@ -90,10 +82,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
-                  sAnalytics.buyView(
-                    Source.assetScreen,
-                    currency.description,
-                  );
 
                   sRouter.push(
                     PaymentMethodRouter(currency: currency),
@@ -104,10 +92,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     isProgress: kycState.verificationInProgress,
                     navigatePop: true,
                     currentNavigate: () {
-                      sAnalytics.buyView(
-                        Source.assetScreen,
-                        currency.description,
-                      );
 
                       sRouter.push(
                         PaymentMethodRouter(currency: currency),
@@ -126,10 +110,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
             ],
             CircleActionReceive(
               onTap: () {
-                sAnalytics.receiveClick(source: 'Market -> Asset -> Receive');
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
-                  sAnalytics.receiveAssetView(asset: currency.description);
                   sRouter.navigate(
                     CryptoDepositRouter(
                       header: intl.balanceActionButtons_receive,
@@ -141,9 +123,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     status: kycState.depositStatus,
                     isProgress: kycState.verificationInProgress,
                     currentNavigate: () {
-                      sAnalytics.receiveAssetView(
-                        asset: currency.description,
-                      );
 
                       sRouter.navigate(
                         CryptoDepositRouter(

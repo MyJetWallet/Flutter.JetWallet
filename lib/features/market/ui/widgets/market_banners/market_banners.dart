@@ -72,10 +72,6 @@ class _MarketBannersBody extends StatelessObserverWidget {
                           imageUrl: campaign.imageUrl,
                           primaryTextStyle: sTextH5Style,
                           onClose: () {
-                            sAnalytics.clickMarketBanner(
-                              campaign.title,
-                              MarketBannerAction.close,
-                            );
                             store.deleteCampaign(campaign);
                           },
                         ),

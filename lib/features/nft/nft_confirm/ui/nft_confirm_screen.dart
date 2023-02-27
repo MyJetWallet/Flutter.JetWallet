@@ -65,13 +65,6 @@ class _NFTConfirmScreenBody extends StatelessObserverWidget {
         title: '${intl.nft_detail_confirm_buy} \n ${nft.name}',
         crossAxisAlignment: CrossAxisAlignment.center,
         onBackButtonTap: () {
-          sAnalytics.nftPurchaseTapBack(
-            nftCollectionID: nft.collectionId ?? '',
-            nftObjectId: nft.symbol ?? '',
-            nftPrice: '${nft.sellPrice}' ?? '',
-            currency: nft.tradingAsset ?? '',
-            nftAmountToBePaid: '${nft.sellPrice}' ?? '',
-          );
           Navigator.pop(context);
         },
       ),

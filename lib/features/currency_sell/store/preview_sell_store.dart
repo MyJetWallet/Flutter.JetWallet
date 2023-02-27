@@ -158,7 +158,6 @@ abstract class _PreviewSellStoreBase with Store {
         onData: (data) {
           if (data.isExecuted) {
             _timer.cancel();
-            sAnalytics.sellSuccess();
             _showSuccessScreen();
           } else {
             union = const QuoteSuccess();

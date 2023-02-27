@@ -50,9 +50,7 @@ void _showSendAction(BuildContext context) {
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [const _ActionSend()],
-    then: (value) {
-      sAnalytics.sendChooseAssetClose();
-    },
+    then: (value) {},
   );
 }
 
@@ -84,7 +82,6 @@ class _ActionSend extends StatelessObserverWidget {
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
-                  sAnalytics.sendToView();
                   showSendOptions(context, currency);
                 },
               ),

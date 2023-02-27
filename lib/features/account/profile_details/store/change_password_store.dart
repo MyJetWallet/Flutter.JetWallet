@@ -67,7 +67,6 @@ abstract class _ChangePasswordStoreBase with Store {
 
       union = const ChangePasswordUnion.done();
 
-      sAnalytics.accountSuccessChange();
     } catch (e) {
       _logger.log(stateFlow, 'confirmNewPassword', e);
 

@@ -104,14 +104,6 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
             titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
             onBackButtonTap: () {
-              if (currency == null) {
-                sAnalytics.nftSendConfirmBack(
-                  nftCollectionID: withdrawal.nft?.symbol ?? '',
-                  nftObjectId: withdrawal.nft?.collectionId ?? '',
-                  network: network,
-                  nftFee: '${matic.withdrawalFeeSize(network)}',
-                );
-              }
               Navigator.pop(context);
             },
           );
@@ -121,14 +113,6 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
             titleAlign: currency != null ? TextAlign.center : TextAlign.start,
             title: title,
             onBackButtonTap: () {
-              if (currency == null) {
-                sAnalytics.nftSendConfirmBack(
-                  nftCollectionID: withdrawal.nft?.symbol ?? '',
-                  nftObjectId: withdrawal.nft?.collectionId ?? '',
-                  network: network,
-                  nftFee: '${matic.withdrawalFeeSize(network)}',
-                );
-              }
               Navigator.pop(context);
             },
           );
@@ -240,20 +224,9 @@ class _WithdrawalPreviewBody extends StatelessObserverWidget {
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (currency != null) {
-                      sAnalytics.sendConfirm(
-                        currency: currency.symbol,
-                        amount: store.amount,
-                        type: 'By wallet',
-                      );
 
                       store.withdraw();
                     } else {
-                      sAnalytics.nftSendConfirmTap(
-                        nftCollectionID: withdrawal.nft?.symbol ?? '',
-                        nftObjectId: withdrawal.nft?.collectionId ?? '',
-                        network: network,
-                        nftFee: '${matic.withdrawalFeeSize(network)}',
-                      );
                       store.withdrawNFT();
                     }
                   },

@@ -78,9 +78,6 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<MarketItemModel> get cryptoListFiltred {
-    if (cryptoList.isEmpty) {
-      sAnalytics.nftMarketOpen();
-    }
     if (activeFilter == 'gainers') {
       return getMarketGainers();
     } else if (activeFilter == 'losers') {

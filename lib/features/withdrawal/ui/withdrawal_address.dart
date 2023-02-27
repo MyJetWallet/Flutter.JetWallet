@@ -57,13 +57,6 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
           titleAlign: TextAlign.start,
           title: store.header,
           onBackButtonTap: () {
-            if (store.withdrawalInputModel?.nft != null) {
-              sAnalytics.nftSendBack(
-                nftCollectionID:
-                    store.withdrawalInputModel?.nft?.collectionId ?? '',
-                nftObjectId: store.withdrawalInputModel?.nft?.symbol ?? '',
-              );
-            }
             sRouter.pop();
           },
         ),
@@ -218,21 +211,6 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-                            if (store.withdrawalType == WithdrawalType.NFT) {
-                              sAnalytics.nftSendContinue(
-                                nftCollectionID: store.withdrawalInputModel?.nft
-                                        ?.collectionId ??
-                                    '',
-                                nftObjectId:
-                                    store.withdrawalInputModel?.nft?.symbol ??
-                                        '',
-                                network: store.withdrawalInputModel?.nft
-                                        ?.blockchain ??
-                                    '',
-                              );
-                            } else {
-                              sAnalytics.sendContinueAddress();
-                            }
 
                             FocusScope.of(context).unfocus();
 

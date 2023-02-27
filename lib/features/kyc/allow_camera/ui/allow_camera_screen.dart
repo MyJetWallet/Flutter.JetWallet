@@ -86,8 +86,6 @@ class _AllowCameraScreenBodyState extends State<_AllowCameraScreenBody>
 
     final size = MediaQuery.of(context).size;
 
-    getIt.get<SimpleAnalytics>().kycAllowCameraView();
-
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       header: deviceSize.when(

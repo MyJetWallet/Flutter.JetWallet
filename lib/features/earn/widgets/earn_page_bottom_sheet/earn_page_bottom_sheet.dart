@@ -10,7 +10,6 @@ void showStartEarnPageBottomSheet({
   required BuildContext context,
   required Function(CurrencyModel) onTap,
 }) {
-  sAnalytics.earnOnBoardingView();
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
@@ -19,7 +18,6 @@ void showStartEarnPageBottomSheet({
     pinned: const EarnPagePinned(),
     horizontalPinnedPadding: 0,
     scrollable: true,
-    onDissmis: () => sAnalytics.earnCloseOnboarding(),
     children: [
       const EarnPageBody(),
     ],

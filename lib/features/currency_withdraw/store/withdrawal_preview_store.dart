@@ -140,13 +140,6 @@ abstract class _WithdrawalPreviewStoreBase with Store {
       'MATIC',
     );
 
-    sAnalytics.nftSendProcessing(
-      nftCollectionID: withdrawal.nft?.symbol ?? '',
-      nftObjectId: withdrawal.nft?.collectionId ?? '',
-      network: withdrawal.nft?.blockchain ?? '',
-      nftFee: '${matic.withdrawalFeeSize(withdrawal.nft?.blockchain ?? '')}',
-    );
-
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -161,14 +154,6 @@ abstract class _WithdrawalPreviewStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          sAnalytics.nftSendSuccess(
-            nftCollectionID: withdrawal.nft?.symbol ?? '',
-            nftObjectId: withdrawal.nft?.collectionId ?? '',
-            network: withdrawal.nft?.blockchain ?? '',
-            nftFee: '${matic.withdrawalFeeSize(
-              withdrawal.nft?.blockchain ?? '',
-            )}',
-          );
 
           /*
             sRouter.push(

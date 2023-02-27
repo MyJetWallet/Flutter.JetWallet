@@ -143,13 +143,6 @@ class __PreviewReturnToWalletBodyState
                   active: store.union is QuoteSuccess,
                   name: intl.preview_return_to_wallet_confirm,
                   onTap: () {
-                    sAnalytics.earnConfirmReclaim(
-                      assetName: from.description,
-                      amount: widget.input.amount,
-                      apy: widget.input.apy,
-                      term: widget.input.earnOffer.term,
-                      offerId: widget.input.earnOffer.offerId,
-                    );
 
                     store.earnOfferWithdrawal(
                       widget.input.earnOffer.offerId,

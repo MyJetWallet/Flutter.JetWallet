@@ -30,8 +30,6 @@ class _SendByPhoneNotifyRecipientState
     final colors = sKit.colors;
     final userInfo = sUserInfo.userInfo;
 
-    sAnalytics.sendNotifyRecipient();
-
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       header: SMegaHeader(
@@ -66,7 +64,6 @@ class _SendByPhoneNotifyRecipientState
             active: true,
             name: intl.sendByPhoneNotifyRecipient_sendAMessage,
             onTap: () {
-              sAnalytics.sendTapOnSendMessage();
               if (canTapShare) {
                 setState(() {
                   canTapShare = false;
@@ -95,7 +92,6 @@ class _SendByPhoneNotifyRecipientState
             active: true,
             name: intl.sendByPhoneRecipient_later,
             onTap: () => {
-              sAnalytics.sendTapOnSendLater(),
               Navigator.pop(context),
             },
           ),

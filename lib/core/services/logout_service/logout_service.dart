@@ -114,8 +114,6 @@ abstract class _LogoutServiceBase with Store {
         await pushToFirstPage();
       }
 
-      // Clear analytics
-      unawaited(sAnalytics.logout());
 
       await _clearUserData();
 

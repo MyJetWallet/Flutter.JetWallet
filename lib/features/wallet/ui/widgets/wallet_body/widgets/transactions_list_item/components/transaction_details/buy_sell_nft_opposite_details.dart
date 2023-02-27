@@ -66,11 +66,6 @@ class BuySellNftOppositeDetails extends StatelessObserverWidget {
               highlightColor: Colors.transparent,
               hoverColor: Colors.transparent,
               onTap: () {
-                sAnalytics.nftObjectView(
-                  nftCollectionID: nftAsset.collectionId ?? '',
-                  nftObjectId: nftAsset.symbol ?? '',
-                  source: 'History',
-                );
                 sRouter.push(
                   NFTDetailsRouter(
                     nftSymbol: nftAsset.symbol!,

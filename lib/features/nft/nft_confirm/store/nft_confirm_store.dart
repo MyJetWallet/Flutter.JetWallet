@@ -84,28 +84,8 @@ abstract class _NFTConfirmStoreBase with Store {
 
   @action
   Future<void> confirm() async {
-    sAnalytics.nftPurchaseConfirmTap(
-      nftCollectionID: nft?.collectionId ?? '',
-      nftObjectId: nft?.symbol ?? '',
-      nftPrice: '${nft?.sellPrice ?? ""}',
-      currency: nft?.tradingAsset ?? '',
-      nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
-      nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
-          ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
-          : '',
-    );
     isProcessing = true;
 
-    sAnalytics.nftPurchaseProcessing(
-      nftCollectionID: nft?.collectionId ?? '',
-      nftObjectId: nft?.symbol ?? '',
-      nftPrice: '${nft?.sellPrice ?? ""}',
-      currency: nft?.tradingAsset ?? '',
-      nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
-      nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
-          ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
-          : '',
-    );
     loader.startLoading();
 
     try {
@@ -126,25 +106,11 @@ abstract class _NFTConfirmStoreBase with Store {
 
         isProcessing = false;
 
-        sAnalytics.nftPurchaseSuccess(
-          nftCollectionID: nft?.collectionId ?? '',
-          nftObjectId: nft?.symbol ?? '',
-          nftPrice: '${nft?.sellPrice ?? ""}',
-          currency: nft?.tradingAsset ?? '',
-          nftAmountToBePaid: '${nft?.sellPrice ?? ""}',
-          nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
-              ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
-              : '',
-        );
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.nft_detail_confirm_order_completed,
             showProgressBar: true,
             onSuccess: (context) {
-              sAnalytics.nftPurchaseDisplayed(
-                nftCollectionID: nft?.collectionId ?? '',
-                nftObjectId: nft?.symbol ?? '',
-              );
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [

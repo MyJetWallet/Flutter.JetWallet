@@ -62,11 +62,9 @@ abstract class _AllowCameraStoreBase with Store {
       await _setCameraStatusInStorage();
 
       if (status == PermissionStatus.granted) {
-        sAnalytics.kycCameraAllowed();
         // TODO
         //UploadKycDocuments.pushReplacement(context);
       } else {
-        sAnalytics.kycCameraNotAllowed();
         updateCameraStatus(CameraStatus.denied);
       }
     }

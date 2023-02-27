@@ -374,17 +374,8 @@ abstract class _WithdrawalStoreBase with Store {
           'MATIC',
         );
 
-        sAnalytics.nftSendConfirmView(
-          nftCollectionID: withdrawalInputModel?.nft?.collectionId ?? '',
-          nftObjectId: withdrawalInputModel?.nft?.symbol ?? '',
-          network: withdrawalInputModel?.nft?.blockchain ?? '',
-          nftFee:
-              '${matic.withdrawalFeeSize(withdrawalInputModel?.nft?.blockchain ?? '')}',
-        );
 
         await withdrawNFT();
-      } else {
-        sAnalytics.sendViews();
       }
 
       return _pushWithdrawalAmount(context);
@@ -421,15 +412,6 @@ abstract class _WithdrawalStoreBase with Store {
                 'MATIC',
               );
 
-              sAnalytics.nftSendConfirmView(
-                nftCollectionID: withdrawalInputModel?.nft?.collectionId ?? '',
-                nftObjectId: withdrawalInputModel?.nft?.symbol ?? '',
-                network: withdrawalInputModel?.nft?.blockchain ?? '',
-                nftFee:
-                    '${matic.withdrawalFeeSize(withdrawalInputModel?.nft?.blockchain ?? '')}',
-              );
-            } else {
-              sAnalytics.sendViews();
             }
 
             _pushWithdrawalAmount(context);
@@ -926,13 +908,6 @@ abstract class _WithdrawalStoreBase with Store {
       'MATIC',
     );
 
-    sAnalytics.nftSendProcessing(
-      nftCollectionID: withdrawalInputModel?.nft?.symbol ?? '',
-      nftObjectId: withdrawalInputModel?.nft?.collectionId ?? '',
-      network: networkController.text,
-      nftFee: '${matic.withdrawalFeeSize(networkController.text)}',
-    );
-
     try {
       final model = WithdrawRequestModel(
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -947,12 +922,6 @@ abstract class _WithdrawalStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          sAnalytics.nftSendSuccess(
-            nftCollectionID: withdrawalInputModel?.nft?.symbol ?? '',
-            nftObjectId: withdrawalInputModel?.nft?.collectionId ?? '',
-            network: networkController.text,
-            nftFee: '${matic.withdrawalFeeSize(networkController.text)}',
-          );
 
           operationId = data.operationId;
 
@@ -1058,8 +1027,6 @@ abstract class _WithdrawalStoreBase with Store {
         //_confirmFailureScreen();
       } else {
         confirmUnion = const confirm.WithdrawalConfirmUnion.input();
-
-        sAnalytics.sendSuccess(type: 'By phone');
 
         if (withdrawalType == WithdrawalType.Asset) {
           _confirmSuccessScreen();

@@ -166,8 +166,6 @@ abstract class _WithdrawalConfirmStoreBase with Store {
       } else {
         union = const WithdrawalConfirmUnion.input();
 
-        sAnalytics.sendSuccess(type: 'By phone');
-
         if (withdrawal!.currency != null) {
           _showSuccessScreen();
         } else {

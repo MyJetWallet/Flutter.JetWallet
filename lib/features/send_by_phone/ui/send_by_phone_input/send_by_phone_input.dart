@@ -109,7 +109,6 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
           title: '${intl.sendByPhoneInput_send} ${widget.currency.description}'
               ' ${intl.sendByPhoneInput_byPhone}',
           onBackButtonTap: () {
-            sAnalytics.sendChoosePhoneClose();
             Navigator.pop(context);
           },
         ),
@@ -295,8 +294,6 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                             intl.sendByPhoneInput_select),
                     name: intl.sendByPhoneInput_continue,
                     onTap: () {
-                      sAnalytics.sendContinuePhone();
-                      sAnalytics.sendViews();
 
                       sRouter.push(
                         SendByPhoneAmountRouter(

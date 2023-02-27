@@ -126,8 +126,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     final lastRecurringItem =
         filteredRecurringBuys.isNotEmpty ? filteredRecurringBuys[0] : null;
 
-    sAnalytics.assetView(widget.marketItem.name);
-
     return SPageFrame(
       header: Material(
         color: chart.union != const ChartUnion.loading()
@@ -144,7 +142,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                     .removeFromWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = false;
               } else {
-                sAnalytics.addToWatchlist(widget.marketItem.name);
                 watchlistIdsN.addToWatchlist(widget.marketItem.associateAsset);
                 isInWatchlist = true;
               }

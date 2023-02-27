@@ -225,13 +225,6 @@ class EarnOfferDetailsBody extends StatelessObserverWidget {
               active: true,
               name: intl.earn_manage,
               onTap: () {
-                sAnalytics.earnTapManage(
-                  assetName: currentCurrency.description,
-                  amount: earnOffer.amount.toString(),
-                  apy: earnOffer.currentApy.toString(),
-                  term: earnOffer.term,
-                  offerId: earnOffer.offerId,
-                );
                 showEarnDetailsManage(
                   context: context,
                   earnOffer: earnOffer,

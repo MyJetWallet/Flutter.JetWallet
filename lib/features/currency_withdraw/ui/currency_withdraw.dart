@@ -87,12 +87,6 @@ class __CryptoWithdrawBodyState extends State<_CurrencyWithdrawBody> {
           titleAlign: TextAlign.start,
           title: store.header,
           onBackButtonTap: () {
-            if (widget.withdrawal.nft != null) {
-              sAnalytics.nftSendBack(
-                nftCollectionID: widget.withdrawal.nft?.collectionId ?? '',
-                nftObjectId: widget.withdrawal.nft?.symbol ?? '',
-              );
-            }
             Navigator.pop(context);
           },
         ),
@@ -244,18 +238,6 @@ class __CryptoWithdrawBodyState extends State<_CurrencyWithdrawBody> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-                            if (widget.withdrawal.nft != null) {
-                              sAnalytics.nftSendContinue(
-                                nftCollectionID:
-                                    widget.withdrawal.nft?.collectionId ?? '',
-                                nftObjectId:
-                                    widget.withdrawal.nft?.symbol ?? '',
-                                network:
-                                    widget.withdrawal.nft?.blockchain ?? '',
-                              );
-                            } else {
-                              sAnalytics.sendContinueAddress();
-                            }
                             store.validateOnContinue(context);
                           },
                         ),

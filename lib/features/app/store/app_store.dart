@@ -528,7 +528,6 @@ abstract class _AppStoreBase with Store {
 
         await getIt.get<LogoutService>().logout('APP_STORE, $e');
 
-        sAnalytics.remoteConfigError();
       }
     }
 

@@ -158,13 +158,6 @@ class ConvertBody extends StatelessObserverWidget {
                 && store.toAsset != null,
             submitButtonName: intl.convert_previewExchange,
             onSubmitPressed: () {
-              sAnalytics.convertTapPreview(
-                sourceCurrency: store.fromAsset!.description,
-                sourceAmount: store.fromAssetAmount,
-                destinationCurrency: store.toAsset!.description,
-                destinationAmount: store.toAssetAmount,
-                sellPercentage: store.tappedPreset ?? '',
-              );
 
               sRouter.push(
                 PreviewConvertRouter(

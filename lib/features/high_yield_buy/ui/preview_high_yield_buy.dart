@@ -156,23 +156,6 @@ class _PreviewHighYieldBuyBody extends StatelessObserverWidget {
                   active: state.union is QuoteSuccess,
                   name: intl.preview_earn_buy_confirm,
                   onTap: () {
-                    if (input.topUp) {
-                      sAnalytics.earnConfirmTopUp(
-                        assetName: from.description,
-                        amount: input.amount,
-                        apy: input.apy,
-                        term: input.earnOffer.term,
-                        offerId: input.earnOffer.offerId,
-                      );
-                    } else {
-                      sAnalytics.earnConfirm(
-                        assetName: from.description,
-                        amount: input.amount,
-                        apy: input.apy,
-                        term: input.earnOffer.term,
-                        offerId: input.earnOffer.offerId,
-                      );
-                    }
                     state.earnOfferDeposit(input.earnOffer.offerId);
                   },
                 ),

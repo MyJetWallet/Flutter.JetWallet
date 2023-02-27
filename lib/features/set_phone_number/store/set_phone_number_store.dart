@@ -152,9 +152,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
         return;
       }
 
-      sAnalytics.kycPhoneConfirmed();
-      sAnalytics.kycChangePhoneNumber();
-
       then();
     } on ServerRejectException catch (e) {
       loader!.finishLoadingImmediately();
