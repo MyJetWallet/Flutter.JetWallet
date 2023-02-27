@@ -385,6 +385,14 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
+  Future<void> backToNewFlow() async {
+    _updateNewPin('');
+    _updateConfirmPin('');
+
+    _updateScreenUnion(const NewPin());
+  }
+
+  @action
   Future<void> _newPinFlow() async {
     Future<void> _success() async {
       await _animateCorrect();

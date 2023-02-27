@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store.dart';
 import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phone_number_picker.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -81,7 +82,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
           customIconButton: fromRegister
               ? SIconButton(
                   onTap: () {
-                    sRouter.push(const VerificationRouter());
+                    showModalVerification(context);
                   },
                   defaultIcon: const SCloseIcon(),
                   pressedIcon: const SClosePressedIcon(),

@@ -8,6 +8,7 @@ import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referr
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_field.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
@@ -56,7 +57,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
             title: intl.user_data_whats_your_name,
             customIconButton: SIconButton(
               onTap: () {
-                sRouter.push(const VerificationRouter());
+                showModalVerification(context);
               },
               defaultIcon: const SCloseIcon(),
               pressedIcon: const SClosePressedIcon(),

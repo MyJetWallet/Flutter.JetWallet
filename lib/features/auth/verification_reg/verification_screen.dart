@@ -36,6 +36,8 @@ class VerificationScreen extends StatelessObserverWidget {
                   'TWO FA, logout',
                   withLoading: false,
                 );
+
+                getIt<AppRouter>().pop();
               },
               activeColor: colors.blue,
               inactiveColor: colors.grey4,
@@ -78,7 +80,9 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: !store.isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
-              sRouter.replace(
+              getIt<AppRouter>().pop();
+
+              /*sRouter.replace(
                 SetPhoneNumberRouter(
                   successText: intl.profileDetails_newPhoneNumberConfirmed,
                   fromRegister: true,
@@ -89,6 +93,7 @@ class VerificationScreen extends StatelessObserverWidget {
                   },
                 ),
               );
+              */
             },
             isDisabled: !store.isPhoneDone &&
                 store.step != VerificationScreenStep.Phone,
@@ -102,7 +107,8 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: store.step == VerificationScreenStep.PersonalDetail,
             linkText: intl.provide_information,
             linkAction: () {
-              sRouter.replace(const UserDataScreenRouter());
+              getIt<AppRouter>().pop();
+              //sRouter.replace(const UserDataScreenRouter());
             },
             subtext: intl.personal_details_descr,
             isDisabled: !store.isPersonalDetailsDone &&
@@ -118,12 +124,15 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: store.step == VerificationScreenStep.Pin,
             linkText: intl.create_pin_code,
             linkAction: () {
+              getIt<AppRouter>().pop();
+              /*
               getIt<AppRouter>().replaceAll([
                 PinScreenRoute(
                   union: Setup(),
                   cannotLeave: true,
                 ),
               ]);
+              */
             },
             isDisabled: !store.isCreatePinDone &&
                 store.step != VerificationScreenStep.Pin,
