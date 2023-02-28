@@ -55,7 +55,7 @@ class RemoteConfig {
       final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
       remoteConfigURL = flavor == Flavor.prod
-          ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
           : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
       final response = await Dio().get(remoteConfigURL);

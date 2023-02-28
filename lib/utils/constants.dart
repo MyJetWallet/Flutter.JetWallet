@@ -100,3 +100,4 @@ const gmailAsset = 'assets/images/gmail.png';
 const sparkAsset = 'assets/images/spark.png';
 
 const portfolioGradientBG = 'assets/images/gradient_bg.png';
+const applePayAsset = 'assets/images/apple_pay.png';

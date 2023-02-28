@@ -49,6 +49,7 @@ enum PaymentMethodType {
   unsupported,
   unlimintAlternative,
   bankCard,
+  applePay,
 }
 
 extension _PaymentMethodTypeExtension on PaymentMethodType {
@@ -64,6 +65,8 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
         return 'UnlimintAlternative';
       case PaymentMethodType.bankCard:
         return 'BankCard';
+      case PaymentMethodType.applePay:
+        return 'UnlimintApplePay';
       default:
         return 'Unsupported';
     }
@@ -90,6 +93,8 @@ class PaymentTypeSerialiser
       return PaymentMethodType.unlimintAlternative;
     } else if (value == 'BankCard') {
       return PaymentMethodType.bankCard;
+    } else if (value == 'UnlimintApplePay') {
+      return PaymentMethodType.applePay;
     } else {
       return PaymentMethodType.unsupported;
     }
