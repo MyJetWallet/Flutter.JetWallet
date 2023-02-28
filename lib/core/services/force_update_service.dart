@@ -20,45 +20,45 @@ class ForceServiceUpdate {
     BuildContext? context,
     bool showPopup = false,
   }) async {
-    // final _info = getIt.get<PackageInfoService>().info;
-    //
-    // final minimum = compareVersions(minimumVersion, _info.version);
-    // final recommended = compareVersions(recommendedVersion, _info.version);
-    //
-    // if (minimum == VersionStatus.greater) {
-    //   await Future.delayed(const Duration(microseconds: 1));
-    //
-    //   if (showPopup && context != null && !isAnyDialogOpened) {
-    //     showForceUpdateAlert(context);
-    //   }
-    //
-    //   return true;
-    // } else {
-    //   if (recommended == VersionStatus.greater) {
-    //     await Future.delayed(const Duration(microseconds: 1));
-    //
-    //     if (showPopup && context != null && !isAnyDialogOpened) {
-    //       showRecommendedUpdateAlert(context);
-    //     }
-    //
-    //     return true;
-    //   }
-    // }
+    final _info = getIt.get<PackageInfoService>().info;
+
+    final minimum = compareVersions(minimumVersion, _info.version);
+    final recommended = compareVersions(recommendedVersion, _info.version);
+
+    if (minimum == VersionStatus.greater) {
+      await Future.delayed(const Duration(microseconds: 1));
+
+      if (showPopup && context != null && !isAnyDialogOpened) {
+        showForceUpdateAlert(context);
+      }
+
+      return true;
+    } else {
+      if (recommended == VersionStatus.greater) {
+        await Future.delayed(const Duration(microseconds: 1));
+
+        if (showPopup && context != null && !isAnyDialogOpened) {
+          showRecommendedUpdateAlert(context);
+        }
+
+        return true;
+      }
+    }
 
     return false;
   }
 
   void showForceUpdateAlert(BuildContext context) {
-    // isAnyDialogOpened = true;
-    //
-    // sShowAlertPopup(
-    //   context,
-    //   willPopScope: false,
-    //   primaryText: '${intl.update_timeToUpdate}!',
-    //   secondaryText: intl.update_downloadTheLatestVersion,
-    //   primaryButtonName: intl.update_update,
-    //   onPrimaryButtonTap: () => _storeRedirect(),
-    // );
+    isAnyDialogOpened = true;
+
+    sShowAlertPopup(
+      context,
+      willPopScope: false,
+      primaryText: '${intl.update_timeToUpdate}!',
+      secondaryText: intl.update_downloadTheLatestVersion,
+      primaryButtonName: intl.update_update,
+      onPrimaryButtonTap: () => _storeRedirect(),
+    );
   }
 
   void showRecommendedUpdateAlert(BuildContext context) {
