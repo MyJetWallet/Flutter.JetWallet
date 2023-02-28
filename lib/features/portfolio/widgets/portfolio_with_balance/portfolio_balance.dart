@@ -59,8 +59,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   Widget _balanceInProgressIcon(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (!currency.isSingleTypeInProgress) {
       return const SDepositTotalIcon();
     }
@@ -76,8 +76,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressText(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (currency.isSingleTypeInProgress) {
       return volumeFormat(
         decimal: currency.totalAmountInProcess,
@@ -91,8 +91,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressLeadText(
-    CurrencyModel currency,
-  ) {
+      CurrencyModel currency,
+      ) {
     if (currency.isSingleTypeInProgress) {
       return actualInProcessOperationName(
         currency,

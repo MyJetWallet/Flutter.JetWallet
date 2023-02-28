@@ -17,6 +17,9 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/tranfer_by_phone/transfer_by_phone_request_model.dart';
 
+import '../../../core/di/di.dart';
+import '../../../core/services/local_storage_service.dart';
+
 part 'send_by_phone_preview_store.g.dart';
 
 class SendByPreviewStore extends _SendByPreviewStoreBase
@@ -137,6 +140,9 @@ abstract class _SendByPreviewStoreBase with Store {
 
   @action
   void _showSendByPhoneConfirm() {
+    final storageService = getIt.get<LocalStorageService>();
+    storageService.setString(lastAssetSend, currency.symbol);
+
     sRouter.push(
       SendByPhoneConfirmRouter(
         currency: currency,
