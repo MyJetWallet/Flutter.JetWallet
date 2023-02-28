@@ -163,6 +163,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                         child: SPrimaryButton4(
                           name: intl.register_continue,
                           onTap: () {
+                            sAnalytics.signInFlowCreatePinView();
                             UserDataStore.of(context).saveUserData(
                               birthDateInfo.loader,
                               birthDateInfo,

@@ -115,8 +115,8 @@ class _BiometricBody extends StatelessObserverWidget {
                       print(bioStatus);
                       if (bioStatus == BiometricStatus.none) {
                         await getIt.get<AppRouter>().push(
-                              const AllowBiometricRoute(),
-                            );
+                          const AllowBiometricRoute(),
+                        );
                       } else {
                         if (userInfoN.userInfo.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();

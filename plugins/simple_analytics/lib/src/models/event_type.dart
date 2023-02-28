@@ -48,7 +48,7 @@ class EventType {
   static const signInFlowPersonalDetailsView = '‘Personal Details‘ screen view';
   static const signInFlowDateSheetView = '‘Date of birth’ screen view';
   static const signInFlowSelectCountryView = '‘Select country’ screen view';
-  static const signInFlowCreatePinView = '‘Create a PIN code’ screen view';
+  static const signInFlowCreatePinView = '‘Create PIN code’ screen view';
   static const signInFlowEnableBiometricView =
       '‘Enable Face ID/biometrics to instantly login’ screen view';
   static const signInFlowEnterPinView = '‘Enter your PIN code’ screen view';

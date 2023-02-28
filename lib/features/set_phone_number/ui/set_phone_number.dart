@@ -207,9 +207,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
 
                                   store.phoneNumberController.text = '';
 
-                                  if (fromRegister) {
-                                    sAnalytics.signInFlowCreatePinView();
-                                  }
                                   then!();
                                 },
                               ),
