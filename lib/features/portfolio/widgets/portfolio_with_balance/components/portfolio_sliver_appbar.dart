@@ -170,6 +170,9 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
             children: [
               CircleActionBuy(
                 onTap: () {
+                  sAnalytics.newBuyTapBuy(
+                    source: 'My Assets - Buy',
+                  );
                   showBuyAction(
                     fromCard: true,
                     shouldPop: false,

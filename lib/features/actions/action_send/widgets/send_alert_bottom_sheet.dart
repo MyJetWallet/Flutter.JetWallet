@@ -62,7 +62,7 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
               );
             },
           ),
-          const SpaceH24(),
+          const SpaceH42(),
         ],
       ),
     );

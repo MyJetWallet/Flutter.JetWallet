@@ -86,8 +86,8 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
               children: [
                 Baseline(
                   baseline: deviceSize.when(
-                    small: () => 32,
-                    medium: () => 60,
+                    small: () => 20,
+                    medium: () => 48,
                   ),
                   baselineType: TextBaseline.alphabetic,
                   child: SActionPriceField(

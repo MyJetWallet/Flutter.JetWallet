@@ -2887,12 +2887,15 @@ class SimpleAnalytics {
     }
   }
 
-  void newBuyTapBuy() {
+  void newBuyTapBuy({
+    required String source,
+  }) {
     _analytics.logEvent(
       EventType.newBuyTapBuy,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '2',
+        PropertyType.source: source,
       },
     );
   }
