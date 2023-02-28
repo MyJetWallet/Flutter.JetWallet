@@ -88,6 +88,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
             ],
             CircleActionBuy(
               onTap: () {
+                sAnalytics.newBuyTapBuy(
+                  source: 'Market - Asset - Buy',
+                );
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
                   sAnalytics.buyView(
