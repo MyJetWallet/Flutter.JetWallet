@@ -103,7 +103,6 @@ class WithdrawDetails extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceH10(),
           ],
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             Row(

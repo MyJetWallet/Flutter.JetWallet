@@ -6,15 +6,18 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'components/transaction_details_item.dart';
+import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class ReceiveDetails extends StatelessObserverWidget {
   const ReceiveDetails({
     Key? key,
     required this.transactionListItem,
+    required this.onCopyAction,
   }) : super(key: key);
 
   final OperationHistoryItem transactionListItem;
+  final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,26 @@ class ReceiveDetails extends StatelessObserverWidget {
         children: [
           TransactionDetailsItem(
             text: '${intl.transaction} ID',
-            value: TransactionDetailsValueText(
-              text: shortAddressForm(transactionListItem.operationId),
+            value: Row(
+              children: [
+                TransactionDetailsValueText(
+                  text: shortAddressForm(transactionListItem.operationId),
+                ),
+                const SpaceW10(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: transactionListItem.operationId,
+                      ),
+                    );
+
+                    onCopyAction('${intl.transaction} ID');
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
             ),
           ),
           const SpaceH10(),
@@ -53,7 +74,11 @@ class ReceiveDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH40(),
+          const SpaceH10(),
+          TransactionDetailsStatus(
+            status: transactionListItem.status,
+          ),
+          const SpaceH42(),
         ],
       ),
     );
