@@ -14,6 +14,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
     this.onSwitchChanged,
     this.switchValue = false,
     this.notification = false,
+    this.showEditIcon = false,
   }) : super(key: key);
 
   final Widget icon;
@@ -23,12 +24,15 @@ class SimpleAccountCategoryButton extends StatelessWidget {
   final Function(bool)? onSwitchChanged;
   final bool switchValue;
   final bool notification;
+  final bool showEditIcon;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      highlightColor: SColorsLight().grey5,
-      onTap: onTap,
+      highlightColor: showEditIcon ? Colors.transparent : SColorsLight().grey5,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      onTap: showEditIcon ? () {} : onTap,
       child: SPaddingH24(
         child: Column(
           children: <Widget>[
@@ -73,6 +77,16 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                       right: 0,
                       top: 3,
                       child: SErrorIcon(),
+                    ),
+                  if (showEditIcon)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: SIconButton(
+                        onTap: onTap,
+                        defaultIcon: const SEditIcon(),
+                        pressedIcon: SEditIcon(color: SColorsLight().grey3),
+                      ),
                     ),
                 ],
               ),

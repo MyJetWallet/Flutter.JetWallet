@@ -18,6 +18,7 @@ void showBuyAction({
   final handler = getIt.get<KycAlertHandler>();
 
   void showAction() {
+    sAnalytics.newBuyChooseAssetView();
     sRouter.push(
       const ChooseAssetRouter(),
     );

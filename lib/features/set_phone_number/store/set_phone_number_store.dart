@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/country_code_by_user_register.dart';
@@ -32,6 +33,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
     );
 
     loader = StackLoaderStore();
+    loader!.finishLoading();
     phoneFieldError = StandardFieldErrorNotifier();
 
     _registerCountryUser();
@@ -55,6 +57,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   @observable
   String phoneInput = '';
+
+  @observable
+  String pin = '';
 
   @observable
   bool isButtonActive = false;
@@ -89,6 +94,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
   }
 
   @action
+  void updatePin(String value) {
+    pin = value;
+  }
+
+  @action
   Future<void> sendCode({required void Function() then}) async {
     getIt.get<SimpleLoggerService>().log(
       level: Level.info,
@@ -97,27 +107,12 @@ abstract class _SetPhoneNumberStoreBase with Store {
     );
     _logger.log(notifier, 'sendCode');
 
-    loader!.startLoading();
+    loader?.startLoading();
 
     try {
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: 'try sendCode',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: phoneNumber(),
-      );
       final number = await decomposePhoneNumber(
         phoneNumber(),
         isoCodeNumber: activeDialCode?.isoCode ?? '',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$number',
       );
 
       final model = PhoneVerificationRequestModel(
@@ -130,36 +125,18 @@ abstract class _SetPhoneNumberStoreBase with Store {
         phoneIso: number.isoCode,
         verificationType: 1,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$model',
+        pin: pin,
       );
 
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: 'response received',
-      );
-      getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$resp',
-      );
 
       if (resp.hasError) {
-
-        getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: 'sendCode',
-          message: '${resp.error}',
-        );
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
+        loader?.finishLoading();
+        await sRouter.pop();
 
         return;
       }
@@ -167,18 +144,22 @@ abstract class _SetPhoneNumberStoreBase with Store {
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();
 
+      loader?.finishLoading();
       then();
     } on ServerRejectException catch (e) {
+      loader?.finishLoading();
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
         level: Level.info,
         place: 'sendCode',
         message: '$e',
       );
+      await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
-      print(e);
+      loader?.finishLoading();
+      await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
@@ -192,7 +173,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
         id: 1,
       );
     } finally {
-      loader!.finishLoading();
+      loader?.finishLoading();
     }
   }
 

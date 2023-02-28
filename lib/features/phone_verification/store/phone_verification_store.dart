@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -157,6 +158,7 @@ abstract class _PhoneVerificationStoreBase with Store {
           id: 1,
         );
       } else {
+        sUserInfo.updatePhone(phoneNumber);
         args.onVerified();
       }
     } catch (e) {

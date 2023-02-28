@@ -11,14 +11,20 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
     required this.userFirstName,
     required this.userLastName,
     required this.showUserName,
+    required this.isVerified,
     required this.onIconTap,
+    required this.icon,
+    required this.iconText,
   }) : super(key: key);
 
   final String userEmail;
   final String userFirstName;
   final String userLastName;
   final bool showUserName;
+  final bool isVerified;
   final Function() onIconTap;
+  final Widget icon;
+  final String iconText;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +79,7 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceW20(),
+          const SpaceW16(),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,12 +93,27 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
                       color: SColorsLight().black,
                     ),
                   ),
-                Text(
-                  userEmail,
-                  style: sSubtitle3Style.copyWith(
-                    color: SColorsLight().grey1,
+                const SpaceH2(),
+                if (isVerified)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      icon,
+                      const SpaceW4(),
+                      Column(
+                        children: [
+                          const SpaceH2(),
+                          Text(
+                            iconText,
+                            style: sBodyText2Style.copyWith(
+                              color: SColorsLight().green,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),

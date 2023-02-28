@@ -105,19 +105,11 @@ class _AppInitRouterState extends State<AppInitRouter> {
           }
         */
 
-        getIt.get<AppStore>().initSessionInfo();
+        //getIt.get<AppStore>().initSessionInfo();
 
         //if (!getIt<RouteQueryService>().isNavigate) {
         // getIt<RouteQueryService>().runQuery();
         //}
-
-        sRouter.replaceAll([
-          const HomeRouter(
-            children: [
-              PortfolioRouter(),
-            ],
-          ),
-        ]);
 
         return const SplashScreenNoAnimation();
       },

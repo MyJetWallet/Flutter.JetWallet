@@ -22,11 +22,11 @@ void showBankCardCvvBottomSheet({
     pinned: SBottomSheetHeader(
       name: header,
       onTap: () {
-        sAnalytics.circleCloseCVV();
+
       },
     ),
     onDissmis: () {
-      sAnalytics.circleCloseCVV();
+
     },
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,

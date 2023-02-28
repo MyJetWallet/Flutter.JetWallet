@@ -16,8 +16,10 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -138,6 +140,15 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           tradeFeeAsset = data.tradeFeeAsset;
           rate = data.rate;
           paymentId = data.paymentId ?? '';
+
+          sAnalytics.newBuyTapContinue(
+            sourceCurrency: input.currencyPayment.symbol,
+            destinationCurrency: input.currency.symbol,
+            paymentMethod: 'Unlimint card',
+            sourceAmount: '$paymentAmount',
+            destinationAmount: '$buyAmount',
+            quickAmount: input.quickAmount,
+          );
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestPreview', error.cause);
@@ -167,6 +178,24 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     await storage.setString(checkedUnlimint, 'true');
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.unlimintCard,
+    ).toList();
+    sAnalytics.newBuyTapConfirm(
+      sourceCurrency: input.currencyPayment.symbol,
+      destinationCurrency: input.currency.symbol,
+      paymentMethod: 'Unlimint card',
+      sourceAmount: '$paymentAmount',
+      destinationAmount: '$buyAmount',
+      exchangeRate: '1 ${input.currency.symbol} = ${volumeFormat(
+        prefix: input.currencyPayment.prefixSymbol,
+        symbol: input.currencyPayment.symbol,
+        accuracy: input.currencyPayment.accuracy,
+        decimal: rate ?? Decimal.zero,
+      )}',
+      paymentFee: '$depositFeeAmount',
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+    );
 
     await _createPayment();
   }
@@ -176,16 +205,24 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.unlimintCard,
+    ).toList();
+    sAnalytics.newBuyProcessingView(
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+    );
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
-        (url, onSuccess, onCancel, paymentId) {
+        (url, onSuccess, onCancel, onFailed, paymentId) {
+          isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
               url: url,
               asset: currencySymbol,
               amount: input.amount,
               onSuccess: onSuccess,
+              onFailed: onFailed,
               onCancel: onCancel,
               paymentId: paymentId,
             ),
@@ -261,6 +298,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       String,
       Function(String, String),
       Function(String),
+      Function(String),
       String,
     )
         onAction,
@@ -316,6 +354,10 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
               (payment) {
                 sRouter.pop();
               },
+              (error) {
+                sRouter.pop();
+                _showFailureScreen(error);
+              },
               paymentId,
             );
           }
@@ -343,6 +385,12 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       buyPaymentId: paymentId,
     );
     var tapped = false;
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuySuccessView(
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+    );
 
     return sRouter
         .push(
@@ -394,17 +442,22 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
+    final buyMethod = input.currency.buyMethods.where(
+          (element) => element.id == PaymentMethodType.bankCard,
+    ).toList();
+    sAnalytics.newBuyFailedView(
+      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
+      errorCode: error,
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_editOrder,
+        primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
-          sRouter.pop();
-          sRouter.pop();
+          navigateToRouter();
         },
-        secondaryButtonName: intl.previewBuyWithAsset_close,
-        onSecondaryButtonTap: () => navigateToRouter(),
       ),
     );
   }

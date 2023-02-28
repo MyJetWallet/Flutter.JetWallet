@@ -91,6 +91,10 @@ abstract class _AppStoreBase with Store {
     initRouter = const RouterUnion.unauthorized();
   }
 
+  /// Костыль, позже убрать
+  var openPinVerification = false;
+  var homeOpened = false;
+
   @action
   Future<void> checkInitRouter() async {
     FlutterNativeSplash.remove();
@@ -142,28 +146,38 @@ abstract class _AppStoreBase with Store {
             pinSetup: () {
               //initRouter = const RouterUnion.pinSetup();
 
-              getIt<AppRouter>().replaceAll([
-                PinScreenRoute(
-                  union: Setup(),
-                  cannotLeave: true,
-                ),
-              ]);
+              if (sRouter.current.path != '/pin_screen') {
+                getIt<AppRouter>().replaceAll([
+                  PinScreenRoute(
+                    union: Setup(),
+                    cannotLeave: true,
+                  ),
+                ]);
+              }
             },
             pinVerification: () {
               //initRouter = const RouterUnion.pinVerification();
 
-              getIt<AppRouter>().replaceAll([
-                PinScreenRoute(
-                  union: Verification(),
-                  cannotLeave: true,
-                  displayHeader: false,
-                ),
-              ]);
+              if (openPinVerification) return;
+              openPinVerification = true;
+
+              if (sRouter.current.path != '/pin_screen') {
+                getIt<AppRouter>().replaceAll([
+                  PinScreenRoute(
+                    union: Verification(),
+                    cannotLeave: true,
+                    displayHeader: false,
+                  ),
+                ]);
+              }
             },
             home: () {
               //initRouter = const RouterUnion.home();
 
-              getIt.get<AppStore>().initSessionInfo();
+              if (homeOpened) return;
+              homeOpened = true;
+
+              initSessionInfo();
 
               sRouter.replaceAll([
                 const HomeRouter(
@@ -208,7 +222,9 @@ abstract class _AppStoreBase with Store {
         },
       );
     } else {
-      initRouter = const RouterUnion.loading();
+      await getIt<AppRouter>().replaceAll([
+        const SplashNoAnimationRoute(),
+      ]);
     }
   }
 
@@ -432,6 +448,8 @@ abstract class _AppStoreBase with Store {
 
       isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
 
+      //unawaited(initSessionInfo());
+
       try {
         final userInfo = getIt.get<UserInfoService>();
 
@@ -550,5 +568,8 @@ abstract class _AppStoreBase with Store {
     homeTab = 0;
     isBalanceHide = true;
     appStatus = AppStatus.Start;
+
+    openPinVerification = false;
+    homeOpened = false;
   }
 }

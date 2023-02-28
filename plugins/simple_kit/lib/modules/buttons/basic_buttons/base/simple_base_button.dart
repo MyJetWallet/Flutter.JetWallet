@@ -12,12 +12,14 @@ class SimpleBaseButton extends StatelessWidget {
     this.onTap,
     this.baseline = 33.5,
     this.borderColor,
+    this.addPadding = false,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
     required this.nameColor,
   }) : super(key: key);
 
+  final bool addPadding;
   final Widget? icon;
   final Function()? onTap;
   final double baseline;
@@ -56,14 +58,32 @@ class SimpleBaseButton extends StatelessWidget {
                   ),
                   const SpaceW10(),
                 ],
-                Flexible(
-                  child: Text(
-                    name,
-                    style: sButtonTextStyle.copyWith(
-                      color: nameColor,
+                if (addPadding)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          name,
+                          style: sButtonTextStyle.copyWith(
+                            color: nameColor,
+                          ),
+                        ),
+                      ),
+                      if (icon != null)
+                        const SpaceH8(),
+                    ],
+                  )
+                else
+                  Flexible(
+                    child: Text(
+                      name,
+                      style: sButtonTextStyle.copyWith(
+                        color: nameColor,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

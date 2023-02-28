@@ -62,4 +62,13 @@ class PropertyType {
   static const nftAmountToGet = 'Amount to get';
   static const nftNetwork = 'Network';
   static const nftFee = 'Fee';
+  static const eventId = 'Event id';
+  static const nameLastName = 'Name/Lastname';
+  static const saveCard = 'SaveCard';
+  static const errorCode = 'error code';
+  static const quickAmount = 'Quick amount';
+  static const exchangeRate = 'Exchange rate';
+  static const paymentFee = 'Payment Fee';
+  static const firstTimeBuy = 'FirstTimeBuy';
+  static const newBuyPreset = 'Preset';
 }

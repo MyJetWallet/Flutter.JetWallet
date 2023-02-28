@@ -10,6 +10,7 @@ class PreviewBuyWithBankCardInput with _$PreviewBuyWithBankCardInput {
     required String amount,
     required CurrencyModel currency,
     required CurrencyModel currencyPayment,
+    required String quickAmount,
     String? cardId,
     String? cardNumber,
   }) = _PreviewBuyWithBankCardInput;

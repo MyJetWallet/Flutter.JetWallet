@@ -6,11 +6,15 @@ import 'package:simple_kit/modules/colors/simple_colors_dark.dart';
 class SimpleDarkTextButton2 extends StatelessWidget {
   const SimpleDarkTextButton2({
     Key? key,
+    this.icon,
+    this.addPadding = false,
     required this.active,
     required this.name,
     required this.onTap,
   }) : super(key: key);
 
+  final Widget? icon;
+  final bool addPadding;
   final bool active;
   final String name;
   final Function() onTap;
@@ -18,6 +22,8 @@ class SimpleDarkTextButton2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseTextButton(
+      addPadding: addPadding,
+      icon: icon,
       active: active,
       name: name,
       onTap: onTap,

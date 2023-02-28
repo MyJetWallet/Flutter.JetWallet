@@ -123,17 +123,9 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
     return SPageFrameWithPadding(
       loading: state.loader,
       loaderText: intl.previewBuyWithCircle_pleaseWait,
-      header: deviceSize.when(
-        small: () {
-          return const SSmallHeader(
-            title: '',
-          );
-        },
-        medium: () {
-          return const SMegaHeader(
-            title: '',
-          );
-        },
+      header: const SSmallHeader(
+        isShortVersion: true,
+        title: '',
       ),
       child: Stack(
         children: [
@@ -335,6 +327,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
+                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,
@@ -365,16 +358,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                     (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    sAnalytics.tapConfirmBuy(
-                      assetName: input.currency.description,
-                      paymentMethod: 'circleCard',
-                      amount: formatCurrencyStringAmount(
-                        prefix: input.currencyPayment.prefixSymbol,
-                        value: input.amount,
-                        symbol: input.currencyPayment.symbol,
-                      ),
-                      frequency: RecurringFrequency.oneTime,
-                    );
 
                     state.onConfirm();
                   },

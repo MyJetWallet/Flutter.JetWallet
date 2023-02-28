@@ -34,6 +34,12 @@ class _$AppRouter extends RootStackRouter {
         child: const SplashScreen(),
       );
     },
+    SplashNoAnimationRoute.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const SplashScreenNoAnimation(),
+      );
+    },
     OnboardingRoute.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -400,6 +406,7 @@ class _$AppRouter extends RootStackRouter {
         child: SetPhoneNumber(
           key: args.key,
           then: args.then,
+          isChangePhone: args.isChangePhone,
           successText: args.successText,
         ),
       );
@@ -440,6 +447,8 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           displayHeader: args.displayHeader,
           cannotLeave: args.cannotLeave,
+          isChangePhone: args.isChangePhone,
+          onChangePhone: args.onChangePhone,
           union: args.union,
         ),
       );
@@ -645,6 +654,7 @@ class _$AppRouter extends RootStackRouter {
           args.onSuccess,
           args.onCancel,
           args.paymentId,
+          args.onFailed,
         ),
       );
     },
@@ -919,6 +929,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           SplashRoute.name,
           path: '/splash',
+        ),
+        RouteConfig(
+          SplashNoAnimationRoute.name,
+          path: '/splash_no_animation',
         ),
         RouteConfig(
           OnboardingRoute.name,
@@ -1331,6 +1345,18 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+}
+
+/// generated route for
+/// [SplashScreenNoAnimation]
+class SplashNoAnimationRoute extends PageRouteInfo<void> {
+  const SplashNoAnimationRoute()
+      : super(
+          SplashNoAnimationRoute.name,
+          path: '/splash_no_animation',
+        );
+
+  static const String name = 'SplashNoAnimationRoute';
 }
 
 /// generated route for
@@ -2518,6 +2544,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
   SetPhoneNumberRouter({
     Key? key,
     dynamic Function()? then,
+    bool isChangePhone = false,
     required String successText,
   }) : super(
           SetPhoneNumberRouter.name,
@@ -2525,6 +2552,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
           args: SetPhoneNumberRouterArgs(
             key: key,
             then: then,
+            isChangePhone: isChangePhone,
             successText: successText,
           ),
         );
@@ -2536,6 +2564,7 @@ class SetPhoneNumberRouterArgs {
   const SetPhoneNumberRouterArgs({
     this.key,
     this.then,
+    this.isChangePhone = false,
     required this.successText,
   });
 
@@ -2543,11 +2572,13 @@ class SetPhoneNumberRouterArgs {
 
   final dynamic Function()? then;
 
+  final bool isChangePhone;
+
   final String successText;
 
   @override
   String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, successText: $successText}';
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, successText: $successText}';
   }
 }
 
@@ -2629,6 +2660,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     Key? key,
     bool displayHeader = true,
     bool cannotLeave = false,
+    bool isChangePhone = false,
+    dynamic Function(String)? onChangePhone,
     required PinFlowUnion union,
   }) : super(
           PinScreenRoute.name,
@@ -2637,6 +2670,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             key: key,
             displayHeader: displayHeader,
             cannotLeave: cannotLeave,
+            isChangePhone: isChangePhone,
+            onChangePhone: onChangePhone,
             union: union,
           ),
         );
@@ -2649,6 +2684,8 @@ class PinScreenRouteArgs {
     this.key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    this.isChangePhone = false,
+    this.onChangePhone,
     required this.union,
   });
 
@@ -2658,11 +2695,15 @@ class PinScreenRouteArgs {
 
   final bool cannotLeave;
 
+  final bool isChangePhone;
+
+  final dynamic Function(String)? onChangePhone;
+
   final PinFlowUnion union;
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, onChangePhone: $onChangePhone, union: $union}';
   }
 }
 
@@ -3275,6 +3316,7 @@ class Circle3dSecureWebViewRouter
         onSuccess,
     required dynamic Function(String)? onCancel,
     required String paymentId,
+    required dynamic Function(String) onFailed,
   }) : super(
           Circle3dSecureWebViewRouter.name,
           path: '/circle_3d_secure',
@@ -3285,6 +3327,7 @@ class Circle3dSecureWebViewRouter
             onSuccess: onSuccess,
             onCancel: onCancel,
             paymentId: paymentId,
+            onFailed: onFailed,
           ),
         );
 
@@ -3299,6 +3342,7 @@ class Circle3dSecureWebViewRouterArgs {
     required this.onSuccess,
     required this.onCancel,
     required this.paymentId,
+    required this.onFailed,
   });
 
   final String url;
@@ -3316,9 +3360,11 @@ class Circle3dSecureWebViewRouterArgs {
 
   final String paymentId;
 
+  final dynamic Function(String) onFailed;
+
   @override
   String toString() {
-    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId}';
+    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
   }
 }
 

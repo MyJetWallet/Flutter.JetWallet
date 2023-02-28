@@ -241,7 +241,6 @@ class AddBankCardBody extends StatelessObserverWidget {
                                   active: store.isCardDetailsValid,
                                   name: intl.addCircleCard_continue,
                                   onTap: () async {
-                                    sAnalytics.paymentDetailsContinue(source: 'Unlimint');
                                     await store.addCard(
                                       onSuccess: onCardAdded,
                                       onError: () {},
@@ -369,6 +368,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                               children: [
                                 SIconButton(
                                   onTap: () {
+                                    sAnalytics.newBuyTapSaveCard();
                                     store.checkSetter();
                                   },
                                   defaultIcon: icon,
@@ -397,7 +397,9 @@ class AddBankCardBody extends StatelessObserverWidget {
                         active: store.isCardDetailsValid,
                         name: intl.addCircleCard_continue,
                         onTap: () async {
-                          sAnalytics.paymentDetailsContinue(source: 'Unlimint');
+                          sAnalytics.newBuyTapCardContinue(
+                            saveCard: '${store.saveCard}',
+                          );
                           await store.addCard(
                             onSuccess: onCardAdded,
                             onError: () {},
