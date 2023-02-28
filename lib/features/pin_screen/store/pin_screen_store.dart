@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -101,6 +103,9 @@ abstract class _PinScreenStoreBase with Store {
   bool isBioBeenUsed = false;
 
   @observable
+  bool isError = false;
+
+  @observable
   GlobalKey<ShakeWidgetState> shakePinKey = GlobalKey<ShakeWidgetState>();
 
   @observable
@@ -201,6 +206,8 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> updatePin(String value) async {
+    isError = false;
+
     if (!_isLengthExceeded(value)) {
       _logger.log(notifier, 'updatePin');
 
@@ -356,7 +363,6 @@ abstract class _PinScreenStoreBase with Store {
 
             await resetPin();
           } else {
-
             if (isChangePhone) {
               await sRouter.pop();
             }
@@ -376,6 +382,14 @@ abstract class _PinScreenStoreBase with Store {
         id: 1,
       );
     }
+  }
+
+  @action
+  Future<void> backToNewFlow() async {
+    _updateNewPin('');
+    _updateConfirmPin('');
+
+    _updateScreenUnion(const NewPin());
   }
 
   @action
@@ -494,6 +508,12 @@ abstract class _PinScreenStoreBase with Store {
 
     await _waitToShowAnimation(pinBoxErrorDuration);
     _updatePinBoxState(PinBoxEnum.empty);
+
+    isError = true;
+
+    Timer(const Duration(seconds: 1), () {
+      isError = false;
+    });
   }
 
   @action

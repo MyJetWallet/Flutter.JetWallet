@@ -82,6 +82,8 @@ export 'modules/buttons/basic_buttons/text_button/public/simple_text_button_2.da
 export 'modules/buttons/kyc_button/simple_choose_document_button.dart';
 export 'modules/buttons/link_button/public/simple_link_button_1.dart';
 export 'modules/buttons/link_button/public/simple_link_button_2.dart';
+export 'modules/buttons/link_button/public/simple_link_button_text.dart';
+export 'modules/buttons/link_button/base/simple_base_link_text.dart';
 export 'modules/buttons/resend_button/simple_resend_button.dart';
 export 'modules/buttons/simple_floating_button_frame.dart';
 export 'modules/buttons/simple_floating_button_frame2.dart';
@@ -173,6 +175,7 @@ export 'modules/icons/24x24/public/erase/simple_erase_pressed_icon.dart';
 export 'modules/icons/24x24/public/earn/simple_earn_withdrawal_icon.dart';
 export 'modules/icons/24x24/public/edit/simple_edit_icon.dart';
 export 'modules/icons/24x24/public/done/simple_done_icon.dart';
+export 'modules/icons/24x24/public/done/simple_blue_done_icon.dart';
 export 'modules/icons/24x24/public/error/simple_error_icon.dart';
 export 'modules/icons/24x24/public/error/simple_error_pressed_icon.dart';
 export 'modules/icons/24x24/public/eye_close/simple_eye_close_icon.dart';

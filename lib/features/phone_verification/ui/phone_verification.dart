@@ -104,7 +104,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           children: <Widget>[
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
-              boldText: store.phoneNumber,
+              boldText:
+                  '${store.dialCode?.countryCode ?? ""} ${store.phoneNumber.replaceAll(store.dialCode?.countryCode ?? "", "")}',
             ),
             const SpaceH18(),
             if (args.showChangeTextAlert) ...[
@@ -153,6 +154,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   focusNode: store.focusNode,
                   length: codeLength,
                   controller: store.controller,
+                  autoFocus: true,
                   mainAxisAlignment: MainAxisAlignment.center,
                   onCompleted: (_) => store.verifyCode(),
                   onChanged: (_) {

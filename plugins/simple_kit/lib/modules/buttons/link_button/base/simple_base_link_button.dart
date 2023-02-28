@@ -10,9 +10,9 @@ class SimpleBaseLinkButton extends StatefulWidget {
     required this.active,
     required this.activeColor,
     required this.inactiveColor,
-    required this.defaultIcon,
-    required this.pressedIcon,
-    required this.inactiveIcon,
+    this.defaultIcon,
+    this.pressedIcon,
+    this.inactiveIcon,
   }) : super(key: key);
 
   final String name;
@@ -20,9 +20,9 @@ class SimpleBaseLinkButton extends StatefulWidget {
   final bool active;
   final Color activeColor;
   final Color inactiveColor;
-  final Widget defaultIcon;
-  final Widget pressedIcon;
-  final Widget inactiveIcon;
+  final Widget? defaultIcon;
+  final Widget? pressedIcon;
+  final Widget? inactiveIcon;
 
   @override
   State<SimpleBaseLinkButton> createState() => _SimpleBaseLinkButtonState();
@@ -34,11 +34,12 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
   @override
   Widget build(BuildContext context) {
     late Color currentColor;
-    late Widget currentIcon;
+    Widget? currentIcon;
 
     if (widget.active) {
       if (highlighted) {
         currentColor = widget.activeColor.withOpacity(0.8);
+
         currentIcon = widget.pressedIcon;
       } else {
         currentColor = widget.activeColor;
@@ -58,22 +59,21 @@ class _SimpleBaseLinkButtonState extends State<SimpleBaseLinkButton> {
       },
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      child: Ink(
-        height: 56.0,
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 1),
+              child: Text(
                 widget.name,
-                style: sButtonTextStyle.copyWith(
-                  color: currentColor,
-                ),
+                style: sButtonTextStyle.copyWith(color: currentColor),
               ),
-              const SpaceW10(),
-              currentIcon,
-            ],
-          ),
+            ),
+            const SpaceW4(),
+            if (currentIcon != null) currentIcon,
+          ],
         ),
       ),
     );

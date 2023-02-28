@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -36,18 +38,18 @@ class StartupService {
     processStartupState();
   }
 
-  void successfullAuthentication() {
+  void successfullAuthentication({bool needPush = true}) {
     _logger.log(stateFlow, 'successfullAuthentication');
 
     initSignaWasCall = false;
-
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);
 
     processStartupState().then((value) {
       /// Needed to dissmis Register/Login pushed screens
-      getIt.get<AppStore>().checkInitRouter();
+
+      if (needPush) getIt.get<AppStore>().checkInitRouter();
 
       //sRouter.replaceAll([const AppInitRoute()]);
     });
@@ -60,23 +62,36 @@ class StartupService {
       try {
         await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
 
+        if (!isServicesRegistred) {
+          await startingServices();
+        } else {
+          await reCreateServices();
+        }
+
         unawaited(getIt.get<PushNotification>().registerToken());
 
         final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
         infoRequest.pick(
           onData: (SessionCheckResponseModel info) async {
+            print(info);
+
             if (!initSignaWasCall) {
               await _initSignalRSynchronously();
               initSignaWasCall = true;
             }
 
-            if (!isServicesRegistred) {
-              await startingServices();
-            } else {
-              await reCreateServices();
+            if (!info.toSetupPhone) {
+              getIt.get<VerificationStore>().phoneDone();
+            }
+            if (!info.toCheckSimpleKyc) {
+              getIt.get<VerificationStore>().personalDetailDone();
             }
 
-            if (info.toCheckSimpleKyc) {
+            if (info.toSetupPhone) {
+              getIt.get<AppStore>().setAuthorizedStatus(
+                    const TwoFaVerification(),
+                  );
+            } else if (info.toCheckSimpleKyc) {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const UserDataVerification(),
                   );

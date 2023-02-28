@@ -91,16 +91,8 @@ class _SingInBody extends StatelessObserverWidget {
             color: colors.grey5,
             loading: signInStore.loader,
             header: SAuthHeader(
-              customIconButton: const SpaceH24(),
               title: intl.register_enterYourEmail,
               showSupportButton: false,
-              /*onSupportButtonTap: () => sRouter.push(
-                CrispRouter(
-                  welcomeText: intl.crispSendMessage_hi,
-                ),
-              ),
-              */
-              progressValue: 20,
             ),
             child: CustomScrollView(
               physics: const ClampingScrollPhysics(),
@@ -197,7 +189,7 @@ class _SingInBody extends StatelessObserverWidget {
                             },
                           ),
                         ),
-                        const SpaceH24(),
+                        const SpaceH42(),
                       ],
                     ),
                   ),

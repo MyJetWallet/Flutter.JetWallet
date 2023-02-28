@@ -49,7 +49,7 @@ class _SearchPinned extends StatelessObserverWidget {
         const SpaceH20(),
         Text(
           intl.kycCountry_countryOfIssue,
-          style: sTextH2Style,
+          style: sTextH4Style,
         ),
         SStandardField(
           autofocus: true,
@@ -78,6 +78,7 @@ class _Countries extends StatelessObserverWidget {
       height: MediaQuery.of(context).size.height,
       child: ListView.builder(
         shrinkWrap: true,
+        padding: EdgeInsets.zero,
         itemCount: store.sortedCountries.length,
         itemBuilder: (context, index) {
           final country = store.sortedCountries[index];

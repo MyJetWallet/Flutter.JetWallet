@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -22,7 +24,6 @@ import '../../../core/di/di.dart';
 import '../../../core/services/logger_service/logger_service.dart';
 part 'set_phone_number_store.g.dart';
 
-@lazySingleton
 class SetPhoneNumberStore = _SetPhoneNumberStoreBase with _$SetPhoneNumberStore;
 
 abstract class _SetPhoneNumberStoreBase with Store {
@@ -33,15 +34,22 @@ abstract class _SetPhoneNumberStoreBase with Store {
     );
 
     loader = StackLoaderStore();
-    loader!.finishLoading();
     phoneFieldError = StandardFieldErrorNotifier();
 
     _registerCountryUser();
 
     phoneNumberController.addListener(phoneControllerListener);
+
+    Timer(Duration(milliseconds: 500), () {
+      FocusScope.of(getIt.get<AppRouter>().navigatorKey.currentContext!)
+          .requestFocus(focusNode);
+    });
   }
 
   static final _logger = logging.Logger('SetPhoneNumberStore');
+
+  bool fromRegister = false;
+  void setFromRegister(bool value) => fromRegister = value;
 
   @observable
   SPhoneNumber? activeDialCode;
@@ -74,6 +82,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
   TextEditingController phoneNumberController = TextEditingController();
 
+  FocusNode dialFocusNode = FocusNode();
+  FocusNode focusNode = FocusNode();
+
   String phoneNumber() =>
       '${dialCodeController.text}${phoneNumberController.text}';
 
@@ -101,13 +112,11 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   Future<void> sendCode({required void Function() then}) async {
     getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'sendCode',
-      message: 'sendCode start',
-    );
+          level: Level.info,
+          place: 'sendCode',
+          message: 'sendCode start',
+        );
     _logger.log(notifier, 'sendCode');
-
-    loader?.startLoading();
 
     try {
       final number = await decomposePhoneNumber(
@@ -128,6 +137,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
         pin: pin,
       );
 
+      loader!.startLoadingImmediately();
+
       final resp = await sNetwork
           .getValidationModule()
           .postPhoneVerificationRequest(model);
@@ -135,8 +146,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
       if (resp.hasError) {
         _logger.log(stateFlow, 'sendCode', resp.error);
         sNotification.showError(resp.error?.cause ?? '', id: 1);
-        loader?.finishLoading();
-        await sRouter.pop();
+
+        if (!fromRegister) await sRouter.pop();
 
         return;
       }
@@ -144,37 +155,42 @@ abstract class _SetPhoneNumberStoreBase with Store {
       sAnalytics.kycPhoneConfirmed();
       sAnalytics.kycChangePhoneNumber();
 
-      loader?.finishLoading();
       then();
     } on ServerRejectException catch (e) {
-      loader?.finishLoading();
+      loader!.finishLoadingImmediately();
+
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$e',
-      );
-      await sRouter.pop();
+            level: Level.info,
+            place: 'sendCode',
+            message: '$e',
+          );
+      if (!fromRegister) await sRouter.pop();
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
-      loader?.finishLoading();
-      await sRouter.pop();
+      print(e);
+
+      loader!.finishLoadingImmediately();
+
+      if (!fromRegister) await sRouter.pop();
 
       _logger.log(stateFlow, 'sendCode', e);
       getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: 'sendCode',
-        message: '$e',
-      );
+            level: Level.info,
+            place: 'sendCode',
+            message: '$e',
+          );
 
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
       );
     } finally {
-      loader?.finishLoading();
+      loader!.finishLoadingImmediately();
     }
+
+    loader!.finishLoadingImmediately();
   }
 
   @action
@@ -237,11 +253,9 @@ abstract class _SetPhoneNumberStoreBase with Store {
   @action
   void updatePhoneNumber(String phoneNumber) {
     final checkStartNumber = _parsePhoneNumber(phoneNumber);
-    if (
-      !validWeakPhoneNumber(checkStartNumber) &&
-      phoneNumber.isNotEmpty &&
-      phoneNumber != '+'
-    ) {
+    if (!validWeakPhoneNumber(checkStartNumber) &&
+        phoneNumber.isNotEmpty &&
+        phoneNumber != '+') {
       phoneNumberController.text = phoneInput;
 
       return;
@@ -253,7 +267,8 @@ abstract class _SetPhoneNumberStoreBase with Store {
       final dialString = dialCodeController.text;
       for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
-        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        final phoneSearchShort =
+            finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
           mustToSubstring = true;
           if (charsToSubstring < dialStringCheck.length) {

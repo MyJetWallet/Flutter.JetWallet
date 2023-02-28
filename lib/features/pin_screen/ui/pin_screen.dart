@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/store/pin_screen_store.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
@@ -73,7 +76,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
 
     Function()? onbackButton;
 
-    if (widget.union is Verification || widget.union is Setup) {
+    if (widget.union is Verification) {
       onbackButton = () => logoutN.logout('PIN SCREEN, logout');
     } else if (widget.cannotLeave) {
       onbackButton = null;
@@ -110,8 +113,18 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 confirmPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
+                    /*
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        sRouter.push(const VerificationRouter());
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
+                    */
                     onBackButtonTap: () {
+                      pin.backToNewFlow();
+
                       onbackButton!();
                     },
                   );
@@ -119,10 +132,16 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 newPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
                     onBackButtonTap: () {
                       onbackButton!();
                     },
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        showModalVerification(context);
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
                   );
                 },
               ),
@@ -143,6 +162,14 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   ),
                 ),
               const Spacer(),
+              Opacity(
+                opacity: pin.isError ? 1 : 0,
+                child: Text(
+                  'Incorrect PIN',
+                  style: sSubtitle3Style.copyWith(color: colors.red),
+                ),
+              ),
+              const SpaceH53(),
               Observer(
                 builder: (context) {
                   return ShakeWidget(

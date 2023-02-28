@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/store/selected_date_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -163,6 +164,8 @@ abstract class _UserDataStoreBase with Store {
 
         return;
       }
+
+      getIt.get<VerificationStore>().personalDetailDone();
 
       getIt.get<StartupService>().authenticatedBoot();
     } on ServerRejectException catch (error) {

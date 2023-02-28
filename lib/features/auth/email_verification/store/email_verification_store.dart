@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -18,6 +19,7 @@ import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
+import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -25,6 +27,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/confirm_email_login/confirm_email_login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/start_email_login/start_email_login_request_model.dart';
@@ -48,6 +51,7 @@ abstract class _EmailVerificationStoreBase with Store {
   static final _logger = Logger('EmailVerificationStore');
 
   final loader = StackLoaderStore();
+  final pinError = StandardFieldErrorNotifier();
 
   @observable
   String email = '';
@@ -244,24 +248,41 @@ abstract class _EmailVerificationStoreBase with Store {
 
           await startSession(authInfo.authState.email);
 
-          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
-          getIt.get<StartupService>().successfullAuthentication();
+          print(getIt.get<AppStore>().authStatus);
 
-          unawaited(getIt.get<AppStore>().checkInitRouter());
+          authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          getIt
+              .get<StartupService>()
+              .successfullAuthentication(needPush: false);
+
+          print(getIt.get<AppStore>().sessionID);
+
+          //authInfo.setAuthStatus(const AuthorizationUnion.authorized());
+          //getIt.get<StartupService>().successfullAuthentication();
+
+          //unawaited(getIt.get<AppStore>().checkInitRouter());
 
           //_logger.log(stateFlow, 'verifyCode', state);
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
 
-          union = error.cause.contains('50') || error.cause.contains('40')
-              ? EmailVerificationUnion.error(
-                  intl.something_went_wrong_try_again)
-              : EmailVerificationUnion.error(error.cause);
+          pinError.enableError();
+
+          loader.finishLoading();
+
+          sNotification.showError(
+            error.cause.contains('50') || error.cause.contains('40')
+                ? intl.something_went_wrong_try_again
+                : error.cause,
+            id: 1,
+          );
         },
       );
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
+
+      pinError.enableError();
 
       union = error.cause.contains('50') || error.cause.contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
@@ -269,76 +290,12 @@ abstract class _EmailVerificationStoreBase with Store {
     } catch (error) {
       _logger.log(stateFlow, 'verifyCode', error);
 
+      pinError.enableError();
+
       union = error.toString().contains('50') || error.toString().contains('40')
           ? EmailVerificationUnion.error(intl.something_went_wrong_try_again)
           : EmailVerificationUnion.error(error);
     }
-
-    /*
-    union = const EmailVerificationUnion.loading();
-
-    final authService = read(authServicePod);
-    final storageService = sLocalStorageService;
-    final rsaService = getIt.get<RsaService>();
-
-    final authInfo = getIt.get<AppStore>().authState;
-    final authInfoN = read(authInfoNotipod.notifier);
-    final router = read(authorizationStpod.notifier);
-
-    rsaService.init();
-    await rsaService.savePrivateKey(storageService);
-    final publicKey = rsaService.publicKey;
-
-    try {
-      final model = ConfirmEmailLoginRequestModel(
-        verificationToken: authInfo.verificationToken,
-        code: controller.text,
-        publicKeyPem: publicKey,
-        email: authInfo.email,
-      );
-
-      final response =
-          await sNetwork.getAuthModule().postConfirmEmailLogin(model);
-
-      response.pick(
-        onData: (data) async {
-          read(authInfoNotipod.notifier).state.copyWith(token: response.token);
-
-          await storageService.setString(
-            refreshTokenKey,
-            data.refreshToken,
-          );
-          await storageService.setString(userEmailKey, authInfo.email);
-
-          authInfoN.updateToken(data.token);
-          authInfoN.updateRefreshToken(data.refreshToken);
-
-          router.state = const Authorized();
-
-          read(startupNotipod.notifier).successfullAuthentication();
-
-          union = const EmailVerificationUnion.input();
-
-          await startSession(authInfo.email);
-
-          _logger.log(stateFlow, 'verifyCode', state);
-        },
-        onError: (error) {
-          _logger.log(stateFlow, 'verifyCode', error.cause);
-
-          union = EmailVerificationUnion.error(error.cause);
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, 'verifyCode', error.cause);
-
-      union = EmailVerificationUnion.error(error.cause);
-    } catch (error) {
-      _logger.log(stateFlow, 'verifyCode', error);
-
-      union = EmailVerificationUnion.error(error);
-    }
-    */
   }
 
   @action

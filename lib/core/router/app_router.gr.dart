@@ -104,6 +104,15 @@ class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    VerificationRouter.name: (routeData) {
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: const VerificationScreen(),
+        transitionsBuilder: TransitionsBuilders.slideBottom,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     AccountRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -407,6 +416,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           then: args.then,
           isChangePhone: args.isChangePhone,
+          fromRegister: args.fromRegister,
           successText: args.successText,
         ),
       );
@@ -984,6 +994,10 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        ),
+        RouteConfig(
           AccountRouter.name,
           path: '/account',
         ),
@@ -1515,6 +1529,18 @@ class HomeRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [VerificationScreen]
+class VerificationRouter extends PageRouteInfo<void> {
+  const VerificationRouter()
+      : super(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        );
+
+  static const String name = 'VerificationRouter';
 }
 
 /// generated route for
@@ -2545,6 +2571,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
     Key? key,
     dynamic Function()? then,
     bool isChangePhone = false,
+    bool fromRegister = false,
     required String successText,
   }) : super(
           SetPhoneNumberRouter.name,
@@ -2553,6 +2580,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
             key: key,
             then: then,
             isChangePhone: isChangePhone,
+            fromRegister: fromRegister,
             successText: successText,
           ),
         );
@@ -2565,6 +2593,7 @@ class SetPhoneNumberRouterArgs {
     this.key,
     this.then,
     this.isChangePhone = false,
+    this.fromRegister = false,
     required this.successText,
   });
 
@@ -2574,11 +2603,13 @@ class SetPhoneNumberRouterArgs {
 
   final bool isChangePhone;
 
+  final bool fromRegister;
+
   final String successText;
 
   @override
   String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, successText: $successText}';
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, fromRegister: $fromRegister, successText: $successText}';
   }
 }
 

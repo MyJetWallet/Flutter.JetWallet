@@ -13,6 +13,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.controller,
     this.focusNode,
     //this.errorNotifier,
+    this.onTap,
     this.onErrorIconTap,
     this.onChanged,
     this.suffixIcons,
@@ -41,6 +42,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final Function()? onErrorIconTap;
+  final Function()? onTap;
   final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
   final List<Widget>? suffixIcons;
@@ -95,6 +97,7 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
       height: 88,
       child: Center(
         child: TextFormField(
+          onTap: widget.onTap,
           focusNode: focusNode,
           controller: widget.controller,
           obscureText: widget.obscureText,

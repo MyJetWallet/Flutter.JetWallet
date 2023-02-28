@@ -11,6 +11,7 @@ class SessionCheckResponseModel with _$SessionCheckResponseModel {
     required bool toCheckPin,
     required bool toCheckSimpleKyc,
     required bool toCheckSelfie,
+    required bool toSetupPhone,
   }) = _SessionCheckResponseModel;
 
   factory SessionCheckResponseModel.fromJson(
