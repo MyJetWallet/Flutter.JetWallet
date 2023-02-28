@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../utils/constants.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../helper/nft_types.dart';
 import '../transaction_month_separator.dart';
@@ -115,7 +116,30 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
       child: store.listToShow.isEmpty
           ? store.union is Error
               ? transactionError()
-              : transactionSkeleton()
+              : store.union is Loading
+              ? transactionSkeleton()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      emptyHistoryAsset,
+                      width: 80,
+                    ),
+                    const SpaceH24(),
+                    Text(
+                      intl.transactionsList_noTransactionsYet,
+                      style: sTextH5Style,
+                    ),
+                    const SpaceH8(),
+                    Text(
+                      intl.historyRecurringBuy_text1,
+                      style: sBodyText1Style.copyWith(
+                        color: colors.grey1,
+                      ),
+                    ),
+                    const SpaceH120(),
+                  ],
+                )
           : GroupedListView<OperationHistoryItem, String>(
               elements: store.listToShow,
               groupBy: (transaction) {
