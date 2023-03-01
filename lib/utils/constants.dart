@@ -64,6 +64,7 @@ const platformType = 2;
 const watchlistKey = 'watchlist';
 const cardsKey = 'cards';
 const lastUsedPaymentMethodKey = 'lastUsedPaymentMethod';
+const viewedRewardsKey = 'viewedRewards';
 
 // HTTP
 const postRequest = 'POST';

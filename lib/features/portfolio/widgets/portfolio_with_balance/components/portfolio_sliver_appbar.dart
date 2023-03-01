@@ -29,6 +29,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../rewards/store/reward_store.dart';
+
 class PortfolioSliverAppBar extends StatelessObserverWidget {
   const PortfolioSliverAppBar({
     super.key,
@@ -55,6 +57,17 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final expendPercentage = (shrinkOffset.clamp(min, max) - min) / (max - min);
+    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
+        ?? <String>[];
+    var counterOfRewards = 0;
+    final rewStore = RewardStore();
+    for (final campaign in rewStore.sortedCampaigns) {
+      if (campaign.campaign != null &&
+          !viewedRewards.contains(campaign.campaign!.campaignId)) {
+        counterOfRewards++;
+      }
+    }
+
 
     final interpolatedTextStyle = TextStyle.lerp(
       sTextH1Style,
@@ -103,20 +116,31 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               ],
             ),
             const Spacer(),
-            SIconButton(
-              defaultIcon: SNotificationsIcon(
-                color: colors.black,
-              ),
-              pressedIcon: SNotificationsIcon(
-                color: colors.black.withOpacity(0.7),
-              ),
-              onTap: () {
-                sAnalytics.rewardsScreenView(Source.giftIcon);
+            SizedBox(
+              width: 56.0,
+              height: 56.0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SIconButton(
+                    defaultIcon: SNotificationsIcon(
+                      color: colors.black,
+                    ),
+                    pressedIcon: SNotificationsIcon(
+                      color: colors.black.withOpacity(0.7),
+                    ),
+                    onTap: () {
+                      sAnalytics.rewardsScreenView(Source.giftIcon);
 
-                sRouter.push(const RewardsRouter());
-              },
+                      sRouter.push(const RewardsRouter());
+                    },
+                  ),
+                  NotificationBox(
+                    notifications: counterOfRewards,
+                  ),
+                ],
+              ),
             ),
-            const SpaceW18(),
             SizedBox(
               width: 56.0,
               height: 56.0,
