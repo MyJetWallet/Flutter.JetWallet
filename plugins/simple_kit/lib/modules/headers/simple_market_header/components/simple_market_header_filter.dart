@@ -25,46 +25,56 @@ class _SimpleMarketHeaderFilterState extends State<SimpleMarketHeaderFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onFilterButtonTap,
-      onHighlightChanged: (value) {
-        setState(() {
-          highlighted = value;
-        });
-      },
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
-          if (widget.activeFilters != 0) ...[
-            Positioned(
-              left: 9,
-              bottom: 9,
-              child: Container(
-                margin: const EdgeInsets.only(
-                  top: 6.0,
-                  right: 6.0,
-                ),
-                padding: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                  color: SColorsLight().blue,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${widget.activeFilters}',
-                  style: sBodyText1Style.copyWith(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w700,
-                    color: SColorsLight().white,
-                  ),
-                ),
+    return
+      SizedBox(
+        width: 56.0,
+        height: 56.0,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            InkWell(
+              onTap: widget.onFilterButtonTap,
+              onHighlightChanged: (value) {
+                setState(() {
+                  highlighted = value;
+                });
+              },
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
+                  if (widget.activeFilters != 0) ...[
+                    Positioned(
+                      left: 9,
+                      bottom: 9,
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                          top: 6.0,
+                          right: 6.0,
+                        ),
+                        padding: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: SColorsLight().blue,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '${widget.activeFilters}',
+                          style: sBodyText1Style.copyWith(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                            color: SColorsLight().white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
           ],
-        ],
-      ),
-    );
+        ),
+      );
   }
 }

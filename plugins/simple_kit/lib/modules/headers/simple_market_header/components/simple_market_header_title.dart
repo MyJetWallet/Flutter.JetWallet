@@ -22,16 +22,17 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      textBaseline: TextBaseline.alphabetic,
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Baseline(
-          baseline: 24.0,
-          baselineType: TextBaseline.alphabetic,
-          child: Text(
-            title,
-            style: sTextH2Style,
-          ),
+        Column(
+          children: [
+            const SpaceH11(),
+            Text(
+              title,
+              style: sTextH4Style,
+            ),
+          ],
         ),
         const Spacer(),
         if (onFilterButtonTap != null)
@@ -40,58 +41,22 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
             activeFilters: activeFilters,
           ),
         if (onSearchButtonTap != null) ...[
-          const SpaceW16(),
-          Baseline(
-            baseline: 24.0,
-            baselineType: TextBaseline.alphabetic,
-            child: SIconButton(
-              onTap: onSearchButtonTap,
-              defaultIcon: const SSearchIcon(),
-              pressedIcon: const SSearchPressedIcon(),
-            ),
-          ),
-        ],
-        /*
-        if (onFilterButtonTap != null)
           SizedBox(
-            width: 35,
-            height: 35,
-            child: InkWell(
-              onTap: onFilterButtonTap,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const SFilterIcon(),
-                  if (activeFilters != 0) ...[
-                    Positioned(
-                      right: 0,
-                      bottom: 18,
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          top: 6.0,
-                          right: 6.0,
-                        ),
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: SColorsLight().blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '$activeFilters',
-                          style: sBodyText1Style.copyWith(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: SColorsLight().white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
+            width: 56.0,
+            height: 56.0,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SIconButton(
+                  onTap: onSearchButtonTap,
+                  defaultIcon: const SSearchIcon(),
+                  pressedIcon: const SSearchPressedIcon(),
+                ),
+              ],
             ),
           ),
-      */
+          const SpaceW2(),
+        ],
       ],
     );
   }
