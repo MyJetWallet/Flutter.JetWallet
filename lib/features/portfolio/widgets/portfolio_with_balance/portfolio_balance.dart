@@ -174,7 +174,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
             physics: const ClampingScrollPhysics(),
             slivers: [
               SliverAppBar(
-                backgroundColor: Colors.transparent,
+                backgroundColor: Colors.white10,
                 pinned: true,
                 stretch: true,
                 elevation: 0,
