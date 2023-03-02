@@ -5,6 +5,8 @@ import 'package:simple_kit/modules/icons/24x24/public/filter/simple_filter_icon.
 import 'package:simple_kit/modules/icons/24x24/public/filter/simple_pressed_filter_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../bottom_navigation_bar/components/notification_box.dart';
+
 class SimpleMarketHeaderFilter extends StatefulWidget {
   const SimpleMarketHeaderFilter({
     super.key,
@@ -45,33 +47,11 @@ class _SimpleMarketHeaderFilterState extends State<SimpleMarketHeaderFilter> {
                 clipBehavior: Clip.none,
                 children: [
                   highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
-                  if (widget.activeFilters != 0) ...[
-                    Positioned(
-                      left: 9,
-                      bottom: 9,
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                          top: 6.0,
-                          right: 6.0,
-                        ),
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          color: SColorsLight().blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '${widget.activeFilters}',
-                          style: sBodyText1Style.copyWith(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: SColorsLight().white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
                 ],
               ),
+            ),
+            NotificationBox(
+              notifications: widget.activeFilters,
             ),
           ],
         ),
