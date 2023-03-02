@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:decimal/decimal.dart';
+import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
+import 'package:pay/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -54,18 +58,21 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final uAC = sSignalRModules.cards.cardInfos.where(
+    final uAC = sSignalRModules.cards.cardInfos
+        .where(
           (element) => element.integration == IntegrationType.unlimintAlt,
-    ).toList();
-    final activeCard = uAC.where((element) => element.id == input.cardId)
+        )
         .toList();
+    final activeCard =
+        uAC.where((element) => element.id == input.cardId).toList();
 
     final state = PreviewBuyWithBankCardStore.of(context);
-    final buyMethod = input.currency.buyMethods.where(
-      (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+    final buyMethod = input.currency.buyMethods
+        .where(
+          (element) => element.id == PaymentMethodType.bankCard,
+        )
+        .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
-
 
     var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
@@ -97,10 +104,11 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
+            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
               bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                ? 310.0
-                : 260.0,
+                  ? 310.0
+                  : 260.0,
             ),
             children: [
               Column(
@@ -149,11 +157,12 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   SActionConfirmText(
                     name: intl.curencyBuy_payFrom,
                     contentLoading: state.loader.loading,
-                    value:
-                        '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                    value: input.isApplePay
+                        ? 'Apple Pay'
+                        : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
                             ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
-                            (input.cardNumber?.length ?? 4) - 4,
-                          ) : ''}',
+                                (input.cardNumber?.length ?? 4) - 4,
+                              ) : ''}',
                     maxValueWidth: 200,
                   ),
                   SActionConfirmText(
@@ -177,13 +186,14 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     infoAction: () {
                       sAnalytics.newBuyTapPaymentFee();
                       sAnalytics.newBuyFeeView(
-                        paymentFee: state.depositFeeAmountMax == state.depositFeeAmount
+                        paymentFee: state.depositFeeAmountMax ==
+                                state.depositFeeAmount
                             ? volumeFormat(
-                              prefix: baseCurrency.prefix,
-                              decimal: state.depositFeeAmount ?? Decimal.zero,
-                              accuracy: baseCurrency.accuracy,
-                              symbol: baseCurrency.symbol,
-                            )
+                                prefix: baseCurrency.prefix,
+                                decimal: state.depositFeeAmount ?? Decimal.zero,
+                                accuracy: baseCurrency.accuracy,
+                                symbol: baseCurrency.symbol,
+                              )
                             : '${state.depositFeePerc}%',
                       );
                       showTransactionFeeBottomSheet(
@@ -302,10 +312,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                               betweenText: ', ',
                               privacyPolicyText:
-                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
                               onUserAgreementTap: () =>
                                   launchURL(context, userAgreementLink),
                               onPrivacyPolicyTap: () =>
@@ -328,14 +338,52 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   ],
                 ),
                 const SpaceH24(),
-                SPrimaryButton2(
-                  active: !state.loader.loading &&
-                      (state.isChecked || hideCheckbox),
-                  name: intl.previewBuyWithAsset_confirm,
-                  onTap: () {
-                    state.onConfirm();
-                  },
-                ),
+                if (!input.isApplePay) ...[
+                  SPrimaryButton2(
+                    active: !state.loader.loading &&
+                        (state.isChecked || hideCheckbox),
+                    name: intl.previewBuyWithAsset_confirm,
+                    onTap: () {
+                      state.onConfirm();
+                    },
+                  ),
+                ] else ...[
+                  ApplePayButton(
+                    paymentConfiguration: PaymentConfiguration.fromJsonString(
+                      jsonEncode(
+                        ApplePayConfig(
+                          provider: 'apple_pay',
+                          data: ApplePayConfigData(
+                            merchantIdentifier: 'merchant.app.simple.com',
+                            displayName: displayName,
+                            merchantCapabilities: merchantCapabilities,
+                            supportedNetworks: supportedNetworks,
+                            countryCode: countryCode,
+                            currencyCode: input.currencyPayment.symbol,
+                            requiredBillingContactFields: null,
+                            requiredShippingContactFields: null,
+                          ),
+                        ),
+                      ),
+                    ),
+                    height: 56,
+                    width: double.infinity,
+                    paymentItems: [
+                      PaymentItem(
+                        label: 'Simple.app',
+                        amount: state.amountToPay!.toString(),
+                        status: PaymentItemStatus.final_price,
+                      ),
+                    ],
+                    style: ApplePayButtonStyle.black,
+                    type: ApplePayButtonType.inStore,
+                    onPaymentResult: (paymentResult) =>
+                        state.requestApplePay(paymentResult),
+                    loadingIndicator: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

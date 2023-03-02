@@ -83,7 +83,7 @@ Future<Dio> setupDioWithoutInterceptors() async {
 
   setGuestInterceptor(_dio);
   await addProxy(_dio);
-  addLogger(_dio);
+  //addLogger(_dio);
 
   return _dio;
 }

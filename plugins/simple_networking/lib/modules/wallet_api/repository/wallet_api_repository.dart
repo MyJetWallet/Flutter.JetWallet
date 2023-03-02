@@ -5,6 +5,7 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -237,6 +238,24 @@ class WalletApiRepository {
     CardBuyCreateRequestModel model,
   ) async {
     return _walletApiDataSources.postCardBuyCreateRequest(model);
+  }
+
+  Future<DC<ServerRejectException, bool>> postApplePayConfirm(
+    String depositId,
+    String applePayToken,
+  ) async {
+    return _walletApiDataSources.postApplePayConfirmRequest(
+      depositId,
+      applePayToken,
+    );
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>> getApplePayInfo(
+    String depositId,
+  ) async {
+    return _walletApiDataSources.getApplePayInfoRequest(
+      depositId,
+    );
   }
 
   Future<DC<ServerRejectException, bool>> postCardBuyExecute(

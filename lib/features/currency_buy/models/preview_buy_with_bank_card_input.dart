@@ -11,6 +11,7 @@ class PreviewBuyWithBankCardInput with _$PreviewBuyWithBankCardInput {
     required CurrencyModel currency,
     required CurrencyModel currencyPayment,
     required String quickAmount,
+    required bool isApplePay,
     String? cardId,
     String? cardNumber,
   }) = _PreviewBuyWithBankCardInput;

@@ -122,6 +122,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   String currencySymbol = '';
 
   @observable
+  String applePayDepositId = '';
+
+  @observable
   bool isChecked = false;
 
   @observable
@@ -140,12 +143,31 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
+  Future<void> requestApplePay(Map<String, dynamic> paymentResult) async {
+    debugPrint(paymentResult.toString());
+
+    print('\n\n');
+
+    debugPrint(paymentResult['token'].toString());
+
+    await executeApplePayPayment();
+
+    await applePayInfo();
+
+    await applePayConfirm(paymentResult.toString());
+
+    //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
+  }
+
+  @action
   Future<void> _requestPreview() async {
     loader.startLoadingImmediately();
     final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
 
     final model = CardBuyCreateRequestModel(
-      paymentMethod: CirclePaymentMethod.bankCard,
+      paymentMethod: input.isApplePay
+          ? CirclePaymentMethod.applePay
+          : CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
@@ -181,6 +203,8 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           );
         },
         onError: (error) {
+          print(error);
+
           _logger.log(stateFlow, 'requestPreview', error.cause);
 
           _showFailureScreen(error.cause);
@@ -208,9 +232,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     storage.setString(checkedBankCard, 'true');
-    final buyMethod = input.currency.buyMethods.where(
-      (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+    final buyMethod = input.currency.buyMethods
+        .where(
+          (element) => element.id == PaymentMethodType.bankCard,
+        )
+        .toList();
     sAnalytics.newBuyTapConfirm(
       sourceCurrency: input.currencyPayment.symbol,
       destinationCurrency: input.currency.symbol,
@@ -230,11 +256,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
-    final uAC = sSignalRModules.cards.cardInfos.where(
+    final uAC = sSignalRModules.cards.cardInfos
+        .where(
           (element) => element.integration == IntegrationType.unlimintAlt,
-    ).toList();
-    final activeCard = uAC.where((element) => element.id == input.cardId)
+        )
         .toList();
+    final activeCard =
+        uAC.where((element) => element.id == input.cardId).toList();
 
     showBankCardCvvBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
@@ -252,13 +280,118 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
+  Future<void> applePayInfo() async {
+    /*
+    try {
+      final response =
+          await sNetwork.getWalletModule().getApplePayInfo(paymentId);
+
+      response.pick(
+        onData: (data) {
+          print(data);
+
+          //link https://buy.simple.app/checkout/applepay/?id=
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error.cause);
+
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error);
+
+      unawaited(_showFailureScreen(intl.something_went_wrong));
+    }*/
+
+    final model = CardBuyInfoRequestModel(
+      paymentId: paymentId,
+    );
+
+    final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
+
+    response.pick(onData: (data) async {
+      applePayDepositId = data.clientAction?.checkoutUrl?.replaceAll(
+            'http://buy.simple.app/checkout/applepay/?id=',
+            '',
+          ) ??
+          '';
+    });
+  }
+
+  @action
+  Future<void> applePayConfirm(dynamic token) async {
+    try {
+      final response = await sNetwork.getWalletModule().postApplePayConfirm(
+            applePayDepositId,
+            base64.encode(utf8.encode(token.toString())),
+          );
+
+      response.pick(
+        onData: (data) {
+          unawaited(
+            _showSuccessScreen(),
+          );
+        },
+        onError: (data) {
+          unawaited(
+            _showFailureScreen(data.cause),
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error.cause);
+
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error);
+
+      unawaited(_showFailureScreen(intl.something_went_wrong));
+    }
+  }
+
+  @action
+  Future<void> executeApplePayPayment() async {
+    loader.startLoadingImmediately();
+
+    isChecked = true;
+
+    try {
+      final model = CardBuyExecuteRequestModel(
+        paymentId: paymentId,
+        paymentMethod: CirclePaymentMethod.applePay,
+      );
+
+      final response =
+          await sNetwork.getWalletModule().postCardBuyExecute(model);
+
+      response.pick(
+        onData: (data) {
+          print(data);
+
+          //link https://buy.simple.app/checkout/applepay/?id=
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error.cause);
+
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error);
+
+      unawaited(_showFailureScreen(intl.something_went_wrong));
+    }
+  }
+
+  @action
   Future<void> _createPayment() async {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyProcessingView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
@@ -338,7 +471,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       onSuccess();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, '_requestPayment', error.cause);
-
 
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
@@ -445,9 +577,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuySuccessView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
@@ -478,9 +612,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyFailedView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
       errorCode: error,

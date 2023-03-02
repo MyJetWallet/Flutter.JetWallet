@@ -82,6 +82,7 @@ class RemoteConfig {
       overrideAppsFlyerValues();
       overrideCircleValues();
       overrideNFTValues();
+      overrideMerchantPayConfigValues();
 
       overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
 
@@ -214,6 +215,13 @@ class RemoteConfig {
     shortUrl = remoteConfig!.nft.shortUrl;
     fullUrl = remoteConfig!.nft.fullUrl;
     shareLink = remoteConfig!.nft.shareLink;
+  }
+
+  void overrideMerchantPayConfigValues() {
+    displayName = remoteConfig!.merchantPay.displayName ?? '';
+    merchantCapabilities = remoteConfig!.merchantPay.merchantCapabilities ?? [];
+    supportedNetworks = remoteConfig!.merchantPay.supportedNetworks ?? [];
+    countryCode = remoteConfig!.merchantPay.countryCode ?? '';
   }
 
   @override

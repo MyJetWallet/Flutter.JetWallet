@@ -5,6 +5,7 @@ import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -706,6 +707,60 @@ class WalletApiDataSources {
         );
 
         return DC.data(CardBuyCreateResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, bool>> postApplePayConfirmRequest(
+    String depositId,
+    String applePayToken,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/public/applepay/confirm',
+        data: {
+          'depositId': depositId,
+          'applePayToken': applePayToken,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(true);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>>
+      getApplePayInfoRequest(
+    String depositId,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/public/applepay/info/$depositId',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(ApplePayResponseModel.fromJson(data));
       } catch (e) {
         rethrow;
       }

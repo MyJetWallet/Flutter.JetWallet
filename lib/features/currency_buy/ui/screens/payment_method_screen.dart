@@ -108,6 +108,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
+    print(widget.currency.buyMethods);
+
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       sAnalytics.newBuyTapDelete();
       sAnalytics.newBuyDeleteView();
@@ -193,7 +195,44 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   widget.currency.buyMethods.first.id ==
                       PaymentMethodType.bankCard)) ...[
             for (final method in widget.currency.buyMethods)
-              if (method.id == PaymentMethodType.simplex) ...[
+              if (method.id == PaymentMethodType.applePay &&
+                  defaultTargetPlatform == TargetPlatform.iOS) ...[
+                InkWell(
+                  highlightColor: colors.grey5,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    sRouter.push(
+                      CurrencyBuyRouter(
+                        currency: widget.currency,
+                        fromCard: false,
+                        paymentMethod: PaymentMethodType.applePay,
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 8,
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          applePayAsset,
+                          width: 48,
+                          height: 30.73,
+                        ),
+                        const SizedBox(width: 17),
+                        Text(
+                          'Apple Pay',
+                          style: sSubtitle2Style,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (method.id == PaymentMethodType.simplex) ...[
                 Builder(
                   builder: (context) {
                     return SActionItem(
@@ -497,46 +536,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   ? SingleChildScrollView(
                       child: Column(
                         children: [
-                          if (defaultTargetPlatform == TargetPlatform.iOS) ...[
-                            InkWell(
-                              highlightColor: colors.grey5,
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                sRouter.push(
-                                  CurrencyBuyRouter(
-                                    currency: widget.currency,
-                                    fromCard: true,
-                                    paymentMethod: PaymentMethodType.applePay,
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 8,
-                                  left: 24.0,
-                                  right: 24.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      applePayAsset,
-                                      width: 48,
-                                      height: 30.73,
-                                    ),
-                                    const SizedBox(width: 17),
-                                    Text(
-                                      'Apple Pay',
-                                      style: sSubtitle2Style,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 25),
-                            MarketSeparator(text: 'Cards'),
-                            const SizedBox(height: 17.5),
-                          ],
                           paymentMethods(),
                           savedCards(),
                           const SpaceH42(),
