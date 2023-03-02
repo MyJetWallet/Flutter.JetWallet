@@ -95,6 +95,7 @@ class _RewardsBody extends StatelessObserverWidget {
               ),
             ],
             if (_displayThreeStepsRewardBanner(item)) ...[
+              const SpaceH32(),
               SPaddingH24(
                 child: SThreeStepsRewardBanner(
                   primaryText: item.campaign!.title,
