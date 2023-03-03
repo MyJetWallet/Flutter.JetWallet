@@ -348,39 +348,42 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     },
                   ),
                 ] else ...[
-                  ApplePayButton(
-                    paymentConfiguration: PaymentConfiguration.fromJsonString(
-                      jsonEncode(
-                        ApplePayConfig(
-                          provider: 'apple_pay',
-                          data: ApplePayConfigData(
-                            merchantIdentifier: 'merchant.app.simple.com',
-                            displayName: displayName,
-                            merchantCapabilities: merchantCapabilities,
-                            supportedNetworks: supportedNetworks,
-                            countryCode: countryCode,
-                            currencyCode: input.currencyPayment.symbol,
-                            requiredBillingContactFields: null,
-                            requiredShippingContactFields: null,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: ApplePayButton(
+                      paymentConfiguration: PaymentConfiguration.fromJsonString(
+                        jsonEncode(
+                          ApplePayConfig(
+                            provider: 'apple_pay',
+                            data: ApplePayConfigData(
+                              merchantIdentifier: 'merchant.app.simple.com',
+                              displayName: displayName,
+                              merchantCapabilities: merchantCapabilities,
+                              supportedNetworks: supportedNetworks,
+                              countryCode: countryCode,
+                              currencyCode: input.currencyPayment.symbol,
+                              requiredBillingContactFields: null,
+                              requiredShippingContactFields: null,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    height: 56,
-                    width: double.infinity,
-                    paymentItems: [
-                      PaymentItem(
-                        label: 'Simple.app',
-                        amount: state.amountToPay!.toString(),
-                        status: PaymentItemStatus.final_price,
+                      height: 56,
+                      width: double.infinity,
+                      paymentItems: [
+                        PaymentItem(
+                          label: 'Simple.app',
+                          amount: state.amountToPay!.toString(),
+                          status: PaymentItemStatus.final_price,
+                        ),
+                      ],
+                      style: ApplePayButtonStyle.black,
+                      type: ApplePayButtonType.inStore,
+                      onPaymentResult: (paymentResult) =>
+                          state.requestApplePay(paymentResult),
+                      loadingIndicator: const Center(
+                        child: CircularProgressIndicator(),
                       ),
-                    ],
-                    style: ApplePayButtonStyle.black,
-                    type: ApplePayButtonType.inStore,
-                    onPaymentResult: (paymentResult) =>
-                        state.requestApplePay(paymentResult),
-                    loadingIndicator: const Center(
-                      child: CircularProgressIndicator(),
                     ),
                   ),
                 ],

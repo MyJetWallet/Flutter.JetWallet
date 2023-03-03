@@ -209,10 +209,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       ),
                     );
                   },
-                  child: Padding(
+                  child: Container(
+                    height: 64.0,
                     padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 8,
                       left: 24.0,
                       right: 24.0,
                     ),
