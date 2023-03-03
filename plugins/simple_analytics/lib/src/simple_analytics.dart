@@ -63,7 +63,6 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '2',
-        PropertyType.source: source,
       },
     );
   }
