@@ -107,4 +107,6 @@ enum WithdrawalMethods {
   sepaWithdrawal,
   @JsonValue('SwiftWithdrawal')
   swiftWithdrawal,
+  @JsonValue('InternalSend')
+  internalSend,
 }

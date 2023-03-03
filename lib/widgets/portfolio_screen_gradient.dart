@@ -16,6 +16,7 @@ class PortfolioScreenGradient extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Material(
+      color: Colors.transparent,
       child: Container(
         height: size.height,
         decoration: const BoxDecoration(
