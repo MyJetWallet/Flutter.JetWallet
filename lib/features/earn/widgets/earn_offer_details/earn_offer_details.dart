@@ -11,13 +11,6 @@ void showEarnOfferDetails({
   required EarnOfferModel earnOffer,
   required String assetName,
 }) {
-  sAnalytics.earnActiveSheetView(
-    assetName: assetName,
-    amount: earnOffer.amount.toString(),
-    apy: earnOffer.currentApy.toString(),
-    term: earnOffer.term,
-    offerId: earnOffer.offerId,
-  );
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
@@ -25,15 +18,7 @@ void showEarnOfferDetails({
     pinned: EarnOfferDetailsPinned(earnOffer: earnOffer),
     horizontalPinnedPadding: 0,
     scrollable: true,
-    then: (value) {
-      sAnalytics.earnCloseActiveSheet(
-        assetName: assetName,
-        amount: earnOffer.amount.toString(),
-        apy: earnOffer.currentApy.toString(),
-        term: earnOffer.term,
-        offerId: earnOffer.offerId,
-      );
-    },
+    then: (value) {},
     children: [
       EarnOfferDetailsBody(earnOffer: earnOffer),
     ],

@@ -19,9 +19,6 @@ void showNFTFilterModalSheet(
 
   sShowBasicModalBottomSheet(
     onDissmis: () {
-      sAnalytics.nftMarketFilterClose(
-        nftCloseMethod: 'Swipe down',
-      );
       filterStore.nftFilterReset();
     },
     context: context,
@@ -45,9 +42,6 @@ void showNFTFilterModalSheet(
           ),
           SIconButton(
             onTap: () {
-              sAnalytics.nftMarketFilterClose(
-                nftCloseMethod: 'Cross sign',
-              );
               filterStore.nftFilterReset();
 
               Navigator.pop(context);

@@ -69,11 +69,6 @@ class ShowRecurringInfoAction extends StatelessObserverWidget {
               active: true,
               name: intl.actionRecurringInfo_manage,
               onTap: () {
-                sAnalytics.tapManageButton(
-                  assetName: assetName,
-                  frequency: recurringItem.scheduleType.toFrequency,
-                  amount: sellCurrencyAmount,
-                );
 
                 showRecurringManageAction(
                   context: context,

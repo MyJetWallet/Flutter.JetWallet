@@ -12,7 +12,6 @@ import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
 void showSendAction(
@@ -24,13 +23,8 @@ void showSendAction(
   if (shouldPop) {
     Navigator.pop(context);
   }
-  final searchState = getIt.get<ActionSearchStore>();
-  final sendAssets = searchState.filteredCurrencies.where(
-    (element) => element.isAssetBalanceNotEmpty &&
-      element.supportsCryptoWithdrawal,
-  ).toList();
 
-  if (isNotEmptyBalance && isSendAvailable && sendAssets.isNotEmpty) {
+  if (isNotEmptyBalance && isSendAvailable) {
     showSendTimerAlertOr(
       context: context,
       or: () => _showSendAction(context),
@@ -40,11 +34,8 @@ void showSendAction(
   }
 }
 
-Future<void> _showSendAction(BuildContext context) async {
+void _showSendAction(BuildContext context) {
   final showSearch = showSendCurrencySearch(context);
-
-  final storageService = getIt.get<LocalStorageService>();
-  final lastCurrency = await storageService.getValue(lastAssetSend);
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -58,20 +49,13 @@ Future<void> _showSendAction(BuildContext context) async {
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
-    children: [_ActionSend(lastCurrency: lastCurrency)],
-    then: (value) {
-      sAnalytics.sendChooseAssetClose();
-    },
+    children: [const _ActionSend()],
+    then: (value) {},
   );
 }
 
 class _ActionSend extends StatelessObserverWidget {
-  const _ActionSend({
-    Key? key,
-    this.lastCurrency,
-  }) : super(key: key);
-
-  final String? lastCurrency;
+  const _ActionSend({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,21 +66,10 @@ class _ActionSend extends StatelessObserverWidget {
       (element) => element.isAssetBalanceNotEmpty &&
           element.supportsCryptoWithdrawal,
     ).toList();
-    currencyFiltered.sort((a,b) {
-      if (lastCurrency != null) {
-        if (a.symbol == lastCurrency) {
-          return 0.compareTo(1);
-        } else if (b.symbol == lastCurrency) {
-          return 1.compareTo(0);
-        }
-      }
-
-      return b.baseBalance.compareTo(a.baseBalance);
-    });
 
     return Column(
       children: [
-        for (final currency in currencyFiltered)
+        for (final currency in state.filteredCurrencies)
           if (currency.isAssetBalanceNotEmpty)
             if (currency.supportsCryptoWithdrawal)
               SWalletItem(
@@ -109,7 +82,6 @@ class _ActionSend extends StatelessObserverWidget {
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
-                  sAnalytics.sendToView();
                   showSendOptions(context, currency);
                 },
               ),

@@ -68,8 +68,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
     final userInfo = sUserInfo.userInfo;
 
-    sAnalytics.kycPhoneConfirmationView();
-
     return SPageFrame(
       key: UniqueKey(),
       loaderText: intl.setPhoneNumber_pleaseWait,
@@ -188,9 +186,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                       return;
                     }
 
-                    sAnalytics.kycEnterPhoneNumber();
-                    sAnalytics.accountEnterNumber();
-
                     void finalSend({required String newPin}) {
                       store.updatePin(newPin);
                       store.sendCode(
@@ -210,7 +205,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                                   userInfoN.updateTwoFaStatus(enabled: true);
                                   userInfoN.updatePhone(store.phoneNumber());
 
-                                  sAnalytics.accountSuccessPhone();
                                   store.phoneNumberController.text = '';
 
                                   then!();

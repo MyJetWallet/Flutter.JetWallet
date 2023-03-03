@@ -54,7 +54,6 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
                 deposit.switchAddress();
               },
               then: () {
-                sAnalytics.receiveCopy(asset: currency.description);
                 if (scrollController.offset >
                     _copyMessageFullyVisiblePosition) {
                   scrollController.animateTo(
@@ -91,9 +90,7 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
               valueLoading: deposit.union is Loading,
               longString: true,
               expanded: true,
-              then: () {
-                sAnalytics.receiveCopy(asset: currency.description);
-              },
+              then: () {},
               actionIcon: deposit.isAddressOpen
                   ? const SAngleDownIcon()
                   : const SAngleUpIcon(),

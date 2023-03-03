@@ -89,8 +89,9 @@ void setAuthInterceptor(
               handler.reject(dioError);
 
               await getIt.get<LogoutService>().logout(
-                    'INTERCEPTOR, cant update token',
-                  );
+                'INTERCEPTOR, cant update token',
+                callbackAfterSend: () {},
+              );
             }
           } catch (_) {
             handler.reject(dioError);

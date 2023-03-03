@@ -11,7 +11,6 @@ void showSubscriptionBottomSheet({
   required List<EarnOfferModel> offers,
   required CurrencyModel currency,
 }) {
-  sAnalytics.earnAvailableView(assetName: currency.description);
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,

@@ -18,9 +18,7 @@ void showSellAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    then: (value) {
-      sAnalytics.sellChooseAssetClose();
-    },
+    then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.actionSell_bottomSheetHeaderName,
       showSearch: showSearch,
@@ -49,8 +47,6 @@ class _ActionSell extends StatelessObserverWidget {
         assetWithBalance.add(currency);
       }
     }
-
-    sAnalytics.sellChooseAsset();
 
     return Column(
       children: [

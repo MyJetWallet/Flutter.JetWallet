@@ -47,9 +47,6 @@ class _NFTPromoButtonState extends State<NFTPromoButton> {
 
     return InkWell(
       onTap: () {
-        sAnalytics.nftPromoOpenPromo();
-        sAnalytics.nftPromoEnterPromo();
-
         showNFTPromoCodeBottomSheet(
           () {
             NFTConfirmStore.of(context).validate();

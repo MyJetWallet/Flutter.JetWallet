@@ -62,7 +62,6 @@ class ChangePassword extends StatelessObserverWidget {
             child: SPrimaryButton2(
               name: intl.changePassword_continue,
               onTap: () {
-                sAnalytics.accountEnterOldPassword();
 
                 sRouter.push(
                   const SetNewPasswordRouter(),

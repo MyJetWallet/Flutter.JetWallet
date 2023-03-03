@@ -49,7 +49,6 @@ class EarnPagePinned extends StatelessWidget {
           right: 26.0,
           child: GestureDetector(
             onTap: () {
-              sAnalytics.earnCloseOnboarding();
               Navigator.pop(context);
             },
             child: const SEraseMarketIcon(),

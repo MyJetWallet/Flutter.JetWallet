@@ -124,11 +124,6 @@ class _SendByPhonePreviewBody extends StatelessObserverWidget {
                   active: !state.loading,
                   name: intl.sendByPhonePreview_confirm,
                   onTap: () {
-                    sAnalytics.sendConfirm(
-                      currency: currency.symbol,
-                      amount: state.amount,
-                      type: 'By phone',
-                    );
 
                     state.send();
                   },

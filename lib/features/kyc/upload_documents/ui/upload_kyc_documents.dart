@@ -49,8 +49,6 @@ class _UploadKycDocumentsBody extends StatelessObserverWidget {
       notifier: store,
     );
 
-    sAnalytics.uploadIdentityDocument();
-
     return ReactionBuilder(
       builder: (context) {
         return reaction<UploadKycDocumentsUnion>(

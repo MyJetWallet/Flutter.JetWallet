@@ -60,9 +60,7 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
             valueLoading: deposit.union is Loading,
             longString: true,
             expanded: true,
-            then: () {
-              sAnalytics.receiveCopy(asset: currency.description);
-            },
+            then: () {},
           ),
         ],
       ),

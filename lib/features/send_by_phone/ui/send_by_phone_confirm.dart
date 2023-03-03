@@ -143,8 +143,6 @@ class _SendByPhoneConfirmBodyState extends State<_SendByPhoneConfirmBody> {
       }
     });
 
-    sAnalytics.sendConfirmSend();
-
     return ReactionBuilder(
       builder: (context) {
         return reaction<SendByPhoneConfirmUnion>(

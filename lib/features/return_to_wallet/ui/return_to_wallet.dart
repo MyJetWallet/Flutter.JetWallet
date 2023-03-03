@@ -155,14 +155,6 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
             submitButtonActive: state.inputValid,
             submitButtonName: intl.return_to_wallet_preview,
             onSubmitPressed: () {
-              sAnalytics.earnPreviewReclaim(
-                assetName: currency.description,
-                amount: state.inputValue,
-                apy: state.apy.toString(),
-                term: earnOffer.term,
-                percentage: state.tappedPreset ?? '',
-                offerId: earnOffer.offerId,
-              );
 
               sRouter.push(
                 PreviewReturnToWalletRouter(

@@ -36,7 +36,6 @@ class EarnHeader extends StatelessObserverWidget {
               ),
               SIconButton(
                 onTap: () {
-                  sAnalytics.earnClickInfoButton();
                   showStartEarnPageBottomSheet(
                     context: context,
                     onTap: (CurrencyModel currency) {

@@ -90,13 +90,6 @@ class EarnActiveItem extends StatelessObserverWidget {
           splashColor: Colors.transparent,
           borderRadius: BorderRadius.circular(16.0),
           onTap: () {
-            sAnalytics.earnTapActive(
-              assetName: currentCurrency.description,
-              amount: earnOffer.amount.toString(),
-              apy: earnOffer.currentApy.toString(),
-              term: earnOffer.term,
-              offerId: earnOffer.offerId,
-            );
             showEarnOfferDetails(
               context: context,
               earnOffer: earnOffer,

@@ -193,7 +193,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           );
         },
         onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
 
           union = UploadKycDocumentsUnion.error(error);
 
@@ -205,8 +204,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       );
     } catch (error) {
       _logger.log(stateFlow, 'verificationCheck', error);
-
-      sAnalytics.kycIdentityUploadFailed(error.toString());
 
       union = UploadKycDocumentsUnion.error(error);
 
@@ -263,7 +260,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           }
         },
         onError: (error) {
-          sAnalytics.kycIdentityUploadFailed(error.toString());
 
           union = UploadKycDocumentsUnion.error(error);
 
@@ -275,8 +271,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       );
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
-
-      sAnalytics.kycIdentityUploadFailed(error.toString());
 
       union = UploadKycDocumentsUnion.error(error);
 
@@ -309,7 +303,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           );
 
       if (response.hasError) {
-        sAnalytics.kycIdentityUploadFailed(response.error.toString());
 
         union = UploadKycDocumentsUnion.error(response.error?.cause ?? '');
 
@@ -322,8 +315,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       }
     } catch (error) {
       _logger.log(stateFlow, 'uploadDocuments', error);
-
-      sAnalytics.kycIdentityUploadFailed(error.toString());
 
       union = UploadKycDocumentsUnion.error(error);
 
@@ -371,7 +362,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           await _pickFile(true);
         } else {
           loader.startLoadingImmediately();
-          sAnalytics.kycIdentityUploaded();
           await uploadDocuments(
             kycDocumentTypeInt(document!),
           );
@@ -381,7 +371,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           await _pickFile(false);
         } else {
           loader.startLoadingImmediately();
-          sAnalytics.kycIdentityUploaded();
           await _uploadPassportDocument(
             kycDocumentTypeInt(document!),
           );
@@ -415,8 +404,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           );
 
       if (response.hasError) {
-        sAnalytics.kycIdentityUploadFailed(response.error.toString());
-
         sNotification.showError(
           intl.something_went_wrong_try_again,
           id: 1,
@@ -432,8 +419,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
       print(error);
 
       _logger.log(stateFlow, 'uploadDocuments', error);
-
-      sAnalytics.kycIdentityUploadFailed(error.toString());
 
       union = UploadKycDocumentsUnion.error(error);
 

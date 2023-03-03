@@ -75,15 +75,6 @@ class PortfolioNftList extends StatelessObserverWidget {
                     // If there is only 1 purchased NFT in the collection, immediately open the NFT screen
 
                     if (item.nftList.length == 1) {
-                      sAnalytics.nftWalletCollectionView(
-                        nftCollectionID: item.id ?? '',
-                        nftObjectId: item.nftList.first.symbol!,
-                      );
-                      sAnalytics.nftObjectView(
-                        nftCollectionID: item.nftList.first.collectionId ?? '',
-                        nftObjectId: item.nftList.first.symbol ?? '',
-                        source: 'Portfolio',
-                      );
                       sRouter.push(
                         NFTDetailsRouter(
                           nftSymbol: item.nftList.first.symbol!,
@@ -91,15 +82,6 @@ class PortfolioNftList extends StatelessObserverWidget {
                         ),
                       );
                     } else {
-                      sAnalytics.nftWalletTapCollection(
-                        nftCollectionID: item.id ?? '',
-                        nftObjectId: '',
-                      );
-
-                      sAnalytics.nftWalletCollectionView(
-                        nftCollectionID: item.id ?? '',
-                        nftObjectId: '',
-                      );
 
                       sRouter.push(
                         NFTCollectionSimpleListRouter(
@@ -161,7 +143,6 @@ class PortfolioNftList extends StatelessObserverWidget {
                   color: colors.black,
                 ),
                 onTap: () {
-                  sAnalytics.nftPortfolioBuy();
                   sRouter.push(
                     HomeRouter(
                       children: [
@@ -180,7 +161,6 @@ class PortfolioNftList extends StatelessObserverWidget {
                   color: colors.black,
                 ),
                 onTap: () {
-                  sAnalytics.nftPortfolioReceive();
                   if (kyc.depositStatus ==
                           kycOperationStatus(KycStatus.allowed) &&
                       kyc.withdrawalStatus ==

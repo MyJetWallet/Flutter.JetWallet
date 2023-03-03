@@ -40,7 +40,6 @@ class EarnPageBody extends StatelessObserverWidget {
                 child: ClickableUnderlinedText(
                   text: intl.earn_learn_more,
                   onTap: () {
-                    sAnalytics.earnClickMore();
 
                     sRouter.push(
                       InfoWebViewRouter(

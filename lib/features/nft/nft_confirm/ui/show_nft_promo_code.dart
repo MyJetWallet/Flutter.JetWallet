@@ -23,7 +23,6 @@ void showNFTPromoCodeBottomSheet(Function() then) {
       showCloseIcon: false,
     ),
     then: (test) {
-      sAnalytics.nftPromoClosePromo();
 
       then();
     },
@@ -171,9 +170,6 @@ class _PromoCodeBottom extends StatelessObserverWidget {
                 getIt.get<NFTPromoCodeStore>().discount != null,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
-              sAnalytics.nftPromoContinuePromo(
-                promoCode: getIt.get<NFTPromoCodeStore>().promoCode ?? '',
-              );
 
               getIt.get<NFTPromoCodeStore>().setSaved(true);
 

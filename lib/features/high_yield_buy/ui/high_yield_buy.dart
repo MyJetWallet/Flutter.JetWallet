@@ -109,9 +109,6 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
     }
 
     void _showHowWeCountSheet(String source) {
-      sAnalytics.earnCalculationView(
-        source: source,
-      );
       sShowBasicModalBottomSheet(
         horizontalPadding: 24,
         children: [
@@ -316,7 +313,6 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
           showInfoButton: true,
           onInfoButtonTap: () {
             final source = topUp ? 'Info (Top up)' : 'Info (Subscription)';
-            sAnalytics.earnProgressBar(source: source);
             _showHowWeCountSheet(source);
           },
         ),
@@ -372,7 +368,6 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
                     ),
               onTap: () {
                 final source = topUp ? 'Top up' : 'Subscription';
-                sAnalytics.earnProgressBar(source: source);
                 _showHowWeCountSheet(source);
               },
             ),
@@ -404,25 +399,6 @@ class _HighYieldBuyBody extends StatelessObserverWidget {
             submitButtonActive: state.inputValid && !state.error,
             submitButtonName: intl.earn_buy_preview,
             onSubmitPressed: () {
-              if (topUp) {
-                sAnalytics.earnPreviewTopUp(
-                  assetName: currency.description,
-                  amount: state.inputValue,
-                  apy: state.apy.toString(),
-                  term: earnOffer.term,
-                  percentage: state.tappedPreset ?? '',
-                  offerId: earnOffer.offerId,
-                );
-              } else {
-                sAnalytics.earnPreview(
-                  assetName: currency.description,
-                  amount: state.inputValue,
-                  apy: state.apy.toString(),
-                  term: earnOffer.term,
-                  percentage: state.tappedPreset ?? '',
-                  offerId: earnOffer.offerId,
-                );
-              }
 
               sRouter.push(
                 PreviewHighYieldBuyScreenRouter(

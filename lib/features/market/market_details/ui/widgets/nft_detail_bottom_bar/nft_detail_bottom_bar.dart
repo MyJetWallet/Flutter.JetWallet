@@ -68,15 +68,6 @@ class NFTDetailBottomBar extends StatelessObserverWidget {
                 accuracy: currency.accuracy,
               ),
               onTap: () {
-                sAnalytics.walletAssetView(
-                  Source.assetScreen,
-                  currency.description,
-                );
-                sAnalytics.nftObjectTapCurrency(
-                  nftCollectionID: nft.collectionId ?? '',
-                  nftObjectId: nft.symbol ?? '',
-                  currency: currency.description,
-                );
 
                 navigateToWallet(context, currency);
               },

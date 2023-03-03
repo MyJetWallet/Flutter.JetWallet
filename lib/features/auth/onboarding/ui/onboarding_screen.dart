@@ -10,6 +10,7 @@ import 'package:jetwallet/features/auth/onboarding/store/onboarding_store.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dart';
 import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -42,6 +43,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
   @override
   void initState() {
     OnboardingStore.of(context).init(_slidesAnimationController);
+    sAnalytics.signInFlowWelcomeView();
     super.initState();
   }
 
@@ -160,6 +162,8 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                   active: true,
                   name: intl.onboarding_getStarted,
                   onTap: () {
+                    sAnalytics.signInFlowTapGetStarted();
+                    sAnalytics.signInFlowEnterEmailView();
                     sRouter.push(
                       SingInRouter(),
                     );

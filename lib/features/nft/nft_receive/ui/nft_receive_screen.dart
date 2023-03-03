@@ -51,7 +51,6 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: intl.nft_receive_header,
           onBackButtonTap: () {
-            sAnalytics.nftReceiveBack();
             Navigator.pop(context);
           },
         ),
@@ -73,7 +72,6 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
                   onTap: () {
                     if (store.canShare) {
                       store.setCanShare(false);
-                      sAnalytics.nftReceiveShareTap();
 
                       Timer(
                         const Duration(
@@ -176,9 +174,7 @@ class _ReceiveNFTScreenBody extends StatelessObserverWidget {
                 afterCopyText: intl.cryptoDepositWithAddress_addressCopied,
                 valueLoading: store.address.isEmpty,
                 needPadding: true,
-                then: () {
-                  sAnalytics.nftReceiveCopyTap();
-                },
+                then: () {},
               ),
             ],
           ),

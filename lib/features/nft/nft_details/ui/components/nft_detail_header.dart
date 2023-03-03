@@ -54,10 +54,6 @@ class NFTDetailHeader extends StatelessWidget {
                 children: [
                   SIconButton(
                     onTap: () {
-                      sAnalytics.nftObjectTapBack(
-                        nftCollectionID: collectionId,
-                        nftObjectId: objectId,
-                      );
                       Navigator.pop(context);
                     },
                     defaultIcon: const SBackIcon(),
@@ -77,10 +73,6 @@ class NFTDetailHeader extends StatelessWidget {
                   ),
                   SIconButton(
                     onTap: () {
-                      sAnalytics.nftObjectTapShare(
-                        nftCollectionID: collectionId,
-                        nftObjectId: objectId,
-                      );
                       NFTDetailStore.of(context).share(
                         qrCodeSize,
                         screenWidth * 0.2,

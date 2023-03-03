@@ -54,16 +54,6 @@ class TransactionListItem extends StatelessObserverWidget {
 
     return InkWell(
       onTap: () {
-        if (nftAsset.name != 'NFT') {
-          sAnalytics.nftWalletTapHistoryObject(
-            nftCollectionID: nftAsset.collectionId ?? '',
-            nftObjectId: nftAsset.symbol ?? '',
-          );
-          sAnalytics.nftWalletHistoryObjectView(
-            nftCollectionID: nftAsset.collectionId ?? '',
-            nftObjectId: nftAsset.symbol ?? '',
-          );
-        }
         showTransactionDetails(
           context,
           transactionListItem,

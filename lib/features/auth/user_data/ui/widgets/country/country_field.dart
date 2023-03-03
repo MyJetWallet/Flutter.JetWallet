@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/widgets/flag_item.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'show_user_data_country_picker.dart';
@@ -21,6 +22,7 @@ class CountryProfileField extends StatelessObserverWidget {
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
+          sAnalytics.signInFlowSelectCountryView();
           showUserDataCountryPicker(context);
         },
         child: AbsorbPointer(

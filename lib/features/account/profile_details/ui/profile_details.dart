@@ -61,8 +61,6 @@ class ProfileDetails extends StatelessObserverWidget {
               label: intl.setPhoneNumber_phoneNumber,
               value: finalPhone,
               onTap: () {
-                sAnalytics.accountChangePhone();
-                sAnalytics.accountChangePhoneWarning();
 
                 sShowAlertPopup(
                   context,
@@ -73,7 +71,6 @@ class ProfileDetails extends StatelessObserverWidget {
                   primaryButtonName: intl.profileDetails_continue,
                   image: infoImage,
                   onPrimaryButtonTap: () {
-                    sAnalytics.accountChangePhoneContinue();
 
                     Navigator.pop(context);
                     sRouter.push(
@@ -94,7 +91,6 @@ class ProfileDetails extends StatelessObserverWidget {
                   },
                   secondaryButtonName: intl.profileDetails_cancel,
                   onSecondaryButtonTap: () {
-                    sAnalytics.accountChangePhoneCancel();
                     Navigator.pop(context);
                   },
                 );

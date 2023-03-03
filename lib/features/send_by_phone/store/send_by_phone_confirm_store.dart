@@ -168,7 +168,6 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
       } else {
         union = const SendByPhoneConfirmUnion.input();
 
-        sAnalytics.sendSuccess(type: 'By phone');
         _showSuccessScreen();
         clear();
 

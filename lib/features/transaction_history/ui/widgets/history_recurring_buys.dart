@@ -39,8 +39,6 @@ class HistoryRecurringBuys extends StatelessObserverWidget {
 
     final screenHeight = MediaQuery.of(context).size.height;
 
-    sAnalytics.recurringBuyView();
-
     return Material(
       color: colors.white,
       child: CustomScrollView(
