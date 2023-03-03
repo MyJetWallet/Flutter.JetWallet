@@ -104,7 +104,9 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
             active: true,
             name: intl.emptyEarnWalletBody_buyCrypto,
             onTap: () {
-              sAnalytics.newBuyTapBuy();
+              sAnalytics.newBuyTapBuy(
+                source: 'My Assets - Zero Balance - Buy',
+              );
               showBuyAction(
                 shouldPop: false,
                 fromCard: true,

@@ -417,14 +417,8 @@ abstract class _AddBankCardStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.cardVerification_cardBlocked,
         secondaryText: intl.cardVerification_cardBlockedDescription,
-        primaryButtonName: intl.cardVerification_choosePaymentMethod,
-        onPrimaryButtonTap: () {
-          sRouter.removeUntil(
-            (route) => route.name == CurrencyBuyRouter.name,
-          );
-        },
-        secondaryButtonName: intl.cardVerification_close,
-        onSecondaryButtonTap: () => sRouter.popUntilRoot(),
+        primaryButtonName: intl.cardVerification_close,
+        onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
   }

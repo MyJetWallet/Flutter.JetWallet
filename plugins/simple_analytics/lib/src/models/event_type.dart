@@ -2,7 +2,7 @@ class EventType {
 
   /// Buy Flow
   static const newBuyZeroScreenView = '‘My assets - Zero balance’ screen view';
-  static const newBuyTapBuy = 'Tap on the ‘Buy Crypto’ button';
+  static const newBuyTapBuy = 'Tap on the ‘Buy/Buy Crypto’ button';
   static const newBuyChooseAssetView = '‘Choose asset’ screen view';
   static const newBuyNoSavedCard =
       '‘Payment method - No Saved Cards’ screen view';

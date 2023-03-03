@@ -51,7 +51,6 @@ class DepositDetails extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceH10(),
           ],
           if (transactionListItem.depositInfo?.network != null) ...[
             const SpaceH16(),
