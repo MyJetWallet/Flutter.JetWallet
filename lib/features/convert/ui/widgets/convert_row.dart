@@ -70,7 +70,9 @@ class ConvertRow extends StatelessObserverWidget {
           _ActionConvert(
             searchStore: searchStore,
             currency: currency,
+            fromAsset: fromAsset,
           ),
+          const SpaceH42(),
         ],
         then: (value) {
           if (value is CurrencyModel) {
@@ -154,10 +156,12 @@ class ConvertRow extends StatelessObserverWidget {
 class _ActionConvert extends StatelessObserverWidget {
   const _ActionConvert({
     Key? key,
+    required this.fromAsset,
     required this.searchStore,
     required this.currency,
   }) : super(key: key);
 
+  final bool fromAsset;
   final ActionSearchStore searchStore;
   final CurrencyModel currency;
 
@@ -168,12 +172,11 @@ class _ActionConvert extends StatelessObserverWidget {
 
     return Observer(
         builder: (context) {
-
           return Column(
             children: [
               for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithBalance)
                 SAssetItem(
-                  isSelected: currency == item,
+                  isSelected: currency.symbol == item.symbol,
                   icon: SNetworkSvg24(
                     url: item.iconUrl,
                     color: _iconColor(item, context),
@@ -181,7 +184,8 @@ class _ActionConvert extends StatelessObserverWidget {
                   name: item.description,
                   description: item.symbol,
                   amount: item.volumeBaseBalance(baseCurrency),
-                  divider: item != state.convertCurrenciesWithBalance.last,
+                  removeDivider: item == getIt.get<ActionSearchStore>()
+                      .convertCurrenciesWithBalance.last,
                   onTap: () {
                     if (currency == item) {
                       Navigator.pop(context);
@@ -190,25 +194,33 @@ class _ActionConvert extends StatelessObserverWidget {
                     }
                   },
                 ),
-              for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance)
-                SAssetItem(
-                  isSelected: currency == item,
-                  icon: SNetworkSvg24(
-                    url: item.iconUrl,
-                    color: _iconColor(item, context),
-                  ),
-                  name: item.description,
-                  description: item.symbol,
-                  amount: item.volumeBaseBalance(baseCurrency),
-                  divider: item != state.convertCurrenciesWithoutBalance.last,
-                  onTap: () {
-                    if (currency == item) {
-                      Navigator.pop(context);
-                    } else {
-                      Navigator.pop(context, item);
-                    }
-                  },
+              if (!fromAsset) ...[
+                const SpaceH11(),
+                SDivider(
+                  color: sKit.colors.grey3,
                 ),
+                const SpaceH11(),
+                for (final item in getIt.get<ActionSearchStore>().convertCurrenciesWithoutBalance)
+                  SAssetItem(
+                    isSelected: currency.symbol == item.symbol,
+                    icon: SNetworkSvg24(
+                      url: item.iconUrl,
+                      color: _iconColor(item, context),
+                    ),
+                    name: item.description,
+                    description: item.symbol,
+                    amount: item.volumeBaseBalance(baseCurrency),
+                    removeDivider: item == getIt.get<ActionSearchStore>()
+                        .convertCurrenciesWithoutBalance.last,
+                    onTap: () {
+                      if (currency == item) {
+                        Navigator.pop(context);
+                      } else {
+                        Navigator.pop(context, item);
+                      }
+                    },
+                  ),
+              ],
             ],
           );
         },

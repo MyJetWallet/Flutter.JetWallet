@@ -32,10 +32,11 @@ abstract class _ConvertInputStoreBase with Store {
 
     sortCurrencies(_currencies);
 
-    final toList =
-        removeCurrencyFromList(fromCurrency ?? _currencies.first, _currencies);
-    final to = toList.first;
-    final fromList = removeCurrencyFromList(to, _currencies);
+    final toList = _currencies;
+    final to = (fromCurrency?.symbol == toList[1].symbol ||
+      _currencies.first.symbol == toList[1].symbol)
+      ? toList[0] : toList[1];
+    final fromList = _currencies;
 
     fromAsset = fromCurrency ?? _currencies.first;
     fromAssetList = fromList;
@@ -123,6 +124,7 @@ abstract class _ConvertInputStoreBase with Store {
         ),
       ),
     );
+    _calculateConversion();
   }
 
   @action
@@ -183,9 +185,13 @@ abstract class _ConvertInputStoreBase with Store {
 
     updateConversionPrice(null);
     _updateFromAsset(value);
-    _updateToList();
     if (fromAssetEnabled) {
       _resetAssetsAmount();
+    } else {
+      setUpdateTargetConversionPrice(
+        fromAsset!.symbol,
+        toAsset!.symbol,
+      );
     }
     _validateInput();
   }
@@ -196,9 +202,13 @@ abstract class _ConvertInputStoreBase with Store {
 
     updateConversionPrice(null);
     _updateToAsset(value);
-    _updateFromList();
     if (toAssetEnabled) {
       _resetAssetsAmount();
+    } else {
+      setUpdateTargetConversionPrice(
+        fromAsset!.symbol,
+        toAsset!.symbol,
+      );
     }
     _validateInput();
   }

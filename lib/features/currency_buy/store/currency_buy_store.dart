@@ -794,6 +794,14 @@ abstract class _CurrencyBuyStoreBase with Store {
         conversion = (amount / price).toDecimal(
           scaleOnInfinitePrecision: accuracy,
         );
+        if (baseCurrency != null && paymentCurrency != null) {
+          if (baseCurrency!.symbol != paymentCurrency!.symbol) {
+            conversion = Decimal.parse(
+              (conversion * paymentCurrency!.currentPrice)
+              .toStringAsFixed(accuracy),
+            );
+          }
+        }
       }
 
       _updateTargetConversionValue(
