@@ -141,7 +141,6 @@ abstract class _AppStoreBase with Store {
                 ),
               ]);
               */
-
               if (lastRoute != 'verification_screen') {
                 sAnalytics.signInFlowPhoneNumberView();
                 getIt<AppRouter>().replaceAll([
@@ -248,7 +247,7 @@ abstract class _AppStoreBase with Store {
       );
     } else {
       await getIt<AppRouter>().replaceAll([
-        const SplashNoAnimationRoute(),
+        SplashNoAnimationRoute(),
       ]);
     }
   }
