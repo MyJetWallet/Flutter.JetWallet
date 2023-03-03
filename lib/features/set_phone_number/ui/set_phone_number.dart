@@ -12,6 +12,7 @@ import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phon
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
@@ -143,12 +144,13 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                               store.updatePhoneNumber(phone);
                             },
                             controller: store.phoneNumberController,
-                            suffixIcons: [
+                            suffixIcons: store.phoneInput.isNotEmpty ? [
                               SIconButton(
                                 onTap: () => store.clearPhone(),
                                 defaultIcon: const SEraseIcon(),
+                                pressedIcon: const SErasePressedIcon(),
                               ),
-                            ],
+                            ] : null,
                           ),
                         ),
                       ),
@@ -162,7 +164,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
           Observer(
             builder: (context) {
               return SPaddingH24(
-                child: SPrimaryButton2(
+                child: SPrimaryButton4(
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {

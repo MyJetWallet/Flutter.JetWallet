@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -31,6 +33,7 @@ class PhoneVerificationStore extends _PhoneVerificationStoreBase
 abstract class _PhoneVerificationStoreBase with Store {
   _PhoneVerificationStoreBase(this.args) {
     _initState();
+    refreshTimer();
   }
 
   final PhoneVerificationArgs args;
@@ -56,6 +59,27 @@ abstract class _PhoneVerificationStoreBase with Store {
   bool resendTapped = false;
 
   TextEditingController controller = TextEditingController();
+
+  @observable
+  int time = 0;
+
+  @observable
+  Timer? _timer;
+
+  @action
+  void refreshTimer() {
+
+    _timer?.cancel();
+
+    time = 30;
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+          time = time - 1;
+      },
+    );
+  }
 
   @action
   void _initState() {

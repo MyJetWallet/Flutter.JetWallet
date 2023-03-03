@@ -205,54 +205,50 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               ),
               const Spacer(),
               if (!widget.displayHeader || pin.showForgot)
-                InkWell(
-                  highlightColor: colors.grey5,
-                  onTap: () => sShowAlertPopup(
-                    context,
-                    primaryText: intl.forgot_pass_dialog_title,
-                    secondaryText: intl.forgot_pass_dialog_text,
-                    primaryButtonType: SButtonType.primary3,
-                    primaryButtonName: intl.forgot_pass_dialog_btn_reset,
-                    image: Image.asset(
-                      ellipsisAsset,
-                      width: 80,
-                      height: 80,
-                      package: 'simple_kit',
-                    ),
-                    onPrimaryButtonTap: () {
-                      pin.loader.startLoading();
-                      logoutN.logout(
-                        'PIN SCREEN',
-                        resetPin: true,
-                        callbackAfterSend: () {
-                          pin.loader.finishLoading();
-                        },
-                      );
-                      Navigator.pop(context);
-                    },
-                    secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
-                    onSecondaryButtonTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 2,
-                          color: colors.black,
-                        ),
-                      ),
-                    ),
-                    child: Baseline(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SpaceW24(),
+                    Baseline(
                       baselineType: TextBaseline.alphabetic,
-                      baseline: 22,
-                      child: Text(
-                        '${intl.pinScreen_forgotYourPin}?',
-                        style: sBodyText2Style,
+                      baseline: 16,
+                      child:  SClickableLinkText(
+                        actualColor: colors.black,
+                        onTap: () => sShowAlertPopup(
+                          context,
+                          primaryText: intl.forgot_pass_dialog_title,
+                          secondaryText: intl.forgot_pass_dialog_text,
+                          primaryButtonType: SButtonType.primary3,
+                          primaryButtonName: intl.forgot_pass_dialog_btn_reset,
+                          image: Image.asset(
+                            ellipsisAsset,
+                            width: 80,
+                            height: 80,
+                            package: 'simple_kit',
+                          ),
+                          onPrimaryButtonTap: () {
+                            pin.loader.startLoading();
+                            logoutN.logout(
+                              'PIN SCREEN',
+                              resetPin: true,
+                              callbackAfterSend: () {
+                                pin.loader.finishLoading();
+                              },
+                            );
+                            Navigator.pop(context);
+                          },
+                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
+                          onSecondaryButtonTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        text: '${intl.pinScreen_forgotYourPin}?',
                       ),
                     ),
-                  ),
+                    SBlueRightArrowIcon(
+                      color: colors.grey3,
+                    ),
+                  ],
                 ),
               if (!widget.displayHeader) const SpaceH34(),
               if (widget.displayHeader) const SpaceH40(),

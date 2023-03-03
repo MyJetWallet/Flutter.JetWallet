@@ -24,7 +24,7 @@ void showBirthDatePicker(
         store: selectDateStore,
         userDateStore: userDateStore,
       ),
-      const SpaceH24(),
+      const SpaceH42(),
     ],
   );
 }
