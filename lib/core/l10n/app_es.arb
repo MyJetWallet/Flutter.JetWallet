@@ -1353,5 +1353,18 @@
     "account_transactionHistory": "Historial de transacciones",
     "showDepositDisclaimer_primatyTextTitle": "a esta dirección de depósito.",
     "showDepositDisclaimer_primatyTextSecond": "Recibir cualquier otra moneda o token en esta dirección puede resultar en la pérdida del monto de la transferencia.",
-    "showDepositDisclaimer_primatyTextOnly": "Solo"
+    "showDepositDisclaimer_primatyTextOnly": "Solo",
+    "profileDetails_changePhoneAlert2": "Tenga en cuenta que después de cambiar su número de teléfono, se bloquearán todos los retiros para",
+    "account_verified": "Verificado",
+    "verification_your_profile": "Verifica tu perfil",
+    "verification_your_profile_descr": "De acuerdo con la política KYC y AML, debe pasar el proceso de verificación.",
+    "logout": "Cerrar sesión",
+    "email_verification": "Verificacion de email",
+    "phone_number": "Número de teléfono",
+    "provide_information": "Proveer información",
+    "personal_details": "Proveer información",
+    "personal_details_descr": "Nombre, apellido, fecha de nacimiento y país",
+    "pin_code": "Código PIN",
+    "pin_code_descr": "PIN seguro para su billetera Simple",
+    "create_pin_code": "Crear PIN"
 }

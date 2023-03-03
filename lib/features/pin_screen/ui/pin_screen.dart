@@ -26,6 +26,7 @@ class PinScreen extends StatelessWidget {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.fromRegister = true,
     this.onChangePhone,
     required this.union,
   }) : super(key: key);
@@ -35,6 +36,7 @@ class PinScreen extends StatelessWidget {
   final bool isChangePhone;
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
+  final bool fromRegister;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class PinScreen extends StatelessWidget {
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
+        fromRegister: fromRegister,
         cannotLeave: cannotLeave,
         union: union,
       ),
@@ -58,12 +61,14 @@ class _PinScreenBody extends StatefulObserverWidget {
     Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    required this.fromRegister,
     required this.union,
   }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;
   final PinFlowUnion union;
+  final bool fromRegister;
 
   @override
   State<_PinScreenBody> createState() => _PinScreenBodyState();
@@ -78,11 +83,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
 
     Function()? onbackButton;
 
-    if (widget.union is Verification) {
+    if (!widget.fromRegister) {
+      onbackButton = () => Navigator.pop(context);
+    } else if (widget.union is Verification) {
       onbackButton = () => logoutN.logout(
-        'PIN SCREEN, logout',
-        callbackAfterSend: () {},
-      );
+            'PIN SCREEN, logout',
+            callbackAfterSend: () {},
+          );
     } else if (widget.cannotLeave) {
       onbackButton = null;
     } else {
@@ -142,7 +149,11 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     },
                     customIconButton: SIconButton(
                       onTap: () {
-                        showModalVerification(context);
+                        if (!widget.fromRegister) {
+                          Navigator.pop(context);
+                        } else {
+                          showModalVerification(context);
+                        }
                       },
                       defaultIcon: const SCloseIcon(),
                       pressedIcon: const SClosePressedIcon(),
