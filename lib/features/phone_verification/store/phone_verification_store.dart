@@ -68,18 +68,15 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void refreshTimer() {
-    print('refreshTimer');
 
     _timer?.cancel();
 
-    const initialInt = 0;
-
-    time = initialInt;
+    time = 30;
 
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-          time = time + 1;
+          time = time - 1;
       },
     );
   }

@@ -9,10 +9,12 @@ class SClickableLinkText extends StatefulWidget {
     Key? key,
     required this.text,
     required this.onTap,
+    this.actualColor = const Color(0xFF374DFB),
   }) : super(key: key);
 
   final String text;
   final void Function() onTap;
+  final Color actualColor;
 
   @override
   State<SClickableLinkText> createState() => _SClickableLinkTextState();
@@ -26,8 +28,8 @@ class _SClickableLinkTextState extends State<SClickableLinkText> {
     late Color currentColor;
 
     currentColor = highlighted
-        ? SColorsLight().blue.withOpacity(0.8)
-        : SColorsLight().blue;
+        ? widget.actualColor.withOpacity(0.8)
+        : widget.actualColor;
 
     return InkWell(
       onTap: widget.onTap,

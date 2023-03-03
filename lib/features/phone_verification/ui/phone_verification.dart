@@ -48,7 +48,7 @@ class PhoneVerification extends StatelessWidget {
           dispose: (context, store) => store.dispose(),
         ),
         Provider<TimerStore>(
-          create: (_) => TimerStore(30),
+          create: (_) => TimerStore(1000000),
           dispose: (context, store) => store.dispose(),
         ),
       ],
@@ -181,9 +181,9 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ),
               )
             else ...[
-              if (timer.time > 0 && !store.showResend) ...[
+              if (store.time > 0 && !store.showResend) ...[
                 ResendInText(
-                  text: '${intl.twoFaPhone_youCanReceive} ${timer.time}'
+                  text: '${intl.twoFaPhone_youCanReceive} ${store.time}'
                       ' ${intl.phoneVerification_seconds}',
                 ),
               ] else ...[
@@ -191,7 +191,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   isPhone: true,
                   onTap: () async {
                     await store.sendCode();
-                    timer.refreshTimer();
+                    store.refreshTimer();
 
                     store.updateShowResend(
                       sResend: false,
