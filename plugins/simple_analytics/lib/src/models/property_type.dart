@@ -17,4 +17,5 @@ class PropertyType {
   static const firstTimeBuy = 'FirstTimeBuy';
   static const newBuyPreset = 'Preset';
   static const biometric = 'Face ID/biometrics';
+  static const source = 'Source';
 }

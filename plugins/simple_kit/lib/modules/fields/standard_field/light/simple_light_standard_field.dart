@@ -109,13 +109,14 @@ class SimpleLightStandardField extends StatelessWidget {
       eraseIcon: [
         if (controller2.text.isNotEmpty && !hideClearButton) ...[
           const SpaceW16(),
-          GestureDetector(
+          SIconButton(
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
             onTap: () {
               controller2.clear();
               onChanged?.call('');
               onErase?.call();
             },
-            child: const SEraseIcon(),
           ),
         ],
       ],

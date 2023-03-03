@@ -150,17 +150,22 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 });
               },
               child: AbsorbPointer(
-                child: PinCodeField(
-                  focusNode: store.focusNode,
-                  length: codeLength,
-                  controller: store.controller,
-                  autoFocus: true,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  onCompleted: (_) => store.verifyCode(),
-                  onChanged: (_) {
-                    store.pinFieldError.disableError();
+                child: Observer(
+                  builder: (context) {
+
+                    return PinCodeField(
+                      focusNode: store.focusNode,
+                      length: codeLength,
+                      controller: store.controller,
+                      autoFocus: true,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      onCompleted: (_) => store.verifyCode(),
+                      onChanged: (_) {
+                        store.pinFieldError.disableError();
+                      },
+                      pinError: store.pinFieldError,
+                    );
                   },
-                  pinError: store.pinFieldError,
                 ),
               ),
             ),

@@ -114,10 +114,6 @@ class _WalletState extends State<Wallet>
                         ];
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sAnalytics.buyView(
-                            Source.walletDetails,
-                            actualAsset.description,
-                          );
 
                           sRouter.push(
                             PaymentMethodRouter(currency: actualAsset),
@@ -128,10 +124,6 @@ class _WalletState extends State<Wallet>
                             isProgress: kycState.verificationInProgress,
                             navigatePop: true,
                             currentNavigate: () {
-                              sAnalytics.buyView(
-                                Source.assetScreen,
-                                actualAsset.description,
-                              );
 
                               sRouter.push(
                                 PaymentMethodRouter(currency: actualAsset),
@@ -153,10 +145,8 @@ class _WalletState extends State<Wallet>
                         final actualAsset = currenciesWithBalance[
                         _pageController.page?.round() ?? 0
                         ];
-                        sAnalytics.receiveClick(source: 'My assets -> Asset -> Receive');
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sAnalytics.receiveAssetView(asset: actualAsset.description);
                           sRouter.navigate(
                             CryptoDepositRouter(
                               header: intl.balanceActionButtons_receive,
@@ -168,10 +158,6 @@ class _WalletState extends State<Wallet>
                             status: kycState.depositStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {
-                              sAnalytics.receiveAssetView(
-                                asset: actualAsset.description,
-                              );
-
                               sRouter.navigate(
                                 CryptoDepositRouter(
                                   header: intl.balanceActionButtons_receive,
