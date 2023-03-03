@@ -11,6 +11,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/currency_buy/models/apple_pay_data_model.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -150,11 +151,44 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
     debugPrint(paymentResult['token'].toString());
 
+    final paymentMethod = paymentResult['paymentMethod'];
+    final tokenData = jsonDecode(
+      paymentResult['token'].toString(),
+    );
+
+    print(tokenData);
+
+    final header = tokenData['header'];
+
+    final tokenApplePay = ApplePayDataModel(
+      token: ApplePayDataModelToken(
+        transactionIdentifier:
+            paymentResult["transactionIdentifier"].toString(),
+        paymentData: ApplePayDataModelTokenPaymentData(
+          version: tokenData['version'].toString(),
+          data: tokenData['data'].toString(),
+          signature: tokenData['signature'].toString(),
+          header: ApplePayDataModelTokenData(
+            ephemeralPublicKey: header['ephemeralPublicKey'].toString(),
+            publicKeyHash: header['publicKeyHash'].toString(),
+            transactionId: header['transactionId'].toString(),
+          ),
+        ),
+        paymentMethod: ApplePayDataModelPaymentMethod(
+          displayName: paymentMethod['displayName'].toString(),
+          network: paymentMethod['network'].toString(),
+          type: paymentMethod['type'].toString(),
+        ),
+      ),
+    );
+
+    print(tokenApplePay);
+
     await executeApplePayPayment();
 
     await applePayInfo();
 
-    await applePayConfirm(paymentResult.toString());
+    await applePayConfirm(jsonEncode(tokenApplePay.toJson()));
 
     //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
   }
@@ -319,11 +353,11 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
-  Future<void> applePayConfirm(dynamic token) async {
+  Future<void> applePayConfirm(String token) async {
     try {
       final response = await sNetwork.getWalletModule().postApplePayConfirm(
             applePayDepositId,
-            base64.encode(utf8.encode(token.toString())),
+            base64.encode(utf8.encode(token)),
           );
 
       response.pick(
