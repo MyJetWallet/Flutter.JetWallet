@@ -8,6 +8,7 @@ class SimpleLightTextButton2 extends StatelessWidget {
     Key? key,
     this.icon,
     this.addPadding = false,
+    this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
@@ -16,6 +17,7 @@ class SimpleLightTextButton2 extends StatelessWidget {
   final Widget? icon;
   final bool active;
   final bool addPadding;
+  final bool autoSize;
   final String name;
   final Function() onTap;
 
@@ -23,6 +25,7 @@ class SimpleLightTextButton2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleBaseTextButton(
       addPadding: addPadding,
+      autoSize: autoSize,
       icon: icon,
       active: active,
       name: name,

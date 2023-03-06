@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -72,9 +73,23 @@ class SBigHeader extends StatelessWidget {
                 child: Baseline(
                   baseline: isSmallSize ? 40.0 : 56.0,
                   baselineType: TextBaseline.alphabetic,
-                  child: Text(
+                  child: AutoSizeText(
                     title,
-                    style: sTextH2Style,
+                    minFontSize: 16.0,
+                    maxLines: 1,
+                    strutStyle: const StrutStyle(
+                      height: 1.25,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Gilroy',
+                    ),
+                    style: const TextStyle(
+                      height: 1.25,
+                      fontSize: 32.0,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),

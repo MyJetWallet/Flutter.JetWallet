@@ -1033,6 +1033,7 @@
     "serverCode232_card_account_ineligible": "Cuenta de la tarjeta no elegible",
     "serverCode233_card_limit_violated": "Límite de tarjeta excedida",
     "serverCode234_card_cvv_required": "CVV incorrecto",
+    "pinScreen_incorrectPIN": "PIN incorrecto",
     "serverCode235_three_d_secure_not_supported": "3DS no soportado por el banco",
     "serverCode236_three_d_secure_action_expired": "3DS caducado",
     "serverCode237_three_d_secure_invalid_request": "3DS inválido",

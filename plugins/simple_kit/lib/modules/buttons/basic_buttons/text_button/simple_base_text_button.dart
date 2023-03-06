@@ -6,6 +6,7 @@ class SimpleBaseTextButton extends StatefulWidget {
     Key? key,
     this.icon,
     this.addPadding = false,
+    this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
@@ -17,6 +18,7 @@ class SimpleBaseTextButton extends StatefulWidget {
   final Widget? icon;
   final bool active;
   final bool addPadding;
+  final bool autoSize;
   final String name;
   final Function() onTap;
   final Color activeColor;
@@ -58,6 +60,7 @@ class _SimpleBaseTextButtonState extends State<SimpleBaseTextButton> {
       },
       icon: widget.icon,
       addPadding: widget.addPadding,
+      autoSize: widget.autoSize,
       nameColor: currentColor,
       decoration: BoxDecoration(
         color: currentBackgroundColor,
