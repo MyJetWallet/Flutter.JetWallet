@@ -841,6 +841,10 @@ abstract class _WithdrawalStoreBase with Store {
       addressIsInternal: addressIsInternal,
     );
 
+    withAmmountInputError = double.parse(withAmount) != 0
+      ? error
+      : InputError.none;
+
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }
 

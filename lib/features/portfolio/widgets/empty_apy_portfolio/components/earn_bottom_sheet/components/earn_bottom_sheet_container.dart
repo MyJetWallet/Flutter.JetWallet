@@ -153,7 +153,7 @@ class _EarnBottomSheetContainerState extends State<EarnBottomSheetContainer> {
                               slivers: [
                                 SliverAppBar(
                                   automaticallyImplyLeading: false,
-                                  backgroundColor: Colors.transparent,
+                                  backgroundColor: Colors.white10,
                                   pinned: _needToHideOutWidget(),
                                   elevation: 0,
                                   expandedHeight: widget.expandedHeight,
