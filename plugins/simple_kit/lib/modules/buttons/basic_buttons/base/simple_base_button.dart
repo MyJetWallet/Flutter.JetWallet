@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
@@ -13,6 +14,7 @@ class SimpleBaseButton extends StatelessWidget {
     this.baseline = 33.5,
     this.borderColor,
     this.addPadding = false,
+    this.autoSize = false,
     required this.onHighlightChanged,
     required this.decoration,
     required this.name,
@@ -20,6 +22,7 @@ class SimpleBaseButton extends StatelessWidget {
   }) : super(key: key);
 
   final bool addPadding;
+  final bool autoSize;
   final Widget? icon;
   final Function()? onTap;
   final double baseline;
@@ -48,47 +51,93 @@ class SimpleBaseButton extends StatelessWidget {
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (icon != null) ...[
-                  Baseline(
-                    baselineType: TextBaseline.alphabetic,
-                    baseline: 23,
-                    child: icon,
-                  ),
-                  const SpaceW10(),
-                ],
-                if (addPadding)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          name,
-                          style: sButtonTextStyle.copyWith(
-                            color: nameColor,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Baseline(
+                      baselineType: TextBaseline.alphabetic,
+                      baseline: 23,
+                      child: icon,
+                    ),
+                    const SpaceW10(),
+                  ],
+                  if (addPadding)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: autoSize
+                              ? SizedBox(
+                                width: MediaQuery.of(context).size.width - 132,
+                                child: AutoSizeText(
+                                  name,
+                                  minFontSize: 4.0,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  strutStyle: const StrutStyle(
+                                    height: 1.56,
+                                    fontSize: 18.0,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  style: TextStyle(
+                                    height: 1.56,
+                                    fontSize: 18.0,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w700,
+                                    color: nameColor,
+                                  ),
+                                ),
+                              )
+                              : Text(
+                            name,
+                            style: sButtonTextStyle.copyWith(
+                              color: nameColor,
+                            ),
                           ),
                         ),
-                      ),
-                      if (icon != null)
-                        const SpaceH8(),
-                    ],
-                  )
-                else
-                  Flexible(
-                    child: Text(
-                      name,
-                      style: sButtonTextStyle.copyWith(
-                        color: nameColor,
+                        if (icon != null)
+                          const SpaceH8(),
+                      ],
+                    )
+                  else
+                    Flexible(
+                      child: autoSize
+                          ? SizedBox(
+                            width: MediaQuery.of(context).size.width - 132,
+                            child: AutoSizeText(
+                              name,
+                              minFontSize: 4.0,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              strutStyle: const StrutStyle(
+                                height: 1.56,
+                                fontSize: 18.0,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w700,
+                              ),
+                              style: TextStyle(
+                                height: 1.56,
+                                fontSize: 18.0,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w700,
+                                color: nameColor,
+                              ),
+                            ),
+                          )
+                          : Text(
+                        name,
+                        style: sButtonTextStyle.copyWith(
+                          color: nameColor,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
     );
   }
 }

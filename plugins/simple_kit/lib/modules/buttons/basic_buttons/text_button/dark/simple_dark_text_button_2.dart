@@ -8,6 +8,7 @@ class SimpleDarkTextButton2 extends StatelessWidget {
     Key? key,
     this.icon,
     this.addPadding = false,
+    this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
@@ -15,6 +16,7 @@ class SimpleDarkTextButton2 extends StatelessWidget {
 
   final Widget? icon;
   final bool addPadding;
+  final bool autoSize;
   final bool active;
   final String name;
   final Function() onTap;
@@ -22,6 +24,7 @@ class SimpleDarkTextButton2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseTextButton(
+      autoSize: autoSize,
       addPadding: addPadding,
       icon: icon,
       active: active,
