@@ -96,6 +96,10 @@ class StartupService {
                     const UserDataVerification(),
                   );
             } else if (info.toSetupPin) {
+              print(getIt.get<UserInfoService>().userInfo.isJustRegistered);
+              if (!getIt.get<UserInfoService>().userInfo.isJustRegistered) {
+                getIt.get<VerificationStore>().setRefreshPin();
+              }
               getIt.get<AppStore>().setAuthorizedStatus(
                     const PinSetup(),
                   );

@@ -17,6 +17,10 @@ abstract class _VerificationStoreBase with Store {
 
   @observable
   bool isPhoneDone = false;
+
+  @observable
+  bool isRefreshPin = false;
+
   @action
   void setPhoneDone(bool value) => isPhoneDone = value;
 
@@ -34,6 +38,11 @@ abstract class _VerificationStoreBase with Store {
   void phoneDone() {
     isPhoneDone = true;
     step = VerificationScreenStep.PersonalDetail;
+  }
+
+  @action
+  void setRefreshPin() {
+    isRefreshPin = true;
   }
 
   @action

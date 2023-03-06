@@ -141,6 +141,10 @@ class UserInfoService {
     userInfo = userInfo.copyWith(isJustLogged: value);
   }
 
+  void updateIsJustRegistered({required bool value}) {
+    userInfo = userInfo.copyWith(isJustRegistered: value);
+  }
+
   void _updateBiometric(bool hideBio) {
     userInfo = userInfo.copyWith(biometricDisabled: hideBio);
   }
