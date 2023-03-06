@@ -22,6 +22,7 @@ class UserInfoState with _$UserInfoState {
     @Default(false) bool kycPassed,
     @Default(false) bool hasHighYieldDisclaimers,
     @Default(false) bool isJustLogged,
+    @Default(false) bool isJustRegistered,
     @Default(false) bool biometricDisabled,
     @Default(false) bool isTechClient,
     @Default('') String email,

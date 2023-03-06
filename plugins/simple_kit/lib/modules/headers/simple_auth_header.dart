@@ -19,6 +19,7 @@ class SAuthHeader extends StatelessWidget {
     this.showSearchButton = false,
     this.showSupportButton = false,
     this.isAutoSize = false,
+    this.hideBackButton = false,
     this.maxLines = 1,
     required this.title,
   }) : super(key: key);
@@ -32,6 +33,7 @@ class SAuthHeader extends StatelessWidget {
   final bool showSearchButton;
   final bool showSupportButton;
   final bool isAutoSize;
+  final bool hideBackButton;
   final String title;
   final int progressValue;
   final int maxLines;
@@ -50,13 +52,18 @@ class SAuthHeader extends StatelessWidget {
                 const SpaceH60(),
                 Row(
                   children: [
-                    if (customIconButton != null)
-                      customIconButton!
-                    else
-                      SIconButton(
-                        onTap: onBackButtonTap ?? () => Navigator.pop(context),
-                        defaultIcon: const SBackIcon(),
-                        pressedIcon: const SBackPressedIcon(),
+                    if (!hideBackButton) ...[
+                      if (customIconButton != null)
+                        customIconButton!
+                      else
+                        SIconButton(
+                          onTap: onBackButtonTap ?? () => Navigator.pop(context),
+                          defaultIcon: const SBackIcon(),
+                          pressedIcon: const SBackPressedIcon(),
+                        ),
+                    ] else
+                      const SizedBox(
+                        height: 24,
                       ),
                     const Spacer(),
                     if (showSearchButton)

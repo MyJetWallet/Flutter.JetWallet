@@ -159,13 +159,24 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'verification_screen';
             },
             pinSetup: () {
+              print(getIt.get<VerificationStore>().isRefreshPin);
               if (lastRoute != '/pin_screen') {
-                getIt<AppRouter>().replaceAll([
-                  PinScreenRoute(
-                    union: Setup(),
-                    cannotLeave: true,
-                  ),
-                ]);
+                if (getIt.get<VerificationStore>().isRefreshPin) {
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: Setup(),
+                      cannotLeave: true,
+                      isForgotPassword: true,
+                    ),
+                  ]);
+                } else {
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: Setup(),
+                      cannotLeave: true,
+                    ),
+                  ]);
+                }
               }
 
               lastRoute = 'pin_screen';

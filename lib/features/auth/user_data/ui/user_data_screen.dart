@@ -16,6 +16,8 @@ import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
 class UserDataScreen extends StatelessWidget {
@@ -164,6 +166,9 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           name: intl.register_continue,
                           onTap: () {
                             sAnalytics.signInFlowCreatePinView();
+                            getIt.get<UserInfoService>()
+                                .updateIsJustRegistered(value: true);
+                            print(getIt.get<UserInfoService>().userInfo);
                             UserDataStore.of(context).saveUserData(
                               birthDateInfo.loader,
                               birthDateInfo,

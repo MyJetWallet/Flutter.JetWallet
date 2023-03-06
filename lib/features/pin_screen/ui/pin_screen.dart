@@ -27,6 +27,7 @@ class PinScreen extends StatelessWidget {
     this.cannotLeave = false,
     this.isChangePhone = false,
     this.fromRegister = true,
+    this.isForgotPassword = false,
     this.onChangePhone,
     required this.union,
   }) : super(key: key);
@@ -34,6 +35,7 @@ class PinScreen extends StatelessWidget {
   final bool displayHeader;
   final bool cannotLeave;
   final bool isChangePhone;
+  final bool isForgotPassword;
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
   final bool fromRegister;
@@ -50,6 +52,7 @@ class PinScreen extends StatelessWidget {
         displayHeader: displayHeader,
         fromRegister: fromRegister,
         cannotLeave: cannotLeave,
+        isForgotPassword: isForgotPassword,
         union: union,
       ),
     );
@@ -61,12 +64,14 @@ class _PinScreenBody extends StatefulObserverWidget {
     Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    this.isForgotPassword = false,
     required this.fromRegister,
     required this.union,
   }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;
+  final bool isForgotPassword;
   final PinFlowUnion union;
   final bool fromRegister;
 
@@ -119,12 +124,16 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               pin.screenUnion.when(
                 enterPin: () {
                   return widget.displayHeader
-                      ? SAuthHeader(title: pin.screenDescription())
+                      ? SAuthHeader(
+                          title: pin.screenDescription(),
+                          hideBackButton: widget.isForgotPassword,
+                        )
                       : const SizedBox();
                 },
                 confirmPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
+                    hideBackButton: widget.isForgotPassword,
                     /*
                     customIconButton: SIconButton(
                       onTap: () {
@@ -147,6 +156,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     onBackButtonTap: () {
                       onbackButton!();
                     },
+                    hideBackButton: widget.isForgotPassword,
                     customIconButton: SIconButton(
                       onTap: () {
                         if (!widget.fromRegister) {
