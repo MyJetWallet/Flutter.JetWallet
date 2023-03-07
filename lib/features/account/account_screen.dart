@@ -130,16 +130,10 @@ class _AccountScreenState extends State<AccountScreen>
                   twoFaEnabled: true,
                   phoneVerified: userInfo.phoneVerified,
                   onTwoFaBannerTap: () {
-                    sAnalytics.bannerClick(
-                      bannerName: '2-Factor Authentication',
-                    );
 
                     sRouter.push(const SmsAuthenticatorRouter());
                   },
                   onChatBannerTap: () {
-                    sAnalytics.bannerClick(
-                      bannerName: 'Chat with support',
-                    );
 
                     sRouter.push(
                       CrispRouter(
@@ -148,13 +142,6 @@ class _AccountScreenState extends State<AccountScreen>
                     );
                   },
                   onKycBannerTap: () {
-                    sAnalytics.bannerClick(
-                      bannerName: 'KYC banner',
-                    );
-                    defineKycVerificationsScope(
-                      kycState.requiredVerifications.length,
-                      Source.accountBanner,
-                    );
                     final isDepositAllow = kycState.depositStatus !=
                         kycOperationStatus(KycStatus.allowed);
                     final isWithdrawalAllow = kycState.withdrawalStatus !=
@@ -180,7 +167,6 @@ class _AccountScreenState extends State<AccountScreen>
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
                       onTap: () {
-                        sAnalytics.account();
 
                         sRouter.push(
                           const ProfileDetailsRouter(),
@@ -275,7 +261,10 @@ class _AccountScreenState extends State<AccountScreen>
                       ),
                     LogOutOption(
                       name: intl.log_out,
-                      onTap: () => logout.logout('account logout'),
+                      onTap: () => logout.logout(
+                        'account logout',
+                        callbackAfterSend: () {},
+                      ),
                     ),
                   ],
                 ),

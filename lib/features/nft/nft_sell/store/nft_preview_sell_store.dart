@@ -87,16 +87,6 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
           priceWithFee = price - Decimal.parse(feePrice.toString());
 
-          sAnalytics.nftSellConfirmView(
-            nftCollectionID: input!.nft.collectionId ?? '',
-            nftObjectId: input!.nft.symbol ?? '',
-            asset: input!.nft.tradingAsset ?? '',
-            nftPriceAmount: input?.amount ?? '',
-            nftOperationFee: '$feePercentage%',
-            nftCreatorFee: '$feePercentage%',
-            nftAmountToGet: '$receiveAmount',
-          );
-
           isLoading = false;
         },
         onError: (error) {
@@ -118,37 +108,8 @@ abstract class _NFTPreviewSellStoreBase with Store {
 
   @action
   Future<void> executeQuote() async {
-    sAnalytics.nftSellConfirmView(
-      nftCollectionID: input!.nft.collectionId ?? '',
-      nftObjectId: input!.nft.symbol ?? '',
-      asset: input!.nft.tradingAsset ?? '',
-      nftPriceAmount: input?.amount ?? '',
-      nftOperationFee: '$feePercentage%',
-      nftCreatorFee: '$feePercentage%',
-      nftAmountToGet: '$receiveAmount',
-    );
-
-    sAnalytics.nftSellConfirmTap(
-      nftCollectionID: input!.nft.collectionId ?? '',
-      nftObjectId: input!.nft.symbol ?? '',
-      asset: input!.nft.tradingAsset ?? '',
-      nftPriceAmount: input?.amount ?? '',
-      nftOperationFee: '$feePercentage%',
-      nftCreatorFee: '$feePercentage%',
-      nftAmountToGet: '$receiveAmount',
-    );
 
     isProcessing = true;
-
-    sAnalytics.nftSellProcessing(
-      nftCollectionID: input!.nft.collectionId ?? '',
-      nftObjectId: input!.nft.symbol ?? '',
-      asset: input!.nft.tradingAsset ?? '',
-      nftPriceAmount: input?.amount ?? '',
-      nftOperationFee: '$feePercentage%',
-      nftCreatorFee: '$feePercentage%',
-      nftAmountToGet: '$receiveAmount',
-    );
 
     loader.startLoading();
 
@@ -170,16 +131,6 @@ abstract class _NFTPreviewSellStoreBase with Store {
         loader.finishLoading();
 
         isProcessing = false;
-        sAnalytics.nftSellSuccess(
-          nftCollectionID: input!.nft.collectionId ?? '',
-          nftObjectId: input!.nft.symbol ?? '',
-          asset: input!.nft.tradingAsset ?? '',
-          nftPriceAmount: input?.amount ?? '',
-          nftOperationFee: '$feePercentage%',
-          nftCreatorFee: '$feePercentage%',
-          nftAmountToGet: '$receiveAmount',
-        );
-
         await sRouter.push(
           SuccessScreenRouter(
             secondaryText: intl.nft_detail_confirm_order_completed,

@@ -107,13 +107,6 @@ abstract class _PreviewReturnToWalletStoreBase with Store {
 
       final _ = await sNetwork.getWalletModule().postEarnOfferWithdrawal(model);
 
-      sAnalytics.earnSuccessReclaim(
-        assetName: input.fromCurrency.description,
-        amount: input.amount,
-        offerId: input.earnOffer.offerId,
-        apy: input.apy,
-        term: input.earnOffer.term,
-      );
       _showSuccessScreen();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'earnOfferWithdrawal', error.cause);

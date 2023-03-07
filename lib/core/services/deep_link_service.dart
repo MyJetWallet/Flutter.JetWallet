@@ -180,11 +180,6 @@ class DeepLinkService {
           );
         }
 
-        sAnalytics.nftObjectView(
-          nftCollectionID: '',
-          nftObjectId: tokenSymbol,
-          source: 'External link',
-        );
       }
     } catch (e) {
       rethrow;
@@ -214,10 +209,6 @@ class DeepLinkService {
             ),
           );
         }
-        sAnalytics.nftCollectionView(
-          nftCollectionID: collectionId,
-          source: 'External link',
-        );
       }
     } catch (e) {
       rethrow;
@@ -348,7 +339,10 @@ class DeepLinkService {
   }
 
   void _loginCommand(Map<String, String> parameters) {
-    getIt.get<LogoutService>().logout('DEEPLINK logincommand');
+    getIt.get<LogoutService>().logout(
+      'DEEPLINK logincommand',
+      callbackAfterSend: () {},
+    );
 
     sRouter.push(
       SingInRouter(
@@ -381,19 +375,6 @@ class DeepLinkService {
     final context = sRouter.navigatorKey.currentContext!;
     final referralInfo = sSignalRModules.referralInfo;
     final logoSize = MediaQuery.of(context).size.width * 0.2;
-
-    sAnalytics.clickMarketBanner(
-      MarketBannerSource.inviteFriend.name,
-      MarketBannerAction.open,
-    );
-
-    if (source == SourceScreen.bannerOnMarket) {
-      sAnalytics.inviteFriendView(Source.marketBanner);
-    } else if (source == SourceScreen.bannerOnRewards) {
-      sAnalytics.inviteFriendView(Source.rewards);
-    } else if (source == SourceScreen.accountScreen) {
-      sAnalytics.inviteFriendView(Source.accountScreen);
-    }
 
     sShowBasicModalBottomSheet(
       context: context,
@@ -494,16 +475,10 @@ class DeepLinkService {
   void _earnLandingCommand(SourceScreen? source) {
     final context = sRouter.navigatorKey.currentContext!;
 
-    sAnalytics.clickMarketBanner(
-      MarketBannerSource.earn.name,
-      MarketBannerAction.open,
-    );
-
     showStartEarnBottomSheet(
       context: context,
       onTap: (CurrencyModel currency) {
         sRouter.pop();
-        sAnalytics.earnDetailsView(currency.description);
 
         showStartEarnOptions(
           currency: currency,
@@ -511,10 +486,5 @@ class DeepLinkService {
       },
     );
 
-    if (source == SourceScreen.bannerOnMarket) {
-      sAnalytics.earnProgramView(Source.marketBanner);
-    } else if (source == SourceScreen.bannerOnRewards) {
-      sAnalytics.earnProgramView(Source.rewards);
-    }
   }
 }

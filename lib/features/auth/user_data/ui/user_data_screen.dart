@@ -10,11 +10,14 @@ import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_bir
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_field.dart';
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
 class UserDataScreen extends StatelessWidget {
@@ -141,6 +144,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                             readOnly: true,
                             onTap: () {
                               FocusScope.of(context).unfocus();
+                              sAnalytics.signInFlowDateSheetView();
                               showBirthDatePicker(
                                 context,
                                 birthDateInfo,
@@ -161,6 +165,10 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                         child: SPrimaryButton4(
                           name: intl.register_continue,
                           onTap: () {
+                            sAnalytics.signInFlowCreatePinView();
+                            getIt.get<UserInfoService>()
+                                .updateIsJustRegistered(value: true);
+                            print(getIt.get<UserInfoService>().userInfo);
                             UserDataStore.of(context).saveUserData(
                               birthDateInfo.loader,
                               birthDateInfo,

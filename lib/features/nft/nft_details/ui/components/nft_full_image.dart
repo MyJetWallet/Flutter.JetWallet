@@ -80,10 +80,6 @@ class _FullScreenPageState extends State<FullScreenPage> {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   onPressed: () {
-                    sAnalytics.nftObjectPictureClose(
-                      nftCollectionID: widget.nft?.collectionId ?? '',
-                      nftObjectId: widget.nft?.symbol ?? '',
-                    );
                     Navigator.of(context).pop();
                   },
                 ),

@@ -14,24 +14,9 @@ void showEarnDetailsManage({
   required EarnOfferModel earnOffer,
   required String assetName,
 }) {
-  sAnalytics.earnManageView(
-    assetName: assetName,
-    amount: earnOffer.amount.toString(),
-    apy: earnOffer.currentApy.toString(),
-    term: earnOffer.term,
-    offerId: earnOffer.offerId,
-  );
   sShowBasicModalBottomSheet(
     context: context,
-    onDissmis: () {
-      sAnalytics.earnCloseManage(
-        assetName: assetName,
-        amount: earnOffer.amount.toString(),
-        apy: earnOffer.currentApy.toString(),
-        term: earnOffer.term,
-        offerId: earnOffer.offerId,
-      );
-    },
+    onDissmis: () {},
     scrollable: true,
     pinned: _EarnDetailsManageBottomSheetHeader(
       assetName: assetName,
@@ -74,13 +59,6 @@ class _EarnDetailsManageBottomSheetHeader extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  sAnalytics.earnCloseManage(
-                    assetName: assetName,
-                    amount: earnOffer.amount.toString(),
-                    apy: earnOffer.currentApy.toString(),
-                    term: earnOffer.term,
-                    offerId: earnOffer.offerId,
-                  );
                   Navigator.pop(context);
                 },
                 child: const SErasePressedIcon(),
@@ -121,13 +99,6 @@ class _EarnDetailsManage extends StatelessObserverWidget {
                 primaryText: intl.earn_top_up,
                 onTap: () {
                   Navigator.of(context).pop();
-                  sAnalytics.earnClickTopUp(
-                    assetName: currency.description,
-                    amount: earnOffer.amount.toString(),
-                    apy: earnOffer.currentApy.toString(),
-                    term: earnOffer.term,
-                    offerId: earnOffer.offerId,
-                  );
 
                   Navigator.pop(context);
                   sRouter.push(
@@ -148,13 +119,6 @@ class _EarnDetailsManage extends StatelessObserverWidget {
                 primaryText: intl.earn_return_to_wallet,
                 onTap: () {
                   Navigator.of(context).pop();
-                  sAnalytics.earnClickReclaim(
-                    assetName: currency.description,
-                    amount: earnOffer.amount.toString(),
-                    apy: earnOffer.currentApy.toString(),
-                    term: earnOffer.term,
-                    offerId: earnOffer.offerId,
-                  );
 
                   Navigator.pop(context);
                   sRouter.push(

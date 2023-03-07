@@ -120,11 +120,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
               InkWell(
                 onTap: () {
-                  sAnalytics.nftObjectView(
-                    nftCollectionID: nftAsset.collectionId ?? '',
-                    nftObjectId: nftAsset.symbol ?? '',
-                    source: 'History',
-                  );
                   sRouter.push(
                     NFTDetailsRouter(
                       nftSymbol: nftAsset.symbol!,

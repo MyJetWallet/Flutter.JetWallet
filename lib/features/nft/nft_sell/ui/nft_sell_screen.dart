@@ -57,8 +57,6 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
     }
 
     void _showAssetSelector(BuildContext context) {
-      sAnalytics.sellForView();
-
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -112,7 +110,6 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
         ],
         context: context,
         then: (value) {
-          sAnalytics.sellCloseFor();
           if (value is CurrencyModel) {
             if (value != store.selectedCurrency) {
               if (value.symbol != store.baseCurrency.symbol) {
@@ -135,10 +132,6 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: '${intl.currencySell_sell} ${store.nft!.name!}',
           onBackButtonTap: () {
-            sAnalytics.nftSellPreviewBack(
-              nftCollectionID: store.nft!.collectionId ?? '',
-              nftObjectId: store.nft!.symbol ?? '',
-            );
             Navigator.pop(context);
           },
         ),
@@ -173,7 +166,6 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
               icon: const SActionWithdrawIcon(),
               name: intl.currencySell_chooseDestination,
               onTap: () {
-                sAnalytics.sellChooseDestination();
                 //_showAssetSelector(context);
               },
             )
@@ -222,12 +214,6 @@ class _NFTSellScreenBody extends StatelessObserverWidget {
             submitButtonActive: store.inputValid,
             submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
-              sAnalytics.nftSellPreviewTap(
-                nftCollectionID: store.nft!.collectionId ?? '',
-                nftObjectId: store.nft!.symbol ?? '',
-                asset: store.nft!.tradingAsset ?? '',
-                nftPriceAmount: store.inputValue,
-              );
               sRouter.push(
                 NFTPreviewSellRouter(
                   input: NftSellInput(

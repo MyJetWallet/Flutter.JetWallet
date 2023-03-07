@@ -70,8 +70,6 @@ class _SuccessKycScreenBodyState extends State<_SuccessKycScreenBody> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    sAnalytics.kycSuccessPageView();
-
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       child: Column(

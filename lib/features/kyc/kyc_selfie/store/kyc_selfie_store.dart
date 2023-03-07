@@ -83,12 +83,10 @@ abstract class _KycSelfieStoreBase with Store {
 
       response.pick(
         onNoData: () {
-          sAnalytics.kycSelfieUploaded();
 
           union = const KycSelfieUnion.done();
         },
         onData: (data) {
-          sAnalytics.kycSelfieUploaded();
 
           union = const KycSelfieUnion.done();
         },

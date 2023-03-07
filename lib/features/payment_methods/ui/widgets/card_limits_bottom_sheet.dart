@@ -11,7 +11,6 @@ void showCardLimitsBottomSheet({
   required CardLimitsModel cardLimits,
   CurrencyModel? currency,
 }) {
-  sAnalytics.earnOnBoardingView();
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,

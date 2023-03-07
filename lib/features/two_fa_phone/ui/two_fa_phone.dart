@@ -91,7 +91,11 @@ class _TwoFaPhoneBody extends StatelessObserverWidget {
             title: intl.twoFaPhone_phoneConfirmation,
             onBackButtonTap: () => trigger.when(
               startup: () =>
-                  logout.logout('TWO FA, logout', withLoading: false),
+                  logout.logout(
+                    'TWO FA, logout',
+                    withLoading: false,
+                    callbackAfterSend: () {},
+                  ),
               security: (_) => sRouter.pop(),
             ),
           ),

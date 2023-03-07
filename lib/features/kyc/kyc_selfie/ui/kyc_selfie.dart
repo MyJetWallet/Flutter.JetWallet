@@ -37,8 +37,6 @@ class _KycSelfieBody extends StatelessObserverWidget {
 
     final kycN = getIt.get<KycService>();
 
-    sAnalytics.kycSelfieView();
-
     return ReactionBuilder(
       builder: (context) {
         return reaction<KycSelfieUnion>(

@@ -110,15 +110,9 @@ class _WalletState extends State<Wallet>
                           source: 'My Assets - Asset -  Buy',
                         );
                         final actualAsset = currenciesWithBalance[
-                        _pageController.page?.round() ?? 0
-                        ];
+                            _pageController.page?.round() ?? 0];
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sAnalytics.buyView(
-                            Source.walletDetails,
-                            actualAsset.description,
-                          );
-
                           sRouter.push(
                             PaymentMethodRouter(currency: actualAsset),
                           );
@@ -128,17 +122,13 @@ class _WalletState extends State<Wallet>
                             isProgress: kycState.verificationInProgress,
                             navigatePop: true,
                             currentNavigate: () {
-                              sAnalytics.buyView(
-                                Source.assetScreen,
-                                actualAsset.description,
-                              );
-
                               sRouter.push(
                                 PaymentMethodRouter(currency: actualAsset),
                               );
                             },
                             requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
                           );
                         }
                       },
@@ -151,12 +141,9 @@ class _WalletState extends State<Wallet>
                     CircleActionReceive(
                       onTap: () {
                         final actualAsset = currenciesWithBalance[
-                        _pageController.page?.round() ?? 0
-                        ];
-                        sAnalytics.receiveClick(source: 'My assets -> Asset -> Receive');
+                            _pageController.page?.round() ?? 0];
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sAnalytics.receiveAssetView(asset: actualAsset.description);
                           sRouter.navigate(
                             CryptoDepositRouter(
                               header: intl.balanceActionButtons_receive,
@@ -168,10 +155,6 @@ class _WalletState extends State<Wallet>
                             status: kycState.depositStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {
-                              sAnalytics.receiveAssetView(
-                                asset: actualAsset.description,
-                              );
-
                               sRouter.navigate(
                                 CryptoDepositRouter(
                                   header: intl.balanceActionButtons_receive,
@@ -180,7 +163,8 @@ class _WalletState extends State<Wallet>
                               );
                             },
                             requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications: kycState.requiredVerifications,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
                           );
                         }
                       },
@@ -190,8 +174,7 @@ class _WalletState extends State<Wallet>
                       CircleActionSend(
                         onTap: () {
                           final actualAsset = currenciesWithBalance[
-                          _pageController.page?.round() ?? 0
-                          ];
+                              _pageController.page?.round() ?? 0];
                           if (kycState.sellStatus ==
                               kycOperationStatus(KycStatus.allowed)) {
                             showSendOptions(
@@ -207,7 +190,8 @@ class _WalletState extends State<Wallet>
                                 showSendOptions(context, actualAsset);
                               },
                               requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications: kycState.requiredVerifications,
+                              requiredVerifications:
+                                  kycState.requiredVerifications,
                             );
                           }
                         },
@@ -216,8 +200,7 @@ class _WalletState extends State<Wallet>
                       CircleActionExchange(
                         onTap: () {
                           final actualAsset = currenciesWithBalance[
-                          _pageController.page?.round() ?? 0
-                          ];
+                              _pageController.page?.round() ?? 0];
                           if (kycState.sellStatus ==
                               kycOperationStatus(KycStatus.allowed)) {
                             sRouter.push(ConvertRouter(
@@ -234,7 +217,8 @@ class _WalletState extends State<Wallet>
                               ),
                               navigatePop: false,
                               requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications: kycState.requiredVerifications,
+                              requiredVerifications:
+                                  kycState.requiredVerifications,
                             );
                           }
                         },

@@ -65,9 +65,6 @@ class _DialCodes extends StatelessObserverWidget {
           active: store.activeDialCode?.isoCode ==
               store.sortedDialCodes[code].isoCode,
           onTap: () {
-            sAnalytics.changeCountryCode(
-              store.sortedDialCodes[code].countryName,
-            );
             store.pickDialCodeFromSearch(store.sortedDialCodes[code]);
 
             sRouter.pop();

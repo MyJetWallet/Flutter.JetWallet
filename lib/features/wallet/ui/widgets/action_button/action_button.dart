@@ -97,10 +97,6 @@ class _ActionButtonState extends State<ActionButton> {
           PaymentMethodRouter(currency: widget.currency),
         );
       } else {
-        defineKycVerificationsScope(
-          kycState.requiredVerifications.length,
-          Source.quickActions,
-        );
 
         kycAlertHandler.handle(
           status: kycState.depositStatus,
@@ -187,7 +183,6 @@ class _ActionButtonState extends State<ActionButton> {
                               _onBuy(true);
                             },
                             onSell: () {
-                              sAnalytics.sellClick(source: 'wallet -> action');
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -198,10 +193,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -218,14 +209,10 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
-                              sAnalytics.convertClick(
-                                source: 'wallet -> action',
-                              );
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.convertPageView();
 
                                 sRouter.push(
                                   ConvertRouter(
@@ -233,10 +220,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -263,10 +246,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
-                                  defineKycVerificationsScope(
-                                    kycState.requiredVerifications.length,
-                                    Source.quickActions,
-                                  );
 
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
@@ -293,10 +272,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
-                                  defineKycVerificationsScope(
-                                    kycState.requiredVerifications.length,
-                                    Source.quickActions,
-                                  );
 
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
@@ -327,10 +302,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
@@ -346,12 +317,10 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onSend: () {
-                              sAnalytics.sendClick(source: 'Wallet -> Actions');
                               if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.sendToView();
                                 if (widget.currency.isAssetBalanceNotEmpty &&
                                     widget.currency.supportsCryptoWithdrawal) {
                                   showSendOptions(
@@ -362,10 +331,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   sendAlertBottomSheet(context);
                                 }
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
@@ -394,16 +359,10 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onReceive: () {
-                              sAnalytics.receiveClick(
-                                source: 'Wallet -> Actions',
-                              );
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.receiveAssetView(
-                                  asset: widget.currency.description,
-                                );
 
                                 sRouter.navigate(
                                   CryptoDepositRouter(
@@ -412,10 +371,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
@@ -488,7 +443,6 @@ class _ActionButtonState extends State<ActionButton> {
                               _onBuy(true);
                             },
                             onSell: () {
-                              sAnalytics.sellClick(source: 'wallet -> action');
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -499,10 +453,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
@@ -522,14 +472,10 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onConvert: () {
-                              sAnalytics.convertClick(
-                                source: 'wallet -> action',
-                              );
                               if (kycState.sellStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.convertPageView();
 
                                 sRouter.push(
                                   ConvertRouter(
@@ -537,10 +483,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
@@ -569,10 +511,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
-                                  defineKycVerificationsScope(
-                                    kycState.requiredVerifications.length,
-                                    Source.quickActions,
-                                  );
 
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
@@ -601,10 +539,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
-                                  defineKycVerificationsScope(
-                                    kycState.requiredVerifications.length,
-                                    Source.quickActions,
-                                  );
 
                                   Navigator.of(context).pop();
                                   kycAlertHandler.handle(
@@ -636,10 +570,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
@@ -655,7 +585,6 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onSend: () {
-                              sAnalytics.sendClick(source: 'Wallet -> Actions');
                               if (kycState.withdrawalStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
@@ -666,7 +595,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () {
-                                      sAnalytics.sendToView();
                                       showSendOptions(
                                         context,
                                         widget.currency,
@@ -677,10 +605,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   sendAlertBottomSheet(context);
                                 }
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
@@ -709,16 +633,10 @@ class _ActionButtonState extends State<ActionButton> {
                               }
                             },
                             onReceive: () {
-                              sAnalytics.receiveClick(
-                                source: 'Wallet -> Actions',
-                              );
                               if (kycState.depositStatus ==
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sAnalytics.receiveAssetView(
-                                  asset: widget.currency.description,
-                                );
 
                                 sRouter.navigate(
                                   CryptoDepositRouter(
@@ -727,10 +645,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-                                defineKycVerificationsScope(
-                                  kycState.requiredVerifications.length,
-                                  Source.quickActions,
-                                );
 
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,

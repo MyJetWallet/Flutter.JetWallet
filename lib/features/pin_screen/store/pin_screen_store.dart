@@ -358,7 +358,10 @@ abstract class _PinScreenStoreBase with Store {
                 duration: 5,
               );
 
-              await getIt.get<LogoutService>().logout('PIN SCREEN, logout');
+              await getIt.get<LogoutService>().logout(
+                'PIN SCREEN, logout',
+                callbackAfterSend: () {},
+              );
             }
 
             await resetPin();

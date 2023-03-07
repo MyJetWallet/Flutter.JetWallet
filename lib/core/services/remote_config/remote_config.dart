@@ -87,8 +87,6 @@ class RemoteConfig {
 
       _logger.log(notifier, 'PUSH TO HOMEROUTER');
 
-      sAnalytics.remoteConfig();
-
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.success(),
           );
@@ -96,7 +94,6 @@ class RemoteConfig {
       print('REMOTE: $e');
 
       _logger.log(stateFlow, '_fetchAndActivate', e);
-      sAnalytics.remoteConfigError();
 
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),

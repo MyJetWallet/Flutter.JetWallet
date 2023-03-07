@@ -18,9 +18,7 @@ void showSendOptions(
 
   sShowBasicModalBottomSheet(
     context: context,
-    then: (value) {
-      sAnalytics.sendToViewClose();
-    },
+    then: (value) {},
     pinned: SBottomSheetHeader(
       name: intl.sendOptions_sendTo,
     ),
@@ -49,7 +47,6 @@ class _SendOptions extends StatelessObserverWidget {
           name: intl.sendOptions_actionItemName1,
           description: intl.sendOptions_actionItemDescription1,
           onTap: () {
-            sAnalytics.sendChoosePhone();
 
             sRouter.navigate(
               SendByPhoneInputRouter(

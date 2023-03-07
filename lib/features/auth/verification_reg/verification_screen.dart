@@ -35,6 +35,7 @@ class VerificationScreen extends StatelessObserverWidget {
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
                   withLoading: false,
+                  callbackAfterSend: () {},
                 );
 
                 getIt<AppRouter>().pop();
@@ -160,33 +161,41 @@ class VerificationScreen extends StatelessObserverWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (!isDone) ...[
-          const SpaceW2(),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isDisabled ? null : colors.blue,
-              border: isDisabled ? Border.all(color: colors.grey1) : null,
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 6,
-                  right: 6,
-                  bottom: 3,
+        Column(
+          children: [
+            if (isDisabled)
+              const SpaceH3()
+            else
+              const SpaceH4(),
+            if (!isDone) ...[
+              const SpaceW2(),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDisabled ? null : colors.blue,
+                  border: isDisabled ? Border.all(color: colors.grey1) : null,
                 ),
-                child: Text(
-                  step,
-                  style: sBodyText2Style.copyWith(
-                    color: isDisabled ? colors.grey1 : colors.white,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 6,
+                      right: 6,
+                      bottom: 3,
+                    ),
+                    child: Text(
+                      step,
+                      style: sBodyText2Style.copyWith(
+                        color: isDisabled ? colors.grey1 : colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ] else ...[
-          const SBlueDoneIcon(),
-        ],
+            ] else ...[
+              const SBlueDoneIcon(),
+            ],
+          ],
+        ),
         const SpaceW14(),
         if (haveSubText || haveLink) ...[
           Column(

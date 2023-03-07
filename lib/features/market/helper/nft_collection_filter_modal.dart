@@ -15,11 +15,7 @@ void showNFTCollectionFilterModalSheet(
   final colors = sKit.colors;
 
   sShowBasicModalBottomSheet(
-    onDissmis: () {
-      sAnalytics.nftCollectionSortClose(
-        nftSortingOption: store.availableFilter?.value ?? '',
-      );
-    },
+    onDissmis: () {},
     context: context,
     horizontalPinnedPadding: 0.0,
     removeBottomSheetBar: true,
@@ -27,11 +23,7 @@ void showNFTCollectionFilterModalSheet(
     horizontalPadding: 0,
     pinned: ActionBottomSheetHeader(
       name: intl.nft_collection_filter_header,
-      onCloseTap: () {
-        sAnalytics.nftCollectionSortClose(
-          nftSortingOption: store.availableFilter?.value ?? '',
-        );
-      },
+      onCloseTap: () {},
     ),
     pinnedBottom: const SpaceH40(),
     children: [
@@ -58,9 +50,6 @@ void showNFTCollectionFilterModalSheet(
                 width: double.infinity,
                 child: InkWell(
                   onTap: () {
-                    sAnalytics.nftCollectionSortApply(
-                      nftSortingOption: e.value,
-                    );
                     store.activeFilter(
                       e,
                       isAvailableNFT,

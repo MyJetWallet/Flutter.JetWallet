@@ -19,15 +19,7 @@ void showBuyNFTNotEnougn(CurrencyModel currency, NftMarket? nft) {
     context: sRouter.navigatorKey.currentContext!,
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
-    onDissmis: () {
-      sAnalytics.nftObjectCloseNotEnough(
-        nftCollectionID: nft?.collectionId ?? '',
-        nftObjectId: nft?.symbol ?? '',
-        nftPrice: '${nft?.sellPrice}' ?? '',
-        currency: nft?.tradingAsset ?? '',
-        method: 'Swipe down',
-      );
-    },
+    onDissmis: () {},
     children: [
       Stack(
         alignment: Alignment.center,
@@ -79,12 +71,6 @@ void showBuyNFTNotEnougn(CurrencyModel currency, NftMarket? nft) {
           name:
               '${intl.nft_collection_go_to} ${currency.description} ${intl.nft_collection_wallet}',
           onTap: () {
-            sAnalytics.nftObjectTapGetAsset(
-              nftCollectionID: nft?.collectionId ?? '',
-              nftObjectId: nft?.symbol ?? '',
-              nftPrice: '${nft?.sellPrice}' ?? '',
-              currency: nft?.tradingAsset ?? '',
-            );
             navigateToWallet(
               sRouter.navigatorKey.currentContext!,
               currency,
@@ -98,13 +84,6 @@ void showBuyNFTNotEnougn(CurrencyModel currency, NftMarket? nft) {
           active: true,
           name: intl.previewSell_close,
           onTap: () {
-            sAnalytics.nftObjectCloseNotEnough(
-              nftCollectionID: nft?.collectionId ?? '',
-              nftObjectId: nft?.symbol ?? '',
-              nftPrice: '${nft?.sellPrice}' ?? '',
-              currency: nft?.tradingAsset ?? '',
-              method: 'Close button',
-            );
             sRouter.pop();
           },
         ),

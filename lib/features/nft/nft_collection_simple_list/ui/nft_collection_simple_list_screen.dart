@@ -65,23 +65,6 @@ class NFTCollectionSimpleListScreen extends StatelessObserverWidget {
                         showBuyInfo: true,
                         showDivider: false,
                         onTap: () {
-                          sAnalytics.nftWalletTapObject(
-                            nftCollectionID:
-                                collection.nftList[index].collectionId ?? '',
-                            nftObjectId: collection.nftList[index].symbol ?? '',
-                          );
-
-                          sAnalytics.nftWalletObjectFull(
-                            nftCollectionID:
-                                collection.nftList[index].collectionId ?? '',
-                            nftObjectId: collection.nftList[index].symbol ?? '',
-                          );
-                          sAnalytics.nftObjectView(
-                            nftCollectionID:
-                                collection.nftList[index].collectionId ?? '',
-                            nftObjectId: collection.nftList[index].symbol ?? '',
-                            source: 'Portfolio screen',
-                          );
                           sRouter.push(
                             NFTDetailsRouter(
                               nftSymbol: collection.nftList[index].symbol!,

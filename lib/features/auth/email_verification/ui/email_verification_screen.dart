@@ -127,8 +127,6 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
       }
     });
 
-    sAnalytics.emailVerificationView();
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       loading: verification.loader,

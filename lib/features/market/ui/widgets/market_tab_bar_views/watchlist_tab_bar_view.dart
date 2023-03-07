@@ -25,8 +25,6 @@ class _WatchlistTabBarViewState extends State<WatchlistTabBarView> {
     super.initState();
     final watchItems = marketWatchlistItems();
 
-    sAnalytics.marketFilter(FilterMarketTabAction.watchlist);
-
     _scrollController.addListener(() {
       resetMarketScrollPosition(
         context,

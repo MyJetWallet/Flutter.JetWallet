@@ -207,11 +207,6 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                                 ),
                               ),
                               onTap: () {
-                                sAnalytics.nftObjectTapShareTap(
-                                  nftCollectionID: '',
-                                  nftObjectId: '',
-                                  source: 'Success Sell NFT screen',
-                                );
                                 setState(() {
                                   shouldPop = false;
                                 });

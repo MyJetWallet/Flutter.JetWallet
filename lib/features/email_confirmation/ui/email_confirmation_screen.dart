@@ -129,8 +129,9 @@ class __EmailConfirmationScreenBodyState
                     style: sBodyText1Style,
                   ),
                   const SpaceH17(),
-                  SClickableLinkText(
-                    text: intl.emailVerification_openEmail,
+                  SLinkButtonText(
+                    active: true,
+                    name: intl.emailVerification_openEmail,
                     onTap: () => openEmailApp(context),
                   ),
                   const SpaceH40(),

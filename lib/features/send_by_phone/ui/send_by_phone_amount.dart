@@ -159,12 +159,6 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
             submitButtonActive: state.valid,
             submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
-              sAnalytics.sendTapPreview(
-                currency: currency.symbol,
-                amount: state.amount,
-                type: 'By phone',
-                percentage: state.tappedPreset ?? '',
-              );
 
               sRouter.push(
                 SendByPhonePreviewRouter(

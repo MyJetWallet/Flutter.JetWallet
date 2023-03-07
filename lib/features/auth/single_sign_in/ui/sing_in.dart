@@ -12,6 +12,7 @@ import 'package:jetwallet/features/auth/single_sign_in/store/single_sing_in_stor
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -75,7 +76,7 @@ class _SingInBody extends StatelessObserverWidget {
               );
             } else if (result is Success) {
               signInStore.loader.finishLoading();
-
+              sAnalytics.signInFlowEmailVerificationView();
               sRouter.push(
                 const EmailVerificationRoute(),
               );
@@ -108,37 +109,42 @@ class _SingInBody extends StatelessObserverWidget {
                           color: colors.white,
                           child: SPaddingH24(
                             child: AutofillGroup(
-                              child: SStandardField(
-                                controller: signInStore.emailController,
-                                labelText: intl.login_emailTextFieldLabel,
-                                autofocus: true,
-                                initialValue: email,
-                                autofillHints: const [AutofillHints.email],
-                                keyboardType: TextInputType.emailAddress,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.deny(
-                                    RegExp('[ ]'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  credentials.updateAndValidateEmail(value);
+                              child: Observer(
+                                builder: (context) {
+                                  return SStandardField(
+                                    controller: signInStore.emailController,
+                                    labelText: intl.login_emailTextFieldLabel,
+                                    autofocus: true,
+                                    initialValue: email,
+                                    autofillHints: const [AutofillHints.email],
+                                    keyboardType: TextInputType.emailAddress,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.deny(
+                                        RegExp('[ ]'),
+                                      ),
+                                    ],
+                                    onChanged: (value) {
+                                      credentials.updateAndValidateEmail(value);
 
-                                  if (value.isEmpty) {
-                                    SingleSingInStore.of(context)
-                                        .setIsEmailError(false);
-                                  }
-                                },
-                                onErase: () {
-                                  SingleSingInStore.of(context)
-                                      .setIsEmailError(false);
-                                },
-                                onErrorIconTap: () {
-                                  sNotification.showError(
-                                    intl.register_invalidEmail,
+                                      if (value.isEmpty) {
+                                        SingleSingInStore.of(context)
+                                            .setIsEmailError(false);
+                                      }
+                                    },
+                                    onErase: () {
+                                      SingleSingInStore.of(context)
+                                          .setIsEmailError(false);
+                                    },
+                                    hideClearButton: credentials.email.isEmpty,
+                                    onErrorIconTap: () {
+                                      sNotification.showError(
+                                        intl.register_invalidEmail,
+                                      );
+                                    },
+                                    isError:
+                                    SingleSingInStore.of(context).isEmailError,
                                   );
                                 },
-                                isError:
-                                    SingleSingInStore.of(context).isEmailError,
                               ),
                             ),
                           ),

@@ -142,12 +142,6 @@ class _PreviewConvertState extends State<PreviewConvert>
                   active: store.union is QuoteSuccess,
                   name: intl.previewConvert_confirm,
                   onTap: () {
-                    sAnalytics.convertConfirm(
-                      sourceCurrency: widget.input.fromCurrency.description,
-                      sourceAmount: widget.input.fromAmount,
-                      destinationCurrency: widget.input.toCurrency.description,
-                      destinationAmount: widget.input.toAmount,
-                    );
                     store.executeQuote();
                   },
                 ),

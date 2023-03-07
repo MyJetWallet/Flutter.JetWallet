@@ -243,8 +243,6 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                       }),
                     );
 
-                    sAnalytics.receiveShare(asset: widget.currency.description);
-
                     try {
                       Share.share(
                         '${intl.cryptoDeposit_my} ${widget.currency.symbol}'

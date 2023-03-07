@@ -191,15 +191,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                         ),
                       ),
                       onTap: () {
-                        sAnalytics.nftWalletActionTap(
-                          nftCollectionID: widget.nft.symbol ?? '',
-                          nftObjectId: widget.nft.collectionId ?? '',
-                        );
                         if (actionActive) {
-                          sAnalytics.nftWalletActionView(
-                            nftCollectionID: widget.nft.symbol ?? '',
-                            nftObjectId: widget.nft.collectionId ?? '',
-                          );
                           sShowMenuActionSheet(
                             context: context,
                             isBuyAvailable: false,
@@ -226,10 +218,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                               } else {
                                 return;
                               }
-                              sAnalytics.nftSellTap(
-                                nftCollectionID: widget.nft.symbol ?? '',
-                                nftObjectId: widget.nft.collectionId ?? '',
-                              );
                               void sellClicked() {
                                 if (kyc.depositStatus ==
                                         kycOperationStatus(KycStatus.allowed) &&
@@ -240,10 +228,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
-                                  );
-                                  sAnalytics.nftSellPreview(
-                                    nftCollectionID: widget.nft.symbol ?? '',
-                                    nftObjectId: widget.nft.collectionId ?? '',
                                   );
                                 } else {
                                   handler.handle(
@@ -318,10 +302,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () async {
-                              sAnalytics.nftSendTap(
-                                nftCollectionID: widget.nft.symbol ?? '',
-                                nftObjectId: widget.nft.collectionId ?? '',
-                              );
                               if (store.canCLick) {
                                 store.toggleClick(false);
 
@@ -344,10 +324,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
-                                  );
-                                  sAnalytics.nftSendView(
-                                    nftCollectionID: widget.nft.symbol ?? '',
-                                    nftObjectId: widget.nft.collectionId ?? '',
                                   );
                                 } else {
                                   handler.handle(
@@ -451,15 +427,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                             : const SActionActiveIcon(),
                       ),
                       onTap: () {
-                        sAnalytics.nftWalletActionTap(
-                          nftCollectionID: widget.nft.symbol ?? '',
-                          nftObjectId: widget.nft.collectionId ?? '',
-                        );
                         if (actionActive) {
-                          sAnalytics.nftWalletActionView(
-                            nftCollectionID: widget.nft.symbol ?? '',
-                            nftObjectId: widget.nft.collectionId ?? '',
-                          );
                           sShowMenuActionSheet(
                             context: context,
                             isBuyAvailable: false,
@@ -474,10 +442,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                             onBuy: () {},
                             onBuyFromCard: () {},
                             onSell: () async {
-                              sAnalytics.nftSellTap(
-                                nftCollectionID: widget.nft.symbol ?? '',
-                                nftObjectId: widget.nft.collectionId ?? '',
-                              );
                               if (store.canCLick) {
                                 store.toggleClick(false);
 
@@ -500,10 +464,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
-                                  );
-                                  sAnalytics.nftSellPreview(
-                                    nftCollectionID: widget.nft.symbol ?? '',
-                                    nftObjectId: widget.nft.collectionId ?? '',
                                   );
                                 } else {
                                   handler.handle(
@@ -578,10 +538,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                             onDeposit: () {},
                             onWithdraw: () {},
                             onSend: () async {
-                              sAnalytics.nftSendTap(
-                                nftCollectionID: widget.nft.symbol ?? '',
-                                nftObjectId: widget.nft.collectionId ?? '',
-                              );
                               if (store.canCLick) {
                                 store.toggleClick(false);
 
@@ -605,10 +561,6 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
-                                  );
-                                  sAnalytics.nftSendView(
-                                    nftCollectionID: widget.nft.symbol ?? '',
-                                    nftObjectId: widget.nft.collectionId ?? '',
                                   );
                                 } else {
                                   handler.handle(
