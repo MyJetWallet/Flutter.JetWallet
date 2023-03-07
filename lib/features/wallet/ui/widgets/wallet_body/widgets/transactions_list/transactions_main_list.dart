@@ -100,6 +100,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     super.initState();
   }
 
+  static const double _indicatorSize = 75;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -143,23 +145,48 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       ],
                     )
           : CustomRefreshIndicator(
-              offsetToArmed: 85,
+              offsetToArmed: _indicatorSize,
               onRefresh: () => store.refreshHistory(),
-              builder: MaterialIndicatorDelegate(
-                builder: (context, controller) {
-                  return Container(
-                    width: 24.0,
-                    height: 24.0,
-                    decoration: BoxDecoration(
-                      color: colors.grey5,
-                      shape: BoxShape.circle,
+              builder: (
+                BuildContext context,
+                Widget child,
+                IndicatorController controller,
+              ) {
+                return Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    AnimatedBuilder(
+                      animation: controller,
+                      builder: (BuildContext context, Widget? _) {
+                        return SizedBox(
+                          height: controller.value * _indicatorSize,
+                          child: Container(
+                            width: 24.0,
+                            decoration: BoxDecoration(
+                              color: colors.grey5,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: const RiveAnimation.asset(
+                              loadingAnimationAsset,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    child: const RiveAnimation.asset(
-                      loadingAnimationAsset,
+                    AnimatedBuilder(
+                      builder: (context, _) {
+                        return Transform.translate(
+                          offset:
+                              Offset(0.0, controller.value * _indicatorSize),
+                          child: child,
+                        );
+                      },
+                      animation: controller,
                     ),
-                  );
-                },
-              ),
+                  ],
+                );
+              },
               child: GroupedListView<OperationHistoryItem, String>(
                 elements: store.listToShow,
                 groupBy: (transaction) {
