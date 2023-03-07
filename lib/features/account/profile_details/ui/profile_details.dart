@@ -33,7 +33,6 @@ class ProfileDetails extends StatelessObserverWidget {
       );
     }
 
-
     final infoImage = Image.asset(
       phoneChangeAsset,
       width: 80,
@@ -61,38 +60,18 @@ class ProfileDetails extends StatelessObserverWidget {
               label: intl.setPhoneNumber_phoneNumber,
               value: finalPhone,
               onTap: () {
-
-                sShowAlertPopup(
-                  context,
-                  willPopScope: false,
-                  primaryText: intl.profileDetails_payAttention,
-                  secondaryText: '${intl.profileDetails_changePhoneAlert2} '
-                      '$changePhoneLockHours ${intl.hours}.',
-                  primaryButtonName: intl.profileDetails_continue,
-                  image: infoImage,
-                  onPrimaryButtonTap: () {
-
-                    Navigator.pop(context);
-                    sRouter.push(
-                      SetPhoneNumberRouter(
-                        successText:
-                            intl.profileDetails_newPhoneNumberConfirmed,
-                        isChangePhone: true,
-                        then: () {
-                          sRouter.popUntil(
-                            (route) {
-                              return route.settings.name ==
-                                  'ProfileDetailsRouter';
-                            },
-                          );
+                sRouter.push(
+                  SetPhoneNumberRouter(
+                    successText: intl.profileDetails_newPhoneNumberConfirmed,
+                    isChangePhone: true,
+                    then: () {
+                      sRouter.popUntil(
+                        (route) {
+                          return route.settings.name == 'ProfileDetailsRouter';
                         },
-                      ),
-                    );
-                  },
-                  secondaryButtonName: intl.profileDetails_cancel,
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),
