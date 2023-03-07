@@ -64,17 +64,6 @@ abstract class _PaymentMethodsStoreBase with Store {
   _PaymentMethodsStoreBase(this.currencyModel) {
     lastUsedPaymentMethod = sSignalRModules.keyValue.lastUsedPaymentMethod;
 
-    final uC = sSignalRModules.cards.cardInfos.where(
-      (element) => element.integration == IntegrationType.unlimint,
-    );
-
-    final uAC = sSignalRModules.cards.cardInfos.where(
-      (element) => element.integration == IntegrationType.unlimintAlt,
-    );
-
-    unlimintCards = ObservableList.of(uC);
-    unlimintAltCards = ObservableList.of(uAC);
-
     _initCurrencies();
     _initBaseCurrency();
     _initCardLimit();
@@ -126,11 +115,19 @@ abstract class _PaymentMethodsStoreBase with Store {
   @observable
   ObservableList<CircleCard> circleCards = ObservableList.of([]);
 
-  @observable
-  ObservableList<CircleCard> unlimintCards = ObservableList.of([]);
+  @computed
+  List<CircleCard> get unlimintCards => sSignalRModules.cards.cardInfos
+      .where(
+        (element) => element.integration == IntegrationType.unlimint,
+      )
+      .toList();
 
-  @observable
-  ObservableList<CircleCard> unlimintAltCards = ObservableList.of([]);
+  @computed
+  List<CircleCard> get unlimintAltCards => sSignalRModules.cards.cardInfos
+      .where(
+        (element) => element.integration == IntegrationType.unlimintAlt,
+      )
+      .toList();
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
@@ -194,7 +191,6 @@ abstract class _PaymentMethodsStoreBase with Store {
     _logger.log(notifier, 'initDefaultPaymentMethod');
 
     await _fetchCircleCards();
-
   }
 
   @action
@@ -305,24 +301,11 @@ abstract class _PaymentMethodsStoreBase with Store {
         });
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
-        final _ = await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
-        Timer(const Duration(milliseconds: 1500), () {
-          final uC = sSignalRModules.cards.cardInfos.where(
-                (element) => element.integration == IntegrationType.unlimint,
-          );
-          unlimintCards = ObservableList.of(uC);
-        });
+        final _ =
+            await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
       } else if (card.integration == IntegrationType.unlimintAlt) {
         final model = CardRemoveRequestModel(cardId: card.id);
         final _ = await sNetwork.getWalletModule().cardRemove(model);
-        Timer(const Duration(milliseconds: 1500), () {
-
-          final uAC = sSignalRModules.cards.cardInfos.where(
-                (element) => element.integration == IntegrationType.unlimintAlt,
-          );
-
-          unlimintAltCards = ObservableList.of(uAC);
-        });
       }
     } catch (e) {
       sNotification.showError(
