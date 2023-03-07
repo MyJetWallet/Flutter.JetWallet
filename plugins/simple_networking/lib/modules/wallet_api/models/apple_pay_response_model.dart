@@ -7,13 +7,14 @@ part 'apple_pay_response_model.g.dart';
 
 @freezed
 class ApplePayResponseModel with _$ApplePayResponseModel {
-  factory ApplePayResponseModel(
-      {String? description,
-      @DecimalSerialiser() Decimal? paymentAmount,
-      String? paymentAsset,
-      @DecimalSerialiser() Decimal? paymentAmountTotal,
-      String? buyAsset,
-      @DecimalSerialiser() Decimal? buyAmount}) = _ApplePayResponseModel;
+  factory ApplePayResponseModel({
+    String? description,
+    @DecimalSerialiser() Decimal? paymentAmount,
+    String? paymentAsset,
+    @DecimalSerialiser() Decimal? paymentAmountTotal,
+    String? buyAsset,
+    @DecimalSerialiser() Decimal? buyAmount,
+  }) = _ApplePayResponseModel;
 
   factory ApplePayResponseModel.fromJson(Map<String, dynamic> json) =>
       _$ApplePayResponseModelFromJson(json);
