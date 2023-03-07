@@ -24,7 +24,7 @@ void showBirthDatePicker(
         store: selectDateStore,
         userDateStore: userDateStore,
       ),
-      const SpaceH24(),
+      const SpaceH42(),
     ],
   );
 }
@@ -94,6 +94,11 @@ class _SDatePicker extends StatelessObserverWidget {
               onChange: (value, v) {
                 date = formatDateForUi(value);
               },
+              locale: intl.localeName == 'es'
+                  ? DateTimePickerLocale.es
+                  : intl.localeName == 'pl'
+                  ? DateTimePickerLocale.pl
+                  : DateTimePickerLocale.en_us,
             ),
           ],
         ),

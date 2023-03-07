@@ -25,7 +25,7 @@ void setAuthInterceptor(
         if (options.extra.containsKey('sessionID')) {
           if (getIt<AppStore>().sessionID != options.extra['sessionID']) {
             log.e(
-              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE',
+              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE \n AppStore: ${getIt<AppStore>().sessionID} \n User: ${options.extra["sessionID"]}',
             );
 
             handler.reject(
@@ -89,8 +89,9 @@ void setAuthInterceptor(
               handler.reject(dioError);
 
               await getIt.get<LogoutService>().logout(
-                    'INTERCEPTOR, cant update token',
-                  );
+                'INTERCEPTOR, cant update token',
+                callbackAfterSend: () {},
+              );
             }
           } catch (_) {
             handler.reject(dioError);

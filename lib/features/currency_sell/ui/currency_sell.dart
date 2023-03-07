@@ -76,7 +76,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
     }
 
     void _showAssetSelector(BuildContext context) {
-      sAnalytics.sellForView();
 
       sShowBasicModalBottomSheet(
         scrollable: true,
@@ -131,7 +130,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
         ],
         context: context,
         then: (value) {
-          sAnalytics.sellCloseFor();
           if (value is CurrencyModel) {
             if (value != store.selectedCurrency) {
               if (value.symbol != store.baseCurrency!.symbol) {
@@ -200,7 +198,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               icon: const SActionWithdrawIcon(),
               name: intl.currencySell_chooseDestination,
               onTap: () {
-                sAnalytics.sellChooseDestination();
                 _showAssetSelector(context);
               },
             )
@@ -256,13 +253,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
             submitButtonActive: store.inputValid,
             submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
-              sAnalytics.sellTapPreview(
-                sourceCurrency: widget.currency.description,
-                sourceAmount: store.inputValue,
-                destinationCurrency: store.selectedCurrency!.description,
-                destinationAmount: store.conversionText(),
-                sellPercentage: store.tappedPreset ?? '',
-              );
 
               sRouter.push(
                 PreviewSellRouter(

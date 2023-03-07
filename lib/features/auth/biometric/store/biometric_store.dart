@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 part 'biometric_store.g.dart';
 
@@ -74,6 +75,9 @@ abstract class _BiometricStoreBase with Store {
     await storageService.setString(useBioKey, 'true');
     final userInfoN = getIt.get<UserInfoService>();
     await userInfoN.initBiometricStatus();
+    if (userInfoN.userInfo.isJustLogged) {
+      sAnalytics.signInFlowVerificationPassed();
+    }
   }
 
   void _updateUserLocation(UserLocation location) {

@@ -9,6 +9,7 @@ const processingAnimationAsset = 'assets/animations/processing.riv';
 const watchlistImageAsset = 'assets/images/watchlist.png';
 const emptyPortfolioImageAsset = 'assets/images/empty_portfolio.svg';
 const simpleEllipseAsset = 'assets/images/simple_ellipse.png';
+const emptyHistoryAsset = 'assets/images/history_empty.png';
 
 // Portfolio
 const earnImageAsset = 'assets/images/earn.png';
@@ -100,4 +101,4 @@ const gmailAsset = 'assets/images/gmail.png';
 const sparkAsset = 'assets/images/spark.png';
 
 const portfolioGradientBG = 'assets/images/gradient_bg.png';
-const applePayCardAsset = 'assets/images/apple_pay.png';
+const simpleLogo = 'assets/images/simple_logo.png';

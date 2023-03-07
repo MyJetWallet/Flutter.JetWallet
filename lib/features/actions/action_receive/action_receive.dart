@@ -27,8 +27,6 @@ void showReceiveAction(
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
-  sAnalytics.receiveChooseAsset();
-
   if (shouldPop) Navigator.pop(context);
 
   if (checkKYC) {
@@ -96,7 +94,6 @@ void _showReceive(BuildContext context) {
               text: intl.actionReceive_receive_nft,
               subtext: intl.actionReceive_receive_nft,
               onTap: () {
-                sAnalytics.nftReceiveTap(source: "'S' Menu");
                 if (kyc.depositStatus ==
                         kycOperationStatus(KycStatus.allowed) &&
                     kyc.withdrawalStatus ==
@@ -195,9 +192,7 @@ void showCryptoReceiveAction(BuildContext context) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
-    then: (value) {
-      sAnalytics.receiveChooseAssetClose();
-    },
+    then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.actionReceive_bottomSheetHeaderName1,
       showSearch: showSearch,
@@ -226,7 +221,8 @@ class _ActionReceive extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = searchStore;
-    sortByBalanceAndWeight(state.filteredCurrencies);
+    final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
+    sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
     currencyFiltered = currencyFiltered.where(
           (element) => element.type == AssetType.crypto &&
@@ -246,7 +242,6 @@ class _ActionReceive extends StatelessObserverWidget {
                 secondaryText: currency.symbol,
                 removeDivider: currency == currencyFiltered.last,
                 onTap: () {
-                  sAnalytics.receiveAssetView(asset: currency.description);
 
                   getIt.get<AppRouter>().push(
                         CryptoDepositRouter(

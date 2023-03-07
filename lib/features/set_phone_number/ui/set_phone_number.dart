@@ -9,36 +9,68 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store.dart';
 import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phone_number_picker.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
-/// Called in 2 cases:
-/// 1. when we want to change number
-/// 2. when we are enabling 2FA but we haven't added phone number yet
-class SetPhoneNumber extends StatelessObserverWidget {
+class SetPhoneNumber extends StatelessWidget {
   const SetPhoneNumber({
-    Key? key,
+    super.key,
     this.then,
     this.isChangePhone = false,
+    this.fromRegister = false,
     required this.successText,
-  }) : super(key: key);
+  });
 
   final Function()? then;
   final String successText;
   final bool isChangePhone;
+  final bool fromRegister;
+
+  @override
+  Widget build(BuildContext context) {
+    return Provider<SetPhoneNumberStore>(
+      create: (context) => SetPhoneNumberStore()..setFromRegister(fromRegister),
+      builder: (context, child) => SetPhoneNumberBody(
+        then: then,
+        isChangePhone: isChangePhone,
+        fromRegister: fromRegister,
+        successText: successText,
+      ),
+    );
+  }
+}
+
+/// Called in 2 cases:
+/// 1. when we want to change number
+/// 2. when we are enabling 2FA but we haven't added phone number yet
+class SetPhoneNumberBody extends StatelessObserverWidget {
+  const SetPhoneNumberBody({
+    super.key,
+    this.then,
+    this.isChangePhone = false,
+    this.fromRegister = false,
+    required this.successText,
+  }) : super();
+
+  final Function()? then;
+  final String successText;
+  final bool isChangePhone;
+  final bool fromRegister;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final store = getIt.get<SetPhoneNumberStore>();
+    final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
     final userInfo = sUserInfo.userInfo;
 
-    sAnalytics.kycPhoneConfirmationView();
-
     return SPageFrame(
+      key: UniqueKey(),
       loaderText: intl.setPhoneNumber_pleaseWait,
       loading: store.loader,
       color: colors.grey5,
@@ -46,6 +78,15 @@ class SetPhoneNumber extends StatelessObserverWidget {
         child: SBigHeader(
           title: intl.setPhoneNumber_phoneNumber,
           isSmallSize: true,
+          customIconButton: fromRegister
+              ? SIconButton(
+                  onTap: () {
+                    showModalVerification(context);
+                  },
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
+                )
+              : null,
         ),
       ),
       child: Column(
@@ -77,6 +118,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
                           labelText: intl.setPhoneNumber_code,
                           readOnly: true,
                           hideClearButton: true,
+                          focusNode: store.dialFocusNode,
                           controller: store.dialCodeController,
                         ),
                       ),
@@ -92,9 +134,9 @@ class SetPhoneNumber extends StatelessObserverWidget {
                           onDoubleTap: () => store.pasteCode(),
                           child: SStandardField(
                             labelText: intl.setPhoneNumber_phoneNumber,
-                            autofocus: true,
+                            focusNode: store.focusNode,
                             autofillHints: const [
-                              AutofillHints.telephoneNumber
+                              AutofillHints.telephoneNumber,
                             ],
                             keyboardType: TextInputType.phone,
                             textInputAction: TextInputAction.next,
@@ -102,12 +144,13 @@ class SetPhoneNumber extends StatelessObserverWidget {
                               store.updatePhoneNumber(phone);
                             },
                             controller: store.phoneNumberController,
-                            suffixIcons: [
+                            suffixIcons: store.phoneInput.isNotEmpty ? [
                               SIconButton(
                                 onTap: () => store.clearPhone(),
                                 defaultIcon: const SEraseIcon(),
+                                pressedIcon: const SErasePressedIcon(),
                               ),
-                            ],
+                            ] : null,
                           ),
                         ),
                       ),
@@ -121,16 +164,17 @@ class SetPhoneNumber extends StatelessObserverWidget {
           Observer(
             builder: (context) {
               return SPaddingH24(
-                child: SPrimaryButton2(
+                child: SPrimaryButton4(
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
-                    FocusScope.of(context).unfocus();
+                    //FocusScope.of(context).unfocus();
                     if (userInfo.phone == store.phoneNumber()) {
                       sRouter.pop();
 
                       return;
                     }
+
                     if (store.canCLick) {
                       store.toggleClick(false);
 
@@ -143,16 +187,12 @@ class SetPhoneNumber extends StatelessObserverWidget {
                     } else {
                       return;
                     }
-                    sAnalytics.kycEnterPhoneNumber();
-                    sAnalytics.accountEnterNumber();
 
                     void finalSend({required String newPin}) {
                       store.updatePin(newPin);
                       store.sendCode(
                         then: () {
-                          store.loader?.finishLoading();
-                          store.loader?.finishLoadingImmediately();
-                          sRouter.replace(
+                          sRouter.push(
                             PhoneVerificationRouter(
                               args: PhoneVerificationArgs(
                                 phoneNumber: store.phoneNumber(),
@@ -167,7 +207,6 @@ class SetPhoneNumber extends StatelessObserverWidget {
                                   userInfoN.updateTwoFaStatus(enabled: true);
                                   userInfoN.updatePhone(store.phoneNumber());
 
-                                  sAnalytics.accountSuccessPhone();
                                   store.phoneNumberController.text = '';
 
                                   then!();
@@ -197,7 +236,7 @@ class SetPhoneNumber extends StatelessObserverWidget {
               );
             },
           ),
-          const SpaceH24(),
+          const SpaceH42(),
         ],
       ),
     );

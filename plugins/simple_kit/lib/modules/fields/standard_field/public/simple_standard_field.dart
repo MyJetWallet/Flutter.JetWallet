@@ -16,6 +16,7 @@ class SStandardField extends StatelessObserverWidget {
     this.autofillHints,
     this.focusNode,
     //this.errorNotifier,
+    this.onTap,
     this.onErrorIconTap,
     this.suffixIcons,
     this.onErase,
@@ -47,6 +48,7 @@ class SStandardField extends StatelessObserverWidget {
   final FocusNode? focusNode;
   final Iterable<String>? autofillHints;
   //final StandardFieldErrorNotifier? errorNotifier;
+  final Function()? onTap;
   final Function()? onErrorIconTap;
   final Function()? onErase;
   final Function(String)? onChanged;
@@ -80,6 +82,7 @@ class SStandardField extends StatelessObserverWidget {
             textInputAction: textInputAction,
             focusNode: focusNode,
             //errorNotifier: errorNotifier,
+            onTap: onTap,
             onErrorIconTap: onErrorIconTap,
             onChanged: onChanged,
             labelText: labelText,
@@ -111,6 +114,7 @@ class SStandardField extends StatelessObserverWidget {
             textInputAction: textInputAction,
             focusNode: focusNode,
             //errorNotifier: errorNotifier,
+            onTap: onTap,
             onErrorIconTap: onErrorIconTap,
             onChanged: onChanged,
             labelText: labelText,

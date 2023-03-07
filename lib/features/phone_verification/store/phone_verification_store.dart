@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -31,6 +33,7 @@ class PhoneVerificationStore extends _PhoneVerificationStoreBase
 abstract class _PhoneVerificationStoreBase with Store {
   _PhoneVerificationStoreBase(this.args) {
     _initState();
+    refreshTimer();
   }
 
   final PhoneVerificationArgs args;
@@ -56,6 +59,27 @@ abstract class _PhoneVerificationStoreBase with Store {
   bool resendTapped = false;
 
   TextEditingController controller = TextEditingController();
+
+  @observable
+  int time = 0;
+
+  @observable
+  Timer? _timer;
+
+  @action
+  void refreshTimer() {
+
+    _timer?.cancel();
+
+    time = 30;
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+          time = time - 1;
+      },
+    );
+  }
 
   @action
   void _initState() {
@@ -102,8 +126,6 @@ abstract class _PhoneVerificationStoreBase with Store {
         _logger.log(stateFlow, 'sendCode', response.error);
         resendTapped = false;
 
-        sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
-
         sNotification.showError(
           response.error!.cause,
           id: 1,
@@ -113,9 +135,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       _logger.log(stateFlow, 'sendCode', e);
       resendTapped = false;
 
-      sAnalytics.kycPhoneConfirmFailed(
-        intl.something_went_wrong,
-      );
       sNotification.showError(
         intl.something_went_wrong,
         id: 2,
@@ -151,8 +170,6 @@ abstract class _PhoneVerificationStoreBase with Store {
         _logger.log(stateFlow, 'verifyCode', response.error);
         pinFieldError.enableError();
 
-        sAnalytics.kycPhoneConfirmFailed(response.error!.cause);
-
         sNotification.showError(
           response.error!.cause,
           id: 1,
@@ -165,9 +182,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       _logger.log(stateFlow, 'verifyCode', e);
       pinFieldError.enableError();
 
-      sAnalytics.kycPhoneConfirmFailed(
-        intl.something_went_wrong,
-      );
       sNotification.showError(
         intl.something_went_wrong,
         id: 2,
@@ -207,8 +221,6 @@ abstract class _PhoneVerificationStoreBase with Store {
     } on ServerRejectException catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sAnalytics.kycPhoneConfirmFailed(e.cause);
-
       sNotification.showError(
         e.cause,
         id: 1,
@@ -216,9 +228,6 @@ abstract class _PhoneVerificationStoreBase with Store {
     } catch (e) {
       _logger.log(stateFlow, requestName, e);
 
-      sAnalytics.kycPhoneConfirmFailed(
-        intl.something_went_wrong,
-      );
       sNotification.showError(
         intl.something_went_wrong,
         id: 2,

@@ -77,7 +77,6 @@ class SetNewPassword extends StatelessObserverWidget {
               active: changePassword.isNewPasswordButtonActive,
               name: intl.setNewPassword_setNewPassword,
               onTap: () {
-                sAnalytics.accountSetNewPassword();
                 loading.startLoading();
                 changePassword.confirmNewPassword();
               },

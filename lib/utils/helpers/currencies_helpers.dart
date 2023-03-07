@@ -74,12 +74,33 @@ void sortByApyAndWeight(List<CurrencyModel> currencies) {
   });
 }
 
-/// Used for [Buy] [Receive] [Convert] features with empty balance
+/// Used for [Buy] [Convert] features with empty balance
 /// Always provide a copy of List to avoid unexpected behaviour
 void sortByBalanceAndWeight(List<CurrencyModel> currencies) {
   currencies.sort((a, b) {
     final compare = b.baseBalance.compareTo(a.baseBalance);
     if (compare != 0) return compare;
+    final compareWeight = a.weight.compareTo(b.weight);
+    if (compareWeight != 0) return compareWeight;
+
+    return a.symbol.compareTo(b.symbol);
+  });
+}
+
+/// Used for [Receive] feature with empty balance
+/// Always provide a copy of List to avoid unexpected behaviour
+void sortByBalanceWatchlistAndWeight(
+  List<CurrencyModel> currencies,
+  List<String> watchlist,
+) {
+  currencies.sort((a, b) {
+    final compare = b.baseBalance.compareTo(a.baseBalance);
+    if (compare != 0) return compare;
+    if (watchlist.contains(a.symbol) && !watchlist.contains(b.symbol)) {
+      return 0.compareTo(1);
+    } else if (watchlist.contains(b.symbol) && !watchlist.contains(a.symbol)) {
+      return 1.compareTo(0);
+    }
     final compareWeight = a.weight.compareTo(b.weight);
     if (compareWeight != 0) return compareWeight;
 

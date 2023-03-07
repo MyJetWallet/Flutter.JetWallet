@@ -93,10 +93,6 @@ class _SubscriptionsItemBody extends StatelessObserverWidget {
             if (onTap != null) {
               onTap!.call();
             } else {
-              sAnalytics.earnSelectOffer(
-                assetName: currency.description,
-                offerType: earnOffer.term,
-              );
               if (userInfo.hasHighYieldDisclaimers && !disclaimer.send) {
                 sShowEarnTermsAlertPopup(
                   context,

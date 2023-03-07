@@ -120,22 +120,12 @@ class WalletCard extends StatelessObserverWidget {
                     );
                   } else {
                     if (filteredActiveEarnOffers.isEmpty) {
-                      sAnalytics.earnTapAvailable(
-                        assetName: currency.description,
-                      );
                       showSubscriptionBottomSheet(
                         context: context,
                         offers: filteredEarnOffers,
                         currency: currency,
                       );
                     } else if (filteredActiveEarnOffers.length == 1) {
-                      sAnalytics.earnTapActive(
-                        assetName: currency.description,
-                        amount: filteredActiveEarnOffers[0].amount.toString(),
-                        apy: filteredActiveEarnOffers[0].currentApy.toString(),
-                        term: filteredActiveEarnOffers[0].term,
-                        offerId: filteredActiveEarnOffers[0].offerId,
-                      );
                       showEarnOfferDetails(
                         context: context,
                         earnOffer: filteredActiveEarnOffers[0],

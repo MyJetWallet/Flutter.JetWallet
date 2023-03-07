@@ -74,7 +74,6 @@ class PortfolioHeader extends StatelessObserverWidget {
                 color: colors.black.withOpacity(0.7),
               ),
               onTap: () {
-                sAnalytics.rewardsScreenView(Source.giftIcon);
 
                 sRouter.push(const RewardsRouter());
               },

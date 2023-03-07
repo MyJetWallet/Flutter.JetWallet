@@ -128,10 +128,8 @@ abstract class _CredentialsServiceBase with Store {
           onData: (data) async {
             await successAuth(data);
 
-            unawaited(sAnalytics.loginSuccess(email));
           },
           onError: (error) {
-            sAnalytics.loginFailure(email, error.cause);
 
             showError(error.cause);
           },
@@ -157,10 +155,8 @@ abstract class _CredentialsServiceBase with Store {
             await successAuth(data);
 
             getIt.get<AppStore>().updateResendButton();
-            unawaited(sAnalytics.signUpSuccess(email));
           },
           onError: (error) {
-            sAnalytics.signUpFailure(email, error.cause);
 
             if (error.cause.contains('50') || error.cause.contains('40')) {
               showError(intl.something_went_wrong_try_again);
@@ -171,11 +167,6 @@ abstract class _CredentialsServiceBase with Store {
         );
       }
     } catch (e) {
-      if (operation == AuthOperation.login) {
-        sAnalytics.loginFailure(email, e.toString());
-      } else {
-        sAnalytics.signUpFailure(email, e.toString());
-      }
 
       showError(intl.something_went_wrong_try_again);
     }

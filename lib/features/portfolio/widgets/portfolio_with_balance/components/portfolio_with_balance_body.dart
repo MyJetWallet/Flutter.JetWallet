@@ -125,10 +125,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
   }
 
   void updateTabIndex() {
-    if (widget.tabController.index == 1) {
-      sAnalytics.nftPortfolioTapNft();
-      sAnalytics.nftPortfolioNFTView();
-    }
     setState(() {
       tabIndex = widget.tabController.index;
     });
@@ -480,8 +476,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                           InkWell(
                             onTap: () {
                               if (tabIndex == 1) {
-                                sAnalytics.nftPortfolioHistory();
-                                sAnalytics.nftPortfolioHistoryView();
                                 sRouter.push(
                                   TransactionHistoryRouter(
                                     initialIndex: 2,

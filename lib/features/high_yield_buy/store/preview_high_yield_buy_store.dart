@@ -160,18 +160,6 @@ abstract class _PreviewHighYieldBuyStoreBase with Store {
 
       final _ = await sNetwork.getWalletModule().postEarnOfferDeposit(model);
 
-      if (input.topUp) {
-        sAnalytics.earnSuccessTopUp(
-          assetName: input.fromCurrency.description,
-          amount: input.amount,
-          offerId: input.earnOffer.offerId,
-          apy: input.apy,
-          term: input.earnOffer.term,
-        );
-      } else {
-        sAnalytics.earnSuccessPage();
-      }
-
       await _showSuccessScreen();
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'earnOfferDeposit', error.cause);

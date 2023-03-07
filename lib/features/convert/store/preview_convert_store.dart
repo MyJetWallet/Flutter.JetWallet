@@ -175,7 +175,6 @@ abstract class _PreviewConvertStoreBase with Store {
         onData: (data) {
           if (data.isExecuted) {
             _timer.cancel();
-            sAnalytics.convertSuccess();
             _showSuccessScreen();
           } else {
             union = const QuoteSuccess();

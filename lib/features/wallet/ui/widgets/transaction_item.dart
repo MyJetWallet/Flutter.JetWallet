@@ -21,6 +21,8 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../../../../core/services/device_size/device_size.dart';
+import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
@@ -52,8 +54,11 @@ class _TransactionItemState extends State<TransactionItem>
       duration: const Duration(milliseconds: 200),
       reverseDuration: const Duration(milliseconds: 200),
     );
+    final deviceSize = sDeviceSize;
     scaleAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 64.0),
+      begin: widgetSizeFrom(deviceSize) == SWidgetSize.small
+          ? const Offset(0.0, 40.0)
+          : const Offset(0.0, 60.0),
       end: const Offset(0.0, 0.0),
     ).animate(
       CurvedAnimation(
@@ -79,6 +84,7 @@ class _TransactionItemState extends State<TransactionItem>
     final colors = sKit.colors;
 
     final cancelTransfer = TransactionCancelStore();
+    final deviceSize = sDeviceSize;
 
     void _onCopyAction() {
       animationController.forward().then(
@@ -103,7 +109,9 @@ class _TransactionItemState extends State<TransactionItem>
                     offset: scaleAnimation.value,
                     child: Container(
                       color: colors.greenLight,
-                      height: 64.0,
+                      height: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                          ? 40.0
+                          : 60.0,
                       width: double.infinity,
                       child: Center(
                         child: Text(
@@ -235,6 +243,13 @@ class _TransactionItemState extends State<TransactionItem>
                     color: colors.white,
                     child: TransferDetails(
                       transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
                     ),
                   ),
                 ],
@@ -244,6 +259,13 @@ class _TransactionItemState extends State<TransactionItem>
                     color: colors.white,
                     child: ReceiveDetails(
                       transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
                     ),
                   ),
                 ],

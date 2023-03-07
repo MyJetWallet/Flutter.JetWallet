@@ -194,12 +194,6 @@ class _WithdrawalAmountBody extends StatelessObserverWidget {
             submitButtonName: '${intl.withdrawalAmount_preview}'
                 ' ${withdrawal.dictionary.verb}',
             onSubmitPressed: () {
-              sAnalytics.sendTapPreview(
-                currency: currency.symbol,
-                amount: store.amount,
-                type: 'By wallet',
-                percentage: store.tappedPreset ?? '',
-              );
 
               /*
               sRouter.push(

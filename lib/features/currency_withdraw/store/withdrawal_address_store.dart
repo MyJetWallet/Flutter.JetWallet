@@ -572,14 +572,6 @@ abstract class _WithdrawalAddressStoreBase with Store {
           'MATIC',
         );
 
-        sAnalytics.nftSendConfirmView(
-          nftCollectionID: nftModel?.collectionId ?? '',
-          nftObjectId: nftModel?.symbol ?? '',
-          network: nftModel?.blockchain ?? '',
-          nftFee: '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
-        );
-      } else {
-        sAnalytics.sendViews();
       }
       _pushWithdrawalAmount(context);
 
@@ -616,16 +608,6 @@ abstract class _WithdrawalAddressStoreBase with Store {
                 sSignalRModules.currenciesList,
                 'MATIC',
               );
-
-              sAnalytics.nftSendConfirmView(
-                nftCollectionID: nftModel?.collectionId ?? '',
-                nftObjectId: nftModel?.symbol ?? '',
-                network: nftModel?.blockchain ?? '',
-                nftFee:
-                    '${matic.withdrawalFeeSize(nftModel?.blockchain ?? '')}',
-              );
-            } else {
-              sAnalytics.sendViews();
             }
 
             _pushWithdrawalAmount(context);

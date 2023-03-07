@@ -1,15 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/store/pin_screen_store.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widget.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
@@ -21,6 +26,8 @@ class PinScreen extends StatelessWidget {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.fromRegister = true,
+    this.isForgotPassword = false,
     this.onChangePhone,
     required this.union,
   }) : super(key: key);
@@ -28,8 +35,10 @@ class PinScreen extends StatelessWidget {
   final bool displayHeader;
   final bool cannotLeave;
   final bool isChangePhone;
+  final bool isForgotPassword;
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
+  final bool fromRegister;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +50,9 @@ class PinScreen extends StatelessWidget {
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
+        fromRegister: fromRegister,
         cannotLeave: cannotLeave,
+        isForgotPassword: isForgotPassword,
         union: union,
       ),
     );
@@ -53,12 +64,16 @@ class _PinScreenBody extends StatefulObserverWidget {
     Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
+    this.isForgotPassword = false,
+    required this.fromRegister,
     required this.union,
   }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;
+  final bool isForgotPassword;
   final PinFlowUnion union;
+  final bool fromRegister;
 
   @override
   State<_PinScreenBody> createState() => _PinScreenBodyState();
@@ -73,8 +88,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
 
     Function()? onbackButton;
 
-    if (widget.union is Verification || widget.union is Setup) {
-      onbackButton = () => logoutN.logout('PIN SCREEN, logout');
+    if (!widget.fromRegister) {
+      onbackButton = () => Navigator.pop(context);
+    } else if (widget.union is Verification) {
+      onbackButton = () => logoutN.logout(
+            'PIN SCREEN, logout',
+            callbackAfterSend: () {},
+          );
     } else if (widget.cannotLeave) {
       onbackButton = null;
     } else {
@@ -104,14 +124,28 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               pin.screenUnion.when(
                 enterPin: () {
                   return widget.displayHeader
-                      ? SAuthHeader(title: pin.screenDescription())
+                      ? SAuthHeader(
+                          title: pin.screenDescription(),
+                          hideBackButton: widget.isForgotPassword,
+                        )
                       : const SizedBox();
                 },
                 confirmPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
+                    hideBackButton: widget.isForgotPassword,
+                    /*
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        sRouter.push(const VerificationRouter());
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
+                    */
                     onBackButtonTap: () {
+                      pin.backToNewFlow();
+
                       onbackButton!();
                     },
                   );
@@ -119,10 +153,21 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 newPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    progressValue: 100,
                     onBackButtonTap: () {
                       onbackButton!();
                     },
+                    hideBackButton: widget.isForgotPassword,
+                    customIconButton: SIconButton(
+                      onTap: () {
+                        if (!widget.fromRegister) {
+                          Navigator.pop(context);
+                        } else {
+                          showModalVerification(context);
+                        }
+                      },
+                      defaultIcon: const SCloseIcon(),
+                      pressedIcon: const SClosePressedIcon(),
+                    ),
                   );
                 },
               ),
@@ -143,6 +188,14 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                   ),
                 ),
               const Spacer(),
+              Opacity(
+                opacity: pin.isError ? 1 : 0,
+                child: Text(
+                  intl.pinScreen_incorrectPIN,
+                  style: sSubtitle3Style.copyWith(color: colors.red),
+                ),
+              ),
+              const SpaceH53(),
               Observer(
                 builder: (context) {
                   return ShakeWidget(
@@ -162,47 +215,50 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               ),
               const Spacer(),
               if (!widget.displayHeader || pin.showForgot)
-                InkWell(
-                  highlightColor: colors.grey5,
-                  onTap: () => sShowAlertPopup(
-                    context,
-                    primaryText: intl.forgot_pass_dialog_title,
-                    secondaryText: intl.forgot_pass_dialog_text,
-                    primaryButtonType: SButtonType.primary3,
-                    primaryButtonName: intl.forgot_pass_dialog_btn_reset,
-                    image: Image.asset(
-                      ellipsisAsset,
-                      width: 80,
-                      height: 80,
-                      package: 'simple_kit',
-                    ),
-                    onPrimaryButtonTap: () {
-                      logoutN.logout('PIN SCREEN', resetPin: true);
-                      Navigator.pop(context);
-                    },
-                    secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
-                    onSecondaryButtonTap: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          width: 2,
-                          color: colors.black,
-                        ),
-                      ),
-                    ),
-                    child: Baseline(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SpaceW24(),
+                    Baseline(
                       baselineType: TextBaseline.alphabetic,
-                      baseline: 22,
-                      child: Text(
-                        '${intl.pinScreen_forgotYourPin}?',
-                        style: sBodyText2Style,
+                      baseline: 16,
+                      child:  SClickableLinkText(
+                        actualColor: colors.black,
+                        onTap: () => sShowAlertPopup(
+                          context,
+                          primaryText: intl.forgot_pass_dialog_title,
+                          secondaryText: intl.forgot_pass_dialog_text,
+                          primaryButtonType: SButtonType.primary3,
+                          primaryButtonName: intl.forgot_pass_dialog_btn_reset,
+                          image: Image.asset(
+                            ellipsisAsset,
+                            width: 80,
+                            height: 80,
+                            package: 'simple_kit',
+                          ),
+                          onPrimaryButtonTap: () {
+                            pin.loader.startLoading();
+                            logoutN.logout(
+                              'PIN SCREEN',
+                              resetPin: true,
+                              callbackAfterSend: () {
+                                pin.loader.finishLoading();
+                              },
+                            );
+                            Navigator.pop(context);
+                          },
+                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
+                          onSecondaryButtonTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        text: '${intl.pinScreen_forgotYourPin}?',
                       ),
                     ),
-                  ),
+                    SBlueRightArrowIcon(
+                      color: colors.grey3,
+                    ),
+                  ],
                 ),
               if (!widget.displayHeader) const SpaceH34(),
               if (widget.displayHeader) const SpaceH40(),

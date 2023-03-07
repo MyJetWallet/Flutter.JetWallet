@@ -180,14 +180,6 @@ class _PreviewSellBodyState extends State<PreviewSellBody>
                     active: store.union is QuoteSuccess,
                     name: intl.previewSell_confirm,
                     onTap: () {
-                      sAnalytics.sellConfirm(
-                        sourceCurrency: from.description,
-                        sourceAmount:
-                            '${store.fromAssetAmount ?? Decimal.zero}',
-                        destinationCurrency: to.description,
-                        destinationAmount:
-                            '${store.toAssetAmount ?? Decimal.zero}',
-                      );
                       store.executeQuote();
                     },
                   ),

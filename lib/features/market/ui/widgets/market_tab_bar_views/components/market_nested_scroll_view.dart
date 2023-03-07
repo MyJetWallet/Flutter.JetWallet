@@ -85,7 +85,6 @@ class __MarketNestedScrollViewBodyState
   @override
   void initState() {
     super.initState();
-    sAnalytics.marketFilter(widget.sourceScreen);
 
     controller.addListener(() {
       resetMarketScrollPosition(
@@ -143,8 +142,6 @@ class __MarketNestedScrollViewBodyState
                       onFilterButtonTap: widget.showFilter
                           ? () {
                               if (widget.marketShowType == MarketShowType.NFT) {
-                                sAnalytics.nftMarketTapFilter();
-                                sAnalytics.nftMarketFilterShowed();
                                 showNFTFilterModalSheet(
                                   context,
                                   store as MarketFilterStore,
@@ -238,9 +235,6 @@ class __MarketNestedScrollViewBodyState
                                 item.associateAsset,
                               );
                             } else {
-                              sAnalytics.addToWatchlist(
-                                item.name,
-                              );
                               store.addToWatchlist(
                                 item.associateAsset,
                               );
@@ -307,9 +301,6 @@ class __MarketNestedScrollViewBodyState
                   } else {
                     HapticFeedback.lightImpact();
 
-                    sAnalytics.addToWatchlist(
-                      item.name,
-                    );
                     store.addToWatchlist(
                       item.associateAsset,
                     );
@@ -430,17 +421,6 @@ class __MarketNestedScrollViewBodyState
                   store.nftListFiltred[index].tags ?? [],
                 ),
                 onTap: () {
-                  sAnalytics.nftCollectionView(
-                    nftCollectionID: store.nftListFiltred[index].id!,
-                    source: 'Market',
-                  );
-                  sAnalytics.nftMarketTapCollection(
-                    collectionTitle: store.nftListFiltred[index].name ?? '',
-                    nftNumberPictures:
-                        '${store.nftListFiltred[index].nftList.length}',
-                    nftCategories:
-                        store.nftListFiltred[index].category.toString(),
-                  );
                   sRouter.push(
                     NftCollectionDetailsRouter(
                       collectionID: store.nftListFiltred[index].id!,

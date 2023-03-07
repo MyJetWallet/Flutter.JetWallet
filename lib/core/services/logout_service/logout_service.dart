@@ -32,6 +32,7 @@ abstract class _LogoutServiceBase with Store {
   @action
   Future<void> logout(
     String from, {
+    required Function() callbackAfterSend,
     bool withLoading = true,
     bool resetPin = false,
   }) async {
@@ -58,6 +59,8 @@ abstract class _LogoutServiceBase with Store {
         await pushToFirstPage();
 
         union = const LogoutUnion.result();
+
+        callbackAfterSend?.call();
 
         return;
       }
@@ -114,8 +117,6 @@ abstract class _LogoutServiceBase with Store {
         await pushToFirstPage();
       }
 
-      // Clear analytics
-      unawaited(sAnalytics.logout());
 
       await _clearUserData();
 
@@ -132,6 +133,7 @@ abstract class _LogoutServiceBase with Store {
         message: 'Logout success',
       );
 
+      callbackAfterSend?.call();
       union = const LogoutUnion.result();
     } catch (e) {
       _logger.log(

@@ -108,11 +108,6 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                   Navigator.of(context)
                     ..pop()
                     ..pop();
-                  sAnalytics.pauseRecurringBuy(
-                    assetName: assetName,
-                    frequency: recurringItem.scheduleType.toFrequency,
-                    amount: sellCurrencyAmount,
-                  );
                 },
               ),
             if (recurringItem.status == RecurringBuysStatus.paused)
@@ -134,11 +129,6 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                   Navigator.of(context)
                     ..pop()
                     ..pop();
-                  sAnalytics.startRecurringBuy(
-                    assetName: assetName,
-                    frequency: recurringItem.scheduleType.toFrequency,
-                    amount: sellCurrencyAmount,
-                  );
                 },
               ),
             const SPaddingH24(
@@ -149,11 +139,6 @@ class _ActionRecurringManage extends StatelessObserverWidget {
               primaryText: intl.actionRecurringManage_delete,
               color: colors.grey5,
               onTap: () {
-                sAnalytics.recurringBuyDeletionSheetView(
-                  assetName: assetName,
-                  frequency: recurringItem.scheduleType.toFrequency,
-                  amount: sellCurrencyAmount,
-                );
 
                 sShowAlertPopup(
                   context,
@@ -169,21 +154,11 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                       ..pop()
                       ..pop()
                       ..pop();
-                    sAnalytics.deleteRecurringBuy(
-                      assetName: assetName,
-                      frequency: recurringItem.scheduleType.toFrequency,
-                      amount: sellCurrencyAmount,
-                    );
                   },
                   primaryButtonType: SButtonType.primary3,
                   secondaryButtonName: intl.actionRecurringManage_cancel,
                   onSecondaryButtonTap: () {
                     Navigator.pop(context);
-                    sAnalytics.cancelRecurringBuyDeletion(
-                      assetName: assetName,
-                      frequency: recurringItem.scheduleType.toFrequency,
-                      amount: sellCurrencyAmount,
-                    );
                   },
                 );
               },

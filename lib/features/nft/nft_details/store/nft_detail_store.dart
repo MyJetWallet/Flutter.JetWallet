@@ -239,27 +239,11 @@ abstract class _NFTDetailStoreBase with Store {
   @action
   void buyNft() {
     if (currency!.assetBalance >= nft!.sellPrice!) {
-      sAnalytics.nftPurchaseConfirmView(
-        nftCollectionID: nft?.collectionId ?? '',
-        nftObjectId: nft?.symbol ?? '',
-        nftPrice: '${nft?.sellPrice}' ?? '',
-        currency: nft?.tradingAsset ?? '',
-        nftAmountToBePaid: '${nft?.sellPrice}' ?? '',
-        nftPromoCode: getIt.get<NFTPromoCodeStore>().saved
-            ? getIt.get<NFTPromoCodeStore>().promoCode ?? ''
-            : '',
-      );
 
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
       );
     } else {
-      sAnalytics.nftObjectNotEnoughAsset(
-        nftCollectionID: nft?.collectionId ?? '',
-        nftObjectId: nft?.symbol ?? '',
-        nftPrice: '${nft?.sellPrice}' ?? '',
-        currency: nft?.tradingAsset ?? '',
-      );
 
       showBuyNFTNotEnougn(currency!, nft);
     }
@@ -295,10 +279,6 @@ abstract class _NFTDetailStoreBase with Store {
 
   void share(double qrBoxSize, double logoSize) {
     final colors = sKit.colors;
-    sAnalytics.nftObjectShareView(
-      nftCollectionID: nft?.collectionId ?? '',
-      nftObjectId: nft?.symbol ?? '',
-    );
 
     String shareLinkNFT = '$shareLink${nft!.symbol!}';
 
@@ -310,13 +290,7 @@ abstract class _NFTDetailStoreBase with Store {
     sShowBasicModalBottomSheet(
       context: sRouter.navigatorKey.currentContext!,
       scrollable: true,
-      onDissmis: () {
-        sAnalytics.nftObjectShareClose(
-          nftCollectionID: nft?.collectionId ?? '',
-          nftObjectId: nft?.symbol ?? '',
-          method: 'Swipe down',
-        );
-      },
+      onDissmis: () {},
       pinned: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -333,11 +307,6 @@ abstract class _NFTDetailStoreBase with Store {
           ),
           SIconButton(
             onTap: () {
-              sAnalytics.nftObjectShareClose(
-                nftCollectionID: nft?.collectionId ?? '',
-                nftObjectId: nft?.symbol ?? '',
-                method: 'Cross sign',
-              );
               Navigator.pop(sRouter.navigatorKey.currentContext!);
             },
             defaultIcon: const SEraseIcon(),
@@ -359,11 +328,6 @@ abstract class _NFTDetailStoreBase with Store {
                 active: true,
                 name: intl.cryptoDeposit_share,
                 onTap: () {
-                  sAnalytics.nftObjectTapShareTap(
-                    nftCollectionID: nft?.collectionId ?? '',
-                    nftObjectId: nft?.symbol ?? '',
-                    source: 'NFT Object view,',
-                  );
                   try {
                     Share.share(shareLinkNFT);
                   } catch (e) {
@@ -394,12 +358,7 @@ abstract class _NFTDetailStoreBase with Store {
           needPadding: false,
           needInnerPadding: true,
           needFormatURL: false,
-          then: () {
-            sAnalytics.nftObjectTapCopy(
-              nftCollectionID: nft?.collectionId ?? '',
-              nftObjectId: nft?.symbol ?? '',
-            );
-          },
+          then: () {},
         ),
       ],
     );

@@ -111,7 +111,12 @@ class _AccountSecurityState extends State<AccountSecurity> {
               showEditIcon: true,
               icon: const SChangePinIcon(),
               isSDivider: false,
-              onTap: () => sRouter.push(PinScreenRoute(union: const Change())),
+              onTap: () => sRouter.push(
+                PinScreenRoute(
+                  union: const Change(),
+                  fromRegister: false,
+                ),
+              ),
             ),
         ],
       ),

@@ -22,8 +22,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
     final store = KycStepsStore(requiredVerifications);
     final colors = sKit.colors;
 
-    sAnalytics.kycIdentityScreenView();
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(

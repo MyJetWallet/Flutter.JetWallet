@@ -10,6 +10,7 @@ class STextButton2 extends StatelessObserverWidget {
     Key? key,
     this.icon,
     this.addPadding = false,
+    this.autoSize = false,
     required this.active,
     required this.name,
     required this.onTap,
@@ -17,6 +18,7 @@ class STextButton2 extends StatelessObserverWidget {
 
   final Widget? icon;
   final bool addPadding;
+  final bool autoSize;
   final bool active;
   final String name;
   final Function() onTap;
@@ -24,7 +26,7 @@ class STextButton2 extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? SimpleDarkTextButton2(active: active, name: name, onTap: onTap, icon: icon, addPadding: addPadding)
-        : SimpleLightTextButton2(active: active, name: name, onTap: onTap, icon: icon, addPadding: addPadding);
+        ? SimpleDarkTextButton2(active: active, name: name, onTap: onTap, icon: icon, addPadding: addPadding, autoSize: autoSize)
+        : SimpleLightTextButton2(active: active, name: name, onTap: onTap, icon: icon, addPadding: addPadding, autoSize: autoSize);
   }
 }

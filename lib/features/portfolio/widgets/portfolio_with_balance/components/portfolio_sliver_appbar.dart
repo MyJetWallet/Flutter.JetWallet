@@ -111,7 +111,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 color: colors.black.withOpacity(0.7),
               ),
               onTap: () {
-                sAnalytics.rewardsScreenView(Source.giftIcon);
 
                 sRouter.push(const RewardsRouter());
               },
@@ -170,6 +169,9 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
             children: [
               CircleActionBuy(
                 onTap: () {
+                  sAnalytics.newBuyTapBuy(
+                    source: 'My Assets - Buy',
+                  );
                   showBuyAction(
                     fromCard: true,
                     shouldPop: false,

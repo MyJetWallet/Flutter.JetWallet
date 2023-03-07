@@ -104,6 +104,15 @@ class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    VerificationRouter.name: (routeData) {
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: const VerificationScreen(),
+        transitionsBuilder: TransitionsBuilders.slideBottom,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     AccountRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -407,6 +416,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           then: args.then,
           isChangePhone: args.isChangePhone,
+          fromRegister: args.fromRegister,
           successText: args.successText,
         ),
       );
@@ -448,6 +458,8 @@ class _$AppRouter extends RootStackRouter {
           displayHeader: args.displayHeader,
           cannotLeave: args.cannotLeave,
           isChangePhone: args.isChangePhone,
+          fromRegister: args.fromRegister,
+          isForgotPassword: args.isForgotPassword,
           onChangePhone: args.onChangePhone,
           union: args.union,
         ),
@@ -984,6 +996,10 @@ class _$AppRouter extends RootStackRouter {
           ],
         ),
         RouteConfig(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        ),
+        RouteConfig(
           AccountRouter.name,
           path: '/account',
         ),
@@ -1515,6 +1531,18 @@ class HomeRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRouter';
+}
+
+/// generated route for
+/// [VerificationScreen]
+class VerificationRouter extends PageRouteInfo<void> {
+  const VerificationRouter()
+      : super(
+          VerificationRouter.name,
+          path: '/verification_screen',
+        );
+
+  static const String name = 'VerificationRouter';
 }
 
 /// generated route for
@@ -2545,6 +2573,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
     Key? key,
     dynamic Function()? then,
     bool isChangePhone = false,
+    bool fromRegister = false,
     required String successText,
   }) : super(
           SetPhoneNumberRouter.name,
@@ -2553,6 +2582,7 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
             key: key,
             then: then,
             isChangePhone: isChangePhone,
+            fromRegister: fromRegister,
             successText: successText,
           ),
         );
@@ -2565,6 +2595,7 @@ class SetPhoneNumberRouterArgs {
     this.key,
     this.then,
     this.isChangePhone = false,
+    this.fromRegister = false,
     required this.successText,
   });
 
@@ -2574,11 +2605,13 @@ class SetPhoneNumberRouterArgs {
 
   final bool isChangePhone;
 
+  final bool fromRegister;
+
   final String successText;
 
   @override
   String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, successText: $successText}';
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, fromRegister: $fromRegister, successText: $successText}';
   }
 }
 
@@ -2661,6 +2694,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     bool displayHeader = true,
     bool cannotLeave = false,
     bool isChangePhone = false,
+    bool fromRegister = true,
+    bool isForgotPassword = false,
     dynamic Function(String)? onChangePhone,
     required PinFlowUnion union,
   }) : super(
@@ -2671,6 +2706,8 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             displayHeader: displayHeader,
             cannotLeave: cannotLeave,
             isChangePhone: isChangePhone,
+            fromRegister: fromRegister,
+            isForgotPassword: isForgotPassword,
             onChangePhone: onChangePhone,
             union: union,
           ),
@@ -2685,6 +2722,8 @@ class PinScreenRouteArgs {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.fromRegister = true,
+    this.isForgotPassword = false,
     this.onChangePhone,
     required this.union,
   });
@@ -2697,13 +2736,17 @@ class PinScreenRouteArgs {
 
   final bool isChangePhone;
 
+  final bool fromRegister;
+
+  final bool isForgotPassword;
+
   final dynamic Function(String)? onChangePhone;
 
   final PinFlowUnion union;
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, onChangePhone: $onChangePhone, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
   }
 }
 

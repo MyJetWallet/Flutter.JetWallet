@@ -1,8 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -115,127 +118,107 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
 
     final userInfoN = getIt.get<UserInfoService>();
 
-    final pinError = StandardFieldErrorNotifier();
-
     focusNode.addListener(() {
       if (focusNode.hasFocus &&
           verification.controller.value.text.length ==
               emailVerificationCodeLength &&
-          pinError.value) {
+          verification.pinError.value) {
         verification.controller.clear();
       }
     });
 
-    sAnalytics.emailVerificationView();
-
-    return ReactionBuilder(
-      builder: (context) {
-        return reaction<EmailVerificationUnion>(
-          (_) => verification.union,
-          (result) {
-            result.maybeWhen(
-              error: (Object? error) {
-                verification.loader.finishLoading();
-                pinError.enableError();
-                sNotification.showError(
-                  error.toString(),
-                  id: 1,
-                );
-
-                verification.updateCode('');
-                focusNode.requestFocus();
-              },
-              orElse: () {},
-            );
+    return SPageFrame(
+      loaderText: intl.register_pleaseWait,
+      loading: verification.loader,
+      header: SAuthHeader(
+        title: intl.emailVerification_emailVerification,
+        customIconButton: SIconButton(
+          onTap: () {
+            sRouter.replaceAll([const OnboardingRoute()]);
           },
-          fireImmediately: true,
-        );
-      },
-      child: SPageFrame(
-        loaderText: intl.register_pleaseWait,
-        loading: verification.loader,
-        header: SAuthHeader(
-          title: intl.emailVerification_emailVerification,
-          progressValue: 40,
-          isAutoSize: true,
+          defaultIcon: const SCloseIcon(),
+          pressedIcon: const SClosePressedIcon(),
         ),
-        child: SingleChildScrollView(
-          child: SPaddingH24(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SpaceH7(),
-                FittedBox(
-                  child: Text(
-                    intl.emailVerification_enterCode,
-                    style: sBodyText1Style.copyWith(
-                      color: colors.grey1,
-                    ),
+        isAutoSize: true,
+      ),
+      child: SingleChildScrollView(
+        child: SPaddingH24(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceH4(),
+              FittedBox(
+                child: Text(
+                  intl.emailVerification_enterCode,
+                  style: sBodyText1Style.copyWith(
+                    color: colors.grey1,
                   ),
                 ),
-                Text(
-                  authInfo.email,
-                  style: sBodyText1Style,
-                ),
-                const SpaceH17(),
-                SClickableLinkText(
-                  text: intl.emailVerification_openEmail,
-                  onTap: () => openEmailApp(context),
-                ),
-                const SpaceH62(),
-                GestureDetector(
-                  onLongPress: () => verification.pasteCode(),
-                  onDoubleTap: () => verification.pasteCode(),
-                  onTap: () {
-                    focusNode.unfocus();
-                    Future.delayed(const Duration(microseconds: 100), () {
-                      if (!focusNode.hasFocus) {
-                        focusNode.requestFocus();
-                      }
-                    });
-                  },
-                  // AbsorbPointer needed to avoid TextField glitch onTap
-                  // when it's focused
-                  child: AbsorbPointer(
-                    child: PinCodeField(
-                      focusNode: focusNode,
-                      controller: verification.controller,
-                      length: emailVerificationCodeLength,
-                      onCompleted: (_) {
-                        userInfoN.updateIsJustLogged(value: true);
-                        verification.loader.startLoadingImmediately();
-                        verification.verifyCode();
-                      },
-                      autoFocus: true,
-                      onChanged: (_) {
-                        pinError.disableError();
-                      },
-                      pinError: pinError,
-                    ),
-                  ),
-                ),
-                // const Spacer(),
-                if (timer.time > 0 && !verification.isResending) ...[
-                  ResendInText(
-                    text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
-                        ' ${intl.twoFaPhone_seconds}',
-                  ),
-                ] else ...[
-                  ResendInText(
-                    text: '${intl.twoFaPhone_didntReceiveTheCode}?',
-                  ),
-                  STextButton1(
-                    active: !verification.isResending,
-                    name: intl.twoFaPhone_resend,
-                    onTap: () {
-                      timer.refreshTimer();
-                      verification.resendCode(timer);
+              ),
+              Text(
+                authInfo.email,
+                style: sBodyText1Style,
+              ),
+              const SpaceH16(),
+              SClickableLinkText(
+                text: intl.emailVerification_openEmail,
+                onTap: () => openEmailApp(context),
+              ),
+              const SpaceH61(),
+              GestureDetector(
+                onLongPress: () => verification.pasteCode(),
+                onDoubleTap: () => verification.pasteCode(),
+                onTap: () {
+                  focusNode.unfocus();
+                  Future.delayed(const Duration(microseconds: 100), () {
+                    if (!focusNode.hasFocus) {
+                      focusNode.requestFocus();
+                    }
+                  });
+                },
+                // AbsorbPointer needed to avoid TextField glitch onTap
+                // when it's focused
+                child: AbsorbPointer(
+                  child: PinCodeField(
+                    focusNode: focusNode,
+                    controller: verification.controller,
+                    length: emailVerificationCodeLength,
+                    onCompleted: (_) {
+                      userInfoN.updateIsJustLogged(value: true);
+                      verification.loader.startLoadingImmediately();
+                      verification.verifyCode();
                     },
+                    autoFocus: true,
+                    onChanged: (_) {
+                      verification.pinError.disableError();
+                    },
+                    pinError: verification.pinError,
                   ),
-                ],
-                const SpaceH24(),
+                ),
+              ),
+              // const Spacer(),
+              if (timer.time > 0 && !verification.isResending) ...[
+                ResendInText(
+                  text: '${intl.twoFaPhone_youCanResendIn} ${timer.time}'
+                      ' ${intl.twoFaPhone_seconds}',
+                ),
+              ] else ...[
+                ResendInText(
+                  text: '${intl.twoFaPhone_didntReceiveTheCode}?',
+                ),
+                const SpaceH30(),
+                STextButton1(
+                  active: !verification.isResending,
+                  name: intl.twoFaPhone_resend,
+                  color: colors.blue,
+                  onTap: () {
+                    timer.refreshTimer();
+                    verification.resendCode(timer);
+                  },
+                ),
               ],
-            ),
+              const SpaceH24(),
+            ],
           ),
         ),
       ),

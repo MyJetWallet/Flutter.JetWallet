@@ -13,7 +13,7 @@ class SimpleLightPasteIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
-      assetName: 'assets/icons/light/24x24/paste/paste_pressed.svg',
+      assetName: 'assets/icons/light/24x24/paste/paste.svg',
       color: color,
     );
   }

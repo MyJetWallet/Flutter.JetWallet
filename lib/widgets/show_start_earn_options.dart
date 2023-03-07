@@ -30,11 +30,6 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-            sAnalytics.buyView(
-              Source.earnProgram,
-              currency.description,
-            );
-            sAnalytics.earnDetailsView(currency.description);
 
             Navigator.pop(context);
             sRouter.push(
@@ -47,11 +42,6 @@ void showStartEarnOptions({
               status: kycState.depositStatus,
               isProgress: kycState.verificationInProgress,
               currentNavigate: () {
-                sAnalytics.buyView(
-                  Source.earnProgram,
-                  currency.description,
-                );
-                sAnalytics.earnDetailsView(currency.description);
 
                 Navigator.pop(context);
                 sRouter.push(
@@ -71,7 +61,6 @@ void showStartEarnOptions({
       SActionItem(
         onTap: () {
           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-            sAnalytics.receiveAssetView(asset: currency.description);
 
             Navigator.pop(context);
             sRouter.push(

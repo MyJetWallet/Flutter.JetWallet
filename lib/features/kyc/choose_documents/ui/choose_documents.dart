@@ -104,15 +104,10 @@ class ChooseDocuments extends StatelessObserverWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
-                sAnalytics.identityParametersChoosed(
-                  countries.activeCountry!.countryName,
-                  state.getActiveDocument()?.document.name ?? '',
-                );
 
                 final status = await Permission.camera.request();
 
                 if (status == PermissionStatus.granted) {
-                  sAnalytics.kycCameraAllowed();
 
                   await sRouter.push(const UploadKycDocumentsRouter());
                 } else {

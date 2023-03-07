@@ -4,21 +4,17 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
-import 'package:jetwallet/core/services/dynamic_link_service.dart';
-import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -29,6 +25,7 @@ import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/models/auth_info_state.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
+import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -94,6 +91,7 @@ abstract class _AppStoreBase with Store {
   /// Костыль, позже убрать
   var openPinVerification = false;
   var homeOpened = false;
+  String lastRoute = '';
 
   @action
   Future<void> checkInitRouter() async {
@@ -137,31 +135,58 @@ abstract class _AppStoreBase with Store {
             twoFaVerification: () {
               //initRouter = const RouterUnion.twoFaVerification();
 
-              getIt<AppRouter>().replaceAll([
+              /*getIt<AppRouter>().replaceAll([
                 TwoFaPhoneRouter(
                   trigger: TwoFaPhoneTriggerUnion.startup(),
                 ),
               ]);
-            },
-            pinSetup: () {
-              //initRouter = const RouterUnion.pinSetup();
-
-              if (sRouter.current.path != '/pin_screen') {
+              */
+              if (lastRoute != 'verification_screen') {
+                sAnalytics.signInFlowPhoneNumberView();
                 getIt<AppRouter>().replaceAll([
-                  PinScreenRoute(
-                    union: Setup(),
-                    cannotLeave: true,
+                  SetPhoneNumberRouter(
+                    successText: intl.profileDetails_newPhoneNumberConfirmed,
+                    fromRegister: true,
+                    then: () {
+                      getIt.get<StartupService>().authenticatedBoot();
+
+                      getIt.get<VerificationStore>().phoneDone();
+                    },
                   ),
                 ]);
               }
+
+              lastRoute = 'verification_screen';
+            },
+            pinSetup: () {
+              print(getIt.get<VerificationStore>().isRefreshPin);
+              if (lastRoute != '/pin_screen') {
+                if (getIt.get<VerificationStore>().isRefreshPin) {
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: Setup(),
+                      cannotLeave: true,
+                      isForgotPassword: true,
+                    ),
+                  ]);
+                } else {
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: Setup(),
+                      cannotLeave: true,
+                    ),
+                  ]);
+                }
+              }
+
+              lastRoute = 'pin_screen';
             },
             pinVerification: () {
-              //initRouter = const RouterUnion.pinVerification();
-
               if (openPinVerification) return;
               openPinVerification = true;
 
               if (sRouter.current.path != '/pin_screen') {
+                sAnalytics.signInFlowEnterPinView();
                 getIt<AppRouter>().replaceAll([
                   PinScreenRoute(
                     union: Verification(),
@@ -189,24 +214,34 @@ abstract class _AppStoreBase with Store {
             },
             askBioUsing: () {
               //initRouter = const RouterUnion.askBioUsing();
+              if (lastRoute != 'askBioUsing') {
+                getIt<AppRouter>().replaceAll([
+                  BiometricRouter(),
+                ]);
+              }
 
-              getIt<AppRouter>().replaceAll([
-                BiometricRouter(),
-              ]);
+              lastRoute = 'askBioUsing';
             },
             userDataVerification: () {
-              //initRouter = const RouterUnion.userDataVerification();
+              if (lastRoute != 'userDataVerification') {
+                sAnalytics.signInFlowPersonalDetailsView();
+                getIt<AppRouter>().replaceAll([
+                  UserDataScreenRouter(),
+                ]);
+              }
 
-              getIt<AppRouter>().replaceAll([
-                UserDataScreenRouter(),
-              ]);
+              lastRoute = 'userDataVerification';
             },
             singleIn: () {
               //initRouter = const RouterUnion.singleIn();
 
-              getIt<AppRouter>().replaceAll([
-                SingInRouter(),
-              ]);
+              if (lastRoute != 'singleIn') {
+                getIt<AppRouter>().replaceAll([
+                  SingInRouter(),
+                ]);
+              }
+
+              lastRoute = 'singleIn';
             },
             emailVerification: () {},
           );
@@ -223,7 +258,7 @@ abstract class _AppStoreBase with Store {
       );
     } else {
       await getIt<AppRouter>().replaceAll([
-        const SplashNoAnimationRoute(),
+        SplashNoAnimationRoute(),
       ]);
     }
   }
@@ -504,9 +539,11 @@ abstract class _AppStoreBase with Store {
 
         authStatus = const AuthorizationUnion.unauthorized();
 
-        await getIt.get<LogoutService>().logout('APP_STORE, $e');
+        await getIt.get<LogoutService>().logout(
+          'APP_STORE, $e',
+          callbackAfterSend: () {},
+        );
 
-        sAnalytics.remoteConfigError();
       }
     }
 

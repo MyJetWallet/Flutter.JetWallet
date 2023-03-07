@@ -82,7 +82,13 @@ class ConvertBody extends StatelessObserverWidget {
             assetWithBalance: fromAssetWithBalance,
             assetWithoutBalance: fromAssetWithoutBalance,
             onTap: () => store.enableFromAsset(),
-            onDropdown: (value) => store.updateFromAsset(value!),
+            onDropdown: (value) {
+              if (value?.symbol == store.toAsset?.symbol) {
+                store.switchFromAndTo();
+              } else {
+                store.updateFromAsset(value!);
+              }
+            },
             fromAsset: true,
           ),
           deviceSize.when(
@@ -119,7 +125,13 @@ class ConvertBody extends StatelessObserverWidget {
             assetWithBalance: toAssetWithBalance,
             assetWithoutBalance: toAssetWithoutBalance,
             onTap: () => store.enableToAsset(),
-            onDropdown: (value) => store.updateToAsset(value!),
+            onDropdown: (value) {
+              if (value?.symbol == store.fromAsset?.symbol) {
+                store.switchFromAndTo();
+              } else {
+                store.updateToAsset(value!);
+              }
+            },
           ),
           deviceSize.when(
             small: () => const SizedBox(),
@@ -158,13 +170,6 @@ class ConvertBody extends StatelessObserverWidget {
                 && store.toAsset != null,
             submitButtonName: intl.convert_previewExchange,
             onSubmitPressed: () {
-              sAnalytics.convertTapPreview(
-                sourceCurrency: store.fromAsset!.description,
-                sourceAmount: store.fromAssetAmount,
-                destinationCurrency: store.toAsset!.description,
-                destinationAmount: store.toAssetAmount,
-                sellPercentage: store.tappedPreset ?? '',
-              );
 
               sRouter.push(
                 PreviewConvertRouter(

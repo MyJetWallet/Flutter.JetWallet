@@ -48,7 +48,7 @@ class PhoneVerification extends StatelessWidget {
           dispose: (context, store) => store.dispose(),
         ),
         Provider<TimerStore>(
-          create: (_) => TimerStore(30),
+          create: (_) => TimerStore(1000000),
           dispose: (context, store) => store.dispose(),
         ),
       ],
@@ -104,7 +104,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           children: <Widget>[
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
-              boldText: store.phoneNumber,
+              boldText:
+                  '${store.dialCode?.countryCode ?? ""} ${store.phoneNumber.replaceAll(store.dialCode?.countryCode ?? "", "")}',
             ),
             const SpaceH18(),
             if (args.showChangeTextAlert) ...[
@@ -149,16 +150,22 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 });
               },
               child: AbsorbPointer(
-                child: PinCodeField(
-                  focusNode: store.focusNode,
-                  length: codeLength,
-                  controller: store.controller,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  onCompleted: (_) => store.verifyCode(),
-                  onChanged: (_) {
-                    store.pinFieldError.disableError();
+                child: Observer(
+                  builder: (context) {
+
+                    return PinCodeField(
+                      focusNode: store.focusNode,
+                      length: codeLength,
+                      controller: store.controller,
+                      autoFocus: true,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      onCompleted: (_) => store.verifyCode(),
+                      onChanged: (_) {
+                        store.pinFieldError.disableError();
+                      },
+                      pinError: store.pinFieldError,
+                    );
                   },
-                  pinError: store.pinFieldError,
                 ),
               ),
             ),
@@ -174,9 +181,9 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ),
               )
             else ...[
-              if (timer.time > 0 && !store.showResend) ...[
+              if (store.time > 0 && !store.showResend) ...[
                 ResendInText(
-                  text: '${intl.twoFaPhone_youCanReceive} ${timer.time}'
+                  text: '${intl.twoFaPhone_youCanReceive} ${store.time}'
                       ' ${intl.phoneVerification_seconds}',
                 ),
               ] else ...[
@@ -184,7 +191,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                   isPhone: true,
                   onTap: () async {
                     await store.sendCode();
-                    timer.refreshTimer();
+                    store.refreshTimer();
 
                     store.updateShowResend(
                       sResend: false,

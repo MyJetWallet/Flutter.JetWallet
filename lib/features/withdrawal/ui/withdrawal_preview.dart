@@ -65,17 +65,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 : TextAlign.start,
             title: title,
             onBackButtonTap: () {
-              if (store.withdrawalType == WithdrawalType.NFT) {
-                sAnalytics.nftSendConfirmBack(
-                  nftCollectionID:
-                      store.withdrawalInputModel?.nft?.symbol ?? '',
-                  nftObjectId:
-                      store.withdrawalInputModel?.nft?.collectionId ?? '',
-                  network: store.networkController.text,
-                  nftFee:
-                      '${matic.withdrawalFeeSize(store.networkController.text)}',
-                );
-              }
 
               sRouter.navigateBack();
             },
@@ -91,17 +80,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 : CrossAxisAlignment.start,
             title: title,
             onBackButtonTap: () {
-              if (store.withdrawalType == WithdrawalType.NFT) {
-                sAnalytics.nftSendConfirmBack(
-                  nftCollectionID:
-                      store.withdrawalInputModel?.nft?.symbol ?? '',
-                  nftObjectId:
-                      store.withdrawalInputModel?.nft?.collectionId ?? '',
-                  network: store.networkController.text,
-                  nftFee:
-                      '${matic.withdrawalFeeSize(store.networkController.text)}',
-                );
-              }
 
               sRouter.navigateBack();
             },
@@ -236,23 +214,9 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (store.withdrawalType == WithdrawalType.Asset) {
-                      sAnalytics.sendConfirm(
-                        currency: store.withdrawalInputModel!.currency!.symbol,
-                        amount: store.withAmount,
-                        type: 'By wallet',
-                      );
 
                       store.withdraw();
                     } else {
-                      sAnalytics.nftSendConfirmTap(
-                        nftCollectionID:
-                            store.withdrawalInputModel?.nft?.symbol ?? '',
-                        nftObjectId:
-                            store.withdrawalInputModel?.nft?.collectionId ?? '',
-                        network: store.networkController.text,
-                        nftFee:
-                            '${matic.withdrawalFeeSize(store.networkController.text)}',
-                      );
 
                       //store.withdrawNFT();
 

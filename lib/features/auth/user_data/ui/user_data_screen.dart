@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/country_field.dart';
+import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../../core/di/di.dart';
+import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
 class UserDataScreen extends StatelessWidget {
@@ -50,9 +55,16 @@ class _UserDataScreenBody extends StatelessObserverWidget {
           loading: birthDateInfo.loader,
           color: colors.grey5,
           header: SAuthHeader(
-            customIconButton: const SpaceH24(),
+            //customIconButton: const SpaceH24(),
             progressValue: 60,
             title: intl.user_data_whats_your_name,
+            customIconButton: SIconButton(
+              onTap: () {
+                showModalVerification(context);
+              },
+              defaultIcon: const SCloseIcon(),
+              pressedIcon: const SClosePressedIcon(),
+            ),
           ),
           child: CustomScrollView(
             physics: const ClampingScrollPhysics(),
@@ -125,24 +137,21 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                       const SpaceH1(),
                       ColoredBox(
                         color: colors.white,
-                        child: GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            showBirthDatePicker(
-                              context,
-                              birthDateInfo,
-                              UserDataStore.of(context),
-                            );
-                          },
-                          child: AbsorbPointer(
-                            child: SPaddingH24(
-                              child: SStandardField(
-                                labelText: intl.user_data_date_of_birth,
-                                hideClearButton: true,
-                                readOnly: true,
-                                controller: birthDateController,
-                              ),
-                            ),
+                        child: SPaddingH24(
+                          child: SStandardField(
+                            labelText: intl.user_data_date_of_birth,
+                            hideClearButton: false,
+                            readOnly: true,
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              sAnalytics.signInFlowDateSheetView();
+                              showBirthDatePicker(
+                                context,
+                                birthDateInfo,
+                                UserDataStore.of(context),
+                              );
+                            },
+                            controller: birthDateController,
                           ),
                         ),
                       ),
@@ -156,6 +165,10 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                         child: SPrimaryButton4(
                           name: intl.register_continue,
                           onTap: () {
+                            sAnalytics.signInFlowCreatePinView();
+                            getIt.get<UserInfoService>()
+                                .updateIsJustRegistered(value: true);
+                            print(getIt.get<UserInfoService>().userInfo);
                             UserDataStore.of(context).saveUserData(
                               birthDateInfo.loader,
                               birthDateInfo,
@@ -164,7 +177,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           active: UserDataStore.of(context).activeButton,
                         ),
                       ),
-                      const SpaceH24(),
+                      const SpaceH42(),
                     ],
                   ),
                 ),

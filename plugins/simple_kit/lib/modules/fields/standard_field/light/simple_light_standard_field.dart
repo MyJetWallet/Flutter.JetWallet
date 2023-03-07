@@ -11,6 +11,7 @@ class SimpleLightStandardField extends StatelessWidget {
     this.controller,
     this.autofillHints,
     this.focusNode,
+    this.onTap,
     this.onErrorIconTap,
     this.onErase,
     this.onChanged,
@@ -47,6 +48,7 @@ class SimpleLightStandardField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final Iterable<String>? autofillHints;
+  final Function()? onTap;
   final Function()? onErrorIconTap;
   final Function()? onErase;
   final Function(String)? onChanged;
@@ -79,6 +81,7 @@ class SimpleLightStandardField extends StatelessWidget {
         );
 
     return SimpleBaseStandardField(
+      onTap: onTap,
       labelText: labelText,
       onChanged: onChanged,
       controller: controller2,
@@ -106,13 +109,14 @@ class SimpleLightStandardField extends StatelessWidget {
       eraseIcon: [
         if (controller2.text.isNotEmpty && !hideClearButton) ...[
           const SpaceW16(),
-          GestureDetector(
+          SIconButton(
+            defaultIcon: const SEraseIcon(),
+            pressedIcon: const SErasePressedIcon(),
             onTap: () {
               controller2.clear();
               onChanged?.call('');
               onErase?.call();
             },
-            child: const SEraseIcon(),
           ),
         ],
       ],

@@ -283,8 +283,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const Spacer(),
                         SIconButton(
                           onTap: () {
-                            sAnalytics.nftCollectionTapSort();
-                            sAnalytics.nftCollectionSortView();
                             showNFTCollectionFilterModalSheet(
                               context,
                               NFTCollectionDetailStore.of(context)
@@ -296,11 +294,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const SpaceW12(),
                         SIconButton(
                           onTap: () {
-                            if (store.isAvailableHide) {
-                              sAnalytics.nftCollectionTapShow();
-                            } else {
-                              sAnalytics.nftCollectionTapHide();
-                            }
                             store.setSsAvailableHide();
                           },
                           defaultIcon: store.isAvailableHide
@@ -341,35 +334,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                       nft: store.availableNFTFiltred[index],
                       height: imageHeight,
                       onTap: () {
-                        sAnalytics.nftWalletTapObject(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
-                        );
-                        sAnalytics.nftWalletObjectView(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
-                        );
-                        sAnalytics.nftObjectTap(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
-                        );
-                        sAnalytics.nftObjectView(
-                          nftCollectionID:
-                              store.availableNFTFiltred[index].collectionId ??
-                                  '',
-                          nftObjectId:
-                              store.availableNFTFiltred[index].symbol ?? '',
-                          source: 'Collection screen',
-                        );
                         sRouter.push(
                           NFTDetailsRouter(
                             nftSymbol: store.availableNFTFiltred[index].symbol!,
@@ -400,8 +364,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const Spacer(),
                         SIconButton(
                           onTap: () {
-                            sAnalytics.nftCollectionTapSort();
-                            sAnalytics.nftCollectionSortView();
                             showNFTCollectionFilterModalSheet(
                               context,
                               NFTCollectionDetailStore.of(context)
@@ -414,11 +376,6 @@ class _NftCollectionDetailsBody extends StatelessObserverWidget {
                         const SpaceW12(),
                         SIconButton(
                           onTap: () {
-                            if (store.isSoldHide) {
-                              sAnalytics.nftCollectionTapShow();
-                            } else {
-                              sAnalytics.nftCollectionTapHide();
-                            }
                             store.setIsSoldHide();
                           },
                           defaultIcon: store.isSoldHide

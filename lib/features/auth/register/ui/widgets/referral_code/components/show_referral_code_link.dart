@@ -79,11 +79,13 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                     onTap: () =>
                         getIt.get<ReferallCodeStore>().pasteCodeReferralLink(),
                     defaultIcon: const SPasteIcon(),
+                    pressedIcon: const SPastePressedIcon(),
                   ),
                   SIconButton(
                     onTap: () =>
                         getIt.get<ReferallCodeStore>().scanAddressQr(context),
                     defaultIcon: const SQrCodeIcon(),
+                    pressedIcon: const SQrCodePressedIcon(),
                   ),
                 ],
               ),
