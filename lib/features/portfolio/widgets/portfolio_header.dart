@@ -49,6 +49,9 @@ class PortfolioHeader extends StatelessObserverWidget {
         counterOfRewards++;
       }
     }
+    if (!viewedRewards.contains('referral')) {
+      counterOfRewards++;
+    }
 
     final kycState = getIt.get<KycService>();
 
@@ -91,7 +94,7 @@ class PortfolioHeader extends StatelessObserverWidget {
                     ),
                     onTap: () {
 
-                      sRouter.push(const RewardsRouter());
+                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
                     },
                   ),
                   NotificationBox(

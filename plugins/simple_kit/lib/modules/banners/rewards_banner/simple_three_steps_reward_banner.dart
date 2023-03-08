@@ -43,7 +43,7 @@ class SThreeStepsRewardBanner extends StatelessWidget {
               Container(
                 alignment: Alignment.topCenter,
                 padding: const EdgeInsets.only(
-                  top: 17.0,
+                  top: 27.0,
                   left: 17.0,
                   bottom: 20.0,
                 ),

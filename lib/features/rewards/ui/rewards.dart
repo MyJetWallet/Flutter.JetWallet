@@ -22,21 +22,34 @@ import '../../../utils/constants.dart';
 import '../helper/create_reward_detail.dart';
 import '../helper/set_reward_indicator_complete.dart';
 import '../model/campaign_or_referral_model.dart';
+import 'components/reward_notification_box.dart';
 
 class Rewards extends StatelessWidget {
-  const Rewards({Key? key}) : super(key: key);
+  const Rewards({
+    Key? key,
+    required this.actualRewards,
+  }) : super(key: key);
+
+  final List<String> actualRewards;
 
   @override
   Widget build(BuildContext context) {
     return Provider<RewardStore>(
       create: (context) => RewardStore(),
-      builder: (context, child) => const _RewardsBody(),
+      builder: (context, child) => _RewardsBody(
+        actualRewards: actualRewards,
+      ),
     );
   }
 }
 
 class _RewardsBody extends StatelessObserverWidget {
-  const _RewardsBody({Key? key}) : super(key: key);
+  const _RewardsBody({
+    Key? key,
+    required this.actualRewards,
+  }) : super(key: key);
+
+  final List<String> actualRewards;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +60,39 @@ class _RewardsBody extends StatelessObserverWidget {
     final deepLinkService = getIt.get<DeepLinkService>();
     final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
         ?? <String>[];
+    if (!actualRewards.contains('referral')) {
+      getIt.get<KeyValuesService>().addToKeyValue(
+        KeyValueRequestModel(
+          keys: [
+            KeyValueResponseModel(
+              key: viewedRewardsKey,
+              value: jsonEncode([...viewedRewards, 'referral']),
+            ),
+          ],
+        ),
+      );
+    }
+    for (final campaign in state.sortedCampaigns) {
+      if (
+        !_displayRewardBanner(campaign) &&
+        _displayThreeStepsRewardBanner(campaign) &&
+        !actualRewards.contains(campaign.campaign!.campaignId)
+      ) {
+        getIt.get<KeyValuesService>().addToKeyValue(
+          KeyValueRequestModel(
+            keys: [
+              KeyValueResponseModel(
+                key: viewedRewardsKey,
+                value: jsonEncode([
+                  ...viewedRewards,
+                  campaign.campaign!.campaignId,
+                ]),
+              ),
+            ],
+          ),
+        );
+      }
+    }
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -96,7 +142,8 @@ class _RewardsBody extends StatelessObserverWidget {
             ],
             if (_displayThreeStepsRewardBanner(item)) ...[
               const SpaceH32(),
-              SPaddingH24(
+              RewardNotificationBox(
+                isUnread: !actualRewards.contains(item.campaign!.campaignId),
                 child: SThreeStepsRewardBanner(
                   primaryText: item.campaign!.title,
                   timeToComplete: formatBannersDate(
@@ -126,7 +173,8 @@ class _RewardsBody extends StatelessObserverWidget {
             ],
             if (_displayReferralStats(item)) ...[
               const SpaceH32(),
-              SPaddingH24(
+              RewardNotificationBox(
+                isUnread: !actualRewards.contains('referral'),
                 child: SReferralStats(
                   referralInvited: item.referralState!.referralInvited,
                   referralActivated: item.referralState!.referralActivated,

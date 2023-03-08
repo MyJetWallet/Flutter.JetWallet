@@ -67,6 +67,9 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         counterOfRewards++;
       }
     }
+    if (!viewedRewards.contains('referral')) {
+      counterOfRewards++;
+    }
 
 
     final interpolatedTextStyle = TextStyle.lerp(
@@ -131,7 +134,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                     ),
                     onTap: () {
 
-                      sRouter.push(const RewardsRouter());
+                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
                     },
                   ),
                   NotificationBox(

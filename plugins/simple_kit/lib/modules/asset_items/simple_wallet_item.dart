@@ -27,6 +27,7 @@ class SWalletItem extends StatelessWidget {
     this.isRecurring = false,
     this.isPendingDeposit = false,
     this.isBalanceHide = false,
+    this.isRounded = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -39,6 +40,7 @@ class SWalletItem extends StatelessWidget {
   final String? amount;
   final bool removeDivider;
   final bool fullSizeBalance;
+  final bool isRounded;
   final Color? color;
   final Function()? onTap;
   final Widget icon;
@@ -70,6 +72,7 @@ class SWalletItem extends StatelessWidget {
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
+      borderRadius: BorderRadius.circular(isRounded ? 16 : 0),
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(

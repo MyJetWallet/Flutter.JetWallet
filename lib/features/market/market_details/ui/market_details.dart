@@ -280,39 +280,44 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                 border: Border.all(
                   color: colors.grey4,
                 ),
-                color: colors.white,
               ),
-              child: SWalletItem(
-                currencyPrefix: baseCurrency.prefix,
-                currencySymbol: baseCurrency.symbol,
-                decline: widget.marketItem.dayPercentChange.isNegative,
-                icon: SNetworkSvg24(
-                  url: widget.marketItem.iconUrl,
+              child: Material(
+                color: colors.white,
+                borderRadius: BorderRadius.circular(16),
+                child: SWalletItem(
+                  isRounded: true,
+                  currencyPrefix: baseCurrency.prefix,
+                  currencySymbol: baseCurrency.symbol,
+                  decline: widget.marketItem.dayPercentChange.isNegative,
+                  icon: SNetworkSvg24(
+                    url: widget.marketItem.iconUrl,
+                  ),
+                  primaryText: intl.portfolioHeader_balance,
+                  amount: volumeFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: widget.marketItem.baseBalance,
+                    symbol: baseCurrency.symbol,
+                    accuracy: baseCurrency.accuracy,
+                  ),
+                  amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
+                  secondaryText: volumeFormat(
+                    prefix: widget.marketItem.prefixSymbol,
+                    decimal: widget.marketItem.assetBalance,
+                    symbol: widget.marketItem.symbol,
+                    accuracy: widget.marketItem.assetAccuracy,
+                  ),
+                  onTap: () {
+                    onMarketItemTap(
+                      context: context,
+                      currency: currency,
+                    );
+                  },
+                  removeDivider: true,
+                  leftBlockTopPadding: widget.marketItem.isBalanceEmpty ? 30 : 20,
+                  rightBlockTopPadding: 20,
+                  showSecondaryText: !widget.marketItem.isBalanceEmpty,
+                  fullSizeBalance: true,
                 ),
-                primaryText: intl.portfolioHeader_balance,
-                amount: volumeFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: widget.marketItem.baseBalance,
-                  symbol: baseCurrency.symbol,
-                  accuracy: baseCurrency.accuracy,
-                ),
-                amountDecimal: double.parse('${widget.marketItem.baseBalance}'),
-                secondaryText: volumeFormat(
-                  prefix: widget.marketItem.prefixSymbol,
-                  decimal: widget.marketItem.assetBalance,
-                  symbol: widget.marketItem.symbol,
-                  accuracy: widget.marketItem.assetAccuracy,
-                ),
-                onTap: () {
-                  onMarketItemTap(
-                    context: context,
-                    currency: currency,
-                  );
-                },
-                removeDivider: true,
-                leftBlockTopPadding: widget.marketItem.isBalanceEmpty ? 30 : 20,
-                showSecondaryText: !widget.marketItem.isBalanceEmpty,
-                fullSizeBalance: true,
               ),
             ),
           ),
