@@ -177,7 +177,8 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         paymentMethod: ApplePayDataModelPaymentMethod(
           displayName: paymentMethod['displayName'].toString(),
           network: paymentMethod['network'].toString(),
-          type: paymentMethod['type'].toString(),
+          //type: paymentMethod['type'].toString(),
+          type: 'debit',
         ),
       ),
     );
