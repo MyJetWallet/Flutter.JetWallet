@@ -397,7 +397,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             ? colors.grey2
                             : colors.black,
                   ),
-                  name: 'Apple card',
+                  name: 'Apple pay',
                   description: limitText,
                   limit:
                       isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
