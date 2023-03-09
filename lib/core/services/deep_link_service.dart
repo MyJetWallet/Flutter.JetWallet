@@ -1,4 +1,5 @@
 import 'package:event_bus/event_bus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -179,7 +180,6 @@ class DeepLinkService {
             ),
           );
         }
-
       }
     } catch (e) {
       rethrow;
@@ -340,9 +340,9 @@ class DeepLinkService {
 
   void _loginCommand(Map<String, String> parameters) {
     getIt.get<LogoutService>().logout(
-      'DEEPLINK logincommand',
-      callbackAfterSend: () {},
-    );
+          'DEEPLINK logincommand',
+          callbackAfterSend: () {},
+        );
 
     sRouter.push(
       SingInRouter(
@@ -485,6 +485,91 @@ class DeepLinkService {
         );
       },
     );
+  }
 
+  /// Push Notification Links
+
+  Future<void> handlePushNotificationLink(RemoteMessage message) async {}
+
+  Future<void> pushCryptoDepositReceive() async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        TransactionHistoryRouter(),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: TransactionHistoryRouter(),
+        ),
+      );
+    }
+  }
+
+  Future<void> pushCryptoWithdrawalDecline(CurrencyModel currency) async {
+    //navigateToWallet
+    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          EmptyWalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: EmptyWalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          WalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: WalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> pushKycDocumentsApproved() async {
+    if (['/home/portfolio', '/home/market'].contains(sRouter.currentPath)) {
+      getIt<AppStore>().setHomeTab(1);
+    } else {
+      await sRouter.replaceAll(
+        [
+          HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 1,
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+  }
+
+  Future<void> pushKycDocumentsDeclined() async {
+    //KYC flow
   }
 }
