@@ -9,6 +9,7 @@ Future showNotification(
   String message, [
   int duration = 2,
   bool needFeedback = false,
+  bool isError = true,
 ]) {
   if (needFeedback) {
     HapticFeedback.lightImpact();
@@ -28,6 +29,7 @@ Future showNotification(
         child: SPaddingH24(
           child: SNotificationBox(
             text: message,
+            isError: isError,
           ),
         ),
       );

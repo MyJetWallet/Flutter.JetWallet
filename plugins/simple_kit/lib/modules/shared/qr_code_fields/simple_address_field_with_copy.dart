@@ -94,12 +94,6 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
           text: realValue ?? value,
         ),
       );
-      animationController.forward().then(
-        (_) async {
-          await Future.delayed(const Duration(seconds: 2));
-          await animationController.animateBack(0);
-        },
-      );
 
       then?.call();
     }
@@ -116,7 +110,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
           offset: scaleAnimation.value,
           child: Container(
             color: SColorsLight().greenLight,
-            height: widget.expanded ? 112.0 : 64,
+            height: widget.expanded ? 116.0 : 64,
             width: double.infinity,
             child: Center(
               child: SPaddingH24(

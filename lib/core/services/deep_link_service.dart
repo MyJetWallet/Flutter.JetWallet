@@ -36,6 +36,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'local_storage_service.dart';
+import 'notification_service.dart';
 import 'remote_config/models/remote_config_union.dart';
 
 /// Parameters
@@ -428,6 +429,9 @@ class DeepLinkService {
             afterCopyText: intl.deepLinkService_referralLinkCopied,
             value: referralInfo.referralLink,
             header: intl.deepLinkService_referralLink,
+            then: () {
+              sNotification.showError(intl.copy_message, id: 1, isError: false);
+            },
           ),
           SReferralInviteBottomPinned(
             text: intl.deepLinkService_share,

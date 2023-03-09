@@ -10,6 +10,7 @@ import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dar
 import 'package:jetwallet/features/crypto_deposit/widgets/crypto_deposit_with_address.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/crypto_deposit_with_address_and_tag.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/deposit_info.dart';
+import 'package:jetwallet/features/crypto_deposit/widgets/deposit_info_tag.dart';
 import 'package:jetwallet/features/crypto_deposit/widgets/show_deposit_disclaimer.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -268,7 +269,10 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         controller: controller,
         padding: EdgeInsets.zero,
         children: [
-          DepositInfo(),
+          if (deposit.tag != null)
+            DepositInfoTag()
+          else
+            DepositInfo(),
           Container(
             height: 88.0,
             width: double.infinity,

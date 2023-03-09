@@ -22,6 +22,7 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/services/device_size/device_size.dart';
+import '../../../../core/services/notification_service.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
@@ -87,11 +88,10 @@ class _TransactionItemState extends State<TransactionItem>
     final deviceSize = sDeviceSize;
 
     void _onCopyAction() {
-      animationController.forward().then(
-        (_) async {
-          await Future.delayed(const Duration(seconds: 2));
-          await animationController.animateBack(0);
-        },
+      sNotification.showError(
+        '$copiedText ${intl.transactionItem_copied}',
+        id: 1,
+        isError: false,
       );
     }
 

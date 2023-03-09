@@ -3,15 +3,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
-import 'package:jetwallet/features/crypto_deposit/widgets/expansion_panel_without_icon.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-const _copyMessageFullyVisiblePosition = 113.0;
+import '../../../core/services/notification_service.dart';
 
-class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
+// Header, ShareButton bar, DepositInfo, NetworkSelector
+const screenWidgets = 120 + 122 + 88 + 40 + 28;
+const sAddressFieldWithCopyHeight = 146;
+
+class CryptoDepositWithAddressAndTag extends StatefulObserverWidget {
   const CryptoDepositWithAddressAndTag({
     Key? key,
     required this.currency,
@@ -22,67 +23,202 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
   final ScrollController scrollController;
 
   @override
+  State<CryptoDepositWithAddressAndTag> createState() => _CryptoDepositWithAddressAndTagState();
+}
+
+class _CryptoDepositWithAddressAndTagState
+    extends State<CryptoDepositWithAddressAndTag> {
+  late ScrollController controller;
+  late PageController pageController;
+
+  int currentPage = 0;
+
+  final colors = sKit.colors;
+
+  @override
+  void initState() {
+    controller = ScrollController();
+    pageController = PageController(viewportFraction: 0.6);
+    pageController.addListener(() {
+      setState(() {
+        currentPage = pageController.page!.round();
+        print(currentPage);
+      });
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final qrBoxSize = mediaQuery.size.width * 0.6;
     final logoSize = mediaQuery.size.width * 0.2;
     final deposit = CryptoDepositStore.of(context);
+    final screenHeight = mediaQuery.size.height;
 
-    return ExpansionPanelListWithoutIcon(
-      elevation: 0,
-      expansionCallback: (int index, bool isExpanded) {
-        deposit.switchAddress();
-      },
-      expandedHeaderPadding: EdgeInsets.zero,
-      children: [
-        ExpansionPanelWithoutIcon(
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return SAddressFieldWithCopy(
-              header: '${currency.symbol}'
-                  ' ${intl.cryptoDepositWithAddressAndTag_walletAddress}',
-              value: deposit.address,
-              realValue: deposit.address,
-              afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
-              valueLoading: deposit.union is Loading,
-              longString: true,
-              expanded: true,
-              actionIcon: deposit.isAddressOpen
-                  ? const SAngleUpIcon()
-                  : const SAngleDownIcon(),
-              onTap: () {
-                deposit.switchAddress();
-              },
-              then: () {
-                if (scrollController.offset >
-                    _copyMessageFullyVisiblePosition) {
-                  scrollController.animateTo(
-                    _copyMessageFullyVisiblePosition,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeIn,
-                  );
-                }
-              },
-            );
-          },
-          body: Column(
+    final extraScrollArea =
+        screenHeight - qrBoxSize - screenWidgets - sAddressFieldWithCopyHeight;
+
+    final widgetHeight = extraScrollArea.isNegative
+        ? screenHeight - screenWidgets + extraScrollArea.abs()
+        : screenHeight - screenWidgets;
+
+    return SizedBox(
+      height: widgetHeight,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Spacer(),
+          Stack(
             children: [
-              const SpaceH17(),
-              SQrCodeBox(
-                loading: deposit.union is Loading,
-                data: deposit.address,
-                qrBoxSize: qrBoxSize,
-                logoSize: logoSize,
+              SizedBox(
+                height: qrBoxSize + 34,
+                child: PageView.builder(
+                  controller: pageController,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: 2,
+                  itemBuilder: (_, index) {
+
+                    return Opacity(
+                      opacity: currentPage != index ? 0.6 : 1,
+                      child: Stack(
+                        children: [
+                          if (index == 0)
+                            Column(
+                              children: [
+                                const SpaceH17(),
+                                SQrCodeBox(
+                                  loading: deposit.union is Loading,
+                                  data: deposit.address,
+                                  qrBoxSize: qrBoxSize,
+                                  logoSize: logoSize,
+                                ),
+                                const SpaceH17(),
+                              ],
+                            )
+                          else
+                            Column(
+                              children: [
+                                const SpaceH17(),
+                                SQrCodeBox(
+                                  loading: deposit.union is Loading,
+                                  data: deposit.tag!,
+                                  qrBoxSize: qrBoxSize,
+                                  logoSize: logoSize,
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
-              const SpaceH17(),
             ],
           ),
-          isExpanded: deposit.isAddressOpen,
-        ),
-        ExpansionPanelWithoutIcon(
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return SAddressFieldWithCopy(
+          Stack(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (currentPage == 0) {
+                    pageController.jumpToPage(1);
+                  } else {
+                    pageController.jumpToPage(0);
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: colors.grey5,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 8,
+                      bottom: 8,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          intl.cryptoDeposit_address,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.grey3,
+                            height: 1,
+                          ),
+                        ),
+                        const SizedBox(width: 32),
+                        Text(
+                          intl.tag,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.grey3,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              if (currentPage == 0)
+                Positioned(
+                  left: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: Text(
+                        intl.cryptoDeposit_address,
+                        style: sSubtitle3Style.copyWith(
+                          color: colors.white,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: Text(
+                        intl.tag,
+                        style: sSubtitle3Style.copyWith(
+                          color: colors.white,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const Spacer(),
+          if (currentPage == 1)
+            SAddressFieldWithCopy(
               header: intl.tag,
               value: deposit.tag!,
               realValue: deposit.tag,
@@ -90,29 +226,26 @@ class CryptoDepositWithAddressAndTag extends StatelessObserverWidget {
               valueLoading: deposit.union is Loading,
               longString: true,
               expanded: true,
-              then: () {},
-              actionIcon: deposit.isAddressOpen
-                  ? const SAngleDownIcon()
-                  : const SAngleUpIcon(),
-              onTap: () {
-                deposit.switchAddress();
+              then: () {
+                sNotification.showError(intl.copy_message, id: 1, isError: false);
               },
-            );
-          },
-          body: Column(
-            children: [
-              const SpaceH17(),
-              SQrCodeBox(
-                loading: deposit.union is Loading,
-                data: deposit.tag!,
-                qrBoxSize: qrBoxSize,
-                logoSize: logoSize,
-              ),
-            ],
-          ),
-          isExpanded: !deposit.isAddressOpen,
-        ),
-      ],
+            )
+          else
+            SAddressFieldWithCopy(
+              header: '${widget.currency.symbol}'
+                  ' ${intl.cryptoDepositWithAddressAndTag_walletAddress}',
+              value: deposit.address,
+              realValue: deposit.address,
+              afterCopyText: intl.cryptoDepositWithAddressAndTag_addressCopied,
+              valueLoading: deposit.union is Loading,
+              longString: true,
+              expanded: true,
+              then: () {
+                sNotification.showError(intl.copy_message, id: 1, isError: false);
+              },
+            ),
+        ],
+      ),
     );
   }
 }
