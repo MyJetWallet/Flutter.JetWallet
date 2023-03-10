@@ -22,6 +22,7 @@ import '../../../widgets/circle_action_buttons/circle_action_exchange.dart';
 import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
 import '../../../widgets/circle_action_buttons/circle_action_send.dart';
 import '../../actions/action_send/widgets/send_options.dart';
+import '../../actions/circle_actions/circle_actions.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
@@ -98,136 +99,115 @@ class _WalletState extends State<Wallet>
             children: [
               const SDivider(),
               const SpaceH16(),
-              SPaddingH24(
-                child: Row(
-                  children: [
-                    if (currentAsset.baseBalance == Decimal.zero) ...[
-                      const Spacer(),
-                    ],
-                    CircleActionBuy(
-                      onTap: () {
-                        sAnalytics.newBuyTapBuy(
-                          source: 'My Assets - Asset -  Buy',
+              CircleActionButtons(
+                showBuy: currentAsset.supportsAtLeastOneBuyMethod,
+                showReceive: currentAsset.supportsCryptoDeposit,
+                showExchange: currentAsset.isAssetBalanceNotEmpty,
+                showSend: currentAsset.isAssetBalanceNotEmpty &&
+                    currentAsset.supportsCryptoWithdrawal,
+                onBuy: () {
+                  sAnalytics.newBuyTapBuy(
+                    source: 'My Assets - Asset -  Buy',
+                  );
+                  final actualAsset = currenciesWithBalance[
+                  _pageController.page?.round() ?? 0];
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.push(
+                      PaymentMethodRouter(currency: actualAsset),
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.depositStatus,
+                      isProgress: kycState.verificationInProgress,
+                      navigatePop: true,
+                      currentNavigate: () {
+                        sRouter.push(
+                          PaymentMethodRouter(currency: actualAsset),
                         );
-                        final actualAsset = currenciesWithBalance[
-                            _pageController.page?.round() ?? 0];
-                        if (kycState.depositStatus ==
-                            kycOperationStatus(KycStatus.allowed)) {
-                          sRouter.push(
-                            PaymentMethodRouter(currency: actualAsset),
-                          );
-                        } else {
-                          kycAlertHandler.handle(
-                            status: kycState.depositStatus,
-                            isProgress: kycState.verificationInProgress,
-                            navigatePop: true,
-                            currentNavigate: () {
-                              sRouter.push(
-                                PaymentMethodRouter(currency: actualAsset),
-                              );
-                            },
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
-                          );
-                        }
                       },
-                    ),
-                    if (currentAsset.baseBalance == Decimal.zero) ...[
-                      const SpaceW37(),
-                    ] else ...[
-                      const SpaceW11(),
-                    ],
-                    CircleActionReceive(
-                      onTap: () {
-                        final actualAsset = currenciesWithBalance[
-                            _pageController.page?.round() ?? 0];
-                        if (kycState.depositStatus ==
-                            kycOperationStatus(KycStatus.allowed)) {
-                          sRouter.navigate(
-                            CryptoDepositRouter(
-                              header: intl.balanceActionButtons_receive,
-                              currency: actualAsset,
-                            ),
-                          );
-                        } else {
-                          kycAlertHandler.handle(
-                            status: kycState.depositStatus,
-                            isProgress: kycState.verificationInProgress,
-                            currentNavigate: () {
-                              sRouter.navigate(
-                                CryptoDepositRouter(
-                                  header: intl.balanceActionButtons_receive,
-                                  currency: actualAsset,
-                                ),
-                              );
-                            },
-                            requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
-                          );
-                        }
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications:
+                      kycState.requiredVerifications,
+                    );
+                  }
+                },
+                onReceive: () {
+                  final actualAsset = currenciesWithBalance[
+                  _pageController.page?.round() ?? 0];
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.navigate(
+                      CryptoDepositRouter(
+                        header: intl.balanceActionButtons_receive,
+                        currency: actualAsset,
+                      ),
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.depositStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () {
+                        sRouter.navigate(
+                          CryptoDepositRouter(
+                            header: intl.balanceActionButtons_receive,
+                            currency: actualAsset,
+                          ),
+                        );
                       },
-                    ),
-                    if (currentAsset.baseBalance != Decimal.zero) ...[
-                      const SpaceW11(),
-                      CircleActionSend(
-                        onTap: () {
-                          final actualAsset = currenciesWithBalance[
-                              _pageController.page?.round() ?? 0];
-                          if (kycState.sellStatus ==
-                              kycOperationStatus(KycStatus.allowed)) {
-                            showSendOptions(
-                              context,
-                              actualAsset,
-                              navigateBack: false,
-                            );
-                          } else {
-                            kycAlertHandler.handle(
-                              status: kycState.sellStatus,
-                              isProgress: kycState.verificationInProgress,
-                              currentNavigate: () {
-                                showSendOptions(context, actualAsset);
-                              },
-                              requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications:
-                                  kycState.requiredVerifications,
-                            );
-                          }
-                        },
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications:
+                      kycState.requiredVerifications,
+                    );
+                  }
+                },
+                onSend: () {
+                  final actualAsset = currenciesWithBalance[
+                  _pageController.page?.round() ?? 0];
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    showSendOptions(
+                      context,
+                      actualAsset,
+                      navigateBack: false,
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () {
+                        showSendOptions(context, actualAsset);
+                      },
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications:
+                      kycState.requiredVerifications,
+                    );
+                  }
+                },
+                onExchange: () {
+                  final actualAsset = currenciesWithBalance[
+                  _pageController.page?.round() ?? 0];
+                  if (kycState.sellStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.push(ConvertRouter(
+                      fromCurrency: actualAsset,
+                    ));
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.sellStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => sRouter.push(
+                        ConvertRouter(
+                          fromCurrency: actualAsset,
+                        ),
                       ),
-                      const SpaceW11(),
-                      CircleActionExchange(
-                        onTap: () {
-                          final actualAsset = currenciesWithBalance[
-                              _pageController.page?.round() ?? 0];
-                          if (kycState.sellStatus ==
-                              kycOperationStatus(KycStatus.allowed)) {
-                            sRouter.push(ConvertRouter(
-                              fromCurrency: actualAsset,
-                            ));
-                          } else {
-                            kycAlertHandler.handle(
-                              status: kycState.sellStatus,
-                              isProgress: kycState.verificationInProgress,
-                              currentNavigate: () => sRouter.push(
-                                ConvertRouter(
-                                  fromCurrency: actualAsset,
-                                ),
-                              ),
-                              navigatePop: false,
-                              requiredDocuments: kycState.requiredDocuments,
-                              requiredVerifications:
-                                  kycState.requiredVerifications,
-                            );
-                          }
-                        },
-                      ),
-                    ] else ...[
-                      const Spacer(),
-                    ],
-                  ],
-                ),
+                      navigatePop: false,
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications:
+                      kycState.requiredVerifications,
+                    );
+                  }
+                },
               ),
               const SpaceH34(),
             ],

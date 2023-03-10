@@ -10,6 +10,7 @@ class SRewardBanner extends StatelessWidget {
     this.secondaryText,
     this.imageUrl,
     this.primaryTextStyle,
+    this.isActive = false,
     required this.color,
     required this.primaryText,
     required this.onTap,
@@ -18,6 +19,7 @@ class SRewardBanner extends StatelessWidget {
   final String? secondaryText;
   final String? imageUrl;
   final TextStyle? primaryTextStyle;
+  final bool isActive;
   final Color color;
   final String primaryText;
   final Function() onTap;
@@ -27,57 +29,79 @@ class SRewardBanner extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.only(
-          left: 20.0,
-          top: 20.0,
-          bottom: 20.0,
+        padding: EdgeInsets.only(
+          top: 12,
+          bottom: 0,
+          right: 24,
+          left: isActive ? 8 : 24,
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16.0),
-          color: color,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        color: color,
+        child: Column(
           children: [
-            CircleAvatar(
-              radius: 40.0,
-              backgroundImage: setCircleBackgroundImage(imageUrl),
-            ),
-            const SpaceW16(),
-            Column(
-              mainAxisAlignment: (secondaryText != null)
-                  ? MainAxisAlignment.start
-                  : MainAxisAlignment.center,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 187.0,
-                  child: Baseline(
-                    baseline: 27.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: Text(
-                      primaryText,
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      style: primaryTextStyle ?? sTextH4Style,
-                    ),
-                  ),
-                ),
-                if (secondaryText != null)
-                  SizedBox(
-                    width: 187.0,
-                    child: Baseline(
-                      baseline: 30.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        secondaryText!,
-                        textAlign: TextAlign.start,
-                        maxLines: 3,
-                        style: sBodyText2Style.copyWith(
-                          color: SColorsLight().grey1,
+                if (isActive) ...[
+                  Column(
+                    children: [
+                      const SpaceH20(),
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: sKit.colors.blue,
                         ),
                       ),
-                    ),
+                    ],
                   ),
+                  const SpaceW8(),
+                ],
+                CircleAvatar(
+                  radius: 24.0,
+                  backgroundImage: setCircleBackgroundImage(imageUrl),
+                ),
+                const SpaceW16(),
+                Column(
+                  mainAxisAlignment: (secondaryText != null)
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 116,
+                      child: Text(
+                        primaryText,
+                        textAlign: TextAlign.start,
+                        maxLines: 3,
+                        style: primaryTextStyle ?? sSubtitle3Style,
+                      ),
+                    ),
+                    const SpaceH4(),
+                    if (secondaryText != null)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 116,
+                        child: Text(
+                          secondaryText!,
+                          textAlign: TextAlign.start,
+                          maxLines: 3,
+                          style: sBodyText2Style.copyWith(
+                            color: SColorsLight().grey1,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+            const SpaceH15(),
+            Row(
+              children: [
+                if (isActive)
+                  const SpaceW16(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: const SDivider(),
+                ),
               ],
             ),
           ],

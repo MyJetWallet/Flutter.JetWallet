@@ -37,12 +37,12 @@ class SimpleAccountCategoryHeader extends StatelessWidget {
       child: Row(
         children: <Widget>[
           SIconButton(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    defaultIcon: const SBackIcon(),
-                    pressedIcon: const SBackPressedIcon(),
-                  ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            defaultIcon: const SBackIcon(),
+            pressedIcon: const SBackPressedIcon(),
+          ),
           const SpaceW20(),
           STransparentInkWell(
             onTap: onIconTap,
