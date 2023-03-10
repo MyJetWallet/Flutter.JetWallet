@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
 import 'package:jetwallet/features/iban/widgets/iban_header.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 
@@ -14,7 +15,11 @@ class IBanScreen extends StatelessObserverWidget {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: const IBanHeader(),
-      child: Text('Account here'),
+      child: IBanEmpty(
+        isLoading: true,
+        isAddress: false,
+        isKyc: false,
+      ),
     );
   }
 }

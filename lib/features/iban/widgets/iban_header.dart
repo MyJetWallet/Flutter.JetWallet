@@ -4,6 +4,7 @@ import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
 import 'package:simple_kit/modules/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
+import 'package:simple_kit/modules/icons/24x24/public/share/simple_share_icon.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
@@ -40,10 +41,10 @@ class IBanHeader extends StatelessObserverWidget {
                 alignment: Alignment.center,
                 children: [
                   SIconButton(
-                    defaultIcon: SProfileDetailsIcon(
+                    defaultIcon: SShareIcon(
                       color: colors.black,
                     ),
-                    pressedIcon: SProfileDetailsIcon(
+                    pressedIcon: SShareIcon(
                       color: colors.black.withOpacity(0.7),
                     ),
                     onTap: () {
@@ -66,7 +67,6 @@ class IBanHeader extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW34(),
             SizedBox(
               width: 56.0,
               height: 56.0,
@@ -100,7 +100,7 @@ class IBanHeader extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW8(),
+            const SpaceW26(),
           ],
         ),
       ],
