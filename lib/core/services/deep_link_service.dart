@@ -489,7 +489,11 @@ class DeepLinkService {
 
   /// Push Notification Links
 
-  Future<void> handlePushNotificationLink(RemoteMessage message) async {}
+  Future<void> handlePushNotificationLink(RemoteMessage message) async {
+    debugPrint(message.toMap().toString());
+
+    if (message.data['actionUrl'] == 'jw_swap') {}
+  }
 
   Future<void> pushCryptoDepositReceive() async {
     if (getIt.isRegistered<AppStore>() &&

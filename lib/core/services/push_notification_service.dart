@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 
@@ -50,6 +52,8 @@ class PushNotificationService {
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
+    getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
