@@ -6,7 +6,9 @@ import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dar
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
+import '../../../utils/helpers/widget_size_from.dart';
 
 // Header, ShareButton bar, DepositInfo, NetworkSelector
 const screenWidgets = 120 + 122 + 88 + 40 + 28;
@@ -62,13 +64,17 @@ class _CryptoDepositWithAddressAndTagState
     final logoSize = mediaQuery.size.width * 0.2;
     final deposit = CryptoDepositStore.of(context);
     final screenHeight = mediaQuery.size.height;
+    final deviceSize = sDeviceSize;
 
     final extraScrollArea =
         screenHeight - qrBoxSize - screenWidgets - sAddressFieldWithCopyHeight;
 
-    final widgetHeight = extraScrollArea.isNegative
+    var widgetHeight = extraScrollArea.isNegative
         ? screenHeight - screenWidgets + extraScrollArea.abs()
         : screenHeight - screenWidgets;
+    if (widgetSizeFrom(deviceSize) == SWidgetSize.small) {
+      widgetHeight += 36;
+    }
 
     return SizedBox(
       height: widgetHeight,
