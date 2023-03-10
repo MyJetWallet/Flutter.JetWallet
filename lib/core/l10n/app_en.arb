@@ -1267,6 +1267,7 @@
   "assets": "Assets",
   "bottom_bar_my_assets": "My assets",
   "bottom_bar_market": "Market",
+  "bottom_bar_account": "Account",
   "open_in_explorer": "Open in Explorer",
   "verification_your_profile": "Verification your profile",
   "verification_your_profile_descr": "In accordance with KYC and AML Policy, you are required to pass the verification process.",

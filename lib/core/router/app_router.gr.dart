@@ -900,6 +900,12 @@ class _$AppRouter extends RootStackRouter {
         child: const PortfolioScreen(),
       );
     },
+    IBanRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IBanScreen(),
+      );
+    },
     WithdrawalAddressRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -991,6 +997,11 @@ class _$AppRouter extends RootStackRouter {
             RouteConfig(
               PortfolioRouter.name,
               path: 'portfolio',
+              parent: HomeRouter.name,
+            ),
+            RouteConfig(
+              IBanRouter.name,
+              path: 'iban',
               parent: HomeRouter.name,
             ),
           ],
@@ -4176,6 +4187,18 @@ class PortfolioRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'PortfolioRouter';
+}
+
+/// generated route for
+/// [IBanScreen]
+class IBanRouter extends PageRouteInfo<void> {
+  const IBanRouter()
+      : super(
+          IBanRouter.name,
+          path: 'iban',
+        );
+
+  static const String name = 'IBanRouter';
 }
 
 /// generated route for

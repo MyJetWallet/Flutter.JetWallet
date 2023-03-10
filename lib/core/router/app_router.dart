@@ -133,6 +133,7 @@ import '../../features/currency_buy/models/preview_buy_with_circle_input.dart';
 import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
 import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
+import '../../features/iban/iban_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -217,6 +218,11 @@ final sRouter = getIt.get<AppRouter>();
           path: 'portfolio',
           name: 'PortfolioRouter',
           page: PortfolioScreen,
+        ),
+        AutoRoute(
+          path: 'iban',
+          name: 'IBanRouter',
+          page: IBanScreen,
         ),
       ],
     ),
