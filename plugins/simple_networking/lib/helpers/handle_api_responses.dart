@@ -140,6 +140,10 @@ void _handleFullNumberResponse(
   String result,
   Map<String, dynamic> json,
 ) {
+  if (result != 'OK') {
+    throw ServerRejectException(json['message']);
+  }
+  /*
   if (result == 'OperationBlocked') {
     final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;
     if (rejectDetail != null) {
@@ -151,6 +155,7 @@ void _handleFullNumberResponse(
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
+  */
 }
 
 void _validateResultResponse(String result) {
