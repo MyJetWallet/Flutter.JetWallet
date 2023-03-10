@@ -270,7 +270,10 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
         padding: EdgeInsets.zero,
         children: [
           if (deposit.tag != null)
-            DepositInfoTag()
+            DepositInfoTag(
+              text: '${intl.depositInfoTag_text1} ${widget.currency.symbol}'
+                '${intl.depositInfoTag_text2}',
+            )
           else
             DepositInfo(),
           Container(
