@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../actions/action_deposit/widgets/deposit_options.dart';
 
@@ -97,7 +98,6 @@ class _ActionButtonState extends State<ActionButton> {
           PaymentMethodRouter(currency: widget.currency),
         );
       } else {
-
         kycAlertHandler.handle(
           status: kycState.depositStatus,
           isProgress: kycState.verificationInProgress,
@@ -193,7 +193,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -213,14 +212,12 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-
                                 sRouter.push(
                                   ConvertRouter(
                                     fromCurrency: widget.currency,
                                   ),
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -246,7 +243,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
-
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
@@ -272,7 +268,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
-
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
@@ -302,7 +297,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -331,7 +325,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   sendAlertBottomSheet(context);
                                 }
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -363,7 +356,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-
                                 sRouter.navigate(
                                   CryptoDepositRouter(
                                     header: intl.actionButton_receive,
@@ -371,7 +363,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -453,7 +444,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -476,14 +466,18 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-
-                                sRouter.push(
-                                  ConvertRouter(
-                                    fromCurrency: widget.currency,
-                                  ),
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () {
+                                    sRouter.push(
+                                      ConvertRouter(
+                                        fromCurrency: widget.currency,
+                                      ),
+                                    );
+                                  },
+                                  from: BlockingType.trade,
                                 );
                               } else {
-
                                 Navigator.of(context).pop();
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
@@ -511,7 +505,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     widget.currency,
                                   );
                                 } else {
-
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
                                     isProgress: kycState.verificationInProgress,
@@ -539,7 +532,6 @@ class _ActionButtonState extends State<ActionButton> {
                                     ),
                                   );
                                 } else {
-
                                   Navigator.of(context).pop();
                                   kycAlertHandler.handle(
                                     status: kycState.depositStatus,
@@ -570,7 +562,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   widget.currency,
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -600,12 +591,12 @@ class _ActionButtonState extends State<ActionButton> {
                                         widget.currency,
                                       );
                                     },
+                                    from: BlockingType.withdrawal,
                                   );
                                 } else {
                                   sendAlertBottomSheet(context);
                                 }
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.withdrawalStatus,
                                   isProgress: kycState.verificationInProgress,
@@ -621,6 +612,7 @@ class _ActionButtonState extends State<ActionButton> {
                                           context,
                                           widget.currency,
                                         ),
+                                        from: BlockingType.withdrawal,
                                       );
                                     } else {
                                       sendAlertBottomSheet(context);
@@ -637,7 +629,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-
                                 sRouter.navigate(
                                   CryptoDepositRouter(
                                     header: intl.actionButton_receive,
@@ -645,7 +636,6 @@ class _ActionButtonState extends State<ActionButton> {
                                   ),
                                 );
                               } else {
-
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
                                   isProgress: kycState.verificationInProgress,
