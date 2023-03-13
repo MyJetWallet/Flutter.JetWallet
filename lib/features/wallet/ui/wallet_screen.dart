@@ -252,6 +252,7 @@ class _WalletState extends State<Wallet>
                       if (showSend)
                         SizedBox(
                           width: widthOfBlock.toDouble(),
+                          height: 126,
                           child: Center(
                             child: CircleActionSend(
                               onTap: () {
@@ -263,6 +264,7 @@ class _WalletState extends State<Wallet>
                       if (showExchange)
                         SizedBox(
                           width: widthOfBlock.toDouble(),
+                          height: 126,
                           child: Center(
                             child: CircleActionExchange(
                               onTap: () {
