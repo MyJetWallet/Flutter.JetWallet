@@ -173,10 +173,17 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                   sAnalytics.newBuyTapBuy(
                     source: 'My Assets - Buy',
                   );
-                  showBuyAction(
-                    fromCard: true,
-                    shouldPop: false,
+
+                  showSendTimerAlertOr(
                     context: context,
+                    or: () {
+                      showBuyAction(
+                        fromCard: true,
+                        shouldPop: false,
+                        context: context,
+                      );
+                    },
+                    from: BlockingType.deposit,
                   );
                 },
               ),

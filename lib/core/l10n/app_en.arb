@@ -1278,5 +1278,6 @@
   "personal_details_descr": "First name, last name, date of birth and country",
   "pin_code": "PIN code",
   "pin_code_descr": "Secure PIN for your Simple wallet",
-  "create_pin_code": "Create PIN"
+  "create_pin_code": "Create PIN",
+  "phone_update_block": "Phone update is suspended until"
 }

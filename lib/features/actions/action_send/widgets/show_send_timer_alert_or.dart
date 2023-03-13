@@ -16,19 +16,18 @@ void showSendTimerAlertOr({
   if (clientDetail.clientBlockers.isEmpty) {
     return or();
   } else {
-    final ind = clientDetail.clientBlockers
-        .indexWhere((element) => element.blockingType == from);
+    final ind = clientDetail.clientBlockers.indexWhere(
+      (element) => element.blockingType == from,
+    );
 
-    if (ind != -1) {
-      return _showTimerAlert(
-        context,
-        clientDetail,
-        clientDetail.clientBlockers[ind].expireDateTime ?? DateTime.now(),
-        from,
-      );
-    }
+    return ind != -1
+        ? _showTimerAlert(
+            context,
+            clientDetail,
+            clientDetail.clientBlockers[ind].expireDateTime ?? DateTime.now(),
+            from)
+        : or();
 
-    return or();
 /*
     for (final blocker in clientDetail.clientBlockers) {
       if (blocker.blockingType == BlockingType.transfer) {
@@ -73,6 +72,8 @@ void _showTimerAlert(
         return intl.send_timer_alert_description;
       case BlockingType.trade:
         return intl.trade_timer_alert_description;
+      case BlockingType.phoneNumberUpdate:
+        return intl.phone_update_block;
       default:
         return intl.send_timer_alert_description;
     }

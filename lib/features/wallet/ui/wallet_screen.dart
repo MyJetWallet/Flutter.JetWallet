@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
@@ -13,6 +14,7 @@ import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -113,8 +115,14 @@ class _WalletState extends State<Wallet>
                             _pageController.page?.round() ?? 0];
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sRouter.push(
-                            PaymentMethodRouter(currency: actualAsset),
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () {
+                              sRouter.push(
+                                PaymentMethodRouter(currency: actualAsset),
+                              );
+                            },
+                            from: BlockingType.deposit,
                           );
                         } else {
                           kycAlertHandler.handle(
@@ -122,8 +130,14 @@ class _WalletState extends State<Wallet>
                             isProgress: kycState.verificationInProgress,
                             navigatePop: true,
                             currentNavigate: () {
-                              sRouter.push(
-                                PaymentMethodRouter(currency: actualAsset),
+                              showSendTimerAlertOr(
+                                context: context,
+                                or: () {
+                                  sRouter.push(
+                                    PaymentMethodRouter(currency: actualAsset),
+                                  );
+                                },
+                                from: BlockingType.deposit,
                               );
                             },
                             requiredDocuments: kycState.requiredDocuments,
@@ -203,17 +217,31 @@ class _WalletState extends State<Wallet>
                               _pageController.page?.round() ?? 0];
                           if (kycState.sellStatus ==
                               kycOperationStatus(KycStatus.allowed)) {
-                            sRouter.push(ConvertRouter(
-                              fromCurrency: actualAsset,
-                            ));
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () {
+                                sRouter.push(
+                                  ConvertRouter(
+                                    fromCurrency: actualAsset,
+                                  ),
+                                );
+                              },
+                              from: BlockingType.trade,
+                            );
                           } else {
                             kycAlertHandler.handle(
                               status: kycState.sellStatus,
                               isProgress: kycState.verificationInProgress,
-                              currentNavigate: () => sRouter.push(
-                                ConvertRouter(
-                                  fromCurrency: actualAsset,
-                                ),
+                              currentNavigate: () => showSendTimerAlertOr(
+                                context: context,
+                                or: () {
+                                  sRouter.push(
+                                    ConvertRouter(
+                                      fromCurrency: actualAsset,
+                                    ),
+                                  );
+                                },
+                                from: BlockingType.trade,
                               ),
                               navigatePop: false,
                               requiredDocuments: kycState.requiredDocuments,
