@@ -27,6 +27,7 @@ import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/compone
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -68,6 +69,11 @@ const _NFTmarket = 'NFT_market';
 const _NFTcollection = 'NFT_collection';
 const _NFTtoken = 'NFT_token';
 
+// Push Notification
+
+const _jwSwap = 'jw_swap';
+const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -108,6 +114,9 @@ class DeepLinkService {
 
     final command = parameters[_command];
 
+    print(command);
+    print(parameters);
+
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
@@ -138,6 +147,10 @@ class DeepLinkService {
       _nftCollectionCommand(parameters);
     } else if (command == _NFTtoken) {
       _nftTokenCommand(parameters);
+    } else if (command == _jwSwap) {
+      pushCryptoHistory(parameters);
+    } else if (command == _jwTransferByPhoneSend) {
+      pushCryptoWithdrawal(parameters);
     } else {
       _logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -492,27 +505,43 @@ class DeepLinkService {
   Future<void> handlePushNotificationLink(RemoteMessage message) async {
     debugPrint(message.toMap().toString());
 
-    if (message.data['actionUrl'] == 'jw_swap') {}
+    // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
+
+    if (message.data['actionUrl'] == 'jw_swap') {
+    } else if (message.data['actionUrl'] == '') {}
   }
 
-  Future<void> pushCryptoDepositReceive() async {
+  Future<void> pushCryptoHistory(
+    Map<String, String> parameters,
+  ) async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       await sRouter.push(
-        TransactionHistoryRouter(),
+        TransactionHistoryRouter(
+          jwOperationId: parameters['jw_operation_id'],
+        ),
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           action: RouteQueryAction.push,
-          query: TransactionHistoryRouter(),
+          query: TransactionHistoryRouter(
+            jwOperationId: parameters['jw_operation_id'],
+          ),
         ),
       );
     }
   }
 
-  Future<void> pushCryptoWithdrawalDecline(CurrencyModel currency) async {
+  Future<void> pushCryptoWithdrawal(
+    Map<String, String> parameters,
+  ) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      'BTC',
+    );
+
     //navigateToWallet
     if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
       if (getIt.isRegistered<AppStore>() &&

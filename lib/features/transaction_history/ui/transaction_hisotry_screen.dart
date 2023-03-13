@@ -18,11 +18,13 @@ class TransactionHistory extends StatelessObserverWidget {
     this.assetName,
     this.assetSymbol,
     this.initialIndex = 0,
+    this.jwOperationId,
   }) : super(key: key);
 
   final String? assetName;
   final String? assetSymbol;
   final int initialIndex;
+  final String? jwOperationId;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class TransactionHistory extends StatelessObserverWidget {
           body: TransactionsMainList(
             zeroPadding: true,
             symbol: assetSymbol,
+            jw_operation_id: jwOperationId,
           ),
         ),
       ),

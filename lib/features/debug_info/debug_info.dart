@@ -2,7 +2,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -103,8 +105,13 @@ class _DebugInfoState extends State<DebugInfo>
               ),
               const SpaceH20(),
               TextButton(
-                onPressed: () {
-                  sRouter.push(const LogsRouter());
+                onPressed: () async {
+                  getIt.get<DeepLinkService>().handle(
+                        Uri.parse(
+                            'http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0'),
+                      );
+
+                  //await sRouter.push(const LogsRouter());
                 },
                 child: const Text(
                   'Logs screen',
