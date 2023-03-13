@@ -40,7 +40,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
 
     return Row(
       children: [
-        if (marketItem.symbol == 'CPWR') ...[
+        // if (marketItem.symbol == 'CPWR') ...[
           SPaddingH24(
             child: Expanded(
               child: SPrimaryButton1(
@@ -72,108 +72,108 @@ class BalanceActionButtons extends StatelessObserverWidget {
               ),
             ),
           ),
-        ] else ...[
-          CircleActionButtons(
-            showBuy: currency.supportsAtLeastOneBuyMethod,
-            showReceive: currency.supportsCryptoDeposit,
-            showExchange: currency.isAssetBalanceNotEmpty,
-            showSend: currency.isAssetBalanceNotEmpty &&
-                currency.supportsCryptoWithdrawal,
-            onBuy: () {
-              sAnalytics.newBuyTapBuy(
-                source: 'Market - Asset - Buy',
-              );
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
-
-                sRouter.push(
-                  PaymentMethodRouter(currency: currency),
-                );
-              } else {
-                kycAlertHandler.handle(
-                  status: kycState.depositStatus,
-                  isProgress: kycState.verificationInProgress,
-                  navigatePop: true,
-                  currentNavigate: () {
-
-                    sRouter.push(
-                      PaymentMethodRouter(currency: currency),
-                    );
-                  },
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
-            },
-            onReceive: () {
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
-                sRouter.navigate(
-                  CryptoDepositRouter(
-                    header: intl.balanceActionButtons_receive,
-                    currency: currency,
-                  ),
-                );
-              } else {
-                kycAlertHandler.handle(
-                  status: kycState.depositStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () {
-
-                    sRouter.navigate(
-                      CryptoDepositRouter(
-                        header: intl.balanceActionButtons_receive,
-                        currency: currency,
-                      ),
-                    );
-                  },
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
-            },
-            onSend: () {
-              if (kycState.sellStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
-                showSendOptions(
-                  context,
-                  currency,
-                  navigateBack: false,
-                );
-              } else {
-                kycAlertHandler.handle(
-                  status: kycState.sellStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () {
-                    showSendOptions(context, currency);
-                  },
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
-            },
-            onExchange: () {
-              if (kycState.sellStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
-                sRouter.push(ConvertRouter(
-                  fromCurrency: currency,
-                ),);
-              } else {
-                kycAlertHandler.handle(
-                  status: kycState.sellStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => sRouter.push(
-                    ConvertRouter(
-                      fromCurrency: currency,
-                    ),
-                  ),
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              }
-            },
-          ),
-        ],
+        // ] else ...[
+        //   CircleActionButtons(
+        //     showBuy: currency.supportsAtLeastOneBuyMethod,
+        //     showReceive: currency.supportsCryptoDeposit,
+        //     showExchange: currency.isAssetBalanceNotEmpty,
+        //     showSend: currency.isAssetBalanceNotEmpty &&
+        //         currency.supportsCryptoWithdrawal,
+        //     onBuy: () {
+        //       sAnalytics.newBuyTapBuy(
+        //         source: 'Market - Asset - Buy',
+        //       );
+        //       if (kycState.depositStatus ==
+        //           kycOperationStatus(KycStatus.allowed)) {
+        //
+        //         sRouter.push(
+        //           PaymentMethodRouter(currency: currency),
+        //         );
+        //       } else {
+        //         kycAlertHandler.handle(
+        //           status: kycState.depositStatus,
+        //           isProgress: kycState.verificationInProgress,
+        //           navigatePop: true,
+        //           currentNavigate: () {
+        //
+        //             sRouter.push(
+        //               PaymentMethodRouter(currency: currency),
+        //             );
+        //           },
+        //           requiredDocuments: kycState.requiredDocuments,
+        //           requiredVerifications: kycState.requiredVerifications,
+        //         );
+        //       }
+        //     },
+        //     onReceive: () {
+        //       if (kycState.depositStatus ==
+        //           kycOperationStatus(KycStatus.allowed)) {
+        //         sRouter.navigate(
+        //           CryptoDepositRouter(
+        //             header: intl.balanceActionButtons_receive,
+        //             currency: currency,
+        //           ),
+        //         );
+        //       } else {
+        //         kycAlertHandler.handle(
+        //           status: kycState.depositStatus,
+        //           isProgress: kycState.verificationInProgress,
+        //           currentNavigate: () {
+        //
+        //             sRouter.navigate(
+        //               CryptoDepositRouter(
+        //                 header: intl.balanceActionButtons_receive,
+        //                 currency: currency,
+        //               ),
+        //             );
+        //           },
+        //           requiredDocuments: kycState.requiredDocuments,
+        //           requiredVerifications: kycState.requiredVerifications,
+        //         );
+        //       }
+        //     },
+        //     onSend: () {
+        //       if (kycState.sellStatus ==
+        //           kycOperationStatus(KycStatus.allowed)) {
+        //         showSendOptions(
+        //           context,
+        //           currency,
+        //           navigateBack: false,
+        //         );
+        //       } else {
+        //         kycAlertHandler.handle(
+        //           status: kycState.sellStatus,
+        //           isProgress: kycState.verificationInProgress,
+        //           currentNavigate: () {
+        //             showSendOptions(context, currency);
+        //           },
+        //           requiredDocuments: kycState.requiredDocuments,
+        //           requiredVerifications: kycState.requiredVerifications,
+        //         );
+        //       }
+        //     },
+        //     onExchange: () {
+        //       if (kycState.sellStatus ==
+        //           kycOperationStatus(KycStatus.allowed)) {
+        //         sRouter.push(ConvertRouter(
+        //           fromCurrency: currency,
+        //         ),);
+        //       } else {
+        //         kycAlertHandler.handle(
+        //           status: kycState.sellStatus,
+        //           isProgress: kycState.verificationInProgress,
+        //           currentNavigate: () => sRouter.push(
+        //             ConvertRouter(
+        //               fromCurrency: currency,
+        //             ),
+        //           ),
+        //           requiredDocuments: kycState.requiredDocuments,
+        //           requiredVerifications: kycState.requiredVerifications,
+        //         );
+        //       }
+        //     },
+        //   ),
+        // ],
       ],
     );
   }
