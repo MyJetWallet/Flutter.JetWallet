@@ -52,7 +52,11 @@ void handleResultResponse(
 ) {
   final result = json['result'] as String;
 
-  _validateResultResponse(result);
+  if (result != 'OK') {
+    throw ServerRejectException(
+      json['message'],
+    );
+  }
 }
 
 void validateRejectResponse(
@@ -156,12 +160,6 @@ void _handleFullNumberResponse(
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
   */
-}
-
-void _validateResultResponse(String result) {
-  if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
-  }
 }
 
 void _validateRejectResponse(String rejectCode) {
