@@ -106,12 +106,12 @@ class _DebugInfoState extends State<DebugInfo>
               const SpaceH20(),
               TextButton(
                 onPressed: () async {
-                  getIt.get<DeepLinkService>().handle(
+                  /*getIt.get<DeepLinkService>().handle(
                         Uri.parse(
                             'http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0'),
-                      );
+                      );*/
 
-                  //await sRouter.push(const LogsRouter());
+                  await sRouter.push(const LogsRouter());
                 },
                 child: const Text(
                   'Logs screen',

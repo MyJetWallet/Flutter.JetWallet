@@ -169,7 +169,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                       transactionListItem: transaction,
                       removeDivider: removeDividerForLastInGroup,
                     ),
-                    Text(transaction.operationId),
                     if (store.isLoading &&
                         store.listToShow.indexOf(transaction) ==
                             store.listToShow.length - 1) ...[
