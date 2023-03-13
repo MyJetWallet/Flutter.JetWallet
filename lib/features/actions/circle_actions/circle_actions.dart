@@ -5,10 +5,6 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.d
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:logger/logger.dart';
-
-import '../../../core/di/di.dart';
-import '../../../core/services/logger_service/logger_service.dart';
 
 class CircleActionButtons extends StatelessObserverWidget {
   const CircleActionButtons({
@@ -34,11 +30,6 @@ class CircleActionButtons extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'CircleActionButtons',
-      message: 'start',
-    );
     var countOfActive = 0;
     if (showBuy) {
       countOfActive++;
@@ -52,42 +43,22 @@ class CircleActionButtons extends StatelessObserverWidget {
     if (showExchange) {
       countOfActive++;
     }
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'CircleActionButtons',
-      message: '$countOfActive',
-    );
-    // final widthOfSpaces = 8 * (countOfActive - 1);
-    // final widthOfBlock = countOfActive < 3
-    //     ? 108
-    //     : (MediaQuery.of(context).size.width - widthOfSpaces - 48) / countOfActive;
-    // getIt.get<SimpleLoggerService>().log(
-    //   level: Level.info,
-    //   place: 'CircleActionButtons widthOfSpaces',
-    //   message: '$widthOfSpaces',
-    // );
-    // getIt.get<SimpleLoggerService>().log(
-    //   level: Level.info,
-    //   place: 'CircleActionButtons widthOfBlock',
-    //   message: '$widthOfBlock',
-    // );
-    // getIt.get<SimpleLoggerService>().log(
-    //   level: Level.info,
-    //   place: 'CircleActionButtons size.width',
-    //   message: '${MediaQuery.of(context).size.width}',
-    // );
+    final widthOfSpaces = 8 * (countOfActive - 1);
+    final widthOfBlock = countOfActive < 3
+        ? 108
+        : (MediaQuery.of(context).size.width - widthOfSpaces - 48) / countOfActive;
 
     return SPaddingH24(
-      // child: SizedBox(
-      //   width: MediaQuery.of(context).size.width - 48,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width - 48,
         child: Row(
-          // mainAxisAlignment: countOfActive > 2
-          //     ? MainAxisAlignment.spaceBetween
-          //     : MainAxisAlignment.center,
+          mainAxisAlignment: countOfActive > 2
+              ? MainAxisAlignment.spaceBetween
+              : MainAxisAlignment.center,
           children: [
             if (showBuy)
               SizedBox(
-                // width: widthOfBlock.toDouble(),
+                width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionBuy(
                     onTap: () {
@@ -98,7 +69,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showReceive)
               SizedBox(
-                // width: widthOfBlock.toDouble(),
+                width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionReceive(
                     onTap: () {
@@ -109,7 +80,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showSend)
               SizedBox(
-                // width: widthOfBlock.toDouble(),
+                width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionSend(
                     onTap: () {
@@ -120,7 +91,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showExchange)
               SizedBox(
-                // width: widthOfBlock.toDouble(),
+                width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionExchange(
                     onTap: () {
@@ -131,7 +102,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
           ],
         ),
-      // ),
+      ),
     );
   }
 }

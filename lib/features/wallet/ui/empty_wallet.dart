@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_earn_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -15,7 +14,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../core/router/app_router.dart';
 import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
 import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
-import '../../actions/circle_actions/circle_actions.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
@@ -53,6 +51,68 @@ class _EmptyWalletState extends State<EmptyWallet>
         currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
+    final showBuy = currentAsset.supportsAtLeastOneBuyMethod;
+    final showReceive = currentAsset.supportsCryptoDeposit;
+    var countOfActive = 0;
+    if (showBuy) {
+      countOfActive++;
+    }
+    if (showReceive) {
+      countOfActive++;
+    }
+    const widthOfBlock = 108;
+    void onBuy () {
+      sAnalytics.newBuyTapBuy(
+        source: 'My Assets - Asset -  Buy',
+      );
+      if (kycState.depositStatus ==
+          kycOperationStatus(KycStatus.allowed)) {
+        sRouter.push(
+          PaymentMethodRouter(currency: currentAsset),
+        );
+      } else {
+        kycAlertHandler.handle(
+          status: kycState.depositStatus,
+          isProgress: kycState.verificationInProgress,
+          navigatePop: true,
+          currentNavigate: () {
+            sRouter.push(
+              PaymentMethodRouter(currency: currentAsset),
+            );
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications:
+          kycState.requiredVerifications,
+        );
+      }
+    }
+    void onReceive () {
+      if (kycState.depositStatus ==
+          kycOperationStatus(KycStatus.allowed)) {
+        sRouter.navigate(
+          CryptoDepositRouter(
+            header: intl.balanceActionButtons_receive,
+            currency: currentAsset,
+          ),
+        );
+      } else {
+        kycAlertHandler.handle(
+          status: kycState.depositStatus,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () {
+            sRouter.navigate(
+              CryptoDepositRouter(
+                header: intl.balanceActionButtons_receive,
+                currency: currentAsset,
+              ),
+            );
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications:
+          kycState.requiredVerifications,
+        );
+      }
+    }
 
     return Scaffold(
       bottomNavigationBar: SizedBox(
@@ -61,63 +121,39 @@ class _EmptyWalletState extends State<EmptyWallet>
           children: [
             const SDivider(),
             const SpaceH16(),
-            CircleActionButtons(
-              showBuy: currentAsset.supportsAtLeastOneBuyMethod,
-              showReceive: currentAsset.supportsCryptoDeposit,
-              showExchange: false,
-              showSend: false,
-              onBuy: () {
-                sAnalytics.newBuyTapBuy(
-                  source: 'My Assets - Asset -  Buy',
-                );
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.push(
-                    PaymentMethodRouter(currency: currentAsset),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    isProgress: kycState.verificationInProgress,
-                    navigatePop: true,
-                    currentNavigate: () {
-                      sRouter.push(
-                        PaymentMethodRouter(currency: currentAsset),
-                      );
-                    },
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications:
-                    kycState.requiredVerifications,
-                  );
-                }
-              },
-              onReceive: () {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.navigate(
-                    CryptoDepositRouter(
-                      header: intl.balanceActionButtons_receive,
-                      currency: currentAsset,
-                    ),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    isProgress: kycState.verificationInProgress,
-                    currentNavigate: () {
-                      sRouter.navigate(
-                        CryptoDepositRouter(
-                          header: intl.balanceActionButtons_receive,
-                          currency: currentAsset,
+            SPaddingH24(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width - 48,
+                child: Row(
+                  mainAxisAlignment: countOfActive > 2
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    if (showBuy)
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: Center(
+                          child: CircleActionBuy(
+                            onTap: () {
+                              onBuy.call();
+                            },
+                          ),
                         ),
-                      );
-                    },
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications:
-                    kycState.requiredVerifications,
-                  );
-                }
-              },
+                      ),
+                    if (showReceive)
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: Center(
+                          child: CircleActionReceive(
+                            onTap: () {
+                              onReceive.call();
+                            },
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
             const SpaceH34(),
           ],
