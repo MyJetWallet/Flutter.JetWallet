@@ -272,7 +272,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
           if (deposit.tag != null)
             DepositInfoTag(
               text: '${intl.depositInfoTag_text1} ${widget.currency.symbol}'
-                '${intl.depositInfoTag_text2}',
+                ' ${intl.depositInfoTag_text2}',
             )
           else
             DepositInfo(),
