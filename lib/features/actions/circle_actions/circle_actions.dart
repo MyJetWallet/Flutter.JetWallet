@@ -57,37 +57,37 @@ class CircleActionButtons extends StatelessObserverWidget {
       place: 'CircleActionButtons',
       message: '$countOfActive',
     );
-    final widthOfSpaces = 8 * (countOfActive - 1);
-    final widthOfBlock = countOfActive < 3
-        ? 108
-        : (MediaQuery.of(context).size.width - widthOfSpaces - 48) / countOfActive;
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'CircleActionButtons widthOfSpaces',
-      message: '$widthOfSpaces',
-    );
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'CircleActionButtons widthOfBlock',
-      message: '$widthOfBlock',
-    );
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'CircleActionButtons size.width',
-      message: '${MediaQuery.of(context).size.width}',
-    );
+    // final widthOfSpaces = 8 * (countOfActive - 1);
+    // final widthOfBlock = countOfActive < 3
+    //     ? 108
+    //     : (MediaQuery.of(context).size.width - widthOfSpaces - 48) / countOfActive;
+    // getIt.get<SimpleLoggerService>().log(
+    //   level: Level.info,
+    //   place: 'CircleActionButtons widthOfSpaces',
+    //   message: '$widthOfSpaces',
+    // );
+    // getIt.get<SimpleLoggerService>().log(
+    //   level: Level.info,
+    //   place: 'CircleActionButtons widthOfBlock',
+    //   message: '$widthOfBlock',
+    // );
+    // getIt.get<SimpleLoggerService>().log(
+    //   level: Level.info,
+    //   place: 'CircleActionButtons size.width',
+    //   message: '${MediaQuery.of(context).size.width}',
+    // );
 
     return SPaddingH24(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width - 48,
+      // child: SizedBox(
+      //   width: MediaQuery.of(context).size.width - 48,
         child: Row(
-          mainAxisAlignment: countOfActive > 2
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
+          // mainAxisAlignment: countOfActive > 2
+          //     ? MainAxisAlignment.spaceBetween
+          //     : MainAxisAlignment.center,
           children: [
             if (showBuy)
               SizedBox(
-                width: widthOfBlock.toDouble(),
+                // width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionBuy(
                     onTap: () {
@@ -98,7 +98,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showReceive)
               SizedBox(
-                width: widthOfBlock.toDouble(),
+                // width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionReceive(
                     onTap: () {
@@ -109,7 +109,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showSend)
               SizedBox(
-                width: widthOfBlock.toDouble(),
+                // width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionSend(
                     onTap: () {
@@ -120,7 +120,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
             if (showExchange)
               SizedBox(
-                width: widthOfBlock.toDouble(),
+                // width: widthOfBlock.toDouble(),
                 child: Center(
                   child: CircleActionExchange(
                     onTap: () {
@@ -131,7 +131,7 @@ class CircleActionButtons extends StatelessObserverWidget {
               ),
           ],
         ),
-      ),
+      // ),
     );
   }
 }
