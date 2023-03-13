@@ -4,20 +4,12 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../../actions/circle_actions/circle_actions.dart';
 import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends StatelessObserverWidget {
@@ -38,10 +30,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-    return Row(
-      children: [
-        // if (marketItem.symbol == 'CPWR') ...[
-          SPaddingH24(
+    return SPaddingH24(
             child: Expanded(
               child: SPrimaryButton1(
                 name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
@@ -71,7 +60,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 active: true,
               ),
             ),
-          ),
+          );
         // ] else ...[
         //   CircleActionButtons(
         //     showBuy: currency.supportsAtLeastOneBuyMethod,
@@ -174,7 +163,5 @@ class BalanceActionButtons extends StatelessObserverWidget {
         //     },
         //   ),
         // ],
-      ],
-    );
   }
 }
