@@ -71,7 +71,7 @@ const _NFTtoken = 'NFT_token';
 
 // Push Notification
 
-const _jwSwap = 'jw_swap';
+const _jwSwap = 'jw_operation_history';
 const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
 
 enum SourceScreen {
