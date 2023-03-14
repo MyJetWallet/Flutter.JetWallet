@@ -507,7 +507,9 @@ class DeepLinkService {
 
     // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
 
-    handle(Uri.parse(message.data['actionUrl'] as String));
+    if (message.data['actionUrl'] != null) {
+      handle(Uri.parse(message.data['actionUrl'] as String));
+    }
   }
 
   Future<void> pushCryptoHistory(

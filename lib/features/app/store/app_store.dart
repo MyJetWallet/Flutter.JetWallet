@@ -18,6 +18,7 @@ import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -211,6 +212,10 @@ abstract class _AppStoreBase with Store {
                   ],
                 ),
               ]);
+
+              if (!getIt<RouteQueryService>().isNavigate) {
+                getIt<RouteQueryService>().runQuery();
+              }
             },
             askBioUsing: () {
               //initRouter = const RouterUnion.askBioUsing();
@@ -540,10 +545,9 @@ abstract class _AppStoreBase with Store {
         authStatus = const AuthorizationUnion.unauthorized();
 
         await getIt.get<LogoutService>().logout(
-          'APP_STORE, $e',
-          callbackAfterSend: () {},
-        );
-
+              'APP_STORE, $e',
+              callbackAfterSend: () {},
+            );
       }
     }
 
