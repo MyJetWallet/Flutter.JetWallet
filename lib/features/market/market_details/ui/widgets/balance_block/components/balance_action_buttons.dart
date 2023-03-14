@@ -42,34 +42,32 @@ class BalanceActionButtons extends StatelessObserverWidget {
       children: [
         if (marketItem.symbol == 'CPWR') ...[
           SPaddingH24(
-            child: Expanded(
-              child: SPrimaryButton1(
-                name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
-                onTap: () {
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
+            child: SPrimaryButton1(
+              name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
+              onTap: () {
+                if (kycState.depositStatus ==
+                    kycOperationStatus(KycStatus.allowed)) {
 
-                    sRouter.push(
-                      PaymentMethodRouter(currency: currency),
-                    );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      navigatePop: true,
-                      currentNavigate: () {
+                  sRouter.push(
+                    PaymentMethodRouter(currency: currency),
+                  );
+                } else {
+                  kycAlertHandler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    navigatePop: true,
+                    currentNavigate: () {
 
-                        sRouter.push(
-                          PaymentMethodRouter(currency: currency),
-                        );
-                      },
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                    );
-                  }
-                },
-                active: true,
-              ),
+                      sRouter.push(
+                        PaymentMethodRouter(currency: currency),
+                      );
+                    },
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications: kycState.requiredVerifications,
+                  );
+                }
+              },
+              active: true,
             ),
           ),
         ] else ...[
