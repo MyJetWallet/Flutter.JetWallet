@@ -211,16 +211,6 @@ class _WalletState extends State<Wallet>
         );
       }
     }
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'widthOfBlock',
-      message: 'widthOfBlock',
-    );
-    getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'widthOfBlock',
-      message: '${widthOfBlock.toDouble()}',
-    );
 
     return Scaffold(
       bottomNavigationBar: Material(
@@ -235,56 +225,34 @@ class _WalletState extends State<Wallet>
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: Row(
-                    // mainAxisAlignment: countOfActive > 2
-                    //     ? MainAxisAlignment.spaceBetween
-                    //     : MainAxisAlignment.center,
+                    mainAxisAlignment: countOfActive > 2
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.center,
                     children: [
                       if (showBuy)
-                        SizedBox(
-                          width: widthOfBlock.toDouble(),
-                          child: Center(
-                            child: CircleActionBuy(
-                              onTap: () {
-                                onBuy.call();
-                              },
-                            ),
-                          ),
+                        CircleActionBuy(
+                          onTap: () {
+                            onBuy.call();
+                          },
                         ),
                       if (showReceive)
-                        SizedBox(
-                          width: widthOfBlock.toDouble(),
-                          child: Center(
-                            child: CircleActionReceive(
+                        CircleActionReceive(
                               onTap: () {
                                 onReceive.call();
                               },
-                            ),
-                          ),
                         ),
                       if (showSend)
-                        SizedBox(
-                          width: widthOfBlock.toDouble(),
-                          height: 126,
-                          child: Center(
-                            child: CircleActionSend(
+                        CircleActionSend(
                               onTap: () {
                                 onSend.call();
                               },
-                            ),
-                          ),
                         ),
                       if (showExchange)
-                        SizedBox(
-                          width: widthOfBlock.toDouble(),
-                          height: 126,
-                          child: Center(
-                            child: CircleActionExchange(
+                        CircleActionExchange(
                               onTap: () {
                                 onExchange.call();
                               },
                             ),
-                          ),
-                        ),
                     ],
                   ),
                 ),

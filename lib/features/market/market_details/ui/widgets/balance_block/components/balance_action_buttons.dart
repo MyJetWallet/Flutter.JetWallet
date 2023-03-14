@@ -196,13 +196,41 @@ class BalanceActionButtons extends StatelessObserverWidget {
                       : MainAxisAlignment.center,
                   children: [
                     if (showBuy)
-                      Text('test text'),
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: CircleActionBuy(
+                            onTap: () {
+                              onBuy.call();
+                            },
+                          ),
+                      ),
                     if (showReceive)
-                      Text('test text'),
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: CircleActionReceive(
+                            onTap: () {
+                              onReceive.call();
+                            },
+                        ),
+                      ),
                     if (showSend)
-                      Text('test text'),
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: CircleActionSend(
+                            onTap: () {
+                              onSend.call();
+                            },
+                        ),
+                      ),
                     if (showExchange)
-                      Text('test text'),
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        child: CircleActionExchange(
+                            onTap: () {
+                              onExchange.call();
+                            },
+                        ),
+                      ),
                   ],
                 ),
               ),

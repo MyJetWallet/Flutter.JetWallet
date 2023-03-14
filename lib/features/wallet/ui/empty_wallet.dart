@@ -130,18 +130,22 @@ class _EmptyWalletState extends State<EmptyWallet>
                       : MainAxisAlignment.center,
                   children: [
                     if (showBuy)
-                      SizedBox(
-                        width: widthOfBlock.toDouble(),
-                        height: 126,
-                        child: Center(
-                          child: Text('test text'),
+                      Center(
+                        child: CircleActionBuy(
+                          onTap: () {
+                            onBuy.call();
+                          },
                         ),
                       ),
                     if (showReceive)
                       SizedBox(
                         width: widthOfBlock.toDouble(),
                         height: 126,
-                        child: Text('test text'),
+                        child: CircleActionReceive(
+                          onTap: () {
+                            onReceive.call();
+                          },
+                        ),
                       ),
                   ],
                 ),
