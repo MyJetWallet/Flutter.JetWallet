@@ -57,48 +57,28 @@ class CircleActionButtons extends StatelessObserverWidget {
               : MainAxisAlignment.center,
           children: [
             if (showBuy)
-              SizedBox(
-                width: widthOfBlock.toDouble(),
-                child: Center(
-                  child: CircleActionBuy(
-                    onTap: () {
-                      onBuy?.call();
-                    },
-                  ),
-                ),
+              CircleActionBuy(
+                onTap: () {
+                  onBuy?.call();
+                },
               ),
             if (showReceive)
-              SizedBox(
-                width: widthOfBlock.toDouble(),
-                child: Center(
-                  child: CircleActionReceive(
-                    onTap: () {
-                      onReceive?.call();
-                    },
-                  ),
-                ),
+              CircleActionReceive(
+                onTap: () {
+                  onReceive?.call();
+                },
               ),
             if (showSend)
-              SizedBox(
-                width: widthOfBlock.toDouble(),
-                child: Center(
-                  child: CircleActionSend(
-                    onTap: () {
-                      onSend?.call();
-                    },
-                  ),
-                ),
+              CircleActionSend(
+                onTap: () {
+                  onSend?.call();
+                },
               ),
             if (showExchange)
-              SizedBox(
-                width: widthOfBlock.toDouble(),
-                child: Center(
-                  child: CircleActionExchange(
-                    onTap: () {
-                      onExchange?.call();
-                    },
-                  ),
-                ),
+              CircleActionExchange(
+                onTap: () {
+                  onExchange?.call();
+                },
               ),
           ],
         ),
