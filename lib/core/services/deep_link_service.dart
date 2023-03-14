@@ -32,10 +32,11 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/show_start_earn_options.dart';
-import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
 import 'local_storage_service.dart';
 import 'remote_config/models/remote_config_union.dart';
@@ -74,6 +75,8 @@ const _NFTtoken = 'NFT_token';
 const _jwSwap = 'jw_operation_history';
 const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
 
+const String _loggerService = 'DeepLinkService';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -82,8 +85,6 @@ enum SourceScreen {
 
 class DeepLinkService {
   DeepLinkService();
-
-  final _logger = Logger('');
 
   void handle(
     Uri link, {
@@ -152,7 +153,7 @@ class DeepLinkService {
     } else if (command == _jwTransferByPhoneSend) {
       pushCryptoWithdrawal(parameters);
     } else {
-      _logger.log(Level.INFO, 'Deep link is undefined: $link');
+      //_logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
   }
 
@@ -504,6 +505,13 @@ class DeepLinkService {
 
   Future<void> handlePushNotificationLink(RemoteMessage message) async {
     debugPrint(message.toMap().toString());
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: _loggerService,
+          message:
+              'handlePushNotificationLink \n\n ${message.data["actionUrl"]}',
+        );
 
     // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
 

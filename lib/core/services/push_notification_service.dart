@@ -4,10 +4,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
-final _logger = Logger('');
+const String _loggerService = 'PushNotificationService';
 
 @injectable
 class PushNotificationService {
@@ -44,10 +46,11 @@ class PushNotificationService {
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen(_onMessage);
     } else {
-      _logger.log(
-        pushNotifications,
-        'User declined or has not accepted permission',
-      );
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'User declined or has not accepted permission',
+          );
     }
   }
 
@@ -57,12 +60,18 @@ class PushNotificationService {
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
-      _logger.log(
-        pushNotifications,
-        'onMessageOpenedApp: notification title: ${notification.title}',
-      );
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: _loggerService,
+            message:
+                'onMessageOpenedApp: notification title: ${notification.title}',
+          );
     } else {
-      _logger.log(pushNotifications, 'android or notification is null');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: '_onMessage \n\n android or notification is null',
+          );
     }
   }
 
@@ -77,7 +86,11 @@ class PushNotificationService {
         _notificationDetails,
       );
     } else {
-      _logger.log(pushNotifications, 'android or notification is null');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: '_onMessage \n\n android or notification is null',
+          );
     }
   }
 
@@ -111,8 +124,10 @@ Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
-  _logger.log(
-    pushNotifications,
-    'A background message just showed up: ${message.messageId}',
-  );
+  getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: _loggerService,
+        message:
+            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+      );
 }
