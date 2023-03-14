@@ -25,13 +25,7 @@ class InitGuard extends AutoRouteGuard {
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    if (!getIt<RouteQueryService>().isNavigate) {
-      resolver.next();
-
-      getIt<RouteQueryService>().runQuery();
-    } else {
-      resolver.next();
-    }
+    resolver.next();
 
     /*
     final appStore = getIt.get<AppStore>();
