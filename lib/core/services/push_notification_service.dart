@@ -57,6 +57,12 @@ class PushNotificationService {
   void _onMessageOpenedApp(RemoteMessage message) {
     getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: _loggerService,
+          message: 'onMessageOpenedApp: notification: ${message}',
+        );
+
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
