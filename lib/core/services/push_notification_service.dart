@@ -108,6 +108,9 @@ class PushNotificationService {
 /// (e.g. not a class method which requires initialization)
 Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
   _logger.log(
     pushNotifications,
     'A background message just showed up: ${message.messageId}',
