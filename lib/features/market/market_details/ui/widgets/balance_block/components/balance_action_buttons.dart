@@ -42,32 +42,36 @@ class BalanceActionButtons extends StatelessObserverWidget {
       children: [
         if (marketItem.symbol == 'CPWR') ...[
           SPaddingH24(
-            child: SPrimaryButton1(
-              name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
-              onTap: () {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-
-                  sRouter.push(
-                    PaymentMethodRouter(currency: currency),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    isProgress: kycState.verificationInProgress,
-                    navigatePop: true,
-                    currentNavigate: () {
+            child: Column(
+              children: [
+                SPrimaryButton1(
+                  name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
+                  onTap: () {
+                    if (kycState.depositStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
 
                       sRouter.push(
                         PaymentMethodRouter(currency: currency),
                       );
-                    },
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications: kycState.requiredVerifications,
-                  );
-                }
-              },
-              active: true,
+                    } else {
+                      kycAlertHandler.handle(
+                        status: kycState.depositStatus,
+                        isProgress: kycState.verificationInProgress,
+                        navigatePop: true,
+                        currentNavigate: () {
+
+                          sRouter.push(
+                            PaymentMethodRouter(currency: currency),
+                          );
+                        },
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                      );
+                    }
+                  },
+                  active: true,
+                ),
+              ],
             ),
           ),
         ] else ...[
