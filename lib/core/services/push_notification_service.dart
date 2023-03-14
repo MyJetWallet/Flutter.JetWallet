@@ -43,6 +43,20 @@ class PushNotificationService {
 
     await _setForegroundNotification();
 
+    await FirebaseMessaging.instance.getInitialMessage().then(
+      (RemoteMessage? message) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.info,
+              place: _loggerService,
+              message: 'getInitialMessage() $message',
+            );
+
+        if (message != null) {
+          getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+        }
+      },
+    );
+
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen(_onMessage);
     } else {
