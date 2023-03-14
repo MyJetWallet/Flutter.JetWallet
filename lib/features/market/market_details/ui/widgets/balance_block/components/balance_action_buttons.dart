@@ -190,57 +190,21 @@ class BalanceActionButtons extends StatelessObserverWidget {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width - 48,
                 height: 126,
-                // child: Row(
-                //   mainAxisAlignment: countOfActive > 2
-                //       ? MainAxisAlignment.spaceBetween
-                //       : MainAxisAlignment.center,
-                //   children: [
-                //     if (showBuy)
-                //       SizedBox(
-                //         width: widthOfBlock.toDouble(),
-                //         child: Center(
-                //           child: CircleActionBuy(
-                //             onTap: () {
-                //               onBuy.call();
-                //             },
-                //           ),
-                //         ),
-                //       ),
-                //     if (showReceive)
-                //       SizedBox(
-                //         width: widthOfBlock.toDouble(),
-                //         child: Center(
-                //           child: CircleActionReceive(
-                //             onTap: () {
-                //               onReceive.call();
-                //             },
-                //           ),
-                //         ),
-                //       ),
-                //     if (showSend)
-                //       SizedBox(
-                //         width: widthOfBlock.toDouble(),
-                //         child: Center(
-                //           child: CircleActionSend(
-                //             onTap: () {
-                //               onSend.call();
-                //             },
-                //           ),
-                //         ),
-                //       ),
-                //     if (showExchange)
-                //       SizedBox(
-                //         width: widthOfBlock.toDouble(),
-                //         child: Center(
-                //           child: CircleActionExchange(
-                //             onTap: () {
-                //               onExchange.call();
-                //             },
-                //           ),
-                //         ),
-                //       ),
-                //   ],
-                // ),
+                child: Row(
+                  mainAxisAlignment: countOfActive > 2
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    if (showBuy)
+                      Text('test text'),
+                    if (showReceive)
+                      Text('test text'),
+                    if (showSend)
+                      Text('test text'),
+                    if (showExchange)
+                      Text('test text'),
+                  ],
+                ),
               ),
             ),
           ],

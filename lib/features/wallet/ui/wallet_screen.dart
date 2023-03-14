@@ -15,6 +15,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
+import '../../../core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
 import '../../../widgets/circle_action_buttons/circle_action_exchange.dart';
 import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
@@ -209,6 +211,16 @@ class _WalletState extends State<Wallet>
         );
       }
     }
+    getIt.get<SimpleLoggerService>().log(
+      level: Level.info,
+      place: 'widthOfBlock',
+      message: 'widthOfBlock',
+    );
+    getIt.get<SimpleLoggerService>().log(
+      level: Level.info,
+      place: 'widthOfBlock',
+      message: '${widthOfBlock.toDouble()}',
+    );
 
     return Scaffold(
       bottomNavigationBar: Material(
@@ -223,9 +235,9 @@ class _WalletState extends State<Wallet>
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: Row(
-                    mainAxisAlignment: countOfActive > 2
-                        ? MainAxisAlignment.spaceBetween
-                        : MainAxisAlignment.center,
+                    // mainAxisAlignment: countOfActive > 2
+                    //     ? MainAxisAlignment.spaceBetween
+                    //     : MainAxisAlignment.center,
                     children: [
                       if (showBuy)
                         SizedBox(

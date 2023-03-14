@@ -51,68 +51,68 @@ class _EmptyWalletState extends State<EmptyWallet>
         currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
-    // final showBuy = currentAsset.supportsAtLeastOneBuyMethod;
-    // final showReceive = currentAsset.supportsCryptoDeposit;
-    // var countOfActive = 0;
-    // if (showBuy) {
-    //   countOfActive++;
-    // }
-    // if (showReceive) {
-    //   countOfActive++;
-    // }
-    // const widthOfBlock = 108;
-    // void onBuy () {
-    //   sAnalytics.newBuyTapBuy(
-    //     source: 'My Assets - Asset -  Buy',
-    //   );
-    //   if (kycState.depositStatus ==
-    //       kycOperationStatus(KycStatus.allowed)) {
-    //     sRouter.push(
-    //       PaymentMethodRouter(currency: currentAsset),
-    //     );
-    //   } else {
-    //     kycAlertHandler.handle(
-    //       status: kycState.depositStatus,
-    //       isProgress: kycState.verificationInProgress,
-    //       navigatePop: true,
-    //       currentNavigate: () {
-    //         sRouter.push(
-    //           PaymentMethodRouter(currency: currentAsset),
-    //         );
-    //       },
-    //       requiredDocuments: kycState.requiredDocuments,
-    //       requiredVerifications:
-    //       kycState.requiredVerifications,
-    //     );
-    //   }
-    // }
-    // void onReceive () {
-    //   if (kycState.depositStatus ==
-    //       kycOperationStatus(KycStatus.allowed)) {
-    //     sRouter.navigate(
-    //       CryptoDepositRouter(
-    //         header: intl.balanceActionButtons_receive,
-    //         currency: currentAsset,
-    //       ),
-    //     );
-    //   } else {
-    //     kycAlertHandler.handle(
-    //       status: kycState.depositStatus,
-    //       isProgress: kycState.verificationInProgress,
-    //       currentNavigate: () {
-    //         sRouter.navigate(
-    //           CryptoDepositRouter(
-    //             header: intl.balanceActionButtons_receive,
-    //             currency: currentAsset,
-    //           ),
-    //         );
-    //       },
-    //       requiredDocuments: kycState.requiredDocuments,
-    //       requiredVerifications:
-    //       kycState.requiredVerifications,
-    //     );
-    //   }
-    // }
+    final showBuy = currentAsset.supportsAtLeastOneBuyMethod;
+    final showReceive = currentAsset.supportsCryptoDeposit;
+    var countOfActive = 0;
+    if (showBuy) {
+      countOfActive++;
+    }
+    if (showReceive) {
+      countOfActive++;
+    }
+    const widthOfBlock = 108;
+    void onBuy () {
+      sAnalytics.newBuyTapBuy(
+        source: 'My Assets - Asset -  Buy',
+      );
+      if (kycState.depositStatus ==
+          kycOperationStatus(KycStatus.allowed)) {
+        sRouter.push(
+          PaymentMethodRouter(currency: currentAsset),
+        );
+      } else {
+        kycAlertHandler.handle(
+          status: kycState.depositStatus,
+          isProgress: kycState.verificationInProgress,
+          navigatePop: true,
+          currentNavigate: () {
+            sRouter.push(
+              PaymentMethodRouter(currency: currentAsset),
+            );
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications:
+          kycState.requiredVerifications,
+        );
+      }
+    }
+    void onReceive () {
+      if (kycState.depositStatus ==
+          kycOperationStatus(KycStatus.allowed)) {
+        sRouter.navigate(
+          CryptoDepositRouter(
+            header: intl.balanceActionButtons_receive,
+            currency: currentAsset,
+          ),
+        );
+      } else {
+        kycAlertHandler.handle(
+          status: kycState.depositStatus,
+          isProgress: kycState.verificationInProgress,
+          currentNavigate: () {
+            sRouter.navigate(
+              CryptoDepositRouter(
+                header: intl.balanceActionButtons_receive,
+                currency: currentAsset,
+              ),
+            );
+          },
+          requiredDocuments: kycState.requiredDocuments,
+          requiredVerifications:
+          kycState.requiredVerifications,
+        );
+      }
+    }
 
     return Scaffold(
       bottomNavigationBar: SizedBox(
@@ -122,41 +122,30 @@ class _EmptyWalletState extends State<EmptyWallet>
             const SDivider(),
             const SpaceH16(),
             SPaddingH24(
-              child: Text('test text'),
-              // child: SizedBox(
-              //   width: MediaQuery.of(context).size.width - 48,
-              //   child: Row(
-              //     mainAxisAlignment: countOfActive > 2
-              //         ? MainAxisAlignment.spaceBetween
-              //         : MainAxisAlignment.center,
-              //     children: [
-              //       if (showBuy)
-              //         SizedBox(
-              //           width: widthOfBlock.toDouble(),
-              //           height: 126,
-              //           child: Center(
-              //             child: CircleActionBuy(
-              //               onTap: () {
-              //                 onBuy.call();
-              //               },
-              //             ),
-              //           ),
-              //         ),
-              //       if (showReceive)
-              //         SizedBox(
-              //           width: widthOfBlock.toDouble(),
-              //           height: 126,
-              //           child: Center(
-              //             child: CircleActionReceive(
-              //               onTap: () {
-              //                 onReceive.call();
-              //               },
-              //             ),
-              //           ),
-              //         ),
-              //     ],
-              //   ),
-              // ),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width - 48,
+                child: Row(
+                  mainAxisAlignment: countOfActive > 2
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    if (showBuy)
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        height: 126,
+                        child: Center(
+                          child: Text('test text'),
+                        ),
+                      ),
+                    if (showReceive)
+                      SizedBox(
+                        width: widthOfBlock.toDouble(),
+                        height: 126,
+                        child: Text('test text'),
+                      ),
+                  ],
+                ),
+              ),
             ),
             const SpaceH34(),
           ],
