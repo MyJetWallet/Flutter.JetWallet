@@ -25,7 +25,8 @@ void showSendTimerAlertOr({
             context,
             clientDetail,
             clientDetail.clientBlockers[ind].expireDateTime ?? DateTime.now(),
-            from)
+            from,
+          )
         : or();
 
 /*
@@ -79,13 +80,11 @@ void _showTimerAlert(
     }
   }
 
-  if (!DateTime.now().isAfter(expireIn)) {
-    sShowTimerAlertPopup(
-      context: context,
-      buttonName: intl.send_timer_alert_ok,
-      description: getDescription(),
-      expireIn: expireFormatted,
-      onButtonTap: () => Navigator.pop(context),
-    );
-  }
+  sShowTimerAlertPopup(
+    context: context,
+    buttonName: intl.send_timer_alert_ok,
+    description: getDescription(),
+    expireIn: expireFormatted,
+    onButtonTap: () => Navigator.pop(context),
+  );
 }
