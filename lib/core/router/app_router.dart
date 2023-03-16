@@ -134,6 +134,7 @@ import '../../features/currency_buy/ui/screens/choose_asset_screen.dart';
 import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
+import '../../features/iban/widgets/iban_billing_address.dart';
 
 part 'app_router.gr.dart';
 
@@ -326,6 +327,11 @@ final sRouter = getIt.get<AppRouter>();
       path: '/circle_billing_address',
       name: 'CircleBillingAddressRouter',
       page: CircleBillingAddress,
+    ),
+    AutoRoute(
+      path: '/iban_address',
+      name: 'IbanAddressRouter',
+      page: IbanBillingAddress,
     ),
     AutoRoute(
       path: '/preview_convert',

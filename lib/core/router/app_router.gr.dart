@@ -310,6 +310,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    IbanAddressRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IbanBillingAddress(),
+      );
+    },
     PreviewConvertRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewConvertRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -1089,6 +1095,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CircleBillingAddressRouter.name,
           path: '/circle_billing_address',
+        ),
+        RouteConfig(
+          IbanAddressRouter.name,
+          path: '/iban_address',
         ),
         RouteConfig(
           PreviewConvertRouter.name,
@@ -2228,6 +2238,18 @@ class CircleBillingAddressRouterArgs {
   String toString() {
     return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded, expiryDate: $expiryDate, cardholderName: $cardholderName, cardNumber: $cardNumber, cvv: $cvv}';
   }
+}
+
+/// generated route for
+/// [IbanBillingAddress]
+class IbanAddressRouter extends PageRouteInfo<void> {
+  const IbanAddressRouter()
+      : super(
+          IbanAddressRouter.name,
+          path: '/iban_address',
+        );
+
+  static const String name = 'IbanAddressRouter';
 }
 
 /// generated route for

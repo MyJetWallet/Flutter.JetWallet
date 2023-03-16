@@ -107,18 +107,8 @@ class _IBanHeaderState extends State<IBanHeader> {
                       }
                     },
                   ),
-                  NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
-                      ),
-                      true,
-                    ),
+                  const NotificationBox(
+                    notifications: 0,
                   ),
                 ],
               ),
