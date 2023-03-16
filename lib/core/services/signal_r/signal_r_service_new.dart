@@ -731,14 +731,16 @@ abstract class _SignalRServiceUpdatedBase with Store {
           baseCurrencySymbol: baseCurrency.symbol,
         );
 
-        currenciesList[index] = currency.copyWith(
-          baseBalance: baseBalance,
-          currentPrice: assetPrice.currentPrice,
-          dayPriceChange: assetPrice.dayPriceChange,
-          dayPercentChange: assetPrice.dayPercentChange,
-          baseTotalEarnAmount: baseTotalEarnAmount,
-          baseCurrentEarnAmount: baseCurrentEarnAmount,
-        );
+        if (assetPrice.currentPrice != Decimal.zero) {
+          currenciesList[index] = currency.copyWith(
+            baseBalance: baseBalance,
+            currentPrice: assetPrice.currentPrice,
+            dayPriceChange: assetPrice.dayPriceChange,
+            dayPercentChange: assetPrice.dayPercentChange,
+            baseTotalEarnAmount: baseTotalEarnAmount,
+            baseCurrentEarnAmount: baseCurrentEarnAmount,
+          );
+        }
       }
     }
 
