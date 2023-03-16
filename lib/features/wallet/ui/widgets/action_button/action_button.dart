@@ -212,19 +212,31 @@ class _ActionButtonState extends State<ActionButton> {
                                   kycOperationStatus(
                                     KycStatus.allowed,
                                   )) {
-                                sRouter.push(
-                                  ConvertRouter(
-                                    fromCurrency: widget.currency,
-                                  ),
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () {
+                                    sRouter.push(
+                                      ConvertRouter(
+                                        fromCurrency: widget.currency,
+                                      ),
+                                    );
+                                  },
+                                  from: BlockingType.trade,
                                 );
                               } else {
                                 kycAlertHandler.handle(
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
-                                  currentNavigate: () => sRouter.push(
-                                    ConvertRouter(
-                                      fromCurrency: widget.currency,
-                                    ),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () {
+                                      sRouter.push(
+                                        ConvertRouter(
+                                          fromCurrency: widget.currency,
+                                        ),
+                                      );
+                                    },
+                                    from: BlockingType.trade,
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
                                   requiredVerifications:
@@ -483,10 +495,16 @@ class _ActionButtonState extends State<ActionButton> {
                                   status: kycState.sellStatus,
                                   isProgress: kycState.verificationInProgress,
                                   navigatePop: true,
-                                  currentNavigate: () => sRouter.push(
-                                    ConvertRouter(
-                                      fromCurrency: widget.currency,
-                                    ),
+                                  currentNavigate: () => showSendTimerAlertOr(
+                                    context: context,
+                                    or: () {
+                                      sRouter.push(
+                                        ConvertRouter(
+                                          fromCurrency: widget.currency,
+                                        ),
+                                      );
+                                    },
+                                    from: BlockingType.trade,
                                   ),
                                   requiredDocuments: kycState.requiredDocuments,
                                   requiredVerifications:

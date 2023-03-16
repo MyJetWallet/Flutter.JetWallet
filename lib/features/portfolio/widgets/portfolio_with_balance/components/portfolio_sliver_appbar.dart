@@ -248,8 +248,12 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                     kycAlertHandler.handle(
                       status: kycState.sellStatus,
                       isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => sRouter.push(
-                        ConvertRouter(),
+                      currentNavigate: () => showSendTimerAlertOr(
+                        context: context,
+                        or: () {
+                          sRouter.push(ConvertRouter());
+                        },
+                        from: BlockingType.trade,
                       ),
                       navigatePop: false,
                       requiredDocuments: kycState.requiredDocuments,

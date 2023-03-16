@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_name.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
@@ -143,12 +145,18 @@ abstract class _RecurringBuysStoreBase with Store {
     }
 
     if (typeByAllRecurringBuys() == RecurringBuysStatus.empty) {
-      showBuyAction(
-        from: from,
+      showSendTimerAlertOr(
         context: context,
-        fromCard: false,
-        shouldPop: false,
-        showRecurring: true,
+        or: () {
+          showBuyAction(
+            from: from,
+            context: context,
+            fromCard: false,
+            shouldPop: false,
+            showRecurring: true,
+          );
+        },
+        from: BlockingType.deposit,
       );
 
       return;
