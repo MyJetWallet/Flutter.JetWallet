@@ -42,35 +42,37 @@ class _SendOptions extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SActionItem(
-          icon: const SPhoneIcon(),
-          name: intl.sendOptions_actionItemName1,
-          description: intl.sendOptions_actionItemDescription1,
-          onTap: () {
+        if (currency.supportsByPhoneNicknameWithdrawal)
+          SActionItem(
+            icon: const SPhoneIcon(),
+            name: intl.sendOptions_actionItemName1,
+            description: intl.sendOptions_actionItemDescription1,
+            onTap: () {
 
-            sRouter.navigate(
-              SendByPhoneInputRouter(
-                currency: currency,
-              ),
-            );
-          },
-        ),
-        SActionItem(
-          icon: const SWalletIcon(),
-          name: intl.sendOptions_actionItemName2,
-          description: intl.sendOptions_actionItemDescription2,
-          onTap: () {
-            Navigator.pop(context);
-
-            sRouter.push(
-              WithdrawRouter(
-                withdrawal: WithdrawalModel(
+              sRouter.navigate(
+                SendByPhoneInputRouter(
                   currency: currency,
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
+        if (currency.supportsByAssetWithdrawal)
+          SActionItem(
+            icon: const SWalletIcon(),
+            name: intl.sendOptions_actionItemName2,
+            description: intl.sendOptions_actionItemDescription2,
+            onTap: () {
+              Navigator.pop(context);
+
+              sRouter.push(
+                WithdrawRouter(
+                  withdrawal: WithdrawalModel(
+                    currency: currency,
+                  ),
+                ),
+              );
+            },
+          ),
         const SpaceH40(),
       ],
     );
