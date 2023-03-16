@@ -154,14 +154,7 @@ class IbanBillingAddressBody extends StatelessObserverWidget {
                       name: intl.circleBillingAddress_continue,
                       onTap: () async {
                         store.billingAddressEnableButton = false;
-                        // await store.addCard(
-                        //   onSuccess: onCardAdded,
-                        //   onError: () {
-                        //     sRouter.pop();
-                        //     store.clearBillingDetails();
-                        //     store.billingAddressEnableButton = true;
-                        //   },
-                        // );
+                        await store.saveAddress(onError: () {});
                       },
                     ),
                   ),

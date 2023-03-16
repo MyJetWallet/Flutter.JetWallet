@@ -223,7 +223,6 @@ abstract class IbanStoreBase with Store {
   Future<void> _initState() async {
     final userInfo = sUserInfo.userInfo;
     ibanName = '${userInfo.firstName} ${userInfo.lastName}';
-    print('here');
     try {
       print('response');
       final response = await sNetwork.getWalletModule().getIbanInfo();
@@ -338,9 +337,15 @@ abstract class IbanStoreBase with Store {
 
           final response = await sNetwork.getWalletModule()
               .postSetAddress(model);
+          loader!.finishLoading(
+            onFinish: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+              _initState();
+            },
+          );
 
           response.pick(
-            onData: (card) {
+            onData: (data) {
               loader!.finishLoading(
                 onFinish: () {
                   Navigator.pop(sRouter.navigatorKey.currentContext!);
@@ -349,7 +354,6 @@ abstract class IbanStoreBase with Store {
               );
             },
             onError: (error) {
-              print(error);
               sNotification.showError(
                 error.cause,
                 duration: 4,
@@ -357,12 +361,10 @@ abstract class IbanStoreBase with Store {
                 needFeedback: true,
               );
 
-              loader!.finishLoading(onFinish: onError);
+              loader!.finishLoading();
             },
           );
     } on ServerRejectException catch (error) {
-      print('error1');
-      print(error);
       sNotification.showError(
         error.cause,
         duration: 4,
@@ -370,10 +372,8 @@ abstract class IbanStoreBase with Store {
         needFeedback: true,
       );
 
-      loader!.finishLoading(onFinish: onError);
+      loader!.finishLoading();
     } catch (error) {
-      print('error2');
-      print(error);
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         duration: 4,
@@ -381,7 +381,7 @@ abstract class IbanStoreBase with Store {
         needFeedback: true,
       );
 
-      loader!.finishLoading(onFinish: onError);
+      loader!.finishLoading();
     }
   }
 

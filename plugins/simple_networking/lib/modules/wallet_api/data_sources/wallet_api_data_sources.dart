@@ -1061,28 +1061,19 @@ class WalletApiDataSources {
   Future<DC<ServerRejectException, IbanInfoResponseModel>>
       getIbanInfoRequest() async {
     try {
-      print('responseresponse');
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/iban/get-iban-details',
       );
-      print('response1');
-      print(response);
 
       try {
-        print(response);
         final responseData = response.data as Map<String, dynamic>;
         final data = handleFullResponse<Map>(responseData);
-        print(data);
 
         return DC.data(IbanInfoResponseModel.fromJson(data));
       } catch (e) {
-        print('e1');
-        print(e);
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('e2');
-      print(e);
       return DC.error(e);
     }
   }
