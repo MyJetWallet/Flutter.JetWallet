@@ -95,6 +95,16 @@ enum OperationType {
   nftWithdrawal,
   @JsonValue(27)
   nftWithdrawalFee,
+  @JsonValue(28)
+  manualDeposit,
+  @JsonValue(29)
+  manualWithdrawal,
+  @JsonValue(30)
+  transferByNickname,
+  @JsonValue(31)
+  receiveByNickname,
+  @JsonValue(32)
+  ibanDeposit,
 }
 
 enum Status {

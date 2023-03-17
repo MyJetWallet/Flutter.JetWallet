@@ -1061,8 +1061,10 @@ class WalletApiDataSources {
   Future<DC<ServerRejectException, IbanInfoResponseModel>>
       getIbanInfoRequest() async {
     try {
+      const testModel = DeleteCardRequestModel(cardId: 'test');
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/iban/get-iban-details',
+        data: testModel.toJson(),
       );
 
       try {
