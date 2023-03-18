@@ -9,3 +9,4 @@ const phoneChangeAsset = 'assets/images/phone_change.png';
 const timerAsset = 'assets/images/timer.png';
 const contactAsset = 'assets/images/contact.svg';
 const applePayAsset = 'assets/images/apple_pay.png';
+const googlePayAsset = 'assets/images/google_pay.png';

@@ -143,7 +143,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
             state.selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
             state.selectedPaymentMethod?.id == PaymentMethodType.simplex ||
             state.selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-            state.selectedPaymentMethod?.id == PaymentMethodType.applePay;
+            state.selectedPaymentMethod?.id == PaymentMethodType.applePay ||
+            state.selectedPaymentMethod?.id == PaymentMethodType.googlePay;
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -404,6 +405,23 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   onTap: () => showLimits(),
                 )
               else if (state.selectedPaymentMethod?.id ==
+                  PaymentMethodType.googlePay)
+                SPaymentSelectCreditCard(
+                  isGooglePay: true,
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  icon: SActionDepositIcon(
+                    color:
+                        (state.limitByAsset?.barProgress == 100 || isLimitBlock)
+                            ? colors.grey2
+                            : colors.black,
+                  ),
+                  name: 'Google pay',
+                  description: limitText,
+                  limit:
+                      isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
+                  onTap: () => showLimits(),
+                )
+              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.simplex)
                 SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -614,6 +632,20 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                           currencyPayment:
                               state.paymentCurrency ?? widget.currency,
                           isApplePay: true,
+                          quickAmount: state.tappedPreset ?? 'false',
+                        ),
+                      ),
+                    );
+                  } else if (state.selectedPaymentMethod?.id ==
+                      PaymentMethodType.googlePay) {
+                    await sRouter.push(
+                      PreviewBuyWithBankCardRouter(
+                        input: PreviewBuyWithBankCardInput(
+                          amount: state.inputValue,
+                          currency: widget.currency,
+                          currencyPayment:
+                              state.paymentCurrency ?? widget.currency,
+                          isGooglePay: true,
                           quickAmount: state.tappedPreset ?? 'false',
                         ),
                       ),

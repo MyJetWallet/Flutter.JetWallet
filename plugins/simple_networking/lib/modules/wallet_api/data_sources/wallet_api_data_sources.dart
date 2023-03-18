@@ -769,6 +769,60 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, bool>> postGooglePayConfirmRequest(
+    String depositId,
+    String googlePayToken,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/public/googlepay/confirm',
+        data: {
+          'depositId': depositId,
+          'googlePayToken': googlePayToken,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(true);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>>
+      getGooglePayInfoRequest(
+    String depositId,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/public/googlepay/info/$depositId',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(ApplePayResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, bool>> postCardBuyExecuteRequest(
     CardBuyExecuteRequestModel model,
   ) async {
