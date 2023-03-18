@@ -96,6 +96,8 @@ enum DepositMethods {
   swiftDeposit,
   @JsonValue('CardDeposit')
   cardDeposit,
+  @JsonValue('IbanReceive')
+  ibanReceive,
 }
 
 enum WithdrawalMethods {

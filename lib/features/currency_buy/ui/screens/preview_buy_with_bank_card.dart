@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
+import 'package:jetwallet/features/currency_buy/models/google_pay_config.dart';
 import 'package:pay/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -159,10 +160,12 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     contentLoading: state.loader.loading,
                     value: input.isApplePay
                         ? 'Apple Pay'
-                        : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
-                            ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
-                                (input.cardNumber?.length ?? 4) - 4,
-                              ) : ''}',
+                        : input.isGooglePay
+                            ? 'Google Pay'
+                            : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                                ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
+                                    (input.cardNumber?.length ?? 4) - 4,
+                                  ) : ''}',
                     maxValueWidth: 200,
                   ),
                   SActionConfirmText(
@@ -338,7 +341,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   ],
                 ),
                 const SpaceH24(),
-                if (!input.isApplePay) ...[
+                if (!input.isApplePay && !input.isGooglePay) ...[
                   SPrimaryButton2(
                     active: !state.loader.loading &&
                         (state.isChecked || hideCheckbox),
@@ -347,7 +350,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       state.onConfirm();
                     },
                   ),
-                ] else ...[
+                ] else if (input.isApplePay) ...[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: ApplePayButton(
@@ -384,6 +387,65 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       loadingIndicator: const Center(
                         child: CircularProgressIndicator(),
                       ),
+                    ),
+                  ),
+                ] else if (input.isGooglePay) ...[
+                  GooglePayButton(
+                    paymentConfiguration: PaymentConfiguration.fromJsonString(
+                      jsonEncode(
+                        GooglePayConfig(
+                          provider: 'google_pay',
+                          data: GooglePayConfigData(
+                            environment: 'TEST',
+                            apiVersion: 2,
+                            apiVersionMinor: 0,
+                            allowedPaymentMethods: [
+                              GooglePayConfigAllowedPaymentMethod(
+                                type: 'CARD',
+                                tokenizationSpecification:
+                                    GooglePayConfigTokenizationSpec(
+                                  type: 'PAYMENT_GATEWAY',
+                                  parameters: GooglePayConfigTokenSpecP(
+                                    gateway: 'unlimint',
+                                    gatewayMerchantId: 'googletest',
+                                  ),
+                                ),
+                                parameters: GooglePayConfigParameters(
+                                  allowedAuthMethods: [
+                                    'PAN_ONLY',
+                                    'CRYPTOGRAM_3DS'
+                                  ],
+                                  allowedCardNetworks: ['VISA', 'MASTERCARD'],
+                                ),
+                              ),
+                            ],
+                            merchantInfo: GooglePayConfigMerchantInfo(
+                              merchantId: 'googletest',
+                              merchantName: 'Test',
+                            ),
+                            transactionInfo: GooglePayConfigTransactionInfo(
+                              countryCode: countryCode,
+                              currencyCode: input.currencyPayment.symbol,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    paymentItems: [
+                      PaymentItem(
+                        label: 'Simple.app',
+                        amount: state.amountToPay!.toString(),
+                        status: PaymentItemStatus.final_price,
+                      ),
+                    ],
+                    height: 56,
+                    width: double.infinity,
+                    type: GooglePayButtonType.pay,
+                    margin: const EdgeInsets.only(top: 15.0),
+                    onPaymentResult: (paymentResult) =>
+                        state.requestGooglePay(paymentResult),
+                    loadingIndicator: const Center(
+                      child: CircularProgressIndicator(),
                     ),
                   ),
                 ],

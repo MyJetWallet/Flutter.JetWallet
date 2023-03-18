@@ -258,6 +258,24 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, bool>> postGooglePayConfirm(
+    String depositId,
+    String googlePayToken,
+  ) async {
+    return _walletApiDataSources.postGooglePayConfirmRequest(
+      depositId,
+      googlePayToken,
+    );
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>> getGooglePayInfo(
+    String depositId,
+  ) async {
+    return _walletApiDataSources.getGooglePayInfoRequest(
+      depositId,
+    );
+  }
+
   Future<DC<ServerRejectException, bool>> postCardBuyExecute(
     CardBuyExecuteRequestModel model,
   ) async {

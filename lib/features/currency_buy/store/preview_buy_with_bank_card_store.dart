@@ -126,6 +126,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   String applePayDepositId = '';
 
   @observable
+  String googlePayDepositId = '';
+
+  @observable
   bool isChecked = false;
 
   @observable
@@ -195,6 +198,19 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
+  Future<void> requestGooglePay(Map<String, dynamic> paymentResult) async {
+    debugPrint(paymentResult.toString());
+
+    await executeGooglePayPayment();
+
+    await googlePayInfo();
+
+    await googlePayConfirm(paymentResult);
+
+    //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
+  }
+
+  @action
   Future<void> _requestPreview() async {
     loader.startLoadingImmediately();
     final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
@@ -202,7 +218,9 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     final model = CardBuyCreateRequestModel(
       paymentMethod: input.isApplePay
           ? CirclePaymentMethod.applePay
-          : CirclePaymentMethod.bankCard,
+          : input.isGooglePay
+              ? CirclePaymentMethod.googlePay
+              : CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
@@ -354,11 +372,59 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
+  Future<void> googlePayInfo() async {
+    final model = CardBuyInfoRequestModel(
+      paymentId: paymentId,
+    );
+
+    final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
+
+    response.pick(onData: (data) async {
+      googlePayDepositId = data.clientAction?.checkoutUrl?.replaceAll(
+            'http://buy.simple.app/checkout/googlepay/?id=',
+            '',
+          ) ??
+          '';
+    });
+  }
+
+  @action
   Future<void> applePayConfirm(String token) async {
     try {
       final response = await sNetwork.getWalletModule().postApplePayConfirm(
             applePayDepositId,
             base64.encode(utf8.encode(token)),
+          );
+
+      response.pick(
+        onData: (data) {
+          unawaited(
+            _showSuccessScreen(),
+          );
+        },
+        onError: (data) {
+          unawaited(
+            _showFailureScreen(data.cause),
+          );
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error.cause);
+
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error);
+
+      unawaited(_showFailureScreen(intl.something_went_wrong));
+    }
+  }
+
+  @action
+  Future<void> googlePayConfirm(Map<String, dynamic> paymentResult) async {
+    try {
+      final response = await sNetwork.getWalletModule().postGooglePayConfirm(
+            googlePayDepositId,
+            base64.encode(utf8.encode(paymentResult.toString())),
           );
 
       response.pick(
@@ -394,6 +460,39 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
         paymentMethod: CirclePaymentMethod.applePay,
+      );
+
+      final response =
+          await sNetwork.getWalletModule().postCardBuyExecute(model);
+
+      response.pick(
+        onData: (data) {
+          print(data);
+
+          //link https://buy.simple.app/checkout/applepay/?id=
+        },
+      );
+    } on ServerRejectException catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error.cause);
+
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      _logger.log(stateFlow, '_requestPayment', error);
+
+      unawaited(_showFailureScreen(intl.something_went_wrong));
+    }
+  }
+
+  @action
+  Future<void> executeGooglePayPayment() async {
+    loader.startLoadingImmediately();
+
+    isChecked = true;
+
+    try {
+      final model = CardBuyExecuteRequestModel(
+        paymentId: paymentId,
+        paymentMethod: CirclePaymentMethod.googlePay,
       );
 
       final response =

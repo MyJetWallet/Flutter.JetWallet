@@ -108,7 +108,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
-    print(widget.currency.buyMethods);
+    for (var i = 0; i < widget.currency.buyMethods.length; i++) {
+      print(widget.currency.buyMethods[i]);
+    }
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       sAnalytics.newBuyTapDelete();
@@ -225,6 +227,42 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         const SizedBox(width: 17),
                         Text(
                           'Apple Pay',
+                          style: sSubtitle2Style,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (method.id == PaymentMethodType.googlePay &&
+                  defaultTargetPlatform == TargetPlatform.android) ...[
+                InkWell(
+                  highlightColor: colors.grey5,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    sRouter.push(
+                      CurrencyBuyRouter(
+                        currency: widget.currency,
+                        fromCard: false,
+                        paymentMethod: PaymentMethodType.googlePay,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 64.0,
+                    padding: const EdgeInsets.only(
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          googlePayAsset,
+                          width: 48,
+                          height: 32.34,
+                        ),
+                        const SizedBox(width: 17),
+                        Text(
+                          'Google pay',
                           style: sSubtitle2Style,
                         ),
                       ],
