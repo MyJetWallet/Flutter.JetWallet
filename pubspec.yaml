@@ -158,7 +158,7 @@ dev_dependencies:
 dependency_overrides:
   analyzer: 5.4.0
   collection: ^1.17.1
-  dart_style: ^2.2.4
+  dart_style: 2.2.4
   build_resolvers: 2.1.0
   flutter_inappwebview: ^5.7.1
 
