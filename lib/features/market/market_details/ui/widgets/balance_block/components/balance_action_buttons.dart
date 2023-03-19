@@ -125,22 +125,34 @@ class BalanceActionButtons extends StatelessObserverWidget {
               onTap: () {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.navigate(
-                    CryptoDepositRouter(
-                      header: intl.balanceActionButtons_receive,
-                      currency: currency,
-                    ),
+                  showSendTimerAlertOr(
+                    context: context,
+                    or: () {
+                      sRouter.navigate(
+                        CryptoDepositRouter(
+                          header: intl.balanceActionButtons_receive,
+                          currency: currency,
+                        ),
+                      );
+                    },
+                    from: BlockingType.deposit,
                   );
                 } else {
                   kycAlertHandler.handle(
                     status: kycState.depositStatus,
                     isProgress: kycState.verificationInProgress,
                     currentNavigate: () {
-                      sRouter.navigate(
-                        CryptoDepositRouter(
-                          header: intl.balanceActionButtons_receive,
-                          currency: currency,
-                        ),
+                      showSendTimerAlertOr(
+                        context: context,
+                        or: () {
+                          sRouter.navigate(
+                            CryptoDepositRouter(
+                              header: intl.balanceActionButtons_receive,
+                              currency: currency,
+                            ),
+                          );
+                        },
+                        from: BlockingType.deposit,
                       );
                     },
                     requiredDocuments: kycState.requiredDocuments,

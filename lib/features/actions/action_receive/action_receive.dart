@@ -52,7 +52,13 @@ void showReceiveAction(
       );
     }
   } else {
-    _showReceive(context);
+    showSendTimerAlertOr(
+      context: context,
+      or: () {
+        _showReceive(context);
+      },
+      from: BlockingType.deposit,
+    );
   }
 }
 

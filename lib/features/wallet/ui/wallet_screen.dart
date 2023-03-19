@@ -158,22 +158,34 @@ class _WalletState extends State<Wallet>
                             _pageController.page?.round() ?? 0];
                         if (kycState.depositStatus ==
                             kycOperationStatus(KycStatus.allowed)) {
-                          sRouter.navigate(
-                            CryptoDepositRouter(
-                              header: intl.balanceActionButtons_receive,
-                              currency: actualAsset,
-                            ),
+                          showSendTimerAlertOr(
+                            context: context,
+                            or: () {
+                              sRouter.navigate(
+                                CryptoDepositRouter(
+                                  header: intl.balanceActionButtons_receive,
+                                  currency: actualAsset,
+                                ),
+                              );
+                            },
+                            from: BlockingType.deposit,
                           );
                         } else {
                           kycAlertHandler.handle(
                             status: kycState.depositStatus,
                             isProgress: kycState.verificationInProgress,
                             currentNavigate: () {
-                              sRouter.navigate(
-                                CryptoDepositRouter(
-                                  header: intl.balanceActionButtons_receive,
-                                  currency: actualAsset,
-                                ),
+                              showSendTimerAlertOr(
+                                context: context,
+                                or: () {
+                                  sRouter.navigate(
+                                    CryptoDepositRouter(
+                                      header: intl.balanceActionButtons_receive,
+                                      currency: actualAsset,
+                                    ),
+                                  );
+                                },
+                                from: BlockingType.deposit,
                               );
                             },
                             requiredDocuments: kycState.requiredDocuments,

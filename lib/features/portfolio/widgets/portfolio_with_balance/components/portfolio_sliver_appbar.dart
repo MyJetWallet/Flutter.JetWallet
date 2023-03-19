@@ -196,9 +196,8 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                     kycAlertHandler.handle(
                       status: kycState.depositStatus,
                       isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSendAction(
+                      currentNavigate: () => showReceiveAction(
                         context,
-                        isNotEmptyBalance: isNotEmptyBalance,
                         shouldPop: false,
                       ),
                       navigatePop: false,
