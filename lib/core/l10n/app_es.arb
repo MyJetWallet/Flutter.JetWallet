@@ -753,7 +753,7 @@
     "recurringBuysItem_paused": "en pausa",
     "recurringBuysItem_total": "Total",
     "send_timer_alert_ok": "OK",
-    "send_timer_alert_description": "Los retiros han sido bloqueados temporalmente. Tiempo restante:",
+    "send_timer_alert_description": "Los retiros no estan disponibles hasta",
     "sendHelperText_text": "Comience a escribir el número de teléfono o el nombre de su directorio telefónico",
     "sendInfoText_text": "Quiero usar mi agenda",
     "sendAlert_description": "No tienes ninguna criptomoneda para enviar",
@@ -1367,5 +1367,8 @@
     "personal_details_descr": "Nombre, apellido, fecha de nacimiento y país",
     "pin_code": "Código PIN",
     "pin_code_descr": "PIN seguro para su billetera Simple",
-    "create_pin_code": "Crear PIN"
+    "create_pin_code": "Crear PIN",
+    "deposit_timer_alert_description": "Las compras y los depósitos están suspendidos hasta",
+    "trade_timer_alert_description": "El intercambio no está disponible hasta",
+    "phone_update_block": "La actualización del teléfono está suspendida hasta"
 }
