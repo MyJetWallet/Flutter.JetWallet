@@ -31,16 +31,16 @@ class IBanEmpty extends StatelessObserverWidget {
     final colors = sKit.colors;
     final kycState = getIt.get<KycService>();
 
-    final mainText = isLoading
+    final mainText = isKyc
+        ? intl.iban_not_verified
+        : isLoading
         ? intl.iban_not_waiting
-        : isAddress
-        ? intl.iban_not_address
-        : intl.iban_not_verified;
-    final secondaryText = isLoading
+        : intl.iban_not_address;
+    final secondaryText = isKyc
+        ? intl.iban_not_verified_desc
+        : isLoading
         ? intl.iban_not_waiting_desc
-        : isAddress
-        ? intl.iban_not_address_desc
-        : intl.iban_not_verified_desc;
+        : intl.iban_not_address_desc;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
