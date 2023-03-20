@@ -45,6 +45,7 @@ class _WalletState extends State<Wallet>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late AnimationController _animationController;
   late PageController _pageController;
+  late CurrencyModel currentAsset;
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class _WalletState extends State<Wallet>
       ),
     );
     final initialPage = itemsWithBalance.indexOf(widget.currency);
+    currentAsset = widget.currency;
 
     _pageController = PageController(initialPage: initialPage);
   }
@@ -87,8 +89,6 @@ class _WalletState extends State<Wallet>
     );
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
-    var currentAsset =
-    currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
 
     return Scaffold(
       bottomNavigationBar: Material(
