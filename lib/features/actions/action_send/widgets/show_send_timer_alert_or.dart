@@ -88,7 +88,7 @@ void _showTimerAlert(
   DateTime expireIn,
   BlockingType from,
 ) {
-  final expireFormatted = DateFormat('d MMM y H:m').format(expireIn);
+  final expireFormatted = DateFormat('d MMM y HH:mm').format(expireIn);
 
   String getDescription() {
     switch (from) {
