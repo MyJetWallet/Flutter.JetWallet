@@ -337,18 +337,12 @@ abstract class IbanStoreBase with Store {
 
           final response = await sNetwork.getWalletModule()
               .postSetAddress(model);
-          loader!.finishLoading(
-            onFinish: () {
-              Navigator.pop(sRouter.navigatorKey.currentContext!);
-              _initState();
-            },
-          );
 
           response.pick(
             onData: (data) {
               loader!.finishLoading(
                 onFinish: () {
-                  Navigator.pop(sRouter.navigatorKey.currentContext!);
+                  sRouter.pop();
                   _initState();
                 },
               );
@@ -362,6 +356,22 @@ abstract class IbanStoreBase with Store {
               );
 
               loader!.finishLoading();
+            },
+            onNoData: () {
+              loader!.finishLoading(
+                onFinish: () {
+                  sRouter.pop();
+                  _initState();
+                },
+              );
+            },
+            onNoError: (value) {
+              loader!.finishLoading(
+                onFinish: () {
+                  sRouter.pop();
+                  _initState();
+                },
+              );
             },
           );
     } on ServerRejectException catch (error) {
