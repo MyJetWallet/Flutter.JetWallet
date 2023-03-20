@@ -6,6 +6,26 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/timespan_to_duration.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
+Duration getDurationFromBlocker(String timespanToExpire) {
+  var hours = 0;
+  var minutes = 0;
+  var seconds = 0;
+
+  var times = timespanToExpire.split(':');
+
+  if (times.asMap().containsKey(0)) {
+    hours = int.tryParse(times[0]) ?? 0;
+  }
+  if (times.asMap().containsKey(1)) {
+    minutes = int.tryParse(times[1]) ?? 0;
+  }
+  if (times.asMap().containsKey(2)) {
+    //seconds = int.tryParse(times[2]) ?? 0;
+  }
+
+  return Duration(hours: hours, minutes: minutes, seconds: seconds);
+}
+
 void showSendTimerAlertOr({
   required BuildContext context,
   required void Function() or,
@@ -24,7 +44,12 @@ void showSendTimerAlertOr({
         ? _showTimerAlert(
             context,
             clientDetail,
-            clientDetail.clientBlockers[ind].expireDateTime ?? DateTime.now(),
+            clientDetail.clientBlockers[ind].expireDateTime ??
+                DateTime.now().add(
+                  getDurationFromBlocker(
+                    clientDetail.clientBlockers[ind].timespanToExpire,
+                  ),
+                ),
             from,
           )
         : or();

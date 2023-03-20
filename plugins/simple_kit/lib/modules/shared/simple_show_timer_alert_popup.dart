@@ -134,14 +134,3 @@ class _TimerAlertPopup extends StatelessObserverWidget {
     );
   }
 }
-
-String _format(Duration duration) {
-  final result = StringBuffer();
-
-  for (final char in duration.toString().split('')) {
-    if (char == '.') break;
-    result.write(char);
-  }
-
-  return result.toString();
-}
