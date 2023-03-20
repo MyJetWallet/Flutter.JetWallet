@@ -1050,6 +1050,7 @@
   "onboarding_exchange_any_crypto": "Exchange any crypto",
   "pinScreen_forgotYourPin": "Forgot your PIN",
   "pinScreen_incorrectPIN": "Incorrect PIN",
+  "pinScreen_pinDontMatch": "PINs don't match",
   "aboutUs_termButton5": "Refund Policy",
   "aboutUs_termButton6": "AML/KYC Policy",
   "aboutUs_termButton7": "NFT Policy",

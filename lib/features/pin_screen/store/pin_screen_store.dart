@@ -460,10 +460,10 @@ abstract class _PinScreenStoreBase with Store {
 
       await _animateCorrect();
       await _userInfoN.setPin(newPin);
-      _updateNewPin('');
       await _successFlow(
         _userInfoN.setPin(newPin),
       );
+      _updateNewPin('');
     } catch (e) {
       _updateNewPin('');
     }

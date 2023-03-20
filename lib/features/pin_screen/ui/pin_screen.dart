@@ -191,7 +191,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               Opacity(
                 opacity: pin.isError ? 1 : 0,
                 child: Text(
-                  intl.pinScreen_incorrectPIN,
+                  widget.union is Verification
+                    ? intl.pinScreen_incorrectPIN
+                    : intl.pinScreen_pinDontMatch,
                   style: sSubtitle3Style.copyWith(color: colors.red),
                 ),
               ),
