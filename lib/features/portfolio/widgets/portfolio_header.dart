@@ -39,6 +39,19 @@ class PortfolioHeader extends StatelessObserverWidget {
     final state = RewardStore();
     final baseCurrency = sSignalRModules.baseCurrency;
     //final chart = ChartStore(balanceChartInput());
+    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
+        ?? <String>[];
+    var counterOfRewards = 0;
+    final rewStore = RewardStore();
+    for (final campaign in rewStore.sortedCampaigns) {
+      if (campaign.campaign != null &&
+          !viewedRewards.contains(campaign.campaign!.campaignId)) {
+        counterOfRewards++;
+      }
+    }
+    if (!viewedRewards.contains('referral')) {
+      counterOfRewards++;
+    }
 
     final kycState = getIt.get<KycService>();
 
@@ -66,19 +79,30 @@ class PortfolioHeader extends StatelessObserverWidget {
               style: sTextH5Style,
             ),
             const Spacer(),
-            SIconButton(
-              defaultIcon: SNotificationsIcon(
-                color: colors.black,
-              ),
-              pressedIcon: SNotificationsIcon(
-                color: colors.black.withOpacity(0.7),
-              ),
-              onTap: () {
+            SizedBox(
+              width: 56.0,
+              height: 56.0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SIconButton(
+                    defaultIcon: SNotificationsIcon(
+                      color: colors.black,
+                    ),
+                    pressedIcon: SNotificationsIcon(
+                      color: colors.black.withOpacity(0.7),
+                    ),
+                    onTap: () {
 
-                sRouter.push(const RewardsRouter());
-              },
+                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
+                    },
+                  ),
+                  NotificationBox(
+                    notifications: counterOfRewards,
+                  ),
+                ],
+              ),
             ),
-            const SpaceW34(),
             SizedBox(
               width: 56.0,
               height: 56.0,
@@ -112,7 +136,7 @@ class PortfolioHeader extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW26(),
+            const SpaceW6(),
           ],
         ),
       ],

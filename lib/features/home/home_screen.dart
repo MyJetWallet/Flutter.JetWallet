@@ -11,6 +11,7 @@ import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animati
 List<PageRouteInfo<dynamic>> screens = [
   const PortfolioRouter(),
   MarketRouter(),
+  IBanRouter(),
 ];
 
 class HomeScreen extends StatefulObserverWidget {

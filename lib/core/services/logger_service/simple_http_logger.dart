@@ -87,7 +87,7 @@ class SimpleHTTPLogger extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (error) {
-      if (err.type == DioErrorType.response) {
+      if (err.type == DioErrorType.badResponse) {
         final uri = err.response?.requestOptions.uri;
 
         var msg = '';
@@ -133,6 +133,13 @@ class SimpleHTTPLogger extends Interceptor {
       _printLine('╚');
     }
     */
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'SimpleNetwork',
+          message: 'Response ║ $response',
+        );
+
     super.onResponse(response, handler);
   }
 }

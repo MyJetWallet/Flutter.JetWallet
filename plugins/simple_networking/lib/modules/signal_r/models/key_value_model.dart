@@ -11,6 +11,7 @@ part 'key_value_model.g.dart';
 class KeyValueModel with _$KeyValueModel {
   const factory KeyValueModel({
     WatchlistModel? watchlist,
+    WatchlistModel? viewedRewards,
     WatchlistModel? cards,
     String? lastUsedPaymentMethod,
     required double now,
@@ -36,6 +37,10 @@ class KeyValueModel with _$KeyValueModel {
       } else if (pair.key == lastUsedPaymentMethod) {
         parsedKeyValue = parsedKeyValue.copyWith(
           lastUsedPaymentMethod: pair.value,
+        );
+      } else if (pair.key == viewedRewardsKey) {
+        parsedKeyValue = parsedKeyValue.copyWith(
+          viewedRewards: WatchlistModel.fromJson(pair.toJson()),
         );
       }
     }

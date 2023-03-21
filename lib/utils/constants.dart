@@ -64,6 +64,7 @@ const platformType = 2;
 const watchlistKey = 'watchlist';
 const cardsKey = 'cards';
 const lastUsedPaymentMethodKey = 'lastUsedPaymentMethod';
+const viewedRewardsKey = 'viewedRewards';
 
 // HTTP
 const postRequest = 'POST';
@@ -102,4 +103,6 @@ const sparkAsset = 'assets/images/spark.png';
 
 const portfolioGradientBG = 'assets/images/gradient_bg.png';
 const simpleLogo = 'assets/images/simple_logo.png';
-const applePayCardAsset = 'assets/images/apple_pay.png';
+
+const fireRewardAsset = 'assets/images/fire.png';
+const ibanEuroAsset = 'assets/images/euro_logo.png';

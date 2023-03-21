@@ -93,6 +93,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../models/iban_info/iban_info_response_model.dart';
+import '../models/profile/profile_set_address_request.dart';
+
 class WalletApiRepository {
   WalletApiRepository(this._apiClient) {
     _walletApiDataSources = WalletApiDataSources(_apiClient);
@@ -376,6 +379,11 @@ class WalletApiRepository {
     return _walletApiDataSources.postMarketInfoRequest(model);
   }
 
+  Future<DC<ServerRejectException, IbanInfoResponseModel>>
+    getIbanInfo() async {
+    return _walletApiDataSources.getIbanInfoRequest();
+  }
+
   Future<DC<ServerRejectException, MarketNewsResponseModel>> postMarketNews(
     MarketNewsRequestModel model,
   ) async {
@@ -416,6 +424,12 @@ class WalletApiRepository {
       tokenId,
       deletionReasonIds,
     );
+  }
+
+  Future<DC<ServerRejectException, void>> postSetAddress(
+    ProfileSetAddressRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSetAddressRequest(model);
   }
 
   Future<DC<ServerRejectException, void>> postProfileReport(
@@ -631,5 +645,15 @@ class WalletApiRepository {
     SetBaseAssetsRequestModel model,
   ) async {
     return _walletApiDataSources.setBaseAssetRequest(model);
+  }
+
+  // Debug Errors
+
+  Future<DC<ServerRejectException, void>> debugError() async {
+    return _walletApiDataSources.debugErrorRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> debugReject() async {
+    return _walletApiDataSources.debugRejectRequest();
   }
 }

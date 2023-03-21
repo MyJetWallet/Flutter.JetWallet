@@ -241,7 +241,7 @@ class _AccountScreenState extends State<AccountScreen>
                     SimpleAccountCategoryButton(
                       title: intl.account_aboutUs,
                       icon: const SAboutUsIcon(),
-                      isSDivider: flavor == Flavor.dev,
+                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const AboutUsRouter(),
@@ -252,24 +252,21 @@ class _AccountScreenState extends State<AccountScreen>
                       SimpleAccountCategoryButton(
                         title: intl.account_debugInfo,
                         icon: const SInfoIcon(),
-                        isSDivider: false,
+                        isSDivider: true,
                         onTap: () {
                           sRouter.push(
                             const DebugInfoRouter(),
                           );
                         },
                       ),
+                    LogOutOption(
+                      name: intl.log_out,
+                      onTap: () => logout.logout(
+                        'account logout',
+                        callbackAfterSend: () {},
+                      ),
+                    ),
                   ],
-                ),
-                const SpaceH20(),
-                const SDivider(),
-                const SpaceH20(),
-                LogOutOption(
-                  name: intl.log_out,
-                  onTap: () => logout.logout(
-                    'account logout',
-                    callbackAfterSend: () {},
-                  ),
                 ),
                 const SpaceH42(),
               ],

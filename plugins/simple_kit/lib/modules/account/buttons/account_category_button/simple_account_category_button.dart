@@ -50,7 +50,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
                       Expanded(
                         child: Text(
                           title,
-                          style: sSubtitle1Style,
+                          style: sSubtitle2Style,
                         ),
                       ),
                       if (onSwitchChanged != null)

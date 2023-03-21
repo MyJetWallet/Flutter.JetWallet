@@ -12,6 +12,7 @@ class AuthorizedUnion with _$AuthorizedUnion {
   const factory AuthorizedUnion.askBioUsing() = AskBioUsing;
   const factory AuthorizedUnion.emailVerification() = EmailVerification;
   const factory AuthorizedUnion.twoFaVerification() = TwoFaVerification;
+  const factory AuthorizedUnion.phoneVerification() = PhoneVerification;
   const factory AuthorizedUnion.pinSetup() = PinSetup;
   const factory AuthorizedUnion.pinVerification() = PinVerification;
   const factory AuthorizedUnion.home() = Home;

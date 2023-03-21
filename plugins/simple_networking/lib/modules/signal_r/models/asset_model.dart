@@ -52,7 +52,7 @@ class AssetFeesModel with _$AssetFeesModel {
 class WithdrawalFeeModel with _$WithdrawalFeeModel {
   const factory WithdrawalFeeModel({
     @DecimalSerialiser() required Decimal size,
-    @JsonKey(name: 'feeType') required FeeType type,
+    @FeeTypeSerialiser() @JsonKey(name: 'feeType') required FeeType type,
     @JsonKey(name: 'asset') required String assetSymbol,
   }) = _WithdrawalFeeModel;
 
@@ -79,36 +79,150 @@ enum AssetType {
 }
 
 enum FeeType {
-  @JsonValue(0)
   percentage,
-  @JsonValue(1)
   fix,
+  unsupported,
+}
+
+extension _FeeTypeExtension on FeeType {
+  int get name {
+    switch (this) {
+      case FeeType.percentage:
+        return 0;
+      case FeeType.fix:
+        return 1;
+      default:
+        return 0;
+    }
+  }
+}
+
+class FeeTypeSerialiser implements JsonConverter<FeeType, dynamic> {
+  const FeeTypeSerialiser();
+
+  @override
+  FeeType fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == '0') {
+      return FeeType.percentage;
+    } else if (value == '1') {
+      return FeeType.fix;
+    } else {
+      return FeeType.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(FeeType type) => type.name;
 }
 
 enum DepositMethods {
-  @JsonValue('CryptoDeposit')
   cryptoDeposit,
-  @JsonValue('BlockchainReceive')
   blockchainReceive,
-  @JsonValue('SepaDeposit')
   sepaDeposit,
-  @JsonValue('SwiftDeposit')
   swiftDeposit,
-  @JsonValue('CardDeposit')
   cardDeposit,
-  @JsonValue('IbanReceive')
-  ibanReceive,
+  unsupported,
+}
+
+extension _DepositMethodsExtension on DepositMethods {
+  String get name {
+    switch (this) {
+      case DepositMethods.cryptoDeposit:
+        return 'CryptoDeposit';
+      case DepositMethods.blockchainReceive:
+        return 'BlockchainReceive';
+      case DepositMethods.sepaDeposit:
+        return 'SepaDeposit';
+      case DepositMethods.swiftDeposit:
+        return 'SwiftDeposit';
+      case DepositMethods.cardDeposit:
+        return 'CardDeposit';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class DepositMethodsSerialiser
+    implements JsonConverter<DepositMethods, dynamic> {
+  const DepositMethodsSerialiser();
+
+  @override
+  DepositMethods fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'CryptoDeposit') {
+      return DepositMethods.cryptoDeposit;
+    } else if (value == 'BlockchainReceive') {
+      return DepositMethods.blockchainReceive;
+    } else if (value == 'SepaDeposit') {
+      return DepositMethods.sepaDeposit;
+    } else if (value == 'SwiftDeposit') {
+      return DepositMethods.swiftDeposit;
+    } else if (value == 'CardDeposit') {
+      return DepositMethods.cardDeposit;
+    } else {
+      return DepositMethods.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(DepositMethods type) => type.name;
 }
 
 enum WithdrawalMethods {
-  @JsonValue('BlockchainSend')
   blockchainSend,
-  @JsonValue('CryptoWithdrawal')
   cryptoWithdrawal,
-  @JsonValue('SepaWithdrawal')
   sepaWithdrawal,
-  @JsonValue('SwiftWithdrawal')
   swiftWithdrawal,
-  @JsonValue('InternalSend')
   internalSend,
+  unsupported,
+}
+
+extension _WithdrawalMethodsExtension on WithdrawalMethods {
+  String get name {
+    switch (this) {
+      case WithdrawalMethods.blockchainSend:
+        return 'BlockchainSend';
+      case WithdrawalMethods.cryptoWithdrawal:
+        return 'CryptoWithdrawal';
+      case WithdrawalMethods.sepaWithdrawal:
+        return 'SepaWithdrawal';
+      case WithdrawalMethods.swiftWithdrawal:
+        return 'SwiftWithdrawal';
+      case WithdrawalMethods.internalSend:
+        return 'InternalSend';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class WithdrawalMethodsSerialiser
+    implements JsonConverter<WithdrawalMethods, dynamic> {
+  const WithdrawalMethodsSerialiser();
+
+  @override
+  WithdrawalMethods fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'BlockchainSend') {
+      return WithdrawalMethods.blockchainSend;
+    } else if (value == 'CryptoWithdrawal') {
+      return WithdrawalMethods.cryptoWithdrawal;
+    } else if (value == 'SepaWithdrawal') {
+      return WithdrawalMethods.sepaWithdrawal;
+    } else if (value == 'SwiftWithdrawal') {
+      return WithdrawalMethods.swiftWithdrawal;
+    } else if (value == 'InternalSend') {
+      return WithdrawalMethods.internalSend;
+    } else {
+      return WithdrawalMethods.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(WithdrawalMethods type) => type.name;
 }

@@ -11,6 +11,8 @@ String operationName(
   switch (type) {
     case OperationType.deposit:
       return '${intl.operationName_deposit} $asset';
+    case OperationType.ibanDeposit:
+      return '${intl.operationName_deposit} $asset';
     case OperationType.withdraw:
       return '${intl.operationName_withdrawal} $asset';
     case OperationType.transferByPhone:

@@ -68,7 +68,6 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void refreshTimer() {
-
     _timer?.cancel();
 
     time = 30;
@@ -76,7 +75,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-          time = time - 1;
+        time = time - 1;
       },
     );
   }
@@ -86,7 +85,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendCode();
+      sendCode(true);
     }
   }
 
@@ -98,7 +97,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   }
 
   @action
-  Future<void> sendCode() async {
+  Future<void> sendCode(bool isStart) async {
     try {
       resendTapped = true;
       final number = await decomposePhoneNumber(
@@ -114,7 +113,7 @@ abstract class _PhoneVerificationStoreBase with Store {
         ),
         phoneCode: dialCode?.countryCode ?? '',
         phoneIso: number.isoCode,
-        verificationType: 2,
+        verificationType: isStart ? 1 : 2,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 
@@ -125,6 +124,8 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
         resendTapped = false;
+
+        print('ERROR');
 
         sNotification.showError(
           response.error!.cause,

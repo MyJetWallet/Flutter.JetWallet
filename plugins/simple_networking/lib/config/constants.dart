@@ -36,6 +36,7 @@ const fireblocksMessages = 'fireblocks-messages';
 
 // KeyValue
 const watchlistKey = 'watchlist';
+const viewedRewardsKey = 'viewedRewards';
 const cardsKey = 'cards';
 const lastUsedPaymentMethod = 'lastUsedPaymentMethod';
 

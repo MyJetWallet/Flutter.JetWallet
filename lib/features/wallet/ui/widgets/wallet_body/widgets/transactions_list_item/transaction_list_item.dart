@@ -33,7 +33,7 @@ class TransactionListItem extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final currencies = sSignalRModules.currenciesList;
+    final currencies = sSignalRModules.currenciesWithHiddenList;
     final currency = currencyFrom(
       currencies,
       transactionListItem.assetId,
@@ -96,7 +96,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       nftTypes.contains(transactionListItem.operationType)
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
-                              prefix: currency.prefixSymbol,
+                              prefix: null,
                               decimal: transactionListItem.operationType ==
                                       OperationType.withdraw
                                   ? transactionListItem.balanceChange.abs()
@@ -249,6 +249,8 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.transferByPhone:
         return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.receiveByPhone:
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.ibanDeposit:
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.buy:
         return const SActionConvertIcon();
