@@ -60,6 +60,15 @@ abstract class _OperationHistoryBase with Store {
           .toList();
 
   @action
+  Future<bool> refreshHistory() async {
+    operationHistoryItems = ObservableList.of([]);
+
+    await initOperationHistory();
+
+    return true;
+  }
+
+  @action
   Future<void> initOperationHistory() async {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
