@@ -125,28 +125,6 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   ),
                 ),
                 const Spacer(),
-                STransparentInkWell(
-                  onTap: () => widget.onChanged(2),
-                  child: Column(
-                    children: [
-                      if (widget.selectedIndex == 2)
-                        const SAccountBarActiveIcon()
-                      else
-                        const SAccountBarIcon(),
-                      Text(
-                        widget.accountText,
-                        style: sBodyText2Style.copyWith(
-                          fontWeight: FontWeight.w600,
-                          height: 1.38,
-                          color: widget.selectedIndex == 2
-                              ? SColorsLight().black
-                              : SColorsLight().grey3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(),
               ],
             ),
           ],

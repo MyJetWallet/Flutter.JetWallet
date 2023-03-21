@@ -12,13 +12,15 @@ class ValidReferralCodeInside extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final showReferral = referralCode?.replaceFirst('https://join.simple.app/', '');
+
     return Row(
       children: [
         const STickSelectedIcon(),
         const SpaceW10(),
         if (referralCode != null)
           Text(
-            '${intl.validReferralCode_yourReferralCode} - $referralCode',
+            '${intl.validReferralCode_yourReferralCode} - $showReferral',
             style: sCaptionTextStyle,
           )
         else

@@ -71,7 +71,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
           ),
           const SpaceH10(),
           TransactionDetailsItem(
-            text: '${intl.transaction} ID',
+            text: 'Txid',
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -86,7 +86,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                       ),
                     );
 
-                    onCopyAction('${intl.transaction} ID');
+                    onCopyAction('Txid');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
@@ -102,7 +102,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                 children: [
                   TransactionDetailsValueText(
                     text: transactionListItem.withdrawalInfo!.toAddress != null
-                        ? shortAddressForm(
+                        ? shortTxhashFrom(
                             transactionListItem.withdrawalInfo!.toAddress!,
                           )
                         : '',

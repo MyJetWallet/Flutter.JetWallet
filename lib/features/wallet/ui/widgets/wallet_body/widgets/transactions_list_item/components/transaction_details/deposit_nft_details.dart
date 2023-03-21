@@ -25,7 +25,7 @@ class DepositNftDetails extends StatelessObserverWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: '${intl.transaction} ID',
+            text: 'Txid',
             value: Row(
               children: [
                 TransactionDetailsValueText(
@@ -39,7 +39,7 @@ class DepositNftDetails extends StatelessObserverWidget {
                         text: transactionListItem.operationId,
                       ),
                     );
-                    onCopyAction('${intl.transaction} ID');
+                    onCopyAction('Txid');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),

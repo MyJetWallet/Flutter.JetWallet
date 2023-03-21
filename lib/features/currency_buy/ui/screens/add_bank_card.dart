@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -241,6 +243,18 @@ class AddBankCardBody extends StatelessObserverWidget {
                                   active: store.isCardDetailsValid,
                                   name: intl.addCircleCard_continue,
                                   onTap: () async {
+                                    if (store.canClick) {
+                                      store.toggleClick(false);
+                                      Timer(
+                                        const Duration(
+                                          seconds: 2,
+                                        ),
+                                            () => store.toggleClick(true),
+                                      );
+                                    } else {
+                                      return;
+                                    }
+
                                     await store.addCard(
                                       onSuccess: onCardAdded,
                                       onError: () {},
