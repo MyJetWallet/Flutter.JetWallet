@@ -93,7 +93,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
+import '../models/profile/profile_set_address_request.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {
@@ -1056,6 +1058,26 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, IbanInfoResponseModel>>
+      getIbanInfoRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/iban/get-iban-details',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(IbanInfoResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, MarketNewsResponseModel>>
       postMarketNewsRequest(
     MarketNewsRequestModel model,
@@ -1186,6 +1208,25 @@ class WalletApiDataSources {
           tokenId: tokenId,
           deletionReasonIds: deletionReasonIds,
         ).toJson(),
+      );
+
+      try {
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postSetAddressRequest(
+    ProfileSetAddressRequestModel model,
+  ) async {
+    try {
+      final _ = await _apiClient.post(
+        '${_apiClient.options.walletApi}/profile/set-address',
+        data: model,
       );
 
       try {

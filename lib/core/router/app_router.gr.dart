@@ -310,6 +310,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    IbanAddressRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IbanBillingAddress(),
+      );
+    },
     PreviewConvertRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewConvertRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -904,6 +910,12 @@ class _$AppRouter extends RootStackRouter {
         child: const PortfolioScreen(),
       );
     },
+    IBanRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IBanScreen(),
+      );
+    },
     WithdrawalAddressRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -997,6 +1009,11 @@ class _$AppRouter extends RootStackRouter {
               path: 'portfolio',
               parent: HomeRouter.name,
             ),
+            RouteConfig(
+              IBanRouter.name,
+              path: 'iban',
+              parent: HomeRouter.name,
+            ),
           ],
         ),
         RouteConfig(
@@ -1078,6 +1095,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CircleBillingAddressRouter.name,
           path: '/circle_billing_address',
+        ),
+        RouteConfig(
+          IbanAddressRouter.name,
+          path: '/iban_address',
         ),
         RouteConfig(
           PreviewConvertRouter.name,
@@ -2217,6 +2238,18 @@ class CircleBillingAddressRouterArgs {
   String toString() {
     return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded, expiryDate: $expiryDate, cardholderName: $cardholderName, cardNumber: $cardNumber, cvv: $cvv}';
   }
+}
+
+/// generated route for
+/// [IbanBillingAddress]
+class IbanAddressRouter extends PageRouteInfo<void> {
+  const IbanAddressRouter()
+      : super(
+          IbanAddressRouter.name,
+          path: '/iban_address',
+        );
+
+  static const String name = 'IbanAddressRouter';
 }
 
 /// generated route for
@@ -4202,6 +4235,18 @@ class PortfolioRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'PortfolioRouter';
+}
+
+/// generated route for
+/// [IBanScreen]
+class IBanRouter extends PageRouteInfo<void> {
+  const IBanRouter()
+      : super(
+          IBanRouter.name,
+          path: 'iban',
+        );
+
+  static const String name = 'IBanRouter';
 }
 
 /// generated route for

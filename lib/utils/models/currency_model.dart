@@ -196,7 +196,17 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsCryptoWithdrawal {
     return withdrawalMethods.where((element) => element.id == WithdrawalMethods.cryptoWithdrawal).isNotEmpty ||
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty ||
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
+  }
+
+  bool get supportsByAssetWithdrawal {
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.cryptoWithdrawal).isNotEmpty ||
         withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty;
+  }
+
+  bool get supportsByPhoneNicknameWithdrawal {
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
   }
 
   bool get supportsSepaWithdrawal {

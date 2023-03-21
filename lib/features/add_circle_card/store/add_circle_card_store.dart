@@ -22,16 +22,16 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:uuid/uuid.dart';
 part 'add_circle_card_store.g.dart';
 
-class AddCircleCardStore extends _AddCircleCardStoreBase
+class AddCircleCardStore extends AddCircleCardStoreBase
     with _$AddCircleCardStore {
   AddCircleCardStore() : super();
 
-  static _AddCircleCardStoreBase of(BuildContext context) =>
+  static AddCircleCardStoreBase of(BuildContext context) =>
       Provider.of<AddCircleCardStore>(context, listen: false);
 }
 
-abstract class _AddCircleCardStoreBase with Store {
-  _AddCircleCardStoreBase() {
+abstract class AddCircleCardStoreBase with Store {
+  AddCircleCardStoreBase() {
     loader = StackLoaderStore();
 
     _initState();
