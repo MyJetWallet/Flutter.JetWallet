@@ -296,7 +296,7 @@ class DeepLinkService {
     final appStore = getIt.get<AppStore>();
 
     if (source == SourceScreen.bannerOnMarket) {
-      await sRouter.push(const RewardsRouter());
+      await sRouter.push(RewardsRouter(actualRewards: const []));
     } else if (source == SourceScreen.bannerOnRewards) {
       appStore.setOpenBottomMenu(true);
 
@@ -306,7 +306,7 @@ class DeepLinkService {
 
   void _tradingStartCommand(SourceScreen? source) {
     if (source == SourceScreen.bannerOnMarket) {
-      sRouter.push(const RewardsRouter());
+      sRouter.push(RewardsRouter(actualRewards: const []));
     } else if (source == SourceScreen.bannerOnRewards) {
       sRouter.navigate(
         HomeRouter(

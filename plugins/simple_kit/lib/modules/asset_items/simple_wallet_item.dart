@@ -9,6 +9,7 @@ import '../../simple_kit.dart';
 class SWalletItem extends StatelessWidget {
   const SWalletItem({
     Key? key,
+    this.fullSizeBalance = false,
     this.currencyPrefix,
     this.currencySymbol = '',
     this.amountDecimal,
@@ -26,6 +27,7 @@ class SWalletItem extends StatelessWidget {
     this.isRecurring = false,
     this.isPendingDeposit = false,
     this.isBalanceHide = false,
+    this.isRounded = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -37,6 +39,8 @@ class SWalletItem extends StatelessWidget {
   final double? amountDecimal;
   final String? amount;
   final bool removeDivider;
+  final bool fullSizeBalance;
+  final bool isRounded;
   final Color? color;
   final Function()? onTap;
   final Widget icon;
@@ -68,6 +72,7 @@ class SWalletItem extends StatelessWidget {
     return InkWell(
       highlightColor: SColorsLight().grey5,
       splashColor: Colors.transparent,
+      borderRadius: BorderRadius.circular(isRounded ? 16 : 0),
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
@@ -128,11 +133,11 @@ class SWalletItem extends StatelessWidget {
                           constraints: const BoxConstraints(
                             maxWidth: 157.0,
                           ),
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                             left: 16.0,
                             right: 16,
-                            top: 8,
-                            bottom: 5.75,
+                            top: fullSizeBalance ? 14 : 8,
+                            bottom: fullSizeBalance ? 11.75 : 5.75,
                           ),
                           decoration: BoxDecoration(
                             border: Border.all(

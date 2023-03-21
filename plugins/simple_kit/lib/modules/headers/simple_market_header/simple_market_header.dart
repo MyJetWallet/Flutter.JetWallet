@@ -31,13 +31,13 @@ class SMarketHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 160.0,
+      height: 140.0,
       child: ListView(
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           const SizedBox(
-            height: 64.0,
+            height: 53.0,
           ),
           SimpleMarketHeaderTitle(
             key: key,
@@ -51,30 +51,22 @@ class SMarketHeader extends StatelessWidget {
               textBaseline: TextBaseline.alphabetic,
               crossAxisAlignment: CrossAxisAlignment.baseline,
               children: [
-                Baseline(
-                  baseline: 31.4,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    subtitle,
-                    style: sSubtitle2Style.copyWith(
-                      color: SColorsLight().grey1,
-                    ),
+                Text(
+                  subtitle,
+                  style: sSubtitle2Style.copyWith(
+                    color: SColorsLight().grey1,
+                  ),
+                ),
+                Text(
+                  ' ${isPositive ? '+' : ''} $percent%',
+                  style: sSubtitle2Style.copyWith(
+                    color: isPositive
+                        ? SColorsLight().green
+                        : SColorsLight().red,
                   ),
                 ),
                 Baseline(
-                  baseline: 31.4,
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    ' ${isPositive ? '+' : ''} $percent%',
-                    style: sSubtitle2Style.copyWith(
-                      color: isPositive
-                          ? SColorsLight().green
-                          : SColorsLight().red,
-                    ),
-                  ),
-                ),
-                Baseline(
-                  baseline: 37.4,
+                  baseline: 27.4,
                   baselineType: TextBaseline.alphabetic,
                   child: isPositive
                       ? const SBigArrowPositiveIcon()
