@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
@@ -25,15 +26,18 @@ void showSendAction(
     Navigator.pop(context);
   }
   final searchState = getIt.get<ActionSearchStore>();
-  final sendAssets = searchState.filteredCurrencies.where(
-    (element) => element.isAssetBalanceNotEmpty &&
-      element.supportsCryptoWithdrawal,
-  ).toList();
+  final sendAssets = searchState.filteredCurrencies
+      .where(
+        (element) =>
+            element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
+      )
+      .toList();
 
   if (isNotEmptyBalance && isSendAvailable && sendAssets.isNotEmpty) {
     showSendTimerAlertOr(
       context: context,
       or: () => _showSendAction(context),
+      from: BlockingType.withdrawal,
     );
   } else {
     sendAlertBottomSheet(context);
@@ -76,11 +80,14 @@ class _ActionSend extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
-    currencyFiltered = currencyFiltered.where(
-      (element) => element.isAssetBalanceNotEmpty &&
-          element.supportsCryptoWithdrawal,
-    ).toList();
-    currencyFiltered.sort((a,b) {
+    currencyFiltered = currencyFiltered
+        .where(
+          (element) =>
+              element.isAssetBalanceNotEmpty &&
+              element.supportsCryptoWithdrawal,
+        )
+        .toList();
+    currencyFiltered.sort((a, b) {
       if (lastCurrency != null) {
         if (a.symbol == lastCurrency) {
           return 0.compareTo(1);
