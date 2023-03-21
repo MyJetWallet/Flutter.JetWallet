@@ -1743,4 +1743,46 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
+
+  Future<DC<ServerRejectException, void>> debugErrorRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi!.replaceAll("/v1", "")}/debug/error',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('catch error');
+
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> debugRejectRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi!.replaceAll("/v1", "")}/debug/reject',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
 }

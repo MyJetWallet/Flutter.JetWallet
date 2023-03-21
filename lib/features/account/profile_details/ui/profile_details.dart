@@ -6,10 +6,12 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/helpers/country_code_by_user_register.dart';
 import '../../../market/market_details/helper/currency_from_all.dart';
@@ -32,7 +34,6 @@ class ProfileDetails extends StatelessObserverWidget {
         '${phoneNumber.countryCode} ',
       );
     }
-
 
     final infoImage = Image.asset(
       phoneChangeAsset,
@@ -61,38 +62,42 @@ class ProfileDetails extends StatelessObserverWidget {
               label: intl.setPhoneNumber_phoneNumber,
               value: finalPhone,
               onTap: () {
-
-                sShowAlertPopup(
-                  context,
-                  willPopScope: false,
-                  primaryText: intl.profileDetails_payAttention,
-                  secondaryText: '${intl.profileDetails_changePhoneAlert2} '
-                      '$changePhoneLockHours ${intl.hours}.',
-                  primaryButtonName: intl.profileDetails_continue,
-                  image: infoImage,
-                  onPrimaryButtonTap: () {
-
-                    Navigator.pop(context);
-                    sRouter.push(
-                      SetPhoneNumberRouter(
-                        successText:
-                            intl.profileDetails_newPhoneNumberConfirmed,
-                        isChangePhone: true,
-                        then: () {
-                          sRouter.popUntil(
-                            (route) {
-                              return route.settings.name ==
-                                  'ProfileDetailsRouter';
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () {
+                    sShowAlertPopup(
+                      context,
+                      willPopScope: false,
+                      primaryText: intl.profileDetails_payAttention,
+                      secondaryText: '${intl.profileDetails_changePhoneAlert2} '
+                          '$changePhoneLockHours ${intl.hours}.',
+                      primaryButtonName: intl.profileDetails_continue,
+                      image: infoImage,
+                      onPrimaryButtonTap: () {
+                        Navigator.pop(context);
+                        sRouter.push(
+                          SetPhoneNumberRouter(
+                            successText:
+                                intl.profileDetails_newPhoneNumberConfirmed,
+                            isChangePhone: true,
+                            then: () {
+                              sRouter.popUntil(
+                                (route) {
+                                  return route.settings.name ==
+                                      'ProfileDetailsRouter';
+                                },
+                              );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
+                      secondaryButtonName: intl.profileDetails_cancel,
+                      onSecondaryButtonTap: () {
+                        Navigator.pop(context);
+                      },
                     );
                   },
-                  secondaryButtonName: intl.profileDetails_cancel,
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
+                  from: BlockingType.phoneNumberUpdate,
                 );
               },
             ),

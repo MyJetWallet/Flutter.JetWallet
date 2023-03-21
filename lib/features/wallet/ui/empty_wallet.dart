@@ -50,7 +50,7 @@ class _EmptyWalletState extends State<EmptyWallet>
   @override
   Widget build(BuildContext context) {
     final currentAsset =
-        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
+    currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -136,12 +136,12 @@ class _EmptyWalletState extends State<EmptyWallet>
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(
-                      assetName: widget.currency.description,
-                    )
+                assetName: widget.currency.description,
+              )
                   : EmptyEarnWalletBody(
-                      assetName: widget.currency.description,
-                      apy: widget.currency.apy,
-                    ),
+                assetName: widget.currency.description,
+                apy: widget.currency.apy,
+              ),
             ),
           );
         },

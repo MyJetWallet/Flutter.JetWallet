@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../utils/constants.dart';
 import '../../action_buy/action_buy.dart';
@@ -56,9 +58,15 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
             active: true,
             name: intl.sendAlert_buyButton,
             onTap: () {
-              showBuyAction(
+              showSendTimerAlertOr(
                 context: context,
-                fromCard: true,
+                or: () {
+                  showBuyAction(
+                    context: context,
+                    fromCard: true,
+                  );
+                },
+                from: BlockingType.deposit,
               );
             },
           ),

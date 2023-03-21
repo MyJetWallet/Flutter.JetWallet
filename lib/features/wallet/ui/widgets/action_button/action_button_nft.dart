@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 
 import '../../../../../core/services/remote_config/remote_config_values.dart';
@@ -228,6 +229,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
+                                    from: BlockingType.deposit,
                                   );
                                 } else {
                                   handler.handle(
@@ -244,6 +246,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                     currentNavigate: () => showSendTimerAlertOr(
                                       context: context,
                                       or: () => sellNFT(),
+                                      from: BlockingType.deposit,
                                     ),
                                     requiredDocuments: kyc.requiredDocuments,
                                     requiredVerifications:
@@ -324,6 +327,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
+                                    from: BlockingType.deposit,
                                   );
                                 } else {
                                   handler.handle(
@@ -340,6 +344,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                     currentNavigate: () => showSendTimerAlertOr(
                                       context: context,
                                       or: () => sendNFT(),
+                                      from: BlockingType.deposit,
                                     ),
                                     requiredDocuments: kyc.requiredDocuments,
                                     requiredVerifications:
@@ -464,6 +469,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sellNFT(),
+                                    from: BlockingType.deposit,
                                   );
                                 } else {
                                   handler.handle(
@@ -480,6 +486,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                     currentNavigate: () => showSendTimerAlertOr(
                                       context: context,
                                       or: () => sellNFT(),
+                                      from: BlockingType.deposit,
                                     ),
                                     requiredDocuments: kyc.requiredDocuments,
                                     requiredVerifications:
@@ -561,6 +568,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => sendNFT(),
+                                    from: BlockingType.deposit,
                                   );
                                 } else {
                                   handler.handle(
@@ -577,6 +585,7 @@ class _ActionButtonNftState extends State<_ActionButtonNft> {
                                     currentNavigate: () => showSendTimerAlertOr(
                                       context: context,
                                       or: () => sendNFT(),
+                                      from: BlockingType.deposit,
                                     ),
                                     requiredDocuments: kyc.requiredDocuments,
                                     requiredVerifications:

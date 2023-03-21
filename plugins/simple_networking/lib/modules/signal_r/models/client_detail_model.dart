@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'client_detail_model.freezed.dart';
 part 'client_detail_model.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class ClientDetailModel with _$ClientDetailModel {
   const factory ClientDetailModel({
     @JsonKey(name: 'baseAsset') required String baseAssetSymbol,
@@ -21,11 +21,12 @@ class ClientDetailModel with _$ClientDetailModel {
       _$ClientDetailModelFromJson(json);
 }
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class ClientBlockerInfoModel with _$ClientBlockerInfoModel {
   const factory ClientBlockerInfoModel({
     required BlockingType blockingType,
     @JsonKey(name: 'toExpired') required String timespanToExpire,
+    DateTime? expireDateTime,
   }) = _ClientBlockerInfoModel;
 
   factory ClientBlockerInfoModel.fromJson(Map<String, dynamic> json) =>

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -181,12 +182,26 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                               Baseline(
                                 baseline: 16.0,
                                 baselineType: TextBaseline.alphabetic,
-                                child: Text(
+                                child: AutoSizeText(
                                   widget.needFormatURL
-                                      ? _shortReferralLink(value)
-                                      : value,
-                                  style: sSubtitle2Style,
+                                    ? _shortReferralLink(value)
+                                    : value,
+                                  textAlign: TextAlign.start,
+                                  minFontSize: 4.0,
                                   maxLines: widget.longString ? 2 : 1,
+                                  strutStyle: const StrutStyle(
+                                    height: 1.56,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Gilroy',
+                                  ),
+                                  style: TextStyle(
+                                    height: 1.56,
+                                    fontSize: 18.0,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w600,
+                                    color: SColorsLight().black,
+                                  ),
                                 ),
                               ),
                           ],

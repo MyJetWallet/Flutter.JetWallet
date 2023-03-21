@@ -1,33 +1,15 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
 import 'package:jetwallet/utils/helpers/contains_single_element.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../../core/l10n/i10n.dart';
-import '../../../core/router/app_router.dart';
-import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
-import '../../../widgets/circle_action_buttons/circle_action_exchange.dart';
-import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
-import '../../../widgets/circle_action_buttons/circle_action_send.dart';
-import '../../actions/action_send/widgets/send_options.dart';
-import '../../actions/circle_actions/circle_actions.dart';
-import '../../kyc/helper/kyc_alert_handler.dart';
-import '../../kyc/kyc_service.dart';
-import '../../kyc/models/kyc_operation_status_model.dart';
-import '../../market/market_details/ui/widgets/balance_block/components/balance_action_buttons.dart';
-import '../../market/model/market_item_model.dart';
 
 class Wallet extends StatefulObserverWidget {
   const Wallet({
@@ -45,6 +27,8 @@ class _WalletState extends State<Wallet>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late AnimationController _animationController;
   late PageController _pageController;
+  late CurrencyModel currentAsset;
+  int currentPage = 0;
 
   @override
   void initState() {
@@ -63,6 +47,8 @@ class _WalletState extends State<Wallet>
       ),
     );
     final initialPage = itemsWithBalance.indexOf(widget.currency);
+    currentAsset = widget.currency;
+    currentPage = initialPage;
 
     _pageController = PageController(initialPage: initialPage);
   }
@@ -85,135 +71,8 @@ class _WalletState extends State<Wallet>
     final currenciesWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(currencies),
     );
-    final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
-    var currentAsset =
-        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
 
     return Scaffold(
-      bottomNavigationBar: Material(
-        color: colors.white,
-        child: SizedBox(
-          height: 127,
-          child: Column(
-            children: [
-              const SDivider(),
-              const SpaceH16(),
-              CircleActionButtons(
-                showBuy: currentAsset.supportsAtLeastOneBuyMethod,
-                showReceive: currentAsset.supportsCryptoDeposit,
-                showExchange: currentAsset.isAssetBalanceNotEmpty,
-                showSend: currentAsset.isAssetBalanceNotEmpty &&
-                    currentAsset.supportsCryptoWithdrawal,
-                onBuy: () {
-                  sAnalytics.newBuyTapBuy(
-                    source: 'My Assets - Asset -  Buy',
-                  );
-                  final actualAsset = currenciesWithBalance[
-                  _pageController.page?.round() ?? 0];
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    sRouter.push(
-                      PaymentMethodRouter(currency: actualAsset),
-                    );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      navigatePop: true,
-                      currentNavigate: () {
-                        sRouter.push(
-                          PaymentMethodRouter(currency: actualAsset),
-                        );
-                      },
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications:
-                      kycState.requiredVerifications,
-                    );
-                  }
-                },
-                onReceive: () {
-                  final actualAsset = currenciesWithBalance[
-                  _pageController.page?.round() ?? 0];
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    sRouter.navigate(
-                      CryptoDepositRouter(
-                        header: intl.balanceActionButtons_receive,
-                        currency: actualAsset,
-                      ),
-                    );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () {
-                        sRouter.navigate(
-                          CryptoDepositRouter(
-                            header: intl.balanceActionButtons_receive,
-                            currency: actualAsset,
-                          ),
-                        );
-                      },
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications:
-                      kycState.requiredVerifications,
-                    );
-                  }
-                },
-                onSend: () {
-                  final actualAsset = currenciesWithBalance[
-                  _pageController.page?.round() ?? 0];
-                  if (kycState.sellStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    showSendOptions(
-                      context,
-                      actualAsset,
-                      navigateBack: false,
-                    );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.sellStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () {
-                        showSendOptions(context, actualAsset);
-                      },
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications:
-                      kycState.requiredVerifications,
-                    );
-                  }
-                },
-                onExchange: () {
-                  final actualAsset = currenciesWithBalance[
-                  _pageController.page?.round() ?? 0];
-                  if (kycState.sellStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    sRouter.push(ConvertRouter(
-                      fromCurrency: actualAsset,
-                    ));
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.sellStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => sRouter.push(
-                        ConvertRouter(
-                          fromCurrency: actualAsset,
-                        ),
-                      ),
-                      navigatePop: false,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications:
-                      kycState.requiredVerifications,
-                    );
-                  }
-                },
-              ),
-              const SpaceH34(),
-            ],
-          ),
-        ),
-      ),
       body: Material(
         color: Colors.transparent,
         child: Observer(
@@ -227,6 +86,7 @@ class _WalletState extends State<Wallet>
                     controller: _pageController,
                     onPageChanged: (page) {
                       currentAsset = currenciesWithBalance[page];
+                      currentPage = page;
                     },
                     children: [
                       for (final currency in currenciesWithBalance)
