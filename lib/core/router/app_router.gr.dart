@@ -428,9 +428,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     RewardsRouter.name: (routeData) {
+      final args = routeData.argsAs<RewardsRouterArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const Rewards(),
+        child: Rewards(
+          key: args.key,
+          actualRewards: args.actualRewards,
+        ),
       );
     },
     PhoneVerificationRouter.name: (routeData) {
@@ -2629,14 +2633,36 @@ class SetNewPasswordRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [Rewards]
-class RewardsRouter extends PageRouteInfo<void> {
-  const RewardsRouter()
-      : super(
+class RewardsRouter extends PageRouteInfo<RewardsRouterArgs> {
+  RewardsRouter({
+    Key? key,
+    required List<String> actualRewards,
+  }) : super(
           RewardsRouter.name,
           path: '/rewards',
+          args: RewardsRouterArgs(
+            key: key,
+            actualRewards: actualRewards,
+          ),
         );
 
   static const String name = 'RewardsRouter';
+}
+
+class RewardsRouterArgs {
+  const RewardsRouterArgs({
+    this.key,
+    required this.actualRewards,
+  });
+
+  final Key? key;
+
+  final List<String> actualRewards;
+
+  @override
+  String toString() {
+    return 'RewardsRouterArgs{key: $key, actualRewards: $actualRewards}';
+  }
 }
 
 /// generated route for

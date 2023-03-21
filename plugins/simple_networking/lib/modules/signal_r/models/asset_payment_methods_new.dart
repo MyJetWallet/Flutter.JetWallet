@@ -11,7 +11,7 @@ part 'asset_payment_methods_new.g.dart';
 @freezed
 class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
   const factory AssetPaymentMethodsNew({
-    required List<BuyMethodDto> buy,
+    List<BuyMethodDto>? buy,
     List<SendMethodDto>? send,
     List<ReceiveMethodDto>? receive,
     @Default(false) bool showCardsInProfile,

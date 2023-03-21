@@ -4,25 +4,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_recurring_buy/action_recurring_buy.dart';
-import 'package:jetwallet/features/actions/action_recurring_buy/action_with_out_recurring_buy.dart';
-import 'package:jetwallet/features/actions/action_sell/action_sell.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
-import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
-import 'package:jetwallet/features/reccurring/ui/recurring_buy_banner.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/card_block/wallet_card.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/card_block/wallet_card_collapsed.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/helpers/supports_recurring_buy.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+
+import '../../../../actions/action_send/widgets/send_options.dart';
+import '../../../../actions/circle_actions/circle_actions.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -48,23 +43,9 @@ class _WalletBodyState extends State<WalletBody>
     super.build(context);
 
     final colors = sKit.colors;
-    final currencies = sSignalRModules.currenciesList;
-
-    final recurring = getIt.get<RecurringBuysStore>();
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-    final filteredRecurringBuys = recurring.recurringBuysFiltred
-        .where(
-          (element) => element.toAsset == widget.currency.symbol,
-        )
-        .toList();
-
-    final moveToRecurringInfo = filteredRecurringBuys.length == 1;
-
-    final lastRecurringItem =
-        filteredRecurringBuys.isNotEmpty ? filteredRecurringBuys[0] : null;
 
     const walletBackground = walletGreenBackgroundImageAsset;
 
@@ -76,64 +57,194 @@ class _WalletBodyState extends State<WalletBody>
 
           return false;
         },
-        child: CustomScrollView(
-          controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              backgroundColor: colors.white,
-              pinned: true,
-              stretch: true,
-              elevation: 0,
-              expandedHeight: _expandedCardHeight,
-              collapsedHeight: _collapsedCardHeight,
-              automaticallyImplyLeading: false,
-              primary: false,
-              flexibleSpace: FadeOnScroll(
-                scrollController: _scrollController,
-                fullOpacityOffset: 33,
-                fadeInWidget: WalletCardCollapsed(
-                  currency: widget.currency,
-                ),
-                fadeOutWidget: WalletCard(
-                  currency: widget.currency,
-                ),
-                permanentWidget: Stack(
-                  children: [
-                    SvgPicture.asset(
-                      walletBackground,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.fill,
+        child: Stack(
+          children: [
+            CustomScrollView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: colors.white,
+                  pinned: true,
+                  stretch: true,
+                  elevation: 0,
+                  expandedHeight: _expandedCardHeight,
+                  collapsedHeight: _collapsedCardHeight,
+                  automaticallyImplyLeading: false,
+                  primary: false,
+                  flexibleSpace: FadeOnScroll(
+                    scrollController: _scrollController,
+                    fullOpacityOffset: 33,
+                    fadeInWidget: WalletCardCollapsed(
+                      currency: widget.currency,
                     ),
-                    SPaddingH24(
-                      child: SSmallHeader(
-                        title: '${widget.currency.description}'
-                            ' ${intl.walletBody_balance}',
-                      ),
+                    fadeOutWidget: WalletCard(
+                      currency: widget.currency,
                     ),
-                  ],
+                    permanentWidget: Stack(
+                      children: [
+                        SvgPicture.asset(
+                          walletBackground,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                        SPaddingH24(
+                          child: SSmallHeader(
+                            title: '${widget.currency.description}'
+                                ' ${intl.walletBody_balance}',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                SliverToBoxAdapter(
+                  child: SPaddingH24(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SpaceH36(),
+                        Text(
+                          '${widget.currency.description}'
+                              ' ${intl.walletBody_transactions}',
+                          style: sTextH4Style,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                TransactionsList(
+                  scrollController: _scrollController,
+                  symbol: widget.currency.symbol,
+                ),
+                const SliverToBoxAdapter(
+                  child: SpaceH120(),
+                ),
+              ],
             ),
-            SliverToBoxAdapter(
-              child: SPaddingH24(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceH36(),
-                    Text(
-                      '${widget.currency.description}'
-                      ' ${intl.walletBody_transactions}',
-                      style: sTextH4Style,
+            Positioned(
+              bottom: 0,
+                child: Material(
+                  color: colors.white,
+                  child: SizedBox(
+                    height: 127,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        const SDivider(),
+                        const SpaceH16(),
+                        CircleActionButtons(
+                          showBuy: widget.currency.supportsAtLeastOneBuyMethod,
+                          showReceive: widget.currency.supportsCryptoDeposit,
+                          showExchange: widget.currency.isAssetBalanceNotEmpty,
+                          showSend: widget.currency.isAssetBalanceNotEmpty &&
+                              widget.currency.supportsCryptoWithdrawal,
+                          onBuy: () {
+                            sAnalytics.newBuyTapBuy(
+                              source: 'My Assets - Asset -  Buy',
+                            );
+                            final actualAsset = widget.currency;
+                            if (kycState.depositStatus ==
+                                kycOperationStatus(KycStatus.allowed)) {
+                              sRouter.push(
+                                PaymentMethodRouter(currency: actualAsset),
+                              );
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.depositStatus,
+                                isProgress: kycState.verificationInProgress,
+                                navigatePop: true,
+                                currentNavigate: () {
+                                  sRouter.push(
+                                    PaymentMethodRouter(currency: actualAsset),
+                                  );
+                                },
+                                requiredDocuments: kycState.requiredDocuments,
+                                requiredVerifications:
+                                kycState.requiredVerifications,
+                              );
+                            }
+                          },
+                          onReceive: () {
+                            final actualAsset = widget.currency;
+                            if (kycState.depositStatus ==
+                                kycOperationStatus(KycStatus.allowed)) {
+                              sRouter.navigate(
+                                CryptoDepositRouter(
+                                  header: intl.balanceActionButtons_receive,
+                                  currency: actualAsset,
+                                ),
+                              );
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.depositStatus,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () {
+                                  sRouter.navigate(
+                                    CryptoDepositRouter(
+                                      header: intl.balanceActionButtons_receive,
+                                      currency: actualAsset,
+                                    ),
+                                  );
+                                },
+                                requiredDocuments: kycState.requiredDocuments,
+                                requiredVerifications:
+                                kycState.requiredVerifications,
+                              );
+                            }
+                          },
+                          onSend: () {
+                            final actualAsset = widget.currency;
+                            if (kycState.sellStatus ==
+                                kycOperationStatus(KycStatus.allowed)) {
+                              showSendOptions(
+                                context,
+                                actualAsset,
+                                navigateBack: false,
+                              );
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () {
+                                  showSendOptions(context, actualAsset);
+                                },
+                                requiredDocuments: kycState.requiredDocuments,
+                                requiredVerifications:
+                                kycState.requiredVerifications,
+                              );
+                            }
+                          },
+                          onExchange: () {
+                            final actualAsset = widget.currency;
+                            if (kycState.sellStatus ==
+                                kycOperationStatus(KycStatus.allowed)) {
+                              sRouter.push(ConvertRouter(
+                                fromCurrency: actualAsset,
+                              ));
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => sRouter.push(
+                                  ConvertRouter(
+                                    fromCurrency: actualAsset,
+                                  ),
+                                ),
+                                navigatePop: false,
+                                requiredDocuments: kycState.requiredDocuments,
+                                requiredVerifications:
+                                kycState.requiredVerifications,
+                              );
+                            }
+                          },
+                        ),
+                        const SpaceH34(),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            TransactionsList(
-              scrollController: _scrollController,
-              symbol: widget.currency.symbol,
             ),
           ],
         ),
