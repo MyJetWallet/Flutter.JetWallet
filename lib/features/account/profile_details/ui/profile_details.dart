@@ -75,20 +75,19 @@ class ProfileDetails extends StatelessObserverWidget {
                       image: infoImage,
                       onPrimaryButtonTap: () {
                         Navigator.pop(context);
+
                         sRouter.push(
                           SetPhoneNumberRouter(
-                            successText:
-                                intl.profileDetails_newPhoneNumberConfirmed,
-                            isChangePhone: true,
-                            then: () {
-                              sRouter.popUntil(
-                                (route) {
-                                  return route.settings.name ==
-                                      'ProfileDetailsRouter';
-                                },
-                              );
-                            },
-                          ),
+                    successText: intl.profileDetails_newPhoneNumberConfirmed,
+                    isChangePhone: true,
+                    then: () {
+                      sRouter.popUntil(
+                        (route) {
+                          return route.settings.name == 'ProfileDetailsRouter';
+                        },
+                      );
+                    },
+                  ),
                         );
                       },
                       secondaryButtonName: intl.profileDetails_cancel,
