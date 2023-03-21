@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
@@ -12,6 +13,7 @@ import 'package:simple_kit/modules/icons/24x24/light/qr_code/simple_light_qr_cod
 import 'package:simple_kit/modules/icons/24x24/light/wallet/simple_light_wallet_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
@@ -31,7 +33,13 @@ void showReceiveAction(
 
   if (checkKYC) {
     if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-      _showReceive(context);
+      showSendTimerAlertOr(
+        context: context,
+        or: () {
+          _showReceive(context);
+        },
+        from: BlockingType.deposit,
+      );
     } else {
       sRouter.pop();
 
@@ -44,7 +52,13 @@ void showReceiveAction(
       );
     }
   } else {
-    _showReceive(context);
+    showSendTimerAlertOr(
+      context: context,
+      or: () {
+        _showReceive(context);
+      },
+      from: BlockingType.deposit,
+    );
   }
 }
 
@@ -224,10 +238,12 @@ class _ActionReceive extends StatelessObserverWidget {
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
     sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
-    currencyFiltered = currencyFiltered.where(
-          (element) => element.type == AssetType.crypto &&
-          element.supportsCryptoDeposit,
-    ).toList();
+    currencyFiltered = currencyFiltered
+        .where(
+          (element) =>
+              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+        )
+        .toList();
 
     return Column(
       children: [
@@ -242,7 +258,6 @@ class _ActionReceive extends StatelessObserverWidget {
                 secondaryText: currency.symbol,
                 removeDivider: currency == currencyFiltered.last,
                 onTap: () {
-
                   getIt.get<AppRouter>().push(
                         CryptoDepositRouter(
                           header: intl.actionReceive_receive,

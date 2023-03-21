@@ -105,3 +105,4 @@ const portfolioGradientBG = 'assets/images/gradient_bg.png';
 const simpleLogo = 'assets/images/simple_logo.png';
 
 const fireRewardAsset = 'assets/images/fire.png';
+const ibanEuroAsset = 'assets/images/euro_logo.png';

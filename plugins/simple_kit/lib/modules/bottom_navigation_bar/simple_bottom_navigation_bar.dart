@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/32x32/public/market/simple_market_icon.dart';
 import 'package:simple_kit/modules/icons/32x32/public/my_assets/simple_my_assets_icon.dart';
+import 'package:simple_kit/modules/icons/32x32/public/account_bar/simple_account_bar_icon.dart';
 
 import '../../simple_kit.dart';
 
@@ -14,6 +15,7 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.onChanged,
     required this.myAssetsText,
     required this.marketText,
+    required this.accountText,
   }) : super(key: key);
 
   final int portfolioNotifications;
@@ -23,6 +25,7 @@ class SBottomNavigationBar extends StatefulWidget {
 
   final String myAssetsText;
   final String marketText;
+  final String accountText;
 
   @override
   State<SBottomNavigationBar> createState() => _SBottomNavigationBarState();
@@ -83,6 +86,28 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                           fontWeight: FontWeight.w600,
                           height: 1.38,
                           color: widget.selectedIndex == 1
+                              ? SColorsLight().black
+                              : SColorsLight().grey3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                STransparentInkWell(
+                  onTap: () => widget.onChanged(2),
+                  child: Column(
+                    children: [
+                      if (widget.selectedIndex == 2)
+                        const SAccountBarActiveIcon()
+                      else
+                        const SAccountBarIcon(),
+                      Text(
+                        widget.accountText,
+                        style: sBodyText2Style.copyWith(
+                          fontWeight: FontWeight.w600,
+                          height: 1.38,
+                          color: widget.selectedIndex == 2
                               ? SColorsLight().black
                               : SColorsLight().grey3,
                         ),
