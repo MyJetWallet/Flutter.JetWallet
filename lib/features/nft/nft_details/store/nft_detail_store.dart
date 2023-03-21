@@ -24,6 +24,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/disclaimer/disclaimers_response_model.dart';
@@ -114,6 +115,7 @@ abstract class _NFTDetailStoreBase with Store {
       showSendTimerAlertOr(
         context: context,
         or: () => buyNft(),
+        from: BlockingType.withdrawal,
       );
     } else {
       handler.handle(
@@ -126,6 +128,7 @@ abstract class _NFTDetailStoreBase with Store {
         currentNavigate: () => showSendTimerAlertOr(
           context: context,
           or: () => buyNft(),
+          from: BlockingType.withdrawal,
         ),
         requiredDocuments: kyc.requiredDocuments,
         requiredVerifications: kyc.requiredVerifications,
@@ -239,12 +242,10 @@ abstract class _NFTDetailStoreBase with Store {
   @action
   void buyNft() {
     if (currency!.assetBalance >= nft!.sellPrice!) {
-
       sRouter.push(
         NFTConfirmRouter(nft: nft!),
       );
     } else {
-
       showBuyNFTNotEnougn(currency!, nft);
     }
   }

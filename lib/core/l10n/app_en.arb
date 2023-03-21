@@ -805,7 +805,9 @@
   "recurringBuysItem_paused": "Paused",
   "recurringBuysItem_total": "Total",
   "send_timer_alert_ok": "OK",
-  "send_timer_alert_description": "Withdrawals have been temporarily blocked. Time remaining:",
+  "send_timer_alert_description": "Withdrawals are not available until",
+  "trade_timer_alert_description": "Exchange is not available until",
+  "deposit_timer_alert_description": "Purchases and deposits are suspended until",
   "sendHelperText_text": "Start typing phone number or name from your phonebook",
   "sendInfoText_text": "I want to use my phonebook",
   "sendAlert_description": "You don’t have any crypto to send",
@@ -1304,5 +1306,6 @@
   "personal_details_descr": "First name, last name, date of birth and country",
   "pin_code": "PIN code",
   "pin_code_descr": "Secure PIN for your Simple wallet",
-  "create_pin_code": "Create PIN"
+  "create_pin_code": "Create PIN",
+  "phone_update_block": "Phone update is suspended until"
 }

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -16,6 +17,7 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.da
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../../../actions/circle_actions/circle_actions.dart';
 import '../../../../helper/currency_from.dart';
@@ -49,7 +51,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   onTap: () {
                     if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
-
                       sRouter.push(
                         PaymentMethodRouter(currency: currency),
                       );
@@ -59,7 +60,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
                         isProgress: kycState.verificationInProgress,
                         navigatePop: true,
                         currentNavigate: () {
-
                           sRouter.push(
                             PaymentMethodRouter(currency: currency),
                           );
@@ -87,9 +87,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
               if (kycState.depositStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
-
-                sRouter.push(
-                  PaymentMethodRouter(currency: currency),
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () {
+                    sRouter.push(
+                      PaymentMethodRouter(currency: currency),
+                    );
+                  },
+                  from: BlockingType.deposit,
                 );
               } else {
                 kycAlertHandler.handle(
@@ -97,9 +102,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   isProgress: kycState.verificationInProgress,
                   navigatePop: true,
                   currentNavigate: () {
-
-                    sRouter.push(
-                      PaymentMethodRouter(currency: currency),
+                    showSendTimerAlertOr(
+                      context: context,
+                      or: () {
+                        sRouter.push(
+                          PaymentMethodRouter(currency: currency),
+                        );
+                      },
+                      from: BlockingType.deposit,
                     );
                   },
                   requiredDocuments: kycState.requiredDocuments,
@@ -110,23 +120,34 @@ class BalanceActionButtons extends StatelessObserverWidget {
             onReceive: () {
               if (kycState.depositStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
-                sRouter.navigate(
-                  CryptoDepositRouter(
-                    header: intl.balanceActionButtons_receive,
-                    currency: currency,
-                  ),
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () {
+                    sRouter.navigate(
+                      CryptoDepositRouter(
+                        header: intl.balanceActionButtons_receive,
+                        currency: currency,
+                      ),
+                    );
+                  },
+                  from: BlockingType.deposit,
                 );
               } else {
                 kycAlertHandler.handle(
                   status: kycState.depositStatus,
                   isProgress: kycState.verificationInProgress,
                   currentNavigate: () {
-
-                    sRouter.navigate(
-                      CryptoDepositRouter(
-                        header: intl.balanceActionButtons_receive,
-                        currency: currency,
-                      ),
+                    showSendTimerAlertOr(
+                      context: context,
+                      or: () {
+                        sRouter.navigate(
+                          CryptoDepositRouter(
+                            header: intl.balanceActionButtons_receive,
+                            currency: currency,
+                          ),
+                        );
+                      },
+                      from: BlockingType.deposit,
                     );
                   },
                   requiredDocuments: kycState.requiredDocuments,
@@ -157,17 +178,31 @@ class BalanceActionButtons extends StatelessObserverWidget {
             onExchange: () {
               if (kycState.sellStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
-                sRouter.push(ConvertRouter(
-                  fromCurrency: currency,
-                ),);
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () {
+                    sRouter.push(
+                      ConvertRouter(
+                        fromCurrency: currency,
+                      ),
+                    );
+                  },
+                  from: BlockingType.trade,
+                );
               } else {
                 kycAlertHandler.handle(
                   status: kycState.sellStatus,
                   isProgress: kycState.verificationInProgress,
-                  currentNavigate: () => sRouter.push(
-                    ConvertRouter(
-                      fromCurrency: currency,
-                    ),
+                  currentNavigate: () => showSendTimerAlertOr(
+                    context: context,
+                    or: () {
+                      sRouter.push(
+                        ConvertRouter(
+                          fromCurrency: currency,
+                        ),
+                      );
+                    },
+                    from: BlockingType.trade,
                   ),
                   requiredDocuments: kycState.requiredDocuments,
                   requiredVerifications: kycState.requiredVerifications,
