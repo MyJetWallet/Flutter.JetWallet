@@ -11,10 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_info/iban_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_set_address_request.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/router/app_router.dart';
@@ -34,7 +32,7 @@ abstract class IbanStoreBase with Store {
   IbanStoreBase() {
     loader = StackLoaderStore();
 
-    _initState();
+    initState();
     _initCountryState();
   }
 
@@ -114,6 +112,9 @@ abstract class IbanStoreBase with Store {
 
   @observable
   bool toSetupAddress = true;
+
+  @observable
+  bool isLoading = false;
 
   @observable
   IbanInfoStatusDto status = IbanInfoStatusDto.notExist;
@@ -220,13 +221,14 @@ abstract class IbanStoreBase with Store {
   }
 
   @action
-  Future<void> _initState() async {
+  Future<void> initState() async {
     final userInfo = sUserInfo.userInfo;
     ibanName = '${userInfo.firstName} ${userInfo.lastName}';
+    if (ibanBic.isEmpty) {
+      isLoading = true;
+    }
     try {
-      print('response');
       final response = await sNetwork.getWalletModule().getIbanInfo();
-      print(response);
 
       response.pick(
         onData: (data) {
@@ -234,12 +236,14 @@ abstract class IbanStoreBase with Store {
           ibanBic = data.iban?.bic ?? '';
           ibanAddress = data.iban?.iban ?? '';
           status = data.status ?? IbanInfoStatusDto.notExist;
+          isLoading = false;
         },
         onError: (error) {
           sNotification.showError(
             error.cause,
             id: 1,
           );
+          isLoading = false;
         },
       );
     } on ServerRejectException catch (error) {
@@ -247,6 +251,7 @@ abstract class IbanStoreBase with Store {
         error.cause,
         id: 1,
       );
+      isLoading = false;
     } catch (error) {
       print(error);
       sNotification.showError(
@@ -255,6 +260,7 @@ abstract class IbanStoreBase with Store {
         id: 1,
         needFeedback: true,
       );
+      isLoading = false;
     }
   }
 
@@ -337,19 +343,13 @@ abstract class IbanStoreBase with Store {
 
           final response = await sNetwork.getWalletModule()
               .postSetAddress(model);
-          loader!.finishLoading(
-            onFinish: () {
-              Navigator.pop(sRouter.navigatorKey.currentContext!);
-              _initState();
-            },
-          );
 
           response.pick(
             onData: (data) {
               loader!.finishLoading(
                 onFinish: () {
-                  Navigator.pop(sRouter.navigatorKey.currentContext!);
-                  _initState();
+                  sRouter.pop();
+                  initState();
                 },
               );
             },
@@ -362,6 +362,22 @@ abstract class IbanStoreBase with Store {
               );
 
               loader!.finishLoading();
+            },
+            onNoData: () {
+              loader!.finishLoading(
+                onFinish: () {
+                  sRouter.pop();
+                  initState();
+                },
+              );
+            },
+            onNoError: (value) {
+              loader!.finishLoading(
+                onFinish: () {
+                  sRouter.pop();
+                  initState();
+                },
+              );
             },
           );
     } on ServerRejectException catch (error) {

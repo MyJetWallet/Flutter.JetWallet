@@ -14,7 +14,7 @@ void sShowTimerAlertPopup({
   required BuildContext context,
   required String description,
   required String buttonName,
-  required Duration expireIn,
+  required String expireIn,
   required Function() onButtonTap,
 }) {
   showDialog(
@@ -34,7 +34,7 @@ class _TimerState = __TimerStateBase with _$_TimerState;
 
 abstract class __TimerStateBase with Store {
   __TimerStateBase(this.duration) {
-    start();
+    //start();
   }
 
   @observable
@@ -69,7 +69,7 @@ class _TimerAlertPopup extends StatelessObserverWidget {
     required this.onButtonTap,
   }) : super(key: key);
 
-  final Duration expireIn;
+  final String expireIn;
   final String description;
   final String buttonName;
   final Function() onButtonTap;
@@ -78,9 +78,9 @@ class _TimerAlertPopup extends StatelessObserverWidget {
   Widget build(
     BuildContext context,
   ) {
-    final expire = _TimerState(expireIn);
+    //final expire = _TimerState(expireIn);
 
-    if (expire.duration.inSeconds == 0) Navigator.pop(context);
+    //if (expire.duration.inSeconds == 0) Navigator.pop(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -114,7 +114,7 @@ class _TimerAlertPopup extends StatelessObserverWidget {
                 ),
                 const SpaceH8(),
                 Text(
-                  _format(expire.duration),
+                  expireIn,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: sTextH5Style,
@@ -133,15 +133,4 @@ class _TimerAlertPopup extends StatelessObserverWidget {
       ],
     );
   }
-}
-
-String _format(Duration duration) {
-  final result = StringBuffer();
-
-  for (final char in duration.toString().split('')) {
-    if (char == '.') break;
-    result.write(char);
-  }
-
-  return result.toString();
 }

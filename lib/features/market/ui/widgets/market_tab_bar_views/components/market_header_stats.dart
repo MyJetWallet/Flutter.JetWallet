@@ -21,7 +21,11 @@ class MarketHeaderStats extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final marketInfo = sSignalRModules.marketInfo;
 
-    return SPaddingH24(
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 24,
+        right: 4,
+      ),
       child: SMarketHeader(
         title: intl.marketHeaderStats_market,
         percent: marketInfo.toString(),
@@ -43,7 +47,11 @@ class MarketHeaderSkeletonStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SPaddingH24(
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 24,
+        right: 4,
+      ),
       child: SMarketHeader(
         title: intl.marketHeaderStats_market,
         percent: '',

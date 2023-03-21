@@ -50,42 +50,95 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
             Row(
               children: [
                 const Spacer(),
-                STransparentInkWell(
-                  onTap: () => widget.onChanged(0),
-                  child: Column(
-                    children: [
-                      if (widget.selectedIndex == 0)
-                        const SMyAssetsActiveIcon()
-                      else
-                        const SMyAssetsIcon(),
-                      Text(
-                        widget.myAssetsText,
-                        style: sBodyText2Style.copyWith(
-                          fontWeight: FontWeight.w600,
-                          height: 1.38,
-                          color: widget.selectedIndex == 0
-                              ? SColorsLight().black
-                              : SColorsLight().grey3,
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 48) / 3,
+                  child: STransparentInkWell(
+                    onTap: () => widget.onChanged(0),
+                    child: Column(
+                      children: [
+                        if (widget.selectedIndex == 0)
+                          const SMyAssetsActiveIcon()
+                        else
+                          const SMyAssetsIcon(),
+                        Text(
+                          widget.myAssetsText,
+                          style: sBodyText2Style.copyWith(
+                            fontWeight: FontWeight.w600,
+                            height: 1.38,
+                            color: widget.selectedIndex == 0
+                                ? SColorsLight().black
+                                : SColorsLight().grey3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 48) / 3,
+                  child: STransparentInkWell(
+                    onTap: () => widget.onChanged(1),
+                    child: Column(
+                      children: [
+                        if (widget.selectedIndex == 1)
+                          const SMarketActiveIcon()
+                        else
+                          const SMarketIcon(),
+                        Text(
+                          widget.marketText,
+                          style: sBodyText2Style.copyWith(
+                            fontWeight: FontWeight.w600,
+                            height: 1.38,
+                            color: widget.selectedIndex == 1
+                                ? SColorsLight().black
+                                : SColorsLight().grey3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: (MediaQuery.of(context).size.width - 48) / 3,
+                  child: STransparentInkWell(
+                    onTap: () => widget.onChanged(2),
+                    child: Column(
+                      children: [
+                        if (widget.selectedIndex == 2)
+                          const SAccountBarActiveIcon()
+                        else
+                          const SAccountBarIcon(),
+                        Text(
+                          widget.accountText,
+                          style: sBodyText2Style.copyWith(
+                            fontWeight: FontWeight.w600,
+                            height: 1.38,
+                            color: widget.selectedIndex == 2
+                                ? SColorsLight().black
+                                : SColorsLight().grey3,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const Spacer(),
                 STransparentInkWell(
-                  onTap: () => widget.onChanged(1),
+                  onTap: () => widget.onChanged(2),
                   child: Column(
                     children: [
-                      if (widget.selectedIndex == 1)
-                        const SMarketActiveIcon()
+                      if (widget.selectedIndex == 2)
+                        const SAccountBarActiveIcon()
                       else
-                        const SMarketIcon(),
+                        const SAccountBarIcon(),
                       Text(
-                        widget.marketText,
+                        widget.accountText,
                         style: sBodyText2Style.copyWith(
                           fontWeight: FontWeight.w600,
                           height: 1.38,
-                          color: widget.selectedIndex == 1
+                          color: widget.selectedIndex == 2
                               ? SColorsLight().black
                               : SColorsLight().grey3,
                         ),

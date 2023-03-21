@@ -52,7 +52,11 @@ void handleResultResponse(
 ) {
   final result = json['result'] as String;
 
-  _validateResultResponse(result);
+  if (result != 'OK') {
+    throw ServerRejectException(
+      json['message'],
+    );
+  }
 }
 
 void validateRejectResponse(
@@ -69,12 +73,12 @@ void _validateFullResponse(
   String result,
   Map<String, dynamic> json,
 ) {
-  /*if (result != 'OK') {
+  if (result != 'OK') {
     throw ServerRejectException(
       json['message'],
     );
-  }*/
-
+  }
+  /*
   if (result == 'OperationBlocked') {
     final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;
     if (rejectDetail != null) {
@@ -133,12 +137,17 @@ void _validateFullResponse(
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
+  */
 }
 
 void _handleFullNumberResponse(
   String result,
   Map<String, dynamic> json,
 ) {
+  if (result != 'OK') {
+    throw ServerRejectException(json['message']);
+  }
+  /*
   if (result == 'OperationBlocked') {
     final rejectDetail = json['rejectDetail'] as Map<String, dynamic>?;
     if (rejectDetail != null) {
@@ -150,12 +159,7 @@ void _handleFullNumberResponse(
   } else if (result != 'OK') {
     throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
   }
-}
-
-void _validateResultResponse(String result) {
-  if (result != 'OK') {
-    throw ServerRejectException(errorCodesDescriptionEn[result] ?? result);
-  }
+  */
 }
 
 void _validateRejectResponse(String rejectCode) {

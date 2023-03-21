@@ -884,7 +884,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
     assetPaymentMethodsNew = value;
     for (final currency in currenciesList) {
       final index = currenciesList.indexOf(currency);
-      final buyMethodsFull = List<BuyMethodDto>.from(value.buy);
+      final buyMethodsFull = List<BuyMethodDto>.from(value.buy ?? []);
       final buyMethods = List<BuyMethodDto>.from([]);
       final sendMethods = List<SendMethodDto>.from([]);
       final receiveMethods = List<ReceiveMethodDto>.from([]);
@@ -923,8 +923,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
     }
 
     paymentMethods.clear();
-    for (final asset in value.buy) {
-      paymentMethods.add(asset.id.toString());
+
+    if (value.buy != null) {
+      for (final asset in value.buy!) {
+        paymentMethods.add(asset.id.toString());
+      }
     }
   }
 

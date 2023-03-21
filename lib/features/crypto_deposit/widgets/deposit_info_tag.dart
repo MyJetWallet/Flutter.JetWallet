@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class DepositInfoTag extends StatelessObserverWidget {
+  const DepositInfoTag({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -18,7 +24,7 @@ class DepositInfoTag extends StatelessObserverWidget {
             horizontal: 70.0,
           ),
           child: Text(
-            intl.depositInfoTag_text,
+            text,
             maxLines: 3,
             textAlign: TextAlign.center,
             style: sBodyText2Style.copyWith(

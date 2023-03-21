@@ -753,7 +753,7 @@
     "recurringBuysItem_paused": "Wstrzymany",
     "recurringBuysItem_total": "łącznie",
     "send_timer_alert_ok": "OK",
-    "send_timer_alert_description": "Czas pozostały do ​​odblokowania wypłaty",
+    "send_timer_alert_description": "Wypłaty nie są dostępne do",
     "sendHelperText_text": "Zacznij wpisywać numer telefonu lub nazwę ze swojej książki telefonicznej",
     "sendInfoText_text": "Chcę skorzystać z mojej książki telefonicznej",
     "sendAlert_description": "Nie masz żadnych kryptowalut do wysłania",
@@ -1367,5 +1367,8 @@
     "personal_details_descr": "Imię, nazwisko, data urodzenia i kraj",
     "pin_code": "Kod PIN",
     "pin_code_descr": "Bezpieczny kod PIN do prostego portfela",
-    "create_pin_code": "Utwórz kod PIN"
+    "create_pin_code": "Utwórz kod PIN",
+    "deposit_timer_alert_description": "Zakupy i wpłaty są zawieszone do",
+    "trade_timer_alert_description": "Wymiana jest niedostępna do",
+    "phone_update_block": "Aktualizacja numeru jest zawieszona do"
 }

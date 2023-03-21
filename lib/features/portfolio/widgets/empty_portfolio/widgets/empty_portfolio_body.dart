@@ -8,14 +8,16 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 class EmptyPortfolioBody extends StatefulObserverWidget {
   const EmptyPortfolioBody({
-  Key? key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -107,11 +109,18 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
               sAnalytics.newBuyTapBuy(
                 source: 'My Assets - Zero Balance - Buy',
               );
-              showBuyAction(
-                shouldPop: false,
-                fromCard: true,
+
+              showSendTimerAlertOr(
                 context: context,
-                from: Source.profile,
+                or: () {
+                  showBuyAction(
+                    shouldPop: false,
+                    fromCard: true,
+                    context: context,
+                    from: Source.profile,
+                  );
+                },
+                from: BlockingType.deposit,
               );
             },
           ),

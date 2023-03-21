@@ -20,12 +20,15 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../model/pin_screen_union.dart';
+
 class PinScreen extends StatelessWidget {
   const PinScreen({
     Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
@@ -35,6 +38,7 @@ class PinScreen extends StatelessWidget {
   final bool displayHeader;
   final bool cannotLeave;
   final bool isChangePhone;
+  final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
@@ -47,6 +51,7 @@ class PinScreen extends StatelessWidget {
         union,
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
+        isChangePin: isChangePin,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
@@ -107,7 +112,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
           (_) => pin.pinState,
           (result) {
             if (result == PinBoxEnum.error) {
-              pin.resetPin();
+              // pin.resetPin();
             } else if (result == PinBoxEnum.empty) {}
           },
           fireImmediately: true,
@@ -191,7 +196,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               Opacity(
                 opacity: pin.isError ? 1 : 0,
                 child: Text(
-                  intl.pinScreen_incorrectPIN,
+                  pin.screenUnion == const PinScreenUnion.confirmPin()
+                    ? intl.pinScreen_pinDontMatch
+                    : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),
                 ),
               ),
@@ -214,7 +221,13 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (!widget.displayHeader || pin.showForgot)
+              if (
+                !widget.displayHeader ||
+                (
+                  pin.showForgot &&
+                  pin.screenUnion == const PinScreenUnion.enterPin()
+                )
+              )
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -226,10 +239,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                         actualColor: colors.black,
                         onTap: () => sShowAlertPopup(
                           context,
-                          primaryText: intl.forgot_pass_dialog_title,
-                          secondaryText: intl.forgot_pass_dialog_text,
-                          primaryButtonType: SButtonType.primary3,
-                          primaryButtonName: intl.forgot_pass_dialog_btn_reset,
+                          primaryText: intl.forgot_pass_confirm_logout,
+                          secondaryText: intl.forgot_pass_confirm_logout_desc,
+                          primaryButtonName: intl.forgot_pass_logout,
                           image: Image.asset(
                             ellipsisAsset,
                             width: 80,
@@ -259,7 +271,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                       color: colors.grey3,
                     ),
                   ],
-                ),
+                )
+              else
+                const SpaceH24(),
               if (!widget.displayHeader) const SpaceH34(),
               if (widget.displayHeader) const SpaceH40(),
               SNumericKeyboardPin(

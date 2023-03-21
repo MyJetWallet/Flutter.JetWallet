@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 void showSendOptions(
   BuildContext context,
@@ -16,17 +18,21 @@ void showSendOptions(
     Navigator.pop(context);
   }
 
-  sShowBasicModalBottomSheet(
+  showSendTimerAlertOr(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.sendOptions_sendTo,
-    ),
-    children: [
-      _SendOptions(
-        currency: currency,
+    or: () => sShowBasicModalBottomSheet(
+      context: context,
+      then: (value) {},
+      pinned: SBottomSheetHeader(
+        name: intl.sendOptions_sendTo,
       ),
-    ],
+      children: [
+        _SendOptions(
+          currency: currency,
+        ),
+      ],
+    ),
+    from: BlockingType.withdrawal,
   );
 }
 
