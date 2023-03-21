@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:http_proxy/http_proxy.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';

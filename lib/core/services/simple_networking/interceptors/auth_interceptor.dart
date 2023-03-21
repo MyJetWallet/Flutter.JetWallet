@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/helpers/retry_request.dart';
@@ -89,13 +91,20 @@ void setAuthInterceptor(
               handler.reject(dioError);
 
               await getIt.get<LogoutService>().logout(
-                'INTERCEPTOR, cant update token',
-                callbackAfterSend: () {},
-              );
+                    'INTERCEPTOR, cant update token',
+                    callbackAfterSend: () {},
+                  );
             }
           } catch (_) {
             handler.reject(dioError);
           }
+        } else if (code == 500) {
+          sNotification.showError(
+            intl.something_went_wrong_try_again,
+            id: 1,
+          );
+
+          handler.reject(dioError);
         } else {
           handler.reject(dioError);
         }

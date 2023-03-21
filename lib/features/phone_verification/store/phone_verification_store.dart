@@ -68,7 +68,6 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void refreshTimer() {
-
     _timer?.cancel();
 
     time = 30;
@@ -76,7 +75,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
       (timer) {
-          time = time - 1;
+        time = time - 1;
       },
     );
   }
@@ -125,6 +124,8 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
         resendTapped = false;
+
+        print('ERROR');
 
         sNotification.showError(
           response.error!.cause,
