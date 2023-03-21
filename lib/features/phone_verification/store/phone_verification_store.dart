@@ -85,7 +85,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendCode();
+      sendCode(true);
     }
   }
 
@@ -97,7 +97,7 @@ abstract class _PhoneVerificationStoreBase with Store {
   }
 
   @action
-  Future<void> sendCode() async {
+  Future<void> sendCode(bool isStart) async {
     try {
       resendTapped = true;
       final number = await decomposePhoneNumber(
@@ -113,7 +113,7 @@ abstract class _PhoneVerificationStoreBase with Store {
         ),
         phoneCode: dialCode?.countryCode ?? '',
         phoneIso: number.isoCode,
-        verificationType: 2,
+        verificationType: isStart ? 1 : 2,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 

@@ -41,12 +41,20 @@ String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
 bool showBlockchainButton(String network) {
   final block = findBlockchaonByDescription(network);
 
-  return block.blockchainExplorerUrlTemplate.isNotEmpty ? true : false;
+  return block != null
+      ? block.blockchainExplorerUrlTemplate.isNotEmpty
+          ? true
+          : false
+      : false;
 }
 
-BlockchainModel findBlockchaonByDescription(String value) {
-  return sSignalRModules.blockchainsModel!.blockchains
-      .firstWhere((element) => element.description == value);
+BlockchainModel? findBlockchaonByDescription(String value) {
+  final index = sSignalRModules.blockchainsModel!.blockchains
+      .indexWhere((element) => element.description == value);
+
+  return index != -1
+      ? sSignalRModules.blockchainsModel!.blockchains[index]
+      : null;
 }
 
 String getBlockChainURL(OperationHistoryItem transactionListItem) {
@@ -54,6 +62,8 @@ String getBlockChainURL(OperationHistoryItem transactionListItem) {
 
   if (g != null) {
     final block = findBlockchaonByDescription(g);
+
+    if (block == null) return '';
 
     final id = isTXIDExist(transactionListItem);
 

@@ -115,6 +115,7 @@ class _AccountSecurityState extends State<AccountSecurity> {
                 PinScreenRoute(
                   union: const Change(),
                   fromRegister: false,
+                  isChangePin: true,
                 ),
               ),
             ),
