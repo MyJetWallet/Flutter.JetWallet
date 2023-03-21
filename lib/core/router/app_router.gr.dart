@@ -458,6 +458,7 @@ class _$AppRouter extends RootStackRouter {
           displayHeader: args.displayHeader,
           cannotLeave: args.cannotLeave,
           isChangePhone: args.isChangePhone,
+          isChangePin: args.isChangePin,
           fromRegister: args.fromRegister,
           isForgotPassword: args.isForgotPassword,
           onChangePhone: args.onChangePhone,
@@ -2694,6 +2695,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     bool displayHeader = true,
     bool cannotLeave = false,
     bool isChangePhone = false,
+    bool isChangePin = false,
     bool fromRegister = true,
     bool isForgotPassword = false,
     dynamic Function(String)? onChangePhone,
@@ -2706,6 +2708,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             displayHeader: displayHeader,
             cannotLeave: cannotLeave,
             isChangePhone: isChangePhone,
+            isChangePin: isChangePin,
             fromRegister: fromRegister,
             isForgotPassword: isForgotPassword,
             onChangePhone: onChangePhone,
@@ -2722,6 +2725,7 @@ class PinScreenRouteArgs {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
@@ -2736,6 +2740,8 @@ class PinScreenRouteArgs {
 
   final bool isChangePhone;
 
+  final bool isChangePin;
+
   final bool fromRegister;
 
   final bool isForgotPassword;
@@ -2746,7 +2752,7 @@ class PinScreenRouteArgs {
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
   }
 }
 

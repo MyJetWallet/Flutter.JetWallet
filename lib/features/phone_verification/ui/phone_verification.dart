@@ -190,7 +190,7 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
-                    await store.sendCode();
+                    await store.sendCode(false);
                     store.refreshTimer();
 
                     store.updateShowResend(

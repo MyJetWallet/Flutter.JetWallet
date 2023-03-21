@@ -36,10 +36,12 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
   PinScreenStore(
     PinFlowUnion flowUnionflowUnion, {
     bool isChangePhone = false,
+    bool isChangePin = false,
     Function(String)? onChangePhone,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
+          isChangePin,
           onChangePhone,
         );
 
@@ -51,11 +53,13 @@ abstract class _PinScreenStoreBase with Store {
   _PinScreenStoreBase(
     this.flowUnion,
     this.isChangePhone,
+    this.isChangePin,
     this.onChangePhone,
   );
 
   final PinFlowUnion flowUnion;
   final bool isChangePhone;
+  final bool isChangePin;
   final Function(String)? onChangePhone;
 
   static final _logger = Logger('PinScreenStore');
@@ -240,7 +244,7 @@ abstract class _PinScreenStoreBase with Store {
         await screenUnion.when(
           enterPin: () => _enterPinFlow(),
           newPin: () => _changePinFlow(),
-          confirmPin: () => {},
+          confirmPin: () => _confirmPinFlow(),
         );
       },
       disable: () async {
@@ -283,6 +287,12 @@ abstract class _PinScreenStoreBase with Store {
         _updateConfirmPin('');
 
         await resetPin();
+
+        if (response.error?.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
+          if (isChangePhone || isChangePin) {
+            showForgot = true;
+          }
+        }
 
         sNotification.showError(
           response.error?.cause ?? '',
@@ -330,7 +340,7 @@ abstract class _PinScreenStoreBase with Store {
         onError: (ServerRejectException error) async {
           print(error.cause);
 
-          if (error.cause == 'InvalidCode') {
+          if (error.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
             if (isChangePhone) {
               showForgot = true;
             }
@@ -414,7 +424,10 @@ abstract class _PinScreenStoreBase with Store {
   Future<void> _confirmPinFlow() async {
     try {
       if (newPin == confrimPin) {
-        final response = await sNetwork.getAuthModule().postSetupPin(newPin);
+        final response = isChangePin ? await sNetwork.getAuthModule().postChangePin(
+          enterPin,
+          newPin,
+        ) : await sNetwork.getAuthModule().postSetupPin(newPin);
 
         if (response.error != null) {
           await _animateError();
@@ -426,7 +439,13 @@ abstract class _PinScreenStoreBase with Store {
         }
         await _animateCorrect(isConfirm: true);
         await _userInfoN.setPin(confrimPin);
-        getIt.get<StartupService>().pinSet();
+        if (isChangePin) {
+          await _successFlow(
+            _userInfoN.setPin(newPin),
+          );
+        } else {
+          getIt.get<StartupService>().pinSet();
+        }
       } else {
         await _animateError();
         _updateNewPin('');
@@ -443,27 +462,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _changePinFlow() async {
-    try {
-      final response = await sNetwork.getAuthModule().postChangePin(
-            enterPin,
-            newPin,
-          );
-
-      if (response.hasError) {
-        sNotification.showError(
-          response.error?.cause ?? '',
-          id: 1,
-        );
-
-        return;
-      }
-
+    Future<void> _success() async {
       await _animateCorrect();
-      await _userInfoN.setPin(newPin);
-      await _successFlow(
-        _userInfoN.setPin(newPin),
-      );
-      _updateNewPin('');
+      _updateScreenUnion(const ConfirmPin());
+    }
+
+    try {
+      _updateConfirmPin('');
+      await _success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -623,10 +629,12 @@ abstract class _PinScreenStoreBase with Store {
   String screenDescription() {
     return screenUnion.when(
       enterPin: () {
-        return intl.pinScreen_enterYourPIN;
+        return intl.enterPin_enter_current_pin;
       },
       newPin: () {
-        return intl.pin_screen_set_new_pin;
+        return isChangePin
+          ? intl.enterPin_enter_new_pin
+          : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
         return intl.pin_screen_confirm_newPin;
