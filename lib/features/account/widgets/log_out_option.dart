@@ -42,7 +42,7 @@ class LogOutOption extends StatelessObserverWidget {
                   baselineType: TextBaseline.alphabetic,
                   child: Text(
                     name,
-                    style: sSubtitle1Style.copyWith(
+                    style: sSubtitle2Style.copyWith(
                       color: colors.red,
                     ),
                   ),

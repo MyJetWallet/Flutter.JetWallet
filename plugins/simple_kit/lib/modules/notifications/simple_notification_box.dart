@@ -7,9 +7,11 @@ class SNotificationBox extends StatelessWidget {
   const SNotificationBox({
     Key? key,
     required this.text,
+    this.isError = true,
   }) : super(key: key);
 
   final String text;
+  final bool isError;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class SNotificationBox extends StatelessWidget {
         const SpaceH60(),
         Container(
           decoration: BoxDecoration(
-            color: SColorsLight().red,
+            color: isError ? SColorsLight().red : SColorsLight().grey1,
             borderRadius: BorderRadius.circular(16.0),
           ),
           padding: const EdgeInsets.symmetric(
@@ -28,20 +30,22 @@ class SNotificationBox extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
+              if (isError) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                  child: SErrorIcon(
+                    color: SColorsLight().white,
+                  ),
                 ),
-                child: SErrorIcon(
-                  color: SColorsLight().white,
-                ),
-              ),
-              const SpaceW10(),
+                const SpaceW10(),
+              ],
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 22,
+                  padding: EdgeInsets.only(
+                    top: isError ? 18 : 10,
+                    bottom: isError ? 22 : 14,
                   ),
                   child: Text(
                     text,

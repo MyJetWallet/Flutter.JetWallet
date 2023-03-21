@@ -595,4 +595,14 @@ class WalletApiRepository {
   ) async {
     return _walletApiDataSources.setBaseAssetRequest(model);
   }
+
+  // Debug Errors
+
+  Future<DC<ServerRejectException, void>> debugError() async {
+    return _walletApiDataSources.debugErrorRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> debugReject() async {
+    return _walletApiDataSources.debugRejectRequest();
+  }
 }

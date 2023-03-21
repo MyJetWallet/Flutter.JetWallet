@@ -9,7 +9,16 @@ import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_earn_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../core/router/app_router.dart';
+import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
+import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
+import '../../actions/circle_actions/circle_actions.dart';
+import '../../kyc/helper/kyc_alert_handler.dart';
+import '../../kyc/kyc_service.dart';
+import '../../kyc/models/kyc_operation_status_model.dart';
 
 class EmptyWallet extends StatefulObserverWidget {
   const EmptyWallet({
@@ -41,12 +50,78 @@ class _EmptyWalletState extends State<EmptyWallet>
   @override
   Widget build(BuildContext context) {
     final currentAsset =
-        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
+    currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
+    final kycState = getIt.get<KycService>();
+    final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     return Scaffold(
-      bottomNavigationBar: ActionButton(
-        transitionAnimationController: animationController,
-        currency: currentAsset,
+      bottomNavigationBar: SizedBox(
+        height: 127,
+        child: Column(
+          children: [
+            const SDivider(),
+            const SpaceH16(),
+            CircleActionButtons(
+              showBuy: currentAsset.supportsAtLeastOneBuyMethod,
+              showReceive: currentAsset.supportsCryptoDeposit,
+              showExchange: false,
+              showSend: false,
+              onBuy: () {
+                sAnalytics.newBuyTapBuy(
+                  source: 'My Assets - Asset -  Buy',
+                );
+                if (kycState.depositStatus ==
+                    kycOperationStatus(KycStatus.allowed)) {
+                  sRouter.push(
+                    PaymentMethodRouter(currency: currentAsset),
+                  );
+                } else {
+                  kycAlertHandler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    navigatePop: true,
+                    currentNavigate: () {
+                      sRouter.push(
+                        PaymentMethodRouter(currency: currentAsset),
+                      );
+                    },
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications:
+                    kycState.requiredVerifications,
+                  );
+                }
+              },
+              onReceive: () {
+                if (kycState.depositStatus ==
+                    kycOperationStatus(KycStatus.allowed)) {
+                  sRouter.navigate(
+                    CryptoDepositRouter(
+                      header: intl.balanceActionButtons_receive,
+                      currency: currentAsset,
+                    ),
+                  );
+                } else {
+                  kycAlertHandler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () {
+                      sRouter.navigate(
+                        CryptoDepositRouter(
+                          header: intl.balanceActionButtons_receive,
+                          currency: currentAsset,
+                        ),
+                      );
+                    },
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications:
+                    kycState.requiredVerifications,
+                  );
+                }
+              },
+            ),
+            const SpaceH34(),
+          ],
+        ),
       ),
       body: Observer(
         builder: (context) {
@@ -61,12 +136,12 @@ class _EmptyWalletState extends State<EmptyWallet>
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(
-                      assetName: widget.currency.description,
-                    )
+                assetName: widget.currency.description,
+              )
                   : EmptyEarnWalletBody(
-                      assetName: widget.currency.description,
-                      apy: widget.currency.apy,
-                    ),
+                assetName: widget.currency.description,
+                apy: widget.currency.apy,
+              ),
             ),
           );
         },
