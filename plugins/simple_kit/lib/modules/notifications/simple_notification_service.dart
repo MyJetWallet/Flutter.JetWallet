@@ -23,11 +23,12 @@ class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
     int duration = 2,
     int? id,
     bool needFeedback = false,
+    bool isError = true,
   }) {
     _addToQueue(
       NotificationModel(
         id: id,
-        show: () => showNotification(context, message, duration),
+        show: () => showNotification(context, message, duration, needFeedback, isError),
       ),
     );
   }
