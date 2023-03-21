@@ -71,6 +71,16 @@ enum OperationType {
   nftDeposit,
   nftWithdrawal,
   nftWithdrawalFee,
+  @JsonValue(28)
+  manualDeposit,
+  @JsonValue(29)
+  manualWithdrawal,
+  @JsonValue(30)
+  transferByNickname,
+  @JsonValue(31)
+  receiveByNickname,
+  @JsonValue(32)
+  ibanDeposit,
 }
 
 extension _OperationTypeExtension on OperationType {

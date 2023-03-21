@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_body.dart';
 import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
 import 'package:jetwallet/features/iban/widgets/iban_header.dart';
+import 'package:jetwallet/features/iban/widgets/iban_skeleton.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
@@ -30,8 +33,52 @@ class IBanScreen extends StatelessObserverWidget {
   }
 }
 
-class IBanScreenBody extends StatelessObserverWidget {
-  const IBanScreenBody({Key? key}) : super(key: key);
+class IBanScreenBody extends StatefulObserverWidget {
+  const IBanScreenBody({
+    Key? key,
+  }) : super(key: key);
+
+
+  @override
+  State<IBanScreenBody> createState() => _IBanScreenBodyState();
+}
+
+class _IBanScreenBodyState extends State<IBanScreenBody> {
+
+  late Timer updateTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    final store = IbanStore.of(context);
+    final kycState = getIt.get<KycService>();
+
+    final kycPassed = checkKycPassed(
+      kycState.depositStatus,
+      kycState.sellStatus,
+      kycState.withdrawalStatus,
+    );
+
+    updateTimer = Timer.periodic(
+      const Duration(seconds: 5),
+          (timer) {
+        if (
+          getIt<AppRouter>().topRoute.name == 'IBanRouter' &&
+          store.ibanBic.isEmpty &&
+          kycPassed &&
+          !store.toSetupAddress
+        ) {
+          store.initState();
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    updateTimer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +110,19 @@ class IBanScreenBody extends StatelessObserverWidget {
     final textForShare = '${intl.iban_share_text}: \n'
     '${intl.iban_benificiary}: ${store.ibanName} \n'
     '${intl.iban_iban}: ${store.ibanAddress} \n'
-    '${intl.iban_bic}: ${store.ibanBic}';
+    '${intl.iban_bic}: ${store.ibanBic} \n'
+    '${intl.iban_terms}';
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: IBanHeader(
-        isShareActive: !showEmptyScreen,
+        isShareActive: !showEmptyScreen && !store.isLoading,
         textForShare: textForShare,
       ),
-      child: showEmptyScreen ? IBanEmpty(
+      child: store.isLoading
+          ? const IBanSkeleton()
+          : showEmptyScreen
+          ? IBanEmpty(
         isLoading: isLoading,
         isAddress: isAddress,
         isKyc: isKyc,
