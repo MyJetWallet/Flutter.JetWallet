@@ -159,7 +159,13 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       controller: store.controller,
                       autoFocus: true,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      onCompleted: (_) => store.verifyCode(),
+                      onCompleted: (_) {
+                        if (args.sendCodeOnInitState) {
+                          store.verifyFullCode();
+                        } else {
+                          store.verifyCode();
+                        }
+                      },
                       onChanged: (_) {
                         store.pinFieldError.disableError();
                       },
@@ -190,7 +196,11 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
-                    await store.sendCode(false);
+                    if (args.sendCodeOnInitState) {
+                      await store.sendFullCode(false);
+                    } else {
+                      await store.sendCode(false);
+                    }
                     store.refreshTimer();
 
                     store.updateShowResend(
