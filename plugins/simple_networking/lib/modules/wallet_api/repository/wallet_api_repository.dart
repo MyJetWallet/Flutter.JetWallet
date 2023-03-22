@@ -39,6 +39,7 @@ import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawa
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
@@ -261,7 +262,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, bool>> postGooglePayConfirm(
+  Future<DC<ServerRejectException, GooglePayConfirmModel>> postGooglePayConfirm(
     String depositId,
     String googlePayToken,
   ) async {
@@ -379,8 +380,7 @@ class WalletApiRepository {
     return _walletApiDataSources.postMarketInfoRequest(model);
   }
 
-  Future<DC<ServerRejectException, IbanInfoResponseModel>>
-    getIbanInfo() async {
+  Future<DC<ServerRejectException, IbanInfoResponseModel>> getIbanInfo() async {
     return _walletApiDataSources.getIbanInfoRequest();
   }
 

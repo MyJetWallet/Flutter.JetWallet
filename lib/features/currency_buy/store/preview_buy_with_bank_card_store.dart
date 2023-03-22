@@ -431,9 +431,23 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          unawaited(
-            _showSuccessScreen(),
-          );
+          if (data.redirectUrl != null) {
+            sRouter.push(
+              Circle3dSecureWebViewRouter(
+                url: data.redirectUrl ?? '',
+                asset: currencySymbol,
+                amount: input.amount,
+                onSuccess: (paymentId, url) => _showSuccessScreen(),
+                onFailed: (e) => _showFailureScreen(e),
+                onCancel: (e) => _showFailureScreen(e),
+                paymentId: paymentId,
+              ),
+            );
+          } else {
+            unawaited(
+              _showSuccessScreen(),
+            );
+          }
         },
         onError: (data) {
           unawaited(
