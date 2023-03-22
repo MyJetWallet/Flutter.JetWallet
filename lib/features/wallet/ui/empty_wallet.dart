@@ -11,6 +11,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_wallet_bo
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
@@ -92,30 +93,38 @@ class _EmptyWalletState extends State<EmptyWallet>
                 }
               },
               onReceive: () {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.navigate(
-                    CryptoDepositRouter(
-                      header: intl.balanceActionButtons_receive,
-                      currency: currentAsset,
-                    ),
-                  );
+                if (currentAsset.type == AssetType.crypto) {
+                  if (kycState.depositStatus ==
+                      kycOperationStatus(KycStatus.allowed)) {
+                    sRouter.navigate(
+                      CryptoDepositRouter(
+                        header: intl.balanceActionButtons_receive,
+                        currency: currentAsset,
+                      ),
+                    );
+                  } else {
+                    kycAlertHandler.handle(
+                      status: kycState.depositStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () {
+                        sRouter.navigate(
+                          CryptoDepositRouter(
+                            header: intl.balanceActionButtons_receive,
+                            currency: currentAsset,
+                          ),
+                        );
+                      },
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications:
+                      kycState.requiredVerifications,
+                    );
+                  }
                 } else {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    isProgress: kycState.verificationInProgress,
-                    currentNavigate: () {
-                      sRouter.navigate(
-                        CryptoDepositRouter(
-                          header: intl.balanceActionButtons_receive,
-                          currency: currentAsset,
-                        ),
-                      );
-                    },
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications:
-                    kycState.requiredVerifications,
-                  );
+                  sRouter.popUntilRoot();
+                  getIt<AppStore>().setHomeTab(2);
+                  if (getIt<AppStore>().tabsRouter != null) {
+                    getIt<AppStore>().tabsRouter!.setActiveIndex(0);
+                  }
                 }
               },
             ),
