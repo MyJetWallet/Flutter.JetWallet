@@ -146,7 +146,7 @@ class _IBanHeaderState extends State<IBanHeader> {
                 ],
               ),
             ),
-            const SpaceW6(),
+            const SpaceW8(),
           ],
         ),
       ],

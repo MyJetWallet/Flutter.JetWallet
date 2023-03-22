@@ -136,7 +136,7 @@ class PortfolioHeader extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW6(),
+            const SpaceW8(),
           ],
         ),
       ],

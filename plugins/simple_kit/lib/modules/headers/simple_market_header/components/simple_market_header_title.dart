@@ -55,7 +55,7 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceW2(),
+          const SpaceW4(),
         ],
       ],
     );

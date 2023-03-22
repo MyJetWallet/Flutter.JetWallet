@@ -410,7 +410,18 @@ class AddBankCardBody extends StatelessObserverWidget {
                       child: SPrimaryButton2(
                         active: store.isCardDetailsValid,
                         name: intl.addCircleCard_continue,
-                        onTap: () async {
+                        onTap: ()  async {
+                          if (store.canClick) {
+                            store.toggleClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                                  () => store.toggleClick(true),
+                            );
+                          } else {
+                            return;
+                          }
                           sAnalytics.newBuyTapCardContinue(
                             saveCard: '${store.saveCard}',
                           );
