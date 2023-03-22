@@ -261,9 +261,13 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                           height: 32.34,
                         ),
                         const SizedBox(width: 17),
-                        Text(
-                          'Google pay',
-                          style: sSubtitle2Style,
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            'Google pay',
+                            textAlign: TextAlign.start,
+                            style: sSubtitle2Style,
+                          ),
                         ),
                       ],
                     ),

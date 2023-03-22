@@ -107,9 +107,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
           ListView(
             physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+              bottom:
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 200,
             ),
             children: [
               Column(
@@ -131,7 +130,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                           intl.previewBuy_orderSummary,
                           style: sTextH5Style,
                         ),
-                        const SpaceH34(),
+                        const SpaceH32(),
                       ],
                     ),
                   ),
@@ -144,7 +143,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       accuracy: input.currency.accuracy,
                       decimal: state.buyAmount ?? Decimal.zero,
                     )}',
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
@@ -154,7 +155,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       accuracy: input.currencyPayment.accuracy,
                       decimal: state.rate ?? Decimal.zero,
                     )}',
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.curencyBuy_payFrom,
                     contentLoading: state.loader.loading,
@@ -167,7 +170,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                                     (input.cardNumber?.length ?? 4) - 4,
                                   ) : ''}',
                     maxValueWidth: 200,
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_paymentFee,
                     contentLoading: state.loader.loading,
@@ -213,7 +218,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         tradeFeePercentage: state.depositFeePerc,
                       );
                     },
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
@@ -224,8 +231,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       symbol: input.currency.symbol,
                     ),
                     maxValueWidth: 140,
+                    baseline: 24,
                   ),
-                  const SpaceH16(),
+                  const SpaceH17(),
                   Text(
                     intl.previewBuyWithCircle_description,
                     maxLines: 3,

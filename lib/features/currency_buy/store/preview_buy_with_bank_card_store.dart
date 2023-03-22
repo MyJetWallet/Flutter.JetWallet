@@ -199,13 +199,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> requestGooglePay(Map<String, dynamic> paymentResult) async {
-    debugPrint(paymentResult.toString());
-
     await executeGooglePayPayment();
 
     await googlePayInfo();
 
-    await googlePayConfirm(paymentResult);
+    await googlePayConfirm(
+      paymentResult['paymentMethodData']['tokenizationData']['token'],
+    );
 
     //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
   }
@@ -381,10 +381,12 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
     response.pick(onData: (data) async {
       googlePayDepositId = data.clientAction?.checkoutUrl?.replaceAll(
-            'http://buy.simple.app/checkout/googlepay/?id=',
+            'https://buy.simple.app/checkout/googlepay/?id=',
             '',
           ) ??
           '';
+
+      print(data.clientAction);
     });
   }
 
@@ -420,7 +422,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
-  Future<void> googlePayConfirm(Map<String, dynamic> paymentResult) async {
+  Future<void> googlePayConfirm(dynamic paymentResult) async {
     try {
       final response = await sNetwork.getWalletModule().postGooglePayConfirm(
             googlePayDepositId,
@@ -453,6 +455,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   @action
   Future<void> executeApplePayPayment() async {
     loader.startLoadingImmediately();
+    wasAction = true;
 
     isChecked = true;
 
@@ -486,6 +489,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   @action
   Future<void> executeGooglePayPayment() async {
     loader.startLoadingImmediately();
+    wasAction = true;
 
     isChecked = true;
 
@@ -502,7 +506,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         onData: (data) {
           print(data);
 
-          //link https://buy.simple.app/checkout/applepay/?id=
+          //link https://buy.simple.app/checkout/googlepay/?id=
         },
       );
     } on ServerRejectException catch (error) {

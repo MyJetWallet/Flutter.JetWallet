@@ -71,13 +71,16 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                       ),
                       const SpaceW20(),
                     ] else ...[
-                      Image.asset(
-                        googlePayAsset,
-                        width: 48,
-                        height: 32.34,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Image.asset(
+                          googlePayAsset,
+                          width: 48,
+                          height: 32.34,
+                        ),
                       ),
                       const SpaceW20(),
-                    ]
+                    ],
                   ],
                   Expanded(
                     child: Column(

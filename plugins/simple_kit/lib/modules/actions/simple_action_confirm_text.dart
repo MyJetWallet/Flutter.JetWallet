@@ -53,33 +53,35 @@ class SActionConfirmText extends StatelessWidget {
             child: Baseline(
               baseline: 19.0,
               baselineType: TextBaseline.alphabetic,
-              child: infoIcon ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    name,
-                    maxLines: 10,
-                    style: sBodyText2Style.copyWith(
-                      color: SColorsLight().grey1,
+              child: infoIcon
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          name,
+                          maxLines: 10,
+                          style: sBodyText2Style.copyWith(
+                            color: SColorsLight().grey1,
+                          ),
+                        ),
+                        const SpaceW12(),
+                        SIconButton(
+                          onTap: () {
+                            infoAction?.call();
+                          },
+                          defaultIcon: SInfoIcon(
+                            color: SColorsLight().grey1,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      name,
+                      maxLines: 10,
+                      style: sBodyText2Style.copyWith(
+                        color: SColorsLight().grey1,
+                      ),
                     ),
-                  ),
-                  const SpaceW12(),
-                  SIconButton(
-                    onTap: () {
-                      infoAction?.call();
-                    },
-                    defaultIcon: SInfoIcon(
-                      color: SColorsLight().grey1,
-                    ),
-                  ),
-                ],
-              ) : Text(
-                name,
-                maxLines: 10,
-                style: sBodyText2Style.copyWith(
-                  color: SColorsLight().grey1,
-                ),
-              ),
             ),
           ),
           const SpaceW10(),

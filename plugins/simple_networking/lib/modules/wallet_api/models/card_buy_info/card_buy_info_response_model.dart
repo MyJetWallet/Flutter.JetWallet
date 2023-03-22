@@ -25,6 +25,7 @@ class ClientActionModel with _$ClientActionModel {
   const factory ClientActionModel({
     String? checkoutUrl,
     required List<String> redirectUrls,
+    String? threeDSecureUrl,
   }) = _ClientActionModel;
 
   factory ClientActionModel.fromJson(Map<String, dynamic> json) =>
