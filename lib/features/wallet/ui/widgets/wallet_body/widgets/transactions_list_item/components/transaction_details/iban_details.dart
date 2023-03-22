@@ -31,7 +31,7 @@ class IbanDetails extends StatelessObserverWidget {
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(
@@ -42,7 +42,7 @@ class IbanDetails extends StatelessObserverWidget {
                       ),
                     );
 
-                    onCopyAction('${intl.transaction} ID');
+                    onCopyAction('Txid');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),

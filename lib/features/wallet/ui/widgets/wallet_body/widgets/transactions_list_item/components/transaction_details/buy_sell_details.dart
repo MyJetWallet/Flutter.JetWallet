@@ -69,11 +69,11 @@ class BuySellDetails extends StatelessObserverWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: '${intl.transaction} ID',
+            text: 'Txid',
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(
@@ -84,7 +84,7 @@ class BuySellDetails extends StatelessObserverWidget {
                       ),
                     );
 
-                    onCopyAction('${intl.transaction} ID');
+                    onCopyAction('Txid');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),

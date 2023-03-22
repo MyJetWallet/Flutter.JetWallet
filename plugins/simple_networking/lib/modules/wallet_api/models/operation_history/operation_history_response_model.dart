@@ -71,15 +71,10 @@ enum OperationType {
   nftDeposit,
   nftWithdrawal,
   nftWithdrawalFee,
-  @JsonValue(28)
   manualDeposit,
-  @JsonValue(29)
   manualWithdrawal,
-  @JsonValue(30)
   transferByNickname,
-  @JsonValue(31)
   receiveByNickname,
-  @JsonValue(32)
   ibanDeposit,
 }
 
@@ -138,6 +133,16 @@ extension _OperationTypeExtension on OperationType {
         return 26;
       case OperationType.nftWithdrawalFee:
         return 27;
+      case OperationType.manualDeposit:
+        return 28;
+      case OperationType.manualWithdrawal:
+        return 29;
+      case OperationType.transferByNickname:
+        return 30;
+      case OperationType.receiveByNickname:
+        return 31;
+      case OperationType.ibanDeposit:
+        return 32;
       default:
         return 0;
     }
@@ -205,6 +210,16 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.nftWithdrawal;
     } else if (value == '27') {
       return OperationType.nftWithdrawalFee;
+    } else if (value == '28') {
+      return OperationType.manualDeposit;
+    } else if (value == '29') {
+      return OperationType.manualWithdrawal;
+    } else if (value == '30') {
+      return OperationType.transferByNickname;
+    } else if (value == '31') {
+      return OperationType.receiveByNickname;
+    } else if (value == '32') {
+      return OperationType.ibanDeposit;
     } else {
       return OperationType.unknown;
     }

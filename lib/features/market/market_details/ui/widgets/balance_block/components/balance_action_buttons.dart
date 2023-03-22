@@ -41,6 +41,8 @@ class BalanceActionButtons extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (marketItem.symbol == 'CPWR') ...[
           SPaddingH24(

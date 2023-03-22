@@ -79,11 +79,11 @@ class RecurringBuyDetails extends StatelessWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
-            text: '${intl.transaction} ID',
+            text: 'Txid',
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortAddressForm(transactionListItem.operationId),
+                  text: shortTxhashFrom(transactionListItem.operationId),
                 ),
                 const SpaceW10(),
                 SIconButton(
@@ -94,7 +94,7 @@ class RecurringBuyDetails extends StatelessWidget {
                       ),
                     );
 
-                    onCopyAction('${intl.transaction} ID');
+                    onCopyAction('Txid');
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),

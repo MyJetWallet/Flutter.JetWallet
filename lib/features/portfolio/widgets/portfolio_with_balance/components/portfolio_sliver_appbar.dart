@@ -176,7 +176,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW6(),
+            const SpaceW8(),
           ],
         ),
         const SpaceH15(),

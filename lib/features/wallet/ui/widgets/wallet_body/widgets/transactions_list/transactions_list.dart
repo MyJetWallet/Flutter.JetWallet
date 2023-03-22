@@ -99,7 +99,9 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
           return listToShow.isEmpty
               ? SliverToBoxAdapter(
                   child: SizedBox(
-                    height: screenHeight - screenHeight * 0.369,
+                    height: widget.symbol != null
+                      ? screenHeight - screenHeight * 0.369 - 227
+                      : screenHeight - screenHeight * 0.369,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
