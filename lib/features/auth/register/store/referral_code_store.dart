@@ -189,14 +189,15 @@ abstract class _ReferallCodeStoreBase with Store {
 
           referralCodeValidation = const Valid();
           bottomSheetReferralCodeValidation = const Valid();
-          referralCode = shortCode;
+          referralCode = shortCode?.replaceFirst('https://join.simple.app/', '');
 
           getIt.get<CredentialsService>().setReferralCode(shortCode ?? '');
 
           if (bottomSheetReferralCodeValidation is Valid &&
               (jwCode != null || code.isNotEmpty)) {
             isInputError = false;
-            referralCodeController.text = shortCode!;
+            referralCodeController.text = shortCode!
+                .replaceFirst('https://join.simple.app/', '');
           }
 
           _moveCursorAtTheEnd(referralCodeController);

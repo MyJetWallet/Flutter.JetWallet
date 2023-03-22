@@ -14,9 +14,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/utils/helpers/show_plain_snackbar.dart';
-import 'package:jetwallet/widgets/loaders/loader.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/services/deep_link_service.dart';

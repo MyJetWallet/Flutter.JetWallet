@@ -57,7 +57,7 @@ class SReferralStats extends StatelessWidget {
             padding: const EdgeInsets.only(
               left: 17.0,
               right: 17.0,
-              top: 21.0,
+              top: 30.0,
               bottom: 24.0,
             ),
             decoration: BoxDecoration(
