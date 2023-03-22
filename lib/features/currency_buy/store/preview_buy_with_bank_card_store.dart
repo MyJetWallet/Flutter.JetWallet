@@ -431,6 +431,10 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
       response.pick(
         onData: (data) {
+          if (isWaitingSkipped) {
+            return;
+          }
+
           if (data.redirectUrl != null) {
             sRouter.push(
               Circle3dSecureWebViewRouter(
