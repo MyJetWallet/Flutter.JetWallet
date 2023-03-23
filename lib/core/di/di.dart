@@ -76,10 +76,6 @@ Future<GetIt> getItInit({
     AppStore()..setEnv(env ?? ''),
   );
 
-  getIt.registerSingleton<IbanStore>(
-    IbanStore(),
-  );
-
   getIt.registerLazySingleton<RouteQueryService>(
     () => RouteQueryService(),
   );
@@ -138,6 +134,10 @@ Future<GetIt> getItInit({
 
   getIt.registerLazySingleton<ReferallCodeStore>(
     () => ReferallCodeStore()..init(),
+  );
+
+  getIt.registerSingleton<IbanStore>(
+    IbanStore(),
   );
 
   _logger.log(stateFlow, 'ReferallCodeStore LOADED');
