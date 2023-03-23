@@ -87,6 +87,7 @@ class AddBankCardBody extends StatelessObserverWidget {
 
     return SPageFrame(
       color: colors.grey5,
+      loading: store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.addCircleCard_bigHeaderTitle,

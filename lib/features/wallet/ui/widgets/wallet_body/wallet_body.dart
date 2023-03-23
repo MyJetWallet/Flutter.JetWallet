@@ -15,9 +15,11 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../actions/action_send/widgets/send_options.dart';
 import '../../../../actions/circle_actions/circle_actions.dart';
+import '../../../../app/store/app_store.dart';
 
 const _collapsedCardHeight = 200.0;
 const _expandedCardHeight = 270.0;
@@ -167,31 +169,39 @@ class _WalletBodyState extends State<WalletBody>
                             }
                           },
                           onReceive: () {
-                            final actualAsset = widget.currency;
-                            if (kycState.depositStatus ==
-                                kycOperationStatus(KycStatus.allowed)) {
-                              sRouter.navigate(
-                                CryptoDepositRouter(
-                                  header: intl.balanceActionButtons_receive,
-                                  currency: actualAsset,
-                                ),
-                              );
+                            if (widget.currency.type == AssetType.crypto) {
+                              final actualAsset = widget.currency;
+                              if (kycState.depositStatus ==
+                                  kycOperationStatus(KycStatus.allowed)) {
+                                sRouter.navigate(
+                                  CryptoDepositRouter(
+                                    header: intl.balanceActionButtons_receive,
+                                    currency: actualAsset,
+                                  ),
+                                );
+                              } else {
+                                kycAlertHandler.handle(
+                                  status: kycState.depositStatus,
+                                  isProgress: kycState.verificationInProgress,
+                                  currentNavigate: () {
+                                    sRouter.navigate(
+                                      CryptoDepositRouter(
+                                        header: intl.balanceActionButtons_receive,
+                                        currency: actualAsset,
+                                      ),
+                                    );
+                                  },
+                                  requiredDocuments: kycState.requiredDocuments,
+                                  requiredVerifications:
+                                  kycState.requiredVerifications,
+                                );
+                              }
                             } else {
-                              kycAlertHandler.handle(
-                                status: kycState.depositStatus,
-                                isProgress: kycState.verificationInProgress,
-                                currentNavigate: () {
-                                  sRouter.navigate(
-                                    CryptoDepositRouter(
-                                      header: intl.balanceActionButtons_receive,
-                                      currency: actualAsset,
-                                    ),
-                                  );
-                                },
-                                requiredDocuments: kycState.requiredDocuments,
-                                requiredVerifications:
-                                kycState.requiredVerifications,
-                              );
+                              sRouter.popUntilRoot();
+                              getIt<AppStore>().setHomeTab(2);
+                              if (getIt<AppStore>().tabsRouter != null) {
+                                getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+                              }
                             }
                           },
                           onSend: () {
