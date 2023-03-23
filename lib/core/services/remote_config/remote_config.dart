@@ -55,7 +55,7 @@ class RemoteConfig {
       final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
       remoteConfigURL = flavor == Flavor.prod
-          ? 'https://wallet-api.simple-spot.biz/api/v1/remote-config/config'
+          ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
           : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
       final response = await Dio().get(remoteConfigURL);
@@ -82,6 +82,7 @@ class RemoteConfig {
       overrideAppsFlyerValues();
       overrideCircleValues();
       overrideNFTValues();
+      overrideMerchantPayConfigValues();
 
       overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
 
@@ -211,6 +212,13 @@ class RemoteConfig {
     shortUrl = remoteConfig!.nft.shortUrl;
     fullUrl = remoteConfig!.nft.fullUrl;
     shareLink = remoteConfig!.nft.shareLink;
+  }
+
+  void overrideMerchantPayConfigValues() {
+    displayName = remoteConfig!.merchantPay.displayName ?? '';
+    merchantCapabilities = remoteConfig!.merchantPay.merchantCapabilities ?? [];
+    supportedNetworks = remoteConfig!.merchantPay.supportedNetworks ?? [];
+    countryCode = remoteConfig!.merchantPay.countryCode ?? '';
   }
 
   @override

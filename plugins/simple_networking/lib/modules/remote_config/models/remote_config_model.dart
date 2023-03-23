@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/modules/remote_config/models/remote_config_merchant_pay.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_nft_model.dart';
 
 import 'remote_config_analytics_model.dart';
@@ -29,6 +30,7 @@ class RemoteConfigModel with _$RemoteConfigModel {
     @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
     @JsonKey(name: 'Versioning')
         required RemoteConfogVersioningModel versioning,
+    @JsonKey(name: 'MerchantPay') required RemoteConfigMerchantPay merchantPay,
   }) = _RemoteConfigModel;
 
   factory RemoteConfigModel.fromJson(Map<String, dynamic> json) =>

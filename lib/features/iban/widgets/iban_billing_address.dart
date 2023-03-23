@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/di/di.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
 import '../store/iban_store.dart';
 import 'country_picker.dart';
@@ -16,19 +17,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<IbanStore>(
-      create: (context) => IbanStore(),
-      builder: (context, child) => const IbanBillingAddressBody(),
-    );
-  }
-}
-
-class IbanBillingAddressBody extends StatelessObserverWidget {
-  const IbanBillingAddressBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final store = IbanStore.of(context);
+    final store = getIt.get<IbanStore>();
     final colors = sKit.colors;
     final focusNode = FocusNode();
 

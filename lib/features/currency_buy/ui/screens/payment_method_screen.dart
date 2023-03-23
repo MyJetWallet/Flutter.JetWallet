@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
@@ -24,7 +26,6 @@ import '../../../payment_methods/ui/widgets/payment_card_item.dart';
 import '../../helper/formatted_circle_card.dart';
 import '../../store/payment_methods_store.dart';
 import 'add_bank_card.dart';
-
 
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({
@@ -53,7 +54,6 @@ class _PaymentMethodScreen extends StatefulObserverWidget {
 
   final CurrencyModel currency;
 
-
   @override
   State<_PaymentMethodScreen> createState() => _PaymentMethodScreenState();
 }
@@ -77,18 +77,20 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     final kycHandler = getIt.get<KycAlertHandler>();
     final cardLimit = sSignalRModules.cardLimitsModel;
 
-
     final unlimintIncludes = widget.currency.buyMethods.where(
-          (element) => element.id == PaymentMethodType.unlimintCard,
+      (element) => element.id == PaymentMethodType.unlimintCard,
     );
 
     final unlimintAltIncludes = widget.currency.buyMethods.where(
-          (element) => element.id == PaymentMethodType.bankCard,
+      (element) => element.id == PaymentMethodType.bankCard,
     );
 
-    final isUnlimintCardEnabled = widget.currency.buyMethods.where(
-      (element) => element.id == PaymentMethodType.bankCard,
-    ).toList().isNotEmpty;
+    final isUnlimintCardEnabled = widget.currency.buyMethods
+        .where(
+          (element) => element.id == PaymentMethodType.bankCard,
+        )
+        .toList()
+        .isNotEmpty;
 
     final showSubheader = widget.currency.buyMethods.isNotEmpty &&
         !(widget.currency.buyMethods.length == 1 &&
@@ -103,10 +105,12 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         state.unlimintAltCards.isEmpty;
 
     final isEmptyPaymentCards = state.circleCards.isEmpty &&
-        !(state.unlimintCards.isNotEmpty &&
-            unlimintIncludes.isNotEmpty) &&
-        !(state.unlimintAltCards.isNotEmpty &&
-          unlimintAltIncludes.isNotEmpty);
+        !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
+        !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
+
+    for (var i = 0; i < widget.currency.buyMethods.length; i++) {
+      print(widget.currency.buyMethods[i]);
+    }
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       sAnalytics.newBuyTapDelete();
@@ -157,7 +161,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
             return SlideTransition(
               position: animation.drive(tween),
@@ -192,7 +197,83 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   widget.currency.buyMethods.first.id ==
                       PaymentMethodType.bankCard)) ...[
             for (final method in widget.currency.buyMethods)
-              if (method.id == PaymentMethodType.simplex) ...[
+              if (method.id == PaymentMethodType.applePay &&
+                  defaultTargetPlatform == TargetPlatform.iOS) ...[
+                InkWell(
+                  highlightColor: colors.grey5,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    sRouter.push(
+                      CurrencyBuyRouter(
+                        currency: widget.currency,
+                        fromCard: false,
+                        paymentMethod: PaymentMethodType.applePay,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 64.0,
+                    padding: const EdgeInsets.only(
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          applePayAsset,
+                          width: 48,
+                          height: 30.73,
+                        ),
+                        const SizedBox(width: 17),
+                        Text(
+                          'Apple Pay',
+                          style: sSubtitle2Style,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (method.id == PaymentMethodType.googlePay &&
+                  defaultTargetPlatform == TargetPlatform.android) ...[
+                InkWell(
+                  highlightColor: colors.grey5,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    sRouter.push(
+                      CurrencyBuyRouter(
+                        currency: widget.currency,
+                        fromCard: false,
+                        paymentMethod: PaymentMethodType.googlePay,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 64.0,
+                    padding: const EdgeInsets.only(
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          googlePayAsset,
+                          width: 48,
+                          height: 32.34,
+                        ),
+                        const SizedBox(width: 17),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            'Google pay',
+                            textAlign: TextAlign.start,
+                            style: sSubtitle2Style,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (method.id == PaymentMethodType.simplex) ...[
                 Builder(
                   builder: (context) {
                     return SActionItem(
@@ -226,10 +307,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
                   isSelected: state.selectedPaymentMethod?.id ==
-                      PaymentMethodType.circleCard &&
+                          PaymentMethodType.circleCard &&
                       state.pickedCircleCard == null,
                   onTap: () {
-
                     sRouter.navigate(
                       AddCircleCardRouter(
                         onCardAdded: (card) {
@@ -251,11 +331,11 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         color: colors.blue,
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
-                          PaymentMethodType.unlimintCard &&
+                              PaymentMethodType.unlimintCard &&
                           state.pickedUnlimintCard == null,
                       name: intl.currencyBuy_card,
                       description:
-                      intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                          intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                       onTap: () {
                         sAnalytics.newBuyBuyAssetView(
                           asset: widget.currency.symbol,
@@ -309,11 +389,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (
-                        cardLimit?.barProgress != 100
-                        && !isLimitBlock
-                        && !state.editMode
-                      ) {
+                      if (cardLimit?.barProgress != 100 &&
+                          !isLimitBlock &&
+                          !state.editMode) {
                         sAnalytics.newBuyBuyAssetView(
                           asset: widget.currency.symbol,
                         );
@@ -357,11 +435,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (
-                        cardLimit?.barProgress != 100 &&
-                        !isLimitBlock &&
-                        !state.editMode
-                      ) {
+                      if (cardLimit?.barProgress != 100 &&
+                          !isLimitBlock &&
+                          !state.editMode) {
                         sAnalytics.newBuyBuyAssetView(
                           asset: widget.currency.symbol,
                         );
@@ -406,11 +482,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       },
                     ),
                     onTap: () {
-                      if (
-                        cardLimit?.barProgress != 100 &&
-                        !isLimitBlock &&
-                        !state.editMode
-                      ) {
+                      if (cardLimit?.barProgress != 100 &&
+                          !isLimitBlock &&
+                          !state.editMode) {
                         sAnalytics.newBuyBuyAssetView(
                           asset: widget.currency.symbol,
                         );
@@ -454,7 +528,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           onBackButtonTap: () => Navigator.pop(context),
           showEditButton: !isEmptyPaymentCards && !state.editMode,
           showDoneButton: !isEmptyPaymentCards && state.editMode,
-
           onEditButtonTap: () {
             sAnalytics.newBuyTapEdit();
             state.toggleEditMode();
@@ -465,76 +538,81 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         ),
       ),
       child: state.editMode
-        ? Column(
-            children: [
-              savedCards(),
-            ],
-          )
-        : isEmptyPaymentScreen ? Column(
-        children: [
-          const Spacer(),
-          Image.asset(
-            noSavedCards,
-            height: 80,
-          ),
-          const SpaceH32(),
-          Text(intl.paymentMethods_noSavedCards, style: sTextH3Style),
-          SPaddingH24(
-            child: Text(
-              intl.paymentMethod_text,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              style: sBodyText1Style.copyWith(
-                color: colors.grey1,
-              ),
-            ),
-          ),
-          const Spacer(),
-          if (isUnlimintCardEnabled)
-            SPaddingH24(
-              child: AddButton(
-                onTap: () => checkKyc(),
-              ),
-            ),
-          const SpaceH42(),
-        ],
-      ) : !isEmptyPaymentCards
-          ? SingleChildScrollView(
-            child: Column(
+          ? Column(
               children: [
-                paymentMethods(),
                 savedCards(),
-                const SpaceH42(),
               ],
-            ),
-          )
-          : Column(
-              children: [
-                paymentMethods(),
-                savedCards(),
-                if (isEmptyPaymentCards) ...[
-                  const Spacer(),
-                  Image.asset(
-                    noSavedCards,
-                    height: 80,
-                  ),
-                  const SpaceH32(),
-                  Text(intl.paymentMethods_noSavedCards, style: sTextH3Style),
-                  SPaddingH24(
-                    child: Text(
-                      intl.paymentMethod_text,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey1,
+            )
+          : isEmptyPaymentScreen
+              ? Column(
+                  children: [
+                    const Spacer(),
+                    Image.asset(
+                      noSavedCards,
+                      height: 80,
+                    ),
+                    const SpaceH32(),
+                    Text(intl.paymentMethods_noSavedCards, style: sTextH3Style),
+                    SPaddingH24(
+                      child: Text(
+                        intl.paymentMethod_text,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey1,
+                        ),
                       ),
                     ),
-                  ),
-                  const SpaceH94(),
-                  const Spacer(),
-                ],
-              ],
-            ),
+                    const Spacer(),
+                    if (isUnlimintCardEnabled)
+                      SPaddingH24(
+                        child: AddButton(
+                          onTap: () => checkKyc(),
+                        ),
+                      ),
+                    const SpaceH42(),
+                  ],
+                )
+              : !isEmptyPaymentCards
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          paymentMethods(),
+                          savedCards(),
+                          const SpaceH42(),
+                        ],
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        paymentMethods(),
+                        savedCards(),
+                        if (isEmptyPaymentCards) ...[
+                          const Spacer(),
+                          Image.asset(
+                            noSavedCards,
+                            height: 80,
+                          ),
+                          const SpaceH32(),
+                          Text(
+                            intl.paymentMethods_noSavedCards,
+                            style: sTextH3Style,
+                          ),
+                          SPaddingH24(
+                            child: Text(
+                              intl.paymentMethod_text,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              style: sBodyText1Style.copyWith(
+                                color: colors.grey1,
+                              ),
+                            ),
+                          ),
+                          const SpaceH94(),
+                          const Spacer(),
+                        ],
+                      ],
+                    ),
     );
   }
 }

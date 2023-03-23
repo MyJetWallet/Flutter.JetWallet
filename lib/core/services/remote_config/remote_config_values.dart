@@ -52,3 +52,9 @@ late bool cvvEnabled;
 late String shortUrl;
 late String fullUrl;
 late String shareLink;
+
+//MerchantPay
+late String displayName;
+late List<String> merchantCapabilities;
+late List<String> supportedNetworks;
+late String countryCode;
