@@ -3,6 +3,7 @@ import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/validation_api/data_sources/validation_api_data_sources.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_number/phone_number_response_model.dart';
+import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_full_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/send_email/send_email_confirmation_request.dart';
@@ -15,6 +16,8 @@ import 'package:simple_networking/modules/validation_api/models/validation/send_
 import 'package:simple_networking/modules/validation_api/models/validation/verify_email_verification_code_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/verify_email/verify_email_confirmation_request.dart';
+
+import '../models/phone_verification_verify/phone_verification_full_verify_request_model.dart';
 
 class ValidationApiRepository {
   ValidationApiRepository(this._apiClient) {
@@ -58,6 +61,22 @@ class ValidationApiRepository {
     PhoneVerificationVerifyRequestModel model,
   ) async {
     return _validationApiDataSources.postPhoneVerificationVerifyRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullRequest(
+    PhoneVerificationFullRequestModel model,
+  ) async {
+    return _validationApiDataSources.postPhoneVerificationFullRequestRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullVerify(
+    PhoneVerificationFullVerifyRequestModel model,
+  ) async {
+    return _validationApiDataSources.postPhoneVerificationFullVerifyRequest(
       model,
     );
   }
