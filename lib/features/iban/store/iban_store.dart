@@ -20,13 +20,7 @@ import '../../../core/services/kyc_profile_countries.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
 part 'iban_store.g.dart';
 
-class IbanStore extends IbanStoreBase
-    with _$IbanStore {
-  IbanStore() : super();
-
-  static IbanStoreBase of(BuildContext context) =>
-      Provider.of<IbanStore>(context, listen: false);
-}
+class IbanStore = IbanStoreBase with _$IbanStore;
 
 abstract class IbanStoreBase with Store {
   IbanStoreBase() {

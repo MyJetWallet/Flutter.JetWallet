@@ -26,6 +26,7 @@ import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
+import '../../features/iban/store/iban_store.dart';
 import '../services/simple_networking/simple_networking.dart';
 import 'di.config.dart';
 
@@ -73,6 +74,10 @@ Future<GetIt> getItInit({
 
   getIt.registerSingleton<AppStore>(
     AppStore()..setEnv(env ?? ''),
+  );
+
+  getIt.registerSingleton<IbanStore>(
+    IbanStore(),
   );
 
   getIt.registerLazySingleton<RouteQueryService>(
