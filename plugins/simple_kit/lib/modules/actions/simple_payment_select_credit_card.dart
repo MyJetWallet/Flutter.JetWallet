@@ -9,6 +9,8 @@ class SPaymentSelectCreditCard extends StatelessWidget {
     this.onTap,
     this.helper = '',
     this.amount = '',
+    this.isApplePay = false,
+    this.isGooglePay = false,
     required this.icon,
     required this.name,
     required this.description,
@@ -16,6 +18,8 @@ class SPaymentSelectCreditCard extends StatelessWidget {
     required this.limit,
   }) : super(key: key);
 
+  final bool isApplePay;
+  final bool isGooglePay;
   final Function()? onTap;
   final String helper;
   final String amount;
@@ -55,8 +59,29 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SpaceW19(), // 1 px border
-                  icon,
-                  const SpaceW10(),
+                  if (!isApplePay && !isGooglePay) ...[
+                    icon,
+                    const SpaceW10(),
+                  ] else ...[
+                    if (isApplePay) ...[
+                      Image.asset(
+                        applePayAsset,
+                        width: 48,
+                        height: 30.73,
+                      ),
+                      const SpaceW20(),
+                    ] else ...[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Image.asset(
+                          googlePayAsset,
+                          width: 48,
+                          height: 32.34,
+                        ),
+                      ),
+                      const SpaceW20(),
+                    ],
+                  ],
                   Expanded(
                     child: Column(
                       children: [
