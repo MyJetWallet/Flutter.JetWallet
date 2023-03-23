@@ -39,4 +39,8 @@ enum CirclePaymentMethod {
   unlimintAlr,
   @JsonValue(3)
   bankCard,
+  @JsonValue(4)
+  applePay,
+  @JsonValue(5)
+  googlePay,
 }

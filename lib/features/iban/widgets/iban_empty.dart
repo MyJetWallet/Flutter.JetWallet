@@ -83,7 +83,7 @@ class IBanEmpty extends StatelessObserverWidget {
             SPaddingH24(
               child: SSecondaryButton1(
                 name: intl.iban_get_account,
-                active: !isLoading,
+                active: !isLoading || isKyc,
                 onTap: () {
                   onButtonTap?.call();
                 },

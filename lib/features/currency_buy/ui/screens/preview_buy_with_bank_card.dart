@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:decimal/decimal.dart';
+import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
+import 'package:jetwallet/features/currency_buy/models/google_pay_config.dart';
+import 'package:pay/pay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -54,18 +59,21 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final uAC = sSignalRModules.cards.cardInfos.where(
+    final uAC = sSignalRModules.cards.cardInfos
+        .where(
           (element) => element.integration == IntegrationType.unlimintAlt,
-    ).toList();
-    final activeCard = uAC.where((element) => element.id == input.cardId)
+        )
         .toList();
+    final activeCard =
+        uAC.where((element) => element.id == input.cardId).toList();
 
     final state = PreviewBuyWithBankCardStore.of(context);
-    final buyMethod = input.currency.buyMethods.where(
-      (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+    final buyMethod = input.currency.buyMethods
+        .where(
+          (element) => element.id == PaymentMethodType.bankCard,
+        )
+        .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
-
 
     var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
@@ -97,10 +105,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
+            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                ? 310.0
-                : 260.0,
+              bottom:
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260,
             ),
             children: [
               Column(
@@ -122,7 +130,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                           intl.previewBuy_orderSummary,
                           style: sTextH5Style,
                         ),
-                        const SpaceH34(),
+                        const SpaceH32(),
                       ],
                     ),
                   ),
@@ -135,7 +143,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       accuracy: input.currency.accuracy,
                       decimal: state.buyAmount ?? Decimal.zero,
                     )}',
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_rate,
                     contentLoading: state.loader.loading,
@@ -145,17 +155,24 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       accuracy: input.currencyPayment.accuracy,
                       decimal: state.rate ?? Decimal.zero,
                     )}',
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.curencyBuy_payFrom,
                     contentLoading: state.loader.loading,
-                    value:
-                        '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
-                            ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
-                            (input.cardNumber?.length ?? 4) - 4,
-                          ) : ''}',
+                    value: input.isApplePay
+                        ? 'Apple Pay'
+                        : input.isGooglePay
+                            ? 'Google Pay'
+                            : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                                ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
+                                    (input.cardNumber?.length ?? 4) - 4,
+                                  ) : ''}',
                     maxValueWidth: 200,
+                    baseline: 24,
                   ),
+                  const SpaceH19(),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_paymentFee,
                     contentLoading: state.loader.loading,
@@ -177,13 +194,14 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     infoAction: () {
                       sAnalytics.newBuyTapPaymentFee();
                       sAnalytics.newBuyFeeView(
-                        paymentFee: state.depositFeeAmountMax == state.depositFeeAmount
+                        paymentFee: state.depositFeeAmountMax ==
+                                state.depositFeeAmount
                             ? volumeFormat(
-                              prefix: baseCurrency.prefix,
-                              decimal: state.depositFeeAmount ?? Decimal.zero,
-                              accuracy: baseCurrency.accuracy,
-                              symbol: baseCurrency.symbol,
-                            )
+                                prefix: baseCurrency.prefix,
+                                decimal: state.depositFeeAmount ?? Decimal.zero,
+                                accuracy: baseCurrency.accuracy,
+                                symbol: baseCurrency.symbol,
+                              )
                             : '${state.depositFeePerc}%',
                       );
                       showTransactionFeeBottomSheet(
@@ -200,7 +218,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         tradeFeePercentage: state.depositFeePerc,
                       );
                     },
+                    baseline: 24,
                   ),
+                  const SpaceH15(),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
@@ -211,8 +231,9 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                       symbol: input.currency.symbol,
                     ),
                     maxValueWidth: 140,
+                    baseline: 24,
                   ),
-                  const SpaceH16(),
+                  const SpaceH17(),
                   Text(
                     intl.previewBuyWithCircle_description,
                     maxLines: 3,
@@ -272,7 +293,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     );
                   },
                   medium: () {
-                    return const SizedBox();
+                    return const SizedBox.shrink();
                   },
                 ),
                 const SpaceH20(),
@@ -302,10 +323,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                               betweenText: ', ',
                               privacyPolicyText:
-                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
                               onUserAgreementTap: () =>
                                   launchURL(context, userAgreementLink),
                               onPrivacyPolicyTap: () =>
@@ -328,14 +349,113 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   ],
                 ),
                 const SpaceH24(),
-                SPrimaryButton2(
-                  active: !state.loader.loading &&
-                      (state.isChecked || hideCheckbox),
-                  name: intl.previewBuyWithAsset_confirm,
-                  onTap: () {
-                    state.onConfirm();
-                  },
-                ),
+                if (!input.isApplePay && !input.isGooglePay) ...[
+                  SPrimaryButton2(
+                    active: !state.loader.loading &&
+                        (state.isChecked || hideCheckbox),
+                    name: intl.previewBuyWithAsset_confirm,
+                    onTap: () {
+                      state.onConfirm();
+                    },
+                  ),
+                ] else if (input.isApplePay) ...[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: ApplePayButton(
+                      paymentConfiguration: PaymentConfiguration.fromJsonString(
+                        jsonEncode(
+                          ApplePayConfig(
+                            provider: 'apple_pay',
+                            data: ApplePayConfigData(
+                              merchantIdentifier: 'merchant.app.simple.com',
+                              displayName: displayName,
+                              merchantCapabilities: merchantCapabilities,
+                              supportedNetworks: supportedNetworks,
+                              countryCode: countryCode,
+                              currencyCode: input.currencyPayment.symbol,
+                              requiredBillingContactFields: null,
+                              requiredShippingContactFields: null,
+                            ),
+                          ),
+                        ),
+                      ),
+                      height: 56,
+                      width: double.infinity,
+                      paymentItems: [
+                        PaymentItem(
+                          label: 'Simple.app',
+                          amount: state.amountToPay!.toString(),
+                          status: PaymentItemStatus.final_price,
+                        ),
+                      ],
+                      style: ApplePayButtonStyle.black,
+                      type: ApplePayButtonType.inStore,
+                      onPaymentResult: (paymentResult) =>
+                          state.requestApplePay(paymentResult),
+                      loadingIndicator: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                ] else if (input.isGooglePay) ...[
+                  GooglePayButton(
+                    paymentConfiguration: PaymentConfiguration.fromJsonString(
+                      jsonEncode(
+                        GooglePayConfig(
+                          provider: 'google_pay',
+                          data: GooglePayConfigData(
+                            environment: 'TEST',
+                            apiVersion: 2,
+                            apiVersionMinor: 0,
+                            allowedPaymentMethods: [
+                              GooglePayConfigAllowedPaymentMethod(
+                                type: 'CARD',
+                                tokenizationSpecification:
+                                    GooglePayConfigTokenizationSpec(
+                                  type: 'PAYMENT_GATEWAY',
+                                  parameters: GooglePayConfigTokenSpecP(
+                                    gateway: 'unlimint',
+                                    gatewayMerchantId: 'googletest',
+                                  ),
+                                ),
+                                parameters: GooglePayConfigParameters(
+                                  allowedAuthMethods: [
+                                    'PAN_ONLY',
+                                    'CRYPTOGRAM_3DS'
+                                  ],
+                                  allowedCardNetworks: ['VISA', 'MASTERCARD'],
+                                ),
+                              ),
+                            ],
+                            merchantInfo: GooglePayConfigMerchantInfo(
+                              merchantId: 'googletest',
+                              merchantName: 'Test',
+                            ),
+                            transactionInfo: GooglePayConfigTransactionInfo(
+                              countryCode: countryCode,
+                              currencyCode: input.currencyPayment.symbol,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    paymentItems: [
+                      PaymentItem(
+                        label: 'Simple.app',
+                        amount: state.amountToPay!.toString(),
+                        status: PaymentItemStatus.final_price,
+                      ),
+                    ],
+                    height: 56,
+                    width: double.infinity,
+                    type: GooglePayButtonType.pay,
+                    onPaymentResult: (paymentResult) =>
+                        state.requestGooglePay(paymentResult),
+                    loadingIndicator: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

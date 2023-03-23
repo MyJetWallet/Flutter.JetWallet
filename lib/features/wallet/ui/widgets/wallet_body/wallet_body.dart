@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../actions/action_send/widgets/send_options.dart';
@@ -109,7 +111,7 @@ class _WalletBodyState extends State<WalletBody>
                         const SpaceH36(),
                         Text(
                           '${widget.currency.description}'
-                              ' ${intl.walletBody_transactions}',
+                          ' ${intl.walletBody_transactions}',
                           style: sTextH4Style,
                         ),
                       ],
@@ -127,41 +129,49 @@ class _WalletBodyState extends State<WalletBody>
             ),
             Positioned(
               bottom: 0,
-                child: Material(
-                  color: colors.white,
-                  child: SizedBox(
-                    height: 127,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        const SDivider(),
-                        const SpaceH16(),
-                        CircleActionButtons(
-                          showBuy: widget.currency.supportsAtLeastOneBuyMethod,
-                          showReceive: widget.currency.supportsCryptoDeposit,
-                          showExchange: widget.currency.isAssetBalanceNotEmpty,
-                          showSend: widget.currency.isAssetBalanceNotEmpty &&
-                              widget.currency.supportsCryptoWithdrawal,
-                          onBuy: () {
-                            sAnalytics.newBuyTapBuy(
-                              source: 'My Assets - Asset -  Buy',
-                            );
-                            final actualAsset = widget.currency;
-                            if (kycState.depositStatus ==
-                                kycOperationStatus(KycStatus.allowed)) {
-                              sRouter.push(
+              child: Material(
+                color: colors.white,
+                child: SizedBox(
+                  height: 127,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      const SDivider(),
+                      const SpaceH16(),
+                      CircleActionButtons(
+                        showBuy: widget.currency.supportsAtLeastOneBuyMethod,
+                        showReceive: widget.currency.supportsCryptoDeposit,
+                        showExchange: widget.currency.isAssetBalanceNotEmpty,
+                        showSend: widget.currency.isAssetBalanceNotEmpty &&
+                            widget.currency.supportsCryptoWithdrawal,
+                        onBuy: () {
+                          sAnalytics.newBuyTapBuy(
+                            source: 'My Assets - Asset -  Buy',
+                          );
+                          final actualAsset = widget.currency;
+                          if (kycState.depositStatus ==
+                              kycOperationStatus(KycStatus.allowed)) {
+                            showSendTimerAlertOr(
+                              context: context,
+                              or: () => sRouter.push(
                                 PaymentMethodRouter(currency: actualAsset),
-                              );
-                            } else {
-                              kycAlertHandler.handle(
-                                status: kycState.depositStatus,
-                                isProgress: kycState.verificationInProgress,
-                                navigatePop: true,
-                                currentNavigate: () {
-                                  sRouter.push(
+                              ),
+                              from: BlockingType.deposit,
+                            );
+                          } else {
+                            kycAlertHandler.handle(
+                              status: kycState.depositStatus,
+                              isProgress: kycState.verificationInProgress,
+                              navigatePop: true,
+                              currentNavigate: () {
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sRouter.push(
                                     PaymentMethodRouter(currency: actualAsset),
-                                  );
-                                },
+                                  ),
+                                  from: BlockingType.deposit,
+                                );
+                              },
                                 requiredDocuments: kycState.requiredDocuments,
                                 requiredVerifications:
                                 kycState.requiredVerifications,
@@ -173,22 +183,30 @@ class _WalletBodyState extends State<WalletBody>
                               final actualAsset = widget.currency;
                               if (kycState.depositStatus ==
                                   kycOperationStatus(KycStatus.allowed)) {
-                                sRouter.navigate(
-                                  CryptoDepositRouter(
-                                    header: intl.balanceActionButtons_receive,
-                                    currency: actualAsset,
+                                showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sRouter.navigate(
+                                    CryptoDepositRouter(
+                                      header: intl.balanceActionButtons_receive,
+                                      currency: actualAsset,
+                                    ),
                                   ),
+                                  from: BlockingType.deposit,
                                 );
                               } else {
                                 kycAlertHandler.handle(
                                   status: kycState.depositStatus,
                                   isProgress: kycState.verificationInProgress,
                                   currentNavigate: () {
-                                    sRouter.navigate(
-                                      CryptoDepositRouter(
-                                        header: intl.balanceActionButtons_receive,
-                                        currency: actualAsset,
+                                    showSendTimerAlertOr(
+                                      context: context,
+                                      or: () => sRouter.navigate(
+                                        CryptoDepositRouter(
+                                          header: intl.balanceActionButtons_receive,
+                                          currency: actualAsset,
+                                        ),
                                       ),
+                                      from: BlockingType.deposit,
                                     );
                                   },
                                   requiredDocuments: kycState.requiredDocuments,
@@ -230,31 +248,43 @@ class _WalletBodyState extends State<WalletBody>
                             final actualAsset = widget.currency;
                             if (kycState.sellStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
-                              sRouter.push(ConvertRouter(
-                                fromCurrency: actualAsset,
-                              ));
-                            } else {
-                              kycAlertHandler.handle(
-                                status: kycState.sellStatus,
-                                isProgress: kycState.verificationInProgress,
-                                currentNavigate: () => sRouter.push(
+                              showSendTimerAlertOr(
+                                context: context,
+                                or: () => sRouter.push(
                                   ConvertRouter(
                                     fromCurrency: actualAsset,
                                   ),
                                 ),
-                                navigatePop: false,
-                                requiredDocuments: kycState.requiredDocuments,
-                                requiredVerifications:
-                                kycState.requiredVerifications,
+                                from: BlockingType.trade,
                               );
-                            }
-                          },
-                        ),
-                        const SpaceH34(),
-                      ],
-                    ),
+                            } else {
+                              kycAlertHandler.handle(
+                                status: kycState.sellStatus,
+                                isProgress: kycState.verificationInProgress,
+                                currentNavigate: () => showSendTimerAlertOr(
+                                  context: context,
+                                  or: () => sRouter.push(
+                                    ConvertRouter(
+                                      fromCurrency: actualAsset,
+                                    ),
+                                  ),
+                                  from: BlockingType.trade,
+                                ),
+                                from: BlockingType.trade,
+                              ),
+                              navigatePop: false,
+                              requiredDocuments: kycState.requiredDocuments,
+                              requiredVerifications:
+                                  kycState.requiredVerifications,
+                            );
+                          }
+                        },
+                      ),
+                      const SpaceH34(),
+                    ],
                   ),
                 ),
+              ),
             ),
           ],
         ),
