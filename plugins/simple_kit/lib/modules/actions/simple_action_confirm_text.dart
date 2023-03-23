@@ -55,7 +55,7 @@ class SActionConfirmText extends StatelessWidget {
               baselineType: TextBaseline.alphabetic,
               child: infoIcon
                   ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           name,

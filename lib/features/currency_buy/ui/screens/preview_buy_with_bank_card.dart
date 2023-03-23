@@ -220,7 +220,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     },
                     baseline: 24,
                   ),
-                  const SpaceH19(),
+                  const SpaceH15(),
                   SActionConfirmText(
                     name: intl.previewBuyWithUnlimint_simpleFee,
                     contentLoading: state.loader.loading,
@@ -293,7 +293,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     );
                   },
                   medium: () {
-                    return const SizedBox();
+                    return const SizedBox.shrink();
                   },
                 ),
                 const SpaceH20(),
@@ -449,7 +449,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     height: 56,
                     width: double.infinity,
                     type: GooglePayButtonType.pay,
-                    margin: const EdgeInsets.only(top: 15.0),
                     onPaymentResult: (paymentResult) =>
                         state.requestGooglePay(paymentResult),
                     loadingIndicator: const Center(
