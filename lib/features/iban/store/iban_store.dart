@@ -12,6 +12,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_info/iban_info_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_set_address_request.dart';
 
 import '../../../core/di/di.dart';
@@ -20,20 +21,13 @@ import '../../../core/services/kyc_profile_countries.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
 part 'iban_store.g.dart';
 
-class IbanStore extends IbanStoreBase
-    with _$IbanStore {
-  IbanStore() : super();
-
-  static IbanStoreBase of(BuildContext context) =>
-      Provider.of<IbanStore>(context, listen: false);
-}
+class IbanStore = IbanStoreBase with _$IbanStore;
 
 abstract class IbanStoreBase with Store {
   IbanStoreBase() {
     loader = StackLoaderStore();
 
     initState();
-    _initCountryState();
   }
 
   static final _logger = Logger('IbanStore');
@@ -115,6 +109,9 @@ abstract class IbanStoreBase with Store {
 
   @observable
   bool isLoading = false;
+
+  @observable
+  bool wasFirstLoad = false;
 
   @observable
   IbanInfoStatusDto status = IbanInfoStatusDto.notExist;
@@ -223,7 +220,8 @@ abstract class IbanStoreBase with Store {
   @action
   Future<void> initState() async {
     final userInfo = sUserInfo.userInfo;
-    ibanName = '${userInfo.firstName} ${userInfo.lastName}';
+    // ibanName = '${userInfo.firstName} ${userInfo.lastName}';
+    ibanName = 'Simple UAB';
     if (ibanBic.isEmpty) {
       isLoading = true;
     }
@@ -237,6 +235,7 @@ abstract class IbanStoreBase with Store {
           ibanAddress = data.iban?.iban ?? '';
           status = data.status ?? IbanInfoStatusDto.notExist;
           isLoading = false;
+          wasFirstLoad = true;
         },
         onError: (error) {
           sNotification.showError(
@@ -244,6 +243,7 @@ abstract class IbanStoreBase with Store {
             id: 1,
           );
           isLoading = false;
+          wasFirstLoad = true;
         },
       );
     } on ServerRejectException catch (error) {
@@ -252,6 +252,7 @@ abstract class IbanStoreBase with Store {
         id: 1,
       );
       isLoading = false;
+      wasFirstLoad = true;
     } catch (error) {
       print(error);
       sNotification.showError(
@@ -261,12 +262,12 @@ abstract class IbanStoreBase with Store {
         needFeedback: true,
       );
       isLoading = false;
+      wasFirstLoad = true;
     }
   }
 
   @action
-  void _initCountryState() {
-    final countriesList = getIt.get<KycProfileCountries>().profileCountries;
+  void initCountryState(CountryListResponseModel countriesList) {
     final value = <KycProfileCountryModel>[];
 
     if (countriesList.countries.isNotEmpty) {

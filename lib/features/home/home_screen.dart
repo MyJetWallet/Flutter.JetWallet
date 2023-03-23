@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
 List<PageRouteInfo<dynamic>> screens = [
@@ -49,6 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
               onChanged: (int val) {
+                if (val == 2) {
+                  getIt<IbanStore>().initState();
+                }
                 getIt<AppStore>().setHomeTab(val);
                 tabsRouter.setActiveIndex(val);
               },
