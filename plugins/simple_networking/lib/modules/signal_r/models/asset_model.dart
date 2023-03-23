@@ -123,6 +123,7 @@ enum DepositMethods {
   sepaDeposit,
   swiftDeposit,
   cardDeposit,
+  ibanReceive,
   unsupported,
 }
 
@@ -139,6 +140,8 @@ extension _DepositMethodsExtension on DepositMethods {
         return 'SwiftDeposit';
       case DepositMethods.cardDeposit:
         return 'CardDeposit';
+      case DepositMethods.ibanReceive:
+        return 'IbanReceive';
       default:
         return 'Unsupported';
     }
@@ -163,6 +166,8 @@ class DepositMethodsSerialiser
       return DepositMethods.swiftDeposit;
     } else if (value == 'CardDeposit') {
       return DepositMethods.cardDeposit;
+    } else if (value == 'IbanReceive') {
+      return DepositMethods.ibanReceive;
     } else {
       return DepositMethods.unsupported;
     }

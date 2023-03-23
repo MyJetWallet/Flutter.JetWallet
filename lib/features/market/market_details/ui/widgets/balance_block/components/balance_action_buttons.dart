@@ -17,9 +17,11 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.da
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../../../actions/circle_actions/circle_actions.dart';
+import '../../../../../../app/store/app_store.dart';
 import '../../../../helper/currency_from.dart';
 
 class BalanceActionButtons extends StatelessObserverWidget {
@@ -120,41 +122,49 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onReceive: () {
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
-                showSendTimerAlertOr(
-                  context: context,
-                  or: () {
-                    sRouter.navigate(
-                      CryptoDepositRouter(
-                        header: intl.balanceActionButtons_receive,
-                        currency: currency,
-                      ),
-                    );
-                  },
-                  from: BlockingType.deposit,
-                );
+              if (currency.type == AssetType.crypto) {
+                if (kycState.depositStatus ==
+                    kycOperationStatus(KycStatus.allowed)) {
+                  showSendTimerAlertOr(
+                    context: context,
+                    or: () {
+                      sRouter.navigate(
+                        CryptoDepositRouter(
+                          header: intl.balanceActionButtons_receive,
+                          currency: currency,
+                        ),
+                      );
+                    },
+                    from: BlockingType.deposit,
+                  );
+                } else {
+                  kycAlertHandler.handle(
+                    status: kycState.depositStatus,
+                    isProgress: kycState.verificationInProgress,
+                    currentNavigate: () {
+                      showSendTimerAlertOr(
+                        context: context,
+                        or: () {
+                          sRouter.navigate(
+                            CryptoDepositRouter(
+                              header: intl.balanceActionButtons_receive,
+                              currency: currency,
+                            ),
+                          );
+                        },
+                        from: BlockingType.deposit,
+                      );
+                    },
+                    requiredDocuments: kycState.requiredDocuments,
+                    requiredVerifications: kycState.requiredVerifications,
+                  );
+                }
               } else {
-                kycAlertHandler.handle(
-                  status: kycState.depositStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () {
-                    showSendTimerAlertOr(
-                      context: context,
-                      or: () {
-                        sRouter.navigate(
-                          CryptoDepositRouter(
-                            header: intl.balanceActionButtons_receive,
-                            currency: currency,
-                          ),
-                        );
-                      },
-                      from: BlockingType.deposit,
-                    );
-                  },
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
+                sRouter.popUntilRoot();
+                getIt<AppStore>().setHomeTab(2);
+                if (getIt<AppStore>().tabsRouter != null) {
+                  getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+                }
               }
             },
             onSend: () {
