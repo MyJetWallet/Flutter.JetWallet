@@ -473,7 +473,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   @action
   Future<void> executeApplePayPayment() async {
     loader.startLoadingImmediately();
-    wasAction = true;
+    //wasAction = true;
 
     isChecked = true;
 

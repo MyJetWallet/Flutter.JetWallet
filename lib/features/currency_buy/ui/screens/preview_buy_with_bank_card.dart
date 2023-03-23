@@ -108,7 +108,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
             physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
               bottom:
-                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 200,
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 260,
             ),
             children: [
               Column(
