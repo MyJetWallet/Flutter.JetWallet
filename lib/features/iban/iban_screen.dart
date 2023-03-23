@@ -105,10 +105,10 @@ class _IBanScreenBodyState extends State<IBanScreen> {
 
     final showEmptyScreen = store.ibanAddress.isEmpty;
 
-    final textForShare = '${intl.iban_share_text}: \n'
+    final textForShare = '${intl.iban_share_text}: \n \n'
     '${intl.iban_benificiary}: ${store.ibanName} \n'
     '${intl.iban_iban}: ${store.ibanAddress} \n'
-    '${intl.iban_bic}: ${store.ibanBic} \n'
+    '${intl.iban_bic}: ${store.ibanBic} \n \n'
     '${intl.iban_terms}';
 
     return SPageFrame(
@@ -127,7 +127,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
         onButtonTap: () {
           sShowAlertPopup(
             context,
-            willPopScope: false,
+            willPopScope: true,
             primaryText: intl.iban_hold_on,
             secondaryText: isKyc
               ? intl.iban_please_verify
