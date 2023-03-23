@@ -195,7 +195,9 @@ abstract class _PhoneVerificationStoreBase with Store {
   @action
   Future<void> sendFullCode(bool isStart) async {
     try {
-      resendTapped = true;
+      if (!isStart) {
+        resendTapped = true;
+      }
 
       final model = PhoneVerificationFullRequestModel(
         locale: intl.localeName,

@@ -13,6 +13,9 @@ import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/di/di.dart';
+import '../../../core/services/logout_service/logout_service.dart';
+
 const codeLength = 4;
 
 class PhoneVerificationArgs {
@@ -96,6 +99,19 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
           isSmallSize: true,
+          customIconButton: args.sendCodeOnInitState ? SIconButton(
+            onTap: () {
+              getIt<LogoutService>().logout(
+                'TWO FA, logout',
+                withLoading: false,
+                callbackAfterSend: () {},
+              );
+
+              getIt<AppRouter>().pop();
+            },
+            defaultIcon: const SCloseIcon(),
+            pressedIcon: const SClosePressedIcon(),
+          ) : null,
         ),
       ),
       child: SPaddingH24(

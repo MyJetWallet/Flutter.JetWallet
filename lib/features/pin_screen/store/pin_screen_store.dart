@@ -523,7 +523,7 @@ abstract class _PinScreenStoreBase with Store {
 
     isError = true;
 
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(milliseconds: 2500), () {
       isError = false;
     });
   }
