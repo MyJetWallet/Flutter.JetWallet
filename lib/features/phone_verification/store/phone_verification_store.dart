@@ -87,7 +87,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendCode(true);
+      sendFullCode(true);
     }
   }
 
@@ -126,8 +126,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
         resendTapped = false;
-
-        print('ERROR');
 
         sNotification.showError(
           response.error!.cause,
@@ -212,8 +210,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'sendCode', response.error);
         resendTapped = false;
-
-        print('ERROR');
 
         sNotification.showError(
           response.error!.cause,

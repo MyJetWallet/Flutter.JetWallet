@@ -288,7 +288,10 @@ abstract class _PinScreenStoreBase with Store {
 
         await resetPin();
 
-        if (response.error?.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
+        if (
+          response.error?.cause == 'The code you entered is incorrect, 2 attempts remaining.' ||
+          response.error?.cause == 'Provided code is incorrect. Please try again'
+        ) {
           if (isChangePhone || isChangePin) {
             showForgot = true;
           }

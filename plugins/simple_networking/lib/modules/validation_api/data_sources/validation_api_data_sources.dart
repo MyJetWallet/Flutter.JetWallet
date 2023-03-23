@@ -165,8 +165,6 @@ class ValidationApiDataSources {
         '${_apiClient.options.validationApi}/phone-setup/verification/verify',
         data: model.toJson(),
       );
-      print('response');
-      print(response);
 
       try {
         final responseData = response.data as Map<String, dynamic>;
