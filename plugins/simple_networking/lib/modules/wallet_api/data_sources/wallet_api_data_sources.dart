@@ -5,6 +5,7 @@ import 'package:simple_networking/helpers/handle_api_responses.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -38,6 +39,7 @@ import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawa
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
@@ -93,7 +95,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
+import '../models/profile/profile_set_address_request.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {
@@ -714,6 +718,115 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, bool>> postApplePayConfirmRequest(
+    String depositId,
+    String applePayToken,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/public/applepay/confirm',
+        data: {
+          'depositId': depositId,
+          'applePayToken': applePayToken,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(true);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>>
+      getApplePayInfoRequest(
+    String depositId,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/public/applepay/info/$depositId',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(ApplePayResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, GooglePayConfirmModel>>
+      postGooglePayConfirmRequest(
+    String depositId,
+    String googlePayToken,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/public/googlepay/confirm',
+        data: {
+          'depositId': depositId,
+          'googlePayToken': googlePayToken,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(GooglePayConfirmModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>>
+      getGooglePayInfoRequest(
+    String depositId,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/public/googlepay/info/$depositId',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(ApplePayResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, bool>> postCardBuyExecuteRequest(
     CardBuyExecuteRequestModel model,
   ) async {
@@ -1056,6 +1169,28 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, IbanInfoResponseModel>>
+      getIbanInfoRequest() async {
+    try {
+      const testModel = DeleteCardRequestModel(cardId: 'test');
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/iban/get-iban-details',
+        data: testModel.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(IbanInfoResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, MarketNewsResponseModel>>
       postMarketNewsRequest(
     MarketNewsRequestModel model,
@@ -1186,6 +1321,25 @@ class WalletApiDataSources {
           tokenId: tokenId,
           deletionReasonIds: deletionReasonIds,
         ).toJson(),
+      );
+
+      try {
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postSetAddressRequest(
+    ProfileSetAddressRequestModel model,
+  ) async {
+    try {
+      final _ = await _apiClient.post(
+        '${_apiClient.options.walletApi}/profile/set-address',
+        data: model,
       );
 
       try {
@@ -1693,6 +1847,48 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(GetBaseAssetsResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> debugErrorRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi!.replaceAll("/v1", "")}/debug/error',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('catch error');
+
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> debugRejectRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi!.replaceAll("/v1", "")}/debug/reject',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
       } catch (e) {
         rethrow;
       }

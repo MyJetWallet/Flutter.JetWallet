@@ -14,9 +14,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:jetwallet/utils/helpers/show_plain_snackbar.dart';
-import 'package:jetwallet/widgets/loaders/loader.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/services/deep_link_service.dart';
@@ -241,7 +238,7 @@ class _AccountScreenState extends State<AccountScreen>
                     SimpleAccountCategoryButton(
                       title: intl.account_aboutUs,
                       icon: const SAboutUsIcon(),
-                      isSDivider: flavor == Flavor.dev,
+                      isSDivider: true,
                       onTap: () {
                         sRouter.push(
                           const AboutUsRouter(),
@@ -252,24 +249,21 @@ class _AccountScreenState extends State<AccountScreen>
                       SimpleAccountCategoryButton(
                         title: intl.account_debugInfo,
                         icon: const SInfoIcon(),
-                        isSDivider: false,
+                        isSDivider: true,
                         onTap: () {
                           sRouter.push(
                             const DebugInfoRouter(),
                           );
                         },
                       ),
+                    LogOutOption(
+                      name: intl.log_out,
+                      onTap: () => logout.logout(
+                        'account logout',
+                        callbackAfterSend: () {},
+                      ),
+                    ),
                   ],
-                ),
-                const SpaceH20(),
-                const SDivider(),
-                const SpaceH20(),
-                LogOutOption(
-                  name: intl.log_out,
-                  onTap: () => logout.logout(
-                    'account logout',
-                    callbackAfterSend: () {},
-                  ),
                 ),
                 const SpaceH42(),
               ],

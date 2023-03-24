@@ -13,6 +13,9 @@ import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/di/di.dart';
+import '../../../core/services/logout_service/logout_service.dart';
+
 const codeLength = 4;
 
 class PhoneVerificationArgs {
@@ -96,6 +99,19 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
           isSmallSize: true,
+          customIconButton: args.sendCodeOnInitState ? SIconButton(
+            onTap: () {
+              getIt<LogoutService>().logout(
+                'TWO FA, logout',
+                withLoading: false,
+                callbackAfterSend: () {},
+              );
+
+              getIt<AppRouter>().pop();
+            },
+            defaultIcon: const SCloseIcon(),
+            pressedIcon: const SClosePressedIcon(),
+          ) : null,
         ),
       ),
       child: SPaddingH24(
@@ -159,7 +175,13 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       controller: store.controller,
                       autoFocus: true,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      onCompleted: (_) => store.verifyCode(),
+                      onCompleted: (_) {
+                        if (args.sendCodeOnInitState) {
+                          store.verifyFullCode();
+                        } else {
+                          store.verifyCode();
+                        }
+                      },
                       onChanged: (_) {
                         store.pinFieldError.disableError();
                       },
@@ -190,7 +212,11 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
-                    await store.sendCode();
+                    if (args.sendCodeOnInitState) {
+                      await store.sendFullCode(false);
+                    } else {
+                      await store.sendCode(false);
+                    }
                     store.refreshTimer();
 
                     store.updateShowResend(

@@ -120,6 +120,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     //  ↓ fix Amplitude (unable to load android socket classes) ↓
     implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.google.android.gms:play-services-wallet:18.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

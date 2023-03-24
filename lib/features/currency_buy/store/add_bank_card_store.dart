@@ -103,6 +103,9 @@ abstract class _AddBankCardStoreBase with Store {
   @observable
   StackLoaderStore loader = StackLoaderStore();
 
+  @observable
+  bool canClick = true;
+
   @computed
   bool get isCardNumberValid {
     return CreditCardValidator().validateCCNum(cardNumber).isValid;
@@ -409,6 +412,11 @@ abstract class _AddBankCardStoreBase with Store {
   @action
   void checkSetter() {
     saveCard = !saveCard;
+  }
+
+  @action
+  void toggleClick(bool value) {
+    canClick = value;
   }
 
   @action

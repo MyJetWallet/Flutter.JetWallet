@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -85,6 +87,7 @@ class AddBankCardBody extends StatelessObserverWidget {
 
     return SPageFrame(
       color: colors.grey5,
+      loading: store.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.addCircleCard_bigHeaderTitle,
@@ -241,6 +244,18 @@ class AddBankCardBody extends StatelessObserverWidget {
                                   active: store.isCardDetailsValid,
                                   name: intl.addCircleCard_continue,
                                   onTap: () async {
+                                    if (store.canClick) {
+                                      store.toggleClick(false);
+                                      Timer(
+                                        const Duration(
+                                          seconds: 2,
+                                        ),
+                                            () => store.toggleClick(true),
+                                      );
+                                    } else {
+                                      return;
+                                    }
+
                                     await store.addCard(
                                       onSuccess: onCardAdded,
                                       onError: () {},
@@ -396,7 +411,18 @@ class AddBankCardBody extends StatelessObserverWidget {
                       child: SPrimaryButton2(
                         active: store.isCardDetailsValid,
                         name: intl.addCircleCard_continue,
-                        onTap: () async {
+                        onTap: ()  async {
+                          if (store.canClick) {
+                            store.toggleClick(false);
+                            Timer(
+                              const Duration(
+                                seconds: 2,
+                              ),
+                                  () => store.toggleClick(true),
+                            );
+                          } else {
+                            return;
+                          }
                           sAnalytics.newBuyTapCardContinue(
                             saveCard: '${store.saveCard}',
                           );

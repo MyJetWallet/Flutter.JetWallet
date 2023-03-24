@@ -240,10 +240,13 @@ class SignalRFuncHandler {
 
   void clientDetailMessageHandler(List<Object?>? data) {
     try {
+      print(_json(data));
+
       final map = {
         for (final e in _json(data).entries) e.key: e.value,
         'recivedAt': DateTime.now().toString(),
       };
+
       final clientDetail = ClientDetailModel.fromJson(map);
       sTransport.clientDetail(clientDetail);
 
@@ -317,6 +320,8 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
+      print(e);
+
       instance.handleError(paymentMethodsNewMessage, e);
     }
   }

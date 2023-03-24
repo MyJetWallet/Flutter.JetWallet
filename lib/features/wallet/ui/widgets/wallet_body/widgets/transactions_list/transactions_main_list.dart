@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import '../../../../../../../utils/constants.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../helper/nft_types.dart';
@@ -24,21 +26,18 @@ class TransactionsMainList extends StatelessWidget {
     this.zeroPadding = false,
     this.symbol,
     this.filter = TransactionType.none,
-    this.jw_operation_id,
   });
 
   final String? symbol;
   final TransactionType filter;
   final bool isRecurring;
   final bool zeroPadding;
-  final String? jw_operation_id;
 
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) =>
-          OperationHistory(symbol, filter, isRecurring, jw_operation_id)
-            ..initOperationHistory(),
+          OperationHistory(symbol, filter, isRecurring)..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         symbol: symbol,
         isRecurring: isRecurring,
@@ -101,6 +100,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
     super.initState();
   }
 
+  static const double _indicatorSize = 75;
+
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
@@ -143,52 +144,97 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                         const SpaceH120(),
                       ],
                     )
-          : GroupedListView<OperationHistoryItem, String>(
-              elements: store.listToShow,
-              groupBy: (transaction) {
-                return formatDate(transaction.timeStamp);
-              },
-              sort: false,
-              groupSeparatorBuilder: (String date) {
-                return TransactionMonthSeparator(text: date);
-              },
-              padding: EdgeInsets.zero,
-              controller: OperationHistory.of(context).scrollController,
-              itemBuilder: (context, transaction) {
-                final index = store.listToShow.indexOf(transaction);
-                final currentDate = formatDate(transaction.timeStamp);
-                var nextDate = '';
-                if (index != (store.listToShow.length - 1)) {
-                  nextDate = formatDate(store.listToShow[index + 1].timeStamp);
-                }
-                final removeDividerForLastInGroup = currentDate != nextDate;
-
-                return Column(
-                  children: [
-                    TransactionListItem(
-                      transactionListItem: transaction,
-                      removeDivider: removeDividerForLastInGroup,
+          : CustomRefreshIndicator(
+              offsetToArmed: _indicatorSize,
+              onRefresh: () => store.refreshHistory(),
+              builder: (
+                BuildContext context,
+                Widget child,
+                IndicatorController controller,
+              ) {
+                return Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    AnimatedBuilder(
+                      animation: controller,
+                      builder: (BuildContext context, Widget? _) {
+                        return SizedBox(
+                          height: controller.value * _indicatorSize,
+                          child: Container(
+                            width: 24.0,
+                            decoration: BoxDecoration(
+                              color: colors.grey5,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: const RiveAnimation.asset(
+                              loadingAnimationAsset,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    if (store.isLoading &&
-                        store.listToShow.indexOf(transaction) ==
-                            store.listToShow.length - 1) ...[
-                      const SpaceH16(),
-                      Container(
-                        width: 24.0,
-                        height: 24.0,
-                        decoration: BoxDecoration(
-                          color: colors.grey5,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const RiveAnimation.asset(
-                          loadingAnimationAsset,
-                        ),
-                      ),
-                      const SpaceH24(),
-                    ],
+                    AnimatedBuilder(
+                      builder: (context, _) {
+                        return Transform.translate(
+                          offset:
+                              Offset(0.0, controller.value * _indicatorSize),
+                          child: child,
+                        );
+                      },
+                      animation: controller,
+                    ),
                   ],
                 );
               },
+              child: GroupedListView<OperationHistoryItem, String>(
+                elements: store.listToShow,
+                groupBy: (transaction) {
+                  return formatDate(transaction.timeStamp);
+                },
+                sort: false,
+                groupSeparatorBuilder: (String date) {
+                  return TransactionMonthSeparator(text: date);
+                },
+                padding: EdgeInsets.zero,
+                controller: OperationHistory.of(context).scrollController,
+                itemBuilder: (context, transaction) {
+                  final index = store.listToShow.indexOf(transaction);
+                  final currentDate = formatDate(transaction.timeStamp);
+                  var nextDate = '';
+                  if (index != (store.listToShow.length - 1)) {
+                    nextDate =
+                        formatDate(store.listToShow[index + 1].timeStamp);
+                  }
+                  final removeDividerForLastInGroup = currentDate != nextDate;
+
+                  return Column(
+                    children: [
+                      TransactionListItem(
+                        transactionListItem: transaction,
+                        removeDivider: removeDividerForLastInGroup,
+                      ),
+                      if (store.isLoading &&
+                          store.listToShow.indexOf(transaction) ==
+                              store.listToShow.length - 1) ...[
+                        const SpaceH16(),
+                        Container(
+                          width: 24.0,
+                          height: 24.0,
+                          decoration: BoxDecoration(
+                            color: colors.grey5,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const RiveAnimation.asset(
+                            loadingAnimationAsset,
+                          ),
+                        ),
+                        const SpaceH24(),
+                      ],
+                    ],
+                  );
+                },
+              ),
             ),
       /*child: store.union.when(
         loaded: () {

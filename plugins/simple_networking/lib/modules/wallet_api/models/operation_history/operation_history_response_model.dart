@@ -30,13 +30,13 @@ class OperationHistoryItem with _$OperationHistoryItem {
     CryptoBuyInfo? cryptoBuyInfo,
     EarnInfo? earnInfo,
     required String operationId,
-    required OperationType operationType,
+    @OperationTypeSerialiser() required OperationType operationType,
     required String assetId,
     required String timeStamp,
     @DecimalSerialiser() required Decimal balanceChange,
     @DecimalSerialiser() required Decimal newBalance,
     @DecimalSerialiser() required Decimal assetPriceInUsd,
-    required Status status,
+    @StatusSerialiser() required Status status,
   }) = _OperationHistoryItem;
 
   factory OperationHistoryItem.fromJson(Map<String, dynamic> json) =>
@@ -44,57 +44,189 @@ class OperationHistoryItem with _$OperationHistoryItem {
 }
 
 enum OperationType {
-  @JsonValue(0)
   deposit,
-  @JsonValue(1)
   withdraw,
-  @JsonValue(2)
   swap,
-  @JsonValue(4)
   withdrawalFee,
-  @JsonValue(6)
   transferByPhone,
-  @JsonValue(7)
   receiveByPhone,
-  @JsonValue(8)
   paidInterestRate,
-  @JsonValue(10)
   feeSharePayment,
-  @JsonValue(11)
   rewardPayment,
-  @JsonValue(12)
   simplexBuy,
-  @JsonValue(13)
   recurringBuy,
-  @JsonValue(14)
   earningDeposit,
-  @JsonValue(15)
   earningWithdrawal,
-  @JsonValue(17)
   cryptoInfo,
   unknown,
   buy,
   sell,
-  @JsonValue(18)
   nftSwap,
-  @JsonValue(19)
   nftReserve,
-  @JsonValue(20)
   nftRelease,
-  @JsonValue(21)
   nftBuy,
-  @JsonValue(22)
   nftBuyOpposite,
-  @JsonValue(23)
   nftSell,
-  @JsonValue(24)
   nftSellOpposite,
-  @JsonValue(25)
   nftDeposit,
-  @JsonValue(26)
   nftWithdrawal,
-  @JsonValue(27)
   nftWithdrawalFee,
+  manualDeposit,
+  manualWithdrawal,
+  transferByNickname,
+  receiveByNickname,
+  ibanDeposit,
+}
+
+extension _OperationTypeExtension on OperationType {
+  int get name {
+    switch (this) {
+      case OperationType.deposit:
+        return 0;
+      case OperationType.withdraw:
+        return 1;
+      case OperationType.swap:
+        return 2;
+      case OperationType.withdrawalFee:
+        return 4;
+      case OperationType.transferByPhone:
+        return 6;
+      case OperationType.receiveByPhone:
+        return 7;
+      case OperationType.paidInterestRate:
+        return 8;
+      case OperationType.feeSharePayment:
+        return 10;
+      case OperationType.rewardPayment:
+        return 11;
+      case OperationType.simplexBuy:
+        return 12;
+      case OperationType.recurringBuy:
+        return 13;
+      case OperationType.earningDeposit:
+        return 14;
+      case OperationType.earningWithdrawal:
+        return 15;
+      case OperationType.cryptoInfo:
+        return 17;
+      case OperationType.buy:
+        return 0;
+      case OperationType.sell:
+        return 0;
+      case OperationType.nftSwap:
+        return 18;
+      case OperationType.nftReserve:
+        return 19;
+      case OperationType.nftRelease:
+        return 20;
+      case OperationType.nftBuy:
+        return 21;
+      case OperationType.nftBuyOpposite:
+        return 22;
+      case OperationType.nftSell:
+        return 23;
+      case OperationType.nftSellOpposite:
+        return 24;
+      case OperationType.nftDeposit:
+        return 25;
+      case OperationType.nftWithdrawal:
+        return 26;
+      case OperationType.nftWithdrawalFee:
+        return 27;
+      case OperationType.manualDeposit:
+        return 28;
+      case OperationType.manualWithdrawal:
+        return 29;
+      case OperationType.transferByNickname:
+        return 30;
+      case OperationType.receiveByNickname:
+        return 31;
+      case OperationType.ibanDeposit:
+        return 32;
+      default:
+        return 0;
+    }
+  }
+}
+
+class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
+  const OperationTypeSerialiser();
+
+  @override
+  OperationType fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == '0') {
+      return OperationType.deposit;
+    } else if (value == '1') {
+      return OperationType.withdraw;
+    } else if (value == '2') {
+      return OperationType.swap;
+    } else if (value == '4') {
+      return OperationType.withdrawalFee;
+    } else if (value == '6') {
+      return OperationType.transferByPhone;
+    } else if (value == '7') {
+      return OperationType.receiveByPhone;
+    } else if (value == '8') {
+      return OperationType.paidInterestRate;
+    } else if (value == '10') {
+      return OperationType.feeSharePayment;
+    } else if (value == '11') {
+      return OperationType.rewardPayment;
+    } else if (value == '12') {
+      return OperationType.simplexBuy;
+    } else if (value == '13') {
+      return OperationType.recurringBuy;
+    } else if (value == '14') {
+      return OperationType.earningDeposit;
+    } else if (value == '15') {
+      return OperationType.earningWithdrawal;
+    } else if (value == '17') {
+      return OperationType.cryptoInfo;
+    } else if (value == 'unknown') {
+      return OperationType.unknown;
+    } else if (value == 'buy') {
+      return OperationType.buy;
+    } else if (value == 'sell') {
+      return OperationType.sell;
+    } else if (value == '18') {
+      return OperationType.nftSwap;
+    } else if (value == '19') {
+      return OperationType.nftReserve;
+    } else if (value == '20') {
+      return OperationType.nftRelease;
+    } else if (value == '21') {
+      return OperationType.nftBuy;
+    } else if (value == '22') {
+      return OperationType.nftBuyOpposite;
+    } else if (value == '23') {
+      return OperationType.nftSell;
+    } else if (value == '24') {
+      return OperationType.nftSellOpposite;
+    } else if (value == '25') {
+      return OperationType.nftDeposit;
+    } else if (value == '26') {
+      return OperationType.nftWithdrawal;
+    } else if (value == '27') {
+      return OperationType.nftWithdrawalFee;
+    } else if (value == '28') {
+      return OperationType.manualDeposit;
+    } else if (value == '29') {
+      return OperationType.manualWithdrawal;
+    } else if (value == '30') {
+      return OperationType.transferByNickname;
+    } else if (value == '31') {
+      return OperationType.receiveByNickname;
+    } else if (value == '32') {
+      return OperationType.ibanDeposit;
+    } else {
+      return OperationType.unknown;
+    }
+  }
+
+  @override
+  dynamic toJson(OperationType type) => type.name;
 }
 
 enum Status {
@@ -104,6 +236,41 @@ enum Status {
   inProgress,
   @JsonValue(2)
   declined,
+}
+
+extension _StatusExtension on Status {
+  int get name {
+    switch (this) {
+      case Status.completed:
+        return 0;
+      case Status.inProgress:
+        return 1;
+      case Status.declined:
+        return 2;
+      default:
+        return 0;
+    }
+  }
+}
+
+class StatusSerialiser implements JsonConverter<Status, dynamic> {
+  const StatusSerialiser();
+
+  @override
+  Status fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == '0') {
+      return Status.completed;
+    } else if (value == '1') {
+      return Status.inProgress;
+    } else {
+      return Status.declined;
+    }
+  }
+
+  @override
+  dynamic toJson(Status type) => type.name;
 }
 
 @freezed

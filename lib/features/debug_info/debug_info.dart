@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -201,6 +202,51 @@ class _DebugInfoState extends State<DebugInfo>
                 },
                 child: const Text(
                   'Simulate signalr error',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  try {
+                    final resp = await sNetwork.getWalletModule().debugError();
+
+                    if (resp.hasError) {
+                      sNotification.showError(
+                        resp.error!.cause,
+                        id: 1,
+                      );
+                    }
+                  } on ServerRejectException catch (error) {
+                    sNotification.showError(
+                      error.cause,
+                      id: 1,
+                    );
+                  }
+                },
+                child: const Text(
+                  'Simulate 500 error',
+                ),
+              ),
+
+              TextButton(
+                onPressed: () async {
+                  try {
+                    final resp = await sNetwork.getWalletModule().debugReject();
+
+                    if (resp.hasError) {
+                      sNotification.showError(
+                        resp.error!.cause,
+                        id: 1,
+                      );
+                    }
+                  } on ServerRejectException catch (error) {
+                    sNotification.showError(
+                      error.cause,
+                      id: 1,
+                    );
+                  }
+                },
+                child: const Text(
+                  'Simulate 200 reject',
                 ),
               ),
             ],

@@ -11,7 +11,7 @@ class DepositInfo extends StatelessObserverWidget {
     return Container(
       width: double.infinity,
       color: colors.blueLight,
-      height: 88.0,
+      height: 68.0,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -21,7 +21,7 @@ class DepositInfo extends StatelessObserverWidget {
             intl.depositInfo_text,
             maxLines: 3,
             textAlign: TextAlign.center,
-            style: sBodyText1Style,
+            style: sBodyText2Style,
           ),
         ),
       ),

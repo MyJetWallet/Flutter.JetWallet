@@ -43,7 +43,7 @@ class SReferralStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 327.0,
+      width: MediaQuery.of(context).size.width - 48,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         border: Border.all(
@@ -57,7 +57,7 @@ class SReferralStats extends StatelessWidget {
             padding: const EdgeInsets.only(
               left: 17.0,
               right: 17.0,
-              top: 21.0,
+              top: 30.0,
               bottom: 24.0,
             ),
             decoration: BoxDecoration(

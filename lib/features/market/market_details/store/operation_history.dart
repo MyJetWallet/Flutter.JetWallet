@@ -78,6 +78,15 @@ abstract class _OperationHistoryBase with Store {
           .toList();
 
   @action
+  Future<bool> refreshHistory() async {
+    operationHistoryItems = ObservableList.of([]);
+
+    await initOperationHistory();
+
+    return true;
+  }
+
+  @action
   Future<void> initOperationHistory() async {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
@@ -199,7 +208,8 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.nftDeposit ||
         item.operationType == oh_resp.OperationType.nftWithdrawal ||
         item.operationType == oh_resp.OperationType.nftWithdrawalFee ||
-        item.operationType == oh_resp.OperationType.nftBuy,
+        item.operationType == oh_resp.OperationType.nftBuy ||
+        item.operationType == oh_resp.OperationType.ibanDeposit,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

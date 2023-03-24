@@ -11,7 +11,7 @@ part 'asset_payment_methods_new.g.dart';
 @freezed
 class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
   const factory AssetPaymentMethodsNew({
-    required List<BuyMethodDto> buy,
+    List<BuyMethodDto>? buy,
     List<SendMethodDto>? send,
     List<ReceiveMethodDto>? receive,
     @Default(false) bool showCardsInProfile,
@@ -25,9 +25,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 @freezed
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
-    @PaymentTypeSerialiser()
-    @JsonKey(name: 'id')
-    required PaymentMethodType id,
+    @PaymentTypeSerialiser() @JsonKey(name: 'id') required PaymentMethodType id,
     String? iconUrl,
     int? orderId,
     required bool termsAccepted,
@@ -42,9 +40,9 @@ class BuyMethodDto with _$BuyMethodDto {
 @freezed
 class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
-    @PaymentTypeSerialiser()
+    @WithdrawalMethodsSerialiser()
     @JsonKey(name: 'id')
-    required WithdrawalMethods id,
+        required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
     List<String>? symbols,
@@ -57,9 +55,7 @@ class SendMethodDto with _$SendMethodDto {
 @freezed
 class ReceiveMethodDto with _$ReceiveMethodDto {
   const factory ReceiveMethodDto({
-    @PaymentTypeSerialiser()
-    @JsonKey(name: 'id')
-    required DepositMethods id,
+    @DepositMethodsSerialiser() @JsonKey(name: 'id') required DepositMethods id,
     String? iconUrl,
     int? orderId,
     List<String>? symbols,

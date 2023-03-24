@@ -25,7 +25,7 @@ class SimpleLightPrimaryButton2 extends StatelessWidget {
       icon: icon,
       activeColor: SColorsLight().blue,
       activeNameColor: SColorsLight().white,
-      inactiveColor: SColorsLight().grey4,
+      inactiveColor: SColorsLight().blue.withOpacity(0.3),
       inactiveNameColor: SColorsLight().white,
     );
   }

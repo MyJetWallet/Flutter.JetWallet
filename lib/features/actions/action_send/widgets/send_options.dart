@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 void showSendOptions(
   BuildContext context,
@@ -16,17 +18,21 @@ void showSendOptions(
     Navigator.pop(context);
   }
 
-  sShowBasicModalBottomSheet(
+  showSendTimerAlertOr(
     context: context,
-    then: (value) {},
-    pinned: SBottomSheetHeader(
-      name: intl.sendOptions_sendTo,
-    ),
-    children: [
-      _SendOptions(
-        currency: currency,
+    or: () => sShowBasicModalBottomSheet(
+      context: context,
+      then: (value) {},
+      pinned: SBottomSheetHeader(
+        name: intl.sendOptions_sendTo,
       ),
-    ],
+      children: [
+        _SendOptions(
+          currency: currency,
+        ),
+      ],
+    ),
+    from: BlockingType.withdrawal,
   );
 }
 
@@ -42,35 +48,37 @@ class _SendOptions extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SActionItem(
-          icon: const SPhoneIcon(),
-          name: intl.sendOptions_actionItemName1,
-          description: intl.sendOptions_actionItemDescription1,
-          onTap: () {
+        if (currency.supportsByPhoneNicknameWithdrawal)
+          SActionItem(
+            icon: const SPhoneIcon(),
+            name: intl.sendOptions_actionItemName1,
+            description: intl.sendOptions_actionItemDescription1,
+            onTap: () {
 
-            sRouter.navigate(
-              SendByPhoneInputRouter(
-                currency: currency,
-              ),
-            );
-          },
-        ),
-        SActionItem(
-          icon: const SWalletIcon(),
-          name: intl.sendOptions_actionItemName2,
-          description: intl.sendOptions_actionItemDescription2,
-          onTap: () {
-            Navigator.pop(context);
-
-            sRouter.push(
-              WithdrawRouter(
-                withdrawal: WithdrawalModel(
+              sRouter.navigate(
+                SendByPhoneInputRouter(
                   currency: currency,
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
+        if (currency.supportsByAssetWithdrawal)
+          SActionItem(
+            icon: const SWalletIcon(),
+            name: intl.sendOptions_actionItemName2,
+            description: intl.sendOptions_actionItemDescription2,
+            onTap: () {
+              Navigator.pop(context);
+
+              sRouter.push(
+                WithdrawRouter(
+                  withdrawal: WithdrawalModel(
+                    currency: currency,
+                  ),
+                ),
+              );
+            },
+          ),
         const SpaceH40(),
       ],
     );

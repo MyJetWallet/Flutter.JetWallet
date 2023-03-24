@@ -91,6 +91,10 @@ class StartupService {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const TwoFaVerification(),
                   );
+            } else if (info.toVerifyPhone) {
+              getIt.get<AppStore>().setAuthorizedStatus(
+                    const PhoneVerification(),
+                  );
             } else if (info.toCheckSimpleKyc) {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const UserDataVerification(),

@@ -5,6 +5,7 @@ import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/calculate_earn_offer_apy/calculate_earn_offer_apy_request_model.dart';
@@ -38,6 +39,7 @@ import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawa
 import 'package:simple_networking/modules/wallet_api/models/encryption_key/encryption_key_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
@@ -91,6 +93,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdraw/withdraw_re
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
+
+import '../models/iban_info/iban_info_response_model.dart';
+import '../models/profile/profile_set_address_request.dart';
 
 class WalletApiRepository {
   WalletApiRepository(this._apiClient) {
@@ -239,6 +244,42 @@ class WalletApiRepository {
     return _walletApiDataSources.postCardBuyCreateRequest(model);
   }
 
+  Future<DC<ServerRejectException, bool>> postApplePayConfirm(
+    String depositId,
+    String applePayToken,
+  ) async {
+    return _walletApiDataSources.postApplePayConfirmRequest(
+      depositId,
+      applePayToken,
+    );
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>> getApplePayInfo(
+    String depositId,
+  ) async {
+    return _walletApiDataSources.getApplePayInfoRequest(
+      depositId,
+    );
+  }
+
+  Future<DC<ServerRejectException, GooglePayConfirmModel>> postGooglePayConfirm(
+    String depositId,
+    String googlePayToken,
+  ) async {
+    return _walletApiDataSources.postGooglePayConfirmRequest(
+      depositId,
+      googlePayToken,
+    );
+  }
+
+  Future<DC<ServerRejectException, ApplePayResponseModel>> getGooglePayInfo(
+    String depositId,
+  ) async {
+    return _walletApiDataSources.getGooglePayInfoRequest(
+      depositId,
+    );
+  }
+
   Future<DC<ServerRejectException, bool>> postCardBuyExecute(
     CardBuyExecuteRequestModel model,
   ) async {
@@ -339,6 +380,10 @@ class WalletApiRepository {
     return _walletApiDataSources.postMarketInfoRequest(model);
   }
 
+  Future<DC<ServerRejectException, IbanInfoResponseModel>> getIbanInfo() async {
+    return _walletApiDataSources.getIbanInfoRequest();
+  }
+
   Future<DC<ServerRejectException, MarketNewsResponseModel>> postMarketNews(
     MarketNewsRequestModel model,
   ) async {
@@ -379,6 +424,12 @@ class WalletApiRepository {
       tokenId,
       deletionReasonIds,
     );
+  }
+
+  Future<DC<ServerRejectException, void>> postSetAddress(
+    ProfileSetAddressRequestModel model,
+  ) async {
+    return _walletApiDataSources.postSetAddressRequest(model);
   }
 
   Future<DC<ServerRejectException, void>> postProfileReport(
@@ -594,5 +645,15 @@ class WalletApiRepository {
     SetBaseAssetsRequestModel model,
   ) async {
     return _walletApiDataSources.setBaseAssetRequest(model);
+  }
+
+  // Debug Errors
+
+  Future<DC<ServerRejectException, void>> debugError() async {
+    return _walletApiDataSources.debugErrorRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> debugReject() async {
+    return _walletApiDataSources.debugRejectRequest();
   }
 }

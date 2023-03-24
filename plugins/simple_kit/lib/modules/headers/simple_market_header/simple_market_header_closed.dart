@@ -22,7 +22,7 @@ class SMarketHeaderClosed extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SpaceH64(),
+          const SpaceH53(),
           SPaddingH24(
             child: SimpleMarketHeaderTitle(
               title: title,

@@ -16,6 +16,9 @@ import 'package:simple_networking/modules/validation_api/models/validation/verif
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/verify_email/verify_email_confirmation_request.dart';
 
+import '../models/phone_verification/phone_verification_full_request_model.dart';
+import '../models/phone_verification_verify/phone_verification_full_verify_request_model.dart';
+
 class ValidationApiDataSources {
   final ApiClient _apiClient;
 
@@ -116,6 +119,50 @@ class ValidationApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.validationApi}/phone-setup/verify',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleResultResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullRequestRequest(
+    PhoneVerificationFullRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.validationApi}/phone-setup/verification/request',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullNumberResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postPhoneVerificationFullVerifyRequest(
+    PhoneVerificationFullVerifyRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.validationApi}/phone-setup/verification/verify',
         data: model.toJson(),
       );
 

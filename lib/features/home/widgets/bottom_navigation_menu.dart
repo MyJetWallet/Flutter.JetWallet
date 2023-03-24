@@ -29,6 +29,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       onChanged: widget.onChanged,
       myAssetsText: intl.bottom_bar_my_assets,
       marketText: intl.bottom_bar_market,
+      accountText: intl.bottom_bar_account,
     );
   }
 }

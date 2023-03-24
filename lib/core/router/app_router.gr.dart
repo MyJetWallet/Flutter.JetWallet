@@ -311,6 +311,12 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    IbanAddressRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IbanBillingAddress(),
+      );
+    },
     PreviewConvertRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewConvertRouterArgs>();
       return CupertinoPageX<dynamic>(
@@ -429,9 +435,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     RewardsRouter.name: (routeData) {
+      final args = routeData.argsAs<RewardsRouterArgs>();
       return CupertinoPageX<dynamic>(
         routeData: routeData,
-        child: const Rewards(),
+        child: Rewards(
+          key: args.key,
+          actualRewards: args.actualRewards,
+        ),
       );
     },
     PhoneVerificationRouter.name: (routeData) {
@@ -459,6 +469,7 @@ class _$AppRouter extends RootStackRouter {
           displayHeader: args.displayHeader,
           cannotLeave: args.cannotLeave,
           isChangePhone: args.isChangePhone,
+          isChangePin: args.isChangePin,
           fromRegister: args.fromRegister,
           isForgotPassword: args.isForgotPassword,
           onChangePhone: args.onChangePhone,
@@ -901,6 +912,12 @@ class _$AppRouter extends RootStackRouter {
         child: const PortfolioScreen(),
       );
     },
+    IBanRouter.name: (routeData) {
+      return CupertinoPageX<dynamic>(
+        routeData: routeData,
+        child: const IBanScreen(),
+      );
+    },
     WithdrawalAddressRouter.name: (routeData) {
       return CupertinoPageX<dynamic>(
         routeData: routeData,
@@ -994,6 +1011,11 @@ class _$AppRouter extends RootStackRouter {
               path: 'portfolio',
               parent: HomeRouter.name,
             ),
+            RouteConfig(
+              IBanRouter.name,
+              path: 'iban',
+              parent: HomeRouter.name,
+            ),
           ],
         ),
         RouteConfig(
@@ -1075,6 +1097,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           CircleBillingAddressRouter.name,
           path: '/circle_billing_address',
+        ),
+        RouteConfig(
+          IbanAddressRouter.name,
+          path: '/iban_address',
         ),
         RouteConfig(
           PreviewConvertRouter.name,
@@ -2222,6 +2248,18 @@ class CircleBillingAddressRouterArgs {
 }
 
 /// generated route for
+/// [IbanBillingAddress]
+class IbanAddressRouter extends PageRouteInfo<void> {
+  const IbanAddressRouter()
+      : super(
+          IbanAddressRouter.name,
+          path: '/iban_address',
+        );
+
+  static const String name = 'IbanAddressRouter';
+}
+
+/// generated route for
 /// [PreviewConvert]
 class PreviewConvertRouter extends PageRouteInfo<PreviewConvertRouterArgs> {
   PreviewConvertRouter({
@@ -2635,14 +2673,36 @@ class SetNewPasswordRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [Rewards]
-class RewardsRouter extends PageRouteInfo<void> {
-  const RewardsRouter()
-      : super(
+class RewardsRouter extends PageRouteInfo<RewardsRouterArgs> {
+  RewardsRouter({
+    Key? key,
+    required List<String> actualRewards,
+  }) : super(
           RewardsRouter.name,
           path: '/rewards',
+          args: RewardsRouterArgs(
+            key: key,
+            actualRewards: actualRewards,
+          ),
         );
 
   static const String name = 'RewardsRouter';
+}
+
+class RewardsRouterArgs {
+  const RewardsRouterArgs({
+    this.key,
+    required this.actualRewards,
+  });
+
+  final Key? key;
+
+  final List<String> actualRewards;
+
+  @override
+  String toString() {
+    return 'RewardsRouterArgs{key: $key, actualRewards: $actualRewards}';
+  }
 }
 
 /// generated route for
@@ -2700,6 +2760,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     bool displayHeader = true,
     bool cannotLeave = false,
     bool isChangePhone = false,
+    bool isChangePin = false,
     bool fromRegister = true,
     bool isForgotPassword = false,
     dynamic Function(String)? onChangePhone,
@@ -2712,6 +2773,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             displayHeader: displayHeader,
             cannotLeave: cannotLeave,
             isChangePhone: isChangePhone,
+            isChangePin: isChangePin,
             fromRegister: fromRegister,
             isForgotPassword: isForgotPassword,
             onChangePhone: onChangePhone,
@@ -2728,6 +2790,7 @@ class PinScreenRouteArgs {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
+    this.isChangePin = false,
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
@@ -2742,6 +2805,8 @@ class PinScreenRouteArgs {
 
   final bool isChangePhone;
 
+  final bool isChangePin;
+
   final bool fromRegister;
 
   final bool isForgotPassword;
@@ -2752,7 +2817,7 @@ class PinScreenRouteArgs {
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
   }
 }
 
@@ -4182,6 +4247,18 @@ class PortfolioRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'PortfolioRouter';
+}
+
+/// generated route for
+/// [IBanScreen]
+class IBanRouter extends PageRouteInfo<void> {
+  const IBanRouter()
+      : super(
+          IBanRouter.name,
+          path: 'iban',
+        );
+
+  static const String name = 'IBanRouter';
 }
 
 /// generated route for

@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/action_send.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -28,6 +29,9 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart'
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+
+import '../../../../rewards/store/reward_store.dart';
 
 class PortfolioSliverAppBar extends StatelessObserverWidget {
   const PortfolioSliverAppBar({
@@ -55,6 +59,19 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final expendPercentage = (shrinkOffset.clamp(min, max) - min) / (max - min);
+    final viewedRewards =
+        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
+    var counterOfRewards = 0;
+    final rewStore = RewardStore();
+    for (final campaign in rewStore.sortedCampaigns) {
+      if (campaign.campaign != null &&
+          !viewedRewards.contains(campaign.campaign!.campaignId)) {
+        counterOfRewards++;
+      }
+    }
+    if (!viewedRewards.contains('referral')) {
+      counterOfRewards++;
+    }
 
     final interpolatedTextStyle = TextStyle.lerp(
       sTextH1Style,
@@ -103,19 +120,29 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               ],
             ),
             const Spacer(),
-            SIconButton(
-              defaultIcon: SNotificationsIcon(
-                color: colors.black,
+            SizedBox(
+              width: 56.0,
+              height: 56.0,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SIconButton(
+                    defaultIcon: SNotificationsIcon(
+                      color: colors.black,
+                    ),
+                    pressedIcon: SNotificationsIcon(
+                      color: colors.black.withOpacity(0.7),
+                    ),
+                    onTap: () {
+                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
+                    },
+                  ),
+                  NotificationBox(
+                    notifications: counterOfRewards,
+                  ),
+                ],
               ),
-              pressedIcon: SNotificationsIcon(
-                color: colors.black.withOpacity(0.7),
-              ),
-              onTap: () {
-
-                sRouter.push(const RewardsRouter());
-              },
             ),
-            const SpaceW18(),
             SizedBox(
               width: 56.0,
               height: 56.0,
@@ -149,7 +176,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceW26(),
+            const SpaceW8(),
           ],
         ),
         const SpaceH15(),
@@ -229,13 +256,19 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 onTap: () {
                   if (kycState.sellStatus ==
                       kycOperationStatus(KycStatus.allowed)) {
-                    sRouter.push(ConvertRouter());
+                    showSendTimerAlertOr(
+                      context: context,
+                      or: () => sRouter.push(ConvertRouter()),
+                      from: BlockingType.trade,
+                    );
                   } else {
                     kycAlertHandler.handle(
                       status: kycState.sellStatus,
                       isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => sRouter.push(
-                        ConvertRouter(),
+                      currentNavigate: () => showSendTimerAlertOr(
+                        context: context,
+                        or: () => sRouter.push(ConvertRouter()),
+                        from: BlockingType.trade,
                       ),
                       navigatePop: false,
                       requiredDocuments: kycState.requiredDocuments,

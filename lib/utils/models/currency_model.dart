@@ -172,6 +172,10 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportsCryptoDeposit {
+    if (type == AssetType.fiat) {
+      return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
+    }
+
     return depositMethods.where((element) => element.id == DepositMethods.cryptoDeposit).isNotEmpty ||
         depositMethods.where((element) => element.id == DepositMethods.blockchainReceive).isNotEmpty;
   }
@@ -195,8 +199,22 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportsCryptoWithdrawal {
+    if (type == AssetType.fiat) {
+      return false;
+    }
+
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.cryptoWithdrawal).isNotEmpty ||
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty ||
+        withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
+  }
+
+  bool get supportsByAssetWithdrawal {
     return withdrawalMethods.where((element) => element.id == WithdrawalMethods.cryptoWithdrawal).isNotEmpty ||
         withdrawalMethods.where((element) => element.id == WithdrawalMethods.blockchainSend).isNotEmpty;
+  }
+
+  bool get supportsByPhoneNicknameWithdrawal {
+    return withdrawalMethods.where((element) => element.id == WithdrawalMethods.internalSend).isNotEmpty;
   }
 
   bool get supportsSepaWithdrawal {

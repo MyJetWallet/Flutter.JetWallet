@@ -46,7 +46,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                 ? transactionListItem.swapInfo?.buyAssetId ?? ''
                 : transactionListItem.assetId;
     final currency = currencyFromAll(
-      sSignalRModules.currenciesList,
+      sSignalRModules.currenciesWithHiddenList,
       currencyForOperation,
     );
 
