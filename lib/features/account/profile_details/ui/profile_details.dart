@@ -65,35 +65,20 @@ class ProfileDetails extends StatelessObserverWidget {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
-                    sShowAlertPopup(
-                      context,
-                      willPopScope: false,
-                      primaryText: intl.profileDetails_payAttention,
-                      secondaryText: '${intl.profileDetails_changePhoneAlert2} '
-                          '$changePhoneLockHours ${intl.hours}.',
-                      primaryButtonName: intl.profileDetails_continue,
-                      image: infoImage,
-                      onPrimaryButtonTap: () {
-                        Navigator.pop(context);
-
-                        sRouter.push(
-                          SetPhoneNumberRouter(
-                    successText: intl.profileDetails_newPhoneNumberConfirmed,
-                    isChangePhone: true,
-                    then: () {
-                      sRouter.popUntil(
-                        (route) {
-                          return route.settings.name == 'ProfileDetailsRouter';
+                    sRouter.push(
+                      SetPhoneNumberRouter(
+                        successText:
+                            intl.profileDetails_newPhoneNumberConfirmed,
+                        isChangePhone: true,
+                        then: () {
+                          sRouter.popUntil(
+                            (route) {
+                              return route.settings.name ==
+                                  'ProfileDetailsRouter';
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
-                        );
-                      },
-                      secondaryButtonName: intl.profileDetails_cancel,
-                      onSecondaryButtonTap: () {
-                        Navigator.pop(context);
-                      },
+                      ),
                     );
                   },
                   from: BlockingType.phoneNumberUpdate,
