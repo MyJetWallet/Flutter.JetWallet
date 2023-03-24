@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
@@ -11,6 +14,8 @@ import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+
+import '../../../../core/services/apps_flyer_service.dart';
 
 part 'biometric_store.g.dart';
 
@@ -77,6 +82,18 @@ abstract class _BiometricStoreBase with Store {
     await userInfoN.initBiometricStatus();
     if (userInfoN.userInfo.isJustLogged) {
       sAnalytics.signInFlowVerificationPassed();
+      final appsFlyerService = getIt.get<AppsFlyerService>();
+      final userInfo = getIt.get<UserInfoService>();
+
+      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+      final bytes = utf8.encode(userInfo.userInfo.email);
+      final hashEmail = sha256.convert(bytes).toString();
+      appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+      await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
+        'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+        'Customer User iD': hashEmail,
+        'Appsflyer ID': appsFlyerID,
+      });
     }
   }
 
