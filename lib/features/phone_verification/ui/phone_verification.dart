@@ -120,8 +120,15 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           children: <Widget>[
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
-              boldText:
-                  '${store.dialCode?.countryCode ?? ""} ${store.phoneNumber.replaceAll(store.dialCode?.countryCode ?? "", "")}',
+              boldText: store.phoneNumber.contains(
+                  store.dialCode?.countryCode ?? '',
+              ) ? '${store.dialCode?.countryCode ?? ""} '
+                  '${store.phoneNumber.replaceAll(
+                  store.dialCode?.countryCode ?? "", "",
+              )}'
+              : store.phoneNumber.replaceAll(
+                store.dialCode?.countryCode ?? '', '',
+              ),
             ),
             const SpaceH18(),
             if (args.showChangeTextAlert) ...[
