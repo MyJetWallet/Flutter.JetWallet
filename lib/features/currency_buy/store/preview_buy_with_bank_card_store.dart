@@ -507,7 +507,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   @action
   Future<void> executeGooglePayPayment() async {
     loader.startLoadingImmediately();
-    wasAction = true;
+    //wasAction = true;
 
     isChecked = true;
 
