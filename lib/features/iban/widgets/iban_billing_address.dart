@@ -74,7 +74,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
                     child: SStandardField(
                       focusNode: focusNode,
                       controller: store.streetAddress1Controller,
-                      labelText: intl.circleBillingAddress_streetAddress,
+                      labelText: intl.iban_address,
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: store.updateAddress1,
                       hideSpace: true,
@@ -83,7 +83,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
                   SFieldDividerFrame(
                     child: SStandardField(
                       controller: store.streetAddress2Controller,
-                      labelText: '${intl.circleBillingAddress_streetAddress} 2'
+                      labelText: '${intl.iban_address} 2'
                           ' (${intl.circleBillingAddress_optional})',
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: store.updateAddress2,
