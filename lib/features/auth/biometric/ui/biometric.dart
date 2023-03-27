@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -13,6 +16,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../../core/services/apps_flyer_service.dart';
 
 class Biometric extends StatelessWidget {
   const Biometric({
@@ -120,6 +125,18 @@ class _BiometricBody extends StatelessObserverWidget {
                       } else {
                         if (userInfoN.userInfo.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
+                          final appsFlyerService = getIt.get<AppsFlyerService>();
+                          final userInfo = getIt.get<UserInfoService>();
+
+                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.userInfo.email);
+                          final hashEmail = sha256.convert(bytes).toString();
+                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+                            'Customer User iD': hashEmail,
+                            'Appsflyer ID': appsFlyerID,
+                          });
                         }
                         biometric.useBio(
                           useBio: true,
@@ -140,6 +157,18 @@ class _BiometricBody extends StatelessObserverWidget {
                         final userInfoN = getIt.get<UserInfoService>();
                         if (userInfoN.userInfo.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
+                          final appsFlyerService = getIt.get<AppsFlyerService>();
+                          final userInfo = getIt.get<UserInfoService>();
+
+                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.userInfo.email);
+                          final hashEmail = sha256.convert(bytes).toString();
+                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+                            'Customer User iD': hashEmail,
+                            'Appsflyer ID': appsFlyerID,
+                          });
                         }
                         biometric.useBio(
                           useBio: false,
