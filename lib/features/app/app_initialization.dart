@@ -28,11 +28,11 @@ Future<void> appInitialization(String environment) async {
     DeviceOrientation.portraitDown,
   ]);
 
-  await Firebase.initializeApp();
-  await PushNotificationService().initialize(); // doesn't work on web
-
   /// register all dependecy injection
   await getItInit(env: environment);
+
+  await Firebase.initializeApp();
+  await PushNotificationService().initialize(); // doesn't work on web
 
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
