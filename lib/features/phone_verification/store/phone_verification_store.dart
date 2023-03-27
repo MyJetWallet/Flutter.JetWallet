@@ -245,6 +245,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);
         pinFieldError.enableError();
+        loader.finishLoading();
 
         sNotification.showError(
           response.error!.cause,
@@ -257,6 +258,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
       pinFieldError.enableError();
+      loader.finishLoading();
 
       sNotification.showError(
         intl.something_went_wrong,
@@ -264,7 +266,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       );
     }
 
-    loader.finishLoading();
   }
 
   @action

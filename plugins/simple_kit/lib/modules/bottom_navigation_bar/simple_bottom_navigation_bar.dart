@@ -16,11 +16,13 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.myAssetsText,
     required this.marketText,
     required this.accountText,
+    required this.hideAccount,
   }) : super(key: key);
 
   final int portfolioNotifications;
   final int selectedIndex;
   final bool cardNotifications;
+  final bool hideAccount;
   final void Function(int) onChanged;
 
   final String myAssetsText;
@@ -99,31 +101,33 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                     ),
                   ),
                 ),
-                const Spacer(),
-                SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 3,
-                  child: STransparentInkWell(
-                    onTap: () => widget.onChanged(2),
-                    child: Column(
-                      children: [
-                        if (widget.selectedIndex == 2)
-                          const SAccountBarActiveIcon()
-                        else
-                          const SAccountBarIcon(),
-                        Text(
-                          widget.accountText,
-                          style: sBodyText2Style.copyWith(
-                            fontWeight: FontWeight.w600,
-                            height: 1.38,
-                            color: widget.selectedIndex == 2
-                                ? SColorsLight().black
-                                : SColorsLight().grey3,
+                if (!widget.hideAccount) ...[
+                  const Spacer(),
+                  SizedBox(
+                    width: (MediaQuery.of(context).size.width - 48) / 3,
+                    child: STransparentInkWell(
+                      onTap: () => widget.onChanged(2),
+                      child: Column(
+                        children: [
+                          if (widget.selectedIndex == 2)
+                            const SAccountBarActiveIcon()
+                          else
+                            const SAccountBarIcon(),
+                          Text(
+                            widget.accountText,
+                            style: sBodyText2Style.copyWith(
+                              fontWeight: FontWeight.w600,
+                              height: 1.38,
+                              color: widget.selectedIndex == 2
+                                  ? SColorsLight().black
+                                  : SColorsLight().grey3,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
                 const Spacer(),
               ],
             ),

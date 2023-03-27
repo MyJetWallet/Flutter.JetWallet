@@ -12,7 +12,12 @@ import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animati
 List<PageRouteInfo<dynamic>> screens = [
   const PortfolioRouter(),
   MarketRouter(),
-  IBanRouter(),
+  const IBanRouter(),
+];
+
+List<PageRouteInfo<dynamic>> screensWithoutIban = [
+  const PortfolioRouter(),
+  MarketRouter(),
 ];
 
 class HomeScreen extends StatefulObserverWidget {
@@ -24,13 +29,16 @@ class HomeScreen extends StatefulObserverWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bool earnEnabled = sSignalRModules.earnProfile?.earnEnabled ?? false;
+  final bool hideAccount = sSignalRModules.currenciesList.where(
+    (element) => element.supportsIbanDeposit,
+  ).toList().isEmpty;
 
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
         return AutoTabsScaffold(
-          routes: screens,
+          routes: hideAccount ? screensWithoutIban : screens,
           builder: (context, child, animation) {
             return Observer(
               builder: (context) {
@@ -49,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
+              hideAccount: hideAccount,
               onChanged: (int val) {
                 if (val == 2) {
                   getIt<IbanStore>().initState();

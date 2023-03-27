@@ -180,6 +180,10 @@ class CurrencyModel with _$CurrencyModel {
         depositMethods.where((element) => element.id == DepositMethods.blockchainReceive).isNotEmpty;
   }
 
+  bool get supportsIbanDeposit {
+    return depositMethods.where((element) => element.id == DepositMethods.ibanReceive).isNotEmpty;
+  }
+
   bool get supportsCardDeposit {
     return depositMethods.contains(DepositMethods.cardDeposit);
   }
