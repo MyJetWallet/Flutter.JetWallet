@@ -221,7 +221,7 @@ abstract class IbanStoreBase with Store {
   Future<void> initState() async {
     final userInfo = sUserInfo.userInfo;
     // ibanName = '${userInfo.firstName} ${userInfo.lastName}';
-    ibanName = 'Simple UAB';
+    ibanName = 'Simple Europe UAB';
     if (ibanBic.isEmpty) {
       isLoading = true;
     }
