@@ -75,6 +75,9 @@ const _NFTtoken = 'NFT_token';
 
 const _jwSwap = 'jw_operation_history';
 const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
+const _jwKycDocumentsApproved = 'jw_kyc_documents_approved';
+const _jwKycDocumentsDeclined = 'jw_kyc_documents_declined';
+const _jwKycBanned = 'jw_kyc_banned';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -116,9 +119,6 @@ class DeepLinkService {
 
     final command = parameters[_command];
 
-    print(command);
-    print(parameters);
-
     if (command == _confirmEmail) {
       _confirmEmailCommand(parameters);
     } else if (command == _login) {
@@ -153,6 +153,12 @@ class DeepLinkService {
       pushCryptoHistory(parameters);
     } else if (command == _jwTransferByPhoneSend) {
       pushCryptoWithdrawal(parameters);
+    } else if (command == _jwKycDocumentsApproved) {
+      pushKycDocumentsApproved(parameters);
+    } else if (command == _jwKycDocumentsDeclined) {
+      pushKycDocumentsDeclined(parameters);
+    } else if (command == _jwKycBanned) {
+      pushKycDocumentsApproved(parameters);
     } else {
       //_logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -597,7 +603,9 @@ class DeepLinkService {
     }
   }
 
-  Future<void> pushKycDocumentsApproved() async {
+  Future<void> pushKycDocumentsApproved(
+    Map<String, String> parameters,
+  ) async {
     if (['/home/portfolio', '/home/market'].contains(sRouter.currentPath)) {
       getIt<AppStore>().setHomeTab(1);
     } else {
@@ -615,7 +623,22 @@ class DeepLinkService {
     }
   }
 
-  Future<void> pushKycDocumentsDeclined() async {
-    //KYC flow
+  Future<void> pushKycDocumentsDeclined(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        SuccessKycScreenRoute(),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: SuccessKycScreenRoute(),
+        ),
+      );
+    }
   }
 }
