@@ -135,7 +135,8 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>> postPhoneVerificationFullRequestRequest(
+  Future<DC<ServerRejectException, void>>
+      postPhoneVerificationFullRequestRequest(
     PhoneVerificationFullRequestModel model,
   ) async {
     try {
@@ -157,7 +158,8 @@ class ValidationApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>> postPhoneVerificationFullVerifyRequest(
+  Future<DC<ServerRejectException, void>>
+      postPhoneVerificationFullVerifyRequest(
     PhoneVerificationFullVerifyRequestModel model,
   ) async {
     try {
