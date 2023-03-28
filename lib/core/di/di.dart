@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
@@ -61,8 +62,9 @@ Future<GetIt> getItInit({
     () async => LocalCacheService().init(),
   );
 
-  getIt.registerLazySingleton<LocalStorageService>(
+  getIt.registerSingletonWithDependencies<LocalStorageService>(
     () => LocalStorageService(),
+    dependsOn: [LocalCacheService],
   );
 
   _logger.log(stateFlow, 'SIMPLE KIT LOADED');
@@ -137,8 +139,9 @@ Future<GetIt> getItInit({
     () => ReferallCodeStore()..init(),
   );
 
-  getIt.registerSingleton<IbanStore>(
-    IbanStore(),
+  getIt.registerSingletonWithDependencies<UserInfoService>(
+    () => UserInfoService(),
+    dependsOn: [LocalStorageService],
   );
 
   _logger.log(stateFlow, 'ReferallCodeStore LOADED');

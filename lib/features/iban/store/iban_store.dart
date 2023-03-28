@@ -64,13 +64,11 @@ abstract class IbanStoreBase with Store {
   @action
   bool setPostalCodeError(bool value) => postalCodeError = value;
 
-
   @observable
   String countrySearch = '';
 
   @observable
   ObservableList<SPhoneNumber> filteredCountries = ObservableList.of([]);
-
 
   @observable
   String streetAddress1 = '';
@@ -154,7 +152,7 @@ abstract class IbanStoreBase with Store {
 
   @observable
   ObservableList<KycProfileCountryModel> sortedCountries =
-  ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   String countryNameSearch = '';
@@ -208,10 +206,10 @@ abstract class IbanStoreBase with Store {
     final newList = List<KycProfileCountryModel>.from(countries);
 
     newList.removeWhere(
-          (KycProfileCountryModel element) =>
-      !element.countryName.toLowerCase().contains(
-        countryNameSearch.toLowerCase(),
-      ),
+      (KycProfileCountryModel element) =>
+          !element.countryName.toLowerCase().contains(
+                countryNameSearch.toLowerCase(),
+              ),
     );
 
     sortedCountries = ObservableList.of(newList);
@@ -219,7 +217,7 @@ abstract class IbanStoreBase with Store {
 
   @action
   Future<void> initState() async {
-    final userInfo = sUserInfo.userInfo;
+    final userInfo = getIt<UserInfoService>().userInfo;
     // ibanName = '${userInfo.firstName} ${userInfo.lastName}';
     ibanName = 'Simple Europe UAB';
     if (ibanBic.isEmpty) {
@@ -254,7 +252,6 @@ abstract class IbanStoreBase with Store {
       isLoading = false;
       wasFirstLoad = true;
     } catch (error) {
-      print(error);
       sNotification.showError(
         intl.something_went_wrong_try_again2,
         duration: 4,
@@ -332,55 +329,54 @@ abstract class IbanStoreBase with Store {
     loader!.startLoading();
 
     try {
-          final model = ProfileSetAddressRequestModel(
-            state: '',
-            city: city,
-            country: activeCountry!.countryCode,
-            addressLine1: streetAddress1,
-            addressLine2: streetAddress2,
-            buildingNumber: '',
-            postalCode: postalCode,
-          );
+      final model = ProfileSetAddressRequestModel(
+        state: '',
+        city: city,
+        country: activeCountry!.countryCode,
+        addressLine1: streetAddress1,
+        addressLine2: streetAddress2,
+        buildingNumber: '',
+        postalCode: postalCode,
+      );
 
-          final response = await sNetwork.getWalletModule()
-              .postSetAddress(model);
+      final response = await sNetwork.getWalletModule().postSetAddress(model);
 
-          response.pick(
-            onData: (data) {
-              loader!.finishLoading(
-                onFinish: () {
-                  sRouter.pop();
-                  initState();
-                },
-              );
-            },
-            onError: (error) {
-              sNotification.showError(
-                error.cause,
-                duration: 4,
-                id: 1,
-                needFeedback: true,
-              );
-
-              loader!.finishLoading();
-            },
-            onNoData: () {
-              loader!.finishLoading(
-                onFinish: () {
-                  sRouter.pop();
-                  initState();
-                },
-              );
-            },
-            onNoError: (value) {
-              loader!.finishLoading(
-                onFinish: () {
-                  sRouter.pop();
-                  initState();
-                },
-              );
+      response.pick(
+        onData: (data) {
+          loader!.finishLoading(
+            onFinish: () {
+              sRouter.pop();
+              initState();
             },
           );
+        },
+        onError: (error) {
+          sNotification.showError(
+            error.cause,
+            duration: 4,
+            id: 1,
+            needFeedback: true,
+          );
+
+          loader!.finishLoading();
+        },
+        onNoData: () {
+          loader!.finishLoading(
+            onFinish: () {
+              sRouter.pop();
+              initState();
+            },
+          );
+        },
+        onNoError: (value) {
+          loader!.finishLoading(
+            onFinish: () {
+              sRouter.pop();
+              initState();
+            },
+          );
+        },
+      );
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
