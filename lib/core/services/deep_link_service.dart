@@ -164,7 +164,9 @@ class DeepLinkService {
     } else if (command == _jwCrypto_withdrawal_decline) {
       pushWithrawalDecline(parameters);
     } else {
-      //_logger.log(Level.INFO, 'Deep link is undefined: $link');
+      if (parameters.containsKey('jw_operation_id')) {
+        pushCryptoHistory(parameters);
+      }
     }
   }
 
