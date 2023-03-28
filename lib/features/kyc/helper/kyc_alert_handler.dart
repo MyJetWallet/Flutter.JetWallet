@@ -176,7 +176,6 @@ class KycAlertHandler {
             requiredVerifications.isEmpty
                 ? RequiredVerified.proofOfIdentity
                 : requiredVerifications.first,
-            context,
           ),
           //documents: documents,
         ),

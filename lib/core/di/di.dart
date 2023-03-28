@@ -28,6 +28,7 @@ import 'package:simple_kit/core/simple_kit.dart';
 
 import '../../features/iban/store/iban_store.dart';
 import '../services/simple_networking/simple_networking.dart';
+
 import 'di.config.dart';
 
 final GetIt getIt = GetIt.instance;

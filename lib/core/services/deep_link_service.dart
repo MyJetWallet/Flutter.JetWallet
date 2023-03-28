@@ -20,6 +20,7 @@ import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_st
 import 'package:jetwallet/features/currency_withdraw/ui/widgets/withdrawal_confirm.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
@@ -630,13 +631,21 @@ class DeepLinkService {
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
       await sRouter.push(
-        SuccessKycScreenRoute(),
+        ChooseDocumentsRouter(
+          headerTitle: stringRequiredVerified(
+            RequiredVerified.proofOfIdentity,
+          ),
+        ),
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           action: RouteQueryAction.push,
-          query: SuccessKycScreenRoute(),
+          query: ChooseDocumentsRouter(
+            headerTitle: stringRequiredVerified(
+              RequiredVerified.proofOfIdentity,
+            ),
+          ),
         ),
       );
     }
