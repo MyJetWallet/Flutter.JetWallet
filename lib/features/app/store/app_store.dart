@@ -163,34 +163,33 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'verification_screen';
             },
             phoneVerification: () async {
-              // if (lastRoute != 'verification_screen') {
-              //   await initSessionInfo();
-              //   final userInfoN = sUserInfo;
-              //
-              //   final phoneNumber = countryCodeByUserRegister();
-              //   await getIt<AppRouter>().replaceAll([
-              //     PhoneVerificationRouter(
-              //       args: PhoneVerificationArgs(
-              //         phoneNumber: sUserInfo.userInfo.phone,
-              //         activeDialCode: phoneNumber,
-              //         sendCodeOnInitState: true,
-              //         onVerified: () {
-              //
-              //           userInfoN.updatePhoneVerified(
-              //             phoneVerified: true,
-              //           );
-              //           userInfoN.updateTwoFaStatus(enabled: true);
-              //
-              //           getIt.get<StartupService>().authenticatedBoot();
-              //
-              //           getIt.get<VerificationStore>().phoneDone();
-              //         },
-              //       ),
-              //     ),
-              //   ]);
-              // }
+              if (lastRoute != 'verification_phone_screen') {
+                await initSessionInfo();
+                final userInfoN = sUserInfo;
 
-              lastRoute = 'verification_screen';
+                final phoneNumber = countryCodeByUserRegister();
+                await getIt<AppRouter>().replaceAll([
+                  PhoneVerificationRouter(
+                    args: PhoneVerificationArgs(
+                      phoneNumber: sUserInfo.userInfo.phone,
+                      activeDialCode: phoneNumber,
+                      sendCodeOnInitState: true,
+                      onVerified: () {
+                        userInfoN.updatePhoneVerified(
+                          phoneVerified: true,
+                        );
+                        userInfoN.updateTwoFaStatus(enabled: true);
+
+                        getIt.get<StartupService>().authenticatedBoot();
+
+                        getIt.get<VerificationStore>().phoneDone();
+                      },
+                    ),
+                  ),
+                ]);
+              }
+
+              lastRoute = 'verification_phone_screen';
             },
             pinSetup: () {
               print(getIt.get<VerificationStore>().isRefreshPin);

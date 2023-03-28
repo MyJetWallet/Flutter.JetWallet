@@ -48,7 +48,6 @@ class StartupService {
 
     processStartupState().then((value) {
       /// Needed to dissmis Register/Login pushed screens
-
       if (needPush) getIt.get<AppStore>().checkInitRouter();
 
       //sRouter.replaceAll([const AppInitRoute()]);
@@ -91,10 +90,10 @@ class StartupService {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const TwoFaVerification(),
                   );
-              // } else if (info.toVerifyPhone) {
-              //   getIt.get<AppStore>().setAuthorizedStatus(
-              //         const PhoneVerification(),
-              //       );
+            } else if (info.toVerifyPhone) {
+              getIt.get<AppStore>().setAuthorizedStatus(
+                    const PhoneVerification(),
+                  );
             } else if (info.toCheckSimpleKyc) {
               getIt.get<AppStore>().setAuthorizedStatus(
                     const UserDataVerification(),

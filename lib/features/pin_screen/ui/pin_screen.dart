@@ -196,7 +196,8 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               Opacity(
                 opacity: pin.isError ? 1 : 0,
                 child: Text(
-                  pin.screenUnion == const PinScreenUnion.confirmPin()
+                  (pin.screenUnion == const ConfirmPin() ||
+                          pin.screenUnion == const NewPin())
                       ? intl.pinScreen_pinDontMatch
                       : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),

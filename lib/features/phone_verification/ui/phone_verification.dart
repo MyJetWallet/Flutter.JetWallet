@@ -122,18 +122,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           children: <Widget>[
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
-              boldText: store.phoneNumber.contains(
-                store.dialCode?.countryCode ?? '',
-              )
-                  ? '${store.dialCode?.countryCode ?? ""} '
-                      '${store.phoneNumber.replaceAll(
-                      store.dialCode?.countryCode ?? "",
-                      "",
-                    )}'
-                  : store.phoneNumber.replaceAll(
-                      store.dialCode?.countryCode ?? '',
-                      '',
-                    ),
+              boldText:
+                  '${store.dialCode?.countryCode ?? ""} ${store.phoneNumber.replaceAll(store.dialCode?.countryCode ?? "", "")}',
             ),
             const SpaceH18(),
             if (args.showChangeTextAlert) ...[
@@ -186,7 +176,13 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                       controller: store.controller,
                       autoFocus: true,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      onCompleted: (_) => store.verifyCode(),
+                      onCompleted: (_) {
+                        if (args.sendCodeOnInitState) {
+                          store.verifyFullCode();
+                        } else {
+                          store.verifyCode();
+                        }
+                      },
                       onChanged: (_) {
                         store.pinFieldError.disableError();
                       },
@@ -217,7 +213,11 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
-                    await store.sendCode(false);
+                    if (args.sendCodeOnInitState) {
+                      await store.sendFullCode(false);
+                    } else {
+                      await store.sendCode(false);
+                    }
                     store.refreshTimer();
 
                     store.updateShowResend(
