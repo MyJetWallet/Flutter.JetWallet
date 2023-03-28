@@ -79,7 +79,7 @@ const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
 const _jwKycDocumentsApproved = 'jw_kyc_documents_approved';
 const _jwKycDocumentsDeclined = 'jw_kyc_documents_declined';
 const _jwKycBanned = 'jw_kyc_banned';
-const _jwCrypto_withdrawal_decline = 'jwt_crypto_withdrawal_decline';
+const _jwCrypto_withdrawal_decline = 'jw_crypto_withdrawal_decline';
 
 const String _loggerService = 'DeepLinkService';
 
