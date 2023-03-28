@@ -288,10 +288,8 @@ abstract class _PinScreenStoreBase with Store {
 
         await resetPin();
 
-        if (
-          response.error?.cause == 'The code you entered is incorrect, 2 attempts remaining.' ||
-          response.error?.cause == 'Provided code is incorrect. Please try again'
-        ) {
+        if (response.error?.cause ==
+            'The code you entered is incorrect, 2 attempts remaining.') {
           if (isChangePhone || isChangePin) {
             showForgot = true;
           }
@@ -343,7 +341,8 @@ abstract class _PinScreenStoreBase with Store {
         onError: (ServerRejectException error) async {
           print(error.cause);
 
-          if (error.cause == 'The code you entered is incorrect, 2 attempts remaining.') {
+          if (error.cause ==
+              'The code you entered is incorrect, 2 attempts remaining.') {
             if (isChangePhone) {
               showForgot = true;
             }
@@ -372,9 +371,9 @@ abstract class _PinScreenStoreBase with Store {
               );
 
               await getIt.get<LogoutService>().logout(
-                'PIN SCREEN, logout',
-                callbackAfterSend: () {},
-              );
+                    'PIN SCREEN, logout',
+                    callbackAfterSend: () {},
+                  );
             }
 
             await resetPin();
@@ -427,10 +426,12 @@ abstract class _PinScreenStoreBase with Store {
   Future<void> _confirmPinFlow() async {
     try {
       if (newPin == confrimPin) {
-        final response = isChangePin ? await sNetwork.getAuthModule().postChangePin(
-          enterPin,
-          newPin,
-        ) : await sNetwork.getAuthModule().postSetupPin(newPin);
+        final response = isChangePin
+            ? await sNetwork.getAuthModule().postChangePin(
+                  enterPin,
+                  newPin,
+                )
+            : await sNetwork.getAuthModule().postSetupPin(newPin);
 
         if (response.error != null) {
           await _animateError();
@@ -523,7 +524,7 @@ abstract class _PinScreenStoreBase with Store {
 
     isError = true;
 
-    Timer(const Duration(milliseconds: 2500), () {
+    Timer(const Duration(seconds: 1), () {
       isError = false;
     });
   }
@@ -636,8 +637,8 @@ abstract class _PinScreenStoreBase with Store {
       },
       newPin: () {
         return isChangePin
-          ? intl.enterPin_enter_new_pin
-          : intl.pin_screen_set_new_pin;
+            ? intl.enterPin_enter_new_pin
+            : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
         return intl.pin_screen_confirm_newPin;

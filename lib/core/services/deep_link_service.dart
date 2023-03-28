@@ -79,6 +79,7 @@ const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
 const _jwKycDocumentsApproved = 'jw_kyc_documents_approved';
 const _jwKycDocumentsDeclined = 'jw_kyc_documents_declined';
 const _jwKycBanned = 'jw_kyc_banned';
+const _jwCrypto_withdrawal_decline = 'jwt_crypto_withdrawal_decline';
 
 const String _loggerService = 'DeepLinkService';
 
@@ -160,6 +161,8 @@ class DeepLinkService {
       pushKycDocumentsDeclined(parameters);
     } else if (command == _jwKycBanned) {
       pushKycDocumentsApproved(parameters);
+    } else if (command == _jwCrypto_withdrawal_decline) {
+      pushWithrawalDecline(parameters);
     } else {
       //_logger.log(Level.INFO, 'Deep link is undefined: $link');
     }
@@ -648,6 +651,56 @@ class DeepLinkService {
           ),
         ),
       );
+    }
+  }
+
+  Future<void> pushWithrawalDecline(
+    Map<String, String> parameters,
+  ) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      parameters['asset'] ?? 'BTC',
+    );
+
+    //navigateToWallet
+    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          EmptyWalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: EmptyWalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          WalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: WalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
     }
   }
 }

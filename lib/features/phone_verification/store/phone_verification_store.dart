@@ -17,9 +17,7 @@ import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_full_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification/phone_verification_request_model.dart';
-import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_full_verify_request_model.dart';
 import 'package:simple_networking/modules/validation_api/models/phone_verification_verify/phone_verification_verify_request_model.dart';
 
 part 'phone_verification_store.g.dart';
@@ -87,7 +85,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendFullCode(true);
+      sendCode(true);
     }
   }
 
@@ -190,82 +188,6 @@ abstract class _PhoneVerificationStoreBase with Store {
     }
 
     loader.finishLoading();
-  }
-
-  @action
-  Future<void> sendFullCode(bool isStart) async {
-    try {
-      if (!isStart) {
-        resendTapped = true;
-      }
-
-      final model = PhoneVerificationFullRequestModel(
-        locale: intl.localeName,
-        verificationType: isStart ? 1 : 2,
-        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
-      );
-
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationFullRequest(model);
-
-      if (response.hasError) {
-        _logger.log(stateFlow, 'sendCode', response.error);
-        resendTapped = false;
-
-        sNotification.showError(
-          response.error!.cause,
-          id: 1,
-        );
-      }
-    } catch (e) {
-      _logger.log(stateFlow, 'sendCode', e);
-      resendTapped = false;
-
-      sNotification.showError(
-        intl.something_went_wrong,
-        id: 2,
-      );
-    }
-  }
-
-  @action
-  Future<void> verifyFullCode() async {
-    try {
-      loader.startLoading();
-
-      final model = PhoneVerificationFullVerifyRequestModel(
-        code: controller.text,
-      );
-
-      final response = await sNetwork
-          .getValidationModule()
-          .postPhoneVerificationFullVerify(model);
-
-      if (response.hasError) {
-        _logger.log(stateFlow, 'verifyCode', response.error);
-        pinFieldError.enableError();
-        loader.finishLoading();
-
-        sNotification.showError(
-          response.error!.cause,
-          id: 1,
-        );
-      } else {
-        sUserInfo.updatePhone(phoneNumber);
-        args.onVerified();
-      }
-    } catch (e) {
-      _logger.log(stateFlow, 'verifyCode', e);
-      pinFieldError.enableError();
-      loader.finishLoading();
-
-      sNotification.showError(
-        intl.something_went_wrong,
-        id: 2,
-      );
-    }
-
   }
 
   @action
