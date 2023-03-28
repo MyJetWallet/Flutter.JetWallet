@@ -3,10 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
-import 'package:jetwallet/widgets/bottom_tabs/bottom_tabs.dart';
-import 'package:jetwallet/widgets/bottom_tabs/components/bottom_tab.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../wallet/helper/nft_types.dart';

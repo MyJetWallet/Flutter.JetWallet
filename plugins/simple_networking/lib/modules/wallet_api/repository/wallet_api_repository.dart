@@ -409,6 +409,14 @@ class WalletApiRepository {
     return _walletApiDataSources.getOperationHistoryRequest(model);
   }
 
+  Future<DC<ServerRejectException, OperationHistoryItem>>
+      getOperationHistoryOperationID(
+    String operationId,
+  ) async {
+    return _walletApiDataSources
+        .getOperationHistoryOperationIDRequest(operationId);
+  }
+
   Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>>
       postProfileDeleteReasons(
     String localeName,

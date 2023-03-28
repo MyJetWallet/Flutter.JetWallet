@@ -106,19 +106,17 @@ abstract class _OperationHistoryBase with Store {
       if (jw_operation_id != null) {
         final item = listToShow
             .indexWhere((element) => element.operationId == jw_operation_id);
-        print(jw_operation_id);
-        print(item);
 
         if (item != -1) {
           showTransactionDetails(
             sRouter.navigatorKey.currentContext!,
             listToShow[item],
           );
+        } else {
+          await getOperationHistoryOperation(jw_operation_id!);
         }
-      }
+      } else {}
     } catch (e) {
-      print(e);
-
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -128,6 +126,18 @@ abstract class _OperationHistoryBase with Store {
     }
 
     isLoading = false;
+  }
+
+  @action
+  Future<void> getOperationHistoryOperation(String operationID) async {
+    final response = await sNetwork
+        .getWalletModule()
+        .getOperationHistoryOperationID(operationID);
+
+    response.pick(
+      onData: (data) {},
+      onError: (e) {},
+    );
   }
 
   @action
