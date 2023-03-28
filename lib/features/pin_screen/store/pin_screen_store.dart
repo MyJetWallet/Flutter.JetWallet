@@ -288,11 +288,8 @@ abstract class _PinScreenStoreBase with Store {
 
         await resetPin();
 
-        if (response.error?.cause ==
-            'The code you entered is incorrect, 2 attempts remaining.') {
-          if (isChangePhone || isChangePin) {
-            showForgot = true;
-          }
+        if (isChangePhone || isChangePin) {
+          showForgot = true;
         }
 
         sNotification.showError(
