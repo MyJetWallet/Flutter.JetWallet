@@ -612,9 +612,9 @@ class DeepLinkService {
   Future<void> pushKycDocumentsApproved(
     Map<String, String> parameters,
   ) async {
-    if (['/home/portfolio', '/home/market'].contains(sRouter.currentPath)) {
-      getIt<AppStore>().setHomeTab(1);
-    } else {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
       await sRouter.replaceAll(
         [
           HomeRouter(
@@ -625,6 +625,19 @@ class DeepLinkService {
             ],
           ),
         ],
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.replace,
+          query: HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 1,
+              ),
+            ],
+          ),
+        ),
       );
     }
   }

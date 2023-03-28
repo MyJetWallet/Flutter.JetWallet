@@ -1264,7 +1264,7 @@ class WalletApiDataSources {
   ) async {
     try {
       final response = await _apiClient.get(
-        '${_apiClient.options.walletApi}/history/walelt-history/operation-history',
+        '${_apiClient.options.walletApi}/history/wallet-history/operation-history',
         queryParameters: model.toJson(),
       );
 
@@ -1287,7 +1287,7 @@ class WalletApiDataSources {
   ) async {
     try {
       final response = await _apiClient.get(
-        '${_apiClient.options.walletApi}/history/walelt-history/operation-history/$operationId',
+        '${_apiClient.options.walletApi}/history/wallet-history/operation-history/$operationId',
       );
 
       try {
