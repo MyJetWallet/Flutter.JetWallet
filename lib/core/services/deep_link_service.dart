@@ -156,11 +156,11 @@ class DeepLinkService {
     } else if (command == _jwTransferByPhoneSend) {
       pushCryptoWithdrawal(parameters);
     } else if (command == _jwKycDocumentsApproved) {
-      pushKycDocumentsApproved(parameters);
+      pushKycDocumentsApproved();
     } else if (command == _jwKycDocumentsDeclined) {
-      pushKycDocumentsDeclined(parameters);
+      pushKycDocumentsDeclined();
     } else if (command == _jwKycBanned) {
-      pushKycDocumentsApproved(parameters);
+      pushKycDocumentsApproved();
     } else if (command == _jwCrypto_withdrawal_decline) {
       pushWithrawalDecline(parameters);
     } else {
@@ -609,9 +609,7 @@ class DeepLinkService {
     }
   }
 
-  Future<void> pushKycDocumentsApproved(
-    Map<String, String> parameters,
-  ) async {
+  Future<void> pushKycDocumentsApproved() async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
@@ -619,9 +617,7 @@ class DeepLinkService {
         [
           HomeRouter(
             children: [
-              MarketRouter(
-                initIndex: 1,
-              ),
+              MarketRouter(),
             ],
           ),
         ],
@@ -632,9 +628,7 @@ class DeepLinkService {
           action: RouteQueryAction.replace,
           query: HomeRouter(
             children: [
-              MarketRouter(
-                initIndex: 1,
-              ),
+              MarketRouter(),
             ],
           ),
         ),
@@ -642,9 +636,7 @@ class DeepLinkService {
     }
   }
 
-  Future<void> pushKycDocumentsDeclined(
-    Map<String, String> parameters,
-  ) async {
+  Future<void> pushKycDocumentsDeclined() async {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
