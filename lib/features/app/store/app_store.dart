@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -444,11 +445,13 @@ abstract class _AppStoreBase with Store {
 
       await getIt<LocalCacheService>().saveInstallID(installID);
 
+      final packageInfo = getIt.get<PackageInfoService>().info;
+
       final model = InstallModel(
         installId: installID,
         platform: Platform.isIOS ? 1 : 2,
         deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
-        version: sDeviceInfo.model.version,
+        version: packageInfo.version,
         lang: intl.localeName,
         appsflyerId:
             await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID(),
