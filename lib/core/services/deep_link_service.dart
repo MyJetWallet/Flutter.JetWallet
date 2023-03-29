@@ -645,9 +645,7 @@ class DeepLinkService {
         getIt.get<AppStore>().authorizedStatus is Home) {
       await sRouter.push(
         ChooseDocumentsRouter(
-          headerTitle: stringRequiredVerified(
-            RequiredVerified.proofOfIdentity,
-          ),
+          headerTitle: 'Verify your identity',
         ),
       );
     } else {
@@ -655,9 +653,7 @@ class DeepLinkService {
         RouteQueryModel(
           action: RouteQueryAction.push,
           query: ChooseDocumentsRouter(
-            headerTitle: stringRequiredVerified(
-              RequiredVerified.proofOfIdentity,
-            ),
+            headerTitle: 'Verify your identity',
           ),
         ),
       );
