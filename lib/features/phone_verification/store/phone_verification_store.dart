@@ -87,7 +87,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendCode(true);
+      sendFullCode(true);
     }
   }
 
