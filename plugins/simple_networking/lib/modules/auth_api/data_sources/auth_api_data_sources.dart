@@ -11,6 +11,7 @@ import 'package:simple_networking/modules/auth_api/models/confirm_email_login/co
 import 'package:simple_networking/modules/auth_api/models/confirm_email_login/confirm_email_login_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/country/country_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/forgot_password/forgot_password_request_model.dart';
+import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/login/authentication_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
@@ -469,6 +470,27 @@ class AuthApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(CountryResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> postInstallRequest(
+      InstallModel model,) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.authApi}/common/install',
+        data: model.toJson(),
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
       } catch (e) {
         rethrow;
       }

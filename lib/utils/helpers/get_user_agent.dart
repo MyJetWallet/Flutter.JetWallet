@@ -5,10 +5,11 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/utils/helpers/device_helper.dart';
 
-String getUserAgent() {
+Future<String> getUserAgent() async {
   String lang = 'en';
 
   if (getIt.isRegistered<AppLocalizations>()) {
@@ -18,6 +19,7 @@ String getUserAgent() {
   final deviceInfo = getIt.get<DeviceInfo>().model;
   final packageInfo = getIt.get<PackageInfoService>().info;
   final appVersion = packageInfo.version;
+  final instllID = await getIt<LocalCacheService>().getInstallID();
 
   MediaQueryData? mediaQuery;
   Size deviceSize = const Size(0, 0);
@@ -30,9 +32,9 @@ String getUserAgent() {
     final devicePixelRatio = mediaQuery.devicePixelRatio;
 
     return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-        '$devicePixelRatio;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid}';
+        '$devicePixelRatio;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID';
   } else {
     return '$appVersion;${packageInfo.buildNumber};$deviceType;unknown;'
-        'unknown;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid}';
+        'unknown;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID';
   }
 }

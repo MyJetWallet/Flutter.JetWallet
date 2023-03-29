@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,6 +133,8 @@ class LocalStorageService {
     final val = await getIt<LocalCacheService>().checkIsFirstRunning();
 
     if (val) {
+      getIt<AppStore>().setAfterInstall(true);
+
       final userMail = await _storage.read(key: lastUsedMail);
       final slot = await _storage.read(key: activeSlot);
       final deviceIdUsed = await _storage.read(key: deviceId);

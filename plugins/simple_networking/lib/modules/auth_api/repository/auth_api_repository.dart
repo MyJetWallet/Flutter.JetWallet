@@ -9,6 +9,7 @@ import 'package:simple_networking/modules/auth_api/models/confirm_email_login/co
 import 'package:simple_networking/modules/auth_api/models/confirm_email_login/confirm_email_login_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/country/country_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/forgot_password/forgot_password_request_model.dart';
+import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/login/authentication_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/login_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
@@ -177,5 +178,10 @@ class AuthApiRepository {
   Future<DC<ServerRejectException, CountryResponseModel>>
       getUserCountry() async {
     return _authApiDataSource.getUserCountryRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> postInstall(
+      InstallModel model) async {
+    return _authApiDataSource.postInstallRequest(model);
   }
 }

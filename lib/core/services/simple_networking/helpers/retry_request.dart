@@ -14,7 +14,7 @@ Future<Response> retryRequest(
 
   final log = logPrint.Logger();
 
-  requestOptions = setHeaders(requestOptions, false);
+  requestOptions = await setHeaders(requestOptions, false);
 
   final options = Options(
     method: requestOptions.method,

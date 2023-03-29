@@ -34,7 +34,9 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 import 'package:logger/logger.dart';
 
@@ -77,6 +79,11 @@ abstract class _AppStoreBase with Store {
   void setEnv(String val) {
     env = val;
   }
+
+  @observable
+  bool afterInstall = false;
+  @action
+  void setAfterInstall(bool val) => afterInstall = val;
 
   @observable
   bool isBalanceHide = true;
@@ -429,7 +436,45 @@ abstract class _AppStoreBase with Store {
   }
 
   @action
+  Future<void> saveInstallID() async {
+    try {
+      const uuid = Uuid();
+
+      final installID = uuid.v1();
+
+      await getIt<LocalCacheService>().saveInstallID(installID);
+
+      final model = InstallModel(
+        installId: installID,
+        platform: Platform.isIOS ? 1 : 2,
+        deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+        version: sDeviceInfo.model.version,
+        lang: intl.localeName,
+        appsflyerId:
+            await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID(),
+        idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
+        idfv: sDeviceInfo.model.deviceUid,
+        adid: '',
+      );
+
+      final request = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postInstall(
+            model,
+          );
+
+      print(model);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @action
   Future<void> getAuthStatus() async {
+    generateNewSessionID();
+
     _logger.log(
       level: Level.info,
       place: _loggerValue,
@@ -498,8 +543,11 @@ abstract class _AppStoreBase with Store {
           ),
     );
 
+    if (afterInstall) {
+      unawaited(saveInstallID());
+    }
+
     appStatus = AppStatus.Start;
-    generateNewSessionID();
 
     _logger.log(
       level: Level.info,
