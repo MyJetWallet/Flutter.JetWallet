@@ -138,7 +138,6 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 confirmPin: () {
                   return SAuthHeader(
                     title: pin.screenDescription(),
-                    hideBackButton: widget.isForgotPassword,
                     /*
                     customIconButton: SIconButton(
                       onTap: () {
@@ -161,10 +160,17 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     onBackButtonTap: () {
                       onbackButton!();
                     },
-                    hideBackButton: widget.isForgotPassword,
                     customIconButton: SIconButton(
                       onTap: () {
-                        if (!widget.fromRegister) {
+                        if (widget.isForgotPassword) {
+                          getIt<LogoutService>().logout(
+                            'TWO FA, logout',
+                            withLoading: false,
+                            callbackAfterSend: () {},
+                          );
+
+                          getIt<AppRouter>().pop();
+                        } else if (!widget.fromRegister) {
                           Navigator.pop(context);
                         } else {
                           showModalVerification(context);
