@@ -617,7 +617,7 @@ class DeepLinkService {
         [
           HomeRouter(
             children: [
-              MarketRouter(),
+              MarketRouter(initIndex: 1),
             ],
           ),
         ],
@@ -628,9 +628,12 @@ class DeepLinkService {
           action: RouteQueryAction.replace,
           query: HomeRouter(
             children: [
-              MarketRouter(),
+              MarketRouter(initIndex: 1),
             ],
           ),
+          func: () {
+            getIt.get<AppStore>().setHomeTab(1);
+          },
         ),
       );
     }

@@ -39,12 +39,18 @@ class PushNotificationService {
 
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
 
-    FirebaseMessaging.onBackgroundMessage(_messagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     await _setForegroundNotification();
 
     await FirebaseMessaging.instance.getInitialMessage().then(
       (RemoteMessage? message) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: _loggerService,
+              message: 'GET getInitialMessage IS NULL : ${message == null}',
+            );
+
         if (message != null) {
           getIt.get<DeepLinkService>().handlePushNotificationLink(message);
         }
@@ -135,6 +141,22 @@ class PushNotificationService {
 /// (e.g. not a class method which requires initialization)
 Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
+  getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: _loggerService,
+        message:
+            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+      );
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  await PushNotificationService().initialize();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
