@@ -338,11 +338,12 @@ abstract class _PinScreenStoreBase with Store {
         onError: (ServerRejectException error) async {
           print(error.cause);
 
+          if (isChangePhone) {
+            showForgot = true;
+          }
+
           if (error.cause ==
               'The code you entered is incorrect, 2 attempts remaining.') {
-            if (isChangePhone) {
-              showForgot = true;
-            }
             await _errorFlow();
             _updateNewPin('');
             _updateConfirmPin('');

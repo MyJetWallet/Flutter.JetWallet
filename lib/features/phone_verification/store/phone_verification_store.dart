@@ -87,7 +87,7 @@ abstract class _PhoneVerificationStoreBase with Store {
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
-      sendFullCode(true);
+      sendCode(true);
     }
   }
 
@@ -171,6 +171,8 @@ abstract class _PhoneVerificationStoreBase with Store {
         _logger.log(stateFlow, 'verifyCode', response.error);
         pinFieldError.enableError();
 
+        loader.finishLoading();
+
         sNotification.showError(
           response.error!.cause,
           id: 1,
@@ -183,13 +185,13 @@ abstract class _PhoneVerificationStoreBase with Store {
       _logger.log(stateFlow, 'verifyCode', e);
       pinFieldError.enableError();
 
+      loader.finishLoading();
+
       sNotification.showError(
         intl.something_went_wrong,
         id: 2,
       );
     }
-
-    loader.finishLoading();
   }
 
   @action
