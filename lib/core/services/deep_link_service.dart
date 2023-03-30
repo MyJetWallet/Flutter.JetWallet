@@ -613,15 +613,12 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      await sRouter.replaceAll(
-        [
-          HomeRouter(
-            children: [
-              MarketRouter(initIndex: 1),
-            ],
-          ),
-        ],
-      );
+      getIt.get<AppStore>().setHomeTab(1);
+      if (getIt.get<AppStore>().tabsRouter != null) {
+        getIt.get<AppStore>().tabsRouter!.setActiveIndex(1);
+      }
+
+      sRouter.popUntilRoot();
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
