@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 
 enum RouteQueryAction { push, navigate, replace }
 
@@ -7,10 +10,12 @@ class RouteQueryModel {
   RouteQueryModel({
     required this.query,
     required this.action,
+    this.func,
   });
 
   final PageRouteInfo<dynamic> query;
   final RouteQueryAction action;
+  final Function()? func;
 }
 
 class RouteQueryService {
@@ -47,6 +52,10 @@ class RouteQueryService {
           ]);
           break;
         default:
+      }
+
+      if (query[i].func != null) {
+        query[i].func!();
       }
 
       removeFromQuery(query[i]);

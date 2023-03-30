@@ -15,9 +15,11 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
+import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -33,7 +35,9 @@ import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
+import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 import 'package:logger/logger.dart';
 
@@ -76,6 +80,11 @@ abstract class _AppStoreBase with Store {
   void setEnv(String val) {
     env = val;
   }
+
+  @observable
+  bool afterInstall = false;
+  @action
+  void setAfterInstall(bool val) => afterInstall = val;
 
   @observable
   bool isBalanceHide = true;
@@ -174,7 +183,6 @@ abstract class _AppStoreBase with Store {
                       activeDialCode: phoneNumber,
                       sendCodeOnInitState: true,
                       onVerified: () {
-
                         userInfoN.updatePhoneVerified(
                           phoneVerified: true,
                         );
@@ -244,6 +252,10 @@ abstract class _AppStoreBase with Store {
                   ],
                 ),
               ]);
+
+              if (!getIt<RouteQueryService>().isNavigate) {
+                getIt<RouteQueryService>().runQuery();
+              }
             },
             askBioUsing: () {
               //initRouter = const RouterUnion.askBioUsing();
@@ -425,7 +437,47 @@ abstract class _AppStoreBase with Store {
   }
 
   @action
+  Future<void> saveInstallID() async {
+    try {
+      const uuid = Uuid();
+
+      final installID = uuid.v1();
+
+      await getIt<LocalCacheService>().saveInstallID(installID);
+
+      final packageInfo = getIt.get<PackageInfoService>().info;
+
+      final model = InstallModel(
+        installId: installID,
+        platform: Platform.isIOS ? 1 : 2,
+        deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+        version: packageInfo.version,
+        lang: intl.localeName,
+        appsflyerId:
+            await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID(),
+        idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
+        idfv: sDeviceInfo.model.deviceUid,
+        adid: '',
+      );
+
+      final request = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postInstall(
+            model,
+          );
+
+      print(model);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @action
   Future<void> getAuthStatus() async {
+    generateNewSessionID();
+
     _logger.log(
       level: Level.info,
       place: _loggerValue,
@@ -494,8 +546,11 @@ abstract class _AppStoreBase with Store {
           ),
     );
 
+    if (afterInstall) {
+      unawaited(saveInstallID());
+    }
+
     appStatus = AppStatus.Start;
-    generateNewSessionID();
 
     _logger.log(
       level: Level.info,
@@ -573,10 +628,9 @@ abstract class _AppStoreBase with Store {
         authStatus = const AuthorizationUnion.unauthorized();
 
         await getIt.get<LogoutService>().logout(
-          'APP_STORE, $e',
-          callbackAfterSend: () {},
-        );
-
+              'APP_STORE, $e',
+              callbackAfterSend: () {},
+            );
       }
     }
 

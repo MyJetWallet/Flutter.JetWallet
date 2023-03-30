@@ -8,9 +8,11 @@ import 'package:charts/simple_chart.dart';
 /// The service is responsible for caching internal data in the application
 
 const String isFirstRunning = 'isFirstRunning';
+const String isBalanceHide = 'isBalanceHide';
+const String installID = 'installID';
+
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
-const String isBalanceHide = 'isBalanceHide';
 
 class LocalCacheService {
   late SharedPreferences instance;
@@ -19,6 +21,16 @@ class LocalCacheService {
     instance = await SharedPreferences.getInstance();
 
     return this;
+  }
+
+  ///
+
+  Future<void> saveInstallID(String value) async {
+    await instance.setString(installID, value);
+  }
+
+  Future<String?> getInstallID() async {
+    return instance.getString(installID);
   }
 
   ///

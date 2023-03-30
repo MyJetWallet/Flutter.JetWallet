@@ -53,7 +53,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfPhone,
-                              context,
                             )}',
                             completeIcon:
                                 store.requiredVerifications[index].verifiedDone,
@@ -74,7 +73,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfIdentity,
-                              context,
                             )}',
                             completeIcon:
                                 store.requiredVerifications[index].verifiedDone,
@@ -95,7 +93,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfFunds,
-                              context,
                             )}',
                             completeIcon:
                                 store.requiredVerifications[index].verifiedDone,
@@ -116,7 +113,6 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
                           VerifyStep(
                             title: '${index + 1}. ${stringRequiredVerified(
                               RequiredVerified.proofOfAddress,
-                              context,
                             )}',
                             completeIcon:
                                 store.requiredVerifications[index].verifiedDone,

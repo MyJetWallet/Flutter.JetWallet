@@ -1,4 +1,5 @@
 import 'package:event_bus/event_bus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -19,6 +20,7 @@ import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_st
 import 'package:jetwallet/features/currency_withdraw/ui/widgets/withdrawal_confirm.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
@@ -26,14 +28,16 @@ import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/compone
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/show_start_earn_options.dart';
-import 'package:logging/logging.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
 import 'local_storage_service.dart';
 import 'notification_service.dart';
@@ -68,6 +72,17 @@ const _NFTmarket = 'NFT_market';
 const _NFTcollection = 'NFT_collection';
 const _NFTtoken = 'NFT_token';
 
+// Push Notification
+
+const _jwSwap = 'jw_operation_history';
+const _jwTransferByPhoneSend = 'jw_transfer_by_phone_send';
+const _jwKycDocumentsApproved = 'jw_kyc_documents_approved';
+const _jwKycDocumentsDeclined = 'jw_kyc_documents_declined';
+const _jwKycBanned = 'jw_kyc_banned';
+const _jwCrypto_withdrawal_decline = 'jw_crypto_withdrawal_decline';
+
+const String _loggerService = 'DeepLinkService';
+
 enum SourceScreen {
   bannerOnMarket,
   bannerOnRewards,
@@ -76,8 +91,6 @@ enum SourceScreen {
 
 class DeepLinkService {
   DeepLinkService();
-
-  final _logger = Logger('');
 
   void handle(
     Uri link, {
@@ -138,8 +151,22 @@ class DeepLinkService {
       _nftCollectionCommand(parameters);
     } else if (command == _NFTtoken) {
       _nftTokenCommand(parameters);
+    } else if (command == _jwSwap) {
+      pushCryptoHistory(parameters);
+    } else if (command == _jwTransferByPhoneSend) {
+      pushCryptoWithdrawal(parameters);
+    } else if (command == _jwKycDocumentsApproved) {
+      pushKycDocumentsApproved();
+    } else if (command == _jwKycDocumentsDeclined) {
+      pushKycDocumentsDeclined();
+    } else if (command == _jwKycBanned) {
+      pushKycDocumentsApproved();
+    } else if (command == _jwCrypto_withdrawal_decline) {
+      pushWithrawalDecline(parameters);
     } else {
-      _logger.log(Level.INFO, 'Deep link is undefined: $link');
+      if (parameters.containsKey('jw_operation_id')) {
+        pushCryptoHistory(parameters);
+      }
     }
   }
 
@@ -180,7 +207,6 @@ class DeepLinkService {
             ),
           );
         }
-
       }
     } catch (e) {
       rethrow;
@@ -341,9 +367,9 @@ class DeepLinkService {
 
   void _loginCommand(Map<String, String> parameters) {
     getIt.get<LogoutService>().logout(
-      'DEEPLINK logincommand',
-      callbackAfterSend: () {},
-    );
+          'DEEPLINK logincommand',
+          callbackAfterSend: () {},
+        );
 
     sRouter.push(
       SingInRouter(
@@ -489,6 +515,207 @@ class DeepLinkService {
         );
       },
     );
+  }
 
+  /// Push Notification Links
+
+  Future<void> handlePushNotificationLink(RemoteMessage message) async {
+    debugPrint(message.toMap().toString());
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: _loggerService,
+          message:
+              'handlePushNotificationLink \n\n ${message.data["actionUrl"]}',
+        );
+
+    // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
+
+    if (message.data['actionUrl'] != null) {
+      handle(Uri.parse(message.data['actionUrl'] as String));
+    }
+  }
+
+  Future<void> pushCryptoHistory(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        TransactionHistoryRouter(
+          jwOperationId: parameters['jw_operation_id'],
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: TransactionHistoryRouter(
+            jwOperationId: parameters['jw_operation_id'],
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> pushCryptoWithdrawal(
+    Map<String, String> parameters,
+  ) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      'BTC',
+    );
+
+    //navigateToWallet
+    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          EmptyWalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: EmptyWalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          WalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: WalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> pushKycDocumentsApproved() async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      getIt.get<AppStore>().setHomeTab(1);
+      if (getIt.get<AppStore>().tabsRouter != null) {
+        getIt.get<AppStore>().tabsRouter!.setActiveIndex(1);
+      }
+
+      sRouter.popUntilRoot();
+
+      await sRouter.replaceAll(
+        [
+          HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 1,
+              ),
+            ],
+          ),
+        ],
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.replace,
+          query: HomeRouter(
+            children: [
+              MarketRouter(initIndex: 1),
+            ],
+          ),
+          func: () {
+            getIt.get<AppStore>().setHomeTab(1);
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushKycDocumentsDeclined() async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        ChooseDocumentsRouter(
+          headerTitle: 'Verify your identity',
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: ChooseDocumentsRouter(
+            headerTitle: 'Verify your identity',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> pushWithrawalDecline(
+    Map<String, String> parameters,
+  ) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      parameters['asset'] ?? 'BTC',
+    );
+
+    //navigateToWallet
+    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          EmptyWalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: EmptyWalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    } else {
+      if (getIt.isRegistered<AppStore>() &&
+          getIt.get<AppStore>().remoteConfigStatus is Success &&
+          getIt.get<AppStore>().authorizedStatus is Home) {
+        await sRouter.push(
+          WalletRouter(
+            currency: currency,
+          ),
+        );
+      } else {
+        getIt<RouteQueryService>().addToQuery(
+          RouteQueryModel(
+            action: RouteQueryAction.push,
+            query: WalletRouter(
+              currency: currency,
+            ),
+          ),
+        );
+      }
+    }
   }
 }

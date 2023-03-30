@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
+import 'package:jetwallet/features/wallet/helper/show_transaction_details.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -16,19 +18,35 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
-  OperationHistory(String? assetId, TransactionType? filter, bool? isRecurring)
-      : super(assetId, filter, isRecurring);
+  OperationHistory(
+    String? assetId,
+    TransactionType? filter,
+    bool? isRecurring,
+    String? jw_operation_id,
+  ) : super(
+          assetId,
+          filter,
+          isRecurring,
+          jw_operation_id,
+        );
 
   static _OperationHistoryBase of(BuildContext context) =>
       Provider.of<OperationHistory>(context, listen: false);
 }
 
 abstract class _OperationHistoryBase with Store {
-  _OperationHistoryBase(this.assetId, this.filter, this.isRecurring);
+  _OperationHistoryBase(
+    this.assetId,
+    this.filter,
+    this.isRecurring,
+    this.jw_operation_id,
+  );
 
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+  // Указывает на конкретную операцию, используем после тапа по пушу
+  final String? jw_operation_id;
 
   @observable
   ScrollController scrollController = ScrollController();
@@ -84,9 +102,21 @@ abstract class _OperationHistoryBase with Store {
       _updateOperationHistory(operationHistory.operationHistory);
 
       union = const OperationHistoryUnion.loaded();
-    } catch (e) {
-      print(e);
 
+      if (jw_operation_id != null) {
+        final item = listToShow
+            .indexWhere((element) => element.operationId == jw_operation_id);
+
+        if (item != -1) {
+          showTransactionDetails(
+            sRouter.navigatorKey.currentContext!,
+            listToShow[item],
+          );
+        } else {
+          await getOperationHistoryOperation(jw_operation_id!);
+        }
+      } else {}
+    } catch (e) {
       sNotification.showError(
         intl.something_went_wrong,
         id: 1,
@@ -96,6 +126,18 @@ abstract class _OperationHistoryBase with Store {
     }
 
     isLoading = false;
+  }
+
+  @action
+  Future<void> getOperationHistoryOperation(String operationID) async {
+    final response = await sNetwork
+        .getWalletModule()
+        .getOperationHistoryOperationID(operationID);
+
+    response.pick(
+      onData: (data) {},
+      onError: (e) {},
+    );
   }
 
   @action

@@ -202,11 +202,10 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
               Opacity(
                 opacity: pin.isError ? 1 : 0,
                 child: Text(
-                    widget.union is! Verification &&
-                    (pin.screenUnion == const ConfirmPin() ||
-                        pin.screenUnion == const NewPin())
-                        ? intl.pinScreen_pinDontMatch
-                        : intl.pinScreen_incorrectPIN,
+                  (pin.screenUnion == const ConfirmPin() ||
+                          pin.screenUnion == const NewPin())
+                      ? intl.pinScreen_pinDontMatch
+                      : intl.pinScreen_incorrectPIN,
                   style: sSubtitle3Style.copyWith(color: colors.red),
                 ),
               ),
@@ -229,13 +228,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                 },
               ),
               const Spacer(),
-              if (
-                !widget.displayHeader ||
-                (
-                  pin.showForgot &&
-                  pin.screenUnion == const PinScreenUnion.enterPin()
-                )
-              )
+              if (!widget.displayHeader ||
+                  (pin.showForgot &&
+                      pin.screenUnion == const PinScreenUnion.enterPin()))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -243,7 +238,7 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                     Baseline(
                       baselineType: TextBaseline.alphabetic,
                       baseline: 16,
-                      child:  SClickableLinkText(
+                      child: SClickableLinkText(
                         actualColor: colors.black,
                         onTap: () => sShowAlertPopup(
                           context,
@@ -267,7 +262,8 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                             );
                             Navigator.pop(context);
                           },
-                          secondaryButtonName: intl.forgot_pass_dialog_btn_cancel,
+                          secondaryButtonName:
+                              intl.forgot_pass_dialog_btn_cancel,
                           onSecondaryButtonTap: () {
                             Navigator.pop(context);
                           },

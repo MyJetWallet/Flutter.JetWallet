@@ -85,7 +85,8 @@ class SignalRService {
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
-      updateAssetPaymentMethodsNew: sSignalRModules.updateAssetPaymentMethodsNew,
+      updateAssetPaymentMethodsNew:
+          sSignalRModules.updateAssetPaymentMethodsNew,
     );
 
     _logger.log(
@@ -97,7 +98,7 @@ class SignalRService {
 
     return SignalRModuleNew(
       options: getIt.get<SNetwork>().simpleOptions,
-      headers: {'User-Agent': getUserAgent()},
+      headers: {'User-Agent': await getUserAgent()},
       token: getIt.get<AppStore>().authState.token,
       deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
       localeName: intl.localeName,

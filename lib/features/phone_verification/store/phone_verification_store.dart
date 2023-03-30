@@ -84,6 +84,10 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void _initState() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      focusNode.requestFocus();
+    });
+
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
@@ -171,6 +175,8 @@ abstract class _PhoneVerificationStoreBase with Store {
         _logger.log(stateFlow, 'verifyCode', response.error);
         pinFieldError.enableError();
 
+        loader.finishLoading();
+
         sNotification.showError(
           response.error!.cause,
           id: 1,
@@ -183,13 +189,13 @@ abstract class _PhoneVerificationStoreBase with Store {
       _logger.log(stateFlow, 'verifyCode', e);
       pinFieldError.enableError();
 
+      loader.finishLoading();
+
       sNotification.showError(
         intl.something_went_wrong,
         id: 2,
       );
     }
-
-    loader.finishLoading();
   }
 
   @action
@@ -245,7 +251,6 @@ abstract class _PhoneVerificationStoreBase with Store {
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error);
         pinFieldError.enableError();
-        loader.finishLoading();
 
         sNotification.showError(
           response.error!.cause,
@@ -258,7 +263,6 @@ abstract class _PhoneVerificationStoreBase with Store {
     } catch (e) {
       _logger.log(stateFlow, 'verifyCode', e);
       pinFieldError.enableError();
-      loader.finishLoading();
 
       sNotification.showError(
         intl.something_went_wrong,
@@ -266,6 +270,7 @@ abstract class _PhoneVerificationStoreBase with Store {
       );
     }
 
+    loader.finishLoading();
   }
 
   @action

@@ -200,7 +200,7 @@ class SignalRModuleNew {
       log(
         level: Level.error,
         place: _loggerValue,
-        message: 'SignalR failed to start connection',
+        message: 'SignalR failed to start connection $e',
       );
 
       handleError('startconnection', Object());

@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -12,7 +11,6 @@ import 'models/user_info.dart';
 
 final sUserInfo = getIt.get<UserInfoService>();
 
-@lazySingleton
 class UserInfoService {
   static final _logger = Logger('UserInfoNotifier');
 

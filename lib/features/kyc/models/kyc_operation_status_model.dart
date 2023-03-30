@@ -33,7 +33,6 @@ enum RequiredVerified {
 
 String stringRequiredVerified(
   RequiredVerified type,
-  BuildContext context,
 ) {
   switch (type) {
     case RequiredVerified.proofOfIdentity:

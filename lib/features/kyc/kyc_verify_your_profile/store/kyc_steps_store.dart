@@ -12,6 +12,7 @@ class KycStepsStore extends _KycStepsStoreBase with _$KycStepsStore {
 abstract class _KycStepsStoreBase with Store {
   _KycStepsStoreBase(this.reqifications) {
     final modifyRequiredVerified = <ModifyRequiredVerified>[];
+
     for (var i = 0; i < reqifications.length; i++) {
       if (reqifications[i] == RequiredVerified.proofOfPhone) {
         modifyRequiredVerified.add(
@@ -53,7 +54,6 @@ abstract class _KycStepsStoreBase with Store {
 
     return stringRequiredVerified(
       element.requiredVerified!,
-      context,
     );
   }
 }

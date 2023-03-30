@@ -2,10 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/deep_link_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
-final _logger = Logger('');
+const String _loggerService = 'PushNotificationService';
 
 @injectable
 class PushNotificationService {
@@ -35,30 +39,59 @@ class PushNotificationService {
 
     FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
 
-    FirebaseMessaging.onBackgroundMessage(_messagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     await _setForegroundNotification();
+
+    await FirebaseMessaging.instance.getInitialMessage().then(
+      (RemoteMessage? message) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: _loggerService,
+              message: 'GET getInitialMessage IS NULL : ${message == null}',
+            );
+
+        if (message != null) {
+          getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+        }
+      },
+    );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen(_onMessage);
     } else {
-      _logger.log(
-        pushNotifications,
-        'User declined or has not accepted permission',
-      );
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'User declined or has not accepted permission',
+          );
     }
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
+    getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: _loggerService,
+          message: 'onMessageOpenedApp: notification: ${message}',
+        );
+
     if (_nullChecked(message)) {
       final notification = message.notification!;
 
-      _logger.log(
-        pushNotifications,
-        'onMessageOpenedApp: notification title: ${notification.title}',
-      );
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: _loggerService,
+            message:
+                'onMessageOpenedApp: notification title: ${notification.title}',
+          );
     } else {
-      _logger.log(pushNotifications, 'android or notification is null');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: '_onMessage \n\n android or notification is null',
+          );
     }
   }
 
@@ -73,7 +106,11 @@ class PushNotificationService {
         _notificationDetails,
       );
     } else {
-      _logger.log(pushNotifications, 'android or notification is null');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: '_onMessage \n\n android or notification is null',
+          );
     }
   }
 
@@ -104,8 +141,29 @@ class PushNotificationService {
 /// (e.g. not a class method which requires initialization)
 Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  _logger.log(
-    pushNotifications,
-    'A background message just showed up: ${message.messageId}',
-  );
+
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
+  getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: _loggerService,
+        message:
+            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+      );
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+
+  await PushNotificationService().initialize();
+
+  await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+
+  getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: _loggerService,
+        message:
+            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+      );
 }

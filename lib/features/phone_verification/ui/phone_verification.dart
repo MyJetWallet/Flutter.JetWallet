@@ -99,19 +99,21 @@ class PhoneVerificationBody extends StatelessObserverWidget {
           title: intl.phoneVerification_phoneConfirmation,
           onBackButtonTap: () => Navigator.pop(context),
           isSmallSize: true,
-          customIconButton: args.sendCodeOnInitState ? SIconButton(
-            onTap: () {
-              getIt<LogoutService>().logout(
-                'TWO FA, logout',
-                withLoading: false,
-                callbackAfterSend: () {},
-              );
+          customIconButton: args.sendCodeOnInitState
+              ? SIconButton(
+                  onTap: () {
+                    getIt<LogoutService>().logout(
+                      'TWO FA, logout',
+                      withLoading: false,
+                      callbackAfterSend: () {},
+                    );
 
-              getIt<AppRouter>().pop();
-            },
-            defaultIcon: const SCloseIcon(),
-            pressedIcon: const SClosePressedIcon(),
-          ) : null,
+                    getIt<AppRouter>().pop();
+                  },
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
+                )
+              : null,
         ),
       ),
       child: SPaddingH24(
@@ -121,14 +123,17 @@ class PhoneVerificationBody extends StatelessObserverWidget {
             VerificationDescriptionText(
               text: '${intl.phoneVerification_enterSmsCode} ',
               boldText: store.phoneNumber.contains(
-                  store.dialCode?.countryCode ?? '',
-              ) ? '${store.dialCode?.countryCode ?? ""} '
-                  '${store.phoneNumber.replaceAll(
-                  store.dialCode?.countryCode ?? "", "",
-              )}'
-              : store.phoneNumber.replaceAll(
-                store.dialCode?.countryCode ?? '', '',
-              ),
+                store.dialCode?.countryCode ?? '',
+              )
+                  ? '${store.dialCode?.countryCode ?? ""} '
+                      '${store.phoneNumber.replaceAll(
+                      store.dialCode?.countryCode ?? "",
+                      "",
+                    )}'
+                  : store.phoneNumber.replaceAll(
+                      store.dialCode?.countryCode ?? '',
+                      '',
+                    ),
             ),
             const SpaceH18(),
             if (args.showChangeTextAlert) ...[
@@ -175,7 +180,6 @@ class PhoneVerificationBody extends StatelessObserverWidget {
               child: AbsorbPointer(
                 child: Observer(
                   builder: (context) {
-
                     return PinCodeField(
                       focusNode: store.focusNode,
                       length: codeLength,

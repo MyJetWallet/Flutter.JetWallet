@@ -1281,6 +1281,28 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, OperationHistoryItem>>
+      getOperationHistoryOperationIDRequest(
+    String operationId,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/history/wallet-history/operation-history/$operationId',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<List>(responseData);
+
+        return DC.data(OperationHistoryItem.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>>
       postProfileDeleteReasonsRequest(
     String localeName,

@@ -59,7 +59,7 @@ void setAuthInterceptor(
           return;
         }
 
-        options = setHeaders(options, isImage);
+        options = await setHeaders(options, isImage);
 
         return handler.next(options);
       },

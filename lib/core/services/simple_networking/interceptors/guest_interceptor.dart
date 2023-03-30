@@ -7,7 +7,7 @@ void setGuestInterceptor(
   dio.interceptors.add(
     QueuedInterceptorsWrapper(
       onRequest: (options, handler) async {
-        options = setHeaders(options, false);
+        options = await setHeaders(options, false);
 
         return handler.next(options);
       },
