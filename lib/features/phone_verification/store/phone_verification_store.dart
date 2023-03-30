@@ -84,6 +84,10 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void _initState() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      focusNode.requestFocus();
+    });
+
     _updatePhoneNumber(args.phoneNumber);
     _updateDialCode(args.activeDialCode);
     if (args.sendCodeOnInitState) {
