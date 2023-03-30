@@ -619,6 +619,18 @@ class DeepLinkService {
       }
 
       sRouter.popUntilRoot();
+
+      await sRouter.replaceAll(
+        [
+          HomeRouter(
+            children: [
+              MarketRouter(
+                initIndex: 1,
+              ),
+            ],
+          ),
+        ],
+      );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
