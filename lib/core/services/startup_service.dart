@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
@@ -150,6 +151,10 @@ class StartupService {
 
       getIt.registerSingleton<IbanStore>(
         IbanStore(),
+      );
+
+      getIt.registerSingleton<SumsubService>(
+        SumsubService(),
       );
 
       await getIt.isReady<KycProfileCountries>();

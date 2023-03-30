@@ -449,6 +449,31 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, String>> postSDKTokenRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/kyc/verification/sdk_token',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+
+        final data = handleFullResponse(
+          responseData,
+        );
+
+        print(data);
+
+        return DC.data(data['data']['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, CardRemoveResponseModel>> cardRemove(
     CardRemoveRequestModel model,
   ) async {
