@@ -4,8 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/earn/widgets/earn_offer_details/earn_offer_details.dart';
-import 'package:jetwallet/features/earn/widgets/earn_subscription/earn_subscriptions.dart';
 import 'package:jetwallet/features/market/helper/format_day_percentage_change.dart';
 import 'package:jetwallet/features/wallet/helper/show_interest_rate.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -107,42 +105,16 @@ class WalletCard extends StatelessObserverWidget {
               alignment: Alignment.topRight,
               child: InkWell(
                 onTap: () {
-                  if (!earnEnabled) {
-                    showInterestRate(
-                      context: context,
-                      currency: currency,
-                      baseCurrency: baseCurrency,
-                      colors: colors,
-                      colorDayPercentage: colorDayPercentage(
-                        currency.dayPercentChange,
-                        colors,
-                      ),
-                    );
-                  } else {
-                    if (filteredActiveEarnOffers.isEmpty) {
-                      showSubscriptionBottomSheet(
-                        context: context,
-                        offers: filteredEarnOffers,
-                        currency: currency,
-                      );
-                    } else if (filteredActiveEarnOffers.length == 1) {
-                      showEarnOfferDetails(
-                        context: context,
-                        earnOffer: filteredActiveEarnOffers[0],
-                        assetName: currency.description,
-                      );
-                    } else {
-                      /*sRouter.navigate(
-                        const HomeRouter(
-                          children: [
-                            EarnRouter(),
-                          ],
-                        ),
-                      );
-                      */
-                      Navigator.pop(context);
-                    }
-                  }
+                  showInterestRate(
+                    context: context,
+                    currency: currency,
+                    baseCurrency: baseCurrency,
+                    colors: colors,
+                    colorDayPercentage: colorDayPercentage(
+                      currency.dayPercentChange,
+                      colors,
+                    ),
+                  );
                 },
                 child: Container(
                   height: 24,

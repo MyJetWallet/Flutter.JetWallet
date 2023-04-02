@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         return AutoTabsScaffold(
           routes: hideAccount ? screensWithoutIban : screens,
-          builder: (context, child, animation) {
+          transitionBuilder: (context, child, animation) {
             return Observer(
               builder: (context) {
                 return SShadeAnimationStack(

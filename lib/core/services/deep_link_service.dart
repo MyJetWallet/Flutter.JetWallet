@@ -6,27 +6,18 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
-import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
-import 'package:jetwallet/features/currency_withdraw/store/withdrawal_confirm_store.dart';
-import 'package:jetwallet/features/currency_withdraw/ui/widgets/withdrawal_confirm.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
-import 'package:jetwallet/features/nft/nft_confirm/store/nft_promo_code_store.dart';
-import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/components/earn_bottom_sheet_container.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
@@ -34,7 +25,6 @@ import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/show_start_earn_options.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
@@ -141,16 +131,6 @@ class DeepLinkService {
       _tradingStartCommand(source);
     } else if (command == _depositStart) {
       _depositStartCommand(source);
-    } else if (command == _recurringBuyStart) {
-      _recurringBuyStartCommand();
-    } else if (command == _highYield) {
-      _highYieldStartCommand();
-    } else if (command == _NFTmarket) {
-      _nftMarketCommand();
-    } else if (command == _NFTcollection) {
-      _nftCollectionCommand(parameters);
-    } else if (command == _NFTtoken) {
-      _nftTokenCommand(parameters);
     } else if (command == _jwSwap) {
       pushCryptoHistory(parameters);
     } else if (command == _jwTransferByPhoneSend) {
@@ -168,154 +148,6 @@ class DeepLinkService {
         pushCryptoHistory(parameters);
       }
     }
-  }
-
-  void testFunc() {
-    _nftMarketCommand();
-  }
-
-  Future<void> _nftTokenCommand(
-    Map<String, String> parameters,
-  ) async {
-    try {
-      final tokenSymbol = parameters[_jw_nft_token_symbol];
-      final promoCode = parameters[jw_promo_code];
-
-      if (promoCode != null) {
-        final storage = sLocalStorageService;
-        await storage.setString(nftPromoCode, promoCode);
-
-        await getIt.get<NFTPromoCodeStore>().init();
-      }
-
-      if (tokenSymbol != null) {
-        if (getIt.isRegistered<AppStore>() &&
-            getIt.get<AppStore>().remoteConfigStatus is Success &&
-            getIt.get<AppStore>().authorizedStatus is Home) {
-          await sRouter.push(
-            NFTDetailsRouter(
-              nftSymbol: tokenSymbol,
-            ),
-          );
-        } else {
-          getIt<RouteQueryService>().addToQuery(
-            RouteQueryModel(
-              action: RouteQueryAction.push,
-              query: NFTDetailsRouter(
-                nftSymbol: tokenSymbol,
-              ),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  void _nftCollectionCommand(Map<String, String> parameters) {
-    try {
-      final collectionId = parameters[_jw_nft_collection_id];
-
-      if (collectionId != null) {
-        if (getIt.isRegistered<AppStore>() &&
-            getIt.get<AppStore>().remoteConfigStatus is Success &&
-            getIt.get<AppStore>().authorizedStatus is Home) {
-          sRouter.push(
-            NftCollectionDetailsRouter(
-              collectionID: collectionId,
-            ),
-          );
-        } else {
-          getIt<RouteQueryService>().addToQuery(
-            RouteQueryModel(
-              action: RouteQueryAction.push,
-              query: NftCollectionDetailsRouter(
-                collectionID: collectionId,
-              ),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  void _nftMarketCommand() {
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      if (sRouter.currentPath == '/home/market') {
-        if (getIt<AppStore>().marketController != null) {
-          getIt<AppStore>().marketController!.animateTo(2);
-        }
-      } else {
-        var homeTabs = [
-          '/home/portfolio',
-          '/home/earn',
-          '/home/news',
-          '/home/account',
-        ];
-
-        if (homeTabs.contains(sRouter.currentPath)) {
-          getIt<AppStore>().setHomeTab(0);
-          if (getIt<AppStore>().tabsRouter != null) {
-            getIt<AppStore>().tabsRouter!.setActiveIndex(0);
-          }
-
-          if (getIt<AppStore>().marketController != null) {
-            getIt<AppStore>().marketController!.animateTo(2);
-          }
-        } else {
-          sRouter.replaceAll(
-            [
-              HomeRouter(
-                children: [
-                  MarketRouter(
-                    initIndex: 2,
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
-      }
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          action: RouteQueryAction.replace,
-          query: HomeRouter(
-            children: [
-              MarketRouter(initIndex: 2),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-
-  void _highYieldStartCommand() {
-    /*
-    sRouter.navigate(
-      const HomeRouter(
-        children: [
-          EarnRouter(),
-        ],
-      ),
-    );
-    */
-  }
-
-  void _recurringBuyStartCommand() {
-    final context = sRouter.navigatorKey.currentContext!;
-
-    showBuyAction(
-      context: context,
-      fromCard: false,
-      shouldPop: false,
-      showRecurring: true,
-    );
   }
 
   Future<void> _depositStartCommand(SourceScreen? source) async {

@@ -9,7 +9,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/account/delete_profile/store/delete_profile_store.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_checkbox.dart';
 import 'package:jetwallet/features/account/delete_profile/ui/widgets/dp_condition_menu.dart';
-import 'package:jetwallet/features/earn/store/earn_offers_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -27,12 +26,8 @@ class DeleteProfile extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
 
     final earnOffers = sSignalRModules.earnOffersList;
-    final earnNotifier = EarnOffersStore();
 
     final store = getIt.get<DeleteProfileStore>();
-
-    final isEarnSubscriptionActive = earnNotifier.isActiveState(earnOffers);
-    final earnSubscriptionLength = earnNotifier.getActiveLength(earnOffers);
 
     var earnTotalBalance = Decimal.zero;
     earnTotalBalance = earnOffers.fold(
@@ -92,11 +87,7 @@ class DeleteProfile extends StatelessObserverWidget {
           const SDivider(),
           DPConditionMenu(
             title: intl.deleteProfileConditions_menuTwoTitle,
-            subTitle: isEarnSubscriptionActive
-                ? '${intl.deleteProfileConditions_menuTwoSubTitle}'
-                    '$earnSubscriptionLength '
-                    '${intl.deleteProfileConditions_menuTwoSubTitle2}'
-                : intl.deleteProfileConditions_menuTwoSubTitle3,
+            subTitle: intl.deleteProfileConditions_menuTwoSubTitle3,
             onTap: () {
               // Portfolio
               sRouter.navigate(

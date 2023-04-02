@@ -119,10 +119,10 @@ class _BiometricBody extends StatelessObserverWidget {
                       await storageService.setString(useBioKey, 'true');
                       final userInfoN = getIt.get<UserInfoService>();
                       await userInfoN.initBiometricStatus();
-                      print(bioStatus);
+
                       if (bioStatus == BiometricStatus.none) {
                         await getIt.get<AppRouter>().push(
-                              const AllowBiometricRoute(),
+                              AllowBiometricRoute(),
                             );
                       } else {
                         if (userInfoN.userInfo.isJustLogged) {
@@ -138,6 +138,7 @@ class _BiometricBody extends StatelessObserverWidget {
                           final hashEmail = sha256.convert(bytes).toString();
                           appsFlyerService.appsflyerSdk
                               .setCustomerUserId(hashEmail);
+
                           await appsFlyerService.appsflyerSdk
                               .logEvent('af_registration_finished', {
                             'IsTechAcc': '${userInfo.userInfo.isTechClient}',
@@ -145,6 +146,7 @@ class _BiometricBody extends StatelessObserverWidget {
                             'Appsflyer ID': appsFlyerID,
                           });
                         }
+
                         biometric.useBio(
                           useBio: true,
                           isAccSettings: isAccSettings,

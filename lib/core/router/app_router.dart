@@ -474,7 +474,7 @@ class AppRouter extends _$AppRouter {
       page: WithdrawRouter.page,
       children: [
         AutoRoute(
-          path: '/',
+          path: 'withdrawal_start',
           page: WithdrawalAddressRouter.page,
         ),
         AutoRoute(

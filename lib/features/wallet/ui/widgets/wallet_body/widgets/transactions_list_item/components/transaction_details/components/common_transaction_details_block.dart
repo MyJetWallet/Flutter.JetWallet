@@ -118,25 +118,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  sRouter.push(
-                    NFTDetailsRouter(
-                      nftSymbol: nftAsset.symbol!,
-                      userNFT: nftAsset.sellPrice == null,
-                    ),
-                  );
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.network(
-                    '$fullUrl${nftAsset.fImage}',
-                    height: 160.0,
-                    width: 160.0,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
             ],
           ),
           if (catchingTypes) ...[
