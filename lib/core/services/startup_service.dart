@@ -1,12 +1,20 @@
 import 'dart:async';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/services.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/apps_flyer_service.dart';
+import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/core/services/push_notification.dart';
+import 'package:jetwallet/core/services/refresh_token_service.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -17,117 +25,171 @@ import 'package:jetwallet/features/auth/verification_reg/store/verification_stor
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
+import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_networking/helpers/models/refresh_token_status.dart';
+import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
+import 'package:universal_io/io.dart';
+import 'package:uuid/uuid.dart';
 
-@lazySingleton
 class StartupService {
-  static final _logger = Logger('StartupService');
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'StartupService';
 
-  bool initSignaWasCall = false;
-  bool isServicesRegistred = false;
-  bool isAlreadyInited = false;
+  final userInfo = getIt.get<UserInfoService>();
 
-  Future<void> _initSignalRSynchronously() async {
-    await getIt.get<SignalRService>().start();
+  Future<void> firstAction() async {
+    String? token;
+    String? email;
+    String parsedEmail;
+
+    final storageService = getIt.get<LocalStorageService>();
+
+    try {
+      token = await storageService.getValue(refreshTokenKey);
+      email = await storageService.getValue(userEmailKey);
+      parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
+    } catch (e) {
+      token = null;
+      email = null;
+      parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
+    }
+
+    unawaited(initAppFBAnalytic());
+    unawaited(initAppsFlyer());
+
+    getIt<AppStore>().setAppStatus(AppStatus.Start);
+    getIt<AppStore>().generateNewSessionID();
+
+    final authStatus = await checkIsUserAuthorized(token);
+
+    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
+
+    if (getIt<AppStore>().afterInstall) {
+      unawaited(saveInstallID());
+    }
+
+    if (authStatus) {
+      getIt<AppStore>().updateAuthState(
+        refreshToken: token,
+        email: parsedEmail,
+      );
+
+      final resultRefreshToken = await refreshToken(updateSignalR: false);
+
+      if (resultRefreshToken == RefreshTokenStatus.success) {
+        await userInfo.initPinStatus();
+
+        await sAnalytics.init(
+          analyticsApiKey,
+          userInfo.isTechClient,
+          parsedEmail,
+        );
+      }
+
+      await secondAction();
+
+      getIt<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
+    }
   }
 
-  void authenticatedBoot() {
-    _logger.log(notifier, 'authenticatedBoot');
+  Future<void> secondAction() async {
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message:
+          'secondAction ${getIt.get<AppStore>().authStatus} || ${userInfo.isServicesRegisterd}',
+    );
 
-    processStartupState();
+    if (getIt.get<AppStore>().authStatus is Unauthorized) {
+      return;
+    }
+
+    if (!userInfo.isServicesRegisterd) {
+      await startingServices();
+    } else {
+      await reCreateServices();
+    }
+
+    // Запускаем SignlaR
+    if (!userInfo.isSignalRInited) {
+      await getIt.get<SignalRService>().start();
+
+      userInfo.updateSignalRStatus(true);
+    }
+
+    unawaited(getIt.get<PushNotification>().registerToken());
+
+    await makeSessionCheck();
+  }
+
+  Future<bool> checkIsUserAuthorized(String? token) async {
+    if (token == null || token.isEmpty) {
+      getIt<AppStore>().setAuthStatus(const AuthorizationUnion.unauthorized());
+
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<void> makeSessionCheck() async {
+    final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
+    infoRequest.pick(
+      onData: (SessionCheckResponseModel info) async {
+        // For verification Screen
+        if (!info.toSetupPhone) {
+          getIt.get<VerificationStore>().phoneDone();
+        }
+        if (!info.toCheckSimpleKyc) {
+          getIt.get<VerificationStore>().personalDetailDone();
+        }
+
+        if (info.toSetupPhone) {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const TwoFaVerification(),
+              );
+        } else if (info.toVerifyPhone) {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const PhoneVerification(),
+              );
+        } else if (info.toCheckSimpleKyc) {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const UserDataVerification(),
+              );
+        } else if (info.toSetupPin) {
+          if (!userInfo.isJustRegistered) {
+            getIt.get<VerificationStore>().setRefreshPin();
+          }
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const PinSetup(),
+              );
+        } else {
+          getIt.get<AppStore>().setAuthorizedStatus(
+                const PinVerification(),
+              );
+        }
+
+        unawaited(getIt.get<AppStore>().checkInitRouter());
+      },
+      onError: (error) {
+        _logger.log(
+          level: Level.error,
+          place: _loggerValue,
+          message: 'Failed to fetch session info: $error',
+        );
+      },
+    );
   }
 
   void successfullAuthentication({bool needPush = true}) {
-    _logger.log(stateFlow, 'successfullAuthentication');
-
-    initSignaWasCall = false;
     TextInput.finishAutofillContext(); // prompt to save credentials00
 
     getIt.get<AppStore>().setFromLoginRegister(true);
 
-    processStartupState().then((value) {
-      /// Needed to dissmis Register/Login pushed screens
-      if (needPush) getIt.get<AppStore>().checkInitRouter();
-
-      //sRouter.replaceAll([const AppInitRoute()]);
-    });
-  }
-
-  Future<void> processStartupState() async {
-    _logger.log(notifier, 'Process Startup State');
-
-    if (getIt.get<AppStore>().authStatus is Authorized) {
-      try {
-        await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
-
-        if (!isServicesRegistred) {
-          await startingServices();
-        } else {
-          await reCreateServices();
-        }
-
-        unawaited(getIt.get<PushNotification>().registerToken());
-
-        final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
-        infoRequest.pick(
-          onData: (SessionCheckResponseModel info) async {
-            print(info);
-
-            if (!initSignaWasCall) {
-              await _initSignalRSynchronously();
-              initSignaWasCall = true;
-            }
-
-            if (!info.toSetupPhone) {
-              getIt.get<VerificationStore>().phoneDone();
-            }
-            if (!info.toCheckSimpleKyc) {
-              getIt.get<VerificationStore>().personalDetailDone();
-            }
-
-            if (info.toSetupPhone) {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const TwoFaVerification(),
-                  );
-            } else if (info.toVerifyPhone) {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const PhoneVerification(),
-                  );
-            } else if (info.toCheckSimpleKyc) {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const UserDataVerification(),
-                  );
-            } else if (info.toSetupPin) {
-              print(getIt.get<UserInfoService>().userInfo.isJustRegistered);
-              if (!getIt.get<UserInfoService>().userInfo.isJustRegistered) {
-                getIt.get<VerificationStore>().setRefreshPin();
-              }
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const PinSetup(),
-                  );
-            } else {
-              getIt.get<AppStore>().setAuthorizedStatus(
-                    const PinVerification(),
-                  );
-            }
-
-            unawaited(getIt.get<AppStore>().checkInitRouter());
-          },
-          onError: (error) {
-            _logger.log(stateFlow, 'Failed to fetch session info', error);
-          },
-        );
-      } catch (e) {
-        _logger.log(stateFlow, 'Failed to fetch session info', e);
-
-        // TODO (discuss this flow)
-        // In this case app will keep loading and nothing will happen
-        // In order to retry user will need to reboot application
-        _logger.log(stateFlow, 'Failed to fetch session info', e);
-      }
-    }
+    secondAction();
   }
 
   Future<void> startingServices() async {
@@ -148,19 +210,22 @@ class StartupService {
         () async => ProfileGetUserCountry().init(),
       );
 
-      getIt.registerSingleton<IbanStore>(
-        IbanStore(),
-      );
-
       await getIt.isReady<KycProfileCountries>();
       await getIt.isReady<ProfileGetUserCountry>();
 
-      isServicesRegistred = true;
+      getIt.registerLazySingleton<IbanStore>(
+        () => IbanStore(),
+      );
+
+      userInfo.updateServicesRegistred(true);
 
       return;
     } catch (e) {
-      _logger.log(stateFlow, 'Failed startingServices', e);
-      print(e);
+      _logger.log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'Failed to start Init Services: $e',
+      );
     }
   }
 
@@ -175,28 +240,79 @@ class StartupService {
       if (getIt.isRegistered<ProfileGetUserCountry>()) {
         await getIt<ProfileGetUserCountry>().init();
       }
-    } catch (e) {}
+    } catch (e) {
+      _logger.log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'Failed to restart Init Services: $e',
+      );
+    }
   }
 
-  /// Called when user makes cold boot and has enabled 2FA
-  /// and it was verified successfully
-  void twoFaVerified() {
-    _logger.log(notifier, 'twoFaVerified');
+  Future<void> saveInstallID() async {
+    try {
+      const uuid = Uuid();
 
-    _processPinState();
+      final installID = uuid.v1();
+
+      await getIt<LocalCacheService>().saveInstallID(installID);
+
+      final packageInfo = getIt.get<PackageInfoService>().info;
+
+      final model = InstallModel(
+        installId: installID,
+        platform: Platform.isIOS ? 1 : 2,
+        deviceUid: getIt.get<DeviceInfo>().deviceUid,
+        version: packageInfo.version,
+        lang: intl.localeName,
+        appsflyerId: await getIt
+                .get<AppsFlyerService>()
+                .appsflyerSdk
+                ?.getAppsFlyerUID() ??
+            '',
+        idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
+        idfv: sDeviceInfo.deviceUid,
+        adid: '',
+      );
+
+      final request = await getIt
+          .get<SNetwork>()
+          .simpleNetworkingUnathorized
+          .getAuthModule()
+          .postInstall(
+            model,
+          );
+
+      print(model);
+    } catch (e) {
+      print(e);
+    }
   }
 
-  void pinSet() {
-    _logger.log(notifier, 'pinSet');
+  ///
 
-    sRouter.push(
-      BiometricRouter(),
+  Future<void> initAppFBAnalytic() async {
+    final deviceInfo = getIt.get<DeviceInfo>();
+    final storageService = getIt.get<LocalStorageService>();
+    await deviceInfo.deviceInfo();
+
+    unawaited(
+      checkInitAppFBAnalytics(
+        storageService,
+        deviceInfo.model,
+      ),
     );
   }
 
-  void pinVerified() {
-    _logger.log(notifier, 'pinVerified');
+  Future<void> initAppsFlyer() async {
+    final appsFlyerService = getIt.get<AppsFlyerService>();
 
+    await appsFlyerService.init();
+    await appsFlyerService.updateServerUninstallToken();
+  }
+
+  ///
+  void pinVerified() {
     getIt.get<AppStore>().setAuthorizedStatus(
           const Home(),
         );
@@ -204,9 +320,9 @@ class StartupService {
     getIt.get<AppStore>().checkInitRouter();
   }
 
-  void _processPinState() {
+  void processPinState() {
     try {
-      final userInfo = getIt.get<UserInfoService>().userInfo;
+      final userInfo = getIt.get<UserInfoService>();
 
       if (userInfo.pinEnabled) {
         getIt.get<AppStore>().setAuthorizedStatus(

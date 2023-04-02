@@ -64,7 +64,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody>
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final deviceInfo = sDeviceInfo.model;
+    final deviceInfo = sDeviceInfo;
     final notifier = BiometricStore.of(context);
 
     late String headerText;

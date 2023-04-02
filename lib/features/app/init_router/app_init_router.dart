@@ -32,7 +32,6 @@ class AppInitRouter extends StatefulObserverWidget {
 class _AppInitRouterState extends State<AppInitRouter> {
   @override
   void initState() {
-    FlutterNativeSplash.remove();
     super.initState();
   }
 

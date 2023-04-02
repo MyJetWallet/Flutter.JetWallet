@@ -80,20 +80,26 @@ abstract class _BiometricStoreBase with Store {
     await storageService.setString(useBioKey, 'true');
     final userInfoN = getIt.get<UserInfoService>();
     await userInfoN.initBiometricStatus();
-    if (userInfoN.userInfo.isJustLogged) {
+
+    if (userInfoN.isJustLogged) {
       sAnalytics.signInFlowVerificationPassed();
       final appsFlyerService = getIt.get<AppsFlyerService>();
       final userInfo = getIt.get<UserInfoService>();
 
-      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
-      final bytes = utf8.encode(userInfo.userInfo.email);
+      final appsFlyerID =
+          await appsFlyerService.appsflyerSdk?.getAppsFlyerUID() ?? '';
+      final bytes = utf8.encode(userInfo.email);
       final hashEmail = sha256.convert(bytes).toString();
-      appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
-      await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
-        'IsTechAcc': '${userInfo.userInfo.isTechClient}',
-        'Customer User iD': hashEmail,
-        'Appsflyer ID': appsFlyerID,
-      });
+
+      if (appsFlyerService.appsflyerSdk != null) {
+        appsFlyerService.appsflyerSdk!.setCustomerUserId(hashEmail);
+        await appsFlyerService.appsflyerSdk!
+            .logEvent('af_registration_finished', {
+          'IsTechAcc': '${userInfo.isTechClient}',
+          'Customer User iD': hashEmail,
+          'Appsflyer ID': appsFlyerID,
+        });
+      }
     }
   }
 

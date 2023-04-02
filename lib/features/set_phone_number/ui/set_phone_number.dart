@@ -69,7 +69,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
-    final userInfo = sUserInfo.userInfo;
 
     return SPageFrame(
       key: UniqueKey(),
@@ -173,7 +172,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
                     //FocusScope.of(context).unfocus();
-                    if (userInfo.phone == store.phoneNumber()) {
+                    if (sUserInfo.phone == store.phoneNumber()) {
                       sRouter.pop();
 
                       return;
@@ -206,7 +205,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                                   final userInfoN = sUserInfo;
 
                                   userInfoN.updatePhoneVerified(
-                                    phoneVerified: true,
+                                    phoneVerifiedValue: true,
                                   );
                                   userInfoN.updateTwoFaStatus(enabled: true);
                                   userInfoN.updatePhone(store.phoneNumber());

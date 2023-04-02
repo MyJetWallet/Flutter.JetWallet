@@ -16,7 +16,7 @@ Future<String> getUserAgent() async {
     lang = intl.localeName;
   }
 
-  final deviceInfo = getIt.get<DeviceInfo>().model;
+  final deviceInfo = getIt.get<DeviceInfo>();
   final packageInfo = getIt.get<PackageInfoService>().info;
   final appVersion = packageInfo.version;
   final instllID = await getIt<LocalCacheService>().getInstallID();

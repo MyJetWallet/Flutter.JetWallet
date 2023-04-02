@@ -127,20 +127,21 @@ final sRouter = getIt.get<AppRouter>();
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
   @override
-  RouteType get defaultRouteType => RouteType.material();
+  RouteType get defaultRouteType => RouteType.cupertino();
 
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(
+    /*AutoRoute(
       path: '/',
       page: AppInitRoute.page,
     ),
+    */
     AutoRoute(
-      path: '/splash',
+      path: '/',
       page: SplashRoute.page,
     ),
     AutoRoute(
-      path: '/splash_no_animation',
+      path: '/splash',
       page: SplashNoAnimationRoute.page,
     ),
     AutoRoute(

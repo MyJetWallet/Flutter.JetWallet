@@ -93,9 +93,10 @@ abstract class _EmailVerificationStoreBase with Store {
   Future<void> resendCode(TimerStore timer) async {
     _logger.log(notifier, 'resendCode');
 
-    final deviceInfoModel = sDeviceInfo.model;
+    final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+    final appsFlyerID =
+        await appsFlyerService.appsflyerSdk?.getAppsFlyerUID() ?? '';
     final credentials = getIt.get<CredentialsService>();
 
     _updateIsResending(true);
@@ -312,11 +313,11 @@ abstract class _EmailVerificationStoreBase with Store {
   Future<void> startSession(String email) async {
     final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+    final appsFlyerID = await appsFlyerService.appsflyerSdk?.getAppsFlyerUID();
     final bytes = utf8.encode(email);
     final hashEmail = sha256.convert(bytes).toString();
-    appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
-    await appsFlyerService.appsflyerSdk.logEvent('Start Session', {
+    appsFlyerService.appsflyerSdk?.setCustomerUserId(hashEmail);
+    await appsFlyerService.appsflyerSdk?.logEvent('Start Session', {
       'Customer User iD': hashEmail,
       'Appsflyer ID': appsFlyerID,
       'Registration/Login/SSO': 'SSO',

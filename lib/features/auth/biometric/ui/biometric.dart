@@ -53,7 +53,7 @@ class _BiometricBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final biometric = BiometricStore.of(context);
     final size = MediaQuery.of(context).size;
-    final deviceInfo = sDeviceInfo.model;
+    final deviceInfo = sDeviceInfo;
     final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
         deviceInfo.marketingName.contains('iPhone 12') ||
         deviceInfo.marketingName.contains('iPhone 13') ||
@@ -125,26 +125,28 @@ class _BiometricBody extends StatelessObserverWidget {
                               AllowBiometricRoute(),
                             );
                       } else {
-                        if (userInfoN.userInfo.isJustLogged) {
+                        if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
                           final appsFlyerService =
                               getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService
-                              .appsflyerSdk
-                              .getAppsFlyerUID();
-                          final bytes = utf8.encode(userInfo.userInfo.email);
-                          final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk
-                              .setCustomerUserId(hashEmail);
+                          if (appsFlyerService.appsflyerSdk != null) {
+                            final appsFlyerID = await appsFlyerService
+                                .appsflyerSdk!
+                                .getAppsFlyerUID();
+                            final bytes = utf8.encode(userInfo.email);
+                            final hashEmail = sha256.convert(bytes).toString();
+                            appsFlyerService.appsflyerSdk!
+                                .setCustomerUserId(hashEmail);
 
-                          await appsFlyerService.appsflyerSdk
-                              .logEvent('af_registration_finished', {
-                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
-                            'Customer User iD': hashEmail,
-                            'Appsflyer ID': appsFlyerID,
-                          });
+                            await appsFlyerService.appsflyerSdk!
+                                .logEvent('af_registration_finished', {
+                              'IsTechAcc': '${userInfo.isTechClient}',
+                              'Customer User iD': hashEmail,
+                              'Appsflyer ID': appsFlyerID,
+                            });
+                          }
                         }
 
                         biometric.useBio(
@@ -164,25 +166,27 @@ class _BiometricBody extends StatelessObserverWidget {
                         Navigator.pop(context);
                       } else {
                         final userInfoN = getIt.get<UserInfoService>();
-                        if (userInfoN.userInfo.isJustLogged) {
+                        if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
                           final appsFlyerService =
                               getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService
-                              .appsflyerSdk
-                              .getAppsFlyerUID();
-                          final bytes = utf8.encode(userInfo.userInfo.email);
-                          final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk
-                              .setCustomerUserId(hashEmail);
-                          await appsFlyerService.appsflyerSdk
-                              .logEvent('af_registration_finished', {
-                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
-                            'Customer User iD': hashEmail,
-                            'Appsflyer ID': appsFlyerID,
-                          });
+                          if (appsFlyerService.appsflyerSdk != null) {
+                            final appsFlyerID = await appsFlyerService
+                                .appsflyerSdk!
+                                .getAppsFlyerUID();
+                            final bytes = utf8.encode(userInfo.email);
+                            final hashEmail = sha256.convert(bytes).toString();
+                            appsFlyerService.appsflyerSdk!
+                                .setCustomerUserId(hashEmail);
+                            await appsFlyerService.appsflyerSdk!
+                                .logEvent('af_registration_finished', {
+                              'IsTechAcc': '${userInfo.isTechClient}',
+                              'Customer User iD': hashEmail,
+                              'Appsflyer ID': appsFlyerID,
+                            });
+                          }
                         }
                         biometric.useBio(
                           useBio: false,

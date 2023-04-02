@@ -100,7 +100,7 @@ class SignalRService {
       options: getIt.get<SNetwork>().simpleOptions,
       headers: {'User-Agent': await getUserAgent()},
       token: getIt.get<AppStore>().authState.token,
-      deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+      deviceUid: getIt.get<DeviceInfo>().deviceUid,
       localeName: intl.localeName,
       refreshToken: refreshToken,
       transport: transport,

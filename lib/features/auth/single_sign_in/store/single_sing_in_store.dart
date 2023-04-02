@@ -55,10 +55,11 @@ abstract class _SingleSingInStoreBase with Store {
       return;
     }
 
-    final deviceInfoModel = sDeviceInfo.model;
+    final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
+    final appsFlyerID =
+        await appsFlyerService.appsflyerSdk?.getAppsFlyerUID() ?? '';
     final authInfoN = getIt.get<AppStore>();
 
     final credentials = getIt.get<CredentialsService>();
@@ -73,7 +74,7 @@ abstract class _SingleSingInStoreBase with Store {
       try {
         advID = await AppTrackingTransparency.getAdvertisingIdentifier();
         //_advertisingId = await FlutterAdvertisingId.advertisingId;
-        adId = sDeviceInfo.model.deviceUid;
+        adId = sDeviceInfo.deviceUid;
       } catch (e) {
         advID = '';
         //_advertisingId = '';

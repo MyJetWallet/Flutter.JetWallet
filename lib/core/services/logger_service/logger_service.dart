@@ -34,7 +34,9 @@ class SimpleLoggerService {
       ),
     );
 
-    logger.log(level, '$place - $message');
+    final time = DateTime.now();
+
+    logger.log(level, '$place (${time.minute}:${time.second}) - $message');
   }
 
   logging.Level convertLog(Level level) {

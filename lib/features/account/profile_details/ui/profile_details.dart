@@ -23,15 +23,14 @@ class ProfileDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = sUserInfo.userInfo;
     final baseAsset = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
     final baseCurrency = currencyFromAll(currencies, baseAsset.symbol);
     final phoneNumber = countryCodeByUserRegister();
 
-    var finalPhone = userInfo.phone;
+    var finalPhone = sUserInfo.phone;
     if (phoneNumber != null) {
-      finalPhone = userInfo.phone.replaceFirst(
+      finalPhone = sUserInfo.phone.replaceFirst(
         phoneNumber.countryCode,
         '${phoneNumber.countryCode} ',
       );
@@ -58,7 +57,7 @@ class ProfileDetails extends StatelessObserverWidget {
             value: getIt.get<AppStore>().authState.email,
             onTap: () {},
           ),
-          if (userInfo.isPhoneNumberSet)
+          if (sUserInfo.isPhoneNumberSet)
             SProfileDetailsButton(
               showIcon: true,
               label: intl.setPhoneNumber_phoneNumber,

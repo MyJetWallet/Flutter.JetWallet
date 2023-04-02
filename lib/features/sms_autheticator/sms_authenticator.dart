@@ -13,8 +13,6 @@ class SmsAuthenticator extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = sUserInfo.userInfo;
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -29,9 +27,9 @@ class SmsAuthenticator extends StatelessObserverWidget {
             title: intl.smsAuth_headerTitle,
             icon: const SLockIcon(),
             isSDivider: false,
-            switchValue: userInfo.twoFaEnabled,
+            switchValue: sUserInfo.twoFaEnabled,
             onSwitchChanged: (value) {
-              if (userInfo.twoFaEnabled) {
+              if (sUserInfo.twoFaEnabled) {
                 sRouter.push(
                   TwoFaPhoneRouter(
                     trigger: const Security(
@@ -40,7 +38,7 @@ class SmsAuthenticator extends StatelessObserverWidget {
                   ),
                 );
               } else {
-                if (userInfo.phoneVerified) {
+                if (sUserInfo.phoneVerified) {
                   sRouter.push(
                     TwoFaPhoneRouter(
                       trigger: const TwoFaPhoneTriggerUnion.security(

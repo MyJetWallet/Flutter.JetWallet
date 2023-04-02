@@ -118,7 +118,7 @@ abstract class _CredentialsServiceBase with Store {
           email: email,
           password: password,
           platform: currentPlatform,
-          deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+          deviceUid: getIt.get<DeviceInfo>().deviceUid,
           lang: intl.localeName,
         );
 
@@ -127,10 +127,8 @@ abstract class _CredentialsServiceBase with Store {
         loginRequest.pick(
           onData: (data) async {
             await successAuth(data);
-
           },
           onError: (error) {
-
             showError(error.cause);
           },
         );
@@ -141,7 +139,7 @@ abstract class _CredentialsServiceBase with Store {
           password: password,
           platformType: platformType,
           platform: currentPlatform,
-          deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+          deviceUid: getIt.get<DeviceInfo>().deviceUid,
           referralCode: referralCode,
           marketingEmailsAllowed: mailingChecked,
           lang: intl.localeName,
@@ -157,7 +155,6 @@ abstract class _CredentialsServiceBase with Store {
             getIt.get<AppStore>().updateResendButton();
           },
           onError: (error) {
-
             if (error.cause.contains('50') || error.cause.contains('40')) {
               showError(intl.something_went_wrong_try_again);
             } else {
@@ -167,7 +164,6 @@ abstract class _CredentialsServiceBase with Store {
         );
       }
     } catch (e) {
-
       showError(intl.something_went_wrong_try_again);
     }
   }

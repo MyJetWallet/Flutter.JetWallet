@@ -11,6 +11,7 @@ const String isFirstRunning = 'isFirstRunning';
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
 const String isBalanceHide = 'isBalanceHide';
+const String installID = 'installID';
 
 const String remoteConfig = 'remoteConfigCache';
 
@@ -24,6 +25,17 @@ class LocalCacheService {
   }
 
   ///
+
+  Future<void> saveInstallID(String value) async {
+    await instance.setString(installID, value);
+  }
+
+  Future<String?> getInstallID() async {
+    return instance.getString(installID);
+  }
+
+  ///
+
   Future<void> saveRemoteConfig(RemoteConfigModel model) async {
     await instance.setString(remoteConfig, jsonEncode(model.toJson()));
   }
@@ -39,6 +51,7 @@ class LocalCacheService {
   }
 
   ///
+
   Future<void> saveBalanceHide(bool value) async {
     await instance.setBool(isBalanceHide, value);
   }
@@ -48,6 +61,7 @@ class LocalCacheService {
   }
 
   ///
+
   Future<bool> checkIsFirstRunning() async {
     final val = instance.getBool(isFirstRunning);
 
@@ -61,6 +75,7 @@ class LocalCacheService {
   }
 
   ///
+
   Future<void> saveSignalR(Map<String, dynamic> json) async {
     await instance.setString(signalRCache, jsonEncode(json));
   }
@@ -76,6 +91,7 @@ class LocalCacheService {
   }
 
   ///
+
   Future<void> saveChart(
     String asset,
     Map<String, List<CandleModel>?> candle,
@@ -138,6 +154,7 @@ class LocalCacheService {
   }
 
   ///
+
   Future<void> clearAllCache() async {
     await instance.clear();
     await instance.setBool(isFirstRunning, true);

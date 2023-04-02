@@ -117,15 +117,12 @@ abstract class _LogoutServiceBase with Store {
         await pushToFirstPage();
       }
 
-
       await _clearUserData();
 
       // Make init router unauthorized
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
-
-      await getIt<AppStore>().getAuthStatus();
 
       _logger.log(
         level: Level.debug,

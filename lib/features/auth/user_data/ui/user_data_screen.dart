@@ -171,7 +171,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                             getIt
                                 .get<UserInfoService>()
                                 .updateIsJustRegistered(value: true);
-                            print(getIt.get<UserInfoService>().userInfo);
+
                             UserDataStore.of(context).saveUserData(
                               birthDateInfo.loader,
                               birthDateInfo,

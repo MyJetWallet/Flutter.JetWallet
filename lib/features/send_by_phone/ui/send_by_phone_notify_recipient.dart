@@ -30,7 +30,6 @@ class _SendByPhoneNotifyRecipientState
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final userInfo = sUserInfo.userInfo;
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
@@ -82,7 +81,7 @@ class _SendByPhoneNotifyRecipientState
                   Share.share(
                     '${intl.sendByPhoneRecipient_text3} ${widget.toPhoneNumber.replaceAll(" ", "")}. '
                     '${intl.sendByPhoneRecipient_text4}.\n '
-                    '${userInfo.referralLink}',
+                    '${sUserInfo.referralLink}',
                   );
                   Navigator.pop(context);
                 } catch (e) {}

@@ -84,19 +84,6 @@ class VerificationScreen extends StatelessObserverWidget {
             linkText: intl.provide_information,
             linkAction: () {
               getIt<AppRouter>().pop();
-
-              /*sRouter.replace(
-                SetPhoneNumberRouter(
-                  successText: intl.profileDetails_newPhoneNumberConfirmed,
-                  fromRegister: true,
-                  then: () {
-                    getIt.get<StartupService>().authenticatedBoot();
-
-                    getIt.get<VerificationStore>().phoneDone();
-                  },
-                ),
-              );
-              */
             },
             isDisabled: !store.isPhoneDone &&
                 store.step != VerificationScreenStep.Phone,

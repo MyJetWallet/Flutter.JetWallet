@@ -41,7 +41,7 @@ class _AccountScreenState extends State<AccountScreen>
     final logout = getIt.get<LogoutService>();
 
     final authInfo = getIt.get<AppStore>().authState;
-    final userInfo = sUserInfo.userInfo;
+    final userInfo = sUserInfo;
     final userInfoN = getIt.get<UserInfoService>();
     userInfoN.initBiometricStatus();
 

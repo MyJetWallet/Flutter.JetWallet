@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,10 +11,8 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/services/user_info/models/user_info.dart';
-
 @RoutePage(name: 'AccountSecurityRouter')
-class AccountSecurity extends StatefulWidget {
+class AccountSecurity extends StatefulObserverWidget {
   const AccountSecurity({Key? key}) : super(key: key);
 
   @override
@@ -21,9 +20,7 @@ class AccountSecurity extends StatefulWidget {
 }
 
 class _AccountSecurityState extends State<AccountSecurity> {
-  UserInfoState userInfo = getIt.get<UserInfoService>().userInfo;
-  bool userInfoDisable =
-      getIt.get<UserInfoService>().userInfo.biometricDisabled;
+  bool userInfoDisable = getIt.get<UserInfoService>().biometricDisabled;
 
   @override
   void initState() {
@@ -35,17 +32,14 @@ class _AccountSecurityState extends State<AccountSecurity> {
 
   void updateUserInfo() {
     setState(() {
-      userInfo = getIt.get<UserInfoService>().userInfo;
-      userInfoDisable = getIt.get<UserInfoService>().userInfo.biometricDisabled;
+      userInfoDisable = getIt.get<UserInfoService>().biometricDisabled;
     });
   }
 
   void startUserInfo() {
     Timer(const Duration(milliseconds: 200), () {
       setState(() {
-        userInfo = getIt.get<UserInfoService>().userInfo;
-        userInfoDisable =
-            getIt.get<UserInfoService>().userInfo.biometricDisabled;
+        userInfoDisable = getIt.get<UserInfoService>().biometricDisabled;
       });
     });
   }
@@ -68,7 +62,7 @@ class _AccountSecurityState extends State<AccountSecurity> {
             icon: const SLockIcon(),
             isSDivider: true,
             onSwitchChanged: (value) async {
-              if (userInfo.biometricDisabled) {
+              if (getIt.get<UserInfoService>().biometricDisabled) {
                 final auth = LocalAuthentication();
                 var biometricStatusInfo = BiometricStatus.none;
 
@@ -105,9 +99,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
                 updateUserInfo();
               }
             },
-            switchValue: !userInfo.biometricDisabled,
+            switchValue: !getIt.get<UserInfoService>().biometricDisabled,
           ),
-          if (userInfo.pinEnabled)
+          if (getIt.get<UserInfoService>().pinEnabled)
             SimpleAccountCategoryButton(
               title: intl.accountSecurity_accountPIN,
               showEditIcon: true,

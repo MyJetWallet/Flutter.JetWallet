@@ -217,10 +217,8 @@ abstract class AddCircleCardStoreBase with Store {
 
   @action
   void _initState() {
-    final userInfo = sUserInfo.userInfo;
-
     final numbers = sPhoneNumbers.where((element) {
-      return element.isoCode == userInfo.countryOfResidence;
+      return element.isoCode == sUserInfo.countryOfResidence;
     });
 
     final country = numbers.isEmpty ? sPhoneNumbers.first : numbers.first;

@@ -167,7 +167,7 @@ abstract class _UserDataStoreBase with Store {
 
       getIt.get<VerificationStore>().personalDetailDone();
 
-      getIt.get<StartupService>().authenticatedBoot();
+      await getIt.get<StartupService>().secondAction();
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
