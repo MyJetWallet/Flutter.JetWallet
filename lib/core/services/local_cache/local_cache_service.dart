@@ -4,15 +4,15 @@ import 'package:jetwallet/core/services/local_cache/models/cache_candles.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:charts/simple_chart.dart';
+import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 
-/// The service is responsible for caching internal data in the application
-
+/// The service is responsible for caching internal data in the application and store user data
 const String isFirstRunning = 'isFirstRunning';
-const String isBalanceHide = 'isBalanceHide';
-const String installID = 'installID';
-
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
+const String isBalanceHide = 'isBalanceHide';
+
+const String remoteConfig = 'remoteConfigCache';
 
 class LocalCacheService {
   late SharedPreferences instance;
@@ -24,17 +24,21 @@ class LocalCacheService {
   }
 
   ///
-
-  Future<void> saveInstallID(String value) async {
-    await instance.setString(installID, value);
+  Future<void> saveRemoteConfig(RemoteConfigModel model) async {
+    await instance.setString(remoteConfig, jsonEncode(model.toJson()));
   }
 
-  Future<String?> getInstallID() async {
-    return instance.getString(installID);
+  Future<RemoteConfigModel?> getRemoteConfig() async {
+    final data = instance.getString(remoteConfig);
+
+    return data != null
+        ? RemoteConfigModel.fromJson(
+            jsonDecode(data) as Map<String, dynamic>,
+          )
+        : null;
   }
 
   ///
-
   Future<void> saveBalanceHide(bool value) async {
     await instance.setBool(isBalanceHide, value);
   }
@@ -44,7 +48,6 @@ class LocalCacheService {
   }
 
   ///
-
   Future<bool> checkIsFirstRunning() async {
     final val = instance.getBool(isFirstRunning);
 
@@ -58,7 +61,6 @@ class LocalCacheService {
   }
 
   ///
-
   Future<void> saveSignalR(Map<String, dynamic> json) async {
     await instance.setString(signalRCache, jsonEncode(json));
   }
@@ -74,7 +76,6 @@ class LocalCacheService {
   }
 
   ///
-
   Future<void> saveChart(
     String asset,
     Map<String, List<CandleModel>?> candle,
@@ -137,7 +138,6 @@ class LocalCacheService {
   }
 
   ///
-
   Future<void> clearAllCache() async {
     await instance.clear();
     await instance.setBool(isFirstRunning, true);
