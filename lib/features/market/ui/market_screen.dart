@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -12,6 +13,7 @@ import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'MarketRouter')
 class MarketScreen extends StatefulObserverWidget {
   const MarketScreen({
     Key? key,

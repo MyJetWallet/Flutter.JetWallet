@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 import '../../currency_withdraw/helper/user_will_receive.dart';
 
+@RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatelessObserverWidget {
   const WithdrawalAmmountScreen({super.key});
 
@@ -162,7 +164,6 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             submitButtonName: '${intl.withdrawalAmount_preview}'
                 ' ${store.withdrawalInputModel!.dictionary.verb}',
             onSubmitPressed: () {
-
               store.withdrawalPush(WithdrawStep.Preview);
             },
           ),

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
@@ -7,6 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 
+@RoutePage(name: 'FailureScreenRouter')
 class FailureScreen extends StatelessObserverWidget {
   const FailureScreen({
     Key? key,

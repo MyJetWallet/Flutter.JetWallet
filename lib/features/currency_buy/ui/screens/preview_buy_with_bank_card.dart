@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
 import 'package:jetwallet/features/currency_buy/models/google_pay_config.dart';
@@ -26,6 +27,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 
+@RoutePage(name: 'PreviewBuyWithBankCardRouter')
 class PreviewBuyWithBankCard extends StatelessWidget {
   const PreviewBuyWithBankCard({
     Key? key,

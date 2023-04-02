@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,6 +16,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+@RoutePage(name: 'CurrencySellRouter')
 class CurrencySell extends StatelessWidget {
   const CurrencySell({
     Key? key,
@@ -76,7 +78,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
     }
 
     void _showAssetSelector(BuildContext context) {
-
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -253,7 +254,6 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
             submitButtonActive: store.inputValid,
             submitButtonName: intl.currencySell_previewSell,
             onSubmitPressed: () {
-
               sRouter.push(
                 PreviewSellRouter(
                   input: PreviewSellInput(

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -21,6 +22,7 @@ import 'package:simple_kit/simple_kit.dart';
 /// FLOW 1: BASE FLOW -> Confirm -> Notify if simple account
 /// FLOW 2: BASE FLOW -> Confirm -> Home -> Notify if simple account ??
 
+@RoutePage(name: 'SendByPhoneInputRouter')
 class SendByPhoneInput extends StatefulWidget {
   const SendByPhoneInput({
     super.key,
@@ -294,7 +296,6 @@ class _SendByPhoneInputBodyState extends State<_SendByPhoneInputBody>
                             intl.sendByPhoneInput_select),
                     name: intl.sendByPhoneInput_continue,
                     onTap: () {
-
                       sRouter.push(
                         SendByPhoneAmountRouter(
                           currency: widget.currency,

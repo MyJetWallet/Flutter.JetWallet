@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,6 +12,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/services/user_info/models/user_info.dart';
 
+@RoutePage(name: 'AccountSecurityRouter')
 class AccountSecurity extends StatefulWidget {
   const AccountSecurity({Key? key}) : super(key: key);
 

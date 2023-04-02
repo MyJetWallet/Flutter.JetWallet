@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,6 +12,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
 
+@RoutePage(name: 'VerifyingScreenRouter')
 class VerifyingScreen extends StatelessWidget {
   const VerifyingScreen({
     Key? key,

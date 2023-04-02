@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -15,6 +16,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../actions/action_recurring_buy/action_with_out_recurring_buy.dart';
 import '../../helper/recurring_buys_operation_name.dart';
 
+@RoutePage(name: 'RecurringSuccessScreenRouter')
 class RecurringSuccessScreen extends StatelessWidget {
   const RecurringSuccessScreen({
     super.key,

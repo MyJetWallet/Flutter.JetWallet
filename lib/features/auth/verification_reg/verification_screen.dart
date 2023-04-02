@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -12,6 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 
+@RoutePage(name: 'VerificationRouter')
 class VerificationScreen extends StatelessObserverWidget {
   const VerificationScreen({super.key});
 
@@ -163,10 +165,7 @@ class VerificationScreen extends StatelessObserverWidget {
       children: [
         Column(
           children: [
-            if (isDisabled)
-              const SpaceH3()
-            else
-              const SpaceH4(),
+            if (isDisabled) const SpaceH3() else const SpaceH4(),
             if (!isDone) ...[
               const SpaceW2(),
               DecoratedBox(

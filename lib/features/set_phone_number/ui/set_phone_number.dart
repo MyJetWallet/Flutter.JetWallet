@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -17,6 +18,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
+@RoutePage(name: 'SetPhoneNumberRouter')
 class SetPhoneNumber extends StatelessWidget {
   const SetPhoneNumber({
     super.key,
@@ -144,13 +146,15 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                               store.updatePhoneNumber(phone);
                             },
                             controller: store.phoneNumberController,
-                            suffixIcons: store.phoneInput.isNotEmpty ? [
-                              SIconButton(
-                                onTap: () => store.clearPhone(),
-                                defaultIcon: const SEraseIcon(),
-                                pressedIcon: const SErasePressedIcon(),
-                              ),
-                            ] : null,
+                            suffixIcons: store.phoneInput.isNotEmpty
+                                ? [
+                                    SIconButton(
+                                      onTap: () => store.clearPhone(),
+                                      defaultIcon: const SEraseIcon(),
+                                      pressedIcon: const SErasePressedIcon(),
+                                    ),
+                                  ]
+                                : null,
                           ),
                         ),
                       ),

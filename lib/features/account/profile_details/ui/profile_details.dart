@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,6 +17,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../../utils/helpers/country_code_by_user_register.dart';
 import '../../../market/market_details/helper/currency_from_all.dart';
 
+@RoutePage(name: 'ProfileDetailsRouter')
 class ProfileDetails extends StatelessObserverWidget {
   const ProfileDetails({Key? key}) : super(key: key);
 

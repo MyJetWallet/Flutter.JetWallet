@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,6 +14,7 @@ import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'DeleteProfileRouter')
 class DeleteProfile extends StatelessObserverWidget {
   const DeleteProfile({super.key});
 

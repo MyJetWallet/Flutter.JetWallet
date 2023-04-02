@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
@@ -19,6 +20,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 
+@RoutePage(name: 'HistoryRecurringBuysRouter')
 class HistoryRecurringBuys extends StatelessObserverWidget {
   const HistoryRecurringBuys({super.key, this.from});
 

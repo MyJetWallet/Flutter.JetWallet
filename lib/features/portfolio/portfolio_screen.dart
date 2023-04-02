@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 
+@RoutePage(name: 'PortfolioRouter')
 class PortfolioScreen extends StatelessObserverWidget {
   const PortfolioScreen({Key? key}) : super(key: key);
 

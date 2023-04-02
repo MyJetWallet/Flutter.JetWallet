@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:crisp/crisp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'CrispRouter')
 class Crisp extends StatefulObserverWidget {
   const Crisp({
     Key? key,

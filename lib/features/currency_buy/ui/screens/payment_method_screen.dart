@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -27,6 +28,7 @@ import '../../helper/formatted_circle_card.dart';
 import '../../store/payment_methods_store.dart';
 import 'add_bank_card.dart';
 
+@RoutePage(name: 'PaymentMethodRouter')
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({
     Key? key,

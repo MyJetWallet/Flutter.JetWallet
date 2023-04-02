@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -18,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'SendByPhoneAmountRouter')
 class SendByPhoneAmount extends StatelessWidget {
   const SendByPhoneAmount({
     super.key,
@@ -159,7 +161,6 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
             submitButtonActive: state.valid,
             submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
-
               sRouter.push(
                 SendByPhonePreviewRouter(
                   currency: currency,

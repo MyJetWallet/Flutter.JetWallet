@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -34,6 +35,7 @@ class PhoneVerificationArgs {
   final SPhoneNumber? activeDialCode;
 }
 
+@RoutePage(name: 'PhoneVerificationRouter')
 class PhoneVerification extends StatelessWidget {
   const PhoneVerification({
     Key? key,

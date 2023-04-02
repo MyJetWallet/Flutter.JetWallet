@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,6 +17,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'WithdrawalConfirmRouter')
 class WithdrawalConfirmScreen extends StatelessWidget {
   const WithdrawalConfirmScreen({super.key});
 

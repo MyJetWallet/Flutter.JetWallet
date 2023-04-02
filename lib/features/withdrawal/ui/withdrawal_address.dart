@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -9,6 +10,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+@RoutePage(name: 'WithdrawalAddressRouter')
 class WithdrawalAddressScreen extends StatefulObserverWidget {
   const WithdrawalAddressScreen({super.key});
 
@@ -211,7 +213,6 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
-
                             FocusScope.of(context).unfocus();
 
                             store.validateOnContinue(context);

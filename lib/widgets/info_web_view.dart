@@ -1,9 +1,11 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../core/l10n/i10n.dart';
 
+@RoutePage(name: 'InfoWebViewRouter')
 class InfoWebView extends StatelessWidget {
   const InfoWebView({
     Key? key,

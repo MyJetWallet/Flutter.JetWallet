@@ -77,10 +77,10 @@ dependencies:
 
   # NETWORKING:
   http: 0.13.5
-  dio: 5.0.1 # http client
+  dio: 5.1.1 # http client
   pretty_dio_logger: 1.3.1 # logger for dio
   signalr_core: ^1.1.1 # ASP.NET Core SignalR Client
-  json_annotation: 4.7.0 # annotations used by json_serializable
+  json_annotation: 4.8.0 # annotations used by json_serializable
 
   # INTERNATIONALIZATION:
   flutter_localizations:
@@ -88,7 +88,7 @@ dependencies:
   intl: ^0.17.0
 
   # LOCAL SECURE STORAGE:
-  flutter_secure_storage: 7.0.1
+  flutter_secure_storage: 8.0.0
 
   # STATE MANAGEMENT
   data_channel: 2.0.0+1
@@ -96,19 +96,19 @@ dependencies:
   flutter_mobx: 2.0.6+5
 
   # SL
-  injectable: 2.1.0
+  injectable: 2.1.1
   get_it: 7.2.0
   provider: 6.0.5
 
   # Routing
-  auto_route: 5.0.4
+  auto_route: 6.0.5
 
   # FIREBASE
-  firebase_core: 2.7.0
-  firebase_messaging: 14.2.5
-  firebase_dynamic_links: 5.0.15
-  firebase_crashlytics: 3.0.15
-  firebase_analytics: 10.1.4
+  firebase_core: 2.9.0
+  firebase_messaging: 14.4.0
+  firebase_dynamic_links: 5.1.0
+  firebase_crashlytics: 3.1.0
+  firebase_analytics: 10.2.0
 
   # NOTIFICATIONS
   flutter_local_notifications: 13.0.0
@@ -116,7 +116,7 @@ dependencies:
   # OTHER:
   freezed_annotation: 2.2.0 # Annotations for the freezed
   mocktail: 0.3.0 # mocking library with null-safety support
-  logging: 1.1.0 # APIs for debugging and error logging
+  logging: 1.1.1 # APIs for debugging and error logging
   uuid: 3.0.7 # UUID Generator and Parser
   app_tracking_transparency: 2.0.3
   flutter_displaymode: 0.5.0
@@ -150,18 +150,15 @@ dev_dependencies:
 
   # AUTOGEN:
   freezed: 2.3.2 # generation for immutable classes that has a simple syntax/API
-  build_runner: ^2.1.11 # generating files using Dart code
-  json_serializable: 6.5.4 # dart build system builders for handling JSON
-  injectable_generator: 2.1.3
+  build_runner: 2.3.3 # generating files using Dart code
+  json_serializable: 6.6.1 # dart build system builders for handling JSON
+  injectable_generator: 2.1.5
   mobx_codegen: 2.1.1
-  auto_route_generator: 5.0.3
+  auto_route_generator: 6.0.2
 
 dependency_overrides:
-  analyzer: 5.4.0
-  collection: ^1.17.1
-  dart_style: 2.2.4
-  build_resolvers: 2.1.0
   flutter_inappwebview: ^5.7.1
+  analyzer: 5.9.0
 
 flutter_native_splash:
   background_image: "assets/images/bg.png"

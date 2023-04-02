@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -24,6 +25,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+@RoutePage(name: 'CryptoDepositRouter')
 class CryptoDeposit extends StatelessWidget {
   const CryptoDeposit({
     Key? key,
@@ -272,7 +274,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
           if (deposit.tag != null)
             DepositInfoTag(
               text: '${intl.depositInfoTag_text1} ${widget.currency.symbol}'
-                ' ${intl.depositInfoTag_text2}',
+                  ' ${intl.depositInfoTag_text2}',
             )
           else
             DepositInfo(),

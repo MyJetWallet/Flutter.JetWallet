@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -8,6 +9,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/widgets/waiting_
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'WaitingScreenRouter')
 class WaitingScreen extends StatelessObserverWidget {
   const WaitingScreen({
     Key? key,

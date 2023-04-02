@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -21,6 +22,7 @@ import '../../core/services/signal_r/signal_r_service_new.dart';
 
 import '../../utils/constants.dart';
 
+@RoutePage(name: 'AccountRouter')
 class AccountScreen extends StatefulObserverWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
@@ -52,9 +54,11 @@ class _AccountScreenState extends State<AccountScreen>
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final deepLinkService = getIt.get<DeepLinkService>();
-    final marketCampaigns = sSignalRModules.marketCampaigns.where(
-      (element) => element.deepLink.contains('InviteFriend'),
-    ).toList();
+    final marketCampaigns = sSignalRModules.marketCampaigns
+        .where(
+          (element) => element.deepLink.contains('InviteFriend'),
+        )
+        .toList();
 
     /*
     logout.union.when(
@@ -127,11 +131,9 @@ class _AccountScreenState extends State<AccountScreen>
                   twoFaEnabled: true,
                   phoneVerified: userInfo.phoneVerified,
                   onTwoFaBannerTap: () {
-
                     sRouter.push(const SmsAuthenticatorRouter());
                   },
                   onChatBannerTap: () {
-
                     sRouter.push(
                       CrispRouter(
                         welcomeText: intl.crispSendMessage_hi,
@@ -164,7 +166,6 @@ class _AccountScreenState extends State<AccountScreen>
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
                       onTap: () {
-
                         sRouter.push(
                           const ProfileDetailsRouter(),
                         );

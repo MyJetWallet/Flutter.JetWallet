@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,6 +21,7 @@ import '../../../../core/di/di.dart';
 import '../../../../core/services/user_info/user_info_service.dart';
 import 'widgets/birth_date/store/selected_date_store.dart';
 
+@RoutePage(name: 'UserDataScreenRouter')
 class UserDataScreen extends StatelessWidget {
   const UserDataScreen({Key? key}) : super(key: key);
 
@@ -166,7 +168,8 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                           name: intl.register_continue,
                           onTap: () {
                             sAnalytics.signInFlowCreatePinView();
-                            getIt.get<UserInfoService>()
+                            getIt
+                                .get<UserInfoService>()
                                 .updateIsJustRegistered(value: true);
                             print(getIt.get<UserInfoService>().userInfo);
                             UserDataStore.of(context).saveUserData(

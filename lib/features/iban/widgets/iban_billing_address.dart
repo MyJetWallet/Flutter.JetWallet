@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,6 +13,7 @@ import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.
 import '../store/iban_store.dart';
 import 'country_picker.dart';
 
+@RoutePage(name: 'IbanAddressRouter')
 class IbanBillingAddress extends StatelessObserverWidget {
   const IbanBillingAddress({Key? key}) : super(key: key);
 
@@ -92,8 +94,8 @@ class IbanBillingAddress extends StatelessObserverWidget {
                   ),
                   Text(
                     '${store.streetAddress1} ${store.streetAddress2} '
-                        '${store.city} ${store.postalCode}'
-                        '${store.activeCountry?.countryName}',
+                    '${store.city} ${store.postalCode}'
+                    '${store.activeCountry?.countryName}',
                     style: sSubtitle3Style.copyWith(
                       color: Colors.transparent,
                       height: 0,

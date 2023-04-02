@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -8,6 +9,7 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../wallet/helper/nft_types.dart';
 import '../../wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_main_list.dart';
 
+@RoutePage(name: 'TransactionHistoryRouter')
 class TransactionHistory extends StatelessObserverWidget {
   const TransactionHistory({
     Key? key,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -9,6 +10,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'SimplexWebViewRouter')
 class SimplexWebView extends StatefulWidget {
   const SimplexWebView(this.url);
 

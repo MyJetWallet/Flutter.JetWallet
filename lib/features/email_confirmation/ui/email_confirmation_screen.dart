@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,6 +17,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../models/email_confirmation_union.dart';
 
+@RoutePage(name: 'EmailConfirmationRouter')
 class EmailConfirmationScreen extends StatelessWidget {
   const EmailConfirmationScreen({super.key});
 

@@ -49,16 +49,6 @@ abstract class SimpleNetworking {
 
   void updateDio(Dio updatedDio);
 
-  /// SignalR Module
-  // ignore: long-parameter-list
-  SignalRModule getSignalRModule(
-    Future<RefreshTokenStatus> Function() refreshToken,
-    BaseClient signalRClient,
-    String token,
-    String localeName,
-    String deviceUid,
-  );
-
   /// Auth API Module
   AuthApiRepository getAuthModule();
 

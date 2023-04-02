@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -9,6 +10,7 @@ import '../../core/services/logs/helpers/beatify_logs_for_support.dart';
 import '../../core/services/logs/helpers/make_log_pretty.dart';
 import '../../core/services/logs/log_record_service.dart';
 
+@RoutePage(name: 'LogsRouter')
 class LogsScreen extends StatelessObserverWidget {
   const LogsScreen({
     super.key,

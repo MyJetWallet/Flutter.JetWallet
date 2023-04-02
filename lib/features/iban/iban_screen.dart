@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
@@ -22,18 +23,17 @@ import '../kyc/helper/kyc_alert_handler.dart';
 import '../kyc/kyc_service.dart';
 import '../kyc/models/kyc_operation_status_model.dart';
 
+@RoutePage(name: 'IBanRouter')
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
     Key? key,
   }) : super(key: key);
-
 
   @override
   State<IBanScreen> createState() => _IBanScreenBodyState();
 }
 
 class _IBanScreenBodyState extends State<IBanScreen> {
-
   late Timer updateTimer;
 
   @override
@@ -53,18 +53,10 @@ class _IBanScreenBodyState extends State<IBanScreen> {
 
     updateTimer = Timer.periodic(
       const Duration(seconds: 5),
-          (timer) {
-        if (
-          getIt<AppRouter>().topRoute.name == 'IBanRouter' &&
-          (
-            (
-              store.ibanBic.isEmpty &&
-              kycPassed &&
-              !store.toSetupAddress
-            ) ||
-            store.status == IbanInfoStatusDto.inProcess
-          )
-        ) {
+      (timer) {
+        if (getIt<AppRouter>().topRoute.name == 'IBanRouter' &&
+            ((store.ibanBic.isEmpty && kycPassed && !store.toSetupAddress) ||
+                store.status == IbanInfoStatusDto.inProcess)) {
           store.initState();
         }
       },
@@ -106,10 +98,10 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     final showEmptyScreen = store.ibanAddress.isEmpty;
 
     final textForShare = '${intl.iban_share_text}: \n \n'
-    '${intl.iban_benificiary}: ${store.ibanName} \n'
-    '${intl.iban_iban}: ${store.ibanAddress} \n'
-    '${intl.iban_bic}: ${store.ibanBic} \n \n'
-    '${intl.iban_terms}';
+        '${intl.iban_benificiary}: ${store.ibanName} \n'
+        '${intl.iban_iban}: ${store.ibanAddress} \n'
+        '${intl.iban_bic}: ${store.ibanBic} \n \n'
+        '${intl.iban_terms}';
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -120,64 +112,66 @@ class _IBanScreenBodyState extends State<IBanScreen> {
       child: (store.isLoading && !store.wasFirstLoad)
           ? const IBanSkeleton()
           : showEmptyScreen
-          ? IBanEmpty(
-        isLoading: isLoading,
-        isAddress: isAddress,
-        isKyc: isKyc,
-        onButtonTap: () {
-          sShowAlertPopup(
-            context,
-            willPopScope: true,
-            primaryText: intl.iban_hold_on,
-            secondaryText: isKyc
-              ? intl.iban_please_verify
-              : intl.iban_please_provide,
-            primaryButtonName: isKyc
-                ? intl.iban_start_verification
-                : intl.iban_provide,
-            image: Image.asset(
-                phoneChangeAsset,
-                width: 80,
-                height: 80,
-                package: 'simple_kit',
-            ),
-            onPrimaryButtonTap: () {
-              if (isKyc) {
-                Navigator.pop(context);
-                final isDepositAllow = kycState.depositStatus !=
-                    kycOperationStatus(KycStatus.allowed);
-                final isWithdrawalAllow = kycState.withdrawalStatus !=
-                    kycOperationStatus(KycStatus.allowed);
+              ? IBanEmpty(
+                  isLoading: isLoading,
+                  isAddress: isAddress,
+                  isKyc: isKyc,
+                  onButtonTap: () {
+                    sShowAlertPopup(
+                      context,
+                      willPopScope: true,
+                      primaryText: intl.iban_hold_on,
+                      secondaryText: isKyc
+                          ? intl.iban_please_verify
+                          : intl.iban_please_provide,
+                      primaryButtonName: isKyc
+                          ? intl.iban_start_verification
+                          : intl.iban_provide,
+                      image: Image.asset(
+                        phoneChangeAsset,
+                        width: 80,
+                        height: 80,
+                        package: 'simple_kit',
+                      ),
+                      onPrimaryButtonTap: () {
+                        if (isKyc) {
+                          Navigator.pop(context);
+                          final isDepositAllow = kycState.depositStatus !=
+                              kycOperationStatus(KycStatus.allowed);
+                          final isWithdrawalAllow = kycState.withdrawalStatus !=
+                              kycOperationStatus(KycStatus.allowed);
 
-                kycAlertHandler.handle(
-                  status: isDepositAllow
-                      ? kycState.depositStatus
-                      : isWithdrawalAllow
-                      ? kycState.withdrawalStatus
-                      : kycState.sellStatus,
-                  isProgress: kycState.verificationInProgress,
-                  currentNavigate: () {},
-                  requiredDocuments: kycState.requiredDocuments,
-                  requiredVerifications: kycState.requiredVerifications,
-                );
-              } else {
-                Navigator.pop(context);
-                sRouter.push(
-                  const IbanAddressRouter(),
-                );
-              }
-            },
-            secondaryButtonName: intl.iban_cancel,
-            onSecondaryButtonTap: () {
-              Navigator.pop(context);
-            },
-          );
-        },
-      ) : IBanBody(
-        name: store.ibanName,
-        iban: store.ibanAddress,
-        bic: store.ibanBic,
-      ),
+                          kycAlertHandler.handle(
+                            status: isDepositAllow
+                                ? kycState.depositStatus
+                                : isWithdrawalAllow
+                                    ? kycState.withdrawalStatus
+                                    : kycState.sellStatus,
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () {},
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          sRouter.push(
+                            const IbanAddressRouter(),
+                          );
+                        }
+                      },
+                      secondaryButtonName: intl.iban_cancel,
+                      onSecondaryButtonTap: () {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                )
+              : IBanBody(
+                  name: store.ibanName,
+                  iban: store.ibanAddress,
+                  bic: store.ibanBic,
+                ),
     );
   }
 }

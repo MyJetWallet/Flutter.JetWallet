@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -21,6 +22,7 @@ import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
 
+@RoutePage(name: 'EmptyWalletRouter')
 class EmptyWallet extends StatefulObserverWidget {
   const EmptyWallet({
     Key? key,
@@ -51,7 +53,7 @@ class _EmptyWalletState extends State<EmptyWallet>
   @override
   Widget build(BuildContext context) {
     final currentAsset =
-    currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
+        currencyFrom(sSignalRModules.currenciesList, widget.currency.symbol);
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -87,8 +89,7 @@ class _EmptyWalletState extends State<EmptyWallet>
                       );
                     },
                     requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications:
-                    kycState.requiredVerifications,
+                    requiredVerifications: kycState.requiredVerifications,
                   );
                 }
               },
@@ -115,8 +116,7 @@ class _EmptyWalletState extends State<EmptyWallet>
                         );
                       },
                       requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications:
-                      kycState.requiredVerifications,
+                      requiredVerifications: kycState.requiredVerifications,
                     );
                   }
                 } else {
@@ -145,12 +145,12 @@ class _EmptyWalletState extends State<EmptyWallet>
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(
-                assetName: widget.currency.description,
-              )
+                      assetName: widget.currency.description,
+                    )
                   : EmptyEarnWalletBody(
-                assetName: widget.currency.description,
-                apy: widget.currency.apy,
-              ),
+                      assetName: widget.currency.description,
+                      apy: widget.currency.apy,
+                    ),
             ),
           );
         },

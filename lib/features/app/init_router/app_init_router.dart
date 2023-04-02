@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,6 +19,7 @@ import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 
+@RoutePage(name: 'AppInitRoute')
 class AppInitRouter extends StatefulObserverWidget {
   const AppInitRouter({
     super.key,

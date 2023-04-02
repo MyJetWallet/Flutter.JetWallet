@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -8,6 +9,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'ChangePasswordRouter')
 class ChangePassword extends StatelessObserverWidget {
   const ChangePassword({
     Key? key,
@@ -62,7 +64,6 @@ class ChangePassword extends StatelessObserverWidget {
             child: SPrimaryButton2(
               name: intl.changePassword_continue,
               onTap: () {
-
                 sRouter.push(
                   const SetNewPasswordRouter(),
                 );

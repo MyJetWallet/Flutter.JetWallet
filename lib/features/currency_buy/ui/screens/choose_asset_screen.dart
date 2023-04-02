@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,9 +17,8 @@ import '../../../../utils/models/currency_model.dart';
 import '../../../actions/helpers/show_currency_search.dart';
 import '../../../actions/store/action_search_store.dart';
 
-
+@RoutePage(name: 'ChooseAssetRouter')
 class ChooseAssetScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final searchStore = getIt.get<ActionSearchStore>();
@@ -90,23 +90,22 @@ class _ActionBuy extends StatelessObserverWidget {
     sortByBalanceAndWeight(state.filteredCurrencies);
 
     void _onItemTap(CurrencyModel currency, bool fromCard) {
-
       getIt.get<AppRouter>().navigate(
-        PaymentMethodRouter(
-          currency: currency,
-        ),
-      );
+            PaymentMethodRouter(
+              currency: currency,
+            ),
+          );
     }
 
     Widget marketItem(
-        String iconUrl,
-        String name,
-        String price,
-        String ticker,
-        double percent,
-        dynamic Function() onTap, {
-          bool isLast = false,
-        }) {
+      String iconUrl,
+      String name,
+      String price,
+      String ticker,
+      double percent,
+      dynamic Function() onTap, {
+      bool isLast = false,
+    }) {
       return SMarketItem(
         icon: SNetworkSvg24(
           url: iconUrl,
@@ -137,10 +136,14 @@ class _ActionBuy extends StatelessObserverWidget {
               ),
               currency.symbol,
               currency.dayPercentChange,
-                  () => _onItemTap(currency, fromCard),
-              isLast: currency == state.filteredCurrencies.where(
-                (element) => element.supportsAtLeastOneBuyMethod,
-              ).toList().last,
+              () => _onItemTap(currency, fromCard),
+              isLast: currency ==
+                  state.filteredCurrencies
+                      .where(
+                        (element) => element.supportsAtLeastOneBuyMethod,
+                      )
+                      .toList()
+                      .last,
             ),
         ],
         const SpaceH42(),

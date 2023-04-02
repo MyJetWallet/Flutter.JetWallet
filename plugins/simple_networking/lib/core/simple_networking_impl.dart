@@ -44,26 +44,7 @@ class SimpleNetworkingImpl implements SimpleNetworking {
       sessionID,
     );
   }
-
-  @override
-  // ignore: long-parameter-list
-  SignalRModule getSignalRModule(
-    Future<RefreshTokenStatus> Function() refreshToken,
-    BaseClient signalRClient,
-    String token,
-    String localeName,
-    String deviceUid,
-  ) {
-    return SignalRModule(
-      options: apiClient.options,
-      refreshToken: refreshToken,
-      signalRClient: signalRClient,
-      token: token,
-      localeName: localeName,
-      deviceUid: deviceUid,
-    );
-  }
-
+  
   @override
   AuthApiRepository getAuthModule() {
     return AuthApiRepository(apiClient);
