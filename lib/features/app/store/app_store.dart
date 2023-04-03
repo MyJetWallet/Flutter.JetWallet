@@ -124,6 +124,8 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> checkInitRouter() async {
+    FlutterNativeSplash.remove();
+
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
