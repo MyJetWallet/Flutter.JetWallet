@@ -681,7 +681,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
-            unawaited(_showSuccessScreen());
+            unawaited(_showSuccessScreen(false));
             skippedWaiting();
           } else if (failed) {
             if (isWaitingSkipped) {
