@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
@@ -101,6 +102,14 @@ class BuyCryptoDetails extends StatelessObserverWidget {
           ),
           const SpaceH14(),
           TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
               text: volumeFormat(
@@ -109,6 +118,13 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
                 prefix: paymentCurrency.prefixSymbol,
               ),
+            ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
+            text: intl.previewConvert_exchangeRate,
+            value: TransactionDetailsValueText(
+              text: _rateFor(),
             ),
           ),
           if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty) ...[
@@ -123,7 +139,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
           ],
           const SpaceH14(),
           TransactionDetailsItem(
-            text: intl.previewBuyWithCircle_creditCardFee,
+            text: intl.previewBuyWithCircle_bankCardFee,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: depositCurrency.prefixSymbol,
@@ -143,13 +159,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 accuracy: currentCurrency.accuracy,
                 symbol: currentCurrency.symbol,
               ),
-            ),
-          ),
-          const SpaceH14(),
-          TransactionDetailsItem(
-            text: intl.previewBuyWithCircle_payFrom,
-            value: TransactionDetailsValueText(
-              text: _rateFor(),
             ),
           ),
           const SpaceH16(),

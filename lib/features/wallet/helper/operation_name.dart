@@ -43,6 +43,10 @@ String operationName(
           : intl.operationName_subscribed_to_earn;
     case OperationType.cryptoInfo:
       return intl.operationName_buyWithCard;
+    case OperationType.buyGooglePay:
+      return intl.operationName_buyGooglePay;
+    case OperationType.buyApplePay:
+      return intl.operationName_buyApplePay;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
     case OperationType.unknown:

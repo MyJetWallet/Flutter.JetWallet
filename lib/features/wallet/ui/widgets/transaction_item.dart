@@ -267,7 +267,11 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.cryptoInfo) ...[
+                      OperationType.cryptoInfo ||
+                    widget.transactionListItem.operationType ==
+                      OperationType.buyGooglePay ||
+                    widget.transactionListItem.operationType ==
+                      OperationType.buyApplePay) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(

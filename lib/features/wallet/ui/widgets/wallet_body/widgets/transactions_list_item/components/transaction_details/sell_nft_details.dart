@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
@@ -60,6 +61,14 @@ class SellNftDetails extends StatelessObserverWidget {
                   pressedIcon: const SCopyPressedIcon(),
                 ),
               ],
+            ),
+          ),
+          const SpaceH14(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SpaceH14(),
