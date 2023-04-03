@@ -3,9 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/actions/action_recurring_manage/widgets/action_recurring_manage_item.dart';
-import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 
@@ -35,9 +33,8 @@ void showRecurringManageAction({
 
 class _RecurringManageActionBottomSheetHeader extends StatelessWidget {
   const _RecurringManageActionBottomSheetHeader({
-    Key? key,
     required this.name,
-  }) : super(key: key);
+  });
 
   final String name;
 
@@ -72,11 +69,10 @@ class _RecurringManageActionBottomSheetHeader extends StatelessWidget {
 
 class _ActionRecurringManage extends StatelessObserverWidget {
   const _ActionRecurringManage({
-    Key? key,
     required this.assetName,
     required this.sellCurrencyAmount,
     required this.recurringItem,
-  }) : super(key: key);
+  });
 
   final String assetName;
   final String sellCurrencyAmount;
@@ -105,6 +101,7 @@ class _ActionRecurringManage extends StatelessObserverWidget {
                     isEnable: false,
                     instructionId: recurringItem.id!,
                   );
+
                   Navigator.of(context)
                     ..pop()
                     ..pop();
@@ -139,7 +136,6 @@ class _ActionRecurringManage extends StatelessObserverWidget {
               primaryText: intl.actionRecurringManage_delete,
               color: colors.grey5,
               onTap: () {
-
                 sShowAlertPopup(
                   context,
                   willPopScope: false,

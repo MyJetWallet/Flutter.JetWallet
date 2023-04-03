@@ -99,8 +99,7 @@ class StartupService {
     _logger.log(
       level: Level.info,
       place: _loggerValue,
-      message:
-          'secondAction ${getIt.get<AppStore>().authStatus} || ${userInfo.isServicesRegisterd}',
+      message: 'secondAction ${getIt.get<AppStore>().authStatus}',
     );
 
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
@@ -268,24 +267,26 @@ class StartupService {
         appsflyerId: await getIt
                 .get<AppsFlyerService>()
                 .appsflyerSdk
-                ?.getAppsFlyerUID() ??
+                .getAppsFlyerUID() ??
             '',
         idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
         idfv: sDeviceInfo.deviceUid,
         adid: '',
       );
 
-      final request = await getIt
+      final _ = await getIt
           .get<SNetwork>()
           .simpleNetworkingUnathorized
           .getAuthModule()
           .postInstall(
             model,
           );
-
-      print(model);
     } catch (e) {
-      print(e);
+      _logger.log(
+        level: Level.error,
+        place: _loggerValue,
+        message: 'Failed to save InstallID: $e',
+      );
     }
   }
 

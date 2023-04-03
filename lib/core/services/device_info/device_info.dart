@@ -63,10 +63,10 @@ class DeviceInfo {
       deviceUid = andriudId ?? '';
 
       osName = 'Android';
-      version = androidInfo.version.release ?? '';
+      version = androidInfo.version.release;
       sdk = androidInfo.version.sdkInt.toString();
-      manufacturer = androidInfo.manufacturer ?? '';
-      model = androidInfo.model ?? '';
+      manufacturer = androidInfo.manufacturer;
+      model = androidInfo.model;
       marketingName = deviceMarketingName;
     } else {
       final iosInfo = await deviceInfoPlugin.iosInfo;

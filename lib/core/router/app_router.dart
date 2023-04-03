@@ -25,6 +25,7 @@ import 'package:jetwallet/features/auth/onboarding/ui/onboarding_screen.dart';
 import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
+import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -43,7 +44,6 @@ import 'package:jetwallet/features/currency_sell/model/preview_sell_input.dart';
 import 'package:jetwallet/features/currency_sell/ui/currency_sell.dart';
 import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
-import 'package:jetwallet/features/currency_withdraw/ui/currency_withdraw.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
@@ -70,8 +70,6 @@ import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
-import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
-import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_amount.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
@@ -83,7 +81,6 @@ import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_sc
 import 'package:jetwallet/features/transaction_history/ui/widgets/history_recurring_buys.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
-import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
@@ -92,18 +89,16 @@ import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_preview.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_screen.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:jetwallet/widgets/info_web_view.dart';
 import 'package:jetwallet/widgets/result_screens/failure_screen/failure_screen.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.dart';
-import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
+import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
+import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -127,7 +122,7 @@ final sRouter = getIt.get<AppRouter>();
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
   @override
-  RouteType get defaultRouteType => RouteType.cupertino();
+  RouteType get defaultRouteType => const RouteType.adaptive();
 
   @override
   final List<AutoRoute> routes = [
@@ -379,10 +374,6 @@ class AppRouter extends _$AppRouter {
       page: SendByPhoneInputRouter.page,
     ),
     AutoRoute(
-      path: '/currency_withdraw',
-      page: CurrencyWithdrawRouter.page,
-    ),
-    AutoRoute(
       path: '/currency_sell',
       page: CurrencySellRouter.page,
     ),
@@ -475,7 +466,7 @@ class AppRouter extends _$AppRouter {
       page: WithdrawRouter.page,
       children: [
         AutoRoute(
-          path: 'withdrawal_start',
+          path: '',
           page: WithdrawalAddressRouter.page,
         ),
         AutoRoute(
@@ -487,7 +478,7 @@ class AppRouter extends _$AppRouter {
           page: WithdrawalConfirmRouter.page,
         ),
         AutoRoute(
-          path: 'withdrawal_preview',
+          path: 'wiGthdrawal_preview',
           page: WithdrawalPreviewRouter.page,
         ),
       ],

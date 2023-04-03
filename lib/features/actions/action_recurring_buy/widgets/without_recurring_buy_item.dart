@@ -4,11 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class WithoutRecurringBuysItem extends StatelessObserverWidget {
   const WithoutRecurringBuysItem({
-    Key? key,
     this.selected = false,
     required this.primaryText,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String primaryText;
   final bool selected;

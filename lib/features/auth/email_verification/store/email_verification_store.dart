@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/credentials_service/credentials_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -19,7 +18,6 @@ import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
-import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/utils/helpers/current_platform.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
@@ -96,7 +94,7 @@ abstract class _EmailVerificationStoreBase with Store {
     final deviceInfoModel = sDeviceInfo;
     final appsFlyerService = getIt.get<AppsFlyerService>();
     final appsFlyerID =
-        await appsFlyerService.appsflyerSdk?.getAppsFlyerUID() ?? '';
+        await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
     final credentials = getIt.get<CredentialsService>();
 
     _updateIsResending(true);
@@ -107,7 +105,7 @@ abstract class _EmailVerificationStoreBase with Store {
         deviceUid: deviceInfoModel.deviceUid,
         lang: intl.localeName,
         application: currentAppPlatform,
-        appsflyerId: appsFlyerID ?? '',
+        appsflyerId: appsFlyerID,
       );
       final response = await getIt
           .get<SNetwork>()
@@ -239,31 +237,14 @@ abstract class _EmailVerificationStoreBase with Store {
             refreshToken: data.refreshToken,
           );
 
-          print('TOKEN SAVED');
-          print(authInfo.authState.token);
-
-          print('REFRESHTOKEN SAVED');
-          print(authInfo.authState.refreshToken);
-
           union = const EmailVerificationUnion.input();
 
           await startSession(authInfo.authState.email);
-
-          print(getIt.get<AppStore>().authStatus);
 
           authInfo.setAuthStatus(const AuthorizationUnion.authorized());
           getIt
               .get<StartupService>()
               .successfullAuthentication(needPush: false);
-
-          print(getIt.get<AppStore>().sessionID);
-
-          //authInfo.setAuthStatus(const AuthorizationUnion.authorized());
-          //getIt.get<StartupService>().successfullAuthentication();
-
-          //unawaited(getIt.get<AppStore>().checkInitRouter());
-
-          //_logger.log(stateFlow, 'verifyCode', state);
         },
         onError: (error) {
           _logger.log(stateFlow, 'verifyCode', error.cause);
@@ -313,11 +294,11 @@ abstract class _EmailVerificationStoreBase with Store {
   Future<void> startSession(String email) async {
     final appsFlyerService = getIt.get<AppsFlyerService>();
 
-    final appsFlyerID = await appsFlyerService.appsflyerSdk?.getAppsFlyerUID();
+    final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
     final bytes = utf8.encode(email);
     final hashEmail = sha256.convert(bytes).toString();
-    appsFlyerService.appsflyerSdk?.setCustomerUserId(hashEmail);
-    await appsFlyerService.appsflyerSdk?.logEvent('Start Session', {
+    appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
+    await appsFlyerService.appsflyerSdk.logEvent('Start Session', {
       'Customer User iD': hashEmail,
       'Appsflyer ID': appsFlyerID,
       'Registration/Login/SSO': 'SSO',

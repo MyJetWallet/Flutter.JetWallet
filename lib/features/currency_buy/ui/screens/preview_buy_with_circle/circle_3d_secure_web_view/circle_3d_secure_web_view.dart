@@ -75,7 +75,7 @@ class Circle3dSecureWebView extends StatelessWidget {
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
                     if (onFailed != null) {
-                      onFailed!.call(intl.something_went_wrong);
+                      onFailed.call(intl.something_went_wrong);
                       Timer(
                         const Duration(seconds: 3),
                         () {

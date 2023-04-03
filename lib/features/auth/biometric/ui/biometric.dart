@@ -23,9 +23,9 @@ import '../../../../core/services/apps_flyer_service.dart';
 @RoutePage(name: 'BiometricRouter')
 class Biometric extends StatelessWidget {
   const Biometric({
-    Key? key,
+    super.key,
     this.isAccSettings = false,
-  }) : super(key: key);
+  });
 
   final bool isAccSettings;
 
@@ -42,9 +42,8 @@ class Biometric extends StatelessWidget {
 
 class _BiometricBody extends StatelessObserverWidget {
   const _BiometricBody({
-    Key? key,
     this.isAccSettings = false,
-  }) : super(key: key);
+  });
 
   final bool isAccSettings;
 
@@ -131,28 +130,25 @@ class _BiometricBody extends StatelessObserverWidget {
                               getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          if (appsFlyerService.appsflyerSdk != null) {
-                            final appsFlyerID = await appsFlyerService
-                                .appsflyerSdk!
-                                .getAppsFlyerUID();
-                            final bytes = utf8.encode(userInfo.email);
-                            final hashEmail = sha256.convert(bytes).toString();
-                            appsFlyerService.appsflyerSdk!
-                                .setCustomerUserId(hashEmail);
+                          final appsFlyerID = await appsFlyerService
+                              .appsflyerSdk
+                              .getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.email);
+                          final hashEmail = sha256.convert(bytes).toString();
+                          appsFlyerService.appsflyerSdk
+                              .setCustomerUserId(hashEmail);
 
-                            await appsFlyerService.appsflyerSdk!
-                                .logEvent('af_registration_finished', {
-                              'IsTechAcc': '${userInfo.isTechClient}',
-                              'Customer User iD': hashEmail,
-                              'Appsflyer ID': appsFlyerID,
-                            });
-                          }
+                          await appsFlyerService.appsflyerSdk
+                              .logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.isTechClient}',
+                            'Customer User iD': hashEmail,
+                            'Appsflyer ID': appsFlyerID,
+                          });
                         }
 
                         biometric.useBio(
                           useBio: true,
                           isAccSettings: isAccSettings,
-                          context: context,
                         );
                       }
                     },
@@ -172,25 +168,23 @@ class _BiometricBody extends StatelessObserverWidget {
                               getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          if (appsFlyerService.appsflyerSdk != null) {
-                            final appsFlyerID = await appsFlyerService
-                                .appsflyerSdk!
-                                .getAppsFlyerUID();
-                            final bytes = utf8.encode(userInfo.email);
-                            final hashEmail = sha256.convert(bytes).toString();
-                            appsFlyerService.appsflyerSdk!
-                                .setCustomerUserId(hashEmail);
-                            await appsFlyerService.appsflyerSdk!
-                                .logEvent('af_registration_finished', {
-                              'IsTechAcc': '${userInfo.isTechClient}',
-                              'Customer User iD': hashEmail,
-                              'Appsflyer ID': appsFlyerID,
-                            });
-                          }
+                          final appsFlyerID = await appsFlyerService
+                              .appsflyerSdk
+                              .getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.email);
+                          final hashEmail = sha256.convert(bytes).toString();
+                          appsFlyerService.appsflyerSdk
+                              .setCustomerUserId(hashEmail);
+                          await appsFlyerService.appsflyerSdk
+                              .logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.isTechClient}',
+                            'Customer User iD': hashEmail,
+                            'Appsflyer ID': appsFlyerID,
+                          });
                         }
+
                         biometric.useBio(
                           useBio: false,
-                          context: context,
                         );
                       }
                     },

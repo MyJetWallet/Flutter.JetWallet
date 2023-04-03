@@ -24,7 +24,7 @@ import '../../utils/constants.dart';
 
 @RoutePage(name: 'AccountRouter')
 class AccountScreen extends StatefulObserverWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -178,7 +178,7 @@ class _AccountScreenState extends State<AccountScreen>
                         isSDivider: true,
                         onTap: () {
                           deepLinkService.handle(
-                            Uri.parse(marketCampaigns[0].deepLink ?? ''),
+                            Uri.parse(marketCampaigns[0].deepLink),
                             source: SourceScreen.bannerOnRewards,
                           );
                         },
@@ -199,7 +199,6 @@ class _AccountScreenState extends State<AccountScreen>
                         color: colors.black,
                       ),
                       isSDivider: true,
-                      notification: false,
                       onTap: () {
                         sRouter.push(
                           const PaymentMethodsRouter(),

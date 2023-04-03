@@ -17,9 +17,9 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 
 class ActionRecurringInfoDetails extends StatelessObserverWidget {
   const ActionRecurringInfoDetails({
-    Key? key,
+    super.key,
     required this.recurringItem,
-  }) : super(key: key);
+  });
 
   final RecurringBuysModel recurringItem;
 

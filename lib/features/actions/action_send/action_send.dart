@@ -9,7 +9,6 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -69,9 +68,8 @@ Future<void> _showSendAction(BuildContext context) async {
 
 class _ActionSend extends StatelessObserverWidget {
   const _ActionSend({
-    Key? key,
     this.lastCurrency,
-  }) : super(key: key);
+  });
 
   final String? lastCurrency;
 

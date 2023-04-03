@@ -10,13 +10,10 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/app/app_builder.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
-import 'package:signalr_core/signalr_core.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
 
 part 'logout_service.g.dart';
@@ -60,7 +57,7 @@ abstract class _LogoutServiceBase with Store {
 
         union = const LogoutUnion.result();
 
-        callbackAfterSend?.call();
+        callbackAfterSend.call();
 
         return;
       }
@@ -130,7 +127,7 @@ abstract class _LogoutServiceBase with Store {
         message: 'Logout success',
       );
 
-      callbackAfterSend?.call();
+      callbackAfterSend.call();
       union = const LogoutUnion.result();
     } catch (e) {
       _logger.log(

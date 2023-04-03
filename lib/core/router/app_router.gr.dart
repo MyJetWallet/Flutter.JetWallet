@@ -366,16 +366,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    CurrencyWithdrawRouter.name: (routeData) {
-      final args = routeData.argsAs<CurrencyWithdrawRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CurrencyWithdraw(
-          key: args.key,
-          withdrawal: args.withdrawal,
-        ),
-      );
-    },
     DebugInfoRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -2048,44 +2038,6 @@ class PreviewSellRouterArgs {
   @override
   String toString() {
     return 'PreviewSellRouterArgs{key: $key, input: $input}';
-  }
-}
-
-/// generated route for
-/// [CurrencyWithdraw]
-class CurrencyWithdrawRouter extends PageRouteInfo<CurrencyWithdrawRouterArgs> {
-  CurrencyWithdrawRouter({
-    Key? key,
-    required WithdrawalModel withdrawal,
-    List<PageRouteInfo>? children,
-  }) : super(
-          CurrencyWithdrawRouter.name,
-          args: CurrencyWithdrawRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'CurrencyWithdrawRouter';
-
-  static const PageInfo<CurrencyWithdrawRouterArgs> page =
-      PageInfo<CurrencyWithdrawRouterArgs>(name);
-}
-
-class CurrencyWithdrawRouterArgs {
-  const CurrencyWithdrawRouterArgs({
-    this.key,
-    required this.withdrawal,
-  });
-
-  final Key? key;
-
-  final WithdrawalModel withdrawal;
-
-  @override
-  String toString() {
-    return 'CurrencyWithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
   }
 }
 
