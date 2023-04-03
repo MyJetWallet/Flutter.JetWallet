@@ -448,7 +448,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                     ],
                     height: 56,
                     width: double.infinity,
-                    type: GooglePayButtonType.pay,
+                    type: GooglePayButtonType.plain,
                     onPaymentResult: (paymentResult) =>
                         state.requestGooglePay(paymentResult),
                     loadingIndicator: const Center(

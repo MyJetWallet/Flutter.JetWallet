@@ -258,13 +258,13 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                         Image.asset(
                           googlePayAsset,
                           width: 48,
-                          height: 32.34,
+                          height: 25.36,
                         ),
                         const SizedBox(width: 17),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 4),
                           child: Text(
-                            'Google pay',
+                            'Google Pay',
                             textAlign: TextAlign.start,
                             style: sSubtitle2Style,
                           ),
