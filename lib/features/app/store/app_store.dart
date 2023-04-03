@@ -125,7 +125,6 @@ abstract class _AppStoreBase with Store {
   @action
   Future<void> checkInitRouter() async {
     if (remoteConfigStatus is Success) {
-      /*
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
           await getIt<AppRouter>().replaceAll([
@@ -146,10 +145,6 @@ abstract class _AppStoreBase with Store {
           return;
         }
       }
-      */
-
-      print(authStatus);
-      print(authorizedStatus);
 
       authStatus.when(
         loading: () {},
