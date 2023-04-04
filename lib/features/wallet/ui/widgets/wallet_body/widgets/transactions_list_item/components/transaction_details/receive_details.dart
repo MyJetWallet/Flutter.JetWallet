@@ -65,12 +65,18 @@ class ReceiveDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: '${intl.transaction} ${intl.from}',
+            fromStart: fromPhoneNumber.isNotEmpty && senderName.isNotEmpty,
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 if (fromPhoneNumber.isNotEmpty)
-                  TransactionDetailsValueText(
-                    text: fromPhoneNumber,
+                  Text(
+                    fromPhoneNumber,
+                    style: sSubtitle3Style.copyWith(
+                      color: colors.black,
+                      height: 1.3125,
+                    ),
+                    maxLines: 5,
                   ),
                 if (senderName.isNotEmpty) ...[
                   Text(
@@ -80,6 +86,8 @@ class ReceiveDetails extends StatelessObserverWidget {
                     ),
                   ),
                 ],
+                if (fromPhoneNumber.isNotEmpty && senderName.isNotEmpty)
+                  const SpaceH12(),
               ],
             ),
           ),
