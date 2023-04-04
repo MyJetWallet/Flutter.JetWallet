@@ -61,13 +61,13 @@ class IbanDetails extends StatelessObserverWidget {
           ),
           // TODO uncomment when back will be ready
 
-          // const SpaceH18(),
-          // TransactionDetailsItem(
-          //   text: intl.transactionDetails_fromBankAccount,
-          //   value: TransactionDetailsValueText(
-          //     text: 'FR14 2004 1010 0505 0001 3M02 606',
-          //   ),
-          // ),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.transactionDetails_fromBankAccount,
+            value: TransactionDetailsValueText(
+              text: transactionListItem.depositInfo!.address ?? '',
+            ),
+          ),
           const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,

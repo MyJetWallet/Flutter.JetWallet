@@ -288,6 +288,8 @@ class DepositInfo with _$DepositInfo {
   const factory DepositInfo({
     String? txId,
     String? network,
+    String? address,
+    String? tag,
     required bool isInternal,
     required double depositAmount,
   }) = _DepositInfo;
