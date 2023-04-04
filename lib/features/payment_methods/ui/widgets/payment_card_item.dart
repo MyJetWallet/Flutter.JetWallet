@@ -128,12 +128,12 @@ class PaymentCardItem extends StatelessObserverWidget {
 
   Widget getNetworkIcon() {
     switch (network) {
-      case CircleCardNetwork.visa:
+      case CircleCardNetwork.VISA:
         return const SVisaCardIcon(
           width: 40,
           height: 25,
         );
-      case CircleCardNetwork.mastercard:
+      case CircleCardNetwork.MASTERCARD:
         return const SMasterCardIcon(
           width: 40,
           height: 25,

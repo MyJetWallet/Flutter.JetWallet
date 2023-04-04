@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
@@ -55,17 +57,17 @@ enum CircleCardVerificationError {
 }
 
 enum CircleCardNetwork {
-  visa,
-  mastercard,
+  VISA,
+  MASTERCARD,
   unsupported,
 }
 
 extension _CircleCardNetworkExtension on CircleCardNetwork {
   String get name {
     switch (this) {
-      case CircleCardNetwork.visa:
+      case CircleCardNetwork.VISA:
         return 'VISA';
-      case CircleCardNetwork.mastercard:
+      case CircleCardNetwork.MASTERCARD:
         return 'MASTERCARD';
       default:
         return 'unsupported';
@@ -82,9 +84,9 @@ class CircleCardNetworkSerialiser
     final value = json.toString();
 
     if (value == 'VISA') {
-      return CircleCardNetwork.visa;
+      return CircleCardNetwork.VISA;
     } else if (value == 'MASTERCARD') {
-      return CircleCardNetwork.mastercard;
+      return CircleCardNetwork.MASTERCARD;
     } else {
       return CircleCardNetwork.unsupported;
     }

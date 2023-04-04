@@ -442,13 +442,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 if (state.pickedUnlimintCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SActionDepositIcon(
-                      color: (state.limitByAsset?.barProgress == 100 ||
-                              isLimitBlock)
-                          ? colors.grey2
-                          : colors.black,
-                    ),
-                    name: '${state.pickedUnlimintCard!.network} '
+                    icon: getNetworkIcon(state.pickedUnlimintCard?.network),
+                    name:
+                        '${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
                         '${state.pickedUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock
@@ -477,13 +473,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 if (state.pickedAltUnlimintCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SActionDepositIcon(
-                      color: (state.limitByAsset?.barProgress == 100 ||
-                              isLimitBlock)
-                          ? colors.grey2
-                          : colors.black,
-                    ),
-                    name: '${state.pickedAltUnlimintCard!.network} '
+                    icon: getNetworkIcon(state.pickedAltUnlimintCard?.network),
+                    name:
                         '${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
                         '${state.pickedAltUnlimintCard!.last4}',
                     description: limitText,
@@ -762,5 +753,22 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
         ],
       ),
     );
+  }
+
+  Widget getNetworkIcon(CircleCardNetwork? network) {
+    switch (network) {
+      case CircleCardNetwork.VISA:
+        return const SVisaCardIcon(
+          width: 40,
+          height: 25,
+        );
+      case CircleCardNetwork.MASTERCARD:
+        return const SMasterCardIcon(
+          width: 40,
+          height: 25,
+        );
+      default:
+        return const SActionDepositIcon();
+    }
   }
 }

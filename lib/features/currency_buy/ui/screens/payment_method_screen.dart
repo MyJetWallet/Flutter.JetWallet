@@ -392,8 +392,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name:
-                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 1',
+                    name: formatted.last4Digits,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
@@ -440,8 +439,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name:
-                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 2',
+                    name: formatted.last4Digits,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
@@ -489,8 +487,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name:
-                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 3',
+                    name: formatted.last4Digits,
                     network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
