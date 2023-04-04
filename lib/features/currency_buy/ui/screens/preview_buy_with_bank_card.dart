@@ -165,7 +165,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         ? 'Apple Pay'
                         : input.isGooglePay
                             ? 'Google Pay'
-                            : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                            : '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
                                 ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
                                     (input.cardNumber?.length ?? 4) - 4,
                                   ) : ''}',

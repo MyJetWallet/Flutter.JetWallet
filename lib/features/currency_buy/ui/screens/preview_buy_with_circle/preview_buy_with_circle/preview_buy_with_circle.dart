@@ -62,9 +62,11 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       currencies,
       state.depositFeeAsset ?? '',
     );
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.circleCard,
-    ).toList();
+        )
+        .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
 
     final title =
@@ -130,7 +132,7 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            padding:  EdgeInsets.only(
+            padding: EdgeInsets.only(
               bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
                   ? 310.0
                   : 260.0,
@@ -181,7 +183,8 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_payFrom,
-                    value: '${state.card?.network} •••• ${state.card?.last4}',
+                    value:
+                        '${state.card?.network.name} •••• ${state.card?.last4}',
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_creditCardFee,
@@ -354,11 +357,10 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                 const SpaceH24(),
                 SPrimaryButton2(
                   active: !state.loader.loading &&
-                    !state.isPending &&
-                    (state.isChecked || hideCheckbox),
+                      !state.isPending &&
+                      (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-
                     state.onConfirm();
                   },
                 ),
