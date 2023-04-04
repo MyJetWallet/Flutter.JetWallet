@@ -59,7 +59,7 @@ class BuySimplexDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -67,7 +67,7 @@ class BuySimplexDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
@@ -79,21 +79,21 @@ class BuySimplexDetails extends StatelessObserverWidget {
               ),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.buySimplexDetails_payFrom,
             value: TransactionDetailsValueText(
               text: intl.curencyBuy_actionItemName,
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.fee,
             value: TransactionDetailsValueText(
               text: _feeValue(transactionListItem),
             ),
           ),
-          const SpaceH16(),
+          const SpaceH18(),
           TransactionDetailsStatus(status: transactionListItem.status),
           const SpaceH40(),
         ],

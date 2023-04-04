@@ -103,7 +103,7 @@ class RecurringBuyDetails extends StatelessWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -111,7 +111,7 @@ class RecurringBuyDetails extends StatelessWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
@@ -123,14 +123,14 @@ class RecurringBuyDetails extends StatelessWidget {
               ),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.fee,
             value: TransactionDetailsValueText(
               text: _feeValue(transactionListItem),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.recurringBuyDetails_rate,
             value: TransactionDetailsValueText(

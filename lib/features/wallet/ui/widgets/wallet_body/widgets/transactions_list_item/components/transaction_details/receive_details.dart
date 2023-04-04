@@ -54,7 +54,7 @@ class ReceiveDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -62,7 +62,7 @@ class ReceiveDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: '${intl.transaction} ${intl.from}',
             value: Column(
@@ -83,7 +83,7 @@ class ReceiveDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH10(),
+          const SpaceH14(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

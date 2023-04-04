@@ -63,7 +63,7 @@ class SellNftDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -71,14 +71,14 @@ class SellNftDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.fee,
             value: TransactionDetailsValueText(
               text: _feeValue(transactionListItem),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.buySellDetails_yourReceived,
             value: TransactionDetailsValueText(

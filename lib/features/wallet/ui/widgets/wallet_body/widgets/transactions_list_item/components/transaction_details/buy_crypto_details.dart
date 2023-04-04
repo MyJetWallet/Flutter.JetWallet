@@ -100,7 +100,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -108,7 +108,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.withText,
             value: TransactionDetailsValueText(
@@ -120,7 +120,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.previewConvert_exchangeRate,
             value: TransactionDetailsValueText(
@@ -128,7 +128,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             ),
           ),
           if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty) ...[
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.previewBuyWithCircle_payFrom,
               value: TransactionDetailsValueText(
@@ -137,7 +137,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.previewBuyWithCircle_bankCardFee,
             value: TransactionDetailsValueText(
@@ -149,7 +149,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.previewBuyWithCircle_transactionFee,
             value: TransactionDetailsValueText(
@@ -161,7 +161,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ),
-          const SpaceH16(),
+          const SpaceH18(),
           TransactionDetailsStatus(status: transactionListItem.status),
           const SpaceH40(),
         ],

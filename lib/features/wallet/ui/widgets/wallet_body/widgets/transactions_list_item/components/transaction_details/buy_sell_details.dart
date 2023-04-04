@@ -93,7 +93,7 @@ class BuySellDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -101,7 +101,7 @@ class BuySellDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           if (transactionListItem.operationType == OperationType.buy) ...[
             TransactionDetailsItem(
               text: intl.withText,
@@ -114,14 +114,14 @@ class BuySellDetails extends StatelessObserverWidget {
                 ),
               ),
             ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(buyCurrency, sellCurrency),
               ),
             ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.fee,
               value: TransactionDetailsValueText(
@@ -141,14 +141,14 @@ class BuySellDetails extends StatelessObserverWidget {
                 ),
               ),
             ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(sellCurrency, buyCurrency),
               ),
             ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.fee,
               value: TransactionDetailsValueText(

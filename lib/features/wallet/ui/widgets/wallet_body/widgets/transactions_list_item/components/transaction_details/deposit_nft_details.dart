@@ -48,7 +48,7 @@ class DepositNftDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -56,7 +56,7 @@ class DepositNftDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH16(),
+          const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

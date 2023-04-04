@@ -54,7 +54,7 @@ class DepositDetails extends StatelessObserverWidget {
             ),
           ],
           if (transactionListItem.depositInfo?.network != null) ...[
-            const SpaceH16(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.cryptoDeposit_network,
               value: TransactionDetailsValueText(
@@ -62,7 +62,7 @@ class DepositDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH16(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -70,7 +70,7 @@ class DepositDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH16(),
+          const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

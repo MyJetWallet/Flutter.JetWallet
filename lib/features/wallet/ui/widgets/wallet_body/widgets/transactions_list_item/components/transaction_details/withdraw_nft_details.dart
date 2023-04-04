@@ -70,7 +70,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                     },
                   ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: 'Txid',
             value: Row(
@@ -95,7 +95,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -103,7 +103,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             TransactionDetailsItem(
               text: intl.withdrawOptions_sendTo,
@@ -134,7 +134,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceH10(),
+            const SpaceH14(),
           ],
           TransactionDetailsStatus(
             status: transactionListItem.status,

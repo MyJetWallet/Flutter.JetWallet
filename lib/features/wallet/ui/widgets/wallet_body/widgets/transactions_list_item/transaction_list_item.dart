@@ -87,7 +87,7 @@ class TransactionListItem extends StatelessObserverWidget {
                           color: colors.black,
                         ),
                         if (transactionListItem.status == Status.declined) ...[
-                          const SpaceW6(),
+                          const SpaceW5(),
                           Column(
                             children: [
                               const SpaceH4(),
@@ -134,7 +134,7 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
                         color: transactionListItem.status == Status.declined
-                            ? colors.grey2 : colors.black,
+                            ? colors.grey1 : colors.black,
                         decoration: transactionListItem.status == Status.declined
                           ? TextDecoration.lineThrough : null,
                       ),

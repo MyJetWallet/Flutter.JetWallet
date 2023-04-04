@@ -65,7 +65,7 @@ class WithdrawDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH10(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -104,7 +104,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                 ),
               ],
             ),
-            const SpaceH10(),
+            const SpaceH18(),
           ],
           if (transactionListItem.withdrawalInfo!.network != null) ...[
             TransactionDetailsItem(
@@ -113,9 +113,9 @@ class WithdrawDetails extends StatelessObserverWidget {
                 text: transactionListItem.withdrawalInfo!.network ?? '',
               ),
             ),
-            const SpaceH10(),
+            const SpaceH18(),
           ],
-          const SpaceH10(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.fee,
             value: transactionListItem.withdrawalInfo!.isInternal

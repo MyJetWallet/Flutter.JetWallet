@@ -65,7 +65,7 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -73,7 +73,7 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_remaining_balance,
             value: Column(
@@ -109,7 +109,7 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_details_apy,
             value: TransactionDetailsValueText(
@@ -117,7 +117,7 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
             ),
           ),
           if (transactionListItem.earnInfo?.withdrawalReason == 'Auto') ...[
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.earn_details_reason,
               value: TransactionDetailsValueText(
@@ -125,13 +125,13 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
           const SpaceH40(),
           if (transactionListItem.status == Status.inProgress) ...[
-            const SpaceH14(),
+            const SpaceH18(),
             DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),

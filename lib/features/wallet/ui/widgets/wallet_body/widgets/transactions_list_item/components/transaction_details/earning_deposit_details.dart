@@ -62,7 +62,7 @@ class EarningDepositDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.date,
             value: TransactionDetailsValueText(
@@ -70,7 +70,7 @@ class EarningDepositDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_total_balance,
             value: Column(
@@ -105,14 +105,14 @@ class EarningDepositDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_details_apy,
             value: TransactionDetailsValueText(
               text: '${transactionListItem.earnInfo?.apy}%',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_details_subscription,
             value: TransactionDetailsValueText(
