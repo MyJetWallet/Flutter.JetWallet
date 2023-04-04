@@ -17,7 +17,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-
 class PaymentMethods extends StatelessWidget {
   const PaymentMethods({super.key});
 
@@ -133,6 +132,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                         for (final card in state.cards)
                           PaymentCardItem(
                             name: '${card.network} •••• ${card.last4}',
+                            network: card.network,
                             expirationDate:
                                 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),

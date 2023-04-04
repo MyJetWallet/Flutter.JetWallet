@@ -255,10 +255,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                     ),
                     child: Row(
                       children: [
-                        Image.asset(
-                          googlePayAsset,
-                          width: 48,
-                          height: 25.36,
+                        const SGooglePayIcon(
+                          width: 40,
+                          height: 28,
                         ),
                         const SizedBox(width: 17),
                         Padding(
@@ -277,8 +276,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                           PaymentMethodType.simplex,
@@ -301,8 +306,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 ),
               ] else if (method.id == PaymentMethodType.circleCard) ...[
                 SActionItem(
-                  icon: SActionDepositIcon(
-                    color: colors.blue,
+                  icon: SizedBox(
+                    width: 40,
+                    height: 25,
+                    child: Center(
+                      child: SActionDepositIcon(
+                        color: sKit.colors.blue,
+                      ),
+                    ),
                   ),
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
@@ -327,8 +338,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                               PaymentMethodType.unlimintCard &&
@@ -375,7 +392,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name:
+                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 1',
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -421,7 +440,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name:
+                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 2',
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -468,7 +489,9 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name:
+                        '${formatted.name} ${formatted.last4Digits} ${card.network.name} 3',
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -505,8 +528,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           ],
           if (isUnlimintCardEnabled)
             SCreditCardItem(
-              icon: SPlusIcon(
-                color: colors.blue,
+              icon: SizedBox(
+                width: 40,
+                height: 25,
+                child: Center(
+                  child: SPlusIcon(
+                    color: colors.blue,
+                  ),
+                ),
               ),
               name: intl.actionBuy_addACard,
               amount: '',

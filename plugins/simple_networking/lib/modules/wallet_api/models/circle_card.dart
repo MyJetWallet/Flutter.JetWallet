@@ -10,7 +10,7 @@ class CircleCard with _$CircleCard {
   const factory CircleCard({
     required String id,
     required String last4,
-    required String network,
+    @CircleCardNetworkSerialiser() required CircleCardNetwork network,
     required int expMonth,
     required int expYear,
     required CircleCardStatus status,
@@ -52,6 +52,46 @@ enum CircleCardVerificationError {
   cardCvvInvalid,
   @JsonValue(4)
   cardExpired,
+}
+
+enum CircleCardNetwork {
+  visa,
+  mastercard,
+  unsupported,
+}
+
+extension _CircleCardNetworkExtension on CircleCardNetwork {
+  String get name {
+    switch (this) {
+      case CircleCardNetwork.visa:
+        return 'VISA';
+      case CircleCardNetwork.mastercard:
+        return 'MASTERCARD';
+      default:
+        return 'unsupported';
+    }
+  }
+}
+
+class CircleCardNetworkSerialiser
+    implements JsonConverter<CircleCardNetwork, dynamic> {
+  const CircleCardNetworkSerialiser();
+
+  @override
+  CircleCardNetwork fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'VISA') {
+      return CircleCardNetwork.visa;
+    } else if (value == 'MASTERCARD') {
+      return CircleCardNetwork.mastercard;
+    } else {
+      return CircleCardNetwork.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(CircleCardNetwork type) => type.name;
 }
 
 @freezed

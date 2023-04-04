@@ -746,7 +746,13 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
         .push(
           SuccessScreenRouter(
             secondaryText: isGoogle
-                ? '${intl.successScreen_youBought} ' '${intl.paid_with_gpay}'
+                ? '${intl.successScreen_youBought} '
+                    '${volumeFormat(
+                    decimal: buyAmount ?? Decimal.zero,
+                    accuracy: input.currency.accuracy,
+                    symbol: input.currency.symbol,
+                  )}'
+                    '\n${intl.paid_with_gpay}'
                 : '${intl.successScreen_youBought} '
                     '${volumeFormat(
                     decimal: buyAmount ?? Decimal.zero,
