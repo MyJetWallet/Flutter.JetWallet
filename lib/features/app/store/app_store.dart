@@ -482,5 +482,7 @@ abstract class _AppStoreBase with Store {
 
     openPinVerification = false;
     homeOpened = false;
+
+    lastRoute = '';
   }
 }
