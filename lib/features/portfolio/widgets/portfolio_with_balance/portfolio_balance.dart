@@ -21,6 +21,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../utils/helpers/currencies_helpers.dart';
+import 'components/hide_zero.dart';
 
 class PortfolioBalance extends StatefulObserverWidget {
   const PortfolioBalance({super.key});
@@ -35,7 +36,6 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   DraggableScrollableController controller = DraggableScrollableController();
 
   bool lastStatus = true;
-  bool showAll = true;
   double _offset = 0;
 
   @override
@@ -225,60 +225,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                         const Spacer(),
                         SIconButton(
                           onTap: () {
-                            sShowBasicModalBottomSheet(
-                              context: context,
-                              then: (value) {},
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      intl.myAssets_settings,
-                                      style: sTextH5Style,
-                                    ),
-                                  ],
-                                ),
-                                const SpaceH51(),
-                                SPaddingH24(
-                                  child: Row(
-                                    children: [
-                                      SEyeOpenIcon(
-                                        color: colors.black,
-                                      ),
-                                      const SpaceW20(),
-                                      Expanded(
-                                        child: Text(
-                                          intl.myAssets_hideZero,
-                                          style: sSubtitle2Style,
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 40.0,
-                                        height: 22.0,
-                                        decoration: BoxDecoration(
-                                          color: !showAll
-                                            ? Colors.black
-                                            : Colors.grey,
-                                          borderRadius: BorderRadius.circular(12.0),
-                                        ),
-                                        child: Switch(
-                                          value: !showAll,
-                                          onChanged: (value) {
-                                            showAll = !value;
-                                            Navigator.pop(context);
-                                          },
-                                          activeColor: Colors.white,
-                                          activeTrackColor: Colors.black,
-                                          inactiveThumbColor: Colors.white,
-                                          inactiveTrackColor: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SpaceH75(),
-                              ],
-                            );
+                            showHideZero(context);
                           },
                           defaultIcon: const SSettingsIcon(),
                           pressedIcon: SSettingsIcon(
@@ -292,13 +239,13 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                   ListView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
-                    itemCount: showAll
+                    itemCount: getIt<AppStore>().showAllAssets
                         ? currenciesList.length
                         : itemsWithBalance.length,
                     //controller: sCon,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final actualItem = showAll
+                      final actualItem = getIt<AppStore>().showAllAssets
                           ? currenciesList[index] : itemsWithBalance[index];
 
                       return Observer(
@@ -350,7 +297,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                   ),
                                   removeDivider: actualItem ==
                                       (
-                                        showAll
+                                        getIt<AppStore>().showAllAssets
                                           ? currenciesList.last
                                           : itemsWithBalance.last
                                       ),

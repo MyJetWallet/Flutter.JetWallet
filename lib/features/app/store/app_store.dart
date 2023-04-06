@@ -105,11 +105,20 @@ abstract class _AppStoreBase with Store {
 
   @observable
   bool isBalanceHide = true;
+
+  @observable
+  bool showAllAssets = false;
+
   @action
   void setIsBalanceHide(bool value) {
     isBalanceHide = value;
 
     getIt<LocalCacheService>().saveBalanceHide(value);
+  }
+
+  @action
+  void setShowAllAssets(bool value) {
+    showAllAssets = value;
   }
 
   @action
