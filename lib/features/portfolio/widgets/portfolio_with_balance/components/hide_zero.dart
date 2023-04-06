@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -19,17 +21,35 @@ void showHideZero(BuildContext context) {
   );
 }
 
-class _showHideZero extends StatelessObserverWidget {
+class _showHideZero extends StatefulObserverWidget {
   const _showHideZero({
     Key? key,
     required this.appStore,
   }) : super(key: key);
 
   final AppStore appStore;
+  @override
+  _showHideZeroState createState() => _showHideZeroState();
+}
+
+class _showHideZeroState extends State<_showHideZero> {
+  bool hideAll = true;
+  bool canChange = true;
+
+  @override
+  void initState() {
+    super.initState();
+    hideAll = !widget.appStore.showAllAssets;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final state = appStore;
+    final state = widget.appStore;
     final colors = sKit.colors;
 
     return Column(
@@ -61,16 +81,31 @@ class _showHideZero extends StatelessObserverWidget {
                 width: 40.0,
                 height: 22.0,
                 decoration: BoxDecoration(
-                  color: !state.showAllAssets
+                  color: hideAll
                       ? Colors.black
                       : Colors.grey,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Switch(
-                  value: !state.showAllAssets,
+                  value: hideAll,
                   onChanged: (value) {
-                    state.setShowAllAssets(!value);
-                    Navigator.pop(context);
+                    if (canChange) {
+                      setState(() {
+                        hideAll = value;
+                        canChange = false;
+                      });
+                      state.setShowAllAssets(!value);
+
+                      Timer(
+                        const Duration(milliseconds: 400),
+                            () {
+                          setState(() {
+                            canChange = true;
+                          });
+                          Navigator.pop(context);
+                        },
+                      );
+                    }
                   },
                   activeColor: Colors.white,
                   activeTrackColor: Colors.black,
