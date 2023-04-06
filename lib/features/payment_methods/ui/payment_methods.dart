@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -133,7 +132,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       children: [
                         for (final card in state.cards)
                           PaymentCardItem(
-                            name: '${card.network} •••• ${card.last4}',
+                            name: '•••• ${card.last4}',
+                            network: card.network,
                             expirationDate:
                                 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),

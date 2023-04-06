@@ -193,9 +193,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     final storage = sLocalStorageService;
 
     storage.setString(checkedCircle, 'true');
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.circleCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyTapConfirm(
       sourceCurrency: input.currencyPayment.symbol,
       destinationCurrency: input.currency.symbol,
@@ -217,7 +219,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV '
             '${intl.previewBuyWithCircle_for} '
-            '${card?.network} •••• ${card?.last4}',
+            '${card?.network.name} •••• ${card?.last4}',
         onCompleted: (_cvv) {
           sRouter.pop();
           cvv = _cvv;
@@ -239,7 +241,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     await _requestPayment(() async {
       await _requestPaymentInfo(
         (url, onSuccess, paymentId) {
-
           sRouter.push(
             Circle3dSecureWebViewRouter(
               url: url,
@@ -442,9 +443,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuySuccessView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
@@ -494,9 +497,11 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyFailedView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
       errorCode: error,
@@ -545,7 +550,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           secondaryText: intl.previewBuyWithCircle_failureDescription,
           primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
           onPrimaryButtonTap: () {
-
             sRouter.navigate(
               AddCircleCardRouter(
                 onCardAdded: (card) {
@@ -558,7 +562,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           },
           secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
           onSecondaryButtonTap: () {
-
             sRouter.pop();
             sRouter.pop();
             sRouter.pop();

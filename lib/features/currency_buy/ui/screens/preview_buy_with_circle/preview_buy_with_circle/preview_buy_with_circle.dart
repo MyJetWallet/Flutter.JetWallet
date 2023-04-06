@@ -185,7 +185,8 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_payFrom,
-                    value: '${state.card?.network} •••• ${state.card?.last4}',
+                    value:
+                        '${state.card?.network.name} •••• ${state.card?.last4}',
                   ),
                   SActionConfirmText(
                     name: intl.previewBuyWithCircle_creditCardFee,
