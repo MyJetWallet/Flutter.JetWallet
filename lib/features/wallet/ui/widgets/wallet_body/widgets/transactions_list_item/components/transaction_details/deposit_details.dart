@@ -53,6 +53,14 @@ class DepositDetails extends StatelessObserverWidget {
               ),
             ),
           ],
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
           if (transactionListItem.depositInfo?.network != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(
@@ -62,14 +70,6 @@ class DepositDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
           const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,

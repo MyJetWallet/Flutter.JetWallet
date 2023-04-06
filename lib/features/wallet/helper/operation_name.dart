@@ -32,7 +32,7 @@ String operationName(
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
-      return intl.operationName_rewardPayment;
+      return intl.operationName_rewardReferral;
     case OperationType.simplexBuy:
       return intl.operationName_simplex;
     case OperationType.recurringBuy:

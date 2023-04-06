@@ -59,8 +59,6 @@ class IbanDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          // TODO uncomment when back will be ready
-
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.transactionDetails_fromBankAccount,

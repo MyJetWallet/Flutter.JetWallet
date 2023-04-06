@@ -73,6 +73,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
+          const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,9 +116,9 @@ class WithdrawDetails extends StatelessObserverWidget {
             ),
             const SpaceH18(),
           ],
-          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.fee,
+            fromStart: transactionListItem.withdrawalInfo!.isInternal,
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -132,6 +133,7 @@ class WithdrawDetails extends StatelessObserverWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                const SpaceH12(),
               ],
             )
                 : Builder(
@@ -155,6 +157,7 @@ class WithdrawDetails extends StatelessObserverWidget {
               },
             ),
           ),
+          const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

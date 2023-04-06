@@ -352,6 +352,7 @@
   "operationName_exchange": "Exchange",
   "operationName_exchangeTo": "to",
   "operationName_rewardPayment": "Referral program bonus",
+  "operationName_rewardReferral": "Referral reward",
   "operationName_simplex": "Simplex",
   "operationName_topped_up": "Topped up Earn",
   "operationName_subscribed_to_earn": "Subscribed to Earn",
