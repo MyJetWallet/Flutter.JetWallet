@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:signalr_netcore/ihub_protocol.dart';
 import 'package:signalr_netcore/signalr_client.dart';
-import 'package:logger/logger.dart';
+import 'package:logger/logger.dart' as lg;
+import 'package:logging/logging.dart' as logg;
 
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/config/options.dart';
@@ -43,7 +44,7 @@ class SignalRModuleNew {
 
   final bool isDebug;
   final Function({
-    required Level level,
+    required lg.Level level,
     required String message,
     required String place,
   }) log;
@@ -64,6 +65,8 @@ class SignalRModuleNew {
   /// Is Module Disconnecting
   bool isDisconnecting = false;
 
+  logg.Logger? _logger;
+
   //String? userToken;
   //void setUserToken(String value) {
   //  userToken = value;
@@ -72,8 +75,21 @@ class SignalRModuleNew {
   //}
 
   Future<void> init() async {
+    _logger = logg.Logger("SignalR");
+
+    logg.Logger.root.level = logg.Level.ALL;
+    logg.Logger.root.onRecord.listen((data) {
+      if (data.message.contains('sending data')) {
+        log(
+          level: lg.Level.warning,
+          place: _loggerValue,
+          message: 'SignalR $data',
+        );
+      }
+    });
+
     log(
-      level: Level.info,
+      level: lg.Level.info,
       place: _loggerValue,
       message:
           'SignalR Init \n isDisconnecting: $isDisconnecting Connection: ${_hubConnection?.state}',
@@ -94,7 +110,7 @@ class SignalRModuleNew {
 
     final httpOptions = HttpConnectionOptions(
       headers: defaultHeaders,
-      //logger: _logger,
+      logger: _logger,
     );
 
     _hubConnection = HubConnectionBuilder()
@@ -103,102 +119,18 @@ class SignalRModuleNew {
           options: httpOptions,
         )
         .withAutomaticReconnect()
-        //.configureLogging(_logger)
+        .configureLogging(_logger!)
         .build();
 
     //_hubConnection?.onclose(({error}) => _startReconnect());
 
-    ///
-
-    _hubConnection?.on(initFinished, handler.initFinishedHandler);
-
-    _hubConnection?.on(cardsMessage, handler.cardsMessageHandler);
-
-    _hubConnection?.on(cardLimitsMessage, handler.cardLimitsMessageHandler);
-
-    _hubConnection?.on(earnOffersMessage, handler.earnOffersMessageHandler);
-
-    _hubConnection?.on(recurringBuyMessage, handler.recurringBuyMessageHandler);
-
-    _hubConnection?.on(kycCountriesMessage, handler.kycCountriesMessageHandler);
-
-    _hubConnection?.on(marketInfoMessage, handler.marketInfoMessageHandler);
-
-    _hubConnection?.on(
-      campaignsBannersMessage,
-      handler.campaignsBannersMessageHandler,
-    );
-
-    _hubConnection?.on(
-      referralStatsMessage,
-      handler.referralStatsMessageHandler,
-    );
-
-    _hubConnection?.on(assetsMessage, handler.assetsMessageHandler);
-
-    _hubConnection?.on(balancesMessage, handler.balancesMessageHandler);
-
-    _hubConnection?.on(instrumentsMessage, handler.instrumentsMessageHandler);
-
-    _hubConnection?.on(blockchainsMessage, handler.blockchainsMessageHandler);
-
-    _hubConnection?.on(
-      marketReferenceMessage,
-      handler.marketReferenceMessageHandler,
-    );
-
-    _hubConnection?.on(basePricesMessage, handler.basePricesMessageHandler);
-
-    _hubConnection?.on(periodPricesMessage, handler.periodPricesMessageHandler);
-
-    _hubConnection?.on(clientDetailMessage, handler.clientDetailMessageHandler);
-
-    _hubConnection?.on(
-      assetWithdrawalFeeMessage,
-      handler.assetWithdrawalFeeMessageHandler,
-    );
-
-    _hubConnection?.on(keyValueMessage, handler.keyValueMessageHandler);
-
-    _hubConnection?.on(indicesMessage, handler.indicesMessageHandler);
-
-    _hubConnection?.on(
-      convertPriceSettingsMessage,
-      handler.convertPriceSettingsMessageHandler,
-    );
-
-    _hubConnection?.on(
-      paymentMethodsMessage,
-      handler.paymentMethodsMessageHandler,
-    );
-
-    _hubConnection?.on(
-      paymentMethodsNewMessage,
-      handler.paymentMethodsNewMessageHandler,
-    );
-
-    _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
-
-    _hubConnection?.on(
-      nftCollectionsMessage,
-      handler.nftCollectionsMessageHandler,
-    );
-
-    _hubConnection?.on(nftMarketMessage, handler.nftMarketMessageHandler);
-
-    _hubConnection?.on(nftPortfolioMessage, handler.nftPortfolioMessageHandler);
-
-    _hubConnection?.on(fireblocksMessages, handler.fireblocksMessagesHandler);
-
-    ///
-
-    _hubConnection?.on(pongMessage, pongMessageHandler);
+    setupMessageHandler();
 
     try {
       await _hubConnection?.start();
     } catch (e) {
       log(
-        level: Level.error,
+        level: lg.Level.error,
         place: _loggerValue,
         message: 'SignalR failed to start connection $e',
       );
@@ -211,7 +143,12 @@ class SignalRModuleNew {
       try {
         await _hubConnection?.invoke(
           initMessage,
-          args: [token, localeName, deviceUid, deviceType],
+          args: [
+            token,
+            localeName,
+            deviceUid,
+            deviceType,
+          ],
         );
       } catch (e) {
         handleError('invoke $e', e);
@@ -219,7 +156,7 @@ class SignalRModuleNew {
       }
     } else {
       log(
-        level: Level.error,
+        level: lg.Level.error,
         place: _loggerValue,
         message: 'SignalR error init ${_hubConnection?.state}',
       );
@@ -236,7 +173,7 @@ class SignalRModuleNew {
 
   void handleError(String msg, Object error) {
     log(
-      level: Level.error,
+      level: lg.Level.error,
       place: _loggerValue,
       message: msg,
     );
@@ -254,7 +191,7 @@ class SignalRModuleNew {
 
   void _startPing() {
     log(
-      level: Level.info,
+      level: lg.Level.info,
       place: _loggerValue,
       message: 'Start Ping \n Status: ${_hubConnection?.state}',
     );
@@ -267,7 +204,7 @@ class SignalRModuleNew {
             _hubConnection?.invoke(pingMessage);
           } catch (e) {
             log(
-              level: Level.error,
+              level: lg.Level.error,
               place: _loggerValue,
               message: 'Failed to start ping',
             );
@@ -290,7 +227,7 @@ class SignalRModuleNew {
       const Duration(seconds: _pingTime * 3),
       () {
         log(
-          level: Level.info,
+          level: lg.Level.info,
           place: _loggerValue,
           message: 'Start pong reconnect',
         );
@@ -316,7 +253,7 @@ class SignalRModuleNew {
     bool needRefreshToken = true,
   }) async {
     log(
-      level: Level.info,
+      level: lg.Level.info,
       place: _loggerValue,
       message: 'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
     );
@@ -346,7 +283,7 @@ class SignalRModuleNew {
 
   Future<void> disconnect() async {
     log(
-      level: Level.warning,
+      level: lg.Level.warning,
       place: _loggerValue,
       message: 'SignalR Disconnect',
     );
@@ -366,7 +303,7 @@ class SignalRModuleNew {
 
   Future<void> disableHandlerConnection() async {
     log(
-      level: Level.info,
+      level: lg.Level.info,
       place: _loggerValue,
       message: 'Disable Handler Connection',
     );
@@ -472,5 +409,91 @@ class SignalRModuleNew {
       method: handler.fireblocksMessagesHandler,
     );
     _hubConnection?.off(pongMessage, method: pongMessageHandler);
+  }
+
+  Future<void> setupMessageHandler() async {
+    _hubConnection?.on(initFinished, handler.initFinishedHandler);
+
+    _hubConnection?.on(cardsMessage, handler.cardsMessageHandler);
+
+    _hubConnection?.on(cardLimitsMessage, handler.cardLimitsMessageHandler);
+
+    _hubConnection?.on(earnOffersMessage, handler.earnOffersMessageHandler);
+
+    _hubConnection?.on(recurringBuyMessage, handler.recurringBuyMessageHandler);
+
+    _hubConnection?.on(kycCountriesMessage, handler.kycCountriesMessageHandler);
+
+    _hubConnection?.on(marketInfoMessage, handler.marketInfoMessageHandler);
+
+    _hubConnection?.on(
+      campaignsBannersMessage,
+      handler.campaignsBannersMessageHandler,
+    );
+
+    _hubConnection?.on(
+      referralStatsMessage,
+      handler.referralStatsMessageHandler,
+    );
+
+    _hubConnection?.on(assetsMessage, handler.assetsMessageHandler);
+
+    _hubConnection?.on(balancesMessage, handler.balancesMessageHandler);
+
+    _hubConnection?.on(instrumentsMessage, handler.instrumentsMessageHandler);
+
+    _hubConnection?.on(blockchainsMessage, handler.blockchainsMessageHandler);
+
+    _hubConnection?.on(
+      marketReferenceMessage,
+      handler.marketReferenceMessageHandler,
+    );
+
+    _hubConnection?.on(basePricesMessage, handler.basePricesMessageHandler);
+
+    _hubConnection?.on(periodPricesMessage, handler.periodPricesMessageHandler);
+
+    _hubConnection?.on(clientDetailMessage, handler.clientDetailMessageHandler);
+
+    _hubConnection?.on(
+      assetWithdrawalFeeMessage,
+      handler.assetWithdrawalFeeMessageHandler,
+    );
+
+    _hubConnection?.on(keyValueMessage, handler.keyValueMessageHandler);
+
+    _hubConnection?.on(indicesMessage, handler.indicesMessageHandler);
+
+    _hubConnection?.on(
+      convertPriceSettingsMessage,
+      handler.convertPriceSettingsMessageHandler,
+    );
+
+    _hubConnection?.on(
+      paymentMethodsMessage,
+      handler.paymentMethodsMessageHandler,
+    );
+
+    _hubConnection?.on(
+      paymentMethodsNewMessage,
+      handler.paymentMethodsNewMessageHandler,
+    );
+
+    _hubConnection?.on(referralInfoMessage, handler.referralInfoMessageHandler);
+
+    _hubConnection?.on(
+      nftCollectionsMessage,
+      handler.nftCollectionsMessageHandler,
+    );
+
+    _hubConnection?.on(nftMarketMessage, handler.nftMarketMessageHandler);
+
+    _hubConnection?.on(nftPortfolioMessage, handler.nftPortfolioMessageHandler);
+
+    _hubConnection?.on(fireblocksMessages, handler.fireblocksMessagesHandler);
+
+    ///
+
+    _hubConnection?.on(pongMessage, pongMessageHandler);
   }
 }
