@@ -15,6 +15,7 @@ class CircleCard with _$CircleCard {
     required int expYear,
     required CircleCardStatus status,
     IntegrationType? integration,
+    @Default(false) bool showUaAlert,
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
   }) = _CircleCard;

@@ -456,6 +456,8 @@
   "currencyBuy_choosePaymentMethod": "Choose payment method",
   "currencyBuy_addBankCard": "Add bank card",
   "currencyBuy_card": "Card",
+  "currencyBuy_alert": "Unsupported Currency",
+  "currencyBuy_alertDescription": "Please be aware that we only support USD and EUR cards for crypto purchases. Purchases with cards, nominated in other currencies, will be rejected",
   "previewBuyWithCircle_enter": "Enter",
   "previewBuyWithCircle_for": "for",
   "previewBuyWithCircle_cvvDescription": "This is used for card verification",

@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
@@ -32,7 +33,9 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_kit/modules/keyboards/simple_numeric_keyboard_amount.dart';
+import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/utils/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -44,6 +47,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../utils/formatting/base/base_currencies_format.dart';
 
 part 'currency_buy_store.g.dart';
@@ -94,6 +98,34 @@ abstract class _CurrencyBuyStoreBase with Store {
     _initCurrencies();
     _initBaseCurrency();
     _initCardLimit();
+    Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if (
+          (bankCard != null && bankCard!.showUaAlert) ||
+          (unlimintCard != null && unlimintCard!.showUaAlert) ||
+          (circleCard != null && circleCard!.showUaAlert) || true
+        ) {
+          sShowAlertPopup(
+            sRouter.navigatorKey.currentContext!,
+            willPopScope: true,
+            primaryText: intl.currencyBuy_alert,
+            secondaryText: intl.currencyBuy_alertDescription,
+            primaryButtonName: intl.actionBuy_gotIt,
+            image: Image.asset(
+              phoneChangeAsset,
+              width: 80,
+              height: 80,
+              package: 'simple_kit',
+            ),
+            onPrimaryButtonTap: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+            },
+          );
+        }
+      },
+    );
+
   }
 
   late final CurrencyModel currencyModel;
