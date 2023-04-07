@@ -155,7 +155,7 @@ class SignalRModuleNew {
     }
 
     isSignalRRestarted = false;
-    isDisconnecting = true;
+    isDisconnecting = false;
   }
 
   Future<void> sendInitMessage(String from) async {
