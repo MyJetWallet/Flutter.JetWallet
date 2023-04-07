@@ -104,7 +104,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         if (
           (bankCard != null && bankCard!.showUaAlert) ||
           (unlimintCard != null && unlimintCard!.showUaAlert) ||
-          (circleCard != null && circleCard!.showUaAlert) || true
+          (circleCard != null && circleCard!.showUaAlert)
         ) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
