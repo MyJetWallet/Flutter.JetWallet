@@ -295,6 +295,7 @@
   "createBanners_bannerText1": "In accordance with KYC and AML Policy, you are required to pass the verification process.",
   "createBanners_bannerText2": "You'll be notified when we complete the process. Usually within a few hours",
   "createBanners_header2": "Verifying now",
+  "createBanners_headerBlocked": "Blocked account",
   "createBanners_enable2Factor": "Enable 2-Factor",
   "createBanners_bannerText3": "To protect your account, it is recommended to turn on",
   "createBanners_bannerText4Part1": "Have any questions",

@@ -91,10 +91,7 @@ class _AccountBannerListState extends State<AccountBannerList> {
   }
 
   double _bannerHeight() {
-    return (widget.verificationInProgress || !widget.kycPassed) &&
-            !widget.kycBlocked
-        ? 171
-        : 129;
+    return 56;
   }
 
   Future<List<Widget>> downloadData(
