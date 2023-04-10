@@ -32,7 +32,6 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
 import '../../payment_methods/ui/widgets/card_limits_bottom_sheet.dart';
-import 'screens/apple_pay_select.dart';
 
 class CurrencyBuy extends StatelessWidget {
   const CurrencyBuy({
@@ -142,9 +141,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
         state.selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
             state.selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
             state.selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-            state.selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-            state.selectedPaymentMethod?.id == PaymentMethodType.applePay ||
-            state.selectedPaymentMethod?.id == PaymentMethodType.googlePay;
+            state.selectedPaymentMethod?.id == PaymentMethodType.bankCard;
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -388,40 +385,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                   ],
                 )
               else if (state.selectedPaymentMethod?.id ==
-                  PaymentMethodType.applePay)
-                SPaymentSelectCreditCard(
-                  isApplePay: true,
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  icon: SActionDepositIcon(
-                    color:
-                        (state.limitByAsset?.barProgress == 100 || isLimitBlock)
-                            ? colors.grey2
-                            : colors.black,
-                  ),
-                  name: 'Apple pay',
-                  description: limitText,
-                  limit:
-                      isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
-                  onTap: () => showLimits(),
-                )
-              else if (state.selectedPaymentMethod?.id ==
-                  PaymentMethodType.googlePay)
-                SPaymentSelectCreditCard(
-                  isGooglePay: true,
-                  widgetSize: widgetSizeFrom(deviceSize),
-                  icon: SActionDepositIcon(
-                    color:
-                        (state.limitByAsset?.barProgress == 100 || isLimitBlock)
-                            ? colors.grey2
-                            : colors.black,
-                  ),
-                  name: 'Google pay',
-                  description: limitText,
-                  limit:
-                      isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
-                  onTap: () => showLimits(),
-                )
-              else if (state.selectedPaymentMethod?.id ==
                   PaymentMethodType.simplex)
                 SPaymentSelectCreditCard(
                   widgetSize: widgetSizeFrom(deviceSize),
@@ -623,34 +586,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () async {
                   if (state.selectedPaymentMethod?.id ==
-                      PaymentMethodType.applePay) {
-                    await sRouter.push(
-                      PreviewBuyWithBankCardRouter(
-                        input: PreviewBuyWithBankCardInput(
-                          amount: state.inputValue,
-                          currency: widget.currency,
-                          currencyPayment:
-                              state.paymentCurrency ?? widget.currency,
-                          isApplePay: true,
-                          quickAmount: state.tappedPreset ?? 'false',
-                        ),
-                      ),
-                    );
-                  } else if (state.selectedPaymentMethod?.id ==
-                      PaymentMethodType.googlePay) {
-                    await sRouter.push(
-                      PreviewBuyWithBankCardRouter(
-                        input: PreviewBuyWithBankCardInput(
-                          amount: state.inputValue,
-                          currency: widget.currency,
-                          currencyPayment:
-                              state.paymentCurrency ?? widget.currency,
-                          isGooglePay: true,
-                          quickAmount: state.tappedPreset ?? 'false',
-                        ),
-                      ),
-                    );
-                  } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.simplex) {
                     state.disableSubmit = true;
                     state.loader.startLoading();
