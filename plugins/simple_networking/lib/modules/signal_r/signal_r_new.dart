@@ -205,7 +205,7 @@ class SignalRModuleNew {
     );
 
     if (msg == 'startconnection') {
-      unawaited(disconnect('handleError'));
+      unawaited(reconnectSignalR());
     }
     //showEror(error.toString());
   }
