@@ -242,7 +242,7 @@ class SignalRModuleNew {
     );
 
     if (msg == 'startconnection') {
-      unawaited(disconnect());
+      unawaited(reconnectSignalR());
     }
     //showEror(error.toString());
   }
@@ -371,8 +371,14 @@ class SignalRModuleNew {
       message: 'Disable Handler Connection',
     );
 
-    _hubConnection?.off(initFinished, method: handler.initFinishedHandler);
-    _hubConnection?.off(cardsMessage, method: handler.cardsMessageHandler);
+    _hubConnection?.off(
+      initFinished,
+      method: handler.initFinishedHandler,
+    );
+    _hubConnection?.off(
+      cardsMessage,
+      method: handler.cardsMessageHandler,
+    );
     _hubConnection?.off(
       cardLimitsMessage,
       method: handler.cardLimitsMessageHandler,
@@ -401,7 +407,10 @@ class SignalRModuleNew {
       referralStatsMessage,
       method: handler.referralStatsMessageHandler,
     );
-    _hubConnection?.off(assetsMessage, method: handler.assetsMessageHandler);
+    _hubConnection?.off(
+      assetsMessage,
+      method: handler.assetsMessageHandler,
+    );
     _hubConnection?.off(
       balancesMessage,
       method: handler.balancesMessageHandler,
@@ -438,7 +447,10 @@ class SignalRModuleNew {
       keyValueMessage,
       method: handler.keyValueMessageHandler,
     );
-    _hubConnection?.off(indicesMessage, method: handler.indicesMessageHandler);
+    _hubConnection?.off(
+      indicesMessage,
+      method: handler.indicesMessageHandler,
+    );
     _hubConnection?.off(
       convertPriceSettingsMessage,
       method: handler.convertPriceSettingsMessageHandler,
@@ -471,6 +483,9 @@ class SignalRModuleNew {
       fireblocksMessages,
       method: handler.fireblocksMessagesHandler,
     );
-    _hubConnection?.off(pongMessage, method: pongMessageHandler);
+    _hubConnection?.off(
+      pongMessage,
+      method: pongMessageHandler,
+    );
   }
 }
