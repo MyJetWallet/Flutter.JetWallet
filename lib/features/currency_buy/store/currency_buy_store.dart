@@ -334,29 +334,8 @@ abstract class _CurrencyBuyStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    final isApplePayCanUse = currencyModel.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.applePay,
-        )
-        .toList();
 
-    final isGooglePayCanUse = currencyModel.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.googlePay,
-        )
-        .toList();
-
-    if (paymentMethod == PaymentMethodType.applePay &&
-        isApplePayCanUse.isNotEmpty) {
-      updateSelectedPaymentMethod(
-        isApplePayCanUse[0],
-      );
-    } else if (paymentMethod == PaymentMethodType.googlePay &&
-        isGooglePayCanUse.isNotEmpty) {
-      updateSelectedPaymentMethod(
-        isGooglePayCanUse[0],
-      );
-    } else if (paymentMethod == PaymentMethodType.simplex &&
+    if (paymentMethod == PaymentMethodType.simplex &&
         isSimplexCanUse.isNotEmpty) {
       updateSelectedPaymentMethod(
         isSimplexCanUse[0],
@@ -592,9 +571,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     if (method?.id == PaymentMethodType.simplex ||
         method?.id == PaymentMethodType.circleCard ||
         method?.id == PaymentMethodType.unlimintCard ||
-        method?.id == PaymentMethodType.bankCard ||
-        method?.id == PaymentMethodType.applePay ||
-        method?.id == PaymentMethodType.googlePay) {
+        method?.id == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -963,9 +940,7 @@ abstract class _CurrencyBuyStoreBase with Store {
       if (selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
           selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
           selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-          selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-          selectedPaymentMethod?.id == PaymentMethodType.applePay ||
-          selectedPaymentMethod?.id == PaymentMethodType.googlePay) {
+          selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
         if (limitByAsset != null) {
@@ -987,9 +962,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         }
         if (selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
             selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-            selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-            selectedPaymentMethod?.id == PaymentMethodType.applePay ||
-            selectedPaymentMethod?.id == PaymentMethodType.googlePay) {
+            selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
