@@ -56,7 +56,6 @@ dependencies:
   http_proxy: ^1.2.1
   animated_list_plus: 0.5.0
   scrolls_to_top: 2.0.0
-  pay: ^1.1.0
   flutter_idensic_mobile_sdk_plugin: ^1.23.0
 
   # RESPONSIVE UI
