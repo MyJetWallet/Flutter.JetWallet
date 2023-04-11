@@ -10,8 +10,8 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class TransferDetails extends StatelessObserverWidget {
-  const TransferDetails({
+class ReferralDetails extends StatelessObserverWidget {
+  const ReferralDetails({
     Key? key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -23,11 +23,6 @@ class TransferDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final receiverName =
-        transactionListItem.transferByPhoneInfo!.receiverName ?? '';
-
-    final toPhone =
-        transactionListItem.transferByPhoneInfo?.toPhoneNumber ?? '';
 
     return SPaddingH24(
       child: Column(
@@ -65,28 +60,10 @@ class TransferDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.to1,
-            value: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TransactionDetailsValueText(
-                  text: toPhone,
-                ),
-                if (receiverName.isNotEmpty) ...[
-                  Text(
-                    receiverName,
-                    style: sBodyText2Style.copyWith(color: colors.grey1),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          const SpaceH14(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
-          const SpaceH40(),
+          const SpaceH42(),
         ],
       ),
     );
