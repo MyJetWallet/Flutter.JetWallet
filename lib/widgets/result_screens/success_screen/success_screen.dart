@@ -25,6 +25,7 @@ class SuccessScreen extends StatelessWidget {
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
+    this.showPrimaryButton = false,
     this.buttonText,
     this.time = 3,
   }) : super(key: key);
@@ -40,6 +41,7 @@ class SuccessScreen extends StatelessWidget {
   final bool showProgressBar;
   final bool showActionButton;
   final bool showShareButton;
+  final bool showPrimaryButton;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class SuccessScreen extends StatelessWidget {
         showProgressBar: showProgressBar,
         showActionButton: showActionButton,
         showShareButton: showShareButton,
+        showPrimaryButton: showPrimaryButton,
       ),
     );
   }
@@ -73,6 +76,7 @@ class _SuccessScreenBody extends StatefulWidget {
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
+    this.showPrimaryButton = false,
     this.buttonText,
     this.time = 3,
   });
@@ -88,6 +92,7 @@ class _SuccessScreenBody extends StatefulWidget {
   final bool showProgressBar;
   final bool showActionButton;
   final bool showShareButton;
+  final bool showPrimaryButton;
 
   @override
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
@@ -100,7 +105,9 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
-    final showBottomSpace = widget.showProgressBar || widget.showActionButton;
+    final showBottomSpace = widget.showProgressBar ||
+      widget.showActionButton ||
+      widget.showPrimaryButton;
 
     return ReactionBuilder(
       builder: (context) {
@@ -216,7 +223,19 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                                 widget.onActionButton?.call();
                               },
                             ),
-                          if (showBottomSpace) const SpaceH24(),
+                          if (widget.showPrimaryButton)
+                            SPrimaryButton2(
+                              active: true,
+                              name: intl.cardVerification_close,
+                              onTap: () {
+                                setState(() {
+                                  shouldPop = false;
+                                });
+
+                                widget.onActionButton?.call();
+                              },
+                            ),
+                          if (showBottomSpace) const SpaceH42(),
                         ],
                       ),
                     ],

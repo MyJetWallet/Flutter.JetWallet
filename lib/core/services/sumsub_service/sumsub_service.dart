@@ -6,11 +6,18 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:logger/logger.dart';
 
+import '../../../features/kyc/choose_documents/store/kyc_country_store.dart';
+import '../../../utils/helpers/navigate_to_router.dart';
+import '../../router/app_router.dart';
+
 const String _loggerService = 'SumsubService';
 
 class SumsubService {
   Future<String?> getSDKToken() async {
-    final request = await sNetwork.getWalletModule().postSDKToken();
+    final countries = getIt.get<KycCountryStore>();
+    final request = await sNetwork.getWalletModule().postSDKToken(
+      countries.activeCountry!.countryCode,
+    );
 
     if (request.hasError) {
       getIt.get<SimpleLoggerService>().log(
@@ -31,8 +38,27 @@ class SumsubService {
         );
 
     onStatusChanged(
-        SNSMobileSDKStatus newStatus, SNSMobileSDKStatus prevStatus) {
+      SNSMobileSDKStatus newStatus,
+      SNSMobileSDKStatus prevStatus,
+    ) {
       print('The SDK status was changed: $prevStatus -> $newStatus');
+    }
+    onActionResult(SNSMobileSDKActionResult result) {
+      print("onActionResult: $result");
+
+      sRouter.push(
+        SuccessScreenRouter(
+          primaryText: intl.kycChooseDocuments_verifyingNow,
+          secondaryText: intl.kycChooseDocuments_willBeNotified,
+          showPrimaryButton: true,
+          buttonText: intl.previewBuyWithUmlimint_close,
+          onActionButton: () async {
+            navigateToRouter();
+          },
+        ),
+      );
+
+      return Future.value(SNSActionResultHandlerReaction.Continue);
     }
 
     final initToken = await getSDKToken();
@@ -42,6 +68,7 @@ class SumsubService {
     final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
         .withHandlers(
           onStatusChanged: onStatusChanged,
+          onActionResult: onActionResult,
         )
         .withDebug(true)
         .withLocale(

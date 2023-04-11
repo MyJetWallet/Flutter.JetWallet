@@ -794,6 +794,7 @@ abstract class _$AppRouter extends RootStackRouter {
           showActionButton: args.showActionButton,
           showProgressBar: args.showProgressBar,
           showShareButton: args.showShareButton,
+          showPrimaryButton: args.showPrimaryButton,
           buttonText: args.buttonText,
           time: args.time,
         ),
@@ -828,6 +829,22 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           link: args.link,
           title: args.title,
+        ),
+      );
+    },
+    KycVerificationSumsubRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const KycVerificationSumsub(),
+      );
+    },
+    KycVerificationRouter.name: (routeData) {
+      final args = routeData.argsAs<KycVerificationRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: KycVerification(
+          key: args.key,
+          requiredVerifications: args.requiredVerifications,
         ),
       );
     },
@@ -3534,6 +3551,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
     bool showActionButton = false,
     bool showProgressBar = false,
     bool showShareButton = false,
+    bool showPrimaryButton = false,
     String? buttonText,
     int time = 3,
     List<PageRouteInfo>? children,
@@ -3549,6 +3567,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
             showActionButton: showActionButton,
             showProgressBar: showProgressBar,
             showShareButton: showShareButton,
+            showPrimaryButton: showPrimaryButton,
             buttonText: buttonText,
             time: time,
           ),
@@ -3572,6 +3591,7 @@ class SuccessScreenRouterArgs {
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
+    this.showPrimaryButton = false,
     this.buttonText,
     this.time = 3,
   });
@@ -3594,13 +3614,15 @@ class SuccessScreenRouterArgs {
 
   final bool showShareButton;
 
+  final bool showPrimaryButton;
+
   final String? buttonText;
 
   final int time;
 
   @override
   String toString() {
-    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, buttonText: $buttonText, time: $time}';
+    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, showPrimaryButton: $showPrimaryButton, buttonText: $buttonText, time: $time}';
   }
 }
 
@@ -3726,5 +3748,57 @@ class InfoWebViewRouterArgs {
   @override
   String toString() {
     return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
+  }
+}
+
+/// generated route for
+/// [KycVerificationSumsub]
+class KycVerificationSumsubRouter extends PageRouteInfo<void> {
+  const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
+      : super(
+          KycVerificationSumsubRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationSumsubRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [KycVerification]
+class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
+  KycVerificationRouter({
+    Key? key,
+    required List<RequiredVerified> requiredVerifications,
+    List<PageRouteInfo>? children,
+  }) : super(
+          KycVerificationRouter.name,
+          args: KycVerificationRouterArgs(
+            key: key,
+            requiredVerifications: requiredVerifications,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationRouter';
+
+  static const PageInfo<KycVerificationRouterArgs> page =
+      PageInfo<KycVerificationRouterArgs>(name);
+}
+
+class KycVerificationRouterArgs {
+  const KycVerificationRouterArgs({
+    this.key,
+    required this.requiredVerifications,
+  });
+
+  final Key? key;
+
+  final List<RequiredVerified> requiredVerifications;
+
+  @override
+  String toString() {
+    return 'KycVerificationRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
   }
 }
