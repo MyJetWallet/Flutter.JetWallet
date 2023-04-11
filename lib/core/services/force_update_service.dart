@@ -25,8 +25,6 @@ class ForceServiceUpdate {
     final minimum = compareVersions(minimumVersion, _info.version);
     final recommended = compareVersions(recommendedVersion, _info.version);
 
-    return false;
-
     if (minimum == VersionStatus.greater) {
       await Future.delayed(const Duration(microseconds: 1));
 

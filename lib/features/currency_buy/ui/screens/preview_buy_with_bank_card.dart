@@ -167,7 +167,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         ? 'Apple Pay'
                         : input.isGooglePay
                             ? 'Google Pay'
-                            : '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+                            : '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
                                 ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
                                     (input.cardNumber?.length ?? 4) - 4,
                                   ) : ''}',
@@ -351,113 +351,14 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                   ],
                 ),
                 const SpaceH24(),
-                if (!input.isApplePay && !input.isGooglePay) ...[
-                  SPrimaryButton2(
-                    active: !state.loader.loading &&
-                        (state.isChecked || hideCheckbox),
-                    name: intl.previewBuyWithAsset_confirm,
-                    onTap: () {
-                      state.onConfirm();
-                    },
-                  ),
-                ] else if (input.isApplePay) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: ApplePayButton(
-                      paymentConfiguration: PaymentConfiguration.fromJsonString(
-                        jsonEncode(
-                          ApplePayConfig(
-                            provider: 'apple_pay',
-                            data: ApplePayConfigData(
-                              merchantIdentifier: 'merchant.app.simple.com',
-                              displayName: displayName,
-                              merchantCapabilities: merchantCapabilities,
-                              supportedNetworks: supportedNetworks,
-                              countryCode: countryCode,
-                              currencyCode: input.currencyPayment.symbol,
-                              requiredBillingContactFields: null,
-                              requiredShippingContactFields: null,
-                            ),
-                          ),
-                        ),
-                      ),
-                      height: 56,
-                      width: double.infinity,
-                      paymentItems: [
-                        PaymentItem(
-                          label: 'Simple.app',
-                          amount: state.amountToPay!.toString(),
-                          status: PaymentItemStatus.final_price,
-                        ),
-                      ],
-                      style: ApplePayButtonStyle.black,
-                      type: ApplePayButtonType.inStore,
-                      onPaymentResult: (paymentResult) =>
-                          state.requestApplePay(paymentResult),
-                      loadingIndicator: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  ),
-                ] else if (input.isGooglePay) ...[
-                  GooglePayButton(
-                    paymentConfiguration: PaymentConfiguration.fromJsonString(
-                      jsonEncode(
-                        GooglePayConfig(
-                          provider: 'google_pay',
-                          data: GooglePayConfigData(
-                            environment: 'TEST',
-                            apiVersion: 2,
-                            apiVersionMinor: 0,
-                            allowedPaymentMethods: [
-                              GooglePayConfigAllowedPaymentMethod(
-                                type: 'CARD',
-                                tokenizationSpecification:
-                                    GooglePayConfigTokenizationSpec(
-                                  type: 'PAYMENT_GATEWAY',
-                                  parameters: GooglePayConfigTokenSpecP(
-                                    gateway: 'unlimint',
-                                    gatewayMerchantId: 'googletest',
-                                  ),
-                                ),
-                                parameters: GooglePayConfigParameters(
-                                  allowedAuthMethods: [
-                                    'PAN_ONLY',
-                                    'CRYPTOGRAM_3DS'
-                                  ],
-                                  allowedCardNetworks: ['VISA', 'MASTERCARD'],
-                                ),
-                              ),
-                            ],
-                            merchantInfo: GooglePayConfigMerchantInfo(
-                              merchantId: 'googletest',
-                              merchantName: 'Test',
-                            ),
-                            transactionInfo: GooglePayConfigTransactionInfo(
-                              countryCode: countryCode,
-                              currencyCode: input.currencyPayment.symbol,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    paymentItems: [
-                      PaymentItem(
-                        label: 'Simple.app',
-                        amount: state.amountToPay!.toString(),
-                        status: PaymentItemStatus.final_price,
-                      ),
-                    ],
-                    height: 56,
-                    width: double.infinity,
-                    type: GooglePayButtonType.pay,
-                    onPaymentResult: (paymentResult) =>
-                        state.requestGooglePay(paymentResult),
-                    loadingIndicator: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ],
+                SPrimaryButton2(
+                  active: !state.loader.loading &&
+                      (state.isChecked || hideCheckbox),
+                  name: intl.previewBuyWithAsset_confirm,
+                  onTap: () {
+                    state.onConfirm();
+                  },
+                ),
               ],
             ),
           ),

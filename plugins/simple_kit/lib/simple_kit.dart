@@ -247,6 +247,9 @@ export 'modules/icons/56x56/public/portfolio/simple_portfolio_active_icon.dart';
 export 'modules/icons/56x56/public/portfolio/simple_portfolio_default_icon.dart';
 export 'modules/icons/56x56/public/profile/simple_profile_active_icon.dart';
 export 'modules/icons/56x56/public/profile/simple_profile_default_icon.dart';
+export 'modules/icons/custom/public/cards/simple_visa_card_icon.dart';
+export 'modules/icons/custom/public/cards/simple_mastercard_icon.dart';
+export 'modules/icons/custom/public/cards/simple_google_pay_icon.dart';
 
 /// Keyboards
 export 'modules/keyboards/constants.dart';

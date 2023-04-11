@@ -1319,5 +1319,6 @@
   "pin_code": "PIN code",
   "pin_code_descr": "Secure PIN for your Simple wallet",
   "create_pin_code": "Create PIN",
-  "phone_update_block": "Phone update is suspended until"
+  "phone_update_block": "Phone update is suspended until",
+  "paid_with_gpay": "Paid with Google Pay"
 }

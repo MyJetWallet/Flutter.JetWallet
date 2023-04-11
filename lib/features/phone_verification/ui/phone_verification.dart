@@ -180,27 +180,23 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 });
               },
               child: AbsorbPointer(
-                child: Observer(
-                  builder: (context) {
-                    return PinCodeField(
-                      focusNode: store.focusNode,
-                      length: codeLength,
-                      controller: store.controller,
-                      autoFocus: true,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      onCompleted: (_) {
-                        if (args.sendCodeOnInitState) {
-                          store.verifyFullCode();
-                        } else {
-                          store.verifyCode();
-                        }
-                      },
-                      onChanged: (_) {
-                        store.pinFieldError.disableError();
-                      },
-                      pinError: store.pinFieldError,
-                    );
+                child: PinCodeField(
+                  focusNode: store.focusNode,
+                  length: codeLength,
+                  controller: store.controller,
+                  autoFocus: true,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  onCompleted: (_) {
+                    if (args.sendCodeOnInitState) {
+                      store.verifyFullCode();
+                    } else {
+                      store.verifyCode();
+                    }
                   },
+                  onChanged: (_) {
+                    store.pinFieldError.disableError();
+                  },
+                  pinError: store.pinFieldError,
                 ),
               ),
             ),
