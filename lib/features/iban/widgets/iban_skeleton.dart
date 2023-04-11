@@ -24,42 +24,57 @@ class IBanSkeleton extends StatelessObserverWidget {
         children: [
           const SpaceH30(),
           SPaddingH24(
-            child: SSkeletonTextLoader(
-              height: 128,
-              width: MediaQuery.of(context).size.width - 48,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.grey5,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 24,
+                ),
+                child: Row(
+                  children: [
+                    const SSkeletonTextLoader(
+                      height: 80,
+                      width: 80,
+                      borderRadius: BorderRadius.all(Radius.circular(80)),
+                    ),
+                    const SpaceW20(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SSkeletonTextLoader(
+                          height: 16,
+                          width: 80,
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        const SpaceH16(),
+                        SSkeletonTextLoader(
+                          height: 12,
+                          width: MediaQuery.of(context).size.width - 188,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(4),
+                          ),
+                        ),
+                        const SpaceH8(),
+                        const SSkeletonTextLoader(
+                          height: 12,
+                          width: 120,
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          const SpaceH16(),
-          IBanItemSkeleton(
-            name: intl.iban_benificiary,
-          ),
-          IBanItemSkeleton(
-            name: intl.iban_iban,
-          ),
-          IBanItemSkeleton(
-            name: intl.iban_bic,
-          ),
-          const SpaceH20(),
-
-          SPaddingH24(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SInfoIcon(
-                  color: colors.black,
-                ),
-                const SpaceW16(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 88,
-                  child: Text(
-                    intl.iban_terms,
-                    style: sBodyText2Style,
-                    maxLines: 5,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          const SpaceH33(),
+          const IBanItemSkeleton(),
+          const IBanItemSkeleton(),
+          const IBanItemSkeleton(),
           const SpaceH42(),
         ],
       ),

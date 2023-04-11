@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
@@ -48,6 +49,12 @@ abstract class _ActionSearchStoreBase with Store {
 
   @observable
   String searchValue = '';
+
+  @observable
+  bool showCrypto = true;
+
+  @observable
+  TextEditingController searchController = TextEditingController();
 
   @action
   void init() {
@@ -181,8 +188,8 @@ abstract class _ActionSearchStoreBase with Store {
 
   @action
   void searchMarket(
-    String value,
-  ) {
+      String value,
+      ) {
     searchValue = value;
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();
@@ -198,5 +205,12 @@ abstract class _ActionSearchStoreBase with Store {
       final _currencies = List<MarketItemModel>.from(marketCurrencies);
       filteredMarketCurrencies = ObservableList.of(_currencies);
     }
+  }
+
+  @action
+  void updateShowCrypto(
+    bool value,
+  ) {
+    showCrypto = value;
   }
 }

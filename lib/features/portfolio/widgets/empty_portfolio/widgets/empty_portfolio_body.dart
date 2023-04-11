@@ -86,7 +86,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
           ),
           const Spacer(),
           Text(
-            intl.emptyEarnWalletBody_mainText1,
+            intl.emptyEarnWalletBody_mainTextNew,
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
               height: 1.28,
@@ -94,12 +94,12 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
             maxLines: 2,
           ),
           Text(
-            intl.emptyEarnWalletBody_mainText2,
+            intl.emptyEarnWalletBody_mainTextNew2,
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
               height: 1.28,
-              color: colors.blue,
             ),
+            maxLines: 2,
           ),
           const SpaceH38(),
           SPrimaryButton1(

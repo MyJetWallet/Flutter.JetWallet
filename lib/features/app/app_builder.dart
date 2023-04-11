@@ -106,6 +106,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     getIt.get<StartupService>().firstAction();
 
     super.initState();
@@ -113,6 +114,7 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
