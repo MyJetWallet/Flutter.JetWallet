@@ -48,7 +48,9 @@ class SumsubService {
         message: 'The SDK status was changed: $prevStatus -> $newStatus',
       );
       if (newStatus == SNSMobileSDKStatus.Approved ||
-          newStatus == SNSMobileSDKStatus.ActionCompleted) {
+          newStatus == SNSMobileSDKStatus.ActionCompleted ||
+          newStatus == SNSMobileSDKStatus.Pending
+      ) {
         sRouter.push(
           SuccessScreenRouter(
             primaryText: intl.kycChooseDocuments_verifyingNow,
