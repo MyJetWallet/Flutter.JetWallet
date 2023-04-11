@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
@@ -92,7 +93,15 @@ class BuySellDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
           if (transactionListItem.operationType == OperationType.buy) ...[
             TransactionDetailsItem(
               text: intl.withText,
@@ -105,18 +114,18 @@ class BuySellDetails extends StatelessObserverWidget {
                 ),
               ),
             ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: intl.fee,
-              value: TransactionDetailsValueText(
-                text: _feeValue(transactionListItem),
-              ),
-            ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(buyCurrency, sellCurrency),
+              ),
+            ),
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.fee,
+              value: TransactionDetailsValueText(
+                text: _feeValue(transactionListItem),
               ),
             ),
           ],
@@ -132,18 +141,18 @@ class BuySellDetails extends StatelessObserverWidget {
                 ),
               ),
             ),
-            const SpaceH14(),
-            TransactionDetailsItem(
-              text: intl.fee,
-              value: TransactionDetailsValueText(
-                text: _feeValue(transactionListItem),
-              ),
-            ),
-            const SpaceH14(),
+            const SpaceH18(),
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
                 text: _rateFor(sellCurrency, buyCurrency),
+              ),
+            ),
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.fee,
+              value: TransactionDetailsValueText(
+                text: _feeValue(transactionListItem),
               ),
             ),
           ],

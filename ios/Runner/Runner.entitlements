@@ -10,9 +10,5 @@
 		<string>applinks:mobile.simple-spot.biz</string>
 		<string>applinks:mobile.simple.app</string>
 	</array>
-	<key>com.apple.developer.in-app-payments</key>
-	<array>
-		<string>merchant.app.simple.com</string>
-	</array>
 </dict>
 </plist>

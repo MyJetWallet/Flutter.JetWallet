@@ -24,7 +24,7 @@ FormattedCircleCard formattedCircleCard(
   final formattedYear = card.expYear.toString().substring(2);
 
   return FormattedCircleCard(
-    name: card.network,
+    name: card.network.name,
     last4Digits: '•••• ${card.last4}',
     expDate: 'Exp. $formattedMonth / $formattedYear',
     limit: 'Lim: $formattedMin / $formattedMax',

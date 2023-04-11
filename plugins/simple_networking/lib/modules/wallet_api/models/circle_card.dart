@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
@@ -10,7 +12,7 @@ class CircleCard with _$CircleCard {
   const factory CircleCard({
     required String id,
     required String last4,
-    required String network,
+    @CircleCardNetworkSerialiser() required CircleCardNetwork network,
     required int expMonth,
     required int expYear,
     required CircleCardStatus status,
@@ -53,6 +55,46 @@ enum CircleCardVerificationError {
   cardCvvInvalid,
   @JsonValue(4)
   cardExpired,
+}
+
+enum CircleCardNetwork {
+  VISA,
+  MASTERCARD,
+  unsupported,
+}
+
+extension _CircleCardNetworkExtension on CircleCardNetwork {
+  String get name {
+    switch (this) {
+      case CircleCardNetwork.VISA:
+        return 'VISA';
+      case CircleCardNetwork.MASTERCARD:
+        return 'MASTERCARD';
+      default:
+        return 'unsupported';
+    }
+  }
+}
+
+class CircleCardNetworkSerialiser
+    implements JsonConverter<CircleCardNetwork, dynamic> {
+  const CircleCardNetworkSerialiser();
+
+  @override
+  CircleCardNetwork fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'VISA') {
+      return CircleCardNetwork.VISA;
+    } else if (value == 'MASTERCARD') {
+      return CircleCardNetwork.MASTERCARD;
+    } else {
+      return CircleCardNetwork.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(CircleCardNetwork type) => type.name;
 }
 
 @freezed

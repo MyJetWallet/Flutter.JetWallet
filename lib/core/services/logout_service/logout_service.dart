@@ -79,7 +79,7 @@ abstract class _LogoutServiceBase with Store {
       try {
         // Disconet from SignalR
         if (getIt.get<SignalRService>().signalR != null) {
-          await getIt.get<SignalRService>().signalR!.disconnect();
+          await getIt.get<SignalRService>().signalR!.disconnect('logout');
         }
       } catch (e) {
         _logger.log(
