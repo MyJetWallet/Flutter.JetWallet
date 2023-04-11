@@ -33,7 +33,6 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
 import '../../payment_methods/ui/widgets/card_limits_bottom_sheet.dart';
-import 'screens/apple_pay_select.dart';
 
 @RoutePage(name: 'CurrencyBuyRouter')
 class CurrencyBuy extends StatelessWidget {
