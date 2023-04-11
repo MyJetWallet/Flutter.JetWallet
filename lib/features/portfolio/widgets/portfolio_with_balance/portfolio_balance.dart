@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/comp
 import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/portfolio_sliver_appbar.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/actual_in_progress_operation.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
@@ -43,6 +45,14 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     //scrollController.addListener(_scrollListener);
     controller.addListener(_draggableListener);
 
+    getIt<EventBus>().on<ResetScrollMyAssets>().listen((event) {
+      controller.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.bounceIn,
+      );
+    });
+
     super.initState();
   }
 
@@ -62,8 +72,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   Widget _balanceInProgressIcon(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (!currency.isSingleTypeInProgress) {
       return const SDepositTotalIcon();
     }
@@ -79,8 +89,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressText(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (currency.isSingleTypeInProgress) {
       return volumeFormat(
         decimal: currency.totalAmountInProcess,
@@ -94,8 +104,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   }
 
   String _balanceInProgressLeadText(
-      CurrencyModel currency,
-      ) {
+    CurrencyModel currency,
+  ) {
     if (currency.isSingleTypeInProgress) {
       return actualInProcessOperationName(
         currency,
@@ -200,6 +210,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
             minChildSize: getMinChildSize(),
             initialChildSize: getMinChildSize(),
             controller: controller,
+            snap: true,
             builder: (context, sCon) => DecoratedBox(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -246,7 +257,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final actualItem = getIt<AppStore>().showAllAssets
-                          ? currenciesList[index] : itemsWithBalance[index];
+                          ? currenciesList[index]
+                          : itemsWithBalance[index];
 
                       return Observer(
                         builder: (context) {
@@ -259,14 +271,13 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                 icon: SNetworkSvg24(url: actualItem.iconUrl),
                                 baseCurrPrefix: baseCurrency.prefix,
                                 primaryText: actualItem.description,
-                                amount: actualItem
-                                    .volumeBaseBalance(baseCurrency),
+                                amount:
+                                    actualItem.volumeBaseBalance(baseCurrency),
                                 secondaryText: getIt<AppStore>().isBalanceHide
                                     ? actualItem.symbol
                                     : actualItem.volumeAssetBalance,
                                 onTap: () {
-                                  if (actualItem.type ==
-                                      AssetType.indices) {
+                                  if (actualItem.type == AssetType.indices) {
                                     sRouter.push(
                                       MarketDetailsRouter(
                                         marketItem: marketItemFrom(
@@ -282,9 +293,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                     );
                                   }
                                 },
-                                removeDivider:
-                                  actualItem.isPendingDeposit ||
-                                        index == itemsWithBalance.length - 1,
+                                removeDivider: actualItem.isPendingDeposit ||
+                                    index == itemsWithBalance.length - 1,
                                 isPendingDeposit: actualItem.isPendingDeposit,
                               ),
                               if (actualItem.isPendingDeposit) ...[
@@ -296,11 +306,9 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                     actualItem,
                                   ),
                                   removeDivider: actualItem ==
-                                      (
-                                        getIt<AppStore>().showAllAssets
+                                      (getIt<AppStore>().showAllAssets
                                           ? currenciesList.last
-                                          : itemsWithBalance.last
-                                      ),
+                                          : itemsWithBalance.last),
                                   icon: _balanceInProgressIcon(
                                     actualItem,
                                   ),

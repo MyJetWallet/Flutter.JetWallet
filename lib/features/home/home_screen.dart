@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -7,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
 List<PageRouteInfo<dynamic>> screens = [
@@ -66,6 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (val == 2) {
                   getIt<IbanStore>().initState();
                 }
+
+                if (val == 0 && getIt<AppStore>().homeTab == 0) {
+                  getIt.get<EventBus>().fire(ResetScrollMyAssets());
+                } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
+                  getIt.get<EventBus>().fire(ResetScrollMarket());
+                }
+
                 getIt<AppStore>().setHomeTab(val);
                 tabsRouter.setActiveIndex(val);
               },
