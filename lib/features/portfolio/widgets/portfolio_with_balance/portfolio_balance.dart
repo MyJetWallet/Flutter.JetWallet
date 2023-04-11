@@ -20,6 +20,9 @@ import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
+import '../../../../utils/helpers/currencies_helpers.dart';
+import 'components/hide_zero.dart';
+
 class PortfolioBalance extends StatefulObserverWidget {
   const PortfolioBalance({super.key});
 
@@ -165,6 +168,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     final currencies = sSignalRModules.currenciesList;
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
+    final currenciesList = currencies.toList();
+    sortCurrencies(currenciesList);
 
     return PortfolioScreenGradient(
       child: Stack(
@@ -211,19 +216,38 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                 children: [
                   const SpaceH30(),
                   SPaddingH24(
-                    child: Text(
-                      intl.portfolioWithBalanceBody_my_assets,
-                      style: sTextH4Style,
+                    child: Row(
+                      children: [
+                        Text(
+                          intl.portfolioWithBalanceBody_my_assets,
+                          style: sTextH4Style,
+                        ),
+                        const Spacer(),
+                        SIconButton(
+                          onTap: () {
+                            showHideZero(context);
+                          },
+                          defaultIcon: const SSettingsIcon(),
+                          pressedIcon: SSettingsIcon(
+                            color: colors.grey2,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SpaceH12(),
                   ListView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
-                    itemCount: itemsWithBalance.length,
+                    itemCount: getIt<AppStore>().showAllAssets
+                        ? currenciesList.length
+                        : itemsWithBalance.length,
                     //controller: sCon,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      final actualItem = getIt<AppStore>().showAllAssets
+                          ? currenciesList[index] : itemsWithBalance[index];
+
                       return Observer(
                         builder: (context) {
                           return Column(
@@ -231,59 +255,54 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                               SWalletItem(
                                 key: UniqueKey(),
                                 isBalanceHide: getIt<AppStore>().isBalanceHide,
-                                decline: itemsWithBalance[index]
-                                    .dayPercentChange
-                                    .isNegative,
-                                icon: SNetworkSvg24(
-                                  url: itemsWithBalance[index].iconUrl,
-                                ),
+                                decline: actualItem.dayPercentChange.isNegative,
+                                icon: SNetworkSvg24(url: actualItem.iconUrl),
                                 baseCurrPrefix: baseCurrency.prefix,
-                                primaryText:
-                                    itemsWithBalance[index].description,
-                                amount: itemsWithBalance[index]
+                                primaryText: actualItem.description,
+                                amount: actualItem
                                     .volumeBaseBalance(baseCurrency),
                                 secondaryText: getIt<AppStore>().isBalanceHide
-                                    ? itemsWithBalance[index].symbol
-                                    : itemsWithBalance[index]
-                                        .volumeAssetBalance,
+                                    ? actualItem.symbol
+                                    : actualItem.volumeAssetBalance,
                                 onTap: () {
-                                  if (itemsWithBalance[index].type ==
+                                  if (actualItem.type ==
                                       AssetType.indices) {
                                     sRouter.push(
                                       MarketDetailsRouter(
                                         marketItem: marketItemFrom(
                                           marketItems,
-                                          itemsWithBalance[index].symbol,
+                                          actualItem.symbol,
                                         ),
                                       ),
                                     );
                                   } else {
                                     navigateToWallet(
                                       context,
-                                      itemsWithBalance[index],
+                                      actualItem,
                                     );
                                   }
                                 },
                                 removeDivider:
-                                    itemsWithBalance[index].isPendingDeposit ||
+                                  actualItem.isPendingDeposit ||
                                         index == itemsWithBalance.length - 1,
-                                isPendingDeposit:
-                                    itemsWithBalance[index].isPendingDeposit,
+                                isPendingDeposit: actualItem.isPendingDeposit,
                               ),
-                              if (itemsWithBalance[index].isPendingDeposit) ...[
+                              if (actualItem.isPendingDeposit) ...[
                                 BalanceInProcess(
                                   text: getIt<AppStore>().isBalanceHide
-                                      ? itemsWithBalance[index].symbol
-                                      : _balanceInProgressText(
-                                          itemsWithBalance[index],
-                                        ),
+                                      ? actualItem.symbol
+                                      : _balanceInProgressText(actualItem),
                                   leadText: _balanceInProgressLeadText(
-                                    itemsWithBalance[index],
+                                    actualItem,
                                   ),
-                                  removeDivider: itemsWithBalance[index] ==
-                                      itemsWithBalance.last,
+                                  removeDivider: actualItem ==
+                                      (
+                                        getIt<AppStore>().showAllAssets
+                                          ? currenciesList.last
+                                          : itemsWithBalance.last
+                                      ),
                                   icon: _balanceInProgressIcon(
-                                    itemsWithBalance[index],
+                                    actualItem,
                                   ),
                                 ),
                               ],

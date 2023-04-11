@@ -13,10 +13,7 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 class IBanItemSkeleton extends StatelessObserverWidget {
   const IBanItemSkeleton({
     Key? key,
-    required this.name,
   }) : super(key: key);
-
-  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -31,32 +28,37 @@ class IBanItemSkeleton extends StatelessObserverWidget {
                 width: MediaQuery.of(context).size.width - 88,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceH21(),
-                    Text(
-                      name,
-                      style: sCaptionTextStyle.copyWith(
-                        color: colors.grey2,
+                  children: const [
+                    SSkeletonTextLoader(
+                      height: 12,
+                      width: 100,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
                       ),
                     ),
+                    SpaceH8(),
                     SSkeletonTextLoader(
-                      height: 28,
-                      width: MediaQuery.of(context).size.width - 88,
+                      height: 16,
+                      width: 180,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
                     ),
-                    const SpaceH21(),
                   ],
                 ),
               ),
               const SpaceW16(),
-              SIconButton(
-                onTap: () {},
-                defaultIcon: const SCopyIcon(),
-                pressedIcon: const SCopyPressedIcon(),
+              const SSkeletonTextLoader(
+                height: 24,
+                width: 24,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
               ),
             ],
           ),
         ),
-        const SDivider(),
+        const SpaceH40(),
       ],
     );
   }
