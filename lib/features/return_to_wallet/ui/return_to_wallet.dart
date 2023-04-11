@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -18,6 +19,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 
+@RoutePage(name: 'ReturnToWalletRouter')
 class ReturnToWallet extends StatelessWidget {
   const ReturnToWallet({
     Key? key,
@@ -155,7 +157,6 @@ class _ReturnToWalletBody extends StatelessObserverWidget {
             submitButtonActive: state.inputValid,
             submitButtonName: intl.return_to_wallet_preview,
             onSubmitPressed: () {
-
               sRouter.push(
                 PreviewReturnToWalletRouter(
                   input: PreviewReturnToWalletInput(

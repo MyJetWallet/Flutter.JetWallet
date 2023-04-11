@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'HelpCenterWebViewRouter')
 class HelpCenterWebView extends StatefulWidget {
   const HelpCenterWebView({
     Key? key,

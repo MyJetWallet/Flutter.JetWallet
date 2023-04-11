@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -7,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'Circle3dSecureWebViewRouter')
 class Circle3dSecureWebView extends StatelessWidget {
   const Circle3dSecureWebView(
     this.url,
@@ -73,7 +75,7 @@ class Circle3dSecureWebView extends StatelessWidget {
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
                     if (onFailed != null) {
-                      onFailed!.call(intl.something_went_wrong);
+                      onFailed.call(intl.something_went_wrong);
                       Timer(
                         const Duration(seconds: 3),
                         () {

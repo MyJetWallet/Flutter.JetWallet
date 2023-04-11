@@ -211,6 +211,8 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.earningDeposit ||
         item.operationType == oh_resp.OperationType.earningWithdrawal ||
         item.operationType == oh_resp.OperationType.cryptoInfo ||
+        item.operationType == oh_resp.OperationType.buyApplePay ||
+        item.operationType == oh_resp.OperationType.buyGooglePay ||
         item.operationType == oh_resp.OperationType.nftSwap ||
         item.operationType == oh_resp.OperationType.nftBuyOpposite ||
         item.operationType == oh_resp.OperationType.nftSell ||

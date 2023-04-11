@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,6 +20,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'UploadKycDocumentsRouter')
 class UploadKycDocuments extends StatelessWidget {
   const UploadKycDocuments({Key? key}) : super(key: key);
 

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -16,20 +17,20 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../../utils/helpers/country_code_by_user_register.dart';
 import '../../../market/market_details/helper/currency_from_all.dart';
 
+@RoutePage(name: 'ProfileDetailsRouter')
 class ProfileDetails extends StatelessObserverWidget {
   const ProfileDetails({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = sUserInfo.userInfo;
     final baseAsset = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
     final baseCurrency = currencyFromAll(currencies, baseAsset.symbol);
     final phoneNumber = countryCodeByUserRegister();
 
-    var finalPhone = userInfo.phone;
+    var finalPhone = sUserInfo.phone;
     if (phoneNumber != null) {
-      finalPhone = userInfo.phone.replaceFirst(
+      finalPhone = sUserInfo.phone.replaceFirst(
         phoneNumber.countryCode,
         '${phoneNumber.countryCode} ',
       );
@@ -56,7 +57,7 @@ class ProfileDetails extends StatelessObserverWidget {
             value: getIt.get<AppStore>().authState.email,
             onTap: () {},
           ),
-          if (userInfo.isPhoneNumberSet)
+          if (sUserInfo.isPhoneNumberSet)
             SProfileDetailsButton(
               showIcon: true,
               label: intl.setPhoneNumber_phoneNumber,

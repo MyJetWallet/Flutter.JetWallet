@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -17,6 +18,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
+@RoutePage(name: 'SetPhoneNumberRouter')
 class SetPhoneNumber extends StatelessWidget {
   const SetPhoneNumber({
     super.key,
@@ -67,7 +69,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
-    final userInfo = sUserInfo.userInfo;
 
     return SPageFrame(
       key: UniqueKey(),
@@ -144,13 +145,15 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                               store.updatePhoneNumber(phone);
                             },
                             controller: store.phoneNumberController,
-                            suffixIcons: store.phoneInput.isNotEmpty ? [
-                              SIconButton(
-                                onTap: () => store.clearPhone(),
-                                defaultIcon: const SEraseIcon(),
-                                pressedIcon: const SErasePressedIcon(),
-                              ),
-                            ] : null,
+                            suffixIcons: store.phoneInput.isNotEmpty
+                                ? [
+                                    SIconButton(
+                                      onTap: () => store.clearPhone(),
+                                      defaultIcon: const SEraseIcon(),
+                                      pressedIcon: const SErasePressedIcon(),
+                                    ),
+                                  ]
+                                : null,
                           ),
                         ),
                       ),
@@ -169,7 +172,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
                     //FocusScope.of(context).unfocus();
-                    if (userInfo.phone == store.phoneNumber()) {
+                    if (sUserInfo.phone == store.phoneNumber()) {
                       sRouter.pop();
 
                       return;
@@ -202,7 +205,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                                   final userInfoN = sUserInfo;
 
                                   userInfoN.updatePhoneVerified(
-                                    phoneVerified: true,
+                                    phoneVerifiedValue: true,
                                   );
                                   userInfoN.updateTwoFaStatus(enabled: true);
                                   userInfoN.updatePhone(store.phoneNumber());

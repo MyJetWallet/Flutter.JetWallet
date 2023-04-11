@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -33,6 +34,7 @@ import '../../../../utils/models/currency_model.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
 import '../helper/swap_words.dart';
 
+@RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
   const MarketDetails({
     super.key,

@@ -10,7 +10,7 @@ import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 
 Future<RequestOptions> setHeaders(RequestOptions options, bool isImage) async {
   final locale = intl.localeName;
-  final deviceInfo = getIt.get<DeviceInfo>().model;
+  final deviceInfo = getIt.get<DeviceInfo>();
 
   options.headers['accept'] = 'application/json';
   options.headers['Accept-Language'] = locale;

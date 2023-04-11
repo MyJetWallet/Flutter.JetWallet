@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:data_channel/data_channel.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/handle_api_responses.dart';
@@ -396,7 +398,7 @@ class AuthApiDataSources {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.authApi}/session/Check',
-        data: const SessionCheckRequestModel(),
+        data: {},
       );
 
       try {
@@ -479,7 +481,8 @@ class AuthApiDataSources {
   }
 
   Future<DC<ServerRejectException, void>> postInstallRequest(
-      InstallModel model,) async {
+    InstallModel model,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.authApi}/common/install',

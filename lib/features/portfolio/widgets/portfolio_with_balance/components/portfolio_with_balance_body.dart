@@ -19,14 +19,12 @@ import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/chart/ui/balance_chart.dart';
 import 'package:jetwallet/features/market/market_details/helper/period_change.dart';
 import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
-import 'package:jetwallet/features/nft/helper/get_user_nfts.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/ui/widgets/pin_box.dart';
 import 'package:jetwallet/features/portfolio/helper/currencies_without_balance_from.dart';
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
 import 'package:jetwallet/features/portfolio/helper/zero_balance_wallets_empty.dart';
-import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/portfolio_nft_list.dart';
 import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
@@ -614,11 +612,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                               ),
                           ],
                         ),
-                        if (widget.tabController.length == 2) ...[
-                          PortfolioNftList(
-                            userNft: userNft,
-                          ),
-                        ],
                         if (isCryptoVisible)
                           ListView(
                             shrinkWrap: true,

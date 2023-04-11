@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -35,7 +36,6 @@ abstract class _BiometricStoreBase with Store {
   void useBio({
     required bool useBio,
     bool isAccSettings = false,
-    required BuildContext context,
   }) {
     _logger.log(notifier, useBio);
 
@@ -55,7 +55,7 @@ abstract class _BiometricStoreBase with Store {
       );
     }
     if (isAccSettings) {
-      Navigator.pop(context);
+      sRouter.pop();
     } else {
       getIt.get<StartupService>().pinVerified();
     }
@@ -80,17 +80,20 @@ abstract class _BiometricStoreBase with Store {
     await storageService.setString(useBioKey, 'true');
     final userInfoN = getIt.get<UserInfoService>();
     await userInfoN.initBiometricStatus();
-    if (userInfoN.userInfo.isJustLogged) {
+
+    if (userInfoN.isJustLogged) {
       sAnalytics.signInFlowVerificationPassed();
       final appsFlyerService = getIt.get<AppsFlyerService>();
       final userInfo = getIt.get<UserInfoService>();
 
-      final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
-      final bytes = utf8.encode(userInfo.userInfo.email);
+      final appsFlyerID =
+          await appsFlyerService.appsflyerSdk.getAppsFlyerUID() ?? '';
+      final bytes = utf8.encode(userInfo.email);
       final hashEmail = sha256.convert(bytes).toString();
+
       appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
       await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
-        'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+        'IsTechAcc': '${userInfo.isTechClient}',
         'Customer User iD': hashEmail,
         'Appsflyer ID': appsFlyerID,
       });

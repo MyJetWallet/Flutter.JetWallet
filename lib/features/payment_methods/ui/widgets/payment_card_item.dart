@@ -16,6 +16,7 @@ class PaymentCardItem extends StatelessObserverWidget {
     required this.onDelete,
     required this.onTap,
     required this.status,
+    required this.network,
   }) : super(key: key);
 
   final bool removeDivider;
@@ -26,6 +27,7 @@ class PaymentCardItem extends StatelessObserverWidget {
   final Function() onDelete;
   final Function() onTap;
   final CircleCardStatus status;
+  final CircleCardNetwork network;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,7 @@ class PaymentCardItem extends StatelessObserverWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SActionDepositIcon(
-                  color: colors.blue,
-                ),
+                getNetworkIcon(),
                 const SpaceW20(),
                 Expanded(
                   child: Column(
@@ -124,5 +124,30 @@ class PaymentCardItem extends StatelessObserverWidget {
         ),
       ),
     );
+  }
+
+  Widget getNetworkIcon() {
+    switch (network) {
+      case CircleCardNetwork.VISA:
+        return const SVisaCardIcon(
+          width: 40,
+          height: 25,
+        );
+      case CircleCardNetwork.MASTERCARD:
+        return const SMasterCardIcon(
+          width: 40,
+          height: 25,
+        );
+      default:
+        return SizedBox(
+          width: 40,
+          height: 25,
+          child: Center(
+            child: SActionDepositIcon(
+              color: sKit.colors.blue,
+            ),
+          ),
+        );
+    }
   }
 }

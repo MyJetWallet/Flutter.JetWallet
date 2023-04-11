@@ -13,6 +13,7 @@ class ClientDetailModel with _$ClientDetailModel {
     @Default([]) List<int> requiredDocuments,
     @Default([]) List<int> requiredVerifications,
     @Default([]) List<ClientBlockerInfoModel> clientBlockers,
+    @Default(false) bool useSumsub,
     required DateTime recivedAt,
     required String walletCreationDate,
     required bool isNftEnable,

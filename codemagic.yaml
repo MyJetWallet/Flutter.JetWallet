@@ -7,7 +7,7 @@ definitions:
   # and GOOGLE_SERVICE_IOS to IOS_FIREBASE_SECRET
 
   versioning: &versioning
-    flutter: 3.7.6
+    flutter: 3.7.9
     xcode: latest
     cocoapods: default
 
@@ -18,7 +18,7 @@ definitions:
       - apple_signing
       - development
       - keystore_credentials_development
-  
+
   flavor_development_vars: &flavor_development_vars
     FLAVOR: "dev"
     BUNDLE_ID: "dev.app.simple.com"

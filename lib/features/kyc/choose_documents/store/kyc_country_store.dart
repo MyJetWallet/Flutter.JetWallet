@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_networking/modules/signal_r/models/kyc_countries_response_model.dart';
 
 part 'kyc_country_store.g.dart';
 
@@ -26,7 +23,7 @@ abstract class _KycCountryStoreBase with Store {
   _KycCountryStoreBase() {
     final userInfo = getIt.get<UserInfoService>();
 
-    countryOfRegistration = userInfo.userInfo.countryOfRegistration;
+    countryOfRegistration = userInfo.countryOfRegistration;
     countries = ObservableList.of(sSignalRModules.kycCountries);
     sortedCountries = ObservableList.of(sSignalRModules.kycCountries);
     activeCountry = sSignalRModules.kycCountries.isNotEmpty

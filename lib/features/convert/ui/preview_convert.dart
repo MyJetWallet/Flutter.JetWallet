@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -11,6 +12,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'PreviewConvertRouter')
 class PreviewConvert extends StatefulObserverWidget {
   const PreviewConvert({
     super.key,

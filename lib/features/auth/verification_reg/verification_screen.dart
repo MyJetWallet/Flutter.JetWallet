@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -12,6 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 
+@RoutePage(name: 'VerificationRouter')
 class VerificationScreen extends StatelessObserverWidget {
   const VerificationScreen({super.key});
 
@@ -82,19 +84,6 @@ class VerificationScreen extends StatelessObserverWidget {
             linkText: intl.provide_information,
             linkAction: () {
               getIt<AppRouter>().pop();
-
-              /*sRouter.replace(
-                SetPhoneNumberRouter(
-                  successText: intl.profileDetails_newPhoneNumberConfirmed,
-                  fromRegister: true,
-                  then: () {
-                    getIt.get<StartupService>().authenticatedBoot();
-
-                    getIt.get<VerificationStore>().phoneDone();
-                  },
-                ),
-              );
-              */
             },
             isDisabled: !store.isPhoneDone &&
                 store.step != VerificationScreenStep.Phone,
@@ -107,11 +96,11 @@ class VerificationScreen extends StatelessObserverWidget {
             haveSubText: store.step == VerificationScreenStep.PersonalDetail,
             haveLink: store.step == VerificationScreenStep.PersonalDetail,
             linkText: intl.provide_information,
+            subtext: intl.personal_details_descr,
             linkAction: () {
               getIt<AppRouter>().pop();
               //sRouter.replace(const UserDataScreenRouter());
             },
-            subtext: intl.personal_details_descr,
             isDisabled: !store.isPersonalDetailsDone &&
                 store.step != VerificationScreenStep.PersonalDetail,
             isDone: store.isPersonalDetailsDone,
@@ -163,29 +152,28 @@ class VerificationScreen extends StatelessObserverWidget {
       children: [
         Column(
           children: [
-            if (isDisabled)
-              const SpaceH3()
-            else
-              const SpaceH4(),
+            if (isDisabled) const SpaceH3() else const SpaceH4(),
             if (!isDone) ...[
-              const SpaceW2(),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isDisabled ? null : colors.blue,
-                  border: isDisabled ? Border.all(color: colors.grey1) : null,
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 6,
-                      right: 6,
-                      bottom: 3,
-                    ),
-                    child: Text(
-                      step,
-                      style: sBodyText2Style.copyWith(
-                        color: isDisabled ? colors.grey1 : colors.white,
+              Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isDisabled ? null : colors.blue,
+                    border: isDisabled ? Border.all(color: colors.grey1) : null,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 6,
+                        right: 6,
+                        bottom: 3,
+                      ),
+                      child: Text(
+                        step,
+                        style: sBodyText2Style.copyWith(
+                          color: isDisabled ? colors.grey1 : colors.white,
+                        ),
                       ),
                     ),
                   ),

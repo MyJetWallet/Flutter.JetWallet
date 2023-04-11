@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
@@ -69,7 +70,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                     },
                   ),
           ),
-          const SpaceH10(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: 'Txid',
             value: Row(
@@ -94,7 +95,15 @@ class WithdrawNftDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH10(),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             TransactionDetailsItem(
               text: intl.withdrawOptions_sendTo,
@@ -125,7 +134,7 @@ class WithdrawNftDetails extends StatelessObserverWidget {
                 ],
               ),
             ),
-            const SpaceH10(),
+            const SpaceH14(),
           ],
           TransactionDetailsStatus(
             status: transactionListItem.status,

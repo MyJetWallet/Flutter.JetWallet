@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -21,6 +22,7 @@ import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'UploadVerificationPhotoRouter')
 class UploadVerificationPhoto extends StatelessWidget {
   const UploadVerificationPhoto({
     Key? key,

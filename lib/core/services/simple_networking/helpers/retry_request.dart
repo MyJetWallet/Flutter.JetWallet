@@ -10,7 +10,7 @@ import 'setup_headers.dart';
 Future<Response> retryRequest(
   RequestOptions requestOptions,
 ) async {
-  final _dio = Dio();
+  final dio = Dio();
 
   final log = logPrint.Logger();
 
@@ -30,7 +30,7 @@ Future<Response> retryRequest(
     'RETRY OPTIONS: ${options.headers}\nStore token: ${authModel.token}',
   );
 
-  return _dio.request(
+  return dio.request(
     requestOptions.path,
     data: requestOptions.data,
     options: options,

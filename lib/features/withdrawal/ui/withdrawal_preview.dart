@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,6 +16,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
+@RoutePage(name: 'WithdrawalPreviewRouter')
 class WithdrawalPreviewScreen extends StatelessObserverWidget {
   const WithdrawalPreviewScreen({super.key});
 
@@ -65,7 +67,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 : TextAlign.start,
             title: title,
             onBackButtonTap: () {
-
               sRouter.navigateBack();
             },
           );
@@ -80,7 +81,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 : CrossAxisAlignment.start,
             title: title,
             onBackButtonTap: () {
-
               sRouter.navigateBack();
             },
           );
@@ -214,10 +214,8 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
                     if (store.withdrawalType == WithdrawalType.Asset) {
-
                       store.withdraw();
                     } else {
-
                       //store.withdrawNFT();
 
                       store.previewConfirm();

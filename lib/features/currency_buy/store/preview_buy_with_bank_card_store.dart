@@ -247,7 +247,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       context: sRouter.navigatorKey.currentContext!,
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
-          '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+          '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
           ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
@@ -401,7 +401,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
-            unawaited(_showSuccessScreen());
+            unawaited(_showSuccessScreen(false));
             skippedWaiting();
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -452,7 +452,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
-  Future<void> _showSuccessScreen() {
+  Future<void> _showSuccessScreen(bool isGoogle) {
     final buyMethod = input.currency.buyMethods
         .where(
           (element) => element.id == PaymentMethodType.bankCard,
@@ -465,12 +465,20 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.successScreen_youBought} '
-                '${volumeFormat(
-              decimal: buyAmount ?? Decimal.zero,
-              accuracy: input.currency.accuracy,
-              symbol: input.currency.symbol,
-            )}',
+            secondaryText: isGoogle
+                ? '${intl.successScreen_youBought} '
+                    '${volumeFormat(
+                    decimal: buyAmount ?? Decimal.zero,
+                    accuracy: input.currency.accuracy,
+                    symbol: input.currency.symbol,
+                  )}'
+                    '\n${intl.paid_with_gpay}'
+                : '${intl.successScreen_youBought} '
+                    '${volumeFormat(
+                    decimal: buyAmount ?? Decimal.zero,
+                    accuracy: input.currency.accuracy,
+                    symbol: input.currency.symbol,
+                  )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),

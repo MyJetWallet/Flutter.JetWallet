@@ -46,9 +46,6 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
   static final _logger = Logger('TwoFaPhoneStore');
 
-  final UserInfoState _userInfo = sUserInfo.userInfo;
-  final UserInfoService _userInfoN = sUserInfo;
-
   @observable
   FocusNode focusNode = FocusNode();
 
@@ -159,7 +156,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
       startup: () => _verifyTwoFa(),
       security: (_) {
         if (phoneVerified) {
-          if (_userInfo.twoFaEnabled) {
+          if (sUserInfo.twoFaEnabled) {
             _verifyAndDisableTwoFa();
           } else {
             _verifyAndEnableTwoFa();
@@ -190,7 +187,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
                 .postTwoFaRequestVerification(model);
           },
           security: (_) async {
-            if (_userInfo.twoFaEnabled) {
+            if (sUserInfo.twoFaEnabled) {
               final _ = await sNetwork
                   .getValidationModule()
                   .postTwoFaRequestDisable(model);
@@ -223,7 +220,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
         response.pick(
           onNoData: () {
-            getIt.get<StartupService>().twoFaVerified();
+            getIt.get<StartupService>().processPinState();
           },
           onError: (e) {
             _logger.log(stateFlow, 'verifyCode', e);
@@ -247,7 +244,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
         final _ = await sNetwork.getValidationModule().postTwoFaEnable(model);
 
-        _userInfoN.updateTwoFaStatus(enabled: true);
+        sUserInfo.updateTwoFaStatus(enabled: true);
 
         _returnToPreviousScreen();
       },
@@ -266,7 +263,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
         final _ = await sNetwork.getValidationModule().postTwoFaDisable(model);
 
-        _userInfoN.updateTwoFaStatus(enabled: false);
+        sUserInfo.updateTwoFaStatus(enabled: false);
 
         _returnToPreviousScreen();
       },
@@ -340,8 +337,8 @@ abstract class _TwoFaPhoneStoreBase with Store {
           },
         );
 
-        _userInfoN.updatePhoneVerified(phoneVerified: true);
-        _userInfoN.updateTwoFaStatus(enabled: true);
+        sUserInfo.updatePhoneVerified(phoneVerifiedValue: true);
+        sUserInfo.updateTwoFaStatus(enabled: true);
 
         _returnToPreviousScreen();
       },

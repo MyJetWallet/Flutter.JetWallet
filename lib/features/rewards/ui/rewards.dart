@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -11,7 +12,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/format_news_date.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/set_banner_color.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
@@ -24,6 +24,7 @@ import '../helper/set_reward_indicator_complete.dart';
 import '../model/campaign_or_referral_model.dart';
 import 'components/reward_notification_box.dart';
 
+@RoutePage(name: 'RewardsRouter')
 class Rewards extends StatelessWidget {
   const Rewards({
     Key? key,
@@ -58,39 +59,37 @@ class _RewardsBody extends StatelessObserverWidget {
 
     final state = RewardStore.of(context);
     final deepLinkService = getIt.get<DeepLinkService>();
-    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
-        ?? <String>[];
+    final viewedRewards =
+        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     if (!actualRewards.contains('referral')) {
       getIt.get<KeyValuesService>().addToKeyValue(
-        KeyValueRequestModel(
-          keys: [
-            KeyValueResponseModel(
-              key: viewedRewardsKey,
-              value: jsonEncode([...viewedRewards, 'referral']),
+            KeyValueRequestModel(
+              keys: [
+                KeyValueResponseModel(
+                  key: viewedRewardsKey,
+                  value: jsonEncode([...viewedRewards, 'referral']),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
     }
     for (final campaign in state.sortedCampaigns) {
-      if (
-        !_displayRewardBanner(campaign) &&
-        _displayThreeStepsRewardBanner(campaign) &&
-        !actualRewards.contains(campaign.campaign!.campaignId)
-      ) {
+      if (!_displayRewardBanner(campaign) &&
+          _displayThreeStepsRewardBanner(campaign) &&
+          !actualRewards.contains(campaign.campaign!.campaignId)) {
         getIt.get<KeyValuesService>().addToKeyValue(
-          KeyValueRequestModel(
-            keys: [
-              KeyValueResponseModel(
-                key: viewedRewardsKey,
-                value: jsonEncode([
-                  ...viewedRewards,
-                  campaign.campaign!.campaignId,
-                ]),
+              KeyValueRequestModel(
+                keys: [
+                  KeyValueResponseModel(
+                    key: viewedRewardsKey,
+                    value: jsonEncode([
+                      ...viewedRewards,
+                      campaign.campaign!.campaignId,
+                    ]),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
+            );
       }
     }
 
@@ -122,15 +121,18 @@ class _RewardsBody extends StatelessObserverWidget {
                 onTap: () {
                   if (!viewedRewards.contains(item.campaign!.campaignId)) {
                     getIt.get<KeyValuesService>().addToKeyValue(
-                      KeyValueRequestModel(
-                        keys: [
-                          KeyValueResponseModel(
-                            key: viewedRewardsKey,
-                            value: jsonEncode([...viewedRewards, item.campaign!.campaignId]),
+                          KeyValueRequestModel(
+                            keys: [
+                              KeyValueResponseModel(
+                                key: viewedRewardsKey,
+                                value: jsonEncode([
+                                  ...viewedRewards,
+                                  item.campaign!.campaignId
+                                ]),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
+                        );
                   }
                   deepLinkService.handle(
                     Uri.parse(item.campaign!.deepLink),
@@ -180,7 +182,7 @@ class _RewardsBody extends StatelessObserverWidget {
                   referralActivated: item.referralState!.referralActivated,
                   bonusEarned: item.referralState!.bonusEarned.toDouble(),
                   commissionEarned:
-                  item.referralState!.commissionEarned.toDouble(),
+                      item.referralState!.commissionEarned.toDouble(),
                   total: item.referralState!.total.toDouble(),
                   showReadMore: item.referralState!.descriptionLink.isNotEmpty,
                   onInfoTap: () {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,11 +20,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/services/apps_flyer_service.dart';
 
+@RoutePage(name: 'BiometricRouter')
 class Biometric extends StatelessWidget {
   const Biometric({
-    Key? key,
+    super.key,
     this.isAccSettings = false,
-  }) : super(key: key);
+  });
 
   final bool isAccSettings;
 
@@ -40,9 +42,8 @@ class Biometric extends StatelessWidget {
 
 class _BiometricBody extends StatelessObserverWidget {
   const _BiometricBody({
-    Key? key,
     this.isAccSettings = false,
-  }) : super(key: key);
+  });
 
   final bool isAccSettings;
 
@@ -51,7 +52,7 @@ class _BiometricBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final biometric = BiometricStore.of(context);
     final size = MediaQuery.of(context).size;
-    final deviceInfo = sDeviceInfo.model;
+    final deviceInfo = sDeviceInfo;
     final iosLatest = deviceInfo.marketingName.contains('iPhone 11') ||
         deviceInfo.marketingName.contains('iPhone 12') ||
         deviceInfo.marketingName.contains('iPhone 13') ||
@@ -117,31 +118,37 @@ class _BiometricBody extends StatelessObserverWidget {
                       await storageService.setString(useBioKey, 'true');
                       final userInfoN = getIt.get<UserInfoService>();
                       await userInfoN.initBiometricStatus();
-                      print(bioStatus);
+
                       if (bioStatus == BiometricStatus.none) {
                         await getIt.get<AppRouter>().push(
-                          const AllowBiometricRoute(),
-                        );
+                              AllowBiometricRoute(),
+                            );
                       } else {
-                        if (userInfoN.userInfo.isJustLogged) {
+                        if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
-                          final appsFlyerService = getIt.get<AppsFlyerService>();
+                          final appsFlyerService =
+                              getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
-                          final bytes = utf8.encode(userInfo.userInfo.email);
+                          final appsFlyerID = await appsFlyerService
+                              .appsflyerSdk
+                              .getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.email);
                           final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
-                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
-                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+                          appsFlyerService.appsflyerSdk
+                              .setCustomerUserId(hashEmail);
+
+                          await appsFlyerService.appsflyerSdk
+                              .logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.isTechClient}',
                             'Customer User iD': hashEmail,
                             'Appsflyer ID': appsFlyerID,
                           });
                         }
+
                         biometric.useBio(
                           useBio: true,
                           isAccSettings: isAccSettings,
-                          context: context,
                         );
                       }
                     },
@@ -155,24 +162,29 @@ class _BiometricBody extends StatelessObserverWidget {
                         Navigator.pop(context);
                       } else {
                         final userInfoN = getIt.get<UserInfoService>();
-                        if (userInfoN.userInfo.isJustLogged) {
+                        if (userInfoN.isJustLogged) {
                           sAnalytics.signInFlowVerificationPassed();
-                          final appsFlyerService = getIt.get<AppsFlyerService>();
+                          final appsFlyerService =
+                              getIt.get<AppsFlyerService>();
                           final userInfo = getIt.get<UserInfoService>();
 
-                          final appsFlyerID = await appsFlyerService.appsflyerSdk.getAppsFlyerUID();
-                          final bytes = utf8.encode(userInfo.userInfo.email);
+                          final appsFlyerID = await appsFlyerService
+                              .appsflyerSdk
+                              .getAppsFlyerUID();
+                          final bytes = utf8.encode(userInfo.email);
                           final hashEmail = sha256.convert(bytes).toString();
-                          appsFlyerService.appsflyerSdk.setCustomerUserId(hashEmail);
-                          await appsFlyerService.appsflyerSdk.logEvent('af_registration_finished', {
-                            'IsTechAcc': '${userInfo.userInfo.isTechClient}',
+                          appsFlyerService.appsflyerSdk
+                              .setCustomerUserId(hashEmail);
+                          await appsFlyerService.appsflyerSdk
+                              .logEvent('af_registration_finished', {
+                            'IsTechAcc': '${userInfo.isTechClient}',
                             'Customer User iD': hashEmail,
                             'Appsflyer ID': appsFlyerID,
                           });
                         }
+
                         biometric.useBio(
                           useBio: false,
-                          context: context,
                         );
                       }
                     },

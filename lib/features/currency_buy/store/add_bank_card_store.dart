@@ -152,8 +152,7 @@ abstract class _AddBankCardStoreBase with Store {
 
   @action
   void _initState() {
-    final userInfo = sUserInfo.userInfo;
-    final userName = '${userInfo.firstName} ${userInfo.lastName}';
+    final userName = '${sUserInfo.firstName} ${sUserInfo.lastName}';
     cardholderName = userName;
     cardholderNameController.text = userName;
   }
@@ -173,9 +172,8 @@ abstract class _AddBankCardStoreBase with Store {
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
 
-      final cardNumberString = cardNumber
-          .replaceAll('\u{2005}', '')
-          .replaceAll(' ', '');
+      final cardNumberString =
+          cardNumber.replaceAll('\u{2005}', '').replaceAll(' ', '');
 
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -259,7 +257,6 @@ abstract class _AddBankCardStoreBase with Store {
           loader.finishLoading(onFinish: onError);
         },
       );
-
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,

@@ -5,6 +5,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage(name: 'WithdrawRouter')
 class WithdrawalScreen extends StatelessWidget {
   const WithdrawalScreen({
     super.key,

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -33,6 +34,7 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 
 import '../../payment_methods/ui/widgets/card_limits_bottom_sheet.dart';
 
+@RoutePage(name: 'CurrencyBuyRouter')
 class CurrencyBuy extends StatelessWidget {
   const CurrencyBuy({
     Key? key,
@@ -405,13 +407,9 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 if (state.pickedUnlimintCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SActionDepositIcon(
-                      color: (state.limitByAsset?.barProgress == 100 ||
-                              isLimitBlock)
-                          ? colors.grey2
-                          : colors.black,
-                    ),
-                    name: '${state.pickedUnlimintCard!.network} '
+                    icon: getNetworkIcon(state.pickedUnlimintCard?.network),
+                    name:
+                        '${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
                         '${state.pickedUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock
@@ -440,13 +438,8 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                 if (state.pickedAltUnlimintCard != null)
                   SPaymentSelectCreditCard(
                     widgetSize: widgetSizeFrom(deviceSize),
-                    icon: SActionDepositIcon(
-                      color: (state.limitByAsset?.barProgress == 100 ||
-                              isLimitBlock)
-                          ? colors.grey2
-                          : colors.black,
-                    ),
-                    name: '${state.pickedAltUnlimintCard!.network} '
+                    icon: getNetworkIcon(state.pickedAltUnlimintCard?.network),
+                    name:
                         '${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
                         '${state.pickedAltUnlimintCard!.last4}',
                     description: limitText,
@@ -697,5 +690,22 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
         ],
       ),
     );
+  }
+
+  Widget getNetworkIcon(CircleCardNetwork? network) {
+    switch (network) {
+      case CircleCardNetwork.VISA:
+        return const SVisaCardIcon(
+          width: 40,
+          height: 25,
+        );
+      case CircleCardNetwork.MASTERCARD:
+        return const SMasterCardIcon(
+          width: 40,
+          height: 25,
+        );
+      default:
+        return const SActionDepositIcon();
+    }
   }
 }

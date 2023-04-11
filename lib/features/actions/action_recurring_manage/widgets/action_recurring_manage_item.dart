@@ -3,12 +3,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ActionRecurringManageItem extends StatelessWidget {
   const ActionRecurringManageItem({
-    Key? key,
     required this.primaryText,
     required this.onTap,
     required this.icon,
     required this.color,
-  }) : super(key: key);
+  });
 
   final String primaryText;
   final Function() onTap;

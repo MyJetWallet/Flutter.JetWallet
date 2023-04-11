@@ -30,14 +30,8 @@ import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
-import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_networking/helpers/models/refresh_token_status.dart';
-import 'package:simple_networking/modules/auth_api/models/install_model.dart';
-import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
-import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 import 'package:logger/logger.dart';
 
@@ -51,6 +45,23 @@ enum AppStatus { Start, InProcess, End }
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
+  _AppStoreBase() {
+    reaction(
+      (_) => authStatus,
+      (msg) => checkInitRouter(),
+    );
+
+    reaction(
+      (_) => authorizedStatus,
+      (msg) => checkInitRouter(),
+    );
+
+    reaction(
+      (_) => remoteConfigStatus,
+      (msg) => checkInitRouter(),
+    );
+  }
+
   final _logger = getIt.get<SimpleLoggerService>();
   final _loggerValue = 'AppStore';
 
@@ -72,6 +83,12 @@ abstract class _AppStoreBase with Store {
   @action
   void manualUpdateRoute(RouterUnion route) {
     initRouter = route;
+
+    _logger.log(
+      level: Level.info,
+      place: _loggerValue,
+      message: 'INIT ROUTER UPDATED $route',
+    );
   }
 
   @observable
@@ -88,11 +105,20 @@ abstract class _AppStoreBase with Store {
 
   @observable
   bool isBalanceHide = true;
+
+  @observable
+  bool showAllAssets = false;
+
   @action
   void setIsBalanceHide(bool value) {
     isBalanceHide = value;
 
     getIt<LocalCacheService>().saveBalanceHide(value);
+  }
+
+  @action
+  void setShowAllAssets(bool value) {
+    showAllAssets = value;
   }
 
   @action
@@ -112,8 +138,6 @@ abstract class _AppStoreBase with Store {
     if (remoteConfigStatus is Success) {
       if (env == 'stage' && !getIt.get<DioProxyService>().proxySkiped) {
         if (!sRouter.isPathActive('/api_selector')) {
-          //initRouter = const RouterUnion.apiSelector();
-
           await getIt<AppRouter>().replaceAll([
             const ApiSelectorRouter(),
           ]);
@@ -124,8 +148,6 @@ abstract class _AppStoreBase with Store {
 
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
-          //initRouter = const RouterUnion.appUpdate();
-
           await getIt<ForceServiceUpdate>().init(
             context: getIt.get<AppRouter>().navigatorKey.currentContext!,
             showPopup: true,
@@ -136,31 +158,20 @@ abstract class _AppStoreBase with Store {
       }
 
       authStatus.when(
-        loading: () {
-          //initRouter = const RouterUnion.loading();
-        },
+        loading: () {},
         authorized: () {
           authorizedStatus.when(
-            loading: () {
-              //initRouter = const RouterUnion.loading();
-            },
+            loading: () {},
             twoFaVerification: () {
-              //initRouter = const RouterUnion.twoFaVerification();
-
-              /*getIt<AppRouter>().replaceAll([
-                TwoFaPhoneRouter(
-                  trigger: TwoFaPhoneTriggerUnion.startup(),
-                ),
-              ]);
-              */
               if (lastRoute != 'verification_screen') {
                 sAnalytics.signInFlowPhoneNumberView();
+
                 getIt<AppRouter>().replaceAll([
                   SetPhoneNumberRouter(
                     successText: intl.profileDetails_newPhoneNumberConfirmed,
                     fromRegister: true,
                     then: () {
-                      getIt.get<StartupService>().authenticatedBoot();
+                      getIt.get<StartupService>().secondAction();
 
                       getIt.get<VerificationStore>().phoneDone();
                     },
@@ -179,16 +190,16 @@ abstract class _AppStoreBase with Store {
                 await getIt<AppRouter>().replaceAll([
                   PhoneVerificationRouter(
                     args: PhoneVerificationArgs(
-                      phoneNumber: sUserInfo.userInfo.phone,
+                      phoneNumber: sUserInfo.phone,
                       activeDialCode: phoneNumber,
                       sendCodeOnInitState: true,
                       onVerified: () {
                         userInfoN.updatePhoneVerified(
-                          phoneVerified: true,
+                          phoneVerifiedValue: true,
                         );
                         userInfoN.updateTwoFaStatus(enabled: true);
 
-                        getIt.get<StartupService>().authenticatedBoot();
+                        getIt.get<StartupService>().secondAction();
 
                         getIt.get<VerificationStore>().phoneDone();
                       },
@@ -200,12 +211,11 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'verification_phone_screen';
             },
             pinSetup: () {
-              print(getIt.get<VerificationStore>().isRefreshPin);
-              if (lastRoute != '/pin_screen') {
+              if (lastRoute != 'pin_screen') {
                 if (getIt.get<VerificationStore>().isRefreshPin) {
                   getIt<AppRouter>().replaceAll([
                     PinScreenRoute(
-                      union: Setup(),
+                      union: const Setup(),
                       cannotLeave: true,
                       isForgotPassword: true,
                     ),
@@ -213,7 +223,7 @@ abstract class _AppStoreBase with Store {
                 } else {
                   getIt<AppRouter>().replaceAll([
                     PinScreenRoute(
-                      union: Setup(),
+                      union: const Setup(),
                       cannotLeave: true,
                     ),
                   ]);
@@ -223,23 +233,25 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'pin_screen';
             },
             pinVerification: () {
-              if (openPinVerification) return;
-              openPinVerification = true;
+              if (lastRoute != 'pin_screen_verification') {
+                if (openPinVerification) return;
+                openPinVerification = true;
 
-              if (sRouter.current.path != '/pin_screen') {
-                sAnalytics.signInFlowEnterPinView();
-                getIt<AppRouter>().replaceAll([
-                  PinScreenRoute(
-                    union: Verification(),
-                    cannotLeave: true,
-                    displayHeader: false,
-                  ),
-                ]);
+                if (sRouter.current.path != '/pin_screen') {
+                  sAnalytics.signInFlowEnterPinView();
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: const Verification(),
+                      cannotLeave: true,
+                      displayHeader: false,
+                    ),
+                  ]);
+                }
               }
+
+              lastRoute = 'pin_screen_verification';
             },
             home: () {
-              //initRouter = const RouterUnion.home();
-
               if (homeOpened) return;
               homeOpened = true;
 
@@ -258,7 +270,6 @@ abstract class _AppStoreBase with Store {
               }
             },
             askBioUsing: () {
-              //initRouter = const RouterUnion.askBioUsing();
               if (lastRoute != 'askBioUsing') {
                 getIt<AppRouter>().replaceAll([
                   BiometricRouter(),
@@ -271,15 +282,13 @@ abstract class _AppStoreBase with Store {
               if (lastRoute != 'userDataVerification') {
                 sAnalytics.signInFlowPersonalDetailsView();
                 getIt<AppRouter>().replaceAll([
-                  UserDataScreenRouter(),
+                  const UserDataScreenRouter(),
                 ]);
               }
 
               lastRoute = 'userDataVerification';
             },
             singleIn: () {
-              //initRouter = const RouterUnion.singleIn();
-
               if (lastRoute != 'singleIn') {
                 getIt<AppRouter>().replaceAll([
                   SingInRouter(),
@@ -292,19 +301,11 @@ abstract class _AppStoreBase with Store {
           );
         },
         unauthorized: () {
-          //initRouter = const RouterUnion.unauthorized();
-
-          print('unauthorized');
-
           getIt<AppRouter>().replaceAll([
-            OnboardingRoute(),
+            const OnboardingRoute(),
           ]);
         },
       );
-    } else {
-      await getIt<AppRouter>().replaceAll([
-        SplashNoAnimationRoute(),
-      ]);
     }
   }
 
@@ -314,8 +315,6 @@ abstract class _AppStoreBase with Store {
   @action
   void setAuthStatus(AuthorizationUnion value) {
     authStatus = value;
-
-    checkInitRouter();
   }
 
   @observable
@@ -323,8 +322,6 @@ abstract class _AppStoreBase with Store {
   @action
   void setAuthorizedStatus(AuthorizedUnion value) {
     authorizedStatus = value;
-
-    checkInitRouter();
   }
 
   @observable
@@ -338,8 +335,6 @@ abstract class _AppStoreBase with Store {
     );
 
     remoteConfigStatus = value;
-
-    checkInitRouter();
   }
 
   @observable
@@ -396,245 +391,46 @@ abstract class _AppStoreBase with Store {
       final profileInfo = await sNetwork.getWalletModule().getProfileInfo();
       if (info.data != null) {
         userInfo.updateWithValuesFromSessionInfo(
-          twoFaEnabled: info.data!.twoFaEnabled,
-          phoneVerified: info.data!.phoneVerified,
-          hasDisclaimers: info.data!.hasDisclaimers,
-          hasHighYieldDisclaimers: info.data!.hasHighYieldDisclaimers,
-          hasNftDisclaimers: info.data!.hasNftDisclaimers,
-          isTechClient: info.data!.isTechClient,
+          twoFaEnabledValue: info.data!.twoFaEnabled,
+          phoneVerifiedValue: info.data!.phoneVerified,
+          hasDisclaimersValue: info.data!.hasDisclaimers,
+          hasHighYieldDisclaimersValue: info.data!.hasHighYieldDisclaimers,
+          hasNftDisclaimersValue: info.data!.hasNftDisclaimers,
+          isTechClientValue: info.data!.isTechClient,
         );
       }
 
-      if (userInfo.userInfo.hasDisclaimers) {
+      if (userInfo.hasDisclaimers) {
         await getIt<DisclaimerStore>().init();
       }
 
       if (profileInfo.data != null) {
         userInfo.updateWithValuesFromProfileInfo(
-          emailConfirmed: profileInfo.data!.emailConfirmed,
-          phoneConfirmed: profileInfo.data!.phoneConfirmed,
-          kycPassed: profileInfo.data!.kycPassed,
-          email: profileInfo.data!.email ?? '',
-          phone: profileInfo.data!.phone ?? '',
-          referralLink: profileInfo.data!.referralLink ?? '',
-          referralCode: profileInfo.data!.referralCode ?? '',
-          countryOfRegistration: profileInfo.data!.countryOfRegistration ?? '',
-          countryOfResidence: profileInfo.data!.countryOfResidence ?? '',
-          countryOfCitizenship: profileInfo.data!.countryOfCitizenship ?? '',
-          firstName: profileInfo.data!.firstName ?? '',
-          lastName: profileInfo.data!.lastName ?? '',
+          emailConfirmedValue: profileInfo.data!.emailConfirmed,
+          phoneConfirmedValue: profileInfo.data!.phoneConfirmed,
+          kycPassedValue: profileInfo.data!.kycPassed,
+          emailValue: profileInfo.data!.email ?? '',
+          phoneValue: profileInfo.data!.phone ?? '',
+          referralLinkValue: profileInfo.data!.referralLink ?? '',
+          referralCodeValue: profileInfo.data!.referralCode ?? '',
+          countryOfRegistrationValue:
+              profileInfo.data!.countryOfRegistration ?? '',
+          countryOfResidenceValue: profileInfo.data!.countryOfResidence ?? '',
+          countryOfCitizenshipValue:
+              profileInfo.data!.countryOfCitizenship ?? '',
+          firstNameValue: profileInfo.data!.firstName ?? '',
+          lastNameValue: profileInfo.data!.lastName ?? '',
         );
       }
 
       sAnalytics.updateTechAccValue(
-        userInfo.userInfo.isTechClient,
+        userInfo.isTechClient,
       );
 
       authState = authState.copyWith(
         initSessionReceived: true,
       );
     }
-  }
-
-  @action
-  Future<void> saveInstallID() async {
-    try {
-      const uuid = Uuid();
-
-      final installID = uuid.v1();
-
-      await getIt<LocalCacheService>().saveInstallID(installID);
-
-      final packageInfo = getIt.get<PackageInfoService>().info;
-
-      final model = InstallModel(
-        installId: installID,
-        platform: Platform.isIOS ? 1 : 2,
-        deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
-        version: packageInfo.version,
-        lang: intl.localeName,
-        appsflyerId:
-            await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID(),
-        idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
-        idfv: sDeviceInfo.model.deviceUid,
-        adid: '',
-      );
-
-      final request = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postInstall(
-            model,
-          );
-
-      print(model);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @action
-  Future<void> getAuthStatus() async {
-    generateNewSessionID();
-
-    _logger.log(
-      level: Level.info,
-      place: _loggerValue,
-      message: 'User start init App Store - getAuthStatus()',
-    );
-
-    final storageService = getIt.get<LocalStorageService>();
-
-    String? token;
-    String? email;
-    String parsedEmail;
-
-    try {
-      token = await storageService.getValue(refreshTokenKey);
-      email = await storageService.getValue(userEmailKey);
-      parsedEmail = email ?? '<${intl.appInitFpod_emailNotFound}>';
-    } catch (e) {
-      token = null;
-      email = null;
-      parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
-    }
-
-    /// Init out API client
-    await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
-
-    try {
-      final deviceInfo = getIt.get<DeviceInfo>();
-
-      await AppTrackingTransparency.requestTrackingAuthorization();
-
-      await deviceInfo.deviceInfo();
-
-      unawaited(
-        checkInitAppFBAnalytics(
-          storageService,
-          deviceInfo.model,
-        ),
-      );
-
-      // TODO
-      final appsFlyerService = getIt.get<AppsFlyerService>();
-
-      await appsFlyerService.init();
-      await appsFlyerService.updateServerUninstallToken();
-    } catch (error, stackTrace) {
-      _logger.log(
-        level: Level.error,
-        place: _loggerValue,
-        message: 'appsFlyerService $error $stackTrace',
-      );
-    }
-
-    unawaited(
-      getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getLogsApiModule()
-          .postAddLog(
-            AddLogModel(
-              level: 'info',
-              message: 'Initialising the application for the user',
-              source: 'AppStore',
-              process: 'getAuthStatus',
-              token: token,
-            ),
-          ),
-    );
-
-    if (afterInstall) {
-      unawaited(saveInstallID());
-    }
-
-    appStatus = AppStatus.Start;
-
-    _logger.log(
-      level: Level.info,
-      place: _loggerValue,
-      message: 'User token: $token',
-    );
-
-    if (token == null) {
-      // TODO
-      //await sAnalytics.init(analyticsApiKey);
-
-      authStatus = const AuthorizationUnion.unauthorized();
-    } else {
-      updateAuthState(
-        refreshToken: token,
-        email: parsedEmail,
-      );
-
-      isBalanceHide = await getIt<LocalCacheService>().getBalanceHide() ?? true;
-
-      //unawaited(initSessionInfo());
-
-      try {
-        final userInfo = getIt.get<UserInfoService>();
-
-        final result = await refreshToken(updateSignalR: false);
-
-        _logger.log(
-          level: Level.info,
-          place: _loggerValue,
-          message: 'Start update token when init APPSTORE status: $result',
-        );
-
-        /// Recreating a dio object with a token
-        await getIt.get<SNetwork>().init(sessionID);
-
-        if (result == RefreshTokenStatus.success) {
-          await userInfo.initPinStatus();
-
-          await sAnalytics.init(
-            analyticsApiKey,
-            userInfo.userInfo.isTechClient,
-            parsedEmail,
-          );
-
-          authStatus = const AuthorizationUnion.authorized();
-
-          await getIt.get<StartupService>().processStartupState();
-        } else {
-          _logger.log(
-            level: Level.error,
-            place: _loggerValue,
-            message: 'RefreshToken func return error, we cant update our token',
-          );
-
-          await sAnalytics.init(
-            analyticsApiKey,
-            userInfo.userInfo.isTechClient,
-          );
-
-          authStatus = const AuthorizationUnion.unauthorized();
-        }
-      } catch (e) {
-        _logger.log(
-          level: Level.error,
-          place: _loggerValue,
-          message: 'Something goes wrong on refreshToken: $e',
-        );
-
-        await sAnalytics.init(
-          analyticsApiKey,
-          false,
-        );
-
-        authStatus = const AuthorizationUnion.unauthorized();
-
-        await getIt.get<LogoutService>().logout(
-              'APP_STORE, $e',
-              callbackAfterSend: () {},
-            );
-      }
-    }
-
-    unawaited(checkInitRouter());
   }
 
   @action
@@ -695,5 +491,7 @@ abstract class _AppStoreBase with Store {
 
     openPinVerification = false;
     homeOpened = false;
+
+    lastRoute = '';
   }
 }

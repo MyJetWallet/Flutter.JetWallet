@@ -4,7 +4,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 
 Future<void> checkInitAppFBAnalytics(
   LocalStorageService storage,
-  DeviceInfoModel deviceInfo,
+  String deviceUid,
 ) async {
   final firstInitAppStorage = await storage.getValue(firstInitAppCodeKey);
   final referralCode = await storage.getValue(referralCodeKey);
@@ -13,7 +13,7 @@ Future<void> checkInitAppFBAnalytics(
     await FirebaseAnalytics.instance.logEvent(
       name: 'first_initialize_app',
       parameters: {
-        'device_id': deviceInfo.deviceUid,
+        'device_id': deviceUid,
         'referral_code': referralCode ?? '',
       },
     );

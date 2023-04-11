@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'ConvertRouter')
 class Convert extends StatelessWidget {
   const Convert({
     Key? key,
@@ -161,16 +163,15 @@ class ConvertBody extends StatelessObserverWidget {
               }
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.convertValid
-                && store.fromAssetAmount != ''
-                && store.fromAssetAmount != '0'
-                && store.toAssetAmount != ''
-                && store.toAssetAmount != '0'
-                && store.fromAsset != null
-                && store.toAsset != null,
+            submitButtonActive: store.convertValid &&
+                store.fromAssetAmount != '' &&
+                store.fromAssetAmount != '0' &&
+                store.toAssetAmount != '' &&
+                store.toAssetAmount != '0' &&
+                store.fromAsset != null &&
+                store.toAsset != null,
             submitButtonName: intl.convert_previewExchange,
             onSubmitPressed: () {
-
               sRouter.push(
                 PreviewConvertRouter(
                   input: PreviewConvertInput(

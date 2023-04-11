@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:crisp/crisp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'CrispRouter')
 class Crisp extends StatefulObserverWidget {
   const Crisp({
     Key? key,
@@ -30,8 +32,7 @@ class _CrispState extends State<Crisp> {
     super.initState();
     final packageInfo = getIt.get<PackageInfoService>().info;
     final authInfo = getIt.get<AppStore>().authState;
-    final userInfo = sUserInfo.userInfo;
-    final deviceInfo = sDeviceInfo.model;
+    final deviceInfo = sDeviceInfo;
 
     crispMain = CrispMain(
       websiteId: crispWebsiteId,
@@ -41,10 +42,10 @@ class _CrispState extends State<Crisp> {
     crispMain.register(
       user: CrispUser(
         email: authInfo.email,
-        nickname: userInfo.firstName.isNotEmpty
-            ? '${userInfo.firstName} ${userInfo.lastName}'
+        nickname: sUserInfo.firstName.isNotEmpty
+            ? '${sUserInfo.firstName} ${sUserInfo.lastName}'
             : authInfo.email,
-        phone: userInfo.phone,
+        phone: sUserInfo.phone,
       ),
     );
 
@@ -57,9 +58,9 @@ class _CrispState extends State<Crisp> {
       'os_sdk': deviceInfo.sdk,
       'device_manufacturer': deviceInfo.manufacturer,
       'device_model': deviceInfo.model,
-      'country_of_registration': userInfo.countryOfRegistration,
-      'country_of_residence': userInfo.countryOfResidence,
-      'country_of_citizenship': userInfo.countryOfCitizenship,
+      'country_of_registration': sUserInfo.countryOfRegistration,
+      'country_of_residence': sUserInfo.countryOfResidence,
+      'country_of_citizenship': sUserInfo.countryOfCitizenship,
     });
   }
 

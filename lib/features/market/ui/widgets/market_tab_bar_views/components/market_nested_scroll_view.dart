@@ -1,18 +1,17 @@
 import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:animated_list_plus/transitions.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/helper/nft_filer_modal.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/nft_market_item.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/helper/nft_market.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:provider/provider.dart';
@@ -95,6 +94,14 @@ class __MarketNestedScrollViewBodyState
         controller,
       );
     });
+
+    getIt<EventBus>().on<ResetScrollMarket>().listen((event) {
+      marketScrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
@@ -110,8 +117,7 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    final showPreloader =
-        store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
+    final showPreloader = store.cryptoList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -141,17 +147,10 @@ class __MarketNestedScrollViewBodyState
                               : store.nftFilterSelected.length,
                       onFilterButtonTap: widget.showFilter
                           ? () {
-                              if (widget.marketShowType == MarketShowType.NFT) {
-                                showNFTFilterModalSheet(
-                                  context,
-                                  store as MarketFilterStore,
-                                );
-                              } else {
-                                showCryptoFilterModalSheet(
-                                  context,
-                                  store as MarketFilterStore,
-                                );
-                              }
+                              showCryptoFilterModalSheet(
+                                context,
+                                store as MarketFilterStore,
+                              );
                             }
                           : null,
                       onSearchButtonTap:
@@ -172,9 +171,7 @@ class __MarketNestedScrollViewBodyState
       body: showPreloader
           ? ColoredBox(
               color: colors.white,
-              child: widget.marketShowType == MarketShowType.Crypto
-                  ? showCryptoList(baseCurrency)
-                  : showNFTList(),
+              child: showCryptoList(baseCurrency),
             )
           : const MarketNotLoaded(),
     );
@@ -398,41 +395,6 @@ class __MarketNestedScrollViewBodyState
           },
         ),
         */
-      ],
-    );
-  }
-
-  Widget showNFTList() {
-    final store = MarketFilterStore.of(context);
-
-    return Column(
-      children: [
-        Flexible(
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemCount: store.nftListFiltred.length,
-            itemBuilder: (context, index) {
-              return NftMarketItem(
-                image: '$shortUrl${store.nftListFiltred[index].sImage}',
-                name: store.nftListFiltred[index].name ?? '',
-                descr: nftMarketDescr(
-                  store.nftListFiltred[index].nftList.length,
-                  store.nftListFiltred[index].tags ?? [],
-                ),
-                onTap: () {
-                  sRouter.push(
-                    NftCollectionDetailsRouter(
-                      collectionID: store.nftListFiltred[index].id!,
-                    ),
-                  );
-                },
-                last: store.nftListFiltred[index] == store.nftListFiltred.last,
-              );
-            },
-          ),
-        ),
-        const SpaceH40(),
       ],
     );
   }

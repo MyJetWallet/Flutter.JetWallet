@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -12,6 +13,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'ChooseDocumentsRouter')
 class ChooseDocuments extends StatelessObserverWidget {
   const ChooseDocuments({
     Key? key,
@@ -104,11 +106,9 @@ class ChooseDocuments extends StatelessObserverWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
-
                 final status = await Permission.camera.request();
 
                 if (status == PermissionStatus.granted) {
-
                   await sRouter.push(const UploadKycDocumentsRouter());
                 } else {
                   await sRouter.push(

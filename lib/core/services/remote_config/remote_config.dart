@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -26,7 +27,8 @@ const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfig {
-  static final _logger = Logger('RemoteConfigStore');
+  final _logger = getIt.get<SimpleLoggerService>();
+  final _loggerValue = 'RemoteConfig';
 
   Timer? _timer;
   late Timer _durationTimer;
@@ -41,60 +43,73 @@ class RemoteConfig {
           const RemoteConfigUnion.loading(),
         );
 
-    _logger.log(stateFlow, 'Loading Remote Config');
-
     try {
       final flavor = flavorService();
-      //final timeTrackerN = read(timeTrackingNotipod.notifier);
 
       var remoteConfigURL = '';
+
       final storageService = getIt.get<LocalStorageService>();
       final activeSlotUsing = await storageService.getValue(activeSlot);
+
       final isFirstRunning =
           await getIt<LocalCacheService>().checkIsFirstRunning();
+
       final isSlotBActive = activeSlotUsing == 'slot b' && !isFirstRunning;
 
-      remoteConfigURL = flavor == Flavor.prod
-          ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
-          : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
+      Future<RemoteConfigModel> getRemoteConfigFromServer() async {
+        remoteConfigURL = flavor == Flavor.prod
+            ? 'https://wallet-api.simple.app/api/v1/remote-config/config'
+            : 'https://wallet-api-uat.simple-spot.biz/api/v1/remote-config/config';
 
-      final response = await Dio().get(remoteConfigURL);
+        final response = await Dio().get(remoteConfigURL);
 
-      //final response = await SimpleNetworking(setupDioWithoutInterceptors()).getRemoteConfigModule().getRemoteConfig(remoteConfigURL);
+        Map<String, dynamic> responseData;
 
-      Map<String, dynamic> responseData;
+        responseData = response.data is String
+            ? jsonDecode(response.data as String) as Map<String, dynamic>
+            : response.data as Map<String, dynamic>;
 
-      responseData = response.data is String
-          ? jsonDecode(response.data as String) as Map<String, dynamic>
-          : response.data as Map<String, dynamic>;
+        return RemoteConfigModel.fromJson(responseData);
+      }
 
-      final respModel = RemoteConfigModel.fromJson(responseData);
+      Future<RemoteConfigModel> getRemoteConfigFromCache() async {
+        final remoteConfigLocal =
+            await getIt<LocalCacheService>().getRemoteConfig();
 
-      _logger.log(notifier, 'Loading Remote LOADED');
+        return remoteConfigLocal ?? await getRemoteConfigFromServer();
+      }
 
-      remoteConfig = respModel;
+      Future<void> overrideConfig() async {
+        overrideAppConfigValues();
+        overrideVersioningValues();
+        overrideSupportValues();
+        overrideAnalyticsValues();
+        overrideSimplexValues();
+        overrideAppsFlyerValues();
+        overrideCircleValues();
+        overrideNFTValues();
+        overrideMerchantPayConfigValues();
 
-      overrideAppConfigValues();
-      overrideVersioningValues();
-      overrideSupportValues();
-      overrideAnalyticsValues();
-      overrideSimplexValues();
-      overrideAppsFlyerValues();
-      overrideCircleValues();
-      overrideNFTValues();
-      overrideMerchantPayConfigValues();
+        overrideApisFrom(
+          _defaultFlavorIndex,
+          isSlotBActive,
+        );
+      }
 
-      overrideApisFrom(_defaultFlavorIndex, isSlotBActive);
+      remoteConfig = await getRemoteConfigFromCache();
 
-      _logger.log(notifier, 'PUSH TO HOMEROUTER');
+      await overrideConfig();
 
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.success(),
           );
-    } catch (e) {
-      print('REMOTE: $e');
 
-      _logger.log(stateFlow, '_fetchAndActivate', e);
+      /// Silent update from Server
+      remoteConfig = await getRemoteConfigFromServer();
+
+      await overrideConfig();
+    } catch (e) {
+      print(e);
 
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),
@@ -196,12 +211,14 @@ class RemoteConfig {
     appsFlyerKey = remoteConfig!.appsFlyer.devKey;
     iosAppId = remoteConfig!.appsFlyer.iosAppId;
 
-    getIt.registerSingleton<AppsFlyerService>(
-      AppsFlyerService.create(
-        devKey: appsFlyerKey,
-        iosAppId: iosAppId,
-      ),
-    );
+    if (!getIt.isRegistered<AppsFlyerService>()) {
+      getIt.registerSingleton<AppsFlyerService>(
+        AppsFlyerService.create(
+          devKey: appsFlyerKey,
+          iosAppId: iosAppId,
+        ),
+      );
+    }
   }
 
   void overrideCircleValues() {

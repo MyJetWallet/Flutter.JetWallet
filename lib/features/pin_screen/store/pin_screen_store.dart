@@ -64,9 +64,6 @@ abstract class _PinScreenStoreBase with Store {
 
   static final _logger = Logger('PinScreenStore');
 
-  final UserInfoState _userInfo = sUserInfo.userInfo;
-  final UserInfoService _userInfoN = sUserInfo;
-
   int attemptsLeft = maxPinAttempts;
 
   @observable
@@ -203,7 +200,7 @@ abstract class _PinScreenStoreBase with Store {
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
-    if (usingBio == true.toString() && _userInfo.pin != null) {
+    if (usingBio == true.toString() && sUserInfo.pin != null) {
       await updatePin(face);
     }
   }
@@ -304,18 +301,20 @@ abstract class _PinScreenStoreBase with Store {
         onData: (data) async {
           await flowUnion.maybeWhen(
             disable: () async {
-              await _userInfoN.disablePin();
+              await sUserInfo.disablePin();
 
               await _successFlow(
-                _userInfoN.resetPin(),
+                sUserInfo.resetPin(),
               );
             },
             verification: () async {
               await _animateSuccess();
 
-              await _userInfoN.setPin(enterPin);
-              if (_userInfo.isJustLogged) {
-                getIt.get<StartupService>().pinSet();
+              await sUserInfo.setPin(enterPin);
+              if (sUserInfo.isJustLogged) {
+                await sRouter.push(
+                  BiometricRouter(),
+                );
               } else {
                 getIt.get<StartupService>().pinVerified();
               }
@@ -440,13 +439,15 @@ abstract class _PinScreenStoreBase with Store {
           return;
         }
         await _animateCorrect(isConfirm: true);
-        await _userInfoN.setPin(confrimPin);
+        await sUserInfo.setPin(confrimPin);
         if (isChangePin) {
           await _successFlow(
-            _userInfoN.setPin(newPin),
+            sUserInfo.setPin(newPin),
           );
         } else {
-          getIt.get<StartupService>().pinSet();
+          await sRouter.push(
+            BiometricRouter(),
+          );
         }
       } else {
         await _animateError();
@@ -560,7 +561,7 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _updateHideBiometricButton(bool value) async {
     await getIt.get<UserInfoService>().initPinStatus();
-    hideBiometricButton = _userInfo.pin == null ? true : value;
+    hideBiometricButton = sUserInfo.pin == null ? true : value;
   }
 
   @action
@@ -621,7 +622,7 @@ abstract class _PinScreenStoreBase with Store {
 
       isBioBeenUsed = true;
 
-      return success ? _userInfo.pin ?? '' : '';
+      return success ? sUserInfo.pin ?? '' : '';
     } else {
       return '';
     }

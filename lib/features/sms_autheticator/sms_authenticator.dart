@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -6,13 +7,12 @@ import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'SmsAuthenticatorRouter')
 class SmsAuthenticator extends StatelessObserverWidget {
   const SmsAuthenticator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = sUserInfo.userInfo;
-
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -27,9 +27,9 @@ class SmsAuthenticator extends StatelessObserverWidget {
             title: intl.smsAuth_headerTitle,
             icon: const SLockIcon(),
             isSDivider: false,
-            switchValue: userInfo.twoFaEnabled,
+            switchValue: sUserInfo.twoFaEnabled,
             onSwitchChanged: (value) {
-              if (userInfo.twoFaEnabled) {
+              if (sUserInfo.twoFaEnabled) {
                 sRouter.push(
                   TwoFaPhoneRouter(
                     trigger: const Security(
@@ -38,7 +38,7 @@ class SmsAuthenticator extends StatelessObserverWidget {
                   ),
                 );
               } else {
-                if (userInfo.phoneVerified) {
+                if (sUserInfo.phoneVerified) {
                   sRouter.push(
                     TwoFaPhoneRouter(
                       trigger: const TwoFaPhoneTriggerUnion.security(

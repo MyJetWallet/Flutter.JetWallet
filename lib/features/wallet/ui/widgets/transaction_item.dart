@@ -1,11 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/wallet/store/transaction_cancel_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_crypto_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_nft_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_nft_opposite_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
@@ -14,18 +10,19 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/recurring_buy_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/referral_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/services/device_size/device_size.dart';
 import '../../../../core/services/notification_service.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
+import 'wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
 
@@ -271,46 +268,14 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.cryptoInfo) ...[
+                      OperationType.cryptoInfo ||
+                    widget.transactionListItem.operationType ==
+                      OperationType.buyGooglePay ||
+                    widget.transactionListItem.operationType ==
+                      OperationType.buyApplePay) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        _onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.nftBuy ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.nftSwap) ...[
-                  Material(
-                    color: colors.white,
-                    child: BuyNftDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        _onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.nftBuyOpposite ||
-                    widget.transactionListItem.operationType ==
-                        OperationType.nftSellOpposite) ...[
-                  Material(
-                    color: colors.white,
-                    child: BuySellNftOppositeDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {
@@ -377,6 +342,22 @@ class _TransactionItemState extends State<TransactionItem>
                   Material(
                     color: colors.white,
                     child: IbanDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
+                    OperationType.rewardPayment) ...[
+                  Material(
+                    color: colors.white,
+                    child: ReferralDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

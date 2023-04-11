@@ -14,7 +14,8 @@ class SecurityProtection extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final userInfo = getIt.get<UserInfoService>();
-    final level = protectionLevel(userInfo.userInfo, context);
+    final level =
+        protectionLevel(userInfo.pinEnabled, userInfo.twoFaEnabled, context);
     final colors = sKit.colors;
 
     return Column(

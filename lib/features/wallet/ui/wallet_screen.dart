@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+@RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
   const Wallet({
     Key? key,

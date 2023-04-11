@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -23,6 +24,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 late CurrencyModel currencyModel;
 
+@RoutePage(name: 'SendByPhoneConfirmRouter')
 class SendByPhoneConfirm extends StatefulObserverWidget {
   const SendByPhoneConfirm({
     Key? key,

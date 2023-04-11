@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,10 +11,9 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'AllowBiometricRoute')
 class AllowBiometric extends StatelessWidget {
-  const AllowBiometric({
-    Key? key,
-  }) : super(key: key);
+  const AllowBiometric({Key? key, s}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _AllowCameraScreenBodyState extends State<_AllowBiometricScreenBody>
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final deviceInfo = sDeviceInfo.model;
+    final deviceInfo = sDeviceInfo;
     final notifier = BiometricStore.of(context);
 
     late String headerText;

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -27,6 +28,7 @@ import '../../helper/formatted_circle_card.dart';
 import '../../store/payment_methods_store.dart';
 import 'add_bank_card.dart';
 
+@RoutePage(name: 'PaymentMethodRouter')
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({
     Key? key,
@@ -201,8 +203,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                           PaymentMethodType.simplex,
@@ -225,8 +233,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 ),
               ] else if (method.id == PaymentMethodType.circleCard) ...[
                 SActionItem(
-                  icon: SActionDepositIcon(
-                    color: colors.blue,
+                  icon: SizedBox(
+                    width: 40,
+                    height: 25,
+                    child: Center(
+                      child: SActionDepositIcon(
+                        color: sKit.colors.blue,
+                      ),
+                    ),
                   ),
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
@@ -251,8 +265,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                               PaymentMethodType.unlimintCard &&
@@ -299,7 +319,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -345,7 +366,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -392,7 +414,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -429,8 +452,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           ],
           if (isUnlimintCardEnabled)
             SCreditCardItem(
-              icon: SPlusIcon(
-                color: colors.blue,
+              icon: SizedBox(
+                width: 40,
+                height: 25,
+                child: Center(
+                  child: SPlusIcon(
+                    color: colors.blue,
+                  ),
+                ),
               ),
               name: intl.actionBuy_addACard,
               amount: '',

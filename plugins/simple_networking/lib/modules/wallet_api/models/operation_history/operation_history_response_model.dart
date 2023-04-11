@@ -76,6 +76,8 @@ enum OperationType {
   transferByNickname,
   receiveByNickname,
   ibanDeposit,
+  buyApplePay,
+  buyGooglePay,
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -143,6 +145,10 @@ extension _OperationTypeExtension on OperationType {
         return 31;
       case OperationType.ibanDeposit:
         return 32;
+      case OperationType.buyApplePay:
+        return 34;
+      case OperationType.buyGooglePay:
+        return 35;
       default:
         return 0;
     }
@@ -220,6 +226,10 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.receiveByNickname;
     } else if (value == '32') {
       return OperationType.ibanDeposit;
+    } else if (value == '34') {
+      return OperationType.buyApplePay;
+    } else if (value == '35') {
+      return OperationType.buyGooglePay;
     } else {
       return OperationType.unknown;
     }
@@ -278,6 +288,8 @@ class DepositInfo with _$DepositInfo {
   const factory DepositInfo({
     String? txId,
     String? network,
+    String? address,
+    String? tag,
     required bool isInternal,
     required double depositAmount,
   }) = _DepositInfo;

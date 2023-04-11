@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -26,16 +28,15 @@ class SignalRService {
     await _getSignalRModule();
 
     signalR = await createNewService();
-    await signalR!.init();
+    await signalR!.openConnection();
   }
 
   Future<void> reCreateSignalR() async {
     if (signalR != null) {
-      await signalR!.disconnect();
+      await signalR!.disconnect('reCreateSignalR');
     }
 
-    signalR = await createNewService();
-    await signalR!.init();
+    await signalR!.openConnection();
   }
 
   Future<void> _getSignalRModule() async {
@@ -98,13 +99,21 @@ class SignalRService {
 
     return SignalRModuleNew(
       options: getIt.get<SNetwork>().simpleOptions,
-      headers: {'User-Agent': await getUserAgent()},
-      token: getIt.get<AppStore>().authState.token,
-      deviceUid: getIt.get<DeviceInfo>().model.deviceUid,
+      deviceUid: getIt.get<DeviceInfo>().deviceUid,
       localeName: intl.localeName,
       refreshToken: refreshToken,
       transport: transport,
       log: _logger.log,
+      getToken: _getToken,
+      signalRClient: SignalRClient(
+        defaultHeaders: {
+          'User-Agent': await getUserAgent(),
+        },
+      ),
     );
   }
+}
+
+Future<String> _getToken() async {
+  return getIt.get<AppStore>().authState.token;
 }

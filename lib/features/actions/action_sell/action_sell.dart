@@ -9,7 +9,6 @@ import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showSellAction(BuildContext context) {
@@ -33,7 +32,7 @@ void showSellAction(BuildContext context) {
 }
 
 class _ActionSell extends StatelessObserverWidget {
-  const _ActionSell({Key? key}) : super(key: key);
+  const _ActionSell();
 
   @override
   Widget build(BuildContext context) {

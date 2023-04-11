@@ -82,7 +82,8 @@ void showPaymentCurrenciesBottomSheet({
                         children: [
                           Text(
                             iterableAssets[sortedAssets.indexOf(asset)]
-                                .prefixSymbol ?? '?',
+                                    .prefixSymbol ??
+                                '?',
                             style: sCaptionTextStyle.copyWith(
                               color: asset.asset != activeAsset?.asset
                                   ? colors.black
@@ -100,8 +101,7 @@ void showPaymentCurrenciesBottomSheet({
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        iterableAssets[sortedAssets.indexOf(asset)]
-                            .description ?? '',
+                        iterableAssets[sortedAssets.indexOf(asset)].description,
                         style: sSubtitle2Style.copyWith(
                           color: asset.asset != activeAsset?.asset
                               ? colors.black
@@ -115,9 +115,8 @@ void showPaymentCurrenciesBottomSheet({
               ),
             ),
           ),
-      ),
-        if (asset != sortedAssets.last)
-          const SPaddingH24(child: SDivider()),
+        ),
+        if (asset != sortedAssets.last) const SPaddingH24(child: SDivider()),
       ],
       const SpaceH67(),
     ],

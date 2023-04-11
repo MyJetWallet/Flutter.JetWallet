@@ -17,6 +17,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
+import '../../app/store/app_store.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
 import '../../kyc/models/kyc_operation_status_model.dart';
@@ -67,82 +68,7 @@ void _showReceive(BuildContext context) {
   final kyc = getIt.get<KycService>();
   final handler = getIt.get<KycAlertHandler>();
 
-  final showCrypto = sSignalRModules.clientDetail.isNftEnable;
-  if (!showCrypto) {
-    showCryptoReceiveAction(context);
-  } else {
-    sShowBasicModalBottomSheet(
-      context: context,
-      then: (value) {
-        //sAnalytics.receiveChooseAssetClose();
-      },
-      pinned: ActionBottomSheetHeader(
-        name: intl.actionReceive_receive,
-        onChanged: (String value) {},
-      ),
-      horizontalPinnedPadding: 0.0,
-      removePinnedPadding: true,
-      children: [
-        Column(
-          children: [
-            receiveItem(
-              icon: const SizedBox(
-                width: 24,
-                height: 24,
-                child: SimpleLightWalletIcon(),
-              ),
-              text: intl.actionReceive_receive_crypto,
-              subtext: intl.actionReceive_receive_crypto,
-              onTap: () {
-                showCryptoReceiveAction(context);
-              },
-            ),
-            receiveItem(
-              icon: SizedBox(
-                width: 24,
-                height: 24,
-                child: SimpleLightQrCodeIcon(
-                  color: colors.blue,
-                ),
-              ),
-              text: intl.actionReceive_receive_nft,
-              subtext: intl.actionReceive_receive_nft,
-              onTap: () {
-                if (kyc.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed) &&
-                    kyc.withdrawalStatus ==
-                        kycOperationStatus(KycStatus.allowed) &&
-                    kyc.sellStatus == kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.push(
-                    const ReceiveNFTRouter(),
-                  );
-                } else {
-                  handler.handle(
-                    status: kyc.depositStatus !=
-                            kycOperationStatus(KycStatus.allowed)
-                        ? kyc.depositStatus
-                        : kyc.withdrawalStatus !=
-                                kycOperationStatus(KycStatus.allowed)
-                            ? kyc.withdrawalStatus
-                            : kyc.sellStatus,
-                    isProgress: kyc.verificationInProgress,
-                    currentNavigate: () {
-                      sRouter.push(
-                        const ReceiveNFTRouter(),
-                      );
-                    },
-                    requiredDocuments: kyc.requiredDocuments,
-                    requiredVerifications: kyc.requiredVerifications,
-                  );
-                }
-              },
-            ),
-            const SpaceH40(),
-          ],
-        ),
-      ],
-    );
-  }
+  showCryptoReceiveAction(context);
 }
 
 Widget receiveItem({
@@ -201,15 +127,14 @@ Widget receiveItem({
 void showCryptoReceiveAction(BuildContext context) {
   getIt.get<ActionSearchStore>().init();
   final searchStore = getIt.get<ActionSearchStore>();
-  final showSearch = showReceiveCurrencySearch(context);
 
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
+    expanded: true,
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.actionReceive_bottomSheetHeaderName1,
-      showSearch: showSearch,
       onChanged: (String value) {
         getIt.get<ActionSearchStore>().search(value);
       },
@@ -235,6 +160,7 @@ class _ActionReceive extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final state = searchStore;
+    final colors = sKit.colors;
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
     sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
@@ -245,27 +171,176 @@ class _ActionReceive extends StatelessObserverWidget {
         )
         .toList();
 
+    final showTabs = sSignalRModules.currenciesList
+        .where(
+          (element) => element.supportsIbanDeposit,
+    )
+        .toList()
+        .isNotEmpty;
+
+    final showSearch = showReceiveCurrencySearch(context) &&
+        state.showCrypto;
+
     return Column(
       children: [
-        for (final currency in state.filteredCurrencies)
-          if (currency.type == AssetType.crypto)
-            if (currency.supportsCryptoDeposit)
-              SWalletItem(
-                icon: SNetworkSvg24(
-                  url: currency.iconUrl,
-                ),
-                primaryText: currency.description,
-                secondaryText: currency.symbol,
-                removeDivider: currency == currencyFiltered.last,
+        if (showTabs) ...[
+          Stack(
+            children: [
+              GestureDetector(
                 onTap: () {
-                  getIt.get<AppRouter>().push(
-                        CryptoDepositRouter(
-                          header: intl.actionReceive_receive,
-                          currency: currency,
-                        ),
-                      );
+                  state.updateShowCrypto(!state.showCrypto);
+                  state.search('');
+                  state.searchController.text = '';
                 },
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: colors.grey5,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: (MediaQuery.of(context).size.width - 48) / 2,
+                          child: Center(
+                            child: Text(
+                              intl.actionDeposit_crypto,
+                              style: sSubtitle3Style.copyWith(
+                                color: colors.grey3,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: (MediaQuery.of(context).size.width - 48) / 2,
+                          child: Center(
+                            child: Text(
+                              intl.actionDeposit_fiat,
+                              style: sSubtitle3Style.copyWith(
+                                color: colors.grey3,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
+              if (state.showCrypto)
+                Positioned(
+                  left: 0,
+                  child: Container(
+                    width: (MediaQuery.of(context).size.width - 48) / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      child: Center(
+                        child: Text(
+                          intl.actionDeposit_crypto,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    width: (MediaQuery.of(context).size.width - 48) / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      child: Center(
+                        child: Text(
+                          intl.actionDeposit_fiat,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SpaceH12(),
+        ],
+        if (showSearch) ...[
+          SPaddingH24(
+            child: SStandardField(
+              controller: state.searchController,
+              labelText: intl.actionBottomSheetHeader_search,
+              onChanged: (String value) =>
+                state.search(value),
+            ),
+          ),
+          const SDivider(),
+        ],
+        if (state.showCrypto) ...[
+          Column(
+            children: [
+              for (final currency in state.filteredCurrencies)
+                if (currency.type == AssetType.crypto)
+                  if (currency.supportsCryptoDeposit)
+                    SWalletItem(
+                      icon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      primaryText: currency.description,
+                      secondaryText: currency.symbol,
+                      removeDivider: currency == currencyFiltered.last,
+                      onTap: () {
+                        getIt.get<AppRouter>().push(
+                          CryptoDepositRouter(
+                            header: intl.actionReceive_receive,
+                            currency: currency,
+                          ),
+                        );
+                      },
+                    ),
+            ],
+          ),
+        ] else ...[
+          Column(
+            children: [
+              for (final currency in state.filteredCurrencies)
+                if (currency.type == AssetType.fiat)
+                  if (currency.supportsIbanDeposit)
+                    SWalletItem(
+                      icon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      primaryText: currency.description,
+                      secondaryText: currency.symbol,
+                      removeDivider: currency == currencyFiltered.last,
+                      onTap: () {
+                        sRouter.popUntilRoot();
+                        getIt<AppStore>().setHomeTab(2);
+                        if (getIt<AppStore>().tabsRouter != null) {
+                          getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+                        }
+                      },
+                    ),
+              const SpaceH42(),
+            ],
+          ),
+        ],
         const SpaceH42(),
       ],
     );

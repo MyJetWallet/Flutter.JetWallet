@@ -10,9 +10,6 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 
 Future<void> main() async {
-  mainContext.onReactionError((_, rxn) {
-    //log.error('A mobx reaction error occured.',error: rxn.errorValue!.exception,);
-  });
 
   await appInitialization('prod');
 
@@ -24,13 +21,6 @@ Future<void> main() async {
   Isolate.current.addErrorListener(
     RawReceivePort((pair) async {
       final errorAndStacktrace = pair as List;
-
-      /*
-      log.error(
-        'An error was captured by main.Isolate.current.addErrorListener',
-        error: errorAndStacktrace.first,
-      );
-      */
     }).sendPort,
   );
 

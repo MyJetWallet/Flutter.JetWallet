@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,6 +21,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import '../../../../utils/constants.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 
+@RoutePage(name: 'PreviewBuyWithUnlimintRouter')
 class PreviewBuyWithUnlimint extends StatelessWidget {
   const PreviewBuyWithUnlimint({
     Key? key,
@@ -65,9 +67,11 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
       small: () => heightWidget = heightWidget - 120,
       medium: () => heightWidget = heightWidget - 180,
     );
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.unlimintCard,
-    ).toList();
+        )
+        .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
 
     final transactionFeeCurrency = currencyFrom(
@@ -261,10 +265,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                              ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
                               betweenText: ', ',
                               privacyPolicyText:
-                              intl.previewBuyWithUmlimint_disclaimerPolicy,
+                                  intl.previewBuyWithUmlimint_disclaimerPolicy,
                               onUserAgreementTap: () =>
                                   launchURL(context, userAgreementLink),
                               onPrivacyPolicyTap: () =>
@@ -289,7 +293,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                 const SpaceH24(),
                 SPrimaryButton2(
                   active: !state.loader.loading &&
-                    (state.isChecked || hideCheckbox),
+                      (state.isChecked || hideCheckbox),
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
                     state.onConfirm();

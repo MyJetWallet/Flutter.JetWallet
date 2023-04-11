@@ -217,7 +217,6 @@ abstract class IbanStoreBase with Store {
 
   @action
   Future<void> initState() async {
-    final userInfo = getIt<UserInfoService>().userInfo;
     // ibanName = '${userInfo.firstName} ${userInfo.lastName}';
     ibanName = 'Simple Europe UAB';
     if (ibanBic.isEmpty) {

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -24,6 +25,7 @@ import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.
 import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
 
+@RoutePage(name: 'EmailVerificationRoute')
 class EmailVerification extends StatelessWidget {
   const EmailVerification({Key? key}) : super(key: key);
 

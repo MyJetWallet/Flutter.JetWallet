@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -17,6 +18,7 @@ import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'TwoFaPhoneRouter')
 class TwoFaPhone extends StatelessWidget {
   const TwoFaPhone({
     Key? key,
@@ -90,12 +92,11 @@ class _TwoFaPhoneBody extends StatelessObserverWidget {
           header: SBigHeader(
             title: intl.twoFaPhone_phoneConfirmation,
             onBackButtonTap: () => trigger.when(
-              startup: () =>
-                  logout.logout(
-                    'TWO FA, logout',
-                    withLoading: false,
-                    callbackAfterSend: () {},
-                  ),
+              startup: () => logout.logout(
+                'TWO FA, logout',
+                withLoading: false,
+                callbackAfterSend: () {},
+              ),
               security: (_) => sRouter.pop(),
             ),
           ),

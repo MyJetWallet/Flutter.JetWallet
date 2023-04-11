@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -18,6 +19,7 @@ import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'SingInRouter')
 class SingIn extends StatelessWidget {
   const SingIn({
     Key? key,

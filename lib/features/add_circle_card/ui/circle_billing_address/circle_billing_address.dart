@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -14,6 +15,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
+@RoutePage(name: 'CircleBillingAddressRouter')
 class CircleBillingAddress extends StatelessWidget {
   const CircleBillingAddress({
     Key? key,

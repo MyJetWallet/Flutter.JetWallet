@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/widgets/splash_screen_gradient.dart';
 import 'package:rive/rive.dart';
 
+@RoutePage(name: 'SplashNoAnimationRoute')
 class SplashScreenNoAnimation extends StatefulWidget {
   const SplashScreenNoAnimation({super.key});
 

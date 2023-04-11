@@ -11,10 +11,12 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/app/init_router/app_init_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
+import 'package:jetwallet/features/auth/splash/splash_screen_no_animation.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
@@ -36,7 +38,7 @@ class AppBuilder extends StatelessObserverWidget {
     // mediaQuery inside useMemorized hook
     final reactiveMediaQuery = MediaQuery.of(context);
 
-    return Builder(
+    return Observer(
       builder: (context) {
         getIt.get<DeviceSize>().setSize(reactiveMediaQuery.size.height);
 
@@ -49,21 +51,12 @@ class AppBuilder extends StatelessObserverWidget {
           );
         }
 
-        return FutureBuilder(
-          future: getIt.allReady(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return snapshot.hasData
-                ? Builder(
-                    builder: (context) {
-                      return AppBuilderBody(
-                        reactiveMediaQuery: reactiveMediaQuery,
-                        child: child ?? const SplashScreen(),
-                      );
-                    },
-                  )
-                : const SplashScreen();
-          },
-        );
+        return getIt.get<AppStore>().remoteConfigStatus is Success
+            ? AppBuilderBody(
+                reactiveMediaQuery: reactiveMediaQuery,
+                child: child ?? const SplashScreenNoAnimation(),
+              )
+            : const SplashScreenNoAnimation();
       },
     );
   }
@@ -113,13 +106,15 @@ class _AppBuilderBodyState extends State<AppBuilderBody>
 
   @override
   void initState() {
-    getIt.get<AppStore>().getAuthStatus();
+    WidgetsBinding.instance.addObserver(this);
+    getIt.get<StartupService>().firstAction();
 
     super.initState();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

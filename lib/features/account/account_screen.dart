@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -21,8 +22,9 @@ import '../../core/services/signal_r/signal_r_service_new.dart';
 
 import '../../utils/constants.dart';
 
+@RoutePage(name: 'AccountRouter')
 class AccountScreen extends StatefulObserverWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -34,27 +36,28 @@ class _AccountScreenState extends State<AccountScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final flavor = flavorService();
 
     final logout = getIt.get<LogoutService>();
 
     final authInfo = getIt.get<AppStore>().authState;
-    final userInfo = sUserInfo.userInfo;
+    final userInfo = sUserInfo;
     final userInfoN = getIt.get<UserInfoService>();
     userInfoN.initBiometricStatus();
 
     //TODO REFACTOR
     //final cardFailed = useProvider(bottomNavigationNotipod);
 
-    final colors = sKit.colors;
-
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final deepLinkService = getIt.get<DeepLinkService>();
-    final marketCampaigns = sSignalRModules.marketCampaigns.where(
-      (element) => element.deepLink.contains('InviteFriend'),
-    ).toList();
+    final marketCampaigns = sSignalRModules.marketCampaigns
+        .where(
+          (element) => element.deepLink.contains('InviteFriend'),
+        )
+        .toList();
 
     /*
     logout.union.when(
@@ -72,7 +75,7 @@ class _AccountScreenState extends State<AccountScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           SPaddingH24(
             child: SimpleAccountCategoryHeader(
               onIconTap: () {
@@ -127,11 +130,9 @@ class _AccountScreenState extends State<AccountScreen>
                   twoFaEnabled: true,
                   phoneVerified: userInfo.phoneVerified,
                   onTwoFaBannerTap: () {
-
                     sRouter.push(const SmsAuthenticatorRouter());
                   },
                   onChatBannerTap: () {
-
                     sRouter.push(
                       CrispRouter(
                         welcomeText: intl.crispSendMessage_hi,
@@ -164,7 +165,6 @@ class _AccountScreenState extends State<AccountScreen>
                       icon: const SProfileDetailsIcon(),
                       isSDivider: true,
                       onTap: () {
-
                         sRouter.push(
                           const ProfileDetailsRouter(),
                         );
@@ -177,7 +177,7 @@ class _AccountScreenState extends State<AccountScreen>
                         isSDivider: true,
                         onTap: () {
                           deepLinkService.handle(
-                            Uri.parse(marketCampaigns[0].deepLink ?? ''),
+                            Uri.parse(marketCampaigns[0].deepLink),
                             source: SourceScreen.bannerOnRewards,
                           );
                         },
@@ -198,7 +198,6 @@ class _AccountScreenState extends State<AccountScreen>
                         color: colors.black,
                       ),
                       isSDivider: true,
-                      notification: false,
                       onTap: () {
                         sRouter.push(
                           const PaymentMethodsRouter(),

@@ -4,10 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ActionRecurringInfoHeader extends StatelessObserverWidget {
   const ActionRecurringInfoHeader({
-    Key? key,
     required this.total,
     required this.amount,
-  }) : super(key: key);
+  });
 
   final String total;
   final String amount;

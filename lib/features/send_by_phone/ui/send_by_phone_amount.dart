@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/currency_withdraw/helper/minimum_amount.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
+import 'package:jetwallet/features/withdrawal/helper/minimum_amount.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -18,6 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+@RoutePage(name: 'SendByPhoneAmountRouter')
 class SendByPhoneAmount extends StatelessWidget {
   const SendByPhoneAmount({
     super.key,
@@ -159,7 +161,6 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
             submitButtonActive: state.valid,
             submitButtonName: intl.sendByPhoneAmount_previewSend,
             onSubmitPressed: () {
-
               sRouter.push(
                 SendByPhonePreviewRouter(
                   currency: currency,

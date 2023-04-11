@@ -5,12 +5,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 SPhoneNumber? countryCodeByUserRegister() {
   SPhoneNumber? phoneNumber;
-  final userInfo = getIt.get<UserInfoService>().userInfo;
 
-  if (userInfo.countryOfRegistration.isNotEmpty) {
+  if (sUserInfo.countryOfRegistration.isNotEmpty) {
     for (final number in sPhoneNumbers) {
       if (number.isoCode.toLowerCase() ==
-          userInfo.countryOfRegistration.toLowerCase()) {
+          sUserInfo.countryOfRegistration.toLowerCase()) {
         phoneNumber = number;
       }
     }
