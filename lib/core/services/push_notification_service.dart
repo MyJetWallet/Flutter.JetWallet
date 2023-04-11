@@ -45,12 +45,6 @@ class PushNotificationService {
 
     await FirebaseMessaging.instance.getInitialMessage().then(
       (RemoteMessage? message) {
-        getIt.get<SimpleLoggerService>().log(
-              level: Level.error,
-              place: _loggerService,
-              message: 'GET getInitialMessage IS NULL : ${message == null}',
-            );
-
         if (message != null) {
           getIt.get<DeepLinkService>().handlePushNotificationLink(message);
         }

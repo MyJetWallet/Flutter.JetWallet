@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 enum KycStatus {
   kycRequired,
@@ -93,6 +94,24 @@ String stringKycDocumentType(
       return intl.kycDocumentType_addressDocument;
     default:
       return intl.kycDocumentType_financialDocument;
+  }
+}
+
+Widget iconKycDocumentType(
+  KycDocumentType type,
+  BuildContext context,
+) {
+  switch (type) {
+    case KycDocumentType.governmentId:
+      return const SDocumentIcon();
+    case KycDocumentType.passport:
+      return const SPassportIcon();
+    case KycDocumentType.driverLicense:
+      return const SDriverLicenseIcon();
+    case KycDocumentType.residentPermit:
+      return const SResidentIcon();
+    default:
+      return const SDocumentIcon();
   }
 }
 

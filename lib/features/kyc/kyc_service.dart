@@ -18,6 +18,9 @@ abstract class _KycServiceBase with Store {
   int get withdrawalStatus => sSignalRModules.clientDetail.withdrawalStatus;
 
   @computed
+  bool get useSumsub => sSignalRModules.clientDetail.useSumsub;
+
+  @computed
   List<KycDocumentType> get requiredDocuments {
     final documents = <KycDocumentType>[];
 

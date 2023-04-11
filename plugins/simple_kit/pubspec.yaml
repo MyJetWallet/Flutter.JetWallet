@@ -56,9 +56,11 @@ flutter:
     - assets/icons/light/20x20/send/
     - assets/icons/light/20x20/send_by_phone/
     - assets/icons/light/20x20/swap/
+    - assets/icons/light/20x20/settings/
     - assets/icons/light/20x20/withdrawal_fee/
     - assets/icons/light/20x20/circle_minus/
     - assets/icons/light/24x24/index_history/
+    - assets/icons/light/24x24/account_status/
     - assets/icons/light/24x24/action_buy/
     - assets/icons/light/24x24/action_convert/
     - assets/icons/light/24x24/action_deposit/

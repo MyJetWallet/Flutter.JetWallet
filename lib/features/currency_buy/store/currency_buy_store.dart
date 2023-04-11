@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:decimal/decimal.dart';
@@ -32,7 +33,9 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_kit/modules/keyboards/simple_numeric_keyboard_amount.dart';
+import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/utils/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -44,6 +47,7 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../utils/formatting/base/base_currencies_format.dart';
 
 part 'currency_buy_store.g.dart';
@@ -94,6 +98,34 @@ abstract class _CurrencyBuyStoreBase with Store {
     _initCurrencies();
     _initBaseCurrency();
     _initCardLimit();
+    Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if (
+          (bankCard != null && bankCard!.showUaAlert) ||
+          (unlimintCard != null && unlimintCard!.showUaAlert) ||
+          (circleCard != null && circleCard!.showUaAlert)
+        ) {
+          sShowAlertPopup(
+            sRouter.navigatorKey.currentContext!,
+            willPopScope: true,
+            primaryText: intl.currencyBuy_alert,
+            secondaryText: intl.currencyBuy_alertDescription,
+            primaryButtonName: intl.actionBuy_gotIt,
+            image: Image.asset(
+              phoneChangeAsset,
+              width: 80,
+              height: 80,
+              package: 'simple_kit',
+            ),
+            onPrimaryButtonTap: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+            },
+          );
+        }
+      },
+    );
+
   }
 
   late final CurrencyModel currencyModel;
@@ -334,29 +366,8 @@ abstract class _CurrencyBuyStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    final isApplePayCanUse = currencyModel.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.applePay,
-        )
-        .toList();
 
-    final isGooglePayCanUse = currencyModel.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.googlePay,
-        )
-        .toList();
-
-    if (paymentMethod == PaymentMethodType.applePay &&
-        isApplePayCanUse.isNotEmpty) {
-      updateSelectedPaymentMethod(
-        isApplePayCanUse[0],
-      );
-    } else if (paymentMethod == PaymentMethodType.googlePay &&
-        isGooglePayCanUse.isNotEmpty) {
-      updateSelectedPaymentMethod(
-        isGooglePayCanUse[0],
-      );
-    } else if (paymentMethod == PaymentMethodType.simplex &&
+    if (paymentMethod == PaymentMethodType.simplex &&
         isSimplexCanUse.isNotEmpty) {
       updateSelectedPaymentMethod(
         isSimplexCanUse[0],
@@ -592,9 +603,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     if (method?.id == PaymentMethodType.simplex ||
         method?.id == PaymentMethodType.circleCard ||
         method?.id == PaymentMethodType.unlimintCard ||
-        method?.id == PaymentMethodType.bankCard ||
-        method?.id == PaymentMethodType.applePay ||
-        method?.id == PaymentMethodType.googlePay) {
+        method?.id == PaymentMethodType.bankCard) {
       updateRecurringBuyType(RecurringBuysType.oneTimePurchase);
     }
   }
@@ -963,9 +972,7 @@ abstract class _CurrencyBuyStoreBase with Store {
       if (selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
           selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
           selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-          selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-          selectedPaymentMethod?.id == PaymentMethodType.applePay ||
-          selectedPaymentMethod?.id == PaymentMethodType.googlePay) {
+          selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
         double? limitMax = max;
 
         if (limitByAsset != null) {
@@ -987,9 +994,7 @@ abstract class _CurrencyBuyStoreBase with Store {
         }
         if (selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
             selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-            selectedPaymentMethod?.id == PaymentMethodType.bankCard ||
-            selectedPaymentMethod?.id == PaymentMethodType.applePay ||
-            selectedPaymentMethod?.id == PaymentMethodType.googlePay) {
+            selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
           max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
         }
       }
