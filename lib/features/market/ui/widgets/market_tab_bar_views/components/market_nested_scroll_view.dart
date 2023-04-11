@@ -106,8 +106,7 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    final showPreloader =
-        store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
+    final showPreloader = store.cryptoList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,

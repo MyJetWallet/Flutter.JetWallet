@@ -501,6 +501,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    PaymentMethodsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PaymentMethods(),
+      );
+    },
     PhoneVerificationRouter.name: (routeData) {
       final args = routeData.argsAs<PhoneVerificationRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -2476,6 +2482,20 @@ class MarketRouterArgs {
   String toString() {
     return 'MarketRouterArgs{key: $key, initIndex: $initIndex}';
   }
+}
+
+/// generated route for
+/// [PaymentMethods]
+class PaymentMethodsRouter extends PageRouteInfo<void> {
+  const PaymentMethodsRouter({List<PageRouteInfo>? children})
+      : super(
+          PaymentMethodsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentMethodsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
