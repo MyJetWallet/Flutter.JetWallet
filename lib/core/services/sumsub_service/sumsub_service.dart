@@ -42,6 +42,25 @@ class SumsubService {
       SNSMobileSDKStatus prevStatus,
     ) {
       print('The SDK status was changed: $prevStatus -> $newStatus');
+      getIt.get<SimpleLoggerService>().log(
+        level: Level.info,
+        place: _loggerService,
+        message: 'The SDK status was changed: $prevStatus -> $newStatus',
+      );
+      if (newStatus == SNSMobileSDKStatus.Approved ||
+          newStatus == SNSMobileSDKStatus.ActionCompleted) {
+        sRouter.push(
+          SuccessScreenRouter(
+            primaryText: intl.kycChooseDocuments_verifyingNow,
+            secondaryText: intl.kycChooseDocuments_willBeNotified,
+            showPrimaryButton: true,
+            buttonText: intl.previewBuyWithUmlimint_close,
+            onActionButton: () async {
+              navigateToRouter();
+            },
+          ),
+        );
+      }
     }
     onActionResult(SNSMobileSDKActionResult result) {
       print("onActionResult: $result");
