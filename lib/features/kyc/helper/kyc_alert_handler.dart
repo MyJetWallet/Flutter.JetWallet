@@ -67,27 +67,8 @@ class KycAlertHandler {
     int status,
     SWidgetSize size,
   ) {
-    showKycPopup(
-      context: context,
-      imageAsset: verifyYourProfileAsset,
-      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
-      secondaryText: '${intl.kycAlertHandler_showKycPopupSecondaryText1}\n'
-          '${intl.kycAlertHandler_showKycPopupSecondaryText}:',
-      primaryButtonName: intl.kycAlertHandler_continue,
-      secondaryButtonName: intl.kycAlertHandler_later,
-      activePrimaryButton: status == kycOperationStatus(KycStatus.kycRequired),
-      onPrimaryButtonTap: () {
-        Navigator.pop(context);
-        _navigateVerifiedNavigate(
-          requiredVerifications,
-          requiredDocuments,
-        );
-      },
-      onSecondaryButtonTap: () {
-        Navigator.pop(context);
-      },
-      size: size,
-      child: _showDocuments(requiredVerifications),
+    sRouter.push(
+      KycVerificationRouter(requiredVerifications: requiredVerifications),
     );
   }
 

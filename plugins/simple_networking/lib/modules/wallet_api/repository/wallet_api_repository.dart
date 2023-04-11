@@ -592,6 +592,10 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, String>> postSDKToken(String country) async {
+    return _walletApiDataSources.postSDKTokenRequest(country);
+  }
+
   Future<DC<ServerRejectException, EncryptionKeyCardResponseModel>>
       encryptionKey() async {
     return _walletApiDataSources.encryptionKey();
