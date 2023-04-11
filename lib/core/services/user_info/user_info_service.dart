@@ -17,16 +17,21 @@ class UserInfoService {
 
   final _hasDisclaimers = Observable(false);
   bool get hasDisclaimers => _hasDisclaimers.value;
-  set hasDisclaimers(bool newValue) => _hasDisclaimers.value = newValue;
+  set hasDisclaimers(bool newValue) => Action(
+        () => _hasDisclaimers.value = newValue,
+      );
 
   final _hasNftDisclaimers = Observable(false);
   bool get hasNftDisclaimers => _hasNftDisclaimers.value;
-  set hasNftDisclaimers(bool newValue) => _hasNftDisclaimers.value = newValue;
+  set hasNftDisclaimers(bool newValue) => Action(
+        () => _hasNftDisclaimers.value = newValue,
+      );
 
   final _hasHighYieldDisclaimers = Observable(false);
   bool get hasHighYieldDisclaimers => _hasHighYieldDisclaimers.value;
-  set hasHighYieldDisclaimers(bool newValue) =>
-      _hasHighYieldDisclaimers.value = newValue;
+  set hasHighYieldDisclaimers(bool newValue) => Action(
+        () => _hasHighYieldDisclaimers.value = newValue,
+      );
 
   /// If after reister/login user disabled a pin.
   /// If pin is disabled manually we don't ask
@@ -34,57 +39,79 @@ class UserInfoService {
   /// After logout this will be reseted
   final _pinDisabled = Observable(false);
   bool get pinDisabled => _pinDisabled.value;
-  set pinDisabled(bool newValue) => _pinDisabled.value = newValue;
+  set pinDisabled(bool newValue) => Action(
+        () => _pinDisabled.value = newValue,
+      );
 
   final _twoFaEnabled = Observable(false);
   bool get twoFaEnabled => _twoFaEnabled.value;
-  set twoFaEnabled(bool newValue) => _twoFaEnabled.value = newValue;
+  set twoFaEnabled(bool newValue) => Action(
+        () => _twoFaEnabled.value = newValue,
+      );
 
   final _phoneVerified = Observable(false);
   bool get phoneVerified => _phoneVerified.value;
-  set phoneVerified(bool newValue) => _phoneVerified.value = newValue;
+  set phoneVerified(bool newValue) => Action(
+        () => _phoneVerified.value = newValue,
+      );
 
   final _emailConfirmed = Observable(false);
   bool get emailConfirmed => _emailConfirmed.value;
-  set emailConfirmed(bool newValue) => _emailConfirmed.value = newValue;
+  set emailConfirmed(bool newValue) => Action(
+        () => _emailConfirmed.value = newValue,
+      );
 
   final _phoneConfirmed = Observable(false);
   bool get phoneConfirmed => _phoneConfirmed.value;
-  set phoneConfirmed(bool newValue) =>
-      _hasHighYieldDisclaimers.value = newValue;
+  set phoneConfirmed(bool newValue) => Action(
+        () => _hasHighYieldDisclaimers.value = newValue,
+      );
 
   final _kycPassed = Observable(false);
   bool get kycPassed => _kycPassed.value;
-  set kycPassed(bool newValue) => _kycPassed.value = newValue;
+  set kycPassed(bool newValue) => Action(
+        () => _kycPassed.value = newValue,
+      );
 
   ///
 
   final _isJustLogged = Observable(false);
   bool get isJustLogged => _isJustLogged.value;
-  set isJustLogged(bool newValue) => _isJustLogged.value = newValue;
+  set isJustLogged(bool newValue) => Action(
+        () => _isJustLogged.value = newValue,
+      );
 
   final _isJustRegistered = Observable(false);
   bool get isJustRegistered => _isJustRegistered.value;
-  set isJustRegistered(bool newValue) => _isJustRegistered.value = newValue;
+  set isJustRegistered(bool newValue) => Action(
+        () => _isJustRegistered.value = newValue,
+      );
 
   final _biometricDisabled = Observable(false);
   bool get biometricDisabled => _biometricDisabled.value;
-  set biometricDisabled(bool newValue) => _biometricDisabled.value = newValue;
+  set biometricDisabled(bool newValue) => Action(
+        () => _biometricDisabled.value = newValue,
+      );
 
   final _isTechClient = Observable(false);
   bool get isTechClient => _isTechClient.value;
-  set isTechClient(bool newValue) => _isTechClient.value = newValue;
+  set isTechClient(bool newValue) => Action(
+        () => _isTechClient.value = newValue,
+      );
 
   ///
 
   final _isSignalRInited = Observable(false);
   bool get isSignalRInited => _isSignalRInited.value;
-  set isSignalRInited(bool newValue) => _isSignalRInited.value = newValue;
+  set isSignalRInited(bool newValue) => Action(
+        () => _isSignalRInited.value = newValue,
+      );
 
   final _isServicesRegisterd = Observable(false);
   bool get isServicesRegisterd => _isServicesRegisterd.value;
-  set isServicesRegisterd(bool newValue) =>
-      _isServicesRegisterd.value = newValue;
+  set isServicesRegisterd(bool newValue) => Action(
+        () => _isServicesRegisterd.value = newValue,
+      );
 
   ///
 

@@ -123,12 +123,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   String currencySymbol = '';
 
   @observable
-  String applePayDepositId = '';
-
-  @observable
-  String googlePayDepositId = '';
-
-  @observable
   bool isChecked = false;
 
   @observable
@@ -147,80 +141,12 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
-  Future<void> requestApplePay(Map<String, dynamic> paymentResult) async {
-    debugPrint(paymentResult.toString());
-
-    print('\n\n');
-
-    debugPrint(paymentResult['token'].toString());
-
-    final paymentMethod = paymentResult['paymentMethod'];
-    final tokenData = jsonDecode(
-      paymentResult['token'].toString(),
-    );
-
-    print(tokenData);
-
-    final header = tokenData['header'];
-
-    final tokenApplePay = ApplePayDataModel(
-      token: ApplePayDataModelToken(
-        transactionIdentifier:
-            paymentResult["transactionIdentifier"].toString(),
-        paymentData: ApplePayDataModelTokenPaymentData(
-          version: tokenData['version'].toString(),
-          data: tokenData['data'].toString(),
-          signature: tokenData['signature'].toString(),
-          header: ApplePayDataModelTokenData(
-            ephemeralPublicKey: header['ephemeralPublicKey'].toString(),
-            publicKeyHash: header['publicKeyHash'].toString(),
-            transactionId: header['transactionId'].toString(),
-          ),
-        ),
-        paymentMethod: ApplePayDataModelPaymentMethod(
-          displayName: paymentMethod['displayName'].toString(),
-          network: paymentMethod['network'].toString(),
-          //type: paymentMethod['type'].toString(),
-          type: 'debit',
-        ),
-      ),
-    );
-
-    print(tokenApplePay);
-
-    await executeApplePayPayment();
-
-    await applePayInfo();
-
-    await applePayConfirm(jsonEncode(tokenApplePay.toJson()));
-
-    //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
-  }
-
-  @action
-  Future<void> requestGooglePay(Map<String, dynamic> paymentResult) async {
-    await executeGooglePayPayment();
-
-    await googlePayInfo();
-
-    await googlePayConfirm(
-      paymentResult['paymentMethodData']['tokenizationData']['token'],
-    );
-
-    //final response = await sNetwork.getWalletModule().postApplePayConfirm(model);
-  }
-
-  @action
   Future<void> _requestPreview() async {
     loader.startLoadingImmediately();
     final cardData = CirclePaymentDataModel(cardId: input.cardId ?? '');
 
     final model = CardBuyCreateRequestModel(
-      paymentMethod: input.isApplePay
-          ? CirclePaymentMethod.applePay
-          : input.isGooglePay
-              ? CirclePaymentMethod.googlePay
-              : CirclePaymentMethod.bankCard,
+      paymentMethod: CirclePaymentMethod.bankCard,
       paymentAmount: amountToPay!,
       buyAsset: input.currency.symbol,
       paymentAsset: input.currencyPayment.symbol,
@@ -321,7 +247,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       context: sRouter.navigatorKey.currentContext!,
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
-          '${activeCard.isNotEmpty ? activeCard[0].network : ''}'
+          '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
           ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
@@ -330,212 +256,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       },
       input: input,
     );
-  }
-
-  @action
-  Future<void> applePayInfo() async {
-    /*
-    try {
-      final response =
-          await sNetwork.getWalletModule().getApplePayInfo(paymentId);
-
-      response.pick(
-        onData: (data) {
-          print(data);
-
-          //link https://buy.simple.app/checkout/applepay/?id=
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error.cause);
-
-      unawaited(_showFailureScreen(error.cause));
-    } catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error);
-
-      unawaited(_showFailureScreen(intl.something_went_wrong));
-    }*/
-
-    final model = CardBuyInfoRequestModel(
-      paymentId: paymentId,
-    );
-
-    final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
-
-    response.pick(onData: (data) async {
-      applePayDepositId = data.clientAction?.checkoutUrl?.replaceAll(
-            'http://buy.simple.app/checkout/applepay/?id=',
-            '',
-          ) ??
-          '';
-    });
-  }
-
-  @action
-  Future<void> googlePayInfo() async {
-    final model = CardBuyInfoRequestModel(
-      paymentId: paymentId,
-    );
-
-    final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
-
-    response.pick(onData: (data) async {
-      googlePayDepositId = data.clientAction?.checkoutUrl?.replaceAll(
-            'https://buy.simple.app/checkout/googlepay/?id=',
-            '',
-          ) ??
-          '';
-
-      print(data.clientAction);
-    });
-  }
-
-  @action
-  Future<void> applePayConfirm(String token) async {
-    try {
-      final response = await sNetwork.getWalletModule().postApplePayConfirm(
-            applePayDepositId,
-            base64.encode(utf8.encode(token)),
-          );
-
-      response.pick(
-        onData: (data) {
-          unawaited(
-            _showSuccessScreen(),
-          );
-        },
-        onError: (data) {
-          unawaited(
-            _showFailureScreen(data.cause),
-          );
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error.cause);
-
-      unawaited(_showFailureScreen(error.cause));
-    } catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error);
-
-      unawaited(_showFailureScreen(intl.something_went_wrong));
-    }
-  }
-
-  @action
-  Future<void> googlePayConfirm(dynamic paymentResult) async {
-    try {
-      final response = await sNetwork.getWalletModule().postGooglePayConfirm(
-            googlePayDepositId,
-            base64.encode(utf8.encode(paymentResult.toString())),
-          );
-
-      response.pick(
-        onData: (data) {
-          if (isWaitingSkipped) {
-            return;
-          }
-
-          if (data.redirectUrl != null) {
-            sRouter.push(
-              Circle3dSecureWebViewRouter(
-                url: data.redirectUrl ?? '',
-                asset: currencySymbol,
-                amount: input.amount,
-                onSuccess: (paymentId, url) => _showSuccessScreen(),
-                onFailed: (e) => _showFailureScreen(e),
-                onCancel: (e) => _showFailureScreen(e),
-                paymentId: paymentId,
-              ),
-            );
-          } else {
-            unawaited(
-              _showSuccessScreen(),
-            );
-          }
-        },
-        onError: (data) {
-          unawaited(
-            _showFailureScreen(data.cause),
-          );
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error.cause);
-
-      unawaited(_showFailureScreen(error.cause));
-    } catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error);
-
-      unawaited(_showFailureScreen(intl.something_went_wrong));
-    }
-  }
-
-  @action
-  Future<void> executeApplePayPayment() async {
-    loader.startLoadingImmediately();
-    //wasAction = true;
-
-    isChecked = true;
-
-    try {
-      final model = CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: CirclePaymentMethod.applePay,
-      );
-
-      final response =
-          await sNetwork.getWalletModule().postCardBuyExecute(model);
-
-      response.pick(
-        onData: (data) {
-          print(data);
-
-          //link https://buy.simple.app/checkout/applepay/?id=
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error.cause);
-
-      unawaited(_showFailureScreen(error.cause));
-    } catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error);
-
-      unawaited(_showFailureScreen(intl.something_went_wrong));
-    }
-  }
-
-  @action
-  Future<void> executeGooglePayPayment() async {
-    loader.startLoadingImmediately();
-    //wasAction = true;
-
-    isChecked = true;
-
-    try {
-      final model = CardBuyExecuteRequestModel(
-        paymentId: paymentId,
-        paymentMethod: CirclePaymentMethod.googlePay,
-      );
-
-      final response =
-          await sNetwork.getWalletModule().postCardBuyExecute(model);
-
-      response.pick(
-        onData: (data) {
-          print(data);
-
-          //link https://buy.simple.app/checkout/googlepay/?id=
-        },
-      );
-    } on ServerRejectException catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error.cause);
-
-      unawaited(_showFailureScreen(error.cause));
-    } catch (error) {
-      _logger.log(stateFlow, '_requestPayment', error);
-
-      unawaited(_showFailureScreen(intl.something_went_wrong));
-    }
   }
 
   @action
@@ -681,7 +401,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
             if (data.buyInfo != null) {
               buyAmount = data.buyInfo!.buyAmount;
             }
-            unawaited(_showSuccessScreen());
+            unawaited(_showSuccessScreen(false));
             skippedWaiting();
           } else if (failed) {
             if (isWaitingSkipped) {
@@ -732,7 +452,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
   }
 
   @action
-  Future<void> _showSuccessScreen() {
+  Future<void> _showSuccessScreen(bool isGoogle) {
     final buyMethod = input.currency.buyMethods
         .where(
           (element) => element.id == PaymentMethodType.bankCard,
@@ -745,12 +465,20 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     return sRouter
         .push(
           SuccessScreenRouter(
-            secondaryText: '${intl.successScreen_youBought} '
-                '${volumeFormat(
-              decimal: buyAmount ?? Decimal.zero,
-              accuracy: input.currency.accuracy,
-              symbol: input.currency.symbol,
-            )}',
+            secondaryText: isGoogle
+                ? '${intl.successScreen_youBought} '
+                    '${volumeFormat(
+                    decimal: buyAmount ?? Decimal.zero,
+                    accuracy: input.currency.accuracy,
+                    symbol: input.currency.symbol,
+                  )}'
+                    '\n${intl.paid_with_gpay}'
+                : '${intl.successScreen_youBought} '
+                    '${volumeFormat(
+                    decimal: buyAmount ?? Decimal.zero,
+                    accuracy: input.currency.accuracy,
+                    symbol: input.currency.symbol,
+                  )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,
           ),

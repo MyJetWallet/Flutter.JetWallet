@@ -211,7 +211,7 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'verification_phone_screen';
             },
             pinSetup: () {
-              if (lastRoute != '/pin_screen') {
+              if (lastRoute != 'pin_screen') {
                 if (getIt.get<VerificationStore>().isRefreshPin) {
                   getIt<AppRouter>().replaceAll([
                     PinScreenRoute(
@@ -233,19 +233,23 @@ abstract class _AppStoreBase with Store {
               lastRoute = 'pin_screen';
             },
             pinVerification: () {
-              if (openPinVerification) return;
-              openPinVerification = true;
+              if (lastRoute != 'pin_screen_verification') {
+                if (openPinVerification) return;
+                openPinVerification = true;
 
-              if (sRouter.current.path != '/pin_screen') {
-                sAnalytics.signInFlowEnterPinView();
-                getIt<AppRouter>().replaceAll([
-                  PinScreenRoute(
-                    union: const Verification(),
-                    cannotLeave: true,
-                    displayHeader: false,
-                  ),
-                ]);
+                if (sRouter.current.path != '/pin_screen') {
+                  sAnalytics.signInFlowEnterPinView();
+                  getIt<AppRouter>().replaceAll([
+                    PinScreenRoute(
+                      union: const Verification(),
+                      cannotLeave: true,
+                      displayHeader: false,
+                    ),
+                  ]);
+                }
               }
+
+              lastRoute = 'pin_screen_verification';
             },
             home: () {
               if (homeOpened) return;
@@ -260,6 +264,10 @@ abstract class _AppStoreBase with Store {
                   ],
                 ),
               ]);
+
+              if (!getIt<RouteQueryService>().isNavigate) {
+                getIt<RouteQueryService>().runQuery();
+              }
             },
             askBioUsing: () {
               if (lastRoute != 'askBioUsing') {
@@ -483,5 +491,7 @@ abstract class _AppStoreBase with Store {
 
     openPinVerification = false;
     homeOpened = false;
+
+    lastRoute = '';
   }
 }

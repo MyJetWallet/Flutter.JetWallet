@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
@@ -53,15 +54,29 @@ class ReceiveDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH10(),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: '${intl.transaction} ${intl.from}',
+            fromStart: fromPhoneNumber.isNotEmpty && senderName.isNotEmpty,
             value: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 if (fromPhoneNumber.isNotEmpty)
-                  TransactionDetailsValueText(
-                    text: fromPhoneNumber,
+                  Text(
+                    fromPhoneNumber,
+                    style: sSubtitle3Style.copyWith(
+                      color: colors.black,
+                      height: 1.3125,
+                    ),
+                    maxLines: 5,
                   ),
                 if (senderName.isNotEmpty) ...[
                   Text(
@@ -71,10 +86,12 @@ class ReceiveDetails extends StatelessObserverWidget {
                     ),
                   ),
                 ],
+                if (fromPhoneNumber.isNotEmpty && senderName.isNotEmpty)
+                  const SpaceH12(),
               ],
             ),
           ),
-          const SpaceH10(),
+          const SpaceH14(),
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),

@@ -167,13 +167,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
         ],
-        Text(
-          '${formatDateToDMY(transactionListItem.timeStamp)} '
-          '- ${formatDateToHm(transactionListItem.timeStamp)}',
-          style: sBodyText2Style.copyWith(
-            color: colors.grey2,
-          ),
-        ),
         if (isOperationSupportCopy(transactionListItem))
           //const SpaceH8()
           const SizedBox.shrink()

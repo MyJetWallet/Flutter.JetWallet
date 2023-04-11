@@ -121,8 +121,15 @@ final sRouter = getIt.get<AppRouter>();
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {
+  /*
   @override
-  RouteType get defaultRouteType => const RouteType.adaptive();
+  RouteType get defaultRouteType => const RouteType.custom(
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        durationInMilliseconds: 250,
+      );
+  */
+  @override
+  RouteType get defaultRouteType => const RouteType.cupertino();
 
   @override
   final List<AutoRoute> routes = [

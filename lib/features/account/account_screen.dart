@@ -36,6 +36,7 @@ class _AccountScreenState extends State<AccountScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final flavor = flavorService();
 
     final logout = getIt.get<LogoutService>();
@@ -47,8 +48,6 @@ class _AccountScreenState extends State<AccountScreen>
 
     //TODO REFACTOR
     //final cardFailed = useProvider(bottomNavigationNotipod);
-
-    final colors = sKit.colors;
 
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
@@ -76,7 +75,7 @@ class _AccountScreenState extends State<AccountScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           SPaddingH24(
             child: SimpleAccountCategoryHeader(
               onIconTap: () {

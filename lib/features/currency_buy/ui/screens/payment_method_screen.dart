@@ -199,88 +199,18 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   widget.currency.buyMethods.first.id ==
                       PaymentMethodType.bankCard)) ...[
             for (final method in widget.currency.buyMethods)
-              if (method.id == PaymentMethodType.applePay &&
-                  defaultTargetPlatform == TargetPlatform.iOS) ...[
-                InkWell(
-                  highlightColor: colors.grey5,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    sRouter.push(
-                      CurrencyBuyRouter(
-                        currency: widget.currency,
-                        fromCard: false,
-                        paymentMethod: PaymentMethodType.applePay,
-                      ),
-                    );
-                  },
-                  child: Container(
-                    height: 64.0,
-                    padding: const EdgeInsets.only(
-                      left: 24.0,
-                      right: 24.0,
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          applePayAsset,
-                          width: 48,
-                          height: 30.73,
-                        ),
-                        const SizedBox(width: 17),
-                        Text(
-                          'Apple Pay',
-                          style: sSubtitle2Style,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ] else if (method.id == PaymentMethodType.googlePay &&
-                  defaultTargetPlatform == TargetPlatform.android) ...[
-                InkWell(
-                  highlightColor: colors.grey5,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    sRouter.push(
-                      CurrencyBuyRouter(
-                        currency: widget.currency,
-                        fromCard: false,
-                        paymentMethod: PaymentMethodType.googlePay,
-                      ),
-                    );
-                  },
-                  child: Container(
-                    height: 64.0,
-                    padding: const EdgeInsets.only(
-                      left: 24.0,
-                      right: 24.0,
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          googlePayAsset,
-                          width: 48,
-                          height: 32.34,
-                        ),
-                        const SizedBox(width: 17),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Text(
-                            'Google pay',
-                            textAlign: TextAlign.start,
-                            style: sSubtitle2Style,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ] else if (method.id == PaymentMethodType.simplex) ...[
+              if (method.id == PaymentMethodType.simplex) ...[
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                           PaymentMethodType.simplex,
@@ -303,8 +233,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 ),
               ] else if (method.id == PaymentMethodType.circleCard) ...[
                 SActionItem(
-                  icon: SActionDepositIcon(
-                    color: colors.blue,
+                  icon: SizedBox(
+                    width: 40,
+                    height: 25,
+                    child: Center(
+                      child: SActionDepositIcon(
+                        color: sKit.colors.blue,
+                      ),
+                    ),
                   ),
                   name: intl.currencyBuy_card,
                   description: intl.curencyBuy_actionItemDescription,
@@ -329,8 +265,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                 Builder(
                   builder: (context) {
                     return SActionItem(
-                      icon: SActionDepositIcon(
-                        color: colors.blue,
+                      icon: SizedBox(
+                        width: 40,
+                        height: 25,
+                        child: Center(
+                          child: SActionDepositIcon(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
                       ),
                       isSelected: state.selectedPaymentMethod?.id ==
                               PaymentMethodType.unlimintCard &&
@@ -377,7 +319,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -423,7 +366,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -470,7 +414,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                   );
 
                   return PaymentCardItem(
-                    name: '${formatted.name} ${formatted.last4Digits}',
+                    name: formatted.last4Digits,
+                    network: card.network,
                     expirationDate: card.status == CircleCardStatus.pending
                         ? intl.paymentMethod_CardIsProcessing
                         : formatted.expDate,
@@ -507,8 +452,14 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           ],
           if (isUnlimintCardEnabled)
             SCreditCardItem(
-              icon: SPlusIcon(
-                color: colors.blue,
+              icon: SizedBox(
+                width: 40,
+                height: 25,
+                child: Center(
+                  child: SPlusIcon(
+                    color: colors.blue,
+                  ),
+                ),
               ),
               name: intl.actionBuy_addACard,
               amount: '',
