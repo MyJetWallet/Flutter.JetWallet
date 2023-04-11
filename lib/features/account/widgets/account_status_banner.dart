@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class AccountStatusBanner extends StatelessObserverWidget {
+class AccountStatusBanner extends StatefulObserverWidget {
   const AccountStatusBanner({
     Key? key,
     required this.icon,
@@ -18,16 +18,30 @@ class AccountStatusBanner extends StatelessObserverWidget {
   final Color mainColor;
   final Color textColor;
 
+  @override
+  State<AccountStatusBanner> createState() => _AccountStatusBannerState();
+}
+
+class _AccountStatusBannerState extends State<AccountStatusBanner> {
+  bool highlighted = false;
+
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 48,
       height: 56,
       decoration: BoxDecoration(
-        color: mainColor,
+        color: highlighted
+          ? widget.mainColor.withOpacity(0.8)
+          : widget.mainColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
-      child: GestureDetector(
-        onTap: onTap,
+      child: InkWell(
+        onHighlightChanged: (value) {
+          highlighted = value;
+        },
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: widget.onTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
@@ -35,18 +49,18 @@ class AccountStatusBanner extends StatelessObserverWidget {
           ),
           child: Row(
             children: [
-              icon,
+              widget.icon,
               const SpaceW10(),
               Text(
-                title,
+                widget.title,
                 style: sSubtitle2Style.copyWith(
-                  color: textColor,
+                  color: widget.textColor,
                   height: 1.2,
                 ),
               ),
               const Spacer(),
               SBlueRightArrowIcon(
-                color: textColor,
+                color: widget.textColor,
               ),
             ],
           ),
