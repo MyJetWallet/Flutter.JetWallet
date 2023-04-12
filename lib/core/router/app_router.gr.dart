@@ -106,6 +106,22 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    KycVerificationSumsubRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const KycVerificationSumsub(),
+      );
+    },
+    KycVerificationRouter.name: (routeData) {
+      final args = routeData.argsAs<KycVerificationRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: KycVerification(
+          key: args.key,
+          requiredVerifications: args.requiredVerifications,
+        ),
+      );
+    },
     KycVerifyYourProfileRouter.name: (routeData) {
       final args = routeData.argsAs<KycVerifyYourProfileRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -832,22 +848,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    KycVerificationSumsubRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const KycVerificationSumsub(),
-      );
-    },
-    KycVerificationRouter.name: (routeData) {
-      final args = routeData.argsAs<KycVerificationRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: KycVerification(
-          key: args.key,
-          requiredVerifications: args.requiredVerifications,
-        ),
-      );
-    },
   };
 }
 
@@ -1149,6 +1149,58 @@ class SuccessKycScreenRouteArgs {
   @override
   String toString() {
     return 'SuccessKycScreenRouteArgs{key: $key, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget}';
+  }
+}
+
+/// generated route for
+/// [KycVerificationSumsub]
+class KycVerificationSumsubRouter extends PageRouteInfo<void> {
+  const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
+      : super(
+          KycVerificationSumsubRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationSumsubRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [KycVerification]
+class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
+  KycVerificationRouter({
+    Key? key,
+    required List<RequiredVerified> requiredVerifications,
+    List<PageRouteInfo>? children,
+  }) : super(
+          KycVerificationRouter.name,
+          args: KycVerificationRouterArgs(
+            key: key,
+            requiredVerifications: requiredVerifications,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationRouter';
+
+  static const PageInfo<KycVerificationRouterArgs> page =
+      PageInfo<KycVerificationRouterArgs>(name);
+}
+
+class KycVerificationRouterArgs {
+  const KycVerificationRouterArgs({
+    this.key,
+    required this.requiredVerifications,
+  });
+
+  final Key? key;
+
+  final List<RequiredVerified> requiredVerifications;
+
+  @override
+  String toString() {
+    return 'KycVerificationRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
   }
 }
 
@@ -3748,57 +3800,5 @@ class InfoWebViewRouterArgs {
   @override
   String toString() {
     return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
-  }
-}
-
-/// generated route for
-/// [KycVerificationSumsub]
-class KycVerificationSumsubRouter extends PageRouteInfo<void> {
-  const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
-      : super(
-          KycVerificationSumsubRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'KycVerificationSumsubRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [KycVerification]
-class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
-  KycVerificationRouter({
-    Key? key,
-    required List<RequiredVerified> requiredVerifications,
-    List<PageRouteInfo>? children,
-  }) : super(
-          KycVerificationRouter.name,
-          args: KycVerificationRouterArgs(
-            key: key,
-            requiredVerifications: requiredVerifications,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'KycVerificationRouter';
-
-  static const PageInfo<KycVerificationRouterArgs> page =
-      PageInfo<KycVerificationRouterArgs>(name);
-}
-
-class KycVerificationRouterArgs {
-  const KycVerificationRouterArgs({
-    this.key,
-    required this.requiredVerifications,
-  });
-
-  final Key? key;
-
-  final List<RequiredVerified> requiredVerifications;
-
-  @override
-  String toString() {
-    return 'KycVerificationRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
   }
 }

@@ -9,6 +9,7 @@ import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/kyc_country.d
 import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/show_kyc_country_picker.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_kit/modules/kyc/components/simple_document_recommendation.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/services/sumsub_service/sumsub_service.dart';
@@ -24,8 +25,10 @@ class KycVerificationSumsub extends StatelessObserverWidget {
     final countries = getIt.get<KycCountryStore>();
     final state = getIt.get<ChooseDocumentsStore>();
     final colors = sKit.colors;
+    final loading = StackLoaderStore();
 
     return SPageFrame(
+      loading: loading,
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -125,7 +128,9 @@ class KycVerificationSumsub extends StatelessObserverWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
+                loading.startLoading();
                 await getIt<SumsubService>().launch();
+                loading.finishLoadingImmediately();
               },
               name: intl.kycVerifyYourProfile_continue,
               active: true,
