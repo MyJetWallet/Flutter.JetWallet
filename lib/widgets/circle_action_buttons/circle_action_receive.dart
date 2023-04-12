@@ -29,7 +29,9 @@ class CircleActionReceive extends StatelessWidget {
           const SpaceH6(),
           Text(
             intl.balanceActionButtons_receive,
-            style: sBodyText2Style,
+            style: sBodyText2Style.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

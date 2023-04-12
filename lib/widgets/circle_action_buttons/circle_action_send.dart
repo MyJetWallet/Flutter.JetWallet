@@ -29,7 +29,9 @@ class CircleActionSend extends StatelessWidget {
           const SpaceH6(),
           Text(
             intl.balanceActionButtons_send,
-            style: sBodyText2Style,
+            style: sBodyText2Style.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

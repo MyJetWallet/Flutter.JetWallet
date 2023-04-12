@@ -119,7 +119,7 @@ class _CryptoDepositWithAddressAndTagState
                                   qrBoxSize: qrBoxSize,
                                   logoSize: logoSize,
                                 ),
-                                const SpaceH17(),
+                                const SpaceH4(),
                               ],
                             ),
                         ],
@@ -137,13 +137,13 @@ class _CryptoDepositWithAddressAndTagState
                   if (currentPage == 0) {
                     pageController.animateToPage(
                       1,
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.linear,
                     );
                   } else {
                     pageController.animateToPage(
                       0,
-                      duration: const Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.linear,
                     );
                   }
