@@ -9,7 +9,6 @@ import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/kyc_country.d
 import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/show_kyc_country_picker.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_kit/modules/kyc/components/simple_document_recommendation.dart';
-
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
