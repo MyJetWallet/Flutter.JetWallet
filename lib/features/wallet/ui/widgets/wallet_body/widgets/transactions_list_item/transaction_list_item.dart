@@ -75,7 +75,12 @@ class TransactionListItem extends StatelessObserverWidget {
                     transactionListItem.status == Status.declined,
                     colors.grey2,
                   ),
-                  const SpaceW10(),
+                  if (transactionListItem.operationType == OperationType.buy ||
+                      transactionListItem.operationType == OperationType.sell ||
+                      transactionListItem.operationType == OperationType.swap)
+                    const SpaceW6()
+                  else
+                    const SpaceW10(),
                   Expanded(
                     child: Row(
                       children: [
@@ -134,9 +139,12 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
                         color: transactionListItem.status == Status.declined
-                            ? colors.grey1 : colors.black,
-                        decoration: transactionListItem.status == Status.declined
-                          ? TextDecoration.lineThrough : null,
+                            ? colors.grey1
+                            : colors.black,
+                        decoration:
+                            transactionListItem.status == Status.declined
+                                ? TextDecoration.lineThrough
+                                : null,
                       ),
                     ),
                   ),
@@ -148,8 +156,8 @@ class TransactionListItem extends StatelessObserverWidget {
                   if (transactionListItem.status != Status.inProgress)
                     TransactionListItemText(
                       text: '${formatDateToDMY(
-                          transactionListItem.timeStamp,
-                        )}'
+                        transactionListItem.timeStamp,
+                      )}'
                           ', ${formatDateToHm(transactionListItem.timeStamp)}',
                       color: colors.grey2,
                     ),
@@ -252,10 +260,10 @@ class TransactionListItem extends StatelessObserverWidget {
     BuildContext context,
   ) {
     return transactionListItem.operationType == OperationType.buy ||
-        transactionListItem.operationType == OperationType.sell
+            transactionListItem.operationType == OperationType.sell
         ? '${transactionListItem.swapInfo?.sellAssetId} '
-        '${intl.operationName_exchangeTo} '
-        '${transactionListItem.swapInfo?.buyAssetId}'
+            '${intl.operationName_exchangeTo} '
+            '${transactionListItem.swapInfo?.buyAssetId}'
         : transactionListItem.assetId;
   }
 

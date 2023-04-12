@@ -226,9 +226,9 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
             const SDivider(),
             const SpaceH23(),
             SPaddingH24(
-              child: SPrimaryButton2(
+              child: SSecondaryButton2(
                 icon: SShareIcon(
-                  color: colors.white,
+                  color: colors.blue,
                 ),
                 active: true,
                 name: intl.cryptoDeposit_share,

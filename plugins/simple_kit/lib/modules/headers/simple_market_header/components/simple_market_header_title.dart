@@ -41,19 +41,24 @@ class SimpleMarketHeaderTitle extends StatelessWidget {
             activeFilters: activeFilters,
           ),
         if (onSearchButtonTap != null) ...[
-          SizedBox(
-            width: 56.0,
-            height: 56.0,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                SIconButton(
-                  onTap: onSearchButtonTap,
-                  defaultIcon: const SSearchIcon(),
-                  pressedIcon: const SSearchPressedIcon(),
+          Column(
+            children: [
+              const SpaceH11(),
+              SizedBox(
+                width: 56.0,
+                height: 34.0,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SIconButton(
+                      onTap: onSearchButtonTap,
+                      defaultIcon: const SSearchIcon(),
+                      pressedIcon: const SSearchPressedIcon(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SpaceW4(),
         ],

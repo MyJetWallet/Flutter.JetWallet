@@ -19,16 +19,16 @@ class RewardNotificationBox extends StatelessWidget {
     final colors = sKit.colors;
 
     return Padding(
-      padding: EdgeInsets.all(isUnread ? 17 : 24),
-      child: Container(
+      padding: EdgeInsets.symmetric(horizontal: isUnread ? 17 : 24),
+      child: DecoratedBox(
         decoration: isUnread
             ? BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          border: Border.all(
-            width: 3.0,
-            color: colors.blue,
-          ),
-        )
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(
+                  width: 3.0,
+                  color: colors.blue,
+                ),
+              )
             : null,
         child: Padding(
           padding: EdgeInsets.all(isUnread ? 4 : 0),

@@ -140,8 +140,7 @@ class _EmptyWalletState extends State<EmptyWallet>
             child: SPageFrameWithPadding(
               loaderText: intl.register_pleaseWait,
               header: SSmallHeader(
-                title: '${widget.currency.description} '
-                    '${intl.emptyWallet_balance}',
+                title: intl.portfolioHeader_balance,
               ),
               child: (widget.currency.apy.toDouble() == 0.0)
                   ? EmptyWalletBody(

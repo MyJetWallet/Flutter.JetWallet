@@ -29,7 +29,9 @@ class CircleActionBuy extends StatelessWidget {
           const SpaceH6(),
           Text(
             intl.balanceActionButtons_buy,
-            style: sBodyText2Style,
+            style: sBodyText2Style.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

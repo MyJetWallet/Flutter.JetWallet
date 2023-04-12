@@ -142,8 +142,11 @@ class _RewardsBody extends StatelessObserverWidget {
                 isActive: !viewedRewards.contains(item.campaign!.campaignId),
               ),
             ],
+          ],
+          const SpaceH10(),
+          for (final item in state.sortedCampaigns) ...[
             if (_displayThreeStepsRewardBanner(item)) ...[
-              const SpaceH32(),
+              const SpaceH10(),
               RewardNotificationBox(
                 isUnread: !actualRewards.contains(item.campaign!.campaignId),
                 child: SThreeStepsRewardBanner(
@@ -174,7 +177,7 @@ class _RewardsBody extends StatelessObserverWidget {
               ),
             ],
             if (_displayReferralStats(item)) ...[
-              const SpaceH32(),
+              const SpaceH10(),
               RewardNotificationBox(
                 isUnread: !actualRewards.contains('referral'),
                 child: SReferralStats(

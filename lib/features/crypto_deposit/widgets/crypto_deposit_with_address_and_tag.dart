@@ -25,7 +25,8 @@ class CryptoDepositWithAddressAndTag extends StatefulObserverWidget {
   final ScrollController scrollController;
 
   @override
-  State<CryptoDepositWithAddressAndTag> createState() => _CryptoDepositWithAddressAndTagState();
+  State<CryptoDepositWithAddressAndTag> createState() =>
+      _CryptoDepositWithAddressAndTagState();
 }
 
 class _CryptoDepositWithAddressAndTagState
@@ -91,7 +92,6 @@ class _CryptoDepositWithAddressAndTagState
                   physics: const BouncingScrollPhysics(),
                   itemCount: 2,
                   itemBuilder: (_, index) {
-
                     return Opacity(
                       opacity: currentPage != index ? 0.6 : 1,
                       child: Stack(
@@ -119,6 +119,7 @@ class _CryptoDepositWithAddressAndTagState
                                   qrBoxSize: qrBoxSize,
                                   logoSize: logoSize,
                                 ),
+                                const SpaceH4(),
                               ],
                             ),
                         ],
@@ -134,9 +135,17 @@ class _CryptoDepositWithAddressAndTagState
               GestureDetector(
                 onTap: () {
                   if (currentPage == 0) {
-                    pageController.jumpToPage(1);
+                    pageController.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.linear,
+                    );
                   } else {
-                    pageController.jumpToPage(0);
+                    pageController.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.linear,
+                    );
                   }
                 },
                 child: Container(
@@ -233,7 +242,8 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message, id: 1, isError: false);
+                sNotification.showError(intl.copy_message,
+                    id: 1, isError: false);
               },
             )
           else
@@ -247,7 +257,8 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message, id: 1, isError: false);
+                sNotification.showError(intl.copy_message,
+                    id: 1, isError: false);
               },
             ),
         ],
