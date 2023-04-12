@@ -6,163 +6,110 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/helpers/biometrics_auth_helpers.dart';
 
+part 'user_info_service.g.dart';
+
 final sUserInfo = getIt.get<UserInfoService>();
 
-class UserInfoService {
+class UserInfoService = _UserInfoServiceBase with _$UserInfoService;
+
+abstract class _UserInfoServiceBase with Store {
   static final _logger = Logger('UserInfoNotifier');
 
   final storage = getIt.get<LocalStorageService>();
 
   String? pin;
 
-  final _hasDisclaimers = Observable(false);
-  bool get hasDisclaimers => _hasDisclaimers.value;
-  set hasDisclaimers(bool newValue) => Action(
-        () => _hasDisclaimers.value = newValue,
-      );
+  @observable
+  bool isSignalRInited = false;
 
-  final _hasNftDisclaimers = Observable(false);
-  bool get hasNftDisclaimers => _hasNftDisclaimers.value;
-  set hasNftDisclaimers(bool newValue) => Action(
-        () => _hasNftDisclaimers.value = newValue,
-      );
+  @observable
+  bool isServicesRegisterd = false;
 
-  final _hasHighYieldDisclaimers = Observable(false);
-  bool get hasHighYieldDisclaimers => _hasHighYieldDisclaimers.value;
-  set hasHighYieldDisclaimers(bool newValue) => Action(
-        () => _hasHighYieldDisclaimers.value = newValue,
-      );
+  @observable
+  bool chatClosedOnThisSession = false;
 
-  /// If after reister/login user disabled a pin.
-  /// If pin is disabled manually we don't ask
-  /// to set pin again (in authorized state)
-  /// After logout this will be reseted
-  final _pinDisabled = Observable(false);
-  bool get pinDisabled => _pinDisabled.value;
-  set pinDisabled(bool newValue) => Action(
-        () => _pinDisabled.value = newValue,
-      );
+  @observable
+  bool hasDisclaimers = false;
 
-  final _twoFaEnabled = Observable(false);
-  bool get twoFaEnabled => _twoFaEnabled.value;
-  set twoFaEnabled(bool newValue) => Action(
-        () => _twoFaEnabled.value = newValue,
-      );
+  @observable
+  bool hasNftDisclaimers = false;
 
-  final _phoneVerified = Observable(false);
-  bool get phoneVerified => _phoneVerified.value;
-  set phoneVerified(bool newValue) => Action(
-        () => _phoneVerified.value = newValue,
-      );
+  @observable
+  bool pinDisabled = false;
 
-  final _emailConfirmed = Observable(false);
-  bool get emailConfirmed => _emailConfirmed.value;
-  set emailConfirmed(bool newValue) => Action(
-        () => _emailConfirmed.value = newValue,
-      );
+  @observable
+  bool twoFaEnabled = false;
 
-  final _phoneConfirmed = Observable(false);
-  bool get phoneConfirmed => _phoneConfirmed.value;
-  set phoneConfirmed(bool newValue) => Action(
-        () => _hasHighYieldDisclaimers.value = newValue,
-      );
+  @observable
+  bool phoneVerified = false;
 
-  final _kycPassed = Observable(false);
-  bool get kycPassed => _kycPassed.value;
-  set kycPassed(bool newValue) => Action(
-        () => _kycPassed.value = newValue,
-      );
+  @observable
+  bool emailConfirmed = false;
 
-  ///
+  @observable
+  bool phoneConfirmed = false;
 
-  final _isJustLogged = Observable(false);
-  bool get isJustLogged => _isJustLogged.value;
-  set isJustLogged(bool newValue) => Action(
-        () => _isJustLogged.value = newValue,
-      );
+  @observable
+  bool kycPassed = false;
 
-  final _isJustRegistered = Observable(false);
-  bool get isJustRegistered => _isJustRegistered.value;
-  set isJustRegistered(bool newValue) => Action(
-        () => _isJustRegistered.value = newValue,
-      );
+  @observable
+  bool hasHighYieldDisclaimers = false;
 
-  final _biometricDisabled = Observable(false);
-  bool get biometricDisabled => _biometricDisabled.value;
-  set biometricDisabled(bool newValue) => Action(
-        () => _biometricDisabled.value = newValue,
-      );
+  @observable
+  bool isJustLogged = false;
 
-  final _isTechClient = Observable(false);
-  bool get isTechClient => _isTechClient.value;
-  set isTechClient(bool newValue) => Action(
-        () => _isTechClient.value = newValue,
-      );
+  @observable
+  bool isJustRegistered = false;
 
-  ///
+  @observable
+  bool biometricDisabled = false;
 
-  final _isSignalRInited = Observable(false);
-  bool get isSignalRInited => _isSignalRInited.value;
-  set isSignalRInited(bool newValue) => Action(
-        () => _isSignalRInited.value = newValue,
-      );
+  @observable
+  bool isTechClient = false;
 
-  final _isServicesRegisterd = Observable(false);
-  bool get isServicesRegisterd => _isServicesRegisterd.value;
-  set isServicesRegisterd(bool newValue) => Action(
-        () => _isServicesRegisterd.value = newValue,
-      );
+  @observable
+  String email = '';
 
-  ///
+  @observable
+  String phone = '';
 
-  final _email = Observable('');
-  String get email => _email.value;
-  set email(String newValue) => _email.value = newValue;
+  @observable
+  String referralLink = '';
 
-  final _phone = Observable('');
-  String get phone => _phone.value;
-  set phone(String newValue) => _phone.value = newValue;
+  @observable
+  String referralCode = '';
 
-  final _referralLink = Observable('');
-  String get referralLink => _referralLink.value;
-  set referralLink(String newValue) => _referralLink.value = newValue;
+  @observable
+  String countryOfRegistration = '';
 
-  final _referralCode = Observable('');
-  String get referralCode => _referralCode.value;
-  set referralCode(String newValue) => _referralCode.value = newValue;
+  @observable
+  String countryOfResidence = '';
 
-  final _countryOfRegistration = Observable('');
-  String get countryOfRegistration => _countryOfRegistration.value;
-  set countryOfRegistration(String newValue) =>
-      _countryOfRegistration.value = newValue;
+  @observable
+  String countryOfCitizenship = '';
 
-  final _countryOfResidence = Observable('');
-  String get countryOfResidence => _countryOfResidence.value;
-  set countryOfResidence(String newValue) =>
-      _countryOfResidence.value = newValue;
+  @observable
+  String firstName = '';
 
-  final _countryOfCitizenship = Observable('');
-  String get countryOfCitizenship => _countryOfCitizenship.value;
-  set countryOfCitizenship(String newValue) =>
-      _countryOfCitizenship.value = newValue;
+  @observable
+  String lastName = '';
 
-  final _firstName = Observable('');
-  String get firstName => _firstName.value;
-  set firstName(String newValue) => _firstName.value = newValue;
-
-  final _lastName = Observable('');
-  String get lastName => _lastName.value;
-  set lastName(String newValue) => _lastName.value = newValue;
-
+  @computed
   bool get pinEnabled => pin != null;
 
+  @computed
   bool get isPhoneNumberSet => phone.isNotEmpty;
 
+  @computed
   bool get isShowBanner => !twoFaEnabled || !phoneVerified || !kycPassed;
 
+  @action
   void updateSignalRStatus(bool value) => isSignalRInited = value;
+
+  @action
   void updateServicesRegistred(bool value) => isServicesRegisterd = value;
 
+  @action
   void updateWithValuesFromSessionInfo({
     required bool twoFaEnabledValue,
     required bool phoneVerifiedValue,
@@ -180,6 +127,7 @@ class UserInfoService {
   }
 
   // ignore: long-parameter-list
+  @action
   void updateWithValuesFromProfileInfo({
     required bool emailConfirmedValue,
     required bool phoneConfirmedValue,
@@ -211,6 +159,7 @@ class UserInfoService {
   }
 
   /// Inits PIN/Biometrics information
+  @action
   Future<void> initPinStatus() async {
     _logger.log(notifier, 'initPinStatus');
     final pin = await storage.getValue(pinStatusKey);
@@ -230,6 +179,7 @@ class UserInfoService {
     }
   }
 
+  @action
   Future<void> disablePin() async {
     _logger.log(notifier, 'disablePin');
 
@@ -238,6 +188,7 @@ class UserInfoService {
   }
 
   /// Set PIN/Biometrics information
+  @action
   Future<void> setPin(String value) async {
     _logger.log(notifier, 'setPin');
 
@@ -246,6 +197,7 @@ class UserInfoService {
   }
 
   /// Reset PIN/Biometrics information
+  @action
   Future<void> resetPin() async {
     _logger.log(notifier, 'resetPin');
 
@@ -253,14 +205,17 @@ class UserInfoService {
     _updatePin(null);
   }
 
+  @action
   void _updatePin(String? value) {
     pin = value;
   }
 
+  @action
   void _updatePinDisabled(bool value) {
     pinDisabled = value;
   }
 
+  @action
   Future<void> initBiometricStatus() async {
     _logger.log(notifier, 'initBiometricStatus');
     final bioStatusFromSetting = await biometricStatus();
@@ -274,48 +229,57 @@ class UserInfoService {
     }
   }
 
+  @action
   void updateIsJustLogged({required bool value}) {
     isJustLogged = value;
   }
 
+  @action
   void updateIsJustRegistered({required bool value}) {
     isJustRegistered = value;
   }
 
+  @action
   void _updateBiometric(bool hideBio) {
     biometricDisabled = hideBio;
   }
 
+  @action
   Future<void> disableBiometric() async {
     biometricDisabled = true;
 
     await storage.setString(useBioKey, false.toString());
   }
 
+  @action
   void updateTwoFaStatus({required bool enabled}) {
     _logger.log(notifier, 'updateTwoFaStatus');
 
     twoFaEnabled = enabled;
   }
 
+  @action
   void updatePhoneVerified({required bool phoneVerifiedValue}) {
     _logger.log(notifier, 'updatePhoneVerified');
 
     phoneVerified = phoneVerifiedValue;
   }
 
+  @action
   void updateEmail(String value) {
     _logger.log(notifier, 'updateEmail');
 
     email = value;
   }
 
+  @action
   void updatePhone(String value) {
     _logger.log(notifier, 'updatePhone');
 
     phone = value;
   }
 
+  @action
   void clear() {
     pin = null;
     phoneVerified = false;
@@ -323,6 +287,7 @@ class UserInfoService {
     emailConfirmed = false;
     phoneConfirmed = false;
     kycPassed = false;
+    isSignalRInited = false;
     email = '';
     phone = '';
     countryOfRegistration = '';

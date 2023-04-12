@@ -15,6 +15,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/rsa_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
 import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
@@ -195,6 +196,8 @@ abstract class _EmailVerificationStoreBase with Store {
   @action
   Future<void> verifyCode() async {
     _logger.log(notifier, 'verifyCode');
+
+    getIt.get<UserInfoService>().updateIsJustLogged(value: true);
 
     union = const EmailVerificationUnion.loading();
 
