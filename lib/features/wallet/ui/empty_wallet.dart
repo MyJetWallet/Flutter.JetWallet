@@ -6,17 +6,17 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/action_button/action_button.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/empty_wallet_with_history.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_earn_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart';
 
 import '../../../core/router/app_router.dart';
-import '../../../widgets/circle_action_buttons/circle_action_buy.dart';
-import '../../../widgets/circle_action_buttons/circle_action_receive.dart';
+import '../../../core/services/simple_networking/simple_networking.dart';
 import '../../actions/circle_actions/circle_actions.dart';
 import '../../kyc/helper/kyc_alert_handler.dart';
 import '../../kyc/kyc_service.dart';
@@ -38,6 +38,7 @@ class EmptyWallet extends StatefulObserverWidget {
 class _EmptyWalletState extends State<EmptyWallet>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
+  int lengthOfHistory = 0;
 
   @override
   void initState() {
@@ -47,6 +48,16 @@ class _EmptyWalletState extends State<EmptyWallet>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
+    final response = sNetwork.getWalletModule().getOperationHistory(
+      OperationHistoryRequestModel(
+        assetId: widget.currency.symbol,
+        batchSize: 20,
+      ),
+    ).then((value) {
+      setState(() {
+        lengthOfHistory = value.data?.operationHistory.length ?? 0;
+      });
+    });
     super.initState();
   }
 
@@ -57,8 +68,12 @@ class _EmptyWalletState extends State<EmptyWallet>
     final kycState = getIt.get<KycService>();
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
+    if (lengthOfHistory > 0) {
+      return EmptyWalletWithHistory(currency: widget.currency);
+    }
+
     return Scaffold(
-      bottomNavigationBar: SizedBox(
+      bottomNavigationBar: lengthOfHistory > 0 ? SizedBox(
         height: 127,
         child: Column(
           children: [
@@ -131,7 +146,7 @@ class _EmptyWalletState extends State<EmptyWallet>
             const SpaceH34(),
           ],
         ),
-      ),
+      ) : null,
       body: Observer(
         builder: (context) {
           return SShadeAnimationStack(
