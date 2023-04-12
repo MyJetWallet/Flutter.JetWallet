@@ -1,14 +1,17 @@
 import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:animated_list_plus/transitions.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:provider/provider.dart';
@@ -91,6 +94,14 @@ class __MarketNestedScrollViewBodyState
         controller,
       );
     });
+
+    getIt<EventBus>().on<ResetScrollMarket>().listen((event) {
+      marketScrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
@@ -106,8 +117,7 @@ class __MarketNestedScrollViewBodyState
     final colors = sKit.colors;
     final store = MarketFilterStore.of(context);
 
-    final showPreloader =
-        store.cryptoList.isNotEmpty || store.nftList.isNotEmpty;
+    final showPreloader = store.cryptoList.isNotEmpty;
 
     return NestedScrollView(
       controller: controller,
@@ -118,7 +128,7 @@ class __MarketNestedScrollViewBodyState
             backgroundColor: colors.white,
             pinned: true,
             elevation: 0,
-            expandedHeight: 140,
+            expandedHeight: 160,
             collapsedHeight: 120,
             primary: false,
             flexibleSpace: FadeOnScroll(
@@ -257,7 +267,6 @@ class __MarketNestedScrollViewBodyState
               );
             },
           ),
-          const SpaceH20(),
         ],
         MarketSeparator(text: intl.assets),
         ImplicitlyAnimatedList<MarketItemModel>(

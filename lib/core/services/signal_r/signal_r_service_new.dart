@@ -116,8 +116,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
   void setRecurringBuys(RecurringBuysResponseModel value) {
-    print('RECURRING BUY');
-
     recurringBuys = ObservableList.of(
       value.recurringBuys,
     );
@@ -275,8 +273,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
   );
   @action
   void setKeyValue(KeyValueModel value) {
-    print(value);
-
     keyValue = value;
   }
 

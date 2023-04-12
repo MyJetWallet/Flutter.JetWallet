@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/push_notification.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -250,6 +251,15 @@ class _DebugInfoState extends State<DebugInfo>
                 },
                 child: const Text(
                   'Simulate 200 reject',
+                ),
+              ),
+
+              TextButton(
+                onPressed: () async {
+                  await getIt<SumsubService>().launch();
+                },
+                child: const Text(
+                  'Sumsub',
                 ),
               ),
             ],

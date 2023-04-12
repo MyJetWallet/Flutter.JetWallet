@@ -73,7 +73,7 @@ class TransactionListItem extends StatelessObserverWidget {
                   _iconFrom(
                     transactionListItem.operationType,
                     transactionListItem.status == Status.declined,
-                    colors.red,
+                    colors.grey2,
                   ),
                   if (
                     transactionListItem.operationType == OperationType.buy ||
@@ -84,14 +84,30 @@ class TransactionListItem extends StatelessObserverWidget {
                   else
                     const SpaceW10(),
                   Expanded(
-                    child: TransactionListItemHeaderText(
-                      text: _transactionItemTitle(
-                        transactionListItem,
-                        context,
-                      ),
-                      color: transactionListItem.status == Status.declined
-                          ? colors.red
-                          : colors.black,
+                    child: Row(
+                      children: [
+                        TransactionListItemHeaderText(
+                          text: _transactionItemTitle(
+                            transactionListItem,
+                            context,
+                          ),
+                          color: colors.black,
+                        ),
+                        if (transactionListItem.status == Status.declined) ...[
+                          const SpaceW5(),
+                          Column(
+                            children: [
+                              const SpaceH4(),
+                              Text(
+                                intl.transactionDetailsStatus_declined,
+                                style: sBodyText2Style.copyWith(
+                                  color: colors.grey2,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                   Container(
@@ -124,7 +140,10 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: colors.black,
+                        color: transactionListItem.status == Status.declined
+                            ? colors.grey1 : colors.black,
+                        decoration: transactionListItem.status == Status.declined
+                          ? TextDecoration.lineThrough : null,
                       ),
                     ),
                   ),
@@ -137,8 +156,8 @@ class TransactionListItem extends StatelessObserverWidget {
                     TransactionListItemText(
                       text: '${formatDateToDMY(
                           transactionListItem.timeStamp,
-                        )} '
-                          '- ${formatDateToHm(transactionListItem.timeStamp)}',
+                        )}'
+                          ', ${formatDateToHm(transactionListItem.timeStamp)}',
                       color: colors.grey2,
                     ),
                   if (transactionListItem.status == Status.inProgress)
@@ -284,6 +303,10 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.unknown:
         return const SizedBox();
       case OperationType.cryptoInfo:
+        return SPlusIcon(color: isFailed ? color : null);
+      case OperationType.buyApplePay:
+        return SPlusIcon(color: isFailed ? color : null);
+      case OperationType.buyGooglePay:
         return SPlusIcon(color: isFailed ? color : null);
       case OperationType.nftBuy:
         return SPlusIcon(color: isFailed ? color : null);

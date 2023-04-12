@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
+import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_value_text.dart';
 
@@ -61,7 +62,15 @@ class EarningDepositDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_total_balance,
             value: Column(
@@ -96,14 +105,14 @@ class EarningDepositDetails extends StatelessObserverWidget {
               ],
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_details_apy,
             value: TransactionDetailsValueText(
               text: '${transactionListItem.earnInfo?.apy}%',
             ),
           ),
-          const SpaceH14(),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.earn_details_subscription,
             value: TransactionDetailsValueText(

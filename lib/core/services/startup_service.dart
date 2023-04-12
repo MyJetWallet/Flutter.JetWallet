@@ -17,6 +17,7 @@ import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorization_union.dart';
@@ -214,6 +215,10 @@ class StartupService {
 
       getIt.registerLazySingleton<IbanStore>(
         () => IbanStore(),
+      );
+
+      getIt.registerLazySingleton<SumsubService>(
+          () => SumsubService(),
       );
 
       userInfo.updateServicesRegistred(true);

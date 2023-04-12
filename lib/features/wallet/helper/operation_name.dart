@@ -32,7 +32,7 @@ String operationName(
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
-      return intl.operationName_rewardPayment;
+      return intl.operationName_rewardReferral;
     case OperationType.simplexBuy:
       return intl.operationName_simplex;
     case OperationType.recurringBuy:
@@ -43,6 +43,10 @@ String operationName(
           : intl.operationName_subscribed_to_earn;
     case OperationType.cryptoInfo:
       return intl.operationName_buyWithCard;
+    case OperationType.buyGooglePay:
+      return intl.operationName_buyGooglePay;
+    case OperationType.buyApplePay:
+      return intl.operationName_buyApplePay;
     case OperationType.earningWithdrawal:
       return intl.operationName_return_from_earn;
     case OperationType.unknown:

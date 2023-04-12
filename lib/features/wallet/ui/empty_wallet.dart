@@ -123,7 +123,7 @@ class _EmptyWalletState extends State<EmptyWallet>
                   sRouter.popUntilRoot();
                   getIt<AppStore>().setHomeTab(2);
                   if (getIt<AppStore>().tabsRouter != null) {
-                    getIt<AppStore>().tabsRouter!.setActiveIndex(0);
+                    getIt<AppStore>().tabsRouter!.setActiveIndex(2);
                   }
                 }
               },

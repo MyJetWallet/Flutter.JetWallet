@@ -6,6 +6,8 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import 'account_status_banner.dart';
+
 List<Widget> createBannersList({
   Function()? onChatBannerTap,
   Function()? onTwoFaBannerTap,
@@ -25,43 +27,42 @@ List<Widget> createBannersList({
 
   if (!verificationInProgress && !kycPassed && !kycBlocked) {
     bannersList.add(
-      SimpleAccountBanner(
+      AccountStatusBanner(
+        icon: const SAccountVerifyIcon(),
+        title: intl.createBannersList_verifyYourProfile,
         onTap: () {
           onKycBannerTap?.call();
         },
-        imageUrl: accountProfileAsset,
-        color: colors.greenLight,
-        header: intl.createBannersList_verifyYourProfile,
-        description: intl.createBanners_bannerText1,
+        mainColor: colors.blueLight,
+        textColor: colors.blue,
       ),
     );
   }
 
   if (verificationInProgress && !kycBlocked) {
     bannersList.add(
-      SimpleAccountBanner(
+      AccountStatusBanner(
+        icon: const SAccountWaitingIcon(),
+        title: '${intl.createBanners_header2}...',
         onTap: () {
           onKycBannerTap?.call();
         },
-        color: colors.greenLight,
-        header: intl.createBanners_header2,
-        imageUrl: verifyNowAsset,
-        description: intl.createBanners_bannerText2,
+        mainColor: colors.yellowLight,
+        textColor: colors.orange,
       ),
     );
   }
 
   if (kycBlocked) {
     bannersList.add(
-      SimpleAccountBanner(
+      AccountStatusBanner(
+        icon: const SAccountBlockedIcon(),
+        title: intl.createBanners_headerBlocked,
         onTap: () {
           onKycBannerTap?.call();
         },
-        color: colors.redLight,
-        header: '${intl.kycAlertHandler_youAreBlocked}!',
-        imageUrl: blockedAsset,
-        description: '${intl.kycAlertHandler_showBlockedAlertSecondaryText1} '
-            '${intl.kycAlertHandler_showBlockedAlertSecondaryText2}',
+        mainColor: colors.redLight,
+        textColor: colors.red,
       ),
     );
   }
