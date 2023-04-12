@@ -95,8 +95,7 @@ class _WalletBodyState extends State<WalletBody>
                         ),
                         SPaddingH24(
                           child: SSmallHeader(
-                            title: '${widget.currency.description}'
-                                ' ${intl.walletBody_balance}',
+                            title: intl.portfolioHeader_balance,
                           ),
                         ),
                       ],

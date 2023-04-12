@@ -27,34 +27,38 @@ class _SimpleMarketHeaderFilterState extends State<SimpleMarketHeaderFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      SizedBox(
-        width: 56.0,
-        height: 56.0,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            InkWell(
-              onTap: widget.onFilterButtonTap,
-              onHighlightChanged: (value) {
-                setState(() {
-                  highlighted = value;
-                });
-              },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
-                ],
+    return Column(
+      children: [
+        const SpaceH11(),
+        SizedBox(
+          width: 56.0,
+          height: 34.0,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              InkWell(
+                onTap: widget.onFilterButtonTap,
+                onHighlightChanged: (value) {
+                  setState(() {
+                    highlighted = value;
+                  });
+                },
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    highlighted ? const SPressedFilterIcon() : const SFilterIcon(),
+                  ],
+                ),
               ),
-            ),
-            NotificationBox(
-              notifications: widget.activeFilters,
-            ),
-          ],
+              NotificationBox(
+                notifications: widget.activeFilters,
+              ),
+            ],
+          ),
         ),
-      );
+      ],
+    );
   }
 }

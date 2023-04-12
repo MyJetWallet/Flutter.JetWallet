@@ -19,7 +19,7 @@ class RewardNotificationBox extends StatelessWidget {
     final colors = sKit.colors;
 
     return Padding(
-      padding: EdgeInsets.all(isUnread ? 17 : 24),
+      padding: EdgeInsets.symmetric(horizontal: isUnread ? 17 : 24),
       child: Container(
         decoration: isUnread
             ? BoxDecoration(

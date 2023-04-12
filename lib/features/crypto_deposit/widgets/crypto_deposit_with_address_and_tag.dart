@@ -119,6 +119,7 @@ class _CryptoDepositWithAddressAndTagState
                                   qrBoxSize: qrBoxSize,
                                   logoSize: logoSize,
                                 ),
+                                const SpaceH17(),
                               ],
                             ),
                         ],
@@ -134,9 +135,17 @@ class _CryptoDepositWithAddressAndTagState
               GestureDetector(
                 onTap: () {
                   if (currentPage == 0) {
-                    pageController.jumpToPage(1);
+                    pageController.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.linear,
+                    );
                   } else {
-                    pageController.jumpToPage(0);
+                    pageController.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.linear,
+                    );
                   }
                 },
                 child: Container(

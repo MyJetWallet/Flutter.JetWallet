@@ -118,7 +118,7 @@ class __MarketNestedScrollViewBodyState
             backgroundColor: colors.white,
             pinned: true,
             elevation: 0,
-            expandedHeight: 160,
+            expandedHeight: 140,
             collapsedHeight: 120,
             primary: false,
             flexibleSpace: FadeOnScroll(
@@ -257,6 +257,7 @@ class __MarketNestedScrollViewBodyState
               );
             },
           ),
+          const SpaceH20(),
         ],
         MarketSeparator(text: intl.assets),
         ImplicitlyAnimatedList<MarketItemModel>(

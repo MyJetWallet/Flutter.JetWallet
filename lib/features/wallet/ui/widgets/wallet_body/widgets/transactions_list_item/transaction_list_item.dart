@@ -75,7 +75,14 @@ class TransactionListItem extends StatelessObserverWidget {
                     transactionListItem.status == Status.declined,
                     colors.red,
                   ),
-                  const SpaceW10(),
+                  if (
+                    transactionListItem.operationType == OperationType.buy ||
+                    transactionListItem.operationType == OperationType.sell ||
+                    transactionListItem.operationType == OperationType.swap
+                  )
+                    const SpaceW6()
+                  else
+                    const SpaceW10(),
                   Expanded(
                     child: TransactionListItemHeaderText(
                       text: _transactionItemTitle(
