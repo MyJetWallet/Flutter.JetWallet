@@ -16,8 +16,8 @@ class SumsubService {
   Future<String?> getSDKToken() async {
     final countries = getIt.get<KycCountryStore>();
     final request = await sNetwork.getWalletModule().postSDKToken(
-      countries.activeCountry!.countryCode,
-    );
+          countries.activeCountry!.countryCode,
+        );
 
     if (request.hasError) {
       getIt.get<SimpleLoggerService>().log(
@@ -43,14 +43,13 @@ class SumsubService {
     ) {
       print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message: 'The SDK status was changed: $prevStatus -> $newStatus',
-      );
+            level: Level.info,
+            place: _loggerService,
+            message: 'The SDK status was changed: $prevStatus -> $newStatus',
+          );
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
-          newStatus == SNSMobileSDKStatus.Pending
-      ) {
+          newStatus == SNSMobileSDKStatus.Pending) {
         sRouter.push(
           SuccessScreenRouter(
             primaryText: intl.kycChooseDocuments_verifyingNow,
@@ -64,6 +63,7 @@ class SumsubService {
         );
       }
     }
+
     onActionResult(SNSMobileSDKActionResult result) {
       print("onActionResult: $result");
 
