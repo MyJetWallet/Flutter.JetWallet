@@ -48,14 +48,17 @@ class _EmptyWalletState extends State<EmptyWallet>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    final response = sNetwork.getWalletModule().getOperationHistory(
-      OperationHistoryRequestModel(
-        assetId: widget.currency.symbol,
-        batchSize: 20,
-      ),
-    ).then((value) {
+    final response = sNetwork
+        .getWalletModule()
+        .getOperationHistory(
+          OperationHistoryRequestModel(
+            assetId: widget.currency.symbol,
+            batchSize: 20,
+          ),
+        )
+        .then((value) {
       setState(() {
-        lengthOfHistory = value.data?.operationHistory.length ?? 0;
+        //lengthOfHistory = value.data?.operationHistory.length ?? 0;
       });
     });
     super.initState();
@@ -73,80 +76,84 @@ class _EmptyWalletState extends State<EmptyWallet>
     }
 
     return Scaffold(
-      bottomNavigationBar: lengthOfHistory > 0 ? SizedBox(
-        height: 127,
-        child: Column(
-          children: [
-            const SDivider(),
-            const SpaceH16(),
-            CircleActionButtons(
-              showBuy: currentAsset.supportsAtLeastOneBuyMethod,
-              showReceive: currentAsset.supportsCryptoDeposit,
-              showExchange: false,
-              showSend: false,
-              onBuy: () {
-                sAnalytics.newBuyTapBuy(
-                  source: 'My Assets - Asset -  Buy',
-                );
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
-                  sRouter.push(
-                    PaymentMethodRouter(currency: currentAsset),
-                  );
-                } else {
-                  kycAlertHandler.handle(
-                    status: kycState.depositStatus,
-                    isProgress: kycState.verificationInProgress,
-                    navigatePop: true,
-                    currentNavigate: () {
-                      sRouter.push(
-                        PaymentMethodRouter(currency: currentAsset),
+      bottomNavigationBar: (currentAsset.supportsAtLeastOneBuyMethod ||
+              currentAsset.supportsCryptoDeposit)
+          ? SizedBox(
+              height: 127,
+              child: Column(
+                children: [
+                  const SDivider(),
+                  const SpaceH16(),
+                  CircleActionButtons(
+                    showBuy: currentAsset.supportsAtLeastOneBuyMethod,
+                    showReceive: currentAsset.supportsCryptoDeposit,
+                    showExchange: false,
+                    showSend: false,
+                    onBuy: () {
+                      sAnalytics.newBuyTapBuy(
+                        source: 'My Assets - Asset -  Buy',
                       );
-                    },
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications: kycState.requiredVerifications,
-                  );
-                }
-              },
-              onReceive: () {
-                if (currentAsset.type == AssetType.crypto) {
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    sRouter.navigate(
-                      CryptoDepositRouter(
-                        header: intl.balanceActionButtons_receive,
-                        currency: currentAsset,
-                      ),
-                    );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () {
-                        sRouter.navigate(
-                          CryptoDepositRouter(
-                            header: intl.balanceActionButtons_receive,
-                            currency: currentAsset,
-                          ),
+                      if (kycState.depositStatus ==
+                          kycOperationStatus(KycStatus.allowed)) {
+                        sRouter.push(
+                          PaymentMethodRouter(currency: currentAsset),
                         );
-                      },
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                    );
-                  }
-                } else {
-                  sRouter.popUntilRoot();
-                  getIt<AppStore>().setHomeTab(2);
-                  if (getIt<AppStore>().tabsRouter != null) {
-                    getIt<AppStore>().tabsRouter!.setActiveIndex(2);
-                  }
-                }
-              },
-            ),
-            const SpaceH34(),
-          ],
-        ),
-      ) : null,
+                      } else {
+                        kycAlertHandler.handle(
+                          status: kycState.depositStatus,
+                          isProgress: kycState.verificationInProgress,
+                          navigatePop: true,
+                          currentNavigate: () {
+                            sRouter.push(
+                              PaymentMethodRouter(currency: currentAsset),
+                            );
+                          },
+                          requiredDocuments: kycState.requiredDocuments,
+                          requiredVerifications: kycState.requiredVerifications,
+                        );
+                      }
+                    },
+                    onReceive: () {
+                      if (currentAsset.type == AssetType.crypto) {
+                        if (kycState.depositStatus ==
+                            kycOperationStatus(KycStatus.allowed)) {
+                          sRouter.navigate(
+                            CryptoDepositRouter(
+                              header: intl.balanceActionButtons_receive,
+                              currency: currentAsset,
+                            ),
+                          );
+                        } else {
+                          kycAlertHandler.handle(
+                            status: kycState.depositStatus,
+                            isProgress: kycState.verificationInProgress,
+                            currentNavigate: () {
+                              sRouter.navigate(
+                                CryptoDepositRouter(
+                                  header: intl.balanceActionButtons_receive,
+                                  currency: currentAsset,
+                                ),
+                              );
+                            },
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
+                          );
+                        }
+                      } else {
+                        sRouter.popUntilRoot();
+                        getIt<AppStore>().setHomeTab(2);
+                        if (getIt<AppStore>().tabsRouter != null) {
+                          getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+                        }
+                      }
+                    },
+                  ),
+                  const SpaceH34(),
+                ],
+              ),
+            )
+          : null,
       body: Observer(
         builder: (context) {
           return SShadeAnimationStack(
