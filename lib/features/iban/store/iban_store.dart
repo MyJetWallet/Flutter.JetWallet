@@ -222,11 +222,14 @@ abstract class IbanStoreBase with Store {
     if (ibanBic.isEmpty) {
       isLoading = true;
     }
+
     try {
       final response = await sNetwork.getWalletModule().getIbanInfo();
 
       response.pick(
         onData: (data) {
+          print(data);
+
           toSetupAddress = data.requirements?.toSetupAddress ?? false;
           ibanBic = data.iban?.bic ?? '';
           ibanAddress = data.iban?.iban ?? '';

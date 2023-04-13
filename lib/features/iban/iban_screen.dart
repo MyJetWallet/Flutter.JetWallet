@@ -171,6 +171,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   name: store.ibanName,
                   iban: store.ibanAddress,
                   bic: store.ibanBic,
+                  address: store.ibanAddress,
                 ),
     );
   }

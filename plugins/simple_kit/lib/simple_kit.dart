@@ -139,6 +139,8 @@ export 'modules/icons/20x20/public/swap/simple_swap_icon.dart';
 export 'modules/icons/20x20/public/settings/simple_settings_icon.dart';
 export 'modules/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dart';
 export 'modules/icons/20x20/public/circle_minus/simple_circle_minus_icon.dart';
+export 'modules/icons/20x20/public/bank/simple_bank_icon.dart';
+export 'modules/icons/20x20/public/user/simple_user_icon.dart';
 export 'modules/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_verify_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_waiting_icon.dart';
