@@ -1331,5 +1331,7 @@
   "pin_code_descr": "Secure PIN for your Simple wallet",
   "create_pin_code": "Create PIN",
   "phone_update_block": "Phone update is suspended until",
-  "paid_with_gpay": "Paid with Google Pay"
+  "paid_with_gpay": "Paid with Google Pay",
+  "iban_terms_1": "Local EUR transfers only",
+  "iban_terms_2": "We only accept transfers from the bank accounts, registered on your name."
 }

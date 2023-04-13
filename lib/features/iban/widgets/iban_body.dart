@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/secondary_button/public/simple_secondary_button_1.dart';
+import 'package:simple_kit/modules/icons/20x20/public/bank/simple_bank_icon.dart';
+import 'package:simple_kit/modules/icons/20x20/public/user/simple_user_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/info/simple_info_icon.dart';
 import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
@@ -19,11 +22,13 @@ class IBanBody extends StatelessObserverWidget {
     required this.name,
     required this.iban,
     required this.bic,
+    required this.address,
   }) : super(key: key);
 
   final String name;
   final String iban;
   final String bic;
+  final String address;
 
   @override
   Widget build(BuildContext context) {
@@ -89,21 +94,39 @@ class IBanBody extends StatelessObserverWidget {
             name: intl.iban_bic,
             text: bic,
           ),
+          IBanItem(
+            name: intl.iban_address,
+            text: simpleCompanyAddress,
+          ),
           const SpaceH20(),
           SPaddingH24(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SInfoIcon(
+                const SBankIcon(),
+                const SpaceW14(),
+                Text(
+                  intl.iban_terms_1,
+                  style: sBodyText2Style,
+                ),
+              ],
+            ),
+          ),
+          const SpaceH12(),
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SUserIcon(
                   color: colors.black,
                 ),
-                const SpaceW16(),
+                const SpaceW14(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 88,
                   child: Text(
-                    intl.iban_terms,
+                    intl.iban_terms_2,
                     style: sBodyText2Style,
-                    maxLines: 5,
+                    maxLines: 3,
                   ),
                 ),
               ],
@@ -114,5 +137,4 @@ class IBanBody extends StatelessObserverWidget {
       ),
     );
   }
-
 }

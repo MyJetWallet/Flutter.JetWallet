@@ -129,7 +129,7 @@ class SignalRModuleNew {
             options.walletApiSignalR!,
             HttpConnectionOptions(
               client: signalRClient,
-              logging: (level, message) => logMsg(message),
+              //logging: (level, message) => logMsg(message),
               logMessageContent: true,
             ),
           )
@@ -220,13 +220,6 @@ class SignalRModuleNew {
       (_) async {
         if (_hubConnection?.state == HubConnectionState.connected) {
           try {
-            log(
-              level: lg.Level.info,
-              place: _loggerValue,
-              message:
-                  'Start Ping \n Status: ${_hubConnection?.state} \n Connection ID: ${_hubConnection?.connectionId}',
-            );
-
             _hubConnection?.invoke(pingMessage);
           } catch (e) {
             log(

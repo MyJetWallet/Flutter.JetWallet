@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_body.dart';
 import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
@@ -100,7 +101,8 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     final textForShare = '${intl.iban_share_text}: \n \n'
         '${intl.iban_benificiary}: ${store.ibanName} \n'
         '${intl.iban_iban}: ${store.ibanAddress} \n'
-        '${intl.iban_bic}: ${store.ibanBic} \n \n'
+        '${intl.iban_bic}: ${store.ibanBic} \n'
+        '${intl.iban_address}: $simpleCompanyAddress \n \n'
         '${intl.iban_terms}';
 
     return SPageFrame(
@@ -171,6 +173,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   name: store.ibanName,
                   iban: store.ibanAddress,
                   bic: store.ibanBic,
+                  address: store.ibanAddress,
                 ),
     );
   }
