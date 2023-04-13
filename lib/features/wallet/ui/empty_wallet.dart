@@ -58,7 +58,7 @@ class _EmptyWalletState extends State<EmptyWallet>
         )
         .then((value) {
       setState(() {
-        //lengthOfHistory = value.data?.operationHistory.length ?? 0;
+        lengthOfHistory = value.data?.operationHistory.length ?? 0;
       });
     });
     super.initState();
