@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/kyc/choose_documents/store/choose_documents_store.dart';
+import 'package:jetwallet/features/kyc/choose_documents/store/kyc_country_store.dart';
 import 'package:jetwallet/features/kyc/helper/convert_kyc_documents.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_documents_union.dart';
@@ -117,6 +118,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
+      final countries = getIt.get<KycCountryStore>();
+
       final response = await getIt
           .get<SNetwork>()
           .simpleImageNetworking
@@ -124,6 +127,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           .postUploadDocuments(
             formData,
             isSelfie ? 8 : 9,
+            countries.activeCountry!.countryCode,
           );
 
       if (response.hasError) {
@@ -133,6 +137,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           intl.something_went_wrong_try_again,
           id: 1,
         );
+
+        loader.finishLoadingImmediately();
       } else {
         if (isSelfie) {
           unawaited(
@@ -163,6 +169,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         intl.something_went_wrong_try_again,
         id: 1,
       );
+
+      loader.finishLoadingImmediately();
     }
   }
 
@@ -193,7 +201,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           );
         },
         onError: (error) {
-
           union = UploadKycDocumentsUnion.error(error);
 
           sNotification.showError(
@@ -260,7 +267,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           }
         },
         onError: (error) {
-
           union = UploadKycDocumentsUnion.error(error);
 
           sNotification.showError(
@@ -293,6 +299,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         documentSecondSide,
       );
 
+      final countries = getIt.get<KycCountryStore>();
+
       final response = await getIt
           .get<SNetwork>()
           .simpleImageNetworking
@@ -300,16 +308,18 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           .postUploadDocuments(
             formData,
             type,
+            countries.activeCountry!.countryCode,
           );
 
       if (response.hasError) {
-
         union = UploadKycDocumentsUnion.error(response.error?.cause ?? '');
 
         sNotification.showError(
           intl.something_went_wrong_try_again,
           id: 1,
         );
+
+        loader.finishLoadingImmediately();
       } else {
         union = const UploadKycDocumentsUnion.done();
       }
@@ -322,6 +332,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         intl.something_went_wrong_try_again,
         id: 1,
       );
+
+      loader.finishLoadingImmediately();
     }
   }
 
@@ -394,6 +406,8 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         null,
       );
 
+      final countries = getIt.get<KycCountryStore>();
+
       final response = await getIt
           .get<SNetwork>()
           .simpleImageNetworking
@@ -401,6 +415,7 @@ abstract class _UploadKycDocumentsStoreBase with Store {
           .postUploadDocuments(
             formData,
             type,
+            countries.activeCountry!.countryCode,
           );
 
       if (response.hasError) {

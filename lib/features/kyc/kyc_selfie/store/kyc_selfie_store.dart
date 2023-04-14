@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/kyc/choose_documents/store/kyc_country_store.dart';
 import 'package:jetwallet/features/kyc/helper/convert_kyc_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/models/kyc_selfie_union.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -72,6 +73,8 @@ abstract class _KycSelfieStoreBase with Store {
         null,
       );
 
+      final countries = getIt.get<KycCountryStore>();
+
       final response = await getIt
           .get<SNetwork>()
           .simpleImageNetworking
@@ -79,15 +82,14 @@ abstract class _KycSelfieStoreBase with Store {
           .postUploadDocuments(
             formData,
             type,
+            countries.activeCountry!.countryCode,
           );
 
       response.pick(
         onNoData: () {
-
           union = const KycSelfieUnion.done();
         },
         onData: (data) {
-
           union = const KycSelfieUnion.done();
         },
         onError: (error) {
