@@ -1401,5 +1401,22 @@
     "forgot_pass_confirm_logout_desc": "Para continuar con el restablecimiento del PIN, debe cerrar sesión en la aplicación Simple",
     "forgot_pass_logout": "Cerrar cesión",
     "enterPin_enter_current_pin": "Ingrese su PIN actual",
-    "enterPin_enter_new_pin": "Ingresar nuevo PIN"
+    "enterPin_enter_new_pin": "Ingresar nuevo PIN",
+    "transactionDetails_fromBankAccount": "Desde una cuenta bancaria",
+    "previewBuyWithCircle_bankCardFee": "Comisión de tarjeta bancaria",
+    "trade_timer_alert_description": "El intercambio no está disponible hasta",
+    "deposit_timer_alert_description": "\t\nSe suspenden las compras y depósitos hasta",
+    "date": "Fecha",
+    "operationName_buyApplePay": "Compra con Apple Pay",
+    "operationName_buyGooglePay": "Compra con Google Pay",
+    "phone_update_block": "La actualización del teléfono se suspende hasta",
+    "myAssets_settings": "Configuración de mis activos",
+    "myAssets_hideZero": "Ocultar saldo cero",
+    "emptyEarnWalletBody_mainTextNew": "Comienza tu viaje",
+    "emptyEarnWalletBody_mainTextNew2": "con la aplicación Simple",
+    "operationName_rewardReferral": "Recompensa por recomendación",
+    "currencyBuy_alert": "Moneda no admitida",
+    "currencyBuy_alertDescription": "Tenga en cuenta que solo admitimos tarjetas USD y EUR para compras de Cripto. Las compras con tarjetas, nominadas en otras monedas, serán rechazadas",
+    "createBanners_headerBlocked": "Cuenta bloqueada",
+    "paid_with_gpay": "Pagado con Google Pay"
 }
