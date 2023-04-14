@@ -367,10 +367,12 @@ class WalletApiRepository {
   Future<DC<ServerRejectException, void>> postUploadDocuments(
     FormData formData,
     int documentType,
+    String country,
   ) async {
     return _walletApiDataSources.postUploadDocumentsRequest(
       formData,
       documentType,
+      country,
     );
   }
 

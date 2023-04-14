@@ -449,12 +449,13 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, String>> postSDKTokenRequest(String country) async {
+  Future<DC<ServerRejectException, String>> postSDKTokenRequest(
+      String country) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/kyc/verification/sdk_token',
         data: {
-          'country': country,
+          'countryCode': country,
         },
       );
 
@@ -1156,10 +1157,11 @@ class WalletApiDataSources {
   Future<DC<ServerRejectException, void>> postUploadDocumentsRequest(
     FormData formData,
     int documentType,
+    String country,
   ) async {
     try {
       final _ = await _apiClient.post(
-        '${_apiClient.options.walletApi}/kyc/verification/kyc_documents/$documentType',
+        '${_apiClient.options.walletApi}/kyc/verification/kyc_documents/$documentType/$country',
         data: formData,
       );
 
