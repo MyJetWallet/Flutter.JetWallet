@@ -157,7 +157,7 @@ dev_dependencies:
   auto_route_generator: 6.0.2
 
 dependency_overrides:
-  flutter_inappwebview: ^5.7.1
+  flutter_inappwebview: 5.7.1
   analyzer: 5.9.0
 
 flutter_native_splash:
