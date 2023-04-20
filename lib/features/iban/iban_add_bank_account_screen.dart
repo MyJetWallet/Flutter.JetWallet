@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/store/iban_add_bank_account_store.dart';
+import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -27,6 +29,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return SPageFrame(
+      loader: IbanAddBankAccountStore.of(context).loader,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -34,78 +37,85 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SFieldDividerFrame(
-              child: SStandardField(
-                labelText: intl.iban_label,
-                textCapitalization: TextCapitalization.sentences,
-                hideSpace: true,
-              ),
+      child: ScrollingFrame(
+        children: [
+          SFieldDividerFrame(
+            child: SStandardField(
+              labelText: intl.iban_label,
+              textCapitalization: TextCapitalization.sentences,
+              controller: IbanAddBankAccountStore.of(context).labelController,
+              hideSpace: true,
             ),
-            SFieldDividerFrame(
-              child: SStandardField(
-                labelText: intl.iban_iban,
-                textCapitalization: TextCapitalization.sentences,
-                hideSpace: true,
-              ),
+          ),
+          SFieldDividerFrame(
+            child: SStandardField(
+              labelText: intl.iban_iban,
+              textCapitalization: TextCapitalization.sentences,
+              controller: IbanAddBankAccountStore.of(context).ibanController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 3,
+              hideSpace: true,
             ),
-            SFieldDividerFrame(
-              child: SStandardField(
-                labelText: intl.iban_benificiary,
-                textCapitalization: TextCapitalization.sentences,
-                hideSpace: true,
-              ),
+          ),
+          SFieldDividerFrame(
+            child: SStandardField(
+              readOnly: true,
+              enabled: false,
+              hideClearButton: true,
+              initialValue: '${sUserInfo.firstName} ${sUserInfo.lastName}',
+              labelText: intl.iban_benificiary,
+              textCapitalization: TextCapitalization.sentences,
+              hideSpace: true,
             ),
-            const SpaceH20(),
-            SPaddingH24(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SBankIcon(),
-                  const SpaceW14(),
-                  Text(
-                    intl.iban_terms_1,
-                    style: sBodyText2Style,
-                  ),
-                ],
-              ),
-            ),
-            const SpaceH12(),
-            SPaddingH24(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SUserIcon(
-                    color: colors.black,
-                  ),
-                  const SpaceW14(),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 88,
-                    child: Text(
-                      intl.iban_terms_2,
-                      style: sBodyText2Style,
-                      maxLines: 3,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            SPaddingH24(
-              child: Material(
-                color: colors.grey5,
-                child: SPrimaryButton2(
-                  active: true,
-                  name: intl.iban_add_account,
-                  onTap: () {},
+          ),
+          const SpaceH20(),
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SBankIcon(),
+                const SpaceW14(),
+                Text(
+                  intl.iban_terms_1,
+                  style: sBodyText2Style,
                 ),
+              ],
+            ),
+          ),
+          const SpaceH12(),
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SUserIcon(
+                  color: colors.black,
+                ),
+                const SpaceW14(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 88,
+                  child: Text(
+                    intl.iban_terms_2,
+                    style: sBodyText2Style,
+                    maxLines: 3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SpaceH20(),
+          const Spacer(),
+          SPaddingH24(
+            child: Material(
+              color: colors.grey5,
+              child: SPrimaryButton2(
+                active: true,
+                name: intl.iban_add_account,
+                onTap: () {},
               ),
             ),
-            const SpaceH42(),
-          ],
-        ),
+          ),
+          const SpaceH42(),
+        ],
       ),
     );
   }

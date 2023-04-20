@@ -34,6 +34,7 @@ class SimpleLightStandardField extends StatelessWidget {
     this.hideLabel = false,
     this.validators = const [],
     this.maxLength,
+    this.maxLines,
     required this.labelText,
   })  : assert(
           (controller == null && initialValue != null) ||
@@ -72,6 +73,7 @@ class SimpleLightStandardField extends StatelessWidget {
   final bool hideLabel;
   final List<Validator> validators;
   final int? maxLength;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class SimpleLightStandardField extends StatelessWidget {
       hasManualError: hasManualError,
       hideLabel: hideLabel,
       maxLength: maxLength,
+      maxLines: maxLines,
       suffixIcons: [
         if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
           ...?suffixIcons,

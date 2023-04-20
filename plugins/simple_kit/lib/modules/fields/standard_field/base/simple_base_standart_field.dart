@@ -21,6 +21,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.inputFormatters,
     this.textCapitalization,
     this.maxLength,
+    this.maxLines,
     this.disableErrorOnChanged = true,
     this.enableInteractiveSelection = true,
     this.hideIconsIfError = true,
@@ -64,6 +65,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final bool hideLabel;
   final List<Validator> validators;
   final int? maxLength;
+  final int? maxLines;
 
   @override
   State<SimpleBaseStandardField> createState() =>
@@ -115,6 +117,7 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
             widget.onChanged?.call(value);
           },
           maxLength: widget.maxLength,
+          maxLines: widget.maxLines,
           maxLengthEnforcement: widget.maxLength != null
               ? MaxLengthEnforcement.truncateAfterCompositionEnds
               : null,
@@ -146,9 +149,8 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
               fontSize: 16.0,
               color: SColorsLight().grey2,
             ),
-            floatingLabelBehavior: widget.hideLabel
-                ? FloatingLabelBehavior.never
-                : null,
+            floatingLabelBehavior:
+                widget.hideLabel ? FloatingLabelBehavior.never : null,
             counterText: '',
             errorText: null,
             errorMaxLines: null,

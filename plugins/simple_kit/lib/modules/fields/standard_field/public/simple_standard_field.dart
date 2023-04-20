@@ -39,6 +39,7 @@ class SStandardField extends StatelessObserverWidget {
     this.hideLabel = false,
     this.validators = const [],
     this.maxLength,
+    this.maxLines,
     required this.labelText,
   }) : super(key: key);
 
@@ -72,6 +73,7 @@ class SStandardField extends StatelessObserverWidget {
   final bool hideLabel;
   final List<Validator> validators;
   final int? maxLength;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
