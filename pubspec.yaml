@@ -37,7 +37,7 @@ dependencies:
   image_picker: ^0.8.4+4 # For selecting images from the Android and iOS image library
   mime_type: ^1.0.0 # MIME type library for Dart HTTP server applications
   decimal: ^2.3.0 # deal with decimal numbers without losing precision
-  store_redirect: ^2.0.1 # Redirect to AppStore or GooglePlay
+  store_redirect: 2.0.1 # Redirect to AppStore or GooglePlay
   crisp: ^0.3.1 # Library for support chart and knowledge base
   flutter_webview_pro: ^3.0.1+4 # provides a WebView widget on Android and iOS
   appsflyer_sdk: 6.9.3  # plugin for AppsFlyer SDK with Android and iOS support
@@ -67,7 +67,7 @@ dependencies:
   # Docs: https://plus.fluttercommunity.dev/docs/overview
   android_intent_plus: ^3.1.5 # plugin for launching Android Intents
   package_info_plus: ^1.4.2 # querying information about the application package NEED UPDATE
-  share_plus: ^4.0.10 # sharing content via the platform share UI NEED UPDATE
+  share_plus: 4.0.10 # sharing content via the platform share UI NEED UPDATE
   device_info_plus: 8.0.0 # providing detailed information about the device
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
   device_marketing_names: 0.6.0
@@ -121,7 +121,7 @@ dependencies:
   app_tracking_transparency: 2.0.3
   flutter_displaymode: 0.5.0
   open_mail_app: ^0.4.5
-  flutter_pdfview: ^1.2.5
+  flutter_pdfview: 1.2.5
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption
