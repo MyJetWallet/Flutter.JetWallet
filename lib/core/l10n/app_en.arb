@@ -1333,5 +1333,12 @@
   "phone_update_block": "Phone update is suspended until",
   "paid_with_gpay": "Paid with Google Pay",
   "iban_terms_1": "Local EUR transfers only",
-  "iban_terms_2": "We only accept transfers from the bank accounts, registered on your name."
+  "iban_terms_2": "We only accept transfers from the bank accounts, registered on your name.",
+  "iban_send_info": "Please be aware that you can send only to your personal bank accounts",
+  "iban_euro_balance": "EUR balance",
+  "iban_destination_accounts": "My destination accounts",
+  "iban_add_bank_account": "Add bank account",
+  "iban_local_euro_accounts_only": "Local EUR accounts only",
+  "iban_add_account": "Add account",
+  "iban_label": "Label"
 }

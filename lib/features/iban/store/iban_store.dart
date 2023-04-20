@@ -36,6 +36,11 @@ abstract class IbanStoreBase with Store {
   StackLoaderStore? loader;
 
   @observable
+  bool isReceive = true;
+  @action
+  void setIsReceive(bool value) => isReceive = value;
+
+  @observable
   int? month;
 
   @observable

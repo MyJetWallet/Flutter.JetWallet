@@ -848,6 +848,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    IbanAddBankAccountRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const IbanAddBankAccountScreen(),
+      );
+    },
   };
 }
 
@@ -3801,4 +3807,18 @@ class WaitingScreenRouterArgs {
   String toString() {
     return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
   }
+}
+
+/// generated route for
+/// [IbanAddBankAccountScreen]
+class IbanAddBankAccountRouter extends PageRouteInfo<void> {
+  const IbanAddBankAccountRouter({List<PageRouteInfo>? children})
+      : super(
+          IbanAddBankAccountRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanAddBankAccountRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

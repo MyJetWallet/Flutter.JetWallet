@@ -47,6 +47,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
+import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -289,6 +290,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/iban_address',
       page: IbanAddressRouter.page,
+    ),
+    AutoRoute(
+      path: '/iban_add_account',
+      page: IbanAddBankAccountRouter.page,
     ),
     AutoRoute(
       path: '/preview_convert',
