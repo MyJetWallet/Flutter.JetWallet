@@ -41,45 +41,53 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
-      child: ScrollingFrame(
-        children: [
-          SFieldDividerFrame(
-            child: SStandardField(
-              labelText: intl.addCircleCard_cardNumber,
-              keyboardType: TextInputType.number,
-              isError: store.cardNumberError,
-              disableErrorOnChanged: false,
-              controller: store.cardNumberController,
-              inputFormatters: [
-                MaskedTextInputFormatter(
-                  mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
-                  separator: '\u{2005}',
+      child: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                SFieldDividerFrame(
+                  child: SStandardField(
+                    labelText: intl.addCircleCard_cardNumber,
+                    keyboardType: TextInputType.number,
+                    isError: store.cardNumberError,
+                    disableErrorOnChanged: false,
+                    controller: store.cardNumberController,
+                    inputFormatters: [
+                      MaskedTextInputFormatter(
+                        mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+                        separator: '\u{2005}',
+                      ),
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[0-9\u2005]'),
+                      ),
+                    ],
+                    onChanged: store.updateCardNumber,
+                  ),
                 ),
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[0-9\u2005]'),
-                ),
-              ],
-              onChanged: store.updateCardNumber,
-            ),
-          ),
-          const Spacer(),
-          SPaddingH24(
-            child: Material(
-              color: colors.grey5,
-              child: SPrimaryButton2(
-                active: store.isCardNumberValid,
-                name: intl.addCircleCard_continue,
-                onTap: () {
-                  sRouter.push(
-                    SendGloballyAmountRouter(
-                      cardNumber: store.cardNumber,
+                const Spacer(),
+                SPaddingH24(
+                  child: Material(
+                    color: colors.grey5,
+                    child: SPrimaryButton2(
+                      active: store.isCardNumberValid,
+                      name: intl.addCircleCard_continue,
+                      onTap: () {
+                        sRouter.push(
+                          SendGloballyAmountRouter(
+                            cardNumber: store.cardNumber,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                const SpaceH42(),
+              ],
             ),
           ),
-          const SpaceH42(),
         ],
       ),
     );
