@@ -14,6 +14,16 @@ void sortCurrencies(List<CurrencyModel> currencies) {
   });
 }
 
+void sortCurrenciesMyAssets(List<CurrencyModel> currencies) {
+  // If baseBalance of 2 assets are equal, compare by assetBalance
+  currencies.sort((a, b) {
+    final compare = b.baseBalance.compareTo(a.baseBalance);
+    if (compare != 0) return compare;
+
+    return a.weight.compareTo(b.weight);
+  });
+}
+
 /// Used for [Convert] feature
 /// Always provide a copy of List to avoid unexpected behaviour
 void sortByWeight(List<CurrencyModel> currencies) {

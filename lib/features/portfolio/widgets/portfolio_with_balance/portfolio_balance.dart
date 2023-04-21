@@ -179,7 +179,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     final marketItems = sSignalRModules.marketItems;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final currenciesList = currencies.toList();
-    sortCurrencies(currenciesList);
+    sortCurrenciesMyAssets(currenciesList);
 
     return PortfolioScreenGradient(
       child: Stack(
