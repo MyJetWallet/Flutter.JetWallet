@@ -109,13 +109,13 @@ abstract class _SendGloballyConfirmStoreBase with Store {
           ),
         )
         .then(
-          (value) => sRouter.push(
+          (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
                 PortfolioRouter(),
               ],
             ),
-          ),
+          ]),
         );
   }
 }
