@@ -66,6 +66,8 @@ import 'package:simple_networking/modules/wallet_api/models/profile/profile_dele
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_response_model.dart';
@@ -669,5 +671,18 @@ class WalletApiRepository {
 
   Future<DC<ServerRejectException, void>> debugReject() async {
     return _walletApiDataSources.debugRejectRequest();
+  }
+
+  // Send Globally
+
+  Future<DC<ServerRejectException, void>> sendToBankCard(
+    SendToBankRequestModel model,
+  ) async {
+    return _walletApiDataSources.sendToBankCardRequest(model);
+  }
+
+  Future<DC<ServerRejectException, SendToBankCardResponse>>
+      sendToBankCardPreview(SendToBankRequestModel model) async {
+    return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
 }

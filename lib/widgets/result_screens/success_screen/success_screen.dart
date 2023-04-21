@@ -22,6 +22,7 @@ class SuccessScreen extends StatelessWidget {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.bottomWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
@@ -37,6 +38,7 @@ class SuccessScreen extends StatelessWidget {
   final String? secondaryText;
   final String? buttonText;
   final Widget? specialTextWidget;
+  final Widget? bottomWidget;
   final int time;
   final bool showProgressBar;
   final bool showActionButton;
@@ -55,6 +57,7 @@ class SuccessScreen extends StatelessWidget {
         secondaryText: secondaryText,
         buttonText: buttonText,
         specialTextWidget: specialTextWidget,
+        bottomWidget: bottomWidget,
         time: time,
         showProgressBar: showProgressBar,
         showActionButton: showActionButton,
@@ -73,6 +76,7 @@ class _SuccessScreenBody extends StatefulWidget {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.bottomWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
@@ -88,6 +92,7 @@ class _SuccessScreenBody extends StatefulWidget {
   final String? secondaryText;
   final String? buttonText;
   final Widget? specialTextWidget;
+  final Widget? bottomWidget;
   final int time;
   final bool showProgressBar;
   final bool showActionButton;
@@ -106,8 +111,8 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
     final showBottomSpace = widget.showProgressBar ||
-      widget.showActionButton ||
-      widget.showPrimaryButton;
+        widget.showActionButton ||
+        widget.showPrimaryButton;
 
     return ReactionBuilder(
       builder: (context) {
@@ -172,6 +177,12 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
                       const Spacer(),
                       Column(
                         children: [
+                          if (widget.bottomWidget != null) ...[
+                            widget.bottomWidget!,
+                            const SizedBox(
+                              height: 24,
+                            ),
+                          ],
                           if (widget.showProgressBar) ...[
                             SizedBox(
                               height: 2,

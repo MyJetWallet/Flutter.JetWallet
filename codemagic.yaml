@@ -8,7 +8,7 @@ definitions:
 
   versioning: &versioning
     flutter: 3.7.9
-    xcode: latest
+    xcode: 12.4
     cocoapods: default
 
   flavor_development_groups: &flavor_development_groups

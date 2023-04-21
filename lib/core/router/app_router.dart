@@ -85,6 +85,9 @@ import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_screen.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_amount_screen.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_confirm_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_confirm.dart';
@@ -104,6 +107,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 
 import '../../features/auth/splash/splash_screen_no_animation.dart';
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
@@ -499,6 +503,18 @@ class AppRouter extends _$AppRouter {
           page: WithdrawalPreviewRouter.page,
         ),
       ],
-    )
+    ),
+    AutoRoute(
+      path: '/send_card_deetail',
+      page: SendCardDetailRouter.page,
+    ),
+    AutoRoute(
+      path: '/send_globally_amount',
+      page: SendGloballyAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/send_globally_confirm',
+      page: SendGloballyConfirmRouter.page,
+    ),
   ];
 }

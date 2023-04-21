@@ -11,6 +11,7 @@ const String isFirstRunning = 'isFirstRunning';
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';
 const String isBalanceHide = 'isBalanceHide';
+const String hideZeroBalance = 'hideZeroBalance';
 const String installID = 'installID';
 
 const String remoteConfig = 'remoteConfigCache';
@@ -58,6 +59,16 @@ class LocalCacheService {
 
   Future<bool?> getBalanceHide() async {
     return instance.getBool(isBalanceHide);
+  }
+
+  ///
+
+  Future<void> saveHideZeroBalance(bool value) async {
+    await instance.setBool(hideZeroBalance, value);
+  }
+
+  Future<bool?> getHideZeroBalance() async {
+    return instance.getBool(hideZeroBalance);
   }
 
   ///

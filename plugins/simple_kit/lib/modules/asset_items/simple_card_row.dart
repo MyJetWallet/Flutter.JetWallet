@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+
+import '../../simple_kit.dart';
+
+class SCardRow extends StatelessWidget {
+  const SCardRow({
+    Key? key,
+    this.height = 72,
+    this.helper = '',
+    this.isSelected = false,
+    this.divider = true,
+    this.removeDivider = false,
+    this.disabled = false,
+    this.lightDivider = false,
+    this.rightIcon,
+    required this.icon,
+    required this.name,
+    required this.amount,
+    required this.description,
+    required this.onTap,
+  }) : super(key: key);
+
+  final double height;
+
+  final String helper;
+  final bool isSelected;
+  final bool divider;
+  final bool removeDivider;
+  final bool disabled;
+  final bool lightDivider;
+  final Widget icon;
+  final Widget? rightIcon;
+  final String name;
+  final String amount;
+  final String description;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final mainColor = disabled
+        ? SColorsLight().grey2
+        : isSelected
+            ? SColorsLight().blue
+            : SColorsLight().black;
+
+    return InkWell(
+      highlightColor: SColorsLight().grey5,
+      splashColor: Colors.transparent,
+      onTap: onTap,
+      child: SizedBox(
+        height: height,
+        child: Column(
+          children: [
+            const SpaceH13(),
+            SPaddingH24(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  icon,
+                  const SpaceW18(),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Baseline(
+                          baseline: 18.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            name,
+                            style: sSubtitle2Style.copyWith(
+                              color: mainColor,
+                            ),
+                          ),
+                        ),
+                        Baseline(
+                          baseline: 14.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            helper,
+                            textAlign: TextAlign.start,
+                            style: sCaptionTextStyle.copyWith(
+                              color: SColorsLight().grey3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (rightIcon != null) rightIcon!,
+                ],
+              ),
+            ),
+            const Spacer(),
+            if (!removeDivider)
+              if (divider)
+                SPaddingH24(
+                  child: SDivider(
+                    color: lightDivider
+                        ? SColorsLight().grey4
+                        : SColorsLight().grey3,
+                    width: double.infinity,
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: SDivider(
+                    color: lightDivider
+                        ? SColorsLight().grey4
+                        : SColorsLight().grey3,
+                    width: double.infinity,
+                  ),
+                ),
+            const SpaceH13(),
+          ],
+        ),
+      ),
+    );
+  }
+}
