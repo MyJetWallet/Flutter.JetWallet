@@ -39,7 +39,7 @@ class EmptyWalletBody extends StatelessObserverWidget {
         ),
         const Spacer(),
         Text(
-          '${intl.emptyWalletBody_all} $assetName ${intl.transactions}',
+          '${intl.emptyWalletBody_all} ${assetName.toLowerCase()} ${intl.transactions}',
           maxLines: 3,
           textAlign: TextAlign.center,
           style: sTextH3Style,

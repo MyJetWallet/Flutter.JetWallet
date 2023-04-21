@@ -48,7 +48,7 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Send globally EUR',
+          title: '${intl.send_globally} EUR',
         ),
       ),
       child: Column(

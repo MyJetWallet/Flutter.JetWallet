@@ -51,6 +51,15 @@ void showSendAction(
 }
 
 Future<void> _showSendAction(BuildContext context) async {
+  final isAnyAssetSupportPhoneSend = sSignalRModules.currenciesList
+      .where(
+        (element) =>
+            element.isAssetBalanceNotEmpty &&
+            element.supportsByPhoneNicknameWithdrawal &&
+            element.supportsCryptoWithdrawal,
+      )
+      .toList();
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const ActionBottomSheetHeader(
@@ -72,19 +81,20 @@ Future<void> _showSendAction(BuildContext context) async {
         helper: 'To blockchain address',
         removeDivider: true,
       ),
-      SCardRow(
-        icon: const SPhoneIcon(),
-        onTap: () {
-          Navigator.pop(context);
+      if (isAnyAssetSupportPhoneSend.isNotEmpty)
+        SCardRow(
+          icon: const SPhoneIcon(),
+          onTap: () {
+            Navigator.pop(context);
 
-          _showSendActionChooseAsset(context, SendType.Phone);
-        },
-        amount: '',
-        description: '',
-        name: intl.sendOptions_actionItemName1,
-        helper: intl.sendOptions_actionItemDescription1,
-        removeDivider: true,
-      ),
+            _showSendActionChooseAsset(context, SendType.Phone);
+          },
+          amount: '',
+          description: '',
+          name: intl.sendOptions_actionItemName3,
+          helper: intl.sendOptions_actionItemDescription1,
+          removeDivider: true,
+        ),
       SCardRow(
         icon: const SNetworkIcon(),
         onTap: () {
@@ -186,10 +196,17 @@ Future<void> _showSendActionChooseAsset(
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      _ActionSend(
-        lastCurrency: lastCurrency,
-        type: type,
-      ),
+      if (type == SendType.Wallet) ...[
+        _ActionSend(
+          lastCurrency: lastCurrency,
+          type: type,
+        ),
+      ] else ...[
+        _ActionSendPhone(
+          lastCurrency: lastCurrency,
+          type: type,
+        ),
+      ]
     ],
     then: (value) {},
   );
@@ -208,6 +225,7 @@ class _ActionSend extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
+
     var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
     currencyFiltered = currencyFiltered
         .where(
@@ -216,6 +234,7 @@ class _ActionSend extends StatelessObserverWidget {
               element.supportsCryptoWithdrawal,
         )
         .toList();
+
     currencyFiltered.sort((a, b) {
       if (lastCurrency != null) {
         if (a.symbol == lastCurrency) {
@@ -243,25 +262,81 @@ class _ActionSend extends StatelessObserverWidget {
                 amount: currency.volumeBaseBalance(baseCurrency),
                 secondaryText: currency.volumeAssetBalance,
                 onTap: () {
-                  if (type == SendType.Wallet) {
-                    Navigator.pop(context);
+                  Navigator.pop(context);
 
-                    sRouter.push(
-                      WithdrawRouter(
-                        withdrawal: WithdrawalModel(
-                          currency: currency,
-                        ),
+                  sRouter.push(
+                    WithdrawRouter(
+                      withdrawal: WithdrawalModel(
+                        currency: currency,
                       ),
-                    );
-                  } else {
+                    ),
+                  );
+                },
+              ),
+        const SpaceH42(),
+      ],
+    );
+  }
+}
+
+class _ActionSendPhone extends StatelessObserverWidget {
+  const _ActionSendPhone({
+    this.lastCurrency,
+    required this.type,
+  });
+
+  final String? lastCurrency;
+  final SendType type;
+
+  @override
+  Widget build(BuildContext context) {
+    final baseCurrency = sSignalRModules.baseCurrency;
+    final state = getIt.get<ActionSearchStore>();
+
+    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    currencyFiltered = currencyFiltered
+        .where(
+          (element) =>
+              element.isAssetBalanceNotEmpty &&
+              element.supportsCryptoWithdrawal,
+        )
+        .toList();
+
+    currencyFiltered.sort((a, b) {
+      if (lastCurrency != null) {
+        if (a.symbol == lastCurrency) {
+          return 0.compareTo(1);
+        } else if (b.symbol == lastCurrency) {
+          return 1.compareTo(0);
+        }
+      }
+
+      return b.baseBalance.compareTo(a.baseBalance);
+    });
+
+    return Column(
+      children: [
+        for (final currency in currencyFiltered)
+          if (currency.isAssetBalanceNotEmpty)
+            if (currency.supportsCryptoWithdrawal)
+              if (currency.supportsByPhoneNicknameWithdrawal)
+                SWalletItem(
+                  decline: currency.dayPercentChange.isNegative,
+                  icon: SNetworkSvg24(
+                    url: currency.iconUrl,
+                  ),
+                  primaryText: currency.description,
+                  removeDivider: currency == currencyFiltered.last,
+                  amount: currency.volumeBaseBalance(baseCurrency),
+                  secondaryText: currency.volumeAssetBalance,
+                  onTap: () {
                     sRouter.navigate(
                       SendByPhoneInputRouter(
                         currency: currency,
                       ),
                     );
-                  }
-                },
-              ),
+                  },
+                ),
         const SpaceH42(),
       ],
     );
