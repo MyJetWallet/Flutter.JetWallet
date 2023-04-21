@@ -51,6 +51,7 @@ export 'modules/asset_items/simple_fiat_item.dart';
 export 'modules/asset_items/simple_market_item.dart';
 export 'modules/asset_items/simple_wallet_item.dart';
 export 'modules/asset_items/simple_credit_card_item.dart';
+export 'modules/asset_items/simple_card_row.dart';
 
 /// Market Banners
 export 'modules/banners/market_banner/simple_market_banner.dart';

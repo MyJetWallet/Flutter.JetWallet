@@ -148,7 +148,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (transactionListItem.status == Status.completed)
+          if (transactionListItem.status == Status.completed &&
+              transactionListItem.operationType != OperationType.sendGlobally)
             Text(
               convertToUsd(
                 basePrice(
@@ -230,6 +231,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           ' ${transactionListItem.swapInfo?.sellAssetId} '
           '${intl.operationName_exchangeTo} '
           '${transactionListItem.swapInfo?.buyAssetId}';
+    } else if (transactionListItem.operationType ==
+        OperationType.sendGlobally) {
+      return '${operationName(
+        OperationType.sendGlobally,
+        context,
+      )}'
+          ' ${transactionListItem.assetId} ';
     } else {
       return operationName(
         transactionListItem.operationType,

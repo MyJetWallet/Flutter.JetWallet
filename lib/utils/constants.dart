@@ -106,3 +106,5 @@ const simpleLogo = 'assets/images/simple_logo.png';
 
 const fireRewardAsset = 'assets/images/fire.png';
 const ibanEuroAsset = 'assets/images/euro_logo.png';
+
+const flagsAsset = 'assets/images/flags.png';

@@ -62,7 +62,7 @@ class _SendOptions extends StatelessObserverWidget {
           ),
         if (currency.supportsByAssetWithdrawal)
           SActionItem(
-            icon: const SWalletIcon(),
+            icon: const SWallet2Icon(),
             name: intl.sendOptions_actionItemName2,
             description: intl.sendOptions_actionItemDescription2,
             onTap: () {

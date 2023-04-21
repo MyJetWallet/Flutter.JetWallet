@@ -164,3 +164,18 @@ InputError onWithdrawInputErrorHandler(
 
   return InputError.none;
 }
+
+InputError onGloballyWithdrawInputErrorHandler(
+  String input,
+  CurrencyModel currency,
+) {
+  if (input.isNotEmpty) {
+    final value = Decimal.parse(input);
+
+    if (currency.assetBalance < value) {
+      return InputError.notEnoughFunds;
+    }
+  }
+
+  return InputError.none;
+}

@@ -188,7 +188,7 @@ class __MarketNestedScrollViewBodyState
       controller: marketScrollController,
       children: [
         if (store.watchListFiltred.isNotEmpty) ...[
-          MarketSeparator(text: intl.favorite),
+          MarketSeparator(text: intl.favorites),
           ImplicitlyAnimatedReorderableList<MarketItemModel>(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,

@@ -78,6 +78,7 @@ enum OperationType {
   ibanDeposit,
   buyApplePay,
   buyGooglePay,
+  sendGlobally
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -149,6 +150,8 @@ extension _OperationTypeExtension on OperationType {
         return 34;
       case OperationType.buyGooglePay:
         return 35;
+      case OperationType.sendGlobally:
+        return 37;
       default:
         return 0;
     }
@@ -230,6 +233,8 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.buyApplePay;
     } else if (value == '35') {
       return OperationType.buyGooglePay;
+    } else if (value == '37') {
+      return OperationType.sendGlobally;
     } else {
       return OperationType.unknown;
     }
@@ -305,6 +310,10 @@ class WithdrawalInfo with _$WithdrawalInfo {
     String? toAddress,
     String? feeAssetId,
     String? network,
+    String? cardLast4,
+    String? receiveAsset,
+    @DecimalNullSerialiser() Decimal? receiveAmount,
+    @DecimalNullSerialiser() Decimal? receiveRate,
     required String withdrawalAssetId,
     @DecimalSerialiser() required Decimal withdrawalAmount,
     @DecimalSerialiser() required Decimal feeAmount,
