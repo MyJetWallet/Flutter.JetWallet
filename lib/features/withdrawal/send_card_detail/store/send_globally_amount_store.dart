@@ -3,6 +3,7 @@ import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
@@ -98,6 +99,13 @@ abstract class _SendGloballyAmountStoreBase with Store {
         SendGloballyConfirmRouter(
           data: response.data!,
         ),
+      );
+    } else {
+      sNotification.showError(
+        response.error?.cause ?? '',
+        duration: 4,
+        id: 1,
+        needFeedback: true,
       );
     }
   }
