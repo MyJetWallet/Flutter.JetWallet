@@ -63,6 +63,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
+            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
               bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
                   ? 310.0
@@ -94,35 +95,37 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 50,
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
                       color: colors.blueLight,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SProfileDetailsIcon(),
-                        ),
-                        const SizedBox(width: 8),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 3),
-                          child: Text(
-                            'Receiver will get ≈ ${data.estimatedReceiveAmount!} UAH',
-                            style: sSubtitle3Style,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: SProfileDetailsIcon(),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: Text(
+                              'Receiver will get ≈ ${data.estimatedReceiveAmount!} UAH',
+                              style: sSubtitle3Style,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_date,
-                    value: DateFormat('dd.MM.y, hh:mm').format(DateTime.now()),
+                    value: DateFormat('dd.MM.y, HH:mm').format(DateTime.now()),
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_card,

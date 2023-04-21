@@ -109,13 +109,38 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
             ),
           ),
           const Spacer(),
-          SPaymentSelectCreditCard(
-            widgetSize: widgetSizeFrom(deviceSize),
-            icon: getNetworkIcon(context),
-            name:
-                '•••• ${store.cardNumber.substring(store.cardNumber.length - 4)}',
-            description: '',
-            limit: 0,
+          SPaddingH24(
+            child: Ink(
+              height: 88,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                border: Border.all(
+                  color: colors.grey4,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SpaceW19(), // 1 px border
+                      getNetworkIcon(context),
+                      const SpaceW12(),
+                      Baseline(
+                        baseline: 18,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          '•••• ${store.cardNumber.substring(store.cardNumber.length - 4)}',
+                          style: sSubtitle2Style,
+                        ),
+                      ),
+                      const SpaceW19(), // 1 px border
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
           deviceSize.when(
             small: () => const Spacer(),

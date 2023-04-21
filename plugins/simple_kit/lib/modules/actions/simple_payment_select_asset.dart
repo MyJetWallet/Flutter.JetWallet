@@ -11,7 +11,7 @@ class SPaymentSelectAsset extends StatelessWidget {
     this.amount = '',
     required this.icon,
     required this.name,
-    required this.description,
+    this.description,
     required this.widgetSize,
   }) : super(key: key);
 
@@ -20,7 +20,7 @@ class SPaymentSelectAsset extends StatelessWidget {
   final String amount;
   final Widget icon;
   final String name;
-  final String description;
+  final String? description;
   final SWidgetSize widgetSize;
 
   @override
@@ -80,34 +80,40 @@ class SPaymentSelectAsset extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Baseline(
-                          baseline: 14.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  description,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: SColorsLight().grey3,
+                        if (description != null || helper.isNotEmpty) ...[
+                          Baseline(
+                            baseline: 14.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (description != null) ...[
+                                  Expanded(
+                                    child: Text(
+                                      description!,
+                                      style: sCaptionTextStyle.copyWith(
+                                        color: SColorsLight().grey3,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              const SpaceW16(),
-                              SizedBox(
-                                width: 110.0,
-                                child: Text(
-                                  helper,
-                                  textAlign: TextAlign.end,
-                                  style: sCaptionTextStyle.copyWith(
-                                    color: SColorsLight().grey3,
+                                  const SpaceW16(),
+                                ],
+                                if (helper.isNotEmpty) ...[
+                                  SizedBox(
+                                    width: 110.0,
+                                    child: Text(
+                                      helper,
+                                      textAlign: TextAlign.end,
+                                      style: sCaptionTextStyle.copyWith(
+                                        color: SColorsLight().grey3,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
+                                ],
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
                   ),
