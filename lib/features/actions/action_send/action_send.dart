@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +12,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -60,6 +63,12 @@ Future<void> _showSendAction(BuildContext context) async {
       )
       .toList();
 
+  final isGlobalSendActive = sSignalRModules.currenciesList
+      .where((element) => element.supportsGlobalSend)
+      .toList();
+
+  log(isGlobalSendActive[0].withdrawalMethods.toString());
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const ActionBottomSheetHeader(
@@ -95,19 +104,20 @@ Future<void> _showSendAction(BuildContext context) async {
           helper: intl.sendOptions_actionItemDescription1,
           removeDivider: true,
         ),
-      SCardRow(
-        icon: const SNetworkIcon(),
-        onTap: () {
-          Navigator.pop(context);
+      if (isGlobalSendActive.isNotEmpty)
+        SCardRow(
+          icon: const SNetworkIcon(),
+          onTap: () {
+            Navigator.pop(context);
 
-          _showSendGlobally(context);
-        },
-        amount: '',
-        description: '',
-        name: 'Globally',
-        helper: 'To bank card or phone',
-        removeDivider: true,
-      ),
+            _showSendGlobally(context);
+          },
+          amount: '',
+          description: '',
+          name: 'Globally',
+          helper: 'To bank card or phone',
+          removeDivider: true,
+        ),
       const SpaceH42(),
     ],
     then: (value) {},
