@@ -50,7 +50,8 @@ enum PaymentMethodType {
   unlimintAlternative,
   bankCard,
   applePay,
-  googlePay
+  googlePay,
+  globalSend,
 }
 
 extension _PaymentMethodTypeExtension on PaymentMethodType {
@@ -70,6 +71,8 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
         return 'UnlimintApplePay';
       case PaymentMethodType.googlePay:
         return 'UnlimintGooglePay';
+      case PaymentMethodType.globalSend:
+        return 'GlobalSend';
       default:
         return 'Unsupported';
     }
@@ -100,6 +103,8 @@ class PaymentTypeSerialiser
       return PaymentMethodType.applePay;
     } else if (value == 'UnlimintGooglePay') {
       return PaymentMethodType.googlePay;
+    } else if (value == 'GlobalSend') {
+      return PaymentMethodType.globalSend;
     } else {
       return PaymentMethodType.unsupported;
     }
