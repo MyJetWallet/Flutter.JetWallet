@@ -67,8 +67,6 @@ Future<void> _showSendAction(BuildContext context) async {
       .where((element) => element.supportsGlobalSend)
       .toList();
 
-  log(isGlobalSendActive[0].withdrawalMethods.toString());
-
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const ActionBottomSheetHeader(
