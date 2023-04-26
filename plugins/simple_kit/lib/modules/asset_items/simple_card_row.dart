@@ -50,70 +50,53 @@ class SCardRow extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         height: height,
-        child: Column(
-          children: [
-            const SpaceH13(),
-            SPaddingH24(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  icon,
-                  const SpaceW18(),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Baseline(
-                          baseline: 18.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            name,
-                            style: sSubtitle2Style.copyWith(
-                              color: mainColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SPaddingH24(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    icon,
+                    const SpaceW18(),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Baseline(
+                            baseline: 18.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              name,
+                              style: sSubtitle2Style.copyWith(
+                                color: mainColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Baseline(
-                          baseline: 14.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            helper,
-                            textAlign: TextAlign.start,
-                            style: sCaptionTextStyle.copyWith(
-                              color: SColorsLight().grey3,
+                          if (helper.isNotEmpty) ...[
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                helper,
+                                textAlign: TextAlign.start,
+                                style: sCaptionTextStyle.copyWith(
+                                  color: SColorsLight().grey3,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ],
+                          ],
+                        ],
+                      ),
                     ),
-                  ),
-                  if (rightIcon != null) rightIcon!,
-                ],
-              ),
-            ),
-            const Spacer(),
-            if (!removeDivider)
-              if (divider)
-                SPaddingH24(
-                  child: SDivider(
-                    color: lightDivider
-                        ? SColorsLight().grey4
-                        : SColorsLight().grey3,
-                    width: double.infinity,
-                  ),
-                )
-              else
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SDivider(
-                    color: lightDivider
-                        ? SColorsLight().grey4
-                        : SColorsLight().grey3,
-                    width: double.infinity,
-                  ),
+                    if (rightIcon != null) rightIcon!,
+                  ],
                 ),
-            const SpaceH13(),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

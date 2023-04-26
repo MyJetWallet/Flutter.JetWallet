@@ -68,6 +68,8 @@ import 'package:simple_networking/modules/wallet_api/models/profile/profile_dele
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/simplex/simplex_payment_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/execute_quote_request_model.dart';
@@ -1940,6 +1942,55 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> sendToBankCardRequest(
+    SendToBankRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('catch error');
+
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, SendToBankCardResponse>>
+      sendToBankCardPreviewRequest(
+    SendToBankRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/send-globally/Send-to-bank-card-preview',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(SendToBankCardResponse.fromJson(data));
       } catch (e) {
         rethrow;
       }

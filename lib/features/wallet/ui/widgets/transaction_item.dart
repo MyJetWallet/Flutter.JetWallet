@@ -25,6 +25,7 @@ import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
+import 'wallet_body/widgets/transactions_list_item/components/transaction_details/send_globally_details.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -154,6 +155,22 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
+                    OperationType.sendGlobally) ...[
+                  Material(
+                    color: colors.white,
+                    child: SendGloballyDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
                     OperationType.simplexBuy) ...[
                   Material(
                     color: colors.white,
@@ -268,11 +285,11 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                      OperationType.cryptoInfo ||
+                        OperationType.cryptoInfo ||
                     widget.transactionListItem.operationType ==
-                      OperationType.buyGooglePay ||
+                        OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
-                      OperationType.buyApplePay) ...[
+                        OperationType.buyApplePay) ...[
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(

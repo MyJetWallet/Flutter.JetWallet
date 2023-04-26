@@ -221,7 +221,8 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.nftWithdrawal ||
         item.operationType == oh_resp.OperationType.nftWithdrawalFee ||
         item.operationType == oh_resp.OperationType.nftBuy ||
-        item.operationType == oh_resp.OperationType.ibanDeposit,
+        item.operationType == oh_resp.OperationType.ibanDeposit ||
+        item.operationType == oh_resp.OperationType.sendGlobally,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

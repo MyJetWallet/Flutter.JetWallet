@@ -113,6 +113,13 @@ class StartupService {
       await reCreateServices();
     }
 
+    getIt<AppStore>().setIsBalanceHide(
+      await getIt<LocalCacheService>().getBalanceHide() ?? false,
+    );
+    getIt<AppStore>().setShowAllAssets(
+      await getIt<LocalCacheService>().getHideZeroBalance() ?? false,
+    );
+
     // Запускаем SignlaR
     if (!userInfo.isSignalRInited) {
       await getIt.get<SignalRService>().start();
@@ -218,7 +225,7 @@ class StartupService {
       );
 
       getIt.registerLazySingleton<SumsubService>(
-          () => SumsubService(),
+        () => SumsubService(),
       );
 
       userInfo.updateServicesRegistred(true);

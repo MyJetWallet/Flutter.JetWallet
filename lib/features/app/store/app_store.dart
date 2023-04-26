@@ -119,6 +119,8 @@ abstract class _AppStoreBase with Store {
   @action
   void setShowAllAssets(bool value) {
     showAllAssets = value;
+
+    getIt<LocalCacheService>().saveHideZeroBalance(value);
   }
 
   @action

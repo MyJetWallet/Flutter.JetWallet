@@ -803,6 +803,7 @@ abstract class _$AppRouter extends RootStackRouter {
           primaryText: args.primaryText,
           secondaryText: args.secondaryText,
           specialTextWidget: args.specialTextWidget,
+          bottomWidget: args.bottomWidget,
           showActionButton: args.showActionButton,
           showProgressBar: args.showProgressBar,
           showShareButton: args.showShareButton,
@@ -848,10 +849,30 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    IbanAddBankAccountRouter.name: (routeData) {
+    SendCardDetailRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const IbanAddBankAccountScreen(),
+        child: const SendCardDetailScreen(),
+      );
+    },
+    SendGloballyAmountRouter.name: (routeData) {
+      final args = routeData.argsAs<SendGloballyAmountRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendGloballyAmountScreen(
+          key: args.key,
+          cardNumber: args.cardNumber,
+        ),
+      );
+    },
+    SendGloballyConfirmRouter.name: (routeData) {
+      final args = routeData.argsAs<SendGloballyConfirmRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendGloballyConfirmScreen(
+          key: args.key,
+          data: args.data,
+        ),
       );
     },
   };
@@ -3586,6 +3607,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
     String? primaryText,
     String? secondaryText,
     Widget? specialTextWidget,
+    Widget? bottomWidget,
     bool showActionButton = false,
     bool showProgressBar = false,
     bool showShareButton = false,
@@ -3602,6 +3624,7 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
             primaryText: primaryText,
             secondaryText: secondaryText,
             specialTextWidget: specialTextWidget,
+            bottomWidget: bottomWidget,
             showActionButton: showActionButton,
             showProgressBar: showProgressBar,
             showShareButton: showShareButton,
@@ -3626,6 +3649,7 @@ class SuccessScreenRouterArgs {
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
+    this.bottomWidget,
     this.showActionButton = false,
     this.showProgressBar = false,
     this.showShareButton = false,
@@ -3646,6 +3670,8 @@ class SuccessScreenRouterArgs {
 
   final Widget? specialTextWidget;
 
+  final Widget? bottomWidget;
+
   final bool showActionButton;
 
   final bool showProgressBar;
@@ -3660,7 +3686,7 @@ class SuccessScreenRouterArgs {
 
   @override
   String toString() {
-    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, showPrimaryButton: $showPrimaryButton, buttonText: $buttonText, time: $time}';
+    return 'SuccessScreenRouterArgs{key: $key, onSuccess: $onSuccess, onActionButton: $onActionButton, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, bottomWidget: $bottomWidget, showActionButton: $showActionButton, showProgressBar: $showProgressBar, showShareButton: $showShareButton, showPrimaryButton: $showPrimaryButton, buttonText: $buttonText, time: $time}';
   }
 }
 
@@ -3810,15 +3836,93 @@ class WaitingScreenRouterArgs {
 }
 
 /// generated route for
-/// [IbanAddBankAccountScreen]
-class IbanAddBankAccountRouter extends PageRouteInfo<void> {
-  const IbanAddBankAccountRouter({List<PageRouteInfo>? children})
+/// [SendCardDetailScreen]
+class SendCardDetailRouter extends PageRouteInfo<void> {
+  const SendCardDetailRouter({List<PageRouteInfo>? children})
       : super(
-          IbanAddBankAccountRouter.name,
+          SendCardDetailRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'IbanAddBankAccountRouter';
+  static const String name = 'SendCardDetailRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SendGloballyAmountScreen]
+class SendGloballyAmountRouter
+    extends PageRouteInfo<SendGloballyAmountRouterArgs> {
+  SendGloballyAmountRouter({
+    Key? key,
+    required String cardNumber,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendGloballyAmountRouter.name,
+          args: SendGloballyAmountRouterArgs(
+            key: key,
+            cardNumber: cardNumber,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendGloballyAmountRouter';
+
+  static const PageInfo<SendGloballyAmountRouterArgs> page =
+      PageInfo<SendGloballyAmountRouterArgs>(name);
+}
+
+class SendGloballyAmountRouterArgs {
+  const SendGloballyAmountRouterArgs({
+    this.key,
+    required this.cardNumber,
+  });
+
+  final Key? key;
+
+  final String cardNumber;
+
+  @override
+  String toString() {
+    return 'SendGloballyAmountRouterArgs{key: $key, cardNumber: $cardNumber}';
+  }
+}
+
+/// generated route for
+/// [SendGloballyConfirmScreen]
+class SendGloballyConfirmRouter
+    extends PageRouteInfo<SendGloballyConfirmRouterArgs> {
+  SendGloballyConfirmRouter({
+    Key? key,
+    required SendToBankCardResponse data,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendGloballyConfirmRouter.name,
+          args: SendGloballyConfirmRouterArgs(
+            key: key,
+            data: data,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendGloballyConfirmRouter';
+
+  static const PageInfo<SendGloballyConfirmRouterArgs> page =
+      PageInfo<SendGloballyConfirmRouterArgs>(name);
+}
+
+class SendGloballyConfirmRouterArgs {
+  const SendGloballyConfirmRouterArgs({
+    this.key,
+    required this.data,
+  });
+
+  final Key? key;
+
+  final SendToBankCardResponse data;
+
+  @override
+  String toString() {
+    return 'SendGloballyConfirmRouterArgs{key: $key, data: $data}';
+  }
 }

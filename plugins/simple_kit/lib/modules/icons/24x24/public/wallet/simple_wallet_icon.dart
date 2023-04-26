@@ -20,3 +20,19 @@ class SWalletIcon extends StatelessObserverWidget {
         : SimpleLightWalletIcon(color: color);
   }
 }
+
+class SWallet2Icon extends StatelessObserverWidget {
+  const SWallet2Icon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return sKit.currentTheme == STheme.dark
+        ? SimpleLightWallet2Icon(color: color)
+        : SimpleLightWallet2Icon(color: color);
+  }
+}

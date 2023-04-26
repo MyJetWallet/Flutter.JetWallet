@@ -5,12 +5,21 @@ import 'package:simple_kit/modules/icons/24x24/light/account_status/simple_light
 import 'package:simple_kit/utils/enum.dart';
 
 class SAccountWaitingIcon extends StatelessObserverWidget {
-  const SAccountWaitingIcon({Key? key}) : super(key: key);
+  const SAccountWaitingIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightAccountWaitingIcon()
-        : const SimpleLightAccountWaitingIcon();
+        ? SimpleLightAccountWaitingIcon(
+            color: color,
+          )
+        : SimpleLightAccountWaitingIcon(
+            color: color,
+          );
   }
 }
