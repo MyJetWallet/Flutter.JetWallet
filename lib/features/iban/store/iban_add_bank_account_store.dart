@@ -93,35 +93,33 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   @action
   Future<void> editAccount() async {
     final response = await sNetwork.getWalletModule().postAddressBookEdit(
-          AddressBookContactModel(
-            id: predContactData!.id!,
-            nickname: labelController.text,
+          predContactData!.copyWith(
+            name: labelController.text,
             iban: ibanController.text,
           ),
         );
 
-    response.pick(
-      onData: (data) {
-        getIt<AppRouter>().back();
+    if (response.hasError) {
+      isIBANError = true;
 
-        sNotification.showError(
-          intl.iban_edit_save_noty,
-          duration: 4,
-          id: 1,
-          needFeedback: true,
-          isError: false,
-        );
-      },
-      onError: (error) {
-        isIBANError = true;
+      sNotification.showError(
+        response.error?.cause ?? '',
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
 
-        sNotification.showError(
-          response.error?.cause ?? '',
-          duration: 4,
-          id: 1,
-          needFeedback: true,
-        );
-      },
+      return;
+    }
+
+    getIt<AppRouter>().back();
+
+    sNotification.showError(
+      intl.iban_edit_save_noty,
+      duration: 4,
+      id: 1,
+      needFeedback: true,
+      isError: false,
     );
   }
 
@@ -131,26 +129,25 @@ abstract class _IbanAddBankAccountStoreBase with Store {
           predContactData!.id!,
         );
 
-    response.pick(
-      onData: (data) {
-        getIt<AppRouter>().back();
+    if (response.hasError) {
+      sNotification.showError(
+        response.error?.cause ?? '',
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
 
-        sNotification.showError(
-          intl.iban_edit_delete_noty,
-          duration: 4,
-          id: 1,
-          needFeedback: true,
-          isError: false,
-        );
-      },
-      onError: (error) {
-        sNotification.showError(
-          response.error?.cause ?? '',
-          duration: 4,
-          id: 1,
-          needFeedback: true,
-        );
-      },
+      return;
+    }
+
+    getIt<AppRouter>().back();
+
+    sNotification.showError(
+      intl.iban_edit_delete_noty,
+      duration: 4,
+      id: 1,
+      needFeedback: true,
+      isError: false,
     );
   }
 
