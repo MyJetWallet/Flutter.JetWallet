@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 part 'iban_add_bank_account_store.g.dart';
 
@@ -23,6 +26,14 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
   final TextEditingController ibanController = TextEditingController();
 
+  @observable
+  bool isIBANError = false;
+
+  @observable
+  bool isEditMode = false;
+  @observable
+  AddressBookContactModel? predContactData;
+
   final loader = StackLoaderStore();
 
   @observable
@@ -31,6 +42,19 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   void checkButton() {
     isButtonActive =
         labelController.text.isNotEmpty && ibanController.text.isNotEmpty;
+  }
+
+  @action
+  void setContact(AddressBookContactModel? contact) {
+    if (contact != null) {
+      predContactData = contact;
+      isEditMode = true;
+
+      labelController.text = predContactData!.name ?? '';
+      ibanController.text = predContactData!.iban ?? '';
+
+      checkButton();
+    }
   }
 
   @action
@@ -44,18 +68,89 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   @action
   Future<void> addAccount() async {
     final response = await sNetwork.getWalletModule().postAddressBookAdd(
-          '${sUserInfo.firstName} ${sUserInfo.lastName}',
           labelController.text,
+          '${sUserInfo.firstName} ${sUserInfo.lastName}',
           ibanController.text,
         );
 
     response.pick(
       onData: (data) {
-        print(data);
-
         getIt<AppRouter>().back();
       },
-      onError: (error) {},
+      onError: (error) {
+        isIBANError = true;
+
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
+      },
+    );
+  }
+
+  @action
+  Future<void> editAccount() async {
+    final response = await sNetwork.getWalletModule().postAddressBookEdit(
+          AddressBookContactModel(
+            id: predContactData!.id!,
+            nickname: labelController.text,
+            iban: ibanController.text,
+          ),
+        );
+
+    response.pick(
+      onData: (data) {
+        getIt<AppRouter>().back();
+
+        sNotification.showError(
+          intl.iban_edit_save_noty,
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+          isError: false,
+        );
+      },
+      onError: (error) {
+        isIBANError = true;
+
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
+      },
+    );
+  }
+
+  @action
+  Future<void> deleteAccount() async {
+    final response = await sNetwork.getWalletModule().postAddressBookDelete(
+          predContactData!.id!,
+        );
+
+    response.pick(
+      onData: (data) {
+        getIt<AppRouter>().back();
+
+        sNotification.showError(
+          intl.iban_edit_delete_noty,
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+          isError: false,
+        );
+      },
+      onError: (error) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
+      },
     );
   }
 

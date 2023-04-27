@@ -303,6 +303,11 @@ class AppRouter extends _$AppRouter {
       path: '/iban_add_account',
       page: IbanAddBankAccountRouter.page,
     ),
+    CustomRoute(
+      path: '/iban_edit_account',
+      page: IbanEditBankAccountRouter.page,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
+    ),
     AutoRoute(
       path: '/preview_convert',
       page: PreviewConvertRouter.page,

@@ -7,6 +7,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/store/iban_send_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
@@ -38,8 +39,6 @@ class IbanSendBody extends StatelessObserverWidget {
     final currencies = sSignalRModules.currenciesList;
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
 
-    final baseCurrency = sSignalRModules.baseCurrency;
-
     final eurCurrency = currencyFrom(
       itemsWithBalance,
       'EUR',
@@ -66,13 +65,18 @@ class IbanSendBody extends StatelessObserverWidget {
           const SpaceH24(),
           SPaddingH24(
             child: InkWell(
+              highlightColor: colors.grey5,
+              splashColor: Colors.transparent,
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               onTap: () => navigateToWallet(context, eurCurrency),
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(
                   left: 20,
                   right: 20,
-                  top: 24,
+                  top: 22,
                   bottom: 26,
                 ),
                 decoration: BoxDecoration(
@@ -81,9 +85,15 @@ class IbanSendBody extends StatelessObserverWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        SNetworkSvg24(
+                          url: eurCurrency.iconUrl,
+                        ),
+                        const SizedBox(width: 10),
                         Text(
                           intl.iban_euro_balance,
                           style: sSubtitle2Style,
@@ -92,7 +102,12 @@ class IbanSendBody extends StatelessObserverWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      eurCurrency.volumeBaseBalance(baseCurrency),
+                      volumeFormat(
+                        prefix: eurCurrency.prefixSymbol,
+                        decimal: eurCurrency.assetBalance,
+                        accuracy: eurCurrency.accuracy,
+                        symbol: eurCurrency.symbol,
+                      ),
                       style: sTextH1Style,
                     ),
                   ],
@@ -104,6 +119,7 @@ class IbanSendBody extends StatelessObserverWidget {
           MarketSeparator(text: intl.iban_destination_accounts),
           ListView.builder(
             shrinkWrap: true,
+            padding: EdgeInsets.zero,
             itemCount: store.contacts.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
@@ -113,9 +129,18 @@ class IbanSendBody extends StatelessObserverWidget {
                   height: 24,
                   child: SAccountIcon(),
                 ),
-                rightIcon: const Padding(
-                  padding: EdgeInsets.only(top: 16.0),
-                  child: SEditIcon(),
+                rightIcon: Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: InkWell(
+                    onTap: () {
+                      sRouter.push(
+                        IbanEditBankAccountRouter(
+                          contact: store.contacts[index],
+                        ),
+                      );
+                    },
+                    child: const SEditIcon(),
+                  ),
                 ),
                 name: store.contacts[index].name ?? '',
                 amount: '',
@@ -123,11 +148,13 @@ class IbanSendBody extends StatelessObserverWidget {
                 description: '',
                 removeDivider: true,
                 onTap: () {
-                  getIt<AppRouter>().push(
-                    IbanSendAmountRouter(
-                      contact: store.contacts[index],
-                    ),
-                  );
+                  getIt<AppRouter>()
+                      .push(
+                        IbanSendAmountRouter(
+                          contact: store.contacts[index],
+                        ),
+                      )
+                      .then((value) => store.getAddressBook());
                 },
               );
             },
@@ -147,7 +174,9 @@ class IbanSendBody extends StatelessObserverWidget {
             description: '',
             removeDivider: true,
             onTap: () {
-              sRouter.push(const IbanAddBankAccountRouter());
+              sRouter
+                  .push(IbanAddBankAccountRouter())
+                  .then((value) => store.getAddressBook());
             },
           ),
         ],

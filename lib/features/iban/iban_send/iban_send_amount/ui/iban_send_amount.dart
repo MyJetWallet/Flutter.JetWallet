@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -75,7 +76,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 Baseline(
                   baseline: deviceSize.when(
                     small: () => 20,
-                    medium: () => 48,
+                    medium: () => 45,
                   ),
                   baselineType: TextBaseline.alphabetic,
                   child: SActionPriceField(
@@ -96,18 +97,13 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                 Baseline(
                   baseline: deviceSize.when(
                     small: () => -36,
-                    medium: () => 20,
+                    medium: () => 24,
                   ),
                   baselineType: TextBaseline.alphabetic,
+                  //eurCurrency.volumeBaseBalance(baseCurrency),
                   child: Text(
-                    '${intl.withdrawalAmount_available}: '
-                    '${volumeFormat(
-                      decimal: Decimal.parse(
-                        '${store.eurCurrency.assetBalance.toDouble() - store.eurCurrency.cardReserve.toDouble()}',
-                      ),
-                      accuracy: store.eurCurrency.accuracy,
-                      symbol: store.eurCurrency.symbol,
-                    )}',
+                    store.eurCurrency
+                        .volumeBaseBalance(sSignalRModules.baseCurrency),
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),

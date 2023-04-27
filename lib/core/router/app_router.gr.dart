@@ -876,9 +876,25 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     IbanAddBankAccountRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanAddBankAccountRouterArgs>(
+          orElse: () => const IbanAddBankAccountRouterArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const IbanAddBankAccountScreen(),
+        child: IbanAddBankAccountScreen(
+          key: args.key,
+          contact: args.contact,
+        ),
+      );
+    },
+    IbanEditBankAccountRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanEditBankAccountRouterArgs>(
+          orElse: () => const IbanEditBankAccountRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IbanEditBankAccountScreen(
+          key: args.key,
+          contact: args.contact,
+        ),
       );
     },
     IbanSendAmountRouter.name: (routeData) {
@@ -1870,8 +1886,7 @@ class Circle3dSecureWebViewRouter
     required dynamic Function(
       String,
       String,
-    )
-        onSuccess,
+    ) onSuccess,
     required dynamic Function(String)? onCancel,
     required String paymentId,
     required dynamic Function(String) onFailed,
@@ -3957,16 +3972,80 @@ class SendGloballyConfirmRouterArgs {
 
 /// generated route for
 /// [IbanAddBankAccountScreen]
-class IbanAddBankAccountRouter extends PageRouteInfo<void> {
-  const IbanAddBankAccountRouter({List<PageRouteInfo>? children})
-      : super(
+class IbanAddBankAccountRouter
+    extends PageRouteInfo<IbanAddBankAccountRouterArgs> {
+  IbanAddBankAccountRouter({
+    Key? key,
+    AddressBookContactModel? contact,
+    List<PageRouteInfo>? children,
+  }) : super(
           IbanAddBankAccountRouter.name,
+          args: IbanAddBankAccountRouterArgs(
+            key: key,
+            contact: contact,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'IbanAddBankAccountRouter';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<IbanAddBankAccountRouterArgs> page =
+      PageInfo<IbanAddBankAccountRouterArgs>(name);
+}
+
+class IbanAddBankAccountRouterArgs {
+  const IbanAddBankAccountRouterArgs({
+    this.key,
+    this.contact,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel? contact;
+
+  @override
+  String toString() {
+    return 'IbanAddBankAccountRouterArgs{key: $key, contact: $contact}';
+  }
+}
+
+/// generated route for
+/// [IbanEditBankAccountScreen]
+class IbanEditBankAccountRouter
+    extends PageRouteInfo<IbanEditBankAccountRouterArgs> {
+  IbanEditBankAccountRouter({
+    Key? key,
+    AddressBookContactModel? contact,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IbanEditBankAccountRouter.name,
+          args: IbanEditBankAccountRouterArgs(
+            key: key,
+            contact: contact,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanEditBankAccountRouter';
+
+  static const PageInfo<IbanEditBankAccountRouterArgs> page =
+      PageInfo<IbanEditBankAccountRouterArgs>(name);
+}
+
+class IbanEditBankAccountRouterArgs {
+  const IbanEditBankAccountRouterArgs({
+    this.key,
+    this.contact,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel? contact;
+
+  @override
+  String toString() {
+    return 'IbanEditBankAccountRouterArgs{key: $key, contact: $contact}';
+  }
 }
 
 /// generated route for

@@ -23,7 +23,7 @@ class AddressBookContactModel with _$AddressBookContactModel {
     final String? iban,
     final String? bic,
     final String? bankName,
-    final String? weight,
+    final int? weight,
   }) = _AddressBookContactModel;
 
   factory AddressBookContactModel.fromJson(Map<String, dynamic> json) =>
