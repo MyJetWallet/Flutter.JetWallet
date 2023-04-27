@@ -29,7 +29,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return SPageFrame(
-      loader: IbanAddBankAccountStore.of(context).loader,
+      loading: IbanAddBankAccountStore.of(context).loader,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -42,8 +42,12 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
           SFieldDividerFrame(
             child: SStandardField(
               labelText: intl.iban_label,
+              maxLength: 30,
               textCapitalization: TextCapitalization.sentences,
               controller: IbanAddBankAccountStore.of(context).labelController,
+              onChanged: (text) {
+                IbanAddBankAccountStore.of(context).checkButton();
+              },
               hideSpace: true,
             ),
           ),
@@ -53,6 +57,16 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
               textCapitalization: TextCapitalization.sentences,
               controller: IbanAddBankAccountStore.of(context).ibanController,
               keyboardType: TextInputType.multiline,
+              onChanged: (text) {
+                IbanAddBankAccountStore.of(context).checkButton();
+              },
+              suffixIcons: [
+                SIconButton(
+                  onTap: () => IbanAddBankAccountStore.of(context).pasteIban(),
+                  defaultIcon: const SPasteIcon(),
+                  pressedIcon: const SPastePressedIcon(),
+                ),
+              ],
               maxLines: 3,
               hideSpace: true,
             ),
@@ -108,9 +122,11 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
             child: Material(
               color: colors.grey5,
               child: SPrimaryButton2(
-                active: true,
+                active: IbanAddBankAccountStore.of(context).isButtonActive,
                 name: intl.iban_add_account,
-                onTap: () {},
+                onTap: () {
+                  IbanAddBankAccountStore.of(context).addAccount();
+                },
               ),
             ),
           ),

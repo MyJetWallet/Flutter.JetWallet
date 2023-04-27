@@ -25,105 +25,107 @@ class IbanReceive extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return Column(
-      children: [
-        const SpaceH24(),
-        SPaddingH24(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.grey5,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 24,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SpaceH24(),
+          SPaddingH24(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colors.grey5,
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: Row(
-                children: [
-                  Image.asset(
-                    ibanEuroAsset,
-                    width: 80,
-                  ),
-                  const SpaceW20(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        intl.iban_euro,
-                        style: sTextH5Style,
-                      ),
-                      const SpaceH10(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 188,
-                        child: Text(
-                          intl.iban_euro_desc,
-                          maxLines: 5,
-                          style: sBodyText2Style.copyWith(
-                            color: colors.grey1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 24,
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      ibanEuroAsset,
+                      width: 80,
+                    ),
+                    const SpaceW20(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          intl.iban_euro,
+                          style: sTextH5Style,
+                        ),
+                        const SpaceH10(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 188,
+                          child: Text(
+                            intl.iban_euro_desc,
+                            maxLines: 5,
+                            style: sBodyText2Style.copyWith(
+                              color: colors.grey1,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        const SpaceH16(),
-        IBanItem(
-          name: intl.iban_benificiary,
-          text: name,
-        ),
-        IBanItem(
-          name: intl.iban_iban,
-          text: iban,
-        ),
-        IBanItem(
-          name: intl.iban_bic,
-          text: bic,
-        ),
-        IBanItem(
-          name: intl.iban_address,
-          text: simpleCompanyAddress,
-        ),
-        const SpaceH20(),
-        SPaddingH24(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SBankIcon(),
-              const SpaceW14(),
-              Text(
-                intl.iban_terms_1,
-                style: sBodyText2Style,
-              ),
-            ],
+          const SpaceH16(),
+          IBanItem(
+            name: intl.iban_benificiary,
+            text: name,
           ),
-        ),
-        const SpaceH12(),
-        SPaddingH24(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SUserIcon(
-                color: colors.black,
-              ),
-              const SpaceW14(),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 88,
-                child: Text(
-                  intl.iban_terms_2,
+          IBanItem(
+            name: intl.iban_iban,
+            text: iban,
+          ),
+          IBanItem(
+            name: intl.iban_bic,
+            text: bic,
+          ),
+          IBanItem(
+            name: intl.iban_address,
+            text: simpleCompanyAddress,
+          ),
+          const SpaceH20(),
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SBankIcon(),
+                const SpaceW14(),
+                Text(
+                  intl.iban_terms_1,
                   style: sBodyText2Style,
-                  maxLines: 3,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const SpaceH42(),
-      ],
+          const SpaceH12(),
+          SPaddingH24(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SUserIcon(
+                  color: colors.black,
+                ),
+                const SpaceW14(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 88,
+                  child: Text(
+                    intl.iban_terms_2,
+                    style: sBodyText2Style,
+                    maxLines: 3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SpaceH42(),
+        ],
+      ),
     );
   }
 }

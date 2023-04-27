@@ -5,12 +5,17 @@ import 'package:simple_kit/modules/icons/24x24/light/account/simple_light_accoun
 import 'package:simple_kit/utils/enum.dart';
 
 class SAccountIcon extends StatelessObserverWidget {
-  const SAccountIcon({Key? key}) : super(key: key);
+  const SAccountIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightAccountIcon()
-        : const SimpleLightAccountIcon();
+        ? SimpleLightAccountIcon(color: color)
+        : SimpleLightAccountIcon(color: color);
   }
 }

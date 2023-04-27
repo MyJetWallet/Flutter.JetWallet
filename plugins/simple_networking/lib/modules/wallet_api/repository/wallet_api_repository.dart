@@ -4,6 +4,7 @@ import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/all_cards/all_cards_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/apple_pay_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/get_base_assets_response_model.dart';
@@ -40,6 +41,8 @@ import 'package:simple_networking/modules/wallet_api/models/encryption_key/encry
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/google_pay/google_pay_confirm_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc/check_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/market_info/market_info_request_model.dart';
@@ -684,5 +687,60 @@ class WalletApiRepository {
   Future<DC<ServerRejectException, SendToBankCardResponse>>
       sendToBankCardPreview(SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
+  }
+
+  // Address book
+
+  Future<DC<ServerRejectException, AddressBookModel>> getAddressBook(
+    String searchText,
+  ) async {
+    return _walletApiDataSources.getAddressBookRequest(searchText);
+  }
+
+  Future<DC<ServerRejectException, AddressBookContactModel>> postAddressBookAdd(
+    String name,
+    String nickname,
+    String iban,
+  ) async {
+    return _walletApiDataSources.postAddressBookAddRequest(
+      name,
+      nickname,
+      iban,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postAddressBookDelete(
+    String id,
+  ) async {
+    return _walletApiDataSources.postAddressBookDeleteRequest(
+      id,
+    );
+  }
+
+  Future<DC<ServerRejectException, void>> postAddressBookEdit(
+    AddressBookContactModel model,
+  ) async {
+    return _walletApiDataSources.postAddressBookEditRequest(
+      model,
+    );
+  }
+
+  // Iban out
+
+  Future<DC<ServerRejectException, void>> postIbanWithdrawal(
+    IbanWithdrawalModel model,
+  ) async {
+    return _walletApiDataSources.postIbanWithdrawalRequest(
+      model,
+    );
+  }
+
+  Future<DC<ServerRejectException, IbanPreviewWithdrawalModel>>
+      postPreviewIbanWithdrawal(
+    IbanWithdrawalModel model,
+  ) async {
+    return _walletApiDataSources.postPreviewIbanWithdrawalRequest(
+      model,
+    );
   }
 }

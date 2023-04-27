@@ -22,6 +22,8 @@ class SSmallHeader extends StatelessWidget {
     this.isStarSelected = false,
     this.isShortVersion = false,
     required this.title,
+    this.subTitle,
+    this.subTitleStyle,
   }) : super(key: key);
 
   final Widget? icon;
@@ -42,6 +44,9 @@ class SSmallHeader extends StatelessWidget {
 
   final bool isStarSelected;
   final String title;
+
+  final String? subTitle;
+  final TextStyle? subTitleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +69,26 @@ class SSmallHeader extends StatelessWidget {
                 const _IconPlaceholder(),
               const SpaceW12(),
               Expanded(
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: titleAlign,
-                  maxLines: 1,
-                  style: sTextH5Style,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: titleAlign,
+                      maxLines: 1,
+                      style: sTextH5Style,
+                    ),
+                    if (subTitle != null) ...[
+                      Text(
+                        subTitle ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: titleAlign,
+                        maxLines: 1,
+                        style: subTitleStyle ?? sSubtitle3Style,
+                      ),
+                    ],
+                  ],
                 ),
               ),
               const SpaceW12(),
