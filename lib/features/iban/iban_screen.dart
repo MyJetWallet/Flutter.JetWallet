@@ -9,7 +9,6 @@ import 'package:jetwallet/features/iban/widgets/iban_body.dart';
 import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
 import 'package:jetwallet/features/iban/widgets/iban_header.dart';
 import 'package:jetwallet/features/iban/widgets/iban_skeleton.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/utils/constants.dart';

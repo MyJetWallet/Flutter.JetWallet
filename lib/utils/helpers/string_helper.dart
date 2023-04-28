@@ -1,7 +1,12 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
+import 'package:jetwallet/utils/formatting/base/base_currencies_format.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 
 String localizedMonth(
   String month,
@@ -204,4 +209,55 @@ String formatCurrencyStringAmount({
           ? '\$$value'
           : '$value $symbol'
       : '$prefix$value';
+}
+
+String convertToUsd(
+  Decimal assetPriceInUsd,
+  Decimal balance,
+  BaseCurrencyModel baseCurrency,
+) {
+  final usd = assetPriceInUsd * balance;
+  if (usd < Decimal.zero) {
+    final plusValue = usd.toString().split('-').last;
+
+    return '≈ ${baseCurrenciesFormat(
+      text: Decimal.parse(plusValue).toStringAsFixed(2),
+      symbol: baseCurrency.symbol,
+      prefix: baseCurrency.prefix,
+    )}';
+  }
+
+  return '≈ ${baseCurrenciesFormat(
+    text: usd.toStringAsFixed(2),
+    symbol: baseCurrency.symbol,
+    prefix: baseCurrency.prefix,
+  )}';
+}
+
+Decimal basePrice(
+  Decimal assetPriceInUsd,
+  BaseCurrencyModel baseCurrency,
+  List<CurrencyModel> allCurrencies, {
+  bool transactionInCurrent = false,
+}) {
+  final baseCurrencyMain = currencyFromAll(
+    allCurrencies,
+    baseCurrency.symbol,
+  );
+
+  final usdCurrency = currencyFromAll(
+    allCurrencies,
+    'USD',
+  );
+
+  if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
+    return assetPriceInUsd;
+  }
+
+  if (baseCurrencyMain.currentPrice == Decimal.zero) {
+    return assetPriceInUsd * usdCurrency.currentPrice;
+  }
+
+  return Decimal.parse(
+      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
 }

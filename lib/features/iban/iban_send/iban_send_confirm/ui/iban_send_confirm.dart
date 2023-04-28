@@ -60,7 +60,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
         onSkip: () {},
       ),
       header: const SSmallHeader(
-        isShortVersion: true,
+        isShortVersion: false,
         title: '',
       ),
       child: Stack(
@@ -176,7 +176,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             valueColor: colors.blue,
                             value: volumeFormat(
                               prefix: state.eurCurrency.prefixSymbol,
-                              decimal: data.sendAmount ?? Decimal.zero,
+                              decimal: data.amount ?? Decimal.zero,
                               accuracy: state.eurCurrency.accuracy,
                               symbol: state.eurCurrency.symbol,
                             ),
@@ -200,7 +200,10 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    state.confirmIbanOut(data);
+                    state.confirmIbanOut(
+                      data,
+                      contact,
+                    );
                   },
                 ),
               ],

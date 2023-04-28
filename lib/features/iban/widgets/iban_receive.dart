@@ -28,7 +28,7 @@ class IbanReceive extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SpaceH24(),
+          const SpaceH12(),
           SPaddingH24(
             child: DecoratedBox(
               decoration: BoxDecoration(

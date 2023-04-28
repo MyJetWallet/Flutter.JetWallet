@@ -67,6 +67,8 @@ String operationName(
       return intl.operationName_sendNFT;
     case OperationType.nftBuy:
       return intl.operationName_buyNFT;
+    case OperationType.ibanSend:
+      return intl.iban_send_history_title;
     case OperationType.sendGlobally:
       return intl.send_globally;
     default:

@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/add_button.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/card_limit.dart';
@@ -151,6 +152,58 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             removeDivider: true,
                             onTap: () {},
                           ),
+                        if (state.addressBookContacts.isNotEmpty) ...[
+                          MarketSeparator(text: intl.iban_send_accounts),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemCount: state.addressBookContacts.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return SCardRow(
+                                icon: const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: SAccountIcon(),
+                                ),
+                                rightIcon: Padding(
+                                  padding: const EdgeInsets.only(top: 9.0),
+                                  child: SIconButton(
+                                    onTap: () {
+                                      sRouter.push(
+                                        IbanEditBankAccountRouter(
+                                          contact:
+                                              state.addressBookContacts[index],
+                                        ),
+                                      );
+                                    },
+                                    defaultIcon: const SEditIcon(),
+                                    pressedIcon: const SEditIcon(
+                                      color: Color(0xFFA8B0BA),
+                                    ),
+                                  ),
+                                ),
+                                name:
+                                    state.addressBookContacts[index].name ?? '',
+                                amount: '',
+                                helper:
+                                    state.addressBookContacts[index].iban ?? '',
+                                description: '',
+                                removeDivider: true,
+                                onTap: () {
+                                  getIt<AppRouter>()
+                                      .push(
+                                        IbanSendAmountRouter(
+                                          contact:
+                                              state.addressBookContacts[index],
+                                        ),
+                                      )
+                                      .then((value) => state.getAddressBook());
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ],
                     ),
                   ],

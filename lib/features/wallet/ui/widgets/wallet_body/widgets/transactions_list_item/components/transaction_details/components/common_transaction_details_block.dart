@@ -148,7 +148,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (transactionListItem.status == Status.completed &&
+          if ((transactionListItem.operationType == OperationType.ibanSend ||
+                  transactionListItem.status == Status.completed) &&
               transactionListItem.operationType != OperationType.sendGlobally)
             Text(
               convertToUsd(
@@ -235,6 +236,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         OperationType.sendGlobally) {
       return '${operationName(
         OperationType.sendGlobally,
+        context,
+      )}'
+          ' ${transactionListItem.assetId} ';
+    } else if (transactionListItem.operationType == OperationType.ibanSend) {
+      return '${operationName(
+        OperationType.ibanSend,
         context,
       )}'
           ' ${transactionListItem.assetId} ';

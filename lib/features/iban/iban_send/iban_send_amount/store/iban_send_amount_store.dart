@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -59,9 +61,17 @@ abstract class _IbanSendAmountStoreBase with Store {
     'EUR',
   );
 
+  CurrencyModel usdCurrency = currencyFrom(
+    sSignalRModules.currenciesList,
+    'USD',
+  );
+
   @action
   void init(AddressBookContactModel value) {
     contact = value;
+
+    log(eurCurrency.toString());
+    log(usdCurrency.toString());
   }
 
   @action

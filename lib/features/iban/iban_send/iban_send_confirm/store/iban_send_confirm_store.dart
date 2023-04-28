@@ -12,6 +12,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 part 'iban_send_confirm_store.g.dart';
@@ -33,14 +34,17 @@ abstract class _IbanSendConfirmStoreBase with Store {
   );
 
   @action
-  Future<void> confirmIbanOut(IbanPreviewWithdrawalModel data) async {
+  Future<void> confirmIbanOut(
+    IbanPreviewWithdrawalModel data,
+    AddressBookContactModel contact,
+  ) async {
     loader.startLoadingImmediately();
 
     final model = IbanWithdrawalModel(
       assetSymbol: 'EUR',
       amount: data.sendAmount,
       lang: intl.localeName,
-      contactId: data.contact?.id,
+      contactId: contact.id,
       iban: data.iban,
       bic: data.bic,
     );

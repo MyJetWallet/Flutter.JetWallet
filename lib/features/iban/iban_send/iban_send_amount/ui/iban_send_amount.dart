@@ -7,6 +7,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -34,6 +35,17 @@ class IbanSendAmount extends StatelessWidget {
 
 class IbanSendAmountBody extends StatelessObserverWidget {
   const IbanSendAmountBody({super.key});
+
+  void showLimits() {
+    /*if (state.limitByAsset != null) {
+      sAnalytics.newBuyCardLimitsView();
+      showCardLimitsBottomSheet(
+        context: context,
+        cardLimits: state.limitByAsset!,
+        currency: state.paymentCurrency,
+      );
+    }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +112,13 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                     medium: () => 24,
                   ),
                   baselineType: TextBaseline.alphabetic,
-                  //eurCurrency.volumeBaseBalance(baseCurrency),
                   child: Text(
-                    store.eurCurrency
-                        .volumeBaseBalance(sSignalRModules.baseCurrency),
+                    volumeFormat(
+                      prefix: sSignalRModules.baseCurrency.prefix,
+                      decimal: Decimal.parse(store.withAmount),
+                      accuracy: sSignalRModules.baseCurrency.accuracy,
+                      symbol: sSignalRModules.baseCurrency.symbol,
+                    ),
                     style: sSubtitle3Style.copyWith(
                       color: colors.grey2,
                     ),
@@ -113,6 +128,18 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             ),
           ),
           const Spacer(),
+          /*SPaymentSelectCreditCard(
+            widgetSize: widgetSizeFrom(deviceSize),
+            icon: SAccountIcon(
+              color: colors.black,
+            ),
+            name: store.contact?.name ?? '',
+            description: store.contact?.iban ?? '',
+            //limit: isLimitBlock ? 100 : state.limitByAsset?.barProgress ?? 0,
+            limit: 0,
+            onTap: () => showLimits(),
+          ),
+          */
           SPaymentSelectAsset(
             widgetSize: widgetSizeFrom(deviceSize),
             icon: SAccountIcon(

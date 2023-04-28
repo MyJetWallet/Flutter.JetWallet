@@ -1,13 +1,9 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
 import 'package:jetwallet/features/iban/store/iban_send_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
@@ -49,7 +45,7 @@ class IbanSendBody extends StatelessObserverWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SpaceH20(),
+          const SpaceH8(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
             decoration: BoxDecoration(
@@ -130,8 +126,8 @@ class IbanSendBody extends StatelessObserverWidget {
                   child: SAccountIcon(),
                 ),
                 rightIcon: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: InkWell(
+                  padding: const EdgeInsets.only(top: 9.0),
+                  child: SIconButton(
                     onTap: () {
                       sRouter.push(
                         IbanEditBankAccountRouter(
@@ -139,7 +135,10 @@ class IbanSendBody extends StatelessObserverWidget {
                         ),
                       );
                     },
-                    child: const SEditIcon(),
+                    defaultIcon: const SEditIcon(),
+                    pressedIcon: const SEditIcon(
+                      color: Color(0xFFA8B0BA),
+                    ),
                   ),
                 ),
                 name: store.contacts[index].name ?? '',

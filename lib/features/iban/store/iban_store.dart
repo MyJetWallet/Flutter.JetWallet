@@ -32,6 +32,9 @@ abstract class IbanStoreBase with Store {
 
   static final _logger = Logger('IbanStore');
 
+  TabController? ibanTabController;
+  void setTabController(TabController value) => ibanTabController = value;
+
   @observable
   StackLoaderStore? loader;
 
@@ -226,6 +229,10 @@ abstract class IbanStoreBase with Store {
     ibanName = 'Simple Europe UAB';
     if (ibanBic.isEmpty) {
       isLoading = true;
+    }
+
+    if (ibanTabController != null) {
+      ibanTabController!.animateTo(0);
     }
 
     try {

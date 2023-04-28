@@ -2,14 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
-import 'package:simple_kit/modules/icons/24x24/public/profile_details/simple_profile_details_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/public/share/simple_share_icon.dart';
-import 'package:simple_kit/modules/shared/simple_spacers.dart';
-import 'package:simple_kit/modules/texts/simple_text_styles.dart';
+import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
@@ -31,22 +27,33 @@ class IBanHeader extends StatefulObserverWidget {
   State<IBanHeader> createState() => _IBanHeaderState();
 }
 
-class _IBanHeaderState extends State<IBanHeader> {
+class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    getIt.get<IbanStore>().setTabController(_tabController);
+
+    _tabController.addListener(saveStateToStore);
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(saveStateToStore);
+    super.dispose();
+  }
+
+  void saveStateToStore() {
+    getIt.get<IbanStore>().setIsReceive(_tabController.index == 0);
+  }
+
   bool canTapShare = true;
 
   final colors = sKit.colors;
 
   late bool showAlert;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +83,13 @@ class _IBanHeaderState extends State<IBanHeader> {
                     ),
                     pressedIcon: SShareIcon(
                       color: widget.isShareActive
-                        ? colors.black.withOpacity(0.7)
-                        : colors.grey3,
+                          ? colors.black.withOpacity(0.7)
+                          : colors.grey3,
                     ),
                     onTap: () {
-                      if (
-                        widget.isShareActive &&
-                        widget.textForShare != null &&
-                        canTapShare
-                      ) {
+                      if (widget.isShareActive &&
+                          widget.textForShare != null &&
+                          canTapShare) {
                         setState(() {
                           canTapShare = false;
                         });
@@ -92,7 +97,7 @@ class _IBanHeaderState extends State<IBanHeader> {
                           const Duration(
                             seconds: 1,
                           ),
-                              () => setState(() {
+                          () => setState(() {
                             canTapShare = true;
                           }),
                         );
@@ -149,6 +154,36 @@ class _IBanHeaderState extends State<IBanHeader> {
             const SpaceW8(),
           ],
         ),
+        SPaddingH24(
+          child: Container(
+            height: 32,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: colors.grey5,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                color: colors.black,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              labelColor: colors.white,
+              labelStyle: sSubtitle3Style,
+              unselectedLabelColor: colors.grey1,
+              unselectedLabelStyle: sSubtitle3Style,
+              tabs: const [
+                Tab(
+                  text: 'Receive',
+                ),
+                Tab(
+                  text: 'Send',
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SpaceH12(),
       ],
     );
   }

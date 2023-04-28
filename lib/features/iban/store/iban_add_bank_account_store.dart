@@ -28,6 +28,8 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
   @observable
   bool isIBANError = false;
+  @action
+  void serIsIBANError(bool val) => isIBANError = val;
 
   @observable
   bool isEditMode = false;

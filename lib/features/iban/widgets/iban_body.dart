@@ -38,129 +38,42 @@ class IBanBody extends StatefulObserverWidget {
 }
 
 class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
-  late TabController _tabController;
+  //late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    //_tabController = TabController(length: 2, vsync: this);
 
-    _tabController.addListener(saveStateToStore);
+    //_tabController.addListener(saveStateToStore);
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(saveStateToStore);
+    //_tabController.removeListener(saveStateToStore);
     super.dispose();
   }
 
   void saveStateToStore() {
-    getIt.get<IbanStore>().setIsReceive(_tabController.index == 0);
+    //getIt.get<IbanStore>().setIsReceive(_tabController.index == 0);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    return NestedScrollView(
+    return TabBarView(
       physics: const ClampingScrollPhysics(),
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
-          SliverToBoxAdapter(
-            child: SPaddingH24(
-              child: Container(
-                height: 32,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: colors.grey5,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    color: colors.black,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  labelColor: colors.white,
-                  labelStyle: sSubtitle3Style,
-                  unselectedLabelColor: colors.grey1,
-                  unselectedLabelStyle: sSubtitle3Style,
-                  tabs: const [
-                    Tab(
-                      text: 'Receive',
-                    ),
-                    Tab(
-                      text: 'Send',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ];
-      },
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          IbanReceive(
-            name: getIt.get<IbanStore>().ibanName,
-            iban: getIt.get<IbanStore>().ibanAddress,
-            bic: getIt.get<IbanStore>().ibanBic,
-            address: getIt.get<IbanStore>().ibanAddress,
-          ),
-          IbanSend(),
-        ],
-      ),
-    );
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SPaddingH24(
-            child: Container(
-              height: 32,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colors.grey5,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: colors.black,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                labelColor: colors.white,
-                labelStyle: sSubtitle3Style,
-                unselectedLabelColor: colors.grey1,
-                unselectedLabelStyle: sSubtitle3Style,
-                tabs: const [
-                  Tab(
-                    text: 'Receive',
-                  ),
-                  Tab(
-                    text: 'Send',
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                IbanReceive(
-                  name: getIt.get<IbanStore>().ibanName,
-                  iban: getIt.get<IbanStore>().ibanAddress,
-                  bic: getIt.get<IbanStore>().ibanBic,
-                  address: getIt.get<IbanStore>().ibanAddress,
-                ),
-                IbanSend(),
-              ],
-            ),
-          ),
-        ],
-      ),
+      controller: getIt.get<IbanStore>().ibanTabController,
+      children: [
+        IbanReceive(
+          name: getIt.get<IbanStore>().ibanName,
+          iban: getIt.get<IbanStore>().ibanAddress,
+          bic: getIt.get<IbanStore>().ibanBic,
+          address: getIt.get<IbanStore>().ibanAddress,
+        ),
+        IbanSend(),
+      ],
     );
   }
 }
