@@ -179,12 +179,10 @@ InputError onGloballyWithdrawInputErrorHandler(
     }
 
     if (limits != null) {
-      if (limits.minAmount < value) {
+      if (limits.minAmount > value) {
+        return InputError.amountTooLow;
+      } else if (limits.maxAmount < value) {
         return InputError.amountTooLarge;
-      } else {
-        if (limits.maxAmount > value) {
-          return InputError.amountTooLow;
-        }
       }
     }
   }
