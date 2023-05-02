@@ -32,5 +32,9 @@ abstract class _IbanSendStoreBase with Store {
         topContacts = ObservableList.of(data.topContacts ?? []);
       },
     );
+
+    contacts.sort((a, b) {
+      return b.weight!.compareTo(a.weight!);
+    });
   }
 }

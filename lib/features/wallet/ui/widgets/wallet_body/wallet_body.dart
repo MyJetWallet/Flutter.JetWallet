@@ -142,7 +142,7 @@ class _WalletBodyState extends State<WalletBody>
                         showReceive: widget.currency.supportsCryptoDeposit,
                         showExchange: widget.currency.isAssetBalanceNotEmpty,
                         showSend: widget.currency.isAssetBalanceNotEmpty &&
-                            widget.currency.supportsCryptoWithdrawal,
+                            widget.currency.supportsAtLeastOneWithdrawalMethod,
                         onBuy: () {
                           sAnalytics.newBuyTapBuy(
                             source: 'My Assets - Asset -  Buy',

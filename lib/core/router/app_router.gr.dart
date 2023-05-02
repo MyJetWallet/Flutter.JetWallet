@@ -391,9 +391,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     IBanRouter.name: (routeData) {
+      final args = routeData.argsAs<IBanRouterArgs>(
+          orElse: () => const IBanRouterArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const IBanScreen(),
+        child: IBanScreen(
+          key: args.key,
+          initIndex: args.initIndex,
+        ),
       );
     },
     IbanAddressRouter.name: (routeData) {
@@ -2186,16 +2191,39 @@ class HomeRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [IBanScreen]
-class IBanRouter extends PageRouteInfo<void> {
-  const IBanRouter({List<PageRouteInfo>? children})
-      : super(
+class IBanRouter extends PageRouteInfo<IBanRouterArgs> {
+  IBanRouter({
+    Key? key,
+    int initIndex = 0,
+    List<PageRouteInfo>? children,
+  }) : super(
           IBanRouter.name,
+          args: IBanRouterArgs(
+            key: key,
+            initIndex: initIndex,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'IBanRouter';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<IBanRouterArgs> page = PageInfo<IBanRouterArgs>(name);
+}
+
+class IBanRouterArgs {
+  const IBanRouterArgs({
+    this.key,
+    this.initIndex = 0,
+  });
+
+  final Key? key;
+
+  final int initIndex;
+
+  @override
+  String toString() {
+    return 'IBanRouterArgs{key: $key, initIndex: $initIndex}';
+  }
 }
 
 /// generated route for

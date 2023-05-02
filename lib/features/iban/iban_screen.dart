@@ -27,7 +27,10 @@ import '../kyc/models/kyc_operation_status_model.dart';
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
     Key? key,
+    this.initIndex = 0,
   }) : super(key: key);
+
+  final int initIndex;
 
   @override
   State<IBanScreen> createState() => _IBanScreenBodyState();
@@ -174,6 +177,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   iban: store.ibanAddress,
                   bic: store.ibanBic,
                   address: store.ibanAddress,
+                  initIndex: widget.initIndex,
                 ),
     );
   }

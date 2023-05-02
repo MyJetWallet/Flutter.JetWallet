@@ -118,8 +118,10 @@ class TransactionListItem extends StatelessObserverWidget {
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
                               prefix: null,
-                              decimal: transactionListItem.operationType ==
-                                      OperationType.withdraw
+                              decimal: (transactionListItem.operationType ==
+                                          OperationType.withdraw ||
+                                      transactionListItem.operationType ==
+                                          OperationType.ibanSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,

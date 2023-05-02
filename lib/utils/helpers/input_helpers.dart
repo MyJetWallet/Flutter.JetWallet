@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 
 import '../models/currency_model.dart';
 import '../models/selected_percent.dart';
@@ -168,12 +169,23 @@ InputError onWithdrawInputErrorHandler(
 InputError onGloballyWithdrawInputErrorHandler(
   String input,
   CurrencyModel currency,
+  CardLimitsModel? limits,
 ) {
   if (input.isNotEmpty) {
     final value = Decimal.parse(input);
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
+    }
+
+    if (limits != null) {
+      if (limits.minAmount < value) {
+        return InputError.amountTooLarge;
+      } else {
+        if (limits.maxAmount > value) {
+          return InputError.amountTooLow;
+        }
+      }
     }
   }
 

@@ -1376,6 +1376,11 @@
   "iban_out_descr_3": "Receiving bank may charge additional fee.",
   "iban_send_history_title": "Send",
   "iban_send_history_transaction_id": "Transaction ID",
+  "iban_send_history_transaction_fee": "Transaction fee",
   "iban_send_history_send_to": "Send to",
-  "iban_send_accounts": "Accounts"
+  "iban_send_accounts": "Accounts",
+  "global_send_name": "Globally",
+  "global_send_helper": "To bank card or phone",
+  "iban_send_name": "To bank account",
+  "iban_send_helper": "SEPA bank transfer"
 }

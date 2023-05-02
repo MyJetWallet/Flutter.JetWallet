@@ -6,6 +6,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/store/iban_send_amount_store.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_limits/iban_send_limits.dart';
+import 'package:jetwallet/features/payment_methods/ui/widgets/card_limits_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -13,6 +15,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 @RoutePage(name: 'IbanSendAmountRouter')
@@ -35,17 +38,6 @@ class IbanSendAmount extends StatelessWidget {
 
 class IbanSendAmountBody extends StatelessObserverWidget {
   const IbanSendAmountBody({super.key});
-
-  void showLimits() {
-    /*if (state.limitByAsset != null) {
-      sAnalytics.newBuyCardLimitsView();
-      showCardLimitsBottomSheet(
-        context: context,
-        cardLimits: state.limitByAsset!,
-        currency: state.paymentCurrency,
-      );
-    }*/
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,24 +98,6 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                     isErrorActive: store.withAmmountInputError.isActive,
                   ),
                 ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -36,
-                    medium: () => 24,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    volumeFormat(
-                      prefix: sSignalRModules.baseCurrency.prefix,
-                      decimal: Decimal.parse(store.withAmount),
-                      accuracy: sSignalRModules.baseCurrency.accuracy,
-                      symbol: sSignalRModules.baseCurrency.symbol,
-                    ),
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -141,6 +115,13 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           ),
           */
           SPaymentSelectAsset(
+            onTap: () {
+              showIbanSendLimits(
+                context: context,
+                cardLimits: store.limits!,
+                currency: store.eurCurrency,
+              );
+            },
             widgetSize: widgetSizeFrom(deviceSize),
             icon: SAccountIcon(
               color: colors.black,

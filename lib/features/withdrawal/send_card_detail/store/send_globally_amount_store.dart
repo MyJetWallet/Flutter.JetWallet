@@ -162,10 +162,8 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    final error = onGloballyWithdrawInputErrorHandler(
-      withAmount,
-      eurCurrency,
-    );
+    final error =
+        onGloballyWithdrawInputErrorHandler(withAmount, eurCurrency, null);
 
     withAmmountInputError =
         double.parse(withAmount) != 0 ? error : InputError.none;

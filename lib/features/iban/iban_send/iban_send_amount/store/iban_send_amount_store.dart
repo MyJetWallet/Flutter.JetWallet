@@ -18,6 +18,9 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 
@@ -54,6 +57,8 @@ abstract class _IbanSendAmountStoreBase with Store {
   @observable
   InputError withAmmountInputError = InputError.none;
 
+  CardLimitsModel? limits;
+
   StackLoaderStore loader = StackLoaderStore();
 
   CurrencyModel eurCurrency = currencyFrom(
@@ -69,6 +74,33 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void init(AddressBookContactModel value) {
     contact = value;
+
+    final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
+      (element) => element.id == WithdrawalMethods.ibanSend,
+    );
+
+    if (ibanOutMethodInd != -1) {
+      limits = CardLimitsModel(
+        minAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
+                ?.last.minAmount ??
+            Decimal.zero,
+        maxAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
+                ?.last.maxAmount ??
+            Decimal.zero,
+        day1Amount: Decimal.zero,
+        day1Limit: Decimal.zero,
+        day1State: StateLimitType.active,
+        day7Amount: Decimal.zero,
+        day7Limit: Decimal.zero,
+        day7State: StateLimitType.active,
+        day30Amount: Decimal.zero,
+        day30Limit: Decimal.zero,
+        day30State: StateLimitType.active,
+        barInterval: StateBarType.day1,
+        barProgress: 0,
+        leftHours: 0,
+      );
+    }
 
     log(eurCurrency.toString());
     log(usdCurrency.toString());
@@ -169,6 +201,7 @@ abstract class _IbanSendAmountStoreBase with Store {
     final error = onGloballyWithdrawInputErrorHandler(
       withAmount,
       eurCurrency,
+      limits,
     );
 
     withAmmountInputError =

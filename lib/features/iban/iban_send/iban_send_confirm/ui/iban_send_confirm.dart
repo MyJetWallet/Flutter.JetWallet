@@ -112,7 +112,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                     name: intl.iban_out_you_send,
                     value: volumeFormat(
                       prefix: state.eurCurrency.prefixSymbol,
-                      decimal: data.amount ?? Decimal.zero,
+                      decimal: data.sendAmount ?? Decimal.zero,
                       accuracy: state.eurCurrency.accuracy,
                       symbol: state.eurCurrency.symbol,
                     ),

@@ -43,13 +43,35 @@ class IbanSendDetails extends StatelessObserverWidget {
             ),
           ),
           const SpaceH18(),
+          Builder(
+            builder: (context) {
+              final currency = currencyFrom(
+                sSignalRModules.currenciesList,
+                transactionListItem.withdrawalInfo!.feeAssetId ??
+                    transactionListItem.withdrawalInfo!.withdrawalAssetId,
+              );
+
+              return TransactionDetailsItem(
+                text: intl.iban_send_history_transaction_fee,
+                value: TransactionDetailsValueText(
+                  text: volumeFormat(
+                    prefix: currency.prefixSymbol,
+                    decimal: transactionListItem.withdrawalInfo!.feeAmount,
+                    accuracy: currency.accuracy,
+                    symbol: currency.symbol,
+                  ),
+                ),
+              );
+            },
+          ),
+          const SpaceH18(),
           TransactionDetailsItem(
             text: intl.iban_send_history_transaction_id,
             value: Row(
               children: [
                 TransactionDetailsValueText(
                   text: shortTxhashFrom(
-                    transactionListItem.withdrawalInfo?.txId ?? '',
+                    transactionListItem.withdrawalInfo?.toAddress ?? '',
                   ),
                 ),
                 const SpaceW10(),
