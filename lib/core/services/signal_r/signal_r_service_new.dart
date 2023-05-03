@@ -884,9 +884,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
       final buyMethods = List<BuyMethodDto>.from([]);
       final sendMethods = List<SendMethodDto>.from([]);
       final receiveMethods = List<ReceiveMethodDto>.from([]);
+
       buyMethodsFull.removeWhere((element) {
         return element.id == PaymentMethodType.unsupported;
       });
+
       for (final buyMethod in buyMethodsFull) {
         if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
           buyMethods.add(buyMethod);

@@ -32,7 +32,7 @@ class SActionConfirmIconWithAnimation extends StatelessWidget {
                 iconUrl,
                 width: 48.0,
                 height: 48.0,
-                color: Colors.white,
+                //color: Colors.white,
               ),
             ],
           ),

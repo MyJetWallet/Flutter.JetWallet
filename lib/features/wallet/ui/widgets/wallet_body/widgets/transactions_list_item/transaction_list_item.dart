@@ -118,8 +118,10 @@ class TransactionListItem extends StatelessObserverWidget {
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
                               prefix: null,
-                              decimal: transactionListItem.operationType ==
-                                      OperationType.withdraw
+                              decimal: (transactionListItem.operationType ==
+                                          OperationType.withdraw ||
+                                      transactionListItem.operationType ==
+                                          OperationType.ibanSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
@@ -325,6 +327,8 @@ class TransactionListItem extends StatelessObserverWidget {
         return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.nftWithdrawalFee:
         return SMinusIcon(color: isFailed ? color : null);
+      case OperationType.ibanSend:
+        return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.sendGlobally:
         return SSendByPhoneIcon(color: isFailed ? color : null);
       default:

@@ -211,9 +211,11 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get supportsAtLeastOneWithdrawalMethod {
-    return supportsCryptoWithdrawal ||
+    return supportIbanSendWithdrawal ||
+        supporGlobalSendWithdrawal ||
         supportsSepaWithdrawal ||
-        supportsSwiftWithdrawal;
+        supportsSwiftWithdrawal ||
+        supportsCryptoWithdrawal;
   }
 
   bool get supportsCryptoWithdrawal {
@@ -255,6 +257,18 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get supportsSwiftWithdrawal {
     return withdrawalMethods.contains(WithdrawalMethods.swiftWithdrawal);
+  }
+
+  bool get supportIbanSendWithdrawal {
+    return withdrawalMethods
+        .where((element) => element.id == WithdrawalMethods.ibanSend)
+        .isNotEmpty;
+  }
+
+  bool get supporGlobalSendWithdrawal {
+    return withdrawalMethods
+        .where((element) => element.id == WithdrawalMethods.globalSend)
+        .isNotEmpty;
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;

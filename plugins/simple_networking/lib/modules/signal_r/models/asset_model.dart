@@ -183,6 +183,7 @@ enum WithdrawalMethods {
   sepaWithdrawal,
   swiftWithdrawal,
   internalSend,
+  ibanSend,
   globalSend,
   unsupported,
 }
@@ -200,6 +201,8 @@ extension _WithdrawalMethodsExtension on WithdrawalMethods {
         return 'SwiftWithdrawal';
       case WithdrawalMethods.internalSend:
         return 'InternalSend';
+      case WithdrawalMethods.ibanSend:
+        return 'IbanSend';
       case WithdrawalMethods.globalSend:
         return 'GlobalSend';
       default:
@@ -226,6 +229,8 @@ class WithdrawalMethodsSerialiser
       return WithdrawalMethods.swiftWithdrawal;
     } else if (value == 'InternalSend') {
       return WithdrawalMethods.internalSend;
+    } else if (value == 'IbanSend') {
+      return WithdrawalMethods.ibanSend;
     } else if (value == 'GlobalSend') {
       return WithdrawalMethods.globalSend;
     } else {

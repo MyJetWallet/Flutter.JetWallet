@@ -14,7 +14,7 @@ import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animati
 List<PageRouteInfo<dynamic>> screens = [
   const PortfolioRouter(),
   MarketRouter(),
-  const IBanRouter(),
+  IBanRouter(),
 ];
 
 List<PageRouteInfo<dynamic>> screensWithoutIban = [

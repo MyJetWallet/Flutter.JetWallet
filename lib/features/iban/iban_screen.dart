@@ -9,7 +9,6 @@ import 'package:jetwallet/features/iban/widgets/iban_body.dart';
 import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
 import 'package:jetwallet/features/iban/widgets/iban_header.dart';
 import 'package:jetwallet/features/iban/widgets/iban_skeleton.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/utils/constants.dart';
@@ -28,7 +27,10 @@ import '../kyc/models/kyc_operation_status_model.dart';
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
     Key? key,
+    this.initIndex = 0,
   }) : super(key: key);
+
+  final int initIndex;
 
   @override
   State<IBanScreen> createState() => _IBanScreenBodyState();
@@ -108,7 +110,8 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: IBanHeader(
-        isShareActive: !showEmptyScreen && !store.isLoading,
+        isShareActive:
+            store.isReceive ? !showEmptyScreen && !store.isLoading : false,
         textForShare: textForShare,
       ),
       child: (store.isLoading && !store.wasFirstLoad)
@@ -174,6 +177,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   iban: store.ibanAddress,
                   bic: store.ibanBic,
                   address: store.ibanAddress,
+                  initIndex: widget.initIndex,
                 ),
     );
   }

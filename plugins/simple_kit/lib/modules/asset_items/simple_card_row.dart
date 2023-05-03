@@ -50,51 +50,48 @@ class SCardRow extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         height: height,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+            vertical: 13,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SPaddingH24(
-                child: Row(
+              icon,
+              const SpaceW18(),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    icon,
-                    const SpaceW18(),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Baseline(
-                            baseline: 18.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              name,
-                              style: sSubtitle2Style.copyWith(
-                                color: mainColor,
-                              ),
-                            ),
-                          ),
-                          if (helper.isNotEmpty) ...[
-                            Baseline(
-                              baseline: 14.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                helper,
-                                textAlign: TextAlign.start,
-                                style: sCaptionTextStyle.copyWith(
-                                  color: SColorsLight().grey3,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
+                    Baseline(
+                      baseline: 18.0,
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        name,
+                        style: sSubtitle2Style.copyWith(
+                          color: mainColor,
+                        ),
                       ),
                     ),
-                    if (rightIcon != null) rightIcon!,
+                    if (helper.isNotEmpty) ...[
+                      Baseline(
+                        baseline: 14.0,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          helper,
+                          textAlign: TextAlign.start,
+                          maxLines: 3,
+                          style: sCaptionTextStyle.copyWith(
+                            color: SColorsLight().grey3,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
+              if (rightIcon != null) rightIcon!,
             ],
           ),
         ),
