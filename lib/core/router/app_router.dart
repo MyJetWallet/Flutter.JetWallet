@@ -47,6 +47,9 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/debug_info/debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
+import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -105,8 +108,10 @@ import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 
 import '../../features/auth/splash/splash_screen_no_animation.dart';
@@ -293,6 +298,15 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/iban_address',
       page: IbanAddressRouter.page,
+    ),
+    AutoRoute(
+      path: '/iban_add_account',
+      page: IbanAddBankAccountRouter.page,
+    ),
+    CustomRoute(
+      path: '/iban_edit_account',
+      page: IbanEditBankAccountRouter.page,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
     AutoRoute(
       path: '/preview_convert',
@@ -515,6 +529,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/send_globally_confirm',
       page: SendGloballyConfirmRouter.page,
+    ),
+    AutoRoute(
+      path: '/send_iban_amount',
+      page: IbanSendAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/send_iban_confirm',
+      page: IbanSendConfirmRouter.page,
     ),
   ];
 }

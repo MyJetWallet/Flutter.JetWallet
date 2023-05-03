@@ -14,9 +14,9 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_remove/card_remove_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_request_model.dart';
@@ -57,14 +57,24 @@ abstract class _PaymentMethodsStoreBase with Store {
   ObservableList<CircleCard> cards = ObservableList.of([]);
 
   @observable
+  ObservableList<AddressBookContactModel> addressBookContacts =
+      ObservableList.of([]);
+
+  @observable
   PaymentMethodsUnion union = const PaymentMethodsUnion.loading();
+
+  bool cardsLoaded = false;
+  bool addressBookLoaded = false;
 
   @action
   Future<void> getCards() async {
+    cardsLoaded = false;
+
     _logger.log(notifier, 'getCards');
     Timer(const Duration(seconds: 2), () {
       cards = ObservableList.of(sSignalRModules.cards.cardInfos);
     });
+
     final allPaymentMethods = sSignalRModules.paymentMethods;
     final useCircleCard =
         allPaymentMethods.contains('PaymentMethodType.circleCard');
@@ -93,6 +103,8 @@ abstract class _PaymentMethodsStoreBase with Store {
               showFailure();
             }
             _updateUnion(const PaymentMethodsUnion.success());
+
+            cardsLoaded = true;
           },
           onError: (error) {},
         );
@@ -102,12 +114,43 @@ abstract class _PaymentMethodsStoreBase with Store {
       }
     } else {
       _updateUnion(const PaymentMethodsUnion.success());
+
+      cardsLoaded = true;
     }
   }
 
   @action
+  Future<void> getAddressBook() async {
+    addressBookLoaded = false;
+
+    final response = await sNetwork.getWalletModule().getAddressBook('');
+
+    response.pick(
+      onData: (data) {
+        addressBookContacts = ObservableList.of(data.contacts ?? []);
+
+        addressBookContacts.sort((a, b) {
+          return b.weight!.compareTo(a.weight!);
+        });
+
+        addressBookLoaded = true;
+
+        _updateUnion(const PaymentMethodsUnion.success());
+      },
+    );
+
+    print(addressBookContacts);
+  }
+
+  @action
   void _updateUnion(PaymentMethodsUnion _union) {
-    union = _union;
+    if (_union is Success) {
+      if (cardsLoaded && addressBookLoaded) {
+        union = _union;
+      }
+    } else {
+      union = _union;
+    }
   }
 
   @action
@@ -166,14 +209,12 @@ abstract class _PaymentMethodsStoreBase with Store {
 
   @action
   void showFailure() {
-
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithCircle_failure,
         secondaryText: intl.previewBuyWithCircle_failureDescription,
         primaryButtonName: intl.previewBuyWithCircle_failureAnotherCard,
         onPrimaryButtonTap: () {
-
           sRouter.navigate(
             AddCircleCardRouter(
               onCardAdded: (card) {
@@ -184,7 +225,6 @@ abstract class _PaymentMethodsStoreBase with Store {
         },
         secondaryButtonName: intl.previewBuyWithCircle_failureCancel,
         onSecondaryButtonTap: () {
-
           sRouter.pop();
         },
       ),

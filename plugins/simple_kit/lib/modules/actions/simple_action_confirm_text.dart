@@ -106,12 +106,15 @@ class SActionConfirmText extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        value,
-                        style: sSubtitle3Style.copyWith(
-                          color: valueColor ?? SColorsLight().black,
+                      Expanded(
+                        child: Text(
+                          value,
+                          style: sSubtitle3Style.copyWith(
+                            color: valueColor ?? SColorsLight().black,
+                          ),
+                          maxLines: 3,
+                          textAlign: TextAlign.end,
                         ),
-                        textAlign: TextAlign.end,
                       ),
                       if (animation != null) ...[
                         const SpaceW10(),

@@ -11,7 +11,9 @@ import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
@@ -67,6 +69,10 @@ Future<void> _showSendAction(BuildContext context) async {
       .where((element) => element.supportsGlobalSend)
       .toList();
 
+  final isIbanOutActive = sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal)
+      .toList();
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const ActionBottomSheetHeader(
@@ -108,12 +114,35 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             Navigator.pop(context);
 
-            _showSendGlobally(context);
+            showSendGlobally(context);
           },
           amount: '',
           description: '',
-          name: 'Globally',
-          helper: 'To bank card or phone',
+          name: intl.global_send_name,
+          helper: intl.global_send_helper,
+          removeDivider: true,
+        ),
+      if (isIbanOutActive.isNotEmpty)
+        SCardRow(
+          icon: const SAccountIcon(),
+          onTap: () {
+            Navigator.pop(context);
+
+            getIt.get<AppStore>().setHomeTab(2);
+            if (getIt<AppStore>().tabsRouter != null) {
+              getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+
+              if (getIt.get<IbanStore>().ibanTabController != null) {
+                getIt.get<IbanStore>().ibanTabController!.animateTo(
+                      1,
+                    );
+              }
+            }
+          },
+          amount: '',
+          description: '',
+          name: intl.iban_send_name,
+          helper: intl.iban_send_helper,
           removeDivider: true,
         ),
       const SpaceH42(),
@@ -122,7 +151,7 @@ Future<void> _showSendAction(BuildContext context) async {
   );
 }
 
-Future<void> _showSendGlobally(BuildContext context) async {
+Future<void> showSendGlobally(BuildContext context) async {
   sShowBasicModalBottomSheet(
     context: context,
     pinned: const ActionBottomSheetHeader(

@@ -46,10 +46,23 @@ class SendMethodDto with _$SendMethodDto {
     String? iconUrl,
     int? orderId,
     List<String>? symbols,
+    List<SendMethodDtoDetails>? symbolDetails,
   }) = _SendMethodDto;
 
   factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
       _$SendMethodDtoFromJson(json);
+}
+
+@freezed
+class SendMethodDtoDetails with _$SendMethodDtoDetails {
+  const factory SendMethodDtoDetails({
+    final String? symbol,
+    @DecimalNullSerialiser() final Decimal? minAmount,
+    @DecimalNullSerialiser() final Decimal? maxAmount,
+  }) = _SendMethodDtoDetails;
+
+  factory SendMethodDtoDetails.fromJson(Map<String, dynamic> json) =>
+      _$SendMethodDtoDetailsFromJson(json);
 }
 
 @freezed

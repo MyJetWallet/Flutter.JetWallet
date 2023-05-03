@@ -148,7 +148,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if (transactionListItem.status == Status.completed &&
+          if ((transactionListItem.operationType == OperationType.ibanSend ||
+                  transactionListItem.status == Status.completed) &&
               transactionListItem.operationType != OperationType.sendGlobally)
             Text(
               convertToUsd(
@@ -238,6 +239,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       )}'
           ' ${transactionListItem.assetId} ';
+    } else if (transactionListItem.operationType == OperationType.ibanSend) {
+      return '${operationName(
+        OperationType.ibanSend,
+        context,
+      )}'
+          ' ${transactionListItem.assetId} ';
     } else {
       return operationName(
         transactionListItem.operationType,
@@ -295,17 +302,21 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     }
 
     return Decimal.parse(
-        '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}',
+    );
   }
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
-    if (transactionListItem.operationType == OperationType.withdraw) {
+    if (transactionListItem.operationType == OperationType.withdraw ||
+        transactionListItem.operationType == OperationType.ibanSend) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
+
     if (transactionListItem.operationType == OperationType.nftBuy ||
         transactionListItem.operationType == OperationType.nftSwap) {
       return transactionListItem.swapInfo!.sellAmount;
     }
+
     if (transactionListItem.operationType == OperationType.nftSell) {
       return transactionListItem.swapInfo!.buyAmount;
     }
