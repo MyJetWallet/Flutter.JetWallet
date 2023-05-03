@@ -97,6 +97,7 @@ class IbanSendDetails extends StatelessObserverWidget {
             text: intl.iban_send_history_send_to,
             fromStart: true,
             value: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
