@@ -14,7 +14,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -45,7 +44,6 @@ abstract class _PaymentMethodsStoreBase with Store {
     cardsIds = ObservableList.of(kV.cards?.value ?? <String>[]);
 
     getCards();
-    getAddressBook();
   }
 
   static final _logger = Logger('PaymentMethodsStore');
@@ -131,18 +129,22 @@ abstract class _PaymentMethodsStoreBase with Store {
       onData: (data) {
         addressBookContacts = ObservableList.of(data.contacts ?? []);
 
+        addressBookContacts.sort((a, b) {
+          return b.weight!.compareTo(a.weight!);
+        });
+
         addressBookLoaded = true;
 
         _updateUnion(const PaymentMethodsUnion.success());
       },
     );
+
+    print(addressBookContacts);
   }
 
   @action
   void _updateUnion(PaymentMethodsUnion _union) {
     if (_union is Success) {
-      print(cardsLoaded);
-      print(addressBookLoaded);
       if (cardsLoaded && addressBookLoaded) {
         union = _union;
       }

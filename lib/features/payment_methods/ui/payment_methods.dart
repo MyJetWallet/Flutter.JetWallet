@@ -26,7 +26,7 @@ class PaymentMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<PaymentMethodsStore>(
-      create: (context) => PaymentMethodsStore(),
+      create: (context) => PaymentMethodsStore()..getAddressBook(),
       builder: (context, child) => const _PaymentMethodsBody(),
     );
   }
@@ -170,12 +170,16 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                   padding: const EdgeInsets.only(top: 9.0),
                                   child: SIconButton(
                                     onTap: () {
-                                      sRouter.push(
+                                      sRouter
+                                          .push(
                                         IbanEditBankAccountRouter(
                                           contact:
                                               state.addressBookContacts[index],
                                         ),
-                                      );
+                                      )
+                                          .then((value) async {
+                                        await state.getAddressBook();
+                                      });
                                     },
                                     defaultIcon: const SEditIcon(),
                                     pressedIcon: const SEditIcon(
@@ -193,12 +197,13 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                 onTap: () {
                                   getIt<AppRouter>()
                                       .push(
-                                        IbanSendAmountRouter(
-                                          contact:
-                                              state.addressBookContacts[index],
-                                        ),
-                                      )
-                                      .then((value) => state.getAddressBook());
+                                    IbanSendAmountRouter(
+                                      contact: state.addressBookContacts[index],
+                                    ),
+                                  )
+                                      .then((value) async {
+                                    await state.getAddressBook();
+                                  });
                                 },
                               );
                             },

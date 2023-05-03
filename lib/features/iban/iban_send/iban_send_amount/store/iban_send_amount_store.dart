@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -47,6 +48,9 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @observable
   String baseConversionValue = '0';
+
+  @observable
+  String limitError = '';
 
   @observable
   bool withValid = false;
@@ -204,8 +208,35 @@ abstract class _IbanSendAmountStoreBase with Store {
       limits,
     );
 
-    withAmmountInputError =
-        double.parse(withAmount) != 0 ? error : InputError.none;
+    if (limits != null) {
+      final value = Decimal.parse(withAmount);
+
+      if (limits!.minAmount > value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+          decimal: limits!.minAmount,
+          accuracy: eurCurrency.accuracy,
+          symbol: eurCurrency.symbol,
+          prefix: eurCurrency.prefixSymbol,
+        )}';
+      } else if (limits!.maxAmount < value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+          decimal: limits!.maxAmount,
+          accuracy: eurCurrency.accuracy,
+          symbol: eurCurrency.symbol,
+          prefix: eurCurrency.prefixSymbol,
+        )}';
+      } else {
+        limitError = '';
+      }
+    }
+
+    withAmmountInputError = double.parse(withAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }

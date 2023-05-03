@@ -110,6 +110,7 @@ enum InputError {
   enterHigherAmount,
   amountTooLarge,
   amountTooLow,
+  limitError,
 }
 
 extension InputErrorValue on InputError {
@@ -176,14 +177,6 @@ InputError onGloballyWithdrawInputErrorHandler(
 
     if (currency.assetBalance < value) {
       return InputError.notEnoughFunds;
-    }
-
-    if (limits != null) {
-      if (limits.minAmount > value) {
-        return InputError.amountTooLow;
-      } else if (limits.maxAmount < value) {
-        return InputError.amountTooLarge;
-      }
     }
   }
 

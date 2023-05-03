@@ -86,9 +86,8 @@ class IbanSendAmountBody extends StatelessObserverWidget {
                     symbol: store.eurCurrency.symbol,
                   ),
                   helper: '',
-                  error: store.withAmmountInputError ==
-                          InputError.enterHigherAmount
-                      ? '${intl.withdrawalAmount_enterMoreThan} '
+                  error: store.withAmmountInputError == InputError.limitError
+                      ? store.limitError
                       : store.withAmmountInputError.value(),
                   isErrorActive: store.withAmmountInputError.isActive,
                 ),
