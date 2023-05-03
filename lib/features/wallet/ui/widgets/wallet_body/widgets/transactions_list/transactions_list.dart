@@ -34,7 +34,9 @@ class TransactionsList extends StatelessWidget {
         null,
         isRecurring,
         null,
-      )..initOperationHistory(),
+      )..initOperationHistory(
+          needTimer: true,
+        ),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
@@ -77,6 +79,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   @override
+  void dispose() {
+    OperationHistory.of(context).stopTimer();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
@@ -104,8 +112,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
               ? SliverToBoxAdapter(
                   child: SizedBox(
                     height: widget.symbol != null
-                      ? screenHeight - screenHeight * 0.369 - 227
-                      : screenHeight - screenHeight * 0.369,
+                        ? screenHeight - screenHeight * 0.369 - 227
+                        : screenHeight - screenHeight * 0.369,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

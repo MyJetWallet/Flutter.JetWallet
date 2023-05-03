@@ -37,10 +37,10 @@ class _ActionDeposit extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final state = getIt.get<ActionSearchStore>();
 
-    final fiat = state.filteredCurrencies.where(
+    final fiat = state.fCurrencies.where(
       (e) => e.type == AssetType.fiat && e.supportsAtLeastOneFiatDepositMethod,
     );
-    final crypto = state.filteredCurrencies.where(
+    final crypto = state.fCurrencies.where(
       (e) => e.type == AssetType.crypto && e.supportsCryptoDeposit,
     );
 

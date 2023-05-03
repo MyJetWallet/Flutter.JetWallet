@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -64,6 +66,8 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
+  Timer? repeatTimer;
+
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -87,7 +91,7 @@ abstract class _OperationHistoryBase with Store {
   }
 
   @action
-  Future<void> initOperationHistory() async {
+  Future<void> initOperationHistory({bool needTimer = false}) async {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
 
@@ -125,7 +129,20 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.error();
     }
 
+    if (needTimer) {
+      repeatTimer = Timer.periodic(
+        const Duration(seconds: 15),
+        (Timer t) => refreshHistory(),
+      );
+    }
+
     isLoading = false;
+  }
+
+  void stopTimer() {
+    if (repeatTimer != null) {
+      repeatTimer!.cancel();
+    }
   }
 
   @action

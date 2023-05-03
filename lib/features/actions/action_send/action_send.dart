@@ -35,7 +35,7 @@ void showSendAction(
     Navigator.pop(context);
   }
   final searchState = getIt.get<ActionSearchStore>();
-  final sendAssets = searchState.filteredCurrencies
+  final sendAssets = searchState.fCurrencies
       .where(
         (element) =>
             element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
@@ -234,7 +234,7 @@ class _ActionSend extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
 
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>
