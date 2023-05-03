@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_info/iban_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc_profile/country_list_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_set_address_request.dart';
@@ -28,6 +29,7 @@ abstract class IbanStoreBase with Store {
     loader = StackLoaderStore();
 
     initState();
+    getAddressBook();
   }
 
   static final _logger = Logger('IbanStore');
@@ -448,5 +450,35 @@ abstract class IbanStoreBase with Store {
     streetAddress2 = '';
     city = '';
     postalCode = '';
+  }
+
+  /// IBAN Send
+  @observable
+  bool ibanAdressBookLoaded = false;
+
+  @observable
+  ObservableList<AddressBookContactModel> contacts = ObservableList.of([]);
+
+  @observable
+  ObservableList<AddressBookContactModel> topContacts = ObservableList.of([]);
+
+  @action
+  Future<void> getAddressBook() async {
+    ibanAdressBookLoaded = false;
+
+    final response = await sNetwork.getWalletModule().getAddressBook('');
+
+    response.pick(
+      onData: (data) {
+        contacts = ObservableList.of(data.contacts ?? []);
+        topContacts = ObservableList.of(data.topContacts ?? []);
+
+        ibanAdressBookLoaded = true;
+      },
+    );
+
+    contacts.sort((a, b) {
+      return b.weight!.compareTo(a.weight!);
+    });
   }
 }

@@ -106,7 +106,9 @@ class _SendOptions extends StatelessObserverWidget {
             onTap: () {
               Navigator.pop(context);
 
-              showSendGlobally(context);
+              showSendGlobally(
+                getIt<AppRouter>().navigatorKey.currentContext!,
+              );
             },
           ),
         if (currency.supportIbanSendWithdrawal)
@@ -132,6 +134,7 @@ class _SendOptions extends StatelessObserverWidget {
               );
 
               if (getIt<AppStore>().tabsRouter != null) {
+                getIt.get<AppStore>().setHomeTab(2);
                 getIt<AppStore>().tabsRouter!.setActiveIndex(2);
 
                 if (getIt.get<IbanStore>().ibanTabController != null) {

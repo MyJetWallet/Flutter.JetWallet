@@ -70,36 +70,30 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             small: () => const SizedBox(),
             medium: () => const Spacer(),
           ),
-          SizedBox(
-            height: deviceSize.when(
-              small: () => 116,
-              medium: () => 152,
-            ),
-            child: Column(
-              children: [
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => 20,
-                    medium: () => 45,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: SActionPriceField(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    price: formatCurrencyStringAmount(
-                      prefix: store.eurCurrency.prefixSymbol,
-                      value: store.withAmount,
-                      symbol: store.eurCurrency.symbol,
-                    ),
-                    helper: '',
-                    error: store.withAmmountInputError ==
-                            InputError.enterHigherAmount
-                        ? '${intl.withdrawalAmount_enterMoreThan} '
-                        : store.withAmmountInputError.value(),
-                    isErrorActive: store.withAmmountInputError.isActive,
-                  ),
+          Column(
+            children: [
+              Baseline(
+                baseline: deviceSize.when(
+                  small: () => 20,
+                  medium: () => 45,
                 ),
-              ],
-            ),
+                baselineType: TextBaseline.alphabetic,
+                child: SActionPriceField(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  price: formatCurrencyStringAmount(
+                    prefix: store.eurCurrency.prefixSymbol,
+                    value: store.withAmount,
+                    symbol: store.eurCurrency.symbol,
+                  ),
+                  helper: '',
+                  error: store.withAmmountInputError ==
+                          InputError.enterHigherAmount
+                      ? '${intl.withdrawalAmount_enterMoreThan} '
+                      : store.withAmmountInputError.value(),
+                  isErrorActive: store.withAmmountInputError.isActive,
+                ),
+              ),
+            ],
           ),
           const Spacer(),
           /*SPaymentSelectCreditCard(

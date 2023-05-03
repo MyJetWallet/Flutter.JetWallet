@@ -79,7 +79,8 @@ class IbanSendDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text: transactionListItem.operationId,
+                        text:
+                            transactionListItem.withdrawalInfo?.toAddress ?? '',
                       ),
                     );
 
@@ -105,6 +106,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                         maxWidth: MediaQuery.of(context).size.width * 0.46,
                       ),
                       child: TransactionDetailsValueText(
+                        textAlign: TextAlign.end,
                         text: transactionListItem.withdrawalInfo?.contactName ??
                             '',
                       ),
@@ -114,6 +116,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                         maxWidth: MediaQuery.of(context).size.width * 0.46,
                       ),
                       child: TransactionDetailsValueText(
+                        textAlign: TextAlign.end,
                         text:
                             transactionListItem.withdrawalInfo?.toAddress ?? '',
                         color: sKit.colors.grey1,
@@ -126,7 +129,8 @@ class IbanSendDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text: transactionListItem.operationId,
+                        text:
+                            '${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}',
                       ),
                     );
 

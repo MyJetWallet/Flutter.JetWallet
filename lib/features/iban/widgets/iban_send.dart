@@ -4,29 +4,16 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/iban/store/iban_send_store.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class IbanSend extends StatelessWidget {
+class IbanSend extends StatelessObserverWidget {
   const IbanSend({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Provider<IbanSendStore>(
-      create: (context) => IbanSendStore()..getAddressBook(),
-      builder: (context, child) => const IbanSendBody(),
-    );
-  }
-}
-
-class IbanSendBody extends StatelessObserverWidget {
-  const IbanSendBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +27,7 @@ class IbanSendBody extends StatelessObserverWidget {
       'EUR',
     );
 
-    final store = IbanSendStore.of(context);
+    final store = getIt.get<IbanStore>();
 
     return SingleChildScrollView(
       child: Column(
@@ -113,71 +100,98 @@ class IbanSendBody extends StatelessObserverWidget {
           ),
           const SpaceH24(),
           MarketSeparator(text: intl.iban_destination_accounts),
-          ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemCount: store.contacts.length,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return SCardRow(
-                icon: const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: SAccountIcon(),
+          if (!store.ibanAdressBookLoaded) ...[
+            Column(
+              children: [
+                const SizedBox(height: 12),
+                SSkeletonTextLoader(
+                  height: 46,
+                  width: MediaQuery.of(context).size.width * .9,
+                  borderRadius: const BorderRadius.all(Radius.circular(11)),
                 ),
-                rightIcon: Padding(
-                  padding: const EdgeInsets.only(top: 9.0),
-                  child: SIconButton(
-                    onTap: () {
-                      sRouter.push(
-                        IbanEditBankAccountRouter(
-                          contact: store.contacts[index],
-                        ),
-                      );
-                    },
-                    defaultIcon: const SEditIcon(),
-                    pressedIcon: const SEditIcon(
-                      color: Color(0xFFA8B0BA),
+                const SizedBox(height: 12),
+                SSkeletonTextLoader(
+                  height: 46,
+                  width: MediaQuery.of(context).size.width * .9,
+                  borderRadius: const BorderRadius.all(Radius.circular(11)),
+                ),
+                const SizedBox(height: 12),
+                SSkeletonTextLoader(
+                  height: 46,
+                  width: MediaQuery.of(context).size.width * .9,
+                  borderRadius: const BorderRadius.all(Radius.circular(11)),
+                ),
+              ],
+            ),
+          ] else ...[
+            ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: store.contacts.length,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return SCardRow(
+                  icon: const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: SAccountIcon(),
+                  ),
+                  rightIcon: Padding(
+                    padding: const EdgeInsets.only(top: 9.0),
+                    child: SIconButton(
+                      onTap: () {
+                        sRouter.push(
+                          IbanEditBankAccountRouter(
+                            contact: store.contacts[index],
+                          ),
+                        );
+                      },
+                      defaultIcon: const SEditIcon(),
+                      pressedIcon: const SEditIcon(
+                        color: Color(0xFFA8B0BA),
+                      ),
                     ),
                   ),
-                ),
-                name: store.contacts[index].name ?? '',
-                amount: '',
-                helper: store.contacts[index].iban ?? '',
-                description: '',
-                removeDivider: true,
-                onTap: () {
-                  getIt<AppRouter>()
-                      .push(
-                        IbanSendAmountRouter(
-                          contact: store.contacts[index],
-                        ),
-                      )
-                      .then((value) => store.getAddressBook());
-                },
-              );
-            },
-          ),
-          SCardRow(
-            icon: SizedBox(
-              width: 24,
-              height: 24,
-              child: SPlusIcon(
-                color: colors.blue,
-              ),
+                  name: store.contacts[index].name ?? '',
+                  amount: '',
+                  helper: store.contacts[index].iban ?? '',
+                  description: '',
+                  removeDivider: true,
+                  onTap: () {
+                    getIt<AppRouter>()
+                        .push(
+                          IbanSendAmountRouter(
+                            contact: store.contacts[index],
+                          ),
+                        )
+                        .then(
+                          (value) => store.getAddressBook(),
+                        );
+                  },
+                );
+              },
             ),
-            //rightIcon: const SEditIcon(),
-            name: intl.iban_add_bank_account,
-            amount: '',
-            helper: intl.iban_local_euro_accounts_only,
-            description: '',
-            removeDivider: true,
-            onTap: () {
-              sRouter
-                  .push(IbanAddBankAccountRouter())
-                  .then((value) => store.getAddressBook());
-            },
-          ),
+            SCardRow(
+              icon: SizedBox(
+                width: 24,
+                height: 24,
+                child: SPlusIcon(
+                  color: colors.blue,
+                ),
+              ),
+              //rightIcon: const SEditIcon(),
+              name: intl.iban_add_bank_account,
+              amount: '',
+              helper: intl.iban_local_euro_accounts_only,
+              description: '',
+              removeDivider: true,
+              onTap: () {
+                sRouter.push(IbanAddBankAccountRouter()).then(
+                      (value) => store.getAddressBook(),
+                    );
+              },
+            ),
+          ],
         ],
       ),
     );
