@@ -330,7 +330,7 @@ class _ActionSendPhone extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
 
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>

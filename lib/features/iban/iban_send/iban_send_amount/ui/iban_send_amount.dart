@@ -53,9 +53,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
         child: SSmallHeader(
           title: '${intl.iban_out_send} ${store.eurCurrency.symbol}',
           subTitle: '${intl.withdrawalAmount_available}: ${volumeFormat(
-            decimal: Decimal.parse(
-              '${store.eurCurrency.assetBalance.toDouble() - store.eurCurrency.cardReserve.toDouble()}',
-            ),
+            decimal: store.availableCurrency,
             accuracy: store.eurCurrency.accuracy,
             symbol: store.eurCurrency.symbol,
           )}',

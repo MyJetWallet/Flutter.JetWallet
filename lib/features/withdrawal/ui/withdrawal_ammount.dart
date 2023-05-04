@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
@@ -28,6 +31,17 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
     if (store.withdrawalType == WithdrawalType.NFT) {
       return const SizedBox.shrink();
     }
+
+    var availableCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      store.withdrawalInputModel!.currency!.symbol,
+    );
+
+    final availableBalance = Decimal.parse(
+      //availableCurrency.assetBalance.toString(),
+      '${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}',
+      //'${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+    );
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -87,9 +101,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
                     '${volumeFormat(
-                      decimal: Decimal.parse(
-                        '${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
-                      ),
+                      decimal: availableBalance,
                       accuracy: store.withdrawalInputModel!.currency!.accuracy,
                       symbol: store.withdrawalInputModel!.currency!.symbol,
                     )}',
