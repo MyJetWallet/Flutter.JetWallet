@@ -66,10 +66,10 @@ abstract class _IbanSendAmountStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
-  CurrencyModel eurCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    'EUR',
-  );
+  CurrencyModel get eurCurrency => currencyFrom(
+        sSignalRModules.currenciesList,
+        'EUR',
+      );
 
   @computed
   Decimal get availableBalabce => Decimal.parse(
