@@ -72,7 +72,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       );
 
   @computed
-  Decimal get availableBalabce => Decimal.parse(
+  Decimal get availableCurrency => Decimal.parse(
         '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
       );
 
