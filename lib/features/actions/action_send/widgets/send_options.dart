@@ -81,23 +81,6 @@ class _SendOptions extends StatelessObserverWidget {
               );
             },
           ),
-        if (currency.supportsByAssetWithdrawal)
-          SActionItem(
-            icon: const SWallet2Icon(),
-            name: intl.sendOptions_actionItemName2,
-            description: intl.sendOptions_actionItemDescription2,
-            onTap: () {
-              Navigator.pop(context);
-
-              sRouter.push(
-                WithdrawRouter(
-                  withdrawal: WithdrawalModel(
-                    currency: currency,
-                  ),
-                ),
-              );
-            },
-          ),
         if (currency.supporGlobalSendWithdrawal)
           SActionItem(
             icon: const SNetworkIcon(),
