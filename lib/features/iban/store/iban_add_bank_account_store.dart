@@ -73,6 +73,8 @@ abstract class _IbanAddBankAccountStoreBase with Store {
 
   @action
   Future<void> addAccount() async {
+    loader.startLoadingImmediately();
+
     final response = await sNetwork.getWalletModule().postAddressBookAdd(
           labelController.text,
           '${sUserInfo.firstName} ${sUserInfo.lastName}',
@@ -96,10 +98,14 @@ abstract class _IbanAddBankAccountStoreBase with Store {
         );
       },
     );
+
+    loader.finishLoadingImmediately();
   }
 
   @action
   Future<void> editAccount() async {
+    loader.startLoadingImmediately();
+
     final response = await sNetwork.getWalletModule().postAddressBookEdit(
           predContactData!.copyWith(
             name: labelController.text,
@@ -130,10 +136,14 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       needFeedback: true,
       isError: false,
     );
+
+    loader.finishLoadingImmediately();
   }
 
   @action
   Future<void> deleteAccount() async {
+    loader.startLoadingImmediately();
+
     final response = await sNetwork.getWalletModule().postAddressBookDelete(
           predContactData!.id!,
         );
@@ -159,6 +169,8 @@ abstract class _IbanAddBankAccountStoreBase with Store {
       needFeedback: true,
       isError: false,
     );
+
+    loader.finishLoadingImmediately();
   }
 
   Future<String> _copiedText() async {

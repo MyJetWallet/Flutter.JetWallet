@@ -154,35 +154,37 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
             const SpaceW8(),
           ],
         ),
-        SPaddingH24(
-          child: Container(
-            height: 32,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: colors.grey5,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: colors.black,
+        if (getIt.get<IbanStore>().isIbanOutActive) ...[
+          SPaddingH24(
+            child: Container(
+              height: 32,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: colors.grey5,
                 borderRadius: BorderRadius.circular(16),
               ),
-              labelColor: colors.white,
-              labelStyle: sSubtitle3Style,
-              unselectedLabelColor: colors.grey1,
-              unselectedLabelStyle: sSubtitle3Style,
-              tabs: const [
-                Tab(
-                  text: 'Receive',
+              child: TabBar(
+                controller: _tabController,
+                indicator: BoxDecoration(
+                  color: colors.black,
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                Tab(
-                  text: 'Send',
-                ),
-              ],
+                labelColor: colors.white,
+                labelStyle: sSubtitle3Style,
+                unselectedLabelColor: colors.grey1,
+                unselectedLabelStyle: sSubtitle3Style,
+                tabs: const [
+                  Tab(
+                    text: 'Receive',
+                  ),
+                  Tab(
+                    text: 'Send',
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
         const SpaceH12(),
       ],
     );

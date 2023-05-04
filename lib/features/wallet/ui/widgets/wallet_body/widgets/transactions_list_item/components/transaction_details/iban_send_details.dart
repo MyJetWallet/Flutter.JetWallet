@@ -102,6 +102,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     ConstrainedBox(
                       constraints: BoxConstraints(
@@ -109,8 +110,10 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text: transactionListItem.withdrawalInfo?.contactName ??
-                            '',
+                        text:
+                            (transactionListItem.withdrawalInfo?.contactName ??
+                                    '')
+                                .trim(),
                       ),
                     ),
                     ConstrainedBox(
@@ -119,8 +122,9 @@ class IbanSendDetails extends StatelessObserverWidget {
                       ),
                       child: TransactionDetailsValueText(
                         textAlign: TextAlign.end,
-                        text:
-                            transactionListItem.withdrawalInfo?.toAddress ?? '',
+                        text: (transactionListItem.withdrawalInfo?.toAddress ??
+                                '')
+                            .trim(),
                         color: sKit.colors.grey1,
                       ),
                     ),

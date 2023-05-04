@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -33,6 +34,12 @@ abstract class IbanStoreBase with Store {
   }
 
   static final _logger = Logger('IbanStore');
+
+  @computed
+  bool get isIbanOutActive => sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal)
+      .toList()
+      .isNotEmpty;
 
   TabController? ibanTabController;
   void setTabController(TabController value) => ibanTabController = value;
