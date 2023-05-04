@@ -209,6 +209,8 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                                 primaryButtonName: intl.iban_edit_delete,
                                 primaryButtonType: SButtonType.primary3,
                                 onPrimaryButtonTap: () {
+                                  Navigator.pop(context);
+
                                   IbanAddBankAccountStore.of(context)
                                       .deleteAccount();
                                 },
