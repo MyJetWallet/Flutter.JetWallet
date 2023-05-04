@@ -121,7 +121,9 @@ class TransactionListItem extends StatelessObserverWidget {
                               decimal: (transactionListItem.operationType ==
                                           OperationType.withdraw ||
                                       transactionListItem.operationType ==
-                                          OperationType.ibanSend)
+                                          OperationType.ibanSend ||
+                                      transactionListItem.operationType ==
+                                          OperationType.sendGlobally)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,

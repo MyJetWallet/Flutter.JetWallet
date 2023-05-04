@@ -308,7 +308,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw ||
-        transactionListItem.operationType == OperationType.ibanSend) {
+        transactionListItem.operationType == OperationType.ibanSend ||
+        transactionListItem.operationType == OperationType.sendGlobally) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
 
