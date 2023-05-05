@@ -38,9 +38,7 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    getIt.get<IbanStore>().ibanTabController!.animateTo(
-          widget.initIndex,
-        );
+    //getIt.get<IbanStore>().ibanTabController!.animateTo(widget.initIndex,);
     //_tabController = TabController(length: 2, vsync: this);
 
     //_tabController.addListener(saveStateToStore);

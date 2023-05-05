@@ -128,6 +128,18 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             Navigator.pop(context);
 
+            sRouter.replaceAll(
+              [
+                HomeRouter(
+                  children: [
+                    IBanRouter(
+                      initIndex: 1,
+                    ),
+                  ],
+                ),
+              ],
+            );
+
             getIt.get<AppStore>().setHomeTab(2);
             if (getIt<AppStore>().tabsRouter != null) {
               getIt<AppStore>().tabsRouter!.setActiveIndex(2);
@@ -136,6 +148,8 @@ Future<void> _showSendAction(BuildContext context) async {
                 getIt.get<IbanStore>().ibanTabController!.animateTo(
                       1,
                     );
+              } else {
+                getIt.get<IbanStore>().setInitTab(1);
               }
             }
           },

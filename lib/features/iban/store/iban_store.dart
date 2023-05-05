@@ -41,6 +41,8 @@ abstract class IbanStoreBase with Store {
       .toList()
       .isNotEmpty;
 
+  int initTab = 0;
+  void setInitTab(int value) => initTab = value;
   TabController? ibanTabController;
   void setTabController(TabController value) => ibanTabController = value;
 

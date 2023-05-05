@@ -124,6 +124,8 @@ class _SendOptions extends StatelessObserverWidget {
                   getIt.get<IbanStore>().ibanTabController!.animateTo(
                         1,
                       );
+                } else {
+                  getIt.get<IbanStore>().setInitTab(1);
                 }
               }
             },

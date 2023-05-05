@@ -33,7 +33,11 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      initialIndex: getIt.get<IbanStore>().initTab,
+      length: 2,
+      vsync: this,
+    );
     getIt.get<IbanStore>().setTabController(_tabController);
 
     _tabController.addListener(saveStateToStore);
