@@ -123,7 +123,9 @@ class TransactionListItem extends StatelessObserverWidget {
                                       transactionListItem.operationType ==
                                           OperationType.ibanSend ||
                                       transactionListItem.operationType ==
-                                          OperationType.sendGlobally)
+                                          OperationType.sendGlobally ||
+                                      transactionListItem.operationType ==
+                                          OperationType.transferByPhone)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
