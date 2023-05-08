@@ -38,6 +38,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         transactionListItem.operationType == OperationType.nftBuy ||
             transactionListItem.operationType == OperationType.nftSwap ||
             transactionListItem.operationType == OperationType.nftSell;
+
     final currencyForOperation =
         transactionListItem.operationType == OperationType.nftBuy ||
                 transactionListItem.operationType == OperationType.nftSwap
@@ -160,6 +161,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   baseCurrency,
                   sSignalRModules.currenciesWithHiddenList,
                   transactionInCurrent: catchingTypes,
+                  asset: transactionListItem.operationType ==
+                          OperationType.ibanSend
+                      ? transactionListItem.withdrawalInfo?.withdrawalAssetId
+                      : null,
                 ),
                 operationAmount(transactionListItem),
                 baseCurrency,
@@ -259,6 +264,14 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     Decimal balance,
     BaseCurrencyModel baseCurrency,
   ) {
+    if (assetPriceInUsd == Decimal.zero) {
+      return '≈ ${baseCurrenciesFormat(
+        text: balance.toStringAsFixed(2),
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    }
+
     final usd = assetPriceInUsd * balance;
     if (usd < Decimal.zero) {
       final plusValue = usd.toString().split('-').last;
@@ -282,6 +295,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     BaseCurrencyModel baseCurrency,
     List<CurrencyModel> allCurrencies, {
     bool transactionInCurrent = false,
+    String? asset,
   }) {
     final baseCurrencyMain = currencyFromAll(
       allCurrencies,
@@ -292,6 +306,12 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       allCurrencies,
       'USD',
     );
+
+    if (asset != null) {
+      if (baseCurrency.symbol == asset) {
+        return Decimal.zero;
+      }
+    }
 
     if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
       return assetPriceInUsd;
