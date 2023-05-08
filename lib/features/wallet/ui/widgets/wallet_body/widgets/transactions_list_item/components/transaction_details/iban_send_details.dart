@@ -71,8 +71,7 @@ class IbanSendDetails extends StatelessObserverWidget {
               children: [
                 TransactionDetailsValueText(
                   text: shortTxhashFrom(
-                    (transactionListItem.withdrawalInfo?.toAddress ?? '')
-                        .trim(),
+                    (transactionListItem.withdrawalInfo?.txId ?? '').trim(),
                   ),
                 ),
                 const SpaceW10(),
@@ -80,8 +79,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text:
-                            transactionListItem.withdrawalInfo?.toAddress ?? '',
+                        text: transactionListItem.withdrawalInfo?.txId ?? '',
                       ),
                     );
 
