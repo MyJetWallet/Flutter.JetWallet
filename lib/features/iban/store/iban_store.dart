@@ -191,6 +191,8 @@ abstract class IbanStoreBase with Store {
     countryNameSearch = _countryNameSearch;
 
     _filterByCountryNameSearch();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -366,42 +368,23 @@ abstract class IbanStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().postSetAddress(model);
 
-      response.pick(
-        onData: (data) {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            duration: 4,
-            id: 1,
-            needFeedback: true,
-          );
+      if (response.hasError) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
 
-          loader!.finishLoading();
-        },
-        onNoData: () {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-        onNoError: (value) {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-      );
+        loader!.finishLoading();
+      } else {
+        loader!.finishLoading(
+          onFinish: () {
+            sRouter.pop();
+            initState();
+          },
+        );
+      }
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
@@ -428,6 +411,8 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateCity');
 
     city = _city.trim();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -435,6 +420,8 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress1');
 
     streetAddress1 = _address.trim();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -442,6 +429,8 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress2');
 
     streetAddress2 = _address.trim();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -449,6 +438,8 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updatePostalCode');
 
     postalCode = _postalCode.trim();
+
+    billingAddressEnableButton = true;
   }
 
   @action
