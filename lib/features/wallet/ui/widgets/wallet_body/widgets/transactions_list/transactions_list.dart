@@ -42,6 +42,7 @@ class TransactionsList extends StatelessWidget {
         symbol: symbol,
         isRecurring: isRecurring,
       ),
+      dispose: (context, value) => value.stopTimer(),
     );
   }
 }
@@ -80,7 +81,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
 
   @override
   void dispose() {
-    OperationHistory.of(context).stopTimer();
     super.dispose();
   }
 
@@ -99,6 +99,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         : OperationHistory.of(context).operationHistoryItems;
 
     return SliverPadding(
+      key: UniqueKey(),
       padding: EdgeInsets.only(
         top: OperationHistory.of(context).union !=
                 const OperationHistoryUnion.error()
