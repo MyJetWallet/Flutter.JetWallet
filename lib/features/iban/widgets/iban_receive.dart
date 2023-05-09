@@ -1,13 +1,16 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class IbanReceive extends StatelessWidget {
+class IbanReceive extends StatefulWidget {
   const IbanReceive({
     super.key,
     required this.name,
@@ -22,10 +25,31 @@ class IbanReceive extends StatelessWidget {
   final String address;
 
   @override
+  State<IbanReceive> createState() => _IbanReceiveState();
+}
+
+class _IbanReceiveState extends State<IbanReceive> {
+  ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    getIt<EventBus>().on<ResetScrollAccount>().listen((event) {
+      controller.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.bounceIn,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
     return SingleChildScrollView(
+      controller: controller,
       child: Column(
         children: [
           const SpaceH12(),
@@ -75,15 +99,15 @@ class IbanReceive extends StatelessWidget {
           const SpaceH16(),
           IBanItem(
             name: intl.iban_benificiary,
-            text: name,
+            text: widget.name,
           ),
           IBanItem(
             name: intl.iban_iban,
-            text: iban,
+            text: widget.iban,
           ),
           IBanItem(
             name: intl.iban_bic,
-            text: bic,
+            text: widget.bic,
           ),
           IBanItem(
             name: intl.iban_address,

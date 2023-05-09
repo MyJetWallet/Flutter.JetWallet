@@ -5,3 +5,7 @@ class ResetScrollMyAssets {
 class ResetScrollMarket {
   ResetScrollMarket();
 }
+
+class ResetScrollAccount {
+  ResetScrollAccount();
+}

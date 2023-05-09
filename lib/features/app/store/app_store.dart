@@ -109,6 +109,9 @@ abstract class _AppStoreBase with Store {
   @observable
   bool showAllAssets = false;
 
+  @observable
+  bool isAcceptedGlobalSendTC = false;
+
   @action
   void setIsBalanceHide(bool value) {
     isBalanceHide = value;
@@ -121,6 +124,13 @@ abstract class _AppStoreBase with Store {
     showAllAssets = value;
 
     getIt<LocalCacheService>().saveHideZeroBalance(value);
+  }
+
+  @action
+  void setIsAcceptedGlobalSendTC(bool value) {
+    isAcceptedGlobalSendTC = value;
+
+    getIt<LocalCacheService>().saveGlobalSendConditions(value);
   }
 
   @action

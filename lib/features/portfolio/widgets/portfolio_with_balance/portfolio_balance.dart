@@ -35,6 +35,8 @@ class PortfolioBalance extends StatefulObserverWidget {
 class _PortfolioBalanceState extends State<PortfolioBalance> {
   ScrollController scrollController = ScrollController();
 
+  ScrollController? gCon;
+
   DraggableScrollableController controller = DraggableScrollableController();
 
   bool lastStatus = true;
@@ -51,6 +53,22 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
         duration: const Duration(milliseconds: 200),
         curve: Curves.bounceIn,
       );
+
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.bounceIn,
+      );
+
+      if (gCon != null) {
+        gCon!.animateTo(
+          0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.bounceIn,
+        );
+      }
+
+      controller.reset();
     });
 
     super.initState();
@@ -211,118 +229,123 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
             initialChildSize: getMinChildSize(),
             controller: controller,
             snap: true,
-            builder: (context, sCon) => DecoratedBox(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-                color: Colors.white,
-              ),
-              child: ListView(
-                padding: EdgeInsets.zero,
-                controller: sCon,
-                physics: const ClampingScrollPhysics(),
-                //crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SpaceH30(),
-                  SPaddingH24(
-                    child: Row(
-                      children: [
-                        Text(
-                          intl.portfolioWithBalanceBody_my_assets,
-                          style: sTextH4Style,
-                        ),
-                        const Spacer(),
-                        SIconButton(
-                          onTap: () {
-                            showHideZero(context);
-                          },
-                          defaultIcon: const SSettingsIcon(),
-                          pressedIcon: SSettingsIcon(
-                            color: colors.grey2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SpaceH12(),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    itemCount: getIt<AppStore>().showAllAssets
-                        ? currenciesList.length
-                        : itemsWithBalance.length,
-                    //controller: sCon,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final actualItem = getIt<AppStore>().showAllAssets
-                          ? currenciesList[index]
-                          : itemsWithBalance[index];
+            builder: (context, sCon) {
+              gCon = sCon;
 
-                      return Observer(
-                        builder: (context) {
-                          return Column(
-                            children: [
-                              SWalletItem(
-                                key: UniqueKey(),
-                                isBalanceHide: getIt<AppStore>().isBalanceHide,
-                                decline: actualItem.dayPercentChange.isNegative,
-                                icon: SNetworkSvg24(url: actualItem.iconUrl),
-                                baseCurrPrefix: baseCurrency.prefix,
-                                primaryText: actualItem.description,
-                                amount:
-                                    actualItem.volumeBaseBalance(baseCurrency),
-                                secondaryText: getIt<AppStore>().isBalanceHide
-                                    ? actualItem.symbol
-                                    : actualItem.volumeAssetBalance,
-                                onTap: () {
-                                  if (actualItem.type == AssetType.indices) {
-                                    sRouter.push(
-                                      MarketDetailsRouter(
-                                        marketItem: marketItemFrom(
-                                          marketItems,
-                                          actualItem.symbol,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    navigateToWallet(
-                                      context,
-                                      actualItem,
-                                    );
-                                  }
-                                },
-                                removeDivider: actualItem.isPendingDeposit ||
-                                    index == itemsWithBalance.length - 1,
-                                isPendingDeposit: actualItem.isPendingDeposit,
-                              ),
-                              if (actualItem.isPendingDeposit) ...[
-                                BalanceInProcess(
-                                  text: getIt<AppStore>().isBalanceHide
-                                      ? actualItem.symbol
-                                      : _balanceInProgressText(actualItem),
-                                  leadText: _balanceInProgressLeadText(
-                                    actualItem,
-                                  ),
-                                  removeDivider: actualItem ==
-                                      (getIt<AppStore>().showAllAssets
-                                          ? currenciesList.last
-                                          : itemsWithBalance.last),
-                                  icon: _balanceInProgressIcon(
-                                    actualItem,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          );
-                        },
-                      );
-                    },
+              return DecoratedBox(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
                   ),
-                ],
-              ),
-            ),
+                  color: Colors.white,
+                ),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  controller: sCon,
+                  physics: const ClampingScrollPhysics(),
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH30(),
+                    SPaddingH24(
+                      child: Row(
+                        children: [
+                          Text(
+                            intl.portfolioWithBalanceBody_my_assets,
+                            style: sTextH4Style,
+                          ),
+                          const Spacer(),
+                          SIconButton(
+                            onTap: () {
+                              showHideZero(context);
+                            },
+                            defaultIcon: const SSettingsIcon(),
+                            pressedIcon: SSettingsIcon(
+                              color: colors.grey2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SpaceH12(),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: getIt<AppStore>().showAllAssets
+                          ? currenciesList.length
+                          : itemsWithBalance.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final actualItem = getIt<AppStore>().showAllAssets
+                            ? currenciesList[index]
+                            : itemsWithBalance[index];
+
+                        return Observer(
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                SWalletItem(
+                                  key: UniqueKey(),
+                                  isBalanceHide:
+                                      getIt<AppStore>().isBalanceHide,
+                                  decline:
+                                      actualItem.dayPercentChange.isNegative,
+                                  icon: SNetworkSvg24(url: actualItem.iconUrl),
+                                  baseCurrPrefix: baseCurrency.prefix,
+                                  primaryText: actualItem.description,
+                                  amount: actualItem
+                                      .volumeBaseBalance(baseCurrency),
+                                  secondaryText: getIt<AppStore>().isBalanceHide
+                                      ? actualItem.symbol
+                                      : actualItem.volumeAssetBalance,
+                                  onTap: () {
+                                    if (actualItem.type == AssetType.indices) {
+                                      sRouter.push(
+                                        MarketDetailsRouter(
+                                          marketItem: marketItemFrom(
+                                            marketItems,
+                                            actualItem.symbol,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      navigateToWallet(
+                                        context,
+                                        actualItem,
+                                      );
+                                    }
+                                  },
+                                  removeDivider: actualItem.isPendingDeposit ||
+                                      index == itemsWithBalance.length - 1,
+                                  isPendingDeposit: actualItem.isPendingDeposit,
+                                ),
+                                if (actualItem.isPendingDeposit) ...[
+                                  BalanceInProcess(
+                                    text: getIt<AppStore>().isBalanceHide
+                                        ? actualItem.symbol
+                                        : _balanceInProgressText(actualItem),
+                                    leadText: _balanceInProgressLeadText(
+                                      actualItem,
+                                    ),
+                                    removeDivider: actualItem ==
+                                        (getIt<AppStore>().showAllAssets
+                                            ? currenciesList.last
+                                            : itemsWithBalance.last),
+                                    icon: _balanceInProgressIcon(
+                                      actualItem,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),

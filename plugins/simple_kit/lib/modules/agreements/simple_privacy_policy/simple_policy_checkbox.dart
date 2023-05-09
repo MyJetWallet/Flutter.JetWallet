@@ -14,6 +14,11 @@ class SPolicyCheckbox extends StatelessWidget {
     required this.onCheckboxTap,
     required this.onUserAgreementTap,
     required this.onPrivacyPolicyTap,
+    this.height = 77,
+    this.secondText,
+    this.activeText,
+    this.onActiveTextTap,
+    this.thirdText,
   }) : super(key: key);
 
   final String firstText;
@@ -25,6 +30,13 @@ class SPolicyCheckbox extends StatelessWidget {
   final Function() onUserAgreementTap;
   final Function() onPrivacyPolicyTap;
 
+  final String? secondText;
+  final String? activeText;
+  final Function()? onActiveTextTap;
+  final String? thirdText;
+
+  final double height;
+
   @override
   Widget build(BuildContext context) {
     late Widget icon;
@@ -32,7 +44,7 @@ class SPolicyCheckbox extends StatelessWidget {
     icon = isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
 
     return SizedBox(
-      height: 77.0,
+      height: height,
       child: Row(
         children: [
           Column(
@@ -57,6 +69,10 @@ class SPolicyCheckbox extends StatelessWidget {
                   betweenText: betweenText,
                   privacyPolicyText: privacyPolicyText,
                   onPrivacyPolicyTap: onPrivacyPolicyTap,
+                  secondText: secondText,
+                  activeText: activeText,
+                  onActiveTextTap: onActiveTextTap,
+                  thirdText: thirdText,
                 ),
               ],
             ),
