@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/account/account_screen.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -43,6 +44,10 @@ const _action = 'action';
 const _jw_nft_collection_id = 'jw_nft_collection_id';
 const _jw_nft_token_symbol = 'jw_nft_token_symbol';
 const jw_promo_code = 'jw_promo_code';
+
+const jw_deposit_successful = 'jw_deposit_successful';
+const jw_support_page = 'jw_support_page';
+const jw_kyc_documents_declined = 'jw_kyc_documents_declined';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -143,6 +148,12 @@ class DeepLinkService {
       pushKycDocumentsApproved();
     } else if (command == _jwCrypto_withdrawal_decline) {
       pushWithrawalDecline(parameters);
+    } else if (command == jw_deposit_successful) {
+      pushDepositSuccess(parameters);
+    } else if (command == jw_support_page) {
+      pushSupportPage(parameters);
+    } else if (command == jw_kyc_documents_declined) {
+      pushDocumentNotVerified(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -545,5 +556,50 @@ class DeepLinkService {
         );
       }
     }
+  }
+
+  Future<void> pushDepositSuccess(
+    Map<String, String> parameters,
+  ) async {}
+
+  Future<void> pushSupportPage(
+    Map<String, String> parameters,
+  ) async {
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        CrispRouter(
+          welcomeText: intl.crispSendMessage_hi,
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: CrispRouter(
+            welcomeText: intl.crispSendMessage_hi,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> pushDocumentNotVerified(
+    Map<String, String> parameters,
+  ) async {
+    final kycState = getIt.get<KycService>();
+    final context = sRouter.navigatorKey.currentContext!;
+    final kycAlertHandler = getIt.get<KycAlertHandler>();
+
+    kycAlertHandler.handle(
+      status: kycState.depositStatus,
+      isProgress: kycState.verificationInProgress,
+      currentNavigate: () => sRouter.push(
+        const AccountRouter(),
+      ),
+      requiredVerifications: kycState.requiredVerifications,
+      requiredDocuments: kycState.requiredDocuments,
+    );
   }
 }

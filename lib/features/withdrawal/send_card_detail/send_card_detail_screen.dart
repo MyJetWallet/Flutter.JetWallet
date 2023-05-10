@@ -2,12 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
+import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -24,8 +27,16 @@ class SendCardDetailScreen extends StatelessWidget {
   }
 }
 
-class SendCardDetailScreenBody extends StatelessObserverWidget {
+class SendCardDetailScreenBody extends StatefulObserverWidget {
   const SendCardDetailScreenBody({super.key});
+
+  @override
+  State<SendCardDetailScreenBody> createState() =>
+      _SendCardDetailScreenBodyState();
+}
+
+class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
+  TextEditingController cardNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +61,24 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
+                    controller: cardNumberController,
                     labelText: intl.addCircleCard_cardNumber,
                     keyboardType: TextInputType.number,
                     isError: store.cardNumberError,
                     disableErrorOnChanged: false,
-                    controller: store.cardNumberController,
+                    hideSpace: true,
+                    onErase: () {
+                      store.updateCardNumber('');
+                    },
+                    suffixIcons: [
+                      SIconButton(
+                        onTap: () {
+                          store.pasteCardNumber(cardNumberController);
+                        },
+                        defaultIcon: const SPasteIcon(),
+                        pressedIcon: const SPastePressedIcon(),
+                      ),
+                    ],
                     inputFormatters: [
                       MaskedTextInputFormatter(
                         mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
@@ -64,7 +88,39 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
                         RegExp(r'[0-9\u2005]'),
                       ),
                     ],
-                    onChanged: store.updateCardNumber,
+                    onChanged: (str) {
+                      store.updateCardNumber(str);
+                      setState(() {});
+                    },
+                  ),
+                ),
+                SPaddingH24(
+                  child: SPolicyCheckbox(
+                    height: 130,
+                    firstText: intl.send_globally_cond_text_1,
+                    userAgreementText: ' ${intl.send_globally_cond_text_2}',
+                    betweenText: ', ',
+                    privacyPolicyText: intl.send_globally_cond_text_3,
+                    secondText: ' ${intl.send_globally_cond_text_4} \n',
+                    activeText: intl.send_globally_cond_text_5,
+                    isChecked: getIt<AppStore>().isAcceptedGlobalSendTC,
+                    onCheckboxTap: () {
+                      getIt<AppStore>().setIsAcceptedGlobalSendTC(
+                        !getIt<AppStore>().isAcceptedGlobalSendTC,
+                      );
+                    },
+                    onUserAgreementTap: () {
+                      launchURL(context,
+                          'https://simple.app/terms-and-conditions/sendglobally/');
+                    },
+                    onPrivacyPolicyTap: () {
+                      launchURL(context,
+                          'https://globalltd.xyz/terms-and-conditions');
+                    },
+                    onActiveTextTap: () {
+                      launchURL(
+                          context, 'https://globalltd.xyz/privacy-policy');
+                    },
                   ),
                 ),
                 const Spacer(),
@@ -72,7 +128,8 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
                   child: Material(
                     color: colors.grey5,
                     child: SPrimaryButton2(
-                      active: store.isCardNumberValid,
+                      active: store.isCardNumberValid &&
+                          getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
                         sRouter.push(
