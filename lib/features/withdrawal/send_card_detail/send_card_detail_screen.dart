@@ -27,8 +27,16 @@ class SendCardDetailScreen extends StatelessWidget {
   }
 }
 
-class SendCardDetailScreenBody extends StatelessObserverWidget {
+class SendCardDetailScreenBody extends StatefulObserverWidget {
   const SendCardDetailScreenBody({super.key});
+
+  @override
+  State<SendCardDetailScreenBody> createState() =>
+      _SendCardDetailScreenBodyState();
+}
+
+class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
+  TextEditingController cardNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +61,24 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
               children: [
                 SFieldDividerFrame(
                   child: SStandardField(
+                    controller: cardNumberController,
                     labelText: intl.addCircleCard_cardNumber,
                     keyboardType: TextInputType.number,
                     isError: store.cardNumberError,
                     disableErrorOnChanged: false,
-                    controller: store.cardNumberController,
+                    hideSpace: true,
+                    onErase: () {
+                      store.updateCardNumber('');
+                    },
+                    suffixIcons: [
+                      SIconButton(
+                        onTap: () {
+                          store.pasteCardNumber(cardNumberController);
+                        },
+                        defaultIcon: const SPasteIcon(),
+                        pressedIcon: const SPastePressedIcon(),
+                      ),
+                    ],
                     inputFormatters: [
                       MaskedTextInputFormatter(
                         mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
@@ -67,7 +88,10 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
                         RegExp(r'[0-9\u2005]'),
                       ),
                     ],
-                    onChanged: store.updateCardNumber,
+                    onChanged: (str) {
+                      store.updateCardNumber(str);
+                      setState(() {});
+                    },
                   ),
                 ),
                 SPaddingH24(
