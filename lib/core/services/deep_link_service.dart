@@ -190,8 +190,6 @@ class DeepLinkService {
   }
 
   void _confirmEmailCommand(Map<String, String> parameters) {
-    print(parameters[_code]);
-
     getIt.get<EmailVerificationStore>().updateCode(
           parameters[_code],
         );
@@ -352,8 +350,6 @@ class DeepLinkService {
   /// Push Notification Links
 
   Future<void> handlePushNotificationLink(RemoteMessage message) async {
-    debugPrint(message.toMap().toString());
-
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: _loggerService,

@@ -384,7 +384,7 @@ class TransferByPhoneInfo with _$TransferByPhoneInfo {
     String? transferId,
     String? receiverName,
     required String withdrawalAssetId,
-    required double withdrawalAmount,
+    @DecimalSerialiser() required Decimal withdrawalAmount,
   }) = _TransferByPhoneInfo;
 
   factory TransferByPhoneInfo.fromJson(Map<String, dynamic> json) =>

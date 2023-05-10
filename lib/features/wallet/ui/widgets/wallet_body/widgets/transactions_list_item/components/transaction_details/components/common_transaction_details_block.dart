@@ -46,6 +46,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             : transactionListItem.operationType == OperationType.nftSell
                 ? transactionListItem.swapInfo?.buyAssetId ?? ''
                 : transactionListItem.assetId;
+
     final currency = currencyFromAll(
       sSignalRModules.currenciesWithHiddenList,
       currencyForOperation,
@@ -329,8 +330,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw ||
         transactionListItem.operationType == OperationType.ibanSend ||
-        transactionListItem.operationType == OperationType.sendGlobally ||
-        transactionListItem.operationType == OperationType.transferByPhone) {
+        transactionListItem.operationType == OperationType.sendGlobally) {
       return transactionListItem.withdrawalInfo!.withdrawalAmount;
     }
 
@@ -341,6 +341,11 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     if (transactionListItem.operationType == OperationType.nftSell) {
       return transactionListItem.swapInfo!.buyAmount;
+    }
+
+    if (transactionListItem.operationType == OperationType.transferByPhone) {
+      return transactionListItem.transferByPhoneInfo?.withdrawalAmount ??
+          Decimal.zero;
     }
 
     return transactionListItem.balanceChange;
