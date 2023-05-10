@@ -1376,7 +1376,7 @@
   "iban_out_descr_2": "Regular SEPA transfer – up to 3 business days.",
   "iban_out_descr_3": "Receiving bank may charge additional fee.",
   "iban_send_history_title": "Send",
-  "iban_send_history_transaction_id": "Transaction ID",
+  "iban_send_history_transaction_id": "Txid",
   "iban_send_history_transaction_fee": "Transaction fee",
   "iban_send_history_send_to": "Send to",
   "iban_send_accounts": "Accounts",

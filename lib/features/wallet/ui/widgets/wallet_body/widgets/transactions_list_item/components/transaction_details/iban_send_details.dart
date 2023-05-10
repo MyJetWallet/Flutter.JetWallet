@@ -71,7 +71,7 @@ class IbanSendDetails extends StatelessObserverWidget {
               children: [
                 TransactionDetailsValueText(
                   text: shortTxhashFrom(
-                    (transactionListItem.withdrawalInfo?.txId ?? '').trim(),
+                    (transactionListItem.operationId).trim(),
                   ),
                 ),
                 const SpaceW10(),
