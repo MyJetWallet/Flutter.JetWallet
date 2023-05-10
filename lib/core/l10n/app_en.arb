@@ -547,7 +547,7 @@
   "paymentMethod_showAlertPopupSecondaryFullText": "Are you sure you want to permanently delete this card from your account",
   "actionSell_bottomSheetHeaderName": "Choose asset to sell",
   "sendOptions_sendTo": "Send to",
-  "sendOptions_actionItemName1": "to phone",
+  "sendOptions_actionItemName1": "Phone",
   "sendOptions_actionItemName3": "Send by phone",
   "sendOptions_actionItemDescription1": "Just choose friend from contacts",
   "sendOptions_actionItemName2": "Сrypto wallet",
