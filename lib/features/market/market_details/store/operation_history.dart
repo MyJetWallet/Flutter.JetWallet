@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -19,16 +21,11 @@ part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
   OperationHistory(
-    String? assetId,
-    TransactionType? filter,
-    bool? isRecurring,
-    String? jw_operation_id,
-  ) : super(
-          assetId,
-          filter,
-          isRecurring,
-          jw_operation_id,
-        );
+    super.assetId,
+    super.filter,
+    super.isRecurring,
+    super.jw_operation_id,
+  );
 
   static _OperationHistoryBase of(BuildContext context) =>
       Provider.of<OperationHistory>(context, listen: false);
@@ -64,6 +61,8 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
+  Timer? repeatTimer;
+
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -78,18 +77,25 @@ abstract class _OperationHistoryBase with Store {
           .toList();
 
   @action
-  Future<bool> refreshHistory() async {
-    operationHistoryItems = ObservableList.of([]);
+  Future<bool> refreshHistory({bool needLoader = true}) async {
+    if (needLoader) {
+      operationHistoryItems = ObservableList.of([]);
+    }
 
-    await initOperationHistory();
+    await initOperationHistory(needLoader: needLoader);
 
     return true;
   }
 
   @action
-  Future<void> initOperationHistory() async {
-    union = const OperationHistoryUnion.loading();
-    isLoading = true;
+  Future<void> initOperationHistory({
+    bool needTimer = false,
+    bool needLoader = true,
+  }) async {
+    if (needLoader) {
+      union = const OperationHistoryUnion.loading();
+      isLoading = true;
+    }
 
     try {
       final operationHistory = await _requestOperationHistory(
@@ -97,6 +103,7 @@ abstract class _OperationHistoryBase with Store {
           assetId: assetId,
           batchSize: 20,
         ),
+        needLoader,
       );
 
       _updateOperationHistory(operationHistory.operationHistory);
@@ -125,7 +132,21 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.error();
     }
 
+    if (needTimer) {
+      repeatTimer = Timer.periodic(
+        const Duration(seconds: 15),
+        (Timer t) => refreshHistory(needLoader: false),
+      );
+    }
+
     isLoading = false;
+  }
+
+  @action
+  void stopTimer() {
+    if (repeatTimer != null) {
+      repeatTimer!.cancel();
+    }
   }
 
   @action
@@ -155,6 +176,7 @@ abstract class _OperationHistoryBase with Store {
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
       ),
+      true,
     );
 
     _updateOperationHistory(operationHistory.operationHistory);
@@ -181,8 +203,11 @@ abstract class _OperationHistoryBase with Store {
   @action
   Future<oh_resp.OperationHistoryResponseModel> _requestOperationHistory(
     oh_req.OperationHistoryRequestModel model,
+    bool needLoader,
   ) async {
-    union = const OperationHistoryUnion.loading();
+    if (needLoader) {
+      union = const OperationHistoryUnion.loading();
+    }
 
     final response =
         await sNetwork.getWalletModule().getOperationHistory(model);

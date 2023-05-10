@@ -5,6 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_amount_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_preview_store.dart';
@@ -62,6 +64,15 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
 
     final state = SendByPhoneAmmountStore.of(context);
 
+    var availableCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      currency.symbol,
+    );
+
+    final availableBalance = Decimal.parse(
+      '${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}',
+    );
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -105,9 +116,7 @@ class _SendByPhoneAmountBody extends StatelessObserverWidget {
             child: Text(
               '${intl.sendByPhoneAmount_available}: '
               '${volumeFormat(
-                decimal: Decimal.parse(
-                  '${currency.assetBalance.toDouble() - currency.cardReserve.toDouble()}',
-                ),
+                decimal: availableBalance,
                 accuracy: currency.accuracy,
                 symbol: currency.symbol,
               )}',
