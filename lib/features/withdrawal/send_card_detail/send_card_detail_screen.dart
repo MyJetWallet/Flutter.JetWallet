@@ -104,7 +104,8 @@ class SendCardDetailScreenBody extends StatelessObserverWidget {
                   child: Material(
                     color: colors.grey5,
                     child: SPrimaryButton2(
-                      active: store.isCardNumberValid,
+                      active: store.isCardNumberValid &&
+                          getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
                         sRouter.push(
