@@ -101,11 +101,9 @@ abstract class _CurrencyBuyStoreBase with Store {
     Timer(
       const Duration(milliseconds: 500),
       () {
-        if (
-          (bankCard != null && bankCard!.showUaAlert) ||
-          (unlimintCard != null && unlimintCard!.showUaAlert) ||
-          (circleCard != null && circleCard!.showUaAlert)
-        ) {
+        if ((bankCard != null && bankCard!.showUaAlert) ||
+            (unlimintCard != null && unlimintCard!.showUaAlert) ||
+            (circleCard != null && circleCard!.showUaAlert)) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             willPopScope: true,
@@ -125,7 +123,6 @@ abstract class _CurrencyBuyStoreBase with Store {
         }
       },
     );
-
   }
 
   late final CurrencyModel currencyModel;
@@ -1001,7 +998,11 @@ abstract class _CurrencyBuyStoreBase with Store {
 
       _updateInputValid(value >= min && value <= max);
 
-      if (value < min) {
+      if (max == 0) {
+        _updatePaymentMethodInputError(
+          intl.limitIsExceeded,
+        );
+      } else if (value < min) {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),

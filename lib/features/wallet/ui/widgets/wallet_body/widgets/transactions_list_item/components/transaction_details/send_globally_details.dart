@@ -64,38 +64,44 @@ class SendGloballyDetails extends StatelessObserverWidget {
               ),
             ),
           ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.send_globally_con_rate,
-            value: TransactionDetailsValueText(
-              text:
-                  '${currency.prefixSymbol}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.send_globally_amount_in_uah,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                decimal: transactionListItem.withdrawalInfo!.receiveAmount ??
-                    Decimal.zero,
-                accuracy: currency.accuracy,
-                symbol: 'UAH',
+          if (transactionListItem.status == Status.completed) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.send_globally_con_rate,
+              value: TransactionDetailsValueText(
+                text:
+                    '${currency.prefixSymbol}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
               ),
             ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.send_globally_processing_fee,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: currency.prefixSymbol,
-                decimal: transactionListItem.withdrawalInfo!.feeAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
+          ],
+          if (transactionListItem.status == Status.completed) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.send_globally_amount_in_uah,
+              value: TransactionDetailsValueText(
+                text: volumeFormat(
+                  decimal: transactionListItem.withdrawalInfo!.receiveAmount ??
+                      Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: 'UAH',
+                ),
               ),
             ),
-          ),
+          ],
+          if (transactionListItem.status != Status.declined) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.send_globally_processing_fee,
+              value: TransactionDetailsValueText(
+                text: volumeFormat(
+                  prefix: currency.prefixSymbol,
+                  decimal: transactionListItem.withdrawalInfo!.feeAmount,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
+              ),
+            ),
+          ],
           const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,

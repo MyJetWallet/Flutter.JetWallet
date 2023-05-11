@@ -48,7 +48,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: "Receiver's card details",
+          title: intl.global_send_title,
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -73,6 +73,8 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     suffixIcons: [
                       SIconButton(
                         onTap: () {
+                          print('paste');
+
                           store.pasteCardNumber(cardNumberController);
                         },
                         defaultIcon: const SPasteIcon(),

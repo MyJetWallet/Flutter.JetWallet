@@ -38,7 +38,7 @@ class _IbanReceiveState extends State<IbanReceive> {
     getIt<EventBus>().on<ResetScrollAccount>().listen((event) {
       controller.animateTo(
         0,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.bounceIn,
       );
     });

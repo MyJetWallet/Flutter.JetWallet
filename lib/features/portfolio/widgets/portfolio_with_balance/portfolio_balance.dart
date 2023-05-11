@@ -50,25 +50,23 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     getIt<EventBus>().on<ResetScrollMyAssets>().listen((event) {
       controller.animateTo(
         0,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.bounceIn,
       );
 
       scrollController.animateTo(
         0,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.bounceIn,
       );
 
       if (gCon != null) {
         gCon!.animateTo(
           0,
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.bounceIn,
         );
       }
-
-      controller.reset();
     });
 
     super.initState();

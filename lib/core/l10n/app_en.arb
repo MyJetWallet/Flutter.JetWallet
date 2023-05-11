@@ -1388,5 +1388,7 @@
   "send_globally_cond_text_2": "T&C Send Globally program",
   "send_globally_cond_text_3": "T&C",
   "send_globally_cond_text_4": "and",
-  "send_globally_cond_text_5": "Privacy Policy of Earn Global Ltd"
+  "send_globally_cond_text_5": "Privacy Policy of Earn Global Ltd",
+  "limitIsExceeded": "Limit is exceeded, please try again later",
+  "global_send_title": "Receiver's card details"
 }

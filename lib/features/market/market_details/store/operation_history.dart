@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -42,6 +44,7 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+
   // Указывает на конкретную операцию, используем после тапа по пушу
   final String? jw_operation_id;
 
@@ -61,6 +64,7 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
+  // Таймер для фоного обновления истории
   Timer? repeatTimer;
 
   @computed
@@ -106,7 +110,8 @@ abstract class _OperationHistoryBase with Store {
         needLoader,
       );
 
-      _updateOperationHistory(operationHistory.operationHistory);
+      _updateOperationHistory(operationHistory.operationHistory,
+          isbgUpdate: !needLoader);
 
       union = const OperationHistoryUnion.loaded();
 
@@ -133,13 +138,18 @@ abstract class _OperationHistoryBase with Store {
     }
 
     if (needTimer) {
-      repeatTimer = Timer.periodic(
-        const Duration(seconds: 15),
-        (Timer t) => refreshHistory(needLoader: false),
-      );
+      startUpdateTimer();
     }
 
     isLoading = false;
+  }
+
+  @action
+  void startUpdateTimer() {
+    repeatTimer = Timer.periodic(
+      const Duration(seconds: 15),
+      (Timer t) => refreshHistory(needLoader: false),
+    );
   }
 
   @action
@@ -161,14 +171,13 @@ abstract class _OperationHistoryBase with Store {
     );
   }
 
+  // При сколле вниз
   @action
   Future<void> operationHistory(String? assetId) async {
     if (operationHistoryItems.isEmpty) return;
 
     union = const OperationHistoryUnion.loading();
     isLoading = true;
-
-    print('LOAD NEW PAGE');
 
     final operationHistory = await _requestOperationHistory(
       oh_req.OperationHistoryRequestModel(
@@ -187,16 +196,38 @@ abstract class _OperationHistoryBase with Store {
   }
 
   @action
-  void _updateOperationHistory(List<oh_resp.OperationHistoryItem> items) {
+  void _updateOperationHistory(
+    List<oh_resp.OperationHistoryItem> items, {
+    bool isbgUpdate = false,
+  }) {
     if (items.isEmpty) {
       nothingToLoad = true;
       union = const OperationHistoryUnion.loaded();
     } else {
-      operationHistoryItems = ObservableList.of(
-        operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
-      );
+      if (isbgUpdate) {
+        if (listEquals(
+          operationHistoryItems,
+          _filterUnusedOperationTypeItemsFrom(items),
+        )) {
+          operationHistoryItems = ObservableList.of(
+            _filterUnusedOperationTypeItemsFrom(items),
+          );
 
-      union = const OperationHistoryUnion.loaded();
+          scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.linear,
+          );
+
+          union = const OperationHistoryUnion.loaded();
+        }
+      } else {
+        operationHistoryItems = ObservableList.of(
+          operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
+        );
+
+        union = const OperationHistoryUnion.loaded();
+      }
     }
   }
 

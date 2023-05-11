@@ -44,6 +44,7 @@ abstract class _SendCardDetailStoreBase with Store {
   Future<void> pasteCardNumber(TextEditingController controller) async {
     final copiedText = await _copiedText();
     updateCardNumber(copiedText);
+    controller.text = copiedText;
 
     _moveCursorAtTheEnd(controller);
   }
