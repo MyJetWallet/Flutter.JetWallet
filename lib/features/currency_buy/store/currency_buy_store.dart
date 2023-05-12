@@ -60,6 +60,7 @@ class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
     CircleCard? unlimintCard,
     CircleCard? bankCard,
     String? newBankCardId,
+    bool? showUaAlert,
   ) : super(
           currencyModel,
           paymentMethod,
@@ -67,6 +68,7 @@ class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
           unlimintCard,
           bankCard,
           newBankCardId,
+          showUaAlert,
         );
 
   static _CurrencyBuyStoreBase of(BuildContext context) =>
@@ -81,6 +83,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     this.unlimintCard,
     this.bankCard,
     this.newBankCardId,
+    this.showUaAlert,
   ) {
     lastUsedPaymentMethod = sSignalRModules.keyValue.lastUsedPaymentMethod;
 
@@ -103,7 +106,8 @@ abstract class _CurrencyBuyStoreBase with Store {
       () {
         if ((bankCard != null && bankCard!.showUaAlert) ||
             (unlimintCard != null && unlimintCard!.showUaAlert) ||
-            (circleCard != null && circleCard!.showUaAlert)) {
+            (circleCard != null && circleCard!.showUaAlert) ||
+            showUaAlert!) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             willPopScope: true,
@@ -132,6 +136,7 @@ abstract class _CurrencyBuyStoreBase with Store {
   late final CircleCard? bankCard;
   late final String? newBankCardId;
   late final String? lastUsedPaymentMethod;
+  late final bool? showUaAlert;
 
   static final _logger = Logger('CurrencyBuyStore');
 

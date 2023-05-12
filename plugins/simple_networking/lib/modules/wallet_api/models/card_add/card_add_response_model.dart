@@ -19,6 +19,7 @@ class CardAddResponseDataModel with _$CardAddResponseDataModel {
     String? cardId,
     CardStatus? status,
     CardVerificationType? requiredVerification,
+    @Default(false) bool showUaAlert,
   }) = _CardAddResponseDataModel;
 
   factory CardAddResponseDataModel.fromJson(Map<String, dynamic> json) =>
