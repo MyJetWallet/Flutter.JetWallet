@@ -147,7 +147,7 @@ abstract class _OperationHistoryBase with Store {
   @action
   void startUpdateTimer() {
     repeatTimer = Timer.periodic(
-      const Duration(seconds: 15),
+      const Duration(seconds: 20),
       (Timer t) => refreshHistory(needLoader: false),
     );
   }
