@@ -1,6 +1,3 @@
-import 'package:flutter/widgets.dart';
-import 'package:logging/logging.dart';
-
 /// [ProviderLog] was made to avoid exception during parsing
 /// of the value of the Provider \
 /// [ProviderLog] is passed through [error] instead of [message]

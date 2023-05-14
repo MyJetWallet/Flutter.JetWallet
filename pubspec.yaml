@@ -85,7 +85,7 @@ dependencies:
   # INTERNATIONALIZATION:
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0
+  intl: ^0.18.0
 
   # LOCAL SECURE STORAGE:
   flutter_secure_storage: 8.0.0
@@ -159,6 +159,7 @@ dev_dependencies:
 dependency_overrides:
   flutter_inappwebview: 5.7.1
   analyzer: 5.9.0
+  intl: 0.18.0
 
 flutter_native_splash:
   background_image: "assets/images/bg.png"
