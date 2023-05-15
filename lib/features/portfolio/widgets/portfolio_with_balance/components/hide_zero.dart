@@ -8,15 +8,11 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showHideZero(BuildContext context) {
-  final appStore = getIt.get<AppStore>();
-
   sShowBasicModalBottomSheet(
     context: context,
     then: (value) {},
     children: [
-      _showHideZero(
-        appStore: appStore,
-      ),
+      _showHideZero(),
     ],
   );
 }
@@ -24,10 +20,8 @@ void showHideZero(BuildContext context) {
 class _showHideZero extends StatefulObserverWidget {
   const _showHideZero({
     Key? key,
-    required this.appStore,
   }) : super(key: key);
 
-  final AppStore appStore;
   @override
   _showHideZeroState createState() => _showHideZeroState();
 }
@@ -39,7 +33,7 @@ class _showHideZeroState extends State<_showHideZero> {
   @override
   void initState() {
     super.initState();
-    hideAll = !widget.appStore.showAllAssets;
+    hideAll = !getIt.get<AppStore>().showAllAssets;
   }
 
   @override
@@ -49,7 +43,6 @@ class _showHideZeroState extends State<_showHideZero> {
 
   @override
   Widget build(BuildContext context) {
-    final state = widget.appStore;
     final colors = sKit.colors;
 
     return Column(
@@ -81,9 +74,7 @@ class _showHideZeroState extends State<_showHideZero> {
                 width: 40.0,
                 height: 22.0,
                 decoration: BoxDecoration(
-                  color: hideAll
-                      ? Colors.black
-                      : Colors.grey,
+                  color: hideAll ? Colors.black : Colors.grey,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Switch(
@@ -94,11 +85,12 @@ class _showHideZeroState extends State<_showHideZero> {
                         hideAll = value;
                         canChange = false;
                       });
-                      state.setShowAllAssets(!value);
+
+                      getIt.get<AppStore>().setShowAllAssets(!value);
 
                       Timer(
                         const Duration(milliseconds: 400),
-                            () {
+                        () {
                           setState(() {
                             canChange = true;
                           });

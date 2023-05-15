@@ -266,20 +266,20 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                       ),
                     ),
                     const SpaceH12(),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: getIt<AppStore>().showAllAssets
-                          ? currenciesList.length
-                          : itemsWithBalance.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final actualItem = getIt<AppStore>().showAllAssets
-                            ? currenciesList[index]
-                            : itemsWithBalance[index];
+                    Observer(
+                      builder: (context) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          itemCount: getIt<AppStore>().showAllAssets
+                              ? currenciesList.length
+                              : itemsWithBalance.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final actualItem = getIt<AppStore>().showAllAssets
+                                ? currenciesList[index]
+                                : itemsWithBalance[index];
 
-                        return Observer(
-                          builder: (context) {
                             return Column(
                               children: [
                                 SWalletItem(
