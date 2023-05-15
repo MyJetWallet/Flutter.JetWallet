@@ -65,12 +65,12 @@ dependencies:
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
   # Docs: https://plus.fluttercommunity.dev/docs/overview
-  android_intent_plus: ^3.1.5 # plugin for launching Android Intents
-  package_info_plus: ^1.4.2 # querying information about the application package NEED UPDATE
+  android_intent_plus: 3.1.5 # plugin for launching Android Intents
+  package_info_plus: 4.0.0 # querying information about the application package NEED UPDATE
   share_plus: 4.0.10 # sharing content via the platform share UI NEED UPDATE
-  device_info_plus: 8.0.0 # providing detailed information about the device
+  device_info_plus: 9.0.0 # providing detailed information about the device
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
-  device_marketing_names: 0.6.0
+  device_marketing_names: 0.6.4
   android_id: ^0.1.3+1
   flutter_native_splash: ^2.2.17
   custom_refresh_indicator: ^2.0.1
@@ -160,6 +160,7 @@ dependency_overrides:
   flutter_inappwebview: 5.7.1
   analyzer: 5.9.0
   intl: 0.18.0
+  quiver: ^3.2.1
 
 flutter_native_splash:
   background_image: "assets/images/bg.png"

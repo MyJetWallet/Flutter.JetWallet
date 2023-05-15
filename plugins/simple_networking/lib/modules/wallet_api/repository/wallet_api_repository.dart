@@ -626,13 +626,13 @@ class WalletApiRepository {
     String? promocode,
   }) async {
     return _walletApiDataSources.getNFTMarketPreviewBuyRequest(
-        symbol, promocode);
+        symbol, promocode,);
   }
 
   Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
       getNFTMarketPreviewSell(String symbol, String assetSymbol) async {
     return _walletApiDataSources.getNFTMarketPreviewSellRequest(
-        symbol, assetSymbol);
+        symbol, assetSymbol,);
   }
 
   Future<DC<ServerRejectException, bool>> postNFTMarketMakeSellOrder(

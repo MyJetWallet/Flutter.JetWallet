@@ -205,7 +205,7 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loaded();
     } else {
       if (isbgUpdate) {
-        if (listEquals(
+        if (!listEquals(
           operationHistoryItems,
           _filterUnusedOperationTypeItemsFrom(items),
         )) {

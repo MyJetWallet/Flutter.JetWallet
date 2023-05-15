@@ -560,7 +560,46 @@ class DeepLinkService {
 
   Future<void> pushDepositSuccess(
     Map<String, String> parameters,
-  ) async {}
+  ) async {
+    if (parameters['jw_operation_id'] == null) return;
+
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      parameters['jw_operation_id']!,
+    );
+
+    //navigateToWallet
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        WalletRouter(
+          currency: currency,
+        ),
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: WalletRouter(
+            currency: currency,
+          ),
+          func: () {
+            final currency = currencyFrom(
+              sSignalRModules.currenciesList,
+              parameters['jw_operation_id']!,
+            );
+
+            sRouter.push(
+              WalletRouter(
+                currency: currency,
+              ),
+            );
+          },
+        ),
+      );
+    }
+  }
 
   Future<void> pushSupportPage(
     Map<String, String> parameters,
@@ -589,7 +628,6 @@ class DeepLinkService {
     Map<String, String> parameters,
   ) async {
     final kycState = getIt.get<KycService>();
-    final context = sRouter.navigatorKey.currentContext!;
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     kycAlertHandler.handle(
