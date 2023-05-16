@@ -96,6 +96,8 @@ abstract class _IbanAddBankAccountStoreBase with Store {
           id: 1,
           needFeedback: true,
         );
+
+        loader.finishLoadingImmediately();
       },
     );
 
@@ -114,6 +116,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
         );
 
     if (response.hasError) {
+      loader.finishLoadingImmediately();
       isIBANError = true;
 
       sNotification.showError(
