@@ -114,6 +114,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
         isShareActive:
             store.isReceive ? !showEmptyScreen && !store.isLoading : false,
         textForShare: textForShare,
+        isKyc: !showEmptyScreen,
       ),
       child: (store.isLoading && !store.wasFirstLoad)
           ? const IBanSkeleton()

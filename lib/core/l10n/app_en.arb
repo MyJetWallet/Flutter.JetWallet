@@ -860,6 +860,7 @@
   "withdrawOptions_wallet": "Wallet",
   "withdrawOptions_actionItemDescription1": "SEPA",
   "withdrawOptions_actionItemName1": "Crypto Wallet",
+  "withdrawOptions_actionItemNameDescr": "To blockchain address",
   "withdrawOptions_sendTo": "Send to",
   "withdrawOptions_wireTransfer": "Wire transfer",
   "cryptoDeposit_address": "Address",
@@ -1390,5 +1391,11 @@
   "send_globally_cond_text_4": "and",
   "send_globally_cond_text_5": "Privacy Policy of Earn Global Ltd",
   "limitIsExceeded": "Limit is exceeded, please try again later",
-  "global_send_title": "Receiver's card details"
+  "global_send_title": "Receiver's card details",
+  "iban_tabbbar_receive": "Receive",
+  "iban_tabbar_send": "Send",
+  "global_send_destionation_country": "Destination country",
+  "input_error_insufficient_balance" :"Insufficient available balance",
+  "input_error_higher_amount": "Enter a higher amount",
+  "input_error_smaller_amount": "Enter smaller amount."
 }

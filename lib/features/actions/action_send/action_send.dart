@@ -75,8 +75,8 @@ Future<void> _showSendAction(BuildContext context) async {
 
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: const ActionBottomSheetHeader(
-      name: 'Send to',
+    pinned: ActionBottomSheetHeader(
+      name: intl.sendOptions_sendTo,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -90,8 +90,8 @@ Future<void> _showSendAction(BuildContext context) async {
         },
         amount: '',
         description: '',
-        name: 'Crypto wallet',
-        helper: 'To blockchain address',
+        name: intl.withdrawOptions_actionItemName1,
+        helper: intl.withdrawOptions_actionItemNameDescr,
         removeDivider: true,
       ),
       if (isAnyAssetSupportPhoneSend.isNotEmpty)
@@ -168,8 +168,8 @@ Future<void> _showSendAction(BuildContext context) async {
 Future<void> showSendGlobally(BuildContext context) async {
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: const ActionBottomSheetHeader(
-      name: 'Destination country',
+    pinned: ActionBottomSheetHeader(
+      name: intl.global_send_destionation_country,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,

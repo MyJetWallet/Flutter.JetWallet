@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -116,13 +117,13 @@ enum InputError {
 extension InputErrorValue on InputError {
   String value({String errorInfo = ''}) {
     if (this == InputError.notEnoughFunds) {
-      return 'Insufficient available balance';
+      return intl.input_error_insufficient_balance;
     } else if (this == InputError.enterHigherAmount) {
-      return 'Enter a higher amount';
+      return intl.input_error_higher_amount;
     } else if (this == InputError.amountTooLarge) {
-      return 'Enter smaller amount. $errorInfo';
+      return '${intl.input_error_smaller_amount} $errorInfo';
     } else if (this == InputError.amountTooLow) {
-      return 'Enter higher amount. $errorInfo';
+      return '${intl.input_error_higher_amount}. $errorInfo';
     } else {
       return 'None';
     }

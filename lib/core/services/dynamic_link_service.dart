@@ -1,13 +1,11 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:logger/logger.dart';
 
 class DynamicLinkService {
   //getIt.get<DeepLinkService>().handle
-
-  final _logger = Logger('');
   final _firebaseDynamicLinks = FirebaseDynamicLinks.instance;
 
   Future<void> initDynamicLinks() async {
@@ -34,7 +32,11 @@ class DynamicLinkService {
       },
     ).onError(
       (error) {
-        _logger.log(dynamicLinks, 'Dynamic Link Failed', error);
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'DynamicLinkService',
+              message: 'Dynamic Link Failed ${error}',
+            );
       },
     );
   }
@@ -46,7 +48,12 @@ class DynamicLinkService {
     final link = data?.link;
 
     if (link != null) {
-      _logger.log(dynamicLinks, '$link');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'DynamicLinkService',
+            message: '_handleDynamicLink: $link',
+          );
+
       handler(link);
     }
   }

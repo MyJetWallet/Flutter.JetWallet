@@ -17,12 +17,15 @@ import '../../kyc/models/kyc_verified_model.dart';
 class IBanHeader extends StatefulObserverWidget {
   const IBanHeader({
     Key? key,
+    required this.isKyc,
     required this.isShareActive,
     this.textForShare,
   }) : super(key: key);
 
+  final bool isKyc;
   final bool isShareActive;
   final String? textForShare;
+
   @override
   State<IBanHeader> createState() => _IBanHeaderState();
 }
@@ -41,6 +44,8 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
     getIt.get<IbanStore>().setTabController(_tabController);
 
     _tabController.addListener(saveStateToStore);
+
+    print(widget.isKyc);
   }
 
   @override
@@ -158,7 +163,7 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
             const SpaceW8(),
           ],
         ),
-        if (getIt.get<IbanStore>().isIbanOutActive) ...[
+        if (getIt.get<IbanStore>().isIbanOutActive && widget.isKyc) ...[
           SPaddingH24(
             child: Container(
               height: 32,
@@ -167,24 +172,30 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
                 color: colors.grey5,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: colors.black,
-                  borderRadius: BorderRadius.circular(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
                 ),
-                labelColor: colors.white,
-                labelStyle: sSubtitle3Style,
-                unselectedLabelColor: colors.grey1,
-                unselectedLabelStyle: sSubtitle3Style,
-                tabs: const [
-                  Tab(
-                    text: 'Receive',
+                child: TabBar(
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    color: colors.black,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  Tab(
-                    text: 'Send',
-                  ),
-                ],
+                  labelColor: colors.white,
+                  labelStyle: sSubtitle3Style,
+                  unselectedLabelColor: colors.grey1,
+                  unselectedLabelStyle: sSubtitle3Style,
+                  tabs: [
+                    Tab(
+                      text: intl.iban_tabbbar_receive,
+                    ),
+                    Tab(
+                      text: intl.iban_tabbar_send,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

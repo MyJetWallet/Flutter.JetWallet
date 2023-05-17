@@ -79,7 +79,13 @@ class IbanBillingAddress extends StatelessObserverWidget {
                       labelText: intl.iban_address,
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: store.updateAddress1,
+                      isError: store.streetAddress1Error,
                       hideSpace: true,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.deny(
+                          RegExp('[ ]'),
+                        ),
+                      ],
                     ),
                   ),
                   SFieldDividerFrame(
@@ -89,6 +95,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
                           ' (${intl.circleBillingAddress_optional})',
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: store.updateAddress2,
+                      isError: store.streetAddress2Error,
                       hideSpace: true,
                     ),
                   ),
@@ -112,6 +119,7 @@ class IbanBillingAddress extends StatelessObserverWidget {
                             labelText: intl.circleBillingAddress_city,
                             textCapitalization: TextCapitalization.sentences,
                             onChanged: store.updateCity,
+                            isError: store.cityError,
                             hideSpace: true,
                           ),
                         ),
