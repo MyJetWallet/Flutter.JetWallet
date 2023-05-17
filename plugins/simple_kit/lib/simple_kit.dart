@@ -320,6 +320,7 @@ export 'modules/shared/simple_show_timer_alert_popup.dart';
 export 'helpers/biometrics_auth_helpers.dart';
 export 'helpers/initials_from.dart';
 export 'helpers/validators/validator.dart';
+export 'helpers/validators/latin_validator.dart';
 
 /// Utils
 export 'utils/constants.dart';

@@ -34,8 +34,12 @@ abstract class IbanStoreBase with Store {
   }
 
   RegExp nameRegEx = RegExp(
-    r"^([A-Z][A-Za-z.'\-]+) (?:([A-Z][A-Za-z.'\-]+) )?([A-Z][A-Za-z.'\-]+)$",
+    r'^[a-z -.]+$',
+    multiLine: true,
+    caseSensitive: false,
   );
+
+  final formKey = GlobalKey<FormState>();
 
   static final _logger = Logger('IbanStore');
 
@@ -415,8 +419,7 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateCity');
 
     city = _city.trim();
-
-    cityError = nameRegEx.hasMatch(city);
+    cityError = checkOnBadSymbol(city);
 
     billingAddressEnableButton = true;
   }
@@ -426,13 +429,7 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress1');
 
     streetAddress1 = _address.trim();
-    streetAddress1Error =
-        // ignore: avoid_bool_literals_in_conditional_expressions
-        nameRegEx.hasMatch(streetAddress1) || streetAddress1.isEmpty
-            ? false
-            : true;
-
-    print(streetAddress1Error);
+    streetAddress1Error = checkOnBadSymbol(streetAddress1);
 
     billingAddressEnableButton = true;
   }
@@ -442,8 +439,7 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress2');
 
     streetAddress2 = _address.trim();
-
-    streetAddress2Error = nameRegEx.hasMatch(streetAddress2);
+    streetAddress2Error = checkOnBadSymbol(streetAddress2);
 
     billingAddressEnableButton = true;
   }
@@ -465,6 +461,28 @@ abstract class IbanStoreBase with Store {
     streetAddress2 = '';
     city = '';
     postalCode = '';
+  }
+
+  bool checkOnBadSymbol(String txt) {
+    return txt.contains('{') ||
+        txt.contains('}') ||
+        txt.contains('(') ||
+        txt.contains(')') ||
+        txt.contains('+') ||
+        txt.contains('_') ||
+        txt.contains('<') ||
+        txt.contains('>') ||
+        txt.contains('?') ||
+        txt.contains('!') ||
+        txt.contains('@') ||
+        txt.contains('#') ||
+        txt.contains('\$') ||
+        txt.contains('%') ||
+        txt.contains('^') ||
+        txt.contains('*') ||
+        txt.contains(';') ||
+        txt.contains('\'') ||
+        txt.contains('=');
   }
 
   /// IBAN Send

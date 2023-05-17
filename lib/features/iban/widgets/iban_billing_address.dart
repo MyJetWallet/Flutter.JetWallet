@@ -45,120 +45,128 @@ class IbanBillingAddress extends StatelessObserverWidget {
           SliverFillRemaining(
             hasScrollBody: false,
             child: AutofillGroup(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SpaceH16(),
-                  SPaddingH24(
-                    child: Text(
-                      intl.iban_address_description,
-                      style: sBodyText1Style.copyWith(
-                        color: colors.grey2,
+              child: Form(
+                key: store.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceH16(),
+                    SPaddingH24(
+                      child: Text(
+                        intl.iban_address_description,
+                        style: sBodyText1Style.copyWith(
+                          color: colors.grey2,
+                        ),
+                        maxLines: 3,
                       ),
-                      maxLines: 3,
                     ),
-                  ),
-                  const SpaceH16(),
-                  SFieldDividerFrame(
-                    child: CountryAccountField(
-                      store: store,
-                      activeCountry: store.activeCountry,
-                      sortedCountries: store.sortedCountries,
-                      countryNameSearch: store.countryNameSearch,
-                      pickCountryFromSearch: (KycProfileCountryModel country) {
-                        focusNode.requestFocus();
-                      },
-                      updateCountryNameSearch: store.updateCountryNameSearch,
-                      initCountrySearch: store.initCountrySearch,
+                    const SpaceH16(),
+                    SFieldDividerFrame(
+                      child: CountryAccountField(
+                        store: store,
+                        activeCountry: store.activeCountry,
+                        sortedCountries: store.sortedCountries,
+                        countryNameSearch: store.countryNameSearch,
+                        pickCountryFromSearch:
+                            (KycProfileCountryModel country) {
+                          focusNode.requestFocus();
+                        },
+                        updateCountryNameSearch: store.updateCountryNameSearch,
+                        initCountrySearch: store.initCountrySearch,
+                      ),
                     ),
-                  ),
-                  SFieldDividerFrame(
-                    child: SStandardField(
-                      focusNode: focusNode,
-                      controller: store.streetAddress1Controller,
-                      labelText: intl.iban_address,
-                      textCapitalization: TextCapitalization.sentences,
-                      onChanged: store.updateAddress1,
-                      isError: store.streetAddress1Error,
-                      hideSpace: true,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(
-                          RegExp('[ ]'),
+                    SFieldDividerFrame(
+                      child: SStandardField(
+                        focusNode: focusNode,
+                        controller: store.streetAddress1Controller,
+                        labelText: intl.iban_address,
+                        textCapitalization: TextCapitalization.sentences,
+                        onChanged: store.updateAddress1,
+                        isError: store.streetAddress1Error,
+                        hideSpace: true,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(
+                            RegExp('[ ]'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SFieldDividerFrame(
+                      child: SStandardField(
+                        controller: store.streetAddress2Controller,
+                        labelText: '${intl.iban_address} 2'
+                            ' (${intl.circleBillingAddress_optional})',
+                        textCapitalization: TextCapitalization.sentences,
+                        onChanged: store.updateAddress2,
+                        isError: store.streetAddress2Error,
+                        hideSpace: true,
+                      ),
+                    ),
+                    Text(
+                      '${store.streetAddress1} ${store.streetAddress2} '
+                      '${store.city} ${store.postalCode}'
+                      '${store.activeCountry?.countryName}',
+                      style: sSubtitle3Style.copyWith(
+                        color: Colors.transparent,
+                        height: 0,
+                        fontSize: 0,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.59,
+                          child: SFieldDividerFrame(
+                            child: SStandardField(
+                              controller: store.cityController,
+                              labelText: intl.circleBillingAddress_city,
+                              textCapitalization: TextCapitalization.sentences,
+                              onChanged: store.updateCity,
+                              isError: store.cityError,
+                              hideSpace: true,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 88,
+                          color: colors.grey4,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: SFieldDividerFrame(
+                            child: SStandardField(
+                              controller: store.postalCodeController,
+                              labelText: intl.circleBillingAddress_postalCode,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              onChanged: store.updatePostalCode,
+                              hideSpace: true,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SFieldDividerFrame(
-                    child: SStandardField(
-                      controller: store.streetAddress2Controller,
-                      labelText: '${intl.iban_address} 2'
-                          ' (${intl.circleBillingAddress_optional})',
-                      textCapitalization: TextCapitalization.sentences,
-                      onChanged: store.updateAddress2,
-                      isError: store.streetAddress2Error,
-                      hideSpace: true,
-                    ),
-                  ),
-                  Text(
-                    '${store.streetAddress1} ${store.streetAddress2} '
-                    '${store.city} ${store.postalCode}'
-                    '${store.activeCountry?.countryName}',
-                    style: sSubtitle3Style.copyWith(
-                      color: Colors.transparent,
-                      height: 0,
-                      fontSize: 0,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.59,
-                        child: SFieldDividerFrame(
-                          child: SStandardField(
-                            controller: store.cityController,
-                            labelText: intl.circleBillingAddress_city,
-                            textCapitalization: TextCapitalization.sentences,
-                            onChanged: store.updateCity,
-                            isError: store.cityError,
-                            hideSpace: true,
-                          ),
-                        ),
+                    const Spacer(),
+                    ContinueButtonFrame(
+                      child: SPrimaryButton4(
+                        active: navigationAllowed &&
+                            store.isBillingAddressValid &&
+                            !store.streetAddress1Error &&
+                            !store.streetAddress1Error &&
+                            !store.cityError,
+                        name: intl.circleBillingAddress_continue,
+                        onTap: () async {
+                          store.billingAddressEnableButton = false;
+                          await store.saveAddress(onError: () {});
+                        },
                       ),
-                      Container(
-                        width: 1,
-                        height: 88,
-                        color: colors.grey4,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: SFieldDividerFrame(
-                          child: SStandardField(
-                            controller: store.postalCodeController,
-                            labelText: intl.circleBillingAddress_postalCode,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            onChanged: store.updatePostalCode,
-                            hideSpace: true,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  ContinueButtonFrame(
-                    child: SPrimaryButton4(
-                      active: navigationAllowed && store.isBillingAddressValid,
-                      name: intl.circleBillingAddress_continue,
-                      onTap: () async {
-                        store.billingAddressEnableButton = false;
-                        await store.saveAddress(onError: () {});
-                      },
                     ),
-                  ),
-                  const SpaceH42(),
-                ],
+                    const SpaceH42(),
+                  ],
+                ),
               ),
             ),
           ),
