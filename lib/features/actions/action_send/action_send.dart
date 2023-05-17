@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -257,7 +259,7 @@ Future<void> _showSendActionChooseAsset(
           lastCurrency: lastCurrency,
           type: type,
         ),
-      ]
+      ],
     ],
     then: (value) {},
   );
