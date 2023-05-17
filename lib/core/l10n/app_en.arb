@@ -1351,7 +1351,7 @@
   "send_globally": "Send Globally",
   "send_globally_amount_in_eur": "Amount in EUR",
   "send_globally_amount_in_uah": "Amount in UAH",
-  "send_globally_history_title": "Send to bank account",
+  "send_globally_history_title": "Send globally",
   "iban_send_info": "Please be aware that you can send only to your personal bank accounts",
   "iban_euro_balance": "EUR balance",
   "iban_destination_accounts": "My destination accounts",

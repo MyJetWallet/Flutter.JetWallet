@@ -150,9 +150,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               ),
             ),
           ),
-          if ((transactionListItem.operationType == OperationType.ibanSend ||
-                  transactionListItem.status == Status.completed) &&
-              transactionListItem.operationType != OperationType.sendGlobally)
+          if (transactionListItem.operationType == OperationType.ibanSend ||
+              transactionListItem.status == Status.completed)
             Text(
               convertToUsd(
                 basePrice(
