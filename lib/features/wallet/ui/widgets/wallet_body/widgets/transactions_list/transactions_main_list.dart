@@ -40,7 +40,10 @@ class TransactionsMainList extends StatelessWidget {
     return Provider<OperationHistory>(
       create: (context) =>
           OperationHistory(symbol, filter, isRecurring, jw_operation_id)
-            ..initOperationHistory(),
+            ..initOperationHistory(
+              needTimer: true,
+            ),
+      dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
         symbol: symbol,
         isRecurring: isRecurring,
@@ -191,6 +194,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 );
               },
               child: GroupedListView<OperationHistoryItem, String>(
+                controller: OperationHistory.of(context).scrollController,
                 elements: store.listToShow,
                 groupBy: (transaction) {
                   return formatDate(transaction.timeStamp);
@@ -200,7 +204,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   return TransactionMonthSeparator(text: date);
                 },
                 padding: EdgeInsets.zero,
-                controller: OperationHistory.of(context).scrollController,
                 itemBuilder: (context, transaction) {
                   final index = store.listToShow.indexOf(transaction);
                   final currentDate = formatDate(transaction.timeStamp);

@@ -17,15 +17,30 @@ abstract class _ActionSearchStoreBase with Store {
   }
 
   @observable
-  ObservableList<MarketItemModel> marketCurrencies =
-    ObservableList.of([]);
+  ObservableList<MarketItemModel> marketCurrencies = ObservableList.of([]);
 
   @observable
   ObservableList<MarketItemModel> filteredMarketCurrencies =
-    ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   ObservableList<CurrencyModel> filteredCurrencies = ObservableList.of([]);
+
+  @computed
+  List<CurrencyModel> get fCurrencies {
+    if (searchValue.isEmpty) {
+      return sSignalRModules.currenciesList;
+    } else {
+      var localCurr = sSignalRModules.currenciesList.toList();
+
+      localCurr.removeWhere((element) {
+        return !(element.description.toLowerCase()).startsWith(searchValue) &&
+            !(element.symbol.toLowerCase()).startsWith(searchValue);
+      });
+
+      return localCurr;
+    }
+  }
 
   @observable
   ObservableList<CurrencyModel> currencies = ObservableList.of([]);
@@ -41,11 +56,11 @@ abstract class _ActionSearchStoreBase with Store {
 
   @observable
   ObservableList<CurrencyModel> convertCurrenciesWithBalance =
-    ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   ObservableList<CurrencyModel> convertCurrenciesWithoutBalance =
-    ObservableList.of([]);
+      ObservableList.of([]);
 
   @observable
   String searchValue = '';
@@ -133,10 +148,11 @@ abstract class _ActionSearchStoreBase with Store {
         }
       }
 
-      filteredCurrencies = ObservableList.of(_currencies);
+      //fCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     } else if (value.isEmpty) {
       searchValue = '';
+
       final _currencies = List<CurrencyModel>.from(currencies);
       final _buyFromCardCurrencies = <CurrencyModel>[];
 
@@ -146,7 +162,7 @@ abstract class _ActionSearchStoreBase with Store {
         }
       }
 
-      filteredCurrencies = ObservableList.of(_currencies);
+      //fCurrencies = ObservableList.of(_currencies);
       buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
     }
   }
@@ -181,15 +197,14 @@ abstract class _ActionSearchStoreBase with Store {
     }
     if (value.isEmpty) {
       convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
-      convertCurrenciesWithoutBalance =
-        ObservableList.of(assetsWithoutBalance);
+      convertCurrenciesWithoutBalance = ObservableList.of(assetsWithoutBalance);
     }
   }
 
   @action
   void searchMarket(
-      String value,
-      ) {
+    String value,
+  ) {
     searchValue = value;
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();

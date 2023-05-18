@@ -94,9 +94,7 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
                   child: Text(
                     '${intl.withdrawalAmount_available}: '
                     '${volumeFormat(
-                      decimal: Decimal.parse(
-                        '${store.eurCurrency.assetBalance.toDouble() - store.eurCurrency.cardReserve.toDouble()}',
-                      ),
+                      decimal: store.availableBalabce,
                       accuracy: store.eurCurrency.accuracy,
                       symbol: store.eurCurrency.symbol,
                     )}',

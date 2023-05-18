@@ -1,5 +1,6 @@
 import 'package:credit_card_validator/credit_card_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +15,6 @@ class SendCardDetailStore extends _SendCardDetailStoreBase
 }
 
 abstract class _SendCardDetailStoreBase with Store {
-  TextEditingController cardNumberController = TextEditingController();
-
   @observable
   String cardNumber = '';
 
@@ -39,5 +38,27 @@ abstract class _SendCardDetailStoreBase with Store {
             ? false
             : true
         : false;
+  }
+
+  @action
+  Future<void> pasteCardNumber(TextEditingController controller) async {
+    final copiedText = await _copiedText();
+    updateCardNumber(copiedText);
+    controller.text = copiedText;
+
+    _moveCursorAtTheEnd(controller);
+  }
+
+  Future<String> _copiedText() async {
+    final data = await Clipboard.getData('text/plain');
+
+    return (data?.text ?? '').replaceAll(' ', '');
+  }
+
+  @action
+  void _moveCursorAtTheEnd(TextEditingController controller) {
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
   }
 }

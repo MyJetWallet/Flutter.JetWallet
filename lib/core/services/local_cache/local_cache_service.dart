@@ -13,6 +13,7 @@ const String chartCandles = 'chartCandles';
 const String isBalanceHide = 'isBalanceHide';
 const String hideZeroBalance = 'hideZeroBalance';
 const String installID = 'installID';
+const String globalSendConditions = 'globalSendConditions';
 
 const String remoteConfig = 'remoteConfigCache';
 
@@ -49,6 +50,16 @@ class LocalCacheService {
             jsonDecode(data) as Map<String, dynamic>,
           )
         : null;
+  }
+
+  ///
+
+  Future<void> saveGlobalSendConditions(bool value) async {
+    await instance.setBool(globalSendConditions, value);
+  }
+
+  Future<bool?> getGlobalSendConditions() async {
+    return instance.getBool(globalSendConditions);
   }
 
   ///

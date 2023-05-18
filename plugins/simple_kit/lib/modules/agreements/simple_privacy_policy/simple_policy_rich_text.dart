@@ -13,6 +13,10 @@ class SimplePolicyRichText extends StatelessWidget {
     required this.betweenText,
     required this.privacyPolicyText,
     required this.onPrivacyPolicyTap,
+    this.secondText,
+    this.activeText,
+    this.onActiveTextTap,
+    this.thirdText,
   }) : super(key: key);
 
   final String firstText;
@@ -21,6 +25,11 @@ class SimplePolicyRichText extends StatelessWidget {
   final String betweenText;
   final String privacyPolicyText;
   final Function() onPrivacyPolicyTap;
+
+  final String? secondText;
+  final String? activeText;
+  final Function()? onActiveTextTap;
+  final String? thirdText;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +52,22 @@ class SimplePolicyRichText extends StatelessWidget {
             text: privacyPolicyText,
             onTap: onPrivacyPolicyTap,
           ),
+          if (secondText != null) ...[
+            TextSpan(
+              text: secondText!,
+            ),
+          ],
+          if (activeText != null) ...[
+            _textSpanWithRecognizer(
+              text: activeText!,
+              onTap: onActiveTextTap!,
+            ),
+          ],
+          if (thirdText != null) ...[
+            TextSpan(
+              text: thirdText,
+            ),
+          ],
         ],
       ),
     );

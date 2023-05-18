@@ -70,7 +70,7 @@ String operationName(
     case OperationType.ibanSend:
       return intl.iban_send_history_title;
     case OperationType.sendGlobally:
-      return intl.send_globally;
+      return intl.send_globally_history_title;
     default:
       return 'Unknown';
   }

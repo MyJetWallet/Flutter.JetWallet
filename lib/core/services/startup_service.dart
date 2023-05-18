@@ -119,6 +119,9 @@ class StartupService {
     getIt<AppStore>().setShowAllAssets(
       await getIt<LocalCacheService>().getHideZeroBalance() ?? false,
     );
+    getIt<AppStore>().setIsAcceptedGlobalSendTC(
+      await getIt<LocalCacheService>().getGlobalSendConditions() ?? false,
+    );
 
     // Запускаем SignlaR
     if (!userInfo.isSignalRInited) {

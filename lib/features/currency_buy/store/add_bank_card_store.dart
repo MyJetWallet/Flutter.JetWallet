@@ -19,7 +19,9 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
@@ -214,6 +216,7 @@ abstract class _AddBankCardStoreBase with Store {
                         currency: currency!,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
+                        showUaAlert: newCard.data?.data.showUaAlert ?? false,
                       );
                     },
                   ),
@@ -230,6 +233,7 @@ abstract class _AddBankCardStoreBase with Store {
                         currency: currency!,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
+                        showUaAlert: newCard.data?.data.showUaAlert ?? false,
                       );
                     },
                   ),
@@ -241,6 +245,7 @@ abstract class _AddBankCardStoreBase with Store {
                 currency: currency!,
                 amount: amount,
                 cardId: newCard.data?.data.cardId ?? '',
+                showUaAlert: newCard.data?.data.showUaAlert ?? false,
               );
             } else {
               _showFailureScreen();
@@ -280,6 +285,7 @@ abstract class _AddBankCardStoreBase with Store {
     required CurrencyModel currency,
     required String cardNumber,
     required String cardId,
+    bool showUaAlert = false,
   }) {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
@@ -292,6 +298,7 @@ abstract class _AddBankCardStoreBase with Store {
           fromCard: true,
           paymentMethod: PaymentMethodType.bankCard,
           newBankCardNumber: finalCardNumber,
+          showUaAlert: showUaAlert,
         ),
       );
     });

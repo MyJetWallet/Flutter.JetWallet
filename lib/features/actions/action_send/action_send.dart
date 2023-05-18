@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -37,7 +39,7 @@ void showSendAction(
     Navigator.pop(context);
   }
   final searchState = getIt.get<ActionSearchStore>();
-  final sendAssets = searchState.filteredCurrencies
+  final sendAssets = searchState.fCurrencies
       .where(
         (element) =>
             element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
@@ -75,8 +77,8 @@ Future<void> _showSendAction(BuildContext context) async {
 
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: const ActionBottomSheetHeader(
-      name: 'Send to',
+    pinned: ActionBottomSheetHeader(
+      name: intl.sendOptions_sendTo,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -90,8 +92,8 @@ Future<void> _showSendAction(BuildContext context) async {
         },
         amount: '',
         description: '',
-        name: 'Crypto wallet',
-        helper: 'To blockchain address',
+        name: intl.withdrawOptions_actionItemName1,
+        helper: intl.withdrawOptions_actionItemNameDescr,
         removeDivider: true,
       ),
       if (isAnyAssetSupportPhoneSend.isNotEmpty)
@@ -128,6 +130,18 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             Navigator.pop(context);
 
+            sRouter.replaceAll(
+              [
+                HomeRouter(
+                  children: [
+                    IBanRouter(
+                      initIndex: 1,
+                    ),
+                  ],
+                ),
+              ],
+            );
+
             getIt.get<AppStore>().setHomeTab(2);
             if (getIt<AppStore>().tabsRouter != null) {
               getIt<AppStore>().tabsRouter!.setActiveIndex(2);
@@ -136,6 +150,8 @@ Future<void> _showSendAction(BuildContext context) async {
                 getIt.get<IbanStore>().ibanTabController!.animateTo(
                       1,
                     );
+              } else {
+                getIt.get<IbanStore>().setInitTab(1);
               }
             }
           },
@@ -154,8 +170,8 @@ Future<void> _showSendAction(BuildContext context) async {
 Future<void> showSendGlobally(BuildContext context) async {
   sShowBasicModalBottomSheet(
     context: context,
-    pinned: const ActionBottomSheetHeader(
-      name: 'Destination country',
+    pinned: ActionBottomSheetHeader(
+      name: intl.global_send_destionation_country,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -243,7 +259,7 @@ Future<void> _showSendActionChooseAsset(
           lastCurrency: lastCurrency,
           type: type,
         ),
-      ]
+      ],
     ],
     then: (value) {},
   );
@@ -263,7 +279,7 @@ class _ActionSend extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
 
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>
@@ -330,7 +346,7 @@ class _ActionSendPhone extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = getIt.get<ActionSearchStore>();
 
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>

@@ -60,6 +60,7 @@ class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
     CircleCard? unlimintCard,
     CircleCard? bankCard,
     String? newBankCardId,
+    bool? showUaAlert,
   ) : super(
           currencyModel,
           paymentMethod,
@@ -67,6 +68,7 @@ class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
           unlimintCard,
           bankCard,
           newBankCardId,
+          showUaAlert,
         );
 
   static _CurrencyBuyStoreBase of(BuildContext context) =>
@@ -81,6 +83,7 @@ abstract class _CurrencyBuyStoreBase with Store {
     this.unlimintCard,
     this.bankCard,
     this.newBankCardId,
+    this.showUaAlert,
   ) {
     lastUsedPaymentMethod = sSignalRModules.keyValue.lastUsedPaymentMethod;
 
@@ -101,11 +104,10 @@ abstract class _CurrencyBuyStoreBase with Store {
     Timer(
       const Duration(milliseconds: 500),
       () {
-        if (
-          (bankCard != null && bankCard!.showUaAlert) ||
-          (unlimintCard != null && unlimintCard!.showUaAlert) ||
-          (circleCard != null && circleCard!.showUaAlert)
-        ) {
+        if ((bankCard != null && bankCard!.showUaAlert) ||
+            (unlimintCard != null && unlimintCard!.showUaAlert) ||
+            (circleCard != null && circleCard!.showUaAlert) ||
+            showUaAlert!) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             willPopScope: true,
@@ -125,7 +127,6 @@ abstract class _CurrencyBuyStoreBase with Store {
         }
       },
     );
-
   }
 
   late final CurrencyModel currencyModel;
@@ -135,6 +136,7 @@ abstract class _CurrencyBuyStoreBase with Store {
   late final CircleCard? bankCard;
   late final String? newBankCardId;
   late final String? lastUsedPaymentMethod;
+  late final bool? showUaAlert;
 
   static final _logger = Logger('CurrencyBuyStore');
 
@@ -1001,7 +1003,11 @@ abstract class _CurrencyBuyStoreBase with Store {
 
       _updateInputValid(value >= min && value <= max);
 
-      if (value < min) {
+      if (max == 0) {
+        _updatePaymentMethodInputError(
+          intl.limitIsExceeded,
+        );
+      } else if (value < min) {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),

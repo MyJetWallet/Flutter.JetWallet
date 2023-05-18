@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
@@ -88,8 +86,6 @@ class SimpleHTTPLogger extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (error) {
       if (err.type == DioErrorType.badResponse) {
-        final uri = err.response?.requestOptions.uri;
-
         var msg = '';
 
         if (err.response != null && err.response?.data != null) {

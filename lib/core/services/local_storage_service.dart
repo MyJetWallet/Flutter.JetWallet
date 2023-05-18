@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // KEYS
 const refreshTokenKey = 'refreshToken';

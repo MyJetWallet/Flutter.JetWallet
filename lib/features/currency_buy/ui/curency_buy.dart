@@ -44,6 +44,7 @@ class CurrencyBuy extends StatelessWidget {
     this.bankCard,
     this.newBankCardId,
     this.newBankCardNumber,
+    this.showUaAlert = false,
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
@@ -58,6 +59,7 @@ class CurrencyBuy extends StatelessWidget {
   final CircleCard? bankCard;
   final String? newBankCardId;
   final String? newBankCardNumber;
+  final bool showUaAlert;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +71,7 @@ class CurrencyBuy extends StatelessWidget {
         unlimintCard,
         bankCard,
         newBankCardId,
+        showUaAlert,
       ),
       builder: (context, child) => _CurrencyBuyBody(
         recurringBuysType: recurringBuysType,

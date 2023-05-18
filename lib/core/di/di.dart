@@ -19,8 +19,6 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/auth/user_data/ui/widgets/country/store/kyc_profile_countries_store.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
@@ -29,8 +27,6 @@ import '../services/simple_networking/simple_networking.dart';
 import 'di.config.dart';
 
 final GetIt getIt = GetIt.instance;
-
-final _logger = Logger('DI');
 
 @InjectableInit(
   asExtension: true,

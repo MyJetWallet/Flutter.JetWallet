@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -22,6 +23,8 @@ class DepositDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(transactionListItem);
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -68,6 +71,37 @@ class DepositDetails extends StatelessObserverWidget {
               value: TransactionDetailsValueText(
                 text: transactionListItem.depositInfo?.network ?? '',
               ),
+            ),
+          ],
+          if (transactionListItem.depositInfo?.address != null) ...[
+            const SpaceH18(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TransactionDetailsNameText(
+                  text: intl.from,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.15),
+                Flexible(
+                  child: TransactionDetailsValueText(
+                    text: transactionListItem.depositInfo!.address ?? '',
+                  ),
+                ),
+                const SpaceW8(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: transactionListItem.depositInfo!.address ?? '',
+                      ),
+                    );
+
+                    onCopyAction(intl.withdrawDetails_withdrawalTo);
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
             ),
           ],
           const SpaceH18(),

@@ -248,6 +248,7 @@ abstract class _$AppRouter extends RootStackRouter {
           bankCard: args.bankCard,
           newBankCardId: args.newBankCardId,
           newBankCardNumber: args.newBankCardNumber,
+          showUaAlert: args.showUaAlert,
           currency: args.currency,
           fromCard: args.fromCard,
           paymentMethod: args.paymentMethod,
@@ -1625,6 +1626,7 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
     CircleCard? bankCard,
     String? newBankCardId,
     String? newBankCardNumber,
+    bool showUaAlert = false,
     required CurrencyModel currency,
     required bool fromCard,
     required PaymentMethodType paymentMethod,
@@ -1639,6 +1641,7 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
             bankCard: bankCard,
             newBankCardId: newBankCardId,
             newBankCardNumber: newBankCardNumber,
+            showUaAlert: showUaAlert,
             currency: currency,
             fromCard: fromCard,
             paymentMethod: paymentMethod,
@@ -1661,6 +1664,7 @@ class CurrencyBuyRouterArgs {
     this.bankCard,
     this.newBankCardId,
     this.newBankCardNumber,
+    this.showUaAlert = false,
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
@@ -1680,6 +1684,8 @@ class CurrencyBuyRouterArgs {
 
   final String? newBankCardNumber;
 
+  final bool showUaAlert;
+
   final CurrencyModel currency;
 
   final bool fromCard;
@@ -1688,7 +1694,7 @@ class CurrencyBuyRouterArgs {
 
   @override
   String toString() {
-    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, newBankCardNumber: $newBankCardNumber, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
+    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, newBankCardNumber: $newBankCardNumber, showUaAlert: $showUaAlert, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
   }
 }
 

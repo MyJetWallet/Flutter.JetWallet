@@ -1,23 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/dio_proxy_service.dart';
-import 'package:jetwallet/core/services/flavor_service.dart';
-import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
-import 'package:jetwallet/core/services/route_query_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
-import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-
-final _logger = Logger('InitGuard');
 
 class InitGuard extends AutoRouteGuard {
   @override

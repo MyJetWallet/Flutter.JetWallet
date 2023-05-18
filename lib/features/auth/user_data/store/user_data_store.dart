@@ -71,6 +71,11 @@ abstract class _UserDataStoreBase with Store {
   TextEditingController lastNameController = TextEditingController();
 
   @action
+  void clearNameError() {
+    firstNameError = false;
+  }
+
+  @action
   void updateFirstName(String name) {
     _logger.log(notifier, 'updateFirstName');
 

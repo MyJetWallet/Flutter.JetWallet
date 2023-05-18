@@ -1393,10 +1393,13 @@ class WalletApiDataSources {
     ProfileSetAddressRequestModel model,
   ) async {
     try {
-      final _ = await _apiClient.post(
+      final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/profile/set-address',
         data: model,
       );
+
+      final responseData = response.data as Map<String, dynamic>;
+      final _ = handleFullResponse<List>(responseData);
 
       try {
         return DC.data(null);

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,6 +13,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:collection/collection.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -19,16 +23,11 @@ part 'operation_history.g.dart';
 
 class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
   OperationHistory(
-    String? assetId,
-    TransactionType? filter,
-    bool? isRecurring,
-    String? jw_operation_id,
-  ) : super(
-          assetId,
-          filter,
-          isRecurring,
-          jw_operation_id,
-        );
+    super.assetId,
+    super.filter,
+    super.isRecurring,
+    super.jw_operation_id,
+  );
 
   static _OperationHistoryBase of(BuildContext context) =>
       Provider.of<OperationHistory>(context, listen: false);
@@ -45,6 +44,7 @@ abstract class _OperationHistoryBase with Store {
   final String? assetId;
   final TransactionType? filter;
   final bool? isRecurring;
+
   // Указывает на конкретную операцию, используем после тапа по пушу
   final String? jw_operation_id;
 
@@ -64,6 +64,9 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
+  // Таймер для фоного обновления истории
+  Timer? repeatTimer;
+
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -78,18 +81,25 @@ abstract class _OperationHistoryBase with Store {
           .toList();
 
   @action
-  Future<bool> refreshHistory() async {
-    operationHistoryItems = ObservableList.of([]);
+  Future<bool> refreshHistory({bool needLoader = true}) async {
+    if (needLoader) {
+      operationHistoryItems = ObservableList.of([]);
+    }
 
-    await initOperationHistory();
+    await initOperationHistory(needLoader: needLoader);
 
     return true;
   }
 
   @action
-  Future<void> initOperationHistory() async {
-    union = const OperationHistoryUnion.loading();
-    isLoading = true;
+  Future<void> initOperationHistory({
+    bool needTimer = false,
+    bool needLoader = true,
+  }) async {
+    if (needLoader) {
+      union = const OperationHistoryUnion.loading();
+      isLoading = true;
+    }
 
     try {
       final operationHistory = await _requestOperationHistory(
@@ -97,9 +107,11 @@ abstract class _OperationHistoryBase with Store {
           assetId: assetId,
           batchSize: 20,
         ),
+        needLoader,
       );
 
-      _updateOperationHistory(operationHistory.operationHistory);
+      _updateOperationHistory(operationHistory.operationHistory,
+          isbgUpdate: !needLoader);
 
       union = const OperationHistoryUnion.loaded();
 
@@ -125,7 +137,26 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.error();
     }
 
+    if (needTimer) {
+      startUpdateTimer();
+    }
+
     isLoading = false;
+  }
+
+  @action
+  void startUpdateTimer() {
+    repeatTimer = Timer.periodic(
+      const Duration(seconds: 20),
+      (Timer t) => refreshHistory(needLoader: false),
+    );
+  }
+
+  @action
+  void stopTimer() {
+    if (repeatTimer != null) {
+      repeatTimer!.cancel();
+    }
   }
 
   @action
@@ -140,6 +171,7 @@ abstract class _OperationHistoryBase with Store {
     );
   }
 
+  // При сколле вниз
   @action
   Future<void> operationHistory(String? assetId) async {
     if (operationHistoryItems.isEmpty) return;
@@ -147,14 +179,13 @@ abstract class _OperationHistoryBase with Store {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
 
-    print('LOAD NEW PAGE');
-
     final operationHistory = await _requestOperationHistory(
       oh_req.OperationHistoryRequestModel(
         assetId: assetId,
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
       ),
+      true,
     );
 
     _updateOperationHistory(operationHistory.operationHistory);
@@ -165,24 +196,49 @@ abstract class _OperationHistoryBase with Store {
   }
 
   @action
-  void _updateOperationHistory(List<oh_resp.OperationHistoryItem> items) {
+  void _updateOperationHistory(
+    List<oh_resp.OperationHistoryItem> items, {
+    bool isbgUpdate = false,
+  }) {
     if (items.isEmpty) {
       nothingToLoad = true;
       union = const OperationHistoryUnion.loaded();
     } else {
-      operationHistoryItems = ObservableList.of(
-        operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
-      );
+      if (isbgUpdate) {
+        if (!listEquals(
+          operationHistoryItems,
+          _filterUnusedOperationTypeItemsFrom(items),
+        )) {
+          operationHistoryItems = ObservableList.of(
+            _filterUnusedOperationTypeItemsFrom(items),
+          );
 
-      union = const OperationHistoryUnion.loaded();
+          scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.linear,
+          );
+
+          union = const OperationHistoryUnion.loaded();
+        }
+      } else {
+        operationHistoryItems = ObservableList.of(
+          operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
+        );
+
+        union = const OperationHistoryUnion.loaded();
+      }
     }
   }
 
   @action
   Future<oh_resp.OperationHistoryResponseModel> _requestOperationHistory(
     oh_req.OperationHistoryRequestModel model,
+    bool needLoader,
   ) async {
-    union = const OperationHistoryUnion.loading();
+    if (needLoader) {
+      union = const OperationHistoryUnion.loading();
+    }
 
     final response =
         await sNetwork.getWalletModule().getOperationHistory(model);

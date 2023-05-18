@@ -66,10 +66,16 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   StackLoaderStore loader = StackLoaderStore();
 
-  CurrencyModel eurCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    'EUR',
-  );
+  @computed
+  CurrencyModel get eurCurrency => currencyFrom(
+        sSignalRModules.currenciesList,
+        'EUR',
+      );
+
+  @computed
+  Decimal get availableBalabce => Decimal.parse(
+        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+      );
 
   @action
   Future<void> loadPreview() async {

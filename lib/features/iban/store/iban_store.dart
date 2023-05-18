@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -32,8 +33,24 @@ abstract class IbanStoreBase with Store {
     getAddressBook();
   }
 
+  RegExp nameRegEx = RegExp(
+    r'^[a-z -.]+$',
+    multiLine: true,
+    caseSensitive: false,
+  );
+
+  final formKey = GlobalKey<FormState>();
+
   static final _logger = Logger('IbanStore');
 
+  @computed
+  bool get isIbanOutActive => sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal)
+      .toList()
+      .isNotEmpty;
+
+  int initTab = 0;
+  void setInitTab(int value) => initTab = value;
   TabController? ibanTabController;
   void setTabController(TabController value) => ibanTabController = value;
 
@@ -182,6 +199,8 @@ abstract class IbanStoreBase with Store {
     countryNameSearch = _countryNameSearch;
 
     _filterByCountryNameSearch();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -357,42 +376,23 @@ abstract class IbanStoreBase with Store {
 
       final response = await sNetwork.getWalletModule().postSetAddress(model);
 
-      response.pick(
-        onData: (data) {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-        onError: (error) {
-          sNotification.showError(
-            error.cause,
-            duration: 4,
-            id: 1,
-            needFeedback: true,
-          );
+      if (response.hasError) {
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
+        );
 
-          loader!.finishLoading();
-        },
-        onNoData: () {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-        onNoError: (value) {
-          loader!.finishLoading(
-            onFinish: () {
-              sRouter.pop();
-              initState();
-            },
-          );
-        },
-      );
+        loader!.finishLoading();
+      } else {
+        loader!.finishLoading(
+          onFinish: () {
+            sRouter.pop();
+            initState();
+          },
+        );
+      }
     } on ServerRejectException catch (error) {
       sNotification.showError(
         error.cause,
@@ -419,6 +419,9 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateCity');
 
     city = _city.trim();
+    cityError = checkOnBadSymbol(city);
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -426,6 +429,9 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress1');
 
     streetAddress1 = _address.trim();
+    streetAddress1Error = checkOnBadSymbol(streetAddress1);
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -433,6 +439,9 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updateAddress2');
 
     streetAddress2 = _address.trim();
+    streetAddress2Error = checkOnBadSymbol(streetAddress2);
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -440,6 +449,8 @@ abstract class IbanStoreBase with Store {
     _logger.log(notifier, 'updatePostalCode');
 
     postalCode = _postalCode.trim();
+
+    billingAddressEnableButton = true;
   }
 
   @action
@@ -450,6 +461,28 @@ abstract class IbanStoreBase with Store {
     streetAddress2 = '';
     city = '';
     postalCode = '';
+  }
+
+  bool checkOnBadSymbol(String txt) {
+    return txt.contains('{') ||
+        txt.contains('}') ||
+        txt.contains('(') ||
+        txt.contains(')') ||
+        txt.contains('+') ||
+        txt.contains('_') ||
+        txt.contains('<') ||
+        txt.contains('>') ||
+        txt.contains('?') ||
+        txt.contains('!') ||
+        txt.contains('@') ||
+        txt.contains('#') ||
+        txt.contains('\$') ||
+        txt.contains('%') ||
+        txt.contains('^') ||
+        txt.contains('*') ||
+        txt.contains(';') ||
+        txt.contains('\'') ||
+        txt.contains('=');
   }
 
   /// IBAN Send

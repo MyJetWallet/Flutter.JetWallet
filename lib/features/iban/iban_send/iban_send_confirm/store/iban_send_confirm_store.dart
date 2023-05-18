@@ -42,7 +42,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
 
     final model = IbanWithdrawalModel(
       assetSymbol: 'EUR',
-      amount: data.sendAmount,
+      amount: data.amount,
       lang: intl.localeName,
       contactId: contact.id,
       iban: data.iban,

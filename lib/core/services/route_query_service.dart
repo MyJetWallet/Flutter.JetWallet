@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 
 enum RouteQueryAction { push, navigate, replace }
 

@@ -102,7 +102,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
       ),
       child: state.union.maybeWhen(
         success: () {
-          return state.cards.isEmpty
+          return state.cards.isEmpty && state.addressBookContacts.isEmpty
               ? Column(
                   children: [
                     const Spacer(),
