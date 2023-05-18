@@ -71,10 +71,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           Column(
             children: [
               Baseline(
-                baseline: deviceSize.when(
-                  small: () => 20,
-                  medium: () => 45,
-                ),
+                baseline: 45,
                 baselineType: TextBaseline.alphabetic,
                 child: SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),

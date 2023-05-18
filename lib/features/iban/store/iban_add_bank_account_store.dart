@@ -108,39 +108,43 @@ abstract class _IbanAddBankAccountStoreBase with Store {
   Future<void> editAccount() async {
     loader.startLoadingImmediately();
 
-    final response = await sNetwork.getWalletModule().postAddressBookEdit(
-          predContactData!.copyWith(
-            name: labelController.text,
-            iban: ibanController.text,
-          ),
+    try {
+      final response = await sNetwork.getWalletModule().postAddressBookEdit(
+            predContactData!.copyWith(
+              name: labelController.text,
+              iban: ibanController.text,
+            ),
+          );
+
+      if (response.hasError) {
+        loader.finishLoadingImmediately();
+        isIBANError = true;
+
+        sNotification.showError(
+          response.error?.cause ?? '',
+          duration: 4,
+          id: 1,
+          needFeedback: true,
         );
 
-    if (response.hasError) {
-      loader.finishLoadingImmediately();
-      isIBANError = true;
+        return;
+      }
+
+      await getIt<IbanStore>().getAddressBook();
+      getIt<AppRouter>().back();
 
       sNotification.showError(
-        response.error?.cause ?? '',
+        intl.iban_edit_save_noty,
         duration: 4,
         id: 1,
         needFeedback: true,
+        isError: false,
       );
 
-      return;
+      loader.finishLoadingImmediately();
+    } catch (e) {
+      loader.finishLoadingImmediately();
     }
-
-    await getIt<IbanStore>().getAddressBook();
-    getIt<AppRouter>().back();
-
-    sNotification.showError(
-      intl.iban_edit_save_noty,
-      duration: 4,
-      id: 1,
-      needFeedback: true,
-      isError: false,
-    );
-
-    loader.finishLoadingImmediately();
   }
 
   @action
@@ -152,6 +156,7 @@ abstract class _IbanAddBankAccountStoreBase with Store {
         );
 
     if (response.hasError) {
+      loader.finishLoadingImmediately();
       sNotification.showError(
         response.error?.cause ?? '',
         duration: 4,
