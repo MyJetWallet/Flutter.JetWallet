@@ -42,7 +42,7 @@ class TransactionsList extends StatelessWidget {
         symbol: symbol,
         isRecurring: isRecurring,
       ),
-      dispose: (context, value) => value.stopTimer(),
+      //dispose: (context, value) => value.stopTimer(),
     );
   }
 }

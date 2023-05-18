@@ -43,7 +43,7 @@ class TransactionsMainList extends StatelessWidget {
             ..initOperationHistory(
               needTimer: true,
             ),
-      dispose: (context, value) => value.stopTimer(),
+      //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
         symbol: symbol,
         isRecurring: isRecurring,

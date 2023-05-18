@@ -9,3 +9,7 @@ class ResetScrollMarket {
 class ResetScrollAccount {
   ResetScrollAccount();
 }
+
+class GetNewHistoryEvent {
+  GetNewHistoryEvent();
+}

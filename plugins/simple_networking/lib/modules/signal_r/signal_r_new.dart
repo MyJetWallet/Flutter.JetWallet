@@ -432,6 +432,10 @@ class SignalRModuleNew {
       method: handler.fireblocksMessagesHandler,
     );
     _hubConnection?.off(pongMessage, method: pongMessageHandler);
+    _hubConnection?.off(
+      operationHistoryMessages,
+      method: handler.operationHistoryHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -514,6 +518,11 @@ class SignalRModuleNew {
     _hubConnection?.on(nftPortfolioMessage, handler.nftPortfolioMessageHandler);
 
     _hubConnection?.on(fireblocksMessages, handler.fireblocksMessagesHandler);
+
+    _hubConnection?.on(
+      operationHistoryMessages,
+      handler.operationHistoryHandler,
+    );
 
     ///
 
