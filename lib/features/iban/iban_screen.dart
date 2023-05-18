@@ -48,6 +48,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     final countriesList = getIt.get<KycProfileCountries>().profileCountries;
 
     getIt.get<IbanStore>().initState();
+    getIt.get<IbanStore>().getAddressBook();
     getIt.get<IbanStore>().initCountryState(countriesList);
     final kycPassed = checkKycPassed(
       kycState.depositStatus,

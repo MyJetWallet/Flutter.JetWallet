@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onChanged: (int val) {
                 if (val == 2) {
                   getIt<IbanStore>().initState();
+                  getIt<IbanStore>().getAddressBook();
                 }
 
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {
