@@ -855,6 +855,7 @@
   "transactions": "transactions",
   "walletBody_transactions": "transactions",
   "transactionItem_copied": "copied",
+  "transactionItem_copied_up": "Copied",
   "emailConfirmedSuccessText_yourEmailAddress": "Your email address",
   "emailConfirmedSuccessText_isConfirmed": "is confirmed",
   "withdrawOptions_wallet": "Wallet",

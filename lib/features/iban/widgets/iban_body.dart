@@ -61,9 +61,9 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
     final colors = sKit.colors;
 
     return TabBarView(
-      physics: widget.isLoading && !getIt.get<IbanStore>().isIbanOutActive
-          ? const NeverScrollableScrollPhysics()
-          : const ClampingScrollPhysics(),
+      physics: getIt.get<IbanStore>().isIbanOutActive && widget.isLoading
+          ? const ClampingScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
       controller: getIt.get<IbanStore>().ibanTabController,
       children: [
         IbanReceive(

@@ -53,14 +53,6 @@ class IbanDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
             text: intl.transactionDetails_fromBankAccount,
             value: TransactionDetailsValueText(
               text: transactionListItem.depositInfo!.address ?? '',
@@ -92,7 +84,7 @@ class IbanDetails extends StatelessObserverWidget {
                       ),
                     );
 
-                    onCopyAction(intl.iban_send_history_send_to);
+                    onCopyAction(intl.transactionItem_copied_up);
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
