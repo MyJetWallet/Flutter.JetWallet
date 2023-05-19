@@ -277,9 +277,14 @@ abstract class _AppStoreBase with Store {
                 ),
               ]);
 
-              if (!getIt<RouteQueryService>().isNavigate) {
-                getIt<RouteQueryService>().runQuery();
-              }
+              Future.delayed(
+                const Duration(milliseconds: 150),
+                () {
+                  if (!getIt<RouteQueryService>().isNavigate) {
+                    getIt<RouteQueryService>().runQuery();
+                  }
+                },
+              );
             },
             askBioUsing: () {
               if (lastRoute != 'askBioUsing') {

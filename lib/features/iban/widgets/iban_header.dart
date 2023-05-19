@@ -172,30 +172,25 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
                 color: colors.grey5,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0),
+              child: TabBar(
+                controller: _tabController,
+                indicator: BoxDecoration(
+                  color: colors.black,
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                child: TabBar(
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    color: colors.black,
-                    borderRadius: BorderRadius.circular(16),
+                labelColor: colors.white,
+                labelStyle: sSubtitle3Style,
+                unselectedLabelColor: colors.grey1,
+                unselectedLabelStyle: sSubtitle3Style,
+                splashBorderRadius: BorderRadius.circular(16),
+                tabs: [
+                  Tab(
+                    text: intl.iban_tabbbar_receive,
                   ),
-                  labelColor: colors.white,
-                  labelStyle: sSubtitle3Style,
-                  unselectedLabelColor: colors.grey1,
-                  unselectedLabelStyle: sSubtitle3Style,
-                  tabs: [
-                    Tab(
-                      text: intl.iban_tabbbar_receive,
-                    ),
-                    Tab(
-                      text: intl.iban_tabbar_send,
-                    ),
-                  ],
-                ),
+                  Tab(
+                    text: intl.iban_tabbar_send,
+                  ),
+                ],
               ),
             ),
           ),

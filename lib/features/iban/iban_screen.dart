@@ -181,6 +181,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   bic: store.ibanBic,
                   address: store.ibanAddress,
                   initIndex: widget.initIndex,
+                  isLoading: isLoading,
                 ),
     );
   }

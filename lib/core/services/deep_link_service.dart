@@ -580,7 +580,6 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
           query: WalletRouter(
             currency: currency,
           ),

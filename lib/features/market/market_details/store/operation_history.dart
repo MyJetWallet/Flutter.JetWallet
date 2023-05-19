@@ -72,9 +72,6 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
-  // Таймер для фоного обновления истории
-  Timer? repeatTimer;
-
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -104,10 +101,8 @@ abstract class _OperationHistoryBase with Store {
     bool needTimer = false,
     bool needLoader = true,
   }) async {
-    if (needLoader) {
-      union = const OperationHistoryUnion.loading();
-      isLoading = true;
-    }
+    union = const OperationHistoryUnion.loading();
+    isLoading = true;
 
     try {
       final operationHistory = await _requestOperationHistory(
