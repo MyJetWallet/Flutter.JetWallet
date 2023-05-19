@@ -66,6 +66,40 @@ class IbanDetails extends StatelessObserverWidget {
               text: transactionListItem.depositInfo!.address ?? '',
             ),
           ),
+          TransactionDetailsItem(
+            text: intl.transactionDetails_fromBankAccount,
+            fromStart: true,
+            value: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.46,
+                  ),
+                  child: TransactionDetailsValueText(
+                    textAlign: TextAlign.end,
+                    text:
+                        (transactionListItem.depositInfo!.address ?? '').trim(),
+                  ),
+                ),
+                const SpaceW10(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text:
+                            '${transactionListItem.depositInfo!.address ?? ''}',
+                      ),
+                    );
+
+                    onCopyAction(intl.iban_send_history_send_to);
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
+            ),
+          ),
           const SpaceH18(),
           TransactionDetailsStatus(
             status: transactionListItem.status,

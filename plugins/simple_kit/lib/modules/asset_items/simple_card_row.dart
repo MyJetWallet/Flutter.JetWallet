@@ -91,6 +91,7 @@ class SCardRow extends StatelessWidget {
                   ],
                 ),
               ),
+              const SpaceW12(),
               if (rightIcon != null) rightIcon!,
             ],
           ),

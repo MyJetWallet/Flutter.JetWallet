@@ -8,12 +8,12 @@ enum RouteQueryAction { push, navigate, replace }
 
 class RouteQueryModel {
   RouteQueryModel({
-    required this.query,
+    this.query,
     this.action,
     this.func,
   });
 
-  final PageRouteInfo<dynamic> query;
+  final PageRouteInfo<dynamic>? query;
   final RouteQueryAction? action;
   final Function()? func;
 }
@@ -39,17 +39,17 @@ class RouteQueryService {
         switch (query[i].action) {
           case RouteQueryAction.push:
             sRouter.push(
-              query[i].query,
+              query[i].query!,
             );
             break;
           case RouteQueryAction.navigate:
             sRouter.navigate(
-              query[i].query,
+              query[i].query!,
             );
             break;
           case RouteQueryAction.replace:
             sRouter.replaceAll([
-              query[i].query,
+              query[i].query!,
             ]);
             break;
           default:

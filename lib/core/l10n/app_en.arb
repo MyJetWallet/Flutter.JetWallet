@@ -415,7 +415,7 @@
   "transactionDetailsStatus_status": "Status",
   "transactionDetailsStatus_completed": "Completed",
   "transactionDetailsStatus_declined": "Declined",
-  "transactionDetails_fromBankAccount": "From bank account",
+  "transactionDetails_fromBankAccount": "From",
   "balanceInProcess_balanceInProcess": "In progress",
   "transactionListItem_balanceInProcess": "In progress",
   "transactionListItem_forText": "For",

@@ -460,7 +460,7 @@ abstract class IbanStoreBase with Store {
   bool checkOnBadSymbol(String txt) {
     if (txt.isEmpty) return false;
 
-    var re = RegExp(r"^[a-zA-Zp{Number},.:/-]+$", unicode: true);
+    var re = RegExp(r"^[a-zA-Z\p{N},.:/-]+$", unicode: true);
 
     return !re.hasMatch(txt);
   }

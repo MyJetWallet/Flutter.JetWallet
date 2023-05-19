@@ -161,8 +161,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   baseCurrency,
                   sSignalRModules.currenciesWithHiddenList,
                   transactionInCurrent: catchingTypes,
-                  asset: transactionListItem.operationType ==
-                          OperationType.ibanSend
+                  asset: (transactionListItem.operationType ==
+                              OperationType.ibanSend ||
+                          transactionListItem.operationType ==
+                              OperationType.sendGlobally)
                       ? transactionListItem.withdrawalInfo?.withdrawalAssetId
                       : null,
                 ),
