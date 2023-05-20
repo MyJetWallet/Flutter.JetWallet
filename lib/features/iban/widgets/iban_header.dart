@@ -44,8 +44,6 @@ class _IBanHeaderState extends State<IBanHeader> with TickerProviderStateMixin {
     getIt.get<IbanStore>().setTabController(_tabController);
 
     _tabController.addListener(saveStateToStore);
-
-    print(widget.isKyc);
   }
 
   @override

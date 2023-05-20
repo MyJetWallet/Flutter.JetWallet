@@ -45,6 +45,7 @@ abstract class _OperationHistoryBase with Store {
     this.jw_operation_id,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
+      print('GetNewHistoryEvent');
       refreshHistory(needLoader: false);
     });
   }
@@ -87,9 +88,7 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
-    if (needLoader) {
-      operationHistoryItems = ObservableList.of([]);
-    }
+    operationHistoryItems = ObservableList.of([]);
 
     await initOperationHistory(needLoader: needLoader);
 
@@ -98,7 +97,6 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<void> initOperationHistory({
-    bool needTimer = false,
     bool needLoader = true,
   }) async {
     union = const OperationHistoryUnion.loading();

@@ -93,7 +93,7 @@ class _WalletState extends State<Wallet>
                     children: [
                       for (final currency in currenciesWithBalance)
                         WalletBody(
-                          key: UniqueKey(),
+                          key: Key(currency.symbol),
                           currency: currency,
                         ),
                     ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -54,12 +55,6 @@ class IbanDetails extends StatelessObserverWidget {
           const SpaceH18(),
           TransactionDetailsItem(
             text: intl.transactionDetails_fromBankAccount,
-            value: TransactionDetailsValueText(
-              text: transactionListItem.depositInfo!.address ?? '',
-            ),
-          ),
-          TransactionDetailsItem(
-            text: intl.transactionDetails_fromBankAccount,
             fromStart: true,
             value: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +79,12 @@ class IbanDetails extends StatelessObserverWidget {
                       ),
                     );
 
-                    onCopyAction(intl.transactionItem_copied_up);
+                    //onCopyAction(intl.transactionItem_copied_up);
+                    sNotification.showError(
+                      intl.transactionItem_copied_up,
+                      id: 1,
+                      isError: false,
+                    );
                   },
                   defaultIcon: const SCopyIcon(),
                   pressedIcon: const SCopyPressedIcon(),
