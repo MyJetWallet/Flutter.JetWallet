@@ -19,6 +19,7 @@ class IBanBody extends StatefulObserverWidget {
     required this.bic,
     required this.address,
     required this.initIndex,
+    required this.isKyc,
   }) : super(key: key);
 
   final String name;
@@ -26,6 +27,7 @@ class IBanBody extends StatefulObserverWidget {
   final String bic;
   final String address;
   final int initIndex;
+  final bool isKyc;
 
   @override
   State<IBanBody> createState() => _IBanBodyState();
@@ -59,7 +61,9 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
     final colors = sKit.colors;
 
     return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
+      physics: getIt.get<IbanStore>().isIbanOutActive && widget.isKyc
+          ? const ClampingScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
       controller: getIt.get<IbanStore>().ibanTabController,
       children: [
         IbanReceive(

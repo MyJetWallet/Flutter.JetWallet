@@ -35,8 +35,14 @@ class LoaderContainer extends StatelessWidget {
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                '${loadingText ?? "Please wait"} ...',
-                style: sBodyText2Style,
+                loadingText != null
+                    ? loadingText!.isNotEmpty
+                        ? '${loadingText!} ...'
+                        : 'Please wait ...'
+                    : 'Please wait ...',
+                style: sBodyText2Style.copyWith(
+                  color: Colors.black,
+                ),
               ),
             ),
           ],

@@ -62,6 +62,7 @@ class SignalRService {
       cardLimits: sSignalRModules.setCardLimitModel,
       earnOffersList: sSignalRModules.setEarnOffersList,
       earnProfile: sSignalRModules.setEarnProfile,
+      operationHistory: sSignalRModules.operationHistoryEvent,
       recurringBuys: sSignalRModules.setRecurringBuys,
       kycCountries: sSignalRModules.setKYCCountries,
       marketInfo: sSignalRModules.setMarketInfo,

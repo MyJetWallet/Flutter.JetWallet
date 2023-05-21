@@ -35,6 +35,7 @@ class SignalRTransport {
     required this.cardLimits,
     required this.earnOffersList,
     required this.earnProfile,
+    required this.operationHistory,
     required this.recurringBuys,
     required this.kycCountries,
     required this.marketInfo,
@@ -67,6 +68,7 @@ class SignalRTransport {
   final void Function(CardLimitsModel) cardLimits;
   final void Function(List<EarnOfferModel>) earnOffersList;
   final void Function(EarnProfileModel) earnProfile;
+  final void Function(String) operationHistory;
 
   final void Function(RecurringBuysResponseModel) recurringBuys;
   final void Function(KycCountriesResponseModel) kycCountries;

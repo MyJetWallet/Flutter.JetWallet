@@ -33,12 +33,6 @@ abstract class IbanStoreBase with Store {
     getAddressBook();
   }
 
-  RegExp nameRegEx = RegExp(
-    r'^[a-z -.]+$',
-    multiLine: true,
-    caseSensitive: false,
-  );
-
   final formKey = GlobalKey<FormState>();
 
   static final _logger = Logger('IbanStore');
@@ -464,25 +458,15 @@ abstract class IbanStoreBase with Store {
   }
 
   bool checkOnBadSymbol(String txt) {
-    return txt.contains('{') ||
-        txt.contains('}') ||
-        txt.contains('(') ||
-        txt.contains(')') ||
-        txt.contains('+') ||
-        txt.contains('_') ||
-        txt.contains('<') ||
-        txt.contains('>') ||
-        txt.contains('?') ||
-        txt.contains('!') ||
-        txt.contains('@') ||
-        txt.contains('#') ||
-        txt.contains('\$') ||
-        txt.contains('%') ||
-        txt.contains('^') ||
-        txt.contains('*') ||
-        txt.contains(';') ||
-        txt.contains('\'') ||
-        txt.contains('=');
+    if (txt.isEmpty) return false;
+
+    var re = RegExp(
+      r"^[a-zA-Z\p{N},.:/\s/-]*$",
+      unicode: true,
+      multiLine: true,
+    );
+
+    return !re.hasMatch(txt);
   }
 
   /// IBAN Send

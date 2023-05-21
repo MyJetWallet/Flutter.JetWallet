@@ -381,6 +381,16 @@ class SignalRFuncHandler {
     }
   }
 
+  void operationHistoryHandler(List<Object?>? data) {
+    try {
+      sTransport.operationHistory(_json(data)['operationId'] ?? '');
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(cardsMessage, e);
+    }
+  }
+
   /// Type cast response data from the SignalR
   Map<String, dynamic> _json(List<dynamic>? data) {
     return data?.first as Map<String, dynamic>;

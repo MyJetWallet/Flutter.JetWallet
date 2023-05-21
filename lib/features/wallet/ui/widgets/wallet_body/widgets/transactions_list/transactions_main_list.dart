@@ -40,10 +40,8 @@ class TransactionsMainList extends StatelessWidget {
     return Provider<OperationHistory>(
       create: (context) =>
           OperationHistory(symbol, filter, isRecurring, jw_operation_id)
-            ..initOperationHistory(
-              needTimer: true,
-            ),
-      dispose: (context, value) => value.stopTimer(),
+            ..initOperationHistory(),
+      //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
         symbol: symbol,
         isRecurring: isRecurring,

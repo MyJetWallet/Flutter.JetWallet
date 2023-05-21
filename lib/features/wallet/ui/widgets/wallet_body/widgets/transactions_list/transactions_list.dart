@@ -34,15 +34,13 @@ class TransactionsList extends StatelessWidget {
         null,
         isRecurring,
         null,
-      )..initOperationHistory(
-          needTimer: true,
-        ),
+      )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
         symbol: symbol,
         isRecurring: isRecurring,
       ),
-      dispose: (context, value) => value.stopTimer(),
+      //dispose: (context, value) => value.stopTimer(),
     );
   }
 }

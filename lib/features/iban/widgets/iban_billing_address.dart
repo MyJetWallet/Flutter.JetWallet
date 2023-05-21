@@ -84,11 +84,6 @@ class IbanBillingAddress extends StatelessObserverWidget {
                         onChanged: store.updateAddress1,
                         isError: store.streetAddress1Error,
                         hideSpace: true,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(
-                            RegExp('[ ]'),
-                          ),
-                        ],
                       ),
                     ),
                     SFieldDividerFrame(

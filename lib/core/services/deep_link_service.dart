@@ -563,15 +563,15 @@ class DeepLinkService {
   ) async {
     if (parameters['jw_operation_id'] == null) return;
 
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      parameters['jw_operation_id']!,
-    );
-
     //navigateToWallet
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
+      final currency = currencyFrom(
+        sSignalRModules.currenciesList,
+        parameters['jw_operation_id']!,
+      );
+
       await sRouter.push(
         WalletRouter(
           currency: currency,
@@ -580,10 +580,6 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: WalletRouter(
-            currency: currency,
-          ),
           func: () {
             final currency = currencyFrom(
               sSignalRModules.currenciesList,

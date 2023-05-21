@@ -161,8 +161,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   baseCurrency,
                   sSignalRModules.currenciesWithHiddenList,
                   transactionInCurrent: catchingTypes,
-                  asset: transactionListItem.operationType ==
-                          OperationType.ibanSend
+                  asset: (transactionListItem.operationType ==
+                              OperationType.ibanSend ||
+                          transactionListItem.operationType ==
+                              OperationType.sendGlobally)
                       ? transactionListItem.withdrawalInfo?.withdrawalAssetId
                       : null,
                 ),
@@ -330,24 +332,35 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     if (transactionListItem.operationType == OperationType.withdraw ||
         transactionListItem.operationType == OperationType.ibanSend ||
         transactionListItem.operationType == OperationType.sendGlobally) {
-      return transactionListItem.withdrawalInfo!.withdrawalAmount;
+      return Decimal.parse(
+        '${transactionListItem.withdrawalInfo!.withdrawalAmount}'
+            .replaceAll('-', ''),
+      );
     }
 
     if (transactionListItem.operationType == OperationType.nftBuy ||
         transactionListItem.operationType == OperationType.nftSwap) {
-      return transactionListItem.swapInfo!.sellAmount;
+      return Decimal.parse(
+        '${transactionListItem.swapInfo!.sellAmount}'.replaceAll('-', ''),
+      );
     }
 
     if (transactionListItem.operationType == OperationType.nftSell) {
-      return transactionListItem.swapInfo!.buyAmount;
+      return Decimal.parse(
+        '${transactionListItem.swapInfo!.buyAmount}'.replaceAll('-', ''),
+      );
     }
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {
-      return transactionListItem.transferByPhoneInfo?.withdrawalAmount ??
-          Decimal.zero;
+      return Decimal.parse(
+        '${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'
+            .replaceAll('-', ''),
+      );
     }
 
-    return transactionListItem.balanceChange;
+    return Decimal.parse(
+      '${transactionListItem.balanceChange}'.replaceAll('-', ''),
+    );
   }
 }
 

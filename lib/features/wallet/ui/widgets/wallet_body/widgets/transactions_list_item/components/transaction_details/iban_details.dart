@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -53,17 +54,42 @@ class IbanDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
             text: intl.transactionDetails_fromBankAccount,
-            value: TransactionDetailsValueText(
-              text: transactionListItem.depositInfo!.address ?? '',
+            fromStart: true,
+            value: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.46,
+                  ),
+                  child: TransactionDetailsValueText(
+                    textAlign: TextAlign.end,
+                    text:
+                        (transactionListItem.depositInfo!.address ?? '').trim(),
+                  ),
+                ),
+                const SpaceW10(),
+                SIconButton(
+                  onTap: () {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text:
+                            '${transactionListItem.depositInfo!.address ?? ''}',
+                      ),
+                    );
+
+                    //onCopyAction(intl.transactionItem_copied_up);
+                    sNotification.showError(
+                      intl.transactionItem_copied_up,
+                      id: 1,
+                      isError: false,
+                    );
+                  },
+                  defaultIcon: const SCopyIcon(),
+                  pressedIcon: const SCopyPressedIcon(),
+                ),
+              ],
             ),
           ),
           const SpaceH18(),

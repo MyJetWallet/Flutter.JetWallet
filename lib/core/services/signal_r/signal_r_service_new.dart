@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
@@ -11,6 +12,7 @@ import 'package:jetwallet/features/market/market_details/helper/calculate_percen
 import 'package:jetwallet/features/market/market_details/model/return_rates_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/search_store.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
@@ -961,6 +963,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
     } catch (e) {
       return null;
     }
+  }
+
+  @action
+  void operationHistoryEvent(String operationId) {
+    print('operationHistoryEvent');
+
+    getIt.get<EventBus>().fire(GetNewHistoryEvent());
   }
 
   @computed

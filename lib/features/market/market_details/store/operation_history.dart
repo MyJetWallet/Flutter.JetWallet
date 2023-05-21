@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -9,6 +12,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/features/wallet/helper/show_transaction_details.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
@@ -39,7 +43,12 @@ abstract class _OperationHistoryBase with Store {
     this.filter,
     this.isRecurring,
     this.jw_operation_id,
-  );
+  ) {
+    getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
+      print('GetNewHistoryEvent');
+      refreshHistory(needLoader: false);
+    });
+  }
 
   final String? assetId;
   final TransactionType? filter;
@@ -64,9 +73,6 @@ abstract class _OperationHistoryBase with Store {
   @observable
   bool isLoading = false;
 
-  // Таймер для фоного обновления истории
-  Timer? repeatTimer;
-
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
       ? operationHistoryItems
@@ -82,9 +88,7 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
-    if (needLoader) {
-      operationHistoryItems = ObservableList.of([]);
-    }
+    operationHistoryItems = ObservableList.of([]);
 
     await initOperationHistory(needLoader: needLoader);
 
@@ -93,13 +97,10 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<void> initOperationHistory({
-    bool needTimer = false,
     bool needLoader = true,
   }) async {
-    if (needLoader) {
-      union = const OperationHistoryUnion.loading();
-      isLoading = true;
-    }
+    union = const OperationHistoryUnion.loading();
+    isLoading = true;
 
     try {
       final operationHistory = await _requestOperationHistory(
@@ -110,8 +111,10 @@ abstract class _OperationHistoryBase with Store {
         needLoader,
       );
 
-      _updateOperationHistory(operationHistory.operationHistory,
-          isbgUpdate: !needLoader);
+      _updateOperationHistory(
+        operationHistory.operationHistory,
+        isbgUpdate: !needLoader,
+      );
 
       union = const OperationHistoryUnion.loaded();
 
@@ -137,26 +140,7 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.error();
     }
 
-    if (needTimer) {
-      startUpdateTimer();
-    }
-
     isLoading = false;
-  }
-
-  @action
-  void startUpdateTimer() {
-    repeatTimer = Timer.periodic(
-      const Duration(seconds: 20),
-      (Timer t) => refreshHistory(needLoader: false),
-    );
-  }
-
-  @action
-  void stopTimer() {
-    if (repeatTimer != null) {
-      repeatTimer!.cancel();
-    }
   }
 
   @action
@@ -205,22 +189,17 @@ abstract class _OperationHistoryBase with Store {
       union = const OperationHistoryUnion.loaded();
     } else {
       if (isbgUpdate) {
-        if (!listEquals(
-          operationHistoryItems,
+        operationHistoryItems = ObservableList.of(
           _filterUnusedOperationTypeItemsFrom(items),
-        )) {
-          operationHistoryItems = ObservableList.of(
-            _filterUnusedOperationTypeItemsFrom(items),
-          );
+        );
 
-          scrollController.animateTo(
-            0,
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.linear,
-          );
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.linear,
+        );
 
-          union = const OperationHistoryUnion.loaded();
-        }
+        union = const OperationHistoryUnion.loaded();
       } else {
         operationHistoryItems = ObservableList.of(
           operationHistoryItems + _filterUnusedOperationTypeItemsFrom(items),
