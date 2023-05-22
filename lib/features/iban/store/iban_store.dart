@@ -247,7 +247,7 @@ abstract class IbanStoreBase with Store {
     }
 
     if (ibanTabController != null) {
-      ibanTabController!.animateTo(0);
+      //ibanTabController!.animateTo(0);
     }
 
     try {
