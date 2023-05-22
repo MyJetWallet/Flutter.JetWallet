@@ -95,6 +95,8 @@ abstract class _OperationHistoryBase with Store {
     return true;
   }
 
+  var detailsShowed = false;
+
   @action
   Future<void> initOperationHistory({
     bool needLoader = true,
@@ -123,10 +125,13 @@ abstract class _OperationHistoryBase with Store {
             .indexWhere((element) => element.operationId == jw_operation_id);
 
         if (item != -1) {
+          if (detailsShowed) return;
+
+          detailsShowed = true;
           showTransactionDetails(
-            sRouter.navigatorKey.currentContext!,
-            listToShow[item],
-          );
+              sRouter.navigatorKey.currentContext!, listToShow[item], (q) {
+            detailsShowed = false;
+          });
         } else {
           await getOperationHistoryOperation(jw_operation_id!);
         }
