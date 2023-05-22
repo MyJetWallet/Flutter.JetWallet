@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -174,12 +175,11 @@ class _ActionReceive extends StatelessObserverWidget {
     final showTabs = sSignalRModules.currenciesList
         .where(
           (element) => element.supportsIbanDeposit,
-    )
+        )
         .toList()
         .isNotEmpty;
 
-    final showSearch = showReceiveCurrencySearch(context) &&
-        state.showCrypto;
+    final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
 
     return Column(
       children: [
@@ -286,8 +286,7 @@ class _ActionReceive extends StatelessObserverWidget {
             child: SStandardField(
               controller: state.searchController,
               labelText: intl.actionBottomSheetHeader_search,
-              onChanged: (String value) =>
-                state.search(value),
+              onChanged: (String value) => state.search(value),
             ),
           ),
           const SDivider(),
@@ -307,11 +306,11 @@ class _ActionReceive extends StatelessObserverWidget {
                       removeDivider: currency == currencyFiltered.last,
                       onTap: () {
                         getIt.get<AppRouter>().push(
-                          CryptoDepositRouter(
-                            header: intl.actionReceive_receive,
-                            currency: currency,
-                          ),
-                        );
+                              CryptoDepositRouter(
+                                header: intl.actionReceive_receive,
+                                currency: currency,
+                              ),
+                            );
                       },
                     ),
             ],
@@ -334,6 +333,10 @@ class _ActionReceive extends StatelessObserverWidget {
                         getIt<AppStore>().setHomeTab(2);
                         if (getIt<AppStore>().tabsRouter != null) {
                           getIt<AppStore>().tabsRouter!.setActiveIndex(2);
+                        }
+
+                        if (getIt<IbanStore>().ibanTabController != null) {
+                          getIt<IbanStore>().ibanTabController!.animateTo(0);
                         }
                       },
                     ),

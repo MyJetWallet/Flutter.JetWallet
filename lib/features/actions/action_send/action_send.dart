@@ -153,6 +153,13 @@ Future<void> _showSendAction(BuildContext context) async {
               } else {
                 getIt.get<IbanStore>().setInitTab(1);
               }
+
+              if (getIt<IbanStore>().ibanTabController !=
+                                    null) {
+                                  getIt<IbanStore>()
+                                      .ibanTabController!
+                                      .animateTo(0);
+                                }
             }
           },
           amount: '',
