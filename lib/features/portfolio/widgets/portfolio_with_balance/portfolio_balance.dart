@@ -268,6 +268,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                     const SpaceH12(),
                     Observer(
                       builder: (context) {
+                        print(getIt<AppStore>().isBalanceHide);
+
                         return ListView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,

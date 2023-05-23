@@ -481,7 +481,9 @@ abstract class IbanStoreBase with Store {
 
   @action
   Future<void> getAddressBook() async {
-    ibanAdressBookLoaded = false;
+    if (contacts.isEmpty) {
+      ibanAdressBookLoaded = false;
+    }
 
     final response = await sNetwork.getWalletModule().getAddressBook('');
 
