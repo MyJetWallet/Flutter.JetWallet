@@ -27,6 +27,8 @@ class IbanSend extends StatelessObserverWidget {
       'EUR',
     );
 
+    print(eurCurrency.iconUrl);
+
     final store = getIt.get<IbanStore>();
 
     return SingleChildScrollView(
@@ -74,7 +76,9 @@ class IbanSend extends StatelessObserverWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SNetworkSvg24(
-                          url: eurCurrency.iconUrl,
+                          url: eurCurrency.iconUrl.isNotEmpty
+                              ? eurCurrency.iconUrl
+                              : 'https://wallet-api.simple-spot.biz/icons/eur.svg',
                         ),
                         const SizedBox(width: 10),
                         Text(
