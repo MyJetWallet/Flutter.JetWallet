@@ -7,6 +7,7 @@ import 'package:simple_networking/modules/wallet_api/models/operation_history/op
 void showTransactionDetails(
   BuildContext context,
   OperationHistoryItem transactionListItem,
+  Function(dynamic)? then,
 ) {
   sShowBasicModalBottomSheet(
     children: [
@@ -15,5 +16,6 @@ void showTransactionDetails(
       ),
     ],
     context: context,
+    then: then,
   );
 }

@@ -28,7 +28,7 @@ dependencies:
   intl_phone_number_input: ^0.7.1 # phone number in international format that uses Google's libphonenumber
   flutter_svg: ^1.1.6 # SVG rendering and widget library
   contacts_service: ^0.6.3 # contacts fetching
-  rive: 0.10.0 # rive animations
+  rive: 0.11.1 # rive animations
   permission_handler: 10.2.0 # permissions handling
   percent_indicator: ^4.2.2 # Percent indicator
   auto_size_text: ^3.0.0 # widget that automatically resizes text to fit perfectly within its bounds

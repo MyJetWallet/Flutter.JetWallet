@@ -60,6 +60,8 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
     _operationId = input!.operationId;
     _receiverIsRegistered = input!.receiverIsRegistered;
     _toPhoneNumber = input!.toPhoneNumber;
+
+    redirectedToSuccess = false;
   }
 
   @action
@@ -86,7 +88,7 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
   TextEditingController controller = TextEditingController();
 
   @action
-  void updateCode(String code, String operationId, { bool isDeepLink = false }) {
+  void updateCode(String code, String operationId, {bool isDeepLink = false}) {
     _logger.log(notifier, 'updateCode');
 
     if (code.isEmpty) {
@@ -159,8 +161,6 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
           .getValidationModule()
           .postVerifyTransferVerificationCode(model);
 
-      print(response);
-
       if (response.hasError) {
         _logger.log(stateFlow, 'verifyCode', response.error!.cause);
 
@@ -191,8 +191,13 @@ abstract class _SendByPhoneConfirmStoreBase with Store {
     isResending = value;
   }
 
+  var redirectedToSuccess = false;
+
   @action
   void _showSuccessScreen() {
+    if (redirectedToSuccess) return;
+
+    redirectedToSuccess = true;
     sRouter
         .push(
       SuccessScreenRouter(

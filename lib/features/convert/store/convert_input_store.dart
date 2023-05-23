@@ -34,12 +34,16 @@ abstract class _ConvertInputStoreBase with Store {
 
     final toList = _currencies;
     final s1 = _currencies.toList();
-    s1.sort((a, b) => a.weight.compareTo(b.weight));
+    //s1.sort((a, b) => b.weight.compareTo(a.weight));
+    sortByBalanceAndWeight(s1);
 
     final to = (fromCurrency?.symbol == toList[1].symbol ||
             _currencies.first.symbol == toList[1].symbol)
         ? toList[0]
-        : s1.last;
+        : s1[1];
+    //    _currencies.first.symbol == toList[1].symbol)
+    //? toList[0]
+    //: s1.last;
 
     final fromList = _currencies;
 

@@ -48,8 +48,9 @@
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background" />
 
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
@@ -57,7 +58,7 @@
                 <data android:host="mobile.simple-spot.biz" android:scheme="https"/>
                 <data android:host="jetwallet.page.linkapp" android:scheme="https"/>
                 <data android:host="promo.simple.app" android:scheme="https"/>
-                <data android:host="simple-uat.simple-spot.biz" android:scheme="https"/>
+                <data android:host="simple-uat.simple-spot.biz" android:scheme="http"/>
             </intent-filter>
 
 

@@ -14,7 +14,7 @@ dependencies:
   flutter_svg: ^1.1.6 # SVG rendering and widget library
   local_auth: ^2.1.2 # local authentication via fingerprint, touch ID, face ID, passcode, pin, or pattern
   flash: ^2.0.5 # alerting library
-  rive: 0.10.0 # rive animations
+  rive: 0.11.1 # rive animations
   qr_flutter: ^4.0.0 # QR code rendering
   mobx: ^2.1.1
   flutter_mobx: ^2.0.6+4

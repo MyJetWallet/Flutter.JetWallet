@@ -57,6 +57,7 @@ class TransactionListItem extends StatelessObserverWidget {
         showTransactionDetails(
           context,
           transactionListItem,
+          null,
         );
       },
       splashColor: Colors.transparent,
