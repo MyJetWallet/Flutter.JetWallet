@@ -20,10 +20,8 @@ class IbanSend extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final currencies = sSignalRModules.currenciesList;
-    final itemsWithBalance = currenciesWithBalanceFrom(currencies);
-
     final eurCurrency = currencyFrom(
-      itemsWithBalance,
+      currencies,
       'EUR',
     );
 
@@ -55,7 +53,10 @@ class IbanSend extends StatelessObserverWidget {
               customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              onTap: () => navigateToWallet(context, eurCurrency),
+              onTap: () => navigateToWallet(
+                context,
+                eurCurrency,
+              ),
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(
