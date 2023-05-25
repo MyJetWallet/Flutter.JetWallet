@@ -89,7 +89,7 @@ class _TransactionItemState extends State<TransactionItem>
 
     void _onCopyAction() {
       sNotification.showError(
-        '$copiedText ${intl.transactionItem_copied}',
+        intl.copy_message,
         id: 1,
         isError: false,
       );

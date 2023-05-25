@@ -88,5 +88,4 @@ class IBanItem extends StatelessObserverWidget {
       ],
     );
   }
-
 }

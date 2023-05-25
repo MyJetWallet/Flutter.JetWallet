@@ -9,13 +9,14 @@ import 'package:jetwallet/core/services/credentials_service/credentials_service.
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/auth/register/models/referral_code_link_union.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/auth_api/models/validate_referral_code/validate_referral_code_request_model.dart';
 
@@ -39,9 +40,6 @@ abstract class _ReferallCodeStoreBase with Store {
 
   @observable
   String? bottomSheetReferralCode;
-
-  @observable
-  QRViewController? qrController;
 
   @observable
   ReferralCodeLinkUnion referralCodeValidation = const Input();
@@ -113,7 +111,7 @@ abstract class _ReferallCodeStoreBase with Store {
   }
 
   @action
-  void resetBottomSheetReferralCodeValidation({ bool isOpening = false }) {
+  void resetBottomSheetReferralCodeValidation({bool isOpening = false}) {
     if (!isOpening || isInputError) {
       referralCodeController.text = '';
     }
@@ -154,7 +152,7 @@ abstract class _ReferallCodeStoreBase with Store {
       );
 
       if (result is Barcode) {
-        final command = _refCode(result.code!);
+        final command = _refCode(result.rawValue ?? '');
 
         referralCodeController.text = command ?? '';
 
@@ -189,15 +187,16 @@ abstract class _ReferallCodeStoreBase with Store {
 
           referralCodeValidation = const Valid();
           bottomSheetReferralCodeValidation = const Valid();
-          referralCode = shortCode?.replaceFirst('https://join.simple.app/', '');
+          referralCode =
+              shortCode?.replaceFirst('https://join.simple.app/', '');
 
           getIt.get<CredentialsService>().setReferralCode(shortCode ?? '');
 
           if (bottomSheetReferralCodeValidation is Valid &&
               (jwCode != null || code.isNotEmpty)) {
             isInputError = false;
-            referralCodeController.text = shortCode!
-                .replaceFirst('https://join.simple.app/', '');
+            referralCodeController.text =
+                shortCode!.replaceFirst('https://join.simple.app/', '');
           }
 
           _moveCursorAtTheEnd(referralCodeController);
@@ -251,15 +250,25 @@ abstract class _ReferallCodeStoreBase with Store {
     required BuildContext context,
   }) {
     final colors = sKit.colors;
+    isRedirectedFromQr = false;
+
+    final scanWindow = Rect.fromCenter(
+      center: MediaQuery.of(context).size.center(Offset.zero),
+      width: 200,
+      height: 200,
+    );
 
     final qrPageRoute = MaterialPageRoute(
       builder: (context) {
         return Stack(
           children: [
-            QRView(
+            MobileScanner(
               key: qrKey,
-              onQRViewCreated: (c) => _onQRViewCreated(c, context),
-              overlay: QrScannerOverlayShape(),
+              scanWindow: scanWindow,
+              onDetect: (c) => _onQRScanned(c, context),
+            ),
+            CustomPaint(
+              painter: ScannerOverlay(scanWindow),
             ),
             Positioned(
               child: GestureDetector(
@@ -289,6 +298,15 @@ abstract class _ReferallCodeStoreBase with Store {
         : Navigator.push(context, qrPageRoute);
   }
 
+  var isRedirectedFromQr = false;
+  @action
+  void _onQRScanned(BarcodeCapture capture, BuildContext context) {
+    if (isRedirectedFromQr) return;
+
+    isRedirectedFromQr = true;
+    Navigator.pop(context, capture.barcodes.first);
+  }
+
   @action
   Future<CameraStatus> _checkCameraStatusAction() async {
     final storage = getIt.get<LocalStorageService>();
@@ -311,27 +329,6 @@ abstract class _ReferallCodeStoreBase with Store {
     );
 
     return CameraStatus.denied;
-  }
-
-  @action
-  void _onQRViewCreated(QRViewController controller, BuildContext context) {
-    updateQrController(controller);
-
-    controller.scannedDataStream.listen(
-      (event) {
-        controller.dispose();
-        Navigator.pop(context, event);
-      },
-    );
-  }
-
-  @action
-  void updateQrController(QRViewController controller) {
-    _logger.log(notifier, 'updateQrController');
-
-    controller.resumeCamera();
-
-    qrController = controller;
   }
 
   @action

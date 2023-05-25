@@ -81,7 +81,7 @@ class IbanDetails extends StatelessObserverWidget {
 
                     //onCopyAction(intl.transactionItem_copied_up);
                     sNotification.showError(
-                      intl.transactionItem_copied_up,
+                      intl.copy_message,
                       id: 1,
                       isError: false,
                     );
