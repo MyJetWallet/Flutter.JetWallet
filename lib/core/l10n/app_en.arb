@@ -1338,7 +1338,7 @@
   "phone_update_block": "Phone update is suspended until",
   "paid_with_gpay": "Paid with Google Pay",
   "iban_terms_1": "Local EUR transfers only",
-  "iban_terms_2": "We only accept transfers from the bank accounts, registered on your name.",
+  "iban_terms_2": "Receiving bank account must be registered on your name",
   "send_globally_date": "Date",
   "send_globally_card": "Card",
   "send_globally_con_rate": "Conversion rate",
