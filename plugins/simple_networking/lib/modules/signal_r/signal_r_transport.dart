@@ -61,6 +61,10 @@ class SignalRTransport {
     required this.updateAssetsWithdrawalFees,
     required this.updateAssetPaymentMethods,
     required this.updateAssetPaymentMethodsNew,
+    required this.createNewSessionLog,
+    required this.addToPing,
+    required this.addToPong,
+    required this.addToLog,
   });
 
   final void Function(bool) initFinished;
@@ -98,4 +102,11 @@ class SignalRTransport {
   final void Function(AssetWithdrawalFeeModel) updateAssetsWithdrawalFees;
   final void Function(AssetPaymentMethods) updateAssetPaymentMethods;
   final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
+
+  /// Logs
+
+  final void Function() createNewSessionLog;
+  final void Function(DateTime) addToPing;
+  final void Function(DateTime) addToPong;
+  final void Function(DateTime, String) addToLog;
 }

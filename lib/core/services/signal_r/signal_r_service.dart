@@ -11,6 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/get_user_agent.dart';
+import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 import 'package:simple_networking/simple_networking.dart';
@@ -89,6 +90,70 @@ class SignalRService {
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
       updateAssetPaymentMethodsNew:
           sSignalRModules.updateAssetPaymentMethodsNew,
+
+      ///
+      createNewSessionLog: () {
+        sSignalRModules.signalRLogs.add(
+          SignalrLog(
+            sessionTime: DateTime.now(),
+            logs: [
+              SLogData(
+                type: SLogType.startConnection,
+                date: DateTime.now(),
+              ),
+            ],
+          ),
+        );
+      },
+      addToPing: (DateTime time) {
+        if (sSignalRModules.signalRLogs.isNotEmpty) {
+          final temp = sSignalRModules.signalRLogs.last.logs;
+          temp!.add(
+            SLogData(
+              type: SLogType.ping,
+              date: time,
+            ),
+          );
+
+          sSignalRModules.signalRLogs.last =
+              sSignalRModules.signalRLogs.last.copyWith(
+            logs: temp,
+          );
+        }
+      },
+      addToPong: (DateTime time) {
+        if (sSignalRModules.signalRLogs.isNotEmpty) {
+          final temp = sSignalRModules.signalRLogs.last.logs;
+          temp!.add(
+            SLogData(
+              type: SLogType.pong,
+              date: time,
+            ),
+          );
+
+          sSignalRModules.signalRLogs.last =
+              sSignalRModules.signalRLogs.last.copyWith(
+            logs: temp,
+          );
+        }
+      },
+      addToLog: (DateTime time, String error) {
+        if (sSignalRModules.signalRLogs.isNotEmpty) {
+          final temp = sSignalRModules.signalRLogs.last.logs;
+          temp!.add(
+            SLogData(
+              type: SLogType.error,
+              date: time,
+              error: error,
+            ),
+          );
+
+          sSignalRModules.signalRLogs.last =
+              sSignalRModules.signalRLogs.last.copyWith(
+            logs: temp,
+          );
+        }
+      },
     );
 
     _logger.log(

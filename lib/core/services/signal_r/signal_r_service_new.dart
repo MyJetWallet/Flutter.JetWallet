@@ -49,6 +49,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
+import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
 part 'signal_r_service_new.g.dart';
 
@@ -66,6 +67,10 @@ class SignalRServiceUpdated extends _SignalRServiceUpdatedBase
 }
 
 abstract class _SignalRServiceUpdatedBase with Store {
+  @observable
+  @ObservableSignalRLogsListConverter()
+  ObservableList<SignalrLog> signalRLogs = ObservableList.of([]);
+
   @observable
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
   @action
@@ -990,6 +995,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
       isNftEnable: false,
     );
     baseCurrency = const BaseCurrencyModel();
+    signalRLogs = ObservableList.of([]);
     cardLimitsModel = null;
     marketCampaigns = ObservableList.of([]);
     priceAccuracies = ObservableList.of([]);

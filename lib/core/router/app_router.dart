@@ -45,6 +45,7 @@ import 'package:jetwallet/features/currency_sell/ui/currency_sell.dart';
 import 'package:jetwallet/features/currency_sell/ui/preview_sell.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/debug_info/debug_info.dart';
+import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
@@ -399,6 +400,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/debug_info',
       page: DebugInfoRouter.page,
+    ),
+    AutoRoute(
+      path: '/signalr_info',
+      page: SignalrDebugInfoRouter.page,
     ),
     AutoRoute(
       path: '/show_recurring_info_action',
