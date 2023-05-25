@@ -21,7 +21,7 @@ class SQrCodeBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return loading
         ? SSkeletonQrCodeLoader(size: qrBoxSize)
-        : QrImage(
+        : QrImageView(
             data: data,
             errorCorrectionLevel: QrErrorCorrectLevel.H,
             embeddedImage: const AssetImage(sQrLogo, package: 'simple_kit'),

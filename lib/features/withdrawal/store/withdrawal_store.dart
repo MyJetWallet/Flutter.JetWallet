@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
@@ -24,10 +25,10 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -121,8 +122,8 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   bool isReadyToContinue = false;
 
-  @observable
-  QRViewController? qrController;
+  //@observable
+  //QRViewController? qrController;
 
   @observable
   bool addressIsInternal = false;
@@ -374,7 +375,6 @@ abstract class _WithdrawalStoreBase with Store {
           'MATIC',
         );
 
-
         await withdrawNFT();
       }
 
@@ -411,7 +411,6 @@ abstract class _WithdrawalStoreBase with Store {
                 sSignalRModules.currenciesList,
                 'MATIC',
               );
-
             }
 
             _pushWithdrawalAmount(context);
@@ -526,10 +525,10 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
       if (result is Barcode) {
-        addressController.text = result.code ?? '';
+        addressController.text = result.rawValue ?? '';
         _moveCursorAtTheEnd(addressController);
         addressFocus.requestFocus();
-        updateAddress(result.code ?? '');
+        updateAddress(result.rawValue ?? '');
         await _validateAddressOrTag(
           _updateAddressValidation,
           _triggerErrorOfAddressField,
@@ -627,10 +626,10 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
       if (result is Barcode) {
-        tagController.text = result.code ?? '';
+        tagController.text = result.rawValue ?? '';
         _moveCursorAtTheEnd(tagController);
         tagFocus.requestFocus();
-        updateTag(result.code ?? '');
+        updateTag(result.rawValue ?? '');
         await _validateAddressOrTag(
           _updateTagValidation,
           _triggerErrorOfTagField,
@@ -644,11 +643,12 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void scrollToBottom(ScrollController scrollController) {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
+    if (scrollController.hasClients)
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
   }
 
   @action
@@ -733,15 +733,32 @@ abstract class _WithdrawalStoreBase with Store {
     required BuildContext context,
   }) {
     final colors = sKit.colors;
+    isRedirectedFromQr = false;
+
+    final scanWindow = Rect.fromCenter(
+      center: MediaQuery.of(context).size.center(Offset.zero),
+      width: 200,
+      height: 200,
+    );
 
     final qrPageRoute = MaterialPageRoute(
       builder: (context) {
         return Stack(
           children: [
+            /*
             QRView(
               key: qrKey,
               onQRViewCreated: (c) => _onQRViewCreated(c, context),
               overlay: QrScannerOverlayShape(),
+            ),
+            */
+            MobileScanner(
+              key: qrKey,
+              scanWindow: scanWindow,
+              onDetect: (c) => _onQRScanned(c, context),
+            ),
+            CustomPaint(
+              painter: ScannerOverlay(scanWindow),
             ),
             Positioned(
               child: GestureDetector(
@@ -771,6 +788,7 @@ abstract class _WithdrawalStoreBase with Store {
         : Navigator.push(context, qrPageRoute);
   }
 
+  /*
   @action
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
     controller.resumeCamera();
@@ -783,6 +801,16 @@ abstract class _WithdrawalStoreBase with Store {
         Navigator.pop(context, event);
       },
     );
+  }
+  */
+
+  var isRedirectedFromQr = false;
+  @action
+  void _onQRScanned(BarcodeCapture capture, BuildContext context) {
+    if (isRedirectedFromQr) return;
+
+    isRedirectedFromQr = true;
+    Navigator.pop(context, capture.barcodes.first);
   }
 
   @action
@@ -841,9 +869,8 @@ abstract class _WithdrawalStoreBase with Store {
       addressIsInternal: addressIsInternal,
     );
 
-    withAmmountInputError = double.parse(withAmount) != 0
-      ? error
-      : InputError.none;
+    withAmmountInputError =
+        double.parse(withAmount) != 0 ? error : InputError.none;
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }
@@ -869,7 +896,8 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoader.startLoadingImmediately();
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();
-    if (withdrawalInputModel != null && withdrawalInputModel?.currency != null) {
+    if (withdrawalInputModel != null &&
+        withdrawalInputModel?.currency != null) {
       await storageService.setString(
         lastAssetSend,
         withdrawalInputModel!.currency!.symbol,
@@ -933,7 +961,6 @@ abstract class _WithdrawalStoreBase with Store {
 
       response.pick(
         onData: (data) {
-
           operationId = data.operationId;
 
           //_previewConfirm();
@@ -1191,5 +1218,35 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   void dispose() {
     withdrawSubscription.cancel();
+  }
+}
+
+class ScannerOverlay extends CustomPainter {
+  ScannerOverlay(this.scanWindow);
+
+  final Rect scanWindow;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final backgroundPath = Path()..addRect(Rect.largest);
+    final cutoutPath = Path()..addRect(scanWindow);
+
+    final backgroundPaint = Paint()
+      ..color = Colors.black.withOpacity(0.5)
+      ..style = PaintingStyle.fill
+      ..blendMode = BlendMode.dstOut;
+
+    final backgroundWithCutout = Path.combine(
+      PathOperation.difference,
+      backgroundPath,
+      cutoutPath,
+    );
+
+    canvas.drawPath(backgroundWithCutout, backgroundPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
