@@ -47,7 +47,7 @@ class SReferralInviteBody extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            QrImage(
+            QrImageView(
               padding: EdgeInsets.zero,
               data: referralLink,
               errorCorrectionLevel: QrErrorCorrectLevel.H,

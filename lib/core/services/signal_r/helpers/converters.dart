@@ -10,6 +10,7 @@ import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
+//import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
 class ObservableEarnOfferModelListConverter
     implements JsonConverter<ObservableList<EarnOfferModel>, List<dynamic>> {
@@ -149,3 +150,18 @@ class ObservableNftMarketListConverter
   List<Map<String, dynamic>> toJson(ObservableList<NftMarket> list) =>
       list.map((e) => e.toJson()).toList();
 }
+
+/*
+class ObservableSignalRLogsListConverter
+    implements JsonConverter<ObservableList<SignalrLog>, List<dynamic>> {
+  const ObservableSignalRLogsListConverter();
+
+  @override
+  ObservableList<SignalrLog> fromJson(List<dynamic> json) => ObservableList.of(
+      json.cast<Map<String, dynamic>>().map(SignalrLog.fromJson));
+
+  @override
+  List<Map<String, dynamic>> toJson(ObservableList<SignalrLog> list) =>
+      list.map((e) => e.toJson()).toList();
+}
+*/

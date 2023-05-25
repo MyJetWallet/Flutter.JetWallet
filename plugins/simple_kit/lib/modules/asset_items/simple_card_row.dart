@@ -69,7 +69,7 @@ class SCardRow extends StatelessWidget {
                       baselineType: TextBaseline.alphabetic,
                       child: Text(
                         name,
-                        style: sSubtitle2Style.copyWith(
+                        style: sTextH5Style.copyWith(
                           color: mainColor,
                         ),
                       ),
