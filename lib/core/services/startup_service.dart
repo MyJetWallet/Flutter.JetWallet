@@ -6,6 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/kyc_profile_countries.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
@@ -218,6 +219,10 @@ class StartupService {
 
       getIt.registerSingletonAsync<ProfileGetUserCountry>(
         () async => ProfileGetUserCountry().init(),
+      );
+
+      getIt.registerSingletonAsync<FormatService>(
+        () async => FormatService(),
       );
 
       await getIt.isReady<KycProfileCountries>();

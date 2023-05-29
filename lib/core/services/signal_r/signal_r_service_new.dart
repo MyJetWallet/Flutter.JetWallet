@@ -74,9 +74,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @observable
   BaseCurrencyModel baseCurrency = const BaseCurrencyModel();
   @action
-  void setBaseCurrency(BaseCurrencyModel value) {
-    baseCurrency = value;
-  }
+  void setBaseCurrency(BaseCurrencyModel value) => baseCurrency = value;
 
   @action
   void updateBaseCurrency() {
@@ -512,7 +510,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
         //}
 
         var contains = false;
-
         for (var i = 0; i < currenciesList.length; i++) {
           if (currenciesList[i].symbol == currModel.symbol) {
             contains = true;

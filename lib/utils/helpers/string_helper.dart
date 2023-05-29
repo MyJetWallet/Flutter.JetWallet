@@ -233,31 +233,3 @@ String convertToUsd(
     prefix: baseCurrency.prefix,
   )}';
 }
-
-Decimal basePrice(
-  Decimal assetPriceInUsd,
-  BaseCurrencyModel baseCurrency,
-  List<CurrencyModel> allCurrencies, {
-  bool transactionInCurrent = false,
-}) {
-  final baseCurrencyMain = currencyFromAll(
-    allCurrencies,
-    baseCurrency.symbol,
-  );
-
-  final usdCurrency = currencyFromAll(
-    allCurrencies,
-    'USD',
-  );
-
-  if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
-    return assetPriceInUsd;
-  }
-
-  if (baseCurrencyMain.currentPrice == Decimal.zero) {
-    return assetPriceInUsd * usdCurrency.currentPrice;
-  }
-
-  return Decimal.parse(
-      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
-}
