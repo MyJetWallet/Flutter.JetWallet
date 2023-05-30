@@ -61,23 +61,27 @@ void sShowAlertPopup(
                         width: 80,
                         package: 'simple_kit',
                       ),
-                    Baseline(
-                      baseline: 40.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        primaryText,
-                        maxLines: (secondaryText != null) ? 5 : 12,
-                        textAlign: TextAlign.center,
-                        style: sTextH5Style.copyWith(
-                          overflow: TextOverflow.visible,
+                    if (primaryText.isNotEmpty) ...[
+                      Baseline(
+                        baseline: 40.0,
+                        baselineType: TextBaseline.alphabetic,
+                        child: Text(
+                          primaryText,
+                          maxLines: (secondaryText != null) ? 5 : 12,
+                          textAlign: TextAlign.center,
+                          style: sTextH5Style.copyWith(
+                            overflow: TextOverflow.visible,
+                          ),
                         ),
                       ),
-                    ),
+                    ] else ...[
+                      const SpaceH20(),
+                    ],
                     const SpaceH7(),
                     if (secondaryText != null)
                       Text(
                         secondaryText,
-                        maxLines: 6,
+                        maxLines: 12,
                         textAlign: TextAlign.center,
                         style: sBodyText1Style.copyWith(
                           color: SColorsLight().grey1,

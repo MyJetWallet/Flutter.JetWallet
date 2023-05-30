@@ -1391,6 +1391,8 @@
   "send_globally_cond_text_3": "T&C",
   "send_globally_cond_text_4": "and",
   "send_globally_cond_text_5": "Privacy Policy of Earn Global Ltd",
+  "send_globally_cond_text_6": "4. Send Globally relies on P2P networks to send money across. More details are",
+  "send_globally_cond_text_7": "here",
   "limitIsExceeded": "Limit is exceeded, please try again later",
   "global_send_title": "Receiver's card details",
   "iban_tabbbar_receive": "Receive",
@@ -1398,5 +1400,7 @@
   "global_send_destionation_country": "Destination country",
   "input_error_insufficient_balance" :"Insufficient available balance",
   "input_error_higher_amount": "Enter a higher amount",
-  "input_error_smaller_amount": "Enter smaller amount."
+  "input_error_smaller_amount": "Enter smaller amount.",
+  "global_send_got_it": "Got it",
+  "global_send_popup_details": "Please be aware that our feature Send Globally utilises P2P networks to send money across. In short, when you initiates money transfer to the bank card of your friend or family member, another individual sends P2P money transfer directly to the receiver. Earn Global LTd orchestrates this transfer, but does not process it directly."
 }

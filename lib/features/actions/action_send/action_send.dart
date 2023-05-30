@@ -16,6 +16,7 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
@@ -168,63 +169,102 @@ Future<void> _showSendAction(BuildContext context) async {
 }
 
 Future<void> showSendGlobally(BuildContext context) async {
+  final availableCountries = <KycCountryModel>[];
+  final globalSearchStore = ActionSearchStore();
+
+  for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
+    if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
+        sSignalRModules
+            .globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
+      for (var q = 0;
+          q <
+              sSignalRModules
+                  .globalSendMethods!.methods![i].countryCodes!.length;
+          q++) {
+        if (sSignalRModules
+            .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty) {
+          final country = sSignalRModules.kycCountries.firstWhere(
+            (element) =>
+                element.countryCode ==
+                sSignalRModules.globalSendMethods!.methods![i].countryCodes![q],
+          );
+
+          if (!availableCountries.contains(country)) {
+            availableCountries.add(country);
+          }
+        }
+      }
+    }
+  }
+
+  globalSearchStore.globalSendSearchInit(availableCountries);
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
       name: intl.global_send_destionation_country,
+      showSearch: availableCountries.length >= 7,
+      onChanged: (String value) {
+        globalSearchStore.globalSendSearch(value);
+      },
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      SCardRow(
-        icon: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          height: 24,
-          width: 24,
-          child: SvgPicture.asset(
-            flagAssetName('UA'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        height: 68,
-        onTap: () {
-          Navigator.pop(context);
-
-          sRouter.push(const SendCardDetailRouter());
-        },
-        amount: '',
-        description: '',
-        name: 'Ukraine',
-        removeDivider: true,
-      ),
-      SPaddingH24(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          child: Row(
-            children: [
-              Image.asset(
-                flagsAsset,
-                height: 18,
-                width: 46,
-              ),
-              const SizedBox(width: 9),
-              Text(
-                'Nigeria, Ghana and Kenya coming soon',
-                style: sCaptionTextStyle.copyWith(
-                  color: sKit.colors.grey2,
-                ),
-              )
-            ],
-          ),
-        ),
+      _GlobalSendCountriesList(
+        store: globalSearchStore,
       ),
       const SpaceH42(),
     ],
     then: (value) {},
   );
+}
+
+class _GlobalSendCountriesList extends StatelessObserverWidget {
+  const _GlobalSendCountriesList({
+    super.key,
+    required this.store,
+  });
+
+  final ActionSearchStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: store.filtredGlobalSendCountries.length,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return SCardRow(
+          icon: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            height: 24,
+            width: 24,
+            child: SvgPicture.asset(
+              flagAssetName(
+                store.filtredGlobalSendCountries[index].countryCode,
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          height: 68,
+          onTap: () {
+            Navigator.pop(context);
+
+            sRouter.push(const SendCardDetailRouter());
+          },
+          amount: '',
+          description: '',
+          name: store.filtredGlobalSendCountries[index].countryName,
+          removeDivider: false,
+          divider: index != store.filtredGlobalSendCountries.length - 1,
+        );
+      },
+    );
+  }
 }
 
 Future<void> _showSendActionChooseAsset(

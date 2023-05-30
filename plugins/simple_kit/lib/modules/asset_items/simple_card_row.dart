@@ -10,7 +10,7 @@ class SCardRow extends StatelessWidget {
     this.helper = '',
     this.isSelected = false,
     this.divider = true,
-    this.removeDivider = false,
+    this.removeDivider = true,
     this.disabled = false,
     this.lightDivider = false,
     this.rightIcon,
@@ -51,48 +51,69 @@ class SCardRow extends StatelessWidget {
       child: SizedBox(
         height: height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             horizontal: 24.0,
-            vertical: 13,
+            vertical: !removeDivider ? 0 : 13,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              icon,
-              const SpaceW18(),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Baseline(
-                      baseline: 18.0,
-                      baselineType: TextBaseline.alphabetic,
-                      child: Text(
-                        name,
-                        style: sTextH5Style.copyWith(
-                          color: mainColor,
-                        ),
-                      ),
-                    ),
-                    if (helper.isNotEmpty) ...[
-                      Baseline(
-                        baseline: 14.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          helper,
-                          textAlign: TextAlign.start,
-                          maxLines: 3,
-                          style: sCaptionTextStyle.copyWith(
-                            color: SColorsLight().grey3,
+              if (!removeDivider) ...[
+                const SizedBox(height: 20),
+              ],
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  icon,
+                  const SpaceW18(),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Baseline(
+                          baseline: 18.0,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            name,
+                            style: sTextH5Style.copyWith(
+                              color: mainColor,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ],
-                ),
+                        if (helper.isNotEmpty) ...[
+                          Baseline(
+                            baseline: 14.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              helper,
+                              textAlign: TextAlign.start,
+                              maxLines: 3,
+                              style: sCaptionTextStyle.copyWith(
+                                color: SColorsLight().grey3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SpaceW12(),
+                  if (rightIcon != null) rightIcon!,
+                ],
               ),
-              const SpaceW12(),
-              if (rightIcon != null) rightIcon!,
+              const Spacer(),
+              if (!removeDivider) ...[
+                if (divider) ...[
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: SDivider(
+                      width: double.infinity,
+                    ),
+                  ),
+                ],
+              ],
             ],
           ),
         ),

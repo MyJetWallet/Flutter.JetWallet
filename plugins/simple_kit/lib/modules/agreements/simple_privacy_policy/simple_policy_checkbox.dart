@@ -19,6 +19,8 @@ class SPolicyCheckbox extends StatelessWidget {
     this.activeText,
     this.onActiveTextTap,
     this.thirdText,
+    this.activeText2,
+    this.onActiveText2Tap,
   }) : super(key: key);
 
   final String firstText;
@@ -34,6 +36,8 @@ class SPolicyCheckbox extends StatelessWidget {
   final String? activeText;
   final Function()? onActiveTextTap;
   final String? thirdText;
+  final String? activeText2;
+  final Function()? onActiveText2Tap;
 
   final double height;
 
@@ -73,6 +77,8 @@ class SPolicyCheckbox extends StatelessWidget {
                   activeText: activeText,
                   onActiveTextTap: onActiveTextTap,
                   thirdText: thirdText,
+                  activeText2: activeText2,
+                  onActiveText2Tap: onActiveText2Tap,
                 ),
               ],
             ),

@@ -17,6 +17,8 @@ class SimplePolicyRichText extends StatelessWidget {
     this.activeText,
     this.onActiveTextTap,
     this.thirdText,
+    this.activeText2,
+    this.onActiveText2Tap,
   }) : super(key: key);
 
   final String firstText;
@@ -30,6 +32,8 @@ class SimplePolicyRichText extends StatelessWidget {
   final String? activeText;
   final Function()? onActiveTextTap;
   final String? thirdText;
+  final String? activeText2;
+  final Function()? onActiveText2Tap;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +70,12 @@ class SimplePolicyRichText extends StatelessWidget {
           if (thirdText != null) ...[
             TextSpan(
               text: thirdText,
+            ),
+          ],
+          if (activeText2 != null) ...[
+            _textSpanWithRecognizer(
+              text: activeText2!,
+              onTap: onActiveText2Tap!,
             ),
           ],
         ],

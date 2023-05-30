@@ -73,8 +73,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     suffixIcons: [
                       SIconButton(
                         onTap: () {
-                          print('paste');
-
                           store.pasteCardNumber(cardNumberController);
                         },
                         defaultIcon: const SPasteIcon(),
@@ -98,13 +96,15 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                 ),
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 130,
+                    height: 160,
                     firstText: intl.send_globally_cond_text_1,
                     userAgreementText: ' ${intl.send_globally_cond_text_2}',
                     betweenText: ', ',
                     privacyPolicyText: intl.send_globally_cond_text_3,
                     secondText: ' ${intl.send_globally_cond_text_4} \n',
                     activeText: intl.send_globally_cond_text_5,
+                    thirdText: '\n${intl.send_globally_cond_text_6} ',
+                    activeText2: intl.send_globally_cond_text_7,
                     isChecked: getIt<AppStore>().isAcceptedGlobalSendTC,
                     onCheckboxTap: () {
                       getIt<AppStore>().setIsAcceptedGlobalSendTC(
@@ -122,6 +122,25 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     onActiveTextTap: () {
                       launchURL(
                           context, 'https://globalltd.xyz/privacy-policy');
+                    },
+                    onActiveText2Tap: () {
+                      sShowAlertPopup(
+                        context,
+                        primaryText: '',
+                        secondaryText: intl.global_send_popup_details,
+                        primaryButtonName: intl.global_send_got_it,
+                        image: Image.asset(
+                          infoLightAsset,
+                          height: 80,
+                          width: 80,
+                          package: 'simple_kit',
+                        ),
+                        primaryButtonType: SButtonType.primary1,
+                        onPrimaryButtonTap: () => {Navigator.pop(context)},
+                        isNeedCancelButton: false,
+                        cancelText: intl.profileDetails_cancel,
+                        onCancelButtonTap: () => {Navigator.pop(context)},
+                      );
                     },
                   ),
                 ),

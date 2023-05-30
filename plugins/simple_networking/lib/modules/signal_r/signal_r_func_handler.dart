@@ -14,6 +14,7 @@ import 'package:simple_networking/modules/signal_r/models/cards_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -384,6 +385,19 @@ class SignalRFuncHandler {
   void operationHistoryHandler(List<Object?>? data) {
     try {
       sTransport.operationHistory(_json(data)['operationId'] ?? '');
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(cardsMessage, e);
+    }
+  }
+
+  void globalSendMethodsHandler(List<Object?>? data) {
+    try {
+      final globalSendMethods = GlobalSendMethodsModel.fromJson(_json(data));
+      log(globalSendMethods.toString());
+
+      sTransport.updateGlobalSendMethods(globalSendMethods);
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
