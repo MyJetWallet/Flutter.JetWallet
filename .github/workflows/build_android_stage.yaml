@@ -25,7 +25,7 @@ jobs:
           flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER \
           --dart-define=MY_APP_ENV=prod \
-          --export-options-plist=/Users/builder/export_options.plist \
+          --export-options-plist=/Users/runner/work/export_options.plist \
 
       - name: Build Android (AAB)
         run: |
