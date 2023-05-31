@@ -27,6 +27,13 @@ jobs:
 #           --dart-define=MY_APP_ENV=prod \
 #           --export-options-plist=/Users/runner/work/export_options.plist \
 
+      - name: Set CI environment variables
+        run: |
+          echo "FCI_KEY_ALIAS=upload" >> $GITHUB_ENV
+          echo "FCI_KEY_PASSWORD=${{ secrets.FCI_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "FCI_KEYSTORE_PATH=android/upload-keystore.jks" >> $GITHUB_ENV
+          echo "FCI_KEYSTORE_PASSWORD=${{ secrets.FCI_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          
       - name: keychain activate
         run: echo $GOOGLE_SERVICES_STAGE | base64 --decode > ./android/app/google-services.json
 #          keychain initialize
@@ -38,7 +45,7 @@ jobs:
 #          cd plugins/simple_networking ; flutter pub run build_runner build --delete-conflicting-outputs ; cd ../../ ; cd plugins/simple_kit ; flutter pub run build_runner build --delete-conflicting-outputs ; cd ../../ ; flutter pub run build_runner build --delete-conflicting-outputs
           
       - name: Decode keystore
-        run: echo ${{ secrets.FCI_KEYSTORE }} | base64 --decode > ./android/upload-keystore.jks
+        run: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
 #      - name: Decode keystore
 #        run: |
 #          echo ${{ secrets.FCI_KEYSTORE }} | base64 --decode | openssl enc -aes-256-cbc -d -out ./android/upload-keystore.jks -k ${{ secrets.KEYSTORE_PASSWORD }}
