@@ -41,7 +41,7 @@ jobs:
 #         run: echo $FCI_KEYSTORE | base64 --decode > ./android/upload-keystore.jks
       - name: Decode keystore
         run: |
-          echo ${{ secrets.FCI_KEYSTORE }} | base64 --decode | openssl enc -aes-256-cbc -d -out ./android/upload-keystore.jks -k ${{ KEYSTORE_PASSWORD }}
+          echo ${{ secrets.FCI_KEYSTORE }} | base64 --decode | openssl enc -aes-256-cbc -d -out ./android/upload-keystore.jks -k ${{ secrets.KEYSTORE_PASSWORD }}
 
         
       - name: Build Android (AAB)
