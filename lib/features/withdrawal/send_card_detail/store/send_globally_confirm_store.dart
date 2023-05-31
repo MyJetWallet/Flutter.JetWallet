@@ -13,6 +13,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 part 'send_globally_confirm_store.g.dart';
@@ -28,10 +29,18 @@ class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase
 abstract class _SendGloballyConfirmStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
-  CurrencyModel eurCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    'EUR',
-  );
+  SendToBankCardResponse? data;
+
+  @computed
+  CurrencyModel get sendCurrency => currencyFrom(
+        sSignalRModules.currenciesList,
+        data?.asset ?? 'EUR',
+      );
+
+  @action
+  void init(SendToBankCardResponse val) {
+    data = val;
+  }
 
   Future<void> confirmSendGlobally(SendToBankRequestModel model) async {
     loader.startLoadingImmediately();
@@ -75,10 +84,10 @@ abstract class _SendGloballyConfirmStoreBase with Store {
             primaryText: intl.send_globally_success,
             secondaryText:
                 '${intl.send_globally_success_secondary} ${volumeFormat(
-              prefix: eurCurrency.prefixSymbol,
+              prefix: sendCurrency.prefixSymbol,
               decimal: model.amount ?? Decimal.zero,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
+              accuracy: sendCurrency.accuracy,
+              symbol: sendCurrency.symbol,
             )}'
                 '\n${intl.send_globally_success_secondary_2}',
             showProgressBar: true,

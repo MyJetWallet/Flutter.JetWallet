@@ -38,12 +38,18 @@ abstract class _SendGloballyAmountStoreBase with Store {
   void tapPreset(String preset) => tappedPreset = preset;
 
   @observable
+  CurrencyModel? sendCurrency;
+  @observable
+  String countryCode = '';
+  @observable
   String cardNumber = '';
   @observable
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
   @action
-  void setCardNumber(String card) {
+  void setCardNumber(String card, CurrencyModel currency, String cCode) {
     cardNumber = card;
+    sendCurrency = currency;
+    countryCode = cCode;
 
     if (cardNumber[0] == '4') {
       cardNetwork = CircleCardNetwork.VISA;
@@ -67,14 +73,8 @@ abstract class _SendGloballyAmountStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
-  CurrencyModel get eurCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
-        'EUR',
-      );
-
-  @computed
   Decimal get availableBalabce => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
       );
 
   @action
@@ -82,9 +82,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
     loader.startLoadingImmediately();
 
     final model = SendToBankRequestModel(
-      countryCode: 'UA',
+      countryCode: countryCode,
       cardNumber: cardNumber,
-      asset: 'EUR',
+      asset: sendCurrency!.symbol,
       amount: Decimal.parse(withAmount),
     );
 
@@ -124,15 +124,15 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     final value = valueBasedOnSelectedPercent(
       selected: percent,
-      currency: eurCurrency,
+      currency: sendCurrency!,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
       ),
     );
 
     withAmount = valueAccordingToAccuracy(
       value,
-      eurCurrency.accuracy,
+      sendCurrency!.accuracy,
     );
 
     _validateAmount();
@@ -144,7 +144,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
-      accuracy: eurCurrency.accuracy,
+      accuracy: sendCurrency!.accuracy,
     );
 
     _validateAmount();
@@ -156,7 +156,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
   void _calculateBaseConversion() {
     if (withAmount.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
-        assetSymbol: eurCurrency.symbol,
+        assetSymbol: sendCurrency!.symbol,
         assetBalance: Decimal.parse(withAmount),
       );
 
@@ -169,7 +169,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @action
   void _validateAmount() {
     final error =
-        onGloballyWithdrawInputErrorHandler(withAmount, eurCurrency, null);
+        onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
 
     withAmmountInputError =
         double.parse(withAmount) != 0 ? error : InputError.none;

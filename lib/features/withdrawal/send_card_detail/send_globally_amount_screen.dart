@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -20,14 +21,19 @@ class SendGloballyAmountScreen extends StatelessWidget {
   const SendGloballyAmountScreen({
     super.key,
     required this.cardNumber,
+    required this.countryCode,
+    required this.currency,
   });
 
   final String cardNumber;
+  final String countryCode;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyAmountStore>(
-      create: (context) => SendGloballyAmountStore()..setCardNumber(cardNumber),
+      create: (context) => SendGloballyAmountStore()
+        ..setCardNumber(cardNumber, currency, countryCode),
       builder: (context, child) => const SendGloballyAmountScreenBody(),
     );
   }
@@ -48,65 +54,45 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.send_globally} EUR',
+          title: '${intl.send_globally} ${store.sendCurrency!.symbol}',
+          subTitle: '${intl.withdrawalAmount_available}: '
+              '${volumeFormat(
+            decimal: store.availableBalabce,
+            accuracy: store.sendCurrency!.accuracy,
+            symbol: store.sendCurrency!.symbol,
+          )}',
+          subTitleStyle: sSubtitle3Style.copyWith(
+            color: colors.grey2,
+          ),
         ),
       ),
       child: Column(
         children: [
           deviceSize.when(
             small: () => const SizedBox(),
-            medium: () => const Spacer(),
+            medium: () => const SizedBox(height: 48),
           ),
-          SizedBox(
-            height: deviceSize.when(
-              small: () => 116,
-              medium: () => 152,
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => 20,
+              medium: () => 48,
             ),
-            child: Column(
-              children: [
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => 20,
-                    medium: () => 48,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: SActionPriceField(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    price: formatCurrencyStringAmount(
-                      prefix: store.eurCurrency.prefixSymbol,
-                      value: store.withAmount,
-                      symbol: store.eurCurrency.symbol,
-                    ),
-                    helper: '',
-                    error: store.withAmmountInputError ==
-                            InputError.enterHigherAmount
-                        ? '${intl.withdrawalAmount_enterMoreThan} '
-                        : store.withAmmountInputError.value(),
-                    isErrorActive: store.withAmmountInputError.isActive,
-                  ),
-                ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -36,
-                    medium: () => 20,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '${intl.withdrawalAmount_available}: '
-                    '${volumeFormat(
-                      decimal: store.availableBalabce,
-                      accuracy: store.eurCurrency.accuracy,
-                      symbol: store.eurCurrency.symbol,
-                    )}',
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                ),
-              ],
+            baselineType: TextBaseline.alphabetic,
+            child: SActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              price: formatCurrencyStringAmount(
+                prefix: store.sendCurrency!.prefixSymbol,
+                value: store.withAmount,
+                symbol: store.sendCurrency!.symbol,
+              ),
+              helper: '',
+              error: store.withAmmountInputError == InputError.enterHigherAmount
+                  ? '${intl.withdrawalAmount_enterMoreThan} '
+                  : store.withAmmountInputError.value(),
+              isErrorActive: store.withAmmountInputError.isActive,
             ),
           ),
-          const Spacer(),
+          const SizedBox(height: 58),
           SPaddingH24(
             child: Ink(
               height: 88,

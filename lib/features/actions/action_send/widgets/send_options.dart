@@ -91,6 +91,7 @@ class _SendOptions extends StatelessObserverWidget {
 
               showSendGlobally(
                 getIt<AppRouter>().navigatorKey.currentContext!,
+                currency,
               );
             },
           ),

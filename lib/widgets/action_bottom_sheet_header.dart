@@ -47,7 +47,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (showCloseIcon && !showSearch)
+                if (showCloseIcon)
                   SIconButton(
                     onTap: () {
                       if (onCloseTap != null) {
@@ -77,36 +77,36 @@ class ActionBottomSheetHeader extends StatelessWidget {
             ),
           const SDivider(),
         ] else if (showSearchWithArrow) ...[
-            SPaddingH24(
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: 88,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SpaceH20(),
-                        SIconButton(
-                          onTap: () => Navigator.pop(context),
-                          defaultIcon: const SBackIcon(),
-                          pressedIcon: const SBackPressedIcon(),
-                        ),
-                      ],
-                    ),
+          SPaddingH24(
+            child: Row(
+              children: [
+                SizedBox(
+                  height: 88,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SpaceH20(),
+                      SIconButton(
+                        onTap: () => Navigator.pop(context),
+                        defaultIcon: const SBackIcon(),
+                        pressedIcon: const SBackPressedIcon(),
+                      ),
+                    ],
                   ),
-                  const SpaceW16(),
-                  Expanded(
-                    child: SStandardField(
-                      enableInteractiveSelection: false,
-                      labelText: intl.actionBottomSheetHeader_searchAssets,
-                      hideLabel: true,
-                      onChanged: onChanged,
-                      alignLabelWithHint: true,
-                    ),
+                ),
+                const SpaceW16(),
+                Expanded(
+                  child: SStandardField(
+                    enableInteractiveSelection: false,
+                    labelText: intl.actionBottomSheetHeader_searchAssets,
+                    hideLabel: true,
+                    onChanged: onChanged,
+                    alignLabelWithHint: true,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
         ] else
           const SpaceH24(),
       ],

@@ -14,6 +14,7 @@ class SCardRow extends StatelessWidget {
     this.disabled = false,
     this.lightDivider = false,
     this.rightIcon,
+    this.spaceBIandText = 18,
     required this.icon,
     required this.name,
     required this.amount,
@@ -35,6 +36,7 @@ class SCardRow extends StatelessWidget {
   final String amount;
   final String description;
   final Function() onTap;
+  final double spaceBIandText;
 
   @override
   Widget build(BuildContext context) {
@@ -64,39 +66,38 @@ class SCardRow extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  icon,
-                  const SpaceW18(),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Baseline(
-                          baseline: 18.0,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
+                  SizedBox(height: 24, child: icon),
+                  SizedBox(width: spaceBIandText),
+                  SizedBox(
+                    height: 28,
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             name,
                             style: sTextH5Style.copyWith(
                               color: mainColor,
                             ),
                           ),
-                        ),
-                        if (helper.isNotEmpty) ...[
-                          Baseline(
-                            baseline: 14.0,
-                            baselineType: TextBaseline.alphabetic,
-                            child: Text(
-                              helper,
-                              textAlign: TextAlign.start,
-                              maxLines: 3,
-                              style: sCaptionTextStyle.copyWith(
-                                color: SColorsLight().grey3,
+                          if (helper.isNotEmpty) ...[
+                            Baseline(
+                              baseline: 14.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                helper,
+                                textAlign: TextAlign.start,
+                                maxLines: 3,
+                                style: sCaptionTextStyle.copyWith(
+                                  color: SColorsLight().grey3,
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                   const SpaceW12(),

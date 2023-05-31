@@ -115,7 +115,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Text(
-                              'Receiver will get ≈ ${data.estimatedReceiveAmount!} UAH',
+                              'Receiver will get ≈ ${data.estimatedReceiveAmount!}',
                               style: sSubtitle3Style,
                             ),
                           ),
@@ -135,15 +135,15 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     name: intl.send_globally_con_rate,
                     contentLoading: state.loader.loading,
                     value:
-                        '${state.eurCurrency.prefixSymbol}1 = ${data.estimatedPrice} UAH',
+                        '${state.sendCurrency.prefixSymbol}1 = ${data.estimatedPrice}',
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
                     value: volumeFormat(
-                      prefix: state.eurCurrency.prefixSymbol,
+                      prefix: state.sendCurrency.prefixSymbol,
                       decimal: data.feeAmount ?? Decimal.zero,
-                      accuracy: state.eurCurrency.accuracy,
-                      symbol: state.eurCurrency.symbol,
+                      accuracy: state.sendCurrency.accuracy,
+                      symbol: state.sendCurrency.symbol,
                     ),
                     maxValueWidth: 140,
                   ),
@@ -173,10 +173,10 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: state.eurCurrency.prefixSymbol,
+                              prefix: state.sendCurrency.prefixSymbol,
                               decimal: data.amount ?? Decimal.zero,
-                              accuracy: state.eurCurrency.accuracy,
-                              symbol: state.eurCurrency.symbol,
+                              accuracy: state.sendCurrency.accuracy,
+                              symbol: state.sendCurrency.symbol,
                             ),
                           ),
                         ],

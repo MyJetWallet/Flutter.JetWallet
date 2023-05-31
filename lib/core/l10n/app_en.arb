@@ -1402,5 +1402,6 @@
   "input_error_higher_amount": "Enter a higher amount",
   "input_error_smaller_amount": "Enter smaller amount.",
   "global_send_got_it": "Got it",
-  "global_send_popup_details": "When you initiates money transfer to the bank card of your friend or family member, another individual sends P2P money transfer directly to the receiver. Earn Global LTd orchestrates this transfer, but does not process it directly."
+  "global_send_popup_details": "When you initiates money transfer to the bank card of your friend or family member, another individual sends P2P money transfer directly to the receiver. Earn Global LTd orchestrates this transfer, but does not process it directly.",
+  "action_send_global_send_bottomheet": "Choose asset to send"
 }

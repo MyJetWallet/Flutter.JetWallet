@@ -11,24 +11,42 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SendCardDetailRouter')
 class SendCardDetailScreen extends StatelessWidget {
-  const SendCardDetailScreen({super.key});
+  const SendCardDetailScreen({
+    super.key,
+    required this.countryCode,
+    required this.currency,
+  });
+
+  final String countryCode;
+  final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendCardDetailStore>(
       create: (context) => SendCardDetailStore(),
-      builder: (context, child) => const SendCardDetailScreenBody(),
+      builder: (context, child) => SendCardDetailScreenBody(
+        countryCode: countryCode,
+        currency: currency,
+      ),
     );
   }
 }
 
 class SendCardDetailScreenBody extends StatefulObserverWidget {
-  const SendCardDetailScreenBody({super.key});
+  const SendCardDetailScreenBody({
+    super.key,
+    required this.countryCode,
+    required this.currency,
+  });
+
+  final String countryCode;
+  final CurrencyModel currency;
 
   @override
   State<SendCardDetailScreenBody> createState() =>
@@ -156,6 +174,8 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                         sRouter.push(
                           SendGloballyAmountRouter(
                             cardNumber: store.cardNumber,
+                            currency: widget.currency,
+                            countryCode: widget.countryCode,
                           ),
                         );
                       },

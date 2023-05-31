@@ -19,10 +19,12 @@ import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../core/services/local_storage_service.dart';
@@ -117,7 +119,9 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             Navigator.pop(context);
 
-            showSendGlobally(context);
+            //showSendGlobally(context);
+
+            showGlobalSendCurrenctSelect(context);
           },
           amount: '',
           description: '',
@@ -168,7 +172,10 @@ Future<void> _showSendAction(BuildContext context) async {
   );
 }
 
-Future<void> showSendGlobally(BuildContext context) async {
+Future<void> showSendGlobally(
+  BuildContext context,
+  CurrencyModel currency,
+) async {
   final availableCountries = <KycCountryModel>[];
   final globalSearchStore = ActionSearchStore();
 
@@ -201,6 +208,9 @@ Future<void> showSendGlobally(BuildContext context) async {
 
   sShowBasicModalBottomSheet(
     context: context,
+    scrollable: true,
+    expanded: true,
+    then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.global_send_destionation_country,
       showSearch: availableCountries.length >= 7,
@@ -212,26 +222,29 @@ Future<void> showSendGlobally(BuildContext context) async {
     removePinnedPadding: true,
     children: [
       _GlobalSendCountriesList(
+        currency: currency,
         store: globalSearchStore,
       ),
       const SpaceH42(),
     ],
-    then: (value) {},
   );
 }
 
 class _GlobalSendCountriesList extends StatelessObserverWidget {
   const _GlobalSendCountriesList({
     super.key,
+    required this.currency,
     required this.store,
   });
 
+  final CurrencyModel currency;
   final ActionSearchStore store;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemCount: store.filtredGlobalSendCountries.length,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -250,11 +263,18 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               fit: BoxFit.cover,
             ),
           ),
-          height: 68,
+          spaceBIandText: 10,
+          height: 69,
           onTap: () {
             Navigator.pop(context);
 
-            sRouter.push(const SendCardDetailRouter());
+            sRouter.push(
+              SendCardDetailRouter(
+                currency: currency,
+                countryCode:
+                    store.filtredGlobalSendCountries[index].countryCode,
+              ),
+            );
           },
           amount: '',
           description: '',
@@ -430,6 +450,215 @@ class _ActionSendPhone extends StatelessObserverWidget {
                     );
                   },
                 ),
+        const SpaceH42(),
+      ],
+    );
+  }
+}
+
+void showGlobalSendCurrenctSelect(BuildContext context) {
+  getIt.get<ActionSearchStore>().init();
+  final searchStore = getIt.get<ActionSearchStore>();
+
+  sShowBasicModalBottomSheet(
+    context: context,
+    scrollable: true,
+    expanded: true,
+    then: (value) {},
+    pinned: ActionBottomSheetHeader(
+      name: intl.action_send_global_send_bottomheet,
+      onChanged: (String value) {
+        getIt.get<ActionSearchStore>().search(value);
+      },
+    ),
+    horizontalPinnedPadding: 0.0,
+    removePinnedPadding: true,
+    children: [
+      _GlobalSendSelectCurrency(
+        searchStore: searchStore,
+      ),
+    ],
+  );
+}
+
+class _GlobalSendSelectCurrency extends StatelessObserverWidget {
+  const _GlobalSendSelectCurrency({
+    Key? key,
+    required this.searchStore,
+  }) : super(key: key);
+
+  final ActionSearchStore searchStore;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = searchStore;
+    final colors = sKit.colors;
+
+    final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
+    sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
+
+    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    currencyFiltered = currencyFiltered
+        .where(
+          (element) =>
+              element.type == AssetType.crypto && element.supportsGlobalSend,
+        )
+        .toList();
+
+    final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
+
+    return Column(
+      children: [
+        if (true) ...[
+          Stack(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  state.updateShowCrypto(!state.showCrypto);
+                  state.search('');
+                  state.searchController.text = '';
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: colors.grey5,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: (MediaQuery.of(context).size.width - 48) / 2,
+                          child: Center(
+                            child: Text(
+                              intl.actionDeposit_crypto,
+                              style: sSubtitle3Style.copyWith(
+                                color: colors.grey3,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: (MediaQuery.of(context).size.width - 48) / 2,
+                          child: Center(
+                            child: Text(
+                              intl.actionDeposit_fiat,
+                              style: sSubtitle3Style.copyWith(
+                                color: colors.grey3,
+                                height: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              if (state.showCrypto)
+                Positioned(
+                  left: 0,
+                  child: Container(
+                    width: (MediaQuery.of(context).size.width - 48) / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      child: Center(
+                        child: Text(
+                          intl.actionDeposit_crypto,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    width: (MediaQuery.of(context).size.width - 48) / 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: colors.black,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      child: Center(
+                        child: Text(
+                          intl.actionDeposit_fiat,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.white,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          const SpaceH12(),
+        ],
+        if (showSearch) ...[
+          SPaddingH24(
+            child: SStandardField(
+              controller: state.searchController,
+              labelText: intl.actionBottomSheetHeader_search,
+              onChanged: (String value) => state.search(value),
+            ),
+          ),
+          const SDivider(),
+        ],
+        if (state.showCrypto) ...[
+          Column(
+            children: [
+              for (final currency in state.filteredCurrencies)
+                if (currency.type == AssetType.crypto)
+                  if (currency.supportsGlobalSend)
+                    SWalletItem(
+                      icon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      primaryText: currency.description,
+                      secondaryText: currency.symbol,
+                      removeDivider: currency == currencyFiltered.last,
+                      onTap: () {
+                        Navigator.pop(context);
+                        showSendGlobally(context, currency);
+                      },
+                    ),
+            ],
+          ),
+        ] else ...[
+          Column(
+            children: [
+              for (final currency in state.filteredCurrencies)
+                if (currency.type == AssetType.fiat)
+                  if (currency.supportsGlobalSend)
+                    SWalletItem(
+                      icon: SNetworkSvg24(
+                        url: currency.iconUrl,
+                      ),
+                      primaryText: currency.description,
+                      secondaryText: currency.symbol,
+                      removeDivider: currency == currencyFiltered.last,
+                      onTap: () {
+                        Navigator.pop(context);
+                        showSendGlobally(context, currency);
+                      },
+                    ),
+              const SpaceH42(),
+            ],
+          ),
+        ],
         const SpaceH42(),
       ],
     );
