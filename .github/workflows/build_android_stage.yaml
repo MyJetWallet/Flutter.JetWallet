@@ -29,12 +29,12 @@ jobs:
 
       - name: Build Android (AAB)
         run: |
-          flutter build appbundle --release --target=lib/main_stage.dart --flavor=dev \
+          flutter build appbundle --release --target=lib/main_stage.dart --flavor=stage \
           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
 
       - name: Build Android (APK)
         run: |
-          flutter build apk --release --target=lib/main_stage.dart --flavor=dev \
+          flutter build apk --release --target=lib/main_stage.dart --flavor=stage \
           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
 
       - name: Artifacts
