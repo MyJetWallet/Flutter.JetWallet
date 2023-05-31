@@ -27,6 +27,21 @@ jobs:
 #           --dart-define=MY_APP_ENV=prod \
 #           --export-options-plist=/Users/runner/work/export_options.plist \
 
+      - name: keychain activate
+        run: |
+          keychain initialize
+          keychain add-certificates
+          echo $GOOGLE_SERVICES_STAGE | base64 --decode > ./android/app/google-services.json
+          
+      - name: Clean and generate files
+        run: |
+          flutter clean
+          flutter pub get ; cd plugins/simple_networking ; flutter pub get ; cd ../../ ; cd plugins/simple_kit ; flutter pub get
+          cd plugins/simple_networking ; flutter pub run build_runner build --delete-conflicting-outputs ; cd ../../ ; cd plugins/simple_kit ; flutter pub run build_runner build --delete-conflicting-outputs ; cd ../../ ; flutter pub run build_runner build --delete-conflicting-outputs
+          
+      - name: Decode keystore
+        run: echo $FCI_KEYSTORE | base64 --decode > ./android/upload-keystore.jks
+        
       - name: Build Android (AAB)
         run: |
           flutter build appbundle --release --target=lib/main_stage.dart --flavor=stage \
