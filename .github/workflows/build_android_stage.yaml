@@ -6,7 +6,7 @@ on:
 jobs:
   build_and_publish:
     name: Build and Publish
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -17,15 +17,15 @@ jobs:
         with:
           flutter-version: 3.10.0
           
-      - name: Build iOS with automatic versioning
-        run: |
-          flutter clean
-          rm -f ios/Podfile.lock pubspec.lock
-          rm -rf ios/Pods ios/Runner.xcworkspace
-          flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
-          --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER \
-          --dart-define=MY_APP_ENV=prod \
-          --export-options-plist=/Users/runner/work/export_options.plist \
+#       - name: Build iOS with automatic versioning
+#         run: |
+#           flutter clean
+#           rm -f ios/Podfile.lock pubspec.lock
+#           rm -rf ios/Pods ios/Runner.xcworkspace
+#           flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
+#           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$PROJECT_BUILD_NUMBER \
+#           --dart-define=MY_APP_ENV=prod \
+#           --export-options-plist=/Users/runner/work/export_options.plist \
 
       - name: Build Android (AAB)
         run: |
@@ -44,6 +44,6 @@ jobs:
           path: |
             build/**/outputs/**/*.aab
             build/**/outputs/**/*.apk
-            build/ios/ipa/*.ipa
-            /tmp/xcodebuild_logs/*.log
-            flutter_drive.log
+#             build/ios/ipa/*.ipa
+#             /tmp/xcodebuild_logs/*.log
+#             flutter_drive.log
