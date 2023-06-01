@@ -1,7 +1,7 @@
 name: build android stage
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   build_and_publish:
