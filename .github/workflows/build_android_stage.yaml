@@ -60,7 +60,9 @@ jobs:
 #           flutter pub run build_runner build --delete-conflicting-outputs
 #           cd ../../
 #           flutter pub run build_runner build --delete-conflicting-outputs
-          
+      - name: Create android directory
+        run: mkdir -p android/app/android
+        
       - name: Decode keystore
         run: echo -n $FCI_KEYSTORE | base64 --decode > /home/runner/work/Flutter.JetWallet/Flutter.JetWallet/android/app/android/upload-keystore.jks
 
