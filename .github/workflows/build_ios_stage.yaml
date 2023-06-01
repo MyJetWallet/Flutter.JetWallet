@@ -1,72 +1,52 @@
-name: build android stage
+name: iOS CI/CD
 
 on:
   push:
 
 jobs:
   build_and_publish:
-    name: Build and Publish
     runs-on: macos-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-          
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 3.10.0
-      
-      - name: Set CI environment variables
+        uses: actions/checkout@v2
+
+      - name: Set up keychain
         run: |
-          echo "BUNDLE_ID=stage.app.simple.com" >> $GITHUB_ENV
-          echo "FLAVOR=stage" >> $GITHUB_ENV
-          echo "GOOGLE_SERVICE_IOS_STAGE=${{ secrets.GOOGLE_SERVICE_IOS_STAGE}}" >> $GITHUB_ENV
+          security create-keychain -p "test123" my.keychain
+          security default-keychain -s my.keychain
+          security unlock-keychain -p "test123" my.keychain
 
-#       - name: Install packages
-#         run: |
-#           gem install app_store_connect
-#          gem install keychain
-        
-#       - name: Set up keychain
-#         run: |
-#           keychain initialize
-#           echo "test1123%^&*()"
-#           keychain add --password
+      - name: Fetch signing files
+        run: |
+          app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
 
-#       - name: Fetch signing files
-#         run: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
-#      - name: Use system default keychain
-#         run: keychain add-certificates
+      - name: Use system default keychain
+        run: |
+          security find-identity -v -p codesigning
+          security list-keychains
+          security import ./certificate.p12 -P "password" -A
+          security set-key-partition-list -S apple-tool:,apple: -s -k "password" my.keychain
+          security set-keychain-settings my.keychain
+
       - name: Set up code signing settings on Xcode project
-        run: xcode-project use-profiles
+        run: |
+          xcode-project use-profiles
+
       - name: Add GoogleService-Info.plist
-        run: echo $GOOGLE_SERVICE_IOS_STAGE | base64 --decode > ./ios/Runner/GoogleService-Info.plist
-      - name: debug directory
-        run: pwd
-      - name: ls -la
-        run: ls -la
-        
-#       - name: Build iOS with automatic versioning
-#         run: |
-#           flutter clean
-#           rm -f ios/Podfile.lock pubspec.lock
-#           rm -rf ios/Pods ios/Runner.xcworkspace
-#           flutter build ipa --release --target=lib/main_stage.dart --flavor=$FLAVOR \
-#           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER \
-#           --dart-define=MY_APP_ENV=prod \
-#           --export-options-plist=/Users/Runner/work/export_options.plist \
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_IOS_STAGE }} | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
+      - name: Clean Flutter project
+        run: flutter clean
 
+      - name: Get Flutter packages
+        run: flutter pub get
 
-
-#      - name: Artifacts
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: artifacts
-#          path: |
-#            build/**/outputs/**/*.aab
-#            build/**/outputs/**/*.apk
-#             build/ios/ipa/*.ipa
-#             /tmp/xcodebuild_logs/*.log
-#             flutter_drive.log
+      - name: Build iOS app
+        run: |
+          flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
+            --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) \
+            --build-number=$PROJECT_BUILD_NUMBER \
+            --dart-define=MY_APP_ENV=prod \
+            --export-options-plist=/Users/builder/export_options.plist
