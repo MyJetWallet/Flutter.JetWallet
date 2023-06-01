@@ -26,18 +26,18 @@ jobs:
       - name: Install packages
         run: |
           gem install app_store_connect
-          gem install keychain
+#          gem install keychain
         
-      - name: Set up keychain
-        run: |
-          keychain initialize
-          echo "test1123%^&*()"
-          keychain add --password
+#       - name: Set up keychain
+#         run: |
+#           keychain initialize
+#           echo "test1123%^&*()"
+#           keychain add --password
 
       - name: Fetch signing files
         run: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
       - name: Use system default keychain
-        run: keychain add-certificates
+#         run: keychain add-certificates
       - name: Set up code signing settings on Xcode project
         run: xcode-project use-profiles
       - name: Add GoogleService-Info.plist
