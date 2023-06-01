@@ -26,8 +26,9 @@ jobs:
       - name: Install packages
         run: |
           gem install fastlane -NV
-          gem install appstoreconnect
+          gem install app_store_connect
           gem install keychain
+          
           
       - name: Set up keychain
         run: keychain initialize
