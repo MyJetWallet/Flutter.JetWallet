@@ -59,7 +59,7 @@ jobs:
 #           flutter pub run build_runner build --delete-conflicting-outputs
           
       - name: Decode keystore
-        run: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
+        run: echo -n ${{ secrets.$FCI_KEYSTORE }} | base64 --decode > $FCI_KEYSTORE_PATH
 
       - name: ls -la
         run: md5sum android/upload-keystore.jks
