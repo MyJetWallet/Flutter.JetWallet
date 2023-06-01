@@ -61,24 +61,26 @@ jobs:
       - name: Decode keystore
         run: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
 
+      - name: ls -la
+        run: cd ./android && la -la && cat upload-keystore.jks
         
-      - name: Build Android (AAB)
-        run: |
-          flutter build appbundle --release --target=lib/main_stage.dart --flavor=stage \
-          --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
+#       - name: Build Android (AAB)
+#         run: |
+#           flutter build appbundle --release --target=lib/main_stage.dart --flavor=stage \
+#           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
 
-      - name: Build Android (APK)
-        run: |
-          flutter build apk --release --target=lib/main_stage.dart --flavor=stage \
-          --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
+#       - name: Build Android (APK)
+#         run: |
+#           flutter build apk --release --target=lib/main_stage.dart --flavor=stage \
+#           --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) --build-number=$GITHUB_RUN_NUMBER
 
-      - name: Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: artifacts
-          path: |
-            build/**/outputs/**/*.aab
-            build/**/outputs/**/*.apk
+#       - name: Artifacts
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: artifacts
+#           path: |
+#             build/**/outputs/**/*.aab
+#             build/**/outputs/**/*.apk
 #             build/ios/ipa/*.ipa
 #             /tmp/xcodebuild_logs/*.log
 #             flutter_drive.log
