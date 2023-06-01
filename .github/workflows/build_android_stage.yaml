@@ -46,7 +46,7 @@ jobs:
       - name: Pub get
         run: flutter pub get
       - name: Simple networking
-        run: cd plugins/ && ls -la 
+        run: pwd
 
 #       - name: Change folder
 #         run: cd ../../plugins/simple_kit
