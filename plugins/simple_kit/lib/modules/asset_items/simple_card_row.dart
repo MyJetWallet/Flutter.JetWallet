@@ -66,12 +66,14 @@ class SCardRow extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: helper.isNotEmpty
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 24, child: icon),
                   SizedBox(width: spaceBIandText),
                   SizedBox(
-                    height: 28,
+                    height: helper.isNotEmpty ? 46 : 28,
                     child: Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
