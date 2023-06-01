@@ -83,7 +83,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     final model = SendToBankRequestModel(
       countryCode: countryCode,
-      cardNumber: cardNumber,
+      cardNumber: cardNumber.replaceAll(' ', ''),
       asset: sendCurrency!.symbol,
       amount: Decimal.parse(withAmount),
     );

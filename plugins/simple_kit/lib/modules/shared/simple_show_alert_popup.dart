@@ -31,10 +31,12 @@ void sShowAlertPopup(
   showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
+    useSafeArea: false,
     builder: (context) {
       return WillPopScope(
         onWillPop: () {
           onWillPop?.call();
+
           return Future.value(willPopScope);
         },
         child: Column(

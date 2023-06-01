@@ -67,6 +67,10 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.global_send_title,
+          subTitle: intl.p2p_transfer,
+          subTitleStyle: sSubtitle3Style.copyWith(
+            color: colors.grey2,
+          ),
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -147,6 +151,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                         primaryText: '',
                         secondaryText: intl.global_send_popup_details,
                         primaryButtonName: intl.global_send_got_it,
+                        barrierDismissible: true,
                         image: Image.asset(
                           infoLightAsset,
                           height: 80,

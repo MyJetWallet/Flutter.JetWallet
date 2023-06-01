@@ -31,15 +31,19 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   SendToBankCardResponse? data;
 
-  @computed
-  CurrencyModel get sendCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
-        data?.asset ?? 'EUR',
-      );
+  CurrencyModel sendCurrency = currencyFrom(
+    sSignalRModules.currenciesList,
+    'EUR',
+  );
 
   @action
   void init(SendToBankCardResponse val) {
     data = val;
+
+    sendCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      data!.asset!,
+    );
   }
 
   Future<void> confirmSendGlobally(SendToBankRequestModel model) async {
@@ -66,9 +70,9 @@ abstract class _SendGloballyConfirmStoreBase with Store {
   Future<void> showFailureScreen(String error) {
     return sRouter.push(
       FailureScreenRouter(
-        primaryText: intl.previewBuyWithAsset_failure,
+        primaryText: intl.failed,
         secondaryText: error,
-        primaryButtonName: intl.send_globally_fail_info,
+        primaryButtonName: intl.withdrawalConfirm_close,
         onPrimaryButtonTap: () {
           navigateToRouter();
         },

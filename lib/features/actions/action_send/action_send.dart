@@ -206,8 +206,8 @@ Future<void> showSendGlobally(
 
   sShowBasicModalBottomSheet(
     context: context,
-    scrollable: true,
-    expanded: true,
+    scrollable: availableCountries.length >= 7,
+    expanded: availableCountries.length >= 7,
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.global_send_destionation_country,
@@ -459,6 +459,7 @@ class _ActionSendPhone extends StatelessObserverWidget {
 
 void showGlobalSendCurrenctSelect(BuildContext context) {
   getIt.get<ActionSearchStore>().init();
+  getIt.get<ActionSearchStore>().clearSearchValue();
   final searchStore = getIt.get<ActionSearchStore>();
 
   sShowBasicModalBottomSheet(
@@ -496,9 +497,9 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
-    sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
+    sortByBalanceWatchlistAndWeight(state.fCurrencies, watchList);
 
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>
@@ -506,7 +507,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         )
         .toList();
 
-    final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
+    final showSearch = state.showCrypto;
 
     return Column(
       children: [
@@ -621,7 +622,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         if (state.showCrypto) ...[
           Column(
             children: [
-              for (final currency in state.filteredCurrencies)
+              for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.crypto)
                   if (currency.supportsGlobalSend)
                     SWalletItem(
@@ -630,7 +631,14 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                       ),
                       primaryText: currency.description,
                       secondaryText: currency.symbol,
-                      removeDivider: currency == currencyFiltered.last,
+                      removeDivider: currency ==
+                          state.fCurrencies
+                              .where(
+                                (element) =>
+                                    element.type == AssetType.crypto &&
+                                    element.supportsGlobalSend,
+                              )
+                              .last,
                       onTap: () {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);
@@ -641,7 +649,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         ] else ...[
           Column(
             children: [
-              for (final currency in state.filteredCurrencies)
+              for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.fiat)
                   if (currency.supportsGlobalSend)
                     SWalletItem(
@@ -650,7 +658,14 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                       ),
                       primaryText: currency.description,
                       secondaryText: currency.symbol,
-                      removeDivider: currency == currencyFiltered.last,
+                      removeDivider: currency ==
+                          state.fCurrencies
+                              .where(
+                                (element) =>
+                                    element.type == AssetType.fiat &&
+                                    element.supportsGlobalSend,
+                              )
+                              .last,
                       onTap: () {
                         Navigator.pop(context);
                         showSendGlobally(context, currency);

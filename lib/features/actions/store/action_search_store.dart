@@ -71,6 +71,8 @@ abstract class _ActionSearchStoreBase with Store {
 
   @observable
   String searchValue = '';
+  @action
+  void clearSearchValue() => searchValue = '';
 
   @observable
   bool showCrypto = true;

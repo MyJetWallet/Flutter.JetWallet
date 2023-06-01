@@ -39,8 +39,24 @@ class SendGloballyAmountScreen extends StatelessWidget {
   }
 }
 
-class SendGloballyAmountScreenBody extends StatelessObserverWidget {
+class SendGloballyAmountScreenBody extends StatefulObserverWidget {
   const SendGloballyAmountScreenBody({super.key});
+
+  @override
+  State<SendGloballyAmountScreenBody> createState() =>
+      _SendGloballyAmountScreenBodyState();
+}
+
+class _SendGloballyAmountScreenBodyState
+    extends State<SendGloballyAmountScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      FocusScope.of(context).unfocus();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +70,7 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.send_globally} ${store.sendCurrency!.symbol}',
+          title: intl.send_globally,
           subTitle: '${intl.withdrawalAmount_available}: '
               '${volumeFormat(
             decimal: store.availableBalabce,

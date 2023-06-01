@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -28,7 +30,7 @@ class SendGloballyConfirmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyConfirmStore>(
-      create: (context) => SendGloballyConfirmStore(),
+      create: (context) => SendGloballyConfirmStore()..init(data),
       builder: (context, child) => SendGloballyConfirmScreenBody(
         data: data,
       ),
@@ -53,9 +55,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      customLoader: WaitingScreen(
-        onSkip: () {},
-      ),
+      loaderText: intl.register_pleaseWait,
       header: const SSmallHeader(
         isShortVersion: true,
         title: '',
@@ -115,7 +115,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Text(
-                              'Receiver will get ≈ ${data.estimatedReceiveAmount!}',
+                              '${intl.global_send_est_amount} ≈ ${data.estimatedReceiveAmount!} ${data.receiveAsset}',
                               style: sSubtitle3Style,
                             ),
                           ),
@@ -135,7 +135,16 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     name: intl.send_globally_con_rate,
                     contentLoading: state.loader.loading,
                     value:
-                        '${state.sendCurrency.prefixSymbol}1 = ${data.estimatedPrice}',
+                        '${state.sendCurrency.prefixSymbol != null ? state.sendCurrency.prefixSymbol : ''} 1 ${state.sendCurrency.prefixSymbol == null ? state.sendCurrency.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}',
+                  ),
+                  SActionConfirmText(
+                    name: intl.global_send_you_send,
+                    value: volumeFormat(
+                      prefix: state.sendCurrency.prefixSymbol,
+                      decimal: data.amount ?? Decimal.zero,
+                      accuracy: state.sendCurrency.accuracy,
+                      symbol: state.sendCurrency.symbol,
+                    ),
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
@@ -172,12 +181,8 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             name: intl.currencyBuy_total,
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
-                            value: volumeFormat(
-                              prefix: state.sendCurrency.prefixSymbol,
-                              decimal: data.amount ?? Decimal.zero,
-                              accuracy: state.sendCurrency.accuracy,
-                              symbol: state.sendCurrency.symbol,
-                            ),
+                            value:
+                                '${data.estimatedPrice ?? Decimal.zero} ${data.receiveAsset}',
                           ),
                         ],
                       );
@@ -201,7 +206,8 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           name: intl.currencyBuy_total,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
-                          value: 'test',
+                          value:
+                              '${data.estimatedPrice ?? Decimal.zero} ${data.receiveAsset}',
                         ),
                       ],
                     );
