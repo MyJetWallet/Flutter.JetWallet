@@ -62,7 +62,7 @@ jobs:
         run: echo $FCI_KEYSTORE | base64 --decode > $FCI_KEYSTORE_PATH
 
       - name: ls -la
-        run: cd ./android && ls -la && cat upload-keystore.jks
+        run: md5sum android/upload-keystore.jks
         
 #       - name: Build Android (AAB)
 #         run: |
