@@ -45,6 +45,10 @@ jobs:
         run: flutter pub get
       - name: Simple networking
         run: cd plugins/simple_networking
+      - name: Pub get
+        run: flutter pub get
+      - name: Change folder
+        run: cd ../../plugins/simple_kit
       - name: ls -la
         run: ls -la 
         
