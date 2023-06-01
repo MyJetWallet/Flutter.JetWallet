@@ -119,8 +119,6 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             Navigator.pop(context);
 
-            //showSendGlobally(context);
-
             showGlobalSendCurrenctSelect(context);
           },
           amount: '',
@@ -249,18 +247,21 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return SCardRow(
-          icon: Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
+          icon: SizedBox(
             height: 24,
-            width: 24,
-            child: SvgPicture.asset(
-              flagAssetName(
-                store.filtredGlobalSendCountries[index].countryCode,
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
               ),
-              fit: BoxFit.cover,
+              height: 24,
+              width: 24,
+              child: SvgPicture.asset(
+                flagAssetName(
+                  store.filtredGlobalSendCountries[index].countryCode,
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           spaceBIandText: 10,

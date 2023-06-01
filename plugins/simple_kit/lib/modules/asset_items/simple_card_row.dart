@@ -70,36 +70,34 @@ class SCardRow extends StatelessWidget {
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 24, child: icon),
+                  icon,
                   SizedBox(width: spaceBIandText),
                   SizedBox(
                     height: helper.isNotEmpty ? 46 : 28,
-                    child: Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: sTextH5Style.copyWith(
-                              color: mainColor,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: sTextH5Style.copyWith(
+                            color: mainColor,
                           ),
-                          if (helper.isNotEmpty) ...[
-                            Baseline(
-                              baseline: 14.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                helper,
-                                textAlign: TextAlign.start,
-                                maxLines: 3,
-                                style: sCaptionTextStyle.copyWith(
-                                  color: SColorsLight().grey3,
-                                ),
+                        ),
+                        if (helper.isNotEmpty) ...[
+                          Baseline(
+                            baseline: 14.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              helper,
+                              textAlign: TextAlign.start,
+                              maxLines: 3,
+                              style: sCaptionTextStyle.copyWith(
+                                color: SColorsLight().grey3,
                               ),
                             ),
-                          ],
+                          ),
                         ],
-                      ),
+                      ],
                     ),
                   ),
                   const SpaceW12(),

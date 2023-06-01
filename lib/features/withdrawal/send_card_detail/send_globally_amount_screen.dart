@@ -70,7 +70,7 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
         children: [
           deviceSize.when(
             small: () => const SizedBox(),
-            medium: () => const SizedBox(height: 48),
+            medium: () => const Spacer(),
           ),
           Baseline(
             baseline: deviceSize.when(
@@ -92,7 +92,8 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
               isErrorActive: store.withAmmountInputError.isActive,
             ),
           ),
-          const SizedBox(height: 58),
+          //const SizedBox(height: 40),
+          const Spacer(),
           SPaddingH24(
             child: Ink(
               height: 88,
