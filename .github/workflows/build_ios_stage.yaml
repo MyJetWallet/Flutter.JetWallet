@@ -28,10 +28,16 @@ jobs:
           gem install fastlane -NV
           gem install app_store_connect
           gem install keychain
-          
-          
+
+      - name: Set up code signing
+        run: fastlane match appstore --readonly
+        
       - name: Set up keychain
-        run: keychain initialize
+        run: |
+          keychain initialize
+          echo "Enter initial password!"
+          keychain add --password
+
       - name: Fetch signing files
         run: app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
       - name: Use system default keychain
