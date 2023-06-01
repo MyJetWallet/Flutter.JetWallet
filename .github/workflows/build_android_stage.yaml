@@ -43,8 +43,10 @@ jobs:
         run: flutter clean
       - name: Pub get
         run: flutter pub get
+      - name: Simple networking
+        run: cd plugins/simple_networking
       - name: ls -la
-        run: ls -la
+        run: ls -la 
         
           #cd plugins/simple_networking
           #flutter pub get
