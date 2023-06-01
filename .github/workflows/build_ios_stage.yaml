@@ -17,6 +17,9 @@ jobs:
           security default-keychain -s my.keychain
           security unlock-keychain -p "test123" my.keychain
 
+      - name: Install app-store-connect
+        run: npm install -g app-store-connect
+        
       - name: Fetch signing files
         run: |
           app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
