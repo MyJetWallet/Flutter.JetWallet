@@ -20,13 +20,15 @@ jobs:
       - name: Fetch signing files
         run: |
           app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+        env:
+          PATH: ${{ env.PATH }}:/usr/local/bin
 
       - name: Use system default keychain
         run: |
           security find-identity -v -p codesigning
           security list-keychains
-          security import ./certificate.p12 -P "password" -A
-          security set-key-partition-list -S apple-tool:,apple: -s -k "password" my.keychain
+          security import ./certificate.p12 -P "test123" -A
+          security set-key-partition-list -S apple-tool:,apple: -s -k "test123" my.keychain
           security set-keychain-settings my.keychain
 
       - name: Set up code signing settings on Xcode project
