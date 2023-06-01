@@ -25,17 +25,13 @@ jobs:
 
       - name: Install packages
         run: |
-          gem install fastlane -NV
           gem install app_store_connect
           gem install keychain
-
-      - name: Set up code signing
-        run: fastlane match appstore --readonly
         
       - name: Set up keychain
         run: |
           keychain initialize
-          echo "Enter initial password!"
+          echo "test1123%^&*()"
           keychain add --password
 
       - name: Fetch signing files
