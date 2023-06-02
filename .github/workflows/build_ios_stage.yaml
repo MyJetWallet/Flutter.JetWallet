@@ -48,6 +48,9 @@ jobs:
         run: |
           echo ${{ secrets.GOOGLE_SERVICE_IOS_STAGE }} | base64 --decode > ./ios/Runner/GoogleService-Info.plist
 
+      - name: ls -la
+        run: ls -la
+        
       - name: Clean Flutter project
         run: flutter clean
 
@@ -60,4 +63,4 @@ jobs:
             --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) \
             --build-number=$PROJECT_BUILD_NUMBER \
             --dart-define=MY_APP_ENV=prod \
-            --export-options-plist=export_options.plist
+            --export-options-plist/Users/builder/export_options.plist
