@@ -507,7 +507,17 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         )
         .toList();
 
-    final showSearch = state.showCrypto;
+    final showCryptoSearch = sSignalRModules.currenciesList
+            .where((element) =>
+                element.type == AssetType.crypto && element.supportsGlobalSend)
+            .length >=
+        7;
+
+    final showFiatSearch = sSignalRModules.currenciesList
+            .where((element) =>
+                element.type == AssetType.fiat && element.supportsGlobalSend)
+            .length >=
+        7;
 
     return Column(
       children: [
@@ -609,7 +619,16 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
           ),
           const SpaceH12(),
         ],
-        if (showSearch) ...[
+        if (state.showCrypto && showCryptoSearch) ...[
+          SPaddingH24(
+            child: SStandardField(
+              controller: state.searchController,
+              labelText: intl.actionBottomSheetHeader_search,
+              onChanged: (String value) => state.search(value),
+            ),
+          ),
+          const SDivider(),
+        ] else if (showFiatSearch) ...[
           SPaddingH24(
             child: SStandardField(
               controller: state.searchController,
