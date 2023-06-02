@@ -8,7 +8,6 @@ part 'send_to_bank_request_model.g.dart';
 @freezed
 class SendToBankRequestModel with _$SendToBankRequestModel {
   factory SendToBankRequestModel({
-    final String? requestId,
     final String? countryCode,
     final String? cardNumber,
     final String? asset,

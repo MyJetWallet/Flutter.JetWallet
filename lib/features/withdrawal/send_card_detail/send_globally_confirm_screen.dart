@@ -139,12 +139,8 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.global_send_you_send,
-                    value: volumeFormat(
-                      prefix: state.sendCurrency.prefixSymbol,
-                      decimal: data.amount ?? Decimal.zero,
-                      accuracy: state.sendCurrency.accuracy,
-                      symbol: state.sendCurrency.symbol,
-                    ),
+                    value:
+                        '${data.estimatedReceiveAmount ?? Decimal.zero} ${data.receiveAsset}',
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
@@ -181,8 +177,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                             name: intl.currencyBuy_total,
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
-                            value:
-                                '${data.estimatedPrice ?? Decimal.zero} ${data.receiveAsset}',
+                            value: volumeFormat(
+                              prefix: state.sendCurrency.prefixSymbol,
+                              decimal: data.amount ?? Decimal.zero,
+                              accuracy: state.sendCurrency.accuracy,
+                              symbol: state.sendCurrency.symbol,
+                            ),
                           ),
                         ],
                       );
@@ -206,8 +206,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           name: intl.currencyBuy_total,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
-                          value:
-                              '${data.estimatedPrice ?? Decimal.zero} ${data.receiveAsset}',
+                          value: volumeFormat(
+                            prefix: state.sendCurrency.prefixSymbol,
+                            decimal: data.amount ?? Decimal.zero,
+                            accuracy: state.sendCurrency.accuracy,
+                            symbol: state.sendCurrency.symbol,
+                          ),
                         ),
                       ],
                     );
