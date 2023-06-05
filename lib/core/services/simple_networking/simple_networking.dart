@@ -60,7 +60,12 @@ class SNetwork {
 }
 
 Future<Dio> setupDio() async {
-  final _dio = Dio();
+  final _dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+    ),
+  );
 
   setAuthInterceptor(_dio, isImage: false);
   await addProxy(_dio);
@@ -70,7 +75,12 @@ Future<Dio> setupDio() async {
 }
 
 Future<Dio> setupImageDio() async {
-  final _dio = Dio();
+  final _dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+    ),
+  );
 
   setAuthInterceptor(_dio, isImage: true);
   await addProxy(_dio);
@@ -79,7 +89,12 @@ Future<Dio> setupImageDio() async {
 }
 
 Future<Dio> setupDioWithoutInterceptors() async {
-  final _dio = Dio();
+  final _dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
+    ),
+  );
 
   setGuestInterceptor(_dio);
   await addProxy(_dio);
