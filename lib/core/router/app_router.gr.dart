@@ -786,6 +786,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: SendCardDetailScreen(
           key: args.key,
+          method: args.method,
           countryCode: args.countryCode,
           currency: args.currency,
         ),
@@ -797,9 +798,8 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: SendGloballyAmountScreen(
           key: args.key,
-          cardNumber: args.cardNumber,
-          countryCode: args.countryCode,
-          currency: args.currency,
+          data: args.data,
+          method: args.method,
         ),
       );
     },
@@ -810,6 +810,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: SendGloballyConfirmScreen(
           key: args.key,
           data: args.data,
+          method: args.method,
         ),
       );
     },
@@ -928,6 +929,17 @@ abstract class _$AppRouter extends RootStackRouter {
           specialTextWidget: args.specialTextWidget,
           wasAction: args.wasAction,
           onSkip: args.onSkip,
+        ),
+      );
+    },
+    SendCardPaymentMethodRouter.name: (routeData) {
+      final args = routeData.argsAs<SendCardPaymentMethodRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendCardPaymentMethodScreen(
+          key: args.key,
+          countryCode: args.countryCode,
+          currency: args.currency,
         ),
       );
     },
@@ -3645,6 +3657,7 @@ class WalletRouterArgs {
 class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
   SendCardDetailRouter({
     Key? key,
+    required GlobalSendMethodsModelMethods method,
     required String countryCode,
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
@@ -3652,6 +3665,7 @@ class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
           SendCardDetailRouter.name,
           args: SendCardDetailRouterArgs(
             key: key,
+            method: method,
             countryCode: countryCode,
             currency: currency,
           ),
@@ -3667,11 +3681,14 @@ class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
 class SendCardDetailRouterArgs {
   const SendCardDetailRouterArgs({
     this.key,
+    required this.method,
     required this.countryCode,
     required this.currency,
   });
 
   final Key? key;
+
+  final GlobalSendMethodsModelMethods method;
 
   final String countryCode;
 
@@ -3679,7 +3696,7 @@ class SendCardDetailRouterArgs {
 
   @override
   String toString() {
-    return 'SendCardDetailRouterArgs{key: $key, countryCode: $countryCode, currency: $currency}';
+    return 'SendCardDetailRouterArgs{key: $key, method: $method, countryCode: $countryCode, currency: $currency}';
   }
 }
 
@@ -3689,17 +3706,15 @@ class SendGloballyAmountRouter
     extends PageRouteInfo<SendGloballyAmountRouterArgs> {
   SendGloballyAmountRouter({
     Key? key,
-    required String cardNumber,
-    required String countryCode,
-    required CurrencyModel currency,
+    required SendToBankRequestModel data,
+    required GlobalSendMethodsModelMethods method,
     List<PageRouteInfo>? children,
   }) : super(
           SendGloballyAmountRouter.name,
           args: SendGloballyAmountRouterArgs(
             key: key,
-            cardNumber: cardNumber,
-            countryCode: countryCode,
-            currency: currency,
+            data: data,
+            method: method,
           ),
           initialChildren: children,
         );
@@ -3713,22 +3728,19 @@ class SendGloballyAmountRouter
 class SendGloballyAmountRouterArgs {
   const SendGloballyAmountRouterArgs({
     this.key,
-    required this.cardNumber,
-    required this.countryCode,
-    required this.currency,
+    required this.data,
+    required this.method,
   });
 
   final Key? key;
 
-  final String cardNumber;
+  final SendToBankRequestModel data;
 
-  final String countryCode;
-
-  final CurrencyModel currency;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   String toString() {
-    return 'SendGloballyAmountRouterArgs{key: $key, cardNumber: $cardNumber, countryCode: $countryCode, currency: $currency}';
+    return 'SendGloballyAmountRouterArgs{key: $key, data: $data, method: $method}';
   }
 }
 
@@ -3739,12 +3751,14 @@ class SendGloballyConfirmRouter
   SendGloballyConfirmRouter({
     Key? key,
     required SendToBankCardResponse data,
+    required GlobalSendMethodsModelMethods method,
     List<PageRouteInfo>? children,
   }) : super(
           SendGloballyConfirmRouter.name,
           args: SendGloballyConfirmRouterArgs(
             key: key,
             data: data,
+            method: method,
           ),
           initialChildren: children,
         );
@@ -3759,15 +3773,18 @@ class SendGloballyConfirmRouterArgs {
   const SendGloballyConfirmRouterArgs({
     this.key,
     required this.data,
+    required this.method,
   });
 
   final Key? key;
 
   final SendToBankCardResponse data;
 
+  final GlobalSendMethodsModelMethods method;
+
   @override
   String toString() {
-    return 'SendGloballyConfirmRouterArgs{key: $key, data: $data}';
+    return 'SendGloballyConfirmRouterArgs{key: $key, data: $data, method: $method}';
   }
 }
 
@@ -4206,5 +4223,49 @@ class WaitingScreenRouterArgs {
   @override
   String toString() {
     return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
+  }
+}
+
+/// generated route for
+/// [SendCardPaymentMethodScreen]
+class SendCardPaymentMethodRouter
+    extends PageRouteInfo<SendCardPaymentMethodRouterArgs> {
+  SendCardPaymentMethodRouter({
+    Key? key,
+    required String countryCode,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendCardPaymentMethodRouter.name,
+          args: SendCardPaymentMethodRouterArgs(
+            key: key,
+            countryCode: countryCode,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendCardPaymentMethodRouter';
+
+  static const PageInfo<SendCardPaymentMethodRouterArgs> page =
+      PageInfo<SendCardPaymentMethodRouterArgs>(name);
+}
+
+class SendCardPaymentMethodRouterArgs {
+  const SendCardPaymentMethodRouterArgs({
+    this.key,
+    required this.countryCode,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final String countryCode;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'SendCardPaymentMethodRouterArgs{key: $key, countryCode: $countryCode, currency: $currency}';
   }
 }

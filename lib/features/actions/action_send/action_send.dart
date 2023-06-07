@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -177,6 +178,8 @@ Future<void> showSendGlobally(
   final availableCountries = <KycCountryModel>[];
   final globalSearchStore = ActionSearchStore();
 
+  log(jsonEncode(sSignalRModules.globalSendMethods!.toJson()));
+
   for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
     if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
         sSignalRModules
@@ -270,7 +273,7 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
             Navigator.pop(context);
 
             sRouter.push(
-              SendCardDetailRouter(
+              SendCardPaymentMethodRouter(
                 currency: currency,
                 countryCode:
                     store.filtredGlobalSendCountries[index].countryCode,

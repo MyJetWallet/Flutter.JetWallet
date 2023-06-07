@@ -8,14 +8,25 @@ part 'send_to_bank_card_response.g.dart';
 @freezed
 class SendToBankCardResponse with _$SendToBankCardResponse {
   factory SendToBankCardResponse({
+    final String? methodId,
     final String? countryCode,
-    final String? cardNumber,
     final String? asset,
     @DecimalSerialiser() Decimal? amount,
     @DecimalSerialiser() Decimal? feeAmount,
     final String? receiveAsset,
     @DecimalSerialiser() Decimal? estimatedReceiveAmount,
     @DecimalSerialiser() Decimal? estimatedPrice,
+    final String? cardNumber,
+    final String? iban,
+    final String? phoneNumber,
+    final String? recipientName,
+    final String? panNumber,
+    final String? upiAddress,
+    final String? accountNumber,
+    final String? beneficiaryName,
+    final String? bankName,
+    final String? ifscCode,
+    final String? bankAccount,
   }) = _SendToBankCardResponse;
 
   factory SendToBankCardResponse.fromJson(Map<String, dynamic> json) =>

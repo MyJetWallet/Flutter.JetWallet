@@ -9,9 +9,20 @@ part 'send_to_bank_request_model.g.dart';
 class SendToBankRequestModel with _$SendToBankRequestModel {
   factory SendToBankRequestModel({
     final String? countryCode,
-    final String? cardNumber,
     final String? asset,
     @DecimalSerialiser() Decimal? amount,
+    final String? methodId,
+    final String? cardNumber,
+    final String? iban,
+    final String? phoneNumber,
+    final String? recipientName,
+    final String? panNumber,
+    final String? upiAddress,
+    final String? accountNumber,
+    final String? beneficiaryName,
+    final String? bankName,
+    final String? ifscCode,
+    final String? bankAccount,
   }) = _SendToBankRequestModel;
 
   factory SendToBankRequestModel.fromJson(Map<String, dynamic> json) =>

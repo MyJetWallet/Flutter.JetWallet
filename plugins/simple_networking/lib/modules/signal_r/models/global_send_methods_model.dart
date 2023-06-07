@@ -34,7 +34,7 @@ class GlobalSendMethodsModelMethods with _$GlobalSendMethodsModelMethods {
       _$GlobalSendMethodsModelMethodsFromJson(json);
 }
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class GlobalSendMethodsModelDescription
     with _$GlobalSendMethodsModelDescription {
   factory GlobalSendMethodsModelDescription({
@@ -50,11 +50,96 @@ class GlobalSendMethodsModelDescription
 @freezed
 class FieldInfo with _$FieldInfo {
   factory FieldInfo({
-    final String? fieldId,
+    @FieldInfoIdSerialiser() final FieldInfoId? fieldId,
     final String? fieldName,
     final int? weight,
   }) = _FieldInfo;
 
   factory FieldInfo.fromJson(Map<String, dynamic> json) =>
       _$FieldInfoFromJson(json);
+}
+
+enum FieldInfoId {
+  cardNumber,
+  iban,
+  phoneNumber,
+  recipientName,
+  panNumber,
+  upiAddress,
+  accountNumber,
+  beneficiaryName,
+  bankName,
+  ifscCode,
+  bankAccount,
+  unknown
+}
+
+extension _DepositMethodsExtension on FieldInfoId {
+  String get name {
+    switch (this) {
+      case FieldInfoId.cardNumber:
+        return 'CardNumber';
+      case FieldInfoId.iban:
+        return 'Iban';
+      case FieldInfoId.phoneNumber:
+        return 'PhoneNumber';
+      case FieldInfoId.recipientName:
+        return 'RecipientName';
+      case FieldInfoId.panNumber:
+        return 'PanNumber';
+      case FieldInfoId.upiAddress:
+        return 'UpiAddress';
+      case FieldInfoId.accountNumber:
+        return 'AccountNumber';
+      case FieldInfoId.beneficiaryName:
+        return 'BeneficiaryName';
+      case FieldInfoId.bankName:
+        return 'BankName';
+      case FieldInfoId.ifscCode:
+        return 'IfscCode';
+      case FieldInfoId.bankAccount:
+        return 'BankAccount';
+      case FieldInfoId.unknown:
+        return 'Unknown';
+    }
+  }
+}
+
+class FieldInfoIdSerialiser implements JsonConverter<FieldInfoId, dynamic> {
+  const FieldInfoIdSerialiser();
+
+  @override
+  FieldInfoId fromJson(dynamic json) {
+    final value = json.toString();
+
+    switch (value) {
+      case 'CardNumber':
+        return FieldInfoId.cardNumber;
+      case 'Iban':
+        return FieldInfoId.iban;
+      case 'PhoneNumber':
+        return FieldInfoId.phoneNumber;
+      case 'RecipientName':
+        return FieldInfoId.recipientName;
+      case 'PanNumber':
+        return FieldInfoId.panNumber;
+      case 'UpiAddress':
+        return FieldInfoId.upiAddress;
+      case 'AccountNumber':
+        return FieldInfoId.accountNumber;
+      case 'BeneficiaryName':
+        return FieldInfoId.beneficiaryName;
+      case 'BankAccount':
+        return FieldInfoId.bankAccount;
+      case 'IfscCode':
+        return FieldInfoId.ifscCode;
+      case 'BankName':
+        return FieldInfoId.bankName;
+      default:
+        return FieldInfoId.unknown;
+    }
+  }
+
+  @override
+  dynamic toJson(FieldInfoId type) => type.name;
 }

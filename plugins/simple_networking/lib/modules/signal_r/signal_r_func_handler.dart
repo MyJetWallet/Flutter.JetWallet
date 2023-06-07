@@ -395,7 +395,7 @@ class SignalRFuncHandler {
   void globalSendMethodsHandler(List<Object?>? data) {
     try {
       final globalSendMethods = GlobalSendMethodsModel.fromJson(_json(data));
-      log(globalSendMethods.toString());
+      log(globalSendMethods.toJson().toString());
 
       sTransport.updateGlobalSendMethods(globalSendMethods);
 

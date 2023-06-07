@@ -13,10 +13,21 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 part 'send_globally_confirm_store.g.dart';
+
+class ReceiverDetailModel {
+  ReceiverDetailModel(
+    this.info,
+    this.value,
+  );
+
+  final FieldInfo info;
+  final String value;
+}
 
 class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase
     with _$SendGloballyConfirmStore {
@@ -30,24 +41,92 @@ abstract class _SendGloballyConfirmStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   SendToBankCardResponse? data;
+  GlobalSendMethodsModelMethods? method;
 
-  CurrencyModel sendCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    'EUR',
-  );
+  @observable
+  ObservableList<ReceiverDetailModel> receiverDetails = ObservableList.of([]);
+
+  @observable
+  String? sendCurrencyAsset;
+  @computed
+  CurrencyModel? get sendCurrency => sendCurrencyAsset != null
+      ? currencyFrom(
+          sSignalRModules.currenciesList,
+          sendCurrencyAsset!,
+        )
+      : null;
 
   @action
-  void init(SendToBankCardResponse val) {
+  void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods method) {
     data = val;
 
-    sendCurrency = currencyFrom(
-      sSignalRModules.currenciesList,
-      data!.asset!,
+    sendCurrencyAsset = val.asset;
+
+    final obj = sSignalRModules.globalSendMethods!.descriptions!.firstWhere(
+      (element) => element.type == method.type,
     );
+
+    for (var i = 0; i < obj.fields!.length; i++) {
+      receiverDetails.add(
+        ReceiverDetailModel(
+          obj.fields![i],
+          getValueFromData(val, obj.fields![i].fieldId!),
+        ),
+      );
+    }
+
+    print(receiverDetails);
   }
 
-  Future<void> confirmSendGlobally(SendToBankRequestModel model) async {
+  String getValueFromData(SendToBankCardResponse val, FieldInfoId id) {
+    switch (id) {
+      case FieldInfoId.cardNumber:
+        return val.cardNumber ?? '';
+      case FieldInfoId.iban:
+        return val.iban ?? '';
+      case FieldInfoId.phoneNumber:
+        return val.phoneNumber ?? '';
+      case FieldInfoId.recipientName:
+        return val.recipientName ?? '';
+      case FieldInfoId.panNumber:
+        return val.panNumber ?? '';
+      case FieldInfoId.upiAddress:
+        return val.upiAddress ?? '';
+      case FieldInfoId.accountNumber:
+        return val.accountNumber ?? '';
+      case FieldInfoId.beneficiaryName:
+        return val.beneficiaryName ?? '';
+      case FieldInfoId.bankName:
+        return val.bankName ?? '';
+      case FieldInfoId.bankAccount:
+        return val.bankAccount ?? '';
+      case FieldInfoId.ifscCode:
+        return val.ifscCode ?? '';
+      default:
+        return '';
+    }
+  }
+
+  Future<void> confirmSendGlobally() async {
     loader.startLoadingImmediately();
+
+    final model = SendToBankRequestModel(
+      countryCode: data?.countryCode,
+      asset: data?.asset,
+      amount: data?.amount,
+      methodId: data?.methodId,
+      cardNumber: data?.cardNumber,
+      iban: data?.iban,
+      phoneNumber: data?.phoneNumber,
+      recipientName: data?.recipientName,
+      panNumber: data?.panNumber,
+      upiAddress: data?.upiAddress,
+      accountNumber: data?.accountNumber,
+      beneficiaryName: data?.beneficiaryName,
+      bankName: data?.bankName,
+      ifscCode: data?.ifscCode,
+      bankAccount: data?.bankAccount,
+    );
 
     final response = await getIt
         .get<SNetwork>()
@@ -88,10 +167,10 @@ abstract class _SendGloballyConfirmStoreBase with Store {
             primaryText: intl.send_globally_success,
             secondaryText:
                 '${intl.send_globally_success_secondary} ${volumeFormat(
-              prefix: sendCurrency.prefixSymbol,
+              prefix: sendCurrency!.prefixSymbol,
               decimal: model.amount ?? Decimal.zero,
-              accuracy: sendCurrency.accuracy,
-              symbol: sendCurrency.symbol,
+              accuracy: sendCurrency!.accuracy,
+              symbol: sendCurrency!.symbol,
             )}'
                 '\n${intl.send_globally_success_secondary_2}',
             showProgressBar: true,

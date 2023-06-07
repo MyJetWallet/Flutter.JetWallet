@@ -1407,5 +1407,10 @@
   "action_send_global_send_bottomheet": "Choose asset to send",
   "p2p_transfer": "P2P transfer",
   "global_send_you_send": "You send",
-  "global_send_est_amount": "Estimated amount"
+  "global_send_est_amount": "Estimated amount",
+  "global_send_payment_method_title": "Payment method",
+  "global_send_receiver_details": "Receiver details",
+  "global_send_payment_details": "Payment details",
+  "global_send_account_number": "Account number",
+  "global_send_beneficiary_name": "Payment details"
 }

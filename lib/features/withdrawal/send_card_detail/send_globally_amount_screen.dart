@@ -14,33 +14,43 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 @RoutePage(name: 'SendGloballyAmountRouter')
 class SendGloballyAmountScreen extends StatelessWidget {
   const SendGloballyAmountScreen({
     super.key,
-    required this.cardNumber,
-    required this.countryCode,
-    required this.currency,
+    required this.data,
+    required this.method,
   });
 
-  final String cardNumber;
-  final String countryCode;
-  final CurrencyModel currency;
+  final SendToBankRequestModel data;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyAmountStore>(
-      create: (context) => SendGloballyAmountStore()
-        ..setCardNumber(cardNumber, currency, countryCode),
-      builder: (context, child) => const SendGloballyAmountScreenBody(),
+      create: (context) =>
+          SendGloballyAmountStore()..setCardNumber(data, method),
+      builder: (context, child) => SendGloballyAmountScreenBody(
+        data: data,
+        method: method,
+      ),
     );
   }
 }
 
 class SendGloballyAmountScreenBody extends StatefulObserverWidget {
-  const SendGloballyAmountScreenBody({super.key});
+  const SendGloballyAmountScreenBody({
+    super.key,
+    required this.data,
+    required this.method,
+  });
+
+  final SendToBankRequestModel data;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   State<SendGloballyAmountScreenBody> createState() =>
@@ -132,7 +142,7 @@ class _SendGloballyAmountScreenBodyState
                         baseline: 18,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          '•••• ${store.cardNumber.substring(store.cardNumber.length - 4)}',
+                          widget.method.name ?? '',
                           style: sSubtitle2Style,
                         ),
                       ),

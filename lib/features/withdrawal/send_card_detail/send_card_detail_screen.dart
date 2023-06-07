@@ -9,30 +9,36 @@ import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_form
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_input.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
 @RoutePage(name: 'SendCardDetailRouter')
 class SendCardDetailScreen extends StatelessWidget {
   const SendCardDetailScreen({
     super.key,
+    required this.method,
     required this.countryCode,
     required this.currency,
   });
 
+  final GlobalSendMethodsModelMethods method;
   final String countryCode;
   final CurrencyModel currency;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendCardDetailStore>(
-      create: (context) => SendCardDetailStore(),
+      create: (context) =>
+          SendCardDetailStore()..init(method, countryCode, currency.symbol),
       builder: (context, child) => SendCardDetailScreenBody(
         countryCode: countryCode,
         currency: currency,
+        method: method,
       ),
     );
   }
@@ -41,10 +47,12 @@ class SendCardDetailScreen extends StatelessWidget {
 class SendCardDetailScreenBody extends StatefulObserverWidget {
   const SendCardDetailScreenBody({
     super.key,
+    required this.method,
     required this.countryCode,
     required this.currency,
   });
 
+  final GlobalSendMethodsModelMethods method;
   final String countryCode;
   final CurrencyModel currency;
 
@@ -67,7 +75,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.global_send_title,
-          subTitle: intl.p2p_transfer,
+          subTitle: widget.method.name,
           subTitleStyle: sSubtitle3Style.copyWith(
             color: colors.grey2,
           ),
@@ -77,45 +85,20 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
       child: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return PaymentMethodInput.getInput(
+                  store.methodList[index],
+                );
+              },
+              childCount: store.methodList.length,
+            ),
+          ),
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
               children: [
-                SFieldDividerFrame(
-                  child: SStandardField(
-                    controller: cardNumberController,
-                    labelText: intl.addCircleCard_cardNumber,
-                    keyboardType: TextInputType.number,
-                    isError: store.cardNumberError,
-                    disableErrorOnChanged: false,
-                    hideSpace: true,
-                    onErase: () {
-                      store.updateCardNumber('');
-                    },
-                    suffixIcons: [
-                      SIconButton(
-                        onTap: () {
-                          store.pasteCardNumber(cardNumberController);
-                        },
-                        defaultIcon: const SPasteIcon(),
-                        pressedIcon: const SPastePressedIcon(),
-                      ),
-                    ],
-                    inputFormatters: [
-                      MaskedTextInputFormatter(
-                        mask: 'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
-                        separator: '\u{2005}',
-                      ),
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'[0-9\u2005]'),
-                      ),
-                    ],
-                    onChanged: (str) {
-                      store.updateCardNumber(str);
-                      setState(() {});
-                    },
-                  ),
-                ),
                 SPaddingH24(
                   child: SPolicyCheckbox(
                     height: 160,
@@ -172,17 +155,11 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                   child: Material(
                     color: colors.grey5,
                     child: SPrimaryButton2(
-                      active: store.isCardNumberValid &&
+                      active: store.isContinueAvailable &&
                           getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
-                        sRouter.push(
-                          SendGloballyAmountRouter(
-                            cardNumber: store.cardNumber,
-                            currency: widget.currency,
-                            countryCode: widget.countryCode,
-                          ),
-                        );
+                        store.submit();
                       },
                     ),
                   ),

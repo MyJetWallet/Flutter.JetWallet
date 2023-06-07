@@ -16,6 +16,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -38,24 +39,41 @@ abstract class _SendGloballyAmountStoreBase with Store {
   void tapPreset(String preset) => tappedPreset = preset;
 
   @observable
-  CurrencyModel? sendCurrency;
+  String? sendCurrencyAsset;
+  @computed
+  CurrencyModel? get sendCurrency => sendCurrencyAsset != null
+      ? currencyFrom(
+          sSignalRModules.currenciesList,
+          sendCurrencyAsset!,
+        )
+      : null;
+
   @observable
   String countryCode = '';
   @observable
   String cardNumber = '';
   @observable
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
-  @action
-  void setCardNumber(String card, CurrencyModel currency, String cCode) {
-    cardNumber = card;
-    sendCurrency = currency;
-    countryCode = cCode;
 
+  SendToBankRequestModel? mainData;
+  GlobalSendMethodsModelMethods? method;
+
+  @action
+  void setCardNumber(
+      SendToBankRequestModel data, GlobalSendMethodsModelMethods m) {
+    sendCurrencyAsset = data.asset ?? '';
+    countryCode = data.countryCode ?? '';
+
+    mainData = data;
+    method = m;
+
+    /*
     if (cardNumber[0] == '4') {
       cardNetwork = CircleCardNetwork.VISA;
     } else if (cardNumber[0] == '5') {
       cardNetwork = CircleCardNetwork.MASTERCARD;
     }
+    */
   }
 
   @observable
@@ -81,11 +99,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
   Future<void> loadPreview() async {
     loader.startLoadingImmediately();
 
-    final model = SendToBankRequestModel(
-      countryCode: countryCode,
-      cardNumber: cardNumber.replaceAll(' ', ''),
-      asset: sendCurrency!.symbol,
+    mainData = mainData!.copyWith(
       amount: Decimal.parse(withAmount),
+      methodId: method!.methodId ?? '',
     );
 
     final response = await getIt
@@ -93,17 +109,16 @@ abstract class _SendGloballyAmountStoreBase with Store {
         .simpleNetworking
         .getWalletModule()
         .sendToBankCardPreview(
-          model,
+          mainData!,
         );
 
     loader.finishLoadingImmediately();
 
     if (!response.hasError) {
-      print(response.data);
-
       await sRouter.push(
         SendGloballyConfirmRouter(
           data: response.data!,
+          method: method!,
         ),
       );
     } else {
