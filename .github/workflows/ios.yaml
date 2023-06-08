@@ -49,11 +49,11 @@ jobs:
         with:
           flutter-version: 3.10.0
           
-      - name: Install appstoreconnect-cli
-        run: npm install -g appstoreconnect-cli
+#       - name: Install appstoreconnect-cli
+#         run: npm install -g appstoreconnect-cli
         
-      - name: Fetch signing files
-        run: appstoreconnect fetch-signing-files stage.app.simple.com --type IOS_APP_STORE --create   
+#       - name: Fetch signing files
+#         run: appstoreconnect fetch-signing-files stage.app.simple.com --type IOS_APP_STORE --create   
         
       - name: Add GoogleService-Info.plist
         run: |
