@@ -36,5 +36,33 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-#       - name: Build app
-#         ...
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "16.x"
+          
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.10.0
+          
+      - name: Add GoogleService-Info.plist
+        run: |
+          echo ${{ secrets.GOOGLE_SERVICE_IOS_STAGE }} | base64 --decode > ./ios/Runner/GoogleService-Info.plist
+  
+      - name: Clean Flutter project
+        run: flutter clean
+
+      - name: Get Flutter packages
+        run: flutter pub get
+  
+      - name: Build iOS app
+        run: |
+          flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
+            --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) \
+            --build-number=$GITHUB_RUN_NUMBER \
+            --dart-define=MY_APP_ENV=prod \
+            --export-options-plist=/Users/builder/export_options.plist
