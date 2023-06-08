@@ -49,10 +49,26 @@ jobs:
         with:
           flutter-version: 3.10.0
           
+      - name: Install appstoreconnect-cli
+        run: npm install -g appstoreconnect-cli
+        
+      - name: Fetch signing files
+        run: appstoreconnect fetch-signing-files stage.app.simple.com --type IOS_APP_STORE --create   
+        
       - name: Add GoogleService-Info.plist
         run: |
           echo ${{ secrets.GOOGLE_SERVICE_IOS_STAGE }} | base64 --decode > ./ios/Runner/GoogleService-Info.plist
   
+      - name: Set up code signing settings on Xcode project
+        uses: xcutils/xcode-signing@v1
+        with:
+          keychain: ${{ secrets.KEYCHAIN_PATH }}
+          p12: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.P12_PASSWORD }}
+          provision-profile: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          project-path: .
+
+
       - name: Clean Flutter project
         run: flutter clean
 
