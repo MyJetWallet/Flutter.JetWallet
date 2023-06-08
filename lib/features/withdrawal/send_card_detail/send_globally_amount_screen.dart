@@ -138,12 +138,15 @@ class _SendGloballyAmountScreenBodyState
                       const SpaceW19(), // 1 px border
                       getNetworkIcon(context),
                       const SpaceW12(),
-                      Baseline(
-                        baseline: 18,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          widget.method.name ?? '',
-                          style: sSubtitle2Style,
+                      Flexible(
+                        child: Baseline(
+                          baseline: 18,
+                          baselineType: TextBaseline.alphabetic,
+                          child: Text(
+                            widget.method.name ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: sSubtitle2Style,
+                          ),
                         ),
                       ),
                       const SpaceW19(), // 1 px border

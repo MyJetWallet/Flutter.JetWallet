@@ -71,9 +71,8 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
           ListView(
             physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+              bottom:
+                  widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 160,
             ),
             children: [
               Column(
@@ -169,8 +168,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   ),
                   SActionConfirmText(
                     name: intl.global_send_you_send,
-                    value:
-                        '${data.estimatedReceiveAmount ?? Decimal.zero} ${data.receiveAsset}',
+                    value: volumeFormat(
+                      prefix: state.sendCurrency!.prefixSymbol,
+                      decimal: data.amount ?? Decimal.zero,
+                      accuracy: state.sendCurrency!.accuracy,
+                      symbol: state.sendCurrency!.symbol,
+                    ),
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
