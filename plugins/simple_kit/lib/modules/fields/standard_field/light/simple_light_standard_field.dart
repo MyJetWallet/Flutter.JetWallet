@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/simple_base_standart_field.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class SimpleLightStandardField extends StatelessWidget {
+class SimpleLightStandardField extends StatefulWidget {
   const SimpleLightStandardField({
     Key? key,
     this.keyboardType,
@@ -78,56 +78,65 @@ class SimpleLightStandardField extends StatelessWidget {
   final int? maxLines;
 
   @override
+  State<SimpleLightStandardField> createState() =>
+      _SimpleLightStandardFieldState();
+}
+
+class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController controller2 = controller ??
+    final TextEditingController controller2 = widget.controller ??
         TextEditingController(
-          text: initialValue,
+          text: widget.initialValue,
         );
 
     return SimpleBaseStandardField(
-      onTap: onTap,
-      labelText: labelText,
-      onChanged: onChanged,
+      onTap: widget.onTap,
+      labelText: widget.labelText,
+      onChanged: (str) {
+        widget.onChanged!(str);
+        setState(() {});
+      },
       controller: controller2,
-      focusNode: focusNode,
-      onErrorIconTap: onErrorIconTap,
-      keyboardType: keyboardType,
-      autofocus: autofocus,
-      readOnly: readOnly,
-      autofillHints: autofillHints,
-      textInputAction: textInputAction,
-      textCapitalization: textCapitalization,
-      alignLabelWithHint: alignLabelWithHint,
-      enabled: enabled,
-      disableErrorOnChanged: disableErrorOnChanged,
-      enableInteractiveSelection: enableInteractiveSelection,
-      inputFormatters: inputFormatters,
-      hideSpace: hideSpace,
-      hasManualError: hasManualError,
-      hideLabel: hideLabel,
-      maxLength: maxLength,
-      maxLines: maxLines,
-      grayLabel: grayLabel,
+      focusNode: widget.focusNode,
+      onErrorIconTap: widget.onErrorIconTap,
+      keyboardType: widget.keyboardType,
+      autofocus: widget.autofocus,
+      readOnly: widget.readOnly,
+      autofillHints: widget.autofillHints,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      alignLabelWithHint: widget.alignLabelWithHint,
+      enabled: widget.enabled,
+      disableErrorOnChanged: widget.disableErrorOnChanged,
+      enableInteractiveSelection: widget.enableInteractiveSelection,
+      inputFormatters: widget.inputFormatters,
+      hideSpace: widget.hideSpace,
+      hasManualError: widget.hasManualError,
+      hideLabel: widget.hideLabel,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
+      grayLabel: widget.grayLabel,
       suffixIcons: [
-        if (!hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
-          ...?suffixIcons,
+        if (!widget.hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
+          ...?widget.suffixIcons,
       ],
       eraseIcon: [
-        if (controller2.text.isNotEmpty && !hideClearButton) ...[
+        if (controller2.text.isNotEmpty && !widget.hideClearButton) ...[
           const SpaceW16(),
           SIconButton(
             defaultIcon: const SEraseIcon(),
             pressedIcon: const SErasePressedIcon(),
             onTap: () {
               controller2.clear();
-              onChanged?.call('');
-              onErase?.call();
+              widget.onChanged?.call('');
+              widget.onErase?.call();
             },
           ),
         ],
       ],
-      isError: isError,
-      validators: validators,
+      isError: widget.isError,
+      validators: widget.validators,
     );
   }
 }

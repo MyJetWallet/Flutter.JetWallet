@@ -11,6 +11,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
     this.showCloseIcon = true,
     this.removePadding = false,
     this.removeSearchPadding = false,
+    this.needBottomPadding = true,
     this.onChanged,
     this.onCloseTap,
     required this.name,
@@ -25,6 +26,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
   final bool showCloseIcon;
   final bool removePadding;
   final bool removeSearchPadding;
+  final bool needBottomPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +109,11 @@ class ActionBottomSheetHeader extends StatelessWidget {
               ],
             ),
           ),
-        ] else
-          const SpaceH24(),
+        ] else ...[
+          if (needBottomPadding) ...[
+            const SpaceH24(),
+          ],
+        ],
       ],
     );
   }

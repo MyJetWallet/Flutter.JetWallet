@@ -128,20 +128,24 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       bankAccount: data?.bankAccount,
     );
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .sendToBankCard(
-          model,
-        );
+    try {
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .sendToBankCard(
+            model,
+          );
 
-    loader.finishLoadingImmediately();
+      loader.finishLoadingImmediately();
 
-    if (response.hasError) {
-      await showFailureScreen(response.error?.cause ?? '');
-    } else {
-      await showSuccessScreen(model);
+      if (response.hasError) {
+        await showFailureScreen(response.error?.cause ?? '');
+      } else {
+        await showSuccessScreen(model);
+      }
+    } catch (e) {
+      await showFailureScreen(intl.something_went_wrong_try_again);
     }
   }
 

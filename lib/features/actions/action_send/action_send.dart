@@ -214,14 +214,27 @@ Future<void> showSendGlobally(
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.global_send_destionation_country,
-      showSearch: availableCountries.length >= 7,
+      //showSearch: availableCountries.length >= 7,
       onChanged: (String value) {
         globalSearchStore.globalSendSearch(value);
       },
+      needBottomPadding: false,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
+      if (availableCountries.length >= 7) ...[
+        SPaddingH24(
+          child: SStandardField(
+            controller: TextEditingController(),
+            labelText: intl.actionBottomSheetHeader_search,
+            onChanged: (String value) {
+              globalSearchStore.globalSendSearch(value);
+            },
+          ),
+        ),
+        const SDivider(),
+      ],
       _GlobalSendCountriesList(
         currency: currency,
         store: globalSearchStore,
@@ -646,7 +659,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
             children: [
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.crypto)
-                  if (currency.supportsGlobalSend)
+                  if (currency.supportsGlobalSend &&
+                      currency.isAssetBalanceNotEmpty)
                     SWalletItem(
                       icon: SNetworkSvg24(
                         url: currency.iconUrl,
@@ -673,7 +687,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
             children: [
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.fiat)
-                  if (currency.supportsGlobalSend)
+                  if (currency.supportsGlobalSend &&
+                      currency.isAssetBalanceNotEmpty)
                     SWalletItem(
                       icon: SNetworkSvg24(
                         url: currency.iconUrl,

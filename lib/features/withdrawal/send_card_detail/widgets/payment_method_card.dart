@@ -33,6 +33,7 @@ class PaymentMethodCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
       child: _BaseContainer(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

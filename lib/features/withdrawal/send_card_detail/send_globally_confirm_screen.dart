@@ -121,7 +121,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Text(
-                              '${intl.global_send_est_amount} ≈ ${data.estimatedReceiveAmount!} ${data.receiveAsset}',
+                              '${intl.global_send_est_amount}: ${data.estimatedReceiveAmount!} ${data.receiveAsset}',
                               style: sSubtitle3Style,
                             ),
                           ),
