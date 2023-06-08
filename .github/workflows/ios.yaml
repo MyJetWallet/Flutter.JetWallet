@@ -58,16 +58,6 @@ jobs:
       - name: Add GoogleService-Info.plist
         run: |
           echo ${{ secrets.GOOGLE_SERVICE_IOS_STAGE }} | base64 --decode > ./ios/Runner/GoogleService-Info.plist
-  
-      - name: Set up code signing settings on Xcode project
-        uses: xcutils/xcode-signing@v1
-        with:
-          keychain: ${{ secrets.KEYCHAIN_PATH }}
-          p12: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-          p12-password: ${{ secrets.P12_PASSWORD }}
-          provision-profile: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
-          project-path: .
-
 
       - name: Clean Flutter project
         run: flutter clean
@@ -87,4 +77,4 @@ jobs:
             --build-name=$(git ls-remote --tags origin | tail -1 | cut -d/ -f3) \
             --build-number=$GITHUB_RUN_NUMBER \
             --dart-define=MY_APP_ENV=prod \
-            --export-options-plist=/Users/builder/export_options.plist
+            --export-options-plist=./ios/Runner/GoogleService-Info.plist
