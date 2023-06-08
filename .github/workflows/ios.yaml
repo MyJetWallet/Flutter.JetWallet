@@ -63,7 +63,7 @@ jobs:
         run: pwd
 
       - name: Find export_options.plist
-        run: find . -name "export_options.plist" -print
+        run: ls -R | grep export_options.plist
           
       - name: Build iOS app
         run: |
