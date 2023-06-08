@@ -58,7 +58,13 @@ jobs:
 
       - name: Get Flutter packages
         run: flutter pub get
-  
+
+      - name: Show current directory
+        run: pwd
+
+      - name: Find export_options.plist
+        run: find . -name "export_options.plist" -print
+          
       - name: Build iOS app
         run: |
           flutter build ipa --release --target=lib/main_stage.dart --flavor=stage \
