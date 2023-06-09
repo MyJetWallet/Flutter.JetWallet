@@ -1412,5 +1412,15 @@
   "global_send_receiver_details": "Receiver details",
   "global_send_payment_details": "Payment details",
   "global_send_account_number": "Account number",
-  "global_send_beneficiary_name": "Payment details"
+  "global_send_beneficiary_name": "Payment details",
+  "global_send_history_account_name": "Account",
+  "global_send_history_beneficiary_name": "Beneficiary name",
+  "global_send_history_bank_name": "Bank name",
+  "global_send_history_ifsc_code": "IFSC code",
+  "global_send_history_iban": "IBAN",
+  "global_send_history_card_number": "Card number",
+  "global_send_history_pan_number": "Pan number",
+  "global_send_history_upi_address": "Upi address",
+  "global_send_history_bank_account": "Bank account",
+  "global_send_history_phone_number": "Phone number"
 }

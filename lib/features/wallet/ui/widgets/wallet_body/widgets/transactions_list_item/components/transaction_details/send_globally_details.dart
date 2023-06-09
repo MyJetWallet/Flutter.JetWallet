@@ -34,11 +34,303 @@ class SendGloballyDetails extends StatelessObserverWidget {
       transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
     );
 
-    print(transactionListItem);
+    final obj = sSignalRModules.globalSendMethods!.methods!.firstWhere(
+      (element) => element.type == transactionListItem.paymeInfo?.methodType,
+    );
 
     return SPaddingH24(
       child: Column(
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              intl.global_send_receiver_details,
+              style: sTextH5Style,
+            ),
+          ),
+          const SizedBox(height: 18),
+          if (transactionListItem.paymeInfo?.accountNumber != null &&
+              transactionListItem.paymeInfo!.accountNumber!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_account_number,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.accountNumber ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.accountNumber ??
+                              '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.recipientName != null &&
+              transactionListItem.paymeInfo!.recipientName!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_beneficiary_name,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.recipientName ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.recipientName ??
+                              '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.bankName != null &&
+              transactionListItem.paymeInfo!.bankName!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_bank_name,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.bankName ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.bankName ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.ifscCode != null &&
+              transactionListItem.paymeInfo!.ifscCode!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_ifsc_code,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.ifscCode ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.ifscCode ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.cardNumber != null &&
+              transactionListItem.paymeInfo!.cardNumber!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_card_number,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.cardNumber ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.cardNumber ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.iban != null &&
+              transactionListItem.paymeInfo!.iban!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_iban,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.iban ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.iban ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.phoneNumber != null &&
+              transactionListItem.paymeInfo!.phoneNumber!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_phone_number,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.phoneNumber ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text:
+                              transactionListItem.paymeInfo?.phoneNumber ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.panNumber != null &&
+              transactionListItem.paymeInfo!.panNumber!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_pan_number,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.panNumber ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.panNumber ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.upiAddress != null &&
+              transactionListItem.paymeInfo!.upiAddress!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_upi_address,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.upiAddress ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.paymeInfo?.upiAddress ?? '',
+                        ),
+                      );
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          if (transactionListItem.paymeInfo?.bankAccount != null &&
+              transactionListItem.paymeInfo!.bankAccount!.isNotEmpty) ...[
+            TransactionDetailsItem(
+              text: intl.global_send_history_bank_account,
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: transactionListItem.paymeInfo?.bankAccount ?? '',
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(
+                        text: transactionListItem.paymeInfo?.bankAccount ?? '',
+                      ));
+
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+          ],
+          const SizedBox(height: 32),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -56,21 +348,14 @@ class SendGloballyDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: intl.send_globally_card,
-            value: TransactionDetailsValueText(
-              text:
-                  '•••• ${transactionListItem.withdrawalInfo?.cardLast4 ?? ""}',
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.send_globally_amount_in_eur,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: currency.prefixSymbol,
-                decimal: transactionListItem.withdrawalInfo!.withdrawalAmount,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
+            text: intl.global_send_payment_method_title,
+            value: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.6,
+              ),
+              child: TransactionDetailsValueText(
+                textAlign: TextAlign.end,
+                text: obj.name ?? '',
               ),
             ),
           ),
