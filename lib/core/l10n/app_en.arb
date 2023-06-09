@@ -1353,7 +1353,7 @@
   "send_globally": "Send Globally",
   "send_globally_amount_in_eur": "Amount in EUR",
   "send_globally_amount_in_uah": "Amount in UAH",
-  "send_globally_history_title": "Send globally",
+  "send_globally_history_title": "Send Globally",
   "iban_send_info": "Please be aware that you can send only to your personal bank accounts",
   "iban_euro_balance": "EUR balance",
   "iban_destination_accounts": "My destination accounts",
@@ -1422,5 +1422,6 @@
   "global_send_history_pan_number": "Pan number",
   "global_send_history_upi_address": "Upi address",
   "global_send_history_bank_account": "Bank account",
-  "global_send_history_phone_number": "Phone number"
+  "global_send_history_phone_number": "Phone number",
+  "global_send_total_pay": "Total pay"
 }

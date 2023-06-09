@@ -207,12 +207,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                         children: [
                           const SDivider(),
                           SActionConfirmText(
-                            name: intl.currencyBuy_total,
+                            name: intl.global_send_total_pay,
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
                               prefix: state.sendCurrency!.prefixSymbol,
-                              decimal: (data.amount ?? Decimal.zero) -
+                              decimal: (data.amount ?? Decimal.zero) +
                                   (data.feeAmount ?? Decimal.zero),
                               accuracy: state.sendCurrency!.accuracy,
                               symbol: state.sendCurrency!.symbol,
@@ -237,12 +237,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                       children: [
                         const SDivider(),
                         SActionConfirmText(
-                          name: intl.currencyBuy_total,
+                          name: intl.global_send_total_pay,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
                           value: volumeFormat(
                             prefix: state.sendCurrency!.prefixSymbol,
-                            decimal: (data.amount ?? Decimal.zero) -
+                            decimal: (data.amount ?? Decimal.zero) +
                                 (data.feeAmount ?? Decimal.zero),
                             accuracy: state.sendCurrency!.accuracy,
                             symbol: state.sendCurrency!.symbol,

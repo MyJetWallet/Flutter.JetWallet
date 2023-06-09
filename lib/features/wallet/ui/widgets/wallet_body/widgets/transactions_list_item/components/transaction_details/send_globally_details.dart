@@ -38,6 +38,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
       (element) => element.type == transactionListItem.paymeInfo?.methodType,
     );
 
+    print(transactionListItem);
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -68,7 +70,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -97,7 +99,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -125,7 +127,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -153,7 +155,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -181,7 +183,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -209,7 +211,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -238,7 +240,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -266,7 +268,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -294,7 +296,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         ),
                       );
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -320,7 +322,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                         text: transactionListItem.paymeInfo?.bankAccount ?? '',
                       ));
 
-                      onCopyAction('Txid');
+                      onCopyAction('');
                     },
                     defaultIcon: const SCopyIcon(),
                     pressedIcon: const SCopyPressedIcon(),
@@ -378,7 +380,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   decimal: transactionListItem.withdrawalInfo!.receiveAmount ??
                       Decimal.zero,
                   accuracy: currency.accuracy,
-                  symbol: 'UAH',
+                  symbol:
+                      transactionListItem.withdrawalInfo?.receiveAsset ?? '',
                 ),
               ),
             ),

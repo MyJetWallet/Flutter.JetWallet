@@ -50,20 +50,16 @@ class PaymentMethodCardWidget extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    stops: const [0.5156, 1],
-                    colors: [
-                      sKit.colors.grey4,
-                      sKit.colors.grey5,
-                    ],
-                  ),
+                  color: sKit.colors.grey4,
                   shape: BoxShape.circle,
                 ),
                 padding: const EdgeInsets.only(bottom: 4),
                 alignment: Alignment.center,
                 child: Text(
                   name[0],
-                  style: sSubtitle1Style,
+                  style: sSubtitle1Style.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
