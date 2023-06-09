@@ -33,6 +33,7 @@ class PaymentMethodCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      splashColor: Colors.transparent,
       borderRadius: BorderRadius.circular(16),
       child: _BaseContainer(
         child: Column(

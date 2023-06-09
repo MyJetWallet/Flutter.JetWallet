@@ -104,29 +104,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             ),
             style: sTextH5Style,
           ),
-        if (nftTypes.contains(transactionListItem.operationType))
-          const SpaceH25()
-        else
-          devicePR == 2 ? const SpaceH30() : const SpaceH67(),
-        if (nftTypes.contains(transactionListItem.operationType)) ...[
-          Stack(
-            children: [
-              Positioned(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: const SSkeletonTextLoader(
-                    height: 160,
-                    width: 160,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (catchingTypes) ...[
-            const SpaceH22(),
-          ] else ...[
-            const SpaceH35(),
-          ],
+        if (devicePR == 2) ...[
+          const SpaceH30(),
+        ] else if (transactionListItem.operationType ==
+            OperationType.sendGlobally) ...[
+          const SpaceH40(),
+        ] else ...[
+          const SpaceH67(),
         ],
         if (!nftTypes.contains(transactionListItem.operationType) ||
             catchingTypes) ...[

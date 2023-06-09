@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class ActionBottomSheetHeader extends StatelessWidget {
+class ActionBottomSheetHeader extends StatefulWidget {
   const ActionBottomSheetHeader({
     Key? key,
     this.showSearch = false,
@@ -29,12 +29,21 @@ class ActionBottomSheetHeader extends StatelessWidget {
   final bool needBottomPadding;
 
   @override
+  State<ActionBottomSheetHeader> createState() =>
+      _ActionBottomSheetHeaderState();
+}
+
+class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
+  final TextEditingController textController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (!hideTitle)
+        if (!widget.hideTitle)
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: removePadding ? 0 : 24),
+            padding:
+                EdgeInsets.symmetric(horizontal: widget.removePadding ? 0 : 24),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,17 +52,17 @@ class ActionBottomSheetHeader extends StatelessWidget {
                     baseline: 20.0,
                     baselineType: TextBaseline.alphabetic,
                     child: Text(
-                      name,
+                      widget.name,
                       style: sTextH4Style,
                       maxLines: 2,
                     ),
                   ),
                 ),
-                if (showCloseIcon)
+                if (widget.showCloseIcon)
                   SIconButton(
                     onTap: () {
-                      if (onCloseTap != null) {
-                        onCloseTap!();
+                      if (widget.onCloseTap != null) {
+                        widget.onCloseTap!();
                       }
 
                       Navigator.pop(context);
@@ -64,21 +73,23 @@ class ActionBottomSheetHeader extends StatelessWidget {
               ],
             ),
           ),
-        if (showSearch) ...[
-          if (removeSearchPadding)
+        if (widget.showSearch) ...[
+          if (widget.removeSearchPadding)
             SStandardField(
+              controller: textController,
               labelText: intl.actionBottomSheetHeader_search,
-              onChanged: onChanged,
+              onChanged: widget.onChanged,
             )
           else
             SPaddingH24(
               child: SStandardField(
+                controller: textController,
                 labelText: intl.actionBottomSheetHeader_search,
-                onChanged: onChanged,
+                onChanged: widget.onChanged,
               ),
             ),
           const SDivider(),
-        ] else if (showSearchWithArrow) ...[
+        ] else if (widget.showSearchWithArrow) ...[
           SPaddingH24(
             child: Row(
               children: [
@@ -102,7 +113,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
                     enableInteractiveSelection: false,
                     labelText: intl.actionBottomSheetHeader_searchAssets,
                     hideLabel: true,
-                    onChanged: onChanged,
+                    onChanged: widget.onChanged,
                     alignLabelWithHint: true,
                   ),
                 ),
@@ -110,7 +121,7 @@ class ActionBottomSheetHeader extends StatelessWidget {
             ),
           ),
         ] else ...[
-          if (needBottomPadding) ...[
+          if (widget.needBottomPadding) ...[
             const SpaceH24(),
           ],
         ],

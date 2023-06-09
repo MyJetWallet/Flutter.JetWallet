@@ -31,12 +31,22 @@ class SendGloballyDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      'EUR',
+      transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
     );
+
+    print(transactionListItem);
 
     return SPaddingH24(
       child: Column(
         children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              intl.global_send_payment_details,
+              style: sTextH5Style,
+            ),
+          ),
+          const SizedBox(height: 18),
           TransactionDetailsItem(
             text: intl.send_globally_date,
             value: TransactionDetailsValueText(

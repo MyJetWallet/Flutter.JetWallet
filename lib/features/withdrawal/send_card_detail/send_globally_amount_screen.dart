@@ -1,19 +1,17 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/utils/send_globally_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -112,8 +110,8 @@ class _SendGloballyAmountScreenBodyState
                 symbol: store.sendCurrency!.symbol,
               ),
               helper: '',
-              error: store.withAmmountInputError == InputError.enterHigherAmount
-                  ? '${intl.withdrawalAmount_enterMoreThan} '
+              error: store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
                   : store.withAmmountInputError.value(),
               isErrorActive: store.withAmmountInputError.isActive,
             ),
@@ -121,38 +119,51 @@ class _SendGloballyAmountScreenBodyState
           //const SizedBox(height: 40),
           const Spacer(),
           SPaddingH24(
-            child: Ink(
-              height: 88,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(
-                  color: colors.grey4,
+            child: InkWell(
+              onTap: () {
+                showGlobalSendLimits(
+                  context: context,
+                  minAmount: store.method!.minAmount!,
+                  maxAmount: store.method!.maxAmount!,
+                  currency: store.sendCurrency!,
+                );
+              },
+              highlightColor: sKit.colors.grey4,
+              splashColor: Colors.transparent,
+              borderRadius: BorderRadius.circular(16.0),
+              child: Ink(
+                height: 88,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(
+                    color: colors.grey4,
+                  ),
                 ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SpaceW19(), // 1 px border
-                      getNetworkIcon(context),
-                      const SpaceW12(),
-                      Flexible(
-                        child: Baseline(
-                          baseline: 18,
-                          baselineType: TextBaseline.alphabetic,
-                          child: Text(
-                            widget.method.name ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            style: sSubtitle2Style,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SpaceW19(), // 1 px border
+                        getNetworkIcon(context),
+                        const SpaceW12(),
+                        Flexible(
+                          child: Baseline(
+                            baseline: 18,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              widget.method.name ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              style: sSubtitle2Style,
+                            ),
                           ),
                         ),
-                      ),
-                      const SpaceW19(), // 1 px border
-                    ],
-                  ),
-                ],
+                        const SpaceW19(), // 1 px border
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

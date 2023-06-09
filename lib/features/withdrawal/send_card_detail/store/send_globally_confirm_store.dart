@@ -57,13 +57,14 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       : null;
 
   @action
-  void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods method) {
+  void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods m) {
     data = val;
+    method = m;
 
     sendCurrencyAsset = val.asset;
 
     final obj = sSignalRModules.globalSendMethods!.descriptions!.firstWhere(
-      (element) => element.type == method.type,
+      (element) => element.type == m.type,
     );
 
     for (var i = 0; i < obj.fields!.length; i++) {
@@ -114,7 +115,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       countryCode: data?.countryCode,
       asset: data?.asset,
       amount: data?.amount,
-      methodId: data?.methodId,
+      methodId: method!.methodId ?? '',
       cardNumber: data?.cardNumber,
       iban: data?.iban,
       phoneNumber: data?.phoneNumber,
@@ -140,13 +141,17 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       loader.finishLoadingImmediately();
 
       if (response.hasError) {
+        loader.finishLoadingImmediately();
         await showFailureScreen(response.error?.cause ?? '');
       } else {
         await showSuccessScreen(model);
       }
     } catch (e) {
+      loader.finishLoadingImmediately();
       await showFailureScreen(intl.something_went_wrong_try_again);
     }
+
+    loader.finishLoadingImmediately();
   }
 
   @action

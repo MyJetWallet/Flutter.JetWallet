@@ -2,13 +2,16 @@ import 'package:decimal/decimal.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -55,6 +58,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @observable
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
 
+  @observable
+  String limitError = '';
+
   SendToBankRequestModel? mainData;
   GlobalSendMethodsModelMethods? method;
 
@@ -87,6 +93,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @observable
   InputError withAmmountInputError = InputError.none;
+
+  @computed
+  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
 
   StackLoaderStore loader = StackLoaderStore();
 
@@ -186,8 +195,38 @@ abstract class _SendGloballyAmountStoreBase with Store {
     final error =
         onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
 
-    withAmmountInputError =
-        double.parse(withAmount) != 0 ? error : InputError.none;
+    final value = Decimal.parse(withAmount);
+    final valueInBaseCurrency = value * sendCurrency!.currentPrice;
+
+    if (method!.minAmount! > valueInBaseCurrency) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: method!.minAmount!,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    } else if (method!.maxAmount! < valueInBaseCurrency) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: method!.maxAmount!,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    } else {
+      limitError = '';
+    }
+
+    print('limitError: $limitError');
+
+    withAmmountInputError = double.parse(withAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
+
+    print('withAmmountInputError: $withAmmountInputError');
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }
