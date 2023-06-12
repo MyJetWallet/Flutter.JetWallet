@@ -20,6 +20,7 @@ abstract class _FormatServiceBase with Store {
   String convertHistoryToBaseCurrency(
     OperationHistoryItem transactionListItem,
     Decimal operationAmount,
+    String operationAsset,
   ) {
     final priceInUSD = transactionListItem.assetPriceInUsd * operationAmount;
     final usdCurrencyAsset = findCurrency(
@@ -28,11 +29,19 @@ abstract class _FormatServiceBase with Store {
     );
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
-    return '≈ ${baseCurrenciesFormat(
-      text: priceInBaseCurrency.toStringAsFixed(2),
-      symbol: baseCurrency.symbol,
-      prefix: baseCurrency.prefix,
-    )}';
+    if (operationAsset == baseCurrency.symbol) {
+      return '≈ ${baseCurrenciesFormat(
+        text: operationAmount.toStringAsFixed(2),
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    } else {
+      return '≈ ${baseCurrenciesFormat(
+        text: priceInBaseCurrency.toStringAsFixed(2),
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    }
   }
 
   CurrencyModel findCurrency({

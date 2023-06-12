@@ -54,6 +54,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     final devicePR = MediaQuery.of(context).devicePixelRatio;
 
+    print(transactionListItem);
+
     return Column(
       children: [
         if (transactionListItem.operationType == OperationType.recurringBuy)
@@ -151,6 +153,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
               getIt<FormatService>().convertHistoryToBaseCurrency(
                 transactionListItem,
                 operationAmount(transactionListItem),
+                getOperationAsset(transactionListItem),
               ),
               style: sBodyText2Style.copyWith(
                 color: colors.grey2,
@@ -252,19 +255,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       );
     }
 
-    if (transactionListItem.operationType == OperationType.nftBuy ||
-        transactionListItem.operationType == OperationType.nftSwap) {
-      return Decimal.parse(
-        '${transactionListItem.swapInfo!.sellAmount}'.replaceAll('-', ''),
-      );
-    }
-
-    if (transactionListItem.operationType == OperationType.nftSell) {
-      return Decimal.parse(
-        '${transactionListItem.swapInfo!.buyAmount}'.replaceAll('-', ''),
-      );
-    }
-
     if (transactionListItem.operationType == OperationType.transferByPhone) {
       return Decimal.parse(
         '${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'
@@ -275,6 +265,20 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     return Decimal.parse(
       '${transactionListItem.balanceChange}'.replaceAll('-', ''),
     );
+  }
+
+  String getOperationAsset(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.operationType == OperationType.withdraw ||
+        transactionListItem.operationType == OperationType.ibanSend ||
+        transactionListItem.operationType == OperationType.sendGlobally) {
+      return transactionListItem.withdrawalInfo?.withdrawalAssetId ?? '';
+    }
+
+    if (transactionListItem.operationType == OperationType.transferByPhone) {
+      return transactionListItem.transferByPhoneInfo?.withdrawalAssetId ?? '';
+    }
+
+    return transactionListItem.assetId;
   }
 }
 
