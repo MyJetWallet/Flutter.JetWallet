@@ -56,7 +56,7 @@ class PaymentMethodCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 4),
                 alignment: Alignment.center,
                 child: Text(
-                  name[0],
+                  name.isEmpty ? '' : name[0],
                   style: sSubtitle1Style.copyWith(
                     color: Colors.white,
                   ),
