@@ -15,6 +15,7 @@ class SCardRow extends StatelessWidget {
     this.lightDivider = false,
     this.rightIcon,
     this.spaceBIandText = 18,
+    this.needSpacer = false,
     required this.icon,
     required this.name,
     required this.amount,
@@ -30,6 +31,7 @@ class SCardRow extends StatelessWidget {
   final bool removeDivider;
   final bool disabled;
   final bool lightDivider;
+  final bool needSpacer;
   final Widget icon;
   final Widget? rightIcon;
   final String name;
@@ -100,7 +102,11 @@ class SCardRow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SpaceW12(),
+                  if (!needSpacer) ...[
+                    const SpaceW12(),
+                  ] else ...[
+                    const Spacer(),
+                  ],
                   if (rightIcon != null) rightIcon!,
                 ],
               ),

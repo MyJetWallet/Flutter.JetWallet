@@ -163,7 +163,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           paymentAsset = data.paymentAsset;
           buyAmount = data.buyAmount;
           buyAsset = data.buyAsset;
-          depositFeeAmount = data.depositFeeAmount;
+          depositFeeAmount = data.paymentFeeInPaymentAsset;
           depositFeeAsset = data.depositFeeAsset;
           tradeFeeAmount = data.tradeFeeAmount;
           tradeFeeAsset = data.tradeFeeAsset;
@@ -364,8 +364,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       Function(String),
       Function(String),
       String,
-    )
-        onAction,
+    ) onAction,
     String lastAction,
   ) async {
     _logger.log(notifier, '_requestPaymentInfo');

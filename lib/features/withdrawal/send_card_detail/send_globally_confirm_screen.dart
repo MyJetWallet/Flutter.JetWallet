@@ -69,7 +69,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.only(
               bottom:
                   widgetSizeFrom(deviceSize) == SWidgetSize.small ? 310.0 : 160,

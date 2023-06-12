@@ -211,10 +211,10 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         isAbsolute:
                             state.depositFeeAmountMax == state.depositFeeAmount,
                         tradeFeeAbsolute: volumeFormat(
-                          prefix: baseCurrency.prefix,
+                          prefix: input.currencyPayment.prefixSymbol,
                           decimal: state.depositFeeAmount ?? Decimal.zero,
-                          accuracy: baseCurrency.accuracy,
-                          symbol: baseCurrency.symbol,
+                          accuracy: input.currencyPayment.accuracy,
+                          symbol: input.currencyPayment.symbol,
                         ),
                         tradeFeePercentage: state.depositFeePerc,
                       );

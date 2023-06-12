@@ -64,14 +64,16 @@ class BuyCryptoDetails extends StatelessObserverWidget {
       );
 
       final quote = volumeFormat(
-        prefix: baseCurrency.prefix,
+        prefix: paymentCurrency.prefixSymbol,
         decimal: transactionListItem.cryptoBuyInfo!.quoteRate,
         accuracy: accuracy,
-        symbol: baseCurrency.symbol,
+        symbol: paymentCurrency.symbol,
       );
 
       return '$base = $quote';
     }
+
+    print(transactionListItem);
 
     return SPaddingH24(
       child: Column(

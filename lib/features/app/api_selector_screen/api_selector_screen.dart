@@ -25,68 +25,71 @@ class ApiSelectorScreen extends StatelessObserverWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(),
-            SPaddingH24(
-              child: SStandardField(
-                labelText: intl.apiSelectorScreen_provideProxy,
-                onChanged: (value) => dioProxy.updateProxyName(value),
-                onErase: () => dioProxy.updateProxyName(''),
-              ),
-            ),
-            SPaddingH24(
-              child: Row(
-                children: [
-                  const SErrorIcon(),
-                  const SpaceW10(),
-                  Flexible(
-                    child: Text(
-                      intl.apiSelector_justSkip,
-                      maxLines: 3,
-                      style: sBodyText2Style.copyWith(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            /*
-            Expanded(
-              child: CupertinoPicker(
-                itemExtent: 50,
-                diameterRatio: 1,
-                onSelectedItemChanged: (value) => index.value = value,
-                children: [
-                  for (final flavor in _config.connectionFlavors.flavors)
-                    Center(
-                      child: Text(
-                        apiTitleFromUrl(flavor.candlesApi),
-                        style: const TextStyle(color: Colors.black),
-                      ),
-                    )
-                ],
-              ),
-            ),
-            */
-            const SpaceH40(),
-            TextButton(
-              onPressed: () {
-                dioProxy.proxySkip();
-
-                getIt<AppStore>().checkInitRouter();
-              },
-              child: Text(
-                intl.serverCode0_ok,
-                style: const TextStyle(
-                  fontSize: 30.0,
+        child: InkWell(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              SPaddingH24(
+                child: SStandardField(
+                  labelText: intl.apiSelectorScreen_provideProxy,
+                  onChanged: (value) => dioProxy.updateProxyName(value),
+                  onErase: () => dioProxy.updateProxyName(''),
                 ),
               ),
-            ),
-            const Spacer(),
-          ],
+              SPaddingH24(
+                child: Row(
+                  children: [
+                    const SErrorIcon(),
+                    const SpaceW10(),
+                    Flexible(
+                      child: Text(
+                        intl.apiSelector_justSkip,
+                        maxLines: 3,
+                        style: sBodyText2Style.copyWith(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              /*
+              Expanded(
+                child: CupertinoPicker(
+                  itemExtent: 50,
+                  diameterRatio: 1,
+                  onSelectedItemChanged: (value) => index.value = value,
+                  children: [
+                    for (final flavor in _config.connectionFlavors.flavors)
+                      Center(
+                        child: Text(
+                          apiTitleFromUrl(flavor.candlesApi),
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      )
+                  ],
+                ),
+              ),
+              */
+              const SpaceH40(),
+              TextButton(
+                onPressed: () {
+                  dioProxy.proxySkip();
+
+                  getIt<AppStore>().checkInitRouter();
+                },
+                child: Text(
+                  intl.serverCode0_ok,
+                  style: const TextStyle(
+                    fontSize: 30.0,
+                  ),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );
