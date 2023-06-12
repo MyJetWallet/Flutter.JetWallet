@@ -33,6 +33,7 @@ class ApiSelectorScreen extends StatelessObserverWidget {
               const Spacer(),
               SPaddingH24(
                 child: SStandardField(
+                  controller: TextEditingController(),
                   labelText: intl.apiSelectorScreen_provideProxy,
                   onChanged: (value) => dioProxy.updateProxyName(value),
                   onErase: () => dioProxy.updateProxyName(''),

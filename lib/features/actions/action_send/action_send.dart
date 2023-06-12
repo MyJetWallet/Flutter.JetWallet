@@ -191,14 +191,17 @@ Future<void> showSendGlobally(
           q++) {
         if (sSignalRModules
             .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty) {
-          final country = sSignalRModules.kycCountries.firstWhere(
+          final cind = sSignalRModules.kycCountries.indexWhere(
             (element) =>
                 element.countryCode ==
                 sSignalRModules.globalSendMethods!.methods![i].countryCodes![q],
           );
 
-          if (!availableCountries.contains(country)) {
-            availableCountries.add(country);
+          if (cind != -1) {
+            if (!availableCountries
+                .contains(sSignalRModules.kycCountries[cind])) {
+              availableCountries.add(sSignalRModules.kycCountries[cind]);
+            }
           }
         }
       }

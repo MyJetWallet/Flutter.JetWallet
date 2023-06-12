@@ -110,6 +110,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 const SpaceW16(),
                 Expanded(
                   child: SStandardField(
+                    controller: TextEditingController(),
                     enableInteractiveSelection: false,
                     labelText: intl.actionBottomSheetHeader_searchAssets,
                     hideLabel: true,

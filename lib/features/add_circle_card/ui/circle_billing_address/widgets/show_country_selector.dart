@@ -27,6 +27,7 @@ class _SearchPinned extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return SStandardField(
+      controller: TextEditingController(),
       autofocus: true,
       labelText: intl.showCountrySelector_searchCountry,
       onChanged: (value) {
