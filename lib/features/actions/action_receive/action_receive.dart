@@ -327,7 +327,14 @@ class _ActionReceive extends StatelessObserverWidget {
                       ),
                       primaryText: currency.description,
                       secondaryText: currency.symbol,
-                      removeDivider: currency == currencyFiltered.last,
+                      removeDivider: currency ==
+                          state.fCurrencies
+                              .where(
+                                (element) =>
+                                    element.type == AssetType.fiat &&
+                                    element.supportsIbanDeposit,
+                              )
+                              .last,
                       onTap: () {
                         sRouter.popUntilRoot();
                         getIt<AppStore>().setHomeTab(2);
