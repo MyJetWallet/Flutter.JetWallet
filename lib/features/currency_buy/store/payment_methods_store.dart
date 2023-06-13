@@ -175,8 +175,6 @@ abstract class _PaymentMethodsStoreBase with Store {
 
             if (dataCards.isNotEmpty) {
               circleCards = ObservableList.of(dataCards);
-
-              print(circleCards);
             }
           },
         );

@@ -45,7 +45,6 @@ abstract class _OperationHistoryBase with Store {
     this.jw_operation_id,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
-      print('GetNewHistoryEvent');
       refreshHistory(needLoader: false);
     });
   }

@@ -168,8 +168,6 @@ abstract class _SendCardDetailStoreBase with Store {
                 : true
             : false;
       }
-
-      print('isError: ${methodList[ind].isError}');
     }
 
     checkContinueButton();
@@ -243,8 +241,6 @@ abstract class _SendCardDetailStoreBase with Store {
       ifscCode: ifscCode,
       bankAccount: bankAccount,
     );
-
-    print(model);
 
     sRouter.push(
       SendGloballyAmountRouter(

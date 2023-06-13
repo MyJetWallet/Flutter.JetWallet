@@ -38,8 +38,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
       (element) => element.type == transactionListItem.paymeInfo?.methodType,
     );
 
-    print(transactionListItem);
-
     return SPaddingH24(
       child: Column(
         children: [

@@ -67,7 +67,6 @@ class _AccountSecurityState extends State<AccountSecurity> {
                 var biometricStatusInfo = BiometricStatus.none;
 
                 final availableBio = await auth.getAvailableBiometrics();
-                print(availableBio);
 
                 if (availableBio.contains(BiometricType.face)) {
                   biometricStatusInfo = BiometricStatus.face;

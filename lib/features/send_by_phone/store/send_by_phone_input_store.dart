@@ -223,7 +223,8 @@ abstract class _SendByPhoneInputStoreBase with Store {
       final dialString = dialCodeController.text;
       for (var char = 0; char <= dialString.length; char++) {
         final dialStringCheck = dialString.substring(char);
-        final phoneSearchShort = finalPhone.substring(0, dialStringCheck.length);
+        final phoneSearchShort =
+            finalPhone.substring(0, dialStringCheck.length);
         if (dialStringCheck == phoneSearchShort) {
           mustToSubstring = true;
           if (charsToSubstring < dialStringCheck.length) {
@@ -239,8 +240,7 @@ abstract class _SendByPhoneInputStoreBase with Store {
       final number = _parsePhoneNumber(finalPhone);
       phoneSearch = number;
       searchTextController.text = number;
-      print(number.length);
-      print(searchTextController.selection.base.offset);
+
       searchTextController.selection = TextSelection.fromPosition(
         TextPosition(
           offset: number.length,

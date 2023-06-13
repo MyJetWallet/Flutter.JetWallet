@@ -150,10 +150,6 @@ abstract class _MarketFilterStoreBase with Store {
   ObservableList<String> watchListLocal = ObservableList.of([]);
   @action
   void syncWatchListLocal(List<String> newList, {bool needUpdate = false}) {
-    print(newList);
-    print(watchListLocal);
-    print('SYNC ${const ListEquality().equals(watchListLocal, newList)}');
-
     if (!compareLists(newList.toList(), watchListLocal.toList())) {
       watchListLocal = ObservableList.of(newList);
       if (needUpdate) {
@@ -166,8 +162,6 @@ abstract class _MarketFilterStoreBase with Store {
         message: 'syncWatchListLocal: $watchListLocal',
       );
     }
-
-    print(watchListLocal);
   }
 
   bool compareLists(List<String> a, List<String> b) {

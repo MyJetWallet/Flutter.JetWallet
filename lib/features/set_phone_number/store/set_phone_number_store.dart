@@ -166,8 +166,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
       sNotification.showError(e.cause, id: 1);
     } catch (e) {
-      print(e);
-
       loader!.finishLoadingImmediately();
 
       if (!fromRegister) await sRouter.pop();
@@ -280,8 +278,6 @@ abstract class _SetPhoneNumberStoreBase with Store {
       final number = _parsePhoneNumber(finalPhone);
       phoneInput = number;
       phoneNumberController.text = number;
-      print(number.length);
-      print(phoneNumberController.selection.base.offset);
       phoneNumberController.selection = TextSelection.fromPosition(
         TextPosition(
           offset: number.length,

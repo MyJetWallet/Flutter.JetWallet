@@ -1211,8 +1211,6 @@ abstract class _WithdrawalStoreBase with Store {
         nftInfo = data;
       },
     );
-
-    print(nftInfo);
   }
 
   @action

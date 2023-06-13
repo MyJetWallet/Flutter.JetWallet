@@ -114,8 +114,6 @@ String shortTxhashFrom(String address) {
 
   var len = length / 2;
 
-  print(length);
-
   if (length <= 16) return address;
 
   final part1 = address.substring(0, 8);

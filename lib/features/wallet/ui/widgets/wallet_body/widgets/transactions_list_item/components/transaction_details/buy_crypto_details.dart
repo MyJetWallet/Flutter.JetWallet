@@ -73,8 +73,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
       return '$base = $quote';
     }
 
-    print(transactionListItem);
-
     return SPaddingH24(
       child: Column(
         children: [

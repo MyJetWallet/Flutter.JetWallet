@@ -65,8 +65,6 @@ class SumsubService {
     }
 
     onActionResult(SNSMobileSDKActionResult result) {
-      print("onActionResult: $result");
-
       sRouter.push(
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,
@@ -84,8 +82,6 @@ class SumsubService {
 
     final initToken = await getSDKToken();
 
-    print(initToken);
-
     final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
         .withHandlers(
           onStatusChanged: onStatusChanged,
@@ -98,7 +94,5 @@ class SumsubService {
         .build();
 
     final SNSMobileSDKResult result = await snsMobileSDK.launch();
-
-    print(result);
   }
 }

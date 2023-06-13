@@ -218,8 +218,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
       limitError = '';
     }
 
-    print('limitError: $limitError');
-
     withAmmountInputError = double.parse(withAmount) != 0
         ? error == InputError.none
             ? limitError.isEmpty
@@ -227,8 +225,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
                 : InputError.limitError
             : error
         : InputError.none;
-
-    print('withAmmountInputError: $withAmmountInputError');
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }

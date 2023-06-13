@@ -109,8 +109,6 @@ class RemoteConfig {
 
       await overrideConfig();
     } catch (e) {
-      print(e);
-
       getIt.get<AppStore>().setRemoteConfigStatus(
             const RemoteConfigUnion.error(),
           );

@@ -75,8 +75,6 @@ abstract class _SendGloballyConfirmStoreBase with Store {
         ),
       );
     }
-
-    print(receiverDetails);
   }
 
   String getValueFromData(SendToBankCardResponse val, FieldInfoId id) {

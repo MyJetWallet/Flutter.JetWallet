@@ -255,8 +255,6 @@ abstract class IbanStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          print(data);
-
           toSetupAddress = data.requirements?.toSetupAddress ?? false;
           ibanBic = data.iban?.bic ?? '';
           ibanAddress = data.iban?.iban ?? '';

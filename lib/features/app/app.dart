@@ -58,8 +58,6 @@ class _AppScreenState extends State<AppScreen> {
         LogRecordsService(),
       );
     } catch (e) {
-      print(e);
-
       _logger.log(
         notifier,
         e,
