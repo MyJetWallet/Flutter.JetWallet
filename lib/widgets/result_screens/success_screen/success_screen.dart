@@ -103,8 +103,36 @@ class _SuccessScreenBody extends StatefulWidget {
   State<_SuccessScreenBody> createState() => _SuccessScreenBodyState();
 }
 
-class _SuccessScreenBodyState extends State<_SuccessScreenBody> {
+class _SuccessScreenBodyState extends State<_SuccessScreenBody>
+    with WidgetsBindingObserver {
   bool shouldPop = true;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      if (TimerStore.of(context).time == 0) {
+        if (widget.onSuccess == null && shouldPop) {
+          sRouter.popUntilRoot();
+        } else {
+          widget.onSuccess!.call(context);
+        }
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

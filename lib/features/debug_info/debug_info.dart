@@ -271,6 +271,18 @@ class _DebugInfoState extends State<DebugInfo>
                   'Sumsub',
                 ),
               ),
+              TextButton(
+                onPressed: () async {
+                  await sRouter.push(
+                    SuccessScreenRouter(
+                      secondaryText: 'intl.previewConvert_orderProcessing',
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Success',
+                ),
+              ),
             ],
           ),
         ),
