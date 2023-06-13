@@ -17,6 +17,8 @@ import 'package:simple_networking/modules/signal_r/models/global_send_methods_mo
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
+import 'widgets/payment_method_card.dart';
+
 @RoutePage(name: 'SendGloballyAmountRouter')
 class SendGloballyAmountScreen extends StatelessWidget {
   const SendGloballyAmountScreen({
@@ -93,10 +95,7 @@ class _SendGloballyAmountScreenBodyState
       ),
       child: Column(
         children: [
-          deviceSize.when(
-            small: () => const SizedBox(),
-            medium: () => const Spacer(),
-          ),
+          const Spacer(),
           Baseline(
             baseline: deviceSize.when(
               small: () => 20,
@@ -144,16 +143,24 @@ class _SendGloballyAmountScreenBodyState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SpaceW19(), // 1 px border
-                        SNetworkSvg(
-                          url: iconForPaymentMethod(
-                            methodId: store.method?.methodId ?? '',
+                        if (store.cardNetwork !=
+                            CircleCardNetwork.unsupported) ...[
+                          getNetworkIcon(context),
+                        ] else ...[
+                          SNetworkCachedSvg(
+                            url: iconForPaymentMethod(
+                              methodId: store.method?.methodId ?? '',
+                            ),
+                            width: 30,
+                            height: 30,
+                            placeholder: MethodPlaceholder(
+                              name: widget.method.name ?? 'M',
+                            ),
                           ),
-                          width: 30,
-                          height: 30,
-                        ),
+                        ],
                         const SpaceW12(),
                         Flexible(
                           child: Baseline(

@@ -24,7 +24,7 @@ class GlobalSendMethod {
 
   final TextEditingController controller;
   final FieldInfo info;
-  final bool isError;
+  bool isError;
 
   String value;
 }
@@ -46,11 +46,6 @@ abstract class _SendCardDetailStoreBase with Store {
   @action
   bool setCardNumberError(bool value) => cardNumberError = value;
 
-  @computed
-  bool get isCardNumberValid {
-    return CreditCardValidator().validateCCNum(cardNumber).isValid;
-  }
-
   @observable
   ObservableList<GlobalSendMethod> methodList = ObservableList.of([]);
 
@@ -61,8 +56,19 @@ abstract class _SendCardDetailStoreBase with Store {
   bool isContinueAvailable = false;
   @action
   void checkContinueButton() {
-    isContinueAvailable =
-        methodList.where((element) => element.value.isEmpty).isEmpty;
+    final isAnyEmpty = methodList
+        .where(
+          (element) => element.value.isEmpty,
+        )
+        .isEmpty;
+
+    final isAnyError = methodList
+        .where(
+          (element) => element.isError,
+        )
+        .isEmpty;
+
+    isContinueAvailable = isAnyEmpty && isAnyError;
   }
 
   String countryCode = '';
@@ -96,21 +102,9 @@ abstract class _SendCardDetailStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
-    cardNumber = _cardNumber;
-
-    // [xxxx xxxx xxxx xxxx]
-    cardNumberError = cardNumber.length == 19
-        ? isCardNumberValid
-            ? false
-            : true
-        : false;
-  }
-
-  @action
   Future<void> pasteCardNumber(TextEditingController controller) async {
     final copiedText = await _copiedText();
-    updateCardNumber(copiedText);
+    //updateCardNumber(copiedText);
     controller.text = copiedText;
 
     _moveCursorAtTheEnd(controller);
@@ -147,7 +141,7 @@ abstract class _SendCardDetailStoreBase with Store {
     if (ind != -1) {
       final copiedText = await _copiedText();
 
-      updateCardNumber(copiedText);
+      //updateCardNumber(copiedText);
       methodList[ind].controller.text = copiedText;
 
       _moveCursorAtTheEnd(methodList[ind].controller);
@@ -157,11 +151,25 @@ abstract class _SendCardDetailStoreBase with Store {
   }
 
   @action
-  void onChanged(String methodId, String value) {
+  void onChanged(
+    String methodId,
+    String value, {
+    bool isCard = false,
+  }) {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
       methodList[ind].value = value;
+
+      if (isCard) {
+        methodList[ind].isError = methodList[ind].value.length == 19
+            ? CreditCardValidator().validateCCNum(methodList[ind].value).isValid
+                ? false
+                : true
+            : false;
+      }
+
+      print('isError: ${methodList[ind].isError}');
     }
 
     checkContinueButton();

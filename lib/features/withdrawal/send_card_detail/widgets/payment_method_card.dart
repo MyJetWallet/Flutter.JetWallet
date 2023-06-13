@@ -44,12 +44,12 @@ class PaymentMethodCardWidget extends StatelessWidget {
                 url: url,
                 width: 40,
                 height: 40,
-                placeholder: _MethodPlaceholder(
+                placeholder: MethodPlaceholder(
                   name: name,
                 ),
               ),
             ] else ...[
-              _MethodPlaceholder(
+              MethodPlaceholder(
                 name: name,
               ),
             ],
@@ -118,8 +118,8 @@ class _BaseContainer extends StatelessWidget {
   }
 }
 
-class _MethodPlaceholder extends StatelessWidget {
-  const _MethodPlaceholder({
+class MethodPlaceholder extends StatelessWidget {
+  const MethodPlaceholder({
     super.key,
     required this.name,
   });

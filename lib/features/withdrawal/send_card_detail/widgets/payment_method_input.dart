@@ -110,11 +110,17 @@ class PaymentMethodNumbers extends StatelessWidget {
   }
 }
 
-class PaymentMethodCardNumber extends StatelessWidget {
+class PaymentMethodCardNumber extends StatefulWidget {
   const PaymentMethodCardNumber({super.key, required this.method});
 
   final GlobalSendMethod method;
 
+  @override
+  State<PaymentMethodCardNumber> createState() =>
+      _PaymentMethodCardNumberState();
+}
+
+class _PaymentMethodCardNumberState extends State<PaymentMethodCardNumber> {
   @override
   Widget build(BuildContext context) {
     return _Input(
@@ -127,17 +133,22 @@ class PaymentMethodCardNumber extends StatelessWidget {
           RegExp(r'[0-9\u2005]'),
         ),
       ],
-      controller: method.controller,
-      labalText: method.info.fieldName!,
-      isError: method.isError,
+      controller: widget.method.controller,
+      labalText: widget.method.info.fieldName!,
+      isError: widget.method.isError,
       onErase: () {
-        SendCardDetailStore.of(context).onErase(method.id);
+        SendCardDetailStore.of(context).onErase(widget.method.id);
       },
       paste: () {
-        SendCardDetailStore.of(context).paste(method.id);
+        SendCardDetailStore.of(context).paste(widget.method.id);
       },
       onChanged: (val) {
-        SendCardDetailStore.of(context).onChanged(method.id, val);
+        SendCardDetailStore.of(context).onChanged(
+          widget.method.id,
+          val,
+          isCard: true,
+        );
+        setState(() {});
       },
       inputType: TextInputType.number,
     );

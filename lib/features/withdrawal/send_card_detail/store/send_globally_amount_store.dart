@@ -66,20 +66,22 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @action
   void setCardNumber(
-      SendToBankRequestModel data, GlobalSendMethodsModelMethods m) {
+    SendToBankRequestModel data,
+    GlobalSendMethodsModelMethods m,
+  ) {
     sendCurrencyAsset = data.asset ?? '';
     countryCode = data.countryCode ?? '';
 
     mainData = data;
     method = m;
 
-    /*
-    if (cardNumber[0] == '4') {
-      cardNetwork = CircleCardNetwork.VISA;
-    } else if (cardNumber[0] == '5') {
-      cardNetwork = CircleCardNetwork.MASTERCARD;
+    if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
+      if (data.cardNumber![0] == '4') {
+        cardNetwork = CircleCardNetwork.VISA;
+      } else if (data.cardNumber![0] == '5') {
+        cardNetwork = CircleCardNetwork.MASTERCARD;
+      }
     }
-    */
   }
 
   @observable
