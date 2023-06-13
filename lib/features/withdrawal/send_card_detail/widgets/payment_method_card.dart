@@ -40,27 +40,17 @@ class PaymentMethodCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (url.isNotEmpty) ...[
-              Image.network(
-                'src,',
+              SNetworkCachedSvg(
+                url: url,
                 width: 40,
                 height: 40,
+                placeholder: _MethodPlaceholder(
+                  name: name,
+                ),
               ),
             ] else ...[
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: sKit.colors.grey4,
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.only(bottom: 4),
-                alignment: Alignment.center,
-                child: Text(
-                  name.isEmpty ? '' : name[0],
-                  style: sSubtitle1Style.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
+              _MethodPlaceholder(
+                name: name,
               ),
             ],
             const SizedBox(height: 16),
@@ -124,6 +114,35 @@ class _BaseContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: child,
+    );
+  }
+}
+
+class _MethodPlaceholder extends StatelessWidget {
+  const _MethodPlaceholder({
+    super.key,
+    required this.name,
+  });
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: sKit.colors.grey4,
+        shape: BoxShape.circle,
+      ),
+      padding: const EdgeInsets.only(bottom: 4),
+      alignment: Alignment.center,
+      child: Text(
+        name.isEmpty ? '' : name[0],
+        style: sSubtitle1Style.copyWith(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

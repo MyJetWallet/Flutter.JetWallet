@@ -54,6 +54,8 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
       }
     }
 
+    globalSendMethods.sort((a, b) => b.weight!.compareTo(a.weight!));
+
     filtedGlobalSendMethods = ObservableList.of(globalSendMethods.toList());
   }
 

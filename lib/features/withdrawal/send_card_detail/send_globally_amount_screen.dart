@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/utils/send_globally_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -146,7 +147,13 @@ class _SendGloballyAmountScreenBodyState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SpaceW19(), // 1 px border
-                        getNetworkIcon(context),
+                        SNetworkSvg(
+                          url: iconForPaymentMethod(
+                            methodId: store.method?.methodId ?? '',
+                          ),
+                          width: 30,
+                          height: 30,
+                        ),
                         const SpaceW12(),
                         Flexible(
                           child: Baseline(

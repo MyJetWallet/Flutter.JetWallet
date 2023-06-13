@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
@@ -82,7 +83,9 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                 itemCount: store.filtedGlobalSendMethods.length,
                 itemBuilder: (context, i) => PaymentMethodCard.card(
                   name: store.filtedGlobalSendMethods[i].name ?? '',
-                  url: '',
+                  url: iconForPaymentMethod(
+                    methodId: store.filtedGlobalSendMethods[i].methodId ?? '',
+                  ),
                   onTap: () {
                     sRouter.push(
                       SendCardDetailRouter(
@@ -95,6 +98,7 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
