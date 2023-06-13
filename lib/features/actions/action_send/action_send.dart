@@ -19,6 +19,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
@@ -288,13 +289,28 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
           onTap: () {
             Navigator.pop(context);
 
-            sRouter.push(
-              SendCardPaymentMethodRouter(
-                currency: currency,
-                countryCode:
-                    store.filtredGlobalSendCountries[index].countryCode,
-              ),
+            final list = getCountryMethodsList(
+              store.filtredGlobalSendCountries[index].countryCode,
             );
+
+            if (list.length == 1) {
+              sRouter.push(
+                SendCardDetailRouter(
+                  countryCode:
+                      store.filtredGlobalSendCountries[index].countryCode,
+                  currency: currency,
+                  method: list[0],
+                ),
+              );
+            } else {
+              sRouter.push(
+                SendCardPaymentMethodRouter(
+                  currency: currency,
+                  countryCode:
+                      store.filtredGlobalSendCountries[index].countryCode,
+                ),
+              );
+            }
           },
           amount: '',
           description: '',

@@ -31,28 +31,7 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
 
   @action
   void init(String countryCode) {
-    for (var i = 0;
-        i < sSignalRModules.globalSendMethods!.methods!.length;
-        i++) {
-      if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
-          sSignalRModules
-              .globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
-        for (var q = 0;
-            q <
-                sSignalRModules
-                    .globalSendMethods!.methods![i].countryCodes!.length;
-            q++) {
-          if (sSignalRModules
-                  .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty &&
-              sSignalRModules.globalSendMethods!.methods![i].countryCodes![q] ==
-                  countryCode) {
-            globalSendMethods.add(
-              sSignalRModules.globalSendMethods!.methods![i],
-            );
-          }
-        }
-      }
-    }
+    globalSendMethods = ObservableList.of(getCountryMethodsList(countryCode));
 
     globalSendMethods.sort((a, b) => b.weight!.compareTo(a.weight!));
 
@@ -71,4 +50,31 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
       });
     }
   }
+}
+
+List<GlobalSendMethodsModelMethods> getCountryMethodsList(String countryCode) {
+  final globalSendMethods = <GlobalSendMethodsModelMethods>[];
+
+  for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
+    if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
+        sSignalRModules
+            .globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
+      for (var q = 0;
+          q <
+              sSignalRModules
+                  .globalSendMethods!.methods![i].countryCodes!.length;
+          q++) {
+        if (sSignalRModules
+                .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty &&
+            sSignalRModules.globalSendMethods!.methods![i].countryCodes![q] ==
+                countryCode) {
+          globalSendMethods.add(
+            sSignalRModules.globalSendMethods!.methods![i],
+          );
+        }
+      }
+    }
+  }
+
+  return globalSendMethods;
 }
