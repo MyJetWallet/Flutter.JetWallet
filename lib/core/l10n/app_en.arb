@@ -410,7 +410,6 @@
   "emptyEarnWalletBody_investIn": "Invest in",
   "emptyEarnWalletBody_startEarningDaily": "and start earning daily",
   "myAssets_settings": "My assets settings",
-  "myAssets_hideZero": "Hide zero balance",
   "walletCardCollapsed_balanceInProcess": "In progress",
   "transactionDetailsStatus_balanceInProcess": "In progress",
   "transactionDetailsStatus_status": "Status",
