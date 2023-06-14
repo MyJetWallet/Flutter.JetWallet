@@ -34,7 +34,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
       transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
     );
 
-    final obj = sSignalRModules.globalSendMethods!.methods!.firstWhere(
+    var methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
       (element) => element.type == transactionListItem.paymeInfo?.methodType,
     );
 
@@ -346,19 +346,23 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.global_send_payment_method_title,
-            value: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.6,
-              ),
-              child: TransactionDetailsValueText(
-                textAlign: TextAlign.end,
-                text: obj.name ?? '',
+          if (methodIndex != -1) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.global_send_payment_method_title,
+              value: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.6,
+                ),
+                child: TransactionDetailsValueText(
+                  textAlign: TextAlign.end,
+                  text: sSignalRModules
+                          .globalSendMethods!.methods![methodIndex].name ??
+                      '',
+                ),
               ),
             ),
-          ),
+          ],
           if (transactionListItem.status == Status.completed) ...[
             const SpaceH18(),
             TransactionDetailsItem(

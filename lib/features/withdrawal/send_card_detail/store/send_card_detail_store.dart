@@ -39,14 +39,6 @@ class SendCardDetailStore extends _SendCardDetailStoreBase
 
 abstract class _SendCardDetailStoreBase with Store {
   @observable
-  String cardNumber = '';
-
-  @observable
-  bool cardNumberError = false;
-  @action
-  bool setCardNumberError(bool value) => cardNumberError = value;
-
-  @observable
   ObservableList<GlobalSendMethod> methodList = ObservableList.of([]);
 
   @observable
@@ -58,7 +50,9 @@ abstract class _SendCardDetailStoreBase with Store {
   void checkContinueButton() {
     final isAnyEmpty = methodList
         .where(
-          (element) => element.value.isEmpty,
+          (element) => element.info.fieldId == FieldInfoId.cardNumber
+              ? element.value.length != 19
+              : element.value.isEmpty,
         )
         .isEmpty;
 
@@ -197,7 +191,7 @@ abstract class _SendCardDetailStoreBase with Store {
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {
         case FieldInfoId.cardNumber:
-          cardNumber = methodList[i].value;
+          cardNumber = methodList[i].value.replaceAll(' ', '');
           break;
         case FieldInfoId.iban:
           iban = methodList[i].value;

@@ -11,6 +11,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
@@ -142,7 +143,12 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     itemBuilder: (context, index) {
                       return SActionConfirmText(
                         name: state.receiverDetails[index].info.fieldName ?? '',
-                        value: state.receiverDetails[index].value,
+                        value: state.receiverDetails[index].info.fieldId ==
+                                FieldInfoId.cardNumber
+                            ? getCardTypeMask(
+                                state.receiverDetails[index].value,
+                              )
+                            : state.receiverDetails[index].value,
                       );
                     },
                   ),

@@ -53,6 +53,8 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
 
     final store = IbanAddBankAccountStore.of(context);
 
+    print(sUserInfo);
+
     return SPageFrame(
       loading: IbanAddBankAccountStore.of(context).loader,
       color: colors.grey5,
@@ -131,12 +133,12 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
-                        controller: TextEditingController(),
+                        controller: TextEditingController(
+                          text: '${sUserInfo.firstName} ${sUserInfo.lastName}',
+                        ),
                         readOnly: true,
                         enabled: false,
                         hideClearButton: true,
-                        initialValue:
-                            '${sUserInfo.firstName} ${sUserInfo.lastName}',
                         labelText: intl.iban_benificiary,
                         textCapitalization: TextCapitalization.sentences,
                         hideSpace: true,

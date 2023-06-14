@@ -238,6 +238,8 @@ Future<void> showSendGlobally(
           ),
         ),
         const SDivider(),
+      ] else ...[
+        const SpaceH24(),
       ],
       _GlobalSendCountriesList(
         currency: currency,

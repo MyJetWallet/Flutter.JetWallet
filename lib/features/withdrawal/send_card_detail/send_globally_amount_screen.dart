@@ -205,7 +205,8 @@ class _SendGloballyAmountScreenBodyState
               store.updateAmount(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid,
+            submitButtonActive: store.withValid &&
+                store.withAmmountInputError == InputError.none,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               store.loadPreview();

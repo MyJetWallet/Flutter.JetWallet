@@ -259,3 +259,24 @@ Decimal basePrice(
   return Decimal.parse(
       '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
 }
+
+String getCardTypeMask(String cardNumber) {
+  final maskCard = <String>[];
+  final splittedCard = cardNumber.split('');
+
+  const spaceCounter = 4;
+  var localSpaceCounter = 1;
+
+  for (var i = 0; i < splittedCard.length; i++) {
+    maskCard.add(splittedCard[i]);
+
+    if (localSpaceCounter == spaceCounter) {
+      localSpaceCounter = 1;
+      maskCard.add('\u{2005}');
+    } else {
+      localSpaceCounter++;
+    }
+  }
+
+  return maskCard.join();
+}
