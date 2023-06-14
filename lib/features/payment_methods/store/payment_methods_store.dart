@@ -141,8 +141,6 @@ abstract class _PaymentMethodsStoreBase with Store {
 
     addressBookLoaded = true;
     _updateUnion(const PaymentMethodsUnion.success());
-
-    print(addressBookContacts);
   }
 
   @action

@@ -206,8 +206,6 @@ abstract class _TwoFaPhoneStoreBase with Store {
   /// Called at Startup of the app, when we need to verify user
   @action
   Future<void> _verifyTwoFa() async {
-    print('_verifyTwoFa');
-
     await _requestTemplate(
       requestName: 'verifyTwoFa',
       body: () async {
@@ -324,12 +322,8 @@ abstract class _TwoFaPhoneStoreBase with Store {
             .postPhoneVerificationVerify(model);
 
         response.pick(
-          onData: (data) {
-            print('data');
-          },
-          onNoData: () {
-            print('on no data');
-          },
+          onData: (data) {},
+          onNoData: () {},
           onError: (e) {
             _logger.log(stateFlow, 'verifyCode', e);
 
@@ -384,8 +378,6 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
   @action
   void _returnToPreviousScreen() {
-    print('_returnToPreviousScreen');
-
     loader.finishLoading();
 
     trigger.when(

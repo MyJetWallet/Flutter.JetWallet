@@ -22,6 +22,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0-pre
   state_notifier: ^0.7.2+1
   auto_size_text: ^3.0.0
+  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_test:

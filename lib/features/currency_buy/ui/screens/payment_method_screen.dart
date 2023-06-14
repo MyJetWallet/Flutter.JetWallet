@@ -110,10 +110,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintCards.isNotEmpty && unlimintIncludes.isNotEmpty) &&
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
-    for (var i = 0; i < widget.currency.buyMethods.length; i++) {
-      print(widget.currency.buyMethods[i]);
-    }
-
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
       sAnalytics.newBuyTapDelete();
       sAnalytics.newBuyDeleteView();

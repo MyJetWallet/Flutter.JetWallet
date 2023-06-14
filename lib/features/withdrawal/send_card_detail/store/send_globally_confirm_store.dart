@@ -13,9 +13,21 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 part 'send_globally_confirm_store.g.dart';
+
+class ReceiverDetailModel {
+  ReceiverDetailModel(
+    this.info,
+    this.value,
+  );
+
+  final FieldInfo info;
+  final String value;
+}
 
 class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase
     with _$SendGloballyConfirmStore {
@@ -28,38 +40,125 @@ class SendGloballyConfirmStore extends _SendGloballyConfirmStoreBase
 abstract class _SendGloballyConfirmStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
-  CurrencyModel eurCurrency = currencyFrom(
-    sSignalRModules.currenciesList,
-    'EUR',
-  );
+  SendToBankCardResponse? data;
+  GlobalSendMethodsModelMethods? method;
 
-  Future<void> confirmSendGlobally(SendToBankRequestModel model) async {
+  @observable
+  ObservableList<ReceiverDetailModel> receiverDetails = ObservableList.of([]);
+
+  @observable
+  String? sendCurrencyAsset;
+  @computed
+  CurrencyModel? get sendCurrency => sendCurrencyAsset != null
+      ? currencyFrom(
+          sSignalRModules.currenciesList,
+          sendCurrencyAsset!,
+        )
+      : null;
+
+  @action
+  void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods m) {
+    data = val;
+    method = m;
+
+    sendCurrencyAsset = val.asset;
+
+    final obj = sSignalRModules.globalSendMethods!.descriptions!.firstWhere(
+      (element) => element.type == m.type,
+    );
+
+    for (var i = 0; i < obj.fields!.length; i++) {
+      receiverDetails.add(
+        ReceiverDetailModel(
+          obj.fields![i],
+          getValueFromData(val, obj.fields![i].fieldId!),
+        ),
+      );
+    }
+  }
+
+  String getValueFromData(SendToBankCardResponse val, FieldInfoId id) {
+    switch (id) {
+      case FieldInfoId.cardNumber:
+        return val.cardNumber ?? '';
+      case FieldInfoId.iban:
+        return val.iban ?? '';
+      case FieldInfoId.phoneNumber:
+        return val.phoneNumber ?? '';
+      case FieldInfoId.recipientName:
+        return val.recipientName ?? '';
+      case FieldInfoId.panNumber:
+        return val.panNumber ?? '';
+      case FieldInfoId.upiAddress:
+        return val.upiAddress ?? '';
+      case FieldInfoId.accountNumber:
+        return val.accountNumber ?? '';
+      case FieldInfoId.beneficiaryName:
+        return val.beneficiaryName ?? '';
+      case FieldInfoId.bankName:
+        return val.bankName ?? '';
+      case FieldInfoId.bankAccount:
+        return val.bankAccount ?? '';
+      case FieldInfoId.ifscCode:
+        return val.ifscCode ?? '';
+      default:
+        return '';
+    }
+  }
+
+  Future<void> confirmSendGlobally() async {
     loader.startLoadingImmediately();
 
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .sendToBankCard(
-          model,
-        );
+    final model = SendToBankRequestModel(
+      countryCode: data?.countryCode,
+      asset: data?.asset,
+      amount: data?.amount,
+      methodId: method!.methodId ?? '',
+      cardNumber: data?.cardNumber,
+      iban: data?.iban,
+      phoneNumber: data?.phoneNumber,
+      recipientName: data?.recipientName,
+      panNumber: data?.panNumber,
+      upiAddress: data?.upiAddress,
+      accountNumber: data?.accountNumber,
+      beneficiaryName: data?.beneficiaryName,
+      bankName: data?.bankName,
+      ifscCode: data?.ifscCode,
+      bankAccount: data?.bankAccount,
+    );
+
+    try {
+      final response = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .sendToBankCard(
+            model,
+          );
+
+      loader.finishLoadingImmediately();
+
+      if (response.hasError) {
+        loader.finishLoadingImmediately();
+        await showFailureScreen(response.error?.cause ?? '');
+      } else {
+        await showSuccessScreen(model);
+      }
+    } catch (e) {
+      loader.finishLoadingImmediately();
+      await showFailureScreen(intl.something_went_wrong_try_again);
+    }
 
     loader.finishLoadingImmediately();
-
-    if (response.hasError) {
-      await showFailureScreen(response.error?.cause ?? '');
-    } else {
-      await showSuccessScreen(model);
-    }
   }
 
   @action
   Future<void> showFailureScreen(String error) {
     return sRouter.push(
       FailureScreenRouter(
-        primaryText: intl.previewBuyWithAsset_failure,
+        primaryText: intl.failed,
         secondaryText: error,
-        primaryButtonName: intl.send_globally_fail_info,
+        primaryButtonName: intl.withdrawalConfirm_close,
         onPrimaryButtonTap: () {
           navigateToRouter();
         },
@@ -75,10 +174,10 @@ abstract class _SendGloballyConfirmStoreBase with Store {
             primaryText: intl.send_globally_success,
             secondaryText:
                 '${intl.send_globally_success_secondary} ${volumeFormat(
-              prefix: eurCurrency.prefixSymbol,
+              prefix: sendCurrency!.prefixSymbol,
               decimal: model.amount ?? Decimal.zero,
-              accuracy: eurCurrency.accuracy,
-              symbol: eurCurrency.symbol,
+              accuracy: sendCurrency!.accuracy,
+              symbol: sendCurrency!.symbol,
             )}'
                 '\n${intl.send_globally_success_secondary_2}',
             showProgressBar: true,

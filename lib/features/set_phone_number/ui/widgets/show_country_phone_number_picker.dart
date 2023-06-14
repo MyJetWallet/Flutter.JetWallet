@@ -36,6 +36,7 @@ class _SearchPinned extends StatelessObserverWidget {
     final store = Provider.of<SetPhoneNumberStore>(context, listen: false);
 
     return SStandardField(
+      controller: TextEditingController(),
       autofocus: true,
       labelText: intl.showCountryPhoneNumberPicker_searchCountry,
       onChanged: (value) {

@@ -45,7 +45,6 @@ abstract class _OperationHistoryBase with Store {
     this.jw_operation_id,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
-      print('GetNewHistoryEvent');
       refreshHistory(needLoader: false);
     });
   }
@@ -200,11 +199,13 @@ abstract class _OperationHistoryBase with Store {
           _filterUnusedOperationTypeItemsFrom(items),
         );
 
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.linear,
-        );
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.linear,
+          );
+        }
 
         union = const OperationHistoryUnion.loaded();
       } else {

@@ -52,6 +52,7 @@ class _SearchPinned extends StatelessObserverWidget {
           style: sTextH4Style,
         ),
         SStandardField(
+          controller: TextEditingController(),
           autofocus: true,
           labelText: intl.showKycCountryPicker_search,
           onChanged: (value) {

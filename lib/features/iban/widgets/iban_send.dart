@@ -25,8 +25,6 @@ class IbanSend extends StatelessObserverWidget {
       'EUR',
     );
 
-    print(eurCurrency.iconUrl);
-
     final store = getIt.get<IbanStore>();
 
     return SingleChildScrollView(
@@ -162,6 +160,7 @@ class IbanSend extends StatelessObserverWidget {
                   helper: store.contacts[index].iban ?? '',
                   description: '',
                   removeDivider: true,
+                  needSpacer: true,
                   onTap: () {
                     getIt<AppRouter>()
                         .push(

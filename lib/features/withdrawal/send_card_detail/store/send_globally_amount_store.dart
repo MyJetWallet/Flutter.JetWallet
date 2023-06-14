@@ -2,13 +2,16 @@ import 'package:decimal/decimal.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -16,6 +19,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -38,17 +42,45 @@ abstract class _SendGloballyAmountStoreBase with Store {
   void tapPreset(String preset) => tappedPreset = preset;
 
   @observable
+  String? sendCurrencyAsset;
+  @computed
+  CurrencyModel? get sendCurrency => sendCurrencyAsset != null
+      ? currencyFrom(
+          sSignalRModules.currenciesList,
+          sendCurrencyAsset!,
+        )
+      : null;
+
+  @observable
+  String countryCode = '';
+  @observable
   String cardNumber = '';
   @observable
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
-  @action
-  void setCardNumber(String card) {
-    cardNumber = card;
 
-    if (cardNumber[0] == '4') {
-      cardNetwork = CircleCardNetwork.VISA;
-    } else if (cardNumber[0] == '5') {
-      cardNetwork = CircleCardNetwork.MASTERCARD;
+  @observable
+  String limitError = '';
+
+  SendToBankRequestModel? mainData;
+  GlobalSendMethodsModelMethods? method;
+
+  @action
+  void setCardNumber(
+    SendToBankRequestModel data,
+    GlobalSendMethodsModelMethods m,
+  ) {
+    sendCurrencyAsset = data.asset ?? '';
+    countryCode = data.countryCode ?? '';
+
+    mainData = data;
+    method = m;
+
+    if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
+      if (data.cardNumber![0] == '4') {
+        cardNetwork = CircleCardNetwork.VISA;
+      } else if (data.cardNumber![0] == '5') {
+        cardNetwork = CircleCardNetwork.MASTERCARD;
+      }
     }
   }
 
@@ -64,28 +96,23 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @observable
   InputError withAmmountInputError = InputError.none;
 
+  @computed
+  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
+
   StackLoaderStore loader = StackLoaderStore();
 
   @computed
-  CurrencyModel get eurCurrency => currencyFrom(
-        sSignalRModules.currenciesList,
-        'EUR',
-      );
-
-  @computed
   Decimal get availableBalabce => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
       );
 
   @action
   Future<void> loadPreview() async {
     loader.startLoadingImmediately();
 
-    final model = SendToBankRequestModel(
-      countryCode: 'UA',
-      cardNumber: cardNumber,
-      asset: 'EUR',
+    mainData = mainData!.copyWith(
       amount: Decimal.parse(withAmount),
+      methodId: method!.methodId ?? '',
     );
 
     final response = await getIt
@@ -93,17 +120,16 @@ abstract class _SendGloballyAmountStoreBase with Store {
         .simpleNetworking
         .getWalletModule()
         .sendToBankCardPreview(
-          model,
+          mainData!,
         );
 
     loader.finishLoadingImmediately();
 
     if (!response.hasError) {
-      print(response.data);
-
       await sRouter.push(
         SendGloballyConfirmRouter(
           data: response.data!,
+          method: method!,
         ),
       );
     } else {
@@ -124,15 +150,15 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     final value = valueBasedOnSelectedPercent(
       selected: percent,
-      currency: eurCurrency,
+      currency: sendCurrency!,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
       ),
     );
 
     withAmount = valueAccordingToAccuracy(
       value,
-      eurCurrency.accuracy,
+      sendCurrency!.accuracy,
     );
 
     _validateAmount();
@@ -144,7 +170,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
-      accuracy: eurCurrency.accuracy,
+      accuracy: sendCurrency!.accuracy,
     );
 
     _validateAmount();
@@ -156,7 +182,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
   void _calculateBaseConversion() {
     if (withAmount.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
-        assetSymbol: eurCurrency.symbol,
+        assetSymbol: sendCurrency!.symbol,
         assetBalance: Decimal.parse(withAmount),
       );
 
@@ -169,10 +195,36 @@ abstract class _SendGloballyAmountStoreBase with Store {
   @action
   void _validateAmount() {
     final error =
-        onGloballyWithdrawInputErrorHandler(withAmount, eurCurrency, null);
+        onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
 
-    withAmmountInputError =
-        double.parse(withAmount) != 0 ? error : InputError.none;
+    final value = Decimal.parse(withAmount);
+    final valueInBaseCurrency = value * sendCurrency!.currentPrice;
+
+    if (method!.minAmount! > valueInBaseCurrency) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: method!.minAmount!,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    } else if (method!.maxAmount! < valueInBaseCurrency) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: method!.maxAmount!,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
+        prefix: baseCurrency.prefix,
+      )}';
+    } else {
+      limitError = '';
+    }
+
+    withAmmountInputError = double.parse(withAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }

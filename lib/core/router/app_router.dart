@@ -89,6 +89,7 @@ import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_screen.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_payment_method_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_amount_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_globally_confirm_screen.dart';
 import 'package:jetwallet/features/withdrawal/ui/withdrawal_address.dart';
@@ -107,12 +108,14 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 import '../../features/auth/splash/splash_screen_no_animation.dart';
 import '../../features/currency_buy/models/preview_buy_with_bank_card_input.dart';
@@ -537,6 +540,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/send_iban_confirm',
       page: IbanSendConfirmRouter.page,
+    ),
+    AutoRoute(
+      path: '/global_send_payment_method',
+      page: SendCardPaymentMethodRouter.page,
     ),
   ];
 }

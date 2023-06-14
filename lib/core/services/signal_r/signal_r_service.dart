@@ -89,6 +89,7 @@ class SignalRService {
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
       updateAssetPaymentMethodsNew:
           sSignalRModules.updateAssetPaymentMethodsNew,
+      updateGlobalSendMethods: sSignalRModules.setGlobalSendMethods,
     );
 
     _logger.log(

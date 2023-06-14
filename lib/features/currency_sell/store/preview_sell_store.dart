@@ -101,8 +101,6 @@ abstract class _PreviewSellStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          print(data);
-
           operationId = data.operationId;
           price = data.price;
           fromAssetSymbol = data.fromAssetSymbol;

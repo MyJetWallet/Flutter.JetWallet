@@ -263,12 +263,21 @@ class _DebugInfoState extends State<DebugInfo>
                     sSignalRModules.currenciesList,
                     'EUR',
                   );
-
-                  print(eurCurrency.withdrawalMethods);
-                  print(eurCurrency.supportsAtLeastOneWithdrawalMethod);
                 },
                 child: const Text(
                   'Sumsub',
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  await sRouter.push(
+                    SuccessScreenRouter(
+                      secondaryText: 'intl.previewConvert_orderProcessing',
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Success',
                 ),
               ),
             ],

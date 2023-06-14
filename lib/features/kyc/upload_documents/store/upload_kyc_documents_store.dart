@@ -431,8 +431,6 @@ abstract class _UploadKycDocumentsStoreBase with Store {
         union = const UploadKycDocumentsUnion.done();
       }
     } catch (error) {
-      print(error);
-
       _logger.log(stateFlow, 'uploadDocuments', error);
 
       union = UploadKycDocumentsUnion.error(error);

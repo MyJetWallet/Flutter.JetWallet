@@ -50,14 +50,10 @@ abstract class _MarketNewsStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          print(data.news);
-
           updateNews(data.news);
         },
       );
     } catch (e) {
-      print(e);
-
       _logger.log(stateFlow, 'loadMoreNews', e);
     }
   }
@@ -96,8 +92,6 @@ abstract class _MarketNewsStoreBase with Store {
 
     response.pick(
       onData: (data) {
-        print(data.news.length);
-
         updateNews(data.news);
 
         isNewsLoaded = true;

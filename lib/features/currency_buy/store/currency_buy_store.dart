@@ -502,8 +502,6 @@ abstract class _CurrencyBuyStoreBase with Store {
     }
 
     if (asset.limits != null) {
-      print(asset.limits);
-
       var finalInterval = StateBarType.day1;
       var finalProgress = 0;
       var dayState = asset.limits!.dayValue == asset.limits!.dayLimit

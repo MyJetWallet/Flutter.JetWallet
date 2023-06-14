@@ -63,9 +63,6 @@ abstract class _ChartStoreBase with Store {
           },
         );
       } else {
-        print('showWeek');
-        print(showWeek);
-
         fetchBalanceCandles(Period.day).then(
           (_) {
             final dayCandles = candles[Period.day];

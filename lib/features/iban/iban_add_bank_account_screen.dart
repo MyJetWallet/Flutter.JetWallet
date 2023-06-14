@@ -131,6 +131,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                     ),
                     SFieldDividerFrame(
                       child: SStandardField(
+                        controller: TextEditingController(),
                         readOnly: true,
                         enabled: false,
                         hideClearButton: true,
