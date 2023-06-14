@@ -544,21 +544,31 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         )
         .toList();
 
-    final showCryptoSearch = sSignalRModules.currenciesList
-            .where((element) =>
-                element.type == AssetType.crypto && element.supportsGlobalSend)
-            .length >=
-        7;
+    final cryptoSearchLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.crypto &&
+            element.supportsGlobalSend &&
+            element.isAssetBalanceNotEmpty)
+        .length;
+    final showCryptoSearch = cryptoSearchLength >= 7;
 
-    final showFiatSearch = sSignalRModules.currenciesList
-            .where((element) =>
-                element.type == AssetType.fiat && element.supportsGlobalSend)
-            .length >=
-        7;
+    final showFiatLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.fiat &&
+            element.supportsGlobalSend &&
+            element.isAssetBalanceNotEmpty)
+        .length;
+    final showFiatSearch = showFiatLength >= 7;
+
+    if (cryptoSearchLength == 0) {
+      state.updateShowCrypto(false);
+    } else if (showFiatLength == 0) {
+      state.updateShowCrypto(true);
+    }
 
     return Column(
       children: [
-        if (true) ...[
+        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
           Stack(
             children: [
               GestureDetector(
@@ -693,7 +703,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                               .where(
                                 (element) =>
                                     element.type == AssetType.crypto &&
-                                    element.supportsGlobalSend,
+                                    element.supportsGlobalSend &&
+                                    element.isAssetBalanceNotEmpty,
                               )
                               .last,
                       onTap: () {
@@ -721,7 +732,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                               .where(
                                 (element) =>
                                     element.type == AssetType.fiat &&
-                                    element.supportsGlobalSend,
+                                    element.supportsGlobalSend &&
+                                    element.isAssetBalanceNotEmpty,
                               )
                               .last,
                       onTap: () {
