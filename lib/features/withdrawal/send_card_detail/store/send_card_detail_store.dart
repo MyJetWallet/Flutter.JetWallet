@@ -135,14 +135,17 @@ abstract class _SendCardDetailStoreBase with Store {
   }
 
   @action
-  Future<void> paste(String methodId) async {
+  Future<void> paste(
+    String methodId, {
+    bool isCard = false,
+  }) async {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
       final copiedText = await _copiedText();
 
-      //updateCardNumber(copiedText);
       methodList[ind].controller.text = copiedText;
+      onChanged(methodId, copiedText, isCard: isCard);
 
       _moveCursorAtTheEnd(methodList[ind].controller);
     }
@@ -162,15 +165,20 @@ abstract class _SendCardDetailStoreBase with Store {
       methodList[ind].value = value;
 
       if (isCard) {
-        methodList[ind].isError = methodList[ind].value.length == 19
-            ? CreditCardValidator().validateCCNum(methodList[ind].value).isValid
-                ? false
-                : true
-            : false;
+        validateCard(ind);
       }
     }
 
     checkContinueButton();
+  }
+
+  @action
+  void validateCard(int index) {
+    methodList[index].isError = methodList[index].value.length == 19
+        ? CreditCardValidator().validateCCNum(methodList[index].value).isValid
+            ? false
+            : true
+        : false;
   }
 
   void submit() {

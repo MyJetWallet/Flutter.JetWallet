@@ -140,7 +140,10 @@ class _PaymentMethodCardNumberState extends State<PaymentMethodCardNumber> {
         SendCardDetailStore.of(context).onErase(widget.method.id);
       },
       paste: () {
-        SendCardDetailStore.of(context).paste(widget.method.id);
+        SendCardDetailStore.of(context).paste(
+          widget.method.id,
+          isCard: true,
+        );
       },
       onChanged: (val) {
         SendCardDetailStore.of(context).onChanged(
