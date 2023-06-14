@@ -429,6 +429,10 @@ class SignalRModuleNew {
       operationHistoryMessages,
       method: handler.operationHistoryHandler,
     );
+    _hubConnection?.off(
+      globalSendMethods,
+      method: handler.globalSendMethodsHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -515,6 +519,11 @@ class SignalRModuleNew {
     _hubConnection?.on(
       operationHistoryMessages,
       handler.operationHistoryHandler,
+    );
+
+    _hubConnection?.on(
+      globalSendMethods,
+      handler.globalSendMethodsHandler,
     );
 
     ///

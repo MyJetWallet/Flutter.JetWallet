@@ -29,8 +29,6 @@ abstract class _TimerStoreBase with Store {
 
   @action
   void refreshTimer() {
-    print('refreshTimer');
-
     _timer?.cancel();
 
     final initialInt = initial;

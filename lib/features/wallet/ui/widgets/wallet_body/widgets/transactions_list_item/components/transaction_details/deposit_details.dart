@@ -23,8 +23,6 @@ class DepositDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(transactionListItem);
-
     return SPaddingH24(
       child: Column(
         children: [

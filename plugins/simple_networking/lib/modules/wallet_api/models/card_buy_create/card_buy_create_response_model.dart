@@ -19,6 +19,8 @@ class CardBuyCreateResponseModel with _$CardBuyCreateResponseModel {
     @DecimalSerialiser() Decimal? depositFeeAmountMax,
     @DecimalSerialiser() Decimal? depositFeePerc,
     @DecimalSerialiser() Decimal? depositFeePercMax,
+    @DecimalNullSerialiser() Decimal? paymentFeeInPaymentAsset,
+    @DecimalNullSerialiser() Decimal? simpleFeeAmountInPaymentAsset,
     String? tradeFeeAsset,
     @DecimalSerialiser() required Decimal rate,
   }) = _CardBuyCreateResponseModel;

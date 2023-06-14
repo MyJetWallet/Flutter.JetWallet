@@ -46,6 +46,7 @@ class _SearchPinned extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return SStandardField(
+      controller: TextEditingController(),
       autofocus: true,
       focusNode: FocusNode(),
       labelText: intl.showDialCodePicker_searchCountry,

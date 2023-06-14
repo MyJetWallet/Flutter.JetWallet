@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -491,6 +493,19 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
+      final kycState = getIt.get<KycService>();
+
+      if (kycState.useSumsub) {
+        unawaited(sRouter.push(
+          const KycVerificationSumsubRouter(),
+        ));
+      } else {
+        unawaited(sRouter.push(
+          ChooseDocumentsRouter(
+            headerTitle: 'Verify your identity',
+          ),
+        ));
+      }
       await sRouter.push(
         ChooseDocumentsRouter(
           headerTitle: 'Verify your identity',
@@ -499,10 +514,21 @@ class DeepLinkService {
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          action: RouteQueryAction.push,
-          query: ChooseDocumentsRouter(
-            headerTitle: 'Verify your identity',
-          ),
+          func: () {
+            final kycState = getIt.get<KycService>();
+
+            if (kycState.useSumsub) {
+              sRouter.push(
+                const KycVerificationSumsubRouter(),
+              );
+            } else {
+              sRouter.push(
+                ChooseDocumentsRouter(
+                  headerTitle: 'Verify your identity',
+                ),
+              );
+            }
+          },
         ),
       );
     }

@@ -198,8 +198,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
             ': ${checkLimitText()}'
         : '';
 
-    print(widget.currency.buyMethods);
-
     final isPaymentMethodActive = widget.currency.buyMethods
         .where(
           (element) => element.id == widget.paymentMethod,
@@ -209,8 +207,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
     final isMethodHaveAssets = isPaymentMethodActive.isNotEmpty &&
         isPaymentMethodActive[0].paymentAssets != null &&
         isPaymentMethodActive[0].paymentAssets!.isNotEmpty;
-
-    print(isMethodHaveAssets);
 
     void showLimits() {
       sAnalytics.newBuyTapCardLimits();
@@ -598,8 +594,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
 
                     state.loader.finishLoading();
                     state.disableSubmit = false;
-
-                    print(response);
 
                     if (response != null) {
                       if (!mounted) return;

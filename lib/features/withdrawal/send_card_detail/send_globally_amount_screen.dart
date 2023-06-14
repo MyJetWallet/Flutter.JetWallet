@@ -1,40 +1,73 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_amount_store.dart';
-import 'package:jetwallet/utils/formatting/base/market_format.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/utils/send_globally_limits.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
+
+import 'widgets/payment_method_card.dart';
 
 @RoutePage(name: 'SendGloballyAmountRouter')
 class SendGloballyAmountScreen extends StatelessWidget {
   const SendGloballyAmountScreen({
     super.key,
-    required this.cardNumber,
+    required this.data,
+    required this.method,
   });
 
-  final String cardNumber;
+  final SendToBankRequestModel data;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyAmountStore>(
-      create: (context) => SendGloballyAmountStore()..setCardNumber(cardNumber),
-      builder: (context, child) => const SendGloballyAmountScreenBody(),
+      create: (context) =>
+          SendGloballyAmountStore()..setCardNumber(data, method),
+      builder: (context, child) => SendGloballyAmountScreenBody(
+        data: data,
+        method: method,
+      ),
     );
   }
 }
 
-class SendGloballyAmountScreenBody extends StatelessObserverWidget {
-  const SendGloballyAmountScreenBody({super.key});
+class SendGloballyAmountScreenBody extends StatefulObserverWidget {
+  const SendGloballyAmountScreenBody({
+    super.key,
+    required this.data,
+    required this.method,
+  });
+
+  final SendToBankRequestModel data;
+  final GlobalSendMethodsModelMethods method;
+
+  @override
+  State<SendGloballyAmountScreenBody> createState() =>
+      _SendGloballyAmountScreenBodyState();
+}
+
+class _SendGloballyAmountScreenBodyState
+    extends State<SendGloballyAmountScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      FocusScope.of(context).unfocus();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,95 +81,103 @@ class SendGloballyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.send_globally} EUR',
+          title: intl.send_globally,
+          subTitle: '${intl.withdrawalAmount_available}: '
+              '${volumeFormat(
+            decimal: store.availableBalabce,
+            accuracy: store.sendCurrency!.accuracy,
+            symbol: store.sendCurrency!.symbol,
+          )}',
+          subTitleStyle: sSubtitle3Style.copyWith(
+            color: colors.grey2,
+          ),
         ),
       ),
       child: Column(
         children: [
-          deviceSize.when(
-            small: () => const SizedBox(),
-            medium: () => const Spacer(),
-          ),
-          SizedBox(
-            height: deviceSize.when(
-              small: () => 116,
-              medium: () => 152,
+          const Spacer(),
+          Baseline(
+            baseline: deviceSize.when(
+              small: () => 20,
+              medium: () => 48,
             ),
-            child: Column(
-              children: [
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => 20,
-                    medium: () => 48,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: SActionPriceField(
-                    widgetSize: widgetSizeFrom(deviceSize),
-                    price: formatCurrencyStringAmount(
-                      prefix: store.eurCurrency.prefixSymbol,
-                      value: store.withAmount,
-                      symbol: store.eurCurrency.symbol,
-                    ),
-                    helper: '',
-                    error: store.withAmmountInputError ==
-                            InputError.enterHigherAmount
-                        ? '${intl.withdrawalAmount_enterMoreThan} '
-                        : store.withAmmountInputError.value(),
-                    isErrorActive: store.withAmmountInputError.isActive,
-                  ),
-                ),
-                Baseline(
-                  baseline: deviceSize.when(
-                    small: () => -36,
-                    medium: () => 20,
-                  ),
-                  baselineType: TextBaseline.alphabetic,
-                  child: Text(
-                    '${intl.withdrawalAmount_available}: '
-                    '${volumeFormat(
-                      decimal: store.availableBalabce,
-                      accuracy: store.eurCurrency.accuracy,
-                      symbol: store.eurCurrency.symbol,
-                    )}',
-                    style: sSubtitle3Style.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                ),
-              ],
+            baselineType: TextBaseline.alphabetic,
+            child: SActionPriceField(
+              widgetSize: widgetSizeFrom(deviceSize),
+              price: formatCurrencyStringAmount(
+                prefix: store.sendCurrency!.prefixSymbol,
+                value: store.withAmount,
+                symbol: store.sendCurrency!.symbol,
+              ),
+              helper: '',
+              error: store.withAmmountInputError == InputError.limitError
+                  ? store.limitError
+                  : store.withAmmountInputError.value(),
+              isErrorActive: store.withAmmountInputError.isActive,
             ),
           ),
+          //const SizedBox(height: 40),
           const Spacer(),
           SPaddingH24(
-            child: Ink(
-              height: 88,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(
-                  color: colors.grey4,
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SpaceW19(), // 1 px border
-                      getNetworkIcon(context),
-                      const SpaceW12(),
-                      Baseline(
-                        baseline: 18,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          '•••• ${store.cardNumber.substring(store.cardNumber.length - 4)}',
-                          style: sSubtitle2Style,
-                        ),
-                      ),
-                      const SpaceW19(), // 1 px border
-                    ],
+            child: InkWell(
+              onTap: () {
+                showGlobalSendLimits(
+                  context: context,
+                  minAmount: store.method!.minAmount!,
+                  maxAmount: store.method!.maxAmount!,
+                  currency: store.sendCurrency!,
+                );
+              },
+              highlightColor: sKit.colors.grey4,
+              splashColor: Colors.transparent,
+              borderRadius: BorderRadius.circular(16.0),
+              child: Ink(
+                height: 88,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  border: Border.all(
+                    color: colors.grey4,
                   ),
-                ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SpaceW19(), // 1 px border
+                        if (store.cardNetwork !=
+                            CircleCardNetwork.unsupported) ...[
+                          getNetworkIcon(context),
+                        ] else ...[
+                          SNetworkCachedSvg(
+                            url: iconForPaymentMethod(
+                              methodId: store.method?.methodId ?? '',
+                            ),
+                            width: 30,
+                            height: 30,
+                            placeholder: MethodPlaceholder(
+                              name: widget.method.name ?? 'M',
+                            ),
+                          ),
+                        ],
+                        const SpaceW12(),
+                        Flexible(
+                          child: Baseline(
+                            baseline: 18,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              widget.method.name ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              style: sSubtitle2Style,
+                            ),
+                          ),
+                        ),
+                        const SpaceW19(), // 1 px border
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

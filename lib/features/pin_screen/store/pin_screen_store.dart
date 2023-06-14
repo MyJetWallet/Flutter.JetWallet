@@ -138,15 +138,9 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> initDefaultScreen() async {
-    //print('initDefaultScreen $inited');
-
-    print(getIt<AppRouter>().currentPath);
-
     if (inited) return;
 
     inited = true;
-
-    //print('initDefaultScreen $inited');
 
     final auth = LocalAuthentication();
     var bioStatus = BiometricStatus.none;
@@ -335,8 +329,6 @@ abstract class _PinScreenStoreBase with Store {
           );
         },
         onError: (ServerRejectException error) async {
-          print(error.cause);
-
           if (isChangePhone) {
             showForgot = true;
           }

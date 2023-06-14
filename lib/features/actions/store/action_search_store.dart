@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -63,7 +64,15 @@ abstract class _ActionSearchStoreBase with Store {
       ObservableList.of([]);
 
   @observable
+  ObservableList<KycCountryModel> globalSendCountries = ObservableList.of([]);
+  @observable
+  ObservableList<KycCountryModel> filtredGlobalSendCountries =
+      ObservableList.of([]);
+
+  @observable
   String searchValue = '';
+  @action
+  void clearSearchValue() => searchValue = '';
 
   @observable
   bool showCrypto = true;
@@ -103,6 +112,28 @@ abstract class _ActionSearchStoreBase with Store {
     receiveCurrencies = ObservableList.of(_receiveCurrencies);
     sendCurrencies = ObservableList.of(_sendCurrencies);
     search(searchValue);
+  }
+
+  @action
+  void globalSendSearchInit(List<KycCountryModel> availableCountries) {
+    availableCountries.sort((a, b) => a.countryName.compareTo(b.countryName));
+
+    globalSendCountries = ObservableList.of(availableCountries.toList());
+    filtredGlobalSendCountries = ObservableList.of(availableCountries.toList());
+  }
+
+  @action
+  void globalSendSearch(String value) {
+    final search = value.toLowerCase();
+
+    if (search.isEmpty) {
+      filtredGlobalSendCountries =
+          ObservableList.of(globalSendCountries.toList());
+    } else {
+      filtredGlobalSendCountries.removeWhere((element) {
+        return !element.countryName.toLowerCase().startsWith(search);
+      });
+    }
   }
 
   @action

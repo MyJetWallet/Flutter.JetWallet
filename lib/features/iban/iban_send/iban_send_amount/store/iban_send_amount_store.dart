@@ -138,8 +138,6 @@ abstract class _IbanSendAmountStoreBase with Store {
     loader.finishLoadingImmediately();
 
     if (!response.hasError) {
-      print(response.data);
-
       await sRouter.push(
         IbanSendConfirmRouter(
           data: response.data!,

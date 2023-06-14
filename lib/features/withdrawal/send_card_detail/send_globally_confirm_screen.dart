@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -13,6 +15,7 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
@@ -21,16 +24,19 @@ class SendGloballyConfirmScreen extends StatelessWidget {
   const SendGloballyConfirmScreen({
     super.key,
     required this.data,
+    required this.method,
   });
 
   final SendToBankCardResponse data;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   Widget build(BuildContext context) {
     return Provider<SendGloballyConfirmStore>(
-      create: (context) => SendGloballyConfirmStore(),
+      create: (context) => SendGloballyConfirmStore()..init(data, method),
       builder: (context, child) => SendGloballyConfirmScreenBody(
         data: data,
+        method: method,
       ),
     );
   }
@@ -40,9 +46,11 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
   const SendGloballyConfirmScreenBody({
     super.key,
     required this.data,
+    required this.method,
   });
 
   final SendToBankCardResponse data;
+  final GlobalSendMethodsModelMethods method;
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +61,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
 
     return SPageFrameWithPadding(
       loading: state.loader,
-      customLoader: WaitingScreen(
-        onSkip: () {},
-      ),
+      loaderText: intl.register_pleaseWait,
       header: const SSmallHeader(
         isShortVersion: true,
         title: '',
@@ -63,11 +69,8 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
       child: Stack(
         children: [
           ListView(
-            physics: const ClampingScrollPhysics(),
-            padding: EdgeInsets.only(
-              bottom: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                  ? 310.0
-                  : 260.0,
+            padding: const EdgeInsets.only(
+              bottom: 160,
             ),
             children: [
               Column(
@@ -115,7 +118,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Text(
-                              'Receiver will get ≈ ${data.estimatedReceiveAmount!} UAH',
+                              '${intl.global_send_est_amount}: ${data.estimatedReceiveAmount!} ${data.receiveAsset}',
                               style: sSubtitle3Style,
                             ),
                           ),
@@ -123,27 +126,61 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                       ),
                     ),
                   ),
+                  const SpaceH40(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      intl.global_send_receiver_details,
+                      style: sTextH5Style,
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.receiverDetails.length,
+                    itemBuilder: (context, index) {
+                      return SActionConfirmText(
+                        name: state.receiverDetails[index].info.fieldName ?? '',
+                        value: state.receiverDetails[index].value,
+                      );
+                    },
+                  ),
+                  const SpaceH20(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      intl.global_send_payment_details,
+                      style: sTextH5Style,
+                    ),
+                  ),
                   SActionConfirmText(
                     name: intl.send_globally_date,
                     value: DateFormat('dd.MM.y, HH:mm').format(DateTime.now()),
                   ),
                   SActionConfirmText(
-                    name: intl.send_globally_card,
-                    value: data.cardNumber!,
-                  ),
-                  SActionConfirmText(
                     name: intl.send_globally_con_rate,
                     contentLoading: state.loader.loading,
                     value:
-                        '${state.eurCurrency.prefixSymbol}1 = ${data.estimatedPrice} UAH',
+                        '${state.sendCurrency!.prefixSymbol != null ? state.sendCurrency!.prefixSymbol : ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}',
+                  ),
+                  SActionConfirmText(
+                    name: intl.global_send_you_send,
+                    value: volumeFormat(
+                      prefix: state.sendCurrency!.prefixSymbol,
+                      decimal: (data.amount ?? Decimal.zero) -
+                          (data.feeAmount ?? Decimal.zero),
+                      accuracy: state.sendCurrency!.accuracy,
+                      symbol: state.sendCurrency!.symbol,
+                    ),
                   ),
                   SActionConfirmText(
                     name: intl.send_globally_processing_fee,
                     value: volumeFormat(
-                      prefix: state.eurCurrency.prefixSymbol,
+                      prefix: state.sendCurrency!.prefixSymbol,
                       decimal: data.feeAmount ?? Decimal.zero,
-                      accuracy: state.eurCurrency.accuracy,
-                      symbol: state.eurCurrency.symbol,
+                      accuracy: state.sendCurrency!.accuracy,
+                      symbol: state.sendCurrency!.symbol,
                     ),
                     maxValueWidth: 140,
                   ),
@@ -169,14 +206,14 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                         children: [
                           const SDivider(),
                           SActionConfirmText(
-                            name: intl.currencyBuy_total,
+                            name: intl.global_send_total_pay,
                             contentLoading: state.loader.loading,
                             valueColor: colors.blue,
                             value: volumeFormat(
-                              prefix: state.eurCurrency.prefixSymbol,
+                              prefix: state.sendCurrency!.prefixSymbol,
                               decimal: data.amount ?? Decimal.zero,
-                              accuracy: state.eurCurrency.accuracy,
-                              symbol: state.eurCurrency.symbol,
+                              accuracy: state.sendCurrency!.accuracy,
+                              symbol: state.sendCurrency!.symbol,
                             ),
                           ),
                         ],
@@ -198,10 +235,15 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                       children: [
                         const SDivider(),
                         SActionConfirmText(
-                          name: intl.currencyBuy_total,
+                          name: intl.global_send_total_pay,
                           contentLoading: state.loader.loading,
                           valueColor: colors.blue,
-                          value: 'test',
+                          value: volumeFormat(
+                            prefix: state.sendCurrency!.prefixSymbol,
+                            decimal: data.amount ?? Decimal.zero,
+                            accuracy: state.sendCurrency!.accuracy,
+                            symbol: state.sendCurrency!.symbol,
+                          ),
                         ),
                       ],
                     );
@@ -216,14 +258,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    state.confirmSendGlobally(
-                      SendToBankRequestModel(
-                        countryCode: 'UA',
-                        cardNumber: data.cardNumber,
-                        asset: 'EUR',
-                        amount: data.amount,
-                      ),
-                    );
+                    state.confirmSendGlobally();
                   },
                 ),
               ],

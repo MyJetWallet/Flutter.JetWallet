@@ -34,6 +34,7 @@ const nftMarketMessage = 'nft-market';
 const nftPortfolioMessage = 'nft-portfolio';
 const fireblocksMessages = 'fireblocks-messages';
 const operationHistoryMessages = 'operation-history';
+const globalSendMethods = 'global-send-methods';
 
 // KeyValue
 const watchlistKey = 'watchlist';

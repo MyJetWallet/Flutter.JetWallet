@@ -45,7 +45,6 @@ class _CryptoDepositWithAddressAndTagState
     pageController.addListener(() {
       setState(() {
         currentPage = pageController.page!.round();
-        print(currentPage);
       });
     });
 

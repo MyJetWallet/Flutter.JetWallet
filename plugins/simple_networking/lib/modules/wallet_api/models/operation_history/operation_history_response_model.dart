@@ -21,6 +21,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
   const factory OperationHistoryItem({
     DepositInfo? depositInfo,
     WithdrawalInfo? withdrawalInfo,
+    PaymeInfo? paymeInfo,
     SwapInfo? swapInfo,
     BuyInfo? buyInfo,
     WithdrawalFeeInfo? withdrawalFeeInfo,
@@ -465,4 +466,25 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
       _$CryptoBuyInfoFromJson(json);
+}
+
+@freezed
+class PaymeInfo with _$PaymeInfo {
+  const factory PaymeInfo({
+    final String? cardNumber,
+    final String? iban,
+    final String? phoneNumber,
+    final String? recipientName,
+    final String? panNumber,
+    final String? upiAddress,
+    final String? accountNumber,
+    final String? beneficiaryName,
+    final String? bankName,
+    final String? ifscCode,
+    final String? bankAccount,
+    final int? methodType,
+  }) = _PaymeInfo;
+
+  factory PaymeInfo.fromJson(Map<String, dynamic> json) =>
+      _$PaymeInfoFromJson(json);
 }

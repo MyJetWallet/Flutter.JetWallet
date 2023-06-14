@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../simple_kit.dart';
@@ -34,12 +37,14 @@ class SNetworkSvg extends StatelessWidget {
     required this.url,
     required this.width,
     required this.height,
+    this.placeholder,
   }) : super(key: key);
 
   final Color? color;
   final String url;
   final double width;
   final double height;
+  final Widget? placeholder;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,44 @@ class SNetworkSvg extends StatelessWidget {
       height: height,
       color: color,
       placeholderBuilder: (_) {
-        return const SAssetPlaceholderIcon();
+        return placeholder ?? const SAssetPlaceholderIcon();
+      },
+    );
+  }
+}
+
+class SNetworkCachedSvg extends StatelessWidget {
+  const SNetworkCachedSvg({
+    Key? key,
+    this.color,
+    required this.url,
+    required this.width,
+    required this.height,
+    required this.placeholder,
+  }) : super(key: key);
+
+  final Color? color;
+  final String url;
+  final double width;
+  final double height;
+  final Widget placeholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: DefaultCacheManager().getSingleFile(url),
+      builder: (context, AsyncSnapshot<File> snapshot) {
+        return snapshot.hasData
+            ? SvgPicture.file(
+                snapshot.data!,
+                width: width,
+                height: height,
+                color: color,
+                placeholderBuilder: (_) {
+                  return placeholder;
+                },
+              )
+            : placeholder;
       },
     );
   }

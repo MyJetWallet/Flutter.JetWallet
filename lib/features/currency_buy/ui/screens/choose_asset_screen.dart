@@ -50,6 +50,7 @@ class ChooseAssetScreen extends StatelessWidget {
             if (showSearch) ...[
               SPaddingH24(
                 child: SStandardField(
+                  controller: TextEditingController(),
                   labelText: intl.actionBottomSheetHeader_search,
                   onChanged: (String value) {
                     searchStore.search(value);

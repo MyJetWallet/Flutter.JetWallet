@@ -34,6 +34,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -103,6 +104,12 @@ abstract class _SignalRServiceUpdatedBase with Store {
   CardLimitsModel? cardLimitsModel;
   @action
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
+
+  @observable
+  GlobalSendMethodsModel? globalSendMethods;
+  @action
+  void setGlobalSendMethods(GlobalSendMethodsModel value) =>
+      globalSendMethods = value;
 
   @observable
   @ObservableEarnOfferModelListConverter()
