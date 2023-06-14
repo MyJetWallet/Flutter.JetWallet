@@ -11,6 +11,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
+import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -65,6 +66,7 @@ class SignalRTransport {
     required this.addToPing,
     required this.addToPong,
     required this.addToLog,
+    required this.updateGlobalSendMethods,
   });
 
   final void Function(bool) initFinished;
@@ -102,6 +104,8 @@ class SignalRTransport {
   final void Function(AssetWithdrawalFeeModel) updateAssetsWithdrawalFees;
   final void Function(AssetPaymentMethods) updateAssetPaymentMethods;
   final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
+
+  final void Function(GlobalSendMethodsModel) updateGlobalSendMethods;
 
   /// Logs
 

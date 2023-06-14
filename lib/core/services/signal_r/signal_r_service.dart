@@ -154,6 +154,7 @@ class SignalRService {
           );
         }
       },
+      updateGlobalSendMethods: sSignalRModules.setGlobalSendMethods,
     );
 
     _logger.log(
