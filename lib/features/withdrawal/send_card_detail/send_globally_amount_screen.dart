@@ -123,8 +123,8 @@ class _SendGloballyAmountScreenBodyState
               onTap: () {
                 showGlobalSendLimits(
                   context: context,
-                  minAmount: store.method!.minAmount!,
-                  maxAmount: store.method!.maxAmount!,
+                  minAmount: store.minLimitAmount,
+                  maxAmount: store.maxLimitAmount,
                   currency: store.sendCurrency!,
                 );
               },

@@ -943,6 +943,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SignalrDebugInfoRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SignalrDebugInfo(),
+      );
+    },
   };
 }
 
@@ -4268,4 +4274,18 @@ class SendCardPaymentMethodRouterArgs {
   String toString() {
     return 'SendCardPaymentMethodRouterArgs{key: $key, countryCode: $countryCode, currency: $currency}';
   }
+}
+
+/// generated route for
+/// [SignalrDebugInfo]
+class SignalrDebugInfoRouter extends PageRouteInfo<void> {
+  const SignalrDebugInfoRouter({List<PageRouteInfo>? children})
+      : super(
+          SignalrDebugInfoRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignalrDebugInfoRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
