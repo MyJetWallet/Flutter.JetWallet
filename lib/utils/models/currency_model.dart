@@ -64,6 +64,27 @@ class CurrencyModel with _$CurrencyModel {
 
   const CurrencyModel._();
 
+  factory CurrencyModel.empty() => CurrencyModel(
+        assetBalance: Decimal.zero,
+        baseBalance: Decimal.zero,
+        currentPrice: Decimal.zero,
+        dayPriceChange: Decimal.zero,
+        assetTotalEarnAmount: Decimal.zero,
+        baseTotalEarnAmount: Decimal.zero,
+        assetCurrentEarnAmount: Decimal.zero,
+        cardReserve: Decimal.zero,
+        baseCurrentEarnAmount: Decimal.zero,
+        apy: Decimal.zero,
+        apr: Decimal.zero,
+        depositInProcess: Decimal.zero,
+        earnInProcessTotal: Decimal.zero,
+        buysInProcessTotal: Decimal.zero,
+        transfersInProcessTotal: Decimal.zero,
+        earnInProcessCount: 0,
+        buysInProcessCount: 0,
+        transfersInProcessCount: 0,
+      );
+
   bool get noPendingDeposit =>
       buysInProcessTotal == Decimal.zero &&
       transfersInProcessTotal == Decimal.zero &&

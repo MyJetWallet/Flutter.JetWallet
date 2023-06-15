@@ -3,20 +3,16 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
-import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
-import '../../../../../../../../../../core/services/remote_config/remote_config_values.dart';
-import '../../../../../../../../helper/format_date_to_hm.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/nft_by_symbol.dart';
 import '../../../../../../../../helper/nft_types.dart';
@@ -33,7 +29,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final catchingTypes =
         transactionListItem.operationType == OperationType.nftBuy ||
             transactionListItem.operationType == OperationType.nftSwap ||
@@ -47,9 +42,9 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                 ? transactionListItem.swapInfo?.buyAssetId ?? ''
                 : transactionListItem.assetId;
 
-    final currency = currencyFromAll(
-      sSignalRModules.currenciesWithHiddenList,
-      currencyForOperation,
+    final currency = getIt<FormatService>().findCurrency(
+      assetSymbol: currencyForOperation,
+      findInHideTerminalList: true,
     );
 
     final nftAsset = getNftItem(
@@ -58,6 +53,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     );
 
     final devicePR = MediaQuery.of(context).devicePixelRatio;
+
+    print(transactionListItem);
 
     return Column(
       children: [
@@ -137,23 +134,10 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
           if (transactionListItem.operationType == OperationType.ibanSend ||
               transactionListItem.status == Status.completed)
             Text(
-              convertToUsd(
-                basePrice(
-                  catchingTypes
-                      ? currency.currentPrice
-                      : transactionListItem.assetPriceInUsd,
-                  baseCurrency,
-                  sSignalRModules.currenciesWithHiddenList,
-                  transactionInCurrent: catchingTypes,
-                  asset: (transactionListItem.operationType ==
-                              OperationType.ibanSend ||
-                          transactionListItem.operationType ==
-                              OperationType.sendGlobally)
-                      ? transactionListItem.withdrawalInfo?.withdrawalAssetId
-                      : null,
-                ),
+              getIt<FormatService>().convertHistoryToBaseCurrency(
+                transactionListItem,
                 operationAmount(transactionListItem),
-                baseCurrency,
+                getOperationAsset(transactionListItem),
               ),
               style: sBodyText2Style.copyWith(
                 color: colors.grey2,
@@ -245,73 +229,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     }
   }
 
-  String convertToUsd(
-    Decimal assetPriceInUsd,
-    Decimal balance,
-    BaseCurrencyModel baseCurrency,
-  ) {
-    if (assetPriceInUsd == Decimal.zero) {
-      return '≈ ${baseCurrenciesFormat(
-        text: balance.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    }
-
-    final usd = assetPriceInUsd * balance;
-    if (usd < Decimal.zero) {
-      final plusValue = usd.toString().split('-').last;
-
-      return '≈ ${baseCurrenciesFormat(
-        text: Decimal.parse(plusValue).toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    }
-
-    return '≈ ${baseCurrenciesFormat(
-      text: usd.toStringAsFixed(2),
-      symbol: baseCurrency.symbol,
-      prefix: baseCurrency.prefix,
-    )}';
-  }
-
-  Decimal basePrice(
-    Decimal assetPriceInUsd,
-    BaseCurrencyModel baseCurrency,
-    List<CurrencyModel> allCurrencies, {
-    bool transactionInCurrent = false,
-    String? asset,
-  }) {
-    final baseCurrencyMain = currencyFromAll(
-      allCurrencies,
-      baseCurrency.symbol,
-    );
-
-    final usdCurrency = currencyFromAll(
-      allCurrencies,
-      'USD',
-    );
-
-    if (asset != null) {
-      if (baseCurrency.symbol == asset) {
-        return Decimal.zero;
-      }
-    }
-
-    if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
-      return assetPriceInUsd;
-    }
-
-    if (baseCurrencyMain.currentPrice == Decimal.zero) {
-      return assetPriceInUsd * usdCurrency.currentPrice;
-    }
-
-    return Decimal.parse(
-      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}',
-    );
-  }
-
   Decimal operationAmount(OperationHistoryItem transactionListItem) {
     if (transactionListItem.operationType == OperationType.withdraw ||
         transactionListItem.operationType == OperationType.ibanSend ||
@@ -319,19 +236,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       return Decimal.parse(
         '${transactionListItem.withdrawalInfo!.withdrawalAmount}'
             .replaceAll('-', ''),
-      );
-    }
-
-    if (transactionListItem.operationType == OperationType.nftBuy ||
-        transactionListItem.operationType == OperationType.nftSwap) {
-      return Decimal.parse(
-        '${transactionListItem.swapInfo!.sellAmount}'.replaceAll('-', ''),
-      );
-    }
-
-    if (transactionListItem.operationType == OperationType.nftSell) {
-      return Decimal.parse(
-        '${transactionListItem.swapInfo!.buyAmount}'.replaceAll('-', ''),
       );
     }
 
@@ -345,6 +249,20 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     return Decimal.parse(
       '${transactionListItem.balanceChange}'.replaceAll('-', ''),
     );
+  }
+
+  String getOperationAsset(OperationHistoryItem transactionListItem) {
+    if (transactionListItem.operationType == OperationType.withdraw ||
+        transactionListItem.operationType == OperationType.ibanSend ||
+        transactionListItem.operationType == OperationType.sendGlobally) {
+      return transactionListItem.withdrawalInfo?.withdrawalAssetId ?? '';
+    }
+
+    if (transactionListItem.operationType == OperationType.transferByPhone) {
+      return transactionListItem.transferByPhoneInfo?.withdrawalAssetId ?? '';
+    }
+
+    return transactionListItem.assetId;
   }
 }
 
