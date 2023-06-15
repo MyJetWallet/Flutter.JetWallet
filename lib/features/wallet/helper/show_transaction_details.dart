@@ -17,7 +17,7 @@ void showTransactionDetails(
         transactionListItem: transactionListItem,
       ),
     ],
-    scrollable: sDeviceSize == DeviceSizeUnion.small ? true : false,
+    scrollable: true,
     context: context,
     then: then,
   );

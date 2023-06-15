@@ -200,11 +200,13 @@ class _InputState extends State<_Input> {
         hideSpace: true,
         onErase: () {
           widget.onErase();
+          setState(() {});
         },
         suffixIcons: [
           SIconButton(
             onTap: () {
               widget.paste();
+              setState(() {});
             },
             defaultIcon: const SPasteIcon(),
             pressedIcon: const SPastePressedIcon(),

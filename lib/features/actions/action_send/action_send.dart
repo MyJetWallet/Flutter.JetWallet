@@ -76,6 +76,10 @@ Future<void> _showSendAction(BuildContext context) async {
       .where((element) => element.supportsGlobalSend)
       .toList();
 
+  final cryptoGlobalSendLength = sSignalRModules.currenciesList.where(
+      (element) =>
+          element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
+
   final isIbanOutActive = sSignalRModules.currenciesList
       .where((element) => element.supportIbanSendWithdrawal)
       .toList();
@@ -115,7 +119,7 @@ Future<void> _showSendAction(BuildContext context) async {
           helper: intl.sendOptions_actionItemDescription1,
           removeDivider: true,
         ),
-      if (isGlobalSendActive.isNotEmpty)
+      if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
         SCardRow(
           icon: const SNetworkIcon(),
           onTap: () {

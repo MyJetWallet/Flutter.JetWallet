@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -106,8 +107,10 @@ abstract class _SendCardDetailStoreBase with Store {
 
   Future<String> _copiedText() async {
     final data = await Clipboard.getData('text/plain');
+    var code = data?.text?.trim() ?? '';
+    code = code.replaceAll(' ', '');
 
-    return (data?.text ?? '').replaceAll(' ', '');
+    return code;
   }
 
   @action
@@ -136,10 +139,32 @@ abstract class _SendCardDetailStoreBase with Store {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
-      final copiedText = await _copiedText();
+      var copiedText = await _copiedText();
 
-      methodList[ind].controller.text = copiedText;
-      onChanged(methodId, copiedText, isCard: isCard);
+      try {
+        int.parse(copiedText);
+        if (copiedText.length == 16) {
+          final buffer = StringBuffer();
+
+          for (var i = 0; i < copiedText.length; i++) {
+            buffer.write(copiedText[i]);
+            final nonZeroIndex = i + 1;
+            if (nonZeroIndex % 4 == 0 &&
+                nonZeroIndex != copiedText.length &&
+                nonZeroIndex != (copiedText.length - 1)) {
+              buffer.write(' ');
+            }
+          }
+
+          methodList[ind].controller.text = buffer.toString();
+          onChanged(methodId, buffer.toString(), isCard: isCard);
+        } else {
+          methodList[ind].controller.text = copiedText;
+          onChanged(methodId, copiedText, isCard: isCard);
+        }
+      } catch (e) {
+        return;
+      }
 
       _moveCursorAtTheEnd(methodList[ind].controller);
     }
@@ -172,7 +197,9 @@ abstract class _SendCardDetailStoreBase with Store {
         ? CreditCardValidator().validateCCNum(methodList[index].value).isValid
             ? false
             : true
-        : false;
+        : methodList[index].value.length > 19
+            ? true
+            : false;
   }
 
   void submit() {

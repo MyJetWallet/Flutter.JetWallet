@@ -264,15 +264,22 @@ String getCardTypeMask(String cardNumber) {
   final maskCard = <String>[];
   final splittedCard = cardNumber.split('');
 
+  const totalBlock = 5;
   const spaceCounter = 4;
+
   var localSpaceCounter = 1;
+  var localBlock = 1;
 
   for (var i = 0; i < splittedCard.length; i++) {
     maskCard.add(splittedCard[i]);
 
     if (localSpaceCounter == spaceCounter) {
       localSpaceCounter = 1;
-      maskCard.add('\u{2005}');
+      localBlock++;
+
+      if (localBlock != totalBlock) {
+        maskCard.add('\u{2005}');
+      }
     } else {
       localSpaceCounter++;
     }
