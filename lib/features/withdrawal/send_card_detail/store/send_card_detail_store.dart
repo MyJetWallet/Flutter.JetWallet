@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -39,14 +40,6 @@ class SendCardDetailStore extends _SendCardDetailStoreBase
 
 abstract class _SendCardDetailStoreBase with Store {
   @observable
-  String cardNumber = '';
-
-  @observable
-  bool cardNumberError = false;
-  @action
-  bool setCardNumberError(bool value) => cardNumberError = value;
-
-  @observable
   ObservableList<GlobalSendMethod> methodList = ObservableList.of([]);
 
   @observable
@@ -58,7 +51,9 @@ abstract class _SendCardDetailStoreBase with Store {
   void checkContinueButton() {
     final isAnyEmpty = methodList
         .where(
-          (element) => element.value.isEmpty,
+          (element) => element.info.fieldId == FieldInfoId.cardNumber
+              ? element.value.length != 19
+              : element.value.isEmpty,
         )
         .isEmpty;
 
@@ -112,8 +107,10 @@ abstract class _SendCardDetailStoreBase with Store {
 
   Future<String> _copiedText() async {
     final data = await Clipboard.getData('text/plain');
+    var code = data?.text?.trim() ?? '';
+    code = code.replaceAll(' ', '');
 
-    return (data?.text ?? '').replaceAll(' ', '');
+    return code;
   }
 
   @action
@@ -135,14 +132,39 @@ abstract class _SendCardDetailStoreBase with Store {
   }
 
   @action
-  Future<void> paste(String methodId) async {
+  Future<void> paste(
+    String methodId, {
+    bool isCard = false,
+  }) async {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
-      final copiedText = await _copiedText();
+      var copiedText = await _copiedText();
 
-      //updateCardNumber(copiedText);
-      methodList[ind].controller.text = copiedText;
+      try {
+        int.parse(copiedText);
+        if (copiedText.length == 16) {
+          final buffer = StringBuffer();
+
+          for (var i = 0; i < copiedText.length; i++) {
+            buffer.write(copiedText[i]);
+            final nonZeroIndex = i + 1;
+            if (nonZeroIndex % 4 == 0 &&
+                nonZeroIndex != copiedText.length &&
+                nonZeroIndex != (copiedText.length - 1)) {
+              buffer.write(' ');
+            }
+          }
+
+          methodList[ind].controller.text = buffer.toString();
+          onChanged(methodId, buffer.toString(), isCard: isCard);
+        } else {
+          methodList[ind].controller.text = copiedText;
+          onChanged(methodId, copiedText, isCard: isCard);
+        }
+      } catch (e) {
+        return;
+      }
 
       _moveCursorAtTheEnd(methodList[ind].controller);
     }
@@ -162,15 +184,22 @@ abstract class _SendCardDetailStoreBase with Store {
       methodList[ind].value = value;
 
       if (isCard) {
-        methodList[ind].isError = methodList[ind].value.length == 19
-            ? CreditCardValidator().validateCCNum(methodList[ind].value).isValid
-                ? false
-                : true
-            : false;
+        validateCard(ind);
       }
     }
 
     checkContinueButton();
+  }
+
+  @action
+  void validateCard(int index) {
+    methodList[index].isError = methodList[index].value.length == 19
+        ? CreditCardValidator().validateCCNum(methodList[index].value).isValid
+            ? false
+            : true
+        : methodList[index].value.length > 19
+            ? true
+            : false;
   }
 
   void submit() {
@@ -189,7 +218,7 @@ abstract class _SendCardDetailStoreBase with Store {
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {
         case FieldInfoId.cardNumber:
-          cardNumber = methodList[i].value;
+          cardNumber = methodList[i].value.replaceAll(' ', '');
           break;
         case FieldInfoId.iban:
           iban = methodList[i].value;

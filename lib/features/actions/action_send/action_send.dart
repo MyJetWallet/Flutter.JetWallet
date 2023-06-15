@@ -76,6 +76,10 @@ Future<void> _showSendAction(BuildContext context) async {
       .where((element) => element.supportsGlobalSend)
       .toList();
 
+  final cryptoGlobalSendLength = sSignalRModules.currenciesList.where(
+      (element) =>
+          element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
+
   final isIbanOutActive = sSignalRModules.currenciesList
       .where((element) => element.supportIbanSendWithdrawal)
       .toList();
@@ -115,7 +119,7 @@ Future<void> _showSendAction(BuildContext context) async {
           helper: intl.sendOptions_actionItemDescription1,
           removeDivider: true,
         ),
-      if (isGlobalSendActive.isNotEmpty)
+      if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
         SCardRow(
           icon: const SNetworkIcon(),
           onTap: () {
@@ -238,6 +242,8 @@ Future<void> showSendGlobally(
           ),
         ),
         const SDivider(),
+      ] else ...[
+        const SpaceH24(),
       ],
       _GlobalSendCountriesList(
         currency: currency,
@@ -542,21 +548,31 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         )
         .toList();
 
-    final showCryptoSearch = sSignalRModules.currenciesList
-            .where((element) =>
-                element.type == AssetType.crypto && element.supportsGlobalSend)
-            .length >=
-        7;
+    final cryptoSearchLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.crypto &&
+            element.supportsGlobalSend &&
+            element.isAssetBalanceNotEmpty)
+        .length;
+    final showCryptoSearch = cryptoSearchLength >= 7;
 
-    final showFiatSearch = sSignalRModules.currenciesList
-            .where((element) =>
-                element.type == AssetType.fiat && element.supportsGlobalSend)
-            .length >=
-        7;
+    final showFiatLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.fiat &&
+            element.supportsGlobalSend &&
+            element.isAssetBalanceNotEmpty)
+        .length;
+    final showFiatSearch = showFiatLength >= 7;
+
+    if (cryptoSearchLength == 0) {
+      state.updateShowCrypto(false);
+    } else if (showFiatLength == 0) {
+      state.updateShowCrypto(true);
+    }
 
     return Column(
       children: [
-        if (true) ...[
+        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
           Stack(
             children: [
               GestureDetector(
@@ -691,7 +707,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                               .where(
                                 (element) =>
                                     element.type == AssetType.crypto &&
-                                    element.supportsGlobalSend,
+                                    element.supportsGlobalSend &&
+                                    element.isAssetBalanceNotEmpty,
                               )
                               .last,
                       onTap: () {
@@ -719,7 +736,8 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
                               .where(
                                 (element) =>
                                     element.type == AssetType.fiat &&
-                                    element.supportsGlobalSend,
+                                    element.supportsGlobalSend &&
+                                    element.isAssetBalanceNotEmpty,
                               )
                               .last,
                       onTap: () {

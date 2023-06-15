@@ -128,7 +128,7 @@ class KycVerificationSumsub extends StatelessObserverWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
-                loading.startLoading();
+                loading.startLoadingImmediately();
                 await getIt<SumsubService>().launch();
                 loading.finishLoadingImmediately();
               },

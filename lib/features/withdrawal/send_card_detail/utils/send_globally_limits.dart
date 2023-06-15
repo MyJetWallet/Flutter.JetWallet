@@ -45,7 +45,8 @@ class _GlobalSendLimits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final baseCurrency = sSignalRModules.baseCurrency;
+
+    print(minAmount);
 
     return SPaddingH24(
       child: Column(
@@ -75,11 +76,10 @@ class _GlobalSendLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: baseCurrency.prefix,
+                prefix: currency.prefixSymbol,
                 decimal: minAmount,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-                onlyFullPart: true,
+                symbol: currency.symbol,
+                accuracy: currency.accuracy,
               ),
             ),
           ),
@@ -88,11 +88,10 @@ class _GlobalSendLimits extends StatelessWidget {
             text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
-                prefix: baseCurrency.prefix,
+                prefix: currency.prefixSymbol,
                 decimal: maxAmount,
-                symbol: baseCurrency.symbol,
-                accuracy: baseCurrency.accuracy,
-                onlyFullPart: true,
+                symbol: currency.symbol,
+                accuracy: currency.accuracy,
               ),
             ),
           ),

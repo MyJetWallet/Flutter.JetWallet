@@ -112,13 +112,15 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed) {
-      if (TimerStore.of(context).time == 0) {
+      TimerStore.of(context).dispose();
+
+      Future.delayed(const Duration(milliseconds: 100), () {
         if (widget.onSuccess == null && shouldPop) {
           sRouter.popUntilRoot();
         } else {
           widget.onSuccess!.call(context);
         }
-      }
+      });
     }
   }
 

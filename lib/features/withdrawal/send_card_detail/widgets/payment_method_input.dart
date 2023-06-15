@@ -138,9 +138,14 @@ class _PaymentMethodCardNumberState extends State<PaymentMethodCardNumber> {
       isError: widget.method.isError,
       onErase: () {
         SendCardDetailStore.of(context).onErase(widget.method.id);
+        setState(() {});
       },
       paste: () {
-        SendCardDetailStore.of(context).paste(widget.method.id);
+        SendCardDetailStore.of(context).paste(
+          widget.method.id,
+          isCard: true,
+        );
+        setState(() {});
       },
       onChanged: (val) {
         SendCardDetailStore.of(context).onChanged(
@@ -195,11 +200,13 @@ class _InputState extends State<_Input> {
         hideSpace: true,
         onErase: () {
           widget.onErase();
+          setState(() {});
         },
         suffixIcons: [
           SIconButton(
             onTap: () {
               widget.paste();
+              setState(() {});
             },
             defaultIcon: const SPasteIcon(),
             pressedIcon: const SPastePressedIcon(),

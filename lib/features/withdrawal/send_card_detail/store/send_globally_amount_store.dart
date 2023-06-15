@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:decimal/decimal.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -59,6 +62,12 @@ abstract class _SendGloballyAmountStoreBase with Store {
   CircleCardNetwork cardNetwork = CircleCardNetwork.unsupported;
 
   @observable
+  Decimal minLimitAmount = Decimal.zero;
+
+  @observable
+  Decimal maxLimitAmount = Decimal.zero;
+
+  @observable
   String limitError = '';
 
   SendToBankRequestModel? mainData;
@@ -74,6 +83,20 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     mainData = data;
     method = m;
+
+    minLimitAmount = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+      fromCurrency: method!.receiveAsset!,
+      fromCurrencyAmmount: method!.minAmount!,
+      toCurrency: sendCurrency!.symbol,
+      baseCurrency: baseCurrency.symbol,
+    );
+
+    maxLimitAmount = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+      fromCurrency: method!.receiveAsset!,
+      fromCurrencyAmmount: method!.maxAmount!,
+      toCurrency: sendCurrency!.symbol,
+      baseCurrency: baseCurrency.symbol,
+    );
 
     if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
       if (data.cardNumber![0] == '4') {
@@ -198,21 +221,20 @@ abstract class _SendGloballyAmountStoreBase with Store {
         onGloballyWithdrawInputErrorHandler(withAmount, sendCurrency!, null);
 
     final value = Decimal.parse(withAmount);
-    final valueInBaseCurrency = value * sendCurrency!.currentPrice;
 
-    if (method!.minAmount! > valueInBaseCurrency) {
+    if (minLimitAmount > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: method!.minAmount!,
-        accuracy: baseCurrency.accuracy,
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
+        decimal: minLimitAmount,
+        accuracy: sendCurrency!.accuracy,
+        symbol: sendCurrency!.symbol,
+        prefix: sendCurrency!.prefixSymbol,
       )}';
-    } else if (method!.maxAmount! < valueInBaseCurrency) {
+    } else if (maxLimitAmount < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: method!.maxAmount!,
-        accuracy: baseCurrency.accuracy,
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
+        decimal: maxLimitAmount,
+        accuracy: sendCurrency!.accuracy,
+        symbol: sendCurrency!.symbol,
+        prefix: sendCurrency!.prefixSymbol,
       )}';
     } else {
       limitError = '';

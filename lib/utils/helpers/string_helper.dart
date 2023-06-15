@@ -231,3 +231,59 @@ String convertToUsd(
     prefix: baseCurrency.prefix,
   )}';
 }
+
+Decimal basePrice(
+  Decimal assetPriceInUsd,
+  BaseCurrencyModel baseCurrency,
+  List<CurrencyModel> allCurrencies, {
+  bool transactionInCurrent = false,
+}) {
+  final baseCurrencyMain = currencyFromAll(
+    allCurrencies,
+    baseCurrency.symbol,
+  );
+
+  final usdCurrency = currencyFromAll(
+    allCurrencies,
+    'USD',
+  );
+
+  if (baseCurrency.symbol == 'USD' || transactionInCurrent) {
+    return assetPriceInUsd;
+  }
+
+  if (baseCurrencyMain.currentPrice == Decimal.zero) {
+    return assetPriceInUsd * usdCurrency.currentPrice;
+  }
+
+  return Decimal.parse(
+      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+}
+
+String getCardTypeMask(String cardNumber) {
+  final maskCard = <String>[];
+  final splittedCard = cardNumber.split('');
+
+  const totalBlock = 5;
+  const spaceCounter = 4;
+
+  var localSpaceCounter = 1;
+  var localBlock = 1;
+
+  for (var i = 0; i < splittedCard.length; i++) {
+    maskCard.add(splittedCard[i]);
+
+    if (localSpaceCounter == spaceCounter) {
+      localSpaceCounter = 1;
+      localBlock++;
+
+      if (localBlock != totalBlock) {
+        maskCard.add('\u{2005}');
+      }
+    } else {
+      localSpaceCounter++;
+    }
+  }
+
+  return maskCard.join();
+}

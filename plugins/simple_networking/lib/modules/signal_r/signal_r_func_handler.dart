@@ -221,7 +221,6 @@ class SignalRFuncHandler {
         json: _json(data),
         oldPrices: _oldBasePrices,
       );
-
       sTransport.updateBasePrices(_oldBasePrices);
 
       SignalRModuleNew.handlePackage();
@@ -395,7 +394,6 @@ class SignalRFuncHandler {
   void globalSendMethodsHandler(List<Object?>? data) {
     try {
       final globalSendMethods = GlobalSendMethodsModel.fromJson(_json(data));
-      log(globalSendMethods.toJson().toString());
 
       sTransport.updateGlobalSendMethods(globalSendMethods);
 

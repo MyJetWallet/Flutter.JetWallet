@@ -267,9 +267,8 @@ class _DebugInfoState extends State<DebugInfo>
 
               TextButton(
                 onPressed: () async {
-                  CurrencyModel eurCurrency = currencyFrom(
-                    sSignalRModules.currenciesList,
-                    'EUR',
+                  await sRouter.push(
+                    const KycVerificationSumsubRouter(),
                   );
                 },
                 child: const Text(

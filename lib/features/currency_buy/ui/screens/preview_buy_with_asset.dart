@@ -132,7 +132,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
           },
         ),
         child: CustomScrollView(
-          physics: const ClampingScrollPhysics(),
           slivers: [
             SliverFillRemaining(
               hasScrollBody: false,

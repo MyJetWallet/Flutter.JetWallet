@@ -79,7 +79,7 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 1 / .6,
+                  childAspectRatio: 1 / .65,
                 ),
                 itemCount: store.filtedGlobalSendMethods.length,
                 itemBuilder: (context, i) => PaymentMethodCard.card(

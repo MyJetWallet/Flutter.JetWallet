@@ -123,8 +123,8 @@ class _SendGloballyAmountScreenBodyState
               onTap: () {
                 showGlobalSendLimits(
                   context: context,
-                  minAmount: store.method!.minAmount!,
-                  maxAmount: store.method!.maxAmount!,
+                  minAmount: store.minLimitAmount,
+                  maxAmount: store.maxLimitAmount,
                   currency: store.sendCurrency!,
                 );
               },
@@ -205,7 +205,8 @@ class _SendGloballyAmountScreenBodyState
               store.updateAmount(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.withValid,
+            submitButtonActive: store.withValid &&
+                store.withAmmountInputError == InputError.none,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               store.loadPreview();

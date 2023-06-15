@@ -58,4 +58,35 @@ abstract class _FormatServiceBase with Store {
             orElse: () => CurrencyModel.empty(),
           );
   }
+
+  // This function convert One currency to Another One. FromCurrency -> Base Currency -> Converted (ToCurrency)
+  Decimal convertOneCurrencyToAnotherOne({
+    required String fromCurrency,
+    required Decimal fromCurrencyAmmount,
+    required String toCurrency,
+    required String baseCurrency,
+  }) {
+    final fromAsset = findCurrency(
+      assetSymbol: fromCurrency,
+      findInHideTerminalList: true,
+    );
+    final toAsset = findCurrency(
+      assetSymbol: toCurrency,
+      findInHideTerminalList: true,
+    );
+    final baseAsset = findCurrency(
+      assetSymbol: baseCurrency,
+      findInHideTerminalList: true,
+    );
+
+    // Covnert FromCurrency to User base currency
+    final fromCurrInBaseCurr = fromCurrencyAmmount * fromAsset.currentPrice;
+
+    final baseCurrencyToAsset =
+        baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
+
+    final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
+
+    return Decimal.parse(toAmmount.toString());
+  }
 }

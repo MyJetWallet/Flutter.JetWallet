@@ -333,6 +333,7 @@ abstract class _AddBankCardStoreBase with Store {
       if (isExpiryMonthValid) {
         expiryMonthError = false;
         monthNode.nextFocus();
+        yearNode.requestFocus();
         updateExpiryYear(expiryYear);
       } else {
         expiryMonthError = true;
@@ -342,6 +343,7 @@ abstract class _AddBankCardStoreBase with Store {
         expiryMonth = '0$expiryDate';
         expiryMonthController.text = '0$expiryDate';
         monthNode.nextFocus();
+        yearNode.requestFocus();
         updateExpiryYear(expiryYear);
       }
       expiryMonthError = false;
