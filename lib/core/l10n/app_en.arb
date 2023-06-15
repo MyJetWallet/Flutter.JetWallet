@@ -1422,5 +1422,6 @@
   "global_send_history_upi_address": "Upi address",
   "global_send_history_bank_account": "Bank account",
   "global_send_history_phone_number": "Phone number",
-  "global_send_total_pay": "Total pay"
+  "global_send_total_pay": "Total pay",
+  "myAssets_hideZero": "Hide zero balance"
 }

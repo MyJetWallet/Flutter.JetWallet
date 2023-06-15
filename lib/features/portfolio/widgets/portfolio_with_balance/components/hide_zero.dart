@@ -66,7 +66,7 @@ class _showHideZeroState extends State<_showHideZero> {
               const SpaceW20(),
               Expanded(
                 child: Text(
-                  '',
+                  intl.myAssets_hideZero,
                   style: sSubtitle2Style,
                 ),
               ),
