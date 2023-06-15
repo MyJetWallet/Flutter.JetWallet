@@ -71,7 +71,7 @@ class _DebugInfoState extends State<DebugInfo>
               const SpaceH10(),
               Text(
                 'Device pixel ratio: $devicePixelRatio',
-                style: sTextH4Style,
+                style: sTextH5Style,
               ),
               const SpaceH20(),
               SizedBox(
@@ -112,6 +112,14 @@ class _DebugInfoState extends State<DebugInfo>
                 ),
               ),
               const SpaceH20(),
+              TextButton(
+                onPressed: () {
+                  getIt<AppRouter>().push(const SignalrDebugInfoRouter());
+                },
+                child: const Text(
+                  'SignalR Logs',
+                ),
+              ),
               TextButton(
                 onPressed: () async {
                   /*getIt.get<DeepLinkService>().handle(

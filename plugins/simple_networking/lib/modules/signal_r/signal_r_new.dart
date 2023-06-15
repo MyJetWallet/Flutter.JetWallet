@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 //import 'package:signalr_netcore/ihub_protocol.dart';
 //import 'package:signalr_netcore/signalr_client.dart';
@@ -11,7 +10,6 @@ import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/helpers/device_type.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
-import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 
 import 'package:simple_networking/modules/signal_r/signal_r_func_handler.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
@@ -56,14 +54,12 @@ class SignalRModuleNew {
 
   static const _pingTime = 3;
   static const _reconnectTime = 5;
-  static const _messageTime = 10;
 
   final _loggerValue = 'SignalR';
 
   Timer? _pongTimer;
   Timer? _pingTimer;
   Timer? _reconnectTimer;
-  Timer? _messageTimer;
 
   //HubConnection? _hubConnection;
   HubConnection? _hubConnection;
@@ -94,36 +90,9 @@ class SignalRModuleNew {
 
     isSignalRRestarted = true;
 
+    transport.createNewSessionLog();
+
     if (_hubConnection == null) {
-      /*final defaultHeaders = MessageHeaders();
-      defaultHeaders.setHeaderValue(
-        headers.keys.first,
-        headers.entries.first.value,
-      );
-      final httpOptions = HttpConnectionOptions(
-        headers: defaultHeaders,
-        logger: _logger,
-        logMessageContent: true,
-      );
-
-      _hubConnection = HubConnectionBuilder()
-          .withUrl(
-            options.walletApiSignalR!,
-            options: httpOptions,
-          )
-          //.withAutomaticReconnect()
-          .configureLogging(_logger!)
-          .build();
-
-      _hubConnection!.onclose(({error}) {
-        log(
-          level: lg.Level.error,
-          place: _loggerValue,
-          message: 'SignalR onclose',
-        );
-      });
-      */
-
       _hubConnection = HubConnectionBuilder()
           .withUrl(
             options.walletApiSignalR!,
@@ -134,6 +103,15 @@ class SignalRModuleNew {
             ),
           )
           .build();
+
+      _hubConnection!.onclose((err) {
+        if (_hubConnection!.state != HubConnectionState.connected &&
+            err != null) {
+          Future.delayed(const Duration(milliseconds: _reconnectTime), () {
+            reconnectSignalR();
+          });
+        }
+      });
 
       await setupMessageHandler();
 
@@ -180,6 +158,7 @@ class SignalRModuleNew {
         );
       } catch (e) {
         handleError('invoke $e', e);
+
         rethrow;
       }
     } else {
@@ -188,6 +167,8 @@ class SignalRModuleNew {
         place: _loggerValue,
         message: 'SignalR error init ${_hubConnection?.state}',
       );
+      transport.addToLog(
+          DateTime.now(), 'SignalR error init ${_hubConnection?.state}');
 
       if (!isDisconnecting) {
         reconnectSignalR();
@@ -203,6 +184,8 @@ class SignalRModuleNew {
       place: _loggerValue,
       message: msg,
     );
+
+    transport.addToLog(DateTime.now(), 'SignalR error $error');
 
     if (msg == 'startconnection') {
       unawaited(reconnectSignalR());
@@ -220,8 +203,11 @@ class SignalRModuleNew {
       (_) async {
         if (_hubConnection?.state == HubConnectionState.connected) {
           try {
+            transport.addToPing(DateTime.now());
+
             _hubConnection?.invoke(pingMessage);
           } catch (e) {
+            transport.addToLog(DateTime.now(), 'Failed to start ping');
             log(
               level: lg.Level.error,
               place: _loggerValue,
@@ -229,6 +215,7 @@ class SignalRModuleNew {
             );
           }
         } else {
+          transport.addToLog(DateTime.now(), 'Failed to start ping');
           log(
             level: lg.Level.error,
             place: _loggerValue,
@@ -242,8 +229,9 @@ class SignalRModuleNew {
   }
 
   void pongMessageHandler(List<Object?>? data) {
-    _pongTimer?.cancel();
+    transport.addToPong(DateTime.now());
 
+    _pongTimer?.cancel();
     _startPong();
   }
 
@@ -251,6 +239,7 @@ class SignalRModuleNew {
     _pongTimer = Timer(
       const Duration(seconds: _pingTime * 3),
       () {
+        transport.addToLog(DateTime.now(), 'Start pong reconnect');
         log(
           level: lg.Level.info,
           place: _loggerValue,
@@ -277,6 +266,10 @@ class SignalRModuleNew {
   Future<void> reconnectSignalR({
     bool needRefreshToken = true,
   }) async {
+    transport.addToLog(
+      DateTime.now(),
+      'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
+    );
     log(
       level: lg.Level.info,
       place: _loggerValue,
@@ -287,7 +280,6 @@ class SignalRModuleNew {
       try {
         _pingTimer?.cancel();
         _pongTimer?.cancel();
-        _messageTimer?.cancel();
 
         await _hubConnection?.stop();
 
@@ -312,6 +304,7 @@ class SignalRModuleNew {
       place: _loggerValue,
       message: 'SignalR Disconnect $from',
     );
+    transport.addToLog(DateTime.now(), 'SignalR Disconnect $from');
 
     isDisconnecting = true;
 
