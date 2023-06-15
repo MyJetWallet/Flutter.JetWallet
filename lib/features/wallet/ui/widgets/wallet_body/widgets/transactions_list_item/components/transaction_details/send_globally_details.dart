@@ -170,7 +170,9 @@ class SendGloballyDetails extends StatelessObserverWidget {
               value: Row(
                 children: [
                   TransactionDetailsValueText(
-                    text: transactionListItem.paymeInfo?.cardNumber ?? '',
+                    text: getCardTypeMask(
+                      transactionListItem.paymeInfo?.cardNumber ?? '',
+                    ),
                   ),
                   const SpaceW10(),
                   SIconButton(
@@ -369,10 +371,23 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.send_globally_con_rate,
               value: TransactionDetailsValueText(
                 text:
-                    '${currency.prefixSymbol}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
+                    '${currency.prefixSymbol != null ? currency.prefixSymbol : transactionListItem.withdrawalInfo?.withdrawalAssetId}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
               ),
             ),
           ],
+          const SpaceH18(),
+          TransactionDetailsItem(
+            text: intl.global_send_history_sent,
+            value: TransactionDetailsValueText(
+              text: volumeFormat(
+                prefix: currency.prefixSymbol,
+                decimal: transactionListItem.withdrawalInfo!.withdrawalAmount -
+                    transactionListItem.withdrawalInfo!.feeAmount,
+                accuracy: currency.accuracy,
+                symbol: currency.symbol,
+              ),
+            ),
+          ),
           if (transactionListItem.status == Status.completed) ...[
             const SpaceH18(),
             TransactionDetailsItem(
