@@ -282,40 +282,49 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
 
                             return Column(
                               children: [
-                                SWalletItem(
-                                  key: UniqueKey(),
-                                  isBalanceHide:
-                                      getIt<AppStore>().isBalanceHide,
-                                  decline:
-                                      actualItem.dayPercentChange.isNegative,
-                                  icon: SNetworkSvg24(url: actualItem.iconUrl),
-                                  baseCurrPrefix: baseCurrency.prefix,
-                                  primaryText: actualItem.description,
-                                  amount: actualItem
-                                      .volumeBaseBalance(baseCurrency),
-                                  secondaryText: getIt<AppStore>().isBalanceHide
-                                      ? actualItem.symbol
-                                      : actualItem.volumeAssetBalance,
-                                  onTap: () {
-                                    if (actualItem.type == AssetType.indices) {
-                                      sRouter.push(
-                                        MarketDetailsRouter(
-                                          marketItem: marketItemFrom(
-                                            marketItems,
-                                            actualItem.symbol,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      navigateToWallet(
-                                        context,
-                                        actualItem,
-                                      );
-                                    }
+                                Observer(
+                                  builder: (context) {
+                                    return SWalletItem(
+                                      key: UniqueKey(),
+                                      isBalanceHide:
+                                          getIt<AppStore>().isBalanceHide,
+                                      decline: actualItem
+                                          .dayPercentChange.isNegative,
+                                      icon: SNetworkSvg24(
+                                          url: actualItem.iconUrl),
+                                      baseCurrPrefix: baseCurrency.prefix,
+                                      primaryText: actualItem.description,
+                                      amount: actualItem
+                                          .volumeBaseBalance(baseCurrency),
+                                      secondaryText:
+                                          getIt<AppStore>().isBalanceHide
+                                              ? actualItem.symbol
+                                              : actualItem.volumeAssetBalance,
+                                      onTap: () {
+                                        if (actualItem.type ==
+                                            AssetType.indices) {
+                                          sRouter.push(
+                                            MarketDetailsRouter(
+                                              marketItem: marketItemFrom(
+                                                marketItems,
+                                                actualItem.symbol,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          navigateToWallet(
+                                            context,
+                                            actualItem,
+                                          );
+                                        }
+                                      },
+                                      removeDivider: actualItem
+                                              .isPendingDeposit ||
+                                          index == itemsWithBalance.length - 1,
+                                      isPendingDeposit:
+                                          actualItem.isPendingDeposit,
+                                    );
                                   },
-                                  removeDivider: actualItem.isPendingDeposit ||
-                                      index == itemsWithBalance.length - 1,
-                                  isPendingDeposit: actualItem.isPendingDeposit,
                                 ),
                                 if (actualItem.isPendingDeposit) ...[
                                   BalanceInProcess(

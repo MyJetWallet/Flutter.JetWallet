@@ -483,6 +483,7 @@ class PaymeInfo with _$PaymeInfo {
     final String? ifscCode,
     final String? bankAccount,
     final int? methodType,
+    final String? methodName,
   }) = _PaymeInfo;
 
   factory PaymeInfo.fromJson(Map<String, dynamic> json) =>
