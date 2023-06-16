@@ -1351,7 +1351,7 @@
   "send_globally_success_info": "Receiver will get the money within 5—30 min",
   "send_globally": "Send Globally",
   "send_globally_amount_in_eur": "Amount in EUR",
-  "send_globally_amount_in_uah": "Amount in UAH",
+  "send_globally_amount_in": "Amount in ",
   "send_globally_history_title": "Send Globally",
   "iban_send_info": "Please be aware that you can send only to your personal bank accounts",
   "iban_euro_balance": "EUR balance",
