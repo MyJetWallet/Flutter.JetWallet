@@ -348,7 +348,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          if (methodIndex != -1) ...[
+          if (transactionListItem.paymeInfo?.methodName != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.global_send_payment_method_title,
@@ -358,9 +358,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
                 ),
                 child: TransactionDetailsValueText(
                   textAlign: TextAlign.end,
-                  text: sSignalRModules
-                          .globalSendMethods!.methods![methodIndex].name ??
-                      '',
+                  text: transactionListItem.paymeInfo?.methodName ?? '',
                 ),
               ),
             ),
