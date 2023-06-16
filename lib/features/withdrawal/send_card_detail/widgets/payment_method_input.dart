@@ -105,7 +105,7 @@ class PaymentMethodNumbers extends StatelessWidget {
       onChanged: (val) {
         SendCardDetailStore.of(context).onChanged(method.id, val);
       },
-      inputType: TextInputType.number,
+      inputType: TextInputType.text,
     );
   }
 }
