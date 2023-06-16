@@ -389,7 +389,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
           if (transactionListItem.status == Status.completed) ...[
             const SpaceH18(),
             TransactionDetailsItem(
-              text: intl.send_globally_amount_in_uah,
+              text:
+                  '${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}',
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   decimal: transactionListItem.withdrawalInfo!.receiveAmount ??

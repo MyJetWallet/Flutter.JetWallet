@@ -73,11 +73,11 @@ class _GlobalSendLimits extends StatelessWidget {
           ),
           const SpaceH24(),
           TransactionDetailsItem(
-            text: intl.paymentMethodsSheet_minTransaction,
+            text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: currency.prefixSymbol,
-                decimal: minAmount,
+                decimal: maxAmount,
                 symbol: currency.symbol,
                 accuracy: currency.accuracy,
               ),
@@ -85,11 +85,11 @@ class _GlobalSendLimits extends StatelessWidget {
           ),
           const SpaceH16(),
           TransactionDetailsItem(
-            text: intl.paymentMethodsSheet_maxTransaction,
+            text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
               text: volumeFormat(
                 prefix: currency.prefixSymbol,
-                decimal: maxAmount,
+                decimal: minAmount,
                 symbol: currency.symbol,
                 accuracy: currency.accuracy,
               ),
