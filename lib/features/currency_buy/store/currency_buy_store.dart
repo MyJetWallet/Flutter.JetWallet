@@ -1011,7 +1011,7 @@ abstract class _CurrencyBuyStoreBase with Store {
             decimal: Decimal.parse(min.toString()),
             accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
+            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
           )}',
         );
       } else if (value > max) {
@@ -1025,7 +1025,7 @@ abstract class _CurrencyBuyStoreBase with Store {
             decimal: Decimal.parse(max.toString()),
             accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? baseCurrency!.prefix,
+            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
           )}',
         );
       } else {
