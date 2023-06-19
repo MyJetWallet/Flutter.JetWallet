@@ -214,6 +214,7 @@ abstract class _SendCardDetailStoreBase with Store {
     String? bankName = null;
     String? ifscCode = null;
     String? bankAccount = null;
+    String? wise = null;
 
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {
@@ -250,6 +251,9 @@ abstract class _SendCardDetailStoreBase with Store {
         case FieldInfoId.ifscCode:
           ifscCode = methodList[i].value;
           break;
+        case FieldInfoId.wise:
+          wise = methodList[i].value;
+          break;
         default:
           break;
       }
@@ -269,6 +273,7 @@ abstract class _SendCardDetailStoreBase with Store {
       bankName: bankName,
       ifscCode: ifscCode,
       bankAccount: bankAccount,
+      wise: wise,
     );
 
     sRouter.push(
