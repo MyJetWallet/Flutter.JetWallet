@@ -27,6 +27,7 @@ class SendToBankCardResponse with _$SendToBankCardResponse {
     final String? bankName,
     final String? ifscCode,
     final String? bankAccount,
+    final String? wise,
   }) = _SendToBankCardResponse;
 
   factory SendToBankCardResponse.fromJson(Map<String, dynamic> json) =>

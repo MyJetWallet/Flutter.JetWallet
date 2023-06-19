@@ -73,6 +73,8 @@ class StartupService {
       unawaited(saveInstallID());
     }
 
+    await AppTrackingTransparency.getAdvertisingIdentifier();
+
     if (authStatus) {
       getIt<AppStore>().updateAuthState(
         refreshToken: token,

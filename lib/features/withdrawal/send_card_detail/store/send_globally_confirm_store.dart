@@ -101,6 +101,8 @@ abstract class _SendGloballyConfirmStoreBase with Store {
         return val.bankAccount ?? '';
       case FieldInfoId.ifscCode:
         return val.ifscCode ?? '';
+      case FieldInfoId.wise:
+        return val.wise ?? '';
       default:
         return '';
     }
@@ -125,6 +127,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       bankName: data?.bankName,
       ifscCode: data?.ifscCode,
       bankAccount: data?.bankAccount,
+      wise: data?.wise,
     );
 
     try {
