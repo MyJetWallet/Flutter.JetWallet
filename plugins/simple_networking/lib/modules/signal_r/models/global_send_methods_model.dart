@@ -101,7 +101,7 @@ extension _DepositMethodsExtension on FieldInfoId {
       case FieldInfoId.bankAccount:
         return 'BankAccount';
       case FieldInfoId.wise:
-        return 'Wise';
+        return 'WiseCredentials';
       case FieldInfoId.unknown:
         return 'Unknown';
     }
@@ -138,7 +138,7 @@ class FieldInfoIdSerialiser implements JsonConverter<FieldInfoId, dynamic> {
         return FieldInfoId.ifscCode;
       case 'BankName':
         return FieldInfoId.bankName;
-      case 'Wise':
+      case 'WiseCredentials':
         return FieldInfoId.wise;
       default:
         return FieldInfoId.unknown;

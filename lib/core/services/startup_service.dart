@@ -73,7 +73,7 @@ class StartupService {
       unawaited(saveInstallID());
     }
 
-    await AppTrackingTransparency.getAdvertisingIdentifier();
+    await AppTrackingTransparency.requestTrackingAuthorization();
 
     if (authStatus) {
       getIt<AppStore>().updateAuthState(
