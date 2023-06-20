@@ -17,7 +17,6 @@ void showNetworkBottomSheet(
   checkOrClose(val) {
     if (isClosed) return;
     if (val is bool && !val) {
-      Navigator.of(context).pop();
       sRouter.back();
       isClosed = true;
 
@@ -25,7 +24,7 @@ void showNetworkBottomSheet(
     }
 
     if (val == null) {
-      sRouter.back();
+      sRouter.pop();
       isClosed = true;
 
       return;
