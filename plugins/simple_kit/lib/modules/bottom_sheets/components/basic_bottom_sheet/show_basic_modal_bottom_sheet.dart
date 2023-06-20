@@ -15,6 +15,7 @@ void sShowBasicModalBottomSheet({
   Future<bool> Function()? onWillPop,
   bool expanded = false,
   bool enableDrag = true,
+  bool isDismissible = true,
   bool removeBottomSheetBar = false,
   bool removeBarPadding = false,
   bool removePinnedPadding = false,
@@ -30,6 +31,7 @@ void sShowBasicModalBottomSheet({
     //shadow: const BoxShadow(color: Colors.transparent),
     backgroundColor: Colors.transparent,
     enableDrag: enableDrag,
+    isDismissible: isDismissible,
     barrierColor: Colors.black54,
     builder: (context) {
       return BasicBottomSheet(
@@ -47,6 +49,7 @@ void sShowBasicModalBottomSheet({
         removeBarPadding: removeBarPadding,
         scrollable: scrollable,
         fullScreen: fullScreen,
+        isDismissible: isDismissible,
         pinnedBottom: pinnedBottom,
         children: children,
       );
