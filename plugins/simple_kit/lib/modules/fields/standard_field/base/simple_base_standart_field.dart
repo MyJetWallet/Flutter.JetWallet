@@ -97,8 +97,10 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 88,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: 88,
+      ),
       child: Center(
         child: TextFormField(
           onTap: widget.onTap,

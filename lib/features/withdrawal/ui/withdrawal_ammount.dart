@@ -172,8 +172,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: store.withValid,
-            submitButtonName: '${intl.withdrawalAmount_preview}'
-                ' ${store.withdrawalInputModel!.dictionary.verb}',
+            submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
               store.withdrawalPush(WithdrawStep.Preview);
             },
