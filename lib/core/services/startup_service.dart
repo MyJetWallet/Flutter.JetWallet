@@ -59,6 +59,12 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
+    try {
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    } on PlatformException {}
+
+    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
 
@@ -72,8 +78,6 @@ class StartupService {
     if (getIt<AppStore>().afterInstall) {
       unawaited(saveInstallID());
     }
-
-    await AppTrackingTransparency.requestTrackingAuthorization();
 
     if (authStatus) {
       getIt<AppStore>().updateAuthState(
