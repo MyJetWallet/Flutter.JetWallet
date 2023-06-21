@@ -10,11 +10,13 @@ void showNetworkBottomSheet(
   BlockchainModel currentNetwork,
   List<BlockchainModel> availableNetworks,
   String iconUrl,
-  void Function(BlockchainModel) setNetwork,
-) {
+  void Function(BlockchainModel) setNetwork, {
+  bool backOnClose = true,
+}) {
   bool isClosed = false;
 
   checkOrClose(val) {
+    if (!backOnClose) return;
     if (isClosed) return;
     if (val is bool && !val) {
       sRouter.back();

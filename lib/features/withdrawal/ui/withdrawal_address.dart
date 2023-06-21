@@ -54,16 +54,6 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       color: colors.grey5,
-      /*header: SPaddingH24(
-        child: SSmallHeader(
-          titleAlign: TextAlign.start,
-          title: store.header,
-          onBackButtonTap: () {
-            sRouter.pop();
-          },
-        ),
-      ),
-      */
       header: SPaddingH24(
         child: SSmallHeader(
           title: store.header,
@@ -97,6 +87,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                               .withdrawalBlockchains,
                           store.withdrawalInputModel!.currency!.iconUrl,
                           store.updateNetwork,
+                          backOnClose: false,
                         );
                       }
                     },
