@@ -63,7 +63,7 @@ bool showReceiveCurrencySearch(BuildContext context) {
   final state = getIt.get<ActionSearchStore>();
   final assets = <CurrencyModel>[];
 
-  for (final currency in state.fCurrencies) {
+  for (final currency in state.filteredCurrencies) {
     if (currency.type == AssetType.crypto && currency.supportsCryptoDeposit) {
       assets.add(currency);
     }
@@ -76,7 +76,7 @@ bool showSendCurrencySearch(BuildContext context) {
   final state = getIt.get<ActionSearchStore>();
   final assets = <CurrencyModel>[];
 
-  for (final currency in state.fCurrencies) {
+  for (final currency in state.filteredCurrencies) {
     if (currency.supportsCryptoWithdrawal && currency.isAssetBalanceNotEmpty) {
       assets.add(currency);
     }

@@ -163,8 +163,8 @@ class _ActionReceive extends StatelessObserverWidget {
     final state = searchStore;
     final colors = sKit.colors;
     final watchList = sSignalRModules.keyValue.watchlist?.value ?? [];
-    sortByBalanceWatchlistAndWeight(state.filteredCurrencies, watchList);
-    var currencyFiltered = List<CurrencyModel>.from(state.filteredCurrencies);
+    sortByBalanceWatchlistAndWeight(state.fCurrencies, watchList);
+    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
           (element) =>
@@ -294,7 +294,7 @@ class _ActionReceive extends StatelessObserverWidget {
         if (state.showCrypto) ...[
           Column(
             children: [
-              for (final currency in state.filteredCurrencies)
+              for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.crypto)
                   if (currency.supportsCryptoDeposit)
                     SWalletItem(
@@ -318,7 +318,7 @@ class _ActionReceive extends StatelessObserverWidget {
         ] else ...[
           Column(
             children: [
-              for (final currency in state.filteredCurrencies)
+              for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.fiat)
                   if (currency.supportsIbanDeposit)
                     SWalletItem(

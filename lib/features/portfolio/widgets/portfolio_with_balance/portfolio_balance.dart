@@ -291,7 +291,8 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                       decline: actualItem
                                           .dayPercentChange.isNegative,
                                       icon: SNetworkSvg24(
-                                          url: actualItem.iconUrl),
+                                        url: actualItem.iconUrl,
+                                      ),
                                       baseCurrPrefix: baseCurrency.prefix,
                                       primaryText: actualItem.description,
                                       amount: actualItem

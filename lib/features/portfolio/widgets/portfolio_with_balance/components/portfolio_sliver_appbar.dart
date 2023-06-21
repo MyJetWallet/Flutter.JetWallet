@@ -79,6 +79,16 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
       expendPercentage,
     );
 
+    final bool isShowBuy = sSignalRModules.currenciesList
+        .where((element) => element.buyMethods.isNotEmpty)
+        .isNotEmpty;
+    final bool isShowSend = sSignalRModules.currenciesList
+        .where((element) => element.withdrawalMethods.isNotEmpty)
+        .isNotEmpty;
+    final bool isShowReceive = sSignalRModules.currenciesList
+        .where((element) => element.withdrawalMethods.isNotEmpty)
+        .isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -193,65 +203,71 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         Opacity(
           opacity: 1,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CircleActionBuy(
-                onTap: () {
-                  sAnalytics.newBuyTapBuy(
-                    source: 'My Assets - Buy',
-                  );
-                  showBuyAction(
-                    fromCard: true,
-                    shouldPop: false,
-                    context: context,
-                  );
-                },
-              ),
-              CircleActionReceive(
-                onTap: () {
-                  if (kycState.depositStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    showReceiveAction(context, shouldPop: false);
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.depositStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSendAction(
-                        context,
-                        isNotEmptyBalance: isNotEmptyBalance,
-                        shouldPop: false,
-                      ),
-                      navigatePop: false,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
+              if (isShowBuy) ...[
+                CircleActionBuy(
+                  onTap: () {
+                    sAnalytics.newBuyTapBuy(
+                      source: 'My Assets - Buy',
                     );
-                  }
-                },
-              ),
-              CircleActionSend(
-                onTap: () {
-                  if (kycState.withdrawalStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
-                    showSendAction(
-                      context,
-                      isNotEmptyBalance: isNotEmptyBalance,
+                    showBuyAction(
+                      fromCard: true,
                       shouldPop: false,
+                      context: context,
                     );
-                  } else {
-                    kycAlertHandler.handle(
-                      status: kycState.withdrawalStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () => showSendAction(
+                  },
+                ),
+              ],
+              if (isShowReceive) ...[
+                CircleActionReceive(
+                  onTap: () {
+                    if (kycState.depositStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
+                      showReceiveAction(context, shouldPop: false);
+                    } else {
+                      kycAlertHandler.handle(
+                        status: kycState.depositStatus,
+                        isProgress: kycState.verificationInProgress,
+                        currentNavigate: () => showReceiveAction(
+                          context,
+                          shouldPop: false,
+                        ),
+                        navigatePop: false,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                      );
+                    }
+                  },
+                ),
+              ],
+              if (isShowSend) ...[
+                CircleActionSend(
+                  onTap: () {
+                    if (kycState.withdrawalStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
+                      showSendAction(
                         context,
                         isNotEmptyBalance: isNotEmptyBalance,
                         shouldPop: false,
-                      ),
-                      navigatePop: false,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                    );
-                  }
-                },
-              ),
+                      );
+                    } else {
+                      kycAlertHandler.handle(
+                        status: kycState.withdrawalStatus,
+                        isProgress: kycState.verificationInProgress,
+                        currentNavigate: () => showSendAction(
+                          context,
+                          isNotEmptyBalance: isNotEmptyBalance,
+                          shouldPop: false,
+                        ),
+                        navigatePop: false,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                      );
+                    }
+                  },
+                ),
+              ],
               CircleActionExchange(
                 onTap: () {
                   if (kycState.sellStatus ==
