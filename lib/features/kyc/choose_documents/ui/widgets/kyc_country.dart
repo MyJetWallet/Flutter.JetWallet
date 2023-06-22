@@ -57,6 +57,8 @@ class KycCountry extends StatelessObserverWidget {
                     state.activeCountry!.countryName,
                     style: sSubtitle2Style,
                   ),
+                  const Spacer(),
+                  const SAngleDownIcon(),
                 ],
               ),
             ),
