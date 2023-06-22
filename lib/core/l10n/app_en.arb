@@ -727,6 +727,7 @@
   "emptyWallet_balance": "balance",
   "withdrawalPreview_youWillReceive": "You will receive",
   "withdrawalPreview_youWillSend": "You will send",
+  "withdrawalPreview_receiverAmount": "Receive amount",
   "withdrawalPreview_confirm": "Confirm",
   "withdrawalPreview_total": "Total",
   "openEmailAppButton_openEmailApp": "Open email app",
