@@ -87,6 +87,8 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
+    print('refreshHistory');
+
     operationHistoryItems = ObservableList.of([]);
 
     await initOperationHistory(needLoader: needLoader);

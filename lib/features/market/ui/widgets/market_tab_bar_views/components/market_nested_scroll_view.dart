@@ -1,5 +1,6 @@
 import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:animated_list_plus/transitions.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/store/market_filter_store.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_not_loaded.dart';
@@ -15,6 +17,7 @@ import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -121,7 +124,6 @@ class __MarketNestedScrollViewBodyState
 
     return NestedScrollView(
       controller: controller,
-      physics: const ClampingScrollPhysics(),
       headerSliverBuilder: (context, _) {
         return [
           SliverAppBar(
@@ -180,86 +182,191 @@ class __MarketNestedScrollViewBodyState
   Widget showCryptoList(BaseCurrencyModel baseCurrency) {
     final store = MarketFilterStore.of(context);
 
-    return ListView(
-      padding: EdgeInsets.zero,
-      physics: store.isReordable
-          ? const NeverScrollableScrollPhysics()
-          : const ClampingScrollPhysics(),
-      controller: marketScrollController,
-      children: [
-        if (store.watchListFiltred.isNotEmpty) ...[
-          MarketSeparator(text: intl.favorites),
-          ImplicitlyAnimatedReorderableList<MarketItemModel>(
+    return CustomRefreshIndicator(
+      onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
+      builder: (
+        BuildContext context,
+        Widget child,
+        IndicatorController controller,
+      ) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            Opacity(
+              opacity: !controller.isIdle ? 1 : 0,
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (BuildContext context, Widget? _) {
+                  return SizedBox(
+                    height: 75,
+                    child: Container(
+                      width: 24.0,
+                      decoration: BoxDecoration(
+                        color: sKit.colors.grey5,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: const RiveAnimation.asset(
+                        loadingAnimationAsset,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            AnimatedBuilder(
+              builder: (context, _) {
+                return Transform.translate(
+                  offset: Offset(0.0, controller.value * 35),
+                  child: child,
+                );
+              },
+              animation: controller,
+            ),
+          ],
+        );
+      },
+      child: ListView(
+        padding: EdgeInsets.zero,
+        physics: store.isReordable
+            ? const NeverScrollableScrollPhysics()
+            : const AlwaysScrollableScrollPhysics(),
+        controller: marketScrollController,
+        children: [
+          if (store.watchListFiltred.isNotEmpty) ...[
+            MarketSeparator(text: intl.favorites),
+            ImplicitlyAnimatedReorderableList<MarketItemModel>(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              items: store.watchListFiltred,
+              onReorderFinished: (item, from, to, newItems) {
+                store.syncWatchListLocal(
+                  newItems.map((e) => e.symbol).toList(),
+                  needUpdate: true,
+                );
+              },
+              areItemsTheSame: (a, b) => a == b,
+              itemBuilder: (context, itemAnimation, item, index) {
+                /*final isInWatchlist = store.watchListLocal.contains(
+                  store.cryptoListFiltred[index].associateAsset,
+                );*/
+                final isInWatchlist = true;
+
+                return Reorderable(
+                  key: ValueKey(item),
+                  builder: (context, dragAnimation, inDrag) => AnimatedBuilder(
+                    animation: dragAnimation,
+                    builder: (BuildContext context, Widget? _) {
+                      return SizeFadeTransition(
+                        sizeFraction: 0.7,
+                        curve: Curves.easeInOut,
+                        animation: itemAnimation,
+                        child: Handle(
+                          delay: const Duration(milliseconds: 100),
+                          child: SMarketItem(
+                            key: Key(
+                              item.associateAsset,
+                            ),
+                            showFavoriteIcon: true,
+                            isStarActive: isInWatchlist,
+                            onStarButtonTap: () {
+                              if (isInWatchlist) {
+                                HapticFeedback.lightImpact();
+
+                                store.removeFromWatchlist(
+                                  item.associateAsset,
+                                );
+                              } else {
+                                store.addToWatchlist(
+                                  item.associateAsset,
+                                );
+                              }
+                            },
+                            icon: SNetworkSvg24(
+                              url: item.iconUrl,
+                            ),
+                            name: item.name,
+                            price: marketFormat(
+                              prefix: baseCurrency.prefix,
+                              decimal: item.lastPrice,
+                              symbol: baseCurrency.symbol,
+                              accuracy: item.priceAccuracy,
+                            ),
+                            ticker: item.symbol,
+                            last: store.watchListFiltred.isNotEmpty
+                                ? item == store.watchListFiltred.last
+                                : true,
+                            percent: item.dayPercentChange,
+                            onTap: () {
+                              sRouter.push(
+                                MarketDetailsRouter(
+                                  marketItem: item,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            const SpaceH20(),
+          ],
+          MarketSeparator(text: intl.assets),
+          ImplicitlyAnimatedList<MarketItemModel>(
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             shrinkWrap: true,
-            items: store.watchListFiltred,
-            onReorderFinished: (item, from, to, newItems) {
-              store.syncWatchListLocal(
-                newItems.map((e) => e.symbol).toList(),
-                needUpdate: true,
-              );
-            },
+            items: store.cryptoFiltred,
             areItemsTheSame: (a, b) => a == b,
-            itemBuilder: (context, itemAnimation, item, index) {
-              /*final isInWatchlist = store.watchListLocal.contains(
-                store.cryptoListFiltred[index].associateAsset,
-              );*/
-              final isInWatchlist = true;
+            itemBuilder: (context, animation, item, _) {
+              bool isInWatchlist = false;
 
-              return Reorderable(
-                key: ValueKey(item),
-                builder: (context, dragAnimation, inDrag) => AnimatedBuilder(
-                  animation: dragAnimation,
-                  builder: (BuildContext context, Widget? _) {
-                    return SizeFadeTransition(
-                      sizeFraction: 0.7,
-                      curve: Curves.easeInOut,
-                      animation: itemAnimation,
-                      child: Handle(
-                        delay: const Duration(milliseconds: 100),
-                        child: SMarketItem(
-                          key: Key(
-                            item.associateAsset,
-                          ),
-                          showFavoriteIcon: true,
-                          isStarActive: isInWatchlist,
-                          onStarButtonTap: () {
-                            if (isInWatchlist) {
-                              HapticFeedback.lightImpact();
+              return SizeFadeTransition(
+                sizeFraction: 0.7,
+                curve: Curves.easeInOut,
+                animation: animation,
+                child: SMarketItem(
+                  key: Key(
+                    item.associateAsset,
+                  ),
+                  showFavoriteIcon: true,
+                  isStarActive: isInWatchlist,
+                  onStarButtonTap: () {
+                    if (isInWatchlist) {
+                      HapticFeedback.lightImpact();
 
-                              store.removeFromWatchlist(
-                                item.associateAsset,
-                              );
-                            } else {
-                              store.addToWatchlist(
-                                item.associateAsset,
-                              );
-                            }
-                          },
-                          icon: SNetworkSvg24(
-                            url: item.iconUrl,
-                          ),
-                          name: item.name,
-                          price: marketFormat(
-                            prefix: baseCurrency.prefix,
-                            decimal: item.lastPrice,
-                            symbol: baseCurrency.symbol,
-                            accuracy: item.priceAccuracy,
-                          ),
-                          ticker: item.symbol,
-                          last: store.watchListFiltred.isNotEmpty
-                              ? item == store.watchListFiltred.last
-                              : true,
-                          percent: item.dayPercentChange,
-                          onTap: () {
-                            sRouter.push(
-                              MarketDetailsRouter(
-                                marketItem: item,
-                              ),
-                            );
-                          },
-                        ),
+                      store.removeFromWatchlist(
+                        item.associateAsset,
+                      );
+                    } else {
+                      HapticFeedback.lightImpact();
+
+                      store.addToWatchlist(
+                        item.associateAsset,
+                      );
+                    }
+                  },
+                  icon: SNetworkSvg24(
+                    url: item.iconUrl,
+                  ),
+                  name: item.name,
+                  price: marketFormat(
+                    prefix: baseCurrency.prefix,
+                    decimal: item.lastPrice,
+                    symbol: baseCurrency.symbol,
+                    accuracy: item.priceAccuracy,
+                  ),
+                  ticker: item.symbol,
+                  last: item == store.cryptoListFiltred.last,
+                  percent: item.dayPercentChange,
+                  onTap: () {
+                    sRouter.push(
+                      MarketDetailsRouter(
+                        marketItem: item,
                       ),
                     );
                   },
@@ -267,23 +374,26 @@ class __MarketNestedScrollViewBodyState
               );
             },
           ),
-          const SpaceH20(),
-        ],
-        MarketSeparator(text: intl.assets),
-        ImplicitlyAnimatedList<MarketItemModel>(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          items: store.cryptoFiltred,
-          areItemsTheSame: (a, b) => a == b,
-          itemBuilder: (context, animation, item, _) {
-            bool isInWatchlist = false;
-
-            return SizeFadeTransition(
-              sizeFraction: 0.7,
-              curve: Curves.easeInOut,
-              animation: animation,
-              child: SMarketItem(
+          /*GroupedListView<MarketItemModel, String>(
+            elements: store.cryptoListFiltred,
+            groupBy: (item) {
+              final isInWatchlist = store.watchListLocal.contains(
+                item.associateAsset,
+              );
+    
+              return isInWatchlist ? intl.favorite : intl.assets;
+            },
+            padding: EdgeInsets.zero,
+            sort: false,
+            groupSeparatorBuilder: (String text) {
+              return MarketSeparator(text: text);
+            },
+            itemBuilder: (context, item) {
+              final isInWatchlist = store.watchListLocal.contains(
+                item.associateAsset,
+              );
+    
+              return SMarketItem(
                 key: Key(
                   item.associateAsset,
                 ),
@@ -291,14 +401,13 @@ class __MarketNestedScrollViewBodyState
                 isStarActive: isInWatchlist,
                 onStarButtonTap: () {
                   if (isInWatchlist) {
-                    HapticFeedback.lightImpact();
-
                     store.removeFromWatchlist(
                       item.associateAsset,
                     );
                   } else {
-                    HapticFeedback.lightImpact();
-
+                    sAnalytics.addToWatchlist(
+                      item.name,
+                    );
                     store.addToWatchlist(
                       item.associateAsset,
                     );
@@ -315,7 +424,12 @@ class __MarketNestedScrollViewBodyState
                   accuracy: item.priceAccuracy,
                 ),
                 ticker: item.symbol,
-                last: item == store.cryptoListFiltred.last,
+                last: item == store.cryptoListFiltred.last ||
+                        store.watchListLocal != null
+                    ? store.watchListLocal.isNotEmpty
+                        ? item.symbol == (store.watchListLocal.last)
+                        : false
+                    : false,
                 percent: item.dayPercentChange,
                 onTap: () {
                   sRouter.push(
@@ -324,79 +438,12 @@ class __MarketNestedScrollViewBodyState
                     ),
                   );
                 },
-              ),
-            );
-          },
-        ),
-        /*GroupedListView<MarketItemModel, String>(
-          elements: store.cryptoListFiltred,
-          groupBy: (item) {
-            final isInWatchlist = store.watchListLocal.contains(
-              item.associateAsset,
-            );
-
-            return isInWatchlist ? intl.favorite : intl.assets;
-          },
-          padding: EdgeInsets.zero,
-          sort: false,
-          groupSeparatorBuilder: (String text) {
-            return MarketSeparator(text: text);
-          },
-          itemBuilder: (context, item) {
-            final isInWatchlist = store.watchListLocal.contains(
-              item.associateAsset,
-            );
-
-            return SMarketItem(
-              key: Key(
-                item.associateAsset,
-              ),
-              showFavoriteIcon: true,
-              isStarActive: isInWatchlist,
-              onStarButtonTap: () {
-                if (isInWatchlist) {
-                  store.removeFromWatchlist(
-                    item.associateAsset,
-                  );
-                } else {
-                  sAnalytics.addToWatchlist(
-                    item.name,
-                  );
-                  store.addToWatchlist(
-                    item.associateAsset,
-                  );
-                }
-              },
-              icon: SNetworkSvg24(
-                url: item.iconUrl,
-              ),
-              name: item.name,
-              price: marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: item.lastPrice,
-                symbol: baseCurrency.symbol,
-                accuracy: item.priceAccuracy,
-              ),
-              ticker: item.symbol,
-              last: item == store.cryptoListFiltred.last ||
-                      store.watchListLocal != null
-                  ? store.watchListLocal.isNotEmpty
-                      ? item.symbol == (store.watchListLocal.last)
-                      : false
-                  : false,
-              percent: item.dayPercentChange,
-              onTap: () {
-                sRouter.push(
-                  MarketDetailsRouter(
-                    marketItem: item,
-                  ),
-                );
-              },
-            );
-          },
-        ),
-        */
-      ],
+              );
+            },
+          ),
+          */
+        ],
+      ),
     );
   }
 }
