@@ -68,7 +68,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
         },
       ),
       child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
@@ -91,7 +90,10 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                     ],
                   ),
                 ),
-                const SpaceH56(),
+                deviceSize.when(
+                  small: () => const SpaceH36(),
+                  medium: () => const SpaceH56(),
+                ),
                 SActionConfirmText(
                   name: '$verb ${intl.to}',
                   value: shortAddressForm(store.address),
@@ -110,16 +112,12 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 35.0,
-                  value: store.withdrawalType == WithdrawalType.Asset
-                      ? store.addressIsInternal
-                          ? intl.noFee
-                          : store.withdrawalInputModel!.currency!
-                              .withdrawalFeeWithSymbol(
-                              store.networkController.text,
-                            )
-                      : store.nftInfo?.feeAmount == Decimal.zero
-                          ? intl.noFee
-                          : '${store.nftInfo?.feeAmount} ${store.nftInfo?.feeAssetSymbol}',
+                  value: store.addressIsInternal
+                      ? intl.noFee
+                      : store.withdrawalInputModel!.currency!
+                          .withdrawalFeeWithSymbol(
+                          store.networkController.text,
+                        ),
                 ),
                 const SBaselineChild(
                   baseline: 34.0,
@@ -130,7 +128,14 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                   baseline: 36.0,
                   value: userWillreceive(
                     currency: store.withdrawalInputModel!.currency!,
-                    amount: store.withAmount,
+                    amount: store.addressIsInternal
+                        ? store.withAmount
+                        : (Decimal.parse(store.withAmount) -
+                                store.withdrawalInputModel!.currency!
+                                    .withdrawalFeeSize(
+                                  store.networkController.text,
+                                ))
+                            .toString(),
                     addressIsInternal: store.addressIsInternal,
                     network: store.networkController.text,
                   ),
@@ -180,7 +185,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                     }
                   },
                 ),
-                const SpaceH24(),
+                const SpaceH42(),
               ],
             ),
           ),
