@@ -73,7 +73,10 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
             hasScrollBody: false,
             child: Column(
               children: [
-                const SpaceH24(),
+                deviceSize.when(
+                  small: () => const SpaceH8(),
+                  medium: () => const SpaceH24(),
+                ),
                 Center(
                   child: Column(
                     children: [
