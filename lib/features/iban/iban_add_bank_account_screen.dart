@@ -70,7 +70,6 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
         ),
       ),
       child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
