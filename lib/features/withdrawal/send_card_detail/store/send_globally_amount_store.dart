@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
@@ -171,12 +169,15 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
     final percent = _percentFromPreset(preset);
 
+    final availableBalance = Decimal.parse(
+      '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
+    );
+
     final value = valueBasedOnSelectedPercent(
       selected: percent,
       currency: sendCurrency!,
-      availableBalance: Decimal.parse(
-        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
-      ),
+      availableBalance:
+          availableBalabce > maxLimitAmount ? maxLimitAmount : availableBalance,
     );
 
     withAmount = valueAccordingToAccuracy(
