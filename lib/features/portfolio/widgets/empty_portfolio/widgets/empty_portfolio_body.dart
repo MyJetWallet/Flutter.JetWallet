@@ -48,6 +48,13 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
     final baseCurrency = sSignalRModules.baseCurrency;
     final deviceSize = sDeviceSize;
 
+    final bool isShowBuy = sSignalRModules.currenciesList
+        .where((element) => element.buyMethods.isNotEmpty)
+        .isNotEmpty;
+    final bool isShowReceive = sSignalRModules.currenciesList
+        .where((element) => element.supportsCryptoDeposit)
+        .isNotEmpty;
+
     return SPaddingH24(
       child: Column(
         children: [
@@ -102,40 +109,44 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
             maxLines: 2,
           ),
           const SpaceH38(),
-          SPrimaryButton1(
-            active: true,
-            name: intl.emptyEarnWalletBody_buyCrypto,
-            onTap: () {
-              sAnalytics.newBuyTapBuy(
-                source: 'My Assets - Zero Balance - Buy',
-              );
+          if (isShowBuy) ...[
+            SPrimaryButton1(
+              active: true,
+              name: intl.emptyEarnWalletBody_buyCrypto,
+              onTap: () {
+                sAnalytics.newBuyTapBuy(
+                  source: 'My Assets - Zero Balance - Buy',
+                );
 
-              showSendTimerAlertOr(
-                context: context,
-                or: () {
-                  showBuyAction(
-                    shouldPop: false,
-                    fromCard: true,
-                    context: context,
-                    from: Source.profile,
-                  );
-                },
-                from: BlockingType.deposit,
-              );
-            },
-          ),
-          const SpaceH8(),
-          STextButton1(
-            active: true,
-            name: intl.actionReceive_receive_crypto,
-            onTap: () {
-              showReceiveAction(
-                context,
-                shouldPop: false,
-                checkKYC: true,
-              );
-            },
-          ),
+                showSendTimerAlertOr(
+                  context: context,
+                  or: () {
+                    showBuyAction(
+                      shouldPop: false,
+                      fromCard: true,
+                      context: context,
+                      from: Source.profile,
+                    );
+                  },
+                  from: BlockingType.deposit,
+                );
+              },
+            ),
+            const SpaceH8(),
+          ],
+          if (isShowReceive) ...[
+            STextButton1(
+              active: true,
+              name: intl.actionReceive_receive_crypto,
+              onTap: () {
+                showReceiveAction(
+                  context,
+                  shouldPop: false,
+                  checkKYC: true,
+                );
+              },
+            ),
+          ],
           const SpaceH8(),
         ],
       ),
