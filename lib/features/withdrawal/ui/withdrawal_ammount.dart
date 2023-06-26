@@ -48,7 +48,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title:
-              '${store.withdrawalInputModel!.dictionary.verb} ${store.withdrawalInputModel!.currency!.description}',
+              '${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}',
         ),
       ),
       child: Column(

@@ -222,7 +222,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   String get header => withdrawalType == WithdrawalType.Asset
-      ? '${withdrawalInputModel!.dictionary.verb} ${withdrawalInputModel!.currency!.description}'
+      ? '${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}'
       : '${intl.nft_send} ${withdrawalInputModel!.nft!.name}';
 
   @computed
@@ -1128,7 +1128,7 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText:
-            '${intl.withdrawalConfirm_failedTo} ${withdrawalInputModel!.dictionary.verb.toLowerCase()}',
+            '${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}',
         primaryButtonName: withdrawalType == WithdrawalType.Asset
             ? intl.withdrawalConfirm_editOrder
             : intl.send_timer_alert_ok,
@@ -1160,7 +1160,7 @@ abstract class _WithdrawalStoreBase with Store {
       SuccessScreenRouter(
         secondaryText:
             '${intl.withdrawalConfirm_your} ${withdrawalInputModel!.currency!.symbol}'
-            ' ${withdrawalInputModel!.dictionary.verb.toLowerCase()} '
+            ' ${intl.withdrawal_send_verb.toLowerCase()} '
             '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
         onSuccess: (context) {
           sRouter.replaceAll([

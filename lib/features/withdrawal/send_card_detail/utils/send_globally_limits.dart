@@ -46,22 +46,24 @@ class _GlobalSendLimits extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    print(minAmount);
-
     return SPaddingH24(
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(width: 24),
-              const Spacer(),
-              Text(
-                intl.paymentMethodsSheet_cardsLimit,
-                style: sTextH2Style.copyWith(
-                  color: colors.black,
+              const Opacity(
+                opacity: 0,
+                child: SEraseIcon(),
+              ),
+              Flexible(
+                child: Text(
+                  intl.paymentMethodsSheet_cardsLimit,
+                  style: sTextH2Style.copyWith(
+                    color: colors.black,
+                  ),
                 ),
               ),
-              const Spacer(),
               SIconButton(
                 onTap: () {
                   Navigator.pop(context);

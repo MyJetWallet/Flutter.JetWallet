@@ -1426,5 +1426,9 @@
   "global_send_total_pay": "Total pay",
   "myAssets_hideZero": "Hide zero balance",
   "global_send_history_sent": "Sent",
-  "withdraw_continue": "Continue"
+  "withdraw_continue": "Continue",
+  "withdrawal_send_verb": "Send",
+  "withdrawal_send_noun": "Sending",
+  "withdrawal_withdraw_verb": "Withdraw",
+  "withdrawal_withdrawal_noun": "Withdrawal"
 }

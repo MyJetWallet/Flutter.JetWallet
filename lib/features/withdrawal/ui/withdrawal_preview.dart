@@ -38,7 +38,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
     final descr = store.withdrawalType == WithdrawalType.Asset
         ? store.withdrawalInputModel!.currency!.description
         : store.withdrawalInputModel!.nft!.name;
-    final verb = store.withdrawalInputModel!.dictionary.verb;
+    final verb = intl.withdrawal_send_verb;
 
     final title = store.withdrawalType == WithdrawalType.Asset
         ? '${intl.withdrawalPreview_confirm} $verb'
