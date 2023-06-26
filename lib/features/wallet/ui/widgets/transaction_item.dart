@@ -405,7 +405,8 @@ class _TransactionItemState extends State<TransactionItem>
                 ],
                 Visibility(
                   visible: isTXIDExist(widget.transactionListItem) != null &&
-                      getBlockChainURL(widget.transactionListItem).isNotEmpty,
+                      getBlockChainURL(widget.transactionListItem).isNotEmpty &&
+                      !checkTransactionIsInternal(widget.transactionListItem),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 24,
@@ -417,6 +418,9 @@ class _TransactionItemState extends State<TransactionItem>
                       name: intl.open_in_explorer,
                       icon: const SNetworkIcon(),
                       onTap: () async {
+                        print(getBlockChainURL(
+                          widget.transactionListItem,
+                        ));
                         if (!await launchUrlString(
                           getBlockChainURL(
                             widget.transactionListItem,
