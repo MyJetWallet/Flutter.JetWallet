@@ -79,6 +79,8 @@ abstract class _FormatServiceBase with Store {
       findInHideTerminalList: true,
     );
 
+    print('normalizedAccuracy: ${fromAsset.normalizedAccuracy}');
+
     // Covnert FromCurrency to User base currency
     final fromCurrInBaseCurr = fromCurrencyAmmount * fromAsset.currentPrice;
 

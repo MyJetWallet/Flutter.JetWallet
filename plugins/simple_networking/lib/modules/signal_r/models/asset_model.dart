@@ -26,6 +26,7 @@ class AssetModel with _$AssetModel {
     required String symbol,
     required String description,
     required double accuracy,
+    required double normalizedAccuracy,
     required int weight,
     required TagType tagType,
     @JsonKey(name: 'assetType') required AssetType type,
