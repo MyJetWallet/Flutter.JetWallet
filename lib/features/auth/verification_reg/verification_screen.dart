@@ -4,11 +4,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
-import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
