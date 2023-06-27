@@ -111,6 +111,13 @@ abstract class _SendGloballyConfirmStoreBase with Store {
   Future<void> confirmSendGlobally() async {
     loader.startLoadingImmediately();
 
+    Future.delayed(
+      const Duration(seconds: 50),
+      () {
+        loader.finishLoadingImmediately();
+      },
+    );
+
     final model = SendToBankRequestModel(
       countryCode: data?.countryCode,
       asset: data?.asset,

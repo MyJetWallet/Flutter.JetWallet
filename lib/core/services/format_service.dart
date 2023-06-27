@@ -105,6 +105,6 @@ abstract class _FormatServiceBase with Store {
 
     print('finalAmmount: ${finalAmmount}');
 
-    return finalAmmount;
+    return Decimal.parse(toAmmount.toString());
   }
 }
