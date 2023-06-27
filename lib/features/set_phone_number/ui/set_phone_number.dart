@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -130,32 +131,27 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                   builder: (context) {
                     return Expanded(
                       child: SPaddingH24(
-                        child: GestureDetector(
-                          onLongPress: () => store.pasteCode(),
-                          onDoubleTap: () => store.pasteCode(),
-                          child: SStandardField(
-                            autofocus: true,
-                            labelText: intl.setPhoneNumber_phoneNumber,
-                            focusNode: store.focusNode,
-                            autofillHints: const [
-                              AutofillHints.telephoneNumber,
-                            ],
-                            keyboardType: TextInputType.phone,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (String phone) {
-                              store.updatePhoneNumber(phone);
-                            },
-                            controller: store.phoneNumberController,
-                            suffixIcons: store.phoneInput.isNotEmpty
-                                ? [
-                                    SIconButton(
-                                      onTap: () => store.clearPhone(),
-                                      defaultIcon: const SEraseIcon(),
-                                      pressedIcon: const SErasePressedIcon(),
-                                    ),
-                                  ]
-                                : null,
-                          ),
+                        child: SStandardField(
+                          labelText: intl.setPhoneNumber_phoneNumber,
+                          focusNode: store.focusNode,
+                          autofillHints: const [
+                            AutofillHints.telephoneNumber,
+                          ],
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (String phone) {
+                            store.updatePhoneNumber(phone);
+                          },
+                          controller: store.phoneNumberController,
+                          suffixIcons: store.phoneInput.isNotEmpty
+                              ? [
+                                  SIconButton(
+                                    onTap: () => store.clearPhone(),
+                                    defaultIcon: const SEraseIcon(),
+                                    pressedIcon: const SErasePressedIcon(),
+                                  ),
+                                ]
+                              : null,
                         ),
                       ),
                     );
