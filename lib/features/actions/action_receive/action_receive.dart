@@ -179,11 +179,20 @@ class _ActionReceive extends StatelessObserverWidget {
         .toList()
         .isNotEmpty;
 
+    final cryptoSearchLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.crypto && element.supportsCryptoDeposit)
+        .length;
+    final showFiatLength = sSignalRModules.currenciesList
+        .where((element) =>
+            element.type == AssetType.fiat && element.supportsCryptoDeposit)
+        .length;
+
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
 
     return Column(
       children: [
-        if (showTabs) ...[
+        if (cryptoSearchLength != 0 && showFiatLength != 0) ...[
           Stack(
             children: [
               GestureDetector(
