@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
@@ -79,8 +81,6 @@ abstract class _FormatServiceBase with Store {
       findInHideTerminalList: true,
     );
 
-    print('normalizedAccuracy: ${fromAsset.normalizedAccuracy}');
-
     // Covnert FromCurrency to User base currency
     final fromCurrInBaseCurr = fromCurrencyAmmount * fromAsset.currentPrice;
 
@@ -88,7 +88,23 @@ abstract class _FormatServiceBase with Store {
         baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
+    Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
-    return Decimal.parse(toAmmount.toString());
+    print('toAmmount: ${finalAmmount}');
+
+    print('normalizedAccuracy: ${fromAsset.normalizedAccuracy}');
+
+    if (fromAsset.normalizedAccuracy > 0) {
+      finalAmmount = finalAmmount.ceil();
+    } else {
+      var n = pow(10, fromAsset.normalizedAccuracy.abs());
+      n = n.round();
+      finalAmmount = finalAmmount *
+          Decimal.parse(fromAsset.normalizedAccuracy.abs().toString());
+    }
+
+    print('finalAmmount: ${finalAmmount}');
+
+    return finalAmmount;
   }
 }
