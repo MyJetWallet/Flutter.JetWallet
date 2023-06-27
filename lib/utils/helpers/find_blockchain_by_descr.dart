@@ -38,6 +38,16 @@ String? getNetworkFromItem(OperationHistoryItem transactionListItem) {
   return null;
 }
 
+bool checkTransactionIsInternal(OperationHistoryItem transactionListItem) {
+  if (transactionListItem.operationType == OperationType.withdraw) {
+    return transactionListItem.withdrawalInfo!.isInternal;
+  } else if (transactionListItem.operationType == OperationType.deposit) {
+    return transactionListItem.depositInfo!.isInternal;
+  }
+
+  return false;
+}
+
 bool showBlockchainButton(String network) {
   final block = findBlockchaonByDescription(network);
 

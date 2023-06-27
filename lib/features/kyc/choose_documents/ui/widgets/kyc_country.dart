@@ -24,42 +24,49 @@ class KycCountry extends StatelessObserverWidget {
 
     return InkWell(
       highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onTap: openCountryList,
       child: SPaddingH24(
-        child: Column(
+        child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 21,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    intl.kycCountry_countryOfIssue,
-                    style: sCaptionTextStyle.copyWith(
-                      color: colors.grey2,
-                    ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 21,
                   ),
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      Text(
+                        intl.kycCountry_countryOfIssue,
+                        style: sCaptionTextStyle.copyWith(
+                          color: colors.grey2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 21,
+                  ),
+                  child: Row(
+                    children: [
+                      FlagItem(
+                        countryCode: state.activeCountry!.countryCode,
+                      ),
+                      const SpaceW10(),
+                      Text(
+                        state.activeCountry!.countryName,
+                        style: sSubtitle2Style,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 21,
-              ),
-              child: Row(
-                children: [
-                  FlagItem(
-                    countryCode: state.activeCountry!.countryCode,
-                  ),
-                  const SpaceW10(),
-                  Text(
-                    state.activeCountry!.countryName,
-                    style: sSubtitle2Style,
-                  ),
-                ],
-              ),
-            ),
+            const Spacer(),
+            const SAngleDownIcon(),
           ],
         ),
       ),

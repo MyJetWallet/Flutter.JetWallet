@@ -83,7 +83,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
         ),
       ),
       child: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(

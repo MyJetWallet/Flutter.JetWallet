@@ -55,8 +55,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
       loaderText: intl.register_pleaseWait,
       color: colors.grey5,
       header: SPaddingH24(
-        child: SMegaHeader(
-          titleAlign: TextAlign.start,
+        child: SSmallHeader(
           title: store.header,
           onBackButtonTap: () {
             sRouter.pop();
@@ -88,6 +87,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                               .withdrawalBlockchains,
                           store.withdrawalInputModel!.currency!.iconUrl,
                           store.updateNetwork,
+                          backOnClose: false,
                         );
                       }
                     },
@@ -160,6 +160,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         controller: store.tagController,
                         onChanged: (value) => store.updateTag(value),
                         onErase: () => store.eraseTag(),
+                        maxLines: 3,
                         suffixIcons: [
                           SIconButton(
                             onTap: () => store.pasteTag(scrollController),

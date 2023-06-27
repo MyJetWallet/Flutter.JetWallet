@@ -21,6 +21,7 @@ class BasicBottomSheet extends StatefulWidget {
     this.removeBarPadding = false,
     this.removePinnedPadding = false,
     this.fullScreen = false,
+    this.isDismissible = true,
     required this.color,
     required this.scrollable,
     required this.children,
@@ -44,6 +45,7 @@ class BasicBottomSheet extends StatefulWidget {
   final List<Widget> children;
   final bool scrollable;
   final bool fullScreen;
+  final bool isDismissible;
   final double? horizontalPinnedPadding;
 
   @override
@@ -86,8 +88,11 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
       setState(() {
         isClosing = true;
       });
-      widget.onDissmis?.call();
-      Navigator.pop(context);
+
+      if (widget.isDismissible) {
+        widget.onDissmis?.call();
+        Navigator.pop(context);
+      }
     }
   }
 

@@ -134,6 +134,7 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           onLongPress: () => store.pasteCode(),
                           onDoubleTap: () => store.pasteCode(),
                           child: SStandardField(
+                            autofocus: true,
                             labelText: intl.setPhoneNumber_phoneNumber,
                             focusNode: store.focusNode,
                             autofillHints: const [

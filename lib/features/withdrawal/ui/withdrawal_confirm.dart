@@ -44,8 +44,8 @@ class WithdrawalConfirmScreenBody extends StatelessObserverWidget {
     final authInfo = getIt<AppStore>().authState;
     final dynamicLink = getIt.get<AppStore>().withdrawDynamicLink;
 
-    final verb = store.withdrawalInputModel!.dictionary.verb.toLowerCase();
-    final noun = store.withdrawalInputModel!.dictionary.noun.toLowerCase();
+    final verb = intl.withdrawal_send_verb.toLowerCase();
+    final noun = intl.withdrawal_send_noun.toLowerCase();
 
     return WillPopScope(
       onWillPop: () async => false,

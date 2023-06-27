@@ -727,6 +727,7 @@
   "emptyWallet_balance": "balance",
   "withdrawalPreview_youWillReceive": "You will receive",
   "withdrawalPreview_youWillSend": "You will send",
+  "withdrawalPreview_receiverAmount": "Receive amount",
   "withdrawalPreview_confirm": "Confirm",
   "withdrawalPreview_total": "Total",
   "openEmailAppButton_openEmailApp": "Open email app",
@@ -832,7 +833,7 @@
   "showUsePhonebookAlert_usePhonebook": "Use Phonebook",
   "sendByPhoneAmount_send": "Send",
   "sendByPhoneAmount_available": "Available",
-  "sendByPhoneAmount_previewSend": "Preview Send",
+  "sendByPhoneAmount_previewSend": "Continue",
   "sendByPhoneRecipient_later": "Later",
   "sendByPhoneRecipient_headerTitle": "Notify the recipient about sent",
   "sendByPhoneRecipient_text1": "This phone number is not linked to Simple account",
@@ -1424,5 +1425,10 @@
   "global_send_history_phone_number": "Phone number",
   "global_send_total_pay": "Total pay",
   "myAssets_hideZero": "Hide zero balance",
-  "global_send_history_sent": "Sent"
+  "global_send_history_sent": "Sent",
+  "withdraw_continue": "Continue",
+  "withdrawal_send_verb": "Send",
+  "withdrawal_send_noun": "Sending",
+  "withdrawal_withdraw_verb": "Withdraw",
+  "withdrawal_withdrawal_noun": "Withdrawal"
 }

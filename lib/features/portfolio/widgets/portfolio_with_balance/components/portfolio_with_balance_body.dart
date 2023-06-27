@@ -245,7 +245,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
     return CustomScrollView(
       controller: scrollController,
-      physics: const ClampingScrollPhysics(),
       slivers: [
         SliverAppBar(
           backgroundColor: colors.white,

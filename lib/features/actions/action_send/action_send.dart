@@ -183,8 +183,6 @@ Future<void> showSendGlobally(
   final availableCountries = <KycCountryModel>[];
   final globalSearchStore = ActionSearchStore();
 
-  log(jsonEncode(sSignalRModules.globalSendMethods!.toJson()));
-
   for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
     if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
         sSignalRModules

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/currency_withdraw/model/withdrawal_dictionary_model.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -77,7 +76,6 @@ class _WithdrawOptions extends StatelessWidget {
                 WithdrawRouter(
                   withdrawal: WithdrawalModel(
                     currency: currency,
-                    dictionary: const WithdrawalDictionaryModel.withdraw(),
                   ),
                 ),
               );

@@ -37,20 +37,5 @@ class _WithdrawalScreenBodyState extends State<WithdrawalScreenBody> {
     final store = WithdrawalStore.of(context);
 
     return const AutoRouter();
-    /*
-      store.withdrawalType == WithdrawalType.Asset
-          ? const [
-              WithdrawalAddressScreen(),
-              WithdrawalAmmountScreen(),
-              WithdrawalPreviewScreen(),
-              WithdrawalConfirmScreen(),
-            ]
-          : const [
-              WithdrawalAddressScreen(),
-              WithdrawalPreviewScreen(),
-              WithdrawalConfirmScreen(),
-            ],
-    );
-    */
   }
 }

@@ -48,7 +48,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title:
-              '${store.withdrawalInputModel!.dictionary.verb} ${store.withdrawalInputModel!.currency!.description}',
+              '${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}',
         ),
       ),
       child: Column(
@@ -172,8 +172,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             },
             buttonType: SButtonType.primary2,
             submitButtonActive: store.withValid,
-            submitButtonName: '${intl.withdrawalAmount_preview}'
-                ' ${store.withdrawalInputModel!.dictionary.verb}',
+            submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
               store.withdrawalPush(WithdrawStep.Preview);
             },

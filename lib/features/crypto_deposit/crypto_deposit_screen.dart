@@ -296,6 +296,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                         widget.currency.depositBlockchains,
                         widget.currency.iconUrl,
                         deposit.setNetwork,
+                        backOnClose: false,
                       ),
               borderRadius: BorderRadius.circular(16),
               child: Container(
