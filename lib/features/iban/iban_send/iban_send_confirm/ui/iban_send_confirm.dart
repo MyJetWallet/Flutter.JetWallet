@@ -193,6 +193,29 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
             hidePadding: true,
             button: Column(
               children: [
+                deviceSize.when(
+                  small: () {
+                    return Column(
+                      children: [
+                        const SDivider(),
+                        SActionConfirmText(
+                          name: intl.iban_out_total,
+                          contentLoading: state.loader.loading,
+                          valueColor: colors.blue,
+                          value: volumeFormat(
+                            prefix: state.eurCurrency.prefixSymbol,
+                            decimal: data.amount ?? Decimal.zero,
+                            accuracy: state.eurCurrency.accuracy,
+                            symbol: state.eurCurrency.symbol,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  medium: () {
+                    return const SizedBox();
+                  },
+                ),
                 const SpaceH20(),
                 const SpaceH24(),
                 SPrimaryButton2(
