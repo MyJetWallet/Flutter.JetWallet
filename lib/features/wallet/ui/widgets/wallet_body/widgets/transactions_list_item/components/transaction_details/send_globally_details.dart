@@ -420,7 +420,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
           TransactionDetailsStatus(
             status: transactionListItem.status,
           ),
-          const SpaceH40(),
+          const SpaceH45(),
         ],
       ),
     );

@@ -58,7 +58,7 @@ class _GlobalSendLimits extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  intl.paymentMethodsSheet_cardsLimit,
+                  intl.send_globally_limits_text,
                   style: sTextH2Style.copyWith(
                     color: colors.black,
                   ),

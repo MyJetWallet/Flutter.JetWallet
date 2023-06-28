@@ -88,8 +88,8 @@ class _SendGloballyAmountScreenBodyState
             accuracy: store.sendCurrency!.accuracy,
             symbol: store.sendCurrency!.symbol,
           )}',
-          subTitleStyle: sSubtitle3Style.copyWith(
-            color: colors.grey2,
+          subTitleStyle: sBodyText2Style.copyWith(
+            color: colors.grey1,
           ),
         ),
       ),

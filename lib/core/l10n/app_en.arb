@@ -1347,9 +1347,9 @@
   "send_globally_transfer_info": "Normally transfer is processed within 30 min, sometimes up to 24 hours",
   "send_globally_fail_info": "Your send request has not been placed",
   "send_globally_success": "Success",
-  "send_globally_success_secondary": "Request for sending",
-  "send_globally_success_secondary_2": "has been placed",
-  "send_globally_success_info": "Receiver will get the money within 5—30 min",
+  "send_globally_success_secondary": "Send Globally: transfer of",
+  "send_globally_success_secondary_2": "was initiated",
+  "send_globally_success_info": "Receiver will get the money with up to 24 hours",
   "send_globally": "Send Globally",
   "send_globally_amount_in_eur": "Amount in EUR",
   "send_globally_amount_in": "Amount in ",
@@ -1430,5 +1430,6 @@
   "withdrawal_send_verb": "Send",
   "withdrawal_send_noun": "Sending",
   "withdrawal_withdraw_verb": "Withdraw",
-  "withdrawal_withdrawal_noun": "Withdrawal"
+  "withdrawal_withdrawal_noun": "Withdrawal",
+  "send_globally_limits_text": "Send limits"
 }
