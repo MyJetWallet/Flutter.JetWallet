@@ -112,7 +112,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     loader.startLoadingImmediately();
 
     Future.delayed(
-      const Duration(seconds: 50),
+      const Duration(seconds: 40),
       () {
         loader.finishLoadingImmediately();
       },
@@ -157,6 +157,8 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     } catch (e) {
       loader.finishLoadingImmediately();
       await showFailureScreen(intl.something_went_wrong_try_again);
+    } finally {
+      loader.finishLoadingImmediately();
     }
 
     loader.finishLoadingImmediately();
