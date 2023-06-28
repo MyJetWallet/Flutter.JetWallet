@@ -12,67 +12,75 @@ class ApiClient {
     String path, {
     dynamic data,
   }) async {
-    return await dio.post(
-      path,
-      data: data,
-      options: sessionID != null || (sessionID?.isEmpty ?? false)
-          ? Options(
-              extra: {
-                'sessionID': sessionID,
-              },
-            )
-          : null,
-    );
+    return await dio
+        .post(
+          path,
+          data: data,
+          options: sessionID != null || (sessionID?.isEmpty ?? false)
+              ? Options(
+                  extra: {
+                    'sessionID': sessionID,
+                  },
+                )
+              : null,
+        )
+        .timeout(const Duration(seconds: 45));
   }
 
   Future<Response> put(
     String path, {
     dynamic data,
   }) async {
-    return await dio.put(
-      path,
-      data: data,
-      options: sessionID != null || (sessionID?.isEmpty ?? false)
-          ? Options(
-              extra: {
-                'sessionID': sessionID,
-              },
-            )
-          : null,
-    );
+    return await dio
+        .put(
+          path,
+          data: data,
+          options: sessionID != null || (sessionID?.isEmpty ?? false)
+              ? Options(
+                  extra: {
+                    'sessionID': sessionID,
+                  },
+                )
+              : null,
+        )
+        .timeout(const Duration(seconds: 45));
   }
 
   Future<Response> delete(
     String path, {
     dynamic data,
   }) async {
-    return await dio.delete(
-      path,
-      data: data,
-      options: sessionID != null || (sessionID?.isEmpty ?? false)
-          ? Options(
-              extra: {
-                'sessionID': sessionID,
-              },
-            )
-          : null,
-    );
+    return await dio
+        .delete(
+          path,
+          data: data,
+          options: sessionID != null || (sessionID?.isEmpty ?? false)
+              ? Options(
+                  extra: {
+                    'sessionID': sessionID,
+                  },
+                )
+              : null,
+        )
+        .timeout(const Duration(seconds: 45));
   }
 
   Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    return await dio.get(
-      path,
-      queryParameters: queryParameters,
-      options: sessionID != null
-          ? Options(
-              extra: {
-                'sessionID': sessionID,
-              },
-            )
-          : null,
-    );
+    return await dio
+        .get(
+          path,
+          queryParameters: queryParameters,
+          options: sessionID != null
+              ? Options(
+                  extra: {
+                    'sessionID': sessionID,
+                  },
+                )
+              : null,
+        )
+        .timeout(const Duration(seconds: 45));
   }
 }

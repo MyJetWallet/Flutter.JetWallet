@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
@@ -86,7 +88,24 @@ abstract class _FormatServiceBase with Store {
         baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
+    Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
-    return Decimal.parse(toAmmount.toString());
+    double smartRound(double number, int decimalPlaces) {
+      final decimalMultiplier = pow(10, decimalPlaces);
+
+      return (number * decimalMultiplier).roundToDouble() / decimalMultiplier;
+    }
+
+    print("toAmmount: ${toAmmount}");
+    print("normalizedAccuracy: ${fromAsset.normalizedAccuracy}");
+    print(Decimal.parse('${smartRound(
+      finalAmmount.toDouble(),
+      fromAsset.normalizedAccuracy,
+    )}'));
+
+    return Decimal.parse('${smartRound(
+      finalAmmount.toDouble(),
+      fromAsset.normalizedAccuracy,
+    )}');
   }
 }

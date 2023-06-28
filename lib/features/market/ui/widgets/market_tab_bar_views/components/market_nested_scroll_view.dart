@@ -183,6 +183,7 @@ class __MarketNestedScrollViewBodyState
     final store = MarketFilterStore.of(context);
 
     return CustomRefreshIndicator(
+      offsetToArmed: 75,
       onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
       builder: (
         BuildContext context,
@@ -217,7 +218,7 @@ class __MarketNestedScrollViewBodyState
             AnimatedBuilder(
               builder: (context, _) {
                 return Transform.translate(
-                  offset: Offset(0.0, controller.value * 35),
+                  offset: Offset(0.0, controller.value * 75),
                   child: child,
                 );
               },

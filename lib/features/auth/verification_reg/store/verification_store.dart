@@ -53,6 +53,7 @@ abstract class _VerificationStoreBase with Store {
 
   @action
   void clear() {
+    step = VerificationScreenStep.Phone;
     isEmailDone = false;
     isPhoneDone = false;
     isPersonalDetailsDone = false;
