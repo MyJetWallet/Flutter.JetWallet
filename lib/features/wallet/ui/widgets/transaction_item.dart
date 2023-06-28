@@ -104,25 +104,30 @@ class _TransactionItemState extends State<TransactionItem>
           children: [
             Column(
               children: [
-                if (isOperationSupportCopy(widget.transactionListItem))
-                  Transform.translate(
-                    offset: scaleAnimation.value,
-                    child: Container(
-                      color: colors.greenLight,
-                      height: widgetSizeFrom(deviceSize) == SWidgetSize.small
-                          ? 40.0
-                          : 60.0,
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          '$copiedText ${intl.transactionItem_copied}',
-                          style: sBodyText1Style.copyWith(
-                            color: Colors.green,
+                if (widget.transactionListItem.operationType !=
+                    OperationType.sendGlobally) ...[
+                  if (isOperationSupportCopy(widget.transactionListItem))
+                    Transform.translate(
+                      offset: scaleAnimation.value,
+                      child: Container(
+                        color: colors.greenLight,
+                        height: widgetSizeFrom(deviceSize) == SWidgetSize.small
+                            ? 40.0
+                            : 60.0,
+                        width: double.infinity,
+                        child: Center(
+                          child: Text(
+                            '$copiedText ${intl.transactionItem_copied}',
+                            style: sBodyText1Style.copyWith(
+                              color: Colors.green,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                ] else ...[
+                  const SpaceH32(),
+                ],
                 if (widget.transactionListItem.operationType ==
                     OperationType.deposit) ...[
                   Material(

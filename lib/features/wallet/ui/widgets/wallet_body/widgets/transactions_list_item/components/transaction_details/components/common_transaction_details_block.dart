@@ -58,17 +58,24 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     return Column(
       children: [
-        if (transactionListItem.operationType == OperationType.recurringBuy)
+        if (transactionListItem.operationType != OperationType.sendGlobally)
+          Text(
+            _transactionHeader(
+              transactionListItem,
+              currency,
+              context,
+              nftAsset.name,
+              intl,
+            ),
+            style: sTextH5Style,
+          ),
+        if (transactionListItem.operationType == OperationType.sendGlobally)
           SPaddingH24(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SIconButton(
-                  onTap: () => Navigator.pop(context),
-                  defaultIcon: const SBackIcon(),
-                  pressedIcon: const SBackPressedIcon(),
-                ),
+                const _IconPlaceholder(),
                 const SpaceW12(),
                 Expanded(
                   child: Text(
@@ -86,20 +93,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                   ),
                 ),
                 const SpaceW12(),
-                const _IconPlaceholder(),
+                SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SEraseIcon(),
+                  pressedIcon: const SErasePressedIcon(),
+                ),
               ],
             ),
-          ),
-        if (transactionListItem.operationType != OperationType.recurringBuy)
-          Text(
-            _transactionHeader(
-              transactionListItem,
-              currency,
-              context,
-              nftAsset.name,
-              intl,
-            ),
-            style: sTextH5Style,
           ),
         if (devicePR == 2) ...[
           const SpaceH30(),

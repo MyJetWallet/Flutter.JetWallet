@@ -76,8 +76,8 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
         child: SSmallHeader(
           title: intl.global_send_title,
           subTitle: widget.method.name,
-          subTitleStyle: sSubtitle3Style.copyWith(
-            color: colors.grey2,
+          subTitleStyle: sBodyText2Style.copyWith(
+            color: colors.grey1,
           ),
           onBackButtonTap: () => Navigator.pop(context),
         ),
@@ -149,7 +149,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     },
                   ),
                 ),
-                const Spacer(),
+                const SpaceH40(),
                 SPaddingH24(
                   child: Material(
                     color: colors.grey5,
