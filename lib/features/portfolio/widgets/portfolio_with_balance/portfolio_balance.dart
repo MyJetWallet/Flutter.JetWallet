@@ -202,6 +202,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
 
     return PortfolioScreenGradient(
       child: CustomRefreshIndicator(
+        offsetToArmed: 200,
         onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
         builder: (
           BuildContext context,
@@ -239,7 +240,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Transform.translate(
-                    offset: Offset(0.0, controller.value * 35),
+                    offset: Offset(0.0, controller.value * 50),
                     child: child,
                   );
                 },
