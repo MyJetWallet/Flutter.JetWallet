@@ -90,21 +90,22 @@ abstract class _FormatServiceBase with Store {
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
     Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
-    print('toAmmount: ${finalAmmount}');
+    double smartRound(double number, int decimalPlaces) {
+      final decimalMultiplier = pow(10, decimalPlaces);
 
-    print('normalizedAccuracy: ${fromAsset.normalizedAccuracy}');
-
-    if (fromAsset.normalizedAccuracy > 0) {
-      finalAmmount = finalAmmount.ceil();
-    } else {
-      var n = pow(10, fromAsset.normalizedAccuracy.abs());
-      n = n.round();
-      finalAmmount = finalAmmount *
-          Decimal.parse(fromAsset.normalizedAccuracy.abs().toString());
+      return (number * decimalMultiplier).roundToDouble() / decimalMultiplier;
     }
 
-    print('finalAmmount: ${finalAmmount}');
+    print("toAmmount: ${toAmmount}");
+    print("normalizedAccuracy: ${fromAsset.normalizedAccuracy}");
+    print(Decimal.parse('${smartRound(
+      finalAmmount.toDouble(),
+      fromAsset.normalizedAccuracy,
+    )}'));
 
-    return Decimal.parse(toAmmount.toString());
+    return Decimal.parse('${smartRound(
+      finalAmmount.toDouble(),
+      fromAsset.normalizedAccuracy,
+    )}');
   }
 }
