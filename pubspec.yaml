@@ -57,11 +57,11 @@ dependencies:
   http_proxy: ^1.2.1
   animated_list_plus: 0.5.0
   scrolls_to_top: 2.0.0
-  flutter_idensic_mobile_sdk_plugin: 1.23.0
+  flutter_idensic_mobile_sdk_plugin: ^1.23.0
 
   # RESPONSIVE UI
-  device_preview: 1.1.0
-  pixel_perfect: 1.1.1 # Mock designs
+  device_preview: ^1.1.0
+  pixel_perfect: ^1.1.1 # Mock designs
 
   # PLUS PLUGINS
   # packages without '_plus' was made originally by flutter team are not supported anymore
@@ -162,7 +162,7 @@ dependency_overrides:
   flutter_inappwebview: 5.7.1
   analyzer: 5.9.0
   intl: 0.18.0
-  quiver: 3.2.1
+  quiver: ^3.2.1
 
 flutter_native_splash:
   background_image: "assets/images/bg.png"

@@ -124,7 +124,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setEarnProfile(EarnProfileModel value) => earnProfile = value;
 
   @observable
-  @ObservableRecurringBuysModelListConverter()
+  //@ObservableRecurringBuysModelListConverter()
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
   void setRecurringBuys(RecurringBuysResponseModel value) {
@@ -314,10 +314,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
   @observable
-  @ObservableNftModelListConverter()
+  //@ObservableNftModelListConverter()
   ObservableList<NftModel> nftList = ObservableList.of([]);
   @observable
-  @ObservableNftMarketListConverter()
+  //@ObservableNftMarketListConverter()
   ObservableList<NftMarket> allNftList = ObservableList.of([]);
   @action
   void setNFTList(NftCollections value) => nftList = ObservableList.of(
@@ -527,6 +527,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
         if (!contains) {
           currenciesList.add(currModel);
         }
+      }
+
+      if (asset.normalizedAccuracy != 0) {
+        print(
+            'SYMBOL ${asset.symbol} normalizedAccuracy: ${asset.normalizedAccuracy} to int: ${asset.normalizedAccuracy.toInt()}');
       }
 
       currenciesWithHiddenList.add(
