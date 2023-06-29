@@ -37,7 +37,7 @@ String volumeFormat({
   late String formattedWithSymbol;
 
   formattedWithSymbol =
-      prefix == null ? '$formatted $symbol' : '$prefix$formatted';
+      prefix == null ? '$formatted $symbol' : '$prefix $formatted';
 
   return decimal.signum.isNegative
       ? '-$formattedWithSymbol'
