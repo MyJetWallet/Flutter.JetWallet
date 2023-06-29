@@ -124,7 +124,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setEarnProfile(EarnProfileModel value) => earnProfile = value;
 
   @observable
-  //@ObservableRecurringBuysModelListConverter()
+  @JsonKey(ignore: true)
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
   void setRecurringBuys(RecurringBuysResponseModel value) {
@@ -314,10 +314,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
   @observable
-  //@ObservableNftModelListConverter()
+  @JsonKey(ignore: true)
   ObservableList<NftModel> nftList = ObservableList.of([]);
   @observable
-  //@ObservableNftMarketListConverter()
+  @JsonKey(ignore: true)
   ObservableList<NftMarket> allNftList = ObservableList.of([]);
   @action
   void setNFTList(NftCollections value) => nftList = ObservableList.of(
