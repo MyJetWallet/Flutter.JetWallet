@@ -1432,7 +1432,7 @@
     "send_globally_card": "Karta",
     "send_globally_con_rate": "Współczynnik konwersji",
     "send_globally_processing_fee": "Opłata za przetwarzanie",
-    "send_globally_transfer_info": "Przelew zostanie wykonany w ciągu 5—30 min",
+    "send_globally_transfer_info": "Zwykle przelew jest przetwarzany w ciągu 30 minut, czasami do 24 godzin",
     "send_globally_fail_info": "Twoja prośba o wysłanie nie została umieszczona",
     "send_globally_success": "Powodzenie",
     "send_globally_success_secondary": "Wysyłaj globalnie: przeniesienie",

@@ -1432,7 +1432,7 @@
     "send_globally_card": "Tarjeta",
     "send_globally_con_rate": "Tasa de conversión",
     "send_globally_processing_fee": "Cuota de procesamiento",
-    "send_globally_transfer_info": "La transferencia se ejecutará dentro de 5—30 min",
+    "send_globally_transfer_info": "Normalmente, la transferencia se procesa dentro de los 30 minutos, a veces hasta 24 horas",
     "send_globally_fail_info": "Su solicitud de envío no ha sido realizada",
     "send_globally_success": "Éxito",
     "send_globally_success_secondary": "Envie globalmente: transferencia de",

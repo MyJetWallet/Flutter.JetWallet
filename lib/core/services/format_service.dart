@@ -67,6 +67,7 @@ abstract class _FormatServiceBase with Store {
     required Decimal fromCurrencyAmmount,
     required String toCurrency,
     required String baseCurrency,
+    required bool goingUp,
   }) {
     final fromAsset = findCurrency(
       assetSymbol: fromCurrency,
@@ -92,16 +93,25 @@ abstract class _FormatServiceBase with Store {
 
     double smartRound(double number, int normalizedAccuracy) {
       double roundToInfinity(double value, int decimalPlaces) {
-        num decimalMultiplier = pow(10, decimalPlaces.toDouble());
-        return (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+        num decimalMultiplier = pow(10, decimalPlaces.abs()).toDouble();
+
+        return !goingUp
+            ? (value * decimalMultiplier).roundToDouble() / decimalMultiplier
+            : (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+      }
+
+      double roundWithAccuracy(double number, int normalizedAccuracy) {
+        double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
+
+        return !goingUp
+            ? (number / roundingFactor).roundToDouble() * roundingFactor
+            : (number / roundingFactor).ceilToDouble() * roundingFactor;
       }
 
       if (normalizedAccuracy > 0) {
         return roundToInfinity(number, normalizedAccuracy);
       } else if (normalizedAccuracy < 0) {
-        num decimalMultiplier = pow(10, normalizedAccuracy);
-
-        return (number * decimalMultiplier) / decimalMultiplier;
+        return roundWithAccuracy(number, normalizedAccuracy);
       }
 
       return number;
