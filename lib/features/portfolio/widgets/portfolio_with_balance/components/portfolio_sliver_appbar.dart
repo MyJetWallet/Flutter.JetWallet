@@ -85,7 +85,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         .isNotEmpty;
     final bool isShowSend = sSignalRModules.currenciesList
         .where((element) =>
-            element.supportsCryptoWithdrawal && element.isAssetBalanceNotEmpty)
+            element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty)
         .isNotEmpty;
     final bool isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)

@@ -24,7 +24,7 @@ class CurrencyModel with _$CurrencyModel {
     @Default('unknown') String symbol,
     @Default('unknown') String description,
     @Default(0) int accuracy,
-    @Default(0) int normalizedAccuracy ,
+    @Default(0) int normalizedAccuracy,
     @Default(TagType.none) TagType tagType,
     @Default(AssetType.crypto) AssetType type,
     @Default(AssetFeesModel()) AssetFeesModel fees,
@@ -238,6 +238,10 @@ class CurrencyModel with _$CurrencyModel {
         supportsSepaWithdrawal ||
         supportsSwiftWithdrawal ||
         supportsCryptoWithdrawal;
+  }
+
+  bool get isSupportAnyWithdrawal {
+    return withdrawalMethods.isNotEmpty;
   }
 
   bool get supportsCryptoWithdrawal {
