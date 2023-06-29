@@ -96,6 +96,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setInitFinished(bool value) => initFinished = value;
 
   @observable
+  @JsonKey(ignore: true)
   CardsModel cards = const CardsModel(now: 0, cardInfos: []);
   @action
   void setCards(CardsModel value) => cards = value;
