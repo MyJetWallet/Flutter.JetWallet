@@ -152,14 +152,7 @@ class KycAlertHandler {
       );
     } else {
       sRouter.push(
-        ChooseDocumentsRouter(
-          headerTitle: stringRequiredVerified(
-            requiredVerifications.isEmpty
-                ? RequiredVerified.proofOfIdentity
-                : requiredVerifications.first,
-          ),
-          //documents: documents,
-        ),
+        const KycVerificationSumsubRouter(),
       );
     }
   }
