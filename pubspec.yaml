@@ -93,7 +93,7 @@ dependencies:
 
   # STATE MANAGEMENT
   data_channel: 2.0.0+1
-  mobx: 2.1.4
+  mobx: ^2.1.4
   flutter_mobx: 2.0.6+5
 
   # SL
