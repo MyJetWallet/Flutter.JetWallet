@@ -93,7 +93,7 @@ dependencies:
 
   # STATE MANAGEMENT
   data_channel: 2.0.0+1
-  mobx: ^2.1.4
+  mobx: 2.1.4
   flutter_mobx: 2.0.6+5
 
   # SL
@@ -158,10 +158,11 @@ dev_dependencies:
   auto_route_generator: 6.0.2
 
 dependency_overrides:
+  dart_style: 2.3.2
   flutter_inappwebview: 5.7.1
   analyzer: 5.9.0
   intl: 0.18.0
-  quiver: ^3.2.1
+  quiver: 3.2.1
 
 flutter_native_splash:
   background_image: "assets/images/bg.png"
