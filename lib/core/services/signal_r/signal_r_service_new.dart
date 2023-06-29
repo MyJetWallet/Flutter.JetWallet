@@ -96,12 +96,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setInitFinished(bool value) => initFinished = value;
 
   @observable
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   CardsModel cards = const CardsModel(now: 0, cardInfos: []);
   @action
   void setCards(CardsModel value) => cards = value;
 
   @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
   CardLimitsModel? cardLimitsModel;
   @action
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
@@ -125,7 +126,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setEarnProfile(EarnProfileModel value) => earnProfile = value;
 
   @observable
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<RecurringBuysModel> recurringBuys = ObservableList.of([]);
   @action
   void setRecurringBuys(RecurringBuysResponseModel value) {
@@ -315,10 +316,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setReferralInfo(ReferralInfoModel value) => referralInfo = value;
 
   @observable
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<NftModel> nftList = ObservableList.of([]);
   @observable
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<NftMarket> allNftList = ObservableList.of([]);
   @action
   void setNFTList(NftCollections value) => nftList = ObservableList.of(
