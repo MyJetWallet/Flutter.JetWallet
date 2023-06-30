@@ -97,7 +97,7 @@ abstract class _FormatServiceBase with Store {
 
         return isMin
             ? (value / decimalMultiplier).floorToDouble() * decimalMultiplier
-            : (value / decimalMultiplier).roundToDouble() * decimalMultiplier;
+            : (value / decimalMultiplier).ceilToDouble() * decimalMultiplier;
       }
 
       double roundWithAccuracy(double number, int normalizedAccuracy) {
