@@ -103,7 +103,7 @@ abstract class _FormatServiceBase with Store {
       double roundWithAccuracy(double number, int normalizedAccuracy) {
         double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
 
-        return !goingUp
+        return goingUp
             ? (number / roundingFactor).roundToDouble() * roundingFactor
             : (number / roundingFactor).ceilToDouble() * roundingFactor;
       }
