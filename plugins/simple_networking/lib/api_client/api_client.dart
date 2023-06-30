@@ -24,7 +24,7 @@ class ApiClient {
                 )
               : null,
         )
-        .timeout(const Duration(seconds: 45));
+        .timeout(const Duration(seconds: 60));
   }
 
   Future<Response> put(
@@ -43,7 +43,7 @@ class ApiClient {
                 )
               : null,
         )
-        .timeout(const Duration(seconds: 45));
+        .timeout(const Duration(seconds: 60));
   }
 
   Future<Response> delete(
@@ -62,7 +62,7 @@ class ApiClient {
                 )
               : null,
         )
-        .timeout(const Duration(seconds: 45));
+        .timeout(const Duration(seconds: 60));
   }
 
   Future<Response> get(
@@ -81,6 +81,6 @@ class ApiClient {
                 )
               : null,
         )
-        .timeout(const Duration(seconds: 45));
+        .timeout(const Duration(seconds: 60));
   }
 }

@@ -62,8 +62,8 @@ class SNetwork {
 Future<Dio> setupDio() async {
   final _dio = Dio(
     BaseOptions(
-      connectTimeout: const Duration(seconds: 40),
-      receiveTimeout: const Duration(seconds: 40),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
     ),
   );
 
@@ -77,8 +77,8 @@ Future<Dio> setupDio() async {
 Future<Dio> setupImageDio() async {
   final _dio = Dio(
     BaseOptions(
-      connectTimeout: const Duration(seconds: 40),
-      receiveTimeout: const Duration(seconds: 40),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
     ),
   );
 
@@ -91,8 +91,8 @@ Future<Dio> setupImageDio() async {
 Future<Dio> setupDioWithoutInterceptors() async {
   final _dio = Dio(
     BaseOptions(
-      connectTimeout: const Duration(seconds: 40),
-      receiveTimeout: const Duration(seconds: 40),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
     ),
   );
 

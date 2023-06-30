@@ -93,20 +93,19 @@ abstract class _FormatServiceBase with Store {
 
     double smartRound(double number, int normalizedAccuracy) {
       double roundToInfinity(double value, int decimalPlaces) {
-        num decimalMultiplier = pow(10, decimalPlaces.abs()).toDouble();
+        num decimalMultiplier = pow(10, decimalPlaces);
 
         return !goingUp
-            ? (value * decimalMultiplier).ceilToDouble() / decimalMultiplier
-            : (value * decimalMultiplier).roundToDouble() / decimalMultiplier;
-        //: (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+            ? (value / decimalMultiplier).floorToDouble() * decimalMultiplier
+            : (value / decimalMultiplier).roundToDouble() * decimalMultiplier;
       }
 
       double roundWithAccuracy(double number, int normalizedAccuracy) {
-        double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
+        num decimalMultiplier = pow(10, normalizedAccuracy);
 
-        return goingUp
-            ? (number / roundingFactor).ceilToDouble() * roundingFactor
-            : (number / roundingFactor).floorToDouble() * roundingFactor;
+        return !goingUp
+            ? (number / decimalMultiplier).floorToDouble() * decimalMultiplier
+            : (number / decimalMultiplier).roundToDouble() * decimalMultiplier;
       }
 
       if (normalizedAccuracy > 0) {
@@ -118,7 +117,7 @@ abstract class _FormatServiceBase with Store {
       return number;
     }
 
-    print("toAmmount: ${toAmmount}");
+    print("toAmmount: ${toAmmount}, goingUp: $goingUp");
     print("normalizedAccuracy: ${toAsset.normalizedAccuracy}");
     print(Decimal.parse('${smartRound(
       finalAmmount.toDouble(),
