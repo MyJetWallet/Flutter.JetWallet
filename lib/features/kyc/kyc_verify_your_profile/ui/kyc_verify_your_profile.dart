@@ -143,9 +143,7 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
               name: intl.kycVerifyYourProfile_continue,
               onTap: () {
                 sRouter.push(
-                  ChooseDocumentsRouter(
-                    headerTitle: store.chooseDocumentsHeaderTitle(context),
-                  ),
+                  const KycVerificationSumsubRouter(),
                 );
               },
             ),

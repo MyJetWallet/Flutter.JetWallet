@@ -22,8 +22,8 @@ class KycVerification extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final isPhoneDone = !requiredVerifications
-      .contains(RequiredVerified.proofOfPhone);
+    final isPhoneDone =
+        !requiredVerifications.contains(RequiredVerified.proofOfPhone);
     final kycState = getIt.get<KycService>();
 
     void navigateVerifiedNavigate() {
@@ -45,13 +45,7 @@ class KycVerification extends StatelessObserverWidget {
           );
         } else {
           sRouter.push(
-            ChooseDocumentsRouter(
-              headerTitle: stringRequiredVerified(
-                requiredVerifications.isEmpty
-                    ? RequiredVerified.proofOfIdentity
-                    : requiredVerifications.first,
-              ),
-            ),
+            const KycVerificationSumsubRouter(),
           );
         }
       }
@@ -123,14 +117,14 @@ class KycVerification extends StatelessObserverWidget {
   }
 
   Widget _verificationItem(
-      String itemString,
-      String step, {
-        bool isDone = false,
-        bool haveLink = false,
-        String? linkText,
-        Function()? linkAction,
-        bool isDisabled = false,
-      }) {
+    String itemString,
+    String step, {
+    bool isDone = false,
+    bool haveLink = false,
+    String? linkText,
+    Function()? linkAction,
+    bool isDisabled = false,
+  }) {
     final colors = sKit.colors;
 
     return Row(

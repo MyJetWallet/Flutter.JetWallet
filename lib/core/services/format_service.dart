@@ -67,6 +67,7 @@ abstract class _FormatServiceBase with Store {
     required Decimal fromCurrencyAmmount,
     required String toCurrency,
     required String baseCurrency,
+    required bool goingUp,
   }) {
     final fromAsset = findCurrency(
       assetSymbol: fromCurrency,
@@ -90,22 +91,42 @@ abstract class _FormatServiceBase with Store {
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
     Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
-    double smartRound(double number, int decimalPlaces) {
-      final decimalMultiplier = pow(10, decimalPlaces);
+    double smartRound(double number, int normalizedAccuracy) {
+      double roundToInfinity(double value, int decimalPlaces) {
+        num decimalMultiplier = pow(10, decimalPlaces.abs()).toDouble();
 
-      return (number * decimalMultiplier).roundToDouble() / decimalMultiplier;
+        return !goingUp
+            ? (value * decimalMultiplier).roundToDouble() / decimalMultiplier
+            : (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+      }
+
+      double roundWithAccuracy(double number, int normalizedAccuracy) {
+        double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
+
+        return !goingUp
+            ? (number / roundingFactor).roundToDouble() * roundingFactor
+            : (number / roundingFactor).ceilToDouble() * roundingFactor;
+      }
+
+      if (normalizedAccuracy > 0) {
+        return roundToInfinity(number, normalizedAccuracy);
+      } else if (normalizedAccuracy < 0) {
+        return roundWithAccuracy(number, normalizedAccuracy);
+      }
+
+      return number;
     }
 
     print("toAmmount: ${toAmmount}");
-    print("normalizedAccuracy: ${fromAsset.normalizedAccuracy}");
+    print("normalizedAccuracy: ${toAsset.normalizedAccuracy}");
     print(Decimal.parse('${smartRound(
       finalAmmount.toDouble(),
-      fromAsset.normalizedAccuracy,
+      toAsset.normalizedAccuracy,
     )}'));
 
     return Decimal.parse('${smartRound(
       finalAmmount.toDouble(),
-      fromAsset.normalizedAccuracy,
+      toAsset.normalizedAccuracy,
     )}');
   }
 }
