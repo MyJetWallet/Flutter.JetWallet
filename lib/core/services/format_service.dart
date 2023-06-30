@@ -96,16 +96,17 @@ abstract class _FormatServiceBase with Store {
         num decimalMultiplier = pow(10, decimalPlaces.abs()).toDouble();
 
         return !goingUp
-            ? (value * decimalMultiplier).roundToDouble() / decimalMultiplier
-            : (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+            ? (value * decimalMultiplier).ceilToDouble() / decimalMultiplier
+            : (value * decimalMultiplier).roundToDouble() / decimalMultiplier;
+        //: (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
       }
 
       double roundWithAccuracy(double number, int normalizedAccuracy) {
         double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
 
         return goingUp
-            ? (number / roundingFactor).roundToDouble() * roundingFactor
-            : (number / roundingFactor).ceilToDouble() * roundingFactor;
+            ? (number / roundingFactor).ceilToDouble() * roundingFactor
+            : (number / roundingFactor).floorToDouble() * roundingFactor;
       }
 
       if (normalizedAccuracy > 0) {
