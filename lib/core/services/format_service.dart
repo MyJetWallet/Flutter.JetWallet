@@ -67,7 +67,7 @@ abstract class _FormatServiceBase with Store {
     required Decimal fromCurrencyAmmount,
     required String toCurrency,
     required String baseCurrency,
-    required bool goingUp,
+    required bool isMin,
   }) {
     final fromAsset = findCurrency(
       assetSymbol: fromCurrency,
@@ -93,19 +93,19 @@ abstract class _FormatServiceBase with Store {
 
     double smartRound(double number, int normalizedAccuracy) {
       double roundToInfinity(double value, int decimalPlaces) {
-        num decimalMultiplier = pow(10, decimalPlaces.abs()).toDouble();
+        num decimalMultiplier = pow(10, decimalPlaces);
 
-        return !goingUp
-            ? (value * decimalMultiplier).roundToDouble() / decimalMultiplier
-            : (value * decimalMultiplier).floorToDouble() / decimalMultiplier;
+        return isMin
+            ? (value / decimalMultiplier).floorToDouble() * decimalMultiplier
+            : (value / decimalMultiplier).roundToDouble() * decimalMultiplier;
       }
 
       double roundWithAccuracy(double number, int normalizedAccuracy) {
-        double roundingFactor = pow(10, normalizedAccuracy.abs()).toDouble();
+        num decimalMultiplier = pow(10, normalizedAccuracy);
 
-        return goingUp
-            ? (number / roundingFactor).roundToDouble() * roundingFactor
-            : (number / roundingFactor).ceilToDouble() * roundingFactor;
+        return isMin
+            ? number.ceilDigits(normalizedAccuracy)
+            : number.roundDigits(normalizedAccuracy);
       }
 
       if (normalizedAccuracy > 0) {
@@ -117,7 +117,7 @@ abstract class _FormatServiceBase with Store {
       return number;
     }
 
-    print("toAmmount: ${toAmmount}");
+    print("toAmmount: ${toAmmount}, isMin: $isMin");
     print("normalizedAccuracy: ${toAsset.normalizedAccuracy}");
     print(Decimal.parse('${smartRound(
       finalAmmount.toDouble(),
@@ -128,5 +128,41 @@ abstract class _FormatServiceBase with Store {
       finalAmmount.toDouble(),
       toAsset.normalizedAccuracy,
     )}');
+  }
+}
+
+extension DoubleRounding on double {
+  /// Floors to given number of digits
+  ///
+  /// 10.2468.floorDigits(1) -> 10.2
+  /// 10.2468.floorDigits(2) -> 10.24
+  /// 10.2468.floorDigits(3) -> 10.246
+  ///
+  /// Might give unexpected results due to precision loss: 10.2.floorDigits(5) -> 10.199999999999999
+  double floorDigits(int digits) {
+    if (digits == 0) {
+      return this.floorToDouble();
+    } else {
+      final divideBy = pow(10, digits);
+      return ((this * divideBy).floorToDouble() / divideBy);
+    }
+  }
+
+  double roundDigits(int digits) {
+    if (digits == 0) {
+      return this.roundToDouble();
+    } else {
+      final divideBy = pow(10, digits);
+      return ((this * divideBy).roundToDouble() / divideBy);
+    }
+  }
+
+  double ceilDigits(int digits) {
+    if (digits == 0) {
+      return this.ceilToDouble();
+    } else {
+      final divideBy = pow(10, digits);
+      return ((this * divideBy).ceilToDouble() / divideBy);
+    }
   }
 }
