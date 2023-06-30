@@ -92,29 +92,23 @@ abstract class _FormatServiceBase with Store {
     Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
     double smartRound(double number, int normalizedAccuracy) {
-      double roundToInfinity(double value, int decimalPlaces) {
-        num decimalMultiplier = pow(10, decimalPlaces);
-
-        return isMin
-            ? (value / decimalMultiplier).floorToDouble() * decimalMultiplier
-            : (value / decimalMultiplier).ceilToDouble() * decimalMultiplier;
-      }
-
       double roundWithAccuracy(double number, int normalizedAccuracy) {
-        num decimalMultiplier = pow(10, normalizedAccuracy);
+        final res = isMin
+            ? number.ceilDigits(normalizedAccuracy)
+            : number.floorDigits(normalizedAccuracy);
 
         return isMin
-            ? number.ceilDigits(normalizedAccuracy)
-            : number.roundDigits(normalizedAccuracy);
+            ? number >= res
+                ? number
+                : res
+            : number <= res
+                ? number
+                : res;
       }
 
-      if (normalizedAccuracy > 0) {
-        return roundToInfinity(number, normalizedAccuracy);
-      } else if (normalizedAccuracy < 0) {
-        return roundWithAccuracy(number, normalizedAccuracy);
-      }
-
-      return number;
+      return normalizedAccuracy == 0
+          ? number
+          : roundWithAccuracy(number, normalizedAccuracy);
     }
 
     print("toAmmount: ${toAmmount}, isMin: $isMin");
@@ -145,15 +139,6 @@ extension DoubleRounding on double {
     } else {
       final divideBy = pow(10, digits);
       return ((this * divideBy).floorToDouble() / divideBy);
-    }
-  }
-
-  double roundDigits(int digits) {
-    if (digits == 0) {
-      return this.roundToDouble();
-    } else {
-      final divideBy = pow(10, digits);
-      return ((this * divideBy).roundToDouble() / divideBy);
     }
   }
 
