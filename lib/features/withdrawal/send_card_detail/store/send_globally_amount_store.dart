@@ -87,7 +87,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
       fromCurrencyAmmount: method!.minAmount!,
       toCurrency: sendCurrency!.symbol,
       baseCurrency: baseCurrency.symbol,
-      goingUp: true,
+      isMin: true,
     );
 
     maxLimitAmount = getIt<FormatService>().convertOneCurrencyToAnotherOne(
@@ -95,7 +95,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
       fromCurrencyAmmount: method!.maxAmount!,
       toCurrency: sendCurrency!.symbol,
       baseCurrency: baseCurrency.symbol,
-      goingUp: false,
+      isMin: false,
     );
 
     if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
