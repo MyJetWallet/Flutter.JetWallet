@@ -82,21 +82,47 @@ abstract class _SendGloballyAmountStoreBase with Store {
     mainData = data;
     method = m;
 
-    minLimitAmount = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+    final minLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
       fromCurrency: method!.receiveAsset!,
       fromCurrencyAmmount: method!.minAmount!,
       toCurrency: sendCurrency!.symbol,
       baseCurrency: baseCurrency.symbol,
       isMin: true,
     );
-
-    maxLimitAmount = getIt<FormatService>().convertOneCurrencyToAnotherOne(
+    final maxLim = getIt<FormatService>().convertOneCurrencyToAnotherOne(
       fromCurrency: method!.receiveAsset!,
       fromCurrencyAmmount: method!.maxAmount!,
       toCurrency: sendCurrency!.symbol,
       baseCurrency: baseCurrency.symbol,
       isMin: false,
     );
+
+    final minLimRounded = getIt<FormatService>().smartRound(
+      number: minLim,
+      toCurrency: sendCurrency!.symbol,
+      isMin: true,
+    );
+    final maxLimRounded = getIt<FormatService>().smartRound(
+      number: maxLim,
+      toCurrency: sendCurrency!.symbol,
+      isMin: false,
+    );
+
+    if (minLimRounded >= maxLimRounded) {
+      minLimitAmount = minLim;
+      maxLimitAmount = maxLim;
+    } else {
+      minLimitAmount = getIt<FormatService>().smartRound(
+        number: minLim,
+        toCurrency: sendCurrency!.symbol,
+        isMin: true,
+      );
+      maxLimitAmount = getIt<FormatService>().smartRound(
+        number: maxLim,
+        toCurrency: sendCurrency!.symbol,
+        isMin: false,
+      );
+    }
 
     if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
       if (data.cardNumber![0] == '4') {

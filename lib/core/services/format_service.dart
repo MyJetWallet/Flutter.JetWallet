@@ -91,6 +91,8 @@ abstract class _FormatServiceBase with Store {
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
     Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
+    return finalAmmount;
+
     double smartRound(double number, int normalizedAccuracy) {
       double roundWithAccuracy(double number, int normalizedAccuracy) {
         final res = isMin
@@ -111,17 +113,43 @@ abstract class _FormatServiceBase with Store {
           : roundWithAccuracy(number, normalizedAccuracy);
     }
 
-    print("toAmmount: ${toAmmount}, isMin: $isMin");
-    print("normalizedAccuracy: ${toAsset.normalizedAccuracy}");
-    print(Decimal.parse('${smartRound(
-      finalAmmount.toDouble(),
-      toAsset.normalizedAccuracy,
-    )}'));
+    return Decimal.parse(
+      '${smartRound(
+        finalAmmount.toDouble(),
+        toAsset.normalizedAccuracy,
+      )}',
+    );
+  }
 
-    return Decimal.parse('${smartRound(
-      finalAmmount.toDouble(),
-      toAsset.normalizedAccuracy,
-    )}');
+  Decimal smartRound({
+    required Decimal number,
+    required String toCurrency,
+    required bool isMin,
+  }) {
+    final toAsset = findCurrency(
+      assetSymbol: toCurrency,
+      findInHideTerminalList: true,
+    );
+
+    double roundWithAccuracy(double number, int normalizedAccuracy) {
+      final res = isMin
+          ? number.ceilDigits(normalizedAccuracy)
+          : number.floorDigits(normalizedAccuracy);
+
+      return isMin
+          ? number >= res
+              ? number
+              : res
+          : number <= res
+              ? number
+              : res;
+    }
+
+    return toAsset.normalizedAccuracy == 0
+        ? number
+        : Decimal.parse(
+            '${roundWithAccuracy(number.toDouble(), toAsset.normalizedAccuracy)}',
+          );
   }
 }
 
