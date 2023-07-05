@@ -1,4 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bd" viewBox="0 0 640 480">
-  <path fill="#006a4e" d="M0 0h640v480H0z"/>
-  <circle cx="280" cy="240" r="160" fill="#f42a41"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_6178)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#496E2D"/>
+<path d="M9.39131 17.2174C12.2728 17.2174 14.6087 14.8815 14.6087 12C14.6087 9.11855 12.2728 6.78265 9.39131 6.78265C6.50983 6.78265 4.17393 9.11855 4.17393 12C4.17393 14.8815 6.50983 17.2174 9.39131 17.2174Z" fill="#D80027"/>
+</g>
+<defs>
+<clipPath id="clip0_18_6178">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

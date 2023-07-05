@@ -1,25 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-in" viewBox="0 0 640 480">
-  <path fill="#f93" d="M0 0h640v160H0z"/>
-  <path fill="#fff" d="M0 160h640v160H0z"/>
-  <path fill="#128807" d="M0 320h640v160H0z"/>
-  <g transform="matrix(3.2 0 0 3.2 320 240)">
-    <circle r="20" fill="#008"/>
-    <circle r="17.5" fill="#fff"/>
-    <circle r="3.5" fill="#008"/>
-    <g id="d">
-      <g id="c">
-        <g id="b">
-          <g id="a" fill="#008">
-            <circle r=".9" transform="rotate(7.5 -8.8 133.5)"/>
-            <path d="M0 17.5.6 7 0 2l-.6 5L0 17.5z"/>
-          </g>
-          <use xlink:href="#a" width="100%" height="100%" transform="rotate(15)"/>
-        </g>
-        <use xlink:href="#b" width="100%" height="100%" transform="rotate(30)"/>
-      </g>
-      <use xlink:href="#c" width="100%" height="100%" transform="rotate(60)"/>
-    </g>
-    <use xlink:href="#d" width="100%" height="100%" transform="rotate(120)"/>
-    <use xlink:href="#d" width="100%" height="100%" transform="rotate(-120)"/>
-  </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_5324)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M12 0C7.24245 0 3.1317 2.76867 1.1907 6.78263H22.8092C20.8683 2.76867 16.7575 0 12 0Z" fill="#FF9811"/>
+<path d="M12 24C16.7575 24 20.8683 21.2313 22.8093 17.2174H1.1907C3.1317 21.2313 7.24245 24 12 24Z" fill="#6DA544"/>
+<path d="M12 16.1739C14.3052 16.1739 16.1739 14.3052 16.1739 12C16.1739 9.69483 14.3052 7.82611 12 7.82611C9.69483 7.82611 7.82611 9.69483 7.82611 12C7.82611 14.3052 9.69483 16.1739 12 16.1739Z" fill="#0052B4"/>
+<path d="M12 14.6087C13.4408 14.6087 14.6087 13.4407 14.6087 12C14.6087 10.5593 13.4408 9.39131 12 9.39131C10.5593 9.39131 9.39133 10.5593 9.39133 12C9.39133 13.4407 10.5593 14.6087 12 14.6087Z" fill="#F0F0F0"/>
+<path d="M12 8.78091L12.8048 10.6061L14.7878 10.3905L13.6095 12L14.7878 13.6096L12.8048 13.3939L12 15.2191L11.1952 13.3939L9.21219 13.6095L10.3904 12L9.21219 10.3905L11.1952 10.6061L12 8.78091Z" fill="#0052B4"/>
+</g>
+<defs>
+<clipPath id="clip0_18_5324">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

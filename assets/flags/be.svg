@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-be" viewBox="0 0 640 480">
-  <g fill-rule="evenodd" stroke-width="1pt">
-    <path d="M0 0h213.3v480H0z"/>
-    <path fill="#ffd90c" d="M213.3 0h213.4v480H213.3z"/>
-    <path fill="#f31830" d="M426.7 0H640v480H426.7z"/>
-  </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_6140)">
+<path d="M16.1739 0.746391C14.8739 0.264047 13.4678 0 12 0C10.5322 0 9.12609 0.264047 7.82611 0.746391L6.78262 12L7.82611 23.2536C9.12609 23.736 10.5322 24 12 24C13.4678 24 14.8739 23.736 16.1739 23.2536L17.2174 12L16.1739 0.746391Z" fill="#FFDA44"/>
+<path d="M24 12C24 6.84049 20.7435 2.44193 16.1739 0.74646V23.2537C20.7435 21.5581 24 17.1596 24 12Z" fill="#D80027"/>
+<path d="M0 12C0 17.1596 3.2565 21.5581 7.82611 23.2537V0.74646C3.2565 2.44193 0 6.84049 0 12Z" fill="black"/>
+</g>
+<defs>
+<clipPath id="clip0_18_6140">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

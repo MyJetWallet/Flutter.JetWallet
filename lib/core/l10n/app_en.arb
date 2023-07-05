@@ -1431,5 +1431,6 @@
   "withdrawal_send_noun": "Sending",
   "withdrawal_withdraw_verb": "Withdraw",
   "withdrawal_withdrawal_noun": "Withdrawal",
-  "send_globally_limits_text": "Send limits"
+  "send_globally_limits_text": "Send limits",
+  "buy_payment_currency": "Payment currency"
 }
