@@ -1432,5 +1432,9 @@
   "withdrawal_withdraw_verb": "Withdraw",
   "withdrawal_withdrawal_noun": "Withdrawal",
   "send_globally_limits_text": "Send limits",
-  "buy_payment_currency": "Payment currency"
+  "buy_payment_currency": "Payment currency",
+  "buy_flow_payment_method": "Payment method",
+  "payment_method_cards": "Cards",
+  "payment_method_local": "Local",
+  "payment_method_p2p": "P2P"
 }

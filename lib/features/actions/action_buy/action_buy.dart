@@ -26,7 +26,9 @@ void showBuyAction({
     showSendTimerAlertOr(
       context: context,
       or: () {
-        showBuyPaymentCurrencyBottomSheet(context);
+        sRouter.push(
+          const ChooseAssetRouter(),
+        );
       },
       from: BlockingType.deposit,
     );

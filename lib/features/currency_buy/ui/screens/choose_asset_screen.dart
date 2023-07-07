@@ -5,6 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -91,11 +92,14 @@ class _ActionBuy extends StatelessObserverWidget {
     sortByBalanceAndWeight(state.filteredCurrencies);
 
     void _onItemTap(CurrencyModel currency, bool fromCard) {
-      getIt.get<AppRouter>().navigate(
+      /*getIt.get<AppRouter>().navigate(
             PaymentMethodRouter(
               currency: currency,
             ),
           );
+          */
+
+      showBuyPaymentCurrencyBottomSheet(context, currency);
     }
 
     Widget marketItem(

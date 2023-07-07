@@ -949,6 +949,17 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    BuyPaymentMethodRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyPaymentMethodRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyPaymentMethodScreen(
+          key: args.key,
+          asset: args.asset,
+          currency: args.currency,
+        ),
+      );
+    },
   };
 }
 
@@ -4287,5 +4298,48 @@ class WaitingScreenRouterArgs {
   @override
   String toString() {
     return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
+  }
+}
+
+/// generated route for
+/// [BuyPaymentMethodScreen]
+class BuyPaymentMethodRoute extends PageRouteInfo<BuyPaymentMethodRouteArgs> {
+  BuyPaymentMethodRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required PaymentAsset currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyPaymentMethodRoute.name,
+          args: BuyPaymentMethodRouteArgs(
+            key: key,
+            asset: asset,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyPaymentMethodRoute';
+
+  static const PageInfo<BuyPaymentMethodRouteArgs> page =
+      PageInfo<BuyPaymentMethodRouteArgs>(name);
+}
+
+class BuyPaymentMethodRouteArgs {
+  const BuyPaymentMethodRouteArgs({
+    this.key,
+    required this.asset,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final PaymentAsset currency;
+
+  @override
+  String toString() {
+    return 'BuyPaymentMethodRouteArgs{key: $key, asset: $asset, currency: $currency}';
   }
 }
