@@ -47,6 +47,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     final allPaymentMethods = sSignalRModules.paymentMethods;
     final useCircleCard =
         allPaymentMethods.contains('PaymentMethodType.circleCard');
+    final isShowAccounts = sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal).isNotEmpty;
 
     final state = PaymentMethodsStore.of(context);
 
@@ -152,7 +154,10 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             removeDivider: true,
                             onTap: () {},
                           ),
-                        if (state.addressBookContacts.isNotEmpty) ...[
+                        if (
+                          state.addressBookContacts.isNotEmpty &&
+                          isShowAccounts
+                        ) ...[
                           MarketSeparator(text: intl.iban_send_accounts),
                           ListView.builder(
                             shrinkWrap: true,
