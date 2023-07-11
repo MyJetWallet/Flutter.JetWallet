@@ -41,6 +41,10 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
+  void updateUserId(String newId) {
+    _analytics.setUserId(newId);
+  }
+
   /// Buy flow
   void newBuyZeroScreenView() {
     if (!newBuyZeroScreenViewSent) {
