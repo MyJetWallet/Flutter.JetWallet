@@ -957,9 +957,9 @@ abstract class _$AppRouter extends RootStackRouter {
 class AboutUsRouter extends PageRouteInfo<void> {
   const AboutUsRouter({List<PageRouteInfo>? children})
       : super(
-          AboutUsRouter.name,
-          initialChildren: children,
-        );
+    AboutUsRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'AboutUsRouter';
 
@@ -971,9 +971,9 @@ class AboutUsRouter extends PageRouteInfo<void> {
 class AccountRouter extends PageRouteInfo<void> {
   const AccountRouter({List<PageRouteInfo>? children})
       : super(
-          AccountRouter.name,
-          initialChildren: children,
-        );
+    AccountRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'AccountRouter';
 
@@ -985,9 +985,9 @@ class AccountRouter extends PageRouteInfo<void> {
 class AccountSecurityRouter extends PageRouteInfo<void> {
   const AccountSecurityRouter({List<PageRouteInfo>? children})
       : super(
-          AccountSecurityRouter.name,
-          initialChildren: children,
-        );
+    AccountSecurityRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'AccountSecurityRouter';
 
@@ -1002,13 +1002,13 @@ class CrispRouter extends PageRouteInfo<CrispRouterArgs> {
     required String welcomeText,
     List<PageRouteInfo>? children,
   }) : super(
-          CrispRouter.name,
-          args: CrispRouterArgs(
-            key: key,
-            welcomeText: welcomeText,
-          ),
-          initialChildren: children,
-        );
+    CrispRouter.name,
+    args: CrispRouterArgs(
+      key: key,
+      welcomeText: welcomeText,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'CrispRouter';
 
@@ -1036,9 +1036,9 @@ class CrispRouterArgs {
 class DeleteProfileRouter extends PageRouteInfo<void> {
   const DeleteProfileRouter({List<PageRouteInfo>? children})
       : super(
-          DeleteProfileRouter.name,
-          initialChildren: children,
-        );
+    DeleteProfileRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'DeleteProfileRouter';
 
@@ -1050,9 +1050,9 @@ class DeleteProfileRouter extends PageRouteInfo<void> {
 class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
   const DeleteReasonsScreenRouter({List<PageRouteInfo>? children})
       : super(
-          DeleteReasonsScreenRouter.name,
-          initialChildren: children,
-        );
+    DeleteReasonsScreenRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'DeleteReasonsScreenRouter';
 
@@ -1064,9 +1064,9 @@ class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
 class ProfileDetailsRouter extends PageRouteInfo<void> {
   const ProfileDetailsRouter({List<PageRouteInfo>? children})
       : super(
-          ProfileDetailsRouter.name,
-          initialChildren: children,
-        );
+    ProfileDetailsRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'ProfileDetailsRouter';
 
@@ -1078,9 +1078,9 @@ class ProfileDetailsRouter extends PageRouteInfo<void> {
 class ChangePasswordRouter extends PageRouteInfo<void> {
   const ChangePasswordRouter({List<PageRouteInfo>? children})
       : super(
-          ChangePasswordRouter.name,
-          initialChildren: children,
-        );
+    ChangePasswordRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'ChangePasswordRouter';
 
@@ -1092,9 +1092,9 @@ class ChangePasswordRouter extends PageRouteInfo<void> {
 class DefaultAssetChangeRouter extends PageRouteInfo<void> {
   const DefaultAssetChangeRouter({List<PageRouteInfo>? children})
       : super(
-          DefaultAssetChangeRouter.name,
-          initialChildren: children,
-        );
+    DefaultAssetChangeRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'DefaultAssetChangeRouter';
 
@@ -1106,9 +1106,9 @@ class DefaultAssetChangeRouter extends PageRouteInfo<void> {
 class SetNewPasswordRouter extends PageRouteInfo<void> {
   const SetNewPasswordRouter({List<PageRouteInfo>? children})
       : super(
-          SetNewPasswordRouter.name,
-          initialChildren: children,
-        );
+    SetNewPasswordRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'SetNewPasswordRouter';
 
@@ -1124,18 +1124,18 @@ class HelpCenterWebViewRouter
     required String link,
     List<PageRouteInfo>? children,
   }) : super(
-          HelpCenterWebViewRouter.name,
-          args: HelpCenterWebViewRouterArgs(
-            key: key,
-            link: link,
-          ),
-          initialChildren: children,
-        );
+    HelpCenterWebViewRouter.name,
+    args: HelpCenterWebViewRouterArgs(
+      key: key,
+      link: link,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'HelpCenterWebViewRouter';
 
   static const PageInfo<HelpCenterWebViewRouterArgs> page =
-      PageInfo<HelpCenterWebViewRouterArgs>(name);
+  PageInfo<HelpCenterWebViewRouterArgs>(name);
 }
 
 class HelpCenterWebViewRouterArgs {
@@ -1164,19 +1164,19 @@ class ShowRecurringInfoActionRouter
     required String assetName,
     List<PageRouteInfo>? children,
   }) : super(
-          ShowRecurringInfoActionRouter.name,
-          args: ShowRecurringInfoActionRouterArgs(
-            key: key,
-            recurringItem: recurringItem,
-            assetName: assetName,
-          ),
-          initialChildren: children,
-        );
+    ShowRecurringInfoActionRouter.name,
+    args: ShowRecurringInfoActionRouterArgs(
+      key: key,
+      recurringItem: recurringItem,
+      assetName: assetName,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'ShowRecurringInfoActionRouter';
 
   static const PageInfo<ShowRecurringInfoActionRouterArgs> page =
-      PageInfo<ShowRecurringInfoActionRouterArgs>(name);
+  PageInfo<ShowRecurringInfoActionRouterArgs>(name);
 }
 
 class ShowRecurringInfoActionRouterArgs {
@@ -1206,18 +1206,18 @@ class AddCircleCardRouter extends PageRouteInfo<AddCircleCardRouterArgs> {
     required dynamic Function(CircleCard) onCardAdded,
     List<PageRouteInfo>? children,
   }) : super(
-          AddCircleCardRouter.name,
-          args: AddCircleCardRouterArgs(
-            key: key,
-            onCardAdded: onCardAdded,
-          ),
-          initialChildren: children,
-        );
+    AddCircleCardRouter.name,
+    args: AddCircleCardRouterArgs(
+      key: key,
+      onCardAdded: onCardAdded,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'AddCircleCardRouter';
 
   static const PageInfo<AddCircleCardRouterArgs> page =
-      PageInfo<AddCircleCardRouterArgs>(name);
+  PageInfo<AddCircleCardRouterArgs>(name);
 }
 
 class AddCircleCardRouterArgs {
@@ -1249,22 +1249,22 @@ class CircleBillingAddressRouter
     required String cvv,
     List<PageRouteInfo>? children,
   }) : super(
-          CircleBillingAddressRouter.name,
-          args: CircleBillingAddressRouterArgs(
-            key: key,
-            onCardAdded: onCardAdded,
-            expiryDate: expiryDate,
-            cardholderName: cardholderName,
-            cardNumber: cardNumber,
-            cvv: cvv,
-          ),
-          initialChildren: children,
-        );
+    CircleBillingAddressRouter.name,
+    args: CircleBillingAddressRouterArgs(
+      key: key,
+      onCardAdded: onCardAdded,
+      expiryDate: expiryDate,
+      cardholderName: cardholderName,
+      cardNumber: cardNumber,
+      cvv: cvv,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'CircleBillingAddressRouter';
 
   static const PageInfo<CircleBillingAddressRouterArgs> page =
-      PageInfo<CircleBillingAddressRouterArgs>(name);
+  PageInfo<CircleBillingAddressRouterArgs>(name);
 }
 
 class CircleBillingAddressRouterArgs {
@@ -1300,9 +1300,9 @@ class CircleBillingAddressRouterArgs {
 class ApiSelectorRouter extends PageRouteInfo<void> {
   const ApiSelectorRouter({List<PageRouteInfo>? children})
       : super(
-          ApiSelectorRouter.name,
-          initialChildren: children,
-        );
+    ApiSelectorRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'ApiSelectorRouter';
 
@@ -1314,9 +1314,9 @@ class ApiSelectorRouter extends PageRouteInfo<void> {
 class AppInitRoute extends PageRouteInfo<void> {
   const AppInitRoute({List<PageRouteInfo>? children})
       : super(
-          AppInitRoute.name,
-          initialChildren: children,
-        );
+    AppInitRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'AppInitRoute';
 
@@ -1331,18 +1331,18 @@ class BiometricRouter extends PageRouteInfo<BiometricRouterArgs> {
     bool isAccSettings = false,
     List<PageRouteInfo>? children,
   }) : super(
-          BiometricRouter.name,
-          args: BiometricRouterArgs(
-            key: key,
-            isAccSettings: isAccSettings,
-          ),
-          initialChildren: children,
-        );
+    BiometricRouter.name,
+    args: BiometricRouterArgs(
+      key: key,
+      isAccSettings: isAccSettings,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'BiometricRouter';
 
   static const PageInfo<BiometricRouterArgs> page =
-      PageInfo<BiometricRouterArgs>(name);
+  PageInfo<BiometricRouterArgs>(name);
 }
 
 class BiometricRouterArgs {
@@ -1369,18 +1369,18 @@ class AllowBiometricRoute extends PageRouteInfo<AllowBiometricRouteArgs> {
     dynamic s,
     List<PageRouteInfo>? children,
   }) : super(
-          AllowBiometricRoute.name,
-          args: AllowBiometricRouteArgs(
-            key: key,
-            s: s,
-          ),
-          initialChildren: children,
-        );
+    AllowBiometricRoute.name,
+    args: AllowBiometricRouteArgs(
+      key: key,
+      s: s,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'AllowBiometricRoute';
 
   static const PageInfo<AllowBiometricRouteArgs> page =
-      PageInfo<AllowBiometricRouteArgs>(name);
+  PageInfo<AllowBiometricRouteArgs>(name);
 }
 
 class AllowBiometricRouteArgs {
@@ -1404,9 +1404,9 @@ class AllowBiometricRouteArgs {
 class EmailVerificationRoute extends PageRouteInfo<void> {
   const EmailVerificationRoute({List<PageRouteInfo>? children})
       : super(
-          EmailVerificationRoute.name,
-          initialChildren: children,
-        );
+    EmailVerificationRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'EmailVerificationRoute';
 
@@ -1418,9 +1418,9 @@ class EmailVerificationRoute extends PageRouteInfo<void> {
 class OnboardingRoute extends PageRouteInfo<void> {
   const OnboardingRoute({List<PageRouteInfo>? children})
       : super(
-          OnboardingRoute.name,
-          initialChildren: children,
-        );
+    OnboardingRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'OnboardingRoute';
 
@@ -1435,18 +1435,18 @@ class SingInRouter extends PageRouteInfo<SingInRouterArgs> {
     String? email,
     List<PageRouteInfo>? children,
   }) : super(
-          SingInRouter.name,
-          args: SingInRouterArgs(
-            key: key,
-            email: email,
-          ),
-          initialChildren: children,
-        );
+    SingInRouter.name,
+    args: SingInRouterArgs(
+      key: key,
+      email: email,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SingInRouter';
 
   static const PageInfo<SingInRouterArgs> page =
-      PageInfo<SingInRouterArgs>(name);
+  PageInfo<SingInRouterArgs>(name);
 }
 
 class SingInRouterArgs {
@@ -1470,9 +1470,9 @@ class SingInRouterArgs {
 class SplashRoute extends PageRouteInfo<void> {
   const SplashRoute({List<PageRouteInfo>? children})
       : super(
-          SplashRoute.name,
-          initialChildren: children,
-        );
+    SplashRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'SplashRoute';
 
@@ -1484,9 +1484,9 @@ class SplashRoute extends PageRouteInfo<void> {
 class SplashNoAnimationRoute extends PageRouteInfo<void> {
   const SplashNoAnimationRoute({List<PageRouteInfo>? children})
       : super(
-          SplashNoAnimationRoute.name,
-          initialChildren: children,
-        );
+    SplashNoAnimationRoute.name,
+    initialChildren: children,
+  );
 
   static const String name = 'SplashNoAnimationRoute';
 
@@ -1498,9 +1498,9 @@ class SplashNoAnimationRoute extends PageRouteInfo<void> {
 class UserDataScreenRouter extends PageRouteInfo<void> {
   const UserDataScreenRouter({List<PageRouteInfo>? children})
       : super(
-          UserDataScreenRouter.name,
-          initialChildren: children,
-        );
+    UserDataScreenRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'UserDataScreenRouter';
 
@@ -1512,9 +1512,9 @@ class UserDataScreenRouter extends PageRouteInfo<void> {
 class VerificationRouter extends PageRouteInfo<void> {
   const VerificationRouter({List<PageRouteInfo>? children})
       : super(
-          VerificationRouter.name,
-          initialChildren: children,
-        );
+    VerificationRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'VerificationRouter';
 
@@ -1529,18 +1529,18 @@ class ConvertRouter extends PageRouteInfo<ConvertRouterArgs> {
     CurrencyModel? fromCurrency,
     List<PageRouteInfo>? children,
   }) : super(
-          ConvertRouter.name,
-          args: ConvertRouterArgs(
-            key: key,
-            fromCurrency: fromCurrency,
-          ),
-          initialChildren: children,
-        );
+    ConvertRouter.name,
+    args: ConvertRouterArgs(
+      key: key,
+      fromCurrency: fromCurrency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'ConvertRouter';
 
   static const PageInfo<ConvertRouterArgs> page =
-      PageInfo<ConvertRouterArgs>(name);
+  PageInfo<ConvertRouterArgs>(name);
 }
 
 class ConvertRouterArgs {
@@ -1567,18 +1567,18 @@ class PreviewConvertRouter extends PageRouteInfo<PreviewConvertRouterArgs> {
     required PreviewConvertInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewConvertRouter.name,
-          args: PreviewConvertRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewConvertRouter.name,
+    args: PreviewConvertRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewConvertRouter';
 
   static const PageInfo<PreviewConvertRouterArgs> page =
-      PageInfo<PreviewConvertRouterArgs>(name);
+  PageInfo<PreviewConvertRouterArgs>(name);
 }
 
 class PreviewConvertRouterArgs {
@@ -1606,19 +1606,19 @@ class CryptoDepositRouter extends PageRouteInfo<CryptoDepositRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          CryptoDepositRouter.name,
-          args: CryptoDepositRouterArgs(
-            key: key,
-            header: header,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    CryptoDepositRouter.name,
+    args: CryptoDepositRouterArgs(
+      key: key,
+      header: header,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'CryptoDepositRouter';
 
   static const PageInfo<CryptoDepositRouterArgs> page =
-      PageInfo<CryptoDepositRouterArgs>(name);
+  PageInfo<CryptoDepositRouterArgs>(name);
 }
 
 class CryptoDepositRouterArgs {
@@ -1657,27 +1657,27 @@ class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
     required PaymentMethodType paymentMethod,
     List<PageRouteInfo>? children,
   }) : super(
-          CurrencyBuyRouter.name,
-          args: CurrencyBuyRouterArgs(
-            key: key,
-            recurringBuysType: recurringBuysType,
-            circleCard: circleCard,
-            unlimintCard: unlimintCard,
-            bankCard: bankCard,
-            newBankCardId: newBankCardId,
-            newBankCardNumber: newBankCardNumber,
-            showUaAlert: showUaAlert,
-            currency: currency,
-            fromCard: fromCard,
-            paymentMethod: paymentMethod,
-          ),
-          initialChildren: children,
-        );
+    CurrencyBuyRouter.name,
+    args: CurrencyBuyRouterArgs(
+      key: key,
+      recurringBuysType: recurringBuysType,
+      circleCard: circleCard,
+      unlimintCard: unlimintCard,
+      bankCard: bankCard,
+      newBankCardId: newBankCardId,
+      newBankCardNumber: newBankCardNumber,
+      showUaAlert: showUaAlert,
+      currency: currency,
+      fromCard: fromCard,
+      paymentMethod: paymentMethod,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'CurrencyBuyRouter';
 
   static const PageInfo<CurrencyBuyRouterArgs> page =
-      PageInfo<CurrencyBuyRouterArgs>(name);
+  PageInfo<CurrencyBuyRouterArgs>(name);
 }
 
 class CurrencyBuyRouterArgs {
@@ -1734,21 +1734,21 @@ class AddUnlimintCardRouter extends PageRouteInfo<AddUnlimintCardRouterArgs> {
     bool isPreview = false,
     List<PageRouteInfo>? children,
   }) : super(
-          AddUnlimintCardRouter.name,
-          args: AddUnlimintCardRouterArgs(
-            key: key,
-            onCardAdded: onCardAdded,
-            amount: amount,
-            currency: currency,
-            isPreview: isPreview,
-          ),
-          initialChildren: children,
-        );
+    AddUnlimintCardRouter.name,
+    args: AddUnlimintCardRouterArgs(
+      key: key,
+      onCardAdded: onCardAdded,
+      amount: amount,
+      currency: currency,
+      isPreview: isPreview,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'AddUnlimintCardRouter';
 
   static const PageInfo<AddUnlimintCardRouterArgs> page =
-      PageInfo<AddUnlimintCardRouterArgs>(name);
+  PageInfo<AddUnlimintCardRouterArgs>(name);
 }
 
 class AddUnlimintCardRouterArgs {
@@ -1781,9 +1781,9 @@ class AddUnlimintCardRouterArgs {
 class ChooseAssetRouter extends PageRouteInfo<void> {
   const ChooseAssetRouter({List<PageRouteInfo>? children})
       : super(
-          ChooseAssetRouter.name,
-          initialChildren: children,
-        );
+    ChooseAssetRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'ChooseAssetRouter';
 
@@ -1798,18 +1798,18 @@ class PaymentMethodRouter extends PageRouteInfo<PaymentMethodRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          PaymentMethodRouter.name,
-          args: PaymentMethodRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    PaymentMethodRouter.name,
+    args: PaymentMethodRouterArgs(
+      key: key,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PaymentMethodRouter';
 
   static const PageInfo<PaymentMethodRouterArgs> page =
-      PageInfo<PaymentMethodRouterArgs>(name);
+  PageInfo<PaymentMethodRouterArgs>(name);
 }
 
 class PaymentMethodRouterArgs {
@@ -1838,19 +1838,19 @@ class PreviewBuyWithAssetRouter
     required PreviewBuyWithAssetInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewBuyWithAssetRouter.name,
-          args: PreviewBuyWithAssetRouterArgs(
-            key: key,
-            onBackButtonTap: onBackButtonTap,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewBuyWithAssetRouter.name,
+    args: PreviewBuyWithAssetRouterArgs(
+      key: key,
+      onBackButtonTap: onBackButtonTap,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewBuyWithAssetRouter';
 
   static const PageInfo<PreviewBuyWithAssetRouterArgs> page =
-      PageInfo<PreviewBuyWithAssetRouterArgs>(name);
+  PageInfo<PreviewBuyWithAssetRouterArgs>(name);
 }
 
 class PreviewBuyWithAssetRouterArgs {
@@ -1881,18 +1881,18 @@ class PreviewBuyWithBankCardRouter
     required PreviewBuyWithBankCardInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewBuyWithBankCardRouter.name,
-          args: PreviewBuyWithBankCardRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewBuyWithBankCardRouter.name,
+    args: PreviewBuyWithBankCardRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewBuyWithBankCardRouter';
 
   static const PageInfo<PreviewBuyWithBankCardRouterArgs> page =
-      PageInfo<PreviewBuyWithBankCardRouterArgs>(name);
+  PageInfo<PreviewBuyWithBankCardRouterArgs>(name);
 }
 
 class PreviewBuyWithBankCardRouterArgs {
@@ -1920,31 +1920,31 @@ class Circle3dSecureWebViewRouter
     required String asset,
     required String amount,
     required dynamic Function(
-      String,
-      String,
-    ) onSuccess,
+        String,
+        String,
+        ) onSuccess,
     required dynamic Function(String)? onCancel,
     required String paymentId,
     required dynamic Function(String) onFailed,
     List<PageRouteInfo>? children,
   }) : super(
-          Circle3dSecureWebViewRouter.name,
-          args: Circle3dSecureWebViewRouterArgs(
-            url: url,
-            asset: asset,
-            amount: amount,
-            onSuccess: onSuccess,
-            onCancel: onCancel,
-            paymentId: paymentId,
-            onFailed: onFailed,
-          ),
-          initialChildren: children,
-        );
+    Circle3dSecureWebViewRouter.name,
+    args: Circle3dSecureWebViewRouterArgs(
+      url: url,
+      asset: asset,
+      amount: amount,
+      onSuccess: onSuccess,
+      onCancel: onCancel,
+      paymentId: paymentId,
+      onFailed: onFailed,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'Circle3dSecureWebViewRouter';
 
   static const PageInfo<Circle3dSecureWebViewRouterArgs> page =
-      PageInfo<Circle3dSecureWebViewRouterArgs>(name);
+  PageInfo<Circle3dSecureWebViewRouterArgs>(name);
 }
 
 class Circle3dSecureWebViewRouterArgs {
@@ -1965,9 +1965,9 @@ class Circle3dSecureWebViewRouterArgs {
   final String amount;
 
   final dynamic Function(
-    String,
-    String,
-  ) onSuccess;
+      String,
+      String,
+      ) onSuccess;
 
   final dynamic Function(String)? onCancel;
 
@@ -1990,18 +1990,18 @@ class PreviewBuyWithCircleRouter
     required PreviewBuyWithCircleInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewBuyWithCircleRouter.name,
-          args: PreviewBuyWithCircleRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewBuyWithCircleRouter.name,
+    args: PreviewBuyWithCircleRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewBuyWithCircleRouter';
 
   static const PageInfo<PreviewBuyWithCircleRouterArgs> page =
-      PageInfo<PreviewBuyWithCircleRouterArgs>(name);
+  PageInfo<PreviewBuyWithCircleRouterArgs>(name);
 }
 
 class PreviewBuyWithCircleRouterArgs {
@@ -2029,18 +2029,18 @@ class PreviewBuyWithUnlimintRouter
     required PreviewBuyWithUnlimintInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewBuyWithUnlimintRouter.name,
-          args: PreviewBuyWithUnlimintRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewBuyWithUnlimintRouter.name,
+    args: PreviewBuyWithUnlimintRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewBuyWithUnlimintRouter';
 
   static const PageInfo<PreviewBuyWithUnlimintRouterArgs> page =
-      PageInfo<PreviewBuyWithUnlimintRouterArgs>(name);
+  PageInfo<PreviewBuyWithUnlimintRouterArgs>(name);
 }
 
 class PreviewBuyWithUnlimintRouterArgs {
@@ -2066,15 +2066,15 @@ class SimplexWebViewRouter extends PageRouteInfo<SimplexWebViewRouterArgs> {
     required String url,
     List<PageRouteInfo>? children,
   }) : super(
-          SimplexWebViewRouter.name,
-          args: SimplexWebViewRouterArgs(url: url),
-          initialChildren: children,
-        );
+    SimplexWebViewRouter.name,
+    args: SimplexWebViewRouterArgs(url: url),
+    initialChildren: children,
+  );
 
   static const String name = 'SimplexWebViewRouter';
 
   static const PageInfo<SimplexWebViewRouterArgs> page =
-      PageInfo<SimplexWebViewRouterArgs>(name);
+  PageInfo<SimplexWebViewRouterArgs>(name);
 }
 
 class SimplexWebViewRouterArgs {
@@ -2096,18 +2096,18 @@ class CurrencySellRouter extends PageRouteInfo<CurrencySellRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          CurrencySellRouter.name,
-          args: CurrencySellRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    CurrencySellRouter.name,
+    args: CurrencySellRouterArgs(
+      key: key,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'CurrencySellRouter';
 
   static const PageInfo<CurrencySellRouterArgs> page =
-      PageInfo<CurrencySellRouterArgs>(name);
+  PageInfo<CurrencySellRouterArgs>(name);
 }
 
 class CurrencySellRouterArgs {
@@ -2134,18 +2134,18 @@ class PreviewSellRouter extends PageRouteInfo<PreviewSellRouterArgs> {
     required PreviewSellInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewSellRouter.name,
-          args: PreviewSellRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewSellRouter.name,
+    args: PreviewSellRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewSellRouter';
 
   static const PageInfo<PreviewSellRouterArgs> page =
-      PageInfo<PreviewSellRouterArgs>(name);
+  PageInfo<PreviewSellRouterArgs>(name);
 }
 
 class PreviewSellRouterArgs {
@@ -2169,9 +2169,9 @@ class PreviewSellRouterArgs {
 class DebugInfoRouter extends PageRouteInfo<void> {
   const DebugInfoRouter({List<PageRouteInfo>? children})
       : super(
-          DebugInfoRouter.name,
-          initialChildren: children,
-        );
+    DebugInfoRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'DebugInfoRouter';
 
@@ -2183,9 +2183,9 @@ class DebugInfoRouter extends PageRouteInfo<void> {
 class LogsRouter extends PageRouteInfo<void> {
   const LogsRouter({List<PageRouteInfo>? children})
       : super(
-          LogsRouter.name,
-          initialChildren: children,
-        );
+    LogsRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'LogsRouter';
 
@@ -2197,9 +2197,9 @@ class LogsRouter extends PageRouteInfo<void> {
 class SignalrDebugInfoRouter extends PageRouteInfo<void> {
   const SignalrDebugInfoRouter({List<PageRouteInfo>? children})
       : super(
-          SignalrDebugInfoRouter.name,
-          initialChildren: children,
-        );
+    SignalrDebugInfoRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'SignalrDebugInfoRouter';
 
@@ -2211,9 +2211,9 @@ class SignalrDebugInfoRouter extends PageRouteInfo<void> {
 class EmailConfirmationRouter extends PageRouteInfo<void> {
   const EmailConfirmationRouter({List<PageRouteInfo>? children})
       : super(
-          EmailConfirmationRouter.name,
-          initialChildren: children,
-        );
+    EmailConfirmationRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'EmailConfirmationRouter';
 
@@ -2225,9 +2225,9 @@ class EmailConfirmationRouter extends PageRouteInfo<void> {
 class HomeRouter extends PageRouteInfo<void> {
   const HomeRouter({List<PageRouteInfo>? children})
       : super(
-          HomeRouter.name,
-          initialChildren: children,
-        );
+    HomeRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'HomeRouter';
 
@@ -2243,18 +2243,18 @@ class IbanAddBankAccountRouter
     AddressBookContactModel? contact,
     List<PageRouteInfo>? children,
   }) : super(
-          IbanAddBankAccountRouter.name,
-          args: IbanAddBankAccountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
+    IbanAddBankAccountRouter.name,
+    args: IbanAddBankAccountRouterArgs(
+      key: key,
+      contact: contact,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'IbanAddBankAccountRouter';
 
   static const PageInfo<IbanAddBankAccountRouterArgs> page =
-      PageInfo<IbanAddBankAccountRouterArgs>(name);
+  PageInfo<IbanAddBankAccountRouterArgs>(name);
 }
 
 class IbanAddBankAccountRouterArgs {
@@ -2282,18 +2282,18 @@ class IbanEditBankAccountRouter
     AddressBookContactModel? contact,
     List<PageRouteInfo>? children,
   }) : super(
-          IbanEditBankAccountRouter.name,
-          args: IbanEditBankAccountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
+    IbanEditBankAccountRouter.name,
+    args: IbanEditBankAccountRouterArgs(
+      key: key,
+      contact: contact,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'IbanEditBankAccountRouter';
 
   static const PageInfo<IbanEditBankAccountRouterArgs> page =
-      PageInfo<IbanEditBankAccountRouterArgs>(name);
+  PageInfo<IbanEditBankAccountRouterArgs>(name);
 }
 
 class IbanEditBankAccountRouterArgs {
@@ -2320,13 +2320,13 @@ class IBanRouter extends PageRouteInfo<IBanRouterArgs> {
     int initIndex = 0,
     List<PageRouteInfo>? children,
   }) : super(
-          IBanRouter.name,
-          args: IBanRouterArgs(
-            key: key,
-            initIndex: initIndex,
-          ),
-          initialChildren: children,
-        );
+    IBanRouter.name,
+    args: IBanRouterArgs(
+      key: key,
+      initIndex: initIndex,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'IBanRouter';
 
@@ -2357,18 +2357,18 @@ class IbanSendAmountRouter extends PageRouteInfo<IbanSendAmountRouterArgs> {
     required AddressBookContactModel contact,
     List<PageRouteInfo>? children,
   }) : super(
-          IbanSendAmountRouter.name,
-          args: IbanSendAmountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
+    IbanSendAmountRouter.name,
+    args: IbanSendAmountRouterArgs(
+      key: key,
+      contact: contact,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'IbanSendAmountRouter';
 
   static const PageInfo<IbanSendAmountRouterArgs> page =
-      PageInfo<IbanSendAmountRouterArgs>(name);
+  PageInfo<IbanSendAmountRouterArgs>(name);
 }
 
 class IbanSendAmountRouterArgs {
@@ -2396,19 +2396,19 @@ class IbanSendConfirmRouter extends PageRouteInfo<IbanSendConfirmRouterArgs> {
     required IbanPreviewWithdrawalModel data,
     List<PageRouteInfo>? children,
   }) : super(
-          IbanSendConfirmRouter.name,
-          args: IbanSendConfirmRouterArgs(
-            key: key,
-            contact: contact,
-            data: data,
-          ),
-          initialChildren: children,
-        );
+    IbanSendConfirmRouter.name,
+    args: IbanSendConfirmRouterArgs(
+      key: key,
+      contact: contact,
+      data: data,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'IbanSendConfirmRouter';
 
   static const PageInfo<IbanSendConfirmRouterArgs> page =
-      PageInfo<IbanSendConfirmRouterArgs>(name);
+  PageInfo<IbanSendConfirmRouterArgs>(name);
 }
 
 class IbanSendConfirmRouterArgs {
@@ -2435,9 +2435,9 @@ class IbanSendConfirmRouterArgs {
 class IbanAddressRouter extends PageRouteInfo<void> {
   const IbanAddressRouter({List<PageRouteInfo>? children})
       : super(
-          IbanAddressRouter.name,
-          initialChildren: children,
-        );
+    IbanAddressRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'IbanAddressRouter';
 
@@ -2453,19 +2453,19 @@ class AllowCameraRoute extends PageRouteInfo<AllowCameraRouteArgs> {
     required void Function() then,
     List<PageRouteInfo>? children,
   }) : super(
-          AllowCameraRoute.name,
-          args: AllowCameraRouteArgs(
-            key: key,
-            permissionDescription: permissionDescription,
-            then: then,
-          ),
-          initialChildren: children,
-        );
+    AllowCameraRoute.name,
+    args: AllowCameraRouteArgs(
+      key: key,
+      permissionDescription: permissionDescription,
+      then: then,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'AllowCameraRoute';
 
   static const PageInfo<AllowCameraRouteArgs> page =
-      PageInfo<AllowCameraRouteArgs>(name);
+  PageInfo<AllowCameraRouteArgs>(name);
 }
 
 class AllowCameraRouteArgs {
@@ -2495,18 +2495,18 @@ class ChooseDocumentsRouter extends PageRouteInfo<ChooseDocumentsRouterArgs> {
     required String headerTitle,
     List<PageRouteInfo>? children,
   }) : super(
-          ChooseDocumentsRouter.name,
-          args: ChooseDocumentsRouterArgs(
-            key: key,
-            headerTitle: headerTitle,
-          ),
-          initialChildren: children,
-        );
+    ChooseDocumentsRouter.name,
+    args: ChooseDocumentsRouterArgs(
+      key: key,
+      headerTitle: headerTitle,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'ChooseDocumentsRouter';
 
   static const PageInfo<ChooseDocumentsRouterArgs> page =
-      PageInfo<ChooseDocumentsRouterArgs>(name);
+  PageInfo<ChooseDocumentsRouterArgs>(name);
 }
 
 class ChooseDocumentsRouterArgs {
@@ -2530,9 +2530,9 @@ class ChooseDocumentsRouterArgs {
 class KycSelfieRouter extends PageRouteInfo<void> {
   const KycSelfieRouter({List<PageRouteInfo>? children})
       : super(
-          KycSelfieRouter.name,
-          initialChildren: children,
-        );
+    KycSelfieRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'KycSelfieRouter';
 
@@ -2549,20 +2549,20 @@ class SuccessKycScreenRoute extends PageRouteInfo<SuccessKycScreenRouteArgs> {
     Widget? specialTextWidget,
     List<PageRouteInfo>? children,
   }) : super(
-          SuccessKycScreenRoute.name,
-          args: SuccessKycScreenRouteArgs(
-            key: key,
-            primaryText: primaryText,
-            secondaryText: secondaryText,
-            specialTextWidget: specialTextWidget,
-          ),
-          initialChildren: children,
-        );
+    SuccessKycScreenRoute.name,
+    args: SuccessKycScreenRouteArgs(
+      key: key,
+      primaryText: primaryText,
+      secondaryText: secondaryText,
+      specialTextWidget: specialTextWidget,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SuccessKycScreenRoute';
 
   static const PageInfo<SuccessKycScreenRouteArgs> page =
-      PageInfo<SuccessKycScreenRouteArgs>(name);
+  PageInfo<SuccessKycScreenRouteArgs>(name);
 }
 
 class SuccessKycScreenRouteArgs {
@@ -2595,18 +2595,18 @@ class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
     required List<RequiredVerified> requiredVerifications,
     List<PageRouteInfo>? children,
   }) : super(
-          KycVerificationRouter.name,
-          args: KycVerificationRouterArgs(
-            key: key,
-            requiredVerifications: requiredVerifications,
-          ),
-          initialChildren: children,
-        );
+    KycVerificationRouter.name,
+    args: KycVerificationRouterArgs(
+      key: key,
+      requiredVerifications: requiredVerifications,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'KycVerificationRouter';
 
   static const PageInfo<KycVerificationRouterArgs> page =
-      PageInfo<KycVerificationRouterArgs>(name);
+  PageInfo<KycVerificationRouterArgs>(name);
 }
 
 class KycVerificationRouterArgs {
@@ -2630,9 +2630,9 @@ class KycVerificationRouterArgs {
 class KycVerificationSumsubRouter extends PageRouteInfo<void> {
   const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
       : super(
-          KycVerificationSumsubRouter.name,
-          initialChildren: children,
-        );
+    KycVerificationSumsubRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'KycVerificationSumsubRouter';
 
@@ -2648,18 +2648,18 @@ class KycVerifyYourProfileRouter
     required List<RequiredVerified> requiredVerifications,
     List<PageRouteInfo>? children,
   }) : super(
-          KycVerifyYourProfileRouter.name,
-          args: KycVerifyYourProfileRouterArgs(
-            key: key,
-            requiredVerifications: requiredVerifications,
-          ),
-          initialChildren: children,
-        );
+    KycVerifyYourProfileRouter.name,
+    args: KycVerifyYourProfileRouterArgs(
+      key: key,
+      requiredVerifications: requiredVerifications,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'KycVerifyYourProfileRouter';
 
   static const PageInfo<KycVerifyYourProfileRouterArgs> page =
-      PageInfo<KycVerifyYourProfileRouterArgs>(name);
+  PageInfo<KycVerifyYourProfileRouterArgs>(name);
 }
 
 class KycVerifyYourProfileRouterArgs {
@@ -2683,9 +2683,9 @@ class KycVerifyYourProfileRouterArgs {
 class UploadKycDocumentsRouter extends PageRouteInfo<void> {
   const UploadKycDocumentsRouter({List<PageRouteInfo>? children})
       : super(
-          UploadKycDocumentsRouter.name,
-          initialChildren: children,
-        );
+    UploadKycDocumentsRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'UploadKycDocumentsRouter';
 
@@ -2703,20 +2703,20 @@ class UploadVerificationPhotoRouter
     required dynamic Function() onSuccess,
     List<PageRouteInfo>? children,
   }) : super(
-          UploadVerificationPhotoRouter.name,
-          args: UploadVerificationPhotoRouterArgs(
-            key: key,
-            isSelfie: isSelfie,
-            cardId: cardId,
-            onSuccess: onSuccess,
-          ),
-          initialChildren: children,
-        );
+    UploadVerificationPhotoRouter.name,
+    args: UploadVerificationPhotoRouterArgs(
+      key: key,
+      isSelfie: isSelfie,
+      cardId: cardId,
+      onSuccess: onSuccess,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'UploadVerificationPhotoRouter';
 
   static const PageInfo<UploadVerificationPhotoRouterArgs> page =
-      PageInfo<UploadVerificationPhotoRouterArgs>(name);
+  PageInfo<UploadVerificationPhotoRouterArgs>(name);
 }
 
 class UploadVerificationPhotoRouterArgs {
@@ -2749,18 +2749,18 @@ class MarketDetailsRouter extends PageRouteInfo<MarketDetailsRouterArgs> {
     required MarketItemModel marketItem,
     List<PageRouteInfo>? children,
   }) : super(
-          MarketDetailsRouter.name,
-          args: MarketDetailsRouterArgs(
-            key: key,
-            marketItem: marketItem,
-          ),
-          initialChildren: children,
-        );
+    MarketDetailsRouter.name,
+    args: MarketDetailsRouterArgs(
+      key: key,
+      marketItem: marketItem,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'MarketDetailsRouter';
 
   static const PageInfo<MarketDetailsRouterArgs> page =
-      PageInfo<MarketDetailsRouterArgs>(name);
+  PageInfo<MarketDetailsRouterArgs>(name);
 }
 
 class MarketDetailsRouterArgs {
@@ -2787,18 +2787,18 @@ class PDFViewScreenRouter extends PageRouteInfo<PDFViewScreenRouterArgs> {
     required String url,
     List<PageRouteInfo>? children,
   }) : super(
-          PDFViewScreenRouter.name,
-          args: PDFViewScreenRouterArgs(
-            key: key,
-            url: url,
-          ),
-          initialChildren: children,
-        );
+    PDFViewScreenRouter.name,
+    args: PDFViewScreenRouterArgs(
+      key: key,
+      url: url,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PDFViewScreenRouter';
 
   static const PageInfo<PDFViewScreenRouterArgs> page =
-      PageInfo<PDFViewScreenRouterArgs>(name);
+  PageInfo<PDFViewScreenRouterArgs>(name);
 }
 
 class PDFViewScreenRouterArgs {
@@ -2825,18 +2825,18 @@ class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
     int initIndex = 0,
     List<PageRouteInfo>? children,
   }) : super(
-          MarketRouter.name,
-          args: MarketRouterArgs(
-            key: key,
-            initIndex: initIndex,
-          ),
-          initialChildren: children,
-        );
+    MarketRouter.name,
+    args: MarketRouterArgs(
+      key: key,
+      initIndex: initIndex,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'MarketRouter';
 
   static const PageInfo<MarketRouterArgs> page =
-      PageInfo<MarketRouterArgs>(name);
+  PageInfo<MarketRouterArgs>(name);
 }
 
 class MarketRouterArgs {
@@ -2860,9 +2860,9 @@ class MarketRouterArgs {
 class PaymentMethodsRouter extends PageRouteInfo<void> {
   const PaymentMethodsRouter({List<PageRouteInfo>? children})
       : super(
-          PaymentMethodsRouter.name,
-          initialChildren: children,
-        );
+    PaymentMethodsRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'PaymentMethodsRouter';
 
@@ -2878,18 +2878,18 @@ class PhoneVerificationRouter
     required PhoneVerificationArgs args,
     List<PageRouteInfo>? children,
   }) : super(
-          PhoneVerificationRouter.name,
-          args: PhoneVerificationRouterArgs(
-            key: key,
-            args: args,
-          ),
-          initialChildren: children,
-        );
+    PhoneVerificationRouter.name,
+    args: PhoneVerificationRouterArgs(
+      key: key,
+      args: args,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PhoneVerificationRouter';
 
   static const PageInfo<PhoneVerificationRouterArgs> page =
-      PageInfo<PhoneVerificationRouterArgs>(name);
+  PageInfo<PhoneVerificationRouterArgs>(name);
 }
 
 class PhoneVerificationRouterArgs {
@@ -2923,25 +2923,25 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     required PinFlowUnion union,
     List<PageRouteInfo>? children,
   }) : super(
-          PinScreenRoute.name,
-          args: PinScreenRouteArgs(
-            key: key,
-            displayHeader: displayHeader,
-            cannotLeave: cannotLeave,
-            isChangePhone: isChangePhone,
-            isChangePin: isChangePin,
-            fromRegister: fromRegister,
-            isForgotPassword: isForgotPassword,
-            onChangePhone: onChangePhone,
-            union: union,
-          ),
-          initialChildren: children,
-        );
+    PinScreenRoute.name,
+    args: PinScreenRouteArgs(
+      key: key,
+      displayHeader: displayHeader,
+      cannotLeave: cannotLeave,
+      isChangePhone: isChangePhone,
+      isChangePin: isChangePin,
+      fromRegister: fromRegister,
+      isForgotPassword: isForgotPassword,
+      onChangePhone: onChangePhone,
+      union: union,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PinScreenRoute';
 
   static const PageInfo<PinScreenRouteArgs> page =
-      PageInfo<PinScreenRouteArgs>(name);
+  PageInfo<PinScreenRouteArgs>(name);
 }
 
 class PinScreenRouteArgs {
@@ -2986,9 +2986,9 @@ class PinScreenRouteArgs {
 class PortfolioRouter extends PageRouteInfo<void> {
   const PortfolioRouter({List<PageRouteInfo>? children})
       : super(
-          PortfolioRouter.name,
-          initialChildren: children,
-        );
+    PortfolioRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'PortfolioRouter';
 
@@ -3004,18 +3004,18 @@ class RecurringSuccessScreenRouter
     required PreviewBuyWithAssetInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          RecurringSuccessScreenRouter.name,
-          args: RecurringSuccessScreenRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    RecurringSuccessScreenRouter.name,
+    args: RecurringSuccessScreenRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'RecurringSuccessScreenRouter';
 
   static const PageInfo<RecurringSuccessScreenRouterArgs> page =
-      PageInfo<RecurringSuccessScreenRouterArgs>(name);
+  PageInfo<RecurringSuccessScreenRouterArgs>(name);
 }
 
 class RecurringSuccessScreenRouterArgs {
@@ -3043,18 +3043,18 @@ class PreviewReturnToWalletRouter
     required PreviewReturnToWalletInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewReturnToWalletRouter.name,
-          args: PreviewReturnToWalletRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
+    PreviewReturnToWalletRouter.name,
+    args: PreviewReturnToWalletRouterArgs(
+      key: key,
+      input: input,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'PreviewReturnToWalletRouter';
 
   static const PageInfo<PreviewReturnToWalletRouterArgs> page =
-      PageInfo<PreviewReturnToWalletRouterArgs>(name);
+  PageInfo<PreviewReturnToWalletRouterArgs>(name);
 }
 
 class PreviewReturnToWalletRouterArgs {
@@ -3082,19 +3082,19 @@ class ReturnToWalletRouter extends PageRouteInfo<ReturnToWalletRouterArgs> {
     required EarnOfferModel earnOffer,
     List<PageRouteInfo>? children,
   }) : super(
-          ReturnToWalletRouter.name,
-          args: ReturnToWalletRouterArgs(
-            key: key,
-            currency: currency,
-            earnOffer: earnOffer,
-          ),
-          initialChildren: children,
-        );
+    ReturnToWalletRouter.name,
+    args: ReturnToWalletRouterArgs(
+      key: key,
+      currency: currency,
+      earnOffer: earnOffer,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'ReturnToWalletRouter';
 
   static const PageInfo<ReturnToWalletRouterArgs> page =
-      PageInfo<ReturnToWalletRouterArgs>(name);
+  PageInfo<ReturnToWalletRouterArgs>(name);
 }
 
 class ReturnToWalletRouterArgs {
@@ -3124,18 +3124,18 @@ class RewardsRouter extends PageRouteInfo<RewardsRouterArgs> {
     required List<String> actualRewards,
     List<PageRouteInfo>? children,
   }) : super(
-          RewardsRouter.name,
-          args: RewardsRouterArgs(
-            key: key,
-            actualRewards: actualRewards,
-          ),
-          initialChildren: children,
-        );
+    RewardsRouter.name,
+    args: RewardsRouterArgs(
+      key: key,
+      actualRewards: actualRewards,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'RewardsRouter';
 
   static const PageInfo<RewardsRouterArgs> page =
-      PageInfo<RewardsRouterArgs>(name);
+  PageInfo<RewardsRouterArgs>(name);
 }
 
 class RewardsRouterArgs {
@@ -3165,20 +3165,20 @@ class SendByPhoneAmountRouter
     SPhoneNumber? activeDialCode,
     List<PageRouteInfo>? children,
   }) : super(
-          SendByPhoneAmountRouter.name,
-          args: SendByPhoneAmountRouterArgs(
-            key: key,
-            currency: currency,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
+    SendByPhoneAmountRouter.name,
+    args: SendByPhoneAmountRouterArgs(
+      key: key,
+      currency: currency,
+      pickedContact: pickedContact,
+      activeDialCode: activeDialCode,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendByPhoneAmountRouter';
 
   static const PageInfo<SendByPhoneAmountRouterArgs> page =
-      PageInfo<SendByPhoneAmountRouterArgs>(name);
+  PageInfo<SendByPhoneAmountRouterArgs>(name);
 }
 
 class SendByPhoneAmountRouterArgs {
@@ -3217,23 +3217,23 @@ class SendByPhoneConfirmRouter
     required SPhoneNumber activeDialCode,
     List<PageRouteInfo>? children,
   }) : super(
-          SendByPhoneConfirmRouter.name,
-          args: SendByPhoneConfirmRouterArgs(
-            key: key,
-            currency: currency,
-            operationId: operationId,
-            receiverIsRegistered: receiverIsRegistered,
-            amountStoreAmount: amountStoreAmount,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
+    SendByPhoneConfirmRouter.name,
+    args: SendByPhoneConfirmRouterArgs(
+      key: key,
+      currency: currency,
+      operationId: operationId,
+      receiverIsRegistered: receiverIsRegistered,
+      amountStoreAmount: amountStoreAmount,
+      pickedContact: pickedContact,
+      activeDialCode: activeDialCode,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendByPhoneConfirmRouter';
 
   static const PageInfo<SendByPhoneConfirmRouterArgs> page =
-      PageInfo<SendByPhoneConfirmRouterArgs>(name);
+  PageInfo<SendByPhoneConfirmRouterArgs>(name);
 }
 
 class SendByPhoneConfirmRouterArgs {
@@ -3275,18 +3275,18 @@ class SendByPhoneInputRouter extends PageRouteInfo<SendByPhoneInputRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          SendByPhoneInputRouter.name,
-          args: SendByPhoneInputRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    SendByPhoneInputRouter.name,
+    args: SendByPhoneInputRouterArgs(
+      key: key,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendByPhoneInputRouter';
 
   static const PageInfo<SendByPhoneInputRouterArgs> page =
-      PageInfo<SendByPhoneInputRouterArgs>(name);
+  PageInfo<SendByPhoneInputRouterArgs>(name);
 }
 
 class SendByPhoneInputRouterArgs {
@@ -3314,18 +3314,18 @@ class SendByPhoneNotifyRecipientRouter
     required String toPhoneNumber,
     List<PageRouteInfo>? children,
   }) : super(
-          SendByPhoneNotifyRecipientRouter.name,
-          args: SendByPhoneNotifyRecipientRouterArgs(
-            key: key,
-            toPhoneNumber: toPhoneNumber,
-          ),
-          initialChildren: children,
-        );
+    SendByPhoneNotifyRecipientRouter.name,
+    args: SendByPhoneNotifyRecipientRouterArgs(
+      key: key,
+      toPhoneNumber: toPhoneNumber,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendByPhoneNotifyRecipientRouter';
 
   static const PageInfo<SendByPhoneNotifyRecipientRouterArgs> page =
-      PageInfo<SendByPhoneNotifyRecipientRouterArgs>(name);
+  PageInfo<SendByPhoneNotifyRecipientRouterArgs>(name);
 }
 
 class SendByPhoneNotifyRecipientRouterArgs {
@@ -3356,21 +3356,21 @@ class SendByPhonePreviewRouter
     required SPhoneNumber activeDialCode,
     List<PageRouteInfo>? children,
   }) : super(
-          SendByPhonePreviewRouter.name,
-          args: SendByPhonePreviewRouterArgs(
-            key: key,
-            currency: currency,
-            amountStoreAmount: amountStoreAmount,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
+    SendByPhonePreviewRouter.name,
+    args: SendByPhonePreviewRouterArgs(
+      key: key,
+      currency: currency,
+      amountStoreAmount: amountStoreAmount,
+      pickedContact: pickedContact,
+      activeDialCode: activeDialCode,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendByPhonePreviewRouter';
 
   static const PageInfo<SendByPhonePreviewRouterArgs> page =
-      PageInfo<SendByPhonePreviewRouterArgs>(name);
+  PageInfo<SendByPhonePreviewRouterArgs>(name);
 }
 
 class SendByPhonePreviewRouterArgs {
@@ -3409,21 +3409,21 @@ class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
     required String successText,
     List<PageRouteInfo>? children,
   }) : super(
-          SetPhoneNumberRouter.name,
-          args: SetPhoneNumberRouterArgs(
-            key: key,
-            then: then,
-            isChangePhone: isChangePhone,
-            fromRegister: fromRegister,
-            successText: successText,
-          ),
-          initialChildren: children,
-        );
+    SetPhoneNumberRouter.name,
+    args: SetPhoneNumberRouterArgs(
+      key: key,
+      then: then,
+      isChangePhone: isChangePhone,
+      fromRegister: fromRegister,
+      successText: successText,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SetPhoneNumberRouter';
 
   static const PageInfo<SetPhoneNumberRouterArgs> page =
-      PageInfo<SetPhoneNumberRouterArgs>(name);
+  PageInfo<SetPhoneNumberRouterArgs>(name);
 }
 
 class SetPhoneNumberRouterArgs {
@@ -3456,9 +3456,9 @@ class SetPhoneNumberRouterArgs {
 class SmsAuthenticatorRouter extends PageRouteInfo<void> {
   const SmsAuthenticatorRouter({List<PageRouteInfo>? children})
       : super(
-          SmsAuthenticatorRouter.name,
-          initialChildren: children,
-        );
+    SmsAuthenticatorRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'SmsAuthenticatorRouter';
 
@@ -3477,21 +3477,21 @@ class TransactionHistoryRouter
     String? jwOperationId,
     List<PageRouteInfo>? children,
   }) : super(
-          TransactionHistoryRouter.name,
-          args: TransactionHistoryRouterArgs(
-            key: key,
-            assetName: assetName,
-            assetSymbol: assetSymbol,
-            initialIndex: initialIndex,
-            jwOperationId: jwOperationId,
-          ),
-          initialChildren: children,
-        );
+    TransactionHistoryRouter.name,
+    args: TransactionHistoryRouterArgs(
+      key: key,
+      assetName: assetName,
+      assetSymbol: assetSymbol,
+      initialIndex: initialIndex,
+      jwOperationId: jwOperationId,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'TransactionHistoryRouter';
 
   static const PageInfo<TransactionHistoryRouterArgs> page =
-      PageInfo<TransactionHistoryRouterArgs>(name);
+  PageInfo<TransactionHistoryRouterArgs>(name);
 }
 
 class TransactionHistoryRouterArgs {
@@ -3528,18 +3528,18 @@ class HistoryRecurringBuysRouter
     Source? from,
     List<PageRouteInfo>? children,
   }) : super(
-          HistoryRecurringBuysRouter.name,
-          args: HistoryRecurringBuysRouterArgs(
-            key: key,
-            from: from,
-          ),
-          initialChildren: children,
-        );
+    HistoryRecurringBuysRouter.name,
+    args: HistoryRecurringBuysRouterArgs(
+      key: key,
+      from: from,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'HistoryRecurringBuysRouter';
 
   static const PageInfo<HistoryRecurringBuysRouterArgs> page =
-      PageInfo<HistoryRecurringBuysRouterArgs>(name);
+  PageInfo<HistoryRecurringBuysRouterArgs>(name);
 }
 
 class HistoryRecurringBuysRouterArgs {
@@ -3566,18 +3566,18 @@ class TwoFaPhoneRouter extends PageRouteInfo<TwoFaPhoneRouterArgs> {
     required TwoFaPhoneTriggerUnion trigger,
     List<PageRouteInfo>? children,
   }) : super(
-          TwoFaPhoneRouter.name,
-          args: TwoFaPhoneRouterArgs(
-            key: key,
-            trigger: trigger,
-          ),
-          initialChildren: children,
-        );
+    TwoFaPhoneRouter.name,
+    args: TwoFaPhoneRouterArgs(
+      key: key,
+      trigger: trigger,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'TwoFaPhoneRouter';
 
   static const PageInfo<TwoFaPhoneRouterArgs> page =
-      PageInfo<TwoFaPhoneRouterArgs>(name);
+  PageInfo<TwoFaPhoneRouterArgs>(name);
 }
 
 class TwoFaPhoneRouterArgs {
@@ -3604,18 +3604,18 @@ class EmptyWalletRouter extends PageRouteInfo<EmptyWalletRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          EmptyWalletRouter.name,
-          args: EmptyWalletRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    EmptyWalletRouter.name,
+    args: EmptyWalletRouterArgs(
+      key: key,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'EmptyWalletRouter';
 
   static const PageInfo<EmptyWalletRouterArgs> page =
-      PageInfo<EmptyWalletRouterArgs>(name);
+  PageInfo<EmptyWalletRouterArgs>(name);
 }
 
 class EmptyWalletRouterArgs {
@@ -3642,18 +3642,18 @@ class WalletRouter extends PageRouteInfo<WalletRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          WalletRouter.name,
-          args: WalletRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    WalletRouter.name,
+    args: WalletRouterArgs(
+      key: key,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'WalletRouter';
 
   static const PageInfo<WalletRouterArgs> page =
-      PageInfo<WalletRouterArgs>(name);
+  PageInfo<WalletRouterArgs>(name);
 }
 
 class WalletRouterArgs {
@@ -3682,20 +3682,20 @@ class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          SendCardDetailRouter.name,
-          args: SendCardDetailRouterArgs(
-            key: key,
-            method: method,
-            countryCode: countryCode,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    SendCardDetailRouter.name,
+    args: SendCardDetailRouterArgs(
+      key: key,
+      method: method,
+      countryCode: countryCode,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendCardDetailRouter';
 
   static const PageInfo<SendCardDetailRouterArgs> page =
-      PageInfo<SendCardDetailRouterArgs>(name);
+  PageInfo<SendCardDetailRouterArgs>(name);
 }
 
 class SendCardDetailRouterArgs {
@@ -3730,19 +3730,19 @@ class SendCardPaymentMethodRouter
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          SendCardPaymentMethodRouter.name,
-          args: SendCardPaymentMethodRouterArgs(
-            key: key,
-            countryCode: countryCode,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
+    SendCardPaymentMethodRouter.name,
+    args: SendCardPaymentMethodRouterArgs(
+      key: key,
+      countryCode: countryCode,
+      currency: currency,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendCardPaymentMethodRouter';
 
   static const PageInfo<SendCardPaymentMethodRouterArgs> page =
-      PageInfo<SendCardPaymentMethodRouterArgs>(name);
+  PageInfo<SendCardPaymentMethodRouterArgs>(name);
 }
 
 class SendCardPaymentMethodRouterArgs {
@@ -3774,19 +3774,19 @@ class SendGloballyAmountRouter
     required GlobalSendMethodsModelMethods method,
     List<PageRouteInfo>? children,
   }) : super(
-          SendGloballyAmountRouter.name,
-          args: SendGloballyAmountRouterArgs(
-            key: key,
-            data: data,
-            method: method,
-          ),
-          initialChildren: children,
-        );
+    SendGloballyAmountRouter.name,
+    args: SendGloballyAmountRouterArgs(
+      key: key,
+      data: data,
+      method: method,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendGloballyAmountRouter';
 
   static const PageInfo<SendGloballyAmountRouterArgs> page =
-      PageInfo<SendGloballyAmountRouterArgs>(name);
+  PageInfo<SendGloballyAmountRouterArgs>(name);
 }
 
 class SendGloballyAmountRouterArgs {
@@ -3818,19 +3818,19 @@ class SendGloballyConfirmRouter
     required GlobalSendMethodsModelMethods method,
     List<PageRouteInfo>? children,
   }) : super(
-          SendGloballyConfirmRouter.name,
-          args: SendGloballyConfirmRouterArgs(
-            key: key,
-            data: data,
-            method: method,
-          ),
-          initialChildren: children,
-        );
+    SendGloballyConfirmRouter.name,
+    args: SendGloballyConfirmRouterArgs(
+      key: key,
+      data: data,
+      method: method,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SendGloballyConfirmRouter';
 
   static const PageInfo<SendGloballyConfirmRouterArgs> page =
-      PageInfo<SendGloballyConfirmRouterArgs>(name);
+  PageInfo<SendGloballyConfirmRouterArgs>(name);
 }
 
 class SendGloballyConfirmRouterArgs {
@@ -3857,9 +3857,9 @@ class SendGloballyConfirmRouterArgs {
 class WithdrawalAddressRouter extends PageRouteInfo<void> {
   const WithdrawalAddressRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalAddressRouter.name,
-          initialChildren: children,
-        );
+    WithdrawalAddressRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'WithdrawalAddressRouter';
 
@@ -3871,9 +3871,9 @@ class WithdrawalAddressRouter extends PageRouteInfo<void> {
 class WithdrawalAmmountRouter extends PageRouteInfo<void> {
   const WithdrawalAmmountRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalAmmountRouter.name,
-          initialChildren: children,
-        );
+    WithdrawalAmmountRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'WithdrawalAmmountRouter';
 
@@ -3885,9 +3885,9 @@ class WithdrawalAmmountRouter extends PageRouteInfo<void> {
 class WithdrawalConfirmRouter extends PageRouteInfo<void> {
   const WithdrawalConfirmRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalConfirmRouter.name,
-          initialChildren: children,
-        );
+    WithdrawalConfirmRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'WithdrawalConfirmRouter';
 
@@ -3899,9 +3899,9 @@ class WithdrawalConfirmRouter extends PageRouteInfo<void> {
 class WithdrawalPreviewRouter extends PageRouteInfo<void> {
   const WithdrawalPreviewRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalPreviewRouter.name,
-          initialChildren: children,
-        );
+    WithdrawalPreviewRouter.name,
+    initialChildren: children,
+  );
 
   static const String name = 'WithdrawalPreviewRouter';
 
@@ -3916,18 +3916,18 @@ class WithdrawRouter extends PageRouteInfo<WithdrawRouterArgs> {
     required WithdrawalModel withdrawal,
     List<PageRouteInfo>? children,
   }) : super(
-          WithdrawRouter.name,
-          args: WithdrawRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-          ),
-          initialChildren: children,
-        );
+    WithdrawRouter.name,
+    args: WithdrawRouterArgs(
+      key: key,
+      withdrawal: withdrawal,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'WithdrawRouter';
 
   static const PageInfo<WithdrawRouterArgs> page =
-      PageInfo<WithdrawRouterArgs>(name);
+  PageInfo<WithdrawRouterArgs>(name);
 }
 
 class WithdrawRouterArgs {
@@ -3955,19 +3955,19 @@ class InfoWebViewRouter extends PageRouteInfo<InfoWebViewRouterArgs> {
     required String title,
     List<PageRouteInfo>? children,
   }) : super(
-          InfoWebViewRouter.name,
-          args: InfoWebViewRouterArgs(
-            key: key,
-            link: link,
-            title: title,
-          ),
-          initialChildren: children,
-        );
+    InfoWebViewRouter.name,
+    args: InfoWebViewRouterArgs(
+      key: key,
+      link: link,
+      title: title,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'InfoWebViewRouter';
 
   static const PageInfo<InfoWebViewRouterArgs> page =
-      PageInfo<InfoWebViewRouterArgs>(name);
+  PageInfo<InfoWebViewRouterArgs>(name);
 }
 
 class InfoWebViewRouterArgs {
@@ -4002,23 +4002,23 @@ class FailureScreenRouter extends PageRouteInfo<FailureScreenRouterArgs> {
     required dynamic Function() onPrimaryButtonTap,
     List<PageRouteInfo>? children,
   }) : super(
-          FailureScreenRouter.name,
-          args: FailureScreenRouterArgs(
-            key: key,
-            secondaryText: secondaryText,
-            secondaryButtonName: secondaryButtonName,
-            onSecondaryButtonTap: onSecondaryButtonTap,
-            primaryText: primaryText,
-            primaryButtonName: primaryButtonName,
-            onPrimaryButtonTap: onPrimaryButtonTap,
-          ),
-          initialChildren: children,
-        );
+    FailureScreenRouter.name,
+    args: FailureScreenRouterArgs(
+      key: key,
+      secondaryText: secondaryText,
+      secondaryButtonName: secondaryButtonName,
+      onSecondaryButtonTap: onSecondaryButtonTap,
+      primaryText: primaryText,
+      primaryButtonName: primaryButtonName,
+      onPrimaryButtonTap: onPrimaryButtonTap,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'FailureScreenRouter';
 
   static const PageInfo<FailureScreenRouterArgs> page =
-      PageInfo<FailureScreenRouterArgs>(name);
+  PageInfo<FailureScreenRouterArgs>(name);
 }
 
 class FailureScreenRouterArgs {
@@ -4071,29 +4071,29 @@ class SuccessScreenRouter extends PageRouteInfo<SuccessScreenRouterArgs> {
     int time = 3,
     List<PageRouteInfo>? children,
   }) : super(
-          SuccessScreenRouter.name,
-          args: SuccessScreenRouterArgs(
-            key: key,
-            onSuccess: onSuccess,
-            onActionButton: onActionButton,
-            primaryText: primaryText,
-            secondaryText: secondaryText,
-            specialTextWidget: specialTextWidget,
-            bottomWidget: bottomWidget,
-            showActionButton: showActionButton,
-            showProgressBar: showProgressBar,
-            showShareButton: showShareButton,
-            showPrimaryButton: showPrimaryButton,
-            buttonText: buttonText,
-            time: time,
-          ),
-          initialChildren: children,
-        );
+    SuccessScreenRouter.name,
+    args: SuccessScreenRouterArgs(
+      key: key,
+      onSuccess: onSuccess,
+      onActionButton: onActionButton,
+      primaryText: primaryText,
+      secondaryText: secondaryText,
+      specialTextWidget: specialTextWidget,
+      bottomWidget: bottomWidget,
+      showActionButton: showActionButton,
+      showProgressBar: showProgressBar,
+      showShareButton: showShareButton,
+      showPrimaryButton: showPrimaryButton,
+      buttonText: buttonText,
+      time: time,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SuccessScreenRouter';
 
   static const PageInfo<SuccessScreenRouterArgs> page =
-      PageInfo<SuccessScreenRouterArgs>(name);
+  PageInfo<SuccessScreenRouterArgs>(name);
 }
 
 class SuccessScreenRouterArgs {
@@ -4154,18 +4154,18 @@ class SuccessVerifyingScreenRouter
     required dynamic Function() onSuccess,
     List<PageRouteInfo>? children,
   }) : super(
-          SuccessVerifyingScreenRouter.name,
-          args: SuccessVerifyingScreenRouterArgs(
-            key: key,
-            onSuccess: onSuccess,
-          ),
-          initialChildren: children,
-        );
+    SuccessVerifyingScreenRouter.name,
+    args: SuccessVerifyingScreenRouterArgs(
+      key: key,
+      onSuccess: onSuccess,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'SuccessVerifyingScreenRouter';
 
   static const PageInfo<SuccessVerifyingScreenRouterArgs> page =
-      PageInfo<SuccessVerifyingScreenRouterArgs>(name);
+  PageInfo<SuccessVerifyingScreenRouterArgs>(name);
 }
 
 class SuccessVerifyingScreenRouterArgs {
@@ -4193,19 +4193,19 @@ class VerifyingScreenRouter extends PageRouteInfo<VerifyingScreenRouterArgs> {
     required dynamic Function() onSuccess,
     List<PageRouteInfo>? children,
   }) : super(
-          VerifyingScreenRouter.name,
-          args: VerifyingScreenRouterArgs(
-            key: key,
-            cardId: cardId,
-            onSuccess: onSuccess,
-          ),
-          initialChildren: children,
-        );
+    VerifyingScreenRouter.name,
+    args: VerifyingScreenRouterArgs(
+      key: key,
+      cardId: cardId,
+      onSuccess: onSuccess,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'VerifyingScreenRouter';
 
   static const PageInfo<VerifyingScreenRouterArgs> page =
-      PageInfo<VerifyingScreenRouterArgs>(name);
+  PageInfo<VerifyingScreenRouterArgs>(name);
 }
 
 class VerifyingScreenRouterArgs {
@@ -4240,23 +4240,23 @@ class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
     required dynamic Function() onSkip,
     List<PageRouteInfo>? children,
   }) : super(
-          WaitingScreenRouter.name,
-          args: WaitingScreenRouterArgs(
-            key: key,
-            onSuccess: onSuccess,
-            primaryText: primaryText,
-            secondaryText: secondaryText,
-            specialTextWidget: specialTextWidget,
-            wasAction: wasAction,
-            onSkip: onSkip,
-          ),
-          initialChildren: children,
-        );
+    WaitingScreenRouter.name,
+    args: WaitingScreenRouterArgs(
+      key: key,
+      onSuccess: onSuccess,
+      primaryText: primaryText,
+      secondaryText: secondaryText,
+      specialTextWidget: specialTextWidget,
+      wasAction: wasAction,
+      onSkip: onSkip,
+    ),
+    initialChildren: children,
+  );
 
   static const String name = 'WaitingScreenRouter';
 
   static const PageInfo<WaitingScreenRouterArgs> page =
-      PageInfo<WaitingScreenRouterArgs>(name);
+  PageInfo<WaitingScreenRouterArgs>(name);
 }
 
 class WaitingScreenRouterArgs {
