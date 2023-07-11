@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/currency_buy/helper/formatted_circle_card.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
@@ -42,7 +43,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
         opaque: false,
         barrierColor: Colors.white,
         pageBuilder: (BuildContext _, __, ___) {
-          return AddBankCard(
+          return AddBankCardScreen(
             onCardAdded: () {},
             amount: '',
             isPreview: true,
