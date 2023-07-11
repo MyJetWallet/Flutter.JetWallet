@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
@@ -117,6 +119,22 @@ class AddBankCardBody extends StatelessObserverWidget {
                           children: [
                             SFieldDividerFrame(
                               child: SStandardField(
+                                controller: TextEditingController(
+                                  text:
+                                      '${sUserInfo.firstName} ${sUserInfo.lastName}',
+                                ),
+                                readOnly: true,
+                                enabled: false,
+                                hideClearButton: true,
+                                labelText: intl.addCircleCard_cardholderName,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                hideSpace: true,
+                                grayLabel: true,
+                              ),
+                            ),
+                            SFieldDividerFrame(
+                              child: SStandardField(
                                 labelText: intl.addCircleCard_cardNumber,
                                 keyboardType: TextInputType.number,
                                 isError: store.cardNumberError,
@@ -157,12 +175,16 @@ class AddBankCardBody extends StatelessObserverWidget {
                                       child: SStandardField(
                                         labelText:
                                             intl.addCircleCard_expiryMonth,
-                                        maxLength: 2,
                                         focusNode: store.monthNode,
                                         keyboardType: TextInputType.number,
                                         isError: store.expiryMonthError,
-                                        enableInteractiveSelection: false,
                                         disableErrorOnChanged: false,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly,
+                                          LengthLimitingTextInputFormatter(4),
+                                          CardMonthInputFormatter(),
+                                        ],
                                         controller: store.expiryMonthController,
                                         onChanged: store.updateExpiryMonth,
                                       ),
@@ -176,15 +198,13 @@ class AddBankCardBody extends StatelessObserverWidget {
                                 Expanded(
                                   child: SFieldDividerFrame(
                                     child: SStandardField(
-                                      labelText: intl.addCircleCard_expiryYear,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 4,
-                                      focusNode: store.yearNode,
-                                      isError: store.expiryYearError,
+                                      labelText: intl.addCircleCard_label,
+                                      focusNode: store.labelNode,
+                                      isError: store.labelError,
                                       enableInteractiveSelection: false,
                                       disableErrorOnChanged: false,
-                                      controller: store.expiryYearController,
-                                      onChanged: store.updateExpiryYear,
+                                      controller: store.cardLabelController,
+                                      onChanged: store.updateCardLabel,
                                     ),
                                   ),
                                 ),
@@ -294,6 +314,20 @@ class AddBankCardBody extends StatelessObserverWidget {
             children: [
               SFieldDividerFrame(
                 child: SStandardField(
+                  controller: TextEditingController(
+                    text: '${sUserInfo.firstName} ${sUserInfo.lastName}',
+                  ),
+                  readOnly: true,
+                  enabled: false,
+                  hideClearButton: true,
+                  labelText: intl.addCircleCard_cardholderName,
+                  textCapitalization: TextCapitalization.sentences,
+                  hideSpace: true,
+                  grayLabel: true,
+                ),
+              ),
+              SFieldDividerFrame(
+                child: SStandardField(
                   labelText: intl.addCircleCard_cardNumber,
                   keyboardType: TextInputType.number,
                   isError: store.cardNumberError,
@@ -332,12 +366,15 @@ class AddBankCardBody extends StatelessObserverWidget {
                       child: SFieldDividerFrame(
                         child: SStandardField(
                           labelText: intl.addCircleCard_expiryMonth,
-                          maxLength: 2,
                           focusNode: store.monthNode,
                           keyboardType: TextInputType.number,
                           isError: store.expiryMonthError,
-                          enableInteractiveSelection: false,
                           disableErrorOnChanged: false,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(4),
+                            CardMonthInputFormatter(),
+                          ],
                           controller: store.expiryMonthController,
                           onChanged: store.updateExpiryMonth,
                         ),
@@ -351,15 +388,13 @@ class AddBankCardBody extends StatelessObserverWidget {
                   Expanded(
                     child: SFieldDividerFrame(
                       child: SStandardField(
-                        labelText: intl.addCircleCard_expiryYear,
-                        keyboardType: TextInputType.number,
-                        maxLength: 4,
-                        focusNode: store.yearNode,
-                        isError: store.expiryYearError,
+                        labelText: intl.addCircleCard_label,
+                        focusNode: store.labelNode,
+                        isError: store.labelError,
                         enableInteractiveSelection: false,
                         disableErrorOnChanged: false,
-                        controller: store.expiryYearController,
-                        onChanged: store.updateExpiryYear,
+                        controller: store.cardLabelController,
+                        onChanged: store.updateCardLabel,
                       ),
                     ),
                   ),

@@ -5,6 +5,8 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -41,56 +43,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
 
     final loader = StackLoaderStore();
 
-    final kycState = getIt.get<KycService>();
-    final cardLimitsState = sSignalRModules.cardLimitsModel;
-    final kycHandler = getIt.get<KycAlertHandler>();
-    final allPaymentMethods = sSignalRModules.paymentMethods;
-    final useCircleCard =
-        allPaymentMethods.contains('PaymentMethodType.circleCard');
-
     final state = PaymentMethodsStore.of(context);
-
-    void showDeleteDisclaimer({required VoidCallback onDelete}) {
-      return sShowAlertPopup(
-        context,
-        primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryFullText}?',
-        primaryButtonName: intl.paymentMethod_yesDelete,
-        secondaryButtonName: intl.paymentMethod_cancel,
-        primaryButtonType: SButtonType.primary3,
-        onPrimaryButtonTap: onDelete,
-        onSecondaryButtonTap: () => Navigator.pop(context),
-      );
-    }
-
-    void _onAddCardTap() {
-      if (useCircleCard) {
-        sRouter.push(
-          AddCircleCardRouter(
-            onCardAdded: (_) {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              state.getCards();
-            },
-          ),
-        );
-      }
-    }
-
-    void checkKyc() {
-      final status = kycOperationStatus(KycStatus.allowed);
-      if (kycState.depositStatus == status) {
-        _onAddCardTap();
-      } else {
-        kycHandler.handle(
-          status: kycState.depositStatus,
-          isProgress: kycState.verificationInProgress,
-          currentNavigate: () => _onAddCardTap(),
-          requiredDocuments: kycState.requiredDocuments,
-          requiredVerifications: kycState.requiredVerifications,
-        );
-      }
-    }
 
     return SPageFrame(
       loaderText: intl.paymentMethods_pleaseWait,
@@ -117,13 +70,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    if (useCircleCard)
-                      SPaddingH24(
-                        child: AddButton(
-                          onTap: () => checkKyc(),
-                        ),
-                      ),
                     const SpaceH24(),
                   ],
                 )
@@ -132,26 +78,50 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                     ListView(
                       padding: const EdgeInsets.only(bottom: 100.0),
                       children: [
-                        for (final card in state.cards)
+                        MarketSeparator(text: intl.payment_method_cards),
+                        for (final card in state.cards) ...[
                           PaymentCardItem(
-                            name: '•••• ${card.last4}',
+                            name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
                             expirationDate:
                                 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),
                             status: card.status,
-                            onDelete: () => showDeleteDisclaimer(
-                              onDelete: () async {
-                                loader.startLoading();
-                                await sRouter.pop();
-                                await state.deleteCard(card);
+                            showDelete: false,
+                            onDelete: () {},
+                            showEdit: true,
+                            onEdit: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  barrierColor: Colors.white,
+                                  pageBuilder: (BuildContext _, __, ___) {
+                                    return EditBankCardScreen(
+                                      card: card,
+                                    );
+                                  },
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    const begin = Offset(0.0, 1.0);
+                                    const end = Offset.zero;
+                                    const curve = Curves.ease;
 
-                                loader.finishLoading();
-                              },
-                            ),
-                            removeDivider: true,
+                                    final tween = Tween(begin: begin, end: end)
+                                        .chain(CurveTween(curve: curve));
+
+                                    return SlideTransition(
+                                      position: animation.drive(tween),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              ).then((value) => state.getCards());
+                            },
+                            removeDivider: state.cards.last == card,
                             onTap: () {},
                           ),
+                        ],
                         if (state.addressBookContacts.isNotEmpty) ...[
                           MarketSeparator(text: intl.iban_send_accounts),
                           ListView.builder(

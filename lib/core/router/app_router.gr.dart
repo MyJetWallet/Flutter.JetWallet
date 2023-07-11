@@ -204,6 +204,30 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const VerificationScreen(),
       );
     },
+    BuyAmountRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyAmountRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyAmountScreen(
+          key: args.key,
+          asset: args.asset,
+          currency: args.currency,
+          method: args.method,
+          card: args.card,
+        ),
+      );
+    },
+    BuyPaymentMethodRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyPaymentMethodRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyPaymentMethodScreen(
+          key: args.key,
+          asset: args.asset,
+          currency: args.currency,
+        ),
+      );
+    },
     ConvertRouter.name: (routeData) {
       final args = routeData.argsAs<ConvertRouterArgs>(
           orElse: () => const ConvertRouterArgs());
@@ -949,17 +973,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    BuyPaymentMethodRoute.name: (routeData) {
-      final args = routeData.argsAs<BuyPaymentMethodRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: BuyPaymentMethodScreen(
-          key: args.key,
-          asset: args.asset,
-          currency: args.currency,
-        ),
-      );
-    },
   };
 }
 
@@ -1530,6 +1543,102 @@ class VerificationRouter extends PageRouteInfo<void> {
   static const String name = 'VerificationRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BuyAmountScreen]
+class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
+  BuyAmountRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required PaymentAsset currency,
+    BuyMethodDto? method,
+    CircleCard? card,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyAmountRoute.name,
+          args: BuyAmountRouteArgs(
+            key: key,
+            asset: asset,
+            currency: currency,
+            method: method,
+            card: card,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyAmountRoute';
+
+  static const PageInfo<BuyAmountRouteArgs> page =
+      PageInfo<BuyAmountRouteArgs>(name);
+}
+
+class BuyAmountRouteArgs {
+  const BuyAmountRouteArgs({
+    this.key,
+    required this.asset,
+    required this.currency,
+    this.method,
+    this.card,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final PaymentAsset currency;
+
+  final BuyMethodDto? method;
+
+  final CircleCard? card;
+
+  @override
+  String toString() {
+    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card}';
+  }
+}
+
+/// generated route for
+/// [BuyPaymentMethodScreen]
+class BuyPaymentMethodRoute extends PageRouteInfo<BuyPaymentMethodRouteArgs> {
+  BuyPaymentMethodRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required PaymentAsset currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyPaymentMethodRoute.name,
+          args: BuyPaymentMethodRouteArgs(
+            key: key,
+            asset: asset,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyPaymentMethodRoute';
+
+  static const PageInfo<BuyPaymentMethodRouteArgs> page =
+      PageInfo<BuyPaymentMethodRouteArgs>(name);
+}
+
+class BuyPaymentMethodRouteArgs {
+  const BuyPaymentMethodRouteArgs({
+    this.key,
+    required this.asset,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final PaymentAsset currency;
+
+  @override
+  String toString() {
+    return 'BuyPaymentMethodRouteArgs{key: $key, asset: $asset, currency: $currency}';
+  }
 }
 
 /// generated route for
@@ -4298,48 +4407,5 @@ class WaitingScreenRouterArgs {
   @override
   String toString() {
     return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
-  }
-}
-
-/// generated route for
-/// [BuyPaymentMethodScreen]
-class BuyPaymentMethodRoute extends PageRouteInfo<BuyPaymentMethodRouteArgs> {
-  BuyPaymentMethodRoute({
-    Key? key,
-    required CurrencyModel asset,
-    required PaymentAsset currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          BuyPaymentMethodRoute.name,
-          args: BuyPaymentMethodRouteArgs(
-            key: key,
-            asset: asset,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'BuyPaymentMethodRoute';
-
-  static const PageInfo<BuyPaymentMethodRouteArgs> page =
-      PageInfo<BuyPaymentMethodRouteArgs>(name);
-}
-
-class BuyPaymentMethodRouteArgs {
-  const BuyPaymentMethodRouteArgs({
-    this.key,
-    required this.asset,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final CurrencyModel asset;
-
-  final PaymentAsset currency;
-
-  @override
-  String toString() {
-    return 'BuyPaymentMethodRouteArgs{key: $key, asset: $asset, currency: $currency}';
   }
 }

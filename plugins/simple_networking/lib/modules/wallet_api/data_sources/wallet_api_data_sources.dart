@@ -378,6 +378,31 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, void>> updateCardLabel(
+    String cardId,
+    String label,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/buy/update-card-label',
+        data: {'cardId': cardId, 'label': label},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, CardCheckResponseModel>> cardCheck(
     CardCheckRequestModel model,
   ) async {

@@ -26,6 +26,7 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
@@ -555,6 +556,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/buy_payment_method',
       page: BuyPaymentMethodRoute.page,
+    ),
+    AutoRoute(
+      path: '/buy_flow_amount',
+      page: BuyAmountRoute.page,
     ),
   ];
 }

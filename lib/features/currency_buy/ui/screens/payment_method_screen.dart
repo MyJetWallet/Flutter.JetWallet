@@ -117,7 +117,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryFullText}?',
+        secondaryText:
+            '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
         primaryButtonName: intl.paymentMethod_yesDelete,
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,

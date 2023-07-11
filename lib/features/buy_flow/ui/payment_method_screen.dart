@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_alternatives.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transaction_month_separator.dart';
@@ -27,13 +28,23 @@ class BuyPaymentMethodScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider<PaymentMethodStore>(
       create: (context) => PaymentMethodStore()..init(asset, currency),
-      builder: (context, child) => _PaymentMethodScreenBody(),
+      builder: (context, child) => _PaymentMethodScreenBody(
+        asset: asset,
+        currency: currency,
+      ),
     );
   }
 }
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
-  const _PaymentMethodScreenBody({super.key});
+  const _PaymentMethodScreenBody({
+    super.key,
+    required this.asset,
+    required this.currency,
+  });
+
+  final CurrencyModel asset;
+  final PaymentAsset currency;
 
   @override
   Widget build(BuildContext context) {
@@ -62,27 +73,36 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             if (store.cardsMethods.isNotEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: PaymentMethodWidget(
+                child: PaymentMethodCardsWidget(
                   title: intl.payment_method_cards,
+                  asset: asset,
+                  currency: currency,
                 ),
               ),
             ],
             if (store.localMethods.isNotEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: PaymentMethodWidget(
+                child: PaymentMethodAltWidget(
                   title: intl.payment_method_local,
+                  buyMethod: store.localMethods,
+                  asset: asset,
+                  currency: currency,
                 ),
               ),
             ],
             if (store.p2pMethods.isNotEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: PaymentMethodWidget(
+                child: PaymentMethodAltWidget(
                   title: intl.payment_method_p2p,
+                  buyMethod: store.p2pMethods,
+                  asset: asset,
+                  currency: currency,
                 ),
               ),
             ],
+            const SizedBox(height: 45),
           ],
         ),
       ),

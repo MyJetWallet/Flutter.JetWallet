@@ -109,6 +109,8 @@ abstract class _PaymentMethodsStoreBase with Store {
           onError: (error) {},
         );
       } catch (e) {
+        print(e);
+
         await Future.delayed(const Duration(seconds: 5));
         await getCards();
       }
