@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
@@ -156,13 +157,13 @@ class _WalletBodyState extends State<WalletBody>
                               source: 'My Assets - Asset -  Buy',
                             );
                             final actualAsset = widget.currency;
+
                             if (kycState.depositStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
                               showSendTimerAlertOr(
                                 context: context,
-                                or: () => sRouter.push(
-                                  PaymentMethodRouter(currency: actualAsset),
-                                ),
+                                or: () => showBuyPaymentCurrencyBottomSheet(
+                                    context, actualAsset),
                                 from: BlockingType.deposit,
                               );
                             } else {
@@ -173,10 +174,8 @@ class _WalletBodyState extends State<WalletBody>
                                 currentNavigate: () {
                                   showSendTimerAlertOr(
                                     context: context,
-                                    or: () => sRouter.push(
-                                      PaymentMethodRouter(
-                                          currency: actualAsset),
-                                    ),
+                                    or: () => showBuyPaymentCurrencyBottomSheet(
+                                        context, actualAsset),
                                     from: BlockingType.deposit,
                                   );
                                 },

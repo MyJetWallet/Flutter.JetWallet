@@ -214,7 +214,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                       source: 'My Assets - Buy',
                     );
                     showBuyAction(
-                      fromCard: true,
                       shouldPop: false,
                       context: context,
                     );

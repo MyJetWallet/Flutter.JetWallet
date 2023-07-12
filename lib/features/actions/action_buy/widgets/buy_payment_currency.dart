@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/countries_service.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
@@ -107,12 +110,20 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
+    var countryService = CountriesService();
+
     return ListView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       itemCount: searchStore.filtredNewBuyPaymentCurrency.length,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
+        final curr = getIt.get<FormatService>().findCurrency(
+              findInHideTerminalList: true,
+              assetSymbol:
+                  searchStore.filtredNewBuyPaymentCurrency[index].asset,
+            );
+
         return SCardRow(
           icon: SizedBox(
             height: 24,
@@ -124,9 +135,11 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
               height: 24,
               width: 24,
               child: SvgPicture.asset(
-                flagAssetName(
-                  'kz',
-                ),
+                countryService
+                    .findCountryByCurrency(
+                      searchStore.filtredNewBuyPaymentCurrency[index].asset,
+                    )
+                    .flagAssetName(),
                 fit: BoxFit.cover,
               ),
             ),
@@ -141,9 +154,16 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
               ),
             );
           },
+          needSpacer: true,
+          rightIcon: Text(
+            searchStore.filtredNewBuyPaymentCurrency[index].asset,
+            style: sSubtitle3Style.copyWith(
+              color: sKit.colors.grey2,
+            ),
+          ),
           amount: '',
           description: '',
-          name: searchStore.filtredNewBuyPaymentCurrency[index].asset,
+          name: curr.description,
         );
       },
     );

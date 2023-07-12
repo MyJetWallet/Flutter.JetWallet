@@ -250,6 +250,7 @@ abstract class _BankCardStoreBase with Store {
         ),
         isActive: isPreview ? saveCard : true,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
+        cardAssetSymbol: currency?.symbol ?? '',
       );
 
       final newCard = await sNetwork.getWalletModule().cardAdd(model);

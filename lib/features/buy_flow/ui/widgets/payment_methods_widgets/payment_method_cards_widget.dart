@@ -126,7 +126,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
 
                 return PaymentMethodCard.bankCard(
                   network: store.unlimintAltCards[i].network,
-                  name: formatted.name,
+                  name: store.unlimintAltCards[i].cardLabel ?? '',
                   subName: formatted.last4Digits,
                   onTap: () {
                     sRouter.push(

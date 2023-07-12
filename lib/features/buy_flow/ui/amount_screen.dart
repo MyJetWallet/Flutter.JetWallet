@@ -125,7 +125,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.curencyBuy_buy} ${store.buyCurrency.description}',
+          title: '${intl.curencyBuy_buy} ${store.asset?.description}',
           onBackButtonTap: () => sRouter.pop(),
         ),
       ),
