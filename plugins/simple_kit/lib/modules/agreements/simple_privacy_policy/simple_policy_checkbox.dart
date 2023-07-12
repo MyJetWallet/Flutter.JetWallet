@@ -14,12 +14,14 @@ class SPolicyCheckbox extends StatelessWidget {
     required this.onCheckboxTap,
     required this.onUserAgreementTap,
     required this.onPrivacyPolicyTap,
+    this.isSendGlobal,
     this.height = 77,
     this.secondText,
     this.activeText,
     this.onActiveTextTap,
     this.thirdText,
     this.activeText2,
+    this.firstAdditionalText,
     this.onActiveText2Tap,
   }) : super(key: key);
 
@@ -37,7 +39,9 @@ class SPolicyCheckbox extends StatelessWidget {
   final Function()? onActiveTextTap;
   final String? thirdText;
   final String? activeText2;
+  final String? firstAdditionalText;
   final Function()? onActiveText2Tap;
+  final bool? isSendGlobal;
 
   final double height;
 
@@ -65,8 +69,9 @@ class SPolicyCheckbox extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                const SpaceH25(),
+                const SpaceH22(),
                 SimplePolicyRichText(
+                  isSendGlobal: isSendGlobal,
                   firstText: firstText,
                   userAgreementText: userAgreementText,
                   onUserAgreementTap: onUserAgreementTap,
@@ -79,6 +84,7 @@ class SPolicyCheckbox extends StatelessWidget {
                   thirdText: thirdText,
                   activeText2: activeText2,
                   onActiveText2Tap: onActiveText2Tap,
+                  firstAdditionalText: firstAdditionalText,
                 ),
               ],
             ),
