@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-dj" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="dj-a">
-      <path fill-opacity=".7" d="M-40 0h682.7v512H-40z"/>
-    </clipPath>
-  </defs>
-  <g fill-rule="evenodd" clip-path="url(#dj-a)" transform="translate(37.5) scale(.94)">
-    <path fill="#0c0" d="M-40 0h768v512H-40z"/>
-    <path fill="#69f" d="M-40 0h768v256H-40z"/>
-    <path fill="#fffefe" d="m-40 0 382.7 255.7L-40 511V0z"/>
-    <path fill="red" d="M119.8 292 89 270l-30.7 22.4L69.7 256l-30.6-22.5 37.9-.3 11.7-36.3 12 36.2h37.9l-30.5 22.7 11.7 36.4z"/>
-  </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_5684)">
+<path d="M10.9565 13.0435C10.9565 13.0435 3.52172 3.51305 3.51469 3.51473C5.68622 1.34316 8.68626 0 12 0C18.6274 0 24 5.37262 24 12L10.9565 13.0435Z" fill="#338AF3"/>
+<path d="M10.9565 12C10.9565 12 3.52172 20.487 3.51469 20.4853C5.68622 22.6568 8.68626 24 12 24C18.6274 24 24 18.6274 24 12H10.9565Z" fill="#6DA544"/>
+<path d="M3.51469 3.51468C-1.17159 8.20096 -1.17159 15.799 3.51469 20.4853C5.45123 18.5488 7.31372 16.6863 12 12L3.51469 3.51468Z" fill="#F0F0F0"/>
+<path d="M4.85672 8.86954L5.63367 11.2609H8.14833L6.11405 12.739L6.89095 15.1304L4.85672 13.6524L2.82239 15.1304L3.59949 12.739L1.5652 11.2609H4.07967L4.85672 8.86954Z" fill="#D80027"/>
+</g>
+<defs>
+<clipPath id="clip0_18_5684">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

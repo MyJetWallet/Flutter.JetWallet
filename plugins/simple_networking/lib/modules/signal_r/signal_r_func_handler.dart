@@ -316,6 +316,8 @@ class SignalRFuncHandler {
 
   void paymentMethodsNewMessageHandler(List<Object?>? data) {
     try {
+      //log(data.toString());
+
       final info = AssetPaymentMethodsNew.fromJson(_json(data));
       sTransport.updateAssetPaymentMethodsNew(info);
 

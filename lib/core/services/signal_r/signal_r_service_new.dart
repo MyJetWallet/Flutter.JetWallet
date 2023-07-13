@@ -15,6 +15,7 @@ import 'package:jetwallet/features/market/store/search_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
+import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
@@ -911,7 +912,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
       for (final buyMethod in buyMethodsFull) {
         if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
-          buyMethods.add(buyMethod);
+          buyMethods.add(setCategoryForBuyMethods(buyMethod));
         }
       }
       if (value.send != null) {

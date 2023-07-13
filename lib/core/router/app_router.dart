@@ -26,6 +26,7 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -108,6 +109,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -549,6 +551,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/global_send_payment_method',
       page: SendCardPaymentMethodRouter.page,
+    ),
+    AutoRoute(
+      path: '/buy_payment_method',
+      page: BuyPaymentMethodRoute.page,
     ),
   ];
 }

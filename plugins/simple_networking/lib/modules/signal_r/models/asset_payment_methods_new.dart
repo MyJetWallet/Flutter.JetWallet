@@ -26,6 +26,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
     @PaymentTypeSerialiser() @JsonKey(name: 'id') required PaymentMethodType id,
+    final PaymentMethodCategory? category,
     String? iconUrl,
     int? orderId,
     required bool termsAccepted,
@@ -42,7 +43,7 @@ class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
     @WithdrawalMethodsSerialiser()
     @JsonKey(name: 'id')
-        required WithdrawalMethods id,
+    required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
     List<String>? symbols,
