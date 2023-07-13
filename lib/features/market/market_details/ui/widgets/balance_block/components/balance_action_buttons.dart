@@ -4,17 +4,14 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
+import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
-import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_receive.dart';
-import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -55,18 +52,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   onTap: () {
                     if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
-                      sRouter.push(
-                        PaymentMethodRouter(currency: currency),
-                      );
+                      showBuyPaymentCurrencyBottomSheet(context, currency);
                     } else {
                       kycAlertHandler.handle(
                         status: kycState.depositStatus,
                         isProgress: kycState.verificationInProgress,
                         navigatePop: true,
                         currentNavigate: () {
-                          sRouter.push(
-                            PaymentMethodRouter(currency: currency),
-                          );
+                          showBuyPaymentCurrencyBottomSheet(context, currency);
                         },
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
@@ -89,14 +82,13 @@ class BalanceActionButtons extends StatelessObserverWidget {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
               );
+
               if (kycState.depositStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
-                    sRouter.push(
-                      PaymentMethodRouter(currency: currency),
-                    );
+                    showBuyPaymentCurrencyBottomSheet(context, currency);
                   },
                   from: BlockingType.deposit,
                 );
@@ -109,9 +101,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     showSendTimerAlertOr(
                       context: context,
                       or: () {
-                        sRouter.push(
-                          PaymentMethodRouter(currency: currency),
-                        );
+                        showBuyPaymentCurrencyBottomSheet(context, currency);
                       },
                       from: BlockingType.deposit,
                     );

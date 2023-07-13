@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -117,7 +118,8 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryFullText}?',
+        secondaryText:
+            '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
         primaryButtonName: intl.paymentMethod_yesDelete,
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
@@ -147,7 +149,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           opaque: false,
           barrierColor: Colors.white,
           pageBuilder: (BuildContext context, _, __) {
-            return AddBankCard(
+            return AddBankCardScreen(
               onCardAdded: () {},
               amount: '',
               isPreview: true,

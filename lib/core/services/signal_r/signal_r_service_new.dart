@@ -532,11 +532,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
       }
 
-      if (asset.normalizedAccuracy != 0) {
-        print(
-            'SYMBOL ${asset.symbol} normalizedAccuracy: ${asset.normalizedAccuracy} to int: ${asset.normalizedAccuracy.toInt()}');
-      }
-
       currenciesWithHiddenList.add(
         CurrencyModel(
           symbol: asset.symbol,

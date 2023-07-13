@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_bool_literals_in_conditional_expressions
-
 import 'dart:async';
 
 import 'package:credit_card_validator/credit_card_validator.dart';
@@ -10,61 +8,76 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
-import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_response_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/card_remove/card_remove_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
+import 'package:simple_networking/modules/wallet_api/models/delete_card/delete_card_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unlimint_card_request_model.dart';
 import 'package:uuid/uuid.dart';
 
-part 'add_bank_card_store.g.dart';
+part 'bank_card_store.g.dart';
 
-class AddBankCardStore extends _AddBankCardStoreBase with _$AddBankCardStore {
-  AddBankCardStore() : super();
+enum BankCardStoreMode { ADD, EDIT }
 
-  static _AddBankCardStoreBase of(BuildContext context) =>
-      Provider.of<AddBankCardStore>(context, listen: false);
+class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
+  BankCardStore() : super();
+
+  static _BankCardStoreBase of(BuildContext context) =>
+      Provider.of<BankCardStore>(context, listen: false);
 }
 
-abstract class _AddBankCardStoreBase with Store {
-  _AddBankCardStoreBase() {
-    _initState();
-  }
-
-  static final _logger = Logger('AddBankCardStore');
+abstract class _BankCardStoreBase with Store {
+  @observable
+  BankCardStoreMode cardStoreMode = BankCardStoreMode.ADD;
 
   @observable
-  int? month;
+  StackLoaderStore loader = StackLoaderStore();
+
+  TextEditingController expiryMonthController = TextEditingController();
+  TextEditingController expiryYearController = TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController cardholderNameController = TextEditingController();
+  TextEditingController cardLabelController = TextEditingController();
+
+  FocusNode cardNode = FocusNode();
+  FocusNode monthNode = FocusNode();
+  FocusNode yearNode = FocusNode();
+  FocusNode labelNode = FocusNode();
 
   @observable
-  int? year;
-
+  String cardNumber = '';
   @observable
   bool cardNumberError = false;
   @action
   bool setCardNumberError(bool value) => cardNumberError = value;
 
   @observable
+  String expiryMonth = '';
+  @observable
   bool expiryMonthError = false;
   @action
   bool setMonthError(bool value) => expiryMonthError = value;
 
   @observable
+  String expiryYear = '';
+  @observable
   bool expiryYearError = false;
   @action
   bool setYearError(bool value) => expiryYearError = value;
 
+  @observable
+  String cardLabel = '';
+  @action
+  void setCardLabel(String value) => cardLabel = value;
   @observable
   bool labelError = false;
   @action
@@ -76,54 +89,33 @@ abstract class _AddBankCardStoreBase with Store {
   bool setCvvError(bool value) => cvvError = value;
 
   @observable
-  String expiryMonth = '';
-
-  TextEditingController expiryMonthController = TextEditingController();
-
-  TextEditingController expiryYearController = TextEditingController();
-
-  TextEditingController cardNumberController = TextEditingController();
-
-  TextEditingController cardholderNameController = TextEditingController();
-
-  TextEditingController cardLabelController = TextEditingController();
-
-  @observable
-  String expiryYear = '';
-
-  @observable
-  String cardNumber = '';
-
-  @observable
-  String cardholderName = '';
-
-  @observable
-  String cardLabel = '';
+  bool canClick = true;
+  @action
+  void setCanClick(bool value) => canClick = value;
 
   @observable
   bool saveCard = true;
-
-  @observable
-  FocusNode cardNode = FocusNode();
-
-  @observable
-  FocusNode monthNode = FocusNode();
-
-  @observable
-  FocusNode yearNode = FocusNode();
-
-  @observable
-  FocusNode labelNode = FocusNode();
-
-  @observable
-  StackLoaderStore loader = StackLoaderStore();
-
-  @observable
-  bool canClick = true;
+  @action
+  void checkSetter() => saveCard = !saveCard;
 
   @computed
   bool get isCardNumberValid {
     return CreditCardValidator().validateCCNum(cardNumber).isValid;
+  }
+
+  @computed
+  bool get isCardDetailsValid {
+    if ((expiryYear.length != 4 && expiryYear.length != 2) ||
+        expiryMonth.length < 2) {
+      return false;
+    }
+
+    return isCardNumberValid && isExpiryMonthValid && isExpiryYearValid;
+  }
+
+  @computed
+  bool get isEditButtonSaveActive {
+    return cardLabel.isNotEmpty;
   }
 
   @computed
@@ -147,29 +139,80 @@ abstract class _AddBankCardStoreBase with Store {
         .isValid;
   }
 
-  @computed
-  bool get isCardholderNameValid {
-    return cardholderName.split(' ').length >= 2;
-  }
+  @action
+  void init(BankCardStoreMode mode, {CircleCard? card}) {
+    cardStoreMode = mode;
 
-  @computed
-  bool get isCardDetailsValid {
-    if ((expiryYear.length != 4 && expiryYear.length != 2) ||
-        expiryMonth.length < 2) {
-      return false;
+    if (mode == BankCardStoreMode.EDIT) {
+      print(card);
+
+      cardNumberController.text = '123123123';
+      expiryMonthController.text = '${card!.expMonth}/${card.expYear}';
+      expiryYearController.text = card.expYear.toString();
+      cardLabelController.text = card.cardLabel ?? '';
+      //cardLabel = card.cardLabel ?? '';
     }
-
-    return isCardNumberValid &&
-        isExpiryMonthValid &&
-        isExpiryYearValid &&
-        isCardholderNameValid;
   }
 
   @action
-  void _initState() {
-    final userName = '${sUserInfo.firstName} ${sUserInfo.lastName}';
-    cardholderName = userName;
-    cardholderNameController.text = userName;
+  void updateCardNumber(String _cardNumber) {
+    cardNumber = _cardNumber;
+
+    // [xxxx xxxx xxxx xxxx]
+    cardNumberError = cardNumber.length == 19 ? !isCardNumberValid : false;
+
+    if (cardNumber.length == 19 && isCardNumberValid) {
+      cardNode.nextFocus();
+      monthNode.requestFocus();
+    }
+  }
+
+  @action
+  Future<void> pasteCode() async {
+    final data = await Clipboard.getData('text/plain');
+    var code = data?.text?.trim() ?? '';
+    code = code.replaceAll(' ', '');
+    try {
+      int.parse(code);
+      if (code.length == 16) {
+        final buffer = StringBuffer();
+
+        for (var i = 0; i < code.length; i++) {
+          buffer.write(code[i]);
+          final nonZeroIndex = i + 1;
+          if (nonZeroIndex % 4 == 0 &&
+              nonZeroIndex != code.length &&
+              nonZeroIndex != (code.length - 1)) {
+            buffer.write(' ');
+          }
+        }
+        updateCardNumber(buffer.toString());
+        cardNumberController.text = buffer.toString();
+      } else {
+        updateCardNumber(code);
+        cardNumberController.text = code;
+      }
+    } catch (e) {
+      return;
+    }
+  }
+
+  @action
+  void updateExpiryMonth(String expiryDate) {
+    if (expiryDate.length >= 4) {
+      var sp = expiryDate.split('/');
+
+      expiryMonth = sp.first;
+      expiryYear = sp[1];
+
+      if ((expiryYear.length == 4 || expiryYear.length == 2) &&
+          expiryYear != '20') {
+        expiryMonthError = !isExpiryMonthValid;
+        expiryYearError = !isExpiryYearValid;
+      } else {
+        expiryYearError = false;
+      }
+    }
   }
 
   @action
@@ -180,8 +223,6 @@ abstract class _AddBankCardStoreBase with Store {
     CurrencyModel? currency,
     required String amount,
   }) async {
-    _logger.log(notifier, 'addCard');
-
     loader.startLoadingImmediately();
 
     try {
@@ -209,6 +250,7 @@ abstract class _AddBankCardStoreBase with Store {
         ),
         isActive: isPreview ? saveCard : true,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
+        cardAssetSymbol: currency?.symbol ?? '',
       );
 
       final newCard = await sNetwork.getWalletModule().cardAdd(model);
@@ -318,144 +360,36 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
-    _logger.log(notifier, 'updateCardNumber');
-
-    cardNumber = _cardNumber;
-
-    // [xxxx xxxx xxxx xxxx]
-    cardNumberError = cardNumber.length == 19
-        ? isCardNumberValid
-            ? false
-            : true
-        : false;
-
-    if (cardNumber.length == 19 && isCardNumberValid) {
-      cardNode.nextFocus();
-      monthNode.requestFocus();
-    }
+  Future<void> updateCardLabel(
+    String cardId,
+  ) async {
+    final updateLabelResponse =
+        await sNetwork.getWalletModule().updateCardLabel(
+              cardId,
+              cardLabel,
+            );
   }
 
   @action
-  void updateCardLabel(String label) {
-    cardLabel = label;
-  }
-
-  @action
-  void updateExpiryMonth(String expiryDate) {
-    _logger.log(notifier, 'updateExpiryMonth');
-
-    if (expiryDate.length >= 4) {
-      var sp = expiryDate.split('/');
-
-      expiryMonth = sp.first;
-      expiryYear = sp[1];
-
-      if ((expiryYear.length == 4 || expiryYear.length == 2) &&
-          expiryYear != '20') {
-        expiryMonthError = !isExpiryMonthValid;
-        expiryYearError = !isExpiryYearValid;
-      } else {
-        expiryYearError = false;
-      }
-    }
-
-    /*
-    if (expiryDate.length >= 2) {
-      if (isExpiryMonthValid) {
-        expiryMonthError = false;
-        //monthNode.nextFocus();
-        //yearNode.requestFocus();
-        updateExpiryYear(expiryYear);
-      } else {
-        expiryMonthError = true;
-      }
-    } else {
-      if (int.parse(expiryMonth) > 2) {
-        expiryMonth = '0$expiryDate';
-        expiryMonthController.text = '0$expiryDate';
-        monthNode.nextFocus();
-        yearNode.requestFocus();
-        updateExpiryYear(expiryYear);
-      }
-      expiryMonthError = false;
-    }
-    */
-  }
-
-  @action
-  void yearFieldTap() {
-    if (expiryMonth == '2') {
-      expiryMonth = '02';
-      expiryMonthController.text = '02';
-    } else if (expiryMonth == '1') {
-      expiryMonth = '01';
-      expiryMonthController.text = '01';
-    }
-  }
-
-  @action
-  void updateExpiryYear(String expiryDate) {
-    _logger.log(notifier, 'updateExpiryYear');
-
-    expiryYear = expiryDate;
-
-    if ((expiryDate.length == 4 || expiryDate.length == 2) &&
-        expiryDate != '20') {
-      expiryMonthError = !isExpiryMonthValid;
-      expiryYearError = !isExpiryYearValid;
-    } else {
-      expiryYearError = false;
-    }
-  }
-
-  @action
-  void updateCardholderName(String _cardholderName) {
-    _logger.log(notifier, 'updateCardholderName');
-
-    cardholderName = _cardholderName.trim();
-  }
-
-  @action
-  Future<void> pasteCode() async {
-    _logger.log(notifier, 'pasteCode');
-
-    final data = await Clipboard.getData('text/plain');
-    var code = data?.text?.trim() ?? '';
-    code = code.replaceAll(' ', '');
+  Future<void> deleteCard(CircleCard card) async {
     try {
-      int.parse(code);
-      if (code.length == 16) {
-        final buffer = StringBuffer();
-
-        for (var i = 0; i < code.length; i++) {
-          buffer.write(code[i]);
-          final nonZeroIndex = i + 1;
-          if (nonZeroIndex % 4 == 0 &&
-              nonZeroIndex != code.length &&
-              nonZeroIndex != (code.length - 1)) {
-            buffer.write(' ');
-          }
-        }
-        updateCardNumber(buffer.toString());
-        cardNumberController.text = buffer.toString();
-      } else {
-        updateCardNumber(code);
-        cardNumberController.text = code;
+      if (card.integration == IntegrationType.circle ||
+          card.integration == null) {
+        final model = DeleteCardRequestModel(cardId: card.id);
+        final _ = sNetwork.getWalletModule().postDeleteCard(model);
+      } else if (card.integration == IntegrationType.unlimint) {
+        final model = DeleteUnlimintCardRequestModel(cardId: card.id);
+        final _ = sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+      } else if (card.integration == IntegrationType.unlimintAlt) {
+        final model = CardRemoveRequestModel(cardId: card.id);
+        final _ = sNetwork.getWalletModule().cardRemove(model);
       }
     } catch (e) {
-      return;
+      sNotification.showError(
+        intl.something_went_wrong_try_again2,
+        id: 1,
+      );
     }
-  }
-
-  @action
-  void checkSetter() {
-    saveCard = !saveCard;
-  }
-
-  @action
-  void toggleClick(bool value) {
-    canClick = value;
   }
 
   @action

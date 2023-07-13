@@ -123,7 +123,6 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
                   or: () {
                     showBuyAction(
                       shouldPop: false,
-                      fromCard: true,
                       context: context,
                       from: Source.profile,
                     );

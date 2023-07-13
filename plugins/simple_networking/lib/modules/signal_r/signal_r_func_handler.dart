@@ -61,6 +61,8 @@ class SignalRFuncHandler {
 
   void cardsMessageHandler(List<Object?>? data) {
     try {
+      log(_json(data).toString());
+
       final cardsList = CardsModel.fromJson(_json(data));
       sTransport.cards(cardsList);
 

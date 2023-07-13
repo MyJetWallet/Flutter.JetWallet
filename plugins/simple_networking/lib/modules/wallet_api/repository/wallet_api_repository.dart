@@ -574,6 +574,16 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, void>> updateCardLabel(
+    String cardId,
+    String label,
+  ) async {
+    return _walletApiDataSources.updateCardLabel(
+      cardId,
+      label,
+    );
+  }
+
   Future<DC<ServerRejectException, CardCheckResponseModel>> cardCheck(
     CardCheckRequestModel model,
   ) async {
@@ -626,13 +636,17 @@ class WalletApiRepository {
     String? promocode,
   }) async {
     return _walletApiDataSources.getNFTMarketPreviewBuyRequest(
-        symbol, promocode,);
+      symbol,
+      promocode,
+    );
   }
 
   Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
       getNFTMarketPreviewSell(String symbol, String assetSymbol) async {
     return _walletApiDataSources.getNFTMarketPreviewSellRequest(
-        symbol, assetSymbol,);
+      symbol,
+      assetSymbol,
+    );
   }
 
   Future<DC<ServerRejectException, bool>> postNFTMarketMakeSellOrder(

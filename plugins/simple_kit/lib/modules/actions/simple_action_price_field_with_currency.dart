@@ -4,8 +4,8 @@ import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../simple_kit.dart';
 
-class SActionPriceField extends StatelessWidget {
-  const SActionPriceField({
+class SActionPriceFieldWithCurrency extends StatelessWidget {
+  const SActionPriceFieldWithCurrency({
     Key? key,
     this.additionalWidget,
     required this.price,
@@ -67,7 +67,7 @@ class SActionPriceField extends StatelessWidget {
                     ),
             ),
           ),
-          const SpaceH4(),
+          const SpaceH10(),
           SPaddingH24(
             child: Baseline(
               baseline: 13,

@@ -151,7 +151,6 @@ abstract class _RecurringBuysStoreBase with Store {
           showBuyAction(
             from: from,
             context: context,
-            fromCard: false,
             shouldPop: false,
             showRecurring: true,
           );
