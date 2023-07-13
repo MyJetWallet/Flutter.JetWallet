@@ -7,12 +7,13 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from_all.dart';
 import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
+import '../../../../../../../../../../utils/helpers/check_local_operation.dart';
 import '../../../../../../../../helper/is_operation_support_copy.dart';
 import '../../../../../../../../helper/nft_by_symbol.dart';
 import '../../../../../../../../helper/nft_types.dart';
@@ -34,6 +35,13 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
             transactionListItem.operationType == OperationType.nftSwap ||
             transactionListItem.operationType == OperationType.nftSell;
 
+    final isLocal = transactionListItem.operationType ==
+        OperationType.cryptoInfo &&
+        isOperationLocal(
+          transactionListItem.cryptoBuyInfo?.paymentMethod ??
+          PaymentMethodType.unsupported,
+        );
+
     final currencyForOperation =
         transactionListItem.operationType == OperationType.nftBuy ||
                 transactionListItem.operationType == OperationType.nftSwap
@@ -53,8 +61,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     );
 
     final devicePR = MediaQuery.of(context).devicePixelRatio;
-
-    print(transactionListItem);
 
     return Column(
       children: [
@@ -104,11 +110,21 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         if (devicePR == 2) ...[
           const SpaceH30(),
         ] else if (transactionListItem.operationType ==
-            OperationType.sendGlobally) ...[
+            OperationType.sendGlobally || ((transactionListItem.operationType ==
+            OperationType.p2pBuy || isLocal) && transactionListItem.status ==
+            Status.inProgress)) ...[
           const SpaceH40(),
         ] else ...[
           const SpaceH67(),
         ],
+        if ((transactionListItem.operationType == OperationType.p2pBuy ||
+            isLocal) && transactionListItem.status == Status.inProgress)
+          Text(
+            intl.history_approximately,
+            style: sBodyText2Style.copyWith(
+              color: colors.grey2,
+            ),
+          ),
         if (!nftTypes.contains(transactionListItem.operationType) ||
             catchingTypes) ...[
           SPaddingH24(

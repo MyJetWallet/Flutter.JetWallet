@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simple_networking/helpers/decimal_serialiser.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 part 'operation_history_response_model.freezed.dart';
 
@@ -468,6 +469,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     required String cardLast4,
     String? cardLabel,
     String? cardType,
+    @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
   }) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>
