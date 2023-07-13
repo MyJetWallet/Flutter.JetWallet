@@ -132,7 +132,8 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.previewBuyWithCircle_payFrom,
               value: TransactionDetailsValueText(
-                text: '${transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                text: '${transactionListItem.cryptoBuyInfo!.cardLabel ??
+                    transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
                     '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
               ),
             ),

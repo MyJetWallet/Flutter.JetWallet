@@ -80,7 +80,8 @@ enum OperationType {
   buyApplePay,
   buyGooglePay,
   ibanSend,
-  sendGlobally
+  sendGlobally,
+  p2pBuy,
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -156,6 +157,8 @@ extension _OperationTypeExtension on OperationType {
         return 36;
       case OperationType.sendGlobally:
         return 37;
+      case OperationType.p2pBuy:
+        return 38;
       default:
         return 0;
     }
@@ -241,6 +244,8 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.ibanSend;
     } else if (value == '37') {
       return OperationType.sendGlobally;
+    } else if (value == '38') {
+      return OperationType.p2pBuy;
     } else {
       return OperationType.unknown;
     }
@@ -461,6 +466,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     @DecimalSerialiser() required Decimal tradeFeeAmount,
     required String tradeFeeAsset,
     required String cardLast4,
+    String? cardLabel,
     String? cardType,
   }) = _CryptoBuyInfo;
 
