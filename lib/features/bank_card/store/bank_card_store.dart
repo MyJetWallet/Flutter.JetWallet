@@ -394,6 +394,8 @@ abstract class _BankCardStoreBase with Store {
               cardId,
               cardLabel,
             );
+
+    sRouter.back();
   }
 
   @action

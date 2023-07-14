@@ -429,7 +429,7 @@ abstract class _BuyAmountStoreBase with Store {
         );
       } else if (value < min) {
         _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
             accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,
@@ -437,7 +437,7 @@ abstract class _BuyAmountStoreBase with Store {
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
             accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
             symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,

@@ -98,11 +98,9 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               },
             )
           : null,
-      header: SPaddingH24(
-        child: SSmallHeader(
-          title: intl.buy_confirmation_title,
-          onBackButtonTap: () => sRouter.pop(),
-        ),
+      header: SSmallHeader(
+        title: intl.buy_confirmation_title,
+        onBackButtonTap: () => sRouter.pop(),
       ),
       child: Column(
         children: [
@@ -217,9 +215,9 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               isChecked: store.isChecked,
             ),
           ],
-          SFloatingButtonFrame(
-            hidePadding: true,
-            button: SPrimaryButton2(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: SPrimaryButton2(
               active: !store.loader.loading && store.isChecked,
               name: intl.previewBuyWithAsset_confirm,
               onTap: () {
