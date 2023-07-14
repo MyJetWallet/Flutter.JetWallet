@@ -345,6 +345,14 @@ abstract class _AddBankCardStoreBase with Store {
   void updateExpiryMonth(String expiryDate) {
     _logger.log(notifier, 'updateExpiryMonth');
 
+    if (expiryDate == '2') {
+      expiryMonth = '02';
+      expiryMonthController.text = '02';
+    } else if (expiryDate == '1') {
+      expiryMonth = '01';
+      expiryMonthController.text = '01';
+    }
+
     if (expiryDate.length >= 4) {
       var sp = expiryDate.split('/');
 
@@ -356,8 +364,12 @@ abstract class _AddBankCardStoreBase with Store {
         expiryMonthError = !isExpiryMonthValid;
         expiryYearError = !isExpiryYearValid;
       } else {
+        expiryMonthError = false;
         expiryYearError = false;
       }
+    } else {
+      expiryMonthError = false;
+      expiryYearError = false;
     }
 
     /*

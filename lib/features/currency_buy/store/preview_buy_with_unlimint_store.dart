@@ -178,9 +178,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     await storage.setString(checkedUnlimint, 'true');
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.unlimintCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyTapConfirm(
       sourceCurrency: input.currencyPayment.symbol,
       destinationCurrency: input.currency.symbol,
@@ -205,9 +207,11 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.unlimintCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyProcessingView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
@@ -218,6 +222,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
+              title: intl.previewBuyWithCircle_paymentVerification,
               url: url,
               asset: currencySymbol,
               amount: input.amount,
@@ -300,8 +305,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       Function(String),
       Function(String),
       String,
-    )
-        onAction,
+    ) onAction,
     String lastAction,
   ) async {
     _logger.log(notifier, '_requestPaymentInfo');
@@ -385,66 +389,69 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       buyPaymentId: paymentId,
     );
     var tapped = false;
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuySuccessView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
 
     return sRouter
         .push(
-          SuccessScreenRouter(
-            secondaryText: '${intl.successScreen_youBought} '
-                '${volumeFormat(
-              decimal: buyAmount ?? Decimal.zero,
-              accuracy: input.currency.accuracy,
-              symbol: input.currency.symbol,
-            )}',
-            time: input.card != null ? 3 : 5,
-            showActionButton: input.card == null,
-            buttonText: intl.previewBuyWithUmlimint_saveCard,
-            showProgressBar: true,
-            onActionButton: () async {
-              tapped = true;
-              final _ =
-                  await sNetwork.getWalletModule().postAddUnlimintCard(model);
+      SuccessScreenRouter(
+        secondaryText: '${intl.successScreen_youBought} '
+            '${volumeFormat(
+          decimal: buyAmount ?? Decimal.zero,
+          accuracy: input.currency.accuracy,
+          symbol: input.currency.symbol,
+        )}',
+        time: input.card != null ? 3 : 5,
+        showActionButton: input.card == null,
+        buttonText: intl.previewBuyWithUmlimint_saveCard,
+        showProgressBar: true,
+        onActionButton: () async {
+          tapped = true;
+          final _ = await sNetwork.getWalletModule().postAddUnlimintCard(model);
 
-              await sLocalStorageService.setString(
-                lastUsedCard,
-                _.data?.cardId ?? '',
-              );
+          await sLocalStorageService.setString(
+            lastUsedCard,
+            _.data?.cardId ?? '',
+          );
 
-              navigateToRouter();
+          navigateToRouter();
 
-              unawaited(
-                sRouter.push(
-                  const PaymentMethodsRouter(),
-                ),
-              );
-            },
-          ),
-        )
+          unawaited(
+            sRouter.push(
+              const PaymentMethodsRouter(),
+            ),
+          );
+        },
+      ),
+    )
         .then(
-          (value) {
-            if (!tapped) {
-              sRouter.push(
-                const HomeRouter(
-                  children: [
-                    PortfolioRouter(),
-                  ],
-                ),
-              );
-            }
-          },
-        );
+      (value) {
+        if (!tapped) {
+          sRouter.push(
+            const HomeRouter(
+              children: [
+                PortfolioRouter(),
+              ],
+            ),
+          );
+        }
+      },
+    );
   }
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods.where(
+    final buyMethod = input.currency.buyMethods
+        .where(
           (element) => element.id == PaymentMethodType.bankCard,
-    ).toList();
+        )
+        .toList();
     sAnalytics.newBuyFailedView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
       errorCode: error,

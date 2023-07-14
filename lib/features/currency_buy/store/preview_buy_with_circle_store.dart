@@ -243,6 +243,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         (url, onSuccess, paymentId) {
           sRouter.push(
             Circle3dSecureWebViewRouter(
+              title: intl.previewBuyWithCircle_paymentVerification,
               url: url,
               amount: input.amount,
               asset: currencySymbol,

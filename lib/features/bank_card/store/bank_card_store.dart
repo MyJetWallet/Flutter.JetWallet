@@ -8,6 +8,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +78,12 @@ abstract class _BankCardStoreBase with Store {
   @observable
   String cardLabel = '';
   @action
-  void setCardLabel(String value) => cardLabel = value;
+  void setCardLabel(String value) {
+    cardLabel = value;
+
+    labelError = validLabel(value);
+  }
+
   @observable
   bool labelError = false;
   @action
@@ -115,7 +121,7 @@ abstract class _BankCardStoreBase with Store {
 
   @computed
   bool get isEditButtonSaveActive {
-    return cardLabel.isNotEmpty;
+    return cardLabel.isNotEmpty && isExpiryMonthValid && isExpiryYearValid;
   }
 
   @computed
@@ -146,11 +152,16 @@ abstract class _BankCardStoreBase with Store {
     if (mode == BankCardStoreMode.EDIT) {
       print(card);
 
-      cardNumberController.text = '123123123';
+      cardNumberController.text = '**** **** **** ${card!.last4}';
       expiryMonthController.text = '${card!.expMonth}/${card.expYear}';
       expiryYearController.text = card.expYear.toString();
       cardLabelController.text = card.cardLabel ?? '';
-      //cardLabel = card.cardLabel ?? '';
+
+      expiryMonth = card!.expMonth.toString();
+      expiryYear = card!.expYear.toString();
+
+      expiryMonthError = !isExpiryMonthValid;
+      expiryYearError = !isExpiryYearValid;
     }
   }
 
@@ -199,6 +210,17 @@ abstract class _BankCardStoreBase with Store {
 
   @action
   void updateExpiryMonth(String expiryDate) {
+    if (expiryDate.length < 2) {
+      if ((int.tryParse(expiryDate) ?? 0) > 2) {
+        expiryMonth = '0$expiryDate';
+        expiryMonthController.text = '0$expiryDate';
+      }
+      expiryMonthError = false;
+
+      expiryMonthController.selection =
+          TextSelection.collapsed(offset: expiryMonthController.text.length);
+    }
+
     if (expiryDate.length >= 4) {
       var sp = expiryDate.split('/');
 
@@ -210,8 +232,12 @@ abstract class _BankCardStoreBase with Store {
         expiryMonthError = !isExpiryMonthValid;
         expiryYearError = !isExpiryYearValid;
       } else {
+        expiryMonthError = false;
         expiryYearError = false;
       }
+    } else {
+      expiryMonthError = false;
+      expiryYearError = false;
     }
   }
 

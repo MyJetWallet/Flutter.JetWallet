@@ -217,6 +217,20 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    BuyConfirmationRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyConfirmationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyConfirmationScreen(
+          key: args.key,
+          asset: args.asset,
+          paymentCurrency: args.paymentCurrency,
+          amount: args.amount,
+          method: args.method,
+          card: args.card,
+        ),
+      );
+    },
     BuyPaymentMethodRoute.name: (routeData) {
       final args = routeData.argsAs<BuyPaymentMethodRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -334,6 +348,7 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: Circle3dSecureWebView(
+          args.title,
           args.url,
           args.asset,
           args.amount,
@@ -1599,6 +1614,64 @@ class BuyAmountRouteArgs {
 }
 
 /// generated route for
+/// [BuyConfirmationScreen]
+class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
+  BuyConfirmationRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required CurrencyModel paymentCurrency,
+    required String amount,
+    BuyMethodDto? method,
+    CircleCard? card,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyConfirmationRoute.name,
+          args: BuyConfirmationRouteArgs(
+            key: key,
+            asset: asset,
+            paymentCurrency: paymentCurrency,
+            amount: amount,
+            method: method,
+            card: card,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyConfirmationRoute';
+
+  static const PageInfo<BuyConfirmationRouteArgs> page =
+      PageInfo<BuyConfirmationRouteArgs>(name);
+}
+
+class BuyConfirmationRouteArgs {
+  const BuyConfirmationRouteArgs({
+    this.key,
+    required this.asset,
+    required this.paymentCurrency,
+    required this.amount,
+    this.method,
+    this.card,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final CurrencyModel paymentCurrency;
+
+  final String amount;
+
+  final BuyMethodDto? method;
+
+  final CircleCard? card;
+
+  @override
+  String toString() {
+    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card}';
+  }
+}
+
+/// generated route for
 /// [BuyPaymentMethodScreen]
 class BuyPaymentMethodRoute extends PageRouteInfo<BuyPaymentMethodRouteArgs> {
   BuyPaymentMethodRoute({
@@ -2036,6 +2109,7 @@ class PreviewBuyWithBankCardRouterArgs {
 class Circle3dSecureWebViewRouter
     extends PageRouteInfo<Circle3dSecureWebViewRouterArgs> {
   Circle3dSecureWebViewRouter({
+    required String title,
     required String url,
     required String asset,
     required String amount,
@@ -2050,6 +2124,7 @@ class Circle3dSecureWebViewRouter
   }) : super(
           Circle3dSecureWebViewRouter.name,
           args: Circle3dSecureWebViewRouterArgs(
+            title: title,
             url: url,
             asset: asset,
             amount: amount,
@@ -2069,6 +2144,7 @@ class Circle3dSecureWebViewRouter
 
 class Circle3dSecureWebViewRouterArgs {
   const Circle3dSecureWebViewRouterArgs({
+    required this.title,
     required this.url,
     required this.asset,
     required this.amount,
@@ -2077,6 +2153,8 @@ class Circle3dSecureWebViewRouterArgs {
     required this.paymentId,
     required this.onFailed,
   });
+
+  final String title;
 
   final String url;
 
@@ -2097,7 +2175,7 @@ class Circle3dSecureWebViewRouterArgs {
 
   @override
   String toString() {
-    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
+    return 'Circle3dSecureWebViewRouterArgs{title: $title, url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
   }
 }
 

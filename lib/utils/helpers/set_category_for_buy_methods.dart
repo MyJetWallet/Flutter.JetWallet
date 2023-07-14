@@ -9,6 +9,12 @@ BuyMethodDto setCategoryForBuyMethods(BuyMethodDto dto) {
     case PaymentMethodType.bankCard:
       category = PaymentMethodCategory.cards;
       break;
+    case PaymentMethodType.unlimintAlternative:
+      category = PaymentMethodCategory.cards;
+      break;
+    case PaymentMethodType.unlimintCard:
+      category = PaymentMethodCategory.cards;
+      break;
     case PaymentMethodType.paymeP2P:
       category = PaymentMethodCategory.p2p;
       break;
@@ -19,6 +25,9 @@ BuyMethodDto setCategoryForBuyMethods(BuyMethodDto dto) {
       category = PaymentMethodCategory.local;
       break;
     case PaymentMethodType.codi:
+      category = PaymentMethodCategory.local;
+      break;
+    case PaymentMethodType.spei:
       category = PaymentMethodCategory.local;
       break;
     case PaymentMethodType.convenienceStore:

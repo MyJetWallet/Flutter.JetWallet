@@ -11,6 +11,7 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'Circle3dSecureWebViewRouter')
 class Circle3dSecureWebView extends StatelessWidget {
   const Circle3dSecureWebView(
+    this.title,
     this.url,
     this.asset,
     this.amount,
@@ -20,6 +21,7 @@ class Circle3dSecureWebView extends StatelessWidget {
     this.onFailed,
   );
 
+  final String title;
   final String url;
   final String asset;
   final String amount;
@@ -44,7 +46,7 @@ class Circle3dSecureWebView extends StatelessWidget {
           child: SSmallHeader(
             titleAlign: TextAlign.left,
             icon: const SCloseIcon(),
-            title: intl.previewBuyWithCircle_paymentVerification,
+            title: title,
             onBackButtonTap: () {
               navigateToRouter();
             },
@@ -105,6 +107,8 @@ class Circle3dSecureWebView extends StatelessWidget {
                     onSuccess(paymentId, url);
                   } else if (uri.path == '/unlimint/cancel') {
                     onCancel?.call(paymentId);
+                  } else if (uri.path == '/unlimint/inprocess') {
+                    onSuccess(paymentId, url);
                   }
 
                   return NavigationDecision.navigate;

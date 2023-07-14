@@ -50,6 +50,7 @@ class SPolicyCheckbox extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [

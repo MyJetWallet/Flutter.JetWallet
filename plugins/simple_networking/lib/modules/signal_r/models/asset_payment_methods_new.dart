@@ -87,6 +87,7 @@ class PaymentAsset with _$PaymentAsset {
     @DecimalSerialiser() required Decimal maxAmount,
     int? orderId,
     LimitDescription? limits,
+    PresetDescription? presets,
   }) = _PaymentAsset;
 
   factory PaymentAsset.fromJson(Map<String, dynamic> json) =>
@@ -106,4 +107,16 @@ class LimitDescription with _$LimitDescription {
 
   factory LimitDescription.fromJson(Map<String, dynamic> json) =>
       _$LimitDescriptionFromJson(json);
+}
+
+@freezed
+class PresetDescription with _$PresetDescription {
+  const factory PresetDescription({
+    @DecimalNullSerialiser() Decimal? amount1,
+    @DecimalNullSerialiser() Decimal? amount2,
+    @DecimalNullSerialiser() Decimal? amount3,
+  }) = _PresetDescription;
+
+  factory PresetDescription.fromJson(Map<String, dynamic> json) =>
+      _$PresetDescriptionFromJson(json);
 }

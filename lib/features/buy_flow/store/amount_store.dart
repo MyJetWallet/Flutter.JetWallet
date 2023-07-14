@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
+import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/base_currencies_format.dart';
@@ -33,6 +37,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
+        findInHideTerminalList: true,
         assetSymbol: currency?.asset ?? 'BTC',
       );
 
@@ -40,11 +45,18 @@ abstract class _BuyAmountStoreBase with Store {
   PaymentMethodCategory category = PaymentMethodCategory.cards;
 
   @observable
+  bool disableSubmit = false;
+  @action
+  bool setDisableSubmit(bool value) => disableSubmit = value;
+
+  @observable
   String inputValue = '0';
   @observable
   String targetConversionValue = '0';
   @observable
   String baseConversionValue = '0';
+  @observable
+  Decimal? targetConversionPrice;
 
   @observable
   String? paymentMethodInputError;
@@ -69,6 +81,9 @@ abstract class _BuyAmountStoreBase with Store {
   @observable
   bool inputValid = false;
 
+  @observable
+  PaymentAsset? selectedPaymentAsset;
+
   CurrencyModel? asset;
   PaymentAsset? currency;
   BuyMethodDto? method;
@@ -86,20 +101,43 @@ abstract class _BuyAmountStoreBase with Store {
     method = inputMethod;
     card = inputCard;
 
+    log(inputMethod.toString());
+
     category =
         card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
 
     updateLimitModel(inputCurrency);
     initPreset();
+
+    loadConversionPrice(
+      inputCurrency.asset,
+      inputAsset.symbol,
+    );
+
+    selectedPaymentAsset = method!.paymentAssets!
+        .firstWhere((element) => element.asset == currency?.asset);
   }
 
   @action
-  String conversionText(CurrencyModel currency) {
+  Future<void> loadConversionPrice(
+    String baseS,
+    String targetS,
+  ) async {
+    targetConversionPrice = await getConversionPrice(
+      ConversionPriceInput(
+        baseAssetSymbol: baseS,
+        quotedAssetSymbol: targetS,
+      ),
+    );
+  }
+
+  @action
+  String conversionText() {
     final target = volumeFormat(
       decimal: Decimal.parse(targetConversionValue),
-      symbol: currency.symbol,
-      prefix: currency.prefixSymbol,
-      accuracy: currency.accuracy,
+      symbol: asset?.symbol ?? '',
+      prefix: asset?.prefixSymbol ?? '',
+      accuracy: asset?.accuracy ?? 1,
     );
 
     if (Decimal.parse(targetConversionValue) == Decimal.zero) {
@@ -127,7 +165,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   int get selectedCurrencyAccuracy {
-    return asset == null ? baseCurrency.accuracy : asset!.accuracy;
+    return currency == null ? baseCurrency.accuracy : buyCurrency.accuracy;
   }
 
   @computed
@@ -238,32 +276,58 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   Future<void> initPreset() async {
-    preset1Name = method != null
-        ? baseCurrenciesFormat(
-            prefix: asset?.prefixSymbol ?? '',
-            text: '50',
-            symbol: asset?.symbol ?? '',
-          )
-        : '25%';
-    preset2Name = method != null
-        ? baseCurrenciesFormat(
-            prefix: asset?.prefixSymbol ?? '',
-            text: '100',
-            symbol: asset?.symbol ?? '',
-          )
-        : '50%';
-    preset3Name = method != null
-        ? baseCurrenciesFormat(
-            prefix: asset?.prefixSymbol ?? '',
-            text: '500',
-            symbol: asset?.symbol ?? '',
-          )
-        : 'MAX';
+    final presets = method!.paymentAssets!
+        .firstWhere((element) => element.asset == currency?.asset)
+        .presets!;
+
+    preset1Name = baseCurrenciesFormat(
+      prefix: asset?.prefixSymbol ?? '',
+      text: formatPreset(presets.amount1 ?? Decimal.zero),
+      symbol: asset?.symbol ?? '',
+    );
+    preset2Name = baseCurrenciesFormat(
+      prefix: asset?.prefixSymbol ?? '',
+      text: formatPreset(presets.amount2 ?? Decimal.zero),
+      symbol: asset?.symbol ?? '',
+    );
+    preset3Name = baseCurrenciesFormat(
+      prefix: asset?.prefixSymbol ?? '',
+      text: formatPreset(presets.amount3 ?? Decimal.zero),
+      symbol: asset?.symbol ?? '',
+    );
+  }
+
+  String formatPreset(Decimal amount) {
+    return amount > Decimal.fromInt(10000)
+        ? '${amount / Decimal.fromInt(1000)}k'
+        : amount.toString();
   }
 
   @action
   void tapPreset(String presetName) {
     tappedPreset = presetName;
+  }
+
+  @action
+  void selectFixedSum(SKeyboardPreset preset) {
+    late String value;
+
+    final presets = method!.paymentAssets!
+        .firstWhere((element) => element.asset == currency?.asset)
+        .presets!;
+
+    if (preset == SKeyboardPreset.preset1) {
+      value = presets.amount1!.toString();
+    } else if (preset == SKeyboardPreset.preset2) {
+      value = presets.amount2!.toString();
+    } else {
+      value = presets.amount3!.toString();
+    }
+
+    inputValue = valueAccordingToAccuracy(value, selectedCurrencyAccuracy);
+    _validateInput();
+    _calculateTargetConversion();
+    _calculateBaseConversion();
   }
 
   @action
@@ -274,8 +338,6 @@ abstract class _BuyAmountStoreBase with Store {
       accuracy: selectedCurrencyAccuracy,
     );
 
-    print(inputValue);
-
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
@@ -283,7 +345,27 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
-  void _calculateTargetConversion() {}
+  void _calculateTargetConversion() {
+    if (targetConversionPrice != null && inputValue.isNotEmpty) {
+      final amount = Decimal.parse(inputValue);
+      final price = targetConversionPrice!;
+      final accuracy = asset!.accuracy;
+
+      var conversion = Decimal.zero;
+
+      if (price != Decimal.zero) {
+        conversion = Decimal.parse(
+          (amount * price).toStringAsFixed(accuracy),
+        );
+      }
+
+      targetConversionValue = truncateZerosFrom(
+        conversion.toString(),
+      );
+    } else {
+      targetConversionValue = zero;
+    }
+  }
 
   @action
   void _calculateBaseConversion() {
@@ -297,25 +379,6 @@ abstract class _BuyAmountStoreBase with Store {
     } else {
       baseConversionValue = zero;
     }
-  }
-
-  @action
-  void selectFixedSum(SKeyboardPreset preset) {
-    late int value;
-
-    selectedPreset = preset;
-    if (preset == SKeyboardPreset.preset1) {
-      value = 50;
-    } else if (preset == SKeyboardPreset.preset2) {
-      value = 100;
-    } else {
-      value = 500;
-    }
-
-    inputValue = valueAccordingToAccuracy(value.toString(), 0);
-    _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
   }
 
   @action
@@ -334,15 +397,13 @@ abstract class _BuyAmountStoreBase with Store {
         return;
       }
 
-      /*
+      print(selectedPaymentAsset);
+
       final value = double.parse(inputValue);
       var min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
       var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
 
-      if (selectedPaymentMethod?.id == PaymentMethodType.circleCard ||
-          selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
-          selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-          selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
+      if (category == PaymentMethodCategory.cards) {
         double? limitMax = max;
 
         if (limitByAsset != null) {
@@ -354,22 +415,13 @@ abstract class _BuyAmountStoreBase with Store {
                   : (limitByAsset!.day30Limit - limitByAsset!.day30Amount)
                       .toDouble();
         }
-        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard) {
-          limitMax = pickedCircleCard?.paymentDetails.maxAmount.toDouble();
-          min = pickedCircleCard?.paymentDetails.minAmount.toDouble() ?? 0;
-          max = (limitMax ?? 0) <
-                  (pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0)
-              ? limitMax ?? 0
-              : pickedCircleCard?.paymentDetails.maxAmount.toDouble() ?? 0;
-        }
-        if (selectedPaymentMethod?.id == PaymentMethodType.unlimintCard ||
-            selectedPaymentMethod?.id == PaymentMethodType.simplex ||
-            selectedPaymentMethod?.id == PaymentMethodType.bankCard) {
-          max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
-        }
+
+        max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
       }
 
       inputValid = value >= min && value <= max;
+
+      print('min: $min, max: $max');
 
       if (max == 0) {
         _updatePaymentMethodInputError(
@@ -377,47 +429,34 @@ abstract class _BuyAmountStoreBase with Store {
         );
       } else if (value < min) {
         _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
-            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
+            accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,
           )}',
         );
       } else if (value > max) {
-        if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
-            pickedCircleCard == null) {
-          return;
-        }
         _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: paymentCurrency?.accuracy ?? baseCurrency!.accuracy,
-            symbol: paymentCurrency?.symbol ?? baseCurrency!.symbol,
-            prefix: paymentCurrency?.prefixSymbol ?? paymentCurrency?.symbol,
+            accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
+            symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,
           )}',
         );
       } else {
         _updatePaymentMethodInputError(null);
       }
-      */
-
-      return;
     }
 
-    _updatePaymentMethodInputError(null);
+    final error = InputError.none;
 
-    if (asset == null) {
-      inputValid = false;
-    } else {
-      final error = onTradeInputErrorHandler(
-        inputValue,
-        asset!,
-      );
-
-      inputValid = error == InputError.none ? isInputValid(inputValue) : false;
-      inputError = error;
-    }
+    inputError = double.parse(inputValue) != 0
+        ? error == InputError.none
+            ? paymentMethodInputError == null
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
   }
 
   @action

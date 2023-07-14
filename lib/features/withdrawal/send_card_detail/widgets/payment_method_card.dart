@@ -286,7 +286,7 @@ class MethodPlaceholder extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 4),
       alignment: Alignment.center,
       child: Text(
-        name.isEmpty ? '' : name[0],
+        name.isEmpty ? '' : name[0].toUpperCase(),
         style: sSubtitle1Style.copyWith(
           color: Colors.white,
         ),

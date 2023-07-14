@@ -15,7 +15,7 @@ class AppConfigModel with _$AppConfigModel {
     @Default('https://nft.simple.app/privacy-policy') String nftPolicyLink,
     @Default('Simple Europe UAB') String simpleCompanyName,
     @Default('Gyneju str. 14-65, Vilnius, Republic of Lithuania, 01109')
-      String simpleCompanyAddress,
+    String simpleCompanyAddress,
     required String refundPolicyLink,
     required String infoRewardsLink,
     required String infoEarnLink,

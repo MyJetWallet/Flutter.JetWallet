@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
@@ -47,7 +48,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
-            currency: PaymentMethodStore.of(context).selectedAssset,
+            currency: PaymentMethodStore.of(context).buyCurrency,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -85,7 +86,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 1 / .59,
+              childAspectRatio: 1 / .61,
             ),
             itemCount: store.unlimintAltCards.length + 1,
             itemBuilder: (context, i) {
@@ -98,7 +99,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       color: sKit.colors.blue,
                     ),
                   ),
-                  name: 'Add card',
+                  name: intl.add_card_text,
                   onTap: () {
                     final kycState = getIt.get<KycService>();
                     final kycHandler = getIt.get<KycAlertHandler>();
@@ -133,6 +134,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       BuyAmountRoute(
                         asset: asset,
                         currency: currency,
+                        method: store.cardsMethods.first,
                         card: store.unlimintAltCards[i],
                       ),
                     );

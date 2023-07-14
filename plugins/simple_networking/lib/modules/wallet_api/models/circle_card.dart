@@ -21,6 +21,7 @@ class CircleCard with _$CircleCard {
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
     String? cardLabel,
+    String? cardAssetSymbol,
   }) = _CircleCard;
 
   factory CircleCard.fromJson(Map<String, dynamic> json) =>

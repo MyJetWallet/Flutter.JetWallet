@@ -287,3 +287,15 @@ String getCardTypeMask(String cardNumber) {
 
   return maskCard.join();
 }
+
+bool validLabel(String txt) {
+  if (txt.isEmpty) return false;
+
+  var re = RegExp(
+    r"^[a-zA-Z\p{N},.:/\s/-]*$",
+    unicode: true,
+    multiLine: true,
+  );
+
+  return !re.hasMatch(txt);
+}

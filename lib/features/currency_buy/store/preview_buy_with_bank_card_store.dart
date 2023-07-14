@@ -278,6 +278,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
+              title: intl.previewBuyWithCircle_paymentVerification,
               url: url,
               asset: currencySymbol,
               amount: input.amount,

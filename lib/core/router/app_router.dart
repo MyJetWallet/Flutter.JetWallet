@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/features/account/about_us/about_us.dart';
 import 'package:jetwallet/features/account/account_screen.dart';
@@ -27,6 +28,7 @@ import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
@@ -560,6 +562,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/buy_flow_amount',
       page: BuyAmountRoute.page,
+    ),
+    AutoRoute(
+      path: '/buy_flow_confirmation',
+      page: BuyConfirmationRoute.page,
     ),
   ];
 }

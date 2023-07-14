@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
@@ -24,20 +26,23 @@ class PaymentMethodStore extends _PaymentMethodStoreBase
 abstract class _PaymentMethodStoreBase with Store {
   TextEditingController searchController = TextEditingController();
 
-  CurrencyModel? selectedAssset;
-
   @observable
-  ObservableList<CircleCard> circleCards = ObservableList.of([]);
+  CurrencyModel? selectedAssset;
+  @observable
+  PaymentAsset? selectedCurrency;
+
   @computed
-  List<CircleCard> get unlimintCards => sSignalRModules.cards.cardInfos
-      .where(
-        (element) => element.integration == IntegrationType.unlimint,
-      )
-      .toList();
+  CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
+        findInHideTerminalList: true,
+        assetSymbol: selectedCurrency?.asset ?? 'BTC',
+      );
+
   @computed
   List<CircleCard> get unlimintAltCards => sSignalRModules.cards.cardInfos
       .where(
-        (element) => element.integration == IntegrationType.unlimintAlt,
+        (element) =>
+            element.integration == IntegrationType.unlimintAlt &&
+            element.cardAssetSymbol == selectedCurrency!.asset,
       )
       .toList();
 
@@ -51,37 +56,30 @@ abstract class _PaymentMethodStoreBase with Store {
   @action
   Future<void> init(CurrencyModel asset, PaymentAsset currency) async {
     selectedAssset = asset;
+    selectedCurrency = currency;
+
+    log(asset.buyMethods.toString());
 
     asset.buyMethods.forEach((element) {
+      final isCurrExist = element.paymentAssets!
+          .indexWhere((element) => element.asset == buyCurrency.symbol);
+
       if (element.category == PaymentMethodCategory.cards) {
-        cardsMethods.add(element);
-        /*if (data.cardNumber != null && data.cardNumber!.isNotEmpty) {
-          if (data.cardNumber![0] == '4') {
-            cardNetwork = CircleCardNetwork.VISA;
-          } else if (data.cardNumber![0] == '5') {
-            cardNetwork = CircleCardNetwork.MASTERCARD;
-          }
+        if (isCurrExist != -1) {
+          cardsMethods.add(element);
         }
-        */
       } else if (element.category == PaymentMethodCategory.local) {
-        localMethods.add(element);
+        if (isCurrExist != -1) {
+          localMethods.add(element);
+        }
       } else if (element.category == PaymentMethodCategory.p2p) {
-        p2pMethods.add(element);
+        if (isCurrExist != -1) {
+          p2pMethods.add(element);
+        }
       }
     });
 
-    // Placeholder for show add card in UI
-    cardsMethods.add(
-      const BuyMethodDto(
-        id: PaymentMethodType.unsupported,
-        category: PaymentMethodCategory.cards,
-        termsAccepted: true,
-      ),
-    );
-
-    await _fetchCircleCards(asset);
-
-    log(unlimintAltCards.toString());
+    log(localMethods.toString());
   }
 
   @computed
@@ -89,28 +87,4 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @action
   void search(String value) {}
-
-  @action
-  Future<void> _fetchCircleCards(CurrencyModel asset) async {
-    if (asset.supportsCircle) {
-      final response = await sNetwork.getWalletModule().getAllCards();
-
-      response.pick(
-        onData: (data) {
-          final dataCards = data.cards.toList();
-
-          dataCards.removeWhere(
-            (card) {
-              return isCardExpired(card.expMonth, card.expYear) ||
-                  card.status == CircleCardStatus.failed;
-            },
-          );
-
-          if (dataCards.isNotEmpty) {
-            circleCards = ObservableList.of(dataCards);
-          }
-        },
-      );
-    }
-  }
 }

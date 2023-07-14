@@ -10,11 +10,16 @@ import 'package:jetwallet/features/buy_flow/store/amount_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/helpers/capitalize_text.dart';
+import 'package:jetwallet/utils/helpers/icon_url_from.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -44,6 +49,7 @@ class BuyAmountScreen extends StatelessWidget {
         asset: asset,
         currency: currency,
         method: method,
+        card: card,
       ),
     );
   }
@@ -99,16 +105,16 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
         }
 
         return '${volumeFormat(
-          prefix: store.asset!.prefixSymbol,
+          prefix: store.buyCurrency!.prefixSymbol,
           decimal: amount,
-          symbol: store.asset!.symbol,
-          accuracy: store.asset!.accuracy,
+          symbol: store.buyCurrency!.symbol,
+          accuracy: store.buyCurrency!.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
-          prefix: store.asset!.prefixSymbol,
+          prefix: store.buyCurrency!.prefixSymbol,
           decimal: limit,
-          symbol: store.asset!.symbol,
-          accuracy: store.asset!.accuracy,
+          symbol: store.buyCurrency!.symbol,
+          accuracy: store.buyCurrency!.accuracy,
           onlyFullPart: true,
         )}';
       }
@@ -145,8 +151,15 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
               baselineType: TextBaseline.alphabetic,
               child: SActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),
-                price: store.inputValue,
-                helper: store.conversionText(store.buyCurrency),
+                price: formatCurrencyStringAmount(
+                  prefix: store.buyCurrency.prefixSymbol,
+                  value: store.inputValue,
+                  symbol: store.buyCurrency.symbol,
+                ),
+                helper: formatCurrencyStringAmount(
+                  value: store.targetConversionValue,
+                  symbol: asset!.symbol,
+                ),
                 error: store.inputErrorValue,
                 isErrorActive: store.isInputErrorActive,
               ),
@@ -199,7 +212,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
             small: () => const SpaceH8(),
             medium: () => const SpaceH16(),
           ),
-          if (store.card != null) ...[
+          if (store.category == PaymentMethodCategory.cards) ...[
             SPaymentSelectCreditCard(
               widgetSize: widgetSizeFrom(deviceSize),
               icon: getNetworkIcon(store.card?.network),
@@ -208,10 +221,9 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
               limit: store.isLimitBlock
                   ? 100
                   : store.limitByAsset?.barProgress ?? 0,
-              onTap: () => {},
             ),
           ],
-          if (store.method != null) ...[
+          if (store.category != PaymentMethodCategory.cards) ...[
             SPaddingH24(
               child: InkWell(
                 onTap: () {},
@@ -233,13 +245,27 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SpaceW19(),
+                          SNetworkCachedSvg(
+                            url: iconForPaymentMethod(
+                              methodId: store.method?.id.name ?? '',
+                            ),
+                            width: 40,
+                            height: 40,
+                            placeholder: MethodPlaceholder(
+                              name: capitalizeText(
+                                store.method?.id.name ?? '  ',
+                              ),
+                            ),
+                          ),
                           const SpaceW12(),
                           Flexible(
                             child: Baseline(
                               baseline: 18,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                '123123',
+                                capitalizeText(
+                                  store.method?.id.name ?? '  ',
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 style: sSubtitle2Style,
                               ),
@@ -272,14 +298,29 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                         ? store.preset2Name
                         : store.preset3Name,
               );
+
+              store.selectFixedSum(preset);
             },
             onKeyPressed: (value) {
               store.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: true,
+            submitButtonActive: store.inputValid &&
+                !store.disableSubmit &&
+                !(double.parse(store.inputValue) == 0.0) &&
+                store.limitByAsset!.barProgress != 100,
             submitButtonName: intl.addCircleCard_continue,
-            onSubmitPressed: () {},
+            onSubmitPressed: () {
+              sRouter.push(
+                BuyConfirmationRoute(
+                  asset: asset,
+                  paymentCurrency: store.buyCurrency,
+                  amount: store.inputValue,
+                  method: method,
+                  card: card,
+                ),
+              );
+            },
           ),
         ],
       ),

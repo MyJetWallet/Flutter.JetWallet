@@ -38,6 +38,7 @@ class SimplePolicyRichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textAlign: TextAlign.start,
       text: TextSpan(
         text: firstText,
         style: sCaptionTextStyle.copyWith(
