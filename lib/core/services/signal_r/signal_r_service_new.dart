@@ -52,6 +52,8 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
+import '../../../features/account/profile_details/store/change_base_asset_store.dart';
+
 part 'signal_r_service_new.g.dart';
 
 late SignalRServiceUpdated sSignalRModules;
@@ -652,6 +654,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
       }
     }
+    getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
 
   @observable
