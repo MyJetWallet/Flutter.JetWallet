@@ -286,6 +286,9 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
           ),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
+            showPresets: store.preset1Name != '0' &&
+                store.preset2Name != '0' &&
+                store.preset3Name != '0',
             preset1Name: store.preset1Name,
             preset2Name: store.preset2Name,
             preset3Name: store.preset3Name,
