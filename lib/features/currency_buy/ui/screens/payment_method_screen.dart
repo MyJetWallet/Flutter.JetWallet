@@ -153,7 +153,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
               onCardAdded: () {},
               amount: '',
               isPreview: true,
-              currency: widget.currency,
+              //currency: widget.currency,
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

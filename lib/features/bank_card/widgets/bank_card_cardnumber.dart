@@ -41,6 +41,9 @@ class BankCardCardnumber extends StatelessObserverWidget {
                 ),
               ]
             : null,
+        onErase: () {
+          store.onEraseCardNumber();
+        },
         hideClearButton: store.cardStoreMode == BankCardStoreMode.EDIT,
         readOnly: store.cardStoreMode == BankCardStoreMode.EDIT,
         grayLabel: store.cardStoreMode == BankCardStoreMode.EDIT,

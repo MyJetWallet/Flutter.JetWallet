@@ -298,7 +298,7 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   String formatPreset(Decimal amount) {
-    return amount > Decimal.fromInt(10000)
+    return amount >= Decimal.fromInt(10000)
         ? '${amount / Decimal.fromInt(1000)}k'
         : amount.toString();
   }

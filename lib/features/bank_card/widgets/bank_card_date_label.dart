@@ -19,7 +19,7 @@ class BankCardDateLabel extends StatelessObserverWidget {
           child: Focus(
             onFocusChange: (hasFocus) {
               if (!hasFocus) {
-                //store.yearFieldTap();
+                store.validExpiry();
               }
             },
             child: SFieldDividerFrame(
@@ -50,6 +50,7 @@ class BankCardDateLabel extends StatelessObserverWidget {
         Expanded(
           child: SFieldDividerFrame(
             child: SStandardField(
+              maxLines: 1,
               labelText: intl.addCircleCard_label,
               focusNode: store.labelNode,
               isError: store.labelError,

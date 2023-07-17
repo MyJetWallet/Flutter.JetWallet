@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -17,6 +18,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_remove/card_remove_request_model.dart';
@@ -81,6 +83,10 @@ abstract class _BankCardStoreBase with Store {
   void setCardLabel(String value) {
     cardLabel = value;
 
+    if (expiryYear.isEmpty) {
+      expiryMonthError = true;
+    }
+
     labelError = validLabel(value);
   }
 
@@ -116,7 +122,10 @@ abstract class _BankCardStoreBase with Store {
       return false;
     }
 
-    return isCardNumberValid && isExpiryMonthValid && isExpiryYearValid;
+    return isCardNumberValid &&
+        isExpiryMonthValid &&
+        isExpiryYearValid &&
+        isLabelValid;
   }
 
   @computed
@@ -143,6 +152,11 @@ abstract class _BankCardStoreBase with Store {
             '${expiryYear[expiryYear.length == 2 ? 0 : 2]}'
             '${expiryYear[expiryYear.length == 2 ? 1 : 3]}')
         .isValid;
+  }
+
+  @computed
+  bool get isLabelValid {
+    return saveCard ? cardLabel.isNotEmpty : true;
   }
 
   @action
@@ -176,6 +190,14 @@ abstract class _BankCardStoreBase with Store {
       cardNode.nextFocus();
       monthNode.requestFocus();
     }
+  }
+
+  @action
+  void onEraseCardNumber() {
+    cardNumberController.text = '';
+    cardNumberController.clear();
+    cardNumber = '';
+    cardNumberError = false;
   }
 
   @action
@@ -221,11 +243,14 @@ abstract class _BankCardStoreBase with Store {
           TextSelection.collapsed(offset: expiryMonthController.text.length);
     }
 
-    if (expiryDate.length >= 4) {
+    if (expiryDate.length >= 5) {
       var sp = expiryDate.split('/');
 
       expiryMonth = sp.first;
       expiryYear = sp[1];
+
+      monthNode.nextFocus();
+      labelNode.requestFocus();
 
       if ((expiryYear.length == 4 || expiryYear.length == 2) &&
           expiryYear != '20') {
@@ -242,12 +267,24 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
+  void validExpiry() {
+    print(expiryMonth.isEmpty || expiryYear.isEmpty);
+
+    if (expiryMonth.isEmpty || expiryYear.isEmpty) {
+      expiryMonthError = true;
+      expiryYearError = true;
+    }
+  }
+
+  @action
   Future<void> addCard({
     required Function() onSuccess,
     required VoidCallback onError,
     required bool isPreview,
-    CurrencyModel? currency,
+    PaymentAsset? currency,
     required String amount,
+    BuyMethodDto? method,
+    required CurrencyModel asset,
   }) async {
     loader.startLoadingImmediately();
 
@@ -276,7 +313,7 @@ abstract class _BankCardStoreBase with Store {
         ),
         isActive: isPreview ? saveCard : true,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
-        cardAssetSymbol: currency?.symbol ?? '',
+        cardAssetSymbol: currency?.asset ?? '',
       );
 
       final newCard = await sNetwork.getWalletModule().cardAdd(model);
@@ -298,6 +335,8 @@ abstract class _BankCardStoreBase with Store {
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
+                        method: method,
+                        asset: asset!,
                       );
                     },
                   ),
@@ -315,6 +354,8 @@ abstract class _BankCardStoreBase with Store {
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
+                        method: method,
+                        asset: asset!,
                       );
                     },
                   ),
@@ -327,6 +368,8 @@ abstract class _BankCardStoreBase with Store {
                 amount: amount,
                 cardId: newCard.data?.data.cardId ?? '',
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
+                method: method,
+                asset: asset!,
               );
             } else {
               _showFailureScreen();
@@ -363,23 +406,27 @@ abstract class _BankCardStoreBase with Store {
   @action
   void showPreview({
     required String amount,
-    required CurrencyModel currency,
+    required PaymentAsset currency,
     required String cardNumber,
     required String cardId,
+    BuyMethodDto? method,
+    required CurrencyModel asset,
     bool showUaAlert = false,
   }) {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
-      sAnalytics.newBuyBuyAssetView(asset: currency.symbol);
+      final card = sSignalRModules.cards.cardInfos
+          .firstWhere((element) => element.id == cardId);
+
+      print(card);
+
       sRouter.push(
-        CurrencyBuyRouter(
-          newBankCardId: cardId,
+        BuyAmountRoute(
+          asset: asset,
           currency: currency,
-          fromCard: true,
-          paymentMethod: PaymentMethodType.bankCard,
-          newBankCardNumber: finalCardNumber,
-          showUaAlert: showUaAlert,
+          method: method,
+          card: card,
         ),
       );
     });

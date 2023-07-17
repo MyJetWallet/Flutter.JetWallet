@@ -32,6 +32,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
   final PaymentAsset currency;
 
   void onAddCardTap(BuildContext context) {
+    final store = PaymentMethodStore.of(context);
     final kycState = getIt.get<KycService>();
     final status = kycOperationStatus(KycStatus.kycRequired);
     final isUserVerified = kycState.depositStatus != status &&
@@ -48,7 +49,9 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
-            currency: PaymentMethodStore.of(context).buyCurrency,
+            currency: currency,
+            asset: asset,
+            method: store.cardsMethods.first,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {

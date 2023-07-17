@@ -166,16 +166,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           requestQuote();
         },
         onError: (error) {
-          print('3 $error');
-          //_showFailureScreen(error.cause);
+          _showFailureScreen(error.cause);
         },
       );
     } on ServerRejectException catch (error) {
-      print('1 $error');
-      //unawaited(_showFailureScreen(error.cause));
+      unawaited(_showFailureScreen(error.cause));
     } catch (error) {
-      print('2 $error');
-      //unawaited(_showFailureScreen(intl.something_went_wrong));
+      unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
       loader.finishLoading();
 
