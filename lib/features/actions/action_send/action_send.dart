@@ -1,8 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,16 +8,13 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -46,8 +40,7 @@ void showSendAction(
   final searchState = getIt.get<ActionSearchStore>();
   final sendAssets = searchState.fCurrencies
       .where(
-        (element) =>
-            element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
+        (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
       )
       .toList();
 
@@ -72,16 +65,19 @@ Future<void> _showSendAction(BuildContext context) async {
       )
       .toList();
 
-  final isGlobalSendActive = sSignalRModules.currenciesList
-      .where((element) => element.supportsGlobalSend)
-      .toList();
+  final isGlobalSendActive =
+      sSignalRModules.currenciesList.where((element) => element.supportsGlobalSend).toList();
 
-  final cryptoGlobalSendLength = sSignalRModules.currenciesList.where(
-      (element) =>
-          element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
+  final cryptoGlobalSendLength = sSignalRModules.currenciesList
+      .where((element) => element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
 
-  final isIbanOutActive = sSignalRModules.currenciesList
-      .where((element) => element.supportIbanSendWithdrawal)
+  final isIbanOutActive =
+      sSignalRModules.currenciesList.where((element) => element.supportIbanSendWithdrawal).toList();
+
+  final isGiftSendActive = sSignalRModules.currenciesList
+      .where(
+        (element) => element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
+      )
       .toList();
 
   sShowBasicModalBottomSheet(
@@ -170,6 +166,18 @@ Future<void> _showSendAction(BuildContext context) async {
           helper: intl.iban_send_helper,
           removeDivider: true,
         ),
+      if (isGiftSendActive.isNotEmpty)
+        SCardRow(
+          icon: const SGiftSendIcon(),
+          onTap: () {
+            Navigator.pop(context);
+            sRouter.push( GiftSelectAssetRouter(assets: isGiftSendActive));
+          },
+          amount: '',
+          description: '',
+          name: intl.send_gift,
+          helper: intl.send_gift_to_simple_wallet,
+        ),
       const SpaceH42(),
     ],
     then: (value) {},
@@ -185,15 +193,11 @@ Future<void> showSendGlobally(
 
   for (var i = 0; i < sSignalRModules.globalSendMethods!.methods!.length; i++) {
     if (sSignalRModules.globalSendMethods!.methods![i].countryCodes != null &&
-        sSignalRModules
-            .globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
+        sSignalRModules.globalSendMethods!.methods![i].countryCodes!.isNotEmpty) {
       for (var q = 0;
-          q <
-              sSignalRModules
-                  .globalSendMethods!.methods![i].countryCodes!.length;
+          q < sSignalRModules.globalSendMethods!.methods![i].countryCodes!.length;
           q++) {
-        if (sSignalRModules
-            .globalSendMethods!.methods![i].countryCodes![q].isNotEmpty) {
+        if (sSignalRModules.globalSendMethods!.methods![i].countryCodes![q].isNotEmpty) {
           final cind = sSignalRModules.kycCountries.indexWhere(
             (element) =>
                 element.countryCode ==
@@ -201,8 +205,7 @@ Future<void> showSendGlobally(
           );
 
           if (cind != -1) {
-            if (!availableCountries
-                .contains(sSignalRModules.kycCountries[cind])) {
+            if (!availableCountries.contains(sSignalRModules.kycCountries[cind])) {
               availableCountries.add(sSignalRModules.kycCountries[cind]);
             }
           }
@@ -300,8 +303,7 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
             if (list.length == 1) {
               sRouter.push(
                 SendCardDetailRouter(
-                  countryCode:
-                      store.filtredGlobalSendCountries[index].countryCode,
+                  countryCode: store.filtredGlobalSendCountries[index].countryCode,
                   currency: currency,
                   method: list[0],
                 ),
@@ -310,8 +312,7 @@ class _GlobalSendCountriesList extends StatelessObserverWidget {
               sRouter.push(
                 SendCardPaymentMethodRouter(
                   currency: currency,
-                  countryCode:
-                      store.filtredGlobalSendCountries[index].countryCode,
+                  countryCode: store.filtredGlobalSendCountries[index].countryCode,
                 ),
               );
             }
@@ -382,9 +383,7 @@ class _ActionSend extends StatelessObserverWidget {
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) =>
-              element.isAssetBalanceNotEmpty &&
-              element.supportsCryptoWithdrawal,
+          (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
         )
         .toList();
 
@@ -449,9 +448,7 @@ class _ActionSendPhone extends StatelessObserverWidget {
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) =>
-              element.isAssetBalanceNotEmpty &&
-              element.supportsCryptoWithdrawal,
+          (element) => element.isAssetBalanceNotEmpty && element.supportsCryptoWithdrawal,
         )
         .toList();
 
@@ -541,8 +538,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
     var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
     currencyFiltered = currencyFiltered
         .where(
-          (element) =>
-              element.type == AssetType.crypto && element.supportsGlobalSend,
+          (element) => element.type == AssetType.crypto && element.supportsGlobalSend,
         )
         .toList();
 
@@ -692,8 +688,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
             children: [
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.crypto)
-                  if (currency.supportsGlobalSend &&
-                      currency.isAssetBalanceNotEmpty)
+                  if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
                     SWalletItem(
                       icon: SNetworkSvg24(
                         url: currency.iconUrl,
@@ -721,8 +716,7 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
             children: [
               for (final currency in state.fCurrencies)
                 if (currency.type == AssetType.fiat)
-                  if (currency.supportsGlobalSend &&
-                      currency.isAssetBalanceNotEmpty)
+                  if (currency.supportsGlobalSend && currency.isAssetBalanceNotEmpty)
                     SWalletItem(
                       icon: SNetworkSvg24(
                         url: currency.iconUrl,

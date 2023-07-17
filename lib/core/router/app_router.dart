@@ -126,6 +126,8 @@ import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
+import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
+import '../../features/send_gift/screens/gift_select_asset_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -549,6 +551,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/global_send_payment_method',
       page: SendCardPaymentMethodRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_select_asset',
+      page: GiftSelectAssetRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_receivers_details',
+      page: GiftReceiversDetailsRouter.page,
     ),
   ];
 }
