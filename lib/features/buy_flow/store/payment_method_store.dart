@@ -49,9 +49,20 @@ abstract class _PaymentMethodStoreBase with Store {
   @observable
   ObservableList<BuyMethodDto> cardsMethods = ObservableList.of([]);
   @observable
+  ObservableList<CircleCard> cardsMethodsFiltred = ObservableList.of([]);
+
+  @observable
   ObservableList<BuyMethodDto> localMethods = ObservableList.of([]);
   @observable
+  ObservableList<BuyMethodDto> localMethodsFilted = ObservableList.of([]);
+
+  @observable
   ObservableList<BuyMethodDto> p2pMethods = ObservableList.of([]);
+  @observable
+  ObservableList<BuyMethodDto> p2pMethodsFiltred = ObservableList.of([]);
+
+  @observable
+  ObservableList<PaymentMethodSearchModel> searchList = ObservableList.of([]);
 
   @action
   Future<void> init(CurrencyModel asset, PaymentAsset currency) async {
@@ -80,11 +91,53 @@ abstract class _PaymentMethodStoreBase with Store {
     });
 
     log(localMethods.toString());
+
+    cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
+    localMethodsFilted = ObservableList.of(localMethods.toList());
+    p2pMethodsFiltred = ObservableList.of(p2pMethods.toList());
   }
 
   @computed
-  bool get showSearch => true; //globalSendMethods.length >= 7;
+  bool get showSearch => true;
+  // (cardsMethods.length + localMethods.length + p2pMethods.length) >= 7;
 
   @action
-  void search(String value) {}
+  void search(String value) {
+    if (value.isEmpty) {
+      searchList.clear();
+    } else {
+      searchList.clear();
+
+      var cardF = cardsMethodsFiltred
+          .where((element) => element.cardLabel?.contains(value) ?? false)
+          .toList();
+      var localF = localMethodsFilted
+          .where((element) => element.id.name?.contains(value) ?? false)
+          .toList();
+      var p2pF = p2pMethodsFiltred
+          .where((element) => element.id.name?.contains(value) ?? false)
+          .toList();
+
+      searchList.addAll(cardF
+          .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
+          .toList());
+      searchList.addAll(localF
+          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
+          .toList());
+      searchList.addAll(p2pF
+          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
+          .toList());
+
+      searchList.sort((a, b) => a.name.compareTo(b.name));
+    }
+  }
+}
+
+class PaymentMethodSearchModel {
+  PaymentMethodSearchModel(this.type, this.name, this.method, this.card);
+
+  int type = 0; // 0 - Card, 1 - AltMethod,
+  String name = ''; // Sort by this parametr;
+  BuyMethodDto? method;
+  CircleCard? card;
 }

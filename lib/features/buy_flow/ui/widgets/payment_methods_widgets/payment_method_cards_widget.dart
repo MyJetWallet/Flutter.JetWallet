@@ -80,6 +80,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
       children: [
         const SizedBox(height: 8),
         MarketSeparator(text: title),
+        const SizedBox(height: 16),
         SPaddingH24(
           child: DynamicHeightGridView(
             shrinkWrap: true,

@@ -6,6 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_alternatives.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_cards_widget.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/payment_methods_widgets/payment_method_search_out.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -68,7 +69,19 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
               ),
               const SDivider(),
             ],
-            if (store.cardsMethods.isNotEmpty) ...[
+            if (store.searchList.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: PaymentMethodSearchOut(
+                  title: intl.payment_method_cards,
+                  list: store.searchList,
+                  asset: asset,
+                  currency: currency,
+                ),
+              ),
+            ],
+            if (store.cardsMethodsFiltred.isNotEmpty &&
+                store.searchList.isEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: PaymentMethodCardsWidget(
@@ -78,23 +91,25 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 ),
               ),
             ],
-            if (store.localMethods.isNotEmpty) ...[
+            if (store.localMethodsFilted.isNotEmpty &&
+                store.searchList.isEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: PaymentMethodAltWidget(
                   title: intl.payment_method_local,
-                  buyMethod: store.localMethods,
+                  buyMethod: store.localMethodsFilted,
                   asset: asset,
                   currency: currency,
                 ),
               ),
             ],
-            if (store.p2pMethods.isNotEmpty) ...[
+            if (store.p2pMethodsFiltred.isNotEmpty &&
+                store.searchList.isEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: PaymentMethodAltWidget(
                   title: intl.payment_method_p2p,
-                  buyMethod: store.p2pMethods,
+                  buyMethod: store.p2pMethodsFiltred,
                   asset: asset,
                   currency: currency,
                 ),
