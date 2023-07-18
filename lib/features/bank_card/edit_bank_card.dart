@@ -48,6 +48,7 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
     final store = BankCardStore.of(context);
 
     return SPageFrame(
+      resizeToAvoidBottomInset: false,
       color: sKit.colors.grey5,
       loading: store.loader,
       header: SPaddingH24(
@@ -65,54 +66,51 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
           const BankCardDateLabel(),
           const Spacer(),
           SPaddingH24(
-            child: ColoredBox(
-              color: sKit.colors.grey5,
-              child: Column(
-                children: [
-                  Material(
-                    color: Colors.transparent,
-                    child: SPrimaryButton1(
-                      active: store.isEditButtonSaveActive,
-                      name: intl.addCircleCard_save_changes,
-                      onTap: () async {
-                        if (store.canClick) {
-                          store.setCanClick(false);
-                          Timer(
-                            const Duration(
-                              seconds: 2,
-                            ),
-                            () => store.setCanClick(true),
-                          );
-                        } else {
-                          return;
-                        }
-
-                        await store.updateCardLabel(card.id);
-                      },
-                    ),
-                  ),
-                  const SpaceH10(),
-                  SimpleLightTextButton1(
-                    active: true,
-                    name: intl.addCircleCard_delete,
+            child: Column(
+              children: [
+                Material(
+                  color: Colors.transparent,
+                  child: SPrimaryButton1(
+                    active: store.isEditButtonSaveActive,
+                    name: intl.addCircleCard_save_changes,
                     onTap: () async {
-                      showDeleteDisclaimer(
-                        context,
-                        onDelete: () async {
-                          store.loader.startLoading();
-                          await sRouter.pop();
-                          await store.deleteCard(card);
+                      if (store.canClick) {
+                        store.setCanClick(false);
+                        Timer(
+                          const Duration(
+                            seconds: 2,
+                          ),
+                          () => store.setCanClick(true),
+                        );
+                      } else {
+                        return;
+                      }
 
-                          store.loader.finishLoadingImmediately();
-
-                          await sRouter.pop();
-                        },
-                      );
+                      await store.updateCardLabel(card.id);
                     },
                   ),
-                  const SpaceH24(),
-                ],
-              ),
+                ),
+                const SpaceH10(),
+                STextButton1(
+                  active: true,
+                  name: intl.addCircleCard_delete,
+                  onTap: () {
+                    showDeleteDisclaimer(
+                      context,
+                      onDelete: () async {
+                        store.loader.startLoading();
+                        await sRouter.pop();
+                        await store.deleteCard(card);
+
+                        store.loader.finishLoadingImmediately();
+
+                        await sRouter.pop();
+                      },
+                    );
+                  },
+                ),
+                const SpaceH29(),
+              ],
             ),
           ),
         ],

@@ -66,7 +66,7 @@ void showBuyPaymentCurrencyBottomSheet(
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.buy_payment_currency,
-      //showSearch: availableCurrency.length >= 7,
+      showSearch: availableCurrency.length >= 7,
       onChanged: (String value) {
         searchStore.newBuySearch(value);
       },
@@ -75,20 +75,6 @@ void showBuyPaymentCurrencyBottomSheet(
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      if (availableCurrency.length >= 7) ...[
-        SPaddingH24(
-          child: SStandardField(
-            controller: TextEditingController(),
-            labelText: intl.actionBottomSheetHeader_search,
-            onChanged: (String value) {
-              searchStore.newBuySearch(value);
-            },
-          ),
-        ),
-        const SDivider(),
-      ] else ...[
-        const SpaceH24(),
-      ],
       _BuyPaymentCurrency(
         asset: currency,
         searchStore: searchStore,

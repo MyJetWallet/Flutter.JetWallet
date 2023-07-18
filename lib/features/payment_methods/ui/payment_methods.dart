@@ -4,20 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/add_bank_card.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
-import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
-import 'package:jetwallet/features/payment_methods/ui/widgets/add_button.dart';
-import 'package:jetwallet/features/payment_methods/ui/widgets/card_limit.dart';
 import 'package:jetwallet/features/payment_methods/ui/widgets/payment_card_item.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -59,7 +52,15 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
               ? Column(
                   children: [
                     const Spacer(),
-                    Text(intl.paymentMethods_noSavedCards, style: sTextH3Style),
+                    Image.asset(
+                      noSavedCards,
+                      height: 80,
+                    ),
+                    const SpaceH32(),
+                    Text(
+                      intl.paymentMethods_noSavedCards,
+                      style: sTextH3Style,
+                    ),
                     SPaddingH24(
                       child: Text(
                         intl.paymentMethod_text,
@@ -70,7 +71,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                         ),
                       ),
                     ),
-                    const SpaceH24(),
+                    const SpaceH94(),
+                    const Spacer(),
                   ],
                 )
               : Stack(

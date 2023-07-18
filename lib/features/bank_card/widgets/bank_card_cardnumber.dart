@@ -6,9 +6,14 @@ import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_form
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class BankCardCardnumber extends StatelessObserverWidget {
+class BankCardCardnumber extends StatefulObserverWidget {
   const BankCardCardnumber({super.key});
 
+  @override
+  State<BankCardCardnumber> createState() => _BankCardCardnumberState();
+}
+
+class _BankCardCardnumberState extends State<BankCardCardnumber> {
   @override
   Widget build(BuildContext context) {
     final store = BankCardStore.of(context);
@@ -36,7 +41,10 @@ class BankCardCardnumber extends StatelessObserverWidget {
         suffixIcons: store.cardStoreMode == BankCardStoreMode.ADD
             ? [
                 SIconButton(
-                  onTap: () => store.pasteCode(),
+                  onTap: () {
+                    store.pasteCode();
+                    setState(() {});
+                  },
                   defaultIcon: const SPasteIcon(),
                 ),
               ]

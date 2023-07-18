@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
@@ -95,6 +97,7 @@ abstract class _BuyAmountStoreBase with Store {
     PaymentAsset inputCurrency,
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
+    bool showUaAlert,
   ) {
     asset = inputAsset;
     currency = inputCurrency;
@@ -116,6 +119,30 @@ abstract class _BuyAmountStoreBase with Store {
 
     selectedPaymentAsset = method!.paymentAssets!
         .firstWhere((element) => element.asset == currency?.asset);
+
+    Timer(
+      const Duration(milliseconds: 500),
+      () {
+        if ((inputCard != null && inputCard!.showUaAlert) || showUaAlert!) {
+          sShowAlertPopup(
+            sRouter.navigatorKey.currentContext!,
+            willPopScope: true,
+            primaryText: intl.currencyBuy_alert,
+            secondaryText: intl.currencyBuy_alertDescription,
+            primaryButtonName: intl.actionBuy_gotIt,
+            image: Image.asset(
+              phoneChangeAsset,
+              width: 80,
+              height: 80,
+              package: 'simple_kit',
+            ),
+            onPrimaryButtonTap: () {
+              Navigator.pop(sRouter.navigatorKey.currentContext!);
+            },
+          );
+        }
+      },
+    );
   }
 
   @action

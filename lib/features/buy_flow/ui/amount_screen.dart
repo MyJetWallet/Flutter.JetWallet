@@ -32,6 +32,7 @@ class BuyAmountScreen extends StatelessWidget {
     required this.currency,
     this.method,
     this.card,
+    this.showUaAlert = false,
   });
 
   final CurrencyModel asset;
@@ -40,11 +41,13 @@ class BuyAmountScreen extends StatelessWidget {
   final BuyMethodDto? method;
   final CircleCard? card;
 
+  final bool showUaAlert;
+
   @override
   Widget build(BuildContext context) {
     return Provider<BuyAmountStore>(
       create: (context) =>
-          BuyAmountStore()..init(asset, currency, method, card),
+          BuyAmountStore()..init(asset, currency, method, card, showUaAlert),
       builder: (context, child) => _BuyAmountScreenBody(
         asset: asset,
         currency: currency,
@@ -105,13 +108,11 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
         }
 
         return '${volumeFormat(
-          prefix: store.buyCurrency!.prefixSymbol,
           decimal: amount,
           symbol: store.buyCurrency!.symbol,
           accuracy: store.buyCurrency!.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
-          prefix: store.buyCurrency!.prefixSymbol,
           decimal: limit,
           symbol: store.buyCurrency!.symbol,
           accuracy: store.buyCurrency!.accuracy,
@@ -152,7 +153,6 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
               child: SActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),
                 price: formatCurrencyStringAmount(
-                  prefix: store.buyCurrency.prefixSymbol,
                   value: store.inputValue,
                   symbol: store.buyCurrency.symbol,
                 ),

@@ -164,8 +164,6 @@ abstract class _BankCardStoreBase with Store {
     cardStoreMode = mode;
 
     if (mode == BankCardStoreMode.EDIT) {
-      print(card);
-
       cardNumberController.text = '**** **** **** ${card!.last4}';
       expiryMonthController.text = '${card!.expMonth}/${card.expYear}';
       expiryYearController.text = card.expYear.toString();
@@ -205,6 +203,8 @@ abstract class _BankCardStoreBase with Store {
     final data = await Clipboard.getData('text/plain');
     var code = data?.text?.trim() ?? '';
     code = code.replaceAll(' ', '');
+    code = code.replaceAll(' ', '');
+
     try {
       int.parse(code);
       if (code.length == 16) {
@@ -413,11 +413,11 @@ abstract class _BankCardStoreBase with Store {
     required CurrencyModel asset,
     bool showUaAlert = false,
   }) {
-    final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
-    Timer(const Duration(milliseconds: 500), () {
-      final card = sSignalRModules.cards.cardInfos
-          .firstWhere((element) => element.id == cardId);
+    Timer(const Duration(milliseconds: 300), () {
+      final card = sSignalRModules.cards.cardInfos.firstWhere(
+        (element) => element.id == cardId,
+      );
 
       print(card);
 

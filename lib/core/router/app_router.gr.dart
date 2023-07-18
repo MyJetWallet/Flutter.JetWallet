@@ -214,6 +214,7 @@ abstract class _$AppRouter extends RootStackRouter {
           currency: args.currency,
           method: args.method,
           card: args.card,
+          showUaAlert: args.showUaAlert,
         ),
       );
     },
@@ -1569,6 +1570,7 @@ class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
     required PaymentAsset currency,
     BuyMethodDto? method,
     CircleCard? card,
+    bool showUaAlert = false,
     List<PageRouteInfo>? children,
   }) : super(
           BuyAmountRoute.name,
@@ -1578,6 +1580,7 @@ class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
             currency: currency,
             method: method,
             card: card,
+            showUaAlert: showUaAlert,
           ),
           initialChildren: children,
         );
@@ -1595,6 +1598,7 @@ class BuyAmountRouteArgs {
     required this.currency,
     this.method,
     this.card,
+    this.showUaAlert = false,
   });
 
   final Key? key;
@@ -1607,9 +1611,11 @@ class BuyAmountRouteArgs {
 
   final CircleCard? card;
 
+  final bool showUaAlert;
+
   @override
   String toString() {
-    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card}';
+    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card, showUaAlert: $showUaAlert}';
   }
 }
 

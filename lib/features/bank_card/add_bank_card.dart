@@ -150,8 +150,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                           return;
                         }
 
-                        print(method);
-
                         await store.addCard(
                           onSuccess: onCardAdded,
                           onError: () {},
@@ -167,6 +165,7 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                 ],
               ),
             ),
+            const SpaceH16(),
           ],
         ),
       ),
