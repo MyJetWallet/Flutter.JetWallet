@@ -80,6 +80,14 @@ class RecurringBuyDetails extends StatelessWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
             text: 'Txid',
             value: Row(
               children: [
@@ -101,14 +109,6 @@ class RecurringBuyDetails extends StatelessWidget {
                   pressedIcon: const SCopyPressedIcon(),
                 ),
               ],
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SpaceH18(),

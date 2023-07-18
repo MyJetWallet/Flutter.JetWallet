@@ -33,17 +33,17 @@ class BuyP2PDetails extends StatelessObserverWidget {
     final currencies = sSignalRModules.currenciesList;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
-      currencies,
+      currenciesFull,
       transactionListItem.assetId,
     );
 
     final buyCurrency = currencyFrom(
-      currencies,
+      currenciesFull,
       transactionListItem.cryptoBuyInfo!.buyAssetId,
     );
 
     final paymentCurrency = currencyFrom(
-      currencies,
+      currenciesFull,
       transactionListItem.cryptoBuyInfo!.paymentAssetId,
     );
 
@@ -85,84 +85,90 @@ class BuyP2PDetails extends StatelessObserverWidget {
                   ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: 'Txid',
-            value: Row(
-              children: [
-                TransactionDetailsValueText(
-                  text: shortTxhashFrom(transactionListItem.operationId),
-                ),
-                const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
+          if (transactionListItem.status != Status.declined) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: 'Txid',
+              value: Row(
+                children: [
+                  TransactionDetailsValueText(
+                    text: shortTxhashFrom(transactionListItem.operationId),
+                  ),
+                  const SpaceW10(),
+                  SIconButton(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: transactionListItem.operationId,
+                        ),
+                      );
 
-                    onCopyAction('Txid');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
+                      onCopyAction('Txid');
+                    },
+                    defaultIcon: const SCopyIcon(),
+                    pressedIcon: const SCopyPressedIcon(),
+                  ),
+                ],
+              ),
+            ),
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.withText,
+              value: TransactionDetailsValueText(
+                text: volumeFormat(
+                  decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
+                  accuracy: paymentCurrency.accuracy,
+                  symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
+                  prefix: paymentCurrency.prefixSymbol,
                 ),
-              ],
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.withText,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                decimal: transactionListItem.cryptoBuyInfo!.paymentAmount,
-                accuracy: paymentCurrency.accuracy,
-                symbol: transactionListItem.cryptoBuyInfo!.paymentAssetId,
-                prefix: paymentCurrency.prefixSymbol,
               ),
             ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.previewConvert_exchangeRate,
-            value: TransactionDetailsValueText(
-              text: _rateFor(),
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.history_payment_method,
-            value: TransactionDetailsValueText(
-              text: getLocalOperationName(
-                transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                PaymentMethodType.unsupported,
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.previewConvert_exchangeRate,
+              value: TransactionDetailsValueText(
+                text: _rateFor(),
               ),
             ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.history_payment_fee,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: depositCurrency.prefixSymbol,
-                decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
-                accuracy: depositCurrency.accuracy,
-                symbol: depositCurrency.symbol,
+          ],
+          if (transactionListItem.cryptoBuyInfo?.paymentMethod != null) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.history_payment_method,
+              value: TransactionDetailsValueText(
+                text: getLocalOperationName(
+                  transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                      PaymentMethodType.unsupported,
+                ),
               ),
             ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.history_our_fee,
-            value: TransactionDetailsValueText(
-              text: volumeFormat(
-                prefix: currentCurrency.prefixSymbol,
-                decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
-                accuracy: currentCurrency.accuracy,
-                symbol: currentCurrency.symbol,
+          ],
+          if (transactionListItem.status != Status.declined) ...[
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.history_payment_fee,
+              value: TransactionDetailsValueText(
+                text: volumeFormat(
+                  prefix: depositCurrency.prefixSymbol,
+                  decimal: transactionListItem.cryptoBuyInfo!.depositFeeAmount,
+                  accuracy: depositCurrency.accuracy,
+                  symbol: depositCurrency.symbol,
+                ),
               ),
             ),
-          ),
+            const SpaceH18(),
+            TransactionDetailsItem(
+              text: intl.history_our_fee,
+              value: TransactionDetailsValueText(
+                text: volumeFormat(
+                  prefix: currentCurrency.prefixSymbol,
+                  decimal: transactionListItem.cryptoBuyInfo!.tradeFeeAmount,
+                  accuracy: currentCurrency.accuracy,
+                  symbol: currentCurrency.symbol,
+                ),
+              ),
+            ),
+          ],
           const SpaceH18(),
           TransactionDetailsStatus(status: transactionListItem.status),
           const SpaceH40(),

@@ -70,6 +70,14 @@ class BuySellDetails extends StatelessObserverWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
             text: 'Txid',
             value: Row(
               children: [
@@ -91,14 +99,6 @@ class BuySellDetails extends StatelessObserverWidget {
                   pressedIcon: const SCopyPressedIcon(),
                 ),
               ],
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SpaceH18(),

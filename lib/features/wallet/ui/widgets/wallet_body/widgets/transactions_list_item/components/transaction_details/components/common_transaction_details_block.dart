@@ -65,15 +65,28 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
     return Column(
       children: [
         if (transactionListItem.operationType != OperationType.sendGlobally)
-          Text(
-            _transactionHeader(
-              transactionListItem,
-              currency,
-              context,
-              nftAsset.name,
-              intl,
+          SPaddingH24(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: 24),
+                Text(
+                  _transactionHeader(
+                    transactionListItem,
+                    currency,
+                    context,
+                    nftAsset.name,
+                    intl,
+                  ),
+                  style: sTextH5Style,
+                ),
+                SIconButton(
+                  onTap: () => Navigator.pop(context),
+                  defaultIcon: const SErasePressedIcon(),
+                  pressedIcon: const SEraseMarketIcon(),
+                ),
+              ],
             ),
-            style: sTextH5Style,
           ),
         if (transactionListItem.operationType == OperationType.sendGlobally)
           SPaddingH24(
