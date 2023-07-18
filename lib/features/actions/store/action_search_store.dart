@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
@@ -164,7 +166,13 @@ abstract class _ActionSearchStoreBase with Store {
       );
     } else {
       filtredNewBuyPaymentCurrency.removeWhere((element) {
-        return !element.asset.toLowerCase().startsWith(search);
+        final curr = getIt.get<FormatService>().findCurrency(
+              findInHideTerminalList: true,
+              assetSymbol: element.asset,
+            );
+
+        return !element.asset.toLowerCase().startsWith(search) &&
+            !curr.description.toLowerCase().startsWith(search);
       });
     }
   }

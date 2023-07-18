@@ -202,6 +202,7 @@ String formatCurrencyStringAmount({
   required String value,
   required String symbol,
 }) {
+  return '$value $symbol';
   return prefix == null
       ? symbol == 'USD'
           ? '\$$value'
@@ -221,14 +222,12 @@ String convertToUsd(
     return '≈ ${baseCurrenciesFormat(
       text: Decimal.parse(plusValue).toStringAsFixed(2),
       symbol: baseCurrency.symbol,
-      prefix: baseCurrency.prefix,
     )}';
   }
 
   return '≈ ${baseCurrenciesFormat(
     text: usd.toStringAsFixed(2),
     symbol: baseCurrency.symbol,
-    prefix: baseCurrency.prefix,
   )}';
 }
 

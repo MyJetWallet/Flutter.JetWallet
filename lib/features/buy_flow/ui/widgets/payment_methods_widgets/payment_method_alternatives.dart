@@ -1,3 +1,4 @@
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -32,18 +33,14 @@ class PaymentMethodAltWidget extends StatelessWidget {
         MarketSeparator(text: title),
         const SizedBox(height: 16),
         SPaddingH24(
-          child: GridView.builder(
+          child: DynamicHeightGridView(
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1 / .61,
-            ),
             itemCount: buyMethod.length,
-            itemBuilder: (context, i) {
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            builder: (ctx, i) {
               return PaymentMethodCard.card(
                 name: capitalizeText(
                   buyMethod[i].id.name ?? '  ',

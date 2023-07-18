@@ -443,6 +443,11 @@ abstract class _BankCardStoreBase with Store {
             );
 
     sRouter.back();
+    sNotification.showError(
+      intl.card_update_notification,
+      id: 1,
+      isError: false,
+    );
   }
 
   @action
@@ -459,6 +464,12 @@ abstract class _BankCardStoreBase with Store {
         final model = CardRemoveRequestModel(cardId: card.id);
         final _ = sNetwork.getWalletModule().cardRemove(model);
       }
+
+      sNotification.showError(
+        intl.card_delete_notification,
+        id: 1,
+        isError: false,
+      );
     } catch (e) {
       sNotification.showError(
         intl.something_went_wrong_try_again2,

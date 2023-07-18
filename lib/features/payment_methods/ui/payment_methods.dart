@@ -49,16 +49,20 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
       child: state.union.maybeWhen(
         success: () {
           return state.cards.isEmpty && state.addressBookContacts.isEmpty
-              ? Column(
+              ? ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    const Spacer(),
-                    Image.asset(
-                      noSavedCards,
-                      height: 80,
+                    const SizedBox(height: 170),
+                    Center(
+                      child: Image.asset(
+                        noSavedCards,
+                        height: 80,
+                      ),
                     ),
                     const SpaceH32(),
                     Text(
                       intl.paymentMethods_noSavedCards,
+                      textAlign: TextAlign.center,
                       style: sTextH3Style,
                     ),
                     SPaddingH24(
@@ -72,7 +76,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       ),
                     ),
                     const SpaceH94(),
-                    const Spacer(),
                   ],
                 )
               : Stack(

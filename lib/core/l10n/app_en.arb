@@ -1464,5 +1464,7 @@
   "buy_confirmation_third_party_fee": "Third party fee",
   "buy_confirmation_third_fee_descr": "This fee is charged by Simple to cover services of our processing partners",
   "buy_confirmation_local_p2p_processing_title": "Processing…",
-  "buy_confirmation_local_p2p_processing_text": "We are processing your purchase now. After successful completion purchased cryptocurrency will be credited to your Simple app."
+  "buy_confirmation_local_p2p_processing_text": "We are processing your purchase now. After successful completion purchased cryptocurrency will be credited to your Simple app.",
+  "card_update_notification": "Card details were updated",
+  "card_delete_notification": "Card details were deleted"
 }

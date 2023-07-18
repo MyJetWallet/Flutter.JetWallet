@@ -109,7 +109,7 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
                     );
                   },
                 ),
-                const SpaceH29(),
+                const SpaceH42(),
               ],
             ),
           ),

@@ -74,19 +74,25 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.category == PaymentMethodCategory.cards) ...[
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 32,
-                      height: 20,
-                      child: getNetworkIcon(store.card?.network),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      store.card?.cardLabel ?? '',
-                      style: sSubtitle3Style,
-                    ),
-                  ],
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .5,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 32,
+                        height: 20,
+                        child: getNetworkIcon(store.card?.network),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          store.card?.cardLabel ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          style: sSubtitle3Style,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ] else ...[
                 Row(

@@ -65,25 +65,34 @@ class PaymentMethodCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (url.isNotEmpty) ...[
-              SNetworkCachedSvg(
-                url: url,
-                width: 40,
+              SizedBox(
                 height: 40,
-                placeholder: MethodPlaceholder(
-                  name: name,
+                child: SNetworkCachedSvg(
+                  url: url,
+                  width: 40,
+                  height: 40,
+                  placeholder: MethodPlaceholder(
+                    name: name,
+                  ),
                 ),
               ),
             ] else ...[
-              MethodPlaceholder(
-                name: name,
+              SizedBox(
+                height: 40,
+                child: MethodPlaceholder(
+                  name: name,
+                ),
               ),
             ],
             const SizedBox(height: 16),
-            Text(
-              name,
-              style: sBodyText2Style.copyWith(
-                color: sKit.colors.black,
-                fontWeight: FontWeight.w600,
+            SizedBox(
+              height: 20,
+              child: Text(
+                name,
+                style: sBodyText2Style.copyWith(
+                  color: sKit.colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -116,7 +125,7 @@ class PaymentMethodCardIconWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             icon,
-            const SizedBox(height: 12),
+            const SizedBox(height: 1),
             Text(
               name,
               style: sBodyText2Style.copyWith(
@@ -174,11 +183,14 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              name,
-              style: sBodyText2Style.copyWith(
-                color: sKit.colors.black,
-                fontWeight: FontWeight.w600,
+            SizedBox(
+              height: 20,
+              child: Text(
+                name,
+                style: sBodyText2Style.copyWith(
+                  color: sKit.colors.black,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -251,6 +263,7 @@ class _BaseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 102,
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 12,

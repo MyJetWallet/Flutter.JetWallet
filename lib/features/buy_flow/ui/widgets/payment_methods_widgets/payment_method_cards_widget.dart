@@ -1,3 +1,4 @@
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:injectable/injectable.dart';
@@ -79,20 +80,15 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
       children: [
         const SizedBox(height: 8),
         MarketSeparator(text: title),
-        const SizedBox(height: 16),
         SPaddingH24(
-          child: GridView.builder(
+          child: DynamicHeightGridView(
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1 / .61,
-            ),
             itemCount: store.unlimintAltCards.length + 1,
-            itemBuilder: (context, i) {
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            builder: (ctx, i) {
               if (i == store.unlimintAltCards.length) {
                 return PaymentMethodCard.cardIcon(
                   icon: SizedBox(
