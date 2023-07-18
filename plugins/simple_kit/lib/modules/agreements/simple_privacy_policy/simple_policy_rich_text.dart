@@ -13,10 +13,12 @@ class SimplePolicyRichText extends StatelessWidget {
     required this.betweenText,
     required this.privacyPolicyText,
     required this.onPrivacyPolicyTap,
+    this.isSendGlobal,
     this.secondText,
     this.activeText,
     this.onActiveTextTap,
     this.thirdText,
+    this.firstAdditionalText,
     this.activeText2,
     this.onActiveText2Tap,
   }) : super(key: key);
@@ -33,7 +35,9 @@ class SimplePolicyRichText extends StatelessWidget {
   final Function()? onActiveTextTap;
   final String? thirdText;
   final String? activeText2;
+  final String? firstAdditionalText;
   final Function()? onActiveText2Tap;
+  final bool? isSendGlobal;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +45,30 @@ class SimplePolicyRichText extends StatelessWidget {
       textAlign: TextAlign.start,
       text: TextSpan(
         text: firstText,
-        style: sCaptionTextStyle.copyWith(
-          fontFamily: 'Gilroy',
-          color: SColorsLight().black,
-        ),
+        style: (isSendGlobal != null && isSendGlobal!)
+          ? sBodyText2Style.copyWith(
+            fontFamily: 'Gilroy',
+            color: SColorsLight().black,
+          )
+          : sCaptionTextStyle.copyWith(
+            fontFamily: 'Gilroy',
+            color: SColorsLight().black,
+          ),
         children: [
+          if (isSendGlobal != null && isSendGlobal!) ...[
+            const TextSpan(
+              text: '\n',
+              style: TextStyle(
+                fontSize: 5.0,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
+            ),
+          ],
+          if (firstAdditionalText != null)
+            TextSpan(
+              text: firstAdditionalText,
+            ),
           _textSpanWithRecognizer(
             text: userAgreementText,
             onTap: onUserAgreementTap,
@@ -60,6 +83,16 @@ class SimplePolicyRichText extends StatelessWidget {
           if (secondText != null) ...[
             TextSpan(
               text: secondText!,
+            ),
+          ],
+          if (isSendGlobal != null && isSendGlobal!) ...[
+            const TextSpan(
+              text: '\n',
+              style: TextStyle(
+                fontSize: 5.0,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ],
           if (activeText != null) ...[

@@ -94,21 +94,27 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
               childCount: store.methodList.length,
             ),
           ),
+
+          //1. I confirm that information above is accurate and complete.
+          //2. I agree with T&C Send Globally program.
+          //3. I understand that this money transfer is processed via P2P network more. P2P transfers are orchestrated by Payport LLC. More details.
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
               children: [
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 170,
+                    height: 174,
+                    isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
+                    firstAdditionalText: intl.send_globally_cond_text_add_1,
                     userAgreementText: ' ${intl.send_globally_cond_text_2}',
-                    betweenText: ', ',
-                    privacyPolicyText: intl.send_globally_cond_text_3,
-                    secondText: ' ${intl.send_globally_cond_text_4} ',
-                    activeText: intl.send_globally_cond_text_5,
-                    thirdText: '\n${intl.send_globally_cond_text_6} ',
-                    activeText2: intl.send_globally_cond_text_7,
+                    betweenText: '',
+                    privacyPolicyText: '',
+                    secondText: '.\n',
+                    activeText: '',
+                    thirdText: intl.send_globally_cond_text_6,
+                    activeText2: '${intl.send_globally_cond_text_7}.',
                     isChecked: getIt<AppStore>().isAcceptedGlobalSendTC,
                     onCheckboxTap: () {
                       getIt<AppStore>().setIsAcceptedGlobalSendTC(
