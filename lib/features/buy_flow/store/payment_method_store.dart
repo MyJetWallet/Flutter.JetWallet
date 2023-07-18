@@ -98,8 +98,8 @@ abstract class _PaymentMethodStoreBase with Store {
   }
 
   @computed
-  bool get showSearch => true;
-  // (cardsMethods.length + localMethods.length + p2pMethods.length) >= 7;
+  bool get showSearch =>
+      (cardsMethods.length + localMethods.length + p2pMethods.length) >= 7;
 
   @action
   void search(String value) {
