@@ -14,9 +14,8 @@ class LoaderContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 97.0,
-      right: 98.0,
-      top: 320.0,
+      width: 180.0,
+      height: 90.0,
       child: Container(
         width: 180.0,
         height: 90.0,

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -173,46 +174,92 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               isChecked: store.isChecked,
             ),
           ] else ...[
-            SPolicyCheckbox(
-              height: 200,
-              firstText: intl.buy_confirmation_privacy_p2p_checkbox_1,
-              userAgreementText: intl.buy_confirmation_privacy_p2p_checkbox_2,
-              betweenText: intl.buy_confirmation_privacy_p2p_checkbox_3,
-              privacyPolicyText: intl.buy_confirmation_privacy_p2p_heckbox_4,
-              secondText: '',
-              activeText: '',
-              thirdText: '',
-              activeText2: '',
+            SPolicy(
+              isChecked: store.isChecked,
               onCheckboxTap: () {
                 store.setIsChecked();
               },
-              onUserAgreementTap: () {
-                launchURL(context,
-                    'https://simple.app/terms-and-conditions/sendglobally/');
-              },
-              onPrivacyPolicyTap: () {
-                sShowAlertPopup(
-                  context,
-                  primaryText: '',
-                  secondaryText: intl.buy_confirmation_privacy_p2p_popup,
-                  primaryButtonName: intl.global_send_got_it,
-                  barrierDismissible: true,
-                  image: Image.asset(
-                    infoLightAsset,
-                    height: 80,
-                    width: 80,
-                    package: 'simple_kit',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceH22(),
+                  Text(
+                    intl.buy_confirmation_privacy_p2p_checkbox_1,
+                    maxLines: 3,
+                    style: sBodyText2Style.copyWith(
+                      fontFamily: 'Gilroy',
+                      height: 1.42,
+                      color: sKit.colors.black,
+                    ),
                   ),
-                  primaryButtonType: SButtonType.primary1,
-                  onPrimaryButtonTap: () => {Navigator.pop(context)},
-                  isNeedCancelButton: false,
-                  cancelText: intl.profileDetails_cancel,
-                  onCancelButtonTap: () => {Navigator.pop(context)},
-                );
-              },
-              onActiveTextTap: () {},
-              onActiveText2Tap: () {},
-              isChecked: store.isChecked,
+                  const SpaceH17(),
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      text: intl.buy_confirmation_privacy_p2p_checkbox_1_5,
+                      style: sBodyText2Style.copyWith(
+                        fontFamily: 'Gilroy',
+                        height: 1.42,
+                        color: sKit.colors.black,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: intl.buy_confirmation_privacy_p2p_checkbox_2,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              launchURL(context,
+                                  'https://simple.app/terms-and-conditions/sendglobally/');
+                            },
+                          style: TextStyle(
+                            color: sKit.colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SpaceH17(),
+                  Text(
+                    intl.buy_confirmation_privacy_p2p_checkbox_3,
+                    maxLines: 3,
+                    style: sBodyText2Style.copyWith(
+                      fontFamily: 'Gilroy',
+                      height: 1.42,
+                      color: sKit.colors.black,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      sShowAlertPopup(
+                        context,
+                        primaryText: '',
+                        secondaryText: intl.buy_confirmation_privacy_p2p_popup,
+                        primaryButtonName: intl.global_send_got_it,
+                        barrierDismissible: true,
+                        image: Image.asset(
+                          infoLightAsset,
+                          height: 80,
+                          width: 80,
+                          package: 'simple_kit',
+                        ),
+                        primaryButtonType: SButtonType.primary1,
+                        onPrimaryButtonTap: () => {Navigator.pop(context)},
+                        isNeedCancelButton: false,
+                        cancelText: intl.profileDetails_cancel,
+                        onCancelButtonTap: () => {Navigator.pop(context)},
+                      );
+                    },
+                    child: Text(
+                      intl.buy_confirmation_privacy_p2p_heckbox_4,
+                      maxLines: 3,
+                      style: sBodyText2Style.copyWith(
+                        fontFamily: 'Gilroy',
+                        height: 1.42,
+                        color: sKit.colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
           Padding(
