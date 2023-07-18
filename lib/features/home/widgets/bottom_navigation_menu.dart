@@ -8,6 +8,7 @@ class BottomNavigationMenu extends StatefulObserverWidget {
   const BottomNavigationMenu({
     Key? key,
     required this.hideAccount,
+    required this.showCard,
     required this.currentIndex,
     required this.onChanged,
   }) : super(key: key);
@@ -15,6 +16,7 @@ class BottomNavigationMenu extends StatefulObserverWidget {
   final int currentIndex;
   final Function(int) onChanged;
   final bool hideAccount;
+  final bool showCard;
 
   @override
   State<BottomNavigationMenu> createState() => _BottomNavigationMenuState();
@@ -33,6 +35,8 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       myAssetsText: intl.bottom_bar_my_assets,
       marketText: intl.bottom_bar_market,
       accountText: intl.bottom_bar_account,
+      cardText: intl.bottom_bar_card,
+      showCard: widget.showCard,
     );
   }
 }

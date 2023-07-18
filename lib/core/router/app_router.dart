@@ -26,6 +26,7 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
+import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -49,8 +50,8 @@ import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
-import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -207,6 +208,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'iban',
           page: IBanRouter.page,
+        ),
+        AutoRoute(
+          path: 'card',
+          page: CardRouter.page,
         ),
       ],
     ),

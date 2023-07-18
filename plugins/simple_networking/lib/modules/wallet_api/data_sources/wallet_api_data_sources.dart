@@ -725,6 +725,22 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, void>> postCardSoonRequest() async {
+    try {
+      final _ = await _apiClient.get(
+        '${_apiClient.options.walletApi}/profile/request-card',
+      );
+
+      try {
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
       postCardBuyCreateRequest(
     CardBuyCreateRequestModel model,

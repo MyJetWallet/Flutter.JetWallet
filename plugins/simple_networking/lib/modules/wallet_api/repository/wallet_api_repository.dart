@@ -242,6 +242,10 @@ class WalletApiRepository {
     return _walletApiDataSources.getProfileInfoRequest();
   }
 
+  Future<DC<ServerRejectException, void>> postCardSoon() async {
+    return _walletApiDataSources.postCardSoonRequest();
+  }
+
   Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
       postCardBuyCreate(
     CardBuyCreateRequestModel model,

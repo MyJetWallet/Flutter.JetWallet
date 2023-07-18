@@ -5,22 +5,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
-
-List<PageRouteInfo<dynamic>> screens = [
-  const PortfolioRouter(),
-  MarketRouter(),
-  IBanRouter(),
-];
-
-List<PageRouteInfo<dynamic>> screensWithoutIban = [
-  const PortfolioRouter(),
-  MarketRouter(),
-];
 
 @RoutePage(name: 'HomeRouter')
 class HomeScreen extends StatefulObserverWidget {
@@ -43,8 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        final screens = <PageRouteInfo<dynamic>>[
+          const PortfolioRouter(),
+          MarketRouter(),
+        ];
+
+        if (!hideAccount) {
+          screens.add(IBanRouter());
+        }
+        if (sUserInfo.cardAvailable) {
+          screens.add(const CardRouter());
+        }
+
         return AutoTabsScaffold(
-          routes: hideAccount ? screensWithoutIban : screens,
+          routes: screens,
           transitionBuilder: (context, child, animation) {
             return Observer(
               builder: (context) {
@@ -64,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
               hideAccount: hideAccount,
+              showCard: sUserInfo.cardAvailable,
               onChanged: (int val) {
                 if (val == 2) {
                   getIt<IbanStore>().initState();
@@ -76,6 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   getIt.get<EventBus>().fire(ResetScrollMarket());
                 } else if (val == 2 && getIt<AppStore>().homeTab == 2) {
                   getIt.get<EventBus>().fire(ResetScrollAccount());
+                } else if (val == 3 && getIt<AppStore>().homeTab == 3) {
+                  getIt.get<EventBus>().fire(ResetScrollCard());
                 }
 
                 getIt<AppStore>().setHomeTab(val);
