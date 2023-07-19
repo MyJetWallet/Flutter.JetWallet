@@ -1433,5 +1433,11 @@
   "withdrawal_withdrawal_noun": "Withdrawal",
   "send_globally_limits_text": "Send limits",
   "send_gift": "Gift",
-  "send_gift_to_simple_wallet": "To Simple Wallet"
+  "send_gift_to_simple_wallet": "To Simple Wallet",
+  "send_gift_sending_asset": "Sending asset",
+  "send_gift_Receiver_details": "Receiver's details",
+  "send_gift_e_mail": "E-mail",
+  "send_gift_phone": "Phone",
+  "send_gift_e_mail_address": "E-mail address",
+  "send_gift_policy": "1. I am aware that this gift will be sent into receiver's Simple App. \n\n2. I am aware that after receiver claims the gift, Simple may not be able to help me get my gift back."
 }

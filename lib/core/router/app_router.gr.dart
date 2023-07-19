@@ -548,16 +548,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    GiftSelectAssetRouter.name: (routeData) {
-      final args = routeData.argsAs<GiftSelectAssetRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: GiftSelectAssetScreen(
-          key: args.key,
-          assets: args.assets,
-        ),
-      );
-    },
     ShowRecurringInfoActionRouter.name: (routeData) {
       final args = routeData.argsAs<ShowRecurringInfoActionRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -963,6 +953,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const GiftReceiversDetailsScreen(),
+      );
+    },
+    GiftSelectAssetRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftSelectAssetRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GiftSelectAssetScreen(
+          key: args.key,
+          assets: args.assets,
+        ),
       );
     },
   };
@@ -2825,44 +2825,6 @@ class HistoryRecurringBuysRouterArgs {
 }
 
 /// generated route for
-/// [GiftSelectAssetScreen]
-class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
-  GiftSelectAssetRouter({
-    Key? key,
-    required List<CurrencyModel> assets,
-    List<PageRouteInfo>? children,
-  }) : super(
-          GiftSelectAssetRouter.name,
-          args: GiftSelectAssetRouterArgs(
-            key: key,
-            assets: assets,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'GiftSelectAssetRouter';
-
-  static const PageInfo<GiftSelectAssetRouterArgs> page =
-      PageInfo<GiftSelectAssetRouterArgs>(name);
-}
-
-class GiftSelectAssetRouterArgs {
-  const GiftSelectAssetRouterArgs({
-    this.key,
-    required this.assets,
-  });
-
-  final Key? key;
-
-  final List<CurrencyModel> assets;
-
-  @override
-  String toString() {
-    return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
-  }
-}
-
-/// generated route for
 /// [ShowRecurringInfoAction]
 class ShowRecurringInfoActionRouter
     extends PageRouteInfo<ShowRecurringInfoActionRouterArgs> {
@@ -4356,4 +4318,42 @@ class GiftReceiversDetailsRouter extends PageRouteInfo<void> {
   static const String name = 'GiftReceiversDetailsRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GiftSelectAssetScreen]
+class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
+  GiftSelectAssetRouter({
+    Key? key,
+    required List<CurrencyModel> assets,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GiftSelectAssetRouter.name,
+          args: GiftSelectAssetRouterArgs(
+            key: key,
+            assets: assets,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GiftSelectAssetRouter';
+
+  static const PageInfo<GiftSelectAssetRouterArgs> page =
+      PageInfo<GiftSelectAssetRouterArgs>(name);
+}
+
+class GiftSelectAssetRouterArgs {
+  const GiftSelectAssetRouterArgs({
+    this.key,
+    required this.assets,
+  });
+
+  final Key? key;
+
+  final List<CurrencyModel> assets;
+
+  @override
+  String toString() {
+    return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
+  }
 }
