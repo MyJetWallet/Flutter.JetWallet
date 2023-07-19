@@ -9,6 +9,7 @@ class BottomNavigationMenu extends StatefulObserverWidget {
     Key? key,
     required this.hideAccount,
     required this.showCard,
+    required this.isCardRequested,
     required this.currentIndex,
     required this.onChanged,
   }) : super(key: key);
@@ -17,6 +18,7 @@ class BottomNavigationMenu extends StatefulObserverWidget {
   final Function(int) onChanged;
   final bool hideAccount;
   final bool showCard;
+  final bool isCardRequested;
 
   @override
   State<BottomNavigationMenu> createState() => _BottomNavigationMenuState();
@@ -37,6 +39,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       accountText: intl.bottom_bar_account,
       cardText: intl.bottom_bar_card,
       showCard: widget.showCard,
+      isCardRequested: widget.isCardRequested,
     );
   }
 }

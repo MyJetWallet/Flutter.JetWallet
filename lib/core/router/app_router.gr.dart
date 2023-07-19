@@ -150,6 +150,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LogsScreen(),
       );
     },
+    CardRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CardScreen(),
+      );
+    },
     SendByPhoneAmountRouter.name: (routeData) {
       final args = routeData.argsAs<SendByPhoneAmountRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -949,12 +955,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    CardRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CardScreen(),
-      );
-    },
   };
 }
 
@@ -1388,6 +1388,20 @@ class LogsRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'LogsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CardScreen]
+class CardRouter extends PageRouteInfo<void> {
+  const CardRouter({List<PageRouteInfo>? children})
+      : super(
+          CardRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CardRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -4294,18 +4308,4 @@ class InfoWebViewRouterArgs {
   String toString() {
     return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
   }
-}
-
-/// generated route for
-/// [CardScreen]
-class CardRouter extends PageRouteInfo<void> {
-  const CardRouter({List<PageRouteInfo>? children})
-      : super(
-          CardRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CardRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -6,6 +6,7 @@ import 'package:simple_kit/modules/icons/32x32/public/card_bottom/simple_card_bo
 import 'package:simple_kit/modules/icons/32x32/public/account_bar/simple_account_bar_icon.dart';
 
 import '../../simple_kit.dart';
+import 'components/notification_box.dart';
 
 class SBottomNavigationBar extends StatefulWidget {
   const SBottomNavigationBar({
@@ -20,6 +21,7 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.cardText,
     required this.hideAccount,
     required this.showCard,
+    required this.isCardRequested,
   }) : super(key: key);
 
   final int portfolioNotifications;
@@ -27,6 +29,7 @@ class SBottomNavigationBar extends StatefulWidget {
   final bool cardNotifications;
   final bool hideAccount;
   final bool showCard;
+  final bool isCardRequested;
   final void Function(int) onChanged;
 
   final String myAssetsText;
@@ -53,7 +56,6 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
         child: Column(
           children: [
             const SDivider(),
-            const SpaceH11(),
             Row(
               children: [
                 const Spacer(),
@@ -63,6 +65,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                     onTap: () => widget.onChanged(0),
                     child: Column(
                       children: [
+                        const SpaceH11(),
                         if (widget.selectedIndex == 0)
                           const SMyAssetsActiveIcon()
                         else
@@ -88,6 +91,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                     onTap: () => widget.onChanged(1),
                     child: Column(
                       children: [
+                        const SpaceH11(),
                         if (widget.selectedIndex == 1)
                           const SMarketActiveIcon()
                         else
@@ -114,6 +118,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       onTap: () => widget.onChanged(2),
                       child: Column(
                         children: [
+                          const SpaceH11(),
                           if (widget.selectedIndex == 2)
                             const SAccountBarActiveIcon()
                           else
@@ -135,29 +140,39 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 ],
                 if (widget.showCard) ...[
                   const Spacer(),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 4,
-                    child: STransparentInkWell(
-                      onTap: () => widget.onChanged(3),
-                      child: Column(
-                        children: [
-                          if (widget.selectedIndex == 3)
-                            const SCardBottomActiveIcon()
-                          else
-                            const SCardBottomIcon(),
-                          Text(
-                            widget.cardText,
-                            style: sBodyText2Style.copyWith(
-                              fontWeight: FontWeight.w600,
-                              height: 1.38,
-                              color: widget.selectedIndex == 3
-                                  ? SColorsLight().black
-                                  : SColorsLight().grey3,
-                            ),
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width - 48) / 4,
+                        child: STransparentInkWell(
+                          onTap: () => widget.onChanged(3),
+                          child: Column(
+                            children: [
+                              const SpaceH11(),
+                              if (widget.selectedIndex == 3)
+                                const SCardBottomActiveIcon()
+                              else
+                                const SCardBottomIcon(),
+                              Text(
+                                widget.cardText,
+                                style: sBodyText2Style.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.38,
+                                  color: widget.selectedIndex == 3
+                                      ? SColorsLight().black
+                                      : SColorsLight().grey3,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      NotificationBox(
+                        notifications: widget.isCardRequested ? 0 : 1,
+                        top: -2,
+                        right: (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                      ),
+                    ],
                   ),
                 ],
                 const Spacer(),

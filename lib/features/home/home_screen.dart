@@ -66,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
               hideAccount: hideAccount,
+              isCardRequested: sUserInfo.cardRequested,
               showCard: sUserInfo.cardAvailable,
               onChanged: (int val) {
                 if (val == 2) {
