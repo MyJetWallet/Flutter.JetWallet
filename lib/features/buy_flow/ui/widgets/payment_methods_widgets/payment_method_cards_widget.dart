@@ -15,6 +15,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
+import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -80,7 +81,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
       children: [
         const SizedBox(height: 8),
         MarketSeparator(text: title),
-        const SizedBox(height: 16),
         SPaddingH24(
           child: DynamicHeightGridView(
             shrinkWrap: true,
@@ -129,15 +129,26 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                   network: store.unlimintAltCards[i].network,
                   name: store.unlimintAltCards[i].cardLabel ?? '',
                   subName: formatted.last4Digits,
+                  subName2:
+                      'Exp. ${store.unlimintAltCards[i].expMonth}/${store.unlimintAltCards[i].expYear}',
+                  expire: isCardExpired(
+                    store.unlimintAltCards[i].expMonth,
+                    store.unlimintAltCards[i].expYear,
+                  ),
                   onTap: () {
-                    sRouter.push(
-                      BuyAmountRoute(
-                        asset: asset,
-                        currency: currency,
-                        method: store.cardsMethods.first,
-                        card: store.unlimintAltCards[i],
-                      ),
-                    );
+                    if (!isCardExpired(
+                      store.unlimintAltCards[i].expMonth,
+                      store.unlimintAltCards[i].expYear,
+                    )) {
+                      sRouter.push(
+                        BuyAmountRoute(
+                          asset: asset,
+                          currency: currency,
+                          method: store.cardsMethods.first,
+                          card: store.unlimintAltCards[i],
+                        ),
+                      );
+                    }
                   },
                 );
               }

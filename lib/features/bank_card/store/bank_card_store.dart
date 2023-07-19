@@ -436,13 +436,15 @@ abstract class _BankCardStoreBase with Store {
   Future<void> updateCardLabel(
     String cardId,
   ) async {
+    loader.startLoadingImmediately();
+
     final updateLabelResponse =
         await sNetwork.getWalletModule().updateCardLabel(
               cardId,
               cardLabel,
             );
 
-    sRouter.back();
+    loader.finishLoadingImmediately();
     sNotification.showError(
       intl.card_update_notification,
       id: 1,
@@ -453,6 +455,8 @@ abstract class _BankCardStoreBase with Store {
   @action
   Future<void> deleteCard(CircleCard card) async {
     try {
+      loader.startLoadingImmediately();
+
       if (card.integration == IntegrationType.circle ||
           card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
@@ -464,6 +468,8 @@ abstract class _BankCardStoreBase with Store {
         final model = CardRemoveRequestModel(cardId: card.id);
         final _ = sNetwork.getWalletModule().cardRemove(model);
       }
+
+      loader.finishLoadingImmediately();
 
       sNotification.showError(
         intl.card_delete_notification,

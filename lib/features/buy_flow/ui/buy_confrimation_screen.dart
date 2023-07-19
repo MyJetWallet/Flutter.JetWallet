@@ -114,18 +114,29 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               color: sKit.colors.grey1,
             ),
           ),
-          Text(
-            volumeFormat(
-              prefix: asset.prefixSymbol,
-              decimal: store.buyAmount ?? Decimal.zero,
-              accuracy: asset.accuracy,
-              symbol: asset.symbol,
+          if (store.isDataLoaded) ...[
+            Text(
+              volumeFormat(
+                prefix: asset.prefixSymbol,
+                decimal: store.buyAmount ?? Decimal.zero,
+                accuracy: asset.accuracy,
+                symbol: asset.symbol,
+              ),
+              textAlign: TextAlign.center,
+              style: sTextH4Style.copyWith(
+                color: sKit.colors.blue,
+              ),
             ),
-            textAlign: TextAlign.center,
-            style: sTextH4Style.copyWith(
-              color: sKit.colors.blue,
+          ] else ...[
+            const Baseline(
+              baseline: 19.0,
+              baselineType: TextBaseline.alphabetic,
+              child: SSkeletonTextLoader(
+                height: 16,
+                width: 130,
+              ),
             ),
-          ),
+          ],
           const SizedBox(height: 25),
           ConfirmationInfoGrid(
             paymentFee: volumeFormat(

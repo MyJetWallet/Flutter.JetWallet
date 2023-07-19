@@ -51,6 +51,9 @@ abstract class _BuyConfirmationStoreBase with Store {
   PaymentMethodCategory category = PaymentMethodCategory.cards;
 
   @observable
+  bool isDataLoaded = false;
+
+  @observable
   Decimal? paymentAmount;
   @observable
   String? paymentAsset;
@@ -92,10 +95,19 @@ abstract class _BuyConfirmationStoreBase with Store {
   @observable
   bool isChecked = false;
   @action
-  void setIsChecked() => isChecked = !isChecked;
+  void setIsChecked() {
+    isChecked = !isChecked;
+  }
 
   @observable
   bool showProcessing = false;
+
+  @computed
+  CurrencyModel get buyCurrency =>
+      sSignalRModules.currenciesWithHiddenList.firstWhere(
+        (currency) => currency.symbol == (buyAssetSymbol ?? 'BTC'),
+        orElse: () => CurrencyModel.empty(),
+      );
 
   @computed
   CurrencyModel get depositFeeCurrency =>
@@ -113,6 +125,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   CircleCard? card;
   BuyMethodDto? method;
+  String? buyAssetSymbol;
 
   @action
   Future<void> loadPreview(
@@ -122,6 +135,8 @@ abstract class _BuyConfirmationStoreBase with Store {
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
   ) async {
+    isDataLoaded = false;
+
     await _isChecked();
 
     category =
@@ -131,18 +146,9 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     card = inputCard;
     method = inputMethod;
+    buyAssetSymbol = bAsset;
 
-    print(category);
-    print(method);
-
-    final model = getModelForCardBuyReq(
-      category,
-      pAmount,
-      bAsset,
-      pAsset,
-    );
-
-    print(model);
+    final model = getModelForCardBuyReq(category, pAmount, bAsset, pAsset);
 
     try {
       final response =
@@ -170,11 +176,17 @@ abstract class _BuyConfirmationStoreBase with Store {
         },
       );
     } on ServerRejectException catch (error) {
+      loader.finishLoadingImmediately();
+
       unawaited(_showFailureScreen(error.cause));
     } catch (error) {
+      loader.finishLoadingImmediately();
+
       unawaited(_showFailureScreen(intl.something_went_wrong));
     } finally {
-      loader.finishLoading();
+      loader.finishLoadingImmediately();
+
+      isDataLoaded = true;
 
       Timer(const Duration(milliseconds: 500), () {
         //_isChecked();
@@ -310,6 +322,9 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> createPayment() async {
     loader.startLoadingImmediately();
 
+    final storage = sLocalStorageService;
+    await storage.setString(checkedBankCard, 'true');
+
     if (category == PaymentMethodCategory.cards) {
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
@@ -322,6 +337,9 @@ abstract class _BuyConfirmationStoreBase with Store {
           sRouter.pop();
 
           _requestPaymentCard();
+        },
+        onDissmis: () {
+          loader.finishLoadingImmediately();
         },
         input: PreviewBuyWithBankCardInput(
           amount: paymentAmount.toString(),
@@ -348,6 +366,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
 
+    loader.finishLoadingImmediately();
+
     if (resp.hasError) {
       unawaited(_showFailureScreen(resp.error?.cause ?? ''));
 
@@ -364,6 +384,8 @@ abstract class _BuyConfirmationStoreBase with Store {
         return;
       } else {
         loader.finishLoadingImmediately();
+
+        showProcessing = true;
 
         await sRouter.push(
           Circle3dSecureWebViewRouter(
@@ -398,6 +420,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   Future<void> _requestPaymentCard() async {
     try {
+      loader.startLoadingImmediately();
+
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -429,6 +453,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
           isChecked = true;
+
           sRouter.push(
             Circle3dSecureWebViewRouter(
               title: intl.previewBuyWithCircle_paymentVerification,
@@ -443,6 +468,9 @@ abstract class _BuyConfirmationStoreBase with Store {
           );
 
           loader.finishLoadingImmediately();
+          showProcessing = true;
+          wasAction = true;
+          loader.startLoadingImmediately();
         },
         '',
       );
@@ -554,15 +582,15 @@ abstract class _BuyConfirmationStoreBase with Store {
                 ? '${intl.successScreen_youBought} '
                     '${volumeFormat(
                     decimal: buyAmount ?? Decimal.zero,
-                    accuracy: depositFeeCurrency.accuracy,
-                    symbol: depositFeeCurrency.symbol,
+                    accuracy: buyCurrency.accuracy,
+                    symbol: buyCurrency.symbol,
                   )}'
                     '\n${intl.paid_with_gpay}'
                 : '${intl.successScreen_youBought} '
                     '${volumeFormat(
                     decimal: buyAmount ?? Decimal.zero,
-                    accuracy: depositFeeCurrency.accuracy,
-                    symbol: depositFeeCurrency.symbol,
+                    accuracy: buyCurrency.accuracy,
+                    symbol: buyCurrency.symbol,
                   )}',
             buttonText: intl.previewBuyWithUmlimint_saveCard,
             showProgressBar: true,

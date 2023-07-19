@@ -15,18 +15,17 @@ void showBankCardCvvBottomSheet({
   required String header,
   required void Function(String) onCompleted,
   required PreviewBuyWithBankCardInput input,
+  Function()? onDissmis,
 }) {
   return sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     pinned: SBottomSheetHeader(
       name: header,
-      onTap: () {
-
-      },
+      onTap: () {},
     ),
     onDissmis: () {
-
+      if (onDissmis != null) onDissmis!();
     },
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,

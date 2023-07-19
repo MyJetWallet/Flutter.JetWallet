@@ -20,12 +20,16 @@ class PaymentMethodCard {
     required String name,
     required String subName,
     required Function() onTap,
+    String? subName2,
+    bool expire = false,
   }) =>
       PaymentMethodBankCardWidget(
         network: network,
         name: name,
         subName: subName,
+        subName2: subName2,
         onTap: onTap,
+        expire: expire,
       );
 
   static Widget cardIcon({
@@ -147,12 +151,16 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
     required this.name,
     required this.subName,
     required this.onTap,
+    required this.expire,
+    this.subName2,
   });
 
   final CircleCardNetwork network;
   final String name;
   final String subName;
+  final String? subName2;
   final Function() onTap;
+  final bool expire;
 
   @override
   Widget build(BuildContext context) {
@@ -173,11 +181,23 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
                     child: getNetworkIcon(),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    subName,
-                    style: sOverlineTextStyle.copyWith(
-                      color: sKit.colors.grey2,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        subName,
+                        style: sOverlineTextStyle.copyWith(
+                          color: sKit.colors.grey2,
+                        ),
+                      ),
+                      if (subName2 != null)
+                        Text(
+                          subName2 ?? '',
+                          style: sCaptionTextStyle.copyWith(
+                            color: expire ? sKit.colors.red : sKit.colors.grey2,
+                          ),
+                        ),
+                    ],
                   ),
                 ],
               ),

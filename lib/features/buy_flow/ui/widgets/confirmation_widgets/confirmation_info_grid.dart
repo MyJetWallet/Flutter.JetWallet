@@ -55,6 +55,17 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
     super.dispose();
   }
 
+  Widget textPreloader() {
+    return const Baseline(
+      baseline: 19.0,
+      baselineType: TextBaseline.alphabetic,
+      child: SSkeletonTextLoader(
+        height: 16,
+        width: 80,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final store = BuyConfirmationStore.of(context);
@@ -68,73 +79,80 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
           height: 24,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 intl.buy_confirmation_payment_method,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
-              if (store.category == PaymentMethodCategory.cards) ...[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * .5,
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 32,
-                        height: 20,
-                        child: getNetworkIcon(store.card?.network),
-                      ),
-                      const SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          store.card?.cardLabel ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          style: sSubtitle3Style,
+              if (store.isDataLoaded) ...[
+                if (store.category == PaymentMethodCategory.cards) ...[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          width: 32,
+                          height: 20,
+                          child: getNetworkIcon(store.card?.network),
                         ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            store.card?.cardLabel ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            style: sSubtitle3Style,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ] else ...[
+                  Row(
+                    children: [
+                      const SpaceW19(),
+                      SNetworkCachedSvg(
+                        url: iconForPaymentMethod(
+                          methodId: store.method?.id.name ?? '',
+                        ),
+                        width: 20,
+                        height: 20,
+                        placeholder: MethodPlaceholder(
+                          name: capitalizeText(
+                            store.method?.id.name ?? '  ',
+                          ),
+                        ),
+                      ),
+                      const SpaceW8(),
+                      Text(
+                        capitalizeText(
+                          store.method?.id.name ?? '  ',
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        style: sSubtitle3Style,
                       ),
                     ],
                   ),
-                ),
+                ],
               ] else ...[
-                Row(
-                  children: [
-                    const SpaceW19(),
-                    SNetworkCachedSvg(
-                      url: iconForPaymentMethod(
-                        methodId: store.method?.id.name ?? '',
-                      ),
-                      width: 20,
-                      height: 20,
-                      placeholder: MethodPlaceholder(
-                        name: capitalizeText(
-                          store.method?.id.name ?? '  ',
-                        ),
-                      ),
-                    ),
-                    const SpaceW8(),
-                    Text(
-                      capitalizeText(
-                        store.method?.id.name ?? '  ',
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      style: sSubtitle3Style,
-                    ),
-                  ],
-                ),
+                textPreloader(),
               ],
             ],
           ),
         ),
-        if (store.price != Decimal.zero) ...[
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                intl.buy_confirmation_buy_confirmation,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              const Spacer(),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              intl.buy_confirmation_buy_confirmation,
+              style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
+            ),
+            const Spacer(),
+            if (store.isDataLoaded) ...[
               if (store.category == PaymentMethodCategory.cards) ...[
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
@@ -163,9 +181,11 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 )}',
                 style: sSubtitle3Style,
               ),
+            ] else ...[
+              textPreloader(),
             ],
-          ),
-        ],
+          ],
+        ),
         const SizedBox(height: 16),
         if (widget.paymentFee != null) ...[
           Row(
@@ -195,10 +215,14 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 ),
               ],
               const Spacer(),
-              Text(
-                widget.paymentFee ?? '',
-                style: sSubtitle3Style,
-              ),
+              if (store.isDataLoaded) ...[
+                Text(
+                  widget.paymentFee ?? '',
+                  style: sSubtitle3Style,
+                ),
+              ] else ...[
+                textPreloader(),
+              ],
             ],
           ),
         ],
@@ -211,10 +235,14 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 intl.buy_confirmation_out_fee,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
-              Text(
-                widget.ourFee ?? '',
-                style: sSubtitle3Style,
-              ),
+              if (store.isDataLoaded) ...[
+                Text(
+                  widget.ourFee ?? '',
+                  style: sSubtitle3Style,
+                ),
+              ] else ...[
+                textPreloader(),
+              ],
             ],
           ),
         ],
@@ -239,10 +267,14 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 intl.withdrawalPreview_total,
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
-              Text(
-                widget.totalValue,
-                style: sSubtitle3Style.copyWith(color: sKit.colors.blue),
-              ),
+              if (store.isDataLoaded) ...[
+                Text(
+                  widget.totalValue,
+                  style: sSubtitle3Style.copyWith(color: sKit.colors.blue),
+                ),
+              ] else ...[
+                textPreloader(),
+              ],
             ],
           ),
         ),

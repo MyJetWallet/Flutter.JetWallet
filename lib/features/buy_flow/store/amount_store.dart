@@ -307,21 +307,9 @@ abstract class _BuyAmountStoreBase with Store {
         .firstWhere((element) => element.asset == currency?.asset)
         .presets!;
 
-    preset1Name = baseCurrenciesFormat(
-      prefix: asset?.prefixSymbol ?? '',
-      text: formatPreset(presets.amount1 ?? Decimal.zero),
-      symbol: asset?.symbol ?? '',
-    );
-    preset2Name = baseCurrenciesFormat(
-      prefix: asset?.prefixSymbol ?? '',
-      text: formatPreset(presets.amount2 ?? Decimal.zero),
-      symbol: asset?.symbol ?? '',
-    );
-    preset3Name = baseCurrenciesFormat(
-      prefix: asset?.prefixSymbol ?? '',
-      text: formatPreset(presets.amount3 ?? Decimal.zero),
-      symbol: asset?.symbol ?? '',
-    );
+    preset1Name = formatPreset(presets.amount1 ?? Decimal.zero);
+    preset2Name = formatPreset(presets.amount2 ?? Decimal.zero);
+    preset3Name = formatPreset(presets.amount3 ?? Decimal.zero);
   }
 
   String formatPreset(Decimal amount) {
