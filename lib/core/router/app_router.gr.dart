@@ -214,6 +214,8 @@ abstract class _$AppRouter extends RootStackRouter {
           currency: args.currency,
           method: args.method,
           card: args.card,
+          cardNumber: args.cardNumber,
+          cardId: args.cardId,
           showUaAlert: args.showUaAlert,
         ),
       );
@@ -229,6 +231,8 @@ abstract class _$AppRouter extends RootStackRouter {
           amount: args.amount,
           method: args.method,
           card: args.card,
+          cardNumber: args.cardNumber,
+          cardId: args.cardId,
         ),
       );
     },
@@ -1570,6 +1574,8 @@ class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
     required PaymentAsset currency,
     BuyMethodDto? method,
     CircleCard? card,
+    String? cardNumber,
+    String? cardId,
     bool showUaAlert = false,
     List<PageRouteInfo>? children,
   }) : super(
@@ -1580,6 +1586,8 @@ class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
             currency: currency,
             method: method,
             card: card,
+            cardNumber: cardNumber,
+            cardId: cardId,
             showUaAlert: showUaAlert,
           ),
           initialChildren: children,
@@ -1598,6 +1606,8 @@ class BuyAmountRouteArgs {
     required this.currency,
     this.method,
     this.card,
+    this.cardNumber,
+    this.cardId,
     this.showUaAlert = false,
   });
 
@@ -1611,11 +1621,15 @@ class BuyAmountRouteArgs {
 
   final CircleCard? card;
 
+  final String? cardNumber;
+
+  final String? cardId;
+
   final bool showUaAlert;
 
   @override
   String toString() {
-    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card, showUaAlert: $showUaAlert}';
+    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId, showUaAlert: $showUaAlert}';
   }
 }
 
@@ -1629,6 +1643,8 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
     required String amount,
     BuyMethodDto? method,
     CircleCard? card,
+    String? cardNumber,
+    String? cardId,
     List<PageRouteInfo>? children,
   }) : super(
           BuyConfirmationRoute.name,
@@ -1639,6 +1655,8 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
             amount: amount,
             method: method,
             card: card,
+            cardNumber: cardNumber,
+            cardId: cardId,
           ),
           initialChildren: children,
         );
@@ -1657,6 +1675,8 @@ class BuyConfirmationRouteArgs {
     required this.amount,
     this.method,
     this.card,
+    this.cardNumber,
+    this.cardId,
   });
 
   final Key? key;
@@ -1671,9 +1691,13 @@ class BuyConfirmationRouteArgs {
 
   final CircleCard? card;
 
+  final String? cardNumber;
+
+  final String? cardId;
+
   @override
   String toString() {
-    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card}';
+    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId}';
   }
 }
 

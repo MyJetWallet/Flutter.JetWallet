@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:credit_card_validator/credit_card_validator.dart';
+import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -337,6 +338,11 @@ abstract class _BankCardStoreBase with Store {
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
                         asset: asset!,
+                        expMonth: int.parse(expiryMonth),
+                        expYear: int.parse(
+                          expiryYear.length == 4 ? expiryYear : '20$expiryYear',
+                        ),
+                        cardLabel: cardLabel.isEmpty ? '' : cardLabel,
                       );
                     },
                   ),
@@ -356,6 +362,11 @@ abstract class _BankCardStoreBase with Store {
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
                         asset: asset!,
+                        expMonth: int.parse(expiryMonth),
+                        expYear: int.parse(
+                          expiryYear.length == 4 ? expiryYear : '20$expiryYear',
+                        ),
+                        cardLabel: cardLabel.isEmpty ? '' : cardLabel,
                       );
                     },
                   ),
@@ -370,6 +381,11 @@ abstract class _BankCardStoreBase with Store {
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
                 method: method,
                 asset: asset!,
+                expMonth: int.parse(expiryMonth),
+                expYear: int.parse(
+                  expiryYear.length == 4 ? expiryYear : '20$expiryYear',
+                ),
+                cardLabel: cardLabel.isEmpty ? '' : cardLabel,
               );
             } else {
               _showFailureScreen();
@@ -412,12 +428,38 @@ abstract class _BankCardStoreBase with Store {
     BuyMethodDto? method,
     required CurrencyModel asset,
     bool showUaAlert = false,
+    required int expMonth,
+    required int expYear,
+    required String cardLabel,
   }) {
     sRouter.pop();
     Timer(const Duration(milliseconds: 300), () {
-      final card = sSignalRModules.cards.cardInfos.firstWhere(
+      final cardIndex = sSignalRModules.cards.cardInfos.indexWhere(
         (element) => element.id == cardId,
       );
+
+      final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
+      CircleCard? card;
+
+      card = cardIndex != -1
+          ? sSignalRModules.cards.cardInfos
+              .firstWhere((element) => element.id == cardId)
+          : CircleCard(
+              id: cardId,
+              last4: finalCardNumber,
+              network: getCardNetworkNumber(cardNumber),
+              expMonth: expMonth,
+              expYear: expYear,
+              status: CircleCardStatus.complete,
+              showUaAlert: showUaAlert,
+              lastUsed: false,
+              cardLabel: cardLabel,
+              paymentDetails: CircleCardInfoPayment(
+                minAmount: Decimal.zero,
+                maxAmount: Decimal.zero,
+                feePercentage: Decimal.zero,
+              ),
+            );
 
       print(card);
 
@@ -427,6 +469,8 @@ abstract class _BankCardStoreBase with Store {
           currency: currency,
           method: method,
           card: card,
+          cardNumber: finalCardNumber,
+          cardId: cardId,
         ),
       );
     });
@@ -494,5 +538,19 @@ abstract class _BankCardStoreBase with Store {
         onPrimaryButtonTap: () => sRouter.popUntilRoot(),
       ),
     );
+  }
+
+  static CircleCardNetwork getCardNetworkNumber(String input) {
+    CircleCardNetwork cardType;
+
+    if (RegExp(r"^4[0-9]{12}(?:[0-9]{3})?$").hasMatch(input)) {
+      cardType = CircleCardNetwork.MASTERCARD;
+    } else if (RegExp(r"^5[1-5][0-9]{14}$").hasMatch(input)) {
+      cardType = CircleCardNetwork.VISA;
+    } else {
+      cardType = CircleCardNetwork.unsupported;
+    }
+
+    return cardType;
   }
 }

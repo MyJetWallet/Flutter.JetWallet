@@ -32,13 +32,19 @@ class BuyConfirmationScreen extends StatelessWidget {
     required this.amount,
     this.method,
     this.card,
+    this.cardNumber,
+    this.cardId,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
 
   final BuyMethodDto? method;
+
   final CircleCard? card;
+
+  final String? cardNumber;
+  final String? cardId;
 
   final String amount;
 

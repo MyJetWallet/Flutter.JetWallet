@@ -31,6 +31,9 @@ abstract class _PaymentMethodStoreBase with Store {
   @observable
   PaymentAsset? selectedCurrency;
 
+  @observable
+  bool cardSupportForThisAsset = false;
+
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
@@ -69,13 +72,13 @@ abstract class _PaymentMethodStoreBase with Store {
     selectedAssset = asset;
     selectedCurrency = currency;
 
-    log(asset.buyMethods.toString());
-
     asset.buyMethods.forEach((element) {
-      final isCurrExist = element.paymentAssets!
-          .indexWhere((element) => element.asset == buyCurrency.symbol);
+      final isCurrExist = element.paymentAssets!.indexWhere(
+        (element) => element.asset == buyCurrency.symbol,
+      );
 
       if (element.category == PaymentMethodCategory.cards) {
+        cardSupportForThisAsset = true;
         if (isCurrExist != -1) {
           cardsMethods.add(element);
         }
@@ -89,8 +92,6 @@ abstract class _PaymentMethodStoreBase with Store {
         }
       }
     });
-
-    log(localMethods.toString());
 
     cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
     localMethodsFilted = ObservableList.of(localMethods.toList());

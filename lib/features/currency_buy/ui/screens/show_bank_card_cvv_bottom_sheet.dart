@@ -27,6 +27,9 @@ void showBankCardCvvBottomSheet({
     onDissmis: () {
       if (onDissmis != null) onDissmis!();
     },
+    then: (p0) {
+      if (onDissmis != null) onDissmis!();
+    },
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,
     children: [

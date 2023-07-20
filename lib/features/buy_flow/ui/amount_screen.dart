@@ -32,6 +32,8 @@ class BuyAmountScreen extends StatelessWidget {
     required this.currency,
     this.method,
     this.card,
+    this.cardNumber,
+    this.cardId,
     this.showUaAlert = false,
   });
 
@@ -40,6 +42,9 @@ class BuyAmountScreen extends StatelessWidget {
 
   final BuyMethodDto? method;
   final CircleCard? card;
+
+  final String? cardNumber;
+  final String? cardId;
 
   final bool showUaAlert;
 

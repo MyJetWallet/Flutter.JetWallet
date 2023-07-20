@@ -420,8 +420,6 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   Future<void> _requestPaymentCard() async {
     try {
-      loader.startLoadingImmediately();
-
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
@@ -441,6 +439,8 @@ abstract class _BuyConfirmationStoreBase with Store {
           encData: base64EncodedCvv,
         ),
       );
+
+      loader.startLoadingImmediately();
 
       final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
 
