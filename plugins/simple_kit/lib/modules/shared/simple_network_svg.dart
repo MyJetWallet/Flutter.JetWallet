@@ -78,7 +78,6 @@ class SNetworkCachedSvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.shrink();
     return FutureBuilder(
       future: DefaultCacheManager().getSingleFile(url),
       builder: (context, AsyncSnapshot<File> snapshot) {
