@@ -188,6 +188,7 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
                         subName,
                         style: sOverlineTextStyle.copyWith(
                           color: sKit.colors.grey2,
+                          height: 1.384,
                         ),
                       ),
                       if (subName2 != null)
@@ -195,6 +196,7 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
                           subName2 ?? '',
                           style: sCaptionTextStyle.copyWith(
                             color: expire ? sKit.colors.red : sKit.colors.grey2,
+                            height: 1.384,
                           ),
                         ),
                     ],
@@ -203,14 +205,12 @@ class PaymentMethodBankCardWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              height: 20,
-              child: Text(
-                name,
-                style: sBodyText2Style.copyWith(
-                  color: sKit.colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
+            Text(
+              name,
+              style: sBodyText2Style.copyWith(
+                color: sKit.colors.black,
+                fontWeight: FontWeight.w600,
+                height: 1.428,
               ),
             ),
           ],
@@ -283,7 +283,9 @@ class _BaseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 102,
+      constraints: const BoxConstraints(
+        minHeight: 102,
+      ),
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 12,

@@ -10,6 +10,7 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_m
 import 'package:jetwallet/utils/helpers/capitalize_text.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
@@ -31,24 +32,29 @@ class PaymentMethodSearchOut extends StatelessWidget {
   Widget build(BuildContext context) {
     final store = PaymentMethodStore.of(context);
 
-    return SPaddingH24(
-      child: DynamicHeightGridView(
+    return ResponsiveGridList(
+      horizontalGridSpacing: 12,
+      verticalGridSpacing: 12,
+      horizontalGridMargin: 24,
+      minItemsPerRow: 2,
+      maxItemsPerRow: 2,
+      minItemWidth: 157,
+      listViewBuilderOptions: ListViewBuilderOptions(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: list.length,
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        builder: (ctx, i) {
-          if (list[i].type == 0) {
+        padding: EdgeInsets.zero,
+      ),
+      children: list.map(
+        (e) {
+          if (e.type == 0) {
             final formatted = formattedCircleCard(
-              list[i].card!,
+              e.card!,
               sSignalRModules.baseCurrency,
             );
 
             return PaymentMethodCard.bankCard(
-              network: list[i].card!.network,
-              name: list[i].card!.cardLabel ?? '',
+              network: e.card!.network,
+              name: e.card!.cardLabel ?? '',
               subName: formatted.last4Digits,
               onTap: () {
                 sRouter.push(
@@ -56,7 +62,7 @@ class PaymentMethodSearchOut extends StatelessWidget {
                     asset: asset,
                     currency: currency,
                     method: store.cardsMethods.first,
-                    card: list[i].card!,
+                    card: e.card!,
                   ),
                 );
               },
@@ -64,24 +70,24 @@ class PaymentMethodSearchOut extends StatelessWidget {
           } else {
             return PaymentMethodCard.card(
               name: capitalizeText(
-                list[i].method!.id.name ?? '  ',
+                e.method!.id.name ?? '  ',
               ),
               url: iconForPaymentMethod(
-                methodId: list[i].method!.id.name,
+                methodId: e.method!.id.name,
               ),
               onTap: () {
                 sRouter.push(
                   BuyAmountRoute(
                     asset: asset,
                     currency: currency,
-                    method: list[i].method!,
+                    method: e.method!,
                   ),
                 );
               },
             );
           }
         },
-      ),
+      ).toList(),
     );
   }
 }

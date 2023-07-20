@@ -206,6 +206,8 @@ abstract class _BankCardStoreBase with Store {
     code = code.replaceAll(' ', '');
     code = code.replaceAll(' ', '');
 
+    code = '400000000000084';
+
     try {
       int.parse(code);
       if (code.length == 16) {
@@ -487,6 +489,8 @@ abstract class _BankCardStoreBase with Store {
               cardId,
               cardLabel,
             );
+
+    await sRouter.pop();
 
     loader.finishLoadingImmediately();
     sNotification.showError(

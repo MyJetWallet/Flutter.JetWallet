@@ -80,7 +80,9 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
                 ),
               ),
             ],
-            if (store.cardSupportForThisAsset && store.searchList.isEmpty) ...[
+            if (!store.isCardReachLimits &&
+                store.cardSupportForThisAsset &&
+                store.searchList.isEmpty) ...[
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: PaymentMethodCardsWidget(

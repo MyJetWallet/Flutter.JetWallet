@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
-import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -31,7 +29,6 @@ import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/car
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
 part 'buy_confirmation_store.g.dart';
 
@@ -73,6 +70,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   Decimal? rate;
   @observable
   String paymentId = '';
+  @observable
+  int actualTimeInSecond = 0;
 
   @observable
   Decimal price = Decimal.zero;
@@ -93,10 +92,38 @@ abstract class _BuyConfirmationStoreBase with Store {
   bool wasAction = false;
 
   @observable
-  bool isChecked = false;
+  bool isBankTermsChecked = false;
   @action
-  void setIsChecked() {
-    isChecked = !isChecked;
+  void setIsBankTermsChecked() {
+    isBankTermsChecked = !isBankTermsChecked;
+  }
+
+  @observable
+  bool isLocalTermsChecked = false;
+  @action
+  void setIsLocalTermsChecked() {
+    isLocalTermsChecked = !isLocalTermsChecked;
+  }
+
+  @observable
+  bool isP2PTermsChecked = false;
+  @action
+  void seIsP2PTermsChecked() {
+    isP2PTermsChecked = !isP2PTermsChecked;
+  }
+
+  @computed
+  bool get getCheckbox {
+    switch (category) {
+      case PaymentMethodCategory.cards:
+        return isBankTermsChecked;
+      case PaymentMethodCategory.local:
+        return isLocalTermsChecked;
+      case PaymentMethodCategory.p2p:
+        return isP2PTermsChecked;
+      default:
+        return isBankTermsChecked;
+    }
   }
 
   @observable
@@ -126,6 +153,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   CircleCard? card;
   BuyMethodDto? method;
   String? buyAssetSymbol;
+  String payAmount = '';
+  String payAsset = '';
 
   @action
   Future<void> loadPreview(
@@ -137,18 +166,31 @@ abstract class _BuyConfirmationStoreBase with Store {
   ) async {
     isDataLoaded = false;
 
-    await _isChecked();
-
     category =
         card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
 
     loader.startLoadingImmediately();
 
+    payAmount = pAmount;
+    payAsset = pAsset;
     card = inputCard;
     method = inputMethod;
     buyAssetSymbol = bAsset;
 
-    final model = getModelForCardBuyReq(category, pAmount, bAsset, pAsset);
+    await _isChecked();
+
+    await getActualData();
+    await requestQuote();
+
+    loader.finishLoadingImmediately();
+
+    isDataLoaded = true;
+  }
+
+  @action
+  Future<void> getActualData() async {
+    final model = getModelForCardBuyReq(
+        category, payAmount, buyAssetSymbol ?? '', payAsset);
 
     try {
       final response =
@@ -156,8 +198,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       response.pick(
         onData: (data) {
-          print(data);
-
           paymentAmount = data.paymentAmount;
           paymentAsset = data.paymentAsset;
           buyAmount = data.buyAmount;
@@ -168,8 +208,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           tradeFeeAsset = data.tradeFeeAsset;
           rate = data.rate;
           paymentId = data.paymentId ?? '';
-
-          requestQuote();
+          actualTimeInSecond = data.actualTimeInSecond ?? 15;
         },
         onError: (error) {
           _showFailureScreen(error.cause);
@@ -187,10 +226,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       loader.finishLoadingImmediately();
 
       isDataLoaded = true;
-
-      Timer(const Duration(milliseconds: 500), () {
-        //_isChecked();
-      });
     }
   }
 
@@ -251,31 +286,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           ) ??
           Decimal.zero;
 
+      await getActualData();
+
       if (category == PaymentMethodCategory.cards) {
-        _refreshTimerAnimation(60);
-        _refreshTimer(60);
+        _refreshTimerAnimation(actualTimeInSecond);
+        _refreshTimer(actualTimeInSecond);
       }
       timerLoading = false;
-
-      /*final response = await sNetwork.getWalletModule().postGetQuote(model);
-
-    final model = GetQuoteRequestModel(
-      fromAssetAmount: Decimal.one,
-      fromAssetSymbol: buyAsset!,
-      toAssetSymbol: paymentAsset!,
-    );
-      response.pick(
-        onData: (data) {
-          price = data.price;
-
-          _refreshTimerAnimation(data.expirationTime);
-          _refreshTimer(data.expirationTime);
-
-          timerLoading = false;
-        },
-        onError: (error) {},
-      );
-      */
     } on ServerRejectException catch (error) {
     } catch (error) {
       _refreshTimer(quoteRetryInterval);
@@ -322,8 +339,7 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> createPayment() async {
     loader.startLoadingImmediately();
 
-    final storage = sLocalStorageService;
-    await storage.setString(checkedBankCard, 'true');
+    unawaited(_setIsChecked());
 
     if (category == PaymentMethodCategory.cards) {
       showBankCardCvvBottomSheet(
@@ -366,8 +382,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
 
-    loader.finishLoadingImmediately();
-
     if (resp.hasError) {
       unawaited(_showFailureScreen(resp.error?.cause ?? ''));
 
@@ -383,10 +397,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
         return;
       } else {
-        loader.finishLoadingImmediately();
-
-        showProcessing = true;
-
         await sRouter.push(
           Circle3dSecureWebViewRouter(
             title: '',
@@ -394,6 +404,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             asset: depositFeeCurrency.symbol,
             amount: paymentAmount.toString(),
             onSuccess: (payment, lastAction) {
+              loader.finishLoadingImmediately();
               Navigator.pop(sRouter.navigatorKey.currentContext!);
 
               showProcessing = true;
@@ -419,6 +430,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _requestPaymentCard() async {
+    loader.finishLoadingImmediately();
+
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
@@ -440,6 +453,9 @@ abstract class _BuyConfirmationStoreBase with Store {
         ),
       );
 
+      showProcessing = true;
+      wasAction = true;
+
       loader.startLoadingImmediately();
 
       final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
@@ -452,7 +468,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
-          isChecked = true;
+          _setIsChecked();
 
           sRouter.push(
             Circle3dSecureWebViewRouter(
@@ -616,11 +632,67 @@ abstract class _BuyConfirmationStoreBase with Store {
   Future<void> _isChecked() async {
     try {
       final storage = sLocalStorageService;
-      final status = await storage.getValue(checkedBankCard);
-      if (status != null) {
-        isChecked = true;
+
+      switch (category) {
+        case PaymentMethodCategory.cards:
+          final status = await storage.getValue(checkedBankCard);
+          if (status != null) {
+            isBankTermsChecked = true;
+          }
+          break;
+        case PaymentMethodCategory.local:
+          final status = await storage.getValue(checkedLocalTerms);
+          if (status != null) {
+            isLocalTermsChecked = true;
+          }
+          break;
+        case PaymentMethodCategory.p2p:
+          final status = await storage.getValue(checkedP2PTerms);
+          print('P2P STATUS: $status');
+          if (status != null) {
+            isP2PTermsChecked = true;
+          }
+          break;
+        default:
       }
     } catch (e) {}
+  }
+
+  @action
+  Future<void> _setIsChecked() async {
+    try {
+      final storage = sLocalStorageService;
+
+      switch (category) {
+        case PaymentMethodCategory.cards:
+          await storage.setString(checkedBankCard, 'true');
+          isBankTermsChecked = true;
+          break;
+        case PaymentMethodCategory.local:
+          await storage.setString(checkedLocalTerms, 'true');
+          isLocalTermsChecked = true;
+          break;
+        case PaymentMethodCategory.p2p:
+          await storage.setString(checkedP2PTerms, 'true');
+          isP2PTermsChecked = true;
+          break;
+        default:
+      }
+    } catch (e) {}
+  }
+
+  @computed
+  String get getProcessingText {
+    switch (category) {
+      case PaymentMethodCategory.cards:
+        return '';
+      case PaymentMethodCategory.local:
+        return intl.buy_confirmation_local_p2p_processing_text;
+      case PaymentMethodCategory.p2p:
+        return intl.buy_confirmation_local_p2p_processing_text;
+      default:
+        return '';
+    }
   }
 }
 

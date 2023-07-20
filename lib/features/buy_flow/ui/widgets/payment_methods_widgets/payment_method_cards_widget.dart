@@ -17,6 +17,7 @@ import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/compon
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -81,79 +82,83 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
       children: [
         const SizedBox(height: 8),
         MarketSeparator(text: title),
-        SPaddingH24(
-          child: DynamicHeightGridView(
+        const SpaceH16(),
+        ResponsiveGridList(
+          horizontalGridSpacing: 12,
+          verticalGridSpacing: 12,
+          horizontalGridMargin: 24,
+          minItemsPerRow: 2,
+          maxItemsPerRow: 2,
+          minItemWidth: 157,
+          listViewBuilderOptions: ListViewBuilderOptions(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: store.unlimintAltCards.length + 1,
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            builder: (ctx, i) {
-              if (i == store.unlimintAltCards.length) {
-                return PaymentMethodCard.cardIcon(
-                  icon: SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: SPlusIcon(
-                      color: sKit.colors.blue,
-                    ),
-                  ),
-                  name: intl.add_card_text,
-                  onTap: () {
-                    final kycState = getIt.get<KycService>();
-                    final kycHandler = getIt.get<KycAlertHandler>();
-
-                    final status = kycOperationStatus(KycStatus.allowed);
-                    if (kycState.depositStatus == status) {
-                      onAddCardTap(context);
-                    } else {
-                      kycHandler.handle(
-                        status: kycState.depositStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => onAddCardTap(context),
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
-                    ;
-                  },
-                );
-              } else {
-                final formatted = formattedCircleCard(
-                  store.unlimintAltCards[i],
-                  sSignalRModules.baseCurrency,
-                );
-
-                return PaymentMethodCard.bankCard(
-                  network: store.unlimintAltCards[i].network,
-                  name: store.unlimintAltCards[i].cardLabel ?? '',
-                  subName: formatted.last4Digits,
-                  subName2:
-                      'Exp. ${store.unlimintAltCards[i].expMonth}/${store.unlimintAltCards[i].expYear}',
-                  expire: isCardExpired(
-                    store.unlimintAltCards[i].expMonth,
-                    store.unlimintAltCards[i].expYear,
-                  ),
-                  onTap: () {
-                    if (!isCardExpired(
-                      store.unlimintAltCards[i].expMonth,
-                      store.unlimintAltCards[i].expYear,
-                    )) {
-                      sRouter.push(
-                        BuyAmountRoute(
-                          asset: asset,
-                          currency: currency,
-                          method: store.cardsMethods.first,
-                          card: store.unlimintAltCards[i],
-                        ),
-                      );
-                    }
-                  },
-                );
-              }
-            },
+            padding: EdgeInsets.zero,
           ),
+          children: store.unlimintAltCards.map(
+            (e) {
+              final formatted = formattedCircleCard(
+                e,
+                sSignalRModules.baseCurrency,
+              );
+
+              return PaymentMethodCard.bankCard(
+                network: e.network,
+                name: e.cardLabel ?? '',
+                subName: formatted.last4Digits,
+                subName2: 'Exp. ${e.expMonth}/${e.expYear}',
+                expire: isCardExpired(
+                  e.expMonth,
+                  e.expYear,
+                ),
+                onTap: () {
+                  if (!isCardExpired(
+                    e.expMonth,
+                    e.expYear,
+                  )) {
+                    sRouter.push(
+                      BuyAmountRoute(
+                        asset: asset,
+                        currency: currency,
+                        method: store.cardsMethods.first,
+                        card: e,
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+          ).toList()
+            ..add(
+              PaymentMethodCard.cardIcon(
+                icon: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: SPlusIcon(
+                    color: sKit.colors.blue,
+                  ),
+                ),
+                name: intl.add_card_text,
+                onTap: () {
+                  final kycState = getIt.get<KycService>();
+                  final kycHandler = getIt.get<KycAlertHandler>();
+
+                  final status = kycOperationStatus(KycStatus.allowed);
+                  if (kycState.depositStatus == status) {
+                    onAddCardTap(context);
+                  } else {
+                    kycHandler.handle(
+                      status: kycState.depositStatus,
+                      isProgress: kycState.verificationInProgress,
+                      currentNavigate: () => onAddCardTap(context),
+                      requiredDocuments: kycState.requiredDocuments,
+                      requiredVerifications: kycState.requiredVerifications,
+                    );
+                  }
+                  ;
+                },
+              ),
+            ),
         ),
       ],
     );

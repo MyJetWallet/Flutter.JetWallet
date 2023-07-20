@@ -99,7 +99,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: store.wasAction,
               primaryText: intl.buy_confirmation_local_p2p_processing_title,
-              secondaryText: intl.buy_confirmation_local_p2p_processing_text,
+              secondaryText: store.getProcessingText,
               onSkip: () {
                 navigateToRouter();
               },
@@ -178,7 +178,9 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               thirdText: '',
               activeText2: '',
               onCheckboxTap: () {
-                store.setIsChecked();
+                store.category == PaymentMethodCategory.cards
+                    ? store.setIsBankTermsChecked()
+                    : store.setIsLocalTermsChecked();
               },
               onUserAgreementTap: () {
                 launchURL(context, userAgreementLink);
@@ -188,13 +190,15 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               },
               onActiveTextTap: () {},
               onActiveText2Tap: () {},
-              isChecked: store.isChecked,
+              isChecked: store.category == PaymentMethodCategory.cards
+                  ? store.isBankTermsChecked
+                  : store.isLocalTermsChecked,
             ),
           ] else ...[
             SPolicy(
-              isChecked: store.isChecked,
+              isChecked: store.isP2PTermsChecked,
               onCheckboxTap: () {
-                store.setIsChecked();
+                store.seIsP2PTermsChecked();
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +213,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                       color: sKit.colors.black,
                     ),
                   ),
-                  const SpaceH17(),
+                  const SpaceH15(),
                   RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
@@ -234,7 +238,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                       ],
                     ),
                   ),
-                  const SpaceH17(),
+                  const SpaceH15(),
                   Text(
                     intl.buy_confirmation_privacy_p2p_checkbox_3,
                     maxLines: 3,
@@ -282,7 +286,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: SPrimaryButton2(
-              active: !store.loader.loading && store.isChecked,
+              active: !store.loader.loading && store.getCheckbox,
               name: intl.previewBuyWithAsset_confirm,
               onTap: () {
                 store.createPayment();

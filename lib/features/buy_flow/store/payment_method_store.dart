@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/format_service.dart';
@@ -11,6 +12,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 part 'payment_method_store.g.dart';
@@ -33,6 +35,8 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @observable
   bool cardSupportForThisAsset = false;
+  @observable
+  bool isCardReachLimits = false;
 
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
@@ -71,6 +75,10 @@ abstract class _PaymentMethodStoreBase with Store {
   Future<void> init(CurrencyModel asset, PaymentAsset currency) async {
     selectedAssset = asset;
     selectedCurrency = currency;
+
+    isCardReachLimits = isCardReachLimit(currency);
+
+    print(isCardReachLimits);
 
     asset.buyMethods.forEach((element) {
       final isCurrExist = element.paymentAssets!.indexWhere(
@@ -130,6 +138,111 @@ abstract class _PaymentMethodStoreBase with Store {
           .toList());
 
       searchList.sort((a, b) => a.name.compareTo(b.name));
+    }
+  }
+
+  @action
+  bool isCardReachLimit(PaymentAsset asset) {
+    int calcPercentage(Decimal first, Decimal second) {
+      if (first == Decimal.zero) {
+        return 0;
+      }
+      final doubleFirst = double.parse('$first');
+      final doubleSecond = double.parse('$second');
+      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
+
+      return (doubleFinal * 100).round();
+    }
+
+    if (asset.limits != null) {
+      var finalInterval = StateBarType.day1;
+      var finalProgress = 0;
+      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      var monthState = asset.limits!.monthValue == asset.limits!.monthLimit
+          ? StateLimitType.block
+          : StateLimitType.active;
+      if (monthState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day30;
+        weekState = weekState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+      } else if (weekState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day7;
+        dayState = dayState == StateLimitType.block
+            ? StateLimitType.block
+            : StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else if (dayState == StateLimitType.block) {
+        finalProgress = 100;
+        finalInterval = StateBarType.day1;
+        weekState = StateLimitType.none;
+        monthState = StateLimitType.none;
+      } else {
+        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
+        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
+        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
+        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
+          finalInterval = StateBarType.day1;
+          finalProgress = calcPercentage(
+            asset.limits!.dayValue,
+            asset.limits!.dayLimit,
+          );
+          dayState = StateLimitType.active;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.none;
+        } else if (weekLeft <= monthLeft) {
+          finalInterval = StateBarType.day7;
+          finalProgress = calcPercentage(
+            asset.limits!.weekValue,
+            asset.limits!.weekLimit,
+          );
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.active;
+          monthState = StateLimitType.none;
+        } else {
+          finalInterval = StateBarType.day30;
+          finalProgress = calcPercentage(
+            asset.limits!.monthValue,
+            asset.limits!.monthLimit,
+          );
+          dayState = StateLimitType.none;
+          weekState = StateLimitType.none;
+          monthState = StateLimitType.active;
+        }
+      }
+
+      final limitModel = CardLimitsModel(
+        minAmount: asset.minAmount,
+        maxAmount: asset.maxAmount,
+        day1Amount: asset.limits!.dayValue,
+        day1Limit: asset.limits!.dayLimit,
+        day1State: dayState,
+        day7Amount: asset.limits!.weekValue,
+        day7Limit: asset.limits!.weekLimit,
+        day7State: weekState,
+        day30Amount: asset.limits!.monthValue,
+        day30Limit: asset.limits!.monthLimit,
+        day30State: monthState,
+        barInterval: finalInterval,
+        barProgress: finalProgress,
+        leftHours: 0,
+      );
+
+      return limitModel?.day1State == StateLimitType.block ||
+          limitModel?.day7State == StateLimitType.block ||
+          limitModel?.day30State == StateLimitType.block;
+    } else {
+      return false;
     }
   }
 }

@@ -42,8 +42,13 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
             ? [
                 SIconButton(
                   onTap: () {
-                    store.pasteCode();
-                    setState(() {});
+                    setState(() {
+                      store.pasteCode();
+                    });
+
+                    Future.delayed(const Duration(milliseconds: 150), () {
+                      setState(() {});
+                    });
                   },
                   defaultIcon: const SPasteIcon(),
                 ),
