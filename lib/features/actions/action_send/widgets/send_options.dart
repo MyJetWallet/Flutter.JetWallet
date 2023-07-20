@@ -10,6 +10,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 void showSendOptions(
@@ -131,7 +132,7 @@ class _SendOptions extends StatelessObserverWidget {
               }
             },
           ),
-        if (currency.supportsGiftlSend)
+        if (currency.supportsGiftlSend && currency.type != AssetType.fiat)
           SActionItem(
             icon: const SGiftSendIcon(),
             name: intl.send_gift,
