@@ -287,7 +287,6 @@ abstract class _PaymentMethodsStoreBase with Store {
   @action
   Future<void> deleteCard(CircleCard card) async {
     _logger.log(notifier, 'deleteCard');
-    sAnalytics.newBuyTapYesDelete();
 
     try {
       if (card.integration == IntegrationType.circle ||

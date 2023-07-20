@@ -291,6 +291,8 @@ abstract class _BankCardStoreBase with Store {
   }) async {
     loader.startLoadingImmediately();
 
+    sAnalytics.newBuyTapCardContinue(saveCard: saveCard.toString());
+
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
 

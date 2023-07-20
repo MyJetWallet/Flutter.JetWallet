@@ -120,6 +120,11 @@ class StartupService {
       await reCreateServices();
     }
 
+    final kyc = getIt.get<KycService>();
+    sAnalytics.setKYCDepositStatus(
+      kyc.depositStatus,
+    );
+
     getIt<AppStore>().setIsBalanceHide(
       await getIt<LocalCacheService>().getBalanceHide() ?? false,
     );

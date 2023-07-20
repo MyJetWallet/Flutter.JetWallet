@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/helpers/capitalize_text.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
@@ -199,6 +200,8 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 const SpaceW5(),
                 GestureDetector(
                   onTap: () {
+                    sAnalytics.newBuyTapPaymentFee();
+
                     buyConfirmationShowLimit(
                       context,
                       widget.paymentFee ?? '',
@@ -284,6 +287,8 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
 }
 
 void buyConfirmationShowLimit(BuildContext context, String fee) {
+  sAnalytics.newBuyFeeView(paymentFee: fee);
+
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,

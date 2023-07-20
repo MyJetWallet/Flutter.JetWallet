@@ -940,12 +940,7 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _updatePaymentMethodInputError(String? error) {
-    if (error != null) {
-      sAnalytics.newBuyErrorLimit(
-        errorCode: error,
-        asset: currencyModel.symbol,
-      );
-    }
+    if (error != null) {}
     paymentMethodInputError = error;
   }
 
@@ -1015,7 +1010,6 @@ abstract class _CurrencyBuyStoreBase with Store {
           )}',
         );
       } else if (value > max) {
-        sAnalytics.newBuyErrorLimit(errorCode: '', asset: currencyModel.symbol);
         if (selectedPaymentMethod?.id == PaymentMethodType.circleCard &&
             pickedCircleCard == null) {
           return;

@@ -105,7 +105,6 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
                             children: [
                               SIconButton(
                                 onTap: () {
-                                  sAnalytics.newBuyTapSaveCard();
                                   store.checkSetter();
                                 },
                                 defaultIcon: store.saveCard

@@ -19,6 +19,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -93,6 +94,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @observable
   bool isBankTermsChecked = false;
+  @observable
+  bool firstBuy = false;
   @action
   void setIsBankTermsChecked() {
     isBankTermsChecked = !isBankTermsChecked;
@@ -182,9 +185,28 @@ abstract class _BuyConfirmationStoreBase with Store {
     await getActualData();
     await requestQuote();
 
+    sAnalytics.newBuyTapContinue(
+      sourceCurrency: buyCurrency.symbol,
+      sourceAmount: paymentAmount.toString(),
+      destinationCurrency: bAsset,
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      destinationAmount: '$buyAmount',
+      quickAmount: '',
+    );
+
     loader.finishLoadingImmediately();
 
     isDataLoaded = true;
+
+    sAnalytics.newBuyOrderSummaryView(
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+    );
   }
 
   @action
@@ -263,6 +285,15 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
+    sAnalytics.newBuyFailedView(
+      errorCode: error,
+      firstTimeBuy: '$firstBuy',
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
@@ -337,11 +368,32 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> createPayment() async {
+    sAnalytics.newBuyTapConfirm(
+      sourceCurrency: buyCurrency.symbol,
+      destinationCurrency: buyAssetSymbol ?? '',
+      sourceAmount: '$paymentAmount',
+      destinationAmount: '$buyAmount',
+      exchangeRate: '1 $buyAssetSymbol = ${volumeFormat(
+        prefix: buyCurrency.prefixSymbol,
+        symbol: buyCurrency.symbol,
+        accuracy: buyCurrency.accuracy,
+        decimal: rate ?? Decimal.zero,
+      )}',
+      paymentFee: '$depositFeeAmount',
+      firstTimeBuy: '$firstBuy',
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+    );
+
     loader.startLoadingImmediately();
 
     unawaited(_setIsChecked());
 
     if (category == PaymentMethodCategory.cards) {
+      sAnalytics.newBuyEnterCvvView(firstTimeBuy: '$firstBuy');
+
       showBankCardCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV \n'
@@ -397,6 +449,14 @@ abstract class _BuyConfirmationStoreBase with Store {
 
         return;
       } else {
+        sAnalytics.paymentWevViewScreenView(
+          paymentMethodType: category.name,
+          paymentMethodName: category == PaymentMethodCategory.cards
+              ? 'card'
+              : method!.id.name,
+          paymentMethodCurrency: buyCurrency.symbol ?? '',
+        );
+
         await sRouter.push(
           Circle3dSecureWebViewRouter(
             title: '',
@@ -410,6 +470,15 @@ abstract class _BuyConfirmationStoreBase with Store {
               showProcessing = true;
               paymentId = payment;
               wasAction = true;
+
+              sAnalytics.newBuyProcessingView(
+                firstTimeBuy: '$firstBuy',
+                paymentMethodType: category.name,
+                paymentMethodName: category == PaymentMethodCategory.cards
+                    ? 'card'
+                    : method!.id.name,
+                paymentMethodCurrency: buyCurrency.symbol ?? '',
+              );
 
               loader.startLoadingImmediately();
               //_requestPaymentInfo(onAction, lastAction);
@@ -456,6 +525,14 @@ abstract class _BuyConfirmationStoreBase with Store {
       showProcessing = true;
       wasAction = true;
 
+      sAnalytics.newBuyProcessingView(
+        firstTimeBuy: '$firstBuy',
+        paymentMethodType: category.name,
+        paymentMethodName:
+            category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+        paymentMethodCurrency: buyCurrency.symbol ?? '',
+      );
+
       loader.startLoadingImmediately();
 
       final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
@@ -469,6 +546,14 @@ abstract class _BuyConfirmationStoreBase with Store {
       await _requestPaymentInfo(
         (url, onSuccess, onCancel, onFailed, paymentId) {
           _setIsChecked();
+
+          sAnalytics.paymentWevViewScreenView(
+            paymentMethodType: category.name,
+            paymentMethodName: category == PaymentMethodCategory.cards
+                ? 'card'
+                : method!.id.name,
+            paymentMethodCurrency: buyCurrency.symbol ?? '',
+          );
 
           sRouter.push(
             Circle3dSecureWebViewRouter(
@@ -487,6 +572,15 @@ abstract class _BuyConfirmationStoreBase with Store {
           showProcessing = true;
           wasAction = true;
           loader.startLoadingImmediately();
+
+          sAnalytics.newBuyProcessingView(
+            firstTimeBuy: '$firstBuy',
+            paymentMethodType: category.name,
+            paymentMethodName: category == PaymentMethodCategory.cards
+                ? 'card'
+                : method!.id.name,
+            paymentMethodCurrency: buyCurrency.symbol ?? '',
+          );
         },
         '',
       );
@@ -568,6 +662,14 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
+                sAnalytics.paymentWevViewClose(
+                  paymentMethodType: category.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards
+                      ? 'card'
+                      : method!.id.name,
+                  paymentMethodCurrency: buyCurrency.symbol ?? '',
+                );
+
                 sRouter.pop();
               },
               (error) {
@@ -591,6 +693,14 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
+    sAnalytics.newBuySuccessView(
+      firstTimeBuy: '$firstBuy',
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+    );
+
     return sRouter
         .push(
           SuccessScreenRouter(
@@ -638,6 +748,8 @@ abstract class _BuyConfirmationStoreBase with Store {
           final status = await storage.getValue(checkedBankCard);
           if (status != null) {
             isBankTermsChecked = true;
+          } else {
+            firstBuy = true;
           }
           break;
         case PaymentMethodCategory.local:
@@ -648,7 +760,6 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         case PaymentMethodCategory.p2p:
           final status = await storage.getValue(checkedP2PTerms);
-          print('P2P STATUS: $status');
           if (status != null) {
             isP2PTermsChecked = true;
           }
@@ -693,6 +804,16 @@ abstract class _BuyConfirmationStoreBase with Store {
       default:
         return '';
     }
+  }
+
+  void skipProcessing() {
+    sAnalytics.newBuyTapCloseProcessing(
+      firstTimeBuy: '$firstBuy',
+      paymentMethodType: category.name,
+      paymentMethodName:
+          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol ?? '',
+    );
   }
 }
 

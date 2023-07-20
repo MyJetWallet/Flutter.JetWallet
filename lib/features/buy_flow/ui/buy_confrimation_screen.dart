@@ -101,6 +101,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               primaryText: intl.buy_confirmation_local_p2p_processing_title,
               secondaryText: store.getProcessingText,
               onSkip: () {
+                store.skipProcessing();
+
                 navigateToRouter();
               },
             )

@@ -112,9 +112,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
-      sAnalytics.newBuyTapDelete();
-      sAnalytics.newBuyDeleteView();
-
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
@@ -125,7 +122,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
         onSecondaryButtonTap: () {
-          sAnalytics.newBuyTapCancelDelete();
           Navigator.pop(context);
         },
       );
@@ -142,7 +138,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       final isUserVerified = kycState.depositStatus != status &&
           kycState.sellStatus != status &&
           kycState.withdrawalStatus != status;
-      sAnalytics.newBuyEnterCardDetailsView(nameVisible: '${!isUserVerified}');
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -215,9 +210,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       name: intl.currencyBuy_card,
                       description: intl.curencyBuy_actionItemDescription,
                       onTap: () {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -279,9 +271,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       description:
                           intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                       onTap: () {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -335,9 +324,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -382,9 +368,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -430,9 +413,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -480,7 +460,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           showEditButton: !isEmptyPaymentCards && !state.editMode,
           showDoneButton: !isEmptyPaymentCards && state.editMode,
           onEditButtonTap: () {
-            sAnalytics.newBuyTapEdit();
             state.toggleEditMode();
           },
           onDoneButtonTap: () {

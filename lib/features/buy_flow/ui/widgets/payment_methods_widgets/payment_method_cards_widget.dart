@@ -18,6 +18,7 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_m
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -140,6 +141,8 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                 ),
                 name: intl.add_card_text,
                 onTap: () {
+                  sAnalytics.newBuyTapAddCard();
+
                   final kycState = getIt.get<KycService>();
                   final kycHandler = getIt.get<KycAlertHandler>();
 

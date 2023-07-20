@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -73,6 +74,8 @@ abstract class _PaymentMethodStoreBase with Store {
 
   @action
   Future<void> init(CurrencyModel asset, PaymentAsset currency) async {
+    sAnalytics.paymentMethodScreenView();
+
     selectedAssset = asset;
     selectedCurrency = currency;
 
@@ -104,6 +107,10 @@ abstract class _PaymentMethodStoreBase with Store {
     cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
     localMethodsFilted = ObservableList.of(localMethods.toList());
     p2pMethodsFiltred = ObservableList.of(p2pMethods.toList());
+
+    if (cardsMethods.isEmpty) {
+      sAnalytics.newBuyNoSavedCard();
+    }
   }
 
   @computed

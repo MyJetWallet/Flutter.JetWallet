@@ -159,14 +159,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           tradeFeeAsset = data.tradeFeeAsset;
           rate = data.rate;
           paymentId = data.paymentId ?? '';
-          sAnalytics.newBuyTapContinue(
-            sourceCurrency: input.currencyPayment.symbol,
-            destinationCurrency: input.currency.symbol,
-            paymentMethod: 'Circle card',
-            sourceAmount: '$paymentAmount',
-            destinationAmount: '$buyAmount',
-            quickAmount: input.quickAmount,
-          );
         },
         onError: (error) {
           _logger.log(stateFlow, 'requestPreview', error.cause);
@@ -198,22 +190,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           (element) => element.id == PaymentMethodType.circleCard,
         )
         .toList();
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: input.currencyPayment.symbol,
-      destinationCurrency: input.currency.symbol,
-      paymentMethod: 'Circle card',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 ${input.currency.symbol} = ${volumeFormat(
-        prefix: input.currencyPayment.prefixSymbol,
-        symbol: input.currencyPayment.symbol,
-        accuracy: input.currencyPayment.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
-
     if (cvvEnabled) {
       showCircleCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
@@ -449,9 +425,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
 
     return sRouter
         .push(
@@ -503,10 +476,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuyFailedView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-      errorCode: error,
-    );
 
     return sRouter.push(
       FailureScreenRouter(

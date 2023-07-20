@@ -19,6 +19,7 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -104,8 +105,6 @@ abstract class _BuyAmountStoreBase with Store {
     method = inputMethod;
     card = inputCard;
 
-    log(inputMethod.toString());
-
     category =
         card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
 
@@ -142,6 +141,15 @@ abstract class _BuyAmountStoreBase with Store {
           );
         }
       },
+    );
+
+    sAnalytics.newBuyBuyAssetView(
+      asset: asset?.symbol ?? '',
+      paymentMethodType: category.name,
+      paymentMethodName: category == PaymentMethodCategory.cards
+          ? 'card'
+          : inputMethod!.id.name,
+      paymentMethodCurrency: buyCurrency.symbol,
     );
   }
 
@@ -476,6 +484,16 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void _updatePaymentMethodInputError(String? error) {
+    if (error != null) {
+      sAnalytics.newBuyErrorLimit(
+        errorCode: error,
+        asset: asset?.symbol ?? '',
+        paymentMethodType: category.name,
+        paymentMethodName:
+            category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+        paymentMethodCurrency: buyCurrency.symbol ?? '',
+      );
+    }
     paymentMethodInputError = error;
   }
 

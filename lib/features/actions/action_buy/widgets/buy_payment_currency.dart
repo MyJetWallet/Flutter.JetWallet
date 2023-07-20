@@ -13,6 +13,7 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -54,7 +55,7 @@ void showBuyPaymentCurrencyBottomSheet(
     },
   );
 
-  log(availableCurrency.toString());
+  sAnalytics.paymentCurrencyPopupScreenView(currency.symbol);
 
   final searchStore = ActionSearchStore();
   searchStore.newBuySearchInit(availableCurrency);

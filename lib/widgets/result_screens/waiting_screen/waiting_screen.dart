@@ -73,7 +73,6 @@ class WaitingScreen extends StatelessObserverWidget {
               active: true,
               name: intl.previewBuyWithUmlimint_close,
               onTap: () {
-                sAnalytics.newBuyTapCloseProcessing(firstTimeBuy: '');
                 onSkip();
                 navigateToRouter();
               },

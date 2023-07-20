@@ -303,7 +303,6 @@ abstract class _AddBankCardStoreBase with Store {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
-      sAnalytics.newBuyBuyAssetView(asset: currency.symbol);
       sRouter.push(
         CurrencyBuyRouter(
           newBankCardId: cardId,
