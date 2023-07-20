@@ -12,6 +12,9 @@ import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
+import '../../utils/helpers/check_kyc_status.dart';
+import '../kyc/kyc_service.dart';
+
 @RoutePage(name: 'HomeRouter')
 class HomeScreen extends StatefulObserverWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,6 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final kycState = getIt.get<KycService>();
+    final kycBlocked = checkKycBlocked(
+      kycState.depositStatus,
+      kycState.sellStatus,
+      kycState.withdrawalStatus,
+    );
+
     return Observer(
       builder: (context) {
         final screens = <PageRouteInfo<dynamic>>[
@@ -66,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
               hideAccount: hideAccount,
-              isCardRequested: sUserInfo.cardRequested,
+              isCardRequested: sUserInfo.cardRequested || kycBlocked,
               showCard: sUserInfo.cardAvailable,
               onChanged: (int val) {
                 if (val == 2) {

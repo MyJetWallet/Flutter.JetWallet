@@ -80,6 +80,13 @@ class _CardScreenBodyState extends State<CardScreen> {
       kycState.sellStatus,
       kycState.withdrawalStatus,
     );
+    final kycBlocked = checkKycBlocked(
+      kycState.depositStatus,
+      kycState.sellStatus,
+      kycState.withdrawalStatus,
+    );
+
+    final verificationInProgress = kycState.inVerificationProgress;
     final size = widgetSizeFrom(deviceSize) == SWidgetSize.small
         ? MediaQuery.of(context).size.width * 0.6
         : MediaQuery.of(context).size.width;
@@ -179,7 +186,9 @@ class _CardScreenBodyState extends State<CardScreen> {
                       Column(
                         children: [
                           SPrimaryButton4(
-                            active: isButtonActive,
+                            active: isButtonActive &&
+                              !kycBlocked &&
+                              !verificationInProgress,
                             name: intl.card_claim_card,
                             onTap: () async {
                               setState(() {
