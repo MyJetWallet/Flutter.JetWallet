@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
+import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -56,6 +57,13 @@ abstract class _BuyConfirmationStoreBase with Store {
   void termiteUpdate() {
     terminateUpdates = true;
     cancelTimer();
+  }
+
+  final cancelToken = CancelToken();
+  void cancelAllRequest() {
+    cancelToken.cancel('exit');
+
+    print('cancel REQUESTS');
   }
 
   @observable
@@ -294,7 +302,7 @@ abstract class _BuyConfirmationStoreBase with Store {
   }
 
   @action
-  Future<void> _showFailureScreen(String error) {
+  Future<void> _showFailureScreen(String error) async {
     loader.finishLoadingImmediately();
 
     sAnalytics.newBuyFailedView(
@@ -306,7 +314,11 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodCurrency: buyCurrency.symbol ?? '',
     );
 
-    return sRouter.push(
+    if (sRouter.currentPath != '/buy_flow_confirmation') {
+      return;
+    }
+
+    unawaited(sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
@@ -315,7 +327,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           navigateToRouter();
         },
       ),
-    );
+    ));
   }
 
   @action
@@ -451,7 +463,10 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethod: convertMethodToCirclePaymentMethod(method!),
       );
 
-      final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
+      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
+            model,
+            cancelToken: cancelToken,
+          );
 
       if (resp.hasError) {
         unawaited(_showFailureScreen(resp.error?.cause ?? ''));
@@ -476,6 +491,10 @@ abstract class _BuyConfirmationStoreBase with Store {
                 : method!.id.name,
             paymentMethodCurrency: buyCurrency.symbol ?? '',
           );
+
+          if (sRouter.currentPath != '/buy_flow_confirmation') {
+            return;
+          }
 
           await sRouter.push(
             Circle3dSecureWebViewRouter(
@@ -530,6 +549,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       termiteUpdate();
 
       final response = await sNetwork.getWalletModule().encryptionKey();
+
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
           '${response.data?.data.key}'
@@ -562,11 +582,18 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       loader.startLoadingImmediately();
 
-      final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
+      final resp = await sNetwork.getWalletModule().postCardBuyExecute(
+            model,
+            cancelToken: cancelToken,
+          );
 
       if (resp.hasError) {
         await _showFailureScreen(resp.error?.cause ?? '');
 
+        return;
+      }
+
+      if (sRouter.currentPath != '/buy_flow_confirmation') {
         return;
       }
 
@@ -636,7 +663,10 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentId: paymentId,
       );
 
-      final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
+      final response = await sNetwork.getWalletModule().postCardBuyInfo(
+            model,
+            cancelToken: cancelToken,
+          );
 
       response.pick(
         onData: (data) async {

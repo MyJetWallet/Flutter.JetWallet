@@ -66,7 +66,10 @@ class BuyConfirmationScreen extends StatelessWidget {
         method: method,
         card: card,
       ),
-      dispose: (context, value) => value.cancelTimer(),
+      dispose: (context, value) {
+        value.cancelTimer();
+        value.cancelAllRequest();
+      },
     );
   }
 }

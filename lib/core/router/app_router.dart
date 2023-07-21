@@ -30,6 +30,7 @@ import 'package:jetwallet/features/auth/verification_reg/verification_screen.dar
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
+import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';

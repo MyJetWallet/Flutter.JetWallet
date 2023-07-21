@@ -290,15 +290,23 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, bool>> postCardBuyExecute(
-    CardBuyExecuteRequestModel model,
-  ) async {
-    return _walletApiDataSources.postCardBuyExecuteRequest(model);
+    CardBuyExecuteRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
+    return _walletApiDataSources.postCardBuyExecuteRequest(
+      model,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<DC<ServerRejectException, CardBuyInfoResponseModel>> postCardBuyInfo(
-    CardBuyInfoRequestModel model,
-  ) async {
-    return _walletApiDataSources.postCardBuyInfoRequest(model);
+    CardBuyInfoRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
+    return _walletApiDataSources.postCardBuyInfoRequest(
+      model,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<DC<ServerRejectException, DisclaimersResponseModel>>

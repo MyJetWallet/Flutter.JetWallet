@@ -908,8 +908,9 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, bool>> postCardBuyExecuteRequest(
-    CardBuyExecuteRequestModel model,
-  ) async {
+    CardBuyExecuteRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
     final jsonModel = model.toJson();
     if (model.cardPaymentData != null) {
       final jsonCardModel = model.cardPaymentData!.toJson();
@@ -922,6 +923,7 @@ class WalletApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/buy/execute',
         data: jsonModel,
+        cancelToken: cancelToken,
       );
 
       try {
@@ -940,12 +942,14 @@ class WalletApiDataSources {
 
   Future<DC<ServerRejectException, CardBuyInfoResponseModel>>
       postCardBuyInfoRequest(
-    CardBuyInfoRequestModel model,
-  ) async {
+    CardBuyInfoRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/buy/info',
         data: model.toJson(),
+        cancelToken: cancelToken,
       );
 
       try {
