@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/auth_api/models/start_email_login/start_email_login_request_model.dart';
@@ -98,6 +99,7 @@ abstract class _SingleSingInStoreBase with Store {
           .simpleNetworkingUnathorized
           .getAuthModule()
           .postStartEmailLogin(model);
+      sAnalytics.updateUserId(credentials.email);
 
       response.pick(
         onData: (data) {
