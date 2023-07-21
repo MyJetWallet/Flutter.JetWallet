@@ -285,10 +285,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
               ),
             ),
           ],
-          deviceSize.when(
-            small: () => const Spacer(),
-            medium: () => const SpaceH20(),
-          ),
+          const SpaceH20(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
             showPresets: store.preset1Name != '0' &&

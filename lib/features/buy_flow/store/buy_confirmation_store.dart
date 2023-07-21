@@ -182,7 +182,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     await _isChecked();
 
-    await getActualData();
     await requestQuote();
 
     loader.finishLoadingImmediately();
@@ -313,6 +312,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   Future<void> requestQuote() async {
     try {
+      await getActualData();
+
       price = await getConversionPrice(
             ConversionPriceInput(
               baseAssetSymbol: buyAsset!,
@@ -320,8 +321,6 @@ abstract class _BuyConfirmationStoreBase with Store {
             ),
           ) ??
           Decimal.zero;
-
-      await getActualData();
 
       if (category == PaymentMethodCategory.cards) {
         _refreshTimerAnimation(actualTimeInSecond);
@@ -392,8 +391,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodCurrency: buyCurrency.symbol ?? '',
     );
 
-    loader.startLoadingImmediately();
-
     unawaited(_setIsChecked());
 
     if (category == PaymentMethodCategory.cards) {
@@ -411,9 +408,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
           _requestPaymentCard();
         },
-        onDissmis: () {
-          loader.finishLoadingImmediately();
-        },
+        onDissmis: () {},
         input: PreviewBuyWithBankCardInput(
           amount: paymentAmount.toString(),
           currency: depositFeeCurrency,
@@ -432,80 +427,90 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _requestPaymentLocal() async {
-    final model = CardBuyExecuteRequestModel(
-      paymentId: paymentId,
-      paymentMethod: convertMethodToCirclePaymentMethod(method!),
-    );
+    showProcessing = true;
+    wasAction = true;
 
-    final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
+    loader.startLoadingImmediately();
 
-    if (resp.hasError) {
-      unawaited(_showFailureScreen(resp.error?.cause ?? ''));
-
-      return;
-    } else {
-      final model = CardBuyInfoRequestModel(
+    try {
+      final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
+        paymentMethod: convertMethodToCirclePaymentMethod(method!),
       );
 
-      final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
-      if (response.hasError) {
+      final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
+
+      if (resp.hasError) {
         unawaited(_showFailureScreen(resp.error?.cause ?? ''));
 
         return;
       } else {
-        sAnalytics.paymentWevViewScreenView(
-          paymentMethodType: category.name,
-          paymentMethodName: category == PaymentMethodCategory.cards
-              ? 'card'
-              : method!.id.name,
-          paymentMethodCurrency: buyCurrency.symbol ?? '',
+        final model = CardBuyInfoRequestModel(
+          paymentId: paymentId,
         );
 
-        await sRouter.push(
-          Circle3dSecureWebViewRouter(
-            title: '',
-            url: response.data!.clientAction!.checkoutUrl ?? '',
-            asset: depositFeeCurrency.symbol,
-            amount: paymentAmount.toString(),
-            onSuccess: (payment, lastAction) {
-              loader.finishLoadingImmediately();
-              Navigator.pop(sRouter.navigatorKey.currentContext!);
+        final response =
+            await sNetwork.getWalletModule().postCardBuyInfo(model);
+        if (response.hasError) {
+          unawaited(_showFailureScreen(resp.error?.cause ?? ''));
 
-              showProcessing = true;
-              paymentId = payment;
-              wasAction = true;
+          return;
+        } else {
+          sAnalytics.paymentWevViewScreenView(
+            paymentMethodType: category.name,
+            paymentMethodName: category == PaymentMethodCategory.cards
+                ? 'card'
+                : method!.id.name,
+            paymentMethodCurrency: buyCurrency.symbol ?? '',
+          );
 
-              sAnalytics.newBuyProcessingView(
-                firstTimeBuy: '$firstBuy',
-                paymentMethodType: category.name,
-                paymentMethodName: category == PaymentMethodCategory.cards
-                    ? 'card'
-                    : method!.id.name,
-                paymentMethodCurrency: buyCurrency.symbol ?? '',
-              );
+          await sRouter.push(
+            Circle3dSecureWebViewRouter(
+              title: '',
+              url: response.data!.clientAction!.checkoutUrl ?? '',
+              asset: depositFeeCurrency.symbol,
+              amount: paymentAmount.toString(),
+              onSuccess: (payment, lastAction) {
+                loader.finishLoadingImmediately();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
 
-              loader.startLoadingImmediately();
-              //_requestPaymentInfo(onAction, lastAction);
-            },
-            onCancel: (payment) {
-              sRouter.pop();
-            },
-            onFailed: (error) {
-              sRouter.pop();
-              _showFailureScreen(error);
-            },
-            paymentId: paymentId,
-          ),
-        );
+                showProcessing = true;
+                paymentId = payment;
+                wasAction = true;
+
+                sAnalytics.newBuyProcessingView(
+                  firstTimeBuy: '$firstBuy',
+                  paymentMethodType: category.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards
+                      ? 'card'
+                      : method!.id.name,
+                  paymentMethodCurrency: buyCurrency.symbol ?? '',
+                );
+
+                loader.startLoadingImmediately();
+                //_requestPaymentInfo(onAction, lastAction);
+              },
+              onCancel: (payment) {
+                sRouter.pop();
+              },
+              onFailed: (error) {
+                sRouter.pop();
+                _showFailureScreen(error);
+              },
+              paymentId: paymentId,
+            ),
+          );
+        }
       }
+    } on ServerRejectException catch (error) {
+      unawaited(_showFailureScreen(error.cause));
+    } catch (error) {
+      unawaited(_showFailureScreen(intl.something_went_wrong));
     }
   }
 
   @action
   Future<void> _requestPaymentCard() async {
-    loader.finishLoadingImmediately();
-
     try {
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
@@ -543,7 +548,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       final resp = await sNetwork.getWalletModule().postCardBuyExecute(model);
 
       if (resp.hasError) {
-        unawaited(_showFailureScreen(resp.error?.cause ?? ''));
+        await _showFailureScreen(resp.error?.cause ?? '');
 
         return;
       }
@@ -661,6 +666,7 @@ abstract class _BuyConfirmationStoreBase with Store {
               (payment, lastAction) {
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
                 paymentId = payment;
+                showProcessing = true;
                 wasAction = true;
 
                 loader.startLoadingImmediately();

@@ -484,22 +484,36 @@ abstract class _BankCardStoreBase with Store {
   Future<void> updateCardLabel(
     String cardId,
   ) async {
-    loader.startLoadingImmediately();
+    try {
+      loader.startLoadingImmediately();
 
-    final updateLabelResponse =
-        await sNetwork.getWalletModule().updateCardLabel(
-              cardId,
-              cardLabel,
-            );
+      final updateLabelResponse =
+          await sNetwork.getWalletModule().updateCardLabel(
+                cardId,
+                cardLabel,
+              );
 
-    await sRouter.pop();
+      await sRouter.pop();
 
-    loader.finishLoadingImmediately();
-    sNotification.showError(
-      intl.card_update_notification,
-      id: 1,
-      isError: false,
-    );
+      loader.finishLoadingImmediately();
+      sNotification.showError(
+        intl.card_update_notification,
+        id: 1,
+        isError: false,
+      );
+    } on ServerRejectException catch (error) {
+      sNotification.showError(
+        error.cause,
+        id: 1,
+      );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
+    } finally {
+      loader.finishLoadingImmediately();
+    }
   }
 
   @action
@@ -527,11 +541,18 @@ abstract class _BankCardStoreBase with Store {
         id: 1,
         isError: false,
       );
-    } catch (e) {
+    } on ServerRejectException catch (error) {
       sNotification.showError(
-        intl.something_went_wrong_try_again2,
+        error.cause,
         id: 1,
       );
+    } catch (error) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+      );
+    } finally {
+      loader.finishLoadingImmediately();
     }
   }
 

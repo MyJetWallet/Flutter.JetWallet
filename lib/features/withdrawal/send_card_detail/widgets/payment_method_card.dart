@@ -304,16 +304,21 @@ class _BaseContainer extends StatelessWidget {
 class MethodPlaceholder extends StatelessWidget {
   const MethodPlaceholder({
     super.key,
+    this.width = 40,
+    this.height = 40,
     required this.name,
   });
+
+  final double width;
+  final double height;
 
   final String name;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40,
-      height: 40,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: sKit.colors.grey4,
         shape: BoxShape.circle,

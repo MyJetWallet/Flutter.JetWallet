@@ -112,6 +112,8 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                   ),
                 ] else ...[
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SpaceW19(),
                       SNetworkCachedSvg(
@@ -120,9 +122,16 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                         ),
                         width: 20,
                         height: 20,
-                        placeholder: MethodPlaceholder(
-                          name: capitalizeText(
-                            store.method?.id.name ?? '  ',
+                        placeholder: CircleAvatar(
+                          backgroundColor: sKit.colors.grey4,
+                          radius: 15,
+                          child: Text(
+                            (store.method?.id.name ?? ' ').toUpperCase()[0],
+                            textAlign: TextAlign.center,
+                            style: sSubtitle1Style.copyWith(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -132,7 +141,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                           store.method?.id.name ?? '  ',
                         ),
                         overflow: TextOverflow.ellipsis,
-                        style: sSubtitle3Style,
+                        style: sSubtitle3Style.copyWith(height: 1.5),
                       ),
                     ],
                   ),

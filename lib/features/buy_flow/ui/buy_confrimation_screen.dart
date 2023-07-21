@@ -66,6 +66,7 @@ class BuyConfirmationScreen extends StatelessWidget {
         method: method,
         card: card,
       ),
+      dispose: (context, value) => value.cancelTimer(),
     );
   }
 }
@@ -216,7 +217,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                         color: sKit.colors.black,
                       ),
                     ),
-                    const SpaceH15(),
+                    const SpaceH8(),
                     RichText(
                       textAlign: TextAlign.start,
                       text: TextSpan(
@@ -241,7 +242,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                         ],
                       ),
                     ),
-                    const SpaceH15(),
+                    const SpaceH8(),
                     Text(
                       intl.buy_confirmation_privacy_p2p_checkbox_3,
                       maxLines: 3,
