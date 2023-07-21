@@ -107,7 +107,8 @@ class Circle3dSecureWebView extends StatelessWidget {
                     onSuccess(paymentId, url);
                   } else if (uri.path == '/unlimint/cancel') {
                     onCancel?.call(paymentId);
-                  } else if (uri.path == '/unlimint/inprocess') {
+                  } else if (uri.path == '/unlimint/inprocess' ||
+                      uri.path == '/unlimint/return') {
                     onSuccess(paymentId, url);
                   }
 
