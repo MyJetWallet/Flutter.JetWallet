@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
@@ -35,6 +36,9 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final loader = StackLoaderStore();
+    final isShowAccounts = sSignalRModules.currenciesList
+        .where((element) => element.supportIbanSendWithdrawal)
+        .isNotEmpty;
 
     final state = PaymentMethodsStore.of(context);
 
@@ -127,7 +131,8 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                             onTap: () {},
                           ),
                         ],
-                        if (state.addressBookContacts.isNotEmpty) ...[
+                        if (state.addressBookContacts.isNotEmpty &&
+                            isShowAccounts) ...[
                           MarketSeparator(text: intl.iban_send_accounts),
                           ListView.builder(
                             shrinkWrap: true,

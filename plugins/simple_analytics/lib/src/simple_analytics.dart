@@ -46,6 +46,10 @@ class SimpleAnalytics {
     kycDepositStatus = status;
   }
 
+  void updateUserId(String newId) {
+    _analytics.setUserId(newId);
+  }
+
   /// Buy flow
   void newBuyZeroScreenView() {
     if (!newBuyZeroScreenViewSent) {

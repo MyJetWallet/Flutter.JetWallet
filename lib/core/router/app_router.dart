@@ -213,6 +213,10 @@ class AppRouter extends _$AppRouter {
           path: 'iban',
           page: IBanRouter.page,
         ),
+        AutoRoute(
+          path: 'card',
+          page: CardRouter.page,
+        ),
       ],
     ),
     CustomRoute(

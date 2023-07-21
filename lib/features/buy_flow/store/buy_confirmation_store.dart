@@ -487,6 +487,8 @@ abstract class _BuyConfirmationStoreBase with Store {
                 loader.finishLoadingImmediately();
                 Navigator.pop(sRouter.navigatorKey.currentContext!);
 
+                loader.startLoadingImmediately();
+
                 showProcessing = true;
                 paymentId = payment;
                 wasAction = true;
