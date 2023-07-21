@@ -98,7 +98,6 @@ class _EditBankCardScreenBody extends StatelessObserverWidget {
                     showDeleteDisclaimer(
                       context,
                       onDelete: () async {
-                        store.loader.startLoading();
                         await sRouter.pop();
                         await store.deleteCard(card);
 

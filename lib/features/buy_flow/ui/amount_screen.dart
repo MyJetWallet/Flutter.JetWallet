@@ -299,6 +299,8 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
             preset3Name: store.preset3Name,
             selectedPreset: store.selectedPreset,
             onPresetChanged: (preset) {
+              store.setSelectedPreset(preset);
+
               store.tapPreset(
                 preset.index == 0
                     ? store.preset1Name

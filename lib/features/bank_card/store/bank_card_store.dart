@@ -510,13 +510,14 @@ abstract class _BankCardStoreBase with Store {
       if (card.integration == IntegrationType.circle ||
           card.integration == null) {
         final model = DeleteCardRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().postDeleteCard(model);
+        final _ = await sNetwork.getWalletModule().postDeleteCard(model);
       } else if (card.integration == IntegrationType.unlimint) {
         final model = DeleteUnlimintCardRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().postDeleteUnlimintCard(model);
+        final _ =
+            await sNetwork.getWalletModule().postDeleteUnlimintCard(model);
       } else if (card.integration == IntegrationType.unlimintAlt) {
         final model = CardRemoveRequestModel(cardId: card.id);
-        final _ = sNetwork.getWalletModule().cardRemove(model);
+        final _ = await sNetwork.getWalletModule().cardRemove(model);
       }
 
       loader.finishLoadingImmediately();

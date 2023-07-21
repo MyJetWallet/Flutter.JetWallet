@@ -332,6 +332,11 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
+  void setSelectedPreset(SKeyboardPreset preset) {
+    selectedPreset = preset;
+  }
+
+  @action
   void selectFixedSum(SKeyboardPreset preset) {
     late String value;
 

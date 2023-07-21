@@ -185,6 +185,8 @@ abstract class _BuyConfirmationStoreBase with Store {
     await getActualData();
     await requestQuote();
 
+    loader.finishLoadingImmediately();
+
     sAnalytics.newBuyTapContinue(
       sourceCurrency: buyCurrency.symbol,
       sourceAmount: paymentAmount.toString(),
@@ -196,8 +198,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       destinationAmount: '$buyAmount',
       quickAmount: '',
     );
-
-    loader.finishLoadingImmediately();
 
     isDataLoaded = true;
 
@@ -233,6 +233,8 @@ abstract class _BuyConfirmationStoreBase with Store {
           actualTimeInSecond = data.actualTimeInSecond ?? 15;
         },
         onError: (error) {
+          loader.finishLoadingImmediately();
+
           _showFailureScreen(error.cause);
         },
       );
@@ -285,6 +287,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
+    loader.finishLoadingImmediately();
+
     sAnalytics.newBuyFailedView(
       errorCode: error,
       firstTimeBuy: '$firstBuy',
@@ -325,6 +329,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       }
       timerLoading = false;
     } on ServerRejectException catch (error) {
+      await _showFailureScreen(error.cause);
     } catch (error) {
       _refreshTimer(quoteRetryInterval);
     }
