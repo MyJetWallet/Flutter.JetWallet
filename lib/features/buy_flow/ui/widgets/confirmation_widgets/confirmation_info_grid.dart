@@ -146,7 +146,6 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               intl.buy_confirmation_buy_confirmation,
