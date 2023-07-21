@@ -426,6 +426,8 @@ abstract class _AppStoreBase with Store {
           emailConfirmedValue: profileInfo.data!.emailConfirmed,
           phoneConfirmedValue: profileInfo.data!.phoneConfirmed,
           kycPassedValue: profileInfo.data!.kycPassed,
+          cardAvailableValue: profileInfo.data!.cardAvailable,
+          cardRequestedValue: profileInfo.data!.cardRequested,
           emailValue: profileInfo.data!.email ?? '',
           phoneValue: profileInfo.data!.phone ?? '',
           referralLinkValue: profileInfo.data!.referralLink ?? '',

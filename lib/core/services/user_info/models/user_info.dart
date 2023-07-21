@@ -25,6 +25,8 @@ class UserInfoState with _$UserInfoState {
     @Default(false) bool isJustRegistered,
     @Default(false) bool biometricDisabled,
     @Default(false) bool isTechClient,
+    @Default(false) bool cardAvailable,
+    @Default(false) bool cardRequested,
     @Default('') String email,
     @Default('') String phone,
     @Default('') String referralLink,

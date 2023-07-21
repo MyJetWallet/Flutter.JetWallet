@@ -26,6 +26,8 @@ class ProfileInfoResponseModel with _$ProfileInfoResponseModel {
     required bool emailConfirmed,
     required bool phoneConfirmed,
     required bool kycPassed,
+    required bool cardAvailable,
+    required bool cardRequested,
   }) = _ProfileInfoResponseModel;
 
   factory ProfileInfoResponseModel.fromJson(Map<String, dynamic> json) =>

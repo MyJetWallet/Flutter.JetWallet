@@ -126,6 +126,7 @@ dependencies:
   flutter_displaymode: 0.5.0
   open_mail_app: ^0.4.5
   flutter_pdfview: 1.2.5
+  confetti: 0.7.0
 
   # CRYPTOGRAPHY:
   rsa_encrypt: 2.0.0 # RSA encryption

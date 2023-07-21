@@ -68,6 +68,12 @@ abstract class _UserInfoServiceBase with Store {
   bool isTechClient = false;
 
   @observable
+  bool cardAvailable = false;
+
+  @observable
+  bool cardRequested = false;
+
+  @observable
   String email = '';
 
   @observable
@@ -132,6 +138,8 @@ abstract class _UserInfoServiceBase with Store {
     required bool emailConfirmedValue,
     required bool phoneConfirmedValue,
     required bool kycPassedValue,
+    required bool cardAvailableValue,
+    required bool cardRequestedValue,
     required String emailValue,
     required String phoneValue,
     required String referralLinkValue,
@@ -156,6 +164,13 @@ abstract class _UserInfoServiceBase with Store {
     countryOfCitizenship = countryOfCitizenshipValue;
     firstName = firstNameValue;
     lastName = lastNameValue;
+    cardAvailable = cardAvailableValue;
+    cardRequested = cardRequestedValue;
+  }
+
+  @action
+  void updateCardRequested ({required bool newValue}) {
+    cardRequested = newValue;
   }
 
   /// Inits PIN/Biometrics information
