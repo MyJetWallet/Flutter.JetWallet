@@ -49,7 +49,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     final colors = sKit.colors;
 
     return SPageFrame(
-      color: colors.white,
+      color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_Receiver_details,
@@ -57,72 +57,81 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
       ),
       child: Column(
         children: [
-          SPaddingH24(
-            child: Container(
-              height: 32,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: colors.grey5,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                indicator: BoxDecoration(
-                  color: colors.black,
+          ColoredBox(
+            color: colors.white,
+            child: SPaddingH24(
+              child: Container(
+                height: 32,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: colors.grey5,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                labelColor: colors.white,
-                labelStyle: sSubtitle3Style,
-                unselectedLabelColor: colors.grey1,
-                unselectedLabelStyle: sSubtitle3Style,
-                splashBorderRadius: BorderRadius.circular(16),
-                tabs: [
-                  Tab(
-                    text: intl.send_gift_e_mail,
+                child: TabBar(
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    color: colors.black,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  Tab(
-                    text: intl.send_gift_phone,
+                  labelColor: colors.white,
+                  labelStyle: sSubtitle3Style,
+                  unselectedLabelColor: colors.grey1,
+                  unselectedLabelStyle: sSubtitle3Style,
+                  splashBorderRadius: BorderRadius.circular(16),
+                  tabs: [
+                    Tab(
+                      text: intl.send_gift_e_mail,
+                    ),
+                    Tab(
+                      text: intl.send_gift_phone,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: colors.white,
+            height: 16,
+          ),
+          SizedBox(
+            height: 88,
+            child: Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  ColoredBox(
+                    color: colors.white,
+                    child: Observer(
+                      builder: (context) {
+                        return EmailFieldTab(store: store);
+                      },
+                    ),
+                  ),
+                  Observer(
+                    builder: (_) => PhoneNumberFieldTab(
+                      store: store,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          const SpaceH30(),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                Observer(
-                  builder: (context) {
-                    return EmailFieldTab(store: store);
-                  },
-                ),
-                Observer(
-                  builder: (_) => PhoneNumberFieldTab(
-                    store: store,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          ColoredBox(
-            color: colors.grey5,
-            child: SPaddingH24(
-              child: Observer(
-                builder: (context) {
-                  return GiftPolicyCheckbox(
-                    isChecked: store.checkIsSelected,
-                    onCheckboxTap: store.onChangedCheck,
-                  );
-                },
-              ),
+         const Spacer(),
+          SPaddingH24(
+            child: Observer(
+              builder: (context) {
+                return GiftPolicyCheckbox(
+                  isChecked: store.checkIsSelected,
+                  onCheckboxTap: store.onChangedCheck,
+                );
+              },
             ),
           ),
           ContinueButton(store: store),
           ColoredBox(
             color: colors.grey5,
-            child: const SpaceH42(),
+            child: const SpaceH31(),
           ),
         ],
       ),

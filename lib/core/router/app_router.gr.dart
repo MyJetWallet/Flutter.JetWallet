@@ -30,6 +30,28 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    GiftReceiversDetailsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GiftReceiversDetailsScreen(),
+      );
+    },
+    GiftAmountRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GiftAmount(),
+      );
+    },
+    GiftSelectAssetRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftSelectAssetRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GiftSelectAssetScreen(
+          key: args.key,
+          assets: args.assets,
+        ),
+      );
+    },
     EmailConfirmationRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -949,20 +971,10 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    GiftReceiversDetailsRouter.name: (routeData) {
+    GiftOrderSummuryRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GiftReceiversDetailsScreen(),
-      );
-    },
-    GiftSelectAssetRouter.name: (routeData) {
-      final args = routeData.argsAs<GiftSelectAssetRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: GiftSelectAssetScreen(
-          key: args.key,
-          assets: args.assets,
-        ),
+        child: const GiftOrderSummury(),
       );
     },
   };
@@ -1019,6 +1031,72 @@ class HomeRouter extends PageRouteInfo<void> {
   static const String name = 'HomeRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GiftReceiversDetailsScreen]
+class GiftReceiversDetailsRouter extends PageRouteInfo<void> {
+  const GiftReceiversDetailsRouter({List<PageRouteInfo>? children})
+      : super(
+          GiftReceiversDetailsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GiftReceiversDetailsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GiftAmount]
+class GiftAmountRouter extends PageRouteInfo<void> {
+  const GiftAmountRouter({List<PageRouteInfo>? children})
+      : super(
+          GiftAmountRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GiftAmountRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GiftSelectAssetScreen]
+class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
+  GiftSelectAssetRouter({
+    Key? key,
+    required List<CurrencyModel> assets,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GiftSelectAssetRouter.name,
+          args: GiftSelectAssetRouterArgs(
+            key: key,
+            assets: assets,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GiftSelectAssetRouter';
+
+  static const PageInfo<GiftSelectAssetRouterArgs> page =
+      PageInfo<GiftSelectAssetRouterArgs>(name);
+}
+
+class GiftSelectAssetRouterArgs {
+  const GiftSelectAssetRouterArgs({
+    this.key,
+    required this.assets,
+  });
+
+  final Key? key;
+
+  final List<CurrencyModel> assets;
+
+  @override
+  String toString() {
+    return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
+  }
 }
 
 /// generated route for
@@ -4307,53 +4385,15 @@ class InfoWebViewRouterArgs {
 }
 
 /// generated route for
-/// [GiftReceiversDetailsScreen]
-class GiftReceiversDetailsRouter extends PageRouteInfo<void> {
-  const GiftReceiversDetailsRouter({List<PageRouteInfo>? children})
+/// [GiftOrderSummury]
+class GiftOrderSummuryRouter extends PageRouteInfo<void> {
+  const GiftOrderSummuryRouter({List<PageRouteInfo>? children})
       : super(
-          GiftReceiversDetailsRouter.name,
+          GiftOrderSummuryRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'GiftReceiversDetailsRouter';
+  static const String name = 'GiftOrderSummuryRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [GiftSelectAssetScreen]
-class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
-  GiftSelectAssetRouter({
-    Key? key,
-    required List<CurrencyModel> assets,
-    List<PageRouteInfo>? children,
-  }) : super(
-          GiftSelectAssetRouter.name,
-          args: GiftSelectAssetRouterArgs(
-            key: key,
-            assets: assets,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'GiftSelectAssetRouter';
-
-  static const PageInfo<GiftSelectAssetRouterArgs> page =
-      PageInfo<GiftSelectAssetRouterArgs>(name);
-}
-
-class GiftSelectAssetRouterArgs {
-  const GiftSelectAssetRouterArgs({
-    this.key,
-    required this.assets,
-  });
-
-  final Key? key;
-
-  final List<CurrencyModel> assets;
-
-  @override
-  String toString() {
-    return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
-  }
 }

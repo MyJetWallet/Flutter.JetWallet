@@ -126,6 +126,8 @@ import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
+import '../../features/send_gift/screens/gift_amount.dart';
+import '../../features/send_gift/screens/gift_order_summary.dart';
 import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
 import '../../features/send_gift/screens/gift_select_asset_screen.dart';
 
@@ -559,6 +561,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/gift_receivers_details',
       page: GiftReceiversDetailsRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_amount',
+      page: GiftAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_order_summury',
+      page: GiftOrderSummuryRouter.page,
     ),
   ];
 }

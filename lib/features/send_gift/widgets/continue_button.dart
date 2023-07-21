@@ -4,6 +4,7 @@ import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/s
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
+import '../../../core/router/app_router.dart';
 import '../store/receiver_datails_store.dart';
 
 class ContinueButton extends StatelessWidget {
@@ -21,6 +22,9 @@ class ContinueButton extends StatelessWidget {
             name: intl.setPhoneNumber_continue,
             onTap: () {
               FocusScope.of(context).unfocus();
+              sRouter.push(
+                const GiftAmountRouter(),
+              );
             },
           ),
         );

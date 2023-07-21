@@ -38,41 +38,44 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
-        return Column(
-          children: [
-            SPaddingH24(
-              child: SStandardField(
-                labelText: intl.send_gift_e_mail_address,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.done,
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                onChanged: (text) {
-                  widget.store.onChangedEmail(text);
+        return SPaddingH24(
+          child: SStandardField(
+            labelText: intl.send_gift_e_mail_address,
+            textCapitalization: TextCapitalization.none,
+            textInputAction: TextInputAction.done,
+            controller: _textController,
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (text) {
+              widget.store.onChangedEmail(text);
+            },
+            onErase: () {
+              widget.store.onChangedEmail('');
+              _textController = TextEditingController(text: '');
+                  
+            },
+            isError: widget.store.email != '' && !widget.store.emailValid,
+            suffixIcons: [
+              SIconButton(
+                onTap: () async {
+                  final data = await Clipboard.getData('text/plain');
+                  final text = data?.text;
+                  if (text != null) {
+                    widget.store.onChangedEmail(text);
+                  }
+                  _textController = TextEditingController(text: text);
+                  _textController.selection = TextSelection.fromPosition(
+                    TextPosition(
+                      offset: _textController.text.length,
+                    ),
+                  );
                 },
-                onErase: () {
-                  widget.store.onChangedEmail('');
-                },
-                isError:
-                    widget.store.email != '' && !widget.store.emailValid ,
-                suffixIcons: [
-                  SIconButton(
-                    onTap: () async {
-                      final data = await Clipboard.getData('text/plain');
-                      final text = data?.text;
-                      if (text != null) {
-                        widget.store.onChangedEmail(text);
-                      }
-                    },
-                    defaultIcon: const SPasteIcon(),
-                    pressedIcon: const SPastePressedIcon(),
-                  ),
-                ],
-                maxLines: 3,
-                hideSpace: true,
+                defaultIcon: const SPasteIcon(),
+                pressedIcon: const SPastePressedIcon(),
               ),
-            ),
-          ],
+            ],
+            maxLines: 1,
+            hideSpace: true,
+          ),
         );
       },
     );
