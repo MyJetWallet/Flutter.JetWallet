@@ -50,6 +50,13 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @observable
   bool isDataLoaded = false;
+  @observable
+  bool terminateUpdates = false;
+  @action
+  void termiteUpdate() {
+    terminateUpdates = true;
+    cancelTimer();
+  }
 
   @observable
   Decimal? paymentAmount;
@@ -210,6 +217,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> getActualData() async {
+    if (terminateUpdates) return;
+
     final model = getModelForCardBuyReq(
         category, payAmount, buyAssetSymbol ?? '', payAsset);
 
@@ -311,6 +320,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
   @action
   Future<void> requestQuote() async {
+    if (terminateUpdates) return;
+
     try {
       await getActualData();
 
@@ -432,6 +443,8 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.startLoadingImmediately();
 
+    termiteUpdate();
+
     try {
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,
@@ -512,6 +525,8 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   Future<void> _requestPaymentCard() async {
     try {
+      termiteUpdate();
+
       final response = await sNetwork.getWalletModule().encryptionKey();
       final rsa = RsaKeyHelper();
       final key = '-----BEGIN RSA PUBLIC KEY-----\r\n'
