@@ -268,7 +268,8 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.nftBuy ||
         item.operationType == oh_resp.OperationType.ibanDeposit ||
         item.operationType == oh_resp.OperationType.ibanSend ||
-        item.operationType == oh_resp.OperationType.sendGlobally,
+        item.operationType == oh_resp.OperationType.sendGlobally ||
+        item.operationType == oh_resp.OperationType.p2pBuy,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

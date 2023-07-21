@@ -26,7 +26,15 @@ class DepositDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
           if (transactionListItem.depositInfo!.txId != null) ...[
+            const SpaceH18(),
             TransactionDetailsItem(
               text: 'Txid',
               value: Row(
@@ -54,14 +62,6 @@ class DepositDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
           if (transactionListItem.depositInfo?.network != null) ...[
             const SpaceH18(),
             TransactionDetailsItem(

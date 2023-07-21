@@ -17,8 +17,8 @@ import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
-class BuyCryptoDetails extends StatelessObserverWidget {
-  const BuyCryptoDetails({
+class BuyP2PDetails extends StatelessObserverWidget {
+  const BuyP2PDetails({
     Key? key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -128,18 +128,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               text: intl.previewConvert_exchangeRate,
               value: TransactionDetailsValueText(
                 text: _rateFor(),
-              ),
-            ),
-          ],
-          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty &&
-              transactionListItem.status != Status.declined) ...[
-            const SpaceH18(),
-            TransactionDetailsItem(
-              text: intl.history_payment_method,
-              value: TransactionDetailsValueText(
-                text: '${transactionListItem.cryptoBuyInfo!.cardLabel ??
-                    transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
-                    '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
               ),
             ),
           ],
