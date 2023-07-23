@@ -314,6 +314,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
               ),
               maxLines: 2,
             ),
+            const SpaceH40(),
           ],
         ),
       ),

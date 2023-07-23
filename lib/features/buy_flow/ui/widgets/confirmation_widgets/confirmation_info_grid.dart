@@ -122,15 +122,23 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                         ),
                         width: 20,
                         height: 20,
-                        placeholder: CircleAvatar(
-                          backgroundColor: sKit.colors.grey4,
-                          radius: 15,
-                          child: Text(
-                            (store.method?.id.name ?? ' ').toUpperCase()[0],
-                            textAlign: TextAlign.center,
-                            style: sSubtitle1Style.copyWith(
-                              fontSize: 14,
-                              color: Colors.white,
+                        placeholder: ClipOval(
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: sKit.colors.grey4,
+                            ),
+                            child: Center(
+                              child: Text(
+                                (store.method?.id.name ?? ' ').toUpperCase()[0],
+                                textAlign: TextAlign.center,
+                                style: sSubtitle1Style.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  height: 1.41,
+                                ),
+                              ),
                             ),
                           ),
                         ),

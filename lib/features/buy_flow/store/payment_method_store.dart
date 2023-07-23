@@ -4,6 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/is_card_expired.dart';
@@ -100,6 +101,36 @@ abstract class _PaymentMethodStoreBase with Store {
         }
       }
     });
+
+    final storage = sLocalStorageService;
+
+    final localLM = await storage.getValue(localLastMethodId);
+    if (localLM != null) {
+      final localIndex = localMethods.indexWhere(
+        (element) => element.id.toString() == (localLM ?? ''),
+      );
+
+      if (localIndex != -1) {
+        final localObject = localMethods[localIndex];
+
+        localMethods.removeAt(localIndex);
+        localMethods.insert(0, localObject);
+      }
+    }
+
+    final p2pLM = await storage.getValue(p2pLastMethodId);
+    if (p2pLM != null) {
+      final localIndex = p2pMethods.indexWhere(
+        (element) => element.id.toString() == (p2pLM ?? ''),
+      );
+
+      if (localIndex != -1) {
+        final localObject = p2pMethods[localIndex];
+
+        p2pMethods.removeAt(localIndex);
+        p2pMethods.insert(0, localObject);
+      }
+    }
 
     cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
     localMethodsFilted = ObservableList.of(localMethods.toList());

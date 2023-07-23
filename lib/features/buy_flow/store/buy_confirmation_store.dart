@@ -416,6 +416,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     );
 
     unawaited(_setIsChecked());
+    unawaited(_saveLastPaymentMethod());
 
     if (category == PaymentMethodCategory.cards) {
       sAnalytics.newBuyEnterCvvView(firstTimeBuy: '$firstBuy');
@@ -875,6 +876,28 @@ abstract class _BuyConfirmationStoreBase with Store {
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: buyCurrency.symbol ?? '',
     );
+  }
+
+  Future<void> _saveLastPaymentMethod() async {
+    try {
+      final storage = sLocalStorageService;
+
+      switch (category) {
+        case PaymentMethodCategory.cards:
+          await storage.setString(bankLastMethodId, card?.id ?? '');
+          break;
+        case PaymentMethodCategory.local:
+          await storage.setString(
+            localLastMethodId,
+            method?.id.toString() ?? '',
+          );
+          break;
+        case PaymentMethodCategory.p2p:
+          await storage.setString(p2pLastMethodId, method?.id.toString() ?? '');
+          break;
+        default:
+      }
+    } catch (e) {}
   }
 }
 
