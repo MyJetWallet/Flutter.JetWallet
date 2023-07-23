@@ -31,15 +31,23 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     GiftReceiversDetailsRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftReceiversDetailsRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GiftReceiversDetailsScreen(),
+        child: GiftReceiversDetailsScreen(
+          key: args.key,
+          currency: args.currency,
+        ),
       );
     },
     GiftAmountRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftAmountRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GiftAmount(),
+        child: GiftAmount(
+          key: args.key,
+          sendGiftStore: args.sendGiftStore,
+        ),
       );
     },
     GiftSelectAssetRouter.name: (routeData) {
@@ -972,9 +980,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     GiftOrderSummuryRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftOrderSummuryRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GiftOrderSummury(),
+        child: GiftOrderSummury(
+          key: args.key,
+          sendGiftStore: args.sendGiftStore,
+        ),
       );
     },
   };
@@ -1035,30 +1047,79 @@ class HomeRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [GiftReceiversDetailsScreen]
-class GiftReceiversDetailsRouter extends PageRouteInfo<void> {
-  const GiftReceiversDetailsRouter({List<PageRouteInfo>? children})
-      : super(
+class GiftReceiversDetailsRouter
+    extends PageRouteInfo<GiftReceiversDetailsRouterArgs> {
+  GiftReceiversDetailsRouter({
+    Key? key,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
           GiftReceiversDetailsRouter.name,
+          args: GiftReceiversDetailsRouterArgs(
+            key: key,
+            currency: currency,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'GiftReceiversDetailsRouter';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<GiftReceiversDetailsRouterArgs> page =
+      PageInfo<GiftReceiversDetailsRouterArgs>(name);
+}
+
+class GiftReceiversDetailsRouterArgs {
+  const GiftReceiversDetailsRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'GiftReceiversDetailsRouterArgs{key: $key, currency: $currency}';
+  }
 }
 
 /// generated route for
 /// [GiftAmount]
-class GiftAmountRouter extends PageRouteInfo<void> {
-  const GiftAmountRouter({List<PageRouteInfo>? children})
-      : super(
+class GiftAmountRouter extends PageRouteInfo<GiftAmountRouterArgs> {
+  GiftAmountRouter({
+    Key? key,
+    required SendGiftStore sendGiftStore,
+    List<PageRouteInfo>? children,
+  }) : super(
           GiftAmountRouter.name,
+          args: GiftAmountRouterArgs(
+            key: key,
+            sendGiftStore: sendGiftStore,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'GiftAmountRouter';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<GiftAmountRouterArgs> page =
+      PageInfo<GiftAmountRouterArgs>(name);
+}
+
+class GiftAmountRouterArgs {
+  const GiftAmountRouterArgs({
+    this.key,
+    required this.sendGiftStore,
+  });
+
+  final Key? key;
+
+  final SendGiftStore sendGiftStore;
+
+  @override
+  String toString() {
+    return 'GiftAmountRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
+  }
 }
 
 /// generated route for
@@ -4386,14 +4447,38 @@ class InfoWebViewRouterArgs {
 
 /// generated route for
 /// [GiftOrderSummury]
-class GiftOrderSummuryRouter extends PageRouteInfo<void> {
-  const GiftOrderSummuryRouter({List<PageRouteInfo>? children})
-      : super(
+class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
+  GiftOrderSummuryRouter({
+    Key? key,
+    required SendGiftStore sendGiftStore,
+    List<PageRouteInfo>? children,
+  }) : super(
           GiftOrderSummuryRouter.name,
+          args: GiftOrderSummuryRouterArgs(
+            key: key,
+            sendGiftStore: sendGiftStore,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'GiftOrderSummuryRouter';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<GiftOrderSummuryRouterArgs> page =
+      PageInfo<GiftOrderSummuryRouterArgs>(name);
+}
+
+class GiftOrderSummuryRouterArgs {
+  const GiftOrderSummuryRouterArgs({
+    this.key,
+    required this.sendGiftStore,
+  });
+
+  final Key? key;
+
+  final SendGiftStore sendGiftStore;
+
+  @override
+  String toString() {
+    return 'GiftOrderSummuryRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
+  }
 }

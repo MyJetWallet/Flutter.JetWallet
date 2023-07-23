@@ -1,10 +1,13 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
+import '../../../core/router/app_router.dart';
 import '../store/receiver_datails_store.dart';
+import '../store/send_gift_store.dart';
 import '../widgets/continue_button.dart';
 import '../widgets/email_field_tab.dart';
 import '../widgets/gift_policy_checkbox.dart';
@@ -12,7 +15,9 @@ import '../widgets/phone_number_field_tab.dart';
 
 @RoutePage(name: 'GiftReceiversDetailsRouter')
 class GiftReceiversDetailsScreen extends StatefulWidget {
-  const GiftReceiversDetailsScreen({super.key});
+  const GiftReceiversDetailsScreen({super.key, required this.currency});
+
+  final CurrencyModel currency;
 
   @override
   State<GiftReceiversDetailsScreen> createState() =>
@@ -23,10 +28,12 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   final store = ReceiverDatailsStore()..getInitialCheck();
+  late SendGiftStore sendGiftStore;
 
   @override
   void initState() {
-    super.initState();
+    sendGiftStore = SendGiftStore()..setCurrency(widget.currency);
+
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -36,6 +43,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
           ? ReceiverContacrType.email
           : ReceiverContacrType.phone;
     });
+    super.initState();
   }
 
   @override
@@ -117,7 +125,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
               ),
             ),
           ),
-         const Spacer(),
+          const Spacer(),
           SPaddingH24(
             child: Observer(
               builder: (context) {
@@ -128,7 +136,24 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
               },
             ),
           ),
-          ContinueButton(store: store),
+          Observer(
+            builder: (context) {
+              return ContinueButton(
+                isValid: store.isformValid,
+                onTab: () {
+                  FocusScope.of(context).unfocus();
+                  sendGiftStore.setReceiverInformation(
+                    selectedContactType: store.selectedContactType,
+                    email: store.email,
+                    phone: store.phone,
+                  );
+                  sRouter.push(
+                    GiftAmountRouter(sendGiftStore: sendGiftStore),
+                  );
+                },
+              );
+            },
+          ),
           ColoredBox(
             color: colors.grey5,
             child: const SpaceH31(),

@@ -70,7 +70,7 @@ class GiftSelectAssetScreen extends StatelessWidget {
                             removeDivider: currency == assets.last,
                             onTap: () {
                               sRouter.push(
-                                const GiftReceiversDetailsRouter(),
+                                 GiftReceiversDetailsRouter(currency: currency),
                               );
                             },
                           ),

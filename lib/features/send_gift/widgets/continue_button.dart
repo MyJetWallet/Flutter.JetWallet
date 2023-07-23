@@ -4,13 +4,16 @@ import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/s
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
-import '../../../core/router/app_router.dart';
-import '../store/receiver_datails_store.dart';
 
 class ContinueButton extends StatelessWidget {
-  const ContinueButton({super.key, required this.store});
+  const ContinueButton({
+    super.key,
+    required this.isValid,
+    required this.onTab,
+  });
 
-  final ReceiverDatailsStore store;
+  final bool isValid;
+  final void Function() onTab;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +21,9 @@ class ContinueButton extends StatelessWidget {
       builder: (context) {
         return SPaddingH24(
           child: SPrimaryButton4(
-            active: store.isformValid,
+            active: isValid,
             name: intl.setPhoneNumber_continue,
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              sRouter.push(
-                const GiftAmountRouter(),
-              );
-            },
+            onTap: onTab,
           ),
         );
       },

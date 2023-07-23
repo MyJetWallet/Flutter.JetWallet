@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
+import '../store/send_gift_store.dart';
 
 @RoutePage(name: 'GiftOrderSummuryRouter')
 class GiftOrderSummury extends StatelessWidget {
-  const GiftOrderSummury({super.key});
+  const GiftOrderSummury({super.key, required this.sendGiftStore});
+  final SendGiftStore sendGiftStore;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,9 @@ class GiftOrderSummury extends StatelessWidget {
       child: SPaddingH24(
         child: Column(
           children: [
-            const Column(
+             Column(
               children: [
-                Text(
+                const Text(
                   'Your gift',
                   style: TextStyle(
                     color: Color(0xFF777C85),
@@ -32,8 +34,8 @@ class GiftOrderSummury extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '200 USDT',
-                  style: TextStyle(
+                  '${sendGiftStore.amount} ${sendGiftStore.currency.symbol}',
+                  style: const TextStyle(
                     color: Color(0xFF374CFA),
                     fontSize: 24,
                     fontFamily: 'Gilroy',
@@ -46,9 +48,9 @@ class GiftOrderSummury extends StatelessWidget {
             const SpaceH24(),
             const SDivider(),
             const SpaceH19(),
-            const SActionConfirmText(
+             SActionConfirmText(
               name: 'To',
-              value: 'maksim.k@simple.app',
+              value: sendGiftStore.receiverContact,
               baseline: 24,
             ),
             const SpaceH16(),
@@ -66,11 +68,11 @@ class GiftOrderSummury extends StatelessWidget {
             const SpaceH19(),
             const SDivider(),
             const SpaceH19(),
-            const SActionConfirmText(
+             SActionConfirmText(
               name: 'Total pay',
-              value: '200 USDT',
+              value: '${sendGiftStore.amount} ${sendGiftStore.currency.symbol}',
               baseline: 24,
-              valueColor: Color(0xFF374CFA),
+              valueColor: const Color(0xFF374CFA),
             ),
             const SpaceH56(),
             SPrimaryButton2(

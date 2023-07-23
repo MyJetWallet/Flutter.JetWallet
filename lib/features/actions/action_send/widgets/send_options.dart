@@ -139,7 +139,11 @@ class _SendOptions extends StatelessObserverWidget {
             description: intl.send_gift_to_simple_wallet,
             onTap: () async {
               Navigator.pop(context);
-              await sRouter.push(const GiftReceiversDetailsRouter());
+              await sRouter.push(
+                GiftReceiversDetailsRouter(
+                  currency: currency,
+                ),
+              );
             },
           ),
         const SpaceH40(),
