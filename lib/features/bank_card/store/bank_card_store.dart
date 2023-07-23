@@ -88,7 +88,7 @@ abstract class _BankCardStoreBase with Store {
       expiryMonthError = true;
     }
 
-    labelError = validLabel(value);
+    //labelError = validLabel(value);
   }
 
   @observable

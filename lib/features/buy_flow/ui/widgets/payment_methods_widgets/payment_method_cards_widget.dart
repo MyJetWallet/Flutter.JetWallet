@@ -55,7 +55,12 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             isPreview: true,
             currency: currency,
             asset: asset,
-            method: store.cardsMethods.first,
+            method: BuyMethodDto(
+              id: PaymentMethodType.bankCard,
+              termsAccepted: true,
+              category: PaymentMethodCategory.cards,
+              paymentAssets: [currency],
+            ),
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -121,7 +126,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       BuyAmountRoute(
                         asset: asset,
                         currency: currency,
-                        method: store.cardsMethods.first,
+                        method: store.getCardBuyMethod(),
                         card: e,
                       ),
                     );

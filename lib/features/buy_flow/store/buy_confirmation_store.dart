@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
@@ -558,6 +559,8 @@ abstract class _BuyConfirmationStoreBase with Store {
       final encrypter = Encrypter(RSA(publicKey: key1));
       final encryptedCvv = encrypter.encrypt('{"cvv":"$cvv"}');
       final base64EncodedCvv = encryptedCvv.base64;
+
+      log(method!.toString());
 
       final model = CardBuyExecuteRequestModel(
         paymentId: paymentId,

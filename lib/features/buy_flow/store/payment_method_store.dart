@@ -81,17 +81,12 @@ abstract class _PaymentMethodStoreBase with Store {
 
     isCardReachLimits = isCardReachLimit(currency);
 
-    log(asset.buyMethods.toString());
-
     asset.buyMethods.forEach((element) {
       final isCurrExist = element.paymentAssets!.indexWhere(
         (element) => element.asset == buyCurrency.symbol,
       );
 
       if (element.category == PaymentMethodCategory.cards) {
-        print('CARD SUPPORT');
-
-        cardSupportForThisAsset = true;
         if (isCurrExist != -1) {
           cardsMethods.add(element);
         }
@@ -112,7 +107,19 @@ abstract class _PaymentMethodStoreBase with Store {
 
     if (cardsMethods.isEmpty) {
       sAnalytics.newBuyNoSavedCard();
+    } else {
+      // Проверяем что у нас есть хотя бы платежный метод как BANKCARD, и только тогда показываем карты юзеру
+      if (getCardBuyMethod() != null) {
+        cardSupportForThisAsset = true;
+      }
     }
+  }
+
+  BuyMethodDto? getCardBuyMethod() {
+    final cardIndex = cardsMethods
+        .indexWhere((element) => element.id == PaymentMethodType.bankCard);
+
+    return cardIndex != -1 ? cardsMethods[cardIndex] : null;
   }
 
   @computed
