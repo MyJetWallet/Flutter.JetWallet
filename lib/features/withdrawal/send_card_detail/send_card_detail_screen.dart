@@ -123,7 +123,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     },
                     onUserAgreementTap: () {
                       launchURL(context,
-                          'https://simple.app/terms-and-conditions/sendglobally/');
+                          'https://simple.app/terms-and-conditions-p2p/');
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context,

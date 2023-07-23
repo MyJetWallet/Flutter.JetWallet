@@ -236,7 +236,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 launchURL(context,
-                                    'https://simple.app/terms-and-conditions/sendglobally/');
+                                    'https://simple.app/terms-and-conditions-p2p/');
                               },
                             style: TextStyle(
                               color: sKit.colors.blue,
