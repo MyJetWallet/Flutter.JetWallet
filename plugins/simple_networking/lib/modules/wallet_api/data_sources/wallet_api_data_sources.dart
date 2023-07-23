@@ -383,13 +383,10 @@ class WalletApiDataSources {
     String label,
   ) async {
     try {
-      //final response = await _apiClient.post(
-      //  '${_apiClient.options.walletApi}/trading/buy/update-card-label',
-      //  data: {'cardId': cardId, 'label': label},
-      //);
-
-      final response =
-          await _apiClient.post('https://httpstat.us/500?sleep=1000');
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/buy/update-card-label',
+        data: {'cardId': cardId, 'label': label},
+      );
 
       try {
         final responseData = response.data as Map<String, dynamic>;
