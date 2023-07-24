@@ -59,6 +59,7 @@ class PinScreen extends StatelessWidget {
         displayHeader: displayHeader,
         fromRegister: fromRegister,
         cannotLeave: cannotLeave,
+        isChangePhone: isChangePhone,
         isForgotPassword: isForgotPassword,
         union: union,
       ),
@@ -72,6 +73,7 @@ class _PinScreenBody extends StatefulObserverWidget {
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isForgotPassword = false,
+    this.isChangePhone = false,
     required this.fromRegister,
     required this.union,
   }) : super(key: key);
@@ -79,6 +81,7 @@ class _PinScreenBody extends StatefulObserverWidget {
   final bool displayHeader;
   final bool cannotLeave;
   final bool isForgotPassword;
+  final bool isChangePhone;
   final PinFlowUnion union;
   final bool fromRegister;
 
@@ -130,6 +133,17 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
             children: [
               pin.screenUnion.when(
                 enterPin: () {
+                  if (widget.isChangePhone) {
+                    return SPaddingH24(
+                      child: SSmallHeader(
+                        title: intl.pin_screen_confirm_withPin,
+                        onBackButtonTap: () {
+                          sRouter.back();
+                        },
+                      ),
+                    );
+                  }
+
                   return widget.displayHeader
                       ? SAuthHeader(
                           title: pin.screenDescription(),

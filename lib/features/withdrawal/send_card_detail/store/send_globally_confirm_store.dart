@@ -108,7 +108,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     }
   }
 
-  Future<void> confirmSendGlobally() async {
+  Future<void> confirmSendGlobally({ required String newPin }) async {
     loader.startLoadingImmediately();
 
     Future.delayed(
@@ -135,6 +135,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
       ifscCode: data?.ifscCode,
       bankAccount: data?.bankAccount,
       wise: data?.wise,
+      pin: newPin,
     );
 
     try {

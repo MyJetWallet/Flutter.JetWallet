@@ -15,6 +15,7 @@ class WithdrawRequestModel with _$WithdrawRequestModel {
     required String toAddress,
     String? toTag,
     required String blockchain,
+    required String pin,
     String? lang,
   }) = _WithdrawRequestModel;
 
