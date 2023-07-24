@@ -6,8 +6,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
+import '../store/general_send_gift_store.dart';
 import '../store/receiver_datails_store.dart';
-import '../store/send_gift_store.dart';
 import '../widgets/continue_button.dart';
 import '../widgets/email_field_tab.dart';
 import '../widgets/gift_policy_checkbox.dart';
@@ -28,11 +28,11 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   final store = ReceiverDatailsStore()..getInitialCheck();
-  late SendGiftStore sendGiftStore;
+  late GeneralSendGiftStore sendGiftStore;
 
   @override
   void initState() {
-    sendGiftStore = SendGiftStore()..setCurrency(widget.currency);
+    sendGiftStore = GeneralSendGiftStore()..setCurrency(widget.currency);
 
     _tabController = TabController(
       length: 2,

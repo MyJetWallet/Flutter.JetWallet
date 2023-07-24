@@ -1089,7 +1089,7 @@ class GiftReceiversDetailsRouterArgs {
 class GiftAmountRouter extends PageRouteInfo<GiftAmountRouterArgs> {
   GiftAmountRouter({
     Key? key,
-    required SendGiftStore sendGiftStore,
+    required GeneralSendGiftStore sendGiftStore,
     List<PageRouteInfo>? children,
   }) : super(
           GiftAmountRouter.name,
@@ -1114,7 +1114,7 @@ class GiftAmountRouterArgs {
 
   final Key? key;
 
-  final SendGiftStore sendGiftStore;
+  final GeneralSendGiftStore sendGiftStore;
 
   @override
   String toString() {
@@ -4450,7 +4450,7 @@ class InfoWebViewRouterArgs {
 class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
   GiftOrderSummuryRouter({
     Key? key,
-    required SendGiftStore sendGiftStore,
+    required GeneralSendGiftStore sendGiftStore,
     List<PageRouteInfo>? children,
   }) : super(
           GiftOrderSummuryRouter.name,
@@ -4475,7 +4475,7 @@ class GiftOrderSummuryRouterArgs {
 
   final Key? key;
 
-  final SendGiftStore sendGiftStore;
+  final GeneralSendGiftStore sendGiftStore;
 
   @override
   String toString() {

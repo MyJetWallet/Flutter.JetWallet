@@ -1,22 +1,25 @@
+import 'package:decimal/decimal.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../utils/models/currency_model.dart';
 
-part 'send_gift_store.g.dart';
+part 'general_send_gift_store.g.dart';
 
-class SendGiftStore = SendGiftStoreBase with _$SendGiftStore;
+class GeneralSendGiftStore = GeneralSendGiftStoreBase
+    with _$GeneralSendGiftStore;
 
-abstract class SendGiftStoreBase with Store {
+abstract class GeneralSendGiftStoreBase with Store {
   @observable
   late CurrencyModel currency = CurrencyModel.empty();
 
   @observable
-  double amount = 0;
+  Decimal amount = Decimal.zero;
 
   ReceiverContacrType _selectedContactType = ReceiverContacrType.email;
   String _email = '';
   String _phone = '';
+
   @observable
   String receiverContact = '';
 
@@ -46,6 +49,6 @@ abstract class SendGiftStoreBase with Store {
 
   @action
   void updateAmount(String value) {
-    amount = double.parse(value);
+    amount = Decimal.parse(value);
   }
 }
