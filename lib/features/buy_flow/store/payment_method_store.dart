@@ -82,59 +82,67 @@ abstract class _PaymentMethodStoreBase with Store {
 
     isCardReachLimits = isCardReachLimit(currency);
 
-    asset.buyMethods.forEach((element) {
-      final isCurrExist = element.paymentAssets!.indexWhere(
-        (element) => element.asset == buyCurrency.symbol,
-      );
+    if (asset.buyMethods.isNotEmpty) {
+      asset.buyMethods.forEach((element) {
+        final isCurrExist = element.paymentAssets!.indexWhere(
+          (element) => element.asset == buyCurrency.symbol,
+        );
 
-      if (element.category == PaymentMethodCategory.cards) {
-        if (isCurrExist != -1) {
-          cardsMethods.add(element);
+        var selectedPaymentAsset = element.paymentAssets!
+            .firstWhere((element) => element.asset == currency.asset);
+
+        if (element.category == PaymentMethodCategory.cards) {
+          if (isCurrExist != -1 &&
+              selectedPaymentAsset.maxAmount != Decimal.zero) {
+            cardsMethods.add(element);
+          }
+        } else if (element.category == PaymentMethodCategory.local) {
+          if (isCurrExist != -1 &&
+              selectedPaymentAsset.maxAmount != Decimal.zero) {
+            localMethods.add(element);
+          }
+        } else if (element.category == PaymentMethodCategory.p2p) {
+          if (isCurrExist != -1 &&
+              selectedPaymentAsset.maxAmount != Decimal.zero) {
+            p2pMethods.add(element);
+          }
         }
-      } else if (element.category == PaymentMethodCategory.local) {
-        if (isCurrExist != -1) {
-          localMethods.add(element);
-        }
-      } else if (element.category == PaymentMethodCategory.p2p) {
-        if (isCurrExist != -1) {
-          p2pMethods.add(element);
+      });
+
+      final storage = sLocalStorageService;
+
+      final localLM = await storage.getValue(localLastMethodId);
+      if (localLM != null) {
+        final localIndex = localMethods.indexWhere(
+          (element) => element.id.toString() == (localLM ?? ''),
+        );
+
+        if (localIndex != -1) {
+          final localObject = localMethods[localIndex];
+
+          localMethods.removeAt(localIndex);
+          localMethods.insert(0, localObject);
         }
       }
-    });
 
-    final storage = sLocalStorageService;
+      final p2pLM = await storage.getValue(p2pLastMethodId);
+      if (p2pLM != null) {
+        final localIndex = p2pMethods.indexWhere(
+          (element) => element.id.toString() == (p2pLM ?? ''),
+        );
 
-    final localLM = await storage.getValue(localLastMethodId);
-    if (localLM != null) {
-      final localIndex = localMethods.indexWhere(
-        (element) => element.id.toString() == (localLM ?? ''),
-      );
+        if (localIndex != -1) {
+          final localObject = p2pMethods[localIndex];
 
-      if (localIndex != -1) {
-        final localObject = localMethods[localIndex];
-
-        localMethods.removeAt(localIndex);
-        localMethods.insert(0, localObject);
+          p2pMethods.removeAt(localIndex);
+          p2pMethods.insert(0, localObject);
+        }
       }
+
+      cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
+      localMethodsFilted = ObservableList.of(localMethods.toList());
+      p2pMethodsFiltred = ObservableList.of(p2pMethods.toList());
     }
-
-    final p2pLM = await storage.getValue(p2pLastMethodId);
-    if (p2pLM != null) {
-      final localIndex = p2pMethods.indexWhere(
-        (element) => element.id.toString() == (p2pLM ?? ''),
-      );
-
-      if (localIndex != -1) {
-        final localObject = p2pMethods[localIndex];
-
-        p2pMethods.removeAt(localIndex);
-        p2pMethods.insert(0, localObject);
-      }
-    }
-
-    cardsMethodsFiltred = ObservableList.of(unlimintAltCards.toList());
-    localMethodsFilted = ObservableList.of(localMethods.toList());
-    p2pMethodsFiltred = ObservableList.of(p2pMethods.toList());
 
     if (cardsMethods.isEmpty) {
       sAnalytics.newBuyNoSavedCard();
