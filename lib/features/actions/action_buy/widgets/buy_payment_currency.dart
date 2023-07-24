@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,12 +40,18 @@ void showBuyPaymentCurrencyBottomSheet(
     for (var g = 0; g < currency.buyMethods[i].paymentAssets!.length; g++) {
       if (!checkIsCurrencyAlreadyAdd(
           currency.buyMethods[i].paymentAssets![g].asset)) {
+        final isLimitNotReach =
+            currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
+
         if (currency.buyMethods[i].category == PaymentMethodCategory.cards) {
-          if (!isCardReachLimit(currency.buyMethods[i].paymentAssets![g])) {
+          if (!isCardReachLimit(currency.buyMethods[i].paymentAssets![g]) &&
+              isLimitNotReach) {
             availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
           }
         } else {
-          availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
+          if (isLimitNotReach) {
+            availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
+          }
         }
       }
     }

@@ -82,29 +82,31 @@ abstract class _PaymentMethodStoreBase with Store {
 
     isCardReachLimits = isCardReachLimit(currency);
 
+    print(asset.buyMethods.isNotEmpty);
+
     if (asset.buyMethods.isNotEmpty) {
       asset.buyMethods.forEach((element) {
         final isCurrExist = element.paymentAssets!.indexWhere(
           (element) => element.asset == buyCurrency.symbol,
         );
 
-        var selectedPaymentAsset = element.paymentAssets!
-            .firstWhere((element) => element.asset == currency.asset);
-
         if (element.category == PaymentMethodCategory.cards) {
-          if (isCurrExist != -1 &&
-              selectedPaymentAsset.maxAmount != Decimal.zero) {
-            cardsMethods.add(element);
+          if (isCurrExist != -1) {
+            if (element.paymentAssets![isCurrExist].maxAmount != Decimal.zero) {
+              cardsMethods.add(element);
+            }
           }
         } else if (element.category == PaymentMethodCategory.local) {
-          if (isCurrExist != -1 &&
-              selectedPaymentAsset.maxAmount != Decimal.zero) {
-            localMethods.add(element);
+          if (isCurrExist != -1) {
+            if (element.paymentAssets![isCurrExist].maxAmount != Decimal.zero) {
+              localMethods.add(element);
+            }
           }
         } else if (element.category == PaymentMethodCategory.p2p) {
-          if (isCurrExist != -1 &&
-              selectedPaymentAsset.maxAmount != Decimal.zero) {
-            p2pMethods.add(element);
+          if (isCurrExist != -1) {
+            if (element.paymentAssets![isCurrExist].maxAmount != Decimal.zero) {
+              p2pMethods.add(element);
+            }
           }
         }
       });
