@@ -21,7 +21,10 @@ class GiftAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final geftSendAmountStore = GeftSendAmountStore();
+    final geftSendAmountStore = GeftSendAmountStore()
+      ..init(
+        sendGiftStore.currency,
+      );
     geftSendAmountStore.selectedCurrency = sendGiftStore.currency;
     final deviceSize = sDeviceSize;
 

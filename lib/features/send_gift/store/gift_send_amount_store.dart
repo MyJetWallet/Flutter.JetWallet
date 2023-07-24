@@ -7,10 +7,9 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
 part 'gift_send_amount_store.g.dart';
 
@@ -44,8 +43,6 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   CardLimitsModel? limits;
 
-  StackLoaderStore loader = StackLoaderStore();
-
   @observable
   CurrencyModel selectedCurrency = CurrencyModel.empty();
 
@@ -53,6 +50,45 @@ abstract class _GeftSendAmountStoreBase with Store {
   Decimal get availableCurrency => Decimal.parse(
         '''${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}''',
       );
+
+  @computed
+  Decimal get _minLimit =>
+      selectedCurrency.withdrawalMethods
+          .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
+          .symbolDetails
+          ?.last
+          .minAmount ??
+      Decimal.zero;
+
+  @computed
+  Decimal get _maxLimit =>
+      selectedCurrency.withdrawalMethods
+          .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
+          .symbolDetails
+          ?.last
+          .maxAmount ??
+      Decimal.zero;
+
+  @action
+  void init(CurrencyModel newCurrency) {
+    selectedCurrency = newCurrency;
+    limits = CardLimitsModel(
+        minAmount:_minLimit,
+        maxAmount: _maxLimit,
+        day1Amount: Decimal.zero,
+        day1Limit: Decimal.zero,
+        day1State: StateLimitType.active,
+        day7Amount: Decimal.zero,
+        day7Limit: Decimal.zero,
+        day7State: StateLimitType.active,
+        day30Amount: Decimal.zero,
+        day30Limit: Decimal.zero,
+        day30State: StateLimitType.active,
+        barInterval: StateBarType.day1,
+        barProgress: 0,
+        leftHours: 0,
+      );
+  }
 
   @action
   void selectPercentFromBalance(SKeyboardPreset preset) {
