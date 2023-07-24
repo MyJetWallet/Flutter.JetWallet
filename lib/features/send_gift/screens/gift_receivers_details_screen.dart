@@ -104,25 +104,23 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
           ),
           SizedBox(
             height: 88,
-            child: Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  ColoredBox(
-                    color: colors.white,
-                    child: Observer(
-                      builder: (context) {
-                        return EmailFieldTab(store: store);
-                      },
-                    ),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                ColoredBox(
+                  color: colors.white,
+                  child: Observer(
+                    builder: (context) {
+                      return EmailFieldTab(store: store);
+                    },
                   ),
-                  Observer(
-                    builder: (_) => PhoneNumberFieldTab(
-                      store: store,
-                    ),
+                ),
+                Observer(
+                  builder: (_) => PhoneNumberFieldTab(
+                    store: store,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const Spacer(),

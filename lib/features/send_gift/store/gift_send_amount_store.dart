@@ -1,11 +1,5 @@
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -15,17 +9,14 @@ import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
 
 part 'gift_send_amount_store.g.dart';
 
 class GeftSendAmountStore extends _GeftSendAmountStoreBase
     with _$GeftSendAmountStore {
   GeftSendAmountStore() : super();
-
 }
 
 abstract class _GeftSendAmountStoreBase with Store {
@@ -49,94 +40,19 @@ abstract class _GeftSendAmountStoreBase with Store {
   bool withValid = false;
 
   @observable
-  AddressBookContactModel? contact;
-
-  @observable
   InputError withAmmountInputError = InputError.none;
 
   CardLimitsModel? limits;
 
   StackLoaderStore loader = StackLoaderStore();
 
-  @computed
-  CurrencyModel eurCurrency = CurrencyModel.empty();
+  @observable
+  CurrencyModel selectedCurrency = CurrencyModel.empty();
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}''',
       );
-
-  @action
-  void init(AddressBookContactModel value) {
-    contact = value;
-
-    final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
-      (element) => element.id == WithdrawalMethods.ibanSend,
-    );
-
-    if (ibanOutMethodInd != -1) {
-      limits = CardLimitsModel(
-        minAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
-                ?.last.minAmount ??
-            Decimal.zero,
-        maxAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
-                ?.last.maxAmount ??
-            Decimal.zero,
-        day1Amount: Decimal.zero,
-        day1Limit: Decimal.zero,
-        day1State: StateLimitType.active,
-        day7Amount: Decimal.zero,
-        day7Limit: Decimal.zero,
-        day7State: StateLimitType.active,
-        day30Amount: Decimal.zero,
-        day30Limit: Decimal.zero,
-        day30State: StateLimitType.active,
-        barInterval: StateBarType.day1,
-        barProgress: 0,
-        leftHours: 0,
-      );
-    }
-
-    log(eurCurrency.toString());
-  }
-
-  @action
-  Future<void> loadPreview() async {
-    loader.startLoadingImmediately();
-
-    final model = IbanWithdrawalModel(
-      assetSymbol: eurCurrency.symbol,
-      amount: Decimal.parse(withAmount),
-      lang: intl.localeName,
-      contactId: contact?.id ?? '',
-      iban: contact?.iban ?? '',
-      bic: contact?.bic ?? '',
-    );
-
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .postPreviewIbanWithdrawal(model);
-
-    loader.finishLoadingImmediately();
-
-    if (!response.hasError) {
-      await sRouter.push(
-        IbanSendConfirmRouter(
-          data: response.data!,
-          contact: contact!,
-        ),
-      );
-    } else {
-      sNotification.showError(
-        response.error?.cause ?? '',
-        duration: 4,
-        id: 1,
-        needFeedback: true,
-      );
-    }
-  }
 
   @action
   void selectPercentFromBalance(SKeyboardPreset preset) {
@@ -146,15 +62,15 @@ abstract class _GeftSendAmountStoreBase with Store {
 
     final value = valueBasedOnSelectedPercent(
       selected: percent,
-      currency: eurCurrency,
+      currency: selectedCurrency,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}',
       ),
     );
 
     withAmount = valueAccordingToAccuracy(
       value,
-      eurCurrency.accuracy,
+      selectedCurrency.accuracy,
     );
 
     _validateAmount();
@@ -166,7 +82,7 @@ abstract class _GeftSendAmountStoreBase with Store {
     withAmount = responseOnInputAction(
       oldInput: withAmount,
       newInput: value,
-      accuracy: eurCurrency.accuracy,
+      accuracy: selectedCurrency.accuracy,
     );
 
     _validateAmount();
@@ -178,7 +94,7 @@ abstract class _GeftSendAmountStoreBase with Store {
   void _calculateBaseConversion() {
     if (withAmount.isNotEmpty) {
       final baseValue = calculateBaseBalanceWithReader(
-        assetSymbol: eurCurrency.symbol,
+        assetSymbol: selectedCurrency.symbol,
         assetBalance: Decimal.parse(withAmount),
       );
 
@@ -192,7 +108,7 @@ abstract class _GeftSendAmountStoreBase with Store {
   void _validateAmount() {
     final error = onGloballyWithdrawInputErrorHandler(
       withAmount,
-      eurCurrency,
+      selectedCurrency,
       limits,
     );
 
@@ -202,16 +118,16 @@ abstract class _GeftSendAmountStoreBase with Store {
       if (limits!.minAmount > value) {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
           decimal: limits!.minAmount,
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
-          prefix: eurCurrency.prefixSymbol,
+          accuracy: selectedCurrency.accuracy,
+          symbol: selectedCurrency.symbol,
+          prefix: selectedCurrency.prefixSymbol,
         )}';
       } else if (limits!.maxAmount < value) {
         limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
           decimal: limits!.maxAmount,
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
-          prefix: eurCurrency.prefixSymbol,
+          accuracy: selectedCurrency.accuracy,
+          symbol: selectedCurrency.symbol,
+          prefix: selectedCurrency.prefixSymbol,
         )}';
       } else {
         limitError = '';

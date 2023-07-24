@@ -59,7 +59,12 @@ abstract class ReceiverDatailsStoreBase with Store {
 
   @action
   Future<void> getInitialCheck() async {
-    checkIsSelected =
+    try {
+      checkIsSelected =
         await getIt<LocalCacheService>().getGiftPolicyAgreed() ?? false;
+    } catch (e) {
+      
+    }
+    
   }
 }

@@ -22,7 +22,7 @@ class GiftAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final geftSendAmountStore = GeftSendAmountStore();
-    geftSendAmountStore.eurCurrency = sendGiftStore.currency;
+    geftSendAmountStore.selectedCurrency = sendGiftStore.currency;
     final deviceSize = sDeviceSize;
 
     return SPageFrame(
@@ -47,9 +47,9 @@ class GiftAmount extends StatelessWidget {
               return SActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),
                 price: formatCurrencyStringAmount(
-                  prefix: geftSendAmountStore.eurCurrency.prefixSymbol,
+                  prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
                   value: geftSendAmountStore.withAmount,
-                  symbol: geftSendAmountStore.eurCurrency.symbol,
+                  symbol: geftSendAmountStore.selectedCurrency.symbol,
                 ),
                 helper: '',
                 error: geftSendAmountStore.withAmmountInputError ==
