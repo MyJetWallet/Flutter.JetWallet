@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../../core/l10n/i10n.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/widget_size_from.dart';
 
@@ -41,7 +42,7 @@ class GiftSendType extends StatelessWidget {
                         baseline: 18.0,
                         baselineType: TextBaseline.alphabetic,
                         child: Text(
-                          'Simple Gift',
+                          intl.send_gift_simple_gift,
                           style: sSubtitle2Style,
                         ),
                       ),

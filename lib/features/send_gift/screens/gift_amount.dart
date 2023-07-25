@@ -31,9 +31,9 @@ class GiftAmount extends StatelessWidget {
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
-          title: 'Send Gift',
+          title: intl.send_gift_title,
           subTitle:
-              '''Available: ${sendGiftStore.currency.assetBalance} ${sendGiftStore.currency.symbol}''',
+              '''${intl.send_gift_available}: ${sendGiftStore.currency.assetBalance} ${sendGiftStore.currency.symbol}''',
           subTitleStyle: const TextStyle(
             color: Color(0xFF777C85),
             fontSize: 14,

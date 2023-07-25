@@ -16,9 +16,9 @@ class GiftOrderSummury extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrame(
-      header: const SPaddingH24(
+      header:  SPaddingH24(
         child: SSmallHeader(
-          title: 'Order Summary',
+          title: intl.send_gift_order_summary,
         ),
       ),
       child: SPaddingH24(
@@ -26,9 +26,9 @@ class GiftOrderSummury extends StatelessWidget {
           children: [
             Column(
               children: [
-                const Text(
-                  'Your gift',
-                  style: TextStyle(
+                 Text(
+                  intl.send_gift_your_gift,
+                  style: const TextStyle(
                     color: Color(0xFF777C85),
                     fontSize: 16,
                     fontFamily: 'Gilroy',
@@ -55,16 +55,16 @@ class GiftOrderSummury extends StatelessWidget {
             const SDivider(),
             const SpaceH19(),
             SActionConfirmText(
-              name: 'To',
+              name: intl.to,
               value: sendGiftStore.receiverContact,
               baseline: 24,
             ),
             const SpaceH16(),
-            const SActionConfirmTextWiyhIcon(
-              name: 'Payment method',
-              value: 'Simple Gift',
+             SActionConfirmTextWiyhIcon(
+              name: intl.send_gift_payment_method,
+              value: intl.send_gift_simple_gift,
               baseline: 24,
-              icon: SizedBox(
+              icon: const SizedBox(
                 width: 16,
                 height: 16,
                 child: SGiftSendIcon(),
@@ -72,7 +72,7 @@ class GiftOrderSummury extends StatelessWidget {
             ),
             const SpaceH16(),
             SActionConfirmText(
-              name: 'Fee',
+              name: intl.fee,
               value: volumeFormat(
                 prefix: sendGiftStore.currency.prefixSymbol,
                 decimal: sendGiftStore.currency.fees.withdrawalFee?.size ??
@@ -86,7 +86,7 @@ class GiftOrderSummury extends StatelessWidget {
             const SDivider(),
             const SpaceH19(),
             SActionConfirmText(
-              name: 'Total pay',
+              name: intl.send_gift_total_pay,
               value: volumeFormat(
                 prefix: sendGiftStore.currency.prefixSymbol,
                 decimal: sendGiftStore.amount,
