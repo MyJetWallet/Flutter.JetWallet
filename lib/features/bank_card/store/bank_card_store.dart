@@ -206,8 +206,6 @@ abstract class _BankCardStoreBase with Store {
     code = code.replaceAll(' ', '');
     code = code.replaceAll(' ', '');
 
-    code = '400000000000084';
-
     try {
       int.parse(code);
       if (code.length == 16) {

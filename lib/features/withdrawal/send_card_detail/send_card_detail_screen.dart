@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -122,8 +123,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       );
                     },
                     onUserAgreementTap: () {
-                      launchURL(context,
-                          'https://simple.app/terms-and-conditions-p2p/');
+                      launchURL(context, p2pTerms);
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context,

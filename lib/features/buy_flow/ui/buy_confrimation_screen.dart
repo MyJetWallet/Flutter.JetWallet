@@ -235,8 +235,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                             text: intl.buy_confirmation_privacy_p2p_checkbox_2,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                launchURL(context,
-                                    'https://simple.app/terms-and-conditions-p2p/');
+                                launchURL(context, p2pTerms);
                               },
                             style: TextStyle(
                               color: sKit.colors.blue,

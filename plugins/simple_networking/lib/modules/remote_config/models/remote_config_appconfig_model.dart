@@ -16,7 +16,8 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     @Default('https://nft.simple.app/terms-and-conditions') String nftTermsLink,
     @Default('https://nft.simple.app/privacy-policy') String nftPolicyLink,
     @Default('Simple Europe UAB') String simpleCompanyName,
-    @Default('Gyneju str. 14-65, Vilnius, Republic of Lithuania, 01109') String simpleCompanyAddress,
+    @Default('Gyneju str. 14-65, Vilnius, Republic of Lithuania, 01109')
+    String simpleCompanyAddress,
     required String cardLimitsLearnMoreLink,
     required String privacyEarnLink,
     required int paymentDelayDays,
@@ -33,6 +34,8 @@ class RemoteConfigAppconfigModel with _$RemoteConfigAppconfigModel {
     required int forgotPasswordLockHours,
     required int changePasswordLockHours,
     required int changePhoneLockHours,
+    @Default('https://simple.app/terms-and-conditions-p2p/')
+    required String p2pTerms,
   }) = _RemoteConfigAppconfigModel;
 
   factory RemoteConfigAppconfigModel.fromJson(Map<String, dynamic> json) =>
