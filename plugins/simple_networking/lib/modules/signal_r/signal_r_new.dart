@@ -161,8 +161,8 @@ class SignalRModuleNew {
       } catch (e) {
         handleError('invoke $e', e);
 
-        //isSignalRRestarted = false;
-        //isDisconnecting = true;
+        isSignalRRestarted = false;
+        isDisconnecting = true;
 
         rethrow;
       }
