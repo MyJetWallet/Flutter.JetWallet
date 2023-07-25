@@ -14,12 +14,14 @@ class SPolicyCheckbox extends StatelessWidget {
     required this.onCheckboxTap,
     required this.onUserAgreementTap,
     required this.onPrivacyPolicyTap,
+    this.isSendGlobal,
     this.height = 77,
     this.secondText,
     this.activeText,
     this.onActiveTextTap,
     this.thirdText,
     this.activeText2,
+    this.firstAdditionalText,
     this.onActiveText2Tap,
   }) : super(key: key);
 
@@ -37,7 +39,9 @@ class SPolicyCheckbox extends StatelessWidget {
   final Function()? onActiveTextTap;
   final String? thirdText;
   final String? activeText2;
+  final String? firstAdditionalText;
   final Function()? onActiveText2Tap;
+  final bool? isSendGlobal;
 
   final double height;
 
@@ -50,6 +54,7 @@ class SPolicyCheckbox extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             children: [
@@ -65,8 +70,9 @@ class SPolicyCheckbox extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                const SpaceH25(),
+                const SpaceH22(),
                 SimplePolicyRichText(
+                  isSendGlobal: isSendGlobal,
                   firstText: firstText,
                   userAgreementText: userAgreementText,
                   onUserAgreementTap: onUserAgreementTap,
@@ -79,12 +85,53 @@ class SPolicyCheckbox extends StatelessWidget {
                   thirdText: thirdText,
                   activeText2: activeText2,
                   onActiveText2Tap: onActiveText2Tap,
+                  firstAdditionalText: firstAdditionalText,
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class SPolicy extends StatelessWidget {
+  const SPolicy({
+    super.key,
+    required this.isChecked,
+    required this.onCheckboxTap,
+    required this.child,
+  });
+
+  final bool isChecked;
+  final Function() onCheckboxTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    late Widget icon;
+
+    icon = isChecked ? const SCheckboxSelectedIcon() : const SCheckboxIcon();
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          children: [
+            const SpaceH21(),
+            SIconButton(
+              onTap: onCheckboxTap,
+              defaultIcon: icon,
+              pressedIcon: icon,
+            ),
+          ],
+        ),
+        const SpaceW10(),
+        Expanded(
+          child: child,
+        ),
+      ],
     );
   }
 }

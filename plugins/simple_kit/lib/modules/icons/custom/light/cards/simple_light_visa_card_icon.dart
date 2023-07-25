@@ -15,8 +15,6 @@ class SimpleLightVisaCardIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(width);
-
     return SimpleCustomSvg(
       assetName: 'assets/icons/light/custom/cards/visa_card.svg',
       color: color,

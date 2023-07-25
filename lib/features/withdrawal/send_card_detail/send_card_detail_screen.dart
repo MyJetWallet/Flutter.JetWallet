@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -104,12 +105,14 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
               children: [
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 190,
+                    height: 174,
+                    isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
+                    firstAdditionalText: intl.send_globally_cond_text_add_1,
                     userAgreementText: ' ${intl.send_globally_cond_text_2}',
                     betweenText: '',
                     privacyPolicyText: '',
-                    secondText: '.\n\n',
+                    secondText: '.\n',
                     activeText: '',
                     thirdText: intl.send_globally_cond_text_6,
                     activeText2: '${intl.send_globally_cond_text_7}.',
@@ -120,8 +123,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       );
                     },
                     onUserAgreementTap: () {
-                      launchURL(context,
-                          'https://simple.app/terms-and-conditions/sendglobally/');
+                      launchURL(context, p2pTerms);
                     },
                     onPrivacyPolicyTap: () {
                       launchURL(context,

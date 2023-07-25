@@ -332,7 +332,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
-                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,

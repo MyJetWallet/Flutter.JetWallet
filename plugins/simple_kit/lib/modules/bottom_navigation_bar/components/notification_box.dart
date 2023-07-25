@@ -6,9 +6,13 @@ class NotificationBox extends StatelessWidget {
     Key? key,
     required this.notifications,
     this.cardsFailed = false,
+    this.top = -5,
+    this.right = 0,
   }) : super(key: key);
 
   final int notifications;
+  final double top;
+  final double right;
   final bool cardsFailed;
 
   @override
@@ -20,8 +24,8 @@ class NotificationBox extends StatelessWidget {
     return notifications == 0 && !cardsFailed
         ? const SizedBox()
         : Positioned(
-            right: 0,
-            top: -5,
+            right: right,
+            top: top,
             child: Container(
               margin: const EdgeInsets.only(
                 top: 6.0,

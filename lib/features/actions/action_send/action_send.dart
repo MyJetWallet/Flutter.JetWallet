@@ -233,7 +233,7 @@ Future<void> showSendGlobally(
     then: (value) {},
     pinned: ActionBottomSheetHeader(
       name: intl.global_send_destionation_country,
-      //showSearch: availableCountries.length >= 7,
+      showSearch: availableCountries.length >= 7,
       onChanged: (String value) {
         globalSearchStore.globalSendSearch(value);
       },
@@ -242,20 +242,6 @@ Future<void> showSendGlobally(
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      if (availableCountries.length >= 7) ...[
-        SPaddingH24(
-          child: SStandardField(
-            controller: TextEditingController(),
-            labelText: intl.actionBottomSheetHeader_search,
-            onChanged: (String value) {
-              globalSearchStore.globalSendSearch(value);
-            },
-          ),
-        ),
-        const SDivider(),
-      ] else ...[
-        const SpaceH24(),
-      ],
       _GlobalSendCountriesList(
         currency: currency,
         store: globalSearchStore,

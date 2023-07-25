@@ -140,6 +140,11 @@ class StartupService {
     unawaited(getIt.get<PushNotification>().registerToken());
 
     await makeSessionCheck();
+
+    final kyc = getIt.get<KycService>();
+    sAnalytics.setKYCDepositStatus(
+      kyc.depositStatus,
+    );
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {

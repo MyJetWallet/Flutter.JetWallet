@@ -15,6 +15,7 @@ import 'package:jetwallet/features/market/store/search_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
+import 'package:jetwallet/utils/helpers/set_category_for_buy_methods.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
@@ -51,6 +52,8 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_respons
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
+
+import '../../../features/account/profile_details/store/change_base_asset_store.dart';
 
 part 'signal_r_service_new.g.dart';
 
@@ -531,11 +534,6 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
       }
 
-      if (asset.normalizedAccuracy != 0) {
-        print(
-            'SYMBOL ${asset.symbol} normalizedAccuracy: ${asset.normalizedAccuracy} to int: ${asset.normalizedAccuracy.toInt()}');
-      }
-
       currenciesWithHiddenList.add(
         CurrencyModel(
           symbol: asset.symbol,
@@ -652,6 +650,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
       }
     }
+    getIt.get<ChangeBaseAssetStore>().finishLoading();
   }
 
   @observable
@@ -911,7 +910,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
       for (final buyMethod in buyMethodsFull) {
         if (buyMethod.allowedForSymbols?.contains(currency.symbol) ?? false) {
-          buyMethods.add(buyMethod);
+          buyMethods.add(setCategoryForBuyMethods(buyMethod));
         }
       }
       if (value.send != null) {

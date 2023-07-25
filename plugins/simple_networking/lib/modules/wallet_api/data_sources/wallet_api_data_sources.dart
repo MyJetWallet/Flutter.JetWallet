@@ -378,6 +378,31 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, void>> updateCardLabel(
+    String cardId,
+    String label,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/trading/buy/update-card-label',
+        data: {'cardId': cardId, 'label': label},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, CardCheckResponseModel>> cardCheck(
     CardCheckRequestModel model,
   ) async {
@@ -725,6 +750,28 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, void>> postCardSoonRequest() async {
+    try {
+      final _ = await _apiClient.get(
+        '${_apiClient.options.walletApi}/profile/request-card',
+      );
+
+      try {
+        final responseData = _.data as Map<String, dynamic>;
+
+        final data = handleFullResponse<Map>(
+          responseData,
+        );
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
       postCardBuyCreateRequest(
     CardBuyCreateRequestModel model,
@@ -861,8 +908,9 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, bool>> postCardBuyExecuteRequest(
-    CardBuyExecuteRequestModel model,
-  ) async {
+    CardBuyExecuteRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
     final jsonModel = model.toJson();
     if (model.cardPaymentData != null) {
       final jsonCardModel = model.cardPaymentData!.toJson();
@@ -875,6 +923,7 @@ class WalletApiDataSources {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/buy/execute',
         data: jsonModel,
+        cancelToken: cancelToken,
       );
 
       try {
@@ -893,12 +942,14 @@ class WalletApiDataSources {
 
   Future<DC<ServerRejectException, CardBuyInfoResponseModel>>
       postCardBuyInfoRequest(
-    CardBuyInfoRequestModel model,
-  ) async {
+    CardBuyInfoRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/trading/buy/info',
         data: model.toJson(),
+        cancelToken: cancelToken,
       );
 
       try {

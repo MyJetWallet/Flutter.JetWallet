@@ -92,9 +92,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: state.wasAction,
               onSkip: () {
-                sAnalytics.newBuyTapCloseProcessing(
-                  firstTimeBuy: '${!hideCheckbox}',
-                );
                 state.skippedWaiting();
               },
             )
@@ -305,7 +302,6 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
-                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,

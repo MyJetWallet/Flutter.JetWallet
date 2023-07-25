@@ -171,15 +171,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           paymentId = data.paymentId ?? '';
           depositFeeAmountMax = data.depositFeeAmountMax;
           depositFeePerc = data.depositFeePerc;
-
-          sAnalytics.newBuyTapContinue(
-            sourceCurrency: input.currencyPayment.symbol,
-            destinationCurrency: input.currency.symbol,
-            paymentMethod: 'Bank card',
-            sourceAmount: '$paymentAmount',
-            destinationAmount: '$buyAmount',
-            quickAmount: input.quickAmount,
-          );
         },
         onError: (error) {
           print(error);
@@ -216,21 +207,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuyTapConfirm(
-      sourceCurrency: input.currencyPayment.symbol,
-      destinationCurrency: input.currency.symbol,
-      paymentMethod: 'Bank card',
-      sourceAmount: '$paymentAmount',
-      destinationAmount: '$buyAmount',
-      exchangeRate: '1 ${input.currency.symbol} = ${volumeFormat(
-        prefix: input.currencyPayment.prefixSymbol,
-        symbol: input.currencyPayment.symbol,
-        accuracy: input.currencyPayment.accuracy,
-        decimal: rate ?? Decimal.zero,
-      )}',
-      paymentFee: '$depositFeeAmount',
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
+
     sAnalytics.newBuyEnterCvvView(
       firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
     );
@@ -268,9 +245,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuyProcessingView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
@@ -278,6 +252,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           isChecked = true;
           sRouter.push(
             Circle3dSecureWebViewRouter(
+              title: intl.previewBuyWithCircle_paymentVerification,
               url: url,
               asset: currencySymbol,
               amount: input.amount,
@@ -457,9 +432,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuySuccessView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-    );
 
     return sRouter
         .push(
@@ -500,10 +472,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (element) => element.id == PaymentMethodType.bankCard,
         )
         .toList();
-    sAnalytics.newBuyFailedView(
-      firstTimeBuy: '${!(buyMethod.isNotEmpty && buyMethod[0].termsAccepted)}',
-      errorCode: error,
-    );
 
     return sRouter.push(
       FailureScreenRouter(

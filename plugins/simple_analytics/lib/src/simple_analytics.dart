@@ -20,6 +20,7 @@ class SimpleAnalytics {
 
   bool isTechAcc = false;
   bool newBuyZeroScreenViewSent = false;
+  int kycDepositStatus = 0;
 
   /// Run at the start of the app
   ///
@@ -41,6 +42,14 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
+  void setKYCDepositStatus(int status) {
+    kycDepositStatus = status;
+  }
+
+  void updateUserId(String newId) {
+    _analytics.setUserId(newId);
+  }
+
   /// Buy flow
   void newBuyZeroScreenView() {
     if (!newBuyZeroScreenViewSent) {
@@ -50,6 +59,7 @@ class SimpleAnalytics {
         eventProperties: {
           PropertyType.techAcc: isTechAcc,
           PropertyType.eventId: '1',
+          PropertyType.kycStatus: kycDepositStatus,
         },
       );
     }
@@ -63,6 +73,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '2',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -73,6 +84,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '3',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -83,6 +95,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '4',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -93,29 +106,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '5',
-      },
-    );
-  }
-
-  void newBuyEnterCardDetailsView({
-    required String nameVisible,
-  }) {
-    _analytics.logEvent(
-      EventType.newBuyEnterCardDetailsView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '6',
-        PropertyType.nameLastName: nameVisible,
-      },
-    );
-  }
-
-  void newBuyTapSaveCard() {
-    _analytics.logEvent(
-      EventType.newBuyTapSaveCard,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '7',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -129,12 +120,16 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '8',
         PropertyType.saveCard: saveCard,
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
 
   void newBuyBuyAssetView({
     required String asset,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyBuyAssetView,
@@ -142,6 +137,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '9',
         PropertyType.asset: asset,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -149,6 +148,9 @@ class SimpleAnalytics {
   void newBuyErrorLimit({
     required String errorCode,
     required String asset,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyErrorLimit,
@@ -157,46 +159,10 @@ class SimpleAnalytics {
         PropertyType.eventId: '10',
         PropertyType.asset: asset,
         PropertyType.errorCode: errorCode,
-      },
-    );
-  }
-
-  void newBuyTapCardLimits() {
-    _analytics.logEvent(
-      EventType.newBuyTapCardLimits,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '11',
-      },
-    );
-  }
-
-  void newBuyCardLimitsView() {
-    _analytics.logEvent(
-      EventType.newBuyCardLimitsView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '12',
-      },
-    );
-  }
-
-  void newBuyTapCurrency() {
-    _analytics.logEvent(
-      EventType.newBuyTapCurrency,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '13',
-      },
-    );
-  }
-
-  void newBuyChooseCurrencyView() {
-    _analytics.logEvent(
-      EventType.newBuyChooseCurrencyView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '14',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -204,10 +170,12 @@ class SimpleAnalytics {
   void newBuyTapContinue({
     required String sourceCurrency,
     required String destinationCurrency,
-    required String paymentMethod,
     required String sourceAmount,
     required String destinationAmount,
     required String quickAmount,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyTapContinue,
@@ -216,30 +184,31 @@ class SimpleAnalytics {
         PropertyType.eventId: '15',
         PropertyType.sourceCurrency: sourceCurrency,
         PropertyType.destinationCurrency: destinationCurrency,
-        PropertyType.paymentMethod: paymentMethod,
         PropertyType.sourceAmount: sourceAmount,
         PropertyType.destinationAmount: destinationAmount,
         PropertyType.newBuyPreset: quickAmount,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
 
-  void newBuyOrderSummaryView() {
+  void newBuyOrderSummaryView({
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
+  }) {
     _analytics.logEvent(
       EventType.newBuyOrderSummaryView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '16',
-      },
-    );
-  }
-
-  void newBuyTapAgreement() {
-    _analytics.logEvent(
-      EventType.newBuyTapAgreement,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '17',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -247,12 +216,14 @@ class SimpleAnalytics {
   void newBuyTapConfirm({
     required String sourceCurrency,
     required String destinationCurrency,
-    required String paymentMethod,
     required String sourceAmount,
     required String destinationAmount,
     required String exchangeRate,
     required String paymentFee,
     required String firstTimeBuy,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyTapConfirm,
@@ -264,9 +235,12 @@ class SimpleAnalytics {
         PropertyType.destinationCurrency: destinationCurrency,
         PropertyType.destinationAmount: destinationAmount,
         PropertyType.exchangeRate: exchangeRate,
-        PropertyType.paymentMethod: paymentMethod,
         PropertyType.paymentFee: paymentFee,
         PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -277,6 +251,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '19',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -290,6 +265,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '20',
         PropertyType.paymentFee: paymentFee,
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -303,12 +279,16 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '21',
         PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
 
   void newBuyProcessingView({
     required String firstTimeBuy,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyProcessingView,
@@ -316,12 +296,19 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '22',
         PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
 
   void newBuyTapCloseProcessing({
     required String firstTimeBuy,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyTapCloseProcessing,
@@ -329,12 +316,19 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '23',
         PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
 
   void newBuySuccessView({
     required String firstTimeBuy,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuySuccessView,
@@ -342,6 +336,10 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '24',
         PropertyType.firstTimeBuy: firstTimeBuy,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -349,6 +347,9 @@ class SimpleAnalytics {
   void newBuyFailedView({
     required String firstTimeBuy,
     required String errorCode,
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
   }) {
     _analytics.logEvent(
       EventType.newBuyFailedView,
@@ -357,56 +358,10 @@ class SimpleAnalytics {
         PropertyType.eventId: '25',
         PropertyType.firstTimeBuy: firstTimeBuy,
         PropertyType.errorCode: errorCode,
-      },
-    );
-  }
-
-  void newBuyTapEdit() {
-    _analytics.logEvent(
-      EventType.newBuyTapEdit,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '26',
-      },
-    );
-  }
-
-  void newBuyTapDelete() {
-    _analytics.logEvent(
-      EventType.newBuyTapDelete,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '27',
-      },
-    );
-  }
-
-  void newBuyDeleteView() {
-    _analytics.logEvent(
-      EventType.newBuyDeleteView,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '28',
-      },
-    );
-  }
-
-  void newBuyTapYesDelete() {
-    _analytics.logEvent(
-      EventType.newBuyTapYesDelete,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '29',
-      },
-    );
-  }
-
-  void newBuyTapCancelDelete() {
-    _analytics.logEvent(
-      EventType.newBuyTapCancelDelete,
-      eventProperties: {
-        PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '30',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }
@@ -532,6 +487,65 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '73',
+      },
+    );
+  }
+
+  void paymentMethodScreenView() {
+    _analytics.logEvent(
+      EventType.paymentMethodScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '74',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void paymentCurrencyPopupScreenView(String currency) {
+    _analytics.logEvent(
+      EventType.paymentCurrencyPopupScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '75',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodCurrency: currency,
+      },
+    );
+  }
+
+  void paymentWevViewScreenView({
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentWevViewScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '76',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
+      },
+    );
+  }
+
+  void paymentWevViewClose({
+    required String paymentMethodType,
+    required String paymentMethodName,
+    required String paymentMethodCurrency,
+  }) {
+    _analytics.logEvent(
+      EventType.paymentWevViewClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '77',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.paymentMethodType: paymentMethodType,
+        PropertyType.paymentMethodName: paymentMethodName,
+        PropertyType.paymentMethodCurrency: paymentMethodCurrency,
       },
     );
   }

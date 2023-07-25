@@ -1,13 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="flag-icons-gw" viewBox="0 0 640 480">
-  <path fill="#ce1126" d="M0 0h220v480H0z"/>
-  <path fill="#fcd116" d="M220 0h420v240H220z"/>
-  <path fill="#009e49" d="M220 240h420v240H220z"/>
-  <g id="b" transform="matrix(80 0 0 80 110 240)">
-    <path id="a" d="M0-1v1h.5" transform="rotate(18 0 -1)"/>
-    <use xlink:href="#a" width="100%" height="100%" transform="scale(-1 1)"/>
-  </g>
-  <use xlink:href="#b" width="100%" height="100%" transform="rotate(72 110 240)"/>
-  <use xlink:href="#b" width="100%" height="100%" transform="rotate(144 110 240)"/>
-  <use xlink:href="#b" width="100%" height="100%" transform="rotate(-144 110 240)"/>
-  <use xlink:href="#b" width="100%" height="100%" transform="rotate(-72 110 240)"/>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_5398)">
+<path d="M12 0C10.9169 0 9.86766 0.144375 8.86955 0.413391L7.82611 12L8.8696 23.5866C9.86766 23.8556 10.9169 24 12 24C18.6274 24 24 18.6274 24 12C24 5.37262 18.6274 0 12 0Z" fill="#FFDA44"/>
+<path d="M7.82611 12L8.8696 23.5866C9.86766 23.8556 10.9169 24 12 24C18.6274 24 24 18.6274 24 12H7.82611Z" fill="#6DA544"/>
+<path d="M0 12C0 16.5485 2.53078 20.5057 6.26086 22.5409V1.45908C2.53078 3.49429 0 7.45148 0 12Z" fill="#D80027"/>
+<path d="M0 12C0 17.5443 3.76036 22.2096 8.86955 23.5866V0.413391C3.76036 1.79039 0 6.45567 0 12Z" fill="#D80027"/>
+<path d="M4.5345 8.86955L5.31145 11.2609H7.82611L5.79182 12.739L6.56873 15.1305L4.5345 13.6524L2.50017 15.1305L3.27726 12.739L1.24298 11.2609H3.7575L4.5345 8.86955Z" fill="black"/>
+</g>
+<defs>
+<clipPath id="clip0_18_5398">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

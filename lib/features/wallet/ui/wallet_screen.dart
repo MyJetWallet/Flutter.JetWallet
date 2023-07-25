@@ -61,6 +61,8 @@ class _WalletState extends State<Wallet>
     super.dispose();
   }
 
+  bool skeepOnPageChanged = false;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -73,6 +75,20 @@ class _WalletState extends State<Wallet>
     final currenciesWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(currencies),
     );
+
+    // These actions are required to handle navigation 
+    // if the order of assets is changed externally
+    final supposedPage = currenciesWithBalance.indexWhere(
+      (element) => element.symbol == currentAsset.symbol,
+    );
+    if (currentPage != supposedPage) {
+      currentAsset = currenciesWithBalance.firstWhere(
+        (element) => element.symbol == currentAsset.symbol,
+      );
+      currentPage = supposedPage;
+      skeepOnPageChanged = true;
+      _pageController.jumpToPage(supposedPage);
+    }
 
     return Scaffold(
       body: Material(
@@ -87,8 +103,12 @@ class _WalletState extends State<Wallet>
                   PageView(
                     controller: _pageController,
                     onPageChanged: (page) {
-                      currentAsset = currenciesWithBalance[page];
-                      currentPage = page;
+                      if (skeepOnPageChanged) {
+                        skeepOnPageChanged = false;
+                      } else {
+                        currentAsset = currenciesWithBalance[page];
+                        currentPage = page;
+                      }
                     },
                     children: [
                       for (final currency in currenciesWithBalance)

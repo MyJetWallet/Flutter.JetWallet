@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-bj" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="bj-a">
-      <path fill="gray" d="M67.6-154h666v666h-666z"/>
-    </clipPath>
-  </defs>
-  <g clip-path="url(#bj-a)" transform="matrix(.961 0 0 .7207 -65 111)">
-    <g fill-rule="evenodd" stroke-width="1pt">
-      <path fill="#319400" d="M0-154h333v666H0z"/>
-      <path fill="#ffd600" d="M333-154h666v333H333z"/>
-      <path fill="#de2110" d="M333 179h666v333H333z"/>
-    </g>
-  </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_6124)">
+<path d="M7.82611 10.9565L8.8696 23.5866C9.8677 23.8557 10.9169 24 12 24C18.6274 24 24 18.6274 24 12L7.82611 10.9565Z" fill="#D80027"/>
+<path d="M7.82611 12L8.86955 0.413391C9.8677 0.144375 10.9169 0 12 0C18.6274 0 24 5.37262 24 12H7.82611Z" fill="#FFDA44"/>
+<path d="M0 12C0 17.5443 3.76036 22.2096 8.86955 23.5866V0.413391C3.76036 1.79039 0 6.45567 0 12Z" fill="#6DA544"/>
+</g>
+<defs>
+<clipPath id="clip0_18_6124">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

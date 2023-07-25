@@ -89,4 +89,28 @@ class SColorsLight implements SimpleColors {
 
   @override
   Color blue2 = const Color(0x66374DFB);
+
+  @override
+  Color confetti1 = const Color(0xFF9575F3);
+
+  @override
+  Color confetti2 = const Color(0xFF03A3F5);
+
+  @override
+  Color confetti3 = const Color(0xFF9DED1A);
+
+  @override
+  Color confetti4 = const Color(0xFF9AF5FC);
+
+  @override
+  Color confetti5 = const Color(0xFFF54721);
+
+  @override
+  Color confetti6 = const Color(0xFFFFED36);
+
+  @override
+  Color confetti7 = const Color(0xFFF62584);
+
+  @override
+  Color confetti8 = const Color(0xFFC9FCBE);
 }

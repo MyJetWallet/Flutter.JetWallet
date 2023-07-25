@@ -28,6 +28,7 @@ class DefaultAssetChange extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
+      loading: baseAsset.loader,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.profileDetails_baseCurrency,

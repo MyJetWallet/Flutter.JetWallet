@@ -33,25 +33,7 @@ class SActionPriceField extends StatelessWidget {
               baseline: widgetSize == SWidgetSize.small ? 32 : 22,
               baselineType: TextBaseline.alphabetic,
               child: additionalWidget == null
-                ? FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      price,
-                      maxLines: 1,
-                      style: sTextH1Style.copyWith(
-                        color: isErrorActive
-                            ? SColorsLight().red
-                            : SColorsLight().black,
-                      ),
-                    ),
-                  )
-                : Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    additionalWidget!,
-                    const SpaceW8(),
-                    FittedBox(
+                  ? FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
                         price,
@@ -62,12 +44,30 @@ class SActionPriceField extends StatelessWidget {
                               : SColorsLight().black,
                         ),
                       ),
+                    )
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        additionalWidget!,
+                        const SpaceW8(),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            price,
+                            maxLines: 1,
+                            style: sTextH1Style.copyWith(
+                              color: isErrorActive
+                                  ? SColorsLight().red
+                                  : SColorsLight().black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
             ),
           ),
-          const SpaceH10(),
+          const SpaceH4(),
           SPaddingH24(
             child: Baseline(
               baseline: 13,
@@ -88,9 +88,8 @@ class SActionPriceField extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   height: 1.50,
                   fontFamily: 'Gilroy',
-                  color: isErrorActive
-                    ? SColorsLight().red
-                    : SColorsLight().grey1,
+                  color:
+                      isErrorActive ? SColorsLight().red : SColorsLight().grey1,
                 ),
               ),
             ),

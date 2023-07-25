@@ -9,3 +9,4 @@ const phoneChangeAsset = 'assets/images/phone_change.png';
 const timerAsset = 'assets/images/timer.png';
 const contactAsset = 'assets/images/contact.svg';
 const infoLightAsset = 'assets/images/info_light.png';
+const congratsAsset = 'assets/images/congrats.png';

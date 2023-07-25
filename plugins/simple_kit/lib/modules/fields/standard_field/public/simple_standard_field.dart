@@ -112,6 +112,7 @@ class SStandardField extends StatelessObserverWidget {
             hideLabel: hideLabel,
             maxLength: maxLength,
             grayLabel: grayLabel,
+            maxLines: maxLines,
           )
         : SimpleLightStandardField(
             controller: controller,
@@ -145,6 +146,7 @@ class SStandardField extends StatelessObserverWidget {
             hideLabel: hideLabel,
             maxLength: maxLength,
             grayLabel: grayLabel,
+            maxLines: maxLines,
           );
   }
 }

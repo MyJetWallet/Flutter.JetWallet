@@ -185,6 +185,7 @@ class RemoteConfig {
     changePhoneLockHours = remoteConfig!.appConfig.changePhoneLockHours;
     refundPolicyLink = remoteConfig!.appConfig.refundPolicyLink;
     cardLimitsLearnMoreLink = remoteConfig!.appConfig.cardLimitsLearnMoreLink;
+    p2pTerms = remoteConfig!.appConfig.p2pTerms;
   }
 
   void overrideVersioningValues() {

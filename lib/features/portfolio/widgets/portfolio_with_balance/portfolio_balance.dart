@@ -371,8 +371,12 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                         },
                                         removeDivider:
                                             actualItem.isPendingDeposit ||
-                                                index ==
-                                                    itemsWithBalance.length - 1,
+                                            (!getIt<AppStore>().showAllAssets &&
+                                              index ==
+                                                itemsWithBalance.length - 1) ||
+                                            (getIt<AppStore>().showAllAssets &&
+                                              index ==
+                                                  currenciesList.length - 1),
                                         isPendingDeposit:
                                             actualItem.isPendingDeposit,
                                       );

@@ -1,14 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-pa" viewBox="0 0 640 480">
-  <defs>
-    <clipPath id="pa-a">
-      <path fill-opacity=".7" d="M0 0h640v480H0z"/>
-    </clipPath>
-  </defs>
-  <g clip-path="url(#pa-a)">
-    <path fill="#fff" d="M0 0h640v480H0z"/>
-    <path fill="#fff" fill-rule="evenodd" d="M92.5 0h477.2v480H92.4z"/>
-    <path fill="#db0000" fill-rule="evenodd" d="M323 3.6h358v221.7H323z"/>
-    <path fill="#0000ab" fill-rule="evenodd" d="M3.2 225.3h319.9V480H3.2zm211.6-47.6-42-29.4-41.7 29.6 15.5-48L105 100l51.6-.4 16-48 16.3 47.9h51.6l-41.5 30 15.9 48z"/>
-    <path fill="#d80000" fill-rule="evenodd" d="m516.9 413.9-42.4-27.7-42.1 28 15.6-45.6-42-28 52-.5 16.2-45.4 16.4 45.3h52l-41.8 28.5 16 45.4z"/>
-  </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_4746)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M0 12C0 18.6274 5.37262 24 12 24C12 19.4365 12 12 12 12C12 12 4.17389 12 0 12Z" fill="#0052B4"/>
+<path d="M12 0C18.6274 0 24 5.37262 24 12C19.4365 12 12 12 12 12C12 12 12 4.17389 12 0Z" fill="#D80027"/>
+<path d="M7.14325 4.17389L7.92029 6.56536H10.4348L8.40053 8.04333L9.17753 10.4348L7.14325 8.95678L5.10897 10.4348L5.88597 8.04333L3.85168 6.56536H6.3662L7.14325 4.17389Z" fill="#0052B4"/>
+<path d="M16.8568 13.5652L17.6338 15.9567H20.1483L18.114 17.4346L18.8911 19.8261L16.8568 18.3481L14.8225 19.8261L15.5995 17.4346L13.5652 15.9567H16.0797L16.8568 13.5652Z" fill="#D80027"/>
+</g>
+<defs>
+<clipPath id="clip0_18_4746">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
 </svg>

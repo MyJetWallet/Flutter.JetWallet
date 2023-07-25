@@ -892,7 +892,7 @@ abstract class _WithdrawalStoreBase with Store {
   ///
 
   @action
-  Future<void> withdraw() async {
+  Future<void> withdraw({ required String newPin }) async {
     previewLoader.startLoadingImmediately();
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();
@@ -913,6 +913,7 @@ abstract class _WithdrawalStoreBase with Store {
         toTag: tag,
         blockchain: blockchain.id,
         lang: intl.localeName,
+        pin: newPin,
       );
 
       final response = await sNetwork.getWalletModule().postWithdraw(model);
@@ -955,6 +956,7 @@ abstract class _WithdrawalStoreBase with Store {
         toAddress: address,
         blockchain: withdrawalInputModel!.nft!.blockchain!,
         lang: intl.localeName,
+        pin: '',
       );
 
       final response = await sNetwork.getWalletModule().postWithdraw(model);
@@ -1005,7 +1007,7 @@ abstract class _WithdrawalStoreBase with Store {
     previewLoading = false;
     previewLoader.finishLoadingImmediately();
 
-    withdrawalPush(WithdrawStep.Confirm);
+    _confirmSuccessScreen();
   }
 
   @action
@@ -1159,9 +1161,9 @@ abstract class _WithdrawalStoreBase with Store {
     sRouter.push(
       SuccessScreenRouter(
         secondaryText:
-            '${intl.withdrawalConfirm_your} ${withdrawalInputModel!.currency!.symbol}'
-            ' ${intl.withdrawal_send_verb.toLowerCase()} '
-            '${intl.withdrawalConfirm_requestHasBeenSubmitted}',
+            '${intl.withdrawal_successRequest} ${Decimal.parse(withAmount)}'
+            ' ${withdrawalInputModel!.currency!.symbol}'
+            ' ${intl.withdrawal_successPlaced}',
         onSuccess: (context) {
           sRouter.replaceAll([
             const HomeRouter(

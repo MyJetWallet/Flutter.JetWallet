@@ -36,6 +36,14 @@ class WithdrawDetails extends StatelessObserverWidget {
     return SPaddingH24(
       child: Column(
         children: [
+          TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.txId != null &&
               !transactionListItem.withdrawalInfo!.isInternal) ...[
             TransactionDetailsItem(
@@ -65,14 +73,6 @@ class WithdrawDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
-            ),
-          ),
           const SpaceH18(),
           if (transactionListItem.withdrawalInfo!.toAddress != null) ...[
             Row(

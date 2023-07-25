@@ -23,6 +23,8 @@ const firstInitAppCodeKey = 'firstInitAppCodeKey';
 const checkedCircle = 'circleWasChecked';
 const checkedUnlimint = 'unlimintWasChecked';
 const checkedBankCard = 'bankCardWasChecked';
+const checkedLocalTerms = 'localWasChecked';
+const checkedP2PTerms = 'p2pCardWasChecked';
 const useBioKey = 'useBio';
 const startApp = 'startApp';
 const marketOpened = 'marketOpened';
@@ -42,6 +44,9 @@ const lastUsedMail = 'lastUsedMail';
 const activeSlot = 'activeSlot';
 const deviceId = 'deviceId';
 const lastAssetSend = 'lastAssetSend';
+const bankLastMethodId = 'bankLastMethodId';
+const localLastMethodId = 'localLastMethodId';
+const p2pLastMethodId = 'p2pLastMethodId';
 
 final sLocalStorageService = getIt.get<LocalStorageService>();
 
@@ -91,6 +96,9 @@ class LocalStorageService {
     await _storage.delete(key: nftPromoCode);
     await _storage.delete(key: activeSlot);
     await _storage.delete(key: lastAssetSend);
+    await _storage.delete(key: bankLastMethodId);
+    await _storage.delete(key: localLastMethodId);
+    await _storage.delete(key: p2pLastMethodId);
 
     final userMail = await _storage.read(key: lastUsedMail);
     final slot = await _storage.read(key: activeSlot);

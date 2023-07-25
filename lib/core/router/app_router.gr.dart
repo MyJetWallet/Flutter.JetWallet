@@ -60,6 +60,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    GiftOrderSummuryRouter.name: (routeData) {
+      final args = routeData.argsAs<GiftOrderSummuryRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: GiftOrderSummury(
+          key: args.key,
+          sendGiftStore: args.sendGiftStore,
+        ),
+      );
+    },
     EmailConfirmationRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -178,6 +188,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LogsScreen(),
+      );
+    },
+    CardRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CardScreen(),
       );
     },
     SendByPhoneAmountRouter.name: (routeData) {
@@ -395,6 +411,49 @@ abstract class _$AppRouter extends RootStackRouter {
         child: Rewards(
           key: args.key,
           actualRewards: args.actualRewards,
+        ),
+      );
+    },
+    BuyAmountRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyAmountRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyAmountScreen(
+          key: args.key,
+          asset: args.asset,
+          currency: args.currency,
+          method: args.method,
+          card: args.card,
+          cardNumber: args.cardNumber,
+          cardId: args.cardId,
+          showUaAlert: args.showUaAlert,
+        ),
+      );
+    },
+    BuyConfirmationRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyConfirmationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyConfirmationScreen(
+          key: args.key,
+          asset: args.asset,
+          paymentCurrency: args.paymentCurrency,
+          amount: args.amount,
+          method: args.method,
+          card: args.card,
+          cardNumber: args.cardNumber,
+          cardId: args.cardId,
+        ),
+      );
+    },
+    BuyPaymentMethodRoute.name: (routeData) {
+      final args = routeData.argsAs<BuyPaymentMethodRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyPaymentMethodScreen(
+          key: args.key,
+          asset: args.asset,
+          currency: args.currency,
         ),
       );
     },
@@ -718,6 +777,7 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: Circle3dSecureWebView(
+          args.title,
           args.url,
           args.asset,
           args.amount,
@@ -979,16 +1039,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    GiftOrderSummuryRouter.name: (routeData) {
-      final args = routeData.argsAs<GiftOrderSummuryRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: GiftOrderSummury(
-          key: args.key,
-          sendGiftStore: args.sendGiftStore,
-        ),
-      );
-    },
   };
 }
 
@@ -1157,6 +1207,44 @@ class GiftSelectAssetRouterArgs {
   @override
   String toString() {
     return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
+  }
+}
+
+/// generated route for
+/// [GiftOrderSummury]
+class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
+  GiftOrderSummuryRouter({
+    Key? key,
+    required GeneralSendGiftStore sendGiftStore,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GiftOrderSummuryRouter.name,
+          args: GiftOrderSummuryRouterArgs(
+            key: key,
+            sendGiftStore: sendGiftStore,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'GiftOrderSummuryRouter';
+
+  static const PageInfo<GiftOrderSummuryRouterArgs> page =
+      PageInfo<GiftOrderSummuryRouterArgs>(name);
+}
+
+class GiftOrderSummuryRouterArgs {
+  const GiftOrderSummuryRouterArgs({
+    this.key,
+    required this.sendGiftStore,
+  });
+
+  final Key? key;
+
+  final GeneralSendGiftStore sendGiftStore;
+
+  @override
+  String toString() {
+    return 'GiftOrderSummuryRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
   }
 }
 
@@ -1537,6 +1625,20 @@ class LogsRouter extends PageRouteInfo<void> {
         );
 
   static const String name = 'LogsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CardScreen]
+class CardRouter extends PageRouteInfo<void> {
+  const CardRouter({List<PageRouteInfo>? children})
+      : super(
+          CardRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CardRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -2292,6 +2394,185 @@ class RewardsRouterArgs {
   @override
   String toString() {
     return 'RewardsRouterArgs{key: $key, actualRewards: $actualRewards}';
+  }
+}
+
+/// generated route for
+/// [BuyAmountScreen]
+class BuyAmountRoute extends PageRouteInfo<BuyAmountRouteArgs> {
+  BuyAmountRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required PaymentAsset currency,
+    BuyMethodDto? method,
+    CircleCard? card,
+    String? cardNumber,
+    String? cardId,
+    bool showUaAlert = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyAmountRoute.name,
+          args: BuyAmountRouteArgs(
+            key: key,
+            asset: asset,
+            currency: currency,
+            method: method,
+            card: card,
+            cardNumber: cardNumber,
+            cardId: cardId,
+            showUaAlert: showUaAlert,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyAmountRoute';
+
+  static const PageInfo<BuyAmountRouteArgs> page =
+      PageInfo<BuyAmountRouteArgs>(name);
+}
+
+class BuyAmountRouteArgs {
+  const BuyAmountRouteArgs({
+    this.key,
+    required this.asset,
+    required this.currency,
+    this.method,
+    this.card,
+    this.cardNumber,
+    this.cardId,
+    this.showUaAlert = false,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final PaymentAsset currency;
+
+  final BuyMethodDto? method;
+
+  final CircleCard? card;
+
+  final String? cardNumber;
+
+  final String? cardId;
+
+  final bool showUaAlert;
+
+  @override
+  String toString() {
+    return 'BuyAmountRouteArgs{key: $key, asset: $asset, currency: $currency, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId, showUaAlert: $showUaAlert}';
+  }
+}
+
+/// generated route for
+/// [BuyConfirmationScreen]
+class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
+  BuyConfirmationRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required CurrencyModel paymentCurrency,
+    required String amount,
+    BuyMethodDto? method,
+    CircleCard? card,
+    String? cardNumber,
+    String? cardId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyConfirmationRoute.name,
+          args: BuyConfirmationRouteArgs(
+            key: key,
+            asset: asset,
+            paymentCurrency: paymentCurrency,
+            amount: amount,
+            method: method,
+            card: card,
+            cardNumber: cardNumber,
+            cardId: cardId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyConfirmationRoute';
+
+  static const PageInfo<BuyConfirmationRouteArgs> page =
+      PageInfo<BuyConfirmationRouteArgs>(name);
+}
+
+class BuyConfirmationRouteArgs {
+  const BuyConfirmationRouteArgs({
+    this.key,
+    required this.asset,
+    required this.paymentCurrency,
+    required this.amount,
+    this.method,
+    this.card,
+    this.cardNumber,
+    this.cardId,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final CurrencyModel paymentCurrency;
+
+  final String amount;
+
+  final BuyMethodDto? method;
+
+  final CircleCard? card;
+
+  final String? cardNumber;
+
+  final String? cardId;
+
+  @override
+  String toString() {
+    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId}';
+  }
+}
+
+/// generated route for
+/// [BuyPaymentMethodScreen]
+class BuyPaymentMethodRoute extends PageRouteInfo<BuyPaymentMethodRouteArgs> {
+  BuyPaymentMethodRoute({
+    Key? key,
+    required CurrencyModel asset,
+    required PaymentAsset currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyPaymentMethodRoute.name,
+          args: BuyPaymentMethodRouteArgs(
+            key: key,
+            asset: asset,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyPaymentMethodRoute';
+
+  static const PageInfo<BuyPaymentMethodRouteArgs> page =
+      PageInfo<BuyPaymentMethodRouteArgs>(name);
+}
+
+class BuyPaymentMethodRouteArgs {
+  const BuyPaymentMethodRouteArgs({
+    this.key,
+    required this.asset,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel asset;
+
+  final PaymentAsset currency;
+
+  @override
+  String toString() {
+    return 'BuyPaymentMethodRouteArgs{key: $key, asset: $asset, currency: $currency}';
   }
 }
 
@@ -3488,6 +3769,7 @@ class SimplexWebViewRouterArgs {
 class Circle3dSecureWebViewRouter
     extends PageRouteInfo<Circle3dSecureWebViewRouterArgs> {
   Circle3dSecureWebViewRouter({
+    required String title,
     required String url,
     required String asset,
     required String amount,
@@ -3502,6 +3784,7 @@ class Circle3dSecureWebViewRouter
   }) : super(
           Circle3dSecureWebViewRouter.name,
           args: Circle3dSecureWebViewRouterArgs(
+            title: title,
             url: url,
             asset: asset,
             amount: amount,
@@ -3521,6 +3804,7 @@ class Circle3dSecureWebViewRouter
 
 class Circle3dSecureWebViewRouterArgs {
   const Circle3dSecureWebViewRouterArgs({
+    required this.title,
     required this.url,
     required this.asset,
     required this.amount,
@@ -3529,6 +3813,8 @@ class Circle3dSecureWebViewRouterArgs {
     required this.paymentId,
     required this.onFailed,
   });
+
+  final String title;
 
   final String url;
 
@@ -3549,7 +3835,7 @@ class Circle3dSecureWebViewRouterArgs {
 
   @override
   String toString() {
-    return 'Circle3dSecureWebViewRouterArgs{url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
+    return 'Circle3dSecureWebViewRouterArgs{title: $title, url: $url, asset: $asset, amount: $amount, onSuccess: $onSuccess, onCancel: $onCancel, paymentId: $paymentId, onFailed: $onFailed}';
   }
 }
 
@@ -4442,43 +4728,5 @@ class InfoWebViewRouterArgs {
   @override
   String toString() {
     return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
-  }
-}
-
-/// generated route for
-/// [GiftOrderSummury]
-class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
-  GiftOrderSummuryRouter({
-    Key? key,
-    required GeneralSendGiftStore sendGiftStore,
-    List<PageRouteInfo>? children,
-  }) : super(
-          GiftOrderSummuryRouter.name,
-          args: GiftOrderSummuryRouterArgs(
-            key: key,
-            sendGiftStore: sendGiftStore,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'GiftOrderSummuryRouter';
-
-  static const PageInfo<GiftOrderSummuryRouterArgs> page =
-      PageInfo<GiftOrderSummuryRouterArgs>(name);
-}
-
-class GiftOrderSummuryRouterArgs {
-  const GiftOrderSummuryRouterArgs({
-    this.key,
-    required this.sendGiftStore,
-  });
-
-  final Key? key;
-
-  final GeneralSendGiftStore sendGiftStore;
-
-  @override
-  String toString() {
-    return 'GiftOrderSummuryRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
   }
 }
