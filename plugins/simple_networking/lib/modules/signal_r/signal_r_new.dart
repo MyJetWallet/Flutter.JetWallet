@@ -161,8 +161,8 @@ class SignalRModuleNew {
       } catch (e) {
         handleError('invoke $e', e);
 
-        isSignalRRestarted = false;
-        isDisconnecting = true;
+        //isSignalRRestarted = false;
+        //isDisconnecting = true;
 
         rethrow;
       }
@@ -173,8 +173,8 @@ class SignalRModuleNew {
         message: 'SignalR error init ${_hubConnection?.state}',
       );
 
-      isSignalRRestarted = false;
-      isDisconnecting = true;
+      //isSignalRRestarted = false;
+      //isDisconnecting = true;
 
       transport.addToLog(
           DateTime.now(), 'SignalR error init ${_hubConnection?.state}');
@@ -196,8 +196,9 @@ class SignalRModuleNew {
 
     transport.addToLog(DateTime.now(), 'SignalR error $error');
 
-    unawaited(reconnectSignalR());
-    //showEror(error.toString());
+    if (msg == 'startconnection') {
+      unawaited(reconnectSignalR());
+    }
   }
 
   void simulateError() {
