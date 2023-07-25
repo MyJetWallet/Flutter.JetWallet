@@ -646,6 +646,7 @@
   "previewSell_exchangeRate": "Exchange Rate",
   "previewConvert_exchangeRate": "Exchange rate",
   "previewConvert_youPay": "You Pay",
+  "previewConvert_youSpend": "You spend",
   "previewConvert_youGet": "You get",
   "previewConvert_confirm": "Confirm",
   "expansionPanelWithoutIcon_text1": "All expansion panel radio identifier values must be unique.",

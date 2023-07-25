@@ -283,7 +283,7 @@ class SignalRModuleNew {
       message: 'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
     );
 
-    tryCatchLoop(
+    /*tryCatchLoop(
       code: () async {
         if (!isDisconnecting) {
           _pingTimer?.cancel();
@@ -311,27 +311,27 @@ class SignalRModuleNew {
       duration: const Duration(seconds: 1),
       limitTimes: 5,
     );
+    */
 
-    /*if (!isDisconnecting) {
-          try {
-            _pingTimer?.cancel();
-            _pongTimer?.cancel();
+    if (!isDisconnecting) {
+      try {
+        _pingTimer?.cancel();
+        _pongTimer?.cancel();
 
-            await _hubConnection?.stop();
+        await _hubConnection?.stop();
 
-            await disableHandlerConnection();
+        await disableHandlerConnection();
 
-            if (needRefreshToken) {
-              await refreshToken();
-            }
-          } catch (e) {
-          } finally {
-            await openConnection();
-
-            _reconnectTimer?.cancel();
-          }
+        if (needRefreshToken) {
+          await refreshToken();
         }
-        */
+      } catch (e) {
+      } finally {
+        await openConnection();
+
+        _reconnectTimer?.cancel();
+      }
+    }
   }
 
   Future<void> disconnect(String from) async {

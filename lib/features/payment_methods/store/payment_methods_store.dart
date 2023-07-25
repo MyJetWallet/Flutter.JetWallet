@@ -63,6 +63,14 @@ abstract class _PaymentMethodsStoreBase with Store {
   @observable
   PaymentMethodsUnion union = const PaymentMethodsUnion.loading();
 
+  @computed
+  bool get isShowAccounts => sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal)
+      .isNotEmpty;
+
+  @computed
+  List<CircleCard> get userCards => sSignalRModules.cards.cardInfos;
+
   bool cardsLoaded = false;
   bool addressBookLoaded = false;
 
@@ -70,35 +78,42 @@ abstract class _PaymentMethodsStoreBase with Store {
   Future<void> getCards() async {
     cardsLoaded = false;
 
-    print(cards);
-
     _logger.log(notifier, 'getCards');
-    Timer(const Duration(seconds: 2), () {
-      cards = ObservableList.of(sSignalRModules.cards.cardInfos);
-    });
+    cards = ObservableList.of(sSignalRModules.cards.cardInfos);
 
     cardsLoaded = true;
+  }
+
+  @action
+  Future<void> clearData() async {
+    _updateUnion(const PaymentMethodsUnion.loading());
+
+    await getCards();
+
+    _updateUnion(const PaymentMethodsUnion.success());
   }
 
   @action
   Future<void> getAddressBook() async {
     addressBookLoaded = false;
 
-    final response = await sNetwork.getWalletModule().getAddressBook('');
+    if (isShowAccounts) {
+      final response = await sNetwork.getWalletModule().getAddressBook('');
 
-    response.pick(
-      onData: (data) {
-        addressBookContacts = ObservableList.of(data.contacts ?? []);
+      response.pick(
+        onData: (data) {
+          addressBookContacts = ObservableList.of(data.contacts ?? []);
 
-        addressBookContacts.sort((a, b) {
-          return b.weight!.compareTo(a.weight!);
-        });
+          addressBookContacts.sort((a, b) {
+            return b.weight!.compareTo(a.weight!);
+          });
 
-        addressBookLoaded = true;
+          addressBookLoaded = true;
 
-        _updateUnion(const PaymentMethodsUnion.success());
-      },
-    );
+          _updateUnion(const PaymentMethodsUnion.success());
+        },
+      );
+    }
 
     addressBookLoaded = true;
     _updateUnion(const PaymentMethodsUnion.success());

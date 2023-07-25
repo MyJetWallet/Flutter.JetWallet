@@ -36,9 +36,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     final loader = StackLoaderStore();
-    final isShowAccounts = sSignalRModules.currenciesList
-        .where((element) => element.supportIbanSendWithdrawal)
-        .isNotEmpty;
 
     final state = PaymentMethodsStore.of(context);
 
@@ -52,7 +49,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
       ),
       child: state.union.maybeWhen(
         success: () {
-          return state.cards.isEmpty && state.addressBookContacts.isEmpty
+          return state.userCards.isEmpty && state.addressBookContacts.isEmpty
               ? ListView(
                   padding: EdgeInsets.zero,
                   children: [
@@ -88,7 +85,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                       padding: const EdgeInsets.only(bottom: 100.0),
                       children: [
                         MarketSeparator(text: intl.payment_method_cards),
-                        for (final card in state.cards) ...[
+                        for (final card in state.userCards) ...[
                           PaymentCardItem(
                             name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
@@ -125,14 +122,16 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                     );
                                   },
                                 ),
-                              ).then((value) => state.getCards());
+                              ).then((value) async {
+                                await state.clearData();
+                              });
                             },
                             removeDivider: state.cards.last == card,
                             onTap: () {},
                           ),
                         ],
                         if (state.addressBookContacts.isNotEmpty &&
-                            isShowAccounts) ...[
+                            state.isShowAccounts) ...[
                           MarketSeparator(text: intl.iban_send_accounts),
                           ListView.builder(
                             shrinkWrap: true,
