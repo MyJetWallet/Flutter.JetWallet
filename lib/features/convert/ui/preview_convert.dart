@@ -9,12 +9,13 @@ import 'package:jetwallet/features/convert/model/preview_convert_union.dart';
 import 'package:jetwallet/features/convert/store/preview_convert_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'PreviewConvertRouter')
-class PreviewConvert extends StatefulObserverWidget {
+class PreviewConvert extends StatelessWidget {
   const PreviewConvert({
     super.key,
     required this.input,
@@ -23,20 +24,42 @@ class PreviewConvert extends StatefulObserverWidget {
   final PreviewConvertInput input;
 
   @override
-  State<PreviewConvert> createState() => _PreviewConvertState();
+  Widget build(BuildContext context) {
+    return Provider<PreviewConvertStore>(
+      create: (context) => PreviewConvertStore(input),
+      builder: (context, child) => PreviewConvertBody(
+        input: input,
+      ),
+      dispose: (context, value) {
+        value.cancelTimer();
+        value.dispose();
+      },
+    );
+  }
 }
 
-class _PreviewConvertState extends State<PreviewConvert>
+class PreviewConvertBody extends StatefulObserverWidget {
+  const PreviewConvertBody({
+    super.key,
+    required this.input,
+  });
+
+  final PreviewConvertInput input;
+
+  @override
+  State<PreviewConvertBody> createState() => _PreviewConvertBodyState();
+}
+
+class _PreviewConvertBodyState extends State<PreviewConvertBody>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-
-  late final PreviewConvertStore store;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this);
 
-    store = PreviewConvertStore(widget.input);
+    final store = PreviewConvertStore.of(context);
+
     store.updateTimerAnimation(_animationController);
     super.initState();
   }
@@ -44,14 +67,14 @@ class _PreviewConvertState extends State<PreviewConvert>
   @override
   void dispose() {
     _animationController.dispose();
-
-    store.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final loader = StackLoaderStore();
+
+    final store = PreviewConvertStore.of(context);
 
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;

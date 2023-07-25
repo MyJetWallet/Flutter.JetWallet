@@ -14,6 +14,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -25,6 +26,9 @@ part 'preview_convert_store.g.dart';
 class PreviewConvertStore extends _PreviewConvertStoreBase
     with _$PreviewConvertStore {
   PreviewConvertStore(PreviewConvertInput input) : super(input);
+
+  static PreviewConvertStore of(BuildContext context) =>
+      Provider.of<PreviewConvertStore>(context, listen: false);
 }
 
 abstract class _PreviewConvertStoreBase with Store {

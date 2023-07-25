@@ -43,11 +43,6 @@ class ConvertBody extends StatelessObserverWidget {
     final colors = sKit.colors;
     final store = ConvertInputStore.of(context);
 
-    store.setUpdateTargetConversionPrice(
-      store.fromAsset!.symbol,
-      store.toAsset!.symbol,
-    );
-
     final fromAssetWithBalance = currenciesWithBalance(store.fromAssetList);
     final fromAssetWithoutBalance =
         currenciesWithoutBalance(store.fromAssetList);
