@@ -74,7 +74,10 @@ class PhoneNumberFieldTab extends StatelessWidget {
                         onChanged: (String phone) {
                           phoneStore.updatePhoneNumber(phone);
                           phoneStore.phoneNumber();
-                          store.onChangedPhone(phoneStore.phoneNumber());
+                          store.onChangedPhone(
+                            phoneStore.phoneNumberController.text,
+                            phoneStore.dialCodeController.text,
+                          );
                         },
                         controller: phoneStore.phoneNumberController,
                         suffixIcons: phoneStore.phoneInput.isNotEmpty

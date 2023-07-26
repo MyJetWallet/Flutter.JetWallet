@@ -143,7 +143,8 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                   sendGiftStore.setReceiverInformation(
                     selectedContactType: store.selectedContactType,
                     email: store.email,
-                    phone: store.phone,
+                    newPhoneBody: store.phoneBody,
+                    newPhoneCountryCode: store.phoneCountryCode,
                   );
                   sRouter.push(
                     GiftAmountRouter(sendGiftStore: sendGiftStore),

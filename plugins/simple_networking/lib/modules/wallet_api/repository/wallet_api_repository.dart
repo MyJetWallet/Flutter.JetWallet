@@ -99,6 +99,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_set_address_request.dart';
 
@@ -714,6 +715,20 @@ class WalletApiRepository {
       sendToBankCardPreview(SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
+
+  // Send gift
+  Future<DC<ServerRejectException, void>> sendGiftByEmail(
+    SendGiftByEmailRequestModel model,
+  ) async {
+    return _walletApiDataSources.sendGiftByEmailRequest(model);
+  }
+
+  Future<DC<ServerRejectException, void>> sendGiftByPhone(
+    SendGiftByPhoneRequestModel model,
+  ) async {
+    return _walletApiDataSources.sendGiftByPhoneRequest(model);
+  }
+
 
   // Address book
 

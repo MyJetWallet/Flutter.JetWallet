@@ -27,7 +27,10 @@ abstract class ReceiverDatailsStoreBase with Store {
   String email = '';
 
   @observable
-  String phone = '';
+  String phoneBody = '';
+
+  @observable
+  String phoneCountryCode = '';
 
   @observable
   bool emailValid = false;
@@ -45,9 +48,16 @@ abstract class ReceiverDatailsStoreBase with Store {
   }
 
   @action
-  Future<void> onChangedPhone(String newPhone) async {
-    phone = newPhone;
-    phoneValid = await isPhoneNumberValid(newPhone, null);
+  Future<void> onChangedPhone(
+    String newPhoneBody,
+    String newPhoneCountryCode,
+  ) async {
+    phoneBody = newPhoneBody;
+    phoneCountryCode = newPhoneCountryCode;
+    phoneValid = await isPhoneNumberValid(
+      newPhoneCountryCode + newPhoneBody,
+      null,
+    );
   }
 
   @action
@@ -61,10 +71,9 @@ abstract class ReceiverDatailsStoreBase with Store {
   Future<void> getInitialCheck() async {
     try {
       checkIsSelected =
-        await getIt<LocalCacheService>().getGiftPolicyAgreed() ?? false;
+          await getIt<LocalCacheService>().getGiftPolicyAgreed() ?? false;
     } catch (e) {
-      
+      checkIsSelected = false;
     }
-    
   }
 }

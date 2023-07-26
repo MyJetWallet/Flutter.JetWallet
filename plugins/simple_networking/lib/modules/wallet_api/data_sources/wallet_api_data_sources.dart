@@ -100,9 +100,11 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
+import '../models/send_gift/send_gift_by_email_request_model.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {
@@ -2052,6 +2054,60 @@ class WalletApiDataSources {
         rethrow;
       }
     } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>>
+      sendGiftByEmailRequest(
+    SendGiftByEmailRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/by-email',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('catch error');
+
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>>
+      sendGiftByPhoneRequest(
+    SendGiftByPhoneRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/by-phone',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        print('catch error');
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      print('catch error');
+
       return DC.error(e);
     }
   }

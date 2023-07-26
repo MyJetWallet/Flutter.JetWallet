@@ -1477,6 +1477,8 @@
   "send_gift_payment_method": "Payment method",
   "send_gift_simple_gift": "Simple gift",
   "send_gift_total_pay": "Total pay",
+  "send_gift_you_sent": "You sent",
+  "send_gift_success_message_2": "You can cancel it in transaction\n details until receiver claims it.",
   "buy_payment_currency": "Payment currency",
   "buy_flow_payment_method": "Payment method",
   "payment_method_cards": "Cards",
