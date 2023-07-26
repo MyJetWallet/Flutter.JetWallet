@@ -18,7 +18,9 @@ class BankCardDateLabel extends StatelessObserverWidget {
         Expanded(
           child: Focus(
             onFocusChange: (hasFocus) {
-              store.validExpiry();
+              if (!hasFocus) {
+                store.validExpiry();
+              }
             },
             child: SFieldDividerFrame(
               child: SStandardField(

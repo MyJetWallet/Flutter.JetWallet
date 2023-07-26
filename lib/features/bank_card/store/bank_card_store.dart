@@ -272,8 +272,6 @@ abstract class _BankCardStoreBase with Store {
 
   @action
   void validExpiry() {
-    print('${expiryMonth.length}, $expiryYear ${expiryYear.length}');
-
     if (expiryMonth.isEmpty || expiryYear.isEmpty) {
       expiryMonthError = true;
       expiryYearError = true;

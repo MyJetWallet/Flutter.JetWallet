@@ -136,14 +136,21 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.history_payment_method,
-              value: TransactionDetailsValueText(
-                text:
-                    '${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
-                    '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
+              value: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.46,
+                ),
+                child: TransactionDetailsValueText(
+                  text:
+                      '${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                      '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
+                ),
               ),
             ),
           ],
-          if (transactionListItem.cryptoBuyInfo?.paymentMethod != null) ...[
+          if (transactionListItem.cryptoBuyInfo?.paymentMethod != null &&
+              transactionListItem.cryptoBuyInfo?.paymentMethod !=
+                  PaymentMethodType.bankCard) ...[
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.history_payment_method,
