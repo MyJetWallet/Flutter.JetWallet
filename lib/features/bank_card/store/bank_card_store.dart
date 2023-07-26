@@ -232,7 +232,12 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
+  bool isTypingInExp = false;
+
+  @action
   void updateExpiryMonth(String expiryDate) {
+    isTypingInExp = true;
+
     if (expiryDate.length < 2) {
       if ((int.tryParse(expiryDate) ?? 0) > 2) {
         expiryMonth = '0$expiryDate';
@@ -272,6 +277,8 @@ abstract class _BankCardStoreBase with Store {
 
   @action
   void validExpiry() {
+    if (!isTypingInExp) return;
+
     if (expiryMonth.isEmpty || expiryYear.isEmpty) {
       expiryMonthError = true;
       expiryYearError = true;
