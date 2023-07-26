@@ -82,8 +82,6 @@ abstract class _PaymentMethodStoreBase with Store {
 
     isCardReachLimits = isCardReachLimit(currency);
 
-    print(asset.buyMethods.isNotEmpty);
-
     if (asset.buyMethods.isNotEmpty) {
       asset.buyMethods.forEach((element) {
         final isCurrExist = element.paymentAssets!.indexWhere(
@@ -112,6 +110,11 @@ abstract class _PaymentMethodStoreBase with Store {
       });
 
       final storage = sLocalStorageService;
+
+      final cardM = await storage.getValue(bankLastMethodId);
+      if (cardM != null) {
+        sSignalRModules.cards.cardInfos.sort((a, b) => a.id == cardM ? 1 : 0);
+      }
 
       final localLM = await storage.getValue(localLastMethodId);
       if (localLM != null) {

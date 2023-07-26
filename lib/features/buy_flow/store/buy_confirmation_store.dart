@@ -884,7 +884,10 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       switch (category) {
         case PaymentMethodCategory.cards:
-          await storage.setString(bankLastMethodId, card?.id ?? '');
+          await storage.setString(
+            bankLastMethodId,
+            card?.id ?? '',
+          );
           break;
         case PaymentMethodCategory.local:
           await storage.setString(
@@ -893,7 +896,10 @@ abstract class _BuyConfirmationStoreBase with Store {
           );
           break;
         case PaymentMethodCategory.p2p:
-          await storage.setString(p2pLastMethodId, method?.id.toString() ?? '');
+          await storage.setString(
+            p2pLastMethodId,
+            method?.id.toString() ?? '',
+          );
           break;
         default:
       }
