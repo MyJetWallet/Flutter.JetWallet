@@ -233,6 +233,7 @@ abstract class _$AppRouter extends RootStackRouter {
           card: args.card,
           cardNumber: args.cardNumber,
           cardId: args.cardId,
+          preset: args.preset,
         ),
       );
     },
@@ -1651,6 +1652,7 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
     CircleCard? card,
     String? cardNumber,
     String? cardId,
+    String? preset,
     List<PageRouteInfo>? children,
   }) : super(
           BuyConfirmationRoute.name,
@@ -1663,6 +1665,7 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
             card: card,
             cardNumber: cardNumber,
             cardId: cardId,
+            preset: preset,
           ),
           initialChildren: children,
         );
@@ -1683,6 +1686,7 @@ class BuyConfirmationRouteArgs {
     this.card,
     this.cardNumber,
     this.cardId,
+    this.preset,
   });
 
   final Key? key;
@@ -1701,9 +1705,11 @@ class BuyConfirmationRouteArgs {
 
   final String? cardId;
 
+  final String? preset;
+
   @override
   String toString() {
-    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId}';
+    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId, preset: $preset}';
   }
 }
 

@@ -113,7 +113,7 @@ abstract class _PaymentMethodStoreBase with Store {
 
       final cardM = await storage.getValue(bankLastMethodId);
       if (cardM != null) {
-        sSignalRModules.cards.cardInfos.sort((a, b) => a.id == cardM ? 1 : 0);
+        sSignalRModules.cards.cardInfos.sort((a, b) => a.id == cardM ? 0 : 1);
       }
 
       final localLM = await storage.getValue(localLastMethodId);

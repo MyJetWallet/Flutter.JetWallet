@@ -34,6 +34,7 @@ class BuyConfirmationScreen extends StatelessWidget {
     this.card,
     this.cardNumber,
     this.cardId,
+    this.preset,
   });
 
   final CurrencyModel asset;
@@ -47,6 +48,7 @@ class BuyConfirmationScreen extends StatelessWidget {
   final String? cardId;
 
   final String amount;
+  final String? preset;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class BuyConfirmationScreen extends StatelessWidget {
           paymentCurrency.symbol,
           method,
           card,
+          preset,
         ),
       builder: (context, child) => _BuyConfirmationScreenBody(
         asset: asset,

@@ -325,6 +325,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                   amount: store.inputValue,
                   method: method,
                   card: card,
+                  preset: store.getPresetName(),
                 ),
               );
             },

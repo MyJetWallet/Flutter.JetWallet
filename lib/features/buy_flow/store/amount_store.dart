@@ -320,6 +320,18 @@ abstract class _BuyAmountStoreBase with Store {
     preset3Name = formatPreset(presets.amount3 ?? Decimal.zero);
   }
 
+  String getPresetName() {
+    if (selectedPreset == SKeyboardPreset.preset1) {
+      return preset1Name;
+    } else if (selectedPreset == SKeyboardPreset.preset2) {
+      return preset2Name;
+    } else if (selectedPreset == SKeyboardPreset.preset3) {
+      return preset3Name;
+    } else {
+      return 'false';
+    }
+  }
+
   String formatPreset(Decimal amount) {
     return amount >= Decimal.fromInt(10000)
         ? '${amount / Decimal.fromInt(1000)}k'
