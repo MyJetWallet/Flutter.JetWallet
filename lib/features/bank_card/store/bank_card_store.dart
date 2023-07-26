@@ -231,7 +231,7 @@ abstract class _BankCardStoreBase with Store {
     }
   }
 
-  @action
+  @observable
   bool isTypingInExp = false;
 
   @action
