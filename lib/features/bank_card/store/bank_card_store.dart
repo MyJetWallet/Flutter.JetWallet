@@ -262,6 +262,9 @@ abstract class _BankCardStoreBase with Store {
         expiryYearError = false;
       }
     } else {
+      expiryMonth = '';
+      expiryYear = '';
+
       expiryMonthError = false;
       expiryYearError = false;
     }
@@ -269,11 +272,16 @@ abstract class _BankCardStoreBase with Store {
 
   @action
   void validExpiry() {
-    print(expiryMonth.isEmpty || expiryYear.isEmpty);
+    print('${expiryMonth.length}, $expiryYear ${expiryYear.length}');
 
     if (expiryMonth.isEmpty || expiryYear.isEmpty) {
       expiryMonthError = true;
       expiryYearError = true;
+    } else {
+      if (expiryMonth.length != 2 || expiryYear.length != 2) {
+        expiryMonthError = true;
+        expiryYearError = true;
+      }
     }
   }
 

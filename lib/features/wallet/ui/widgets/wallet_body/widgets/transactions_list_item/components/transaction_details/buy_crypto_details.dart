@@ -131,14 +131,14 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty &&
+          if ((transactionListItem.cryptoBuyInfo!.cardLast4 ?? '').isNotEmpty &&
               transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             TransactionDetailsItem(
               text: intl.history_payment_method,
               value: TransactionDetailsValueText(
-                text: '${transactionListItem.cryptoBuyInfo!.cardLabel ??
-                    transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                text:
+                    '${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
                     '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
               ),
             ),

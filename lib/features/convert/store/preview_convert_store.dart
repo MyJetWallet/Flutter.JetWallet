@@ -102,6 +102,7 @@ abstract class _PreviewConvertStoreBase with Store {
   Future<void> requestQuote() async {
     _logger.log(notifier, 'requestQuote');
 
+    //union = const QuoteLoading();
     union = const QuoteLoading();
 
     final model = GetQuoteRequestModel(

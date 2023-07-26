@@ -112,29 +112,18 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                     color: sKit.colors.grey1,
                   ),
                 ),
-                if (store.union is QuoteSuccess) ...[
-                  Text(
-                    volumeFormat(
-                      prefix: to.prefixSymbol,
-                      accuracy: to.accuracy,
-                      decimal: store.toAssetAmount ?? Decimal.zero,
-                      symbol: to.symbol,
-                    ),
-                    textAlign: TextAlign.center,
-                    style: sTextH4Style.copyWith(
-                      color: sKit.colors.blue,
-                    ),
+                Text(
+                  volumeFormat(
+                    prefix: to.prefixSymbol,
+                    accuracy: to.accuracy,
+                    decimal: store.toAssetAmount ?? Decimal.zero,
+                    symbol: to.symbol,
                   ),
-                ] else ...[
-                  const Baseline(
-                    baseline: 19.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SSkeletonTextLoader(
-                      height: 16,
-                      width: 130,
-                    ),
+                  textAlign: TextAlign.center,
+                  style: sTextH4Style.copyWith(
+                    color: sKit.colors.blue,
                   ),
-                ],
+                ),
                 const SizedBox(height: 25),
                 const SDivider(),
                 const SizedBox(height: 19),
@@ -202,7 +191,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 11),
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 24,
