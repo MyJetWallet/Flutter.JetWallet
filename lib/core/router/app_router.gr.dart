@@ -2173,7 +2173,7 @@ class Circle3dSecureWebViewRouter
       String,
       String,
     ) onSuccess,
-    required dynamic Function(String)? onCancel,
+    required dynamic Function(String?)? onCancel,
     required String paymentId,
     required dynamic Function(String) onFailed,
     List<PageRouteInfo>? children,
@@ -2223,7 +2223,7 @@ class Circle3dSecureWebViewRouterArgs {
     String,
   ) onSuccess;
 
-  final dynamic Function(String)? onCancel;
+  final dynamic Function(String?)? onCancel;
 
   final String paymentId;
 

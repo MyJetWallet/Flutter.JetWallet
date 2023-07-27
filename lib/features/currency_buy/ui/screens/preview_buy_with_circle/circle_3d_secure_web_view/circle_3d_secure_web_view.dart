@@ -28,7 +28,7 @@ class Circle3dSecureWebView extends StatelessWidget {
   final String paymentId;
   final Function(String, String) onSuccess;
   final Function(String) onFailed;
-  final Function(String)? onCancel;
+  final Function(String?)? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class Circle3dSecureWebView extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () {
+        onCancel?.call(null);
         navigateToRouter();
 
         return Future.value(true);
@@ -48,6 +49,7 @@ class Circle3dSecureWebView extends StatelessWidget {
             icon: const SCloseIcon(),
             title: title,
             onBackButtonTap: () {
+              onCancel?.call(null);
               navigateToRouter();
             },
           ),

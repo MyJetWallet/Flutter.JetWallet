@@ -533,7 +533,19 @@ abstract class _BuyConfirmationStoreBase with Store {
                 //_requestPaymentInfo(onAction, lastAction);
               },
               onCancel: (payment) {
-                sRouter.pop();
+                print('paymentWevViewClose');
+
+                sAnalytics.paymentWevViewClose(
+                  paymentMethodType: category.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards
+                      ? 'card'
+                      : method!.id.name,
+                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                );
+
+                if (payment != null) {
+                  sRouter.pop();
+                }
               },
               onFailed: (error) {
                 sRouter.pop();
@@ -662,7 +674,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     Function(
       String,
       Function(String, String),
-      Function(String),
+      Function(String?),
       Function(String),
       String,
     ) onAction,
@@ -730,6 +742,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
+                print('paymentWevViewClose');
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
                   paymentMethodName: category == PaymentMethodCategory.cards
@@ -738,7 +751,9 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
                 );
 
-                sRouter.pop();
+                if (payment != null) {
+                  sRouter.pop();
+                }
               },
               (error) {
                 sRouter.pop();
