@@ -1,6 +1,7 @@
 // ignore_for_file: use_setters_to_change_properties
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class PreviewConvertStore extends _PreviewConvertStoreBase
 
 abstract class _PreviewConvertStoreBase with Store {
   _PreviewConvertStoreBase(this.input) {
+    log(input.toString());
+
     _updateFrom(input);
     requestQuote();
   }
@@ -157,11 +160,18 @@ abstract class _PreviewConvertStoreBase with Store {
     }
   }
 
+  bool waitQuote = false;
+
   @action
   Future<void> executeQuote() async {
+    if (waitQuote) return;
+
+    waitQuote = true;
+
     _logger.log(notifier, 'executeQuote');
 
-    union = const ExecuteLoading();
+    //union = const ExecuteLoading();
+    union = const QuoteSuccess();
 
     try {
       final model = ExecuteQuoteRequestModel(
@@ -178,6 +188,8 @@ abstract class _PreviewConvertStoreBase with Store {
 
       response.pick(
         onData: (data) {
+          waitQuote = false;
+
           if (data.isExecuted) {
             _timer.cancel();
             _showSuccessScreen();
@@ -197,6 +209,7 @@ abstract class _PreviewConvertStoreBase with Store {
 
           _timer.cancel();
           _showFailureScreen(error);
+          waitQuote = false;
         },
       );
     } on ServerRejectException catch (error) {
@@ -204,12 +217,16 @@ abstract class _PreviewConvertStoreBase with Store {
 
       _timer.cancel();
       _showFailureScreen(error);
+      waitQuote = false;
     } catch (error) {
       _logger.log(stateFlow, 'executeQuote', error);
 
       _timer.cancel();
       _showNoResponseScreen();
+      waitQuote = false;
     }
+
+    waitQuote = false;
   }
 
   @action

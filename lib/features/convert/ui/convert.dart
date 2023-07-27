@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -175,6 +176,7 @@ class ConvertBody extends StatelessObserverWidget {
                     fromCurrency: store.fromAsset!,
                     toCurrency: store.toAsset!,
                     toAssetEnabled: store.toAssetEnabled,
+                    price: store.converstionPrice ?? Decimal.zero,
                   ),
                 ),
               );

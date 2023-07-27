@@ -210,6 +210,7 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
                   active: store.union is QuoteSuccess,
                   name: intl.previewConvert_confirm,
                   onTap: () {
+                    loader.startLoadingImmediately();
                     store.executeQuote();
                   },
                 ),
