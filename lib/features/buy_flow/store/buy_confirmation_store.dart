@@ -548,7 +548,8 @@ abstract class _BuyConfirmationStoreBase with Store {
                 }
               },
               onFailed: (error) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
+
                 _showFailureScreen(error);
               },
               paymentId: paymentId,
@@ -742,7 +743,6 @@ abstract class _BuyConfirmationStoreBase with Store {
                 _requestPaymentInfo(onAction, lastAction);
               },
               (payment) {
-                print('paymentWevViewClose');
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
                   paymentMethodName: category == PaymentMethodCategory.cards
@@ -756,7 +756,8 @@ abstract class _BuyConfirmationStoreBase with Store {
                 }
               },
               (error) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
+
                 _showFailureScreen(error);
               },
               paymentId,
