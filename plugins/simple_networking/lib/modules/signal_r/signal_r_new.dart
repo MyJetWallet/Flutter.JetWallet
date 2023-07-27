@@ -200,8 +200,8 @@ class SignalRModuleNew {
       unawaited(reconnectSignalR());
     }
 
-    isSignalRRestarted = false;
-    isDisconnecting = true;
+    //isSignalRRestarted = false;
+    //isDisconnecting = true;
   }
 
   void simulateError() {
@@ -330,8 +330,8 @@ class SignalRModuleNew {
           await refreshToken();
         }
       } catch (e) {
-        isSignalRRestarted = false;
-        isDisconnecting = true;
+        //isSignalRRestarted = false;
+        //isDisconnecting = true;
       } finally {
         await openConnection();
 
