@@ -16,8 +16,20 @@ void shareGiftResultBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,
-    pinned: SBottomSheetHeader(
-      name: intl.send_gift_share,
+    pinned: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(width: 24),
+        Text(
+          intl.send_gift_share,
+          style: sTextH5Style,
+        ),
+        SIconButton(
+          onTap: () => Navigator.pop(context),
+          defaultIcon: const SErasePressedIcon(),
+          pressedIcon: const SEraseMarketIcon(),
+        ),
+      ],
     ),
     children: [
       _ShareGiftResultBottomSheet(
@@ -39,10 +51,10 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const appUrl = 'http://localhost/das';
     final shareText =
-        '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_share_text_2_part} $appUrl ${intl.send_gift_share_text_3_part}''';
-    final cardMessage = '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_message_2_part}''';
+        '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_share_text_2_part} $appDownloadUrl ${intl.send_gift_share_text_3_part}''';
+    final cardMessage =
+        '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_message_2_part}''';
 
     return SPaddingH24(
       child: Column(
@@ -99,7 +111,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             Text(
+                            Text(
                               intl.send_gift_hey,
                               style: const TextStyle(
                                 color: Colors.black,
@@ -140,7 +152,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                     height: 48,
                                   ),
                                   const SpaceW14(),
-                                   Column(
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment:
