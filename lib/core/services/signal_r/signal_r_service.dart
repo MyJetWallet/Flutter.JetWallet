@@ -65,6 +65,14 @@ class SignalRService {
     await signalR!.checkConnectionTimer();
   }
 
+  Future<void> killSignalR() async {
+    if (signalR != null) {
+      await signalR!.disconnect('reCreateSignalR', force: true);
+    }
+
+    signalR = null;
+  }
+
   Future<void> _getSignalRModule() async {
     try {
       final sRCache = await getIt<LocalCacheService>().getSignalRFromCache();
