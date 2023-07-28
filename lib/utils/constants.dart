@@ -111,3 +111,6 @@ const flagsAsset = 'assets/images/flags.png';
 
 // Card page
 const simpleCardAsset = 'assets/images/card_example.png';
+
+// Send gift
+const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';

@@ -13,6 +13,7 @@ import '../../../core/services/simple_networking/simple_networking.dart';
 import '../../../utils/formatting/base/volume_format.dart';
 import '../../../utils/helpers/navigate_to_router.dart';
 import '../../../utils/models/currency_model.dart';
+import '../widgets/share_gift_result_bottom_sheet.dart';
 
 part 'general_send_gift_store.g.dart';
 
@@ -148,25 +149,33 @@ abstract class GeneralSendGiftStoreBase with Store {
   Future<void> showSuccessScreen() {
     return sRouter
         .push(
-          SuccessScreenRouter(
-            primaryText: intl.successScreen_success,
-            secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
-              prefix: currency.prefixSymbol,
-              decimal: amount,
-              accuracy: currency.accuracy,
-              symbol: currency.symbol,
-            )}\n${intl.send_gift_success_message_2}',
-            showProgressBar: true,
-          ),
-        )
+      SuccessScreenRouter(
+        primaryText: intl.successScreen_success,
+        secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
+          prefix: currency.prefixSymbol,
+          decimal: amount,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
+        )}\n${intl.send_gift_success_message_2}',
+        showProgressBar: true,
+      ),
+    )
         .then(
-          (value) => sRouter.replaceAll([
-            const HomeRouter(
-              children: [
-                PortfolioRouter(),
-              ],
-            ),
-          ]),
+      (value) {
+        sRouter.replaceAll([
+          const HomeRouter(
+            children: [
+              PortfolioRouter(),
+            ],
+          ),
+        ]);
+        final context = sRouter.navigatorKey.currentContext!;
+        shareGiftResultBottomSheet(
+          context: context,
+          currency: currency,
+          amount: amount,
         );
+      },
+    );
   }
 }

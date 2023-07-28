@@ -1479,6 +1479,16 @@
   "send_gift_total_pay": "Total pay",
   "send_gift_you_sent": "You sent",
   "send_gift_success_message_2": "You can cancel it in transaction\n details until receiver claims it.",
+  "send_gift_share": "Share",
+  "send_gift_hey": "Hey!",
+  "send_gift_simple": "Simple",
+  "send_gift_get_app": "Get in AppStore or Google Play",
+  "send_gift_message_1_part": "I just sent you a gift of",
+  "send_gift_message_2_part": "at Simple App. Download app and check your balance!",
+  "send_gift_share_text_2_part": "at Simple App. Download app at",
+  "send_gift_share_text_3_part": "and claim your gift!",
+  
+
   "buy_payment_currency": "Payment currency",
   "buy_flow_payment_method": "Payment method",
   "payment_method_cards": "Cards",
