@@ -54,6 +54,12 @@ class SignalRService {
 
   Future<void> forceReconnectSignalR() async {
     if (signalR != null) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.wtf,
+            place: 'SignalRService',
+            message: 'forceReconnectSignalR',
+          );
+
       await signalR!.disconnect('reCreateSignalR', force: true);
     }
 
