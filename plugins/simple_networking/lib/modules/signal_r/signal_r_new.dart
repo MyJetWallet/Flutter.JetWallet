@@ -65,7 +65,7 @@ class SignalRModuleNew {
   Timer? _reconnectTimer;
 
   Timer? _checkConnectionTimer;
-  static const _checkConnectionTime = 30;
+  static const _checkConnectionTime = 6;
   int connectionCheckCount = 0;
 
   //HubConnection? _hubConnection;
