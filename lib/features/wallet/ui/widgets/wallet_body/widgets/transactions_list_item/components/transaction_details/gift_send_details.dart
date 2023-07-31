@@ -126,7 +126,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                         .simpleNetworking
                         .getWalletModule()
                         .cancelGift(
-                          transactionListItem.operationId,
+                          transactionListItem.giftSendInfo?.transferId ?? '',
                         );
                     Navigator.pop(context);
                     Navigator.pop(context);
