@@ -65,8 +65,10 @@ class SignalRModuleNew {
   Timer? _reconnectTimer;
 
   Timer? _checkConnectionTimer;
-  static const _checkConnectionTime = 30;
+  static const _checkConnectionTime = 6;
   int connectionCheckCount = 0;
+
+  HubConnectionState get hubStatus => _hubConnection?.state ?? HubConnectionState.disconnected;
 
   //HubConnection? _hubConnection;
   HubConnection? _hubConnection;

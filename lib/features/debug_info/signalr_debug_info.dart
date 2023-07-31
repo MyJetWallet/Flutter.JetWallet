@@ -25,11 +25,21 @@ class SignalrDebugInfo extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  'SignalR Status: ${getIt.get<SignalRService>().signalR?.hubStatus}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: SPrimaryButton1(
                   active: true,
                   name: 'Restart Connection',
                   onTap: () {
-                    getIt.get<SignalRService>().reCreateSignalR();
+                    getIt.get<SignalRService>().forceReconnectSignalR();
                   },
                 ),
               ),
