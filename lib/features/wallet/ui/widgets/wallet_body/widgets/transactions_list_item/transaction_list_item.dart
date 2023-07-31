@@ -92,6 +92,15 @@ class TransactionListItem extends StatelessObserverWidget {
                           ),
                           color: colors.black,
                         ),
+                        if (transactionListItem.operationType ==
+                                OperationType.giftSend ||
+                            transactionListItem.operationType ==
+                                OperationType.giftReceive) ...[
+                          const SizedBox(
+                            height: 16,
+                            child: SGiftSendIcon(),
+                          ),
+                        ],
                         if (transactionListItem.status == Status.declined) ...[
                           const SpaceW5(),
                           Column(
@@ -338,6 +347,10 @@ class TransactionListItem extends StatelessObserverWidget {
         return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.sendGlobally:
         return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.giftSend:
+        return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.giftReceive:
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       default:
         return SPlusIcon(color: isFailed ? color : null);
     }

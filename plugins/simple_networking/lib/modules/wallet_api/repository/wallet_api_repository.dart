@@ -729,6 +729,11 @@ class WalletApiRepository {
     return _walletApiDataSources.sendGiftByPhoneRequest(model);
   }
 
+  Future<DC<ServerRejectException, void>> cancelGift(
+    String operationId,
+  ) async {
+    return _walletApiDataSources.cancelGiftRequest(operationId);
+  }
 
   // Address book
 

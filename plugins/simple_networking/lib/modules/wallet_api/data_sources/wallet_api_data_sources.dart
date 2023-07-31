@@ -2058,8 +2058,7 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      sendGiftByEmailRequest(
+  Future<DC<ServerRejectException, void>> sendGiftByEmailRequest(
     SendGiftByEmailRequestModel model,
   ) async {
     try {
@@ -2085,8 +2084,7 @@ class WalletApiDataSources {
     }
   }
 
-  Future<DC<ServerRejectException, void>>
-      sendGiftByPhoneRequest(
+  Future<DC<ServerRejectException, void>> sendGiftByPhoneRequest(
     SendGiftByPhoneRequestModel model,
   ) async {
     try {
@@ -2107,6 +2105,32 @@ class WalletApiDataSources {
       }
     } on ServerRejectException catch (e) {
       print('catch error');
+
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> cancelGiftRequest(
+    String operationId,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/cancel',
+        data: {'id': operationId},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        
+
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+     
 
       return DC.error(e);
     }

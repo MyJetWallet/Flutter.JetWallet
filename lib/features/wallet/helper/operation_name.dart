@@ -73,6 +73,9 @@ String operationName(
       return intl.iban_send_history_title;
     case OperationType.sendGlobally:
       return intl.send_globally_history_title;
+    case OperationType.giftSend:
+    case OperationType.giftReceive:
+      return intl.gift_history_sent;
     default:
       return 'Unknown';
   }

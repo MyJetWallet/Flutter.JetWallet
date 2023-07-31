@@ -8,6 +8,8 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_nft_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/earning_deposit_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_receive_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/recurring_buy_details.dart';
@@ -89,12 +91,12 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal = widget.transactionListItem.operationType ==
-      OperationType.cryptoInfo &&
-      isOperationLocal(
-        widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
-        PaymentMethodType.unsupported,
-      );
+    final isLocal =
+        widget.transactionListItem.operationType == OperationType.cryptoInfo &&
+            isOperationLocal(
+              widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                  PaymentMethodType.unsupported,
+            );
 
     void _onCopyAction() {
       sNotification.showError(
@@ -316,7 +318,8 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if ((widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo && !isLocal) ||
+                            OperationType.cryptoInfo &&
+                        !isLocal) ||
                     widget.transactionListItem.operationType ==
                         OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
@@ -336,7 +339,8 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.cryptoInfo && isLocal) ...[
+                        OperationType.cryptoInfo &&
+                    isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
@@ -438,6 +442,38 @@ class _TransactionItemState extends State<TransactionItem>
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
+                    OperationType.giftSend) ...[
+                  Material(
+                    color: colors.white,
+                    child: GiftSendDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
+                    OperationType.giftReceive) ...[
+                  Material(
+                    color: colors.white,
+                    child: GiftReceiveDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

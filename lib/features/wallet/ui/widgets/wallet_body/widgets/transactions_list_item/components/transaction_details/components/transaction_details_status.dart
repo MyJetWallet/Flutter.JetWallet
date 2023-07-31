@@ -8,9 +8,9 @@ import 'transaction_details_value_text.dart';
 
 class TransactionDetailsStatus extends StatelessObserverWidget {
   const TransactionDetailsStatus({
-    Key? key,
+    super.key,
     required this.status,
-  }) : super(key: key);
+  });
 
   final Status status;
 
