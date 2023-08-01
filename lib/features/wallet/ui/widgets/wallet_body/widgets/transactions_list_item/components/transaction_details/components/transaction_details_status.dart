@@ -9,10 +9,12 @@ import 'transaction_details_value_text.dart';
 class TransactionDetailsStatus extends StatelessObserverWidget {
   const TransactionDetailsStatus({
     super.key,
+    this.reason,
     required this.status,
   });
 
   final Status status;
+  final String? reason;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +26,25 @@ class TransactionDetailsStatus extends StatelessObserverWidget {
           text: intl.transactionDetailsStatus_status,
         ),
         const Spacer(),
-        TransactionDetailsValueText(
-          text: _text(context),
-          color: _color(colors),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TransactionDetailsValueText(
+              text: _text(context),
+              color: _color(colors),
+            ),
+            if (reason != null && status == Status.declined)
+              Text(
+                reason!,
+                maxLines: 2,
+                style: const TextStyle(
+                  color: Color(0xFFFB9BAF),
+                  fontSize: 12,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+          ],
         ),
       ],
     );

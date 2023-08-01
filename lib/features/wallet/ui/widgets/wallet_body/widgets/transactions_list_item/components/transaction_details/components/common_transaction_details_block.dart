@@ -245,10 +245,15 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       )}'
           ' ${transactionListItem.assetId} ';
-    } else if (transactionListItem.operationType == OperationType.giftSend ||
-        transactionListItem.operationType == OperationType.giftReceive) {
+    } else if (transactionListItem.operationType == OperationType.giftSend
+        ) {
       title = operationName(
-        OperationType.ibanSend,
+        OperationType.giftSend,
+        context,
+      );
+    } else if (transactionListItem.operationType == OperationType.giftReceive) {
+      title = operationName(
+        OperationType.giftReceive,
         context,
       );
     } else {

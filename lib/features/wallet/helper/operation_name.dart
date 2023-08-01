@@ -74,8 +74,9 @@ String operationName(
     case OperationType.sendGlobally:
       return intl.send_globally_history_title;
     case OperationType.giftSend:
-    case OperationType.giftReceive:
       return intl.gift_history_sent;
+    case OperationType.giftReceive:
+      return intl.gift_history_received;
     default:
       return 'Unknown';
   }

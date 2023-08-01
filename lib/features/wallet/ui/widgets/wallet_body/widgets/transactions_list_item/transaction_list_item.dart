@@ -4,18 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/nft_by_symbol.dart';
 import '../../../../../helper/nft_types.dart';
-import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
 import 'components/transaction_list_item_header_text.dart';
 import 'components/transaction_list_item_text.dart';
@@ -169,7 +164,9 @@ class TransactionListItem extends StatelessObserverWidget {
               Row(
                 children: [
                   const SpaceW30(),
-                  if (transactionListItem.status != Status.inProgress)
+                  if (transactionListItem.status != Status.inProgress ||
+                      transactionListItem.operationType ==
+                          OperationType.giftSend)
                     TransactionListItemText(
                       text: '${formatDateToDMY(
                         transactionListItem.timeStamp,
@@ -177,7 +174,9 @@ class TransactionListItem extends StatelessObserverWidget {
                           ', ${formatDateToHm(transactionListItem.timeStamp)}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.status == Status.inProgress)
+                  if (transactionListItem.status == Status.inProgress &&
+                      transactionListItem.operationType !=
+                          OperationType.giftSend)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_balanceInProcess}...',
                       color: colors.grey2,
