@@ -15,7 +15,7 @@ abstract class ReceiverDatailsStoreBase with Store {
   @computed
   bool get isformValid {
     return (selectedContactType == ReceiverContacrType.email
-            ? emailValid
+            ? isEmailValid(email)
             : phoneValid) &&
         checkIsSelected;
   }
@@ -33,7 +33,7 @@ abstract class ReceiverDatailsStoreBase with Store {
   String phoneCountryCode = '';
 
   @observable
-  bool emailValid = false;
+  bool emailValid = true;
 
   @observable
   bool phoneValid = false;
@@ -44,7 +44,7 @@ abstract class ReceiverDatailsStoreBase with Store {
   @action
   void onChangedEmail(String newEmail) {
     email = newEmail;
-    emailValid = isEmailValid(newEmail);
+    emailValid = true;
   }
 
   @action
@@ -63,8 +63,13 @@ abstract class ReceiverDatailsStoreBase with Store {
   @action
   Future<void> onChangedCheck() async {
     checkIsSelected = !checkIsSelected;
-
+    emailValid = isEmailValid(email);
     await getIt<LocalCacheService>().saveGiftPolicyAgreed(checkIsSelected);
+  }
+
+  @action
+  Future<void> onButtonTaped() async {
+    emailValid = isEmailValid(email);
   }
 
   @action

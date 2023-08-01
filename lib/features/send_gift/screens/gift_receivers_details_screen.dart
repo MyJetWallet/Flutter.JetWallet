@@ -145,15 +145,18 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                       isValid: store.isformValid,
                       onTab: () {
                         FocusScope.of(context).unfocus();
-                        sendGiftStore.setReceiverInformation(
-                          selectedContactType: store.selectedContactType,
-                          email: store.email,
-                          newPhoneBody: store.phoneBody,
-                          newPhoneCountryCode: store.phoneCountryCode,
-                        );
-                        sRouter.push(
-                          GiftAmountRouter(sendGiftStore: sendGiftStore),
-                        );
+                        store.onButtonTaped();
+                        if (store.isformValid) {
+                          sendGiftStore.setReceiverInformation(
+                            selectedContactType: store.selectedContactType,
+                            email: store.email,
+                            newPhoneBody: store.phoneBody,
+                            newPhoneCountryCode: store.phoneCountryCode,
+                          );
+                          sRouter.push(
+                            GiftAmountRouter(sendGiftStore: sendGiftStore),
+                          );
+                        }
                       },
                     );
                   },
