@@ -20,13 +20,10 @@ class ContinueButton extends StatelessWidget {
     return Observer(
       builder: (context) {
         return SPaddingH24(
-          child: GestureDetector(
+          child: SPrimaryButton4(
+            active: isValid,
+            name: intl.setPhoneNumber_continue,
             onTap: onTab,
-            child: SPrimaryButton4(
-              active: isValid,
-              name: intl.setPhoneNumber_continue,
-              onTap: () {},
-            ),
           ),
         );
       },

@@ -141,12 +141,14 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                 ),
                 Observer(
                   builder: (context) {
-                    return ContinueButton(
-                      isValid: store.isformValid,
-                      onTab: () {
+                    return InkWell(
+                      onTap: () {
                         FocusScope.of(context).unfocus();
                         store.onButtonTaped();
-                        if (store.isformValid) {
+                      },
+                      child: ContinueButton(
+                        isValid: store.isformValid,
+                        onTab: () {
                           sendGiftStore.setReceiverInformation(
                             selectedContactType: store.selectedContactType,
                             email: store.email,
@@ -156,8 +158,8 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                           sRouter.push(
                             GiftAmountRouter(sendGiftStore: sendGiftStore),
                           );
-                        }
-                      },
+                        },
+                      ),
                     );
                   },
                 ),
