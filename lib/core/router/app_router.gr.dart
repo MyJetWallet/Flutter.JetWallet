@@ -51,13 +51,11 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     GiftSelectAssetRouter.name: (routeData) {
-      final args = routeData.argsAs<GiftSelectAssetRouterArgs>();
+      final args = routeData.argsAs<GiftSelectAssetRouterArgs>(
+          orElse: () => const GiftSelectAssetRouterArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: GiftSelectAssetScreen(
-          key: args.key,
-          assets: args.assets,
-        ),
+        child: GiftSelectAssetScreen(key: args.key),
       );
     },
     GiftOrderSummuryRouter.name: (routeData) {
@@ -1177,14 +1175,10 @@ class GiftAmountRouterArgs {
 class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
   GiftSelectAssetRouter({
     Key? key,
-    required List<CurrencyModel> assets,
     List<PageRouteInfo>? children,
   }) : super(
           GiftSelectAssetRouter.name,
-          args: GiftSelectAssetRouterArgs(
-            key: key,
-            assets: assets,
-          ),
+          args: GiftSelectAssetRouterArgs(key: key),
           initialChildren: children,
         );
 
@@ -1195,18 +1189,13 @@ class GiftSelectAssetRouter extends PageRouteInfo<GiftSelectAssetRouterArgs> {
 }
 
 class GiftSelectAssetRouterArgs {
-  const GiftSelectAssetRouterArgs({
-    this.key,
-    required this.assets,
-  });
+  const GiftSelectAssetRouterArgs({this.key});
 
   final Key? key;
 
-  final List<CurrencyModel> assets;
-
   @override
   String toString() {
-    return 'GiftSelectAssetRouterArgs{key: $key, assets: $assets}';
+    return 'GiftSelectAssetRouterArgs{key: $key}';
   }
 }
 

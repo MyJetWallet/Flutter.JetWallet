@@ -176,7 +176,7 @@ Future<void> _showSendAction(BuildContext context) async {
           icon: const SGiftSendIcon(),
           onTap: () {
             Navigator.pop(context);
-            sRouter.push(GiftSelectAssetRouter(assets: isGiftSendActive));
+            sRouter.push(GiftSelectAssetRouter());
           },
           amount: '',
           description: '',
