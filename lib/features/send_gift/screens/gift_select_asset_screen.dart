@@ -26,17 +26,17 @@ class GiftSelectAssetScreen extends StatelessWidget {
         );
     final searchStore = getIt.get<ActionSearchStore>();
 
-    return Scaffold(
-      body: CustomScrollView(
+    return SPageFrame(
+      header: SPaddingH24(
+        child: SSmallHeader(
+          title: intl.send_gift_sending_asset,
+        ),
+      ),
+      child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: Column(
               children: [
-                SPaddingH24(
-                  child: SSmallHeader(
-                    title: intl.send_gift_sending_asset,
-                  ),
-                ),
                 if (assets.length > 7) ...[
                   SPaddingH24(
                     child: SStandardField(
@@ -70,7 +70,7 @@ class GiftSelectAssetScreen extends StatelessWidget {
                             removeDivider: currency == assets.last,
                             onTap: () {
                               sRouter.push(
-                                 GiftReceiversDetailsRouter(currency: currency),
+                                GiftReceiversDetailsRouter(currency: currency),
                               );
                             },
                           ),
