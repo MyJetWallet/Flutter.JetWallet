@@ -63,99 +63,107 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
           title: intl.send_gift_Receiver_details,
         ),
       ),
-      child: Column(
-        children: [
-          ColoredBox(
-            color: colors.white,
-            child: SPaddingH24(
-              child: Container(
-                height: 32,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: colors.grey5,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    color: colors.black,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  labelColor: colors.white,
-                  labelStyle: sSubtitle3Style,
-                  unselectedLabelColor: colors.grey1,
-                  unselectedLabelStyle: sSubtitle3Style,
-                  splashBorderRadius: BorderRadius.circular(16),
-                  tabs: [
-                    Tab(
-                      text: intl.send_gift_e_mail,
-                    ),
-                    Tab(
-                      text: intl.send_gift_phone,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            color: colors.white,
-            height: 16,
-          ),
-          SizedBox(
-            height: 88,
-            child: TabBarView(
-              controller: _tabController,
+      child: CustomScrollView(
+        shrinkWrap: true,
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
               children: [
                 ColoredBox(
                   color: colors.white,
+                  child: SPaddingH24(
+                    child: Container(
+                      height: 32,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: colors.grey5,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: TabBar(
+                        controller: _tabController,
+                        indicator: BoxDecoration(
+                          color: colors.black,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        labelColor: colors.white,
+                        labelStyle: sSubtitle3Style,
+                        unselectedLabelColor: colors.grey1,
+                        unselectedLabelStyle: sSubtitle3Style,
+                        splashBorderRadius: BorderRadius.circular(16),
+                        tabs: [
+                          Tab(
+                            text: intl.send_gift_e_mail,
+                          ),
+                          Tab(
+                            text: intl.send_gift_phone,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: colors.white,
+                  height: 16,
+                ),
+                SizedBox(
+                  height: 88,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      ColoredBox(
+                        color: colors.white,
+                        child: Observer(
+                          builder: (context) {
+                            return EmailFieldTab(store: store);
+                          },
+                        ),
+                      ),
+                      Observer(
+                        builder: (_) => PhoneNumberFieldTab(
+                          store: store,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                SPaddingH24(
                   child: Observer(
                     builder: (context) {
-                      return EmailFieldTab(store: store);
+                      return GiftPolicyCheckbox(
+                        isChecked: store.checkIsSelected,
+                        onCheckboxTap: store.onChangedCheck,
+                      );
                     },
                   ),
                 ),
                 Observer(
-                  builder: (_) => PhoneNumberFieldTab(
-                    store: store,
-                  ),
+                  builder: (context) {
+                    return ContinueButton(
+                      isValid: store.isformValid,
+                      onTab: () {
+                        FocusScope.of(context).unfocus();
+                        sendGiftStore.setReceiverInformation(
+                          selectedContactType: store.selectedContactType,
+                          email: store.email,
+                          newPhoneBody: store.phoneBody,
+                          newPhoneCountryCode: store.phoneCountryCode,
+                        );
+                        sRouter.push(
+                          GiftAmountRouter(sendGiftStore: sendGiftStore),
+                        );
+                      },
+                    );
+                  },
+                ),
+                ColoredBox(
+                  color: colors.grey5,
+                  child: const SpaceH31(),
                 ),
               ],
             ),
-          ),
-          const Spacer(),
-          SPaddingH24(
-            child: Observer(
-              builder: (context) {
-                return GiftPolicyCheckbox(
-                  isChecked: store.checkIsSelected,
-                  onCheckboxTap: store.onChangedCheck,
-                );
-              },
-            ),
-          ),
-          Observer(
-            builder: (context) {
-              return ContinueButton(
-                isValid: store.isformValid,
-                onTab: () {
-                  FocusScope.of(context).unfocus();
-                  sendGiftStore.setReceiverInformation(
-                    selectedContactType: store.selectedContactType,
-                    email: store.email,
-                    newPhoneBody: store.phoneBody,
-                    newPhoneCountryCode: store.phoneCountryCode,
-                  );
-                  sRouter.push(
-                    GiftAmountRouter(sendGiftStore: sendGiftStore),
-                  );
-                },
-              );
-            },
-          ),
-          ColoredBox(
-            color: colors.grey5,
-            child: const SpaceH31(),
           ),
         ],
       ),
