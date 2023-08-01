@@ -28,7 +28,7 @@ void showSendOptions(
       context: context,
       then: (value) {},
       pinned: SBottomSheetHeader(
-        name: intl.sendOptions_sendTo,
+        name: intl.sendOptions_send,
       ),
       children: [
         _SendOptions(
@@ -68,7 +68,7 @@ class _SendOptions extends StatelessObserverWidget {
         if (currency.supportsByAssetWithdrawal)
           SActionItem(
             icon: const SWallet2Icon(),
-            name: intl.sendOptions_actionItemName2,
+            name: intl.sendOptions_to_crypto_wallet,
             description: intl.sendOptions_actionItemDescription2,
             onTap: () {
               Navigator.pop(context);
@@ -99,7 +99,7 @@ class _SendOptions extends StatelessObserverWidget {
         if (currency.supportIbanSendWithdrawal)
           SActionItem(
             icon: const SAccountIcon(),
-            name: intl.iban_send_name,
+            name: intl.sendOptions_to_bank_account,
             description: intl.iban_send_helper,
             onTap: () async {
               Navigator.pop(context);

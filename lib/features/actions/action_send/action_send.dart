@@ -88,7 +88,7 @@ Future<void> _showSendAction(BuildContext context) async {
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
-      name: intl.sendOptions_sendTo,
+      name: intl.sendOptions_send,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -102,7 +102,7 @@ Future<void> _showSendAction(BuildContext context) async {
         },
         amount: '',
         description: '',
-        name: intl.withdrawOptions_actionItemName1,
+        name: intl.sendOptions_to_crypto_wallet,
         helper: intl.withdrawOptions_actionItemNameDescr,
         removeDivider: true,
       ),
@@ -167,7 +167,7 @@ Future<void> _showSendAction(BuildContext context) async {
           },
           amount: '',
           description: '',
-          name: intl.iban_send_name,
+          name: intl.sendOptions_to_bank_account,
           helper: intl.iban_send_helper,
           removeDivider: true,
         ),
