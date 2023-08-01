@@ -165,7 +165,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                 ),
                 ColoredBox(
                   color: colors.grey5,
-                  child: const SpaceH31(),
+                  child: const SpaceH40(),
                 ),
               ],
             ),
