@@ -49,26 +49,36 @@ class GiftAmount extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          const SpaceH46(),
-          Observer(
-            builder: (context) {
-              return SActionPriceField(
-                widgetSize: widgetSizeFrom(deviceSize),
-                price: volumeFormat(
-                  prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
-                  decimal: Decimal.parse(geftSendAmountStore.withAmount),
-                  symbol: geftSendAmountStore.selectedCurrency.symbol,
-                  accuracy: sendGiftStore.currency.accuracy,
-                ),
-                helper: '',
-                error: geftSendAmountStore.withAmmountInputError ==
-                        InputError.limitError
-                    ? geftSendAmountStore.limitError
-                    : geftSendAmountStore.withAmmountInputError.value(),
-                isErrorActive:
-                    geftSendAmountStore.withAmmountInputError.isActive,
-              );
-            },
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
+          ),
+          Baseline(
+              baseline: deviceSize.when(
+                small: () => 32,
+                medium: () => 31,
+              ),
+              baselineType: TextBaseline.alphabetic,
+            child: Observer(
+              builder: (context) {
+                return SActionPriceField(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  price: volumeFormat(
+                    prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
+                    decimal: Decimal.parse(geftSendAmountStore.withAmount),
+                    symbol: geftSendAmountStore.selectedCurrency.symbol,
+                    accuracy: sendGiftStore.currency.accuracy,
+                  ),
+                  helper: '',
+                  error: geftSendAmountStore.withAmmountInputError ==
+                          InputError.limitError
+                      ? geftSendAmountStore.limitError
+                      : geftSendAmountStore.withAmmountInputError.value(),
+                  isErrorActive:
+                      geftSendAmountStore.withAmmountInputError.isActive,
+                );
+              },
+            ),
           ),
           const Spacer(),
           const GiftSendType(),

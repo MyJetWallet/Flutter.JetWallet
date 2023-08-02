@@ -32,7 +32,16 @@ class GiftSendType extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SpaceW19(), // + 1px border
-                const SGiftSendIcon(),
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: const ShapeDecoration(
+                    color: Color(0xFF374CFA),
+                    shape: OvalBorder(),
+                  ),
+                  padding: const EdgeInsets.all(7),
+                  child: SGiftSendIcon(color: SColorsLight().white),
+                ),
                 const SpaceW10(),
                 Expanded(
                   child: Column(

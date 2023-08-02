@@ -6,12 +6,14 @@ import 'package:simple_kit/utils/enum.dart';
 import '../../light/gift_send/simple_light_gift_send_icon.dart';
 
 class SGiftSendIcon extends StatelessObserverWidget {
-  const SGiftSendIcon({Key? key}) : super(key: key);
+  const SGiftSendIcon({Key? key, this.color}) : super(key: key);
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
-        ? const SimpleLightGiftSendIcon()
-        : const SimpleLightGiftSendIcon();
+        ? SimpleLightGiftSendIcon(color: color)
+        : SimpleLightGiftSendIcon(color: color);
   }
 }
