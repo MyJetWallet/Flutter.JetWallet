@@ -19,7 +19,7 @@ class EmptyPortfolioBodyTitle extends StatelessObserverWidget {
       text: TextSpan(
         children: [
           TextSpan(
-            text: intl.emptyPortfolioBodyTitle_earn,
+            text: '',
             style: sTextH3Style.copyWith(
               color: colors.black,
             ),

@@ -73,14 +73,6 @@ class AboutUs extends StatelessObserverWidget {
             const SpaceH20(),
           ],
           if (privacyEarnLink.isNotEmpty) ...[
-            Row(
-              children: [
-                SimpleAccountTermButton(
-                  name: intl.aboutUs_termButton4,
-                  onTap: () => launchURL(context, privacyEarnLink),
-                ),
-              ],
-            ),
             const SpaceH20(),
           ],
           if (privacyPolicyLink.isNotEmpty) ...[
@@ -129,26 +121,10 @@ class AboutUs extends StatelessObserverWidget {
           ],
           if (nftPolicyLink.isNotEmpty &&
               sSignalRModules.clientDetail.isNftEnable) ...[
-            Row(
-              children: [
-                SimpleAccountTermButton(
-                  name: intl.aboutUs_termButton7,
-                  onTap: () => launchURL(context, nftPolicyLink),
-                ),
-              ],
-            ),
             const SpaceH20(),
           ],
           if (nftTermsLink.isNotEmpty &&
               sSignalRModules.clientDetail.isNftEnable) ...[
-            Row(
-              children: [
-                SimpleAccountTermButton(
-                  name: intl.aboutUs_termButton8,
-                  onTap: () => launchURL(context, nftTermsLink),
-                ),
-              ],
-            ),
             const SpaceH20(),
           ],
           const SpaceH40(),

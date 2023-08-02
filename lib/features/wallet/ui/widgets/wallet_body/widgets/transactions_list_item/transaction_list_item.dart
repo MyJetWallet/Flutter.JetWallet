@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
@@ -242,7 +241,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       transactionListItem.earnInfo?.totalBalance ==
                           transactionListItem.balanceChange.abs())
                     TransactionListItemText(
-                      text: '${intl.earn_with} ${volumeFormat(
+                      text: ' ${volumeFormat(
                         prefix: baseCurrency.prefix,
                         decimal: transactionListItem.earnInfo!.totalBalance *
                             currency.currentPrice,

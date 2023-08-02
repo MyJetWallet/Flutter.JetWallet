@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_asset_store.dart';
-import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
@@ -194,40 +193,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
                         symbol: to.symbol,
                       )}',
                     ),
-                  if (state.recurring) ...[
-                    SActionConfirmText(
-                      name: intl.account_recurringBuy,
-                      baseline: 35.0,
-                      contentLoading: state.union is QuoteLoading,
-                      value: '${recurringBuysOperationName(
-                        state.recurringType,
-                      )} - ${formatDateToHm(
-                        state.recurringBuyInfo?.nextExecutionTime,
-                      )}',
-                    ),
-                    const SpaceH20(),
-                    Text(
-                      '${intl.previewBuyWith_theAmountOf}'
-                      ' ${state.toAssetSymbol} '
-                      '${intl.previewBuyWith_text1}',
-                      style: sCaptionTextStyle.copyWith(color: colors.grey3),
-                      maxLines: 4,
-                    ),
-                    const SpaceH34(),
-                    const SDivider(),
-                    const SpaceH5(),
-                    SActionConfirmText(
-                      name: intl.previewBuyWithAsset_nextPayment,
-                      baseline: 35.0,
-                      contentLoading: state.union is QuoteLoading,
-                      value: '${convertDateToTomorrowOrDate(
-                        state.recurringBuyInfo?.nextExecutionTime,
-                        context,
-                      )} - ${formatDateToHm(
-                        state.recurringBuyInfo?.nextExecutionTime,
-                      )}',
-                    ),
-                  ],
                   const SpaceH36(),
                   if (state.connectingToServer) ...[
                     const SActionConfirmAlert(),

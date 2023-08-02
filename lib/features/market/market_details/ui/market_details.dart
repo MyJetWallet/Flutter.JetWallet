@@ -23,7 +23,6 @@ import 'package:jetwallet/features/market/market_details/ui/widgets/market_stats
 import 'package:jetwallet/features/market/market_details/ui/widgets/return_rates_block/return_rates_block.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/watchlist_store.dart';
-import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';

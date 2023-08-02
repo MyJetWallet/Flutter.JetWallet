@@ -25,7 +25,6 @@ import 'package:jetwallet/features/portfolio/helper/currencies_without_balance_f
 import 'package:jetwallet/features/portfolio/helper/market_currencies_indices.dart';
 import 'package:jetwallet/features/portfolio/helper/market_fiats.dart';
 import 'package:jetwallet/features/portfolio/helper/zero_balance_wallets_empty.dart';
-import 'package:jetwallet/features/reccurring/store/recurring_buys_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -184,7 +183,6 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
         currentCandles == null || currentCandles.isEmpty;
     final balancesEmpty = areBalancesEmpty(currencies);
 
-    final notifier = RecurringBuysStore();
     final scrollController = ScrollController();
 
     String _balanceInProgressText(
@@ -209,7 +207,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
         return actualInProcessOperationName(
           currency,
           intl.portfolioWithBalanceBody_send,
-          intl.portfolioWithBalanceBody_earn,
+          '',
           intl.portfolioWithBalanceBody_simplex,
         );
       }
@@ -462,11 +460,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       child: Row(
                         children: [
                           Text(
-                            tabIndex == 0
-                                ? intl.portfolioWithBalanceBody_portfolio
-                                : userNft.isNotEmpty
-                                    ? intl.portfolioWithBalanceBody_nft
-                                    : intl.portfolioWithBalanceBody_no_nft,
+                            intl.portfolioWithBalanceBody_portfolio,
                             style: sTextH4Style,
                           ),
                           const Spacer(),

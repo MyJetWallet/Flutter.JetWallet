@@ -13,7 +13,6 @@ import 'package:jetwallet/features/account/profile_details/ui/widgets/change_pas
 import 'package:jetwallet/features/account/profile_details/ui/widgets/default_asset_change.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/set_new_password.dart';
 import 'package:jetwallet/features/account/widgets/help_center_web_view.dart';
-import 'package:jetwallet/features/actions/action_recurring_info/action_recurring_info.dart';
 import 'package:jetwallet/features/add_circle_card/ui/add_circle_card.dart';
 import 'package:jetwallet/features/add_circle_card/ui/circle_billing_address/circle_billing_address.dart';
 import 'package:jetwallet/features/app/api_selector_screen/api_selector_screen.dart';
@@ -70,7 +69,6 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/portfolio/portfolio_screen.dart';
-import 'package:jetwallet/features/reccurring/ui/widgets/recurring_success_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
@@ -84,7 +82,6 @@ import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_preview.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
-import 'package:jetwallet/features/transaction_history/ui/widgets/history_recurring_buys.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
@@ -280,14 +277,6 @@ class AppRouter extends _$AppRouter {
       page: TransactionHistoryRouter.page,
     ),
     AutoRoute(
-      path: '/recurring_success',
-      page: RecurringSuccessScreenRouter.page,
-    ),
-    AutoRoute(
-      path: '/history_recurring_buys',
-      page: HistoryRecurringBuysRouter.page,
-    ),
-    AutoRoute(
       path: '/add_circle_card',
       page: AddCircleCardRouter.page,
     ),
@@ -407,10 +396,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/signalr_info',
       page: SignalrDebugInfoRouter.page,
-    ),
-    AutoRoute(
-      path: '/show_recurring_info_action',
-      page: ShowRecurringInfoActionRouter.page,
     ),
     AutoRoute(
       path: '/send_by_phone_input',

@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/empty_wallet_with_history.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_earn_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/empty_wallet_body.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -164,14 +163,9 @@ class _EmptyWalletState extends State<EmptyWallet>
               header: SSmallHeader(
                 title: intl.portfolioHeader_balance,
               ),
-              child: (widget.currency.apy.toDouble() == 0.0)
-                  ? EmptyWalletBody(
-                      assetName: widget.currency.description,
-                    )
-                  : EmptyEarnWalletBody(
-                      assetName: widget.currency.description,
-                      apy: widget.currency.apy,
-                    ),
+              child: EmptyWalletBody(
+                assetName: widget.currency.description,
+              ),
             ),
           );
         },

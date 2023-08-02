@@ -129,7 +129,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
       return actualInProcessOperationName(
         currency,
         intl.portfolioWithBalanceBody_send,
-        intl.portfolioWithBalanceBody_earn,
+        '',
         intl.portfolioWithBalanceBody_simplex,
       );
     }

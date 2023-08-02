@@ -9,7 +9,6 @@ import 'package:jetwallet/widgets/show_start_earn_options.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'components/empty_apy_portfolio_body_image.dart';
 import 'components/empty_apy_portfolio_body_title.dart';
 
@@ -62,18 +61,7 @@ class EmptyApyPortfolioBody extends StatelessObserverWidget {
                     SPrimaryButton1(
                       active: true,
                       name: intl.emptyPortfolioBody_startEarn,
-                      onTap: () {
-                        showStartEarnBottomSheet(
-                          context: context,
-                          onTap: (CurrencyModel currency) {
-                            Navigator.pop(context);
-
-                            showStartEarnOptions(
-                              currency: currency,
-                            );
-                          },
-                        );
-                      },
+                      onTap: () {},
                     ),
                     const SpaceH24(),
                   ],
