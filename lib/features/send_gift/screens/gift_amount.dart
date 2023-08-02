@@ -1,20 +1,21 @@
 import 'package:auto_route/annotations.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/input_helpers.dart';
-import '../../../utils/helpers/string_helper.dart';
 import '../../../utils/helpers/widget_size_from.dart';
 import '../store/general_send_gift_store.dart';
 import '../store/gift_send_amount_store.dart';
 import '../widgets/gift_send_type.dart';
 
 @RoutePage(name: 'GiftAmountRouter')
-class GiftAmount extends StatelessWidget {
+class GiftAmount extends StatelessObserverWidget {
   const GiftAmount({super.key, required this.sendGiftStore});
 
   final GeneralSendGiftStore sendGiftStore;
@@ -32,8 +33,12 @@ class GiftAmount extends StatelessWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
-          subTitle:
-              '''${intl.send_gift_available}: ${sendGiftStore.currency.assetBalance} ${sendGiftStore.currency.symbol}''',
+          subTitle: '${intl.send_gift_available}:${volumeFormat(
+            prefix: sendGiftStore.currency.prefixSymbol,
+            decimal: sendGiftStore.currency.assetBalance,
+            accuracy: sendGiftStore.currency.accuracy,
+            symbol: sendGiftStore.currency.symbol,
+          )}',
           subTitleStyle: const TextStyle(
             color: Color(0xFF777C85),
             fontSize: 14,
@@ -49,10 +54,11 @@ class GiftAmount extends StatelessWidget {
             builder: (context) {
               return SActionPriceField(
                 widgetSize: widgetSizeFrom(deviceSize),
-                price: formatCurrencyStringAmount(
+                price: volumeFormat(
                   prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
-                  value: geftSendAmountStore.withAmount,
+                  decimal: Decimal.parse(geftSendAmountStore.withAmount),
                   symbol: geftSendAmountStore.selectedCurrency.symbol,
+                  accuracy: sendGiftStore.currency.accuracy,
                 ),
                 helper: '',
                 error: geftSendAmountStore.withAmmountInputError ==
