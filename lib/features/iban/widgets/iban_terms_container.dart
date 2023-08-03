@@ -3,7 +3,12 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class IbanTermsContainer extends StatelessWidget {
-  const IbanTermsContainer({super.key});
+  const IbanTermsContainer({
+    super.key,
+    this.addAccount = false,
+  });
+
+  final bool addAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class IbanTermsContainer extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 88,
                 child: Text(
-                  intl.iban_terms_3,
+                  addAccount ? intl.iban_terms_4 : intl.iban_terms_3,
                   style: sBodyText2Style,
                   maxLines: 3,
                 ),

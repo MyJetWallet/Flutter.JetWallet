@@ -80,7 +80,9 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const IbanTermsContainer(),
+                    const IbanTermsContainer(
+                      addAccount: true,
+                    ),
                     SFieldDividerFrame(
                       child: SStandardField(
                         labelText: intl.iban_label,
