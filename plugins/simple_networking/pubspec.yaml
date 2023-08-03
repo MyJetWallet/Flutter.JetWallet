@@ -27,7 +27,7 @@ dependencies:
 
   # Models
   freezed_annotation: 2.4.1
-  json_annotation: 4.8.0
+  json_annotation: 4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -40,11 +40,11 @@ dev_dependencies:
   # Runner
   build_runner: 2.4.6
   freezed: 2.4.1
-  json_serializable: 6.6.1
+  json_serializable: 6.7.1
 
-dependency_overrides:
-  analyzer: 5.9.0
-  dart_style: 2.3.1
+#dependency_overrides:
+  #analyzer: 5.9.0
+  #dart_style: 2.3.1
 
 flutter:
 #  generate: true
