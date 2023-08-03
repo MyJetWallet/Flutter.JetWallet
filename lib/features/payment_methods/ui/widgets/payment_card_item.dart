@@ -10,6 +10,8 @@ class PaymentCardItem extends StatelessObserverWidget {
     Key? key,
     this.removeDivider = false,
     this.showDelete = true,
+    this.showEdit = false,
+    this.onEdit,
     required this.name,
     required this.expirationDate,
     required this.expired,
@@ -21,10 +23,12 @@ class PaymentCardItem extends StatelessObserverWidget {
 
   final bool removeDivider;
   final bool showDelete;
+  final bool showEdit;
   final String name;
   final String expirationDate;
   final bool expired;
   final Function() onDelete;
+  final Function()? onEdit;
   final Function() onTap;
   final CircleCardStatus status;
   final CircleCardNetwork network;
@@ -45,9 +49,9 @@ class PaymentCardItem extends StatelessObserverWidget {
         }
       },
       child: Container(
-        height: 64.0,
+        height: 72.0,
         padding: const EdgeInsets.only(
-          top: 9.0,
+          top: 12.0,
           left: 24.0,
           right: 24.0,
         ),
@@ -83,6 +87,14 @@ class PaymentCardItem extends StatelessObserverWidget {
                               child: SIconButton(
                                 onTap: onDelete,
                                 defaultIcon: const SDeleteIcon(),
+                              ),
+                            ),
+                          if (showEdit)
+                            SIconButton(
+                              onTap: onEdit,
+                              defaultIcon: const SEditIcon(),
+                              pressedIcon: const SEditIcon(
+                                color: Color(0xFFA8B0BA),
                               ),
                             ),
                         ],

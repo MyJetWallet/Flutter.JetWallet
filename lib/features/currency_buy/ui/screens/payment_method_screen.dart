@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/bank_card/add_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -111,19 +112,16 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
         !(state.unlimintAltCards.isNotEmpty && unlimintAltIncludes.isNotEmpty);
 
     void showDeleteDisclaimer({required VoidCallback onDelete}) {
-      sAnalytics.newBuyTapDelete();
-      sAnalytics.newBuyDeleteView();
-
       return sShowAlertPopup(
         context,
         primaryText: '${intl.paymentMethod_showAlertPopupPrimaryText}?',
-        secondaryText: '${intl.paymentMethod_showAlertPopupSecondaryFullText}?',
+        secondaryText:
+            '${intl.paymentMethod_showAlertPopupSecondaryDescrText}?',
         primaryButtonName: intl.paymentMethod_yesDelete,
         secondaryButtonName: intl.paymentMethod_cancel,
         primaryButtonType: SButtonType.primary3,
         onPrimaryButtonTap: onDelete,
         onSecondaryButtonTap: () {
-          sAnalytics.newBuyTapCancelDelete();
           Navigator.pop(context);
         },
       );
@@ -140,18 +138,17 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
       final isUserVerified = kycState.depositStatus != status &&
           kycState.sellStatus != status &&
           kycState.withdrawalStatus != status;
-      sAnalytics.newBuyEnterCardDetailsView(nameVisible: '${!isUserVerified}');
       Navigator.push(
         context,
         PageRouteBuilder(
           opaque: false,
           barrierColor: Colors.white,
           pageBuilder: (BuildContext context, _, __) {
-            return AddBankCard(
+            return AddBankCardScreen(
               onCardAdded: () {},
               amount: '',
               isPreview: true,
-              currency: widget.currency,
+              //currency: widget.currency,
             );
           },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -213,9 +210,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       name: intl.currencyBuy_card,
                       description: intl.curencyBuy_actionItemDescription,
                       onTap: () {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -277,9 +271,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       description:
                           intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                       onTap: () {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -333,9 +324,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -380,9 +368,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -428,9 +413,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
                       if (cardLimit?.barProgress != 100 &&
                           !isLimitBlock &&
                           !state.editMode) {
-                        sAnalytics.newBuyBuyAssetView(
-                          asset: widget.currency.symbol,
-                        );
                         sRouter.push(
                           CurrencyBuyRouter(
                             currency: widget.currency,
@@ -478,7 +460,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
           showEditButton: !isEmptyPaymentCards && !state.editMode,
           showDoneButton: !isEmptyPaymentCards && state.editMode,
           onEditButtonTap: () {
-            sAnalytics.newBuyTapEdit();
             state.toggleEditMode();
           },
           onDoneButtonTap: () {

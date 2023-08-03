@@ -120,7 +120,7 @@ Future<RefreshTokenStatus> refreshToken({
         /// Recreating a dio object with a token
         await getIt.get<SNetwork>().init(getIt<AppStore>().sessionID);
         if (updateSignalR) {
-          await getIt.get<SignalRService>().reCreateSignalR();
+          await getIt.get<SignalRService>().forceReconnectSignalR();
         }
 
         //getIt<SignalRService>().signalR.setUserToken(

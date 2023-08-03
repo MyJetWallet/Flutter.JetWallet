@@ -42,6 +42,14 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
       child: Column(
         children: [
           TransactionDetailsItem(
+            text: intl.date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SpaceH18(),
+          TransactionDetailsItem(
             text: intl.earn_transaction_id,
             value: Row(
               children: [
@@ -63,14 +71,6 @@ class EarningWithdrawalDetails extends StatelessObserverWidget {
                   pressedIcon: const SCopyPressedIcon(),
                 ),
               ],
-            ),
-          ),
-          const SpaceH18(),
-          TransactionDetailsItem(
-            text: intl.date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           const SpaceH18(),

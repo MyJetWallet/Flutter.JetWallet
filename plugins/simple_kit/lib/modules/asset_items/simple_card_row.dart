@@ -110,8 +110,8 @@ class SCardRow extends StatelessWidget {
                   if (rightIcon != null) rightIcon!,
                 ],
               ),
-              const Spacer(),
               if (!removeDivider) ...[
+                const Spacer(),
                 if (divider) ...[
                   const Padding(
                     padding: EdgeInsets.only(top: 20),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/shared/simple_divider.dart';
@@ -55,9 +56,23 @@ class SMarketItem extends StatelessWidget {
                         Baseline(
                           baseline: 18.0,
                           baselineType: TextBaseline.alphabetic,
-                          child: Text(
+                          child: AutoSizeText(
                             name,
-                            style: sSubtitle2Style,
+                            minFontSize: 4.0,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            strutStyle: const StrutStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                              height: 1.56,
+                              fontFamily: 'Gilroy',
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600,
+                              height: 1.56,
+                              fontFamily: 'Gilroy',
+                            ),
                           ),
                         ),
                         Baseline(

@@ -20,6 +20,8 @@ import 'package:simple_networking/modules/signal_r/models/global_send_methods_mo
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
+import '../../pin_screen/model/pin_flow_union.dart';
+
 @RoutePage(name: 'SendGloballyConfirmRouter')
 class SendGloballyConfirmScreen extends StatelessWidget {
   const SendGloballyConfirmScreen({
@@ -264,7 +266,16 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    state.confirmSendGlobally();
+                    sRouter.push(
+                      PinScreenRoute(
+                        union: const Change(),
+                        isChangePhone: true,
+                        onChangePhone: (String newPin) {
+                          sRouter.pop();
+                          state.confirmSendGlobally(newPin: newPin);
+                        },
+                      ),
+                    );
                   },
                 ),
               ],

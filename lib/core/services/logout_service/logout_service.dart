@@ -123,6 +123,7 @@ abstract class _LogoutServiceBase with Store {
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
+      await getIt.get<SignalRService>().killSignalR();
 
       _logger.log(
         level: Level.debug,

@@ -1,5 +1,6 @@
 /// The data we send together with event
 class PropertyType {
+  static const kycStatus = 'KYCStatus';
   static const techAcc = 'TechAcc';
   static const sourceCurrency = 'Source Currency';
   static const sourceAmount = 'Source Amount';
@@ -18,4 +19,7 @@ class PropertyType {
   static const newBuyPreset = 'Preset';
   static const biometric = 'Face ID/biometrics';
   static const source = 'Source';
+  static const paymentMethodType = 'Payment Method type';
+  static const paymentMethodName = 'Payment Method name';
+  static const paymentMethodCurrency = 'Payment Method currency';
 }

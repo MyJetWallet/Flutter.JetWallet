@@ -208,17 +208,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
         isPaymentMethodActive[0].paymentAssets != null &&
         isPaymentMethodActive[0].paymentAssets!.isNotEmpty;
 
-    void showLimits() {
-      sAnalytics.newBuyTapCardLimits();
-      if (state.limitByAsset != null) {
-        sAnalytics.newBuyCardLimitsView();
-        showCardLimitsBottomSheet(
-          context: context,
-          cardLimits: state.limitByAsset!,
-          currency: state.paymentCurrency,
-        );
-      }
-    }
+    void showLimits() {}
 
     return SPageFrame(
       loaderText: intl.curencyBuy_pleaseWait,
@@ -249,12 +239,10 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     additionalWidget: GestureDetector(
                       onTap: () {
-                        sAnalytics.newBuyTapCurrency();
                         if ((state.selectedPaymentMethod?.paymentAssets
                                     ?.length ??
                                 0) >
                             1) {
-                          sAnalytics.newBuyChooseCurrencyView();
                           showPaymentCurrenciesBottomSheet(
                             context: context,
                             header: intl.currencyBuy_chooseCurrency,
@@ -581,14 +569,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                       PaymentMethodType.simplex) {
                     state.disableSubmit = true;
                     state.loader.startLoading();
-                    sAnalytics.newBuyTapContinue(
-                      sourceCurrency: state.paymentCurrency?.symbol ?? '',
-                      destinationCurrency: state.currencyModel.symbol,
-                      paymentMethod: 'Simplex',
-                      sourceAmount: state.inputValue,
-                      destinationAmount: state.conversionText(widget.currency),
-                      quickAmount: state.tappedPreset ?? 'false',
-                    );
 
                     final response = await state.makeSimplexRequest();
 
@@ -604,8 +584,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     }
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.circleCard) {
-                    sAnalytics.newBuyOrderSummaryView();
-
                     await sRouter.push(
                       PreviewBuyWithCircleRouter(
                         input: PreviewBuyWithCircleInput(
@@ -621,7 +599,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.unlimintCard) {
-                    sAnalytics.newBuyOrderSummaryView();
                     await sRouter.push(
                       PreviewBuyWithUnlimintRouter(
                         input: PreviewBuyWithUnlimintInput(
@@ -636,7 +613,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     );
                   } else if (state.selectedPaymentMethod?.id ==
                       PaymentMethodType.bankCard) {
-                    sAnalytics.newBuyOrderSummaryView();
                     if (state.pickedAltUnlimintCard == null) {
                       await sRouter.push(
                         PreviewBuyWithBankCardRouter(

@@ -189,7 +189,7 @@ class _BiometricBody extends StatelessObserverWidget {
                       }
                     },
                   ),
-                  const SpaceH24(),
+                  const SpaceH42(),
                 ],
               ),
             ),

@@ -44,6 +44,11 @@ abstract class _PaymentMethodsStoreBase with Store {
     cardsIds = ObservableList.of(kV.cards?.value ?? <String>[]);
 
     getCards();
+
+    reaction(
+      (_) => userCards,
+      (msg) => _updateUnion(const PaymentMethodsUnion.success()),
+    );
   }
 
   static final _logger = Logger('PaymentMethodsStore');
@@ -63,6 +68,14 @@ abstract class _PaymentMethodsStoreBase with Store {
   @observable
   PaymentMethodsUnion union = const PaymentMethodsUnion.loading();
 
+  @computed
+  bool get isShowAccounts => sSignalRModules.currenciesList
+      .where((element) => element.supportIbanSendWithdrawal)
+      .isNotEmpty;
+
+  @computed
+  List<CircleCard> get userCards => sSignalRModules.cards.cardInfos;
+
   bool cardsLoaded = false;
   bool addressBookLoaded = false;
 
@@ -71,73 +84,45 @@ abstract class _PaymentMethodsStoreBase with Store {
     cardsLoaded = false;
 
     _logger.log(notifier, 'getCards');
-    Timer(const Duration(seconds: 2), () {
-      cards = ObservableList.of(sSignalRModules.cards.cardInfos);
-    });
+    cards = ObservableList.of(sSignalRModules.cards.cardInfos);
 
-    final allPaymentMethods = sSignalRModules.paymentMethods;
-    final useCircleCard =
-        allPaymentMethods.contains('PaymentMethodType.circleCard');
+    cardsLoaded = true;
+  }
 
-    if (useCircleCard) {
-      _updateUnion(const PaymentMethodsUnion.loading());
-      try {
-        final response = await sNetwork.getWalletModule().getAllCards();
+  @action
+  Future<void> clearData() async {
+    _updateUnion(const PaymentMethodsUnion.loading());
 
-        response.pick(
-          onData: (data) async {
-            cards = ObservableList.of(cardModel.cardInfos);
+    await getCards();
 
-            final cardsFailing = data.cards
-                .where(
-                  (element) => element.status == CircleCardStatus.failed,
-                )
-                .toList();
-            if (cardsFailing.isNotEmpty &&
-                cardsFailing.any((element) => !cardsIds.contains(element.id))) {
-              for (final card in cardsFailing) {
-                if (!cardsIds.contains(card.id)) {
-                  await addCardToKeyValue(card.id);
-                }
-              }
-              showFailure();
-            }
-            _updateUnion(const PaymentMethodsUnion.success());
+    //;
 
-            cardsLoaded = true;
-          },
-          onError: (error) {},
-        );
-      } catch (e) {
-        await Future.delayed(const Duration(seconds: 5));
-        await getCards();
-      }
-    } else {
+    Future.delayed(const Duration(seconds: 3), () {
       _updateUnion(const PaymentMethodsUnion.success());
-
-      cardsLoaded = true;
-    }
+    });
   }
 
   @action
   Future<void> getAddressBook() async {
     addressBookLoaded = false;
 
-    final response = await sNetwork.getWalletModule().getAddressBook('');
+    if (isShowAccounts) {
+      final response = await sNetwork.getWalletModule().getAddressBook('');
 
-    response.pick(
-      onData: (data) {
-        addressBookContacts = ObservableList.of(data.contacts ?? []);
+      response.pick(
+        onData: (data) {
+          addressBookContacts = ObservableList.of(data.contacts ?? []);
 
-        addressBookContacts.sort((a, b) {
-          return b.weight!.compareTo(a.weight!);
-        });
+          addressBookContacts.sort((a, b) {
+            return b.weight!.compareTo(a.weight!);
+          });
 
-        addressBookLoaded = true;
+          addressBookLoaded = true;
 
-        _updateUnion(const PaymentMethodsUnion.success());
-      },
-    );
+          _updateUnion(const PaymentMethodsUnion.success());
+        },
+      );
+    }
 
     addressBookLoaded = true;
     _updateUnion(const PaymentMethodsUnion.success());

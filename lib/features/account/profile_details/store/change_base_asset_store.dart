@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/wallet_api/models/base_asset/set_base_assets_request_model.dart';
 
 part 'change_base_asset_store.g.dart';
@@ -19,9 +20,13 @@ class ChangeBaseAssetStore = _ChangeBaseAssetStoreBase
 
 abstract class _ChangeBaseAssetStoreBase with Store {
   _ChangeBaseAssetStoreBase() {
+    loader = StackLoaderStore();
     _init();
   }
   static final _logger = Logger('ChangeBaseAssetStore');
+
+  @observable
+  StackLoaderStore? loader;
 
   @observable
   String checkedAsset = '';
@@ -35,6 +40,7 @@ abstract class _ChangeBaseAssetStoreBase with Store {
 
     if (newAsset != checkedAsset) {
       try {
+        loader!.startLoading();
         final model = SetBaseAssetsRequestModel(
           assetSymbol: newAsset,
         );
@@ -53,7 +59,6 @@ abstract class _ChangeBaseAssetStoreBase with Store {
           ),
         );
         setBaseAsset(newAsset);
-        await sRouter.pop();
       } catch (e) {
         _logger.log(stateFlow, 'changeBaseAsset', e);
       }
@@ -66,6 +71,15 @@ abstract class _ChangeBaseAssetStoreBase with Store {
   void setBaseAsset(String newAsset) {
     _logger.log(notifier, 'setBaseAsset');
     checkedAsset = newAsset;
+  }
+
+  @action
+  Future<void> finishLoading() async {
+    if (loader!.loading) {
+      loader!.finishLoading();
+      loader!.finishLoadingImmediately();
+      await sRouter.pop();
+    }
   }
 
   @action

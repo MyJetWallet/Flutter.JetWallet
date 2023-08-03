@@ -108,6 +108,9 @@ abstract class _SendGloballyAmountStoreBase with Store {
       isMin: false,
     );
 
+    print('Min: $minLim, Rounded: $minLimRounded');
+    print('Max: $maxLim, Rounded: $maxLimRounded');
+
     if (minLimRounded >= maxLimRounded) {
       minLimitAmount = minLim;
       maxLimitAmount = maxLim;

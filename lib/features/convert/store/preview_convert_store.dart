@@ -1,6 +1,7 @@
 // ignore_for_file: use_setters_to_change_properties
 
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -25,10 +27,15 @@ part 'preview_convert_store.g.dart';
 class PreviewConvertStore extends _PreviewConvertStoreBase
     with _$PreviewConvertStore {
   PreviewConvertStore(PreviewConvertInput input) : super(input);
+
+  static PreviewConvertStore of(BuildContext context) =>
+      Provider.of<PreviewConvertStore>(context, listen: false);
 }
 
 abstract class _PreviewConvertStoreBase with Store {
   _PreviewConvertStoreBase(this.input) {
+    log(input.toString());
+
     _updateFrom(input);
     requestQuote();
   }
@@ -98,6 +105,7 @@ abstract class _PreviewConvertStoreBase with Store {
   Future<void> requestQuote() async {
     _logger.log(notifier, 'requestQuote');
 
+    //union = const QuoteLoading();
     union = const QuoteLoading();
 
     final model = GetQuoteRequestModel(
@@ -152,11 +160,18 @@ abstract class _PreviewConvertStoreBase with Store {
     }
   }
 
+  bool waitQuote = false;
+
   @action
   Future<void> executeQuote() async {
+    if (waitQuote) return;
+
+    waitQuote = true;
+
     _logger.log(notifier, 'executeQuote');
 
-    union = const ExecuteLoading();
+    //union = const ExecuteLoading();
+    union = const QuoteSuccess();
 
     try {
       final model = ExecuteQuoteRequestModel(
@@ -173,6 +188,8 @@ abstract class _PreviewConvertStoreBase with Store {
 
       response.pick(
         onData: (data) {
+          waitQuote = false;
+
           if (data.isExecuted) {
             _timer.cancel();
             _showSuccessScreen();
@@ -192,6 +209,7 @@ abstract class _PreviewConvertStoreBase with Store {
 
           _timer.cancel();
           _showFailureScreen(error);
+          waitQuote = false;
         },
       );
     } on ServerRejectException catch (error) {
@@ -199,12 +217,16 @@ abstract class _PreviewConvertStoreBase with Store {
 
       _timer.cancel();
       _showFailureScreen(error);
+      waitQuote = false;
     } catch (error) {
       _logger.log(stateFlow, 'executeQuote', error);
 
       _timer.cancel();
       _showNoResponseScreen();
+      waitQuote = false;
     }
+
+    waitQuote = false;
   }
 
   @action

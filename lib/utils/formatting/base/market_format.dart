@@ -36,8 +36,8 @@ String marketFormat({
 
   late String formattedWithSymbol;
 
-  formattedWithSymbol =
-      prefix == null ? '$formatted $symbol' : '$prefix$formatted';
+  formattedWithSymbol = '$formatted $symbol';
+  //prefix == null ? '$formatted $symbol' : '$prefix$formatted';
 
   return decimal.signum.isNegative
       ? '-$formattedWithSymbol'

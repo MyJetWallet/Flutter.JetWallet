@@ -4,6 +4,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -94,16 +95,13 @@ class _ActionButtonState extends State<ActionButton> {
 
     void _onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-        sRouter.navigate(
-          PaymentMethodRouter(currency: widget.currency),
-        );
+        showBuyPaymentCurrencyBottomSheet(context, widget.currency);
       } else {
         kycAlertHandler.handle(
           status: kycState.depositStatus,
           isProgress: kycState.verificationInProgress,
-          currentNavigate: () => sRouter.navigate(
-            PaymentMethodRouter(currency: widget.currency),
-          ),
+          currentNavigate: () =>
+              showBuyPaymentCurrencyBottomSheet(context, widget.currency),
           requiredDocuments: kycState.requiredDocuments,
           requiredVerifications: kycState.requiredVerifications,
         );

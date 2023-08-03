@@ -89,9 +89,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
           ? WaitingScreen(
               wasAction: state.wasAction,
               onSkip: () {
-                sAnalytics.newBuyTapCloseProcessing(
-                  firstTimeBuy: '${!hideCheckbox}',
-                );
                 state.skippedWaiting();
               },
             )
@@ -247,7 +244,6 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                         children: [
                           SIconButton(
                             onTap: () {
-                              sAnalytics.newBuyTapAgreement();
                               state.checkSetter();
                             },
                             defaultIcon: icon,

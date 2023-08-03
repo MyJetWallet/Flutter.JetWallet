@@ -274,6 +274,7 @@ abstract class _SendCardDetailStoreBase with Store {
       ifscCode: ifscCode,
       bankAccount: bankAccount,
       wise: wise,
+      pin: '',
     );
 
     sRouter.push(

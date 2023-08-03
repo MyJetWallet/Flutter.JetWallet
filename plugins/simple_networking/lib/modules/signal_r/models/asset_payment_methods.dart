@@ -32,7 +32,7 @@ class PaymentMethod with _$PaymentMethod {
   const factory PaymentMethod({
     @PaymentTypeSerialiser()
     @JsonKey(name: 'name')
-        required PaymentMethodType type,
+    required PaymentMethodType type,
     required double minAmount,
     required double maxAmount,
     required double availableAmount,
@@ -40,6 +40,12 @@ class PaymentMethod with _$PaymentMethod {
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) =>
       _$PaymentMethodFromJson(json);
+}
+
+enum PaymentMethodCategory {
+  p2p,
+  cards,
+  local,
 }
 
 enum PaymentMethodType {
@@ -52,6 +58,23 @@ enum PaymentMethodType {
   applePay,
   googlePay,
   globalSend,
+  depositExpressBrasil,
+  pix,
+  picpay,
+  convenienceStore,
+  codi,
+  spei,
+  oxxo,
+  efecty,
+  baloto,
+  davivienda,
+  pagoEfectivo,
+  directBankingEurope,
+  boleto,
+  bpppix,
+  qrcode3166,
+  daviviendabank,
+  paymeP2P,
 }
 
 extension _PaymentMethodTypeExtension on PaymentMethodType {
@@ -73,6 +96,40 @@ extension _PaymentMethodTypeExtension on PaymentMethodType {
         return 'UnlimintGooglePay';
       case PaymentMethodType.globalSend:
         return 'GlobalSend';
+      case PaymentMethodType.depositExpressBrasil:
+        return 'DepositExpressBrasil';
+      case PaymentMethodType.pix:
+        return 'Pix';
+      case PaymentMethodType.picpay:
+        return 'Picpay';
+      case PaymentMethodType.convenienceStore:
+        return 'ConvenienceStore';
+      case PaymentMethodType.codi:
+        return 'Codi';
+      case PaymentMethodType.spei:
+        return 'Spei';
+      case PaymentMethodType.oxxo:
+        return 'Oxxo';
+      case PaymentMethodType.efecty:
+        return 'Efecty';
+      case PaymentMethodType.baloto:
+        return 'Baloto';
+      case PaymentMethodType.davivienda:
+        return 'Davivienda';
+      case PaymentMethodType.pagoEfectivo:
+        return 'PagoEfectivo';
+      case PaymentMethodType.directBankingEurope:
+        return 'DirectBankingEurope';
+      case PaymentMethodType.boleto:
+        return 'Boleto';
+      case PaymentMethodType.bpppix:
+        return 'bpppix';
+      case PaymentMethodType.qrcode3166:
+        return 'qrcode3166';
+      case PaymentMethodType.daviviendabank:
+        return 'daviviendabank';
+      case PaymentMethodType.paymeP2P:
+        return 'PaymeP2P';
       default:
         return 'Unsupported';
     }
@@ -105,6 +162,40 @@ class PaymentTypeSerialiser
       return PaymentMethodType.googlePay;
     } else if (value == 'GlobalSend') {
       return PaymentMethodType.globalSend;
+    } else if (value == 'DepositExpressBrasil') {
+      return PaymentMethodType.depositExpressBrasil;
+    } else if (value == 'Pix') {
+      return PaymentMethodType.pix;
+    } else if (value == 'Picpay') {
+      return PaymentMethodType.picpay;
+    } else if (value == 'ConvenienceStore') {
+      return PaymentMethodType.convenienceStore;
+    } else if (value == 'Codi') {
+      return PaymentMethodType.codi;
+    } else if (value == 'Spei') {
+      return PaymentMethodType.spei;
+    } else if (value == 'Oxxo') {
+      return PaymentMethodType.oxxo;
+    } else if (value == 'Efecty') {
+      return PaymentMethodType.efecty;
+    } else if (value == 'Baloto') {
+      return PaymentMethodType.baloto;
+    } else if (value == 'Davivienda') {
+      return PaymentMethodType.davivienda;
+    } else if (value == 'PagoEfectivo') {
+      return PaymentMethodType.pagoEfectivo;
+    } else if (value == 'DirectBankingEurope') {
+      return PaymentMethodType.directBankingEurope;
+    } else if (value == 'Boleto') {
+      return PaymentMethodType.boleto;
+    } else if (value == 'bpppix') {
+      return PaymentMethodType.bpppix;
+    } else if (value == 'qrcode3166') {
+      return PaymentMethodType.qrcode3166;
+    } else if (value == 'daviviendabank') {
+      return PaymentMethodType.daviviendabank;
+    } else if (value == 'PaymeP2P') {
+      return PaymentMethodType.paymeP2P;
     } else {
       return PaymentMethodType.unsupported;
     }
