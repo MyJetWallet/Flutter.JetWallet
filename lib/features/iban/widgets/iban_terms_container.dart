@@ -53,7 +53,7 @@ class IbanTermsContainer extends StatelessWidget {
                 child: Text(
                   addAccount ? intl.iban_terms_4 : intl.iban_terms_3,
                   style: sBodyText2Style,
-                  maxLines: 3,
+                  maxLines: 15,
                 ),
               ),
             ],
