@@ -37,6 +37,7 @@ pubspec.lock
 *.config.dart
 *.g.dart
 *.freezed.dart
+*.gr.dart
 
 # Web related
 lib/generated_plugin_registrant.dart
