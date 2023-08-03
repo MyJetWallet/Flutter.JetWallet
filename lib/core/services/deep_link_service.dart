@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/account/account_screen.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -19,7 +18,6 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
-import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -130,8 +128,6 @@ class DeepLinkService {
       _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
-    } else if (command == _earnLanding) {
-      _earnLandingCommand(source);
     } else if (command == _kycVerification) {
       _kycVerificationCommand();
     } else if (command == _tradingStart) {
@@ -343,21 +339,6 @@ class DeepLinkService {
 
       await getIt.get<ReferallCodeStore>().init();
     } catch (e) {}
-  }
-
-  void _earnLandingCommand(SourceScreen? source) {
-    final context = sRouter.navigatorKey.currentContext!;
-
-    showStartEarnBottomSheet(
-      context: context,
-      onTap: (CurrencyModel currency) {
-        sRouter.pop();
-
-        showStartEarnOptions(
-          currency: currency,
-        );
-      },
-    );
   }
 
   /// Push Notification Links

@@ -93,7 +93,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
           ),
           const Spacer(),
           Text(
-            intl.emptyEarnWalletBody_mainTextNew,
+            '',
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
               height: 1.28,
@@ -101,7 +101,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
             maxLines: 2,
           ),
           Text(
-            intl.emptyEarnWalletBody_mainTextNew2,
+            '',
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
               height: 1.28,
@@ -112,7 +112,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
           if (isShowBuy) ...[
             SPrimaryButton1(
               active: true,
-              name: intl.emptyEarnWalletBody_buyCrypto,
+              name: '',
               onTap: () {
                 sAnalytics.newBuyTapBuy(
                   source: 'My Assets - Zero Balance - Buy',

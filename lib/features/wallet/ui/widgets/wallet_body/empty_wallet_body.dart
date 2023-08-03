@@ -46,7 +46,7 @@ class EmptyWalletBody extends StatelessObserverWidget {
         ),
         const SpaceH13(),
         Text(
-          intl.historyRecurringBuy_text1,
+          '',
           textAlign: TextAlign.center,
           maxLines: 2,
           style: sBodyText1Style.copyWith(
