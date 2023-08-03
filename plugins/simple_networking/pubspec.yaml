@@ -26,7 +26,7 @@ dependencies:
   logger: ^1.1.0
 
   # Models
-  freezed_annotation: 2.2.0
+  freezed_annotation: 2.4.1
   json_annotation: 4.8.0
 
 dev_dependencies:
@@ -39,7 +39,7 @@ dev_dependencies:
 
   # Runner
   build_runner: 2.3.3
-  freezed: 2.3.2
+  freezed: 2.4.1
   json_serializable: 6.6.1
 
 dependency_overrides:

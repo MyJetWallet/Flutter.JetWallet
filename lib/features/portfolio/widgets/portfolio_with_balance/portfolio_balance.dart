@@ -203,7 +203,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     return PortfolioScreenGradient(
       child: CustomRefreshIndicator(
         offsetToArmed: 200,
-        onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
+        onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
         builder: (
           BuildContext context,
           Widget child,
@@ -369,14 +369,15 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                             );
                                           }
                                         },
-                                        removeDivider:
-                                            actualItem.isPendingDeposit ||
+                                        removeDivider: actualItem
+                                                .isPendingDeposit ||
                                             (!getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                itemsWithBalance.length - 1) ||
+                                                index ==
+                                                    itemsWithBalance.length -
+                                                        1) ||
                                             (getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                  currenciesList.length - 1),
+                                                index ==
+                                                    currenciesList.length - 1),
                                         isPendingDeposit:
                                             actualItem.isPendingDeposit,
                                       );

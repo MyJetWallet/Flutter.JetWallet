@@ -102,12 +102,14 @@ class SignalRModuleNew {
           connectionCheckCount++;
         }
 
-        log(
-          level: lg.Level.info,
-          place: _loggerValue,
-          message:
-              'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
-        );
+        if (connectionCheckCount != 0) {
+          log(
+            level: lg.Level.info,
+            place: _loggerValue,
+            message:
+                'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
+          );
+        }
 
         if (connectionCheckCount >= 3) {
           log(
@@ -123,7 +125,7 @@ class SignalRModuleNew {
     );
   }
 
-  Future<void> openConnection() async {
+  Future<bool> openConnection() async {
     log(
       level: lg.Level.warning,
       place: _loggerValue,
@@ -131,8 +133,8 @@ class SignalRModuleNew {
           'SignalR state: ${_hubConnection?.state} \n isSignalRRestarted: $isSignalRRestarted',
     );
 
-    if (isSignalRRestarted) return;
-    if (isServiceDisposed) return;
+    if (isSignalRRestarted) return false;
+    if (isServiceDisposed) return false;
 
     isSignalRRestarted = true;
 
@@ -170,6 +172,8 @@ class SignalRModuleNew {
 
     isSignalRRestarted = false;
     isDisconnecting = false;
+
+    return true;
   }
 
   Future<void> sendInitMessage(String from) async {
@@ -388,6 +392,8 @@ class SignalRModuleNew {
 
   void dispose() {
     isServiceDisposed = true;
+
+    disableHandlerConnection();
 
     _hubConnection?.stop();
     _hubConnection = null;

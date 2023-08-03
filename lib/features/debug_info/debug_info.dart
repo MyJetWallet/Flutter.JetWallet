@@ -16,6 +16,7 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/local_storage_service.dart';
@@ -214,7 +215,7 @@ class _DebugInfoState extends State<DebugInfo>
                 ),
                 TextButton(
                   onPressed: () async {
-                    getIt.get<SignalRService>().signalR!.simulateError();
+                    getIt.get<SignalRModuleNew>().simulateError();
                   },
                   child: const Text(
                     'Simulate signalr error',
@@ -222,7 +223,7 @@ class _DebugInfoState extends State<DebugInfo>
                 ),
                 TextButton(
                   onPressed: () async {
-                    await getIt.get<SignalRService>().killSignalR();
+                    await getIt.get<SignalRService>().forceReconnectSignalR();
                   },
                   child: const Text(
                     'kill signalr',
