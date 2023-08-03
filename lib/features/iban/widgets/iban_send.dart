@@ -30,20 +30,7 @@ class IbanSend extends StatelessObserverWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SpaceH8(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-            decoration: BoxDecoration(
-              color: colors.blueLight,
-            ),
-            child: Text(
-              intl.iban_send_info,
-              maxLines: 3,
-              style: sBodyText2Style,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SpaceH24(),
+          const SpaceH12(),
           SPaddingH24(
             child: InkWell(
               highlightColor: colors.grey5,

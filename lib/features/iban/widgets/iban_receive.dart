@@ -6,6 +6,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
+import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -53,6 +54,8 @@ class _IbanReceiveState extends State<IbanReceive> {
       child: Column(
         children: [
           const SpaceH12(),
+          const IbanTermsContainer(),
+          const SpaceH24(),
           SPaddingH24(
             child: DecoratedBox(
               decoration: BoxDecoration(
@@ -112,40 +115,6 @@ class _IbanReceiveState extends State<IbanReceive> {
           IBanItem(
             name: intl.iban_address,
             text: simpleCompanyAddress,
-          ),
-          const SpaceH20(),
-          SPaddingH24(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SBankIcon(),
-                const SpaceW14(),
-                Text(
-                  intl.iban_terms_1,
-                  style: sBodyText2Style,
-                ),
-              ],
-            ),
-          ),
-          const SpaceH12(),
-          SPaddingH24(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SUserIcon(
-                  color: colors.black,
-                ),
-                const SpaceW14(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 88,
-                  child: Text(
-                    intl.iban_terms_2,
-                    style: sBodyText2Style,
-                    maxLines: 3,
-                  ),
-                ),
-              ],
-            ),
           ),
           const SpaceH42(),
         ],
