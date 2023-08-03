@@ -222,10 +222,7 @@ class _DebugInfoState extends State<DebugInfo>
                 ),
                 TextButton(
                   onPressed: () async {
-                    await getIt
-                        .get<SignalRService>()
-                        .signalR!
-                        .disconnect('DEBUG');
+                    await getIt.get<SignalRService>().killSignalR();
                   },
                   child: const Text(
                     'kill signalr',

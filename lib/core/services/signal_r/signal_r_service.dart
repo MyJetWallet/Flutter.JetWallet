@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:get_it/get_it.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -17,6 +18,8 @@ import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 import 'package:simple_networking/simple_networking.dart';
 import 'package:logger/logger.dart';
 
+const String signalRSingletinName = 'SignalRModuleNew';
+
 class SignalRService {
   //late SignalRModule signalR;
   SignalRModuleNew? signalR;
@@ -28,11 +31,26 @@ class SignalRService {
   Future<void> start() async {
     await _getSignalRModule();
 
-    signalR = await createNewService();
-    await signalR!.openConnection();
+    //await signalR!.openConnection();
+
+    getIt.registerSingletonAsync<SignalRModuleNew>(
+      () async {
+        final service = await createNewService();
+        await service.openConnection();
+
+        await service.checkConnectionTimer();
+
+        return service;
+      },
+      instanceName: 'SignalRModuleNew',
+    );
 
     // Save handler
-    await signalR!.checkConnectionTimer();
+    //await Future.delayed(const Duration(milliseconds: 500), () async {
+    //  await getIt.get<SignalRModuleNew>().checkConnectionTimer();
+    //});
+
+    //GetIt.I.resetLazySingleton(instanceName: signalRSingletinName);
   }
 
   Future<void> reCreateSignalR() async {
@@ -53,6 +71,8 @@ class SignalRService {
   }
 
   Future<void> forceReconnectSignalR() async {
+    await killSignalR();
+    return;
     if (signalR != null) {
       getIt.get<SimpleLoggerService>().log(
             level: Level.wtf,
@@ -64,6 +84,9 @@ class SignalRService {
     }
 
     signalR = null;
+
+    await Future.delayed(const Duration(milliseconds: 100));
+
     signalR = await createNewService();
     await signalR!.openConnection();
 
@@ -72,11 +95,24 @@ class SignalRService {
   }
 
   Future<void> killSignalR() async {
-    if (signalR != null) {
-      await signalR!.disconnect('reCreateSignalR', force: true);
-    }
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.warning,
+          place: 'SignalRService',
+          message: 'KillSignalR Func',
+        );
 
     signalR = null;
+
+    await getIt.unregister<SignalRModuleNew>(
+      instanceName: signalRSingletinName,
+      disposingFunction: (p0) {
+        p0.dispose();
+      },
+    );
+
+    await Future.delayed(const Duration(milliseconds: 560), () {
+      start();
+    });
   }
 
   Future<void> _getSignalRModule() async {
