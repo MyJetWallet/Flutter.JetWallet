@@ -52,6 +52,11 @@ abstract class _ConvertInputStoreBase with Store {
     toAsset = to;
     toAssetList = toList;
     currencies = ObservableList.of(_currencies);
+
+    setUpdateTargetConversionPrice(
+      fromAsset!.symbol,
+      toAsset!.symbol,
+    );
   }
 
   static final _logger = Logger('ConvertInputStore');
@@ -186,6 +191,11 @@ abstract class _ConvertInputStoreBase with Store {
     toAssetAmount = _toAmount;
 
     _validateInput();
+
+    setUpdateTargetConversionPrice(
+      fromAsset!.symbol,
+      toAsset!.symbol,
+    );
   }
 
   @action
@@ -262,6 +272,11 @@ abstract class _ConvertInputStoreBase with Store {
     fromAssetEnabled = false;
 
     _truncateZerosOfAssetAmount();
+
+    setUpdateTargetConversionPrice(
+      fromAsset!.symbol,
+      toAsset!.symbol,
+    );
   }
 
   @action
@@ -272,6 +287,11 @@ abstract class _ConvertInputStoreBase with Store {
     fromAssetEnabled = true;
 
     _truncateZerosOfAssetAmount();
+
+    setUpdateTargetConversionPrice(
+      fromAsset!.symbol,
+      toAsset!.symbol,
+    );
   }
 
   /// We can select percent only from FromAssetAmount
@@ -413,6 +433,11 @@ abstract class _ConvertInputStoreBase with Store {
     }
 
     _updateInputError(error);
+
+    setUpdateTargetConversionPrice(
+      fromAsset!.symbol,
+      toAsset!.symbol,
+    );
   }
 
   @action

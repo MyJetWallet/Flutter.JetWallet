@@ -20,6 +20,9 @@ class CircleCard with _$CircleCard {
     @Default(false) bool showUaAlert,
     required bool lastUsed,
     required CircleCardInfoPayment paymentDetails,
+    String? cardLabel,
+    String? cardAssetSymbol,
+    @Default(false) bool manualAddes,
   }) = _CircleCard;
 
   factory CircleCard.fromJson(Map<String, dynamic> json) =>

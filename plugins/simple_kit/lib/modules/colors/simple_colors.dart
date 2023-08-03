@@ -29,4 +29,12 @@ abstract class SimpleColors {
   abstract Color violetLight;
   abstract Color greenLight2;
   abstract Color blueLight2;
+  abstract Color confetti1;
+  abstract Color confetti2;
+  abstract Color confetti3;
+  abstract Color confetti4;
+  abstract Color confetti5;
+  abstract Color confetti6;
+  abstract Color confetti7;
+  abstract Color confetti8;
 }

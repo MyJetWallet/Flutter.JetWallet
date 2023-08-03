@@ -1,15 +1,25 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:decimal/decimal.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 
-part 'preview_convert_input.freezed.dart';
+class PreviewConvertInput {
+  String fromAmount;
+  String toAmount;
+  CurrencyModel fromCurrency;
+  CurrencyModel toCurrency;
+  bool toAssetEnabled;
+  Decimal price;
 
-@freezed
-class PreviewConvertInput with _$PreviewConvertInput {
-  const factory PreviewConvertInput({
-    required String fromAmount,
-    required String toAmount,
-    required CurrencyModel fromCurrency,
-    required CurrencyModel toCurrency,
-    required bool toAssetEnabled,
-  }) = _PreviewConvertInput;
+  PreviewConvertInput({
+    required this.fromAmount,
+    required this.toAmount,
+    required this.fromCurrency,
+    required this.toCurrency,
+    required this.toAssetEnabled,
+    required this.price,
+  });
+
+  @override
+  String toString() {
+    return 'PreviewConvertInput(fromAmount: $fromAmount, toAmount: $toAmount, fromCurrency: $fromCurrency, toCurrency: $toCurrency, toAssetEnabled: $toAssetEnabled, price: $price)';
+  }
 }

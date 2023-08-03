@@ -134,6 +134,7 @@ flutter:
     - assets/icons/light/24x24/action_buy_with_cash/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
+    - assets/icons/light/32x32/card_bottom/
     - assets/icons/light/32x32/account_bar/
     - assets/icons/light/36x36/face_id/
     - assets/icons/light/36x36/fingerprint/

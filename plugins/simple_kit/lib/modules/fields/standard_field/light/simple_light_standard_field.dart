@@ -131,6 +131,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
               controller2.clear();
               widget.onChanged?.call('');
               widget.onErase?.call();
+              setState(() {});
             },
           ),
         ],

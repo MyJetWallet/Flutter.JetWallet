@@ -43,4 +43,28 @@ enum CirclePaymentMethod {
   applePay,
   @JsonValue(5)
   googlePay,
+  @JsonValue(102)
+  pix,
+  @JsonValue(103)
+  picpay,
+  @JsonValue(104)
+  convenienceStore,
+  @JsonValue(105)
+  codi,
+  @JsonValue(106)
+  spei,
+  @JsonValue(107)
+  oxxo,
+  @JsonValue(108)
+  efecty,
+  @JsonValue(109)
+  baloto,
+  @JsonValue(110)
+  davivienda,
+  @JsonValue(111)
+  pagoEfectivo,
+  @JsonValue(112)
+  directBankingEurope,
+  @JsonValue(300)
+  paymeP2P
 }

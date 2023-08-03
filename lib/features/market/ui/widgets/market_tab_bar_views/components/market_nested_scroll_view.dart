@@ -289,7 +289,6 @@ class __MarketNestedScrollViewBodyState
                             ),
                             name: item.name,
                             price: marketFormat(
-                              prefix: baseCurrency.prefix,
                               decimal: item.lastPrice,
                               symbol: baseCurrency.symbol,
                               accuracy: item.priceAccuracy,
@@ -356,7 +355,6 @@ class __MarketNestedScrollViewBodyState
                   ),
                   name: item.name,
                   price: marketFormat(
-                    prefix: baseCurrency.prefix,
                     decimal: item.lastPrice,
                     symbol: baseCurrency.symbol,
                     accuracy: item.priceAccuracy,

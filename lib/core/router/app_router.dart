@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/features/account/about_us/about_us.dart';
 import 'package:jetwallet/features/account/account_screen.dart';
@@ -25,6 +26,10 @@ import 'package:jetwallet/features/auth/single_sign_in/ui/sing_in.dart';
 import 'package:jetwallet/features/auth/splash/splash_screen.dart';
 import 'package:jetwallet/features/auth/user_data/ui/user_data_screen.dart';
 import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/buy_confrimation_screen.dart';
+import 'package:jetwallet/features/buy_flow/ui/payment_method_screen.dart';
+import 'package:jetwallet/features/card_coming_soon/card_screen.dart';
 import 'package:jetwallet/features/convert/model/preview_convert_input.dart';
 import 'package:jetwallet/features/convert/ui/convert.dart';
 import 'package:jetwallet/features/convert/ui/preview_convert.dart';
@@ -105,6 +110,7 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
@@ -204,6 +210,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'iban',
           page: IBanRouter.page,
+        ),
+        AutoRoute(
+          path: 'card',
+          page: CardRouter.page,
         ),
       ],
     ),
@@ -534,6 +544,18 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/global_send_payment_method',
       page: SendCardPaymentMethodRouter.page,
+    ),
+    AutoRoute(
+      path: '/buy_payment_method',
+      page: BuyPaymentMethodRoute.page,
+    ),
+    AutoRoute(
+      path: '/buy_flow_amount',
+      page: BuyAmountRoute.page,
+    ),
+    AutoRoute(
+      path: '/buy_flow_confirmation',
+      page: BuyConfirmationRoute.page,
     ),
   ];
 }

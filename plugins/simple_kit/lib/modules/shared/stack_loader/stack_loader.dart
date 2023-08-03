@@ -43,6 +43,7 @@ class _StackLoaderState extends State<StackLoader> {
     final loadSuccessValue = loadSuccessStore.loading;
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         widget.child,
         if (loadingValue) ...[

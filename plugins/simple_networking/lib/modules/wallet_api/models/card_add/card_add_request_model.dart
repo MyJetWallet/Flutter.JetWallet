@@ -12,6 +12,8 @@ class CardAddRequestModel with _$CardAddRequestModel {
     required int expMonth,
     required int expYear,
     required bool isActive,
+    final String? cardLabel,
+    final String? cardAssetSymbol,
   }) = _CardAddRequestModel;
 
   factory CardAddRequestModel.fromJson(Map<String, dynamic> json) =>

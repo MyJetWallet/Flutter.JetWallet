@@ -108,3 +108,6 @@ const fireRewardAsset = 'assets/images/fire.png';
 const ibanEuroAsset = 'assets/images/euro_logo.png';
 
 const flagsAsset = 'assets/images/flags.png';
+
+// Card page
+const simpleCardAsset = 'assets/images/card_example.png';

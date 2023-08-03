@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/wallet/store/transaction_cancel_store.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_crypto_details.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_p2p_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/buy_simplex_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
@@ -14,10 +15,12 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_nft_details.dart';
 import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/services/device_size/device_size.dart';
 import '../../../../core/services/notification_service.dart';
+import '../../../../utils/helpers/check_local_operation.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_details.dart';
@@ -83,6 +86,12 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
+    final isLocal = widget.transactionListItem.operationType ==
+      OperationType.cryptoInfo &&
+      isOperationLocal(
+        widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
+        PaymentMethodType.unsupported,
+      );
 
     void _onCopyAction() {
       sNotification.showError(
@@ -255,8 +264,8 @@ class _TransactionItemState extends State<TransactionItem>
                     ),
                   ),
                 ],
-                if (widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo ||
+                if ((widget.transactionListItem.operationType ==
+                        OperationType.cryptoInfo && !isLocal) ||
                     widget.transactionListItem.operationType ==
                         OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
@@ -264,6 +273,22 @@ class _TransactionItemState extends State<TransactionItem>
                   Material(
                     color: colors.white,
                     child: BuyCryptoDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
+                    OperationType.cryptoInfo && isLocal) ...[
+                  Material(
+                    color: colors.white,
+                    child: BuyP2PDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {
@@ -346,6 +371,22 @@ class _TransactionItemState extends State<TransactionItem>
                   Material(
                     color: colors.white,
                     child: ReferralDetails(
+                      transactionListItem: widget.transactionListItem,
+                      onCopyAction: (String text) {
+                        setState(() {
+                          copiedText = text;
+                        });
+
+                        _onCopyAction();
+                      },
+                    ),
+                  ),
+                ],
+                if (widget.transactionListItem.operationType ==
+                    OperationType.p2pBuy) ...[
+                  Material(
+                    color: colors.white,
+                    child: BuyP2PDetails(
                       transactionListItem: widget.transactionListItem,
                       onCopyAction: (String text) {
                         setState(() {

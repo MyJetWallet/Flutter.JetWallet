@@ -10,6 +10,10 @@ class ResetScrollAccount {
   ResetScrollAccount();
 }
 
+class ResetScrollCard {
+  ResetScrollCard();
+}
+
 class GetNewHistoryEvent {
   GetNewHistoryEvent();
 }

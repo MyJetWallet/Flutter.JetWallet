@@ -66,6 +66,11 @@ abstract class _AddBankCardStoreBase with Store {
   bool setYearError(bool value) => expiryYearError = value;
 
   @observable
+  bool labelError = false;
+  @action
+  bool setLabelError(bool value) => labelError = value;
+
+  @observable
   bool cvvError = false;
   @action
   bool setCvvError(bool value) => cvvError = value;
@@ -81,6 +86,8 @@ abstract class _AddBankCardStoreBase with Store {
 
   TextEditingController cardholderNameController = TextEditingController();
 
+  TextEditingController cardLabelController = TextEditingController();
+
   @observable
   String expiryYear = '';
 
@@ -89,6 +96,9 @@ abstract class _AddBankCardStoreBase with Store {
 
   @observable
   String cardholderName = '';
+
+  @observable
+  String cardLabel = '';
 
   @observable
   bool saveCard = true;
@@ -101,6 +111,9 @@ abstract class _AddBankCardStoreBase with Store {
 
   @observable
   FocusNode yearNode = FocusNode();
+
+  @observable
+  FocusNode labelNode = FocusNode();
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
@@ -195,10 +208,10 @@ abstract class _AddBankCardStoreBase with Store {
           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
         ),
         isActive: isPreview ? saveCard : true,
+        cardLabel: cardLabel.isEmpty ? null : cardLabel,
       );
 
       final newCard = await sNetwork.getWalletModule().cardAdd(model);
-      print(newCard);
 
       newCard.pick(
         onData: (data) async {
@@ -290,7 +303,6 @@ abstract class _AddBankCardStoreBase with Store {
     final finalCardNumber = cardNumber.substring(cardNumber.length - 4);
     sRouter.pop();
     Timer(const Duration(milliseconds: 500), () {
-      sAnalytics.newBuyBuyAssetView(asset: currency.symbol);
       sRouter.push(
         CurrencyBuyRouter(
           newBankCardId: cardId,
@@ -324,16 +336,47 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
+  void updateCardLabel(String label) {
+    cardLabel = label;
+  }
+
+  @action
   void updateExpiryMonth(String expiryDate) {
     _logger.log(notifier, 'updateExpiryMonth');
 
-    expiryMonth = expiryDate;
+    if (expiryDate == '2') {
+      expiryMonth = '02';
+      expiryMonthController.text = '02';
+    } else if (expiryDate == '1') {
+      expiryMonth = '01';
+      expiryMonthController.text = '01';
+    }
 
+    if (expiryDate.length >= 4) {
+      var sp = expiryDate.split('/');
+
+      expiryMonth = sp.first;
+      expiryYear = sp[1];
+
+      if ((expiryYear.length == 4 || expiryYear.length == 2) &&
+          expiryYear != '20') {
+        expiryMonthError = !isExpiryMonthValid;
+        expiryYearError = !isExpiryYearValid;
+      } else {
+        expiryMonthError = false;
+        expiryYearError = false;
+      }
+    } else {
+      expiryMonthError = false;
+      expiryYearError = false;
+    }
+
+    /*
     if (expiryDate.length >= 2) {
       if (isExpiryMonthValid) {
         expiryMonthError = false;
-        monthNode.nextFocus();
-        yearNode.requestFocus();
+        //monthNode.nextFocus();
+        //yearNode.requestFocus();
         updateExpiryYear(expiryYear);
       } else {
         expiryMonthError = true;
@@ -348,6 +391,7 @@ abstract class _AddBankCardStoreBase with Store {
       }
       expiryMonthError = false;
     }
+    */
   }
 
   @action

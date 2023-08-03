@@ -242,6 +242,10 @@ class WalletApiRepository {
     return _walletApiDataSources.getProfileInfoRequest();
   }
 
+  Future<DC<ServerRejectException, void>> postCardSoon() async {
+    return _walletApiDataSources.postCardSoonRequest();
+  }
+
   Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
       postCardBuyCreate(
     CardBuyCreateRequestModel model,
@@ -286,15 +290,23 @@ class WalletApiRepository {
   }
 
   Future<DC<ServerRejectException, bool>> postCardBuyExecute(
-    CardBuyExecuteRequestModel model,
-  ) async {
-    return _walletApiDataSources.postCardBuyExecuteRequest(model);
+    CardBuyExecuteRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
+    return _walletApiDataSources.postCardBuyExecuteRequest(
+      model,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<DC<ServerRejectException, CardBuyInfoResponseModel>> postCardBuyInfo(
-    CardBuyInfoRequestModel model,
-  ) async {
-    return _walletApiDataSources.postCardBuyInfoRequest(model);
+    CardBuyInfoRequestModel model, {
+    CancelToken? cancelToken,
+  }) async {
+    return _walletApiDataSources.postCardBuyInfoRequest(
+      model,
+      cancelToken: cancelToken,
+    );
   }
 
   Future<DC<ServerRejectException, DisclaimersResponseModel>>
@@ -574,6 +586,16 @@ class WalletApiRepository {
     );
   }
 
+  Future<DC<ServerRejectException, void>> updateCardLabel(
+    String cardId,
+    String label,
+  ) async {
+    return _walletApiDataSources.updateCardLabel(
+      cardId,
+      label,
+    );
+  }
+
   Future<DC<ServerRejectException, CardCheckResponseModel>> cardCheck(
     CardCheckRequestModel model,
   ) async {
@@ -626,13 +648,17 @@ class WalletApiRepository {
     String? promocode,
   }) async {
     return _walletApiDataSources.getNFTMarketPreviewBuyRequest(
-        symbol, promocode,);
+      symbol,
+      promocode,
+    );
   }
 
   Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
       getNFTMarketPreviewSell(String symbol, String assetSymbol) async {
     return _walletApiDataSources.getNFTMarketPreviewSellRequest(
-        symbol, assetSymbol,);
+      symbol,
+      assetSymbol,
+    );
   }
 
   Future<DC<ServerRejectException, bool>> postNFTMarketMakeSellOrder(

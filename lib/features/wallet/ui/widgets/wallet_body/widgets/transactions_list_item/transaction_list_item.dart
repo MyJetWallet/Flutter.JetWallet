@@ -285,6 +285,8 @@ class TransactionListItem extends StatelessObserverWidget {
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.ibanDeposit:
         return SReceiveByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.p2pBuy:
+        return SPlusIcon(color: isFailed ? color : null);
       case OperationType.buy:
         return const SActionConvertIcon();
       case OperationType.sell:

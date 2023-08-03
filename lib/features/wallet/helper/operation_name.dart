@@ -10,11 +10,11 @@ String operationName(
 }) {
   switch (type) {
     case OperationType.deposit:
-      return '${intl.operationName_deposit} $asset';
+      return '${intl.operationName_received} $asset';
     case OperationType.ibanDeposit:
-      return '${intl.operationName_deposit} $asset';
+      return '${intl.operationName_received} $asset';
     case OperationType.withdraw:
-      return '${intl.operationName_withdrawal} $asset';
+      return intl.operationName_sent;
     case OperationType.transferByPhone:
       return intl.operationName_transferByPhone;
     case OperationType.receiveByPhone:
@@ -28,7 +28,7 @@ String operationName(
     case OperationType.feeSharePayment:
       return intl.operationName_feeSharePayment;
     case OperationType.swap:
-      return intl.operationName_exchange;
+      return intl.operationName_exchanged;
     case OperationType.withdrawalFee:
       return intl.operationName_withdrawalFee;
     case OperationType.rewardPayment:
@@ -42,7 +42,9 @@ String operationName(
           ? intl.operationName_topped_up
           : intl.operationName_subscribed_to_earn;
     case OperationType.cryptoInfo:
-      return intl.operationName_buyWithCard;
+      return intl.operationName_bought;
+    case OperationType.p2pBuy:
+      return intl.operationName_bought;
     case OperationType.buyGooglePay:
       return intl.operationName_buyGooglePay;
     case OperationType.buyApplePay:

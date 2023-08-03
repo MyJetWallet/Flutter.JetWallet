@@ -19,7 +19,7 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
   TextEditingController searchController = TextEditingController();
 
   @computed
-  bool get showSearch => globalSendMethods.length >= 8;
+  bool get showSearch => globalSendMethods.length >= 7;
 
   @observable
   ObservableList<GlobalSendMethodsModelMethods> globalSendMethods =

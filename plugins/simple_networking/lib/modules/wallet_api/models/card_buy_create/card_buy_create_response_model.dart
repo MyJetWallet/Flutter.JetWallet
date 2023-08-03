@@ -23,6 +23,7 @@ class CardBuyCreateResponseModel with _$CardBuyCreateResponseModel {
     @DecimalNullSerialiser() Decimal? simpleFeeAmountInPaymentAsset,
     String? tradeFeeAsset,
     @DecimalSerialiser() required Decimal rate,
+    int? actualTimeInSecond,
   }) = _CardBuyCreateResponseModel;
 
   factory CardBuyCreateResponseModel.fromJson(Map<String, dynamic> json) =>

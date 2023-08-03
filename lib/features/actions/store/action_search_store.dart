@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 part 'action_search_store.g.dart';
 
@@ -70,6 +73,12 @@ abstract class _ActionSearchStoreBase with Store {
       ObservableList.of([]);
 
   @observable
+  ObservableList<PaymentAsset> newBuyPaymentCurrency = ObservableList.of([]);
+  @observable
+  ObservableList<PaymentAsset> filtredNewBuyPaymentCurrency =
+      ObservableList.of([]);
+
+  @observable
   String searchValue = '';
   @action
   void clearSearchValue() => searchValue = '';
@@ -123,6 +132,15 @@ abstract class _ActionSearchStoreBase with Store {
   }
 
   @action
+  void newBuySearchInit(List<PaymentAsset> availablyCurrency) {
+    //availablyCurrency.sort((a, b) => a.countryName.compareTo(b.countryName));
+
+    newBuyPaymentCurrency = ObservableList.of(availablyCurrency.toList());
+    filtredNewBuyPaymentCurrency =
+        ObservableList.of(availablyCurrency.toList());
+  }
+
+  @action
   void globalSendSearch(String value) {
     final search = value.toLowerCase();
 
@@ -132,6 +150,29 @@ abstract class _ActionSearchStoreBase with Store {
     } else {
       filtredGlobalSendCountries.removeWhere((element) {
         return !element.countryName.toLowerCase().startsWith(search);
+      });
+    }
+  }
+
+  @action
+  void newBuySearch(String value) {
+    final search = value.toLowerCase();
+
+    if (search.isEmpty) {
+      print(search.isEmpty);
+
+      filtredNewBuyPaymentCurrency = ObservableList.of(
+        newBuyPaymentCurrency.toList(),
+      );
+    } else {
+      filtredNewBuyPaymentCurrency.removeWhere((element) {
+        final curr = getIt.get<FormatService>().findCurrency(
+              findInHideTerminalList: true,
+              assetSymbol: element.asset,
+            );
+
+        return !element.asset.toLowerCase().startsWith(search) &&
+            !curr.description.toLowerCase().startsWith(search);
       });
     }
   }

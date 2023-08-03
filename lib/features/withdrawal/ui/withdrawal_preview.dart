@@ -17,6 +17,8 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
+import '../../pin_screen/model/pin_flow_union.dart';
+
 @RoutePage(name: 'WithdrawalPreviewRouter')
 class WithdrawalPreviewScreen extends StatelessObserverWidget {
   const WithdrawalPreviewScreen({super.key});
@@ -157,7 +159,16 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                   active: !store.previewLoading && isUserEnoughMaticForWithdraw,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
-                    store.withdraw();
+                    sRouter.push(
+                      PinScreenRoute(
+                        union: const Change(),
+                        isChangePhone: true,
+                        onChangePhone: (String newPin) {
+                          sRouter.pop();
+                          store.withdraw(newPin: newPin);
+                        },
+                      ),
+                    );
                   },
                 ),
               ],

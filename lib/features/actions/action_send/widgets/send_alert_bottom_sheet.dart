@@ -63,7 +63,6 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
                 or: () {
                   showBuyAction(
                     context: context,
-                    fromCard: true,
                   );
                 },
                 from: BlockingType.deposit,

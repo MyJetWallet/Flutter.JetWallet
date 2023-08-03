@@ -5,6 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -59,10 +60,14 @@ class ChooseAssetScreen extends StatelessWidget {
               ),
               const SDivider(),
             ],
-            _ActionBuy(
-              fromCard: true,
-              showRecurring: false,
-              searchStore: searchStore,
+            Observer(
+              builder: (context) {
+                return _ActionBuy(
+                  fromCard: true,
+                  showRecurring: false,
+                  searchStore: searchStore,
+                );
+              },
             ),
           ],
         ),
@@ -88,14 +93,10 @@ class _ActionBuy extends StatelessObserverWidget {
     final baseCurrency = sSignalRModules.baseCurrency;
     final state = searchStore;
 
-    sortByBalanceAndWeight(state.filteredCurrencies);
+    sortByBalanceAndWeight(state.fCurrencies);
 
     void _onItemTap(CurrencyModel currency, bool fromCard) {
-      getIt.get<AppRouter>().navigate(
-            PaymentMethodRouter(
-              currency: currency,
-            ),
-          );
+      showBuyPaymentCurrencyBottomSheet(context, currency);
     }
 
     Widget marketItem(
@@ -122,7 +123,7 @@ class _ActionBuy extends StatelessObserverWidget {
 
     return Column(
       children: [
-        for (final currency in state.filteredCurrencies) ...[
+        for (final currency in state.fCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
             marketItem(
               currency.iconUrl,
@@ -139,7 +140,7 @@ class _ActionBuy extends StatelessObserverWidget {
               currency.dayPercentChange,
               () => _onItemTap(currency, fromCard),
               isLast: currency ==
-                  state.filteredCurrencies
+                  state.fCurrencies
                       .where(
                         (element) => element.supportsAtLeastOneBuyMethod,
                       )

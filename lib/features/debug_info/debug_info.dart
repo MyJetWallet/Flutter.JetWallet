@@ -61,233 +61,248 @@ class _DebugInfoState extends State<DebugInfo>
       ),
       child: Scaffold(
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                getIt<AppStore>().sessionID,
-                style: sBodyText2Style,
-              ),
-              const SpaceH10(),
-              Text(
-                'Device pixel ratio: $devicePixelRatio',
-                style: sTextH5Style,
-              ),
-              const SpaceH20(),
-              SizedBox(
-                width: 200,
-                child: Row(
-                  children: [
-                    const Text('Slot B'),
-                    const Spacer(),
-                    Container(
-                      width: 40.0,
-                      height: 22.0,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(12.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  getIt<AppStore>().sessionID,
+                  style: sBodyText2Style,
+                ),
+                const SpaceH10(),
+                Text(
+                  'Device pixel ratio: $devicePixelRatio',
+                  style: sTextH5Style,
+                ),
+                const SpaceH20(),
+                SizedBox(
+                  width: 200,
+                  child: Row(
+                    children: [
+                      const Text('Slot B'),
+                      const Spacer(),
+                      Container(
+                        width: 40.0,
+                        height: 22.0,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: Switch(
+                          value: isSlotA,
+                          onChanged: (bool newValue) {
+                            final storageService =
+                                getIt.get<LocalStorageService>();
+                            storageService.setString(
+                              activeSlot,
+                              newValue ? 'slot a' : 'slot b',
+                            );
+                            setState(() {
+                              isSlotA = !isSlotA;
+                            });
+                          },
+                          activeColor: Colors.white,
+                          activeTrackColor: Colors.black,
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: Colors.black,
+                        ),
                       ),
-                      child: Switch(
-                        value: isSlotA,
-                        onChanged: (bool newValue) {
-                          final storageService =
-                              getIt.get<LocalStorageService>();
-                          storageService.setString(
-                            activeSlot,
-                            newValue ? 'slot a' : 'slot b',
-                          );
-                          setState(() {
-                            isSlotA = !isSlotA;
-                          });
-                        },
-                        activeColor: Colors.white,
-                        activeTrackColor: Colors.black,
-                        inactiveThumbColor: Colors.white,
-                        inactiveTrackColor: Colors.black,
-                      ),
-                    ),
-                    const Spacer(),
-                    const Text('Slot A'),
-                  ],
+                      const Spacer(),
+                      const Text('Slot A'),
+                    ],
+                  ),
                 ),
-              ),
-              const SpaceH20(),
-              TextButton(
-                onPressed: () {
-                  getIt<AppRouter>().push(const SignalrDebugInfoRouter());
-                },
-                child: const Text(
-                  'SignalR Logs',
+                const SpaceH20(),
+                TextButton(
+                  onPressed: () {
+                    getIt<AppRouter>().push(const SignalrDebugInfoRouter());
+                  },
+                  child: const Text(
+                    'SignalR Logs',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  /*getIt.get<DeepLinkService>().handle(
-                        Uri.parse(
-                            'http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0'),
-                      );*/
+                TextButton(
+                  onPressed: () async {
+                    /*getIt.get<DeepLinkService>().handle(
+                          Uri.parse(
+                              'http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0'),
+                        );*/
 
-                  await sRouter.push(const LogsRouter());
-                },
-                child: const Text(
-                  'Logs screen',
+                    await sRouter.push(const LogsRouter());
+                  },
+                  child: const Text(
+                    'Logs screen',
+                  ),
                 ),
-              ),
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.pushReplacement(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) {
-              //           return Container();
-              //           //return const ExampleScreen();
-              //         },
-              //       ),
-              //     );
-              //   },
-              //   child: const Text(
-              //     'Example Screen',
-              //   ),
-              // ),
-              TextButton(
-                onPressed: () async {
-                  sNotification.showError(
-                    'Perhaps you missed “.” or “@” somewhere?”',
-                    id: 1,
-                  );
-                },
-                child: const Text(
-                  'Show notification',
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.pushReplacement(
+                //       context,
+                //       MaterialPageRoute(
+                //         builder: (context) {
+                //           return Container();
+                //           //return const ExampleScreen();
+                //         },
+                //       ),
+                //     );
+                //   },
+                //   child: const Text(
+                //     'Example Screen',
+                //   ),
+                // ),
+                TextButton(
+                  onPressed: () async {
+                    sNotification.showError(
+                      'Perhaps you missed “.” or “@” somewhere?”',
+                      id: 1,
+                    );
+                  },
+                  child: const Text(
+                    'Show notification',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  FirebaseCrashlytics.instance.crash();
-                },
-                child: const Text(
-                  'Trigger crash',
+                TextButton(
+                  onPressed: () async {
+                    FirebaseCrashlytics.instance.crash();
+                  },
+                  child: const Text(
+                    'Trigger crash',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  throw 'You triggered error at ${DateTime.now()}';
-                },
-                child: const Text(
-                  'Trigger error',
+                TextButton(
+                  onPressed: () async {
+                    throw 'You triggered error at ${DateTime.now()}';
+                  },
+                  child: const Text(
+                    'Trigger error',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  getIt<AppStore>().updateAuthState(
-                    token: 'CRASHME',
-                  );
+                TextButton(
+                  onPressed: () async {
+                    getIt<AppStore>().updateAuthState(
+                      token: 'CRASHME',
+                    );
 
-                  final infoRequest =
-                      await sNetwork.getAuthModule().postSessionCheck();
-                },
-                child: const Text(
-                  'Simulate 401',
+                    final infoRequest =
+                        await sNetwork.getAuthModule().postSessionCheck();
+                  },
+                  child: const Text(
+                    'Simulate 401',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  getIt<AppStore>().updateAuthState(
-                    token: 'CRASHME',
-                    refreshToken: 'CRASHME',
-                  );
+                TextButton(
+                  onPressed: () async {
+                    getIt<AppStore>().updateAuthState(
+                      token: 'CRASHME',
+                      refreshToken: 'CRASHME',
+                    );
 
-                  final infoRequest =
-                      await sNetwork.getAuthModule().postSessionCheck();
-                },
-                child: const Text(
-                  'Simulate refresh token is break',
+                    final infoRequest =
+                        await sNetwork.getAuthModule().postSessionCheck();
+                  },
+                  child: const Text(
+                    'Simulate refresh token is break',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  getIt<AppStore>().generateNewSessionID();
-                },
-                child: const Text(
-                  'Change Session ID (Simulate error)',
+                TextButton(
+                  onPressed: () async {
+                    getIt<AppStore>().generateNewSessionID();
+                  },
+                  child: const Text(
+                    'Change Session ID (Simulate error)',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  getIt.get<SignalRService>().signalR!.simulateError();
-                },
-                child: const Text(
-                  'Simulate signalr error',
+                TextButton(
+                  onPressed: () async {
+                    getIt.get<SignalRService>().signalR!.simulateError();
+                  },
+                  child: const Text(
+                    'Simulate signalr error',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  try {
-                    final resp = await sNetwork.getWalletModule().debugError();
+                TextButton(
+                  onPressed: () async {
+                    await getIt
+                        .get<SignalRService>()
+                        .signalR!
+                        .disconnect('DEBUG');
+                  },
+                  child: const Text(
+                    'kill signalr',
+                  ),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    try {
+                      final resp =
+                          await sNetwork.getWalletModule().debugError();
 
-                    if (resp.hasError) {
+                      if (resp.hasError) {
+                        sNotification.showError(
+                          resp.error!.cause,
+                          id: 1,
+                        );
+                      }
+                    } on ServerRejectException catch (error) {
                       sNotification.showError(
-                        resp.error!.cause,
+                        error.cause,
                         id: 1,
                       );
                     }
-                  } on ServerRejectException catch (error) {
-                    sNotification.showError(
-                      error.cause,
-                      id: 1,
-                    );
-                  }
-                },
-                child: const Text(
-                  'Simulate 500 error',
+                  },
+                  child: const Text(
+                    'Simulate 500 error',
+                  ),
                 ),
-              ),
 
-              TextButton(
-                onPressed: () async {
-                  try {
-                    final resp = await sNetwork.getWalletModule().debugReject();
+                TextButton(
+                  onPressed: () async {
+                    try {
+                      final resp =
+                          await sNetwork.getWalletModule().debugReject();
 
-                    if (resp.hasError) {
+                      if (resp.hasError) {
+                        sNotification.showError(
+                          resp.error!.cause,
+                          id: 1,
+                        );
+                      }
+                    } on ServerRejectException catch (error) {
                       sNotification.showError(
-                        resp.error!.cause,
+                        error.cause,
                         id: 1,
                       );
                     }
-                  } on ServerRejectException catch (error) {
-                    sNotification.showError(
-                      error.cause,
-                      id: 1,
-                    );
-                  }
-                },
-                child: const Text(
-                  'Simulate 200 reject',
+                  },
+                  child: const Text(
+                    'Simulate 200 reject',
+                  ),
                 ),
-              ),
 
-              TextButton(
-                onPressed: () async {
-                  await sRouter.push(
-                    const KycVerificationSumsubRouter(),
-                  );
-                },
-                child: const Text(
-                  'Sumsub',
+                TextButton(
+                  onPressed: () async {
+                    await sRouter.push(
+                      const KycVerificationSumsubRouter(),
+                    );
+                  },
+                  child: const Text(
+                    'Sumsub',
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  await sRouter.push(
-                    SuccessScreenRouter(
-                      secondaryText: 'intl.previewConvert_orderProcessing',
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Success',
+                TextButton(
+                  onPressed: () async {
+                    await sRouter.push(
+                      SuccessScreenRouter(
+                        secondaryText: 'intl.previewConvert_orderProcessing',
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Success',
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

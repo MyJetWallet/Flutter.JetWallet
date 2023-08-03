@@ -98,7 +98,7 @@ void setAuthInterceptor(
           } catch (_) {
             handler.reject(dioError);
           }
-        } else if (code == 500) {
+        } else if (code == 500 || code == 504) {
           sNotification.showError(
             intl.something_went_wrong_try_again,
             id: 1,

@@ -49,6 +49,14 @@ class SendGloballyDetails extends StatelessObserverWidget {
             ),
           ),
           const SizedBox(height: 18),
+          TransactionDetailsItem(
+            text: intl.send_globally_date,
+            value: TransactionDetailsValueText(
+              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
+                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
+            ),
+          ),
+          const SizedBox(height: 18),
           if (transactionListItem.paymeInfo?.accountNumber != null &&
               transactionListItem.paymeInfo!.accountNumber!.isNotEmpty) ...[
             TransactionDetailsItem(
@@ -338,14 +346,6 @@ class SendGloballyDetails extends StatelessObserverWidget {
             child: Text(
               intl.global_send_payment_details,
               style: sTextH5Style,
-            ),
-          ),
-          const SizedBox(height: 18),
-          TransactionDetailsItem(
-            text: intl.send_globally_date,
-            value: TransactionDetailsValueText(
-              text: '${formatDateToDMY(transactionListItem.timeStamp)}'
-                  ', ${formatDateToHm(transactionListItem.timeStamp)}',
             ),
           ),
           if (transactionListItem.paymeInfo?.methodName != null) ...[

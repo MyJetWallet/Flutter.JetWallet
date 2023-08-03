@@ -26,6 +26,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
     @PaymentTypeSerialiser() @JsonKey(name: 'id') required PaymentMethodType id,
+    final PaymentMethodCategory? category,
     String? iconUrl,
     int? orderId,
     required bool termsAccepted,
@@ -42,7 +43,7 @@ class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
     @WithdrawalMethodsSerialiser()
     @JsonKey(name: 'id')
-        required WithdrawalMethods id,
+    required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
     List<String>? symbols,
@@ -86,6 +87,7 @@ class PaymentAsset with _$PaymentAsset {
     @DecimalSerialiser() required Decimal maxAmount,
     int? orderId,
     LimitDescription? limits,
+    PresetDescription? presets,
   }) = _PaymentAsset;
 
   factory PaymentAsset.fromJson(Map<String, dynamic> json) =>
@@ -105,4 +107,16 @@ class LimitDescription with _$LimitDescription {
 
   factory LimitDescription.fromJson(Map<String, dynamic> json) =>
       _$LimitDescriptionFromJson(json);
+}
+
+@freezed
+class PresetDescription with _$PresetDescription {
+  const factory PresetDescription({
+    @DecimalNullSerialiser() Decimal? amount1,
+    @DecimalNullSerialiser() Decimal? amount2,
+    @DecimalNullSerialiser() Decimal? amount3,
+  }) = _PresetDescription;
+
+  factory PresetDescription.fromJson(Map<String, dynamic> json) =>
+      _$PresetDescriptionFromJson(json);
 }

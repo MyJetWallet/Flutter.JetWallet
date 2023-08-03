@@ -22,6 +22,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
     required this.submitButtonActive,
     required this.submitButtonName,
     required this.onSubmitPressed,
+    this.showPresets = true,
   }) : super(key: key);
 
   final SButtonType buttonType;
@@ -35,16 +36,21 @@ class SNumericKeyboardAmount extends StatelessWidget {
   final bool submitButtonActive;
   final String submitButtonName;
   final void Function() onSubmitPressed;
+  final bool showPresets;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widgetSize == SWidgetSize.medium ? 440 : 340,
+      height: widgetSize == SWidgetSize.medium
+          ? showPresets
+              ? 440
+              : 380
+          : 340,
       child: Material(
         color: SColorsLight().grey5,
         child: Column(
           children: [
-            if (widgetSize == SWidgetSize.medium) ...[
+            if (widgetSize == SWidgetSize.medium && showPresets) ...[
               const SpaceH20(),
               SPaddingH24(
                 child: Row(
