@@ -155,7 +155,7 @@ dev_dependencies:
 
   # AUTOGEN:
   freezed: 2.4.1 # generation for immutable classes that has a simple syntax/API
-  build_runner: 2.3.3 # generating files using Dart code
+  build_runner: 2.4.6 # generating files using Dart code
   json_serializable: 6.6.1 # dart build system builders for handling JSON
   injectable_generator: 2.1.5
   mobx_codegen: 2.1.1
