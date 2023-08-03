@@ -1032,6 +1032,7 @@
   "paid_with_gpay": "Paid with Google Pay",
   "iban_terms_1": "Local EUR transfers only",
   "iban_terms_3": "Funds must come from an account in your own name. Money sent from other accounts will be returned and extra fees may apply.",
+  "iban_terms_4": "You must be the beneficiary of the bank account",
   "send_globally_date": "Date",
   "send_globally_card": "Card",
   "send_globally_con_rate": "Conversion rate",
