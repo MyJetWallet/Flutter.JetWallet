@@ -15,7 +15,7 @@ String localizedMonth(
   switch (month) {
     case 'January':
       return intl.january;
-    case 'Febuary':
+    case 'February':
       return intl.febuary;
     case 'March':
       return intl.march;
