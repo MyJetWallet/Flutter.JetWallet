@@ -387,7 +387,7 @@
   "previewBuyWithCircle_enter": "Enter",
   "previewBuyWithCircle_for": "for",
   "previewBuyWithCircle_cvvDescription": "This is used for card verification",
-  "previewBuyWithCircle_cvvNewDescription": "Normally CVV is on the back of the card",
+  "previewBuyWithCircle_cvvNewDescription": "Usually you'll find the three-digit  CVV code on the back of the card",
   "previewBuyWithCircle_payFrom": "Pay from",
   "previewBuyWithCircle_creditCardFee": "Credit card transaction fee",
   "previewBuyWithCircle_bankCardFee": "Bank card fee",

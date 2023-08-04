@@ -431,7 +431,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV \n'
             '${intl.previewBuyWithCircle_for} '
-            '${card!.network.name}'
+            '${card!.cardLabel}'
             ' •••• ${card!.last4}',
         onCompleted: (cvvNew) {
           cvv = cvvNew;
