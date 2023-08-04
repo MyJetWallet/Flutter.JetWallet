@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,7 +11,6 @@ import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/account/account_screen.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -20,6 +20,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -35,12 +36,14 @@ import 'package:logger/logger.dart';
 import 'local_storage_service.dart';
 import 'notification_service.dart';
 import 'remote_config/models/remote_config_union.dart';
+import 'simple_networking/simple_networking.dart';
 
 /// Parameters
 const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+
 // when parameters come in "/" format as part of the link
 const _action = 'action';
 const _jw_nft_collection_id = 'jw_nft_collection_id';
@@ -50,6 +53,11 @@ const jw_promo_code = 'jw_promo_code';
 const jw_deposit_successful = 'jw_deposit_successful';
 const jw_support_page = 'jw_support_page';
 const jw_kyc_documents_declined = 'jw_kyc_documents_declined';
+
+const jw_gift_incoming = 'jw_gift_incoming';
+const jw_gift_remind = 'jw_gift_remind';
+const jw_gift_cancelled = 'jw_gift_cancelled';
+const jw_gift_expired = 'jw_gift_expired';
 
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
@@ -156,6 +164,8 @@ class DeepLinkService {
       pushSupportPage(parameters);
     } else if (command == jw_kyc_documents_declined) {
       pushDocumentNotVerified(parameters);
+    } else if (command == jw_gift_incoming) {
+      pushReceiveGiftBottomSheet(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -661,5 +671,50 @@ class DeepLinkService {
       requiredVerifications: kycState.requiredVerifications,
       requiredDocuments: kycState.requiredDocuments,
     );
+  }
+
+  Future<void> pushReceiveGiftBottomSheet(
+    Map<String, String> parameters,
+  ) async {
+    final jwOperationId = parameters['jw_operation_id'];
+    if (jwOperationId == null) return;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final context = sRouter.navigatorKey.currentContext!;
+      final gift = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .getGift(jwOperationId);
+
+      if (gift.data == null) return;
+      print(gift.data );
+      receiveGiftBottomSheet(
+        context: context,
+        giftModel: gift.data!,
+      );
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final gift = await getIt
+                .get<SNetwork>()
+                .simpleNetworking
+                .getWalletModule()
+                .getGift(jwOperationId);
+            print(gift.data );
+            if (gift.data == null) return;
+            
+            final context = sRouter.navigatorKey.currentContext!;
+            receiveGiftBottomSheet(
+              context: context,
+              giftModel: gift.data!,
+            );
+          },
+        ),
+      );
+    }
   }
 }
