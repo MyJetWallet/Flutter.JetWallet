@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 
 part 'gift_model.freezed.dart';
 part 'gift_model.g.dart';
@@ -8,7 +9,7 @@ part 'gift_model.g.dart';
 abstract class GiftModel with _$GiftModel {
   const factory GiftModel({
     required String? id,
-    required Decimal? amount,
+    @DecimalNullSerialiser() required Decimal? amount,
     required String? assetSymbol,
     required String? toPhoneNumber,
     required String? toEmail,
