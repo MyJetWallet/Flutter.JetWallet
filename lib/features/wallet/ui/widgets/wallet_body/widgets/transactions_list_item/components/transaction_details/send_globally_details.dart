@@ -31,7 +31,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
+      transactionListItem.withdrawalInfo?.feeAssetId ??
+          (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
     );
 
     var methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
