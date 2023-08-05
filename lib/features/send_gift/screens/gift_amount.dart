@@ -49,10 +49,7 @@ class GiftAmount extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          deviceSize.when(
-            small: () => const SizedBox(),
-            medium: () => const Spacer(),
-          ),
+          const Spacer(),
           Baseline(
             baseline: deviceSize.when(
               small: () => 32,
