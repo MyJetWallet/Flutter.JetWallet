@@ -54,11 +54,11 @@ class GiftAmount extends StatelessObserverWidget {
             medium: () => const Spacer(),
           ),
           Baseline(
-              baseline: deviceSize.when(
-                small: () => 32,
-                medium: () => 31,
-              ),
-              baselineType: TextBaseline.alphabetic,
+            baseline: deviceSize.when(
+              small: () => 32,
+              medium: () => 31,
+            ),
+            baselineType: TextBaseline.alphabetic,
             child: Observer(
               builder: (context) {
                 return SActionPriceField(
@@ -105,7 +105,8 @@ class GiftAmount extends StatelessObserverWidget {
                   geftSendAmountStore.updateAmount(value);
                 },
                 buttonType: SButtonType.primary2,
-                submitButtonActive: geftSendAmountStore.withValid,
+                submitButtonActive: geftSendAmountStore.withAmmountInputError ==
+                    InputError.none,
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () {
                   sendGiftStore.updateAmount(geftSendAmountStore.withAmount);
