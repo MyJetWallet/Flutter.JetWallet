@@ -23,11 +23,8 @@ class GiftSendType extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // + 1px border
-            if (widgetSize == SWidgetSize.small) const SpaceH19(),
-            // + 1px border
-            if (widgetSize == SWidgetSize.medium) const SpaceH31(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,18 +44,13 @@ class GiftSendType extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Baseline(
-                        baseline: 18.0,
-                        baselineType: TextBaseline.alphabetic,
-                        child: Text(
-                          intl.send_gift_simple_gift,
-                          style: sSubtitle2Style,
-                        ),
+                      Text(
+                        intl.send_gift_simple_gift,
+                        style: sSubtitle2Style,
                       ),
                     ],
                   ),
                 ),
-                const SpaceW19(), // + 1px border
               ],
             ),
           ],
