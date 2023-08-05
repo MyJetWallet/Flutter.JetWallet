@@ -130,7 +130,9 @@ class TransactionListItem extends StatelessObserverWidget {
                                       transactionListItem.operationType ==
                                           OperationType.sendGlobally ||
                                       transactionListItem.operationType ==
-                                          OperationType.transferByPhone)
+                                          OperationType.transferByPhone ||
+                                      transactionListItem.operationType ==
+                                          OperationType.giftSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
