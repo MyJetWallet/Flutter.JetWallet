@@ -113,7 +113,6 @@ abstract class _GeftSendAmountStoreBase with Store {
     _calculateBaseConversion();
   }
 
-  @action
   void updateAmount(String value) {
     withAmount = responseOnInputAction(
       oldInput: withAmount,

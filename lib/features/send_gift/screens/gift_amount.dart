@@ -2,7 +2,10 @@ import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -15,29 +18,50 @@ import '../store/gift_send_amount_store.dart';
 import '../widgets/gift_send_type.dart';
 
 @RoutePage(name: 'GiftAmountRouter')
-class GiftAmount extends StatelessObserverWidget {
+class GiftAmount extends StatefulObserverWidget {
   const GiftAmount({super.key, required this.sendGiftStore});
 
   final GeneralSendGiftStore sendGiftStore;
 
   @override
-  Widget build(BuildContext context) {
-    final geftSendAmountStore = GeftSendAmountStore()
+  State<GiftAmount> createState() => _GiftAmountState();
+}
+
+class _GiftAmountState extends State<GiftAmount> {
+  late GeftSendAmountStore geftSendAmountStore;
+
+  @override
+  void initState() {
+    geftSendAmountStore = GeftSendAmountStore()
       ..init(
-        sendGiftStore.currency,
+        widget.sendGiftStore.currency,
       );
-    geftSendAmountStore.selectedCurrency = sendGiftStore.currency;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    geftSendAmountStore.selectedCurrency = widget.sendGiftStore.currency;
     final deviceSize = sDeviceSize;
+
+    final availableCurrency = currencyFrom(
+      sSignalRModules.currenciesList,
+      widget.sendGiftStore.currency.symbol,
+    );
+
+    final availableBalance = Decimal.parse(
+      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
+    );
 
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
           subTitle: '${intl.send_gift_available}:${volumeFormat(
-            prefix: sendGiftStore.currency.prefixSymbol,
-            decimal: sendGiftStore.currency.assetBalance,
-            accuracy: sendGiftStore.currency.accuracy,
-            symbol: sendGiftStore.currency.symbol,
+            prefix: widget.sendGiftStore.currency.prefixSymbol,
+            decimal: availableBalance,
+            accuracy: widget.sendGiftStore.currency.accuracy,
+            symbol: widget.sendGiftStore.currency.symbol,
           )}',
           subTitleStyle: const TextStyle(
             color: Color(0xFF777C85),
@@ -60,11 +84,10 @@ class GiftAmount extends StatelessObserverWidget {
               builder: (context) {
                 return SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  price: volumeFormat(
+                  price: formatCurrencyStringAmount(
                     prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
-                    decimal: Decimal.parse(geftSendAmountStore.withAmount),
+                    value: geftSendAmountStore.withAmount,
                     symbol: geftSendAmountStore.selectedCurrency.symbol,
-                    accuracy: sendGiftStore.currency.accuracy,
                   ),
                   helper: '',
                   error: geftSendAmountStore.withAmmountInputError ==
@@ -103,13 +126,15 @@ class GiftAmount extends StatelessObserverWidget {
                 },
                 buttonType: SButtonType.primary2,
                 submitButtonActive: geftSendAmountStore.withAmmountInputError ==
-                    InputError.none,
+                        InputError.none &&
+                    geftSendAmountStore.withValid,
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () {
-                  sendGiftStore.updateAmount(geftSendAmountStore.withAmount);
+                  widget.sendGiftStore
+                      .updateAmount(geftSendAmountStore.withAmount);
                   sRouter.push(
                     GiftOrderSummuryRouter(
-                      sendGiftStore: sendGiftStore,
+                      sendGiftStore: widget.sendGiftStore,
                     ),
                   );
                 },
