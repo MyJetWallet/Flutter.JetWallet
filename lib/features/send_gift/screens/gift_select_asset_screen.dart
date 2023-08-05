@@ -27,10 +27,13 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     getIt.get<ActionSearchStore>().initConvert(
-          isGiftSendActive.where((element) => element.isAssetBalanceNotEmpty).toList(),
-          isGiftSendActive.where((element) => element.isAssetBalanceEmpty).toList(),
+          isGiftSendActive
+              .where((element) => element.isAssetBalanceNotEmpty)
+              .toList(),
+          isGiftSendActive
+              .where((element) => element.isAssetBalanceEmpty)
+              .toList(),
         );
     final searchStore = getIt.get<ActionSearchStore>();
 
@@ -86,7 +89,22 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
                             primaryText: currency.description,
                             amount: currency.volumeBaseBalance(baseCurrency),
                             secondaryText: currency.volumeAssetBalance,
-                            removeDivider: currency == isGiftSendActive.last,
+                            removeDivider: currency ==
+                                    searchStore.convertCurrenciesWithBalance
+                                        .where(
+                                          (element) =>
+                                              element.supportsGiftlSend &&
+                                              element.isAssetBalanceNotEmpty,
+                                        )
+                                        .last ||
+                                searchStore.convertCurrenciesWithBalance
+                                        .where(
+                                          (element) =>
+                                              element.supportsGiftlSend &&
+                                              element.isAssetBalanceNotEmpty,
+                                        )
+                                        .length ==
+                                    1,
                             onTap: () {
                               sRouter.push(
                                 GiftReceiversDetailsRouter(currency: currency),
