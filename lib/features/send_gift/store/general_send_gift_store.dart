@@ -128,7 +128,7 @@ abstract class GeneralSendGiftStoreBase with Store {
       loader.finishLoadingImmediately();
     }
 
-    loader.finishLoadingImmediately();
+    loader.finishLoading();
   }
 
   @action
