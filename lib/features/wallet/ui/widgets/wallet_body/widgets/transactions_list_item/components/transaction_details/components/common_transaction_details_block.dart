@@ -79,8 +79,8 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
                 ),
                 SIconButton(
                   onTap: () => Navigator.pop(context),
-                  defaultIcon: const SErasePressedIcon(),
-                  pressedIcon: const SEraseMarketIcon(),
+                  defaultIcon: const SEraseIcon(),
+                  pressedIcon: const SErasePressedIcon(),
                 ),
               ],
             ),
