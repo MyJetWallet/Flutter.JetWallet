@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:share_plus/share_plus.dart';
@@ -211,6 +212,11 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SIconButton(
                   onTap: () {
+                    sNotification.showError(
+                      intl.copy_message,
+                      id: 1,
+                      isError: false,
+                    );
                     Clipboard.setData(
                       ClipboardData(
                         text: shareText,
