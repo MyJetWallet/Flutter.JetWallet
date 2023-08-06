@@ -1,6 +1,7 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
+import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -88,6 +89,7 @@ abstract class GeneralSendGiftStoreBase with Store {
         amount: amount,
         assetSymbol: currency.symbol,
         toEmailAddress: _email,
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
       response = await getIt
           .get<SNetwork>()
@@ -97,13 +99,20 @@ abstract class GeneralSendGiftStoreBase with Store {
             model,
           );
     } else {
+      final number = await decomposePhoneNumber(
+        _phoneCountryCode + _phoneBody,
+      );
+
       final model = SendGiftByPhoneRequestModel(
         pin: newPin,
         amount: amount,
         assetSymbol: currency.symbol,
         toPhoneBody: _phoneBody,
         toPhoneCode: _phoneCountryCode,
+        toPhoneIso: number.isoCode,
+        requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
+
       response = await getIt
           .get<SNetwork>()
           .simpleNetworking
