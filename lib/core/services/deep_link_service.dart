@@ -1,6 +1,8 @@
-import 'dart:async';
-import 'dart:developer';
+// ignore_for_file: constant_identifier_names
 
+import 'dart:async';
+
+import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -20,18 +23,19 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
+import 'package:jetwallet/features/receive_gift/expired_gist_bottot_sheet.dart';
 import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
+import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/show_start_earn_options.dart';
+import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:logger/logger.dart';
 
 import 'local_storage_service.dart';
 import 'notification_service.dart';
@@ -54,6 +58,7 @@ const jw_deposit_successful = 'jw_deposit_successful';
 const jw_support_page = 'jw_support_page';
 const jw_kyc_documents_declined = 'jw_kyc_documents_declined';
 
+// gift
 const jw_gift_incoming = 'jw_gift_incoming';
 const jw_gift_remind = 'jw_gift_remind';
 const jw_gift_cancelled = 'jw_gift_cancelled';
@@ -166,6 +171,10 @@ class DeepLinkService {
       pushDocumentNotVerified(parameters);
     } else if (command == jw_gift_incoming) {
       pushReceiveGiftBottomSheet(parameters);
+    } else if (command == jw_gift_remind) {
+      pushRemindGiftBottomSheet(parameters);
+    } else if (command == jw_gift_expired) {
+      pushExpiredGiftBottomSheet(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -682,7 +691,6 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final context = sRouter.navigatorKey.currentContext!;
       final gift = await getIt
           .get<SNetwork>()
           .simpleNetworking
@@ -690,11 +698,13 @@ class DeepLinkService {
           .getGift(jwOperationId);
 
       if (gift.data == null) return;
-      print(gift.data );
-      receiveGiftBottomSheet(
-        context: context,
-        giftModel: gift.data!,
-      );
+      final context = sRouter.navigatorKey.currentContext!;
+      if (context.mounted) {
+        receiveGiftBottomSheet(
+          context: context,
+          giftModel: gift.data!,
+        );
+      }
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
@@ -704,14 +714,117 @@ class DeepLinkService {
                 .simpleNetworking
                 .getWalletModule()
                 .getGift(jwOperationId);
-            print(gift.data );
             if (gift.data == null) return;
-            
+
             final context = sRouter.navigatorKey.currentContext!;
-            receiveGiftBottomSheet(
-              context: context,
-              giftModel: gift.data!,
+            if (context.mounted) {
+              receiveGiftBottomSheet(
+                context: context,
+                giftModel: gift.data!,
+              );
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushRemindGiftBottomSheet(
+    Map<String, String> parameters,
+  ) async {
+    final jwOperationId = parameters['jw_operation_id'];
+    if (jwOperationId == null) return;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final gift = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .getGift(jwOperationId);
+
+      if (gift.data == null) return;
+      final currency = currencyFrom(
+        sSignalRModules.currenciesList,
+        gift.data?.assetSymbol ?? '',
+      );
+      final context = sRouter.navigatorKey.currentContext!;
+      if (context.mounted) {
+        shareGiftResultBottomSheet(
+          context: context,
+          amount: gift.data?.amount ?? Decimal.zero,
+          currency: currency,
+        );
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final gift = await getIt
+                .get<SNetwork>()
+                .simpleNetworking
+                .getWalletModule()
+                .getGift(jwOperationId);
+            if (gift.data == null) return;
+            final currency = currencyFrom(
+              sSignalRModules.currenciesList,
+              gift.data?.assetSymbol ?? '',
             );
+            final context = sRouter.navigatorKey.currentContext!;
+            if (context.mounted) {
+              shareGiftResultBottomSheet(
+                context: context,
+                amount: gift.data?.amount ?? Decimal.zero,
+                currency: currency,
+              );
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> pushExpiredGiftBottomSheet(
+    Map<String, String> parameters,
+  ) async {
+    final jwOperationId = parameters['jw_operation_id'];
+    if (jwOperationId == null) return;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final gift = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .getGift(jwOperationId);
+
+      if (gift.data == null) return;
+      final context = sRouter.navigatorKey.currentContext!;
+      if (context.mounted) {
+        expairedGiftBottomSheet(
+          context: context,
+          giftModel: gift.data!,
+        );
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final gift = await getIt
+                .get<SNetwork>()
+                .simpleNetworking
+                .getWalletModule()
+                .getGift(jwOperationId);
+            if (gift.data == null) return;
+            final context = sRouter.navigatorKey.currentContext!;
+            if (context.mounted) {
+              expairedGiftBottomSheet(
+                context: context,
+                giftModel: gift.data!,
+              );
+            }
           },
         ),
       );
