@@ -58,8 +58,12 @@ class GiftSendDetails extends StatelessObserverWidget {
               text: intl.gift_history_to,
               value: Row(
                 children: [
-                  TransactionDetailsValueText(
-                    text: receiverContact,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: TransactionDetailsValueText(
+                      textAlign: TextAlign.right,
+                      text: receiverContact,
+                    ),
                   ),
                   const SpaceW10(),
                   SIconButton(
