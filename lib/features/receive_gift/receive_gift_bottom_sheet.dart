@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -21,8 +22,8 @@ void receiveGiftBottomSheet({
       children: [
         SIconButton(
           onTap: () => Navigator.pop(context),
-          defaultIcon: const SErasePressedIcon(),
-          pressedIcon: const SEraseMarketIcon(),
+          defaultIcon: const SEraseIcon(),
+          pressedIcon: const SErasePressedIcon(),
         ),
       ],
     ),
@@ -143,7 +144,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                   .get<SNetwork>()
                   .simpleNetworking
                   .getWalletModule()
-                  .acceptGift(1339.toString());
+                  .acceptGift(giftModel.id ?? '');
               await sRouter.pop();
             },
           ),
@@ -152,17 +153,33 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             active: true,
             name: 'Reject',
             onTap: () async {
-              await getIt
-                  .get<SNetwork>()
-                  .simpleNetworking
-                  .getWalletModule()
-                  .declineGift(giftModel.id ?? '');
-              await sRouter.pop();
+              showAlert(context);
             },
           ),
           const SpaceH37(),
         ],
       ),
+    );
+  }
+
+  void showAlert(BuildContext context) {
+    sShowAlertPopup(
+      context,
+      primaryText: 'Reject?',
+      secondaryText: 'Are you sure you want to reject the gift?',
+      primaryButtonName: 'Yes, reject',
+      secondaryButtonName: intl.gift_history_no,
+      primaryButtonType: SButtonType.primary3,
+      onPrimaryButtonTap: () async {
+        await getIt
+            .get<SNetwork>()
+            .simpleNetworking
+            .getWalletModule()
+            .declineGift(giftModel.id ?? '');
+        await sRouter.pop();
+        await sRouter.pop();
+      },
+      onSecondaryButtonTap: () => Navigator.pop(context),
     );
   }
 }

@@ -17,6 +17,7 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
+import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -31,6 +32,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 
 import '../../../../rewards/store/reward_store.dart';
 
@@ -245,27 +247,40 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowSend) ...[
                 CircleActionSend(
                   onTap: () {
-                    if (kycState.withdrawalStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      showSendAction(
-                        context,
-                        isNotEmptyBalance: isNotEmptyBalance,
-                        shouldPop: false,
-                      );
-                    } else {
-                      kycAlertHandler.handle(
-                        status: kycState.withdrawalStatus,
-                        isProgress: kycState.verificationInProgress,
-                        currentNavigate: () => showSendAction(
-                          context,
-                          isNotEmptyBalance: isNotEmptyBalance,
-                          shouldPop: false,
-                        ),
-                        navigatePop: false,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                      );
-                    }
+                    receiveGiftBottomSheet(
+                      context: context,
+                      giftModel: GiftModel(
+                        amount: Decimal.zero,
+                        assetSymbol: 'BTC',
+                        declineReason: 'dasdsa',
+                        id: 'das',
+                        toEmail: 'yaroslav@gmail.com',
+                        toName: 'Yaroslan P.',
+                        toPhoneNumber: '+3809723131',
+                      ),
+
+                    );
+                    // if (kycState.withdrawalStatus ==
+                    //     kycOperationStatus(KycStatus.allowed)) {
+                    //   showSendAction(
+                    //     context,
+                    //     isNotEmptyBalance: isNotEmptyBalance,
+                    //     shouldPop: false,
+                    //   );
+                    // } else {
+                    //   kycAlertHandler.handle(
+                    //     status: kycState.withdrawalStatus,
+                    //     isProgress: kycState.verificationInProgress,
+                    //     currentNavigate: () => showSendAction(
+                    //       context,
+                    //       isNotEmptyBalance: isNotEmptyBalance,
+                    //       shouldPop: false,
+                    //     ),
+                    //     navigatePop: false,
+                    //     requiredDocuments: kycState.requiredDocuments,
+                    //     requiredVerifications: kycState.requiredVerifications,
+                    //   );
+                    // }
                   },
                 ),
               ],
