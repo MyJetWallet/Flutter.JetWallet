@@ -91,9 +91,10 @@ class TransactionListItem extends StatelessObserverWidget {
                                 OperationType.giftSend ||
                             transactionListItem.operationType ==
                                 OperationType.giftReceive) ...[
-                          const SizedBox(
+                           Container(
                             height: 16,
-                            child: SGiftSendIcon(),
+                            margin: const EdgeInsets.only(top: 4),
+                            child: const SGiftSendIcon(),
                           ),
                         ],
                         if (transactionListItem.status == Status.declined) ...[
