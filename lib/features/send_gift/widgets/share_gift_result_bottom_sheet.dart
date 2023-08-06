@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -52,9 +53,9 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shareText =
-        '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_share_text_2_part} $appDownloadUrl ${intl.send_gift_share_text_3_part}''';
+        '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl ${intl.send_gift_share_text_3_part}''';
     final cardMessage =
-        '''${intl.send_gift_message_1_part} $amount ${currency.symbol} ${intl.send_gift_message_2_part}''';
+        '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
     return SPaddingH24(
       child: Column(
@@ -84,8 +85,14 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                             url: currency.iconUrl,
                             color: sKit.colors.white,
                           ),
+                          const SpaceW4(),
                           Text(
-                            '$amount ${currency.symbol}',
+                            volumeFormat(
+                              prefix: currency.prefixSymbol,
+                              decimal: amount,
+                              accuracy: currency.accuracy,
+                              symbol: currency.symbol,
+                            ),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
