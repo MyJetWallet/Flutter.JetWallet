@@ -5,8 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
 
 const String _loggerService = 'PushNotificationService';
@@ -32,6 +30,11 @@ class PushNotificationService {
     ),
   );
 
+  static const InitializationSettings initializationSettingsAndroid =
+      InitializationSettings(
+    android: AndroidInitializationSettings('@drawable/ic_notification'),
+  );
+
   Future<void> initialize() async {
     await _resolvePlatformImplementation();
 
@@ -47,6 +50,15 @@ class PushNotificationService {
       (RemoteMessage? message) {
         if (message != null) {
           getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+        }
+      },
+    );
+
+    await _plugin.initialize(
+      initializationSettingsAndroid,
+      onDidReceiveNotificationResponse: (details) async {
+        if (details.payload != null) {
+          getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
         }
       },
     );
@@ -98,6 +110,7 @@ class PushNotificationService {
         notification.title,
         notification.body,
         _notificationDetails,
+        payload: message.data['actionUrl'] as String?,
       );
     } else {
       getIt.get<SimpleLoggerService>().log(
