@@ -247,40 +247,27 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowSend) ...[
                 CircleActionSend(
                   onTap: () {
-                    receiveGiftBottomSheet(
-                      context: context,
-                      giftModel: GiftModel(
-                        amount: Decimal.zero,
-                        assetSymbol: 'BTC',
-                        declineReason: 'dasdsa',
-                        id: 'das',
-                        toEmail: 'yaroslav@gmail.com',
-                        toName: 'Yaroslan P.',
-                        toPhoneNumber: '+3809723131',
-                      ),
-
-                    );
-                    // if (kycState.withdrawalStatus ==
-                    //     kycOperationStatus(KycStatus.allowed)) {
-                    //   showSendAction(
-                    //     context,
-                    //     isNotEmptyBalance: isNotEmptyBalance,
-                    //     shouldPop: false,
-                    //   );
-                    // } else {
-                    //   kycAlertHandler.handle(
-                    //     status: kycState.withdrawalStatus,
-                    //     isProgress: kycState.verificationInProgress,
-                    //     currentNavigate: () => showSendAction(
-                    //       context,
-                    //       isNotEmptyBalance: isNotEmptyBalance,
-                    //       shouldPop: false,
-                    //     ),
-                    //     navigatePop: false,
-                    //     requiredDocuments: kycState.requiredDocuments,
-                    //     requiredVerifications: kycState.requiredVerifications,
-                    //   );
-                    // }
+                    if (kycState.withdrawalStatus ==
+                        kycOperationStatus(KycStatus.allowed)) {
+                      showSendAction(
+                        context,
+                        isNotEmptyBalance: isNotEmptyBalance,
+                        shouldPop: false,
+                      );
+                    } else {
+                      kycAlertHandler.handle(
+                        status: kycState.withdrawalStatus,
+                        isProgress: kycState.verificationInProgress,
+                        currentNavigate: () => showSendAction(
+                          context,
+                          isNotEmptyBalance: isNotEmptyBalance,
+                          shouldPop: false,
+                        ),
+                        navigatePop: false,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                      );
+                    }
                   },
                 ),
               ],
