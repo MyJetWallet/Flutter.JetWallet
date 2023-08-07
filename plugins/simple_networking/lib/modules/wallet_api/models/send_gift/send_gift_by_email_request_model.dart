@@ -11,7 +11,6 @@ class SendGiftByEmailRequestModel with _$SendGiftByEmailRequestModel {
     String? requestId,
     String? assetSymbol,
     @DecimalSerialiser() required Decimal amount,
-    String? lang,
     String? toEmailAddress,
     String? pin,
   }) = _SendGiftByEmailRequestModel;
