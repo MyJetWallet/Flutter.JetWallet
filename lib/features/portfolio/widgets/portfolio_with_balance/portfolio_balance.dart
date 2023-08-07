@@ -77,7 +77,6 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
 
   @override
   void dispose() {
-    //scrollController.removeListener(_scrollListener);
     controller.removeListener(_draggableListener);
     super.dispose();
   }
@@ -140,6 +139,9 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
   double getMaxChildSize() {
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
+    if (devicePixelRatio <= 1.6) {
+      return 0.62;
+    }
     if (devicePixelRatio <= 2.2) {
       return 0.7;
     }
@@ -155,6 +157,13 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
 
   double getMinChildSize() {
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    print(
+        'devicePixelRatio: $devicePixelRatio, Height: ${MediaQuery.of(context).size.height}');
+
+    if (MediaQuery.of(context).size.height <= 600) {
+      return 0.32;
+    }
 
     if (MediaQuery.of(context).size.height <= 700) {
       return 0.45;
@@ -176,6 +185,9 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
       return 0.62;
     }
 
+    if (devicePixelRatio <= 1.7) {
+      return 0.4;
+    }
     if (devicePixelRatio <= 2.2) {
       return 0.48;
     }
@@ -369,14 +381,15 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                             );
                                           }
                                         },
-                                        removeDivider:
-                                            actualItem.isPendingDeposit ||
+                                        removeDivider: actualItem
+                                                .isPendingDeposit ||
                                             (!getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                itemsWithBalance.length - 1) ||
+                                                index ==
+                                                    itemsWithBalance.length -
+                                                        1) ||
                                             (getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                  currenciesList.length - 1),
+                                                index ==
+                                                    currenciesList.length - 1),
                                         isPendingDeposit:
                                             actualItem.isPendingDeposit,
                                       );
