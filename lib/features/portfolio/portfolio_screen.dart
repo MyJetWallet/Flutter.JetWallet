@@ -33,7 +33,6 @@ class PortfolioScreen extends StatelessObserverWidget {
       }
     } else {
       return const PortfolioBalance();
-      //return const PortfolioWithBalance();
     }
   }
 }
