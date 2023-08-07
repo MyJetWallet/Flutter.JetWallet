@@ -239,7 +239,7 @@ class _WalletBodyState extends State<WalletBody>
                           },
                           onSend: () {
                             final actualAsset = widget.currency;
-                            if (kycState.sellStatus ==
+                            if (kycState.withdrawalStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
                               showSendOptions(
                                 context,
@@ -248,7 +248,7 @@ class _WalletBodyState extends State<WalletBody>
                               );
                             } else {
                               kycAlertHandler.handle(
-                                status: kycState.sellStatus,
+                                status: kycState.withdrawalStatus,
                                 isProgress: kycState.verificationInProgress,
                                 currentNavigate: () {
                                   showSendOptions(context, actualAsset);

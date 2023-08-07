@@ -8,12 +8,13 @@ part 'gift_model.g.dart';
 @freezed
 abstract class GiftModel with _$GiftModel {
   const factory GiftModel({
-    required String? id,
+    required dynamic id,
     @DecimalNullSerialiser() required Decimal? amount,
     required String? assetSymbol,
     required String? toPhoneNumber,
     required String? toEmail,
     required String? toName,
+    required String? fromName,
     @Default(GiftStatus.fail) GiftStatus? status,
     required String? declineReason,
   }) = _GiftModel;

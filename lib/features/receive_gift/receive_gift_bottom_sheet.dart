@@ -113,7 +113,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH24(),
           Text(
-            'Gift from ${giftModel.toName}',
+            'Gift from ${giftModel.fromName}',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
@@ -125,7 +125,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH8(),
           Text(
-            '''A gift of ${giftModel.amount} ${giftModel.assetSymbol} from ${giftModel.toName} \nis waiting for you''',
+            '''A gift of ${giftModel.amount} ${giftModel.assetSymbol} from ${giftModel.fromName} \nis waiting for you''',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF777C85),
@@ -144,7 +144,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                   .get<SNetwork>()
                   .simpleNetworking
                   .getWalletModule()
-                  .acceptGift(giftModel.id ?? '');
+                  .acceptGift(giftModel.id as String);
               await sRouter.pop();
             },
           ),
@@ -175,7 +175,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             .get<SNetwork>()
             .simpleNetworking
             .getWalletModule()
-            .declineGift(giftModel.id ?? '');
+            .declineGift(giftModel.id as String);
         await sRouter.pop();
         await sRouter.pop();
       },

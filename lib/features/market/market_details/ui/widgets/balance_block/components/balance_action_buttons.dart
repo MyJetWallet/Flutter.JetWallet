@@ -158,7 +158,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSend: () {
-              if (kycState.sellStatus ==
+              if (kycState.withdrawalStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
                 showSendOptions(
                   context,
@@ -167,7 +167,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 );
               } else {
                 kycAlertHandler.handle(
-                  status: kycState.sellStatus,
+                  status: kycState.withdrawalStatus,
                   isProgress: kycState.verificationInProgress,
                   currentNavigate: () {
                     showSendOptions(context, currency);
