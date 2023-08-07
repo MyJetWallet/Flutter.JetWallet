@@ -19,6 +19,7 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.marketText,
     required this.accountText,
     required this.cardText,
+    required this.rewardText,
     required this.hideAccount,
     required this.showCard,
     required this.isCardRequested,
@@ -36,6 +37,7 @@ class SBottomNavigationBar extends StatefulWidget {
   final String marketText;
   final String accountText;
   final String cardText;
+  final String rewardText;
 
   @override
   State<SBottomNavigationBar> createState() => _SBottomNavigationBarState();
@@ -170,11 +172,47 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       NotificationBox(
                         notifications: widget.isCardRequested ? 0 : 1,
                         top: -2,
-                        right: (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                        right:
+                            (MediaQuery.of(context).size.width - 48) / 8 - 29,
                       ),
                     ],
                   ),
                 ],
+                const Spacer(),
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: (MediaQuery.of(context).size.width - 48) / 4,
+                      child: STransparentInkWell(
+                        onTap: () => widget.onChanged(3),
+                        child: Column(
+                          children: [
+                            const SpaceH11(),
+                            if (widget.selectedIndex == 3)
+                              const SRewardIcon()
+                            else
+                              const SRewardIcon(),
+                            Text(
+                              widget.rewardText,
+                              style: sBodyText2Style.copyWith(
+                                fontWeight: FontWeight.w600,
+                                height: 1.38,
+                                color: widget.selectedIndex == 3
+                                    ? SColorsLight().black
+                                    : SColorsLight().grey3,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    NotificationBox(
+                      notifications: widget.isCardRequested ? 0 : 1,
+                      top: -2,
+                      right: (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                    ),
+                  ],
+                ),
                 const Spacer(),
               ],
             ),

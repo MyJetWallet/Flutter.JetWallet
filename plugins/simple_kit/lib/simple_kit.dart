@@ -236,6 +236,7 @@ export 'modules/icons/24x24/public/wallet/simple_wallet_icon.dart';
 export 'modules/icons/24x24/public/wire/simple_wire_icon.dart';
 export 'modules/icons/24x24/public/network/simple_network_icon.dart';
 export 'modules/icons/24x24/public/account/simple_account_icon.dart';
+export 'modules/icons/24x24/public/rewards/simple_rewards_icon.dart';
 export 'modules/icons/36x36/public/face_id/simple_face_id_icon.dart';
 export 'modules/icons/36x36/public/face_id/simple_face_id_pressed_icon.dart';
 export 'modules/icons/36x36/public/fingerprint/simple_fingerprint_icon.dart';

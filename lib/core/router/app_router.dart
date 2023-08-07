@@ -78,6 +78,7 @@ import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wall
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
+import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_amount.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
@@ -214,6 +215,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'card',
           page: CardRouter.page,
+        ),
+        AutoRoute(
+          path: 'rewards',
+          page: RewardsFlowRouter.page,
         ),
       ],
     ),

@@ -38,6 +38,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       marketText: intl.bottom_bar_market,
       accountText: intl.bottom_bar_account,
       cardText: intl.bottom_bar_card,
+      rewardText: intl.rewards_flow_tab_title,
       showCard: widget.showCard,
       isCardRequested: widget.isCardRequested,
     );

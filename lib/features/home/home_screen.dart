@@ -54,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (sUserInfo.cardAvailable) {
           screens.add(const CardRouter());
         }
+        screens.add(const RewardsFlowRouter());
 
         return AutoTabsScaffold(
           routes: screens,

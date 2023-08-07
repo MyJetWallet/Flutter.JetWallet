@@ -1185,5 +1185,10 @@
   "buy_confirmation_local_p2p_processing_title": "Processing…",
   "buy_confirmation_local_p2p_processing_text": "We are processing your purchase now. After successful completion purchased cryptocurrency will be credited to your Simple app.",
   "card_update_notification": "Card details were updated",
-  "card_delete_notification": "Card details were deleted"
+  "card_delete_notification": "Card details were deleted",
+  "rewards_flow_tab_title": "Rewards",
+  "rewards_flow_card_title": "Invite friends and\nget up to 100 EUR\nin crypto",
+  "rewards_flow_card_subtitle": "For yourself and your friend after they made a purchase a crypto for 350 EUR or more.",
+  "rewards_flow_copy_link": "Copy your invite link",
+  "rewards_flow_your_rewards": "Your rewards"
 }
