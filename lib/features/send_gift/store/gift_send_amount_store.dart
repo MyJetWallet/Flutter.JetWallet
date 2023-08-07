@@ -71,6 +71,9 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @action
   void init(CurrencyModel newCurrency) {
+    if (selectedCurrency.assetBalance != newCurrency.assetBalance) {
+      selectedPreset = null;
+    }
     selectedCurrency = newCurrency;
     limits = CardLimitsModel(
         minAmount:_minLimit,
@@ -88,6 +91,9 @@ abstract class _GeftSendAmountStoreBase with Store {
         barProgress: 0,
         leftHours: 0,
       );
+    _validateAmount();
+    _calculateBaseConversion();
+
   }
 
   @action

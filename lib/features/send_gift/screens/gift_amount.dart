@@ -41,7 +41,7 @@ class _GiftAmountState extends State<GiftAmount> {
 
   @override
   Widget build(BuildContext context) {
-    geftSendAmountStore.selectedCurrency = widget.sendGiftStore.currency;
+
     final deviceSize = sDeviceSize;
 
     final availableCurrency = currencyFrom(
@@ -52,6 +52,10 @@ class _GiftAmountState extends State<GiftAmount> {
     final availableBalance = Decimal.parse(
       '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
     );
+
+    geftSendAmountStore.init(
+       availableCurrency,
+      );
 
     return SPageFrame(
       header: SPaddingH24(
