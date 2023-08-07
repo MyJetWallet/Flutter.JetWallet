@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:jetwallet/core/services/device_size/models/device_size_union.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -16,6 +18,7 @@ void shareGiftResultBottomSheet({
   required Decimal amount,
 }) {
   sShowBasicModalBottomSheet(
+    scrollable: sDeviceSize ==  const DeviceSizeUnion.small(),
     context: context,
     horizontalPinnedPadding: 24,
     pinned: Row(
