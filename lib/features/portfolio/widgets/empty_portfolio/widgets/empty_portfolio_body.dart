@@ -93,15 +93,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
           ),
           const Spacer(),
           Text(
-            '',
-            textAlign: TextAlign.center,
-            style: sTextH3Style.copyWith(
-              height: 1.28,
-            ),
-            maxLines: 2,
-          ),
-          Text(
-            '',
+            intl.start_your_journey,
             textAlign: TextAlign.center,
             style: sTextH3Style.copyWith(
               height: 1.28,
@@ -112,7 +104,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
           if (isShowBuy) ...[
             SPrimaryButton1(
               active: true,
-              name: '',
+              name: intl.buy_crypto,
               onTap: () {
                 sAnalytics.newBuyTapBuy(
                   source: 'My Assets - Zero Balance - Buy',

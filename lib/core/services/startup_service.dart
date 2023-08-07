@@ -59,11 +59,7 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
-    try {
-      await AppTrackingTransparency.requestTrackingAuthorization();
-    } on PlatformException {}
-
-    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+    await getAdvData();
 
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
@@ -403,4 +399,12 @@ class StartupService {
       }
     } catch (e) {}
   }
+}
+
+Future<void> getAdvData() async {
+  try {
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  } on PlatformException {}
+
+  final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
 }
