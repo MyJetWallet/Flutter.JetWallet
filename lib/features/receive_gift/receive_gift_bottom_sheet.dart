@@ -17,9 +17,14 @@ void receiveGiftBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,
-    pinned: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+    pinned:Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const SizedBox(width: 24),
+        Text(
+          'Claim',
+          style: sTextH5Style,
+        ),
         SIconButton(
           onTap: () => Navigator.pop(context),
           defaultIcon: const SEraseIcon(),
