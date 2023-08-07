@@ -2126,13 +2126,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-     
-
       return DC.error(e);
     }
   }
@@ -2147,17 +2143,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
-        
+        final data = handleFullResponse<Map>(responseData);
+
         return DC.data(GiftModel.fromJson(data));
       } catch (e) {
-        
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-     
-
       return DC.error(e);
     }
   }
