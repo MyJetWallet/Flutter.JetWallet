@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 
 import '../../../utils/constants.dart';
@@ -153,13 +154,19 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             onTap: () async {
               final loading = StackLoaderStore()..startLoadingImmediately();
               unawaited(sRouter.push(ProgressRouter(loading: loading)));
-              await getIt
-                  .get<SNetwork>()
-                  .simpleNetworking
-                  .getWalletModule()
-                  .acceptGift(giftModel.id as String);
-              await sRouter.pop();
-              await showSuccessScreen(currency);
+              try {
+                await getIt
+                    .get<SNetwork>()
+                    .simpleNetworking
+                    .getWalletModule()
+                    .acceptGift(giftModel.id as String);
+                await sRouter.pop();
+                unawaited(showSuccessScreen(currency));
+              } on ServerRejectException catch (error) {
+                unawaited(showFailureScreen(error.cause));
+              } catch (error) {
+                unawaited(showFailureScreen(intl.something_went_wrong));
+              }
             },
           ),
           const SpaceH10(),
@@ -181,12 +188,12 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
         .push(
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
-        secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
+        secondaryText: '${volumeFormat(
           prefix: currency.prefixSymbol,
-          decimal: Decimal.zero,
+          decimal: giftModel.amount ?? Decimal.zero,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
-        )}\n${intl.send_gift_success_message_2}',
+        )} were credited to My Assets!',
         showProgressBar: true,
       ),
     )
@@ -194,6 +201,19 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       (value) async {
         await sRouter.pop();
       },
+    );
+  }
+
+  Future<void> showFailureScreen(String error) {
+    return sRouter.push(
+      FailureScreenRouter(
+        primaryText: intl.previewBuyWithAsset_failure,
+        secondaryText: error,
+        primaryButtonName: intl.previewBuyWithAsset_close,
+        onPrimaryButtonTap: () {
+          sRouter.popUntilRoot();
+        },
+      ),
     );
   }
 

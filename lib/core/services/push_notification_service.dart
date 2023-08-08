@@ -30,9 +30,16 @@ class PushNotificationService {
     ),
   );
 
-  static const InitializationSettings initializationSettingsAndroid =
+  static const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings();
+
+  static const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@drawable/ic_notification');
+
+  static const InitializationSettings initializationSettings =
       InitializationSettings(
-    android: AndroidInitializationSettings('@drawable/ic_notification'),
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
   );
 
   Future<void> initialize() async {
@@ -55,7 +62,7 @@ class PushNotificationService {
     );
 
     await _plugin.initialize(
-      initializationSettingsAndroid,
+      initializationSettings,
       onDidReceiveNotificationResponse: (details) async {
         if (details.payload != null) {
           getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
