@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/features/account/about_us/about_us.dart';
 import 'package:jetwallet/features/account/account_screen.dart';
@@ -76,6 +75,7 @@ import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/portfolio/portfolio_screen.dart';
 import 'package:jetwallet/features/reccurring/ui/widgets/recurring_success_screen.dart';
+import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
@@ -86,7 +86,6 @@ import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_notify_recipient.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_preview.dart';
-import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/features/send_gift/store/general_send_gift_store.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
@@ -114,6 +113,7 @@ import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_scre
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
@@ -581,6 +581,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/gift_order_summury',
       page: GiftOrderSummuryRouter.page,
+    ),
+    AutoRoute(
+      path: '/progress_router',
+      page: ProgressRouter.page,
     ),
     AutoRoute(
       path: '/buy_payment_method',

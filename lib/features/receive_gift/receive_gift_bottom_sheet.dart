@@ -1,7 +1,13 @@
+import 'dart:async';
+
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 
@@ -17,7 +23,7 @@ void receiveGiftBottomSheet({
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,
-    pinned:Row(
+    pinned: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const SizedBox(width: 24),
@@ -145,12 +151,15 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             active: true,
             name: 'Claim',
             onTap: () async {
+              final loading = StackLoaderStore()..startLoadingImmediately();
+              unawaited(sRouter.push(ProgressRouter(loading: loading)));
               await getIt
                   .get<SNetwork>()
                   .simpleNetworking
                   .getWalletModule()
                   .acceptGift(giftModel.id as String);
               await sRouter.pop();
+              await showSuccessScreen(currency);
             },
           ),
           const SpaceH10(),
@@ -164,6 +173,27 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           const SpaceH37(),
         ],
       ),
+    );
+  }
+
+  Future<void> showSuccessScreen(CurrencyModel currency) {
+    return sRouter
+        .push(
+      SuccessScreenRouter(
+        primaryText: intl.successScreen_success,
+        secondaryText: '${intl.send_gift_you_sent} ${volumeFormat(
+          prefix: currency.prefixSymbol,
+          decimal: Decimal.zero,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
+        )}\n${intl.send_gift_success_message_2}',
+        showProgressBar: true,
+      ),
+    )
+        .then(
+      (value) async {
+        await sRouter.pop();
+      },
     );
   }
 

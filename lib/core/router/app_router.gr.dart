@@ -1037,6 +1037,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ProgressRouter.name: (routeData) {
+      final args = routeData.argsAs<ProgressRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProgressScreen(
+          key: args.key,
+          loading: args.loading,
+        ),
+      );
+    },
   };
 }
 
@@ -4717,5 +4727,43 @@ class InfoWebViewRouterArgs {
   @override
   String toString() {
     return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
+  }
+}
+
+/// generated route for
+/// [ProgressScreen]
+class ProgressRouter extends PageRouteInfo<ProgressRouterArgs> {
+  ProgressRouter({
+    Key? key,
+    required StackLoaderStore loading,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProgressRouter.name,
+          args: ProgressRouterArgs(
+            key: key,
+            loading: loading,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ProgressRouter';
+
+  static const PageInfo<ProgressRouterArgs> page =
+      PageInfo<ProgressRouterArgs>(name);
+}
+
+class ProgressRouterArgs {
+  const ProgressRouterArgs({
+    this.key,
+    required this.loading,
+  });
+
+  final Key? key;
+
+  final StackLoaderStore loading;
+
+  @override
+  String toString() {
+    return 'ProgressRouterArgs{key: $key, loading: $loading}';
   }
 }
