@@ -85,8 +85,6 @@
 	<string>This app requires contacts access to function properly</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires Microphone access to function properly</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please provide us with your geolocation data to prove your current location</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
 	<key>NSPhotoLibraryUsageDescription</key>
