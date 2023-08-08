@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
+import 'package:jetwallet/features/kyc/kyc_service.dart';
+import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -52,6 +55,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final kyc = getIt.get<KycService>();
+    final handler = getIt.get<KycAlertHandler>();
+
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
@@ -152,20 +158,17 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             active: true,
             name: 'Claim',
             onTap: () async {
-              final loading = StackLoaderStore()..startLoadingImmediately();
-              unawaited(sRouter.push(ProgressRouter(loading: loading)));
-              try {
-                await getIt
-                    .get<SNetwork>()
-                    .simpleNetworking
-                    .getWalletModule()
-                    .acceptGift(giftModel.id as String);
-                await sRouter.pop();
-                unawaited(showSuccessScreen(currency));
-              } on ServerRejectException catch (error) {
-                unawaited(showFailureScreen(error.cause));
-              } catch (error) {
-                unawaited(showFailureScreen(intl.something_went_wrong));
+              if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+                await claim(currency);
+              } else {
+                handler.handle(
+                  needGifteExplanationPopup: true,
+                  status: kyc.depositStatus,
+                  isProgress: kyc.verificationInProgress,
+                  currentNavigate: () => claim(currency),
+                  requiredDocuments: kyc.requiredDocuments,
+                  requiredVerifications: kyc.requiredVerifications,
+                );
               }
             },
           ),
@@ -181,6 +184,24 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> claim(CurrencyModel currency) async {
+    final loading = StackLoaderStore()..startLoadingImmediately();
+    unawaited(sRouter.push(ProgressRouter(loading: loading)));
+    try {
+      await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .acceptGift(giftModel.id as String);
+      await sRouter.pop();
+      unawaited(showSuccessScreen(currency));
+    } on ServerRejectException catch (error) {
+      unawaited(showFailureScreen(error.cause));
+    } catch (error) {
+      unawaited(showFailureScreen(intl.something_went_wrong));
+    }
   }
 
   Future<void> showSuccessScreen(CurrencyModel currency) {
