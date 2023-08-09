@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
@@ -33,6 +34,8 @@ class PushNotificationService {
   );
 
   Future<void> initialize() async {
+    await getAdvData();
+
     await _resolvePlatformImplementation();
 
     final settings = await _messaging.requestPermission();
