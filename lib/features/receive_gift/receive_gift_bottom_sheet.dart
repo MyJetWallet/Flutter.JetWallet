@@ -118,7 +118,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                       ),
                       child: Image.asset(
                         logoWithTitle,
-                        fit: BoxFit.none,
+                        fit: BoxFit.contain,
                         alignment: Alignment.topCenter,
                         width: 104,
                         height: 32,
