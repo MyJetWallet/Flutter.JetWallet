@@ -317,7 +317,7 @@ class SignalRModuleNew {
   Future<void> reconnectSignalR({
     bool needRefreshToken = true,
   }) async {
-    transport.addToLog(
+    /*transport.addToLog(
       DateTime.now(),
       'Start reconnect Signalr. isDisconnecting: $isDisconnecting',
     );
@@ -350,6 +350,7 @@ class SignalRModuleNew {
         _reconnectTimer?.cancel();
       }
     }
+    */
   }
 
   Future<void> disconnect(
