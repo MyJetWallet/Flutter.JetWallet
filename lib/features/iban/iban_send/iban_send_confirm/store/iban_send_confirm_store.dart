@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
@@ -32,6 +33,16 @@ abstract class _IbanSendConfirmStoreBase with Store {
     sSignalRModules.currenciesList,
     'EUR',
   );
+
+  void init(
+    IbanPreviewWithdrawalModel data,
+  ) {
+    sAnalytics.orderSummarySendIBANScreenView(
+      asset: eurCurrency.symbol,
+      methodType: 'IBAN',
+      sendAmount: data.amount.toString() ?? '0',
+    );
+  }
 
   @action
   Future<void> confirmIbanOut(
@@ -58,8 +69,21 @@ abstract class _IbanSendConfirmStoreBase with Store {
     loader.finishLoadingImmediately();
 
     if (response.hasError) {
+      sAnalytics.failedSendIBANScreenView(
+        asset: 'EUR',
+        methodType: 'IBAN',
+        sendAmount: data.amount.toString(),
+        failedReason: response.error?.cause ?? '',
+      );
+
       await showFailureScreen(response.error?.cause ?? '');
     } else {
+      sAnalytics.successSendIBANScreenView(
+        asset: 'EUR',
+        methodType: 'IBAN',
+        sendAmount: data.amount.toString(),
+      );
+
       await showSuccessScreen(data);
     }
   }

@@ -661,4 +661,311 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // SEND
+
+  void tapOnTheSendButton({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheSendButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '80',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void sendToSheetScreenView({
+    required List<String> methods,
+  }) {
+    _analytics.logEvent(
+      EventType.sendToSheetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '81',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsList: methods,
+      },
+    );
+  }
+
+  void tapOnTheGiftButton({
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheGiftButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '82',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsType: type,
+      },
+    );
+  }
+
+  void sendingAssetScreenView({
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.sendingAssetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '83',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsType: type,
+      },
+    );
+  }
+
+  void receiversDetailsScreenView({
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.receiversDetailsScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '84',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsType: type,
+      },
+    );
+  }
+
+  void tapOnTheContWithReceiverDetailsButton({
+    required String type,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContWithReceiverDetailsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '85',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsType: type,
+      },
+    );
+  }
+
+  // Iban Send
+
+  void accountTabScreenView() {
+    _analytics.logEvent(
+      EventType.accountTabScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '154',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void tapOnTheButtonAddBankAccount() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAddBankAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '155',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void tapOnTheButtonAddAccount() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAddAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '156',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void tapOnTheButtonWithAnyExistAccount() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonWithAnyExistAccount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '157',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void sendEurAmountScreenView() {
+    _analytics.logEvent(
+      EventType.sendEurAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '158',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void tapOnTheButtonLimitsIBAN() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonLimitsIBAN,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '159',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void sendLimitsIBANScreenView() {
+    _analytics.logEvent(
+      EventType.sendLimitsIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '160',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void errorSendIBANAmount({required String errorCode}) {
+    _analytics.logEvent(
+      EventType.errorSendIBANAmount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '161',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
+      },
+    );
+  }
+
+  void tapOnTheButtonContSendIbanAmount({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+    required String preset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonContSendIbanAmount,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '162',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+        PropertyType.preset: preset,
+      },
+    );
+  }
+
+  void orderSummarySendIBANScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.orderSummarySendIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '163',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+      },
+    );
+  }
+
+  void tapOnTheButtonConfirmSendIban({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonConfirmSendIban,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '164',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+      },
+    );
+  }
+
+  void confirmWithPINScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.confirmWithPINScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '165',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+      },
+    );
+  }
+
+  void errorWrongPinSend({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.errorWrongPinSend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '166',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+      },
+    );
+  }
+
+  void successSendIBANScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.successSendIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '166',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+      },
+    );
+  }
+
+  void failedSendIBANScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.failedSendIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '166',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
 }

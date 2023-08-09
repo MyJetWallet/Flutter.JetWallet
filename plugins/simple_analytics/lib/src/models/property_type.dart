@@ -23,4 +23,9 @@ class PropertyType {
   static const paymentMethodName = 'Payment Method name';
   static const paymentMethodCurrency = 'Payment Method currency';
   static const network = 'Network';
+  static const sendMethodsList = 'Send method type all available list';
+  static const sendMethodsType = 'Send method type';
+  static const sendAmount = 'Total send amount';
+  static const preset = 'Preset';
+  static const failedReason = 'failedReason';
 }

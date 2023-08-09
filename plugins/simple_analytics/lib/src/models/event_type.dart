@@ -58,4 +58,36 @@ class EventType {
       "Tap on the button ‘Copy’ on 'Receive Asset' screen";
   static const tapOnTheButtonShareOnReceiveAssetScreen =
       "Tap on the button ‘Share’ on 'Receive Asset' screen";
+
+  // Send
+  static const tapOnTheSendButton = 'Tap on the ‘Send’ button';
+  static const sendToSheetScreenView = "'Send to' sheet screen view";
+  static const tapOnTheGiftButton = 'Tap on the ‘Gift’ button';
+  static const sendingAssetScreenView = '“Sending asset” screen view';
+  static const receiversDetailsScreenView = "“Receiver's details“ screen view";
+  static const tapOnTheContWithReceiverDetailsButton =
+      "Tap on the ‘Continue’ with Receiver's Details button";
+
+  // Iban send
+  static const accountTabScreenView = "'Account tab' screen view";
+  static const tapOnTheButtonAddBankAccount =
+      "Tap on the button ‘Add bank account’";
+  static const tapOnTheButtonAddAccount = 'Tap on the button ‘Add account’';
+  static const tapOnTheButtonWithAnyExistAccount =
+      'Tap on the  button with any exist account';
+  static const sendEurAmountScreenView = "'Send EUR amount' screen view";
+  static const tapOnTheButtonLimitsIBAN =
+      "Tap on the button ‘Limits IBAN send’";
+  static const sendLimitsIBANScreenView = "'Send limits IBAN' screen view";
+  static const errorSendIBANAmount = 'Error - Send IBAN Amount';
+  static const tapOnTheButtonContSendIbanAmount =
+      "Tap on the button ‘Continue’ with ‘Send IBAN Amount’ screen";
+  static const orderSummarySendIBANScreenView =
+      "Order summary Send IBAN' screen view";
+  static const tapOnTheButtonConfirmSendIban =
+      'Tap on the button ‘Confirm’ Order Summary Send IBAN';
+  static const confirmWithPINScreenView = "‘Confirm with PIN' screen view";
+  static const errorWrongPinSend = 'Error - wrong pin';
+  static const successSendIBANScreenView = "‘Success Send IBAN’ screen view";
+  static const failedSendIBANScreenView = '‘Failed Send IBAN’ screen view';
 }

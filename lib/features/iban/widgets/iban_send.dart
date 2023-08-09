@@ -10,6 +10,7 @@ import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class IbanSend extends StatelessObserverWidget {
@@ -149,6 +150,8 @@ class IbanSend extends StatelessObserverWidget {
                   removeDivider: true,
                   needSpacer: true,
                   onTap: () {
+                    sAnalytics.tapOnTheButtonWithAnyExistAccount();
+
                     getIt<AppRouter>()
                         .push(
                           IbanSendAmountRouter(
@@ -177,6 +180,8 @@ class IbanSend extends StatelessObserverWidget {
               description: '',
               removeDivider: true,
               onTap: () {
+                sAnalytics.tapOnTheButtonAddBankAccount();
+
                 sRouter.push(IbanAddBankAccountRouter()).then(
                       (value) => store.getAddressBook(),
                     );

@@ -10,6 +10,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/home/widgets/bottom_navigation_menu.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_sheets/components/simple_shade_animation_stack.dart';
 
 import '../../utils/helpers/check_kyc_status.dart';
@@ -82,6 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (val == 2) {
                   getIt<IbanStore>().initState();
                   getIt<IbanStore>().getAddressBook();
+
+                  sAnalytics.accountTabScreenView();
                 }
 
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {

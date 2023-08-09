@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
@@ -28,7 +29,7 @@ class IbanSendConfirm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendConfirmStore>(
-      create: (context) => IbanSendConfirmStore(),
+      create: (context) => IbanSendConfirmStore()..init(data),
       builder: (context, child) => IbanSendConfirmBody(
         contact: contact,
         data: data,
@@ -222,6 +223,12 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
+                    sAnalytics.tapOnTheButtonConfirmSendIban(
+                      asset: 'EUR',
+                      methodType: 'IBAN',
+                      sendAmount: data.amount.toString(),
+                    );
+
                     state.confirmIbanOut(
                       data,
                       contact,

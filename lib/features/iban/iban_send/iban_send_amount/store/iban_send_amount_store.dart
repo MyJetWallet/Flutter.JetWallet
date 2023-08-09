@@ -17,6 +17,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
@@ -84,6 +85,8 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void init(AddressBookContactModel value) {
     contact = value;
+
+    sAnalytics.sendEurAmountScreenView();
 
     final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
       (element) => element.id == WithdrawalMethods.ibanSend,
@@ -241,6 +244,12 @@ abstract class _IbanSendAmountStoreBase with Store {
                 : InputError.limitError
             : error
         : InputError.none;
+
+    if (error != InputError.none) {
+      sAnalytics.errorSendIBANAmount(
+        errorCode: withAmmountInputError.toString(),
+      );
+    }
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }
