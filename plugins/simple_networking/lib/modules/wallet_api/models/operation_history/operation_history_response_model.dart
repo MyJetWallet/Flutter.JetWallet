@@ -35,7 +35,7 @@ class OperationHistoryItem with _$OperationHistoryItem {
     GiftReceiveInfo? giftReceiveInfo,
     required String operationId,
     @OperationTypeSerialiser() required OperationType operationType,
-    required String assetId,
+    @Default('') String assetId,
     required String timeStamp,
     @DecimalSerialiser() required Decimal balanceChange,
     @DecimalSerialiser() required Decimal newBalance,

@@ -158,7 +158,17 @@ abstract class _OperationHistoryBase with Store {
         .getOperationHistoryOperationID(operationID);
 
     response.pick(
-      onData: (data) {},
+      onData: (data) {
+        if (data.assetId.isEmpty) return;
+        
+        showTransactionDetails(
+          sRouter.navigatorKey.currentContext!,
+          data,
+          (q) {
+            detailsShowed = false;
+          },
+        );
+      },
       onError: (e) {},
     );
   }
