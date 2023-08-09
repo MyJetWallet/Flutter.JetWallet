@@ -1127,5 +1127,7 @@
     "iban_terms_3": "Środki muszą pochodzić z konta na twoje własne imię. Pieniądze przesłane z innych kont zostaną zwrócone, a mogą być naliczone dodatkowe opłaty.",
     "iban_terms_4": "Musisz być beneficjentem konta bankowego",
     "historyRecurringBuys_noTransactionsYet": "Brak transakcji",
-    "historyRecurringBuy_text1": "Tutaj pojawią się Twoje transakcje"
+    "historyRecurringBuy_text1": "Tutaj pojawią się Twoje transakcje",
+    "start_your_journey": "Rozpocznij swoją podróż\nz aplikacją Simple",
+    "buy_crypto": "Kup krypto"
 }
