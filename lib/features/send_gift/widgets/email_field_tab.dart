@@ -62,7 +62,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
               SIconButton(
                 onTap: () async {
                   final data = await Clipboard.getData('text/plain');
-                  final text = data?.text;
+                  final text = data?.text?.replaceAll(' ', '');
                   if (text != null) {
                     widget.store.onChangedEmail(text);
                   }
