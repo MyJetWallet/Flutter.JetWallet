@@ -82,7 +82,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                     height: 240,
                     child: Image.asset(
                       shareGiftBackgroundAsset,
-                      fit: BoxFit.none,
+                      fit: BoxFit.fitWidth,
                       alignment: Alignment.topCenter,
                     ),
                   ),
