@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_request_model.dart';
@@ -68,6 +69,11 @@ abstract class _CryptoDepositStoreBase with Store {
     _logger.log(notifier, 'setNetwork');
 
     network = _network;
+
+    sAnalytics.receiveAssetScreenView(
+      asset: currency.symbol,
+      network: network.description,
+    );
 
     _requestDepositAddress();
   }

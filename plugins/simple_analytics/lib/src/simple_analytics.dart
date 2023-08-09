@@ -1,11 +1,7 @@
 import 'package:amplitude_flutter/amplitude.dart';
-import 'package:amplitude_flutter/identify.dart';
 
-import '../simple_analytics.dart';
-import 'helpers/hash_string.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
-import 'models/user_type.dart';
 
 final sAnalytics = SimpleAnalytics();
 
@@ -547,6 +543,121 @@ class SimpleAnalytics {
         PropertyType.paymentMethodType: paymentMethodType,
         PropertyType.paymentMethodName: paymentMethodName,
         PropertyType.paymentMethodCurrency: paymentMethodCurrency,
+      },
+    );
+  }
+
+  void tapOnTheReceiveButton({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheReceiveButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '169',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void chooseAssetToReceiveScreenView() {
+    _analytics.logEvent(
+      EventType.chooseAssetToReceiveScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '170',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void chooseNetworkPopupView({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.chooseNetworkPopupView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '171',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void receiveAssetScreenView({
+    required String asset,
+    required String network,
+  }) {
+    _analytics.logEvent(
+      EventType.receiveAssetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '172',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+      },
+    );
+  }
+
+  void tapOnTheButtonNetworkOnReceiveAssetScreen({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonNetworkOnReceiveAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '173',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void chooseNetworkPopupViewShowedOnReceiveAssetScreen({
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.chooseNetworkPopupViewShowedOnReceiveAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '174',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+      },
+    );
+  }
+
+  void tapOnTheButtonCopyOnReceiveAssetScreen({
+    required String asset,
+    required String network,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCopyOnReceiveAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '175',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+      },
+    );
+  }
+
+  void tapOnTheButtonShareOnReceiveAssetScreen({
+    required String asset,
+    required String network,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonShareOnReceiveAssetScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '176',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
       },
     );
   }

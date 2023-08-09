@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/services/device_size/device_size.dart';
@@ -241,6 +242,11 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
+                sAnalytics.tapOnTheButtonCopyOnReceiveAssetScreen(
+                  asset: deposit.currency.symbol,
+                  network: deposit.network.description,
+                );
+
                 sNotification.showError(intl.copy_message,
                     id: 1, isError: false);
               },

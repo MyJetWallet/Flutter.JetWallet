@@ -34,6 +34,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
             store.network,
             store.withdrawalInputModel!.currency!.depositBlockchains,
             store.withdrawalInputModel!.currency!.iconUrl,
+            store.withdrawalInputModel!.currency!.symbol,
             store.updateNetwork,
           );
         }
@@ -86,6 +87,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           store.withdrawalInputModel!.currency!
                               .withdrawalBlockchains,
                           store.withdrawalInputModel!.currency!.iconUrl,
+                          store.withdrawalInputModel!.currency!.symbol,
                           store.updateNetwork,
                           backOnClose: false,
                         );

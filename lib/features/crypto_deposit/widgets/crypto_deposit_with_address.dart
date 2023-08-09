@@ -62,6 +62,11 @@ class CryptoDepositWithAddress extends StatelessObserverWidget {
             longString: true,
             expanded: true,
             then: () {
+              sAnalytics.tapOnTheButtonCopyOnReceiveAssetScreen(
+                asset: deposit.currency.symbol,
+                network: deposit.network.description,
+              );
+
               sNotification.showError(intl.copy_message, id: 1, isError: false);
             },
           ),

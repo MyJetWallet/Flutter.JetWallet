@@ -45,4 +45,17 @@ class EventType {
   static const paymentWevViewScreenView = '‘Payment web view’ screen view';
   static const paymentWevViewClose =
       'Tap on the button ‘Close’ on Payment web view';
+  static const tapOnTheReceiveButton = 'Tap on the ‘Receive’ button';
+  static const chooseAssetToReceiveScreenView =
+      '‘Choose asset to receive’ screen view';
+  static const chooseNetworkPopupView = '‘Choose Network’ popup view';
+  static const receiveAssetScreenView = '‘Receive Asset’ screen view';
+  static const tapOnTheButtonNetworkOnReceiveAssetScreen =
+      "Tap on the button ‘Network’ on 'Receive Asset' screen";
+  static const chooseNetworkPopupViewShowedOnReceiveAssetScreen =
+      "‘Choose Network’ popup view showed on 'Receive Asset' screen";
+  static const tapOnTheButtonCopyOnReceiveAssetScreen =
+      "Tap on the button ‘Copy’ on 'Receive Asset' screen";
+  static const tapOnTheButtonShareOnReceiveAssetScreen =
+      "Tap on the button ‘Share’ on 'Receive Asset' screen";
 }

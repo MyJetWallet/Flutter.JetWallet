@@ -22,4 +22,5 @@ class PropertyType {
   static const paymentMethodType = 'Payment Method type';
   static const paymentMethodName = 'Payment Method name';
   static const paymentMethodCurrency = 'Payment Method currency';
+  static const network = 'Network';
 }

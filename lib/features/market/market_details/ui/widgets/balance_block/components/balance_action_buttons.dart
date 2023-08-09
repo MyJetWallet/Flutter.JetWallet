@@ -112,6 +112,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onReceive: () {
+              sAnalytics.tapOnTheReceiveButton(
+                source: 'Market - Asset - Receive',
+              );
+
               if (currency.type == AssetType.crypto) {
                 if (kycState.depositStatus ==
                     kycOperationStatus(KycStatus.allowed)) {
