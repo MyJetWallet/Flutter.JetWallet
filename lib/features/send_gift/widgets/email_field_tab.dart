@@ -46,7 +46,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
             controller: _textController,
             keyboardType: TextInputType.emailAddress,
             onChanged: (text) {
-              widget.store.onChangedEmail(text);
+              widget.store.onChangedEmail(text.replaceAll(' ', ''));
             },
             onErase: () {
               widget.store.onChangedEmail('');
