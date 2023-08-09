@@ -45,13 +45,17 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
             textInputAction: TextInputAction.done,
             controller: _textController,
             keyboardType: TextInputType.emailAddress,
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(
+                RegExp('[ ]'),
+              ),
+            ],
             onChanged: (text) {
-              widget.store.onChangedEmail(text.replaceAll(' ', ''));
+              widget.store.onChangedEmail(text);
             },
             onErase: () {
               widget.store.onChangedEmail('');
               _textController = TextEditingController(text: '');
-                  
             },
             isError: widget.store.email != '' && !widget.store.emailValid,
             suffixIcons: [
