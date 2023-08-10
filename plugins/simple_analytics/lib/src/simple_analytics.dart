@@ -968,4 +968,39 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Global Send
+
+  void chooseAssetToSendScreenView() {
+    _analytics.logEvent(
+      EventType.chooseAssetToSendScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '135',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void destinationCountryScreenView() {
+    _analytics.logEvent(
+      EventType.destinationCountryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '136',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void paymentMethodScreenViewGlobalSend() {
+    _analytics.logEvent(
+      EventType.paymentMethodScreenViewGlobalSend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '137',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
 }

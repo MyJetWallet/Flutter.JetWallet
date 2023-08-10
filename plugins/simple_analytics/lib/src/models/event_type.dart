@@ -90,4 +90,12 @@ class EventType {
   static const errorWrongPinSend = 'Error - wrong pin';
   static const successSendIBANScreenView = "‘Success Send IBAN’ screen view";
   static const failedSendIBANScreenView = '‘Failed Send IBAN’ screen view';
+
+  // Global Send
+
+  static const chooseAssetToSendScreenView =
+      "‘Choose asset to send’ screen view";
+  static const destinationCountryScreenView =
+      "‘Destination country’ screen view";
+      static const paymentMethodScreenViewGlobalSend = '‘Payment method’ screen view';
 }
