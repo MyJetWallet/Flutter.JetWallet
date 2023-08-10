@@ -68,6 +68,8 @@ class PaymentCardItem extends StatelessObserverWidget {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Baseline(
                             baseline: 18.0,
@@ -81,10 +83,15 @@ class PaymentCardItem extends StatelessObserverWidget {
                           ),
                           const SpaceW8(),
                           if (currency != null)
-                            Text(
-                              currency ?? '',
-                              style: sOverlineTextStyle.copyWith(
-                                color: sKit.colors.grey1,
+                            Baseline(
+                              baseline: 16.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                currency ?? '',
+                                style: sOverlineTextStyle.copyWith(
+                                  color: sKit.colors.grey1,
+                                  height: 1.38,
+                                ),
                               ),
                             ),
                           const Spacer(),
