@@ -72,17 +72,18 @@ class _GiftAmountState extends State<GiftAmount> {
             fontSize: 14,
             fontFamily: 'Gilroy',
             fontWeight: FontWeight.w500,
+            height: 1.50,
           ),
         ),
       ),
       child: Column(
         children: [
-          const Spacer(),
+          deviceSize.when(
+            small: () => const SizedBox(),
+            medium: () => const Spacer(),
+          ),
           Baseline(
-            baseline: deviceSize.when(
-              small: () => 32,
-              medium: () => 31,
-            ),
+            baseline: 45,
             baselineType: TextBaseline.alphabetic,
             child: Observer(
               builder: (context) {
@@ -106,7 +107,10 @@ class _GiftAmountState extends State<GiftAmount> {
           ),
           const Spacer(),
           const GiftSendType(),
-          const SpaceH20(),
+          deviceSize.when(
+            small: () => const Spacer(),
+            medium: () => const SpaceH20(),
+          ),
           Observer(
             builder: (context) {
               return SNumericKeyboardAmount(
