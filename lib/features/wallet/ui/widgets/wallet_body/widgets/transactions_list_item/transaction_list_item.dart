@@ -91,7 +91,7 @@ class TransactionListItem extends StatelessObserverWidget {
                                 OperationType.giftSend ||
                             transactionListItem.operationType ==
                                 OperationType.giftReceive) ...[
-                           Container(
+                          Container(
                             height: 16,
                             margin: const EdgeInsets.only(top: 4),
                             child: const SGiftSendIcon(),
@@ -167,9 +167,7 @@ class TransactionListItem extends StatelessObserverWidget {
               Row(
                 children: [
                   const SpaceW30(),
-                  if (transactionListItem.status != Status.inProgress ||
-                      transactionListItem.operationType ==
-                          OperationType.giftSend)
+                  if (transactionListItem.status != Status.inProgress)
                     TransactionListItemText(
                       text: '${formatDateToDMY(
                         transactionListItem.timeStamp,
@@ -177,9 +175,7 @@ class TransactionListItem extends StatelessObserverWidget {
                           ', ${formatDateToHm(transactionListItem.timeStamp)}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.status == Status.inProgress &&
-                      transactionListItem.operationType !=
-                          OperationType.giftSend)
+                  if (transactionListItem.status == Status.inProgress)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_balanceInProcess}...',
                       color: colors.grey2,
