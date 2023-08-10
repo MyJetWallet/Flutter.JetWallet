@@ -257,9 +257,10 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                             width: 40,
                             height: 40,
                             placeholder: MethodPlaceholder(
-                              name: capitalizeText(
-                                store.method?.id.name ?? '  ',
-                              ),
+                              name: store.method?.name ??
+                                  capitalizeText(
+                                    store.method?.id.name ?? '  ',
+                                  ),
                             ),
                           ),
                           const SpaceW12(),
@@ -268,9 +269,10 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                               baseline: 18,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                capitalizeText(
-                                  store.method?.id.name ?? '  ',
-                                ),
+                                store.method?.name ??
+                                    capitalizeText(
+                                      store.method?.id.name ?? '  ',
+                                    ),
                                 overflow: TextOverflow.ellipsis,
                                 style: sSubtitle2Style,
                               ),

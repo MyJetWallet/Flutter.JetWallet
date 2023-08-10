@@ -155,10 +155,11 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.history_payment_method,
               value: TransactionDetailsValueText(
-                text: getLocalOperationName(
-                  transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                      PaymentMethodType.unsupported,
-                ),
+                text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
+                    getLocalOperationName(
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                          PaymentMethodType.unsupported,
+                    ),
               ),
             ),
           ],
