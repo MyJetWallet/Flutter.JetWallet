@@ -1,5 +1,6 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:mobx/mobx.dart';
@@ -66,6 +67,11 @@ abstract class GeneralSendGiftStoreBase with Store {
   @action
   void setCurrency(CurrencyModel newCurrency) {
     currency = newCurrency;
+    final storageService = getIt.get<LocalStorageService>();
+    storageService.setString(
+      lastAssetSend,
+      newCurrency.symbol,
+    );
   }
 
   @action

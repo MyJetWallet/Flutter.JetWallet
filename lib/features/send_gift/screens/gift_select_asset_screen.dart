@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -12,28 +13,58 @@ import '../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../utils/models/currency_model.dart';
 
 @RoutePage(name: 'GiftSelectAssetRouter')
-class GiftSelectAssetScreen extends StatelessObserverWidget {
-  GiftSelectAssetScreen({super.key});
+class GiftSelectAssetScreen extends StatefulObserverWidget {
+  const GiftSelectAssetScreen({super.key});
+
+  @override
+  State<GiftSelectAssetScreen> createState() => _GiftSelectAssetScreenState();
+}
+
+class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
+  String? lastCurrency;
+
+  @override
+  void initState() {
+    super.initState();
+    final storageService = getIt.get<LocalStorageService>();
+    storageService.getValue(lastAssetSend).then(
+      (value) {
+        setState(() {
+          lastCurrency = value;
+        });
+      },
+    );
+  }
 
   final ObservableList<CurrencyModel> isGiftSendActive =
-      sSignalRModules.currenciesList
-        ..sort(
-          (a, b) {
-            return b.baseBalance.compareTo(a.baseBalance);
-          },
-        );
+      sSignalRModules.currenciesList;
 
   final baseCurrency = sSignalRModules.baseCurrency;
 
   @override
   Widget build(BuildContext context) {
+    final sortedAssets = isGiftSendActive
+        .where(
+          (element) =>
+              element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
+        )
+        .toList();
+
+    sortedAssets.sort((a, b) {
+      if (lastCurrency != null) {
+        if (a.symbol == lastCurrency) {
+          return 0.compareTo(1);
+        } else if (b.symbol == lastCurrency) {
+          return 1.compareTo(0);
+        }
+      }
+
+      return b.baseBalance.compareTo(a.baseBalance);
+    });
+
     getIt.get<ActionSearchStore>().initConvert(
-          isGiftSendActive
-              .where((element) => element.isAssetBalanceNotEmpty)
-              .toList(),
-          isGiftSendActive
-              .where((element) => element.isAssetBalanceEmpty)
-              .toList(),
+          sortedAssets,
+          sortedAssets,
         );
     final searchStore = getIt.get<ActionSearchStore>();
 
@@ -48,14 +79,7 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                if (isGiftSendActive
-                        .where(
-                          (element) =>
-                              element.supportsGiftlSend &&
-                              element.isAssetBalanceNotEmpty,
-                        )
-                        .length >
-                    7) ...[
+                if (sortedAssets.length > 7) ...[
                   SPaddingH24(
                     child: SStandardField(
                       controller: TextEditingController(),
@@ -63,8 +87,8 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
                       onChanged: (String value) {
                         searchStore.searchConvert(
                           value,
-                          isGiftSendActive,
-                          isGiftSendActive,
+                          sortedAssets,
+                          sortedAssets,
                         );
                       },
                     ),
@@ -76,11 +100,7 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
                     return Column(
                       children: [
                         for (final currency
-                            in searchStore.convertCurrenciesWithBalance.where(
-                          (element) =>
-                              element.supportsGiftlSend &&
-                              element.isAssetBalanceNotEmpty,
-                        ))
+                            in searchStore.convertCurrenciesWithBalance)
                           SWalletItem(
                             decline: currency.dayPercentChange.isNegative,
                             icon: SNetworkSvg24(
@@ -90,20 +110,10 @@ class GiftSelectAssetScreen extends StatelessObserverWidget {
                             amount: currency.volumeBaseBalance(baseCurrency),
                             secondaryText: currency.volumeAssetBalance,
                             removeDivider: currency ==
-                                    searchStore.convertCurrenciesWithBalance
-                                        .where(
-                                          (element) =>
-                                              element.supportsGiftlSend &&
-                                              element.isAssetBalanceNotEmpty,
-                                        )
-                                        .last ||
-                                searchStore.convertCurrenciesWithBalance
-                                        .where(
-                                          (element) =>
-                                              element.supportsGiftlSend &&
-                                              element.isAssetBalanceNotEmpty,
-                                        )
-                                        .length ==
+                                    searchStore
+                                        .convertCurrenciesWithBalance.last ||
+                                searchStore
+                                        .convertCurrenciesWithBalance.length ==
                                     1,
                             onTap: () {
                               sRouter.push(
