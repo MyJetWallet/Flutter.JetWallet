@@ -106,7 +106,7 @@ class SActionConfirmTextWiyhIcon extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        padding: const EdgeInsets.only(right: 4, top: 3),
                         child: icon,
                       ),
                       Text(

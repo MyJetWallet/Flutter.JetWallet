@@ -61,7 +61,7 @@ class _GiftAmountState extends State<GiftAmount> {
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
-          subTitle: '${intl.send_gift_available}:${volumeFormat(
+          subTitle: '${intl.send_gift_available}: ${volumeFormat(
             prefix: widget.sendGiftStore.currency.prefixSymbol,
             decimal: availableBalance,
             accuracy: widget.sendGiftStore.currency.accuracy,

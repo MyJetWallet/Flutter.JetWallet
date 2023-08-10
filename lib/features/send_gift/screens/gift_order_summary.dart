@@ -66,7 +66,7 @@ class GiftOrderSummury extends StatelessWidget {
                     const SDivider(),
                     const SpaceH19(),
                     SActionConfirmText(
-                      name: intl.to,
+                      name: intl.to1,
                       value: sendGiftStore.receiverContact,
                       baseline: 24,
                     ),
