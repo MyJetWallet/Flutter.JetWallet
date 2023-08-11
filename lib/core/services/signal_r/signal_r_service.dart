@@ -90,6 +90,7 @@ class SignalRService {
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
       updateAssetPaymentMethodsNew:
           sSignalRModules.updateAssetPaymentMethodsNew,
+      receiveGifts: sSignalRModules.reciveGiftsEvent,
 
       ///
       createNewSessionLog: () {

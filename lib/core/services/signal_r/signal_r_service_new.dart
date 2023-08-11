@@ -12,6 +12,7 @@ import 'package:jetwallet/features/market/market_details/helper/calculate_percen
 import 'package:jetwallet/features/market/market_details/model/return_rates_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/search_store.dart';
+import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
@@ -36,6 +37,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
+import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -979,6 +981,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
       );
     } catch (e) {
       return null;
+    }
+  }
+
+  @action
+  Future<void> reciveGiftsEvent(IncomingGiftModel gift) async {
+    for (final element in gift.gifts) {
+     await pushReceiveGiftBottomSheet(element);
     }
   }
 

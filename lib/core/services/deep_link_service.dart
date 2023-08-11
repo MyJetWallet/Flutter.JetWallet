@@ -170,7 +170,6 @@ class DeepLinkService {
     } else if (command == jw_kyc_documents_declined) {
       pushDocumentNotVerified(parameters);
     } else if (command == jw_gift_incoming) {
-      pushReceiveGiftBottomSheet(parameters);
     } else if (command == jw_gift_remind) {
       pushRemindGiftBottomSheet(parameters);
     } else if (command == jw_gift_expired) {
@@ -682,53 +681,6 @@ class DeepLinkService {
     );
   }
 
-  Future<void> pushReceiveGiftBottomSheet(
-    Map<String, String> parameters,
-  ) async {
-    final jwOperationId = parameters['jw_operation_id'];
-    if (jwOperationId == null) return;
-
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      final gift = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getGift(jwOperationId);
-
-      if (gift.data == null) return;
-      final context = sRouter.navigatorKey.currentContext!;
-      if (context.mounted) {
-        receiveGiftBottomSheet(
-          context: context,
-          giftModel: gift.data!,
-        );
-      }
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          func: () async {
-            final gift = await getIt
-                .get<SNetwork>()
-                .simpleNetworking
-                .getWalletModule()
-                .getGift(jwOperationId);
-            if (gift.data == null) return;
-
-            final context = sRouter.navigatorKey.currentContext!;
-            if (context.mounted) {
-              receiveGiftBottomSheet(
-                context: context,
-                giftModel: gift.data!,
-              );
-            }
-          },
-        ),
-      );
-    }
-  }
-
   Future<void> pushRemindGiftBottomSheet(
     Map<String, String> parameters,
   ) async {
@@ -756,7 +708,7 @@ class DeepLinkService {
           amount: gift.data?.amount ?? Decimal.zero,
           currency: currency,
           email: gift.data?.toEmail,
-          phoneNumber:  gift.data?.toPhoneNumber,
+          phoneNumber: gift.data?.toPhoneNumber,
         );
       }
     } else {

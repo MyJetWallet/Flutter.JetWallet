@@ -1,10 +1,11 @@
 import 'dart:async';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -13,17 +14,49 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
+import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 
 import '../../../utils/constants.dart';
 import '../../core/di/di.dart';
 import '../../core/router/app_router.dart';
+import '../app/store/models/authorized_union.dart';
+import '../crypto_deposit/model/crypto_deposit_union.dart';
 import '../market/market_details/helper/currency_from.dart';
 
-void receiveGiftBottomSheet({
+Future<void> pushReceiveGiftBottomSheet(
+  IncomingGiftObject gift,
+) async {
+  if (getIt.isRegistered<AppStore>() &&
+      getIt.get<AppStore>().remoteConfigStatus is Success &&
+      getIt.get<AppStore>().authorizedStatus is Home) {
+    final context = sRouter.navigatorKey.currentContext!;
+    if (context.mounted) {
+      await receiveGiftBottomSheet(
+        context: context,
+        giftModel: gift,
+      );
+    }
+  } else {
+    getIt<RouteQueryService>().addToQuery(
+      RouteQueryModel(
+        func: () async {
+          final context = sRouter.navigatorKey.currentContext!;
+          if (context.mounted) {
+            await receiveGiftBottomSheet(
+              context: context,
+              giftModel: gift,
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+Future<void> receiveGiftBottomSheet({
   required BuildContext context,
-  required GiftModel giftModel,
-}) {
+  required IncomingGiftObject giftModel,
+}) async {
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,
@@ -51,7 +84,7 @@ void receiveGiftBottomSheet({
 class _ReceiveGiftBottomSheet extends StatelessWidget {
   const _ReceiveGiftBottomSheet(this.giftModel);
 
-  final GiftModel giftModel;
+  final IncomingGiftObject giftModel;
 
   @override
   Widget build(BuildContext context) {
@@ -194,19 +227,18 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           .get<SNetwork>()
           .simpleNetworking
           .getWalletModule()
-          .acceptGift(giftModel.id as String);
+          .acceptGift(giftModel.id);
       await sRouter.pop();
-      unawaited(showSuccessScreen(currency));
+      await showSuccessScreen(currency);
     } on ServerRejectException catch (error) {
-      unawaited(showFailureScreen(error.cause));
+      await showFailureScreen(error.cause);
     } catch (error) {
-      unawaited(showFailureScreen(intl.something_went_wrong));
+      await showFailureScreen(intl.something_went_wrong);
     }
   }
 
   Future<void> showSuccessScreen(CurrencyModel currency) {
-    return sRouter
-        .push(
+    return sRouter.push(
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
         secondaryText: '${volumeFormat(
@@ -217,11 +249,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
         )} were credited to My Assets!',
         showProgressBar: true,
       ),
-    )
-        .then(
-      (value) async {
-        await sRouter.pop();
-      },
     );
   }
 
@@ -251,7 +278,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             .get<SNetwork>()
             .simpleNetworking
             .getWalletModule()
-            .declineGift(giftModel.id as String);
+            .declineGift(giftModel.id);
         await sRouter.pop();
         await sRouter.pop();
       },
