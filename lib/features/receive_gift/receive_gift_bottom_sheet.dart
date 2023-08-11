@@ -20,14 +20,12 @@ import '../../../utils/constants.dart';
 import '../../core/di/di.dart';
 import '../../core/router/app_router.dart';
 import '../app/store/models/authorized_union.dart';
-import '../crypto_deposit/model/crypto_deposit_union.dart';
 import '../market/market_details/helper/currency_from.dart';
 
 Future<void> pushReceiveGiftBottomSheet(
   IncomingGiftObject gift,
 ) async {
   if (getIt.isRegistered<AppStore>() &&
-      getIt.get<AppStore>().remoteConfigStatus is Success &&
       getIt.get<AppStore>().authorizedStatus is Home) {
     final context = sRouter.navigatorKey.currentContext!;
     if (context.mounted) {
