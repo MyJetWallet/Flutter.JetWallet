@@ -23,8 +23,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
 import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
-import 'package:jetwallet/features/receive_gift/expired_gist_bottot_sheet.dart';
-import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
@@ -170,10 +168,9 @@ class DeepLinkService {
     } else if (command == jw_kyc_documents_declined) {
       pushDocumentNotVerified(parameters);
     } else if (command == jw_gift_incoming) {
+      //just open the application
     } else if (command == jw_gift_remind) {
       pushRemindGiftBottomSheet(parameters);
-    } else if (command == jw_gift_expired) {
-      pushExpiredGiftBottomSheet(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -731,52 +728,6 @@ class DeepLinkService {
                 context: context,
                 amount: gift.data?.amount ?? Decimal.zero,
                 currency: currency,
-              );
-            }
-          },
-        ),
-      );
-    }
-  }
-
-  Future<void> pushExpiredGiftBottomSheet(
-    Map<String, String> parameters,
-  ) async {
-    final jwOperationId = parameters['jw_operation_id'];
-    if (jwOperationId == null) return;
-
-    if (getIt.isRegistered<AppStore>() &&
-        getIt.get<AppStore>().remoteConfigStatus is Success &&
-        getIt.get<AppStore>().authorizedStatus is Home) {
-      final gift = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getGift(jwOperationId);
-
-      if (gift.data == null) return;
-      final context = sRouter.navigatorKey.currentContext!;
-      if (context.mounted) {
-        expairedGiftBottomSheet(
-          context: context,
-          giftModel: gift.data!,
-        );
-      }
-    } else {
-      getIt<RouteQueryService>().addToQuery(
-        RouteQueryModel(
-          func: () async {
-            final gift = await getIt
-                .get<SNetwork>()
-                .simpleNetworking
-                .getWalletModule()
-                .getGift(jwOperationId);
-            if (gift.data == null) return;
-            final context = sRouter.navigatorKey.currentContext!;
-            if (context.mounted) {
-              expairedGiftBottomSheet(
-                context: context,
-                giftModel: gift.data!,
               );
             }
           },
