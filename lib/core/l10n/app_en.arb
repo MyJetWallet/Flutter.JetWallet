@@ -1490,6 +1490,8 @@
   "send_gift_message_2_part": "at Simple App. Download app and check your balance!",
   "send_gift_share_text_2_part": "at Simple App. Download app at",
   "send_gift_share_text_3_part": "and claim your gift!",
+  "send_gift_share_text_email_part": "pass the registration using emai",
+  "send_gift_share_text_phone_part": "pass the registration using phone number",
   "gift_history_sent": "Sent",
   "gift_history_received": "Received",
   "gift_history_remind": "Remind",

@@ -117,6 +117,9 @@ class GiftSendDetails extends StatelessObserverWidget {
                           .replaceAll('-', ''),
                     ),
                     currency: currency,
+                    email: transactionListItem.giftSendInfo?.toEmail,
+                    phoneNumber:
+                        transactionListItem.giftSendInfo?.toPhoneNumber,
                   );
                 },
               ),

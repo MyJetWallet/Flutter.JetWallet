@@ -755,6 +755,8 @@ class DeepLinkService {
           context: context,
           amount: gift.data?.amount ?? Decimal.zero,
           currency: currency,
+          email: gift.data?.toEmail,
+          phoneNumber:  gift.data?.toPhoneNumber,
         );
       }
     } else {

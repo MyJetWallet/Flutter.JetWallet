@@ -189,6 +189,11 @@ abstract class GeneralSendGiftStoreBase with Store {
           context: context,
           currency: currency,
           amount: amount,
+          email:
+              _selectedContactType == ReceiverContacrType.email ? _email : null,
+          phoneNumber: _selectedContactType == ReceiverContacrType.phone
+              ? (_phoneCountryCode + _phoneBody)
+              : null,
         );
       },
     );

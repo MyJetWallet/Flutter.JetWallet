@@ -16,9 +16,11 @@ void shareGiftResultBottomSheet({
   required BuildContext context,
   required CurrencyModel currency,
   required Decimal amount,
+  String? phoneNumber,
+  String? email,
 }) {
   sShowBasicModalBottomSheet(
-    scrollable: sDeviceSize ==  const DeviceSizeUnion.small(),
+    scrollable: sDeviceSize == const DeviceSizeUnion.small(),
     context: context,
     horizontalPinnedPadding: 24,
     pinned: Row(
@@ -40,6 +42,8 @@ void shareGiftResultBottomSheet({
       _ShareGiftResultBottomSheet(
         amount: amount,
         currency: currency,
+        phoneNumber: phoneNumber,
+        email: email,
       ),
     ],
   );
@@ -49,15 +53,22 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
   const _ShareGiftResultBottomSheet({
     required this.currency,
     required this.amount,
+    this.phoneNumber,
+    this.email,
   });
 
   final CurrencyModel currency;
   final Decimal amount;
+  final String? phoneNumber;
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
-    final shareText =
-        '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl ${intl.send_gift_share_text_3_part}''';
+    final String shareText;
+    shareText = email != '' && email != null
+        ? '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
+        : '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_phone_part} $phoneNumber ${intl.send_gift_share_text_3_part}''';
+
     final cardMessage =
         '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
