@@ -63,7 +63,7 @@ Future<void> receiveGiftBottomSheet({
       children: [
         const SizedBox(width: 24),
         Text(
-          'Claim',
+          intl.reseive_gift_claim,
           style: sTextH5Style,
         ),
         SIconButton(
@@ -162,7 +162,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH24(),
           Text(
-            'Gift from ${giftModel.fromName}',
+            '${intl.reseive_gift_gift_from} ${giftModel.fromName}',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
@@ -174,7 +174,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH8(),
           Text(
-            '''A gift of ${giftModel.amount} ${giftModel.assetSymbol} from ${giftModel.fromName} \nis waiting for you''',
+            '''${intl.reseive_gift_a_gift_of} ${giftModel.amount} ${giftModel.assetSymbol} ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF777C85),
@@ -187,7 +187,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           const SpaceH49(),
           SPrimaryButton2(
             active: true,
-            name: 'Claim',
+            name: intl.reseive_gift_claim,
             onTap: () async {
               if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 await claim(currency);
@@ -206,7 +206,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           const SpaceH10(),
           STextButton1(
             active: true,
-            name: 'Reject',
+            name: intl.reseive_gift_reject_gift,
             onTap: () async {
               showAlert(context);
             },
@@ -244,7 +244,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           decimal: giftModel.amount ?? Decimal.zero,
           accuracy: currency.accuracy,
           symbol: currency.symbol,
-        )} were credited to My Assets!',
+        )} ${intl.reseive_gift_were_credited_to_my_assets}',
         showProgressBar: true,
       ),
     );
@@ -266,9 +266,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
   void showAlert(BuildContext context) {
     sShowAlertPopup(
       context,
-      primaryText: 'Reject?',
-      secondaryText: 'Are you sure you want to reject the gift?',
-      primaryButtonName: 'Yes, reject',
+      primaryText: intl.reseive_gift_reject,
+      secondaryText: intl.reseive_gift_are_you_sure,
+      primaryButtonName: intl.reseive_gift_yes_reject,
       secondaryButtonName: intl.gift_history_no,
       primaryButtonType: SButtonType.primary3,
       onPrimaryButtonTap: () async {
