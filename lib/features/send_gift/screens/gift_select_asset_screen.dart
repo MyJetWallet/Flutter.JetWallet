@@ -27,6 +27,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
   void initState() {
     super.initState();
     final storageService = getIt.get<LocalStorageService>();
+    textController = TextEditingController();
     storageService.getValue(lastAssetSend).then(
       (value) {
         setState(() {
@@ -35,6 +36,14 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
       },
     );
   }
+  
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
+
+  late TextEditingController textController;
 
   final ObservableList<CurrencyModel> isGiftSendActive =
       sSignalRModules.currenciesList;
@@ -82,7 +91,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                 if (sortedAssets.length > 7) ...[
                   SPaddingH24(
                     child: SStandardField(
-                      controller: TextEditingController(),
+                      controller: textController,
                       labelText: intl.actionBottomSheetHeader_search,
                       onChanged: (String value) {
                         searchStore.searchConvert(
