@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -987,9 +989,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   Future<void> reciveGiftsEvent(IncomingGiftModel gift) async {
     for (final element in gift.gifts) {
-      if (!incomingGiftQueue.any((item) => item.id == element.id)) {
-        incomingGiftQueue.add(element);
-        await pushReceiveGiftBottomSheet(element);
+      if (!alreadyShownGifts.any((item) => item.id == element.id)) {
+        alreadyShownGifts.add(element);
+        unawaited(pushReceiveGiftBottomSheet(element));
       }
     }
   }

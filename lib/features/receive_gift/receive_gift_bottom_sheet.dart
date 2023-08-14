@@ -22,7 +22,7 @@ import '../../core/router/app_router.dart';
 import '../app/store/models/authorized_union.dart';
 import '../market/market_details/helper/currency_from.dart';
 
-final List<IncomingGiftObject> incomingGiftQueue = [];
+final List<IncomingGiftObject> alreadyShownGifts = [];
 
 Future<void> pushReceiveGiftBottomSheet(
   IncomingGiftObject gift,
@@ -130,7 +130,12 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                             color: sKit.colors.white,
                           ),
                           Text(
-                            '''${giftModel.amount ?? Decimal.zero} ${giftModel.assetSymbol ?? ''}''',
+                            volumeFormat(
+                              prefix: currency.prefixSymbol,
+                              decimal: giftModel.amount ?? Decimal.zero,
+                              accuracy: currency.accuracy,
+                              symbol: currency.symbol,
+                            ),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -176,7 +181,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH8(),
           Text(
-            '''${intl.reseive_gift_a_gift_of} ${giftModel.amount} ${giftModel.assetSymbol} ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
+            '''${intl.reseive_gift_a_gift_of} ${volumeFormat(prefix: currency.prefixSymbol, decimal: giftModel.amount ?? Decimal.zero, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF777C85),
@@ -228,7 +233,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           .simpleNetworking
           .getWalletModule()
           .acceptGift(giftModel.id);
-      incomingGiftQueue.removeWhere((element) => element.id == giftModel.id);
+     
       await showSuccessScreen(currency);
     } on ServerRejectException catch (error) {
       await showFailureScreen(error.cause, context);
@@ -285,7 +290,6 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             .simpleNetworking
             .getWalletModule()
             .declineGift(giftModel.id);
-        incomingGiftQueue.removeWhere((element) => element.id == giftModel.id);
         await sRouter.pop();
         await sRouter.pop();
       },
