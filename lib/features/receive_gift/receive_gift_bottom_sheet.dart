@@ -22,6 +22,8 @@ import '../../core/router/app_router.dart';
 import '../app/store/models/authorized_union.dart';
 import '../market/market_details/helper/currency_from.dart';
 
+final List<IncomingGiftObject> incomingGiftQueue = [];
+
 Future<void> pushReceiveGiftBottomSheet(
   IncomingGiftObject gift,
 ) async {
@@ -128,7 +130,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                             color: sKit.colors.white,
                           ),
                           Text(
-                            giftModel.assetSymbol ?? '',
+                            '''${giftModel.amount ?? Decimal.zero} ${giftModel.assetSymbol ?? ''}''',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -190,13 +192,13 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             name: intl.reseive_gift_claim,
             onTap: () async {
               if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
-                await claim(currency);
+                await claim(currency, context);
               } else {
                 handler.handle(
                   needGifteExplanationPopup: true,
                   status: kyc.depositStatus,
                   isProgress: kyc.verificationInProgress,
-                  currentNavigate: () => claim(currency),
+                  currentNavigate: () => claim(currency, context),
                   requiredDocuments: kyc.requiredDocuments,
                   requiredVerifications: kyc.requiredVerifications,
                 );
@@ -217,7 +219,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
     );
   }
 
-  Future<void> claim(CurrencyModel currency) async {
+  Future<void> claim(CurrencyModel currency, BuildContext context) async {
     final loading = StackLoaderStore()..startLoadingImmediately();
     unawaited(sRouter.push(ProgressRouter(loading: loading)));
     try {
@@ -226,12 +228,12 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           .simpleNetworking
           .getWalletModule()
           .acceptGift(giftModel.id);
-      await sRouter.pop();
+      incomingGiftQueue.removeWhere((element) => element.id == giftModel.id);
       await showSuccessScreen(currency);
     } on ServerRejectException catch (error) {
-      await showFailureScreen(error.cause);
+      await showFailureScreen(error.cause, context);
     } catch (error) {
-      await showFailureScreen(intl.something_went_wrong);
+      await showFailureScreen(intl.something_went_wrong, context);
     }
   }
 
@@ -246,18 +248,24 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           symbol: currency.symbol,
         )} ${intl.reseive_gift_were_credited_to_my_assets}',
         showProgressBar: true,
+        onSuccess: (context) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        },
       ),
     );
   }
 
-  Future<void> showFailureScreen(String error) {
+  Future<void> showFailureScreen(String error, BuildContext context) {
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
         primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
-          sRouter.popUntilRoot();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         },
       ),
     );
@@ -277,6 +285,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             .simpleNetworking
             .getWalletModule()
             .declineGift(giftModel.id);
+        incomingGiftQueue.removeWhere((element) => element.id == giftModel.id);
         await sRouter.pop();
         await sRouter.pop();
       },

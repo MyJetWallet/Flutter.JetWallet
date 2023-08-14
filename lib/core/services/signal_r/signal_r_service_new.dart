@@ -987,7 +987,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   Future<void> reciveGiftsEvent(IncomingGiftModel gift) async {
     for (final element in gift.gifts) {
-     await pushReceiveGiftBottomSheet(element);
+      if (!incomingGiftQueue.any((item) => item.id == element.id)) {
+        incomingGiftQueue.add(element);
+        await pushReceiveGiftBottomSheet(element);
+      }
     }
   }
 
