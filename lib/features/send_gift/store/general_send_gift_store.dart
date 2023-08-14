@@ -88,7 +88,7 @@ abstract class GeneralSendGiftStoreBase with Store {
         loader.finishLoadingImmediately();
       },
     );
-    DC<ServerRejectException, void> response;
+    DC<ServerRejectException, void>? response;
     if (_selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
         pin: newPin,
@@ -97,13 +97,18 @@ abstract class GeneralSendGiftStoreBase with Store {
         toEmailAddress: _email,
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
-      response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .sendGiftByEmail(
-            model,
-          );
+      try {
+        response = await getIt
+            .get<SNetwork>()
+            .simpleNetworking
+            .getWalletModule()
+            .sendGiftByEmail(
+              model,
+            );
+      } catch (e) {
+        loader.finishLoadingImmediately();
+        await showFailureScreen(intl.something_went_wrong_try_again);
+      }
     } else {
       final number = await decomposePhoneNumber(
         _phoneCountryCode + _phoneBody,
@@ -119,20 +124,25 @@ abstract class GeneralSendGiftStoreBase with Store {
         requestId: DateTime.now().microsecondsSinceEpoch.toString(),
       );
 
-      response = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .sendGiftByPhone(
-            model,
-          );
+      try {
+        response = await getIt
+            .get<SNetwork>()
+            .simpleNetworking
+            .getWalletModule()
+            .sendGiftByPhone(
+              model,
+            );
+      } catch (e) {
+        loader.finishLoadingImmediately();
+        await showFailureScreen(intl.something_went_wrong_try_again);
+      }
     }
     try {
       loader.finishLoadingImmediately();
 
-      if (response.hasError) {
+      if (response?.hasError ?? true) {
         loader.finishLoadingImmediately();
-        await showFailureScreen(response.error?.cause ?? '');
+        await showFailureScreen(response?.error?.cause ?? '');
       } else {
         await showSuccessScreen();
       }
