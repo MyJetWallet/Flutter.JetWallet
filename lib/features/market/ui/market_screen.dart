@@ -111,11 +111,6 @@ class _MarketScreenState extends State<MarketScreen>
                             ? intl.market_crypto
                             : intl.market_allCrypto,
                       ),
-                      BottomTab(
-                        text: intl.market_nft,
-                        //isActive: DefaultTabController.of(context)!.index == 2,
-                        isTextBlue: true,
-                      ),
                     ],
                   ),
                 ),

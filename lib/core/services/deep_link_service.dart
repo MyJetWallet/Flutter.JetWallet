@@ -22,7 +22,6 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
-import 'package:jetwallet/features/portfolio/widgets/empty_apy_portfolio/components/earn_bottom_sheet/earn_bottom_sheet.dart';
 import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
@@ -141,8 +140,6 @@ class DeepLinkService {
       _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
       _referralRedirectCommand(parameters);
-    } else if (command == _earnLanding) {
-      _earnLandingCommand(source);
     } else if (command == _kycVerification) {
       _kycVerificationCommand();
     } else if (command == _tradingStart) {
@@ -358,21 +355,6 @@ class DeepLinkService {
 
       await getIt.get<ReferallCodeStore>().init();
     } catch (e) {}
-  }
-
-  void _earnLandingCommand(SourceScreen? source) {
-    final context = sRouter.navigatorKey.currentContext!;
-
-    showStartEarnBottomSheet(
-      context: context,
-      onTap: (CurrencyModel currency) {
-        sRouter.pop();
-
-        showStartEarnOptions(
-          currency: currency,
-        );
-      },
-    );
   }
 
   /// Push Notification Links

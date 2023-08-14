@@ -43,7 +43,7 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
     final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     return TabController(
-      length: showNFT ? 2 : 1,
+      length: 1,
       vsync: this,
     );
   }
@@ -87,7 +87,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
               tabController: tabController,
               tabs: [
                 BottomTab(text: intl.portfolioWithBalance_crypto),
-                BottomTab(text: intl.portfolioWithBalance_nft),
               ],
             )
           : null,

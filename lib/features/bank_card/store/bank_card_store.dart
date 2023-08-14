@@ -231,8 +231,13 @@ abstract class _BankCardStoreBase with Store {
     }
   }
 
+  @observable
+  bool isTypingInExp = false;
+
   @action
   void updateExpiryMonth(String expiryDate) {
+    isTypingInExp = true;
+
     if (expiryDate.length < 2) {
       if ((int.tryParse(expiryDate) ?? 0) > 2) {
         expiryMonth = '0$expiryDate';
@@ -262,6 +267,9 @@ abstract class _BankCardStoreBase with Store {
         expiryYearError = false;
       }
     } else {
+      expiryMonth = '';
+      expiryYear = '';
+
       expiryMonthError = false;
       expiryYearError = false;
     }
@@ -269,11 +277,16 @@ abstract class _BankCardStoreBase with Store {
 
   @action
   void validExpiry() {
-    print(expiryMonth.isEmpty || expiryYear.isEmpty);
+    if (!isTypingInExp) return;
 
     if (expiryMonth.isEmpty || expiryYear.isEmpty) {
       expiryMonthError = true;
       expiryYearError = true;
+    } else {
+      if (expiryMonth.length != 2 || expiryYear.length != 2) {
+        expiryMonthError = true;
+        expiryYearError = true;
+      }
     }
   }
 

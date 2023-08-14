@@ -45,7 +45,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
     final title = store.withdrawalType == WithdrawalType.Asset
         ? '${intl.withdrawalPreview_confirm} $verb'
             ' $descr'
-        : '${intl.nft_send} ${store.withdrawalInputModel!.nft!.name}';
+        : 'å';
 
     final isUserEnoughMaticForWithdraw =
         store.withdrawalType == WithdrawalType.NFT
@@ -148,35 +148,6 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 valueColor: colors.blue,
               ),
               const SpaceH34(),
-              if (!isUserEnoughMaticForWithdraw) ...[
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: colors.grey4,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  width: double.infinity,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SInfoIcon(
-                        color: colors.red,
-                      ),
-                      const SpaceW12(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.65,
-                        child: Text(
-                          '${intl.nft_send_not_enough_1} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.nftInfo?.feeAssetSymbol} ${intl.nft_send_not_enough_2}',
-                          style: sBodyText1Style,
-                          maxLines: 6,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
             ],
           ),
           SFloatingButtonFrame(

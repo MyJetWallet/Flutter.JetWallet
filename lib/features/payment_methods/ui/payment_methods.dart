@@ -126,7 +126,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                 await state.clearData();
                               });
                             },
-                            removeDivider: state.cards.last == card,
+                            removeDivider: state.userCards.last == card,
                             onTap: () {},
                           ),
                         ],

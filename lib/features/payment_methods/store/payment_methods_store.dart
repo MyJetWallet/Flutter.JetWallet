@@ -44,6 +44,11 @@ abstract class _PaymentMethodsStoreBase with Store {
     cardsIds = ObservableList.of(kV.cards?.value ?? <String>[]);
 
     getCards();
+
+    reaction(
+      (_) => userCards,
+      (msg) => _updateUnion(const PaymentMethodsUnion.success()),
+    );
   }
 
   static final _logger = Logger('PaymentMethodsStore');
@@ -90,7 +95,11 @@ abstract class _PaymentMethodsStoreBase with Store {
 
     await getCards();
 
-    _updateUnion(const PaymentMethodsUnion.success());
+    //;
+
+    Future.delayed(const Duration(seconds: 3), () {
+      _updateUnion(const PaymentMethodsUnion.success());
+    });
   }
 
   @action

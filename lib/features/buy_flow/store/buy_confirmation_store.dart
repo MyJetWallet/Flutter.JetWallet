@@ -174,6 +174,7 @@ abstract class _BuyConfirmationStoreBase with Store {
   String? buyAssetSymbol;
   String payAmount = '';
   String payAsset = '';
+  String preset = '';
 
   @action
   Future<void> loadPreview(
@@ -182,6 +183,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     String pAsset,
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
+    String? inputPreset,
   ) async {
     isDataLoaded = false;
 
@@ -195,6 +197,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     card = inputCard;
     method = inputMethod;
     buyAssetSymbol = bAsset;
+    preset = inputPreset ?? 'false';
 
     await _isChecked();
 
@@ -202,16 +205,19 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
+    print(buyCurrency.symbol);
+    print(depositFeeCurrency.symbol);
+
     sAnalytics.newBuyTapContinue(
-      sourceCurrency: buyCurrency.symbol,
+      sourceCurrency: depositFeeCurrency.symbol,
       sourceAmount: paymentAmount.toString(),
       destinationCurrency: bAsset,
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
       destinationAmount: '$buyAmount',
-      quickAmount: '',
+      quickAmount: preset,
     );
 
     isDataLoaded = true;
@@ -220,7 +226,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
     );
   }
 
@@ -312,7 +318,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
     );
 
     if (sRouter.currentPath != '/buy_flow_confirmation') {
@@ -397,13 +403,13 @@ abstract class _BuyConfirmationStoreBase with Store {
   @action
   Future<void> createPayment() async {
     sAnalytics.newBuyTapConfirm(
-      sourceCurrency: buyCurrency.symbol,
+      sourceCurrency: depositFeeCurrency.symbol,
       destinationCurrency: buyAssetSymbol ?? '',
       sourceAmount: '$paymentAmount',
       destinationAmount: '$buyAmount',
       exchangeRate: '1 $buyAssetSymbol = ${volumeFormat(
-        prefix: buyCurrency.prefixSymbol,
-        symbol: buyCurrency.symbol,
+        prefix: depositFeeCurrency.prefixSymbol,
+        symbol: depositFeeCurrency.symbol,
         accuracy: buyCurrency.accuracy,
         decimal: rate ?? Decimal.zero,
       )}',
@@ -412,7 +418,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
     );
 
     unawaited(_setIsChecked());
@@ -491,7 +497,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: buyCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
           );
 
           if (sRouter.currentPath != '/buy_flow_confirmation') {
@@ -520,17 +526,30 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: buyCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
                 );
 
                 loader.startLoadingImmediately();
                 //_requestPaymentInfo(onAction, lastAction);
               },
               onCancel: (payment) {
-                sRouter.pop();
+                print('paymentWevViewClose');
+
+                sAnalytics.paymentWevViewClose(
+                  paymentMethodType: category.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards
+                      ? 'card'
+                      : method!.id.name,
+                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                );
+
+                if (payment != null) {
+                  sRouter.pop();
+                }
               },
               onFailed: (error) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
+
                 _showFailureScreen(error);
               },
               paymentId: paymentId,
@@ -581,7 +600,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethodType: category.name,
         paymentMethodName:
             category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: buyCurrency.symbol ?? '',
+        paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
       );
 
       loader.startLoadingImmediately();
@@ -610,7 +629,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: buyCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
           );
 
           sRouter.push(
@@ -637,7 +656,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: buyCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
           );
         },
         '',
@@ -656,7 +675,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     Function(
       String,
       Function(String, String),
-      Function(String),
+      Function(String?),
       Function(String),
       String,
     ) onAction,
@@ -729,13 +748,16 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: buyCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
                 );
 
-                sRouter.pop();
+                if (payment != null) {
+                  sRouter.pop();
+                }
               },
               (error) {
-                sRouter.pop();
+                Navigator.pop(sRouter.navigatorKey.currentContext!);
+
                 _showFailureScreen(error);
               },
               paymentId,
@@ -760,7 +782,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
     );
 
     return sRouter
@@ -874,7 +896,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: buyCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
     );
   }
 
@@ -884,7 +906,10 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       switch (category) {
         case PaymentMethodCategory.cards:
-          await storage.setString(bankLastMethodId, card?.id ?? '');
+          await storage.setString(
+            bankLastMethodId,
+            card?.id ?? '',
+          );
           break;
         case PaymentMethodCategory.local:
           await storage.setString(
@@ -893,7 +918,10 @@ abstract class _BuyConfirmationStoreBase with Store {
           );
           break;
         case PaymentMethodCategory.p2p:
-          await storage.setString(p2pLastMethodId, method?.id.toString() ?? '');
+          await storage.setString(
+            p2pLastMethodId,
+            method?.id.toString() ?? '',
+          );
           break;
         default:
       }

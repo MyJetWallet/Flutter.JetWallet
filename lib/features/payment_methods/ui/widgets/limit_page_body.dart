@@ -166,20 +166,20 @@ class LimitPageBody extends StatelessObserverWidget {
             text: intl.paymentMethodsSheet_minTransaction,
             value: TransactionDetailsValueText(
               text: currency == null
-                ? volumeFormat(
-                    prefix: baseCurrency.prefix,
-                    decimal: cardLimit.minAmount,
-                    symbol: baseCurrency.symbol,
-                    accuracy: baseCurrency.accuracy,
-                    onlyFullPart: true,
-                  )
-                : volumeFormat(
-                  prefix: currency!.prefixSymbol,
-                  decimal: cardLimit.minAmount,
-                  symbol: currency!.symbol,
-                  accuracy: currency!.accuracy,
-                  onlyFullPart: true,
-                ),
+                  ? volumeFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: cardLimit.minAmount,
+                      symbol: baseCurrency.symbol,
+                      accuracy: baseCurrency.accuracy,
+                      onlyFullPart: true,
+                    )
+                  : volumeFormat(
+                      prefix: currency!.prefixSymbol,
+                      decimal: cardLimit.minAmount,
+                      symbol: currency!.symbol,
+                      accuracy: currency!.accuracy,
+                      onlyFullPart: true,
+                    ),
             ),
           ),
           const SpaceH19(),
@@ -187,19 +187,20 @@ class LimitPageBody extends StatelessObserverWidget {
             text: intl.paymentMethodsSheet_maxTransaction,
             value: TransactionDetailsValueText(
               text: currency == null
-                ? volumeFormat(
-                  prefix: baseCurrency.prefix,
-                  decimal: cardLimit.maxAmount,
-                  symbol: baseCurrency.symbol,
-                  accuracy: baseCurrency.accuracy,
-                  onlyFullPart: true,
-                ) : volumeFormat(
-                  prefix: currency!.prefixSymbol,
-                  decimal: cardLimit.maxAmount,
-                  symbol: currency!.symbol,
-                  accuracy: currency!.accuracy,
-                  onlyFullPart: true,
-                ),
+                  ? volumeFormat(
+                      prefix: baseCurrency.prefix,
+                      decimal: cardLimit.maxAmount,
+                      symbol: baseCurrency.symbol,
+                      accuracy: baseCurrency.accuracy,
+                      onlyFullPart: true,
+                    )
+                  : volumeFormat(
+                      prefix: currency!.prefixSymbol,
+                      decimal: cardLimit.maxAmount,
+                      symbol: currency!.symbol,
+                      accuracy: currency!.accuracy,
+                      onlyFullPart: true,
+                    ),
             ),
           ),
           const SpaceH19(),
@@ -238,24 +239,6 @@ class LimitPageBody extends StatelessObserverWidget {
                       : colors.black,
             ),
           ),
-          if (cardLimitsLearnMoreLink.isNotEmpty) ...[
-            const SpaceH19(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClickableUnderlinedText(
-                  text: intl.earn_learn_more,
-                  onTap: () {
-                    sRouter.push(
-                      HelpCenterWebViewRouter(
-                        link: cardLimitsLearnMoreLink,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
           const SpaceH72(),
         ],
       ),

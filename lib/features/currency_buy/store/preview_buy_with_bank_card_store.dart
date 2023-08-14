@@ -336,7 +336,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     Function(
       String,
       Function(String, String),
-      Function(String),
+      Function(String?),
       Function(String),
       String,
     ) onAction,

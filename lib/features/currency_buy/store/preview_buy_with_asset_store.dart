@@ -267,13 +267,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
           },
         ),
       );
-    } else {
-      sRouter.push(
-        RecurringSuccessScreenRouter(
-          input: input,
-        ),
-      );
-    }
+    } else {}
   }
 
   @action
@@ -316,7 +310,7 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
         ? '${intl.previewBuyWithAsset_confirmBuy}'
             ' ${input.toCurrency.description}'
         : '${intl.previewBuyWithAsset_confirm}'
-            ' ${input.toCurrency.description} ${intl.recurringBuysName_active}';
+            ' ${input.toCurrency.description} ';
   }
 
   @action

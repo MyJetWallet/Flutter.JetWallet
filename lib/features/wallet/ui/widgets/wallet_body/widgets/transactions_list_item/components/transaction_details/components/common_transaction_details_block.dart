@@ -7,7 +7,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/reccurring/helper/recurring_buys_operation_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -189,11 +188,6 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
       title = '${operationName(OperationType.buy, context)} '
           '${currency.description} - '
           '${operationName(transactionListItem.operationType, context)}';
-    } else if (transactionListItem.operationType ==
-        OperationType.recurringBuy) {
-      title = '${recurringBuysOperationByString(
-        transactionListItem.recurringBuyInfo!.scheduleType ?? '',
-      )} ${operationName(transactionListItem.operationType, context)}';
     } else if (transactionListItem.operationType ==
             OperationType.earningDeposit ||
         transactionListItem.operationType == OperationType.earningWithdrawal) {

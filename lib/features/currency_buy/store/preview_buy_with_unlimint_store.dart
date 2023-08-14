@@ -275,7 +275,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     Function(
       String,
       Function(String, String),
-      Function(String),
+      Function(String?),
       Function(String),
       String,
     ) onAction,

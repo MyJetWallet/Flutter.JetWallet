@@ -30,14 +30,53 @@ class SignalRService {
 
     signalR = await createNewService();
     await signalR!.openConnection();
+
+    // Save handler
+    await signalR!.checkConnectionTimer();
   }
 
   Future<void> reCreateSignalR() async {
-    if (signalR != null) {
-      await signalR!.disconnect('reCreateSignalR');
+    try {
+      if (signalR != null) {
+        await signalR!.disconnect('reCreateSignalR');
+      } else {
+        signalR = await createNewService();
+      }
+    } catch (e) {
+      signalR = await createNewService();
     }
 
     await signalR!.openConnection();
+
+    // Save handler
+    await signalR!.checkConnectionTimer();
+  }
+
+  Future<void> forceReconnectSignalR() async {
+    if (signalR != null) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.wtf,
+            place: 'SignalRService',
+            message: 'forceReconnectSignalR',
+          );
+
+      await signalR!.disconnect('reCreateSignalR', force: true);
+    }
+
+    signalR = null;
+    signalR = await createNewService();
+    await signalR!.openConnection();
+
+    // Save handler
+    await signalR!.checkConnectionTimer();
+  }
+
+  Future<void> killSignalR() async {
+    if (signalR != null) {
+      await signalR!.disconnect('reCreateSignalR', force: true);
+    }
+
+    signalR = null;
   }
 
   Future<void> _getSignalRModule() async {
@@ -178,6 +217,15 @@ class SignalRService {
           'User-Agent': await getUserAgent(),
         },
       ),
+      forceReconnect: () {
+        _logger.log(
+          level: Level.warning,
+          place: _loggerValue,
+          message: 'SIGNALR FORCE RECONNECT',
+        );
+
+        forceReconnectSignalR();
+      },
     );
   }
 }

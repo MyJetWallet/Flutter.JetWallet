@@ -69,12 +69,6 @@ class TransactionHistory extends StatelessObserverWidget {
   }
 
   String _title(BuildContext context, TransactionType type) {
-    return assetName != null && assetSymbol != null
-        ? '${intl.transactionHistory_history} $assetName ($assetSymbol)'
-        : type == TransactionType.none
-            ? intl.account_transactionHistory
-            : type == TransactionType.crypto
-                ? intl.nft_history_crypto
-                : intl.nft_history_nft;
+    return intl.account_transactionHistory;
   }
 }

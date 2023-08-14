@@ -28,7 +28,7 @@ class Circle3dSecureWebView extends StatelessWidget {
   final String paymentId;
   final Function(String, String) onSuccess;
   final Function(String) onFailed;
-  final Function(String)? onCancel;
+  final Function(String?)? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class Circle3dSecureWebView extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () {
+        onCancel?.call(null);
         navigateToRouter();
 
         return Future.value(true);
@@ -48,6 +49,7 @@ class Circle3dSecureWebView extends StatelessWidget {
             icon: const SCloseIcon(),
             title: title,
             onBackButtonTap: () {
+              onCancel?.call(null);
               navigateToRouter();
             },
           ),
@@ -76,32 +78,7 @@ class Circle3dSecureWebView extends StatelessWidget {
 
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
-                    if (onFailed != null) {
-                      onFailed.call(intl.something_went_wrong);
-                      Timer(
-                        const Duration(seconds: 3),
-                        () {
-                          navigateToRouter();
-                        },
-                      );
-                    } else {
-                      sRouter.push(
-                        FailureScreenRouter(
-                          primaryText: intl.previewBuyWithAsset_failure,
-                          secondaryText: intl.something_went_wrong,
-                          primaryButtonName: intl.previewBuyWithAsset_editOrder,
-                          onPrimaryButtonTap: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                          },
-                          secondaryButtonName: intl.previewBuyWithAsset_close,
-                          onSecondaryButtonTap: () {
-                            navigateToRouter();
-                          },
-                        ),
-                      );
-                    }
+                    onFailed(intl.something_went_wrong);
                   } else if (uri.path == '/circle/success' ||
                       uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);

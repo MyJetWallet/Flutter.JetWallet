@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/store/iban_add_bank_account_store.dart';
+import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -79,6 +80,9 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const IbanTermsContainer(
+                      addAccount: true,
+                    ),
                     SFieldDividerFrame(
                       child: SStandardField(
                         labelText: intl.iban_label,
@@ -142,40 +146,6 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                         textCapitalization: TextCapitalization.sentences,
                         hideSpace: true,
                         grayLabel: true,
-                      ),
-                    ),
-                    const SpaceH20(),
-                    SPaddingH24(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SBankIcon(),
-                          const SpaceW14(),
-                          Text(
-                            intl.iban_terms_1,
-                            style: sBodyText2Style,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SpaceH12(),
-                    SPaddingH24(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SUserIcon(
-                            color: colors.black,
-                          ),
-                          const SpaceW14(),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width - 88,
-                            child: Text(
-                              intl.iban_terms_2,
-                              style: sBodyText2Style,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                     const SpaceH20(),

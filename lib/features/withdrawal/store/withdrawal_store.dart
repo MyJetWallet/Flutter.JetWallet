@@ -221,9 +221,8 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
-  String get header => withdrawalType == WithdrawalType.Asset
-      ? '${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}'
-      : '${intl.nft_send} ${withdrawalInputModel!.nft!.name}';
+  String get header =>
+      '${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}';
 
   @computed
   String get bassAsset => withdrawalType == WithdrawalType.Asset
@@ -1068,25 +1067,7 @@ abstract class _WithdrawalStoreBase with Store {
       } else {
         confirmUnion = const confirm.WithdrawalConfirmUnion.input();
 
-        if (withdrawalType == WithdrawalType.Asset) {
-          _confirmSuccessScreen();
-        } else {
-          await sRouter.push(
-            SuccessScreenRouter(
-              secondaryText: intl.nft_send_confirm,
-              showProgressBar: true,
-              onSuccess: (context) {
-                sRouter.replaceAll([
-                  const HomeRouter(
-                    children: [
-                      PortfolioRouter(),
-                    ],
-                  ),
-                ]);
-              },
-            ),
-          );
-        }
+        _confirmSuccessScreen();
       }
     } on ServerRejectException catch (error) {
       confirmUnion = confirm.WithdrawalConfirmUnion.error(error.cause);

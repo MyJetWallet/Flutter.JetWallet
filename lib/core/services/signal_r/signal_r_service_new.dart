@@ -115,6 +115,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
   void setCardLimitModel(CardLimitsModel value) => cardLimitsModel = value;
 
   @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
   GlobalSendMethodsModel? globalSendMethods;
   @action
   void setGlobalSendMethods(GlobalSendMethodsModel value) =>

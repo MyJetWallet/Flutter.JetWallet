@@ -59,11 +59,7 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
-    try {
-      await AppTrackingTransparency.requestTrackingAuthorization();
-    } on PlatformException {}
-
-    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+    await getAdvData();
 
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
@@ -85,21 +81,29 @@ class StartupService {
         email: parsedEmail,
       );
 
-      final resultRefreshToken = await refreshToken(updateSignalR: false);
+      try {
+        final resultRefreshToken = await refreshToken(updateSignalR: false);
 
-      if (resultRefreshToken == RefreshTokenStatus.success) {
-        await userInfo.initPinStatus();
+        if (resultRefreshToken == RefreshTokenStatus.success) {
+          await userInfo.initPinStatus();
 
-        await sAnalytics.init(
-          analyticsApiKey,
-          userInfo.isTechClient,
-          parsedEmail,
-        );
+          await sAnalytics.init(
+            analyticsApiKey,
+            userInfo.isTechClient,
+            parsedEmail,
+          );
+        }
+
+        await secondAction();
+      } catch (e) {
+        getIt.get<SimpleLoggerService>().log(
+              level: Level.error,
+              place: 'StartupService',
+              message: '$e',
+            );
+      } finally {
+        getIt<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
       }
-
-      await secondAction();
-
-      getIt<AppStore>().setAuthStatus(const AuthorizationUnion.authorized());
     }
   }
 
@@ -395,4 +399,12 @@ class StartupService {
       }
     } catch (e) {}
   }
+}
+
+Future<void> getAdvData() async {
+  try {
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  } on PlatformException {}
+
+  final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
 }

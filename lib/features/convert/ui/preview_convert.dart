@@ -9,12 +9,13 @@ import 'package:jetwallet/features/convert/model/preview_convert_union.dart';
 import 'package:jetwallet/features/convert/store/preview_convert_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'PreviewConvertRouter')
-class PreviewConvert extends StatefulObserverWidget {
+class PreviewConvert extends StatelessWidget {
   const PreviewConvert({
     super.key,
     required this.input,
@@ -23,20 +24,42 @@ class PreviewConvert extends StatefulObserverWidget {
   final PreviewConvertInput input;
 
   @override
-  State<PreviewConvert> createState() => _PreviewConvertState();
+  Widget build(BuildContext context) {
+    return Provider<PreviewConvertStore>(
+      create: (context) => PreviewConvertStore(input),
+      builder: (context, child) => PreviewConvertBody(
+        input: input,
+      ),
+      dispose: (context, value) {
+        value.cancelTimer();
+        value.dispose();
+      },
+    );
+  }
 }
 
-class _PreviewConvertState extends State<PreviewConvert>
+class PreviewConvertBody extends StatefulObserverWidget {
+  const PreviewConvertBody({
+    super.key,
+    required this.input,
+  });
+
+  final PreviewConvertInput input;
+
+  @override
+  State<PreviewConvertBody> createState() => _PreviewConvertBodyState();
+}
+
+class _PreviewConvertBodyState extends State<PreviewConvertBody>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-
-  late final PreviewConvertStore store;
 
   @override
   void initState() {
     _animationController = AnimationController(vsync: this);
 
-    store = PreviewConvertStore(widget.input);
+    final store = PreviewConvertStore.of(context);
+
     store.updateTimerAnimation(_animationController);
     super.initState();
   }
@@ -44,14 +67,14 @@ class _PreviewConvertState extends State<PreviewConvert>
   @override
   void dispose() {
     _animationController.dispose();
-
-    store.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final loader = StackLoaderStore();
+
+    final store = PreviewConvertStore.of(context);
 
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;
@@ -89,29 +112,18 @@ class _PreviewConvertState extends State<PreviewConvert>
                     color: sKit.colors.grey1,
                   ),
                 ),
-                if (store.union is QuoteSuccess) ...[
-                  Text(
-                    volumeFormat(
-                      prefix: to.prefixSymbol,
-                      accuracy: to.accuracy,
-                      decimal: store.toAssetAmount ?? Decimal.zero,
-                      symbol: to.symbol,
-                    ),
-                    textAlign: TextAlign.center,
-                    style: sTextH4Style.copyWith(
-                      color: sKit.colors.blue,
-                    ),
+                Text(
+                  volumeFormat(
+                    prefix: to.prefixSymbol,
+                    accuracy: to.accuracy,
+                    decimal: store.toAssetAmount ?? Decimal.zero,
+                    symbol: to.symbol,
                   ),
-                ] else ...[
-                  const Baseline(
-                    baseline: 19.0,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SSkeletonTextLoader(
-                      height: 16,
-                      width: 130,
-                    ),
+                  textAlign: TextAlign.center,
+                  style: sTextH4Style.copyWith(
+                    color: sKit.colors.blue,
                   ),
-                ],
+                ),
                 const SizedBox(height: 25),
                 const SDivider(),
                 const SizedBox(height: 19),
@@ -179,7 +191,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 11),
                 SActionConfirmText(
                   name: intl.fee,
                   baseline: 24,
@@ -198,6 +210,7 @@ class _PreviewConvertState extends State<PreviewConvert>
                   active: store.union is QuoteSuccess,
                   name: intl.previewConvert_confirm,
                   onTap: () {
+                    loader.startLoadingImmediately();
                     store.executeQuote();
                   },
                 ),

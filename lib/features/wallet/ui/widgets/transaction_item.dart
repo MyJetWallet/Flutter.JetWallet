@@ -7,12 +7,10 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/common_transaction_details_block.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/deposit_nft_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/earning_deposit_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_receive_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/gift_send_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/iban_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/receive_details.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/recurring_buy_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/referral_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/transfer_details.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/withdraw_details.dart';
@@ -28,7 +26,6 @@ import '../../../../utils/helpers/check_local_operation.dart';
 import '../../../../utils/helpers/widget_size_from.dart';
 import '../../helper/is_operation_support_copy.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/buy_sell_details.dart';
-import 'wallet_body/widgets/transactions_list_item/components/transaction_details/earning_withdrawal_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/iban_send_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/sell_nft_details.dart';
 import 'wallet_body/widgets/transactions_list_item/components/transaction_details/send_globally_details.dart';
@@ -91,12 +88,12 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal =
-        widget.transactionListItem.operationType == OperationType.cryptoInfo &&
-            isOperationLocal(
-              widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                  PaymentMethodType.unsupported,
-            );
+    final isLocal = widget.transactionListItem.operationType ==
+      OperationType.cryptoInfo &&
+      isOperationLocal(
+        widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
+        PaymentMethodType.unsupported,
+      );
 
     void _onCopyAction() {
       sNotification.showError(
@@ -220,54 +217,6 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.recurringBuy) ...[
-                  Material(
-                    color: colors.white,
-                    child: RecurringBuyDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        _onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.earningDeposit) ...[
-                  Material(
-                    color: colors.white,
-                    child: EarningDepositDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        _onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType ==
-                    OperationType.earningWithdrawal) ...[
-                  Material(
-                    color: colors.white,
-                    child: EarningWithdrawalDetails(
-                      transactionListItem: widget.transactionListItem,
-                      onCopyAction: (String text) {
-                        setState(() {
-                          copiedText = text;
-                        });
-
-                        _onCopyAction();
-                      },
-                    ),
-                  ),
-                ],
-                if (widget.transactionListItem.operationType ==
                         OperationType.buy ||
                     widget.transactionListItem.operationType ==
                         OperationType.sell) ...[
@@ -318,8 +267,7 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if ((widget.transactionListItem.operationType ==
-                            OperationType.cryptoInfo &&
-                        !isLocal) ||
+                        OperationType.cryptoInfo && !isLocal) ||
                     widget.transactionListItem.operationType ==
                         OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
@@ -339,8 +287,7 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo &&
-                    isLocal) ...[
+                    OperationType.cryptoInfo && isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(

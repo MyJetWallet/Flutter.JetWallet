@@ -249,7 +249,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       transactionListItem.earnInfo?.totalBalance ==
                           transactionListItem.balanceChange.abs())
                     TransactionListItemText(
-                      text: '${intl.earn_with} ${volumeFormat(
+                      text: ' ${volumeFormat(
                         prefix: baseCurrency.prefix,
                         decimal: transactionListItem.earnInfo!.totalBalance *
                             currency.currentPrice,

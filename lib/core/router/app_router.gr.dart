@@ -14,16 +14,6 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    RecurringSuccessScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<RecurringSuccessScreenRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: RecurringSuccessScreen(
-          key: args.key,
-          input: args.input,
-        ),
-      );
-    },
     HomeRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -439,6 +429,7 @@ abstract class _$AppRouter extends RootStackRouter {
           card: args.card,
           cardNumber: args.cardNumber,
           cardId: args.cardId,
+          preset: args.preset,
         ),
       );
     },
@@ -619,28 +610,6 @@ abstract class _$AppRouter extends RootStackRouter {
           assetSymbol: args.assetSymbol,
           initialIndex: args.initialIndex,
           jwOperationId: args.jwOperationId,
-        ),
-      );
-    },
-    HistoryRecurringBuysRouter.name: (routeData) {
-      final args = routeData.argsAs<HistoryRecurringBuysRouterArgs>(
-          orElse: () => const HistoryRecurringBuysRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: HistoryRecurringBuys(
-          key: args.key,
-          from: args.from,
-        ),
-      );
-    },
-    ShowRecurringInfoActionRouter.name: (routeData) {
-      final args = routeData.argsAs<ShowRecurringInfoActionRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: ShowRecurringInfoAction(
-          key: args.key,
-          recurringItem: args.recurringItem,
-          assetName: args.assetName,
         ),
       );
     },
@@ -1046,45 +1015,6 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
-}
-
-/// generated route for
-/// [RecurringSuccessScreen]
-class RecurringSuccessScreenRouter
-    extends PageRouteInfo<RecurringSuccessScreenRouterArgs> {
-  RecurringSuccessScreenRouter({
-    Key? key,
-    required PreviewBuyWithAssetInput input,
-    List<PageRouteInfo>? children,
-  }) : super(
-          RecurringSuccessScreenRouter.name,
-          args: RecurringSuccessScreenRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'RecurringSuccessScreenRouter';
-
-  static const PageInfo<RecurringSuccessScreenRouterArgs> page =
-      PageInfo<RecurringSuccessScreenRouterArgs>(name);
-}
-
-class RecurringSuccessScreenRouterArgs {
-  const RecurringSuccessScreenRouterArgs({
-    this.key,
-    required this.input,
-  });
-
-  final Key? key;
-
-  final PreviewBuyWithAssetInput input;
-
-  @override
-  String toString() {
-    return 'RecurringSuccessScreenRouterArgs{key: $key, input: $input}';
-  }
 }
 
 /// generated route for
@@ -2459,6 +2389,7 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
     CircleCard? card,
     String? cardNumber,
     String? cardId,
+    String? preset,
     List<PageRouteInfo>? children,
   }) : super(
           BuyConfirmationRoute.name,
@@ -2471,6 +2402,7 @@ class BuyConfirmationRoute extends PageRouteInfo<BuyConfirmationRouteArgs> {
             card: card,
             cardNumber: cardNumber,
             cardId: cardId,
+            preset: preset,
           ),
           initialChildren: children,
         );
@@ -2491,6 +2423,7 @@ class BuyConfirmationRouteArgs {
     this.card,
     this.cardNumber,
     this.cardId,
+    this.preset,
   });
 
   final Key? key;
@@ -2509,9 +2442,11 @@ class BuyConfirmationRouteArgs {
 
   final String? cardId;
 
+  final String? preset;
+
   @override
   String toString() {
-    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId}';
+    return 'BuyConfirmationRouteArgs{key: $key, asset: $asset, paymentCurrency: $paymentCurrency, amount: $amount, method: $method, card: $card, cardNumber: $cardNumber, cardId: $cardId, preset: $preset}';
   }
 }
 
@@ -3188,89 +3123,6 @@ class TransactionHistoryRouterArgs {
 }
 
 /// generated route for
-/// [HistoryRecurringBuys]
-class HistoryRecurringBuysRouter
-    extends PageRouteInfo<HistoryRecurringBuysRouterArgs> {
-  HistoryRecurringBuysRouter({
-    Key? key,
-    Source? from,
-    List<PageRouteInfo>? children,
-  }) : super(
-          HistoryRecurringBuysRouter.name,
-          args: HistoryRecurringBuysRouterArgs(
-            key: key,
-            from: from,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'HistoryRecurringBuysRouter';
-
-  static const PageInfo<HistoryRecurringBuysRouterArgs> page =
-      PageInfo<HistoryRecurringBuysRouterArgs>(name);
-}
-
-class HistoryRecurringBuysRouterArgs {
-  const HistoryRecurringBuysRouterArgs({
-    this.key,
-    this.from,
-  });
-
-  final Key? key;
-
-  final Source? from;
-
-  @override
-  String toString() {
-    return 'HistoryRecurringBuysRouterArgs{key: $key, from: $from}';
-  }
-}
-
-/// generated route for
-/// [ShowRecurringInfoAction]
-class ShowRecurringInfoActionRouter
-    extends PageRouteInfo<ShowRecurringInfoActionRouterArgs> {
-  ShowRecurringInfoActionRouter({
-    Key? key,
-    required RecurringBuysModel recurringItem,
-    required String assetName,
-    List<PageRouteInfo>? children,
-  }) : super(
-          ShowRecurringInfoActionRouter.name,
-          args: ShowRecurringInfoActionRouterArgs(
-            key: key,
-            recurringItem: recurringItem,
-            assetName: assetName,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'ShowRecurringInfoActionRouter';
-
-  static const PageInfo<ShowRecurringInfoActionRouterArgs> page =
-      PageInfo<ShowRecurringInfoActionRouterArgs>(name);
-}
-
-class ShowRecurringInfoActionRouterArgs {
-  const ShowRecurringInfoActionRouterArgs({
-    this.key,
-    required this.recurringItem,
-    required this.assetName,
-  });
-
-  final Key? key;
-
-  final RecurringBuysModel recurringItem;
-
-  final String assetName;
-
-  @override
-  String toString() {
-    return 'ShowRecurringInfoActionRouterArgs{key: $key, recurringItem: $recurringItem, assetName: $assetName}';
-  }
-}
-
-/// generated route for
 /// [EmptyWallet]
 class EmptyWalletRouter extends PageRouteInfo<EmptyWalletRouterArgs> {
   EmptyWalletRouter({
@@ -3759,7 +3611,7 @@ class Circle3dSecureWebViewRouter
       String,
       String,
     ) onSuccess,
-    required dynamic Function(String)? onCancel,
+    required dynamic Function(String?)? onCancel,
     required String paymentId,
     required dynamic Function(String) onFailed,
     List<PageRouteInfo>? children,
@@ -3809,7 +3661,7 @@ class Circle3dSecureWebViewRouterArgs {
     String,
   ) onSuccess;
 
-  final dynamic Function(String)? onCancel;
+  final dynamic Function(String?)? onCancel;
 
   final String paymentId;
 

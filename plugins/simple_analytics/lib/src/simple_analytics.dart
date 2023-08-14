@@ -74,6 +74,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '2',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
       },
     );
   }
