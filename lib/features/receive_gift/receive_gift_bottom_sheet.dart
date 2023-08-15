@@ -92,16 +92,18 @@ Future<void> receiveGiftBottomSheet({
     children: [
       _ReceiveGiftBottomSheet(giftModel),
     ],
-    then: (_) {
-      sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet(
-        giftAmount: volumeFormat(
-          prefix: currency.prefixSymbol,
-          decimal: giftModel.amount ?? Decimal.zero,
-          accuracy: currency.accuracy,
-          symbol: currency.symbol,
-        ),
-        giftFrom: giftModel.fromName ?? '',
-      );
+    then: (itsPostProcessing) {
+      if (!(itsPostProcessing is bool && itsPostProcessing)) {
+        sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet(
+          giftAmount: volumeFormat(
+            prefix: currency.prefixSymbol,
+            decimal: giftModel.amount ?? Decimal.zero,
+            accuracy: currency.accuracy,
+            symbol: currency.symbol,
+          ),
+          giftFrom: giftModel.fromName ?? '',
+        );
+      }
     },
   );
 }
@@ -322,9 +324,9 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
         )} ${intl.reseive_gift_were_credited_to_my_assets}',
         showProgressBar: true,
         onSuccess: (context) {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
         },
       ),
     );
@@ -357,8 +359,8 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             giftFrom: giftModel.fromName ?? '',
             failedReason: error,
           );
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pop(true);
         },
       ),
     );
@@ -397,9 +399,13 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             .get<SNetwork>()
             .simpleNetworking
             .getWalletModule()
-            .declineGift(giftModel.id);
-        await sRouter.pop();
-        await sRouter.pop();
+            .declineGift(giftModel.id)
+            .then(
+          (value) {
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
+          },
+        );
       },
       onSecondaryButtonTap: () {
         sAnalytics.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup(
@@ -407,7 +413,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           giftFrom: giftModel.fromName ?? '',
         );
 
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       },
     );
   }
