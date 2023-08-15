@@ -11,6 +11,7 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -57,6 +58,19 @@ Future<void> receiveGiftBottomSheet({
   required BuildContext context,
   required IncomingGiftObject giftModel,
 }) async {
+  final currency = currencyFrom(
+    sSignalRModules.currenciesList,
+    giftModel.assetSymbol ?? '',
+  );
+  sAnalytics.claimGiftScreenView(
+    giftAmount: volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
+    ),
+    giftFrom: giftModel.fromName ?? '',
+  );
   sShowBasicModalBottomSheet(
     context: context,
     horizontalPinnedPadding: 24,
@@ -78,6 +92,17 @@ Future<void> receiveGiftBottomSheet({
     children: [
       _ReceiveGiftBottomSheet(giftModel),
     ],
+    then: (_) {
+      sAnalytics.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet(
+        giftAmount: volumeFormat(
+          prefix: currency.prefixSymbol,
+          decimal: giftModel.amount ?? Decimal.zero,
+          accuracy: currency.accuracy,
+          symbol: currency.symbol,
+        ),
+        giftFrom: giftModel.fromName ?? '',
+      );
+    },
   );
 }
 
@@ -94,6 +119,13 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
       giftModel.assetSymbol ?? '',
+    );
+
+    final giftAmount = volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
     );
 
     return SPaddingH24(
@@ -130,12 +162,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                             color: sKit.colors.white,
                           ),
                           Text(
-                            volumeFormat(
-                              prefix: currency.prefixSymbol,
-                              decimal: giftModel.amount ?? Decimal.zero,
-                              accuracy: currency.accuracy,
-                              symbol: currency.symbol,
-                            ),
+                            giftAmount,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -181,7 +208,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           ),
           const SpaceH8(),
           Text(
-            '''${intl.reseive_gift_a_gift_of} ${volumeFormat(prefix: currency.prefixSymbol, decimal: giftModel.amount ?? Decimal.zero, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
+            '''${intl.reseive_gift_a_gift_of} $giftAmount ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF777C85),
@@ -196,6 +223,11 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             active: true,
             name: intl.reseive_gift_claim,
             onTap: () async {
+              sAnalytics.tapOnTheButtonClaimOnClaimGiftSheet(
+                giftAmount: giftAmount,
+                giftFrom: giftModel.fromName ?? '',
+              );
+
               if (kyc.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 await claim(currency, context);
               } else {
@@ -215,6 +247,10 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
             active: true,
             name: intl.reseive_gift_reject_gift,
             onTap: () async {
+              sAnalytics.tapOnTheButtonRejectOnClaimGiftSheet(
+                giftAmount: giftAmount,
+                giftFrom: giftModel.fromName ?? '',
+              );
               showAlert(context);
             },
           ),
@@ -225,7 +261,24 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
   }
 
   Future<void> claim(CurrencyModel currency, BuildContext context) async {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      giftModel.assetSymbol ?? '',
+    );
+    final giftAmount = volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
+    );
+
     final loading = StackLoaderStore()..startLoadingImmediately();
+
+    sAnalytics.processingClaimGiftScreenView(
+      giftAmount: giftAmount,
+      giftFrom: giftModel.fromName ?? '',
+    );
+
     unawaited(sRouter.push(ProgressRouter(loading: loading)));
     try {
       await getIt
@@ -233,7 +286,7 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           .simpleNetworking
           .getWalletModule()
           .acceptGift(giftModel.id);
-     
+
       await showSuccessScreen(currency);
     } on ServerRejectException catch (error) {
       await showFailureScreen(error.cause, context);
@@ -243,6 +296,21 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
   }
 
   Future<void> showSuccessScreen(CurrencyModel currency) {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      giftModel.assetSymbol ?? '',
+    );
+    final giftAmount = volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
+    );
+    sAnalytics.successClaimedGiftScreenView(
+      giftAmount: giftAmount,
+      giftFrom: giftModel.fromName ?? '',
+    );
+
     return sRouter.push(
       SuccessScreenRouter(
         primaryText: intl.successScreen_success,
@@ -263,12 +331,32 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
   }
 
   Future<void> showFailureScreen(String error, BuildContext context) {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      giftModel.assetSymbol ?? '',
+    );
+    final giftAmount = volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
+    );
+    sAnalytics.failedClaimGiftScreenView(
+      giftAmount: giftAmount,
+      giftFrom: giftModel.fromName ?? '',
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,
         secondaryText: error,
         primaryButtonName: intl.previewBuyWithAsset_close,
         onPrimaryButtonTap: () {
+          sAnalytics.tapOnTheButtonCloseOnFailedClaimGiftScreen(
+            giftAmount: giftAmount,
+            giftFrom: giftModel.fromName ?? '',
+            failedReason: error,
+          );
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         },
@@ -277,6 +365,21 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
   }
 
   void showAlert(BuildContext context) {
+    final currency = currencyFrom(
+      sSignalRModules.currenciesList,
+      giftModel.assetSymbol ?? '',
+    );
+    final giftAmount = volumeFormat(
+      prefix: currency.prefixSymbol,
+      decimal: giftModel.amount ?? Decimal.zero,
+      accuracy: currency.accuracy,
+      symbol: currency.symbol,
+    );
+    sAnalytics.cancelClaimTransactionGiftScreenView(
+      giftAmount: giftAmount,
+      giftFrom: giftModel.fromName ?? '',
+    );
+
     sShowAlertPopup(
       context,
       primaryText: intl.reseive_gift_reject,
@@ -285,6 +388,11 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
       secondaryButtonName: intl.gift_history_no,
       primaryButtonType: SButtonType.primary3,
       onPrimaryButtonTap: () async {
+        sAnalytics.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup(
+          giftAmount: giftAmount,
+          giftFrom: giftModel.fromName ?? '',
+        );
+
         await getIt
             .get<SNetwork>()
             .simpleNetworking
@@ -293,7 +401,14 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
         await sRouter.pop();
         await sRouter.pop();
       },
-      onSecondaryButtonTap: () => Navigator.pop(context),
+      onSecondaryButtonTap: () {
+        sAnalytics.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup(
+          giftAmount: giftAmount,
+          giftFrom: giftModel.fromName ?? '',
+        );
+
+        Navigator.pop(context);
+      },
     );
   }
 }

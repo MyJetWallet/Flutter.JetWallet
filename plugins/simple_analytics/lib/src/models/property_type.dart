@@ -29,4 +29,7 @@ class PropertyType {
   static const totalSendAmount = 'Total send amount';
   static const preset = 'Preset';
   static const failedReason = 'Failed reason';
+  static const giftAmount = 'Gift amount';
+  static const giftFrom = 'Gift from';
+
 }

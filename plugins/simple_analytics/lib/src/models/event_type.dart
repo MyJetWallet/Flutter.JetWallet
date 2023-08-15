@@ -77,4 +77,24 @@ class EventType {
       'Tap on the button ‘Cancel transaction’ on Sent history details sheet';
   static const tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet =
       'Tap on the button ‘Close’ or tap on Sent history details sheet';
+  static const claimGiftScreenView = '`Claim Gift` screen view';
+  static const tapOnTheButtonClaimOnClaimGiftSheet =
+      'Tap on the button ‘Claim’ on Claim Gift sheet';
+  static const tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet =
+      '''Tap on the button ‘Close’ or tap in empty place for closing Claim Gift sheet''';
+  static const tapOnTheButtonRejectOnClaimGiftSheet =
+      'Tap on the button ‘Reject’ on Claim Gift sheet';
+  static const cancelClaimTransactionGiftScreenView =
+      '`Cancel claim transaction gift` screen view';
+  static const tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup =
+      'Tap on the button ‘Yes, cancel’ on Cancel claim  transaction gift popup';
+  static const tapOnTheButtonNoOnCancelClaimTransactionGiftPopup =
+      'Tap on the button ‘No’ on Cancel claim  transaction gift popup';
+  static const processingClaimGiftScreenView =
+      '`Processing claim gift` screen view';
+  static const failedClaimGiftScreenView = '`Failed claim gift` screen view';
+  static const tapOnTheButtonCloseOnFailedClaimGiftScreen =
+      'Tap on the button ‘Close’ on Failed claim gift screen';
+  static const successClaimedGiftScreenView =
+      '`Success claimed gift` screen view';
 }

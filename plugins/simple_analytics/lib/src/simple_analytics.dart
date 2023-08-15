@@ -883,4 +883,182 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void claimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.claimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '105',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonClaimOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonClaimOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '106',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '107',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonRejectOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonRejectOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '108',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void cancelClaimTransactionGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.cancelClaimTransactionGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '109',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '110',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonNoOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '111',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void processingClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.processingClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '112',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void failedClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.failedClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '113',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOnFailedClaimGiftScreen({
+    required String giftAmount,
+    required String giftFrom,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOnFailedClaimGiftScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '114',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
+
+  void successClaimedGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.successClaimedGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '115',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
 }
