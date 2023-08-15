@@ -371,6 +371,51 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '31',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowOnboardingFirstScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowOnboardingFirstScreenView,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '32',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowOnboardingSecondScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowOnboardingSecondScreenView,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '33',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowOnboardingThirdScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowOnboardingThirdScreenView,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '34',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowOnboardingFourScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowOnboardingFourScreenView,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '35',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -381,6 +426,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '36',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -391,6 +437,29 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '37',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowTapToAgreeTCPP() {
+    _analytics.logEvent(
+      EventType.signInFlowTapToAgreeTCPP,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '38',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowEmailContinue() {
+    _analytics.logEvent(
+      EventType.signInFlowEmailContinue,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '39',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -401,6 +470,73 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: 'none',
         PropertyType.eventId: '40',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowOpenEmailApp() {
+    _analytics.logEvent(
+      EventType.signInFlowOpenEmailApp,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '41',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowSelectAnAppScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowSelectAnAppScreenView,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '42',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowTapRememberMyChoice() {
+    _analytics.logEvent(
+      EventType.signInFlowTapRememberMyChoice,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '43',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowTapResend() {
+    _analytics.logEvent(
+      EventType.signInFlowTapResend,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '44',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPleaseWait() {
+    _analytics.logEvent(
+      EventType.signInFlowPleaseWait,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '45',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowErrorVerificationCode() {
+    _analytics.logEvent(
+      EventType.signInFlowErrorVerificationCode,
+      eventProperties: {
+        PropertyType.techAcc: 'none',
+        PropertyType.eventId: '46',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -411,6 +547,52 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '47',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPhoneNumberContinue() {
+    _analytics.logEvent(
+      EventType.signInFlowPhoneNumberContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '48',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPhoneConfirmView() {
+    _analytics.logEvent(
+      EventType.signInFlowPhoneConfirmView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '49',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPhoneReceiveCodePhoneCall() {
+    _analytics.logEvent(
+      EventType.signInFlowPhoneReceiveCodePhoneCall,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '50',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPhoneConfirmWrongPhone({required String errorCode}) {
+    _analytics.logEvent(
+      EventType.signInFlowPhoneConfirmWrongPhone,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '51',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
       },
     );
   }
@@ -421,6 +603,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '52',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -431,6 +614,18 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '53',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowDateContinue() {
+    _analytics.logEvent(
+      EventType.signInFlowDateContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '54',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -441,6 +636,87 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '55',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowErrorCountryBlocked({required String erroCode}) {
+    _analytics.logEvent(
+      EventType.signInFlowErrorCountryBlocked,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '56',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: erroCode,
+      },
+    );
+  }
+
+  void signInFlowPersonalContinue() {
+    _analytics.logEvent(
+      EventType.signInFlowPersonalContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '57',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPersonalScreenViewLoading() {
+    _analytics.logEvent(
+      EventType.signInFlowPersonalScreenViewLoading,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '58',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPersonalReferralLink() {
+    _analytics.logEvent(
+      EventType.signInFlowPersonalReferralLink,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '59',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPersonaReferralLinkScreenView() {
+    _analytics.logEvent(
+      EventType.signInFlowPersonaReferralLinkScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '60',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowPersonaReferralLinkError({required String errorCode}) {
+    _analytics.logEvent(
+      EventType.signInFlowPersonaReferralLinkError,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '61',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
+      },
+    );
+  }
+
+  void signInFlowPersonaReferralLinkContinue({required String code}) {
+    _analytics.logEvent(
+      EventType.signInFlowPersonaReferralLinkContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '62',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.codeLink: code,
       },
     );
   }
@@ -451,6 +727,32 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '63',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowConfirmPinView() {
+    _analytics.logEvent(
+      EventType.signInFlowConfirmPinView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '64',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void signInFlowErrorPin({
+    required String error,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowErrorPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '65',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: error,
       },
     );
   }
@@ -463,6 +765,77 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '66',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowEnableFaceID({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowEnableFaceID,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '67',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowLaterFaceID({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowLaterFaceID,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '68',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowFaceIDScreenView({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowFaceIDScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '69',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowFaceAllowFaceID({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowFaceAllowFaceID,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '70',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.biometric: biometric,
+      },
+    );
+  }
+
+  void signInFlowFaceDontAllowFaceID({
+    required String biometric,
+  }) {
+    _analytics.logEvent(
+      EventType.signInFlowFaceDontAllowFaceID,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '71',
+        PropertyType.kycStatus: kycDepositStatus,
         PropertyType.biometric: biometric,
       },
     );
@@ -474,6 +847,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '72',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -484,6 +858,7 @@ class SimpleAnalytics {
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '73',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }
@@ -543,6 +918,50 @@ class SimpleAnalytics {
         PropertyType.paymentMethodType: paymentMethodType,
         PropertyType.paymentMethodName: paymentMethodName,
         PropertyType.paymentMethodCurrency: paymentMethodCurrency,
+      },
+    );
+  }
+
+  void verificationProfileScreenView() {
+    _analytics.logEvent(
+      EventType.verificationProfileScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '116',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void verificationProfileLogout() {
+    _analytics.logEvent(
+      EventType.verificationProfileLogout,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '117',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void verificationProfileProvideInfo() {
+    _analytics.logEvent(
+      EventType.verificationProfileProvideInfo,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '118',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void verificationProfileCreatePIN() {
+    _analytics.logEvent(
+      EventType.verificationProfileCreatePIN,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '119',
+        PropertyType.kycStatus: kycDepositStatus,
       },
     );
   }

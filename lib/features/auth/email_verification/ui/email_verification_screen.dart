@@ -189,6 +189,8 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                       userInfoN.updateIsJustLogged(value: true);
                       verification.loader.startLoadingImmediately();
                       verification.verifyCode();
+
+                      sAnalytics.signInFlowPleaseWait();
                     },
                     autoFocus: true,
                     onChanged: (_) {
@@ -214,6 +216,8 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                   name: intl.twoFaPhone_resend,
                   color: colors.blue,
                   onTap: () {
+                    sAnalytics.signInFlowTapResend();
+
                     timer.refreshTimer();
                     verification.resendCode(timer);
                   },

@@ -6,13 +6,25 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 
 @RoutePage(name: 'VerificationRouter')
-class VerificationScreen extends StatelessObserverWidget {
+class VerificationScreen extends StatefulObserverWidget {
   const VerificationScreen({super.key});
+
+  @override
+  State<VerificationScreen> createState() => _VerificationScreenState();
+}
+
+class _VerificationScreenState extends State<VerificationScreen> {
+  @override
+  void initState() {
+    sAnalytics.verificationProfileScreenView();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +43,8 @@ class VerificationScreen extends StatelessObserverWidget {
               active: true,
               name: intl.logout,
               onTap: () {
+                sAnalytics.verificationProfileLogout();
+
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
                   withLoading: false,
@@ -80,6 +94,8 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: !store.isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
+              sAnalytics.verificationProfileProvideInfo();
+
               getIt<AppRouter>().pop();
             },
             isDisabled: !store.isPhoneDone &&
@@ -95,6 +111,8 @@ class VerificationScreen extends StatelessObserverWidget {
             linkText: intl.provide_information,
             subtext: intl.personal_details_descr,
             linkAction: () {
+              sAnalytics.verificationProfileProvideInfo();
+
               getIt<AppRouter>().pop();
               //sRouter.replace(const UserDataScreenRouter());
             },
@@ -111,6 +129,8 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: store.step == VerificationScreenStep.Pin,
             linkText: intl.create_pin_code,
             linkAction: () {
+              sAnalytics.verificationProfileCreatePIN();
+
               getIt<AppRouter>().pop();
               /*
               getIt<AppRouter>().replaceAll([

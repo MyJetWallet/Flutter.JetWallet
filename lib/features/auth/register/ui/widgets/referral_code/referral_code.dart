@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'components/invalid_referral_code.dart';
@@ -47,6 +48,8 @@ class _ReferralCodeState extends State<ReferralCode> {
     return SPaddingH24(
       child: GestureDetector(
         onTap: () {
+          sAnalytics.signInFlowPersonalReferralLink();
+
           referallStore.resetBottomSheetReferralCodeValidation(
             isOpening: true,
           );

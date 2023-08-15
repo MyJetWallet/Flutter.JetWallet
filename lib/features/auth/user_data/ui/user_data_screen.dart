@@ -169,6 +169,7 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                     child: SPrimaryButton4(
                       name: intl.register_continue,
                       onTap: () {
+                        sAnalytics.signInFlowPersonalContinue();
                         sAnalytics.signInFlowCreatePinView();
                         getIt
                             .get<UserInfoService>()

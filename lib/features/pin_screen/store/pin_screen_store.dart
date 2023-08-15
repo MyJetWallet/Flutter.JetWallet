@@ -22,6 +22,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -139,6 +140,10 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> initDefaultScreen() async {
     if (inited) return;
+
+    if (isChangePhone) {
+      sAnalytics.signInFlowPhoneConfirmView();
+    }
 
     inited = true;
 
@@ -273,6 +278,10 @@ abstract class _PinScreenStoreBase with Store {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
+        sAnalytics.signInFlowPhoneConfirmWrongPhone(
+          errorCode: response.error?.cause ?? '',
+        );
+
         await _errorFlow();
         _updateNewPin('');
         _updateConfirmPin('');
@@ -329,6 +338,8 @@ abstract class _PinScreenStoreBase with Store {
           );
         },
         onError: (ServerRejectException error) async {
+          sAnalytics.signInFlowErrorPin(error: error.cause);
+
           if (isChangePhone) {
             showForgot = true;
           }
@@ -632,6 +643,8 @@ abstract class _PinScreenStoreBase with Store {
             : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
+        sAnalytics.signInFlowConfirmPinView();
+
         return intl.pin_screen_confirm_newPin;
       },
     );

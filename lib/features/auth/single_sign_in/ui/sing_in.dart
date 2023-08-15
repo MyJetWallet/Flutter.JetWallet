@@ -143,8 +143,8 @@ class _SingInBody extends StatelessObserverWidget {
                                         intl.register_invalidEmail,
                                       );
                                     },
-                                    isError:
-                                    SingleSingInStore.of(context).isEmailError,
+                                    isError: SingleSingInStore.of(context)
+                                        .isEmailError,
                                   );
                                 },
                               ),
@@ -169,6 +169,8 @@ class _SingInBody extends StatelessObserverWidget {
                                 );
 
                                 credentials.setPolicyChecked();
+
+                                sAnalytics.signInFlowTapToAgreeTCPP();
                               },
                               onUserAgreementTap: () {
                                 launchURL(context, userAgreementLink);
@@ -186,6 +188,8 @@ class _SingInBody extends StatelessObserverWidget {
                             name: intl.register_continue,
                             onTap: () {
                               if (credentials.emailValid) {
+                                sAnalytics.signInFlowEmailContinue();
+
                                 signInStore.singleSingIn();
                               } else {
                                 SingleSingInStore.of(context)

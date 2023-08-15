@@ -16,6 +16,7 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -139,6 +140,10 @@ abstract class _UserDataStoreBase with Store {
         id: 1,
       );
 
+      sAnalytics.signInFlowErrorCountryBlocked(
+        erroCode: intl.user_data_bottom_sheet_country,
+      );
+
       return;
     }
 
@@ -153,6 +158,8 @@ abstract class _UserDataStoreBase with Store {
     print(model);
 
     loader.startLoadingImmediately();
+
+    sAnalytics.signInFlowPersonalScreenViewLoading();
 
     try {
       final resp = await sNetwork.getAuthModule().postApplyUsedData(model);

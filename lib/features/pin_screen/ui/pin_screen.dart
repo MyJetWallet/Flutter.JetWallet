@@ -18,6 +18,7 @@ import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widg
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 

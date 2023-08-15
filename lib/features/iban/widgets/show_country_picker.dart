@@ -5,6 +5,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
@@ -19,7 +20,6 @@ void showCountryPicker(
   Function(String) updateCountryNameSearch,
   IbanStoreBase store,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -68,14 +68,16 @@ class _CountryState extends State<_Countries> {
     filteredCountries = widget.store.sortedCountries;
   }
 
-  void changeSearchCountry (String value) {
+  void changeSearchCountry(String value) {
     setState(() {
       searchCountry = value;
-      filteredCountries = widget.store.sortedCountries.where(
+      filteredCountries = widget.store.sortedCountries
+          .where(
             (element) => element.countryName.toLowerCase().contains(
-          searchCountry.toLowerCase(),
-        ),
-      ).toList();
+                  searchCountry.toLowerCase(),
+                ),
+          )
+          .toList();
     });
   }
 
@@ -103,6 +105,10 @@ class _CountryState extends State<_Countries> {
                               sNotification.showError(
                                 intl.user_data_bottom_sheet_country,
                                 id: 1,
+                              );
+
+                              sAnalytics.signInFlowErrorCountryBlocked(
+                                erroCode: intl.user_data_bottom_sheet_country,
                               );
                             } else {
                               widget.store.pickCountryFromSearch(country);

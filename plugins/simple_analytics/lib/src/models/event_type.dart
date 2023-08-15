@@ -25,17 +25,79 @@ class EventType {
 
   /// Sign Up & Sign In Flow
   static const signInFlowWelcomeView = '‘Welcome Screen‘ view';
+  static const signInFlowOnboardingFirstScreenView =
+      '‘Simple app for your finance’ screen view';
+  static const signInFlowOnboardingSecondScreenView =
+      "‘Don’t just buy crypto, earn it' screen view";
+  static const signInFlowOnboardingThirdScreenView =
+      "‘Trade 20+ Top Crypto assets’ screen view";
+  static const signInFlowOnboardingFourScreenView =
+      "‘Invite friends and earn more’ screen view";
   static const signInFlowTapGetStarted = 'Tap on ‘Get Started’ button';
   static const signInFlowEnterEmailView = '‘Enter your email’ screen view';
+  static const signInFlowTapToAgreeTCPP =
+      'Tap to agree to the T&C and Privacy Policy';
+  static const signInFlowEmailContinue = 'Tap on button ‘Continue’ with email';
   static const signInFlowEmailVerificationView =
       '‘Email verification’ screen view';
+  static const signInFlowOpenEmailApp = 'Tap on ‘Open Email App’ button';
+  static const signInFlowSelectAnAppScreenView = '‘Select an app’ screen view';
+  static const signInFlowTapRememberMyChoice =
+      'Tap on button ‘Remember my choice’ for email app';
+  static const signInFlowTapResend =
+      'Tap on button ‘Resend’  verification code';
+  static const signInFlowPleaseWait =
+      '‘Please wait - Email Verification’  screen view';
+  static const signInFlowErrorVerificationCode =
+      'Error - Wrong Email Verification Code';
   static const signInFlowPhoneNumberView = '‘Phone number’ screen view';
+  static const signInFlowPhoneNumberContinue =
+      'Tap on the button ‘Continue’ with phone number';
+  static const signInFlowPhoneConfirmView = '‘Phone confirmation’ screen view';
+  static const signInFlowPhoneReceiveCodePhoneCall =
+      'Tap on the button ‘Receive code via phone call’';
+  static const signInFlowPhoneConfirmWrongPhone =
+      'Error - Wrong Phone Confirmation Code';
   static const signInFlowPersonalDetailsView = '‘Personal Details‘ screen view';
   static const signInFlowDateSheetView = '‘Date of birth’ screen view';
+  static const signInFlowDateContinue = 'Tap on button ‘Confirm’ date of birth';
   static const signInFlowSelectCountryView = '‘Select country’ screen view';
+  static const signInFlowErrorCountryBlocked = 'Error - ‘Country is blocked’';
+  static const signInFlowPersonalContinue =
+      'Tap on button ‘Continue’ with name';
+  static const signInFlowPersonalScreenViewLoading =
+      "‘Loading - Personal details' screen view";
+  static const signInFlowPersonalReferralLink =
+      "Tap on ‘I have referral code/link’ button";
+  static const signInFlowPersonaReferralLinkScreenView =
+      "‘Enter referral code/link’ screen view";
+  static const signInFlowPersonaReferralLinkError =
+      "Error - ‘Invalid referral code/link’";
+  static const signInFlowPersonaReferralLinkContinue =
+      "Tap on button ‘Continue’ with referral code/link";
   static const signInFlowCreatePinView = '‘Create PIN code’ screen view';
+  static const signInFlowConfirmPinView = '‘Confirm PIN code’ screen view';
+  static const signInFlowErrorPin = 'Error - ‘Wrong PIN code’';
   static const signInFlowEnableBiometricView =
       '‘Enable Face ID/biometrics to instantly login’ screen view';
+  static const signInFlowEnableFaceID =
+      "Tap on button ‘Enable Face ID/biometrics’";
+  static const signInFlowLaterFaceID =
+      "Tap on button ‘Later’ with enabling Face ID/biometrics";
+  static const signInFlowFaceIDScreenView =
+      "‘Allow Simple to use Face ID/ biometrics’ screen view";
+  static const signInFlowFaceAllowFaceID =
+      "Tap on button ‘Allow’ to use Face ID/biometrics";
+  static const signInFlowFaceDontAllowFaceID =
+      "Tap on button ‘Don’t Allow’ to use Face ID/biometrics";
+  static const verificationProfileScreenView =
+      "'Verification your profile' screen view";
+  static const verificationProfileLogout =
+      "Tap on button 'Logout' on screen 'Verification your profile'";
+  static const verificationProfileProvideInfo =
+      "Tap on button 'Provide Information' on screen 'Verification your profile'";
+  static const verificationProfileCreatePIN =
+      "Tap on button 'Create PIN' on screen 'Verification your profile'";
   static const signInFlowEnterPinView = '‘Enter your PIN code’ screen view';
   static const signInFlowVerificationPassed =
       '‘Verification passed’(Portfolio) screen view';
@@ -97,5 +159,6 @@ class EventType {
       "‘Choose asset to send’ screen view";
   static const destinationCountryScreenView =
       "‘Destination country’ screen view";
-      static const paymentMethodScreenViewGlobalSend = '‘Payment method’ screen view';
+  static const paymentMethodScreenViewGlobalSend =
+      '‘Payment method’ screen view';
 }

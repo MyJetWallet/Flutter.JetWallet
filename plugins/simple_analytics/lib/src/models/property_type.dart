@@ -28,4 +28,5 @@ class PropertyType {
   static const sendAmount = 'Total send amount';
   static const preset = 'Preset';
   static const failedReason = 'failedReason';
+  static const codeLink = 'code/link';
 }
