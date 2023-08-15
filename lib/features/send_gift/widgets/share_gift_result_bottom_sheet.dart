@@ -8,6 +8,7 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../utils/constants.dart';
@@ -18,11 +19,16 @@ void shareGiftResultBottomSheet({
   required Decimal amount,
   String? phoneNumber,
   String? email,
+  void Function()? onClose,
 }) {
+  sAnalytics.shareGiftSheetScreenView();
   sShowBasicModalBottomSheet(
     scrollable: sDeviceSize == const DeviceSizeUnion.small(),
     context: context,
     horizontalPinnedPadding: 24,
+    then: (_) {
+      onClose?.call();
+    },
     pinned: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -226,6 +232,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SIconButton(
                   onTap: () {
+                    sAnalytics.tapOnTheButtonCopyOnShareSheet();
                     sNotification.showError(
                       intl.copy_message,
                       id: 1,
@@ -254,6 +261,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SIconButton(
                   onTap: () {
+                    sAnalytics.tapOnTheButtonShareOnShareSheet();
                     Share.share(shareText);
                   },
                   defaultIcon: const SShareIcon(),

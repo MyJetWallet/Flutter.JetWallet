@@ -7,6 +7,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/stack_loader.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -110,6 +111,8 @@ class GiftSendDetails extends StatelessObserverWidget {
                 active: true,
                 name: intl.gift_history_remind,
                 onTap: () {
+                  sAnalytics.tapOnTheButtonRemindOnSentHistoryDetailsSheet();
+
                   shareGiftResultBottomSheet(
                     context: context,
                     amount: Decimal.parse(
@@ -120,6 +123,10 @@ class GiftSendDetails extends StatelessObserverWidget {
                     email: transactionListItem.giftSendInfo?.toEmail,
                     phoneNumber:
                         transactionListItem.giftSendInfo?.toPhoneNumber,
+                    onClose: () {
+                      sAnalytics
+                          .tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet();
+                    },
                   );
                 },
               ),
@@ -128,6 +135,9 @@ class GiftSendDetails extends StatelessObserverWidget {
                 active: true,
                 name: intl.gift_history_cancel_transaction,
                 onTap: () {
+                  sAnalytics
+                      .tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet();
+
                   sShowAlertPopup(
                     context,
                     primaryText: '${intl.gift_history_cancel_transaction}?',

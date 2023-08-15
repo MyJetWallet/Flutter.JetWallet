@@ -220,6 +220,10 @@ abstract class GeneralSendGiftStoreBase with Store {
           phoneNumber: selectedContactType == ReceiverContacrType.phone
               ? (_phoneCountryCode + _phoneBody)
               : null,
+          onClose: () {
+            sAnalytics
+                .tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet();
+          },
         );
       },
     );

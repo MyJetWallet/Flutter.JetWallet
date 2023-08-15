@@ -806,4 +806,81 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void shareGiftSheetScreenView() {
+    _analytics.logEvent(
+      EventType.shareGiftSheetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '96',
+      },
+    );
+  }
+
+  void tapOnTheButtonShareOnShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonShareOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '97',
+      },
+    );
+  }
+
+  void tapOnTheButtonCopyOnShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCopyOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '98',
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '99',
+      },
+    );
+  }
+
+  void tapOnTheButtonRemindOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonRemindOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '100',
+      },
+    );
+  }
+
+  void tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '101',
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '102',
+      },
+    );
+  }
 }

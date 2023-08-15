@@ -62,6 +62,19 @@ class EventType {
   static const confirmWithPINScreenView = '‘Confirm with PIN` screen view';
   static const errorWrongPin = 'Error - wrong pin';
   static const processingSendScreenView = '‘Processing Send’ screen view';
- static const successSendScreenView = '‘Success Send’ screen is displayed';
- static const failedSendScreenView = '‘Failed Send’ screen is displayed';
+  static const successSendScreenView = '‘Success Send’ screen is displayed';
+  static const failedSendScreenView = '‘Failed Send’ screen is displayed';
+  static const shareGiftSheetScreenView = '`Share gift` sheet screen view';
+  static const tapOnTheButtonShareOnShareSheet =
+      'Tap on the button ‘Share’ on share sheet';
+  static const tapOnTheButtonCopyOnShareSheet =
+      'Tap on the button ‘Copy’ on share sheet';
+  static const tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet =
+      '''Tap on the button ‘Close’ or tap in empty place for closing  share sheet''';
+  static const tapOnTheButtonRemindOnSentHistoryDetailsSheet =
+      'Tap on the button ‘Remind’ on Sent history details sheet';
+  static const tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet =
+      'Tap on the button ‘Cancel transaction’ on Sent history details sheet';
+  static const tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet =
+      'Tap on the button ‘Close’ or tap on Sent history details sheet';
 }
