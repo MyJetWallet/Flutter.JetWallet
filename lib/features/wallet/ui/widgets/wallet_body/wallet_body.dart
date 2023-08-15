@@ -238,6 +238,9 @@ class _WalletBodyState extends State<WalletBody>
                             }
                           },
                           onSend: () {
+                            sAnalytics.tabOnTheSendButton(
+                              source: 'My Assets - Asset - Send',
+                            );
                             final actualAsset = widget.currency;
                             if (kycState.withdrawalStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {

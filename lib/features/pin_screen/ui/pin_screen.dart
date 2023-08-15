@@ -34,6 +34,7 @@ class PinScreen extends StatelessWidget {
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
+    this.onError,
     required this.union,
   }) : super(key: key);
 
@@ -45,6 +46,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
   final bool fromRegister;
+  final void Function()? onError;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
+        onError: onError,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,

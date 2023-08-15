@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -32,6 +33,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
 
   @override
   void initState() {
+    sAnalytics.receiverSDetailsScreenView();
     sendGiftStore = GeneralSendGiftStore()..setCurrency(widget.currency);
 
     _tabController = TabController(
@@ -149,8 +151,11 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                       child: ContinueButton(
                         isValid: store.isformValid,
                         onTab: () {
+                          sAnalytics.tapOnTheContinueWithReceiverSDetailsButton(
+                            giftSubmethod: store.selectedContactType.name,
+                          );
                           sendGiftStore.setReceiverInformation(
-                            selectedContactType: store.selectedContactType,
+                            newSelectedContactType: store.selectedContactType,
                             email: store.email,
                             newPhoneBody: store.phoneBody,
                             newPhoneCountryCode: store.phoneCountryCode,

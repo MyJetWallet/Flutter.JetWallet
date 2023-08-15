@@ -9,6 +9,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -21,6 +22,16 @@ void showSendOptions(
   if (navigateBack) {
     Navigator.pop(context);
   }
+
+  sAnalytics.sendToSheetScreenView(
+    sendMethods: [
+      if (currency.supportsByAssetWithdrawal) AnalyticsSendMethods.cryptoWallet,
+      if (currency.supporGlobalSendWithdrawal) AnalyticsSendMethods.globally,
+      if (currency.supportIbanSendWithdrawal) AnalyticsSendMethods.bankAccount,
+      if (currency.supportsGiftlSend && currency.type != AssetType.fiat)
+        AnalyticsSendMethods.gift,
+    ],
+  );
 
   showSendTimerAlertOr(
     context: context,
@@ -138,6 +149,7 @@ class _SendOptions extends StatelessObserverWidget {
             name: intl.send_gift,
             description: intl.send_gift_to_simple_wallet,
             onTap: () async {
+              sAnalytics.tapOnTheGiftButton();
               Navigator.pop(context);
               await sRouter.push(
                 GiftReceiversDetailsRouter(

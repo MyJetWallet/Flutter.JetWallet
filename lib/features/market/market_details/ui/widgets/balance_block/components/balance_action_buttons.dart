@@ -158,6 +158,9 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSend: () {
+              sAnalytics.tabOnTheSendButton(
+                source: 'Market - Asset - Send',
+              );
               if (kycState.withdrawalStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
                 showSendOptions(

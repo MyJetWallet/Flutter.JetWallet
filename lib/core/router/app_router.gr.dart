@@ -646,6 +646,7 @@ abstract class _$AppRouter extends RootStackRouter {
           fromRegister: args.fromRegister,
           isForgotPassword: args.isForgotPassword,
           onChangePhone: args.onChangePhone,
+          onError: args.onError,
           union: args.union,
         ),
       );
@@ -3210,6 +3211,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     bool fromRegister = true,
     bool isForgotPassword = false,
     dynamic Function(String)? onChangePhone,
+    void Function()? onError,
     required PinFlowUnion union,
     List<PageRouteInfo>? children,
   }) : super(
@@ -3223,6 +3225,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
             fromRegister: fromRegister,
             isForgotPassword: isForgotPassword,
             onChangePhone: onChangePhone,
+            onError: onError,
             union: union,
           ),
           initialChildren: children,
@@ -3244,6 +3247,7 @@ class PinScreenRouteArgs {
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
+    this.onError,
     required this.union,
   });
 
@@ -3263,11 +3267,13 @@ class PinScreenRouteArgs {
 
   final dynamic Function(String)? onChangePhone;
 
+  final void Function()? onError;
+
   final PinFlowUnion union;
 
   @override
   String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, union: $union}';
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, onError: $onError, union: $union}';
   }
 }
 

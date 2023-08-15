@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -25,6 +26,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
 
   @override
   void initState() {
+    sAnalytics.sendingAssetScreenView();
     super.initState();
     final storageService = getIt.get<LocalStorageService>();
     textController = TextEditingController();
@@ -35,6 +37,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
         });
       },
     );
+
   }
   
   @override

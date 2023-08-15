@@ -45,4 +45,23 @@ class EventType {
   static const paymentWevViewScreenView = '‘Payment web view’ screen view';
   static const paymentWevViewClose =
       'Tap on the button ‘Close’ on Payment web view';
+  static const tapOnTheSendButton = 'Tap on the ‘Send’ button';
+  static const sendToSheetScreenView = '`Send to` sheet screen view';
+  static const tapOnTheGiftButton = 'Tap on the ‘Gift’ button';
+  static const sendingAssetScreenView = '`Sending asset` screen view';
+  static const receiverSDetailsScreenView = "`Receiver's details` screen view";
+  static const tapOnTheContinueWithReceiverSDetailsButton =
+      "Tap on the ‘Continue’ with Receiver's Details button";
+  static const sendGiftAmountScreenView = '‘Send Gift Amount’ screen view';
+  static const errorSendLimitExceeded = 'Error - Send Limit Exceeded';
+  static const tapOnTheButtonContinueWithSendGiftAmountScreen =
+      'Tap on the button ‘Continue’ with ‘Send Gift Amount’ screen';
+  static const orderSummarySendScreenView = '‘Order summary Send` screen view';
+  static const tapOnTheButtonConfirmOrderSummarySend =
+      'Tap on the button ‘Confirm’ Order Summary Send';
+  static const confirmWithPINScreenView = '‘Confirm with PIN` screen view';
+  static const errorWrongPin = 'Error - wrong pin';
+  static const processingSendScreenView = '‘Processing Send’ screen view';
+ static const successSendScreenView = '‘Success Send’ screen is displayed';
+ static const failedSendScreenView = '‘Failed Send’ screen is displayed';
 }

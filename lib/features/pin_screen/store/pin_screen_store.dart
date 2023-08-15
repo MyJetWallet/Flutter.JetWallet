@@ -38,11 +38,13 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
     bool isChangePhone = false,
     bool isChangePin = false,
     Function(String)? onChangePhone,
+    void Function()? onError,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
           isChangePin,
           onChangePhone,
+          onError,
         );
 
   static _PinScreenStoreBase of(BuildContext context) =>
@@ -55,12 +57,14 @@ abstract class _PinScreenStoreBase with Store {
     this.isChangePhone,
     this.isChangePin,
     this.onChangePhone,
+    this.onError,
   );
 
   final PinFlowUnion flowUnion;
   final bool isChangePhone;
   final bool isChangePin;
   final Function(String)? onChangePhone;
+  final void Function()? onError;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -273,6 +277,8 @@ abstract class _PinScreenStoreBase with Store {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
+        onError?.call();
+        
         await _errorFlow();
         _updateNewPin('');
         _updateConfirmPin('');
@@ -332,7 +338,7 @@ abstract class _PinScreenStoreBase with Store {
           if (isChangePhone) {
             showForgot = true;
           }
-
+    
           if (error.cause ==
               'The code you entered is incorrect, 2 attempts remaining.') {
             await _errorFlow();

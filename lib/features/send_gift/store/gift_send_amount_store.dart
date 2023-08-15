@@ -106,7 +106,7 @@ abstract class _GeftSendAmountStoreBase with Store {
       selected: percent,
       currency: selectedCurrency,
       availableBalance: Decimal.parse(
-        '${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}',
+        '''${selectedCurrency.assetBalance.toDouble() - selectedCurrency.cardReserve.toDouble()}''',
       ),
     );
 

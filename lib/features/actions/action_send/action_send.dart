@@ -19,6 +19,7 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -84,6 +85,15 @@ Future<void> _showSendAction(BuildContext context) async {
             element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
       )
       .toList();
+
+  sAnalytics.sendToSheetScreenView(
+    sendMethods: [
+      if (cryptoGlobalSendLength.isNotEmpty) AnalyticsSendMethods.cryptoWallet,
+      if (isGlobalSendActive.isNotEmpty) AnalyticsSendMethods.globally,
+      if (isIbanOutActive.isNotEmpty) AnalyticsSendMethods.bankAccount,
+      if (isGiftSendActive.isNotEmpty) AnalyticsSendMethods.gift,
+    ],
+  );
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -175,6 +185,7 @@ Future<void> _showSendAction(BuildContext context) async {
         SCardRow(
           icon: const SGiftSendIcon(),
           onTap: () {
+            sAnalytics.tapOnTheGiftButton();
             Navigator.pop(context);
             sRouter.push(GiftSelectAssetRouter());
           },

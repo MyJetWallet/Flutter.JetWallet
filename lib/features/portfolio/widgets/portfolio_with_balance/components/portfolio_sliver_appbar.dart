@@ -247,6 +247,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowSend) ...[
                 CircleActionSend(
                   onTap: () {
+                    sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
                     if (kycState.withdrawalStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       showSendAction(

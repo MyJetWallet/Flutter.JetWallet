@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -32,6 +33,10 @@ class _GiftAmountState extends State<GiftAmount> {
 
   @override
   void initState() {
+    sAnalytics.sendGiftAmountScreenView(
+      giftSubmethod: widget.sendGiftStore.selectedContactType.name,
+      asset: widget.sendGiftStore.currency.symbol,
+    );
     geftSendAmountStore = GeftSendAmountStore()
       ..init(
         widget.sendGiftStore.currency,
@@ -41,7 +46,6 @@ class _GiftAmountState extends State<GiftAmount> {
 
   @override
   Widget build(BuildContext context) {
-
     final deviceSize = sDeviceSize;
 
     final availableCurrency = currencyFrom(
@@ -54,8 +58,8 @@ class _GiftAmountState extends State<GiftAmount> {
     );
 
     geftSendAmountStore.init(
-       availableCurrency,
-      );
+      availableCurrency,
+    );
 
     return SPageFrame(
       header: SPaddingH24(
@@ -131,6 +135,14 @@ class _GiftAmountState extends State<GiftAmount> {
                 },
                 onKeyPressed: (value) {
                   geftSendAmountStore.updateAmount(value);
+                  if (geftSendAmountStore.withAmmountInputError !=
+                      InputError.none) {
+                    sAnalytics.errorSendLimitExceeded(
+                      asset: geftSendAmountStore.selectedCurrency.symbol,
+                      giftSubmethod:
+                          widget.sendGiftStore.selectedContactType.name,
+                    );
+                  }
                 },
                 buttonType: SButtonType.primary2,
                 submitButtonActive: geftSendAmountStore.withAmmountInputError ==
@@ -140,6 +152,32 @@ class _GiftAmountState extends State<GiftAmount> {
                 onSubmitPressed: () {
                   widget.sendGiftStore
                       .updateAmount(geftSendAmountStore.withAmount);
+                  dynamic preset;
+                  switch (geftSendAmountStore.selectedPreset) {
+                    case SKeyboardPreset.preset1:
+                      preset = '25%';
+                      break;
+                    case SKeyboardPreset.preset2:
+                      preset = '50%';
+                      break;
+                    case SKeyboardPreset.preset3:
+                      preset = '100%';
+                      break;
+                    default:
+                      preset = false;
+                  }
+
+                  sAnalytics.tapOnTheButtonContinueWithSendGiftAmountScreen(
+                    asset: geftSendAmountStore.selectedCurrency.symbol,
+                    giftSubmethod:
+                        widget.sendGiftStore.selectedContactType.name,
+                    totalSendAmount: widget.sendGiftStore.amount.toString(),
+                    preset: preset,
+                  );
+                  sAnalytics.orderSummarySendScreenView(
+                    giftSubmethod:
+                        widget.sendGiftStore.selectedContactType.name,
+                  );
                   sRouter.push(
                     GiftOrderSummuryRouter(
                       sendGiftStore: widget.sendGiftStore,

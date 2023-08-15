@@ -4,6 +4,7 @@ import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/simple_networking.dart';
@@ -31,7 +32,7 @@ abstract class GeneralSendGiftStoreBase with Store {
   @observable
   Decimal amount = Decimal.zero;
 
-  ReceiverContacrType _selectedContactType = ReceiverContacrType.email;
+  ReceiverContacrType selectedContactType = ReceiverContacrType.email;
   String _email = '';
 
   @observable
@@ -45,12 +46,12 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   @action
   void setReceiverInformation({
-    required ReceiverContacrType selectedContactType,
+    required ReceiverContacrType newSelectedContactType,
     String? email,
     String? newPhoneBody,
     String? newPhoneCountryCode,
   }) {
-    _selectedContactType = selectedContactType;
+    selectedContactType = newSelectedContactType;
     _email = email!;
     _phoneBody = newPhoneBody!;
     _phoneCountryCode = newPhoneCountryCode!;
@@ -81,6 +82,10 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   Future<void> confirmSendGift({required String newPin}) async {
     loader.startLoadingImmediately();
+    sAnalytics.processingSendScreenView(
+      asset: currency.symbol,
+      giftSubmethod: selectedContactType.name,
+    );
 
     Future.delayed(
       const Duration(seconds: 40),
@@ -89,7 +94,7 @@ abstract class GeneralSendGiftStoreBase with Store {
       },
     );
     DC<ServerRejectException, void>? response;
-    if (_selectedContactType == ReceiverContacrType.email) {
+    if (selectedContactType == ReceiverContacrType.email) {
       final model = SendGiftByEmailRequestModel(
         pin: newPin,
         amount: amount,
@@ -158,6 +163,12 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   @action
   Future<void> showFailureScreen(String error) {
+    sAnalytics.failedSendScreenView(
+      asset: currency.symbol,
+      giftSubmethod: selectedContactType.name,
+      failedReason: error,
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.failed,
@@ -172,6 +183,11 @@ abstract class GeneralSendGiftStoreBase with Store {
 
   @action
   Future<void> showSuccessScreen() {
+    sAnalytics.successSendScreenView(
+      asset: currency.symbol,
+      giftSubmethod: selectedContactType.name,
+    );
+
     return sRouter
         .push(
       SuccessScreenRouter(
@@ -200,8 +216,8 @@ abstract class GeneralSendGiftStoreBase with Store {
           currency: currency,
           amount: amount,
           email:
-              _selectedContactType == ReceiverContacrType.email ? _email : null,
-          phoneNumber: _selectedContactType == ReceiverContacrType.phone
+              selectedContactType == ReceiverContacrType.email ? _email : null,
+          phoneNumber: selectedContactType == ReceiverContacrType.phone
               ? (_phoneCountryCode + _phoneBody)
               : null,
         );

@@ -22,4 +22,11 @@ class PropertyType {
   static const paymentMethodType = 'Payment Method type';
   static const paymentMethodName = 'Payment Method name';
   static const paymentMethodCurrency = 'Payment Method currency';
+  static const sendMethodTypeAllAvailableList =
+      'Send method type all available list';
+  static const sendMethodType = 'Send method type';
+  static const giftSendSubmethod = 'Gift Send Submethod';
+  static const totalSendAmount = 'Total send amount';
+  static const preset = 'Preset';
+  static const failedReason = 'Failed reason';
 }

@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
@@ -113,6 +114,20 @@ class GiftOrderSummury extends StatelessWidget {
                       active: true,
                       name: intl.previewBuyWithAsset_confirm,
                       onTap: () {
+                        sAnalytics.tapOnTheButtonConfirmOrderSummarySend(
+                          giftSubmethod: sendGiftStore.selectedContactType.name,
+                          asset: sendGiftStore.currency.symbol,
+                          totalSendAmount: sendGiftStore.amount.toString(),
+                          paymentFee: volumeFormat(
+                            prefix: sendGiftStore.currency.prefixSymbol,
+                            decimal: sendGiftStore
+                                    .currency.fees.withdrawalFee?.size ??
+                                Decimal.zero,
+                            accuracy: sendGiftStore.currency.accuracy,
+                            symbol: sendGiftStore.currency.symbol,
+                          ),
+                        );
+                        sAnalytics.confirmWithPINScreenView();
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),
@@ -121,6 +136,13 @@ class GiftOrderSummury extends StatelessWidget {
                               await sRouter.pop();
                               await sendGiftStore.confirmSendGift(
                                 newPin: newPin,
+                              );
+                            },
+                            onError: () {
+                              sAnalytics.errorWrongPin(
+                                asset: sendGiftStore.currency.symbol,
+                                giftSubmethod:
+                                    sendGiftStore.selectedContactType.name,
                               );
                             },
                           ),
