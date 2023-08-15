@@ -104,7 +104,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                         children: [
                           SNetworkSvg24(
                             url: currency.iconUrl,
-                            color: sKit.colors.white,
                           ),
                           const SpaceW4(),
                           Text(
