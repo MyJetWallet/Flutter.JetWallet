@@ -298,6 +298,10 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
               onTap: widget.currency.isSingleNetwork
                   ? null
                   : () {
+                      sAnalytics.tapOnTheButtonNetworkOnReceiveAssetScreen(
+                        asset: widget.currency.symbol,
+                      );
+
                       sAnalytics
                           .chooseNetworkPopupViewShowedOnReceiveAssetScreen(
                         asset: widget.currency.symbol,
