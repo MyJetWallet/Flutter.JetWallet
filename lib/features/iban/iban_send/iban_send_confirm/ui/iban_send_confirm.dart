@@ -3,8 +3,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/store/iban_send_confirm_store.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -225,13 +227,35 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   onTap: () {
                     sAnalytics.tapOnTheButtonConfirmSendIban(
                       asset: 'EUR',
-                      methodType: 'IBAN',
+                      methodType: '2',
                       sendAmount: data.amount.toString(),
                     );
 
-                    state.confirmIbanOut(
-                      data,
-                      contact,
+                    sAnalytics.confirmWithPINScreenView(
+                      asset: 'EUR',
+                      methodType: '2',
+                      sendAmount: data.amount.toString(),
+                    );
+
+                    sRouter.push(
+                      PinScreenRoute(
+                        union: const Change(),
+                        isChangePhone: true,
+                        onWrongPin: () {
+                          sAnalytics.errorWrongPinSend(
+                            asset: 'EUR',
+                            methodType: '2',
+                            sendAmount: data.amount.toString(),
+                          );
+                        },
+                        onChangePhone: (String newPin) {
+                          sRouter.pop();
+                          state.confirmIbanOut(
+                            data,
+                            contact,
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

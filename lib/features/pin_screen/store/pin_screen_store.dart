@@ -39,11 +39,13 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
     bool isChangePhone = false,
     bool isChangePin = false,
     Function(String)? onChangePhone,
+    Function()? onWrongPin,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
           isChangePin,
           onChangePhone,
+          onWrongPin,
         );
 
   static _PinScreenStoreBase of(BuildContext context) =>
@@ -56,12 +58,14 @@ abstract class _PinScreenStoreBase with Store {
     this.isChangePhone,
     this.isChangePin,
     this.onChangePhone,
+    this.onWrongPin,
   );
 
   final PinFlowUnion flowUnion;
   final bool isChangePhone;
   final bool isChangePin;
   final Function(String)? onChangePhone;
+  final Function()? onWrongPin;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -278,6 +282,10 @@ abstract class _PinScreenStoreBase with Store {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
+        if (onWrongPin != null) {
+          onWrongPin!();
+        }
+
         sAnalytics.signInFlowPhoneConfirmWrongPhone(
           errorCode: response.error?.cause ?? '',
         );
@@ -453,12 +461,20 @@ abstract class _PinScreenStoreBase with Store {
           );
         }
       } else {
+        if (onWrongPin != null) {
+          onWrongPin!();
+        }
+
         await _animateError();
         _updateNewPin('');
         _updateConfirmPin('');
         _updateScreenUnion(const NewPin());
       }
     } catch (e) {
+      if (onWrongPin != null) {
+        onWrongPin!();
+      }
+
       await _animateError();
       _updateNewPin('');
       _updateConfirmPin('');

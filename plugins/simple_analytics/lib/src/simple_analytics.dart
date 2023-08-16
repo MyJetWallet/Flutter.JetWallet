@@ -1813,7 +1813,7 @@ class SimpleAnalytics {
       EventType.successSendIBANScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '166',
+        PropertyType.eventId: '167',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: methodType,
@@ -1832,7 +1832,7 @@ class SimpleAnalytics {
       EventType.failedSendIBANScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
-        PropertyType.eventId: '166',
+        PropertyType.eventId: '168',
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: methodType,

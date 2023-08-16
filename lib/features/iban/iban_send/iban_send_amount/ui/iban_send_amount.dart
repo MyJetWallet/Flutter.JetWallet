@@ -149,7 +149,7 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             onSubmitPressed: () {
               sAnalytics.tapOnTheButtonContSendIbanAmount(
                 asset: 'EUR',
-                methodType: 'IBAN',
+                methodType: '2',
                 sendAmount: store.withAmount,
                 preset: store.tappedPreset ?? 'false',
               );

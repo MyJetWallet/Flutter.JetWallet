@@ -39,7 +39,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
   ) {
     sAnalytics.orderSummarySendIBANScreenView(
       asset: eurCurrency.symbol,
-      methodType: 'IBAN',
+      methodType: '2',
       sendAmount: data.amount.toString() ?? '0',
     );
   }
@@ -71,7 +71,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
     if (response.hasError) {
       sAnalytics.failedSendIBANScreenView(
         asset: 'EUR',
-        methodType: 'IBAN',
+        methodType: '2',
         sendAmount: data.amount.toString(),
         failedReason: response.error?.cause ?? '',
       );
@@ -80,7 +80,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
     } else {
       sAnalytics.successSendIBANScreenView(
         asset: 'EUR',
-        methodType: 'IBAN',
+        methodType: '2',
         sendAmount: data.amount.toString(),
       );
 
