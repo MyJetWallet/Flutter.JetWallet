@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
 part 'send_card_payment_method_store.g.dart';
@@ -31,6 +32,8 @@ abstract class _SendCardPaymentMethodStoreBase with Store {
 
   @action
   void init(String countryCode) {
+    sAnalytics.paymentMethodScreenViewGlobalSend();
+
     globalSendMethods = ObservableList.of(getCountryMethodsList(countryCode));
 
     globalSendMethods.sort((a, b) => b.weight!.compareTo(a.weight!));

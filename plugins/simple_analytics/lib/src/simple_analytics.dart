@@ -1876,4 +1876,364 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void globalSendReceiverDetails({
+    required String destCountry,
+    required String paymentMethod,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendReceiverDetails,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '138',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendTCCheckbox({
+    required String destCountry,
+    required String paymentMethod,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendTCCheckbox,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '139',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendMoreDetailsButton({
+    required String destCountry,
+    required String paymentMethod,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendMoreDetailsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '140',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendMoreDetailsPopup({
+    required String destCountry,
+    required String paymentMethod,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendMoreDetailsPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '141',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendGotItButton({
+    required String destCountry,
+    required String paymentMethod,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendGotItButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '142',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendContinueReceiveDetail({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendContinueReceiveDetail,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '143',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendAmountScreenView({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '144',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendAmountLimitsSV({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendAmountLimitsSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '145',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendErrorLimit({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendErrorLimit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '146',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void globalSendContinueAmountSc({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String preset,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendContinueAmountSc,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '147',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.preset: preset,
+      },
+    );
+  }
+
+  void globalSendOrderSV({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendOrderSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '148',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+      },
+    );
+  }
+
+  void globalSendConfirmOrderSummary({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendConfirmOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '149',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+      },
+    );
+  }
+
+  void globalSendLoadingSV({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendLoadingSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '150',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+      },
+    );
+  }
+
+  void globalSenBioApprove({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSenBioApprove,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '151',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+      },
+    );
+  }
+
+  void globalSendFailedSV({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendFailedSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '152',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
+
+  void globalSendSuccessSV({
+    required String destCountry,
+    required String paymentMethod,
+    required String globalSendType,
+    required String asset,
+    required String sendMethodType,
+    required String totalSendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.globalSendSuccessSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '153',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.destinationCountry: destCountry,
+        PropertyType.paymentMethod: paymentMethod,
+        PropertyType.globalMethods: globalSendType,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+      },
+    );
+  }
 }

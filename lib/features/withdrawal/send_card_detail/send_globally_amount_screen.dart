@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -63,6 +64,16 @@ class _SendGloballyAmountScreenBodyState
   @override
   void initState() {
     super.initState();
+
+    final store = SendGloballyAmountStore.of(context);
+
+    sAnalytics.globalSendAmountScreenView(
+      asset: widget.data.asset ?? '',
+      sendMethodType: '1',
+      destCountry: widget.data.countryCode ?? '',
+      paymentMethod: store.method?.name ?? '',
+      globalSendType: widget.method.methodId ?? '',
+    );
 
     Future.delayed(const Duration(milliseconds: 100), () {
       FocusScope.of(context).unfocus();
@@ -121,6 +132,14 @@ class _SendGloballyAmountScreenBodyState
           SPaddingH24(
             child: InkWell(
               onTap: () {
+                sAnalytics.globalSendAmountLimitsSV(
+                  asset: widget.data.asset ?? '',
+                  sendMethodType: '1',
+                  destCountry: widget.data.countryCode ?? '',
+                  paymentMethod: store.method?.name ?? '',
+                  globalSendType: widget.method.methodId ?? '',
+                );
+
                 showGlobalSendLimits(
                   context: context,
                   minAmount: store.minLimitAmount,
@@ -209,6 +228,16 @@ class _SendGloballyAmountScreenBodyState
                 store.withAmmountInputError == InputError.none,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
+              sAnalytics.globalSendContinueAmountSc(
+                asset: widget.data.asset ?? '',
+                sendMethodType: '1',
+                destCountry: widget.data.countryCode ?? '',
+                paymentMethod: store.method?.name ?? '',
+                globalSendType: widget.method.methodId ?? '',
+                totalSendAmount: store.withAmount,
+                preset: store.tappedPreset ?? 'false',
+              );
+
               store.loadPreview();
             },
           ),

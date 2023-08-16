@@ -18,6 +18,7 @@ import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -281,6 +282,16 @@ abstract class _SendGloballyAmountStoreBase with Store {
         : InputError.none;
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
+
+    if (error != InputError.none) {
+      sAnalytics.globalSendErrorLimit(
+        asset: sendCurrency!.symbol,
+        sendMethodType: '1',
+        destCountry: countryCode,
+        paymentMethod: method?.name ?? '',
+        globalSendType: method?.methodId ?? '',
+      );
+    }
   }
 
   @action

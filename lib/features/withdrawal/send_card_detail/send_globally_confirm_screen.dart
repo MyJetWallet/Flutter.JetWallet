@@ -15,6 +15,7 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
@@ -266,11 +267,30 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
+                    sAnalytics.globalSendConfirmOrderSummary(
+                      asset: data.asset ?? '',
+                      sendMethodType: '1',
+                      destCountry: data.countryCode ?? '',
+                      paymentMethod: method.name ?? '',
+                      globalSendType: method.methodId ?? '',
+                      totalSendAmount: (data.amount ?? Decimal.zero).toString(),
+                    );
+
                     sRouter.push(
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
                         onChangePhone: (String newPin) {
+                          sAnalytics.globalSenBioApprove(
+                            asset: data.asset ?? '',
+                            sendMethodType: '1',
+                            destCountry: data.countryCode ?? '',
+                            paymentMethod: method.name ?? '',
+                            globalSendType: method.methodId ?? '',
+                            totalSendAmount:
+                                (data.amount ?? Decimal.zero).toString(),
+                          );
+
                           sRouter.pop();
                           state.confirmSendGlobally(newPin: newPin);
                         },

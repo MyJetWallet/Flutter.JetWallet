@@ -184,6 +184,26 @@ class EventType {
       "‘Destination country’ screen view";
   static const paymentMethodScreenViewGlobalSend =
       '‘Payment method’ screen view';
+  static const globalSendReceiverDetails = "‘Receiver's details’ screen view";
+  static const globalSendTCCheckbox = "Tap on the T&C checkbox";
+  static const globalSendMoreDetailsButton = "Tap on the ‘More details’ button";
+  static const globalSendMoreDetailsPopup = "‘More details’ popup screen view";
+  static const globalSendGotItButton = "Tap on the ‘Got it’ button";
+  static const globalSendContinueReceiveDetail =
+      "Tap on the button ‘Continue’ with ‘Receiver's details’ screen";
+  static const globalSendAmountScreenView =
+      "‘Send Globally’ amount screen view";
+  static const globalSendAmountLimitsSV = "‘Send limits’ amount screen view";
+  static const globalSendErrorLimit = "Error - Send Globally Limit Exceeded";
+  static const globalSendContinueAmountSc =
+      "Tap on the button ‘Continue’ with ‘Send Globally Amount’ screen";
+  static const globalSendOrderSV = "Order summary Send Globally' screen view";
+  static const globalSendConfirmOrderSummary =
+      "Tap on the button ‘Confirm’ Order Summary Send Globally";
+  static const globalSendLoadingSV = "‘Loading - Order Summary' screen view";
+  static const globalSenBioApprove = "‘FaceID/TouchID/PIN approve' screen view";
+  static const globalSendFailedSV = "‘Failed Send Globally’ screen view";
+  static const globalSendSuccessSV = "‘Success Send Globally’ screen view";
 
   // Crypto wallet send
 

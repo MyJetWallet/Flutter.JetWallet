@@ -214,6 +214,8 @@ Future<void> showSendGlobally(
 
   globalSearchStore.globalSendSearchInit(availableCountries);
 
+  sAnalytics.destinationCountryScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: availableCountries.length >= 7,
@@ -491,6 +493,8 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
   getIt.get<ActionSearchStore>().init();
   getIt.get<ActionSearchStore>().clearSearchValue();
   final searchStore = getIt.get<ActionSearchStore>();
+
+  sAnalytics.chooseAssetToSendScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,

@@ -6,6 +6,7 @@ class PropertyType {
   static const sourceAmount = 'Source Amount';
   static const destinationCurrency = 'Destination Currency';
   static const destinationAmount = 'Destination Amount';
+  static const destinationCountry = 'Destination Country';
   static const paymentMethod = 'Payment method';
   static const asset = 'Asset';
   static const eventId = 'Event id';
@@ -31,4 +32,5 @@ class PropertyType {
   static const codeLink = 'code/link';
   static const countryKYC = 'Country of KYC';
   static const documentList = 'Document list';
+  static const globalMethods = 'Globally Method type';
 }

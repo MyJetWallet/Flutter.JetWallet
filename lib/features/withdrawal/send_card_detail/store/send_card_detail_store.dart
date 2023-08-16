@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:uuid/uuid.dart';
@@ -72,6 +73,13 @@ abstract class _SendCardDetailStoreBase with Store {
 
   @action
   void init(GlobalSendMethodsModelMethods m, String code, String cur) {
+    sAnalytics.globalSendReceiverDetails(
+      destCountry: countryCode,
+      paymentMethod: m.name ?? '',
+      asset: cur,
+      sendMethodType: '1',
+    );
+
     method = m;
 
     methods = sSignalRModules.globalSendMethods!.descriptions!.firstWhere(
