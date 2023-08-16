@@ -20,7 +20,7 @@ import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class GiftSendDetails extends StatelessObserverWidget {
-  const GiftSendDetails({
+  GiftSendDetails({
     super.key,
     required this.transactionListItem,
     required this.onCopyAction,
@@ -28,6 +28,8 @@ class GiftSendDetails extends StatelessObserverWidget {
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
+
+  final store = StackLoaderStore();
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +40,6 @@ class GiftSendDetails extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
       transactionListItem.assetId,
     );
-
-    final store = StackLoaderStore();
 
     return StackLoader(
       loaderText: intl.register_pleaseWait,

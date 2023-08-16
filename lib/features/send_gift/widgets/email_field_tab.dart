@@ -57,7 +57,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
               widget.store.onChangedEmail('');
               _textController = TextEditingController(text: '');
             },
-            isError: widget.store.email != '' && !widget.store.emailValid,
+            isError: widget.store.showEmailError,
             suffixIcons: [
               SIconButton(
                 onTap: () async {
