@@ -2,8 +2,6 @@ import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -50,26 +48,13 @@ class _GiftAmountState extends State<GiftAmount> {
     final deviceSize = sDeviceSize;
     final sColors = sKit.colors;
 
-    final availableCurrency = currencyFrom(
-      sSignalRModules.currenciesList,
-      widget.sendGiftInfo.currency?.symbol ?? '',
-    );
-
-    final availableBalance = Decimal.parse(
-      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
-    );
-
-    geftSendAmountStore.init(
-      availableCurrency,
-    );
-
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,
           subTitle: '${intl.send_gift_available}: ${volumeFormat(
             prefix: widget.sendGiftInfo.currency?.prefixSymbol,
-            decimal: availableBalance,
+            decimal: geftSendAmountStore.availableCurrency,
             accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
             symbol: widget.sendGiftInfo.currency?.symbol ?? '',
           )}',
@@ -153,9 +138,9 @@ class _GiftAmountState extends State<GiftAmount> {
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () {
                   final tempSendGiftInfo = widget.sendGiftInfo.copyWith(
-                    amount: Decimal.tryParse(geftSendAmountStore.withAmount) ,
+                    amount: Decimal.tryParse(geftSendAmountStore.withAmount),
                   );
-        
+
                   dynamic preset;
                   switch (geftSendAmountStore.selectedPreset) {
                     case SKeyboardPreset.preset1:

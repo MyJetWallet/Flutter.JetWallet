@@ -1,5 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -19,6 +21,15 @@ class GeftSendAmountStore extends _GeftSendAmountStoreBase
 }
 
 abstract class _GeftSendAmountStoreBase with Store {
+  _GeftSendAmountStoreBase() {
+    reaction(
+      (_) => selectedCurrency,
+      (msg) {
+        refresh();
+      },
+    );
+  }
+
   @observable
   SKeyboardPreset? selectedPreset;
   @observable
@@ -44,7 +55,15 @@ abstract class _GeftSendAmountStoreBase with Store {
   CardLimitsModel? limits;
 
   @observable
-  CurrencyModel selectedCurrency = CurrencyModel.empty();
+  String? sendCurrencyAsset;
+
+  @computed
+  CurrencyModel get selectedCurrency => sendCurrencyAsset != null
+      ? currencyFrom(
+          sSignalRModules.currenciesList,
+          sendCurrencyAsset!,
+        )
+      : CurrencyModel.empty();
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
@@ -71,29 +90,14 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @action
   void init(CurrencyModel newCurrency) {
-    if (selectedCurrency.assetBalance != newCurrency.assetBalance) {
-      selectedPreset = null;
-    }
-    selectedCurrency = newCurrency;
-    limits = CardLimitsModel(
-        minAmount:_minLimit,
-        maxAmount: _maxLimit,
-        day1Amount: Decimal.zero,
-        day1Limit: Decimal.zero,
-        day1State: StateLimitType.active,
-        day7Amount: Decimal.zero,
-        day7Limit: Decimal.zero,
-        day7State: StateLimitType.active,
-        day30Amount: Decimal.zero,
-        day30Limit: Decimal.zero,
-        day30State: StateLimitType.active,
-        barInterval: StateBarType.day1,
-        barProgress: 0,
-        leftHours: 0,
-      );
+    sendCurrencyAsset = newCurrency.symbol;
+  }
+
+  @action
+  void refresh() {
+    selectedPreset = null;
     _validateAmount();
     _calculateBaseConversion();
-
   }
 
   @action
@@ -147,6 +151,23 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
+    limits = CardLimitsModel(
+      minAmount: _minLimit,
+      maxAmount: _maxLimit,
+      day1Amount: Decimal.zero,
+      day1Limit: Decimal.zero,
+      day1State: StateLimitType.active,
+      day7Amount: Decimal.zero,
+      day7Limit: Decimal.zero,
+      day7State: StateLimitType.active,
+      day30Amount: Decimal.zero,
+      day30Limit: Decimal.zero,
+      day30State: StateLimitType.active,
+      barInterval: StateBarType.day1,
+      barProgress: 0,
+      leftHours: 0,
+    );
+
     final error = onGloballyWithdrawInputErrorHandler(
       withAmount,
       selectedCurrency,
