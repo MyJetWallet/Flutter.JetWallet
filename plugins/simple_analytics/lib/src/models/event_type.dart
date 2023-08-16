@@ -184,4 +184,30 @@ class EventType {
       "‘Destination country’ screen view";
   static const paymentMethodScreenViewGlobalSend =
       '‘Payment method’ screen view';
+
+  // Crypto wallet send
+
+  static const cryptoSendChooseAssetScreenView =
+      "‘Choose asset to send’ screen view";
+  static const cryptoSendSendAssetNameScreenView =
+      "‘Send #Assetname’ screen view";
+  static const cryptoSendChooseNetworkScreenView =
+      "‘Choose Network’ sheet view";
+  static const cryptoSendTapQr = "Tap on the ‘QR’ button";
+  static const cryptoSendTapPaste = "Tap on the ‘Paste address’ button";
+  static const cryptoSendTapContinue = "Tap on the ‘Continue’";
+  static const cryptoSendAssetNameAmountScreenView =
+      "‘Send #AssetName’ amount screen view";
+  static const cryptoSendErrorLimit = "Error - Send Limit Exceeded ";
+  static const cryptoSendTapContinueAmountScreen =
+      "Tap on the button ‘Continue’ with ‘Send #assetName Amount’ screen";
+  static const cryptoSendOrderSummarySend = "Order summary Send' screen view";
+  static const cryptoSendTapConfirmOrder =
+      "Tap on the button ‘Confirm’ Order Summary Send";
+  static const cryptoSendLoadingOrderSummary =
+      "‘Loading - Order Summary' screen view";
+  static const cryptoSendBioApprove =
+      "‘FaceID/TouchID/PIN approve' screen view";
+  static const cryptoSendFailedSend = "‘Failed Send’ screen view";
+  static const cryptoSendSuccessSend = "‘Success Send’ screen view";
 }

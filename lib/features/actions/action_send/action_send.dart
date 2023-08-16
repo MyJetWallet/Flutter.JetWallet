@@ -25,6 +25,7 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -321,6 +322,10 @@ Future<void> _showSendActionChooseAsset(
 
   final storageService = getIt.get<LocalStorageService>();
   final lastCurrency = await storageService.getValue(lastAssetSend);
+
+  sAnalytics.cryptoSendChooseAssetScreenView(
+    sendMethodType: '0',
+  );
 
   sShowBasicModalBottomSheet(
     context: context,

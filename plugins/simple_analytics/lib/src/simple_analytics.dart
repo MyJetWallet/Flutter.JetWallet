@@ -966,6 +966,298 @@ class SimpleAnalytics {
     );
   }
 
+  // Crypto wallet send
+
+  void cryptoSendChooseAssetScreenView({
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendChooseAssetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '120',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendSendAssetNameScreenView({
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendSendAssetNameScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '121',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendChooseNetworkScreenView({
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendChooseNetworkScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '122',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendTapQr({
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendTapQr,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '123',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendTapPaste({
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendTapPaste,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '124',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendTapContinue({
+    required String asset,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendTapContinue,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '125',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendAssetNameAmountScreenView({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendAssetNameAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '126',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendErrorLimit({
+    required String errorCode,
+    required String asset,
+    required String network,
+    required String sendMethodType,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendErrorLimit,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '127',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+      },
+    );
+  }
+
+  void cryptoSendTapContinueAmountScreen({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String preset,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendTapContinueAmountScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '128',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.preset: preset,
+      },
+    );
+  }
+
+  void cryptoSendOrderSummarySend({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendOrderSummarySend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '129',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void cryptoSendTapConfirmOrder({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendTapConfirmOrder,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '130',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void cryptoSenLoadingOrderSummary({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendLoadingOrderSummary,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '131',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void cryptoSendBioApprove({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendBioApprove,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '132',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void cryptoSendFailedSend({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendFailedSend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '133',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
+
+  void cryptoSendSuccessSend({
+    required String asset,
+    required String network,
+    required String sendMethodType,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoSendSuccessSend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '134',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.network: network,
+        PropertyType.sendMethodsType: sendMethodType,
+        PropertyType.sendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  //
+
   void tapOnTheReceiveButton({
     required String source,
   }) {
