@@ -138,11 +138,12 @@ class GiftOrderSummury extends StatelessWidget {
                                 newPin: newPin,
                               );
                             },
-                            onError: () {
+                            onError: (error) {
                               sAnalytics.errorWrongPin(
                                 asset: sendGiftStore.currency.symbol,
                                 giftSubmethod:
                                     sendGiftStore.selectedContactType.name,
+                                errorText: error,
                               );
                             },
                           ),

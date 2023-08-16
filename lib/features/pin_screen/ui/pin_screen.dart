@@ -46,7 +46,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onChangePhone;
   final PinFlowUnion union;
   final bool fromRegister;
-  final void Function()? onError;
+  final void Function(String)? onError;
 
   @override
   Widget build(BuildContext context) {

@@ -31,5 +31,5 @@ class PropertyType {
   static const failedReason = 'Failed reason';
   static const giftAmount = 'Gift amount';
   static const giftFrom = 'Gift from';
-
+  static const errorText = 'error text';
 }

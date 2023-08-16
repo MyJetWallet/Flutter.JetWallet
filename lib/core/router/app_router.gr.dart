@@ -3211,7 +3211,7 @@ class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
     bool fromRegister = true,
     bool isForgotPassword = false,
     dynamic Function(String)? onChangePhone,
-    void Function()? onError,
+    void Function(String)? onError,
     required PinFlowUnion union,
     List<PageRouteInfo>? children,
   }) : super(
@@ -3267,7 +3267,7 @@ class PinScreenRouteArgs {
 
   final dynamic Function(String)? onChangePhone;
 
-  final void Function()? onError;
+  final void Function(String)? onError;
 
   final PinFlowUnion union;
 

@@ -651,6 +651,7 @@ class SimpleAnalytics {
   void errorSendLimitExceeded({
     required String giftSubmethod,
     required String asset,
+    required String errorText,
   }) {
     _analytics.logEvent(
       EventType.errorSendLimitExceeded,
@@ -658,8 +659,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '87',
-        // TODO: fix this
-        PropertyType.errorCode: '212',
+        PropertyType.errorText: errorText,
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
@@ -738,6 +738,7 @@ class SimpleAnalytics {
   void errorWrongPin({
     required String asset,
     required String giftSubmethod,
+    required String errorText,
   }) {
     _analytics.logEvent(
       EventType.errorWrongPin,
@@ -745,8 +746,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,
         PropertyType.eventId: '92',
-        //TODO fix this
-        PropertyType.errorCode: '212',
+        PropertyType.errorText: errorText,
         PropertyType.asset: asset,
         PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
         PropertyType.giftSendSubmethod: giftSubmethod,

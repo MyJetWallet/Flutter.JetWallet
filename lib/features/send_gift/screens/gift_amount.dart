@@ -141,6 +141,10 @@ class _GiftAmountState extends State<GiftAmount> {
                       asset: geftSendAmountStore.selectedCurrency.symbol,
                       giftSubmethod:
                           widget.sendGiftStore.selectedContactType.name,
+                      errorText: geftSendAmountStore.withAmmountInputError ==
+                              InputError.limitError
+                          ? geftSendAmountStore.limitError
+                          : geftSendAmountStore.withAmmountInputError.value(),
                     );
                   }
                 },
