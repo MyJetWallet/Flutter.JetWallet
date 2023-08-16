@@ -85,6 +85,7 @@ import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_notify_recipient.dart';
 import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_preview.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/general_send_gift_store.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';

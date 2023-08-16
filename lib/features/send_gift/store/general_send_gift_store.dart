@@ -1,6 +1,7 @@
 import 'package:data_channel/data_channel.dart';
 import 'package:decimal/decimal.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/receiver_datails_store.dart';
 import 'package:jetwallet/utils/helpers/decompose_phone_number.dart';
 import 'package:mobx/mobx.dart';
@@ -45,7 +46,20 @@ abstract class GeneralSendGiftStoreBase with Store {
   String receiverContact = '';
 
   @action
-  void setReceiverInformation({
+  void init(SendGiftInfoModel sendGiftInfo) {
+    _setCurrency(sendGiftInfo.currency ?? CurrencyModel.empty());
+    _setReceiverInformation(
+      newSelectedContactType:
+          sendGiftInfo.selectedContactType ?? ReceiverContacrType.email,
+      email: sendGiftInfo.email,
+      newPhoneBody: sendGiftInfo.phoneBody,
+      newPhoneCountryCode: sendGiftInfo.phoneCountryCode,
+    );
+    _updateAmount(sendGiftInfo.amount ?? Decimal.zero);
+  }
+
+  @action
+  void _setReceiverInformation({
     required ReceiverContacrType newSelectedContactType,
     String? email,
     String? newPhoneBody,
@@ -66,7 +80,7 @@ abstract class GeneralSendGiftStoreBase with Store {
   }
 
   @action
-  void setCurrency(CurrencyModel newCurrency) {
+  void _setCurrency(CurrencyModel newCurrency) {
     currency = newCurrency;
     final storageService = getIt.get<LocalStorageService>();
     storageService.setString(
@@ -76,8 +90,8 @@ abstract class GeneralSendGiftStoreBase with Store {
   }
 
   @action
-  void updateAmount(String value) {
-    amount = Decimal.parse(value);
+  void _updateAmount(Decimal value) {
+    amount = value;
   }
 
   Future<void> confirmSendGift({required String newPin}) async {

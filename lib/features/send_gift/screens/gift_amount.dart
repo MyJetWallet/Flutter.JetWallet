@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -14,15 +16,14 @@ import '../../../core/router/app_router.dart';
 import '../../../core/services/device_size/device_size.dart';
 import '../../../utils/helpers/input_helpers.dart';
 import '../../../utils/helpers/widget_size_from.dart';
-import '../store/general_send_gift_store.dart';
 import '../store/gift_send_amount_store.dart';
 import '../widgets/gift_send_type.dart';
 
 @RoutePage(name: 'GiftAmountRouter')
 class GiftAmount extends StatefulObserverWidget {
-  const GiftAmount({super.key, required this.sendGiftStore});
+  const GiftAmount({super.key, required this.sendGiftInfo});
 
-  final GeneralSendGiftStore sendGiftStore;
+  final SendGiftInfoModel sendGiftInfo;
 
   @override
   State<GiftAmount> createState() => _GiftAmountState();
@@ -34,12 +35,12 @@ class _GiftAmountState extends State<GiftAmount> {
   @override
   void initState() {
     sAnalytics.sendGiftAmountScreenView(
-      giftSubmethod: widget.sendGiftStore.selectedContactType.name,
-      asset: widget.sendGiftStore.currency.symbol,
+      giftSubmethod: widget.sendGiftInfo.selectedContactType?.name ?? '',
+      asset: widget.sendGiftInfo.currency?.symbol ?? '',
     );
     geftSendAmountStore = GeftSendAmountStore()
       ..init(
-        widget.sendGiftStore.currency,
+        widget.sendGiftInfo.currency ?? CurrencyModel.empty(),
       );
     super.initState();
   }
@@ -51,7 +52,7 @@ class _GiftAmountState extends State<GiftAmount> {
 
     final availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
-      widget.sendGiftStore.currency.symbol,
+      widget.sendGiftInfo.currency?.symbol ?? '',
     );
 
     final availableBalance = Decimal.parse(
@@ -67,10 +68,10 @@ class _GiftAmountState extends State<GiftAmount> {
         child: SSmallHeader(
           title: intl.send_gift_title,
           subTitle: '${intl.send_gift_available}: ${volumeFormat(
-            prefix: widget.sendGiftStore.currency.prefixSymbol,
+            prefix: widget.sendGiftInfo.currency?.prefixSymbol,
             decimal: availableBalance,
-            accuracy: widget.sendGiftStore.currency.accuracy,
-            symbol: widget.sendGiftStore.currency.symbol,
+            accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
+            symbol: widget.sendGiftInfo.currency?.symbol ?? '',
           )}',
           subTitleStyle: sBodyText2Style.copyWith(
             color: sColors.grey1,
@@ -137,7 +138,7 @@ class _GiftAmountState extends State<GiftAmount> {
                     sAnalytics.errorSendLimitExceeded(
                       asset: geftSendAmountStore.selectedCurrency.symbol,
                       giftSubmethod:
-                          widget.sendGiftStore.selectedContactType.name,
+                          widget.sendGiftInfo.selectedContactType?.name ?? '',
                       errorText: geftSendAmountStore.withAmmountInputError ==
                               InputError.limitError
                           ? geftSendAmountStore.limitError
@@ -151,8 +152,10 @@ class _GiftAmountState extends State<GiftAmount> {
                     geftSendAmountStore.withValid,
                 submitButtonName: intl.addCircleCard_continue,
                 onSubmitPressed: () {
-                  widget.sendGiftStore
-                      .updateAmount(geftSendAmountStore.withAmount);
+                  final tempSendGiftInfo = widget.sendGiftInfo.copyWith(
+                    amount: Decimal.tryParse(geftSendAmountStore.withAmount) ,
+                  );
+        
                   dynamic preset;
                   switch (geftSendAmountStore.selectedPreset) {
                     case SKeyboardPreset.preset1:
@@ -171,17 +174,17 @@ class _GiftAmountState extends State<GiftAmount> {
                   sAnalytics.tapOnTheButtonContinueWithSendGiftAmountScreen(
                     asset: geftSendAmountStore.selectedCurrency.symbol,
                     giftSubmethod:
-                        widget.sendGiftStore.selectedContactType.name,
-                    totalSendAmount: widget.sendGiftStore.amount.toString(),
+                        tempSendGiftInfo.selectedContactType?.name ?? '',
+                    totalSendAmount: tempSendGiftInfo.amount.toString(),
                     preset: preset,
                   );
                   sAnalytics.orderSummarySendScreenView(
                     giftSubmethod:
-                        widget.sendGiftStore.selectedContactType.name,
+                        tempSendGiftInfo.selectedContactType?.name ?? '',
                   );
                   sRouter.push(
                     GiftOrderSummuryRouter(
-                      sendGiftStore: widget.sendGiftStore,
+                      sendGiftInfo: tempSendGiftInfo,
                     ),
                   );
                 },

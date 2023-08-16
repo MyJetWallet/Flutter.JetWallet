@@ -8,6 +8,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -153,7 +154,7 @@ class _SendOptions extends StatelessObserverWidget {
               Navigator.pop(context);
               await sRouter.push(
                 GiftReceiversDetailsRouter(
-                  currency: currency,
+                  sendGiftInfo:SendGiftInfoModel(currency: currency),
                 ),
               );
             },

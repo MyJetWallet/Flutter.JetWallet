@@ -26,7 +26,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: GiftReceiversDetailsScreen(
           key: args.key,
-          currency: args.currency,
+          sendGiftInfo: args.sendGiftInfo,
         ),
       );
     },
@@ -36,7 +36,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: GiftAmount(
           key: args.key,
-          sendGiftStore: args.sendGiftStore,
+          sendGiftInfo: args.sendGiftInfo,
         ),
       );
     },
@@ -52,7 +52,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: GiftOrderSummury(
           key: args.key,
-          sendGiftStore: args.sendGiftStore,
+          sendGiftInfo: args.sendGiftInfo,
         ),
       );
     },
@@ -1038,13 +1038,13 @@ class GiftReceiversDetailsRouter
     extends PageRouteInfo<GiftReceiversDetailsRouterArgs> {
   GiftReceiversDetailsRouter({
     Key? key,
-    required CurrencyModel currency,
+    required SendGiftInfoModel sendGiftInfo,
     List<PageRouteInfo>? children,
   }) : super(
           GiftReceiversDetailsRouter.name,
           args: GiftReceiversDetailsRouterArgs(
             key: key,
-            currency: currency,
+            sendGiftInfo: sendGiftInfo,
           ),
           initialChildren: children,
         );
@@ -1058,16 +1058,16 @@ class GiftReceiversDetailsRouter
 class GiftReceiversDetailsRouterArgs {
   const GiftReceiversDetailsRouterArgs({
     this.key,
-    required this.currency,
+    required this.sendGiftInfo,
   });
 
   final Key? key;
 
-  final CurrencyModel currency;
+  final SendGiftInfoModel sendGiftInfo;
 
   @override
   String toString() {
-    return 'GiftReceiversDetailsRouterArgs{key: $key, currency: $currency}';
+    return 'GiftReceiversDetailsRouterArgs{key: $key, sendGiftInfo: $sendGiftInfo}';
   }
 }
 
@@ -1076,13 +1076,13 @@ class GiftReceiversDetailsRouterArgs {
 class GiftAmountRouter extends PageRouteInfo<GiftAmountRouterArgs> {
   GiftAmountRouter({
     Key? key,
-    required GeneralSendGiftStore sendGiftStore,
+    required SendGiftInfoModel sendGiftInfo,
     List<PageRouteInfo>? children,
   }) : super(
           GiftAmountRouter.name,
           args: GiftAmountRouterArgs(
             key: key,
-            sendGiftStore: sendGiftStore,
+            sendGiftInfo: sendGiftInfo,
           ),
           initialChildren: children,
         );
@@ -1096,16 +1096,16 @@ class GiftAmountRouter extends PageRouteInfo<GiftAmountRouterArgs> {
 class GiftAmountRouterArgs {
   const GiftAmountRouterArgs({
     this.key,
-    required this.sendGiftStore,
+    required this.sendGiftInfo,
   });
 
   final Key? key;
 
-  final GeneralSendGiftStore sendGiftStore;
+  final SendGiftInfoModel sendGiftInfo;
 
   @override
   String toString() {
-    return 'GiftAmountRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
+    return 'GiftAmountRouterArgs{key: $key, sendGiftInfo: $sendGiftInfo}';
   }
 }
 
@@ -1128,13 +1128,13 @@ class GiftSelectAssetRouter extends PageRouteInfo<void> {
 class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
   GiftOrderSummuryRouter({
     Key? key,
-    required GeneralSendGiftStore sendGiftStore,
+    required SendGiftInfoModel sendGiftInfo,
     List<PageRouteInfo>? children,
   }) : super(
           GiftOrderSummuryRouter.name,
           args: GiftOrderSummuryRouterArgs(
             key: key,
-            sendGiftStore: sendGiftStore,
+            sendGiftInfo: sendGiftInfo,
           ),
           initialChildren: children,
         );
@@ -1148,16 +1148,16 @@ class GiftOrderSummuryRouter extends PageRouteInfo<GiftOrderSummuryRouterArgs> {
 class GiftOrderSummuryRouterArgs {
   const GiftOrderSummuryRouterArgs({
     this.key,
-    required this.sendGiftStore,
+    required this.sendGiftInfo,
   });
 
   final Key? key;
 
-  final GeneralSendGiftStore sendGiftStore;
+  final SendGiftInfoModel sendGiftInfo;
 
   @override
   String toString() {
-    return 'GiftOrderSummuryRouterArgs{key: $key, sendGiftStore: $sendGiftStore}';
+    return 'GiftOrderSummuryRouterArgs{key: $key, sendGiftInfo: $sendGiftInfo}';
   }
 }
 

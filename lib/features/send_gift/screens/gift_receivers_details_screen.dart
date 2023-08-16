@@ -1,14 +1,13 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
-import '../store/general_send_gift_store.dart';
 import '../store/receiver_datails_store.dart';
 import '../widgets/email_field_tab.dart';
 import '../widgets/gift_policy_checkbox.dart';
@@ -16,9 +15,9 @@ import '../widgets/phone_number_field_tab.dart';
 
 @RoutePage(name: 'GiftReceiversDetailsRouter')
 class GiftReceiversDetailsScreen extends StatefulWidget {
-  const GiftReceiversDetailsScreen({super.key, required this.currency});
+  const GiftReceiversDetailsScreen({super.key, required this.sendGiftInfo});
 
-  final CurrencyModel currency;
+  final SendGiftInfoModel sendGiftInfo;
 
   @override
   State<GiftReceiversDetailsScreen> createState() =>
@@ -29,13 +28,10 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
   final store = ReceiverDatailsStore()..getInitialCheck();
-  late GeneralSendGiftStore sendGiftStore;
 
   @override
   void initState() {
     sAnalytics.receiverSDetailsScreenView();
-    sendGiftStore = GeneralSendGiftStore()..setCurrency(widget.currency);
-
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -157,14 +153,17 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                                 .tapOnTheContinueWithReceiverSDetailsButton(
                               giftSubmethod: store.selectedContactType.name,
                             );
-                            sendGiftStore.setReceiverInformation(
-                              newSelectedContactType: store.selectedContactType,
-                              email: store.email,
-                              newPhoneBody: store.phoneBody,
-                              newPhoneCountryCode: store.phoneCountryCode,
-                            );
+
                             sRouter.push(
-                              GiftAmountRouter(sendGiftStore: sendGiftStore),
+                              GiftAmountRouter(
+                                sendGiftInfo: widget.sendGiftInfo.copyWith(
+                                  email: store.email,
+                                  phoneBody: store.phoneBody,
+                                  phoneCountryCode: store.phoneCountryCode,
+                                  selectedContactType:
+                                      store.selectedContactType,
+                                ),
+                              ),
                             );
                           },
                         ),

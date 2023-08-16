@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -14,9 +15,23 @@ import '../store/general_send_gift_store.dart';
 import '../widgets/simple_action_confirm_text_with_icon.dart';
 
 @RoutePage(name: 'GiftOrderSummuryRouter')
-class GiftOrderSummury extends StatelessWidget {
-  const GiftOrderSummury({super.key, required this.sendGiftStore});
-  final GeneralSendGiftStore sendGiftStore;
+class GiftOrderSummury extends StatefulWidget {
+  const GiftOrderSummury({super.key, required this.sendGiftInfo});
+
+  final SendGiftInfoModel sendGiftInfo;
+
+  @override
+  State<GiftOrderSummury> createState() => _GiftOrderSummuryState();
+}
+
+class _GiftOrderSummuryState extends State<GiftOrderSummury> {
+  late final GeneralSendGiftStore sendGiftStore;
+
+  @override
+  void initState() {
+    super.initState();
+    sendGiftStore = GeneralSendGiftStore()..init(widget.sendGiftInfo);
+  }
 
   @override
   Widget build(BuildContext context) {
