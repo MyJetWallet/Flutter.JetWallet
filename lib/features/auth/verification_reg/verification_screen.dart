@@ -23,6 +23,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     sAnalytics.verificationProfileScreenView();
+    sAnalytics.kycFlowVerificationScreenView();
     super.initState();
   }
 
@@ -95,6 +96,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             linkText: intl.provide_information,
             linkAction: () {
               sAnalytics.verificationProfileProvideInfo();
+              sAnalytics.kycFlowProvideInformation();
 
               getIt<AppRouter>().pop();
             },
@@ -112,6 +114,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             subtext: intl.personal_details_descr,
             linkAction: () {
               sAnalytics.verificationProfileProvideInfo();
+              sAnalytics.kycFlowProvideInformation();
 
               getIt<AppRouter>().pop();
               //sRouter.replace(const UserDataScreenRouter());

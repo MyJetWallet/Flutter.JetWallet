@@ -5,6 +5,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @lazySingleton
@@ -73,6 +74,8 @@ class KycAlertHandler {
   }
 
   void _showVerifyingAlert() {
+    sAnalytics.kycFlowVerifyingNowPopup();
+
     showKycPopup(
       context: context,
       imageAsset: verifyingNowAsset,
@@ -117,6 +120,8 @@ class KycAlertHandler {
   }
 
   void _showBlockedAlert() {
+    sAnalytics.kycFlowYouBlockedPopup();
+
     showKycPopup(
       context: context,
       primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
@@ -125,6 +130,8 @@ class KycAlertHandler {
       primaryButtonName: intl.kycAlertHandler_support,
       onPrimaryButtonTap: () {
         Navigator.pop(context);
+
+        sAnalytics.kycFlowYouBlockedSupportTap();
 
         sRouter.push(
           CrispRouter(

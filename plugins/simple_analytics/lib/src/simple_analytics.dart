@@ -1081,6 +1081,168 @@ class SimpleAnalytics {
     );
   }
 
+  // KYC
+
+  void kycFlowVerificationScreenView() {
+    _analytics.logEvent(
+      EventType.kycFlowVerificationScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '177',
+        PropertyType.kycStatus: kycDepositStatus
+      },
+    );
+  }
+
+  void kycFlowProvideInformation() {
+    _analytics.logEvent(
+      EventType.kycFlowProvideInformation,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '178',
+        PropertyType.kycStatus: kycDepositStatus
+      },
+    );
+  }
+
+  void kycFlowVerifyYourIdentify() {
+    _analytics.logEvent(
+      EventType.kycFlowVerifyYourIdentify,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '179',
+        PropertyType.kycStatus: kycDepositStatus
+      },
+    );
+  }
+
+  void kycFlowCoutryOfIssueShow() {
+    _analytics.logEvent(
+      EventType.kycFlowCoutryOfIssueShow,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '180',
+        PropertyType.kycStatus: kycDepositStatus
+      },
+    );
+  }
+
+  void kycFlowCoutryOfIssueSheetView() {
+    _analytics.logEvent(
+      EventType.kycFlowCoutryOfIssueSheetView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '181',
+        PropertyType.kycStatus: kycDepositStatus
+      },
+    );
+  }
+
+  void kycFlowCoutryOfIssueCont({
+    required String country,
+    required String documentList,
+  }) {
+    _analytics.logEvent(
+      EventType.kycFlowCoutryOfIssueCont,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '182',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.countryKYC: country,
+        PropertyType.documentList: documentList,
+      },
+    );
+  }
+
+  void kycFlowVerifyWait({
+    required String country,
+  }) {
+    _analytics.logEvent(
+      EventType.kycFlowVerifyWait,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '183',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.countryKYC: country,
+      },
+    );
+  }
+
+  void kycFlowSumsubShow({
+    required String country,
+  }) {
+    _analytics.logEvent(
+      EventType.kycFlowSumsubShow,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '184',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.countryKYC: country,
+      },
+    );
+  }
+
+  void kycFlowSumsubClose({
+    required String country,
+  }) {
+    _analytics.logEvent(
+      EventType.kycFlowSumsubClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '185',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.countryKYC: country,
+      },
+    );
+  }
+
+  void kycFlowVerifyingNowSV({
+    required String country,
+  }) {
+    _analytics.logEvent(
+      EventType.kycFlowVerifyingNowSV,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '186',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.countryKYC: country,
+      },
+    );
+  }
+
+  void kycFlowVerifyingNowPopup() {
+    _analytics.logEvent(
+      EventType.kycFlowVerifyingNowPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '187',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void kycFlowYouBlockedPopup() {
+    _analytics.logEvent(
+      EventType.kycFlowYouBlockedPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '188',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void kycFlowYouBlockedSupportTap() {
+    _analytics.logEvent(
+      EventType.kycFlowYouBlockedSupportTap,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '189',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
   // SEND
 
   void tapOnTheSendButton({

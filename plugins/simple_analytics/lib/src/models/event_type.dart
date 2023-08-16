@@ -121,6 +121,29 @@ class EventType {
   static const tapOnTheButtonShareOnReceiveAssetScreen =
       "Tap on the button ‘Share’ on 'Receive Asset' screen";
 
+  // KYC
+
+  static const kycFlowVerificationScreenView =
+      '‘Verification your profile’ screen view';
+  static const kycFlowProvideInformation =
+      "Tap on the button ‘Provide information’ on 'Verification your profile' screen";
+  static const kycFlowVerifyYourIdentify = "‘Verify your identity’ screen view";
+  static const kycFlowCoutryOfIssueShow =
+      "Tap on the button ‘Country of Issue’ on 'Verify your identity' screen";
+  static const kycFlowCoutryOfIssueSheetView = "‘Country of Issue’ sheet view ";
+  static const kycFlowCoutryOfIssueCont =
+      "Tap on the button ‘Country of Issue’ on 'Verify your identity' screen";
+  static const kycFlowVerifyWait =
+      "‘Please wait - Verify your identity' screen view";
+  static const kycFlowSumsubShow = "‘Sumsub kyc webview’ screen view";
+  static const kycFlowSumsubClose =
+      "Tap on the button ‘Close’ on 'Sumsub kyc webview' screen";
+  static const kycFlowVerifyingNowSV = "‘We're verifying now’ screen view";
+  static const kycFlowVerifyingNowPopup = "‘We’re verifying now’ popup view";
+  static const kycFlowYouBlockedPopup = "‘You’re blocked!’ popup view";
+  static const kycFlowYouBlockedSupportTap =
+      "Tap on the button ‘Support’ on 'You’re blocked!' popup";
+
   // Send
   static const tapOnTheSendButton = 'Tap on the ‘Send’ button';
   static const sendToSheetScreenView = "'Send to' sheet screen view";

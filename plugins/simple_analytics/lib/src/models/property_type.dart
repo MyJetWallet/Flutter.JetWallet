@@ -29,4 +29,6 @@ class PropertyType {
   static const preset = 'Preset';
   static const failedReason = 'failedReason';
   static const codeLink = 'code/link';
+  static const countryKYC = 'Country of KYC';
+  static const documentList = 'Document list';
 }
