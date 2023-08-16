@@ -12,6 +12,7 @@ class GiftSendType extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final widgetSize = widgetSizeFrom(sDeviceSize);
+    final sColors = sKit.colors;
 
     return SPaddingH24(
       child: Container(
@@ -28,13 +29,13 @@ class GiftSendType extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SpaceW19(), // + 1px border
+                const SpaceW19(),
                 Container(
                   width: 32,
                   height: 32,
-                  decoration: const ShapeDecoration(
-                    color: Color(0xFF374CFA),
-                    shape: OvalBorder(),
+                  decoration: ShapeDecoration(
+                    color: sColors.purple,
+                    shape: const OvalBorder(),
                   ),
                   padding: const EdgeInsets.all(7),
                   child: SGiftSendIcon(color: SColorsLight().white),

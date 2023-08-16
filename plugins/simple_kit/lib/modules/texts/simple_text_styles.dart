@@ -88,3 +88,9 @@ final sOverlineTextStyle = _basicTextStyle.copyWith(
   fontWeight: FontWeight.w600,
   height: 1.38,
 );
+
+final sHelperTextStyle = _basicTextStyle.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w600,
+  height: 1.33,
+);

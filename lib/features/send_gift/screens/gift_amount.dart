@@ -47,6 +47,7 @@ class _GiftAmountState extends State<GiftAmount> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
+    final sColors = sKit.colors;
 
     final availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
@@ -71,12 +72,8 @@ class _GiftAmountState extends State<GiftAmount> {
             accuracy: widget.sendGiftStore.currency.accuracy,
             symbol: widget.sendGiftStore.currency.symbol,
           )}',
-          subTitleStyle: const TextStyle(
-            color: Color(0xFF777C85),
-            fontSize: 14,
-            fontFamily: 'Gilroy',
-            fontWeight: FontWeight.w500,
-            height: 1.50,
+          subTitleStyle: sBodyText2Style.copyWith(
+            color: sColors.grey1,
           ),
         ),
       ),

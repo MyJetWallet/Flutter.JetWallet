@@ -680,8 +680,8 @@ class DeepLinkService {
         sSignalRModules.currenciesList,
         gift.data?.assetSymbol ?? '',
       );
-      final context = sRouter.navigatorKey.currentContext!;
-      if (context.mounted) {
+      final context = sRouter.navigatorKey.currentContext;
+      if (context != null && context.mounted) {
         shareGiftResultBottomSheet(
           context: context,
           amount: gift.data?.amount ?? Decimal.zero,
@@ -704,8 +704,8 @@ class DeepLinkService {
               sSignalRModules.currenciesList,
               gift.data?.assetSymbol ?? '',
             );
-            final context = sRouter.navigatorKey.currentContext!;
-            if (context.mounted) {
+            final context = sRouter.navigatorKey.currentContext;
+            if (context != null && context.mounted) {
               shareGiftResultBottomSheet(
                 context: context,
                 amount: gift.data?.amount ?? Decimal.zero,

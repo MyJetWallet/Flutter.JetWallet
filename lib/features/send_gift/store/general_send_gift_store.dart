@@ -27,7 +27,7 @@ abstract class GeneralSendGiftStoreBase with Store {
   StackLoaderStore loader = StackLoaderStore();
 
   @observable
-  late CurrencyModel currency = CurrencyModel.empty();
+  CurrencyModel currency = CurrencyModel.empty();
 
   @observable
   Decimal amount = Decimal.zero;

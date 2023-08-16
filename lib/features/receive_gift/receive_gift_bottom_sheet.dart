@@ -115,6 +115,8 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sColors = sKit.colors;
+
     final kyc = getIt.get<KycService>();
     final handler = getIt.get<KycAlertHandler>();
 
@@ -165,11 +167,8 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
                           const SpaceW4(),
                           Text(
                             giftAmount,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: 'Gilroy',
-                              fontWeight: FontWeight.w600,
+                            style: sTextH4Style.copyWith(
+                              color: sColors.white,
                             ),
                           ),
                         ],
@@ -200,24 +199,16 @@ class _ReceiveGiftBottomSheet extends StatelessWidget {
           Text(
             '${intl.reseive_gift_gift_from} ${giftModel.fromName}',
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontFamily: 'Gilroy',
-              fontWeight: FontWeight.w600,
-              height: 1.33,
+            style: sTextH4Style.copyWith(
+              color: sColors.black,
             ),
           ),
           const SpaceH8(),
           Text(
             '''${intl.reseive_gift_a_gift_of} $giftAmount ${intl.reseive_gift_from} ${giftModel.fromName} \n${intl.reseive_gift_is_waiting_for_you}''',
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xFF777C85),
-              fontSize: 16,
-              fontFamily: 'Gilroy',
-              fontWeight: FontWeight.w500,
-              height: 1.50,
+            style: sBodyText1Style.copyWith(
+              color: sColors.grey1,
             ),
           ),
           const SpaceH49(),

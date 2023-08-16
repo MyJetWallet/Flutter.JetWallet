@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/l10n/i10n.dart';
 import '../../../core/router/app_router.dart';
 import '../store/general_send_gift_store.dart';
 import '../store/receiver_datails_store.dart';
-import '../widgets/continue_button.dart';
 import '../widgets/email_field_tab.dart';
 import '../widgets/gift_policy_checkbox.dart';
 import '../widgets/phone_number_field_tab.dart';
@@ -148,22 +148,26 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
                         FocusScope.of(context).unfocus();
                         store.onButtonTaped();
                       },
-                      child: ContinueButton(
-                        isValid: store.isformValid,
-                        onTab: () {
-                          sAnalytics.tapOnTheContinueWithReceiverSDetailsButton(
-                            giftSubmethod: store.selectedContactType.name,
-                          );
-                          sendGiftStore.setReceiverInformation(
-                            newSelectedContactType: store.selectedContactType,
-                            email: store.email,
-                            newPhoneBody: store.phoneBody,
-                            newPhoneCountryCode: store.phoneCountryCode,
-                          );
-                          sRouter.push(
-                            GiftAmountRouter(sendGiftStore: sendGiftStore),
-                          );
-                        },
+                      child: SPaddingH24(
+                        child: SPrimaryButton4(
+                          active: store.isformValid,
+                          name: intl.setPhoneNumber_continue,
+                          onTap: () {
+                            sAnalytics
+                                .tapOnTheContinueWithReceiverSDetailsButton(
+                              giftSubmethod: store.selectedContactType.name,
+                            );
+                            sendGiftStore.setReceiverInformation(
+                              newSelectedContactType: store.selectedContactType,
+                              email: store.email,
+                              newPhoneBody: store.phoneBody,
+                              newPhoneCountryCode: store.phoneCountryCode,
+                            );
+                            sRouter.push(
+                              GiftAmountRouter(sendGiftStore: sendGiftStore),
+                            );
+                          },
+                        ),
                       ),
                     );
                   },

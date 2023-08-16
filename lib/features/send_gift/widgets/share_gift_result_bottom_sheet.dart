@@ -70,6 +70,8 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sColors = sKit.colors;
+
     final String shareText;
     shareText = email != '' && email != null
         ? '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_share_text_2_part} $appDownloadUrl, ${intl.send_gift_share_text_email_part} $email ${intl.send_gift_share_text_3_part}'''
@@ -113,11 +115,8 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                               accuracy: currency.accuracy,
                               symbol: currency.symbol,
                             ),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontFamily: 'Gilroy',
-                              fontWeight: FontWeight.w600,
+                            style: sTextH4Style.copyWith(
+                              color: sColors.white,
                             ),
                           ),
                         ],
@@ -140,24 +139,19 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                           children: [
                             Text(
                               intl.send_gift_hey,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 24,
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w600,
+                              style: sTextH4Style.copyWith(
+                                color: sColors.black,
                               ),
                             ),
-                            const SpaceH12(),
+                            const SpaceH8(),
                             Text(
                               cardMessage,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w500,
+                              style: sBodyText1Style.copyWith(
+                                color: sColors.black,
                               ),
+                              maxLines: 3,
                             ),
-                            const SpaceH24(),
+                            const SpaceH16(),
                             Container(
                               width: 279,
                               height: 72,
@@ -166,7 +160,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                 vertical: 12,
                               ),
                               decoration: ShapeDecoration(
-                                color: Colors.white,
+                                color: sColors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
@@ -187,20 +181,14 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                     children: [
                                       Text(
                                         intl.send_gift_simple,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontFamily: 'Gilroy',
-                                          fontWeight: FontWeight.w600,
+                                        style: sSubtitle3Style.copyWith(
+                                          color: sColors.black,
                                         ),
                                       ),
                                       Text(
                                         intl.send_gift_get_app,
-                                        style: const TextStyle(
-                                          color: Color(0xFFA8B0BA),
-                                          fontSize: 12,
-                                          fontFamily: 'Gilroy',
-                                          fontWeight: FontWeight.w600,
+                                        style: sHelperTextStyle.copyWith(
+                                          color: sColors.grey2,
                                         ),
                                       ),
                                     ],

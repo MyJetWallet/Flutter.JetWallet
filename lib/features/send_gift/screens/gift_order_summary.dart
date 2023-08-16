@@ -20,6 +20,8 @@ class GiftOrderSummury extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sColors = sKit.colors;
+
     return Observer(
       builder: (context) {
         return SPageFrameWithPadding(
@@ -40,11 +42,8 @@ class GiftOrderSummury extends StatelessWidget {
                       children: [
                         Text(
                           intl.send_gift_your_gift,
-                          style: const TextStyle(
-                            color: Color(0xFF777C85),
-                            fontSize: 16,
-                            fontFamily: 'Gilroy',
-                            fontWeight: FontWeight.w500,
+                          style: sBodyText1Style.copyWith(
+                            color: sColors.grey1,
                           ),
                         ),
                         Text(
@@ -54,11 +53,8 @@ class GiftOrderSummury extends StatelessWidget {
                             accuracy: sendGiftStore.currency.accuracy,
                             symbol: sendGiftStore.currency.symbol,
                           ),
-                          style: const TextStyle(
-                            color: Color(0xFF374CFA),
-                            fontSize: 24,
-                            fontFamily: 'Gilroy',
-                            fontWeight: FontWeight.w600,
+                          style: sTextH4Style.copyWith(
+                            color: sColors.purple,
                           ),
                         ),
                       ],
@@ -107,7 +103,7 @@ class GiftOrderSummury extends StatelessWidget {
                         symbol: sendGiftStore.currency.symbol,
                       ),
                       baseline: 24,
-                      valueColor: const Color(0xFF374CFA),
+                      valueColor: sColors.purple,
                     ),
                     const SpaceH56(),
                     SPrimaryButton2(
