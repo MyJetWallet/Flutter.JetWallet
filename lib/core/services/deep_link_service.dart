@@ -22,7 +22,6 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
-import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
 import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
@@ -134,8 +133,6 @@ class DeepLinkService {
       _loginCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);
-    } else if (command == _confirmSendByPhone) {
-      _confirmSendByPhoneCommand(parameters);
     } else if (command == _inviteFriend) {
       _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
@@ -242,15 +239,6 @@ class DeepLinkService {
     getIt
         .get<EventBus>()
         .fire(WithdrawalConfirmModel(code: code, operationID: id));
-  }
-
-  void _confirmSendByPhoneCommand(Map<String, String> parameters) {
-    final id = parameters[_operationId]!;
-    final code = parameters[_code]!;
-
-    final notifier = getIt.get<SendByPhoneConfirmStore>();
-
-    notifier.updateCode(code, id, isDeepLink: true);
   }
 
   void _inviteFriendCommand(SourceScreen? source) {
