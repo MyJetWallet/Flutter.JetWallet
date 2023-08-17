@@ -58,15 +58,6 @@ void showSendAction(
 }
 
 Future<void> _showSendAction(BuildContext context) async {
-  final isAnyAssetSupportPhoneSend = sSignalRModules.currenciesList
-      .where(
-        (element) =>
-            element.isAssetBalanceNotEmpty &&
-            element.supportsByPhoneNicknameWithdrawal &&
-            element.supportsCryptoWithdrawal,
-      )
-      .toList();
-
   final isGlobalSendActive = sSignalRModules.currenciesList
       .where((element) => element.supportsGlobalSend)
       .toList();
@@ -116,20 +107,6 @@ Future<void> _showSendAction(BuildContext context) async {
         helper: intl.withdrawOptions_actionItemNameDescr,
         removeDivider: true,
       ),
-      if (isAnyAssetSupportPhoneSend.isNotEmpty)
-        SCardRow(
-          icon: const SPhoneIcon(),
-          onTap: () {
-            Navigator.pop(context);
-
-            _showSendActionChooseAsset(context, SendType.Phone);
-          },
-          amount: '',
-          description: '',
-          name: intl.sendOptions_actionItemName3,
-          helper: intl.sendOptions_actionItemDescription1,
-          removeDivider: true,
-        ),
       if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
         SCardRow(
           icon: const SNetworkIcon(),
@@ -359,17 +336,10 @@ Future<void> _showSendActionChooseAsset(
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
     children: [
-      if (type == SendType.Wallet) ...[
-        _ActionSend(
-          lastCurrency: lastCurrency,
-          type: type,
-        ),
-      ] else ...[
-        _ActionSendPhone(
-          lastCurrency: lastCurrency,
-          type: type,
-        ),
-      ],
+      _ActionSend(
+        lastCurrency: lastCurrency,
+        type: type,
+      ),
     ],
     then: (value) {},
   );
@@ -436,64 +406,6 @@ class _ActionSend extends StatelessObserverWidget {
                   );
                 },
               ),
-        const SpaceH42(),
-      ],
-    );
-  }
-}
-
-class _ActionSendPhone extends StatelessObserverWidget {
-  const _ActionSendPhone({
-    this.lastCurrency,
-    required this.type,
-  });
-
-  final String? lastCurrency;
-  final SendType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
-    final state = getIt.get<ActionSearchStore>();
-
-    var currencyFiltered = List<CurrencyModel>.from(state.fCurrencies);
-    currencyFiltered = currencyFiltered
-        .where(
-          (element) =>
-              element.isAssetBalanceNotEmpty &&
-              element.supportsCryptoWithdrawal,
-        )
-        .toList();
-
-    currencyFiltered.sort((a, b) {
-      if (lastCurrency != null) {
-        if (a.symbol == lastCurrency) {
-          return 0.compareTo(1);
-        } else if (b.symbol == lastCurrency) {
-          return 1.compareTo(0);
-        }
-      }
-
-      return b.baseBalance.compareTo(a.baseBalance);
-    });
-
-    return Column(
-      children: [
-        for (final currency in currencyFiltered)
-          if (currency.isAssetBalanceNotEmpty)
-            if (currency.supportsCryptoWithdrawal)
-              if (currency.supportsByPhoneNicknameWithdrawal)
-                SWalletItem(
-                  decline: currency.dayPercentChange.isNegative,
-                  icon: SNetworkSvg24(
-                    url: currency.iconUrl,
-                  ),
-                  primaryText: currency.description,
-                  removeDivider: currency == currencyFiltered.last,
-                  amount: currency.volumeBaseBalance(baseCurrency),
-                  secondaryText: currency.volumeAssetBalance,
-                  onTap: () {},
-                ),
         const SpaceH42(),
       ],
     );
