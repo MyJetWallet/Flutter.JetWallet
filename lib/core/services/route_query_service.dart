@@ -62,5 +62,6 @@ class RouteQueryService {
 
       removeFromQuery(query[i]);
     }
+    isNavigate = false;
   }
 }
