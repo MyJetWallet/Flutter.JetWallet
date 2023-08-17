@@ -34,12 +34,17 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
     super.dispose();
   }
 
+  final FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).requestFocus(focusNode);
+
     return Observer(
       builder: (context) {
         return SPaddingH24(
           child: SStandardField(
+            focusNode: focusNode,
             labelText: intl.send_gift_e_mail_address,
             textCapitalization: TextCapitalization.none,
             textInputAction: TextInputAction.done,
