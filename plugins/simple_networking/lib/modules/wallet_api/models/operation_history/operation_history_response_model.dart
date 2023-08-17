@@ -31,9 +31,11 @@ class OperationHistoryItem with _$OperationHistoryItem {
     RecurringBuyInfo? recurringBuyInfo,
     CryptoBuyInfo? cryptoBuyInfo,
     EarnInfo? earnInfo,
+    GiftSendInfo? giftSendInfo,
+    GiftReceiveInfo? giftReceiveInfo,
     required String operationId,
     @OperationTypeSerialiser() required OperationType operationType,
-    required String assetId,
+    @Default('') String assetId,
     required String timeStamp,
     @DecimalSerialiser() required Decimal balanceChange,
     @DecimalSerialiser() required Decimal newBalance,
@@ -83,6 +85,8 @@ enum OperationType {
   ibanSend,
   sendGlobally,
   p2pBuy,
+  giftSend,
+  giftReceive
 }
 
 extension _OperationTypeExtension on OperationType {
@@ -160,6 +164,10 @@ extension _OperationTypeExtension on OperationType {
         return 37;
       case OperationType.p2pBuy:
         return 38;
+      case OperationType.giftSend:
+        return 42;
+      case OperationType.giftReceive:
+        return 43;
       default:
         return 0;
     }
@@ -247,6 +255,10 @@ class OperationTypeSerialiser implements JsonConverter<OperationType, dynamic> {
       return OperationType.sendGlobally;
     } else if (value == '38') {
       return OperationType.p2pBuy;
+    } else if (value == '42') {
+      return OperationType.giftSend;
+    } else if (value == '43') {
+      return OperationType.giftReceive;
     } else {
       return OperationType.unknown;
     }
@@ -466,7 +478,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     required String depositFeeAsset,
     @DecimalSerialiser() required Decimal tradeFeeAmount,
     required String tradeFeeAsset,
-    String? cardLast4,
+    required String cardLast4,
     String? cardLabel,
     String? cardType,
     @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
@@ -496,4 +508,28 @@ class PaymeInfo with _$PaymeInfo {
 
   factory PaymeInfo.fromJson(Map<String, dynamic> json) =>
       _$PaymeInfoFromJson(json);
+}
+
+@freezed
+class GiftSendInfo with _$GiftSendInfo {
+  const factory GiftSendInfo({
+    required String transferId,
+    String? toPhoneNumber,
+    String? receiverName,
+    String? toEmail,
+    String? declineReason,
+  }) = _GiftSendInfo;
+
+  factory GiftSendInfo.fromJson(Map<String, dynamic> json) =>
+      _$GiftSendInfoFromJson(json);
+}
+
+@freezed
+class GiftReceiveInfo with _$GiftReceiveInfo {
+  const factory GiftReceiveInfo({
+    required String senderName,
+  }) = _GiftReceiveInfo;
+
+  factory GiftReceiveInfo.fromJson(Map<String, dynamic> json) =>
+      _$GiftReceiveInfoFromJson(json);
 }

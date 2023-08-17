@@ -129,6 +129,8 @@ class SignalRModuleNew {
 
     if (isSignalRRestarted) return;
 
+    if (isSignalRRestarted) return;
+
     isSignalRRestarted = true;
 
     transport.createNewSessionLog();
@@ -523,6 +525,10 @@ class SignalRModuleNew {
       globalSendMethods,
       method: handler.globalSendMethodsHandler,
     );
+    _hubConnection?.off(
+      incomingGiftsMessage,
+      method: handler.incomingGiftsHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -615,6 +621,8 @@ class SignalRModuleNew {
       globalSendMethods,
       handler.globalSendMethodsHandler,
     );
+
+    _hubConnection?.on(incomingGiftsMessage, handler.incomingGiftsHandler);
 
     ///
 
