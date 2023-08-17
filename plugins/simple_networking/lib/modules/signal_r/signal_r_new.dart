@@ -136,7 +136,7 @@ class SignalRModuleNew {
     if (isSignalRRestarted) return false;
     if (isServiceDisposed) return false;
 
-    if (isSignalRRestarted) return;
+    if (isSignalRRestarted) return false;
 
     isSignalRRestarted = true;
 
