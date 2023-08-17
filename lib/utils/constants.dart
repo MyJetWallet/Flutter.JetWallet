@@ -103,6 +103,7 @@ const sparkAsset = 'assets/images/spark.png';
 
 const portfolioGradientBG = 'assets/images/gradient_bg.png';
 const simpleLogo = 'assets/images/simple_logo.png';
+const logoWithTitle = 'assets/images/logo_with_title.png';
 
 const fireRewardAsset = 'assets/images/fire.png';
 const ibanEuroAsset = 'assets/images/euro_logo.png';
@@ -111,3 +112,9 @@ const flagsAsset = 'assets/images/flags.png';
 
 // Card page
 const simpleCardAsset = 'assets/images/card_example.png';
+
+// Send gift
+const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';
+
+// Link to download the application
+ const appDownloadUrl = 'https://mobile.simple.app/download-app';

@@ -6,15 +6,11 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
-import 'package:jetwallet/utils/models/nft_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 import '../../../../../helper/format_date_to_hm.dart';
 import '../../../../../helper/nft_by_symbol.dart';
 import '../../../../../helper/nft_types.dart';
-import '../../../../../helper/operation_name.dart';
 import '../../../../../helper/show_transaction_details.dart';
 import 'components/transaction_list_item_header_text.dart';
 import 'components/transaction_list_item_text.dart';
@@ -91,6 +87,16 @@ class TransactionListItem extends StatelessObserverWidget {
                           ),
                           color: colors.black,
                         ),
+                        if (transactionListItem.operationType ==
+                                OperationType.giftSend ||
+                            transactionListItem.operationType ==
+                                OperationType.giftReceive) ...[
+                          Container(
+                            height: 16,
+                            margin: const EdgeInsets.only(top: 4),
+                            child: const SGiftSendIcon(),
+                          ),
+                        ],
                         if (transactionListItem.status == Status.declined) ...[
                           const SpaceW5(),
                           Column(
@@ -125,7 +131,9 @@ class TransactionListItem extends StatelessObserverWidget {
                                       transactionListItem.operationType ==
                                           OperationType.sendGlobally ||
                                       transactionListItem.operationType ==
-                                          OperationType.transferByPhone)
+                                          OperationType.transferByPhone ||
+                                      transactionListItem.operationType ==
+                                          OperationType.giftSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
@@ -337,6 +345,10 @@ class TransactionListItem extends StatelessObserverWidget {
         return SSendByPhoneIcon(color: isFailed ? color : null);
       case OperationType.sendGlobally:
         return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.giftSend:
+        return SSendByPhoneIcon(color: isFailed ? color : null);
+      case OperationType.giftReceive:
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       default:
         return SPlusIcon(color: isFailed ? color : null);
     }

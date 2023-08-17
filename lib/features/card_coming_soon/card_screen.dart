@@ -176,7 +176,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                           ),
                           const SpaceH8(),
                           Text(
-                            intl.card_description,
+                            intl.are_you_interested,
                             maxLines: 3,
                             textAlign: TextAlign.center,
                             style: sBodyText1Style.copyWith(
@@ -202,7 +202,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                             active: isButtonActive &&
                                 !kycBlocked &&
                                 !verificationInProgress,
-                            name: intl.card_claim_card,
+                            name: intl.join_the_waitlist,
                             onTap: () async {
                               setState(() {
                                 isButtonActive = false;
