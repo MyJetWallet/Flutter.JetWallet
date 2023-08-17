@@ -12,6 +12,7 @@ class PaymentCardItem extends StatelessObserverWidget {
     this.showDelete = true,
     this.showEdit = false,
     this.onEdit,
+    this.currency,
     required this.name,
     required this.expirationDate,
     required this.expired,
@@ -26,6 +27,7 @@ class PaymentCardItem extends StatelessObserverWidget {
   final bool showEdit;
   final String name;
   final String expirationDate;
+  final String? currency;
   final bool expired;
   final Function() onDelete;
   final Function()? onEdit;
@@ -66,21 +68,33 @@ class PaymentCardItem extends StatelessObserverWidget {
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Baseline(
-                              baseline: 18.0,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                name,
-                                style: sSubtitle2Style.copyWith(
-                                  color:
-                                      isDisabled ? colors.grey2 : colors.black,
-                                ),
+                          Baseline(
+                            baseline: 18.0,
+                            baselineType: TextBaseline.alphabetic,
+                            child: Text(
+                              name,
+                              style: sSubtitle2Style.copyWith(
+                                color: isDisabled ? colors.grey2 : colors.black,
                               ),
                             ),
                           ),
-                          const SpaceW10(),
+                          const SpaceW8(),
+                          if (currency != null)
+                            Baseline(
+                              baseline: 16.0,
+                              baselineType: TextBaseline.alphabetic,
+                              child: Text(
+                                currency ?? '',
+                                style: sOverlineTextStyle.copyWith(
+                                  color: sKit.colors.grey1,
+                                  height: 1.38,
+                                ),
+                              ),
+                            ),
+                          const Spacer(),
                           if (showDelete)
                             Container(
                               transform: Matrix4.translationValues(9, 0, 0),
