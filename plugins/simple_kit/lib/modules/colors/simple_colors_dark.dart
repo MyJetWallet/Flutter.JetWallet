@@ -110,4 +110,7 @@ class SColorsDark implements SimpleColors {
 
   @override
   Color confetti8 = const Color(0xFFC9FCBE);
+
+  @override
+  Color purple = const Color(0xFF374CFA);
 }

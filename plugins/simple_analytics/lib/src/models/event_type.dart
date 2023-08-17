@@ -45,4 +45,56 @@ class EventType {
   static const paymentWevViewScreenView = '‘Payment web view’ screen view';
   static const paymentWevViewClose =
       'Tap on the button ‘Close’ on Payment web view';
+  static const tapOnTheSendButton = 'Tap on the ‘Send’ button';
+  static const sendToSheetScreenView = '`Send to` sheet screen view';
+  static const tapOnTheGiftButton = 'Tap on the ‘Gift’ button';
+  static const sendingAssetScreenView = '`Sending asset` screen view';
+  static const receiverSDetailsScreenView = "`Receiver's details` screen view";
+  static const tapOnTheContinueWithReceiverSDetailsButton =
+      "Tap on the ‘Continue’ with Receiver's Details button";
+  static const sendGiftAmountScreenView = '‘Send Gift Amount’ screen view';
+  static const errorSendLimitExceeded = 'Error - Send Limit Exceeded';
+  static const tapOnTheButtonContinueWithSendGiftAmountScreen =
+      'Tap on the button ‘Continue’ with ‘Send Gift Amount’ screen';
+  static const orderSummarySendScreenView = '‘Order summary Send` screen view';
+  static const tapOnTheButtonConfirmOrderSummarySend =
+      'Tap on the button ‘Confirm’ Order Summary Send';
+  static const confirmWithPINScreenView = '‘Confirm with PIN` screen view';
+  static const errorWrongPin = 'Error - wrong pin';
+  static const processingSendScreenView = '‘Processing Send’ screen view';
+  static const successSendScreenView = '‘Success Send’ screen is displayed';
+  static const failedSendScreenView = '‘Failed Send’ screen is displayed';
+  static const shareGiftSheetScreenView = '`Share gift` sheet screen view';
+  static const tapOnTheButtonShareOnShareSheet =
+      'Tap on the button ‘Share’ on share sheet';
+  static const tapOnTheButtonCopyOnShareSheet =
+      'Tap on the button ‘Copy’ on share sheet';
+  static const tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet =
+      '''Tap on the button ‘Close’ or tap in empty place for closing  share sheet''';
+  static const tapOnTheButtonRemindOnSentHistoryDetailsSheet =
+      'Tap on the button ‘Remind’ on Sent history details sheet';
+  static const tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet =
+      'Tap on the button ‘Cancel transaction’ on Sent history details sheet';
+  static const tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet =
+      'Tap on the button ‘Close’ or tap on Sent history details sheet';
+  static const claimGiftScreenView = '`Claim Gift` screen view';
+  static const tapOnTheButtonClaimOnClaimGiftSheet =
+      'Tap on the button ‘Claim’ on Claim Gift sheet';
+  static const tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet =
+      '''Tap on the button ‘Close’ or tap in empty place for closing Claim Gift sheet''';
+  static const tapOnTheButtonRejectOnClaimGiftSheet =
+      'Tap on the button ‘Reject’ on Claim Gift sheet';
+  static const cancelClaimTransactionGiftScreenView =
+      '`Cancel claim transaction gift` screen view';
+  static const tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup =
+      'Tap on the button ‘Yes, cancel’ on Cancel claim  transaction gift popup';
+  static const tapOnTheButtonNoOnCancelClaimTransactionGiftPopup =
+      'Tap on the button ‘No’ on Cancel claim  transaction gift popup';
+  static const processingClaimGiftScreenView =
+      '`Processing claim gift` screen view';
+  static const failedClaimGiftScreenView = '`Failed claim gift` screen view';
+  static const tapOnTheButtonCloseOnFailedClaimGiftScreen =
+      'Tap on the button ‘Close’ on Failed claim gift screen';
+  static const successClaimedGiftScreenView =
+      '`Success claimed gift` screen view';
 }

@@ -1,11 +1,8 @@
 import 'package:amplitude_flutter/amplitude.dart';
-import 'package:amplitude_flutter/identify.dart';
 
 import '../simple_analytics.dart';
-import 'helpers/hash_string.dart';
 import 'models/event_type.dart';
 import 'models/property_type.dart';
-import 'models/user_type.dart';
 
 final sAnalytics = SimpleAnalytics();
 
@@ -547,6 +544,520 @@ class SimpleAnalytics {
         PropertyType.paymentMethodType: paymentMethodType,
         PropertyType.paymentMethodName: paymentMethodName,
         PropertyType.paymentMethodCurrency: paymentMethodCurrency,
+      },
+    );
+  }
+
+  void tabOnTheSendButton({required String source}) {
+    _analytics.logEvent(
+      EventType.tapOnTheSendButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '80',
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void sendToSheetScreenView({
+    required List<AnalyticsSendMethods> sendMethods,
+  }) {
+    final sendMethodsCodes = <int>[];
+
+    for (final element in sendMethods) {
+      sendMethodsCodes.add(element.code);
+    }
+
+    _analytics.logEvent(
+      EventType.sendToSheetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '81',
+        PropertyType.sendMethodTypeAllAvailableList: sendMethodsCodes,
+      },
+    );
+  }
+
+  void tapOnTheGiftButton() {
+    _analytics.logEvent(
+      EventType.tapOnTheGiftButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '82',
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+      },
+    );
+  }
+
+  void sendingAssetScreenView() {
+    _analytics.logEvent(
+      EventType.sendingAssetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '83',
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+      },
+    );
+  }
+
+  void receiverSDetailsScreenView() {
+    _analytics.logEvent(
+      EventType.receiverSDetailsScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '84',
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+      },
+    );
+  }
+
+  void tapOnTheContinueWithReceiverSDetailsButton({
+    required String giftSubmethod,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheContinueWithReceiverSDetailsButton,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '85',
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void sendGiftAmountScreenView({
+    required String giftSubmethod,
+    required String asset,
+  }) {
+    _analytics.logEvent(
+      EventType.sendGiftAmountScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '86',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void errorSendLimitExceeded({
+    required String giftSubmethod,
+    required String asset,
+    required String errorText,
+  }) {
+    _analytics.logEvent(
+      EventType.errorSendLimitExceeded,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '87',
+        PropertyType.errorText: errorText,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void tapOnTheButtonContinueWithSendGiftAmountScreen({
+    required String giftSubmethod,
+    required String asset,
+    required String totalSendAmount,
+    required dynamic preset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonContinueWithSendGiftAmountScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '88',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.totalSendAmount: totalSendAmount,
+        PropertyType.preset: preset,
+      },
+    );
+  }
+
+  void orderSummarySendScreenView({
+    required String giftSubmethod,
+  }) {
+    _analytics.logEvent(
+      EventType.orderSummarySendScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '89',
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void tapOnTheButtonConfirmOrderSummarySend({
+    required String giftSubmethod,
+    required String asset,
+    required String totalSendAmount,
+    required String paymentFee,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonConfirmOrderSummarySend,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '90',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.totalSendAmount: totalSendAmount,
+        PropertyType.paymentFee: paymentFee,
+      },
+    );
+  }
+
+  void confirmWithPINScreenView() {
+    _analytics.logEvent(
+      EventType.confirmWithPINScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '91',
+      },
+    );
+  }
+
+  void errorWrongPin({
+    required String asset,
+    required String giftSubmethod,
+    required String errorText,
+  }) {
+    _analytics.logEvent(
+      EventType.errorWrongPin,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '92',
+        PropertyType.errorText: errorText,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void processingSendScreenView({
+    required String asset,
+    required String giftSubmethod,
+  }) {
+    _analytics.logEvent(
+      EventType.processingSendScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '93',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void successSendScreenView({
+    required String asset,
+    required String giftSubmethod,
+  }) {
+    _analytics.logEvent(
+      EventType.successSendScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '94',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+      },
+    );
+  }
+
+  void failedSendScreenView({
+    required String asset,
+    required String giftSubmethod,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.failedSendScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '95',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.giftSendSubmethod: giftSubmethod,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
+
+  void shareGiftSheetScreenView() {
+    _analytics.logEvent(
+      EventType.shareGiftSheetScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '96',
+      },
+    );
+  }
+
+  void tapOnTheButtonShareOnShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonShareOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '97',
+      },
+    );
+  }
+
+  void tapOnTheButtonCopyOnShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCopyOnShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '98',
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingShareSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '99',
+      },
+    );
+  }
+
+  void tapOnTheButtonRemindOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonRemindOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '100',
+      },
+    );
+  }
+
+  void tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '101',
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapOnSentHistoryDetailsSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '102',
+      },
+    );
+  }
+
+  void claimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.claimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '105',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonClaimOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonClaimOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '106',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOrTapInEmptyPlaceForClosingClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '107',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonRejectOnClaimGiftSheet({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonRejectOnClaimGiftSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '108',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void cancelClaimTransactionGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.cancelClaimTransactionGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '109',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonYesCancelOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '110',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonNoOnCancelClaimTransactionGiftPopup({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonNoOnCancelClaimTransactionGiftPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '111',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void processingClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.processingClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '112',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void failedClaimGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.failedClaimGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '113',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOnFailedClaimGiftScreen({
+    required String giftAmount,
+    required String giftFrom,
+    required String failedReason,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOnFailedClaimGiftScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '114',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
+        PropertyType.failedReason: failedReason,
+      },
+    );
+  }
+
+  void successClaimedGiftScreenView({
+    required String giftAmount,
+    required String giftFrom,
+  }) {
+    _analytics.logEvent(
+      EventType.successClaimedGiftScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '115',
+        PropertyType.giftAmount: giftAmount,
+        PropertyType.giftFrom: giftFrom,
       },
     );
   }
