@@ -79,12 +79,6 @@ import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wall
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
-import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_amount.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_notify_recipient.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_preview.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/send_gift/store/general_send_gift_store.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
@@ -416,10 +410,6 @@ class AppRouter extends _$AppRouter {
       page: SignalrDebugInfoRouter.page,
     ),
     AutoRoute(
-      path: '/send_by_phone_input',
-      page: SendByPhoneInputRouter.page,
-    ),
-    AutoRoute(
       path: '/currency_sell',
       page: CurrencySellRouter.page,
     ),
@@ -470,22 +460,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/preview_sell_router',
       page: PreviewSellRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_notify_recipient',
-      page: SendByPhoneNotifyRecipientRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_amount',
-      page: SendByPhoneAmountRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_confirm',
-      page: SendByPhoneConfirmRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_preview',
-      page: SendByPhonePreviewRouter.page,
     ),
     AutoRoute(
       path: '/delete_reasons_screen',

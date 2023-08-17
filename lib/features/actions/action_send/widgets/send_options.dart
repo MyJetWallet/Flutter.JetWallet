@@ -64,19 +64,6 @@ class _SendOptions extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (currency.supportsByPhoneNicknameWithdrawal)
-          SActionItem(
-            icon: const SPhoneIcon(),
-            name: intl.sendOptions_actionItemName1,
-            description: intl.sendOptions_actionItemDescription1,
-            onTap: () {
-              sRouter.navigate(
-                SendByPhoneInputRouter(
-                  currency: currency,
-                ),
-              );
-            },
-          ),
         if (currency.supportsByAssetWithdrawal)
           SActionItem(
             icon: const SWallet2Icon(),
@@ -154,7 +141,7 @@ class _SendOptions extends StatelessObserverWidget {
               Navigator.pop(context);
               await sRouter.push(
                 GiftReceiversDetailsRouter(
-                  sendGiftInfo:SendGiftInfoModel(currency: currency),
+                  sendGiftInfo: SendGiftInfoModel(currency: currency),
                 ),
               );
             },

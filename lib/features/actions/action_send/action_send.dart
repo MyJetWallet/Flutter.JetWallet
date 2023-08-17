@@ -492,13 +492,7 @@ class _ActionSendPhone extends StatelessObserverWidget {
                   removeDivider: currency == currencyFiltered.last,
                   amount: currency.volumeBaseBalance(baseCurrency),
                   secondaryText: currency.volumeAssetBalance,
-                  onTap: () {
-                    sRouter.navigate(
-                      SendByPhoneInputRouter(
-                        currency: currency,
-                      ),
-                    );
-                  },
+                  onTap: () {},
                 ),
         const SpaceH42(),
       ],
