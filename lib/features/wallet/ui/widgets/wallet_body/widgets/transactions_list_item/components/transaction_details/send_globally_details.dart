@@ -31,7 +31,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
+      transactionListItem.withdrawalInfo?.feeAssetId ??
+          (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
     );
 
     var methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
@@ -369,7 +370,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.send_globally_con_rate,
               value: TransactionDetailsValueText(
                 text:
-                    '${currency.prefixSymbol != null ? currency.prefixSymbol : transactionListItem.withdrawalInfo?.withdrawalAssetId}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
+                    '1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
               ),
             ),
           ],
