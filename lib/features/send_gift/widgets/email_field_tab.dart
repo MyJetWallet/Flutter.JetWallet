@@ -66,12 +66,14 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
                   if (text != null) {
                     widget.store.onChangedEmail(text);
                   }
-                  _textController = TextEditingController(text: text);
-                  _textController.selection = TextSelection.fromPosition(
-                    TextPosition(
-                      offset: _textController.text.length,
-                    ),
-                  );
+                  setState(() {
+                    _textController = TextEditingController(text: text);
+                    _textController.selection = TextSelection.fromPosition(
+                      TextPosition(
+                        offset: _textController.text.length,
+                      ),
+                    );
+                  });
                 },
                 defaultIcon: const SPasteIcon(),
                 pressedIcon: const SPastePressedIcon(),
