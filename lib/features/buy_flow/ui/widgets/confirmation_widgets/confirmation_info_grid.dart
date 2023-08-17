@@ -145,9 +145,10 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                       ),
                       const SpaceW8(),
                       Text(
-                        capitalizeText(
-                          store.method?.id.name ?? '  ',
-                        ),
+                        store.method?.name ??
+                            capitalizeText(
+                              store.method?.id.name ?? '  ',
+                            ),
                         overflow: TextOverflow.ellipsis,
                         style: sSubtitle3Style.copyWith(height: 1.5),
                       ),

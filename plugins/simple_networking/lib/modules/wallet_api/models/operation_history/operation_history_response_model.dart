@@ -482,6 +482,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     String? cardLabel,
     String? cardType,
     @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
+    String? paymentMethodName,
   }) = _CryptoBuyInfo;
 
   factory CryptoBuyInfo.fromJson(Map<String, dynamic> json) =>

@@ -48,9 +48,7 @@ class PaymentMethodAltWidget extends StatelessWidget {
           children: buyMethod.map(
             (e) {
               return PaymentMethodCard.card(
-                name: capitalizeText(
-                  e.id.name ?? '  ',
-                ),
+                name: e.name ?? capitalizeText(e.id.name),
                 url: iconForPaymentMethod(
                   methodId: e.id.name,
                 ),
