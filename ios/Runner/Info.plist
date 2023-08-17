@@ -9,6 +9,7 @@
 		<string>en-US</string>
 		<string>ru-RU</string>
 		<string>pl-PL</string>
+		<string>uk-UK</string>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -22,6 +23,7 @@
 		<string>Polish</string>
 		<string>en</string>
 		<string>Russia</string>
+		<string>Ukrainian</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Simple</string>
