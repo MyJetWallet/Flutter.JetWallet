@@ -158,7 +158,17 @@ abstract class _OperationHistoryBase with Store {
         .getOperationHistoryOperationID(operationID);
 
     response.pick(
-      onData: (data) {},
+      onData: (data) {
+        if (data.assetId.isEmpty) return;
+        
+        showTransactionDetails(
+          sRouter.navigatorKey.currentContext!,
+          data,
+          (q) {
+            detailsShowed = false;
+          },
+        );
+      },
       onError: (e) {},
     );
   }
@@ -269,7 +279,9 @@ List<oh_resp.OperationHistoryItem> _filterUnusedOperationTypeItemsFrom(
         item.operationType == oh_resp.OperationType.ibanDeposit ||
         item.operationType == oh_resp.OperationType.ibanSend ||
         item.operationType == oh_resp.OperationType.sendGlobally ||
-        item.operationType == oh_resp.OperationType.p2pBuy,
+        item.operationType == oh_resp.OperationType.p2pBuy ||
+        item.operationType == oh_resp.OperationType.giftSend ||
+        item.operationType == oh_resp.OperationType.giftReceive,
   )
       .map((item) {
     return item.operationType == oh_resp.OperationType.swap

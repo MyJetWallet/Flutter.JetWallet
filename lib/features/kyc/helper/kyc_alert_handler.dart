@@ -16,6 +16,7 @@ class KycAlertHandler {
   void handle({
     bool navigatePop = false,
     bool kycFlowOnly = false,
+    bool needGifteExplanationPopup = false,
     SWidgetSize size = SWidgetSize.medium,
     required Function() currentNavigate,
     required int status,
@@ -38,7 +39,16 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired)) {
+    if (status == kycOperationStatus(KycStatus.kycRequired) &&
+        needGifteExplanationPopup) {
+      _showGeftExplanationAlert(
+        requiredVerifications.isNotEmpty,
+        requiredVerifications,
+        requiredDocuments,
+        status,
+        size,
+      );
+    } else if (status == kycOperationStatus(KycStatus.kycRequired)) {
       _showKycRequiredAlert(
         requiredVerifications.isNotEmpty,
         requiredVerifications,
@@ -132,6 +142,45 @@ class KycAlertHandler {
           ),
         );
       },
+    );
+  }
+
+  void _showGeftExplanationAlert(
+    bool isRequiredVerifications,
+    List<RequiredVerified> requiredVerifications,
+    List<KycDocumentType> requiredDocuments,
+    int status,
+    SWidgetSize size,
+  ) {
+    showKycPopup(
+      context: context,
+      imageAsset: verifyYourProfileAsset,
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
+      secondaryText: 'Please verify your account\n to claim your gift',
+      primaryButtonName: 'Verify',
+      secondaryButtonName: intl.kycAlertHandler_later,
+      onPrimaryButtonTap: () {
+        _showKycRequiredAlert(
+          requiredVerifications.isNotEmpty,
+          requiredVerifications,
+          requiredDocuments,
+          status,
+          size,
+        );
+      },
+      onSecondaryButtonTap: () {
+        sRouter.pop();
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SDivider(),
+          _documentText('Secure your account', 0),
+          _documentText('Verify your identity', 1),
+          _documentText('Claim your gift', 2),
+          const SpaceH36(),
+        ],
+      ),
     );
   }
 

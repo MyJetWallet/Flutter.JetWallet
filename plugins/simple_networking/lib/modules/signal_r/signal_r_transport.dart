@@ -29,6 +29,8 @@ import 'package:simple_networking/modules/signal_r/models/referral_info_model.da
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
+import 'models/incoming_gift_model.dart';
+
 class SignalRTransport {
   SignalRTransport({
     required this.initFinished,
@@ -67,6 +69,7 @@ class SignalRTransport {
     required this.addToPong,
     required this.addToLog,
     required this.updateGlobalSendMethods,
+    required this.receiveGifts,
   });
 
   final void Function(bool) initFinished;
@@ -106,6 +109,8 @@ class SignalRTransport {
   final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
 
   final void Function(GlobalSendMethodsModel) updateGlobalSendMethods;
+
+  final void Function(IncomingGiftModel) receiveGifts;
 
   /// Logs
 

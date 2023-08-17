@@ -214,6 +214,12 @@ class CurrencyModel with _$CurrencyModel {
         .isNotEmpty;
   }
 
+  bool get supportsGiftlSend {
+    return withdrawalMethods
+        .where((element) => element.id == WithdrawalMethods.internalSend)
+        .isNotEmpty;
+  }
+
   bool get supportsIbanDeposit {
     return depositMethods
         .where((element) => element.id == DepositMethods.ibanReceive)

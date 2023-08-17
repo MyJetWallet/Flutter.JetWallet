@@ -1127,5 +1127,7 @@
     "iban_terms_3": "Los fondos deben provenir de una cuenta a tu propio nombre. El dinero enviado desde otras cuentas será devuelto y podrían aplicarse tarifas adicionales.",
     "iban_terms_4": "Debes ser el beneficiario de la cuenta bancaria",
     "historyRecurringBuys_noTransactionsYet": "Aún no hay transacciones",
-    "historyRecurringBuy_text1": "Tus transacciones aparecerán aquí"
+    "historyRecurringBuy_text1": "Tus transacciones aparecerán aquí",
+    "start_your_journey": "Comienza tu viaje\ncon la aplicación Simple",
+    "buy_crypto": "Comprar criptomonedas"
 }

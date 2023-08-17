@@ -34,7 +34,7 @@ class RouteQueryService {
   void runQuery() {
     isNavigate = true;
 
-    for (var i = 0; i < query.length; i++) {
+    for (final i = 0; i < query.length;) {
       if (query[i].action != null) {
         switch (query[i].action) {
           case RouteQueryAction.push:

@@ -15,6 +15,7 @@ const String isBalanceHide = 'isBalanceHide';
 const String hideZeroBalance = 'hideZeroBalance';
 const String installID = 'installID';
 const String globalSendConditions = 'globalSendConditions';
+const String isGiftPolicyAgreed = 'isGiftPolicyAgreed';
 
 const String remoteConfig = 'remoteConfigCache';
 
@@ -81,6 +82,16 @@ class LocalCacheService {
 
   Future<bool?> getHideZeroBalance() async {
     return instance.getBool(hideZeroBalance);
+  }
+
+  ///
+
+  Future<void> saveGiftPolicyAgreed(bool value) async {
+    await instance.setBool(isGiftPolicyAgreed, value);
+  }
+
+  Future<bool?> getGiftPolicyAgreed() async {
+    return instance.getBool(isGiftPolicyAgreed);
   }
 
   ///
