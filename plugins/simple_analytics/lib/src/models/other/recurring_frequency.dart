@@ -22,3 +22,26 @@ extension RecurringFrequencyExtension on RecurringFrequency {
     }
   }
 }
+
+enum AnalyticsSendMethods {
+  cryptoWallet,
+  globally,
+  bankAccount,
+  gift,
+}
+
+extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension
+    on AnalyticsSendMethods {
+  int get code {
+    switch (this) {
+      case AnalyticsSendMethods.cryptoWallet:
+        return 0;
+      case AnalyticsSendMethods.globally:
+        return 1;
+      case AnalyticsSendMethods.bankAccount:
+        return 2;
+      case AnalyticsSendMethods.gift:
+        return 3;
+    }
+  }
+}

@@ -1,8 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,20 +8,18 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_alert_bottom_sheet.dart';
-import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_payment_method_store.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -84,10 +79,26 @@ Future<void> _showSendAction(BuildContext context) async {
       .where((element) => element.supportIbanSendWithdrawal)
       .toList();
 
+  final isGiftSendActive = sSignalRModules.currenciesList
+      .where(
+        (element) =>
+            element.supportsGiftlSend && element.isAssetBalanceNotEmpty,
+      )
+      .toList();
+
+  sAnalytics.sendToSheetScreenView(
+    sendMethods: [
+      if (cryptoGlobalSendLength.isNotEmpty) AnalyticsSendMethods.cryptoWallet,
+      if (isGlobalSendActive.isNotEmpty) AnalyticsSendMethods.globally,
+      if (isIbanOutActive.isNotEmpty) AnalyticsSendMethods.bankAccount,
+      if (isGiftSendActive.isNotEmpty) AnalyticsSendMethods.gift,
+    ],
+  );
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: ActionBottomSheetHeader(
-      name: intl.sendOptions_sendTo,
+      name: intl.sendOptions_send,
     ),
     horizontalPinnedPadding: 0.0,
     removePinnedPadding: true,
@@ -101,7 +112,7 @@ Future<void> _showSendAction(BuildContext context) async {
         },
         amount: '',
         description: '',
-        name: intl.withdrawOptions_actionItemName1,
+        name: intl.sendOptions_to_crypto_wallet,
         helper: intl.withdrawOptions_actionItemNameDescr,
         removeDivider: true,
       ),
@@ -166,9 +177,22 @@ Future<void> _showSendAction(BuildContext context) async {
           },
           amount: '',
           description: '',
-          name: intl.iban_send_name,
+          name: intl.sendOptions_to_bank_account,
           helper: intl.iban_send_helper,
           removeDivider: true,
+        ),
+      if (isGiftSendActive.isNotEmpty)
+        SCardRow(
+          icon: const SGiftSendIcon(),
+          onTap: () {
+            sAnalytics.tapOnTheGiftButton();
+            Navigator.pop(context);
+            sRouter.push(GiftSelectAssetRouter());
+          },
+          amount: '',
+          description: '',
+          name: intl.send_gift,
+          helper: intl.send_gift_to_simple_wallet,
         ),
       const SpaceH42(),
     ],

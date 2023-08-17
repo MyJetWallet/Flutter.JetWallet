@@ -131,15 +131,3 @@ Future<GetIt> getItInit({
     environment: env,
   );
 }
-
-void resetGetIt<T extends Object>({
-  Object? instance,
-  String? instanceName,
-  void Function(T)? disposingFunction,
-}) {
-  getIt.resetLazySingleton<T>(
-    instance: instance,
-    instanceName: instanceName,
-    disposingFunction: disposingFunction,
-  );
-}

@@ -37,4 +37,5 @@ abstract class SimpleColors {
   abstract Color confetti6;
   abstract Color confetti7;
   abstract Color confetti8;
+  abstract Color purple;
 }
