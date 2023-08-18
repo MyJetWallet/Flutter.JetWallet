@@ -75,7 +75,9 @@ abstract class _GeftSendAmountStoreBase with Store {
       selectedCurrency.withdrawalMethods
           .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
           .symbolDetails
-          ?.last
+          ?.firstWhere(
+            (element) => element.symbol == selectedCurrency.symbol,
+          )
           .minAmount ??
       Decimal.zero;
 
@@ -84,7 +86,9 @@ abstract class _GeftSendAmountStoreBase with Store {
       selectedCurrency.withdrawalMethods
           .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
           .symbolDetails
-          ?.last
+          ?.firstWhere(
+            (element) => element.symbol == selectedCurrency.symbol,
+          )
           .maxAmount ??
       Decimal.zero;
 
