@@ -24,8 +24,15 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
 
   @override
   void initState() {
-    _textController = TextEditingController(text: widget.store.email);
     super.initState();
+    _textController = TextEditingController(text: widget.store.email);
+    
+    Future.delayed(
+      const Duration(milliseconds: 500),
+      () {
+        FocusScope.of(context).requestFocus(focusNode);
+      },
+    );
   }
 
   @override
@@ -38,8 +45,6 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(focusNode);
-
     return Observer(
       builder: (context) {
         return SPaddingH24(
