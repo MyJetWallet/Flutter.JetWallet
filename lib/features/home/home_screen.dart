@@ -95,7 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 getIt<AppStore>().setHomeTab(val);
-                tabsRouter.setActiveIndex(val);
+                if (val < screens.length) {
+                  tabsRouter.setActiveIndex(val);
+                } else {
+                  tabsRouter.setActiveIndex(screens.length - 1);
+                }
               },
             );
           },
