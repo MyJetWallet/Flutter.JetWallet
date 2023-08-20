@@ -183,7 +183,7 @@ class _ActionConvert extends StatelessObserverWidget {
                 isSelected: currency.symbol == item.symbol,
                 icon: SNetworkSvg24(
                   url: item.iconUrl,
-                  color: _iconColor(item, context),
+                  //color: _iconColor(item, context),
                 ),
                 name: item.description,
                 description: item.symbol,
@@ -214,7 +214,7 @@ class _ActionConvert extends StatelessObserverWidget {
                   isSelected: currency.symbol == item.symbol,
                   icon: SNetworkSvg24(
                     url: item.iconUrl,
-                    color: _iconColor(item, context),
+                    //color: _iconColor(item, context),
                   ),
                   name: item.description,
                   description: item.symbol,
