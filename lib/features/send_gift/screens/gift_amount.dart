@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -75,11 +76,9 @@ class _GiftAmountState extends State<GiftAmount> {
               builder: (context) {
                 return SActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  price: volumeFormat(
+                  price: formatCurrencyStringAmount(
                     prefix: geftSendAmountStore.selectedCurrency.prefixSymbol,
-                    decimal: Decimal.tryParse(geftSendAmountStore.withAmount) ??
-                        Decimal.zero,
-                    accuracy: widget.sendGiftInfo.currency?.accuracy ?? 0,
+                    value: geftSendAmountStore.withAmount,
                     symbol: geftSendAmountStore.selectedCurrency.symbol,
                   ),
                   helper: '',
