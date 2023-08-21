@@ -37,7 +37,7 @@ class NetworkItem extends StatelessObserverWidget {
                 ),
                 child: SNetworkSvg24(
                   url: iconUrl,
-                  color: selected ? colors.blue : null,
+                  //color: selected ? colors.blue : null,
                 ),
               ),
               Expanded(
