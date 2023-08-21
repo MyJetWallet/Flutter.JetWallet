@@ -25,12 +25,6 @@ class HomeScreen extends StatefulObserverWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bool earnEnabled = sSignalRModules.earnProfile?.earnEnabled ?? false;
-  final bool hideAccount = sSignalRModules.currenciesList
-      .where(
-        (element) => element.supportsIbanDeposit,
-      )
-      .toList()
-      .isEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
       kycState.sellStatus,
       kycState.withdrawalStatus,
     );
+
+    final hideAccount = sSignalRModules.currenciesList
+        .where(
+          (element) => element.supportsIbanDeposit,
+        )
+        .toList()
+        .isEmpty;
 
     return Observer(
       builder: (context) {
