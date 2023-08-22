@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -202,13 +203,35 @@ String formatCurrencyStringAmount({
   required String value,
   required String symbol,
 }) {
-  return '$value $symbol';
-  return prefix == null
-      ? symbol == 'USD'
-          ? '\$$value'
-          : '$value $symbol'
-      : '$prefix$value';
+  final chars = value.split('');
+
+  final wholePart = StringBuffer();
+  final decimalPart = StringBuffer();
+
+  var beforeDecimal = true;
+
+  for (final char in chars) {
+    if (char == '.') {
+      beforeDecimal = false;
+      continue;
+    }
+    if (beforeDecimal) {
+      wholePart.write(char);
+    } else {
+      decimalPart.write(char);
+    }
+  }
+
+  final formatter = NumberFormat.decimalPattern();
+
+  final wholePart2 = int.parse(wholePart.toString());
+  final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
+
+  final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
+
+  return '$amountPart $symbol';
 }
+
 
 String convertToUsd(
   Decimal assetPriceInUsd,
