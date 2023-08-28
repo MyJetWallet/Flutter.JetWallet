@@ -36,6 +36,7 @@ const fireblocksMessages = 'fireblocks-messages';
 const operationHistoryMessages = 'operation-history';
 const globalSendMethods = 'global-send-methods';
 const incomingGiftsMessage = 'incoming-gifts';
+const rewardsProfileMessage = 'rewards-profile';
 
 // KeyValue
 const watchlistKey = 'watchlist';

@@ -29,6 +29,7 @@ import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart'
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
@@ -419,6 +420,19 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(incomingGiftsMessage, e);
+    }
+  }
+
+  void rewardsProfileHandler(List<Object?>? data) {
+    try {
+      log(_json(data).toString());
+      final rewardsModel = RewardsProfileModel.fromJson(_json(data));
+
+      sTransport.rewardsProfile(rewardsModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(rewardsProfileMessage, e);
     }
   }
 

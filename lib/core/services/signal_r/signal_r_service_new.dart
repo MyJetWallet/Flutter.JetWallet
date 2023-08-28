@@ -55,6 +55,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.d
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 
 import '../../../features/account/profile_details/store/change_base_asset_store.dart';
@@ -832,6 +833,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
         }
       }
     }
+  }
+
+  @observable
+  RewardsProfileModel? rewardsData;
+  @action
+  void rewardsProfileMethods(RewardsProfileModel data) {
+    rewardsData = data;
   }
 
   @observable

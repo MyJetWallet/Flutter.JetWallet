@@ -142,6 +142,7 @@ export 'modules/icons/20x20/public/withdrawal_fee/simple_withdrawal_fee_icon.dar
 export 'modules/icons/20x20/public/circle_minus/simple_circle_minus_icon.dart';
 export 'modules/icons/20x20/public/bank/simple_bank_icon.dart';
 export 'modules/icons/20x20/public/user/simple_user_icon.dart';
+export 'modules/icons/20x20/public/rewards/simple_reward_icon.dart';
 export 'modules/icons/24x24/public/about_us/simple_about_us_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_verify_icon.dart';
 export 'modules/icons/24x24/public/account_status/simple_account_waiting_icon.dart';
@@ -207,6 +208,7 @@ export 'modules/icons/24x24/public/lock/simple_lock_icon.dart';
 export 'modules/icons/24x24/public/log_out/simple_log_out_icon.dart';
 export 'modules/icons/24x24/public/mail/simple_mail_icon.dart';
 export 'modules/icons/24x24/public/mail/simple_mail_pressed_icon.dart';
+export 'modules/icons/24x24/public/mail/simple_mail2_icon.dart';
 export 'modules/icons/24x24/public/notifications/simple_notifications_icon.dart';
 export 'modules/icons/24x24/public/paste/simple_paste_icon.dart';
 export 'modules/icons/24x24/public/paste/simple_paste_pressed_icon.dart';

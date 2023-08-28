@@ -62,7 +62,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 4,
+                  width: (MediaQuery.of(context).size.width - 48) / 5,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(0),
                     child: Column(
@@ -88,7 +88,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 4,
+                  width: (MediaQuery.of(context).size.width - 48) / 5,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(1),
                     child: Column(
@@ -115,7 +115,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 if (!widget.hideAccount) ...[
                   const Spacer(),
                   SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 4,
+                    width: (MediaQuery.of(context).size.width - 48) / 5,
                     child: STransparentInkWell(
                       onTap: () => widget.onChanged(2),
                       child: Column(
@@ -145,7 +145,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width - 48) / 4,
+                        width: (MediaQuery.of(context).size.width - 48) / 5,
                         child: STransparentInkWell(
                           onTap: () => widget.onChanged(3),
                           child: Column(
@@ -182,13 +182,13 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 Stack(
                   children: [
                     SizedBox(
-                      width: (MediaQuery.of(context).size.width - 48) / 4,
+                      width: (MediaQuery.of(context).size.width - 48) / 5,
                       child: STransparentInkWell(
-                        onTap: () => widget.onChanged(3),
+                        onTap: () => widget.onChanged(4),
                         child: Column(
                           children: [
                             const SpaceH11(),
-                            if (widget.selectedIndex == 3)
+                            if (widget.selectedIndex == 4)
                               const SRewardIcon()
                             else
                               const SRewardIcon(),
@@ -197,7 +197,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                               style: sBodyText2Style.copyWith(
                                 fontWeight: FontWeight.w600,
                                 height: 1.38,
-                                color: widget.selectedIndex == 3
+                                color: widget.selectedIndex == 4
                                     ? SColorsLight().black
                                     : SColorsLight().grey3,
                               ),

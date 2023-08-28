@@ -76,7 +76,7 @@ class RewardShareCard extends StatelessWidget {
                     color: Colors.black,
                     shape: BoxShape.circle,
                   ),
-                  child: const SMailIcon(),
+                  child: const SMail2Icon(),
                 ),
                 const SpaceW24(),
                 Container(
