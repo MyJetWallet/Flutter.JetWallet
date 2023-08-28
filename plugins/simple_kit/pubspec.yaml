@@ -83,6 +83,7 @@ flutter:
     - assets/icons/light/24x24/eye_close/
     - assets/icons/light/24x24/eye_open/
     - assets/icons/light/24x24/gift/
+    - assets/icons/light/24x24/gift_send/
     - assets/icons/light/24x24/gift_portfolio/
     - assets/icons/light/24x24/info/
     - assets/icons/light/24x24/mail/

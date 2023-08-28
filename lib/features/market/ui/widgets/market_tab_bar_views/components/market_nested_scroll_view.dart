@@ -184,7 +184,7 @@ class __MarketNestedScrollViewBodyState
 
     return CustomRefreshIndicator(
       offsetToArmed: 75,
-      onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
+      onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
       builder: (
         BuildContext context,
         Widget child,

@@ -16,6 +16,7 @@ import 'package:jetwallet/features/auth/verification_reg/store/verification_stor
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
+import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 part 'logout_service.g.dart';
 
@@ -81,9 +82,7 @@ abstract class _LogoutServiceBase with Store {
 
       try {
         // Disconet from SignalR
-        if (getIt.get<SignalRService>().signalR != null) {
-          await getIt.get<SignalRService>().signalR!.disconnect('logout');
-        }
+        unawaited(getIt.get<SignalRService>().killSignalR());
       } catch (e) {
         _logger.log(
           level: Level.error,
@@ -123,7 +122,6 @@ abstract class _LogoutServiceBase with Store {
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
-      await getIt.get<SignalRService>().killSignalR();
 
       _logger.log(
         level: Level.debug,

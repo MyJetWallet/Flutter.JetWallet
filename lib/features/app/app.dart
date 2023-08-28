@@ -76,6 +76,7 @@ class _AppScreenState extends State<AppScreen> {
       supportedLocales: const [
         Locale('en'),
         Locale('pl'),
+        Locale('uk'),
         Locale('es'),
       ],
       localizationsDelegates: AppLocalizations.localizationsDelegates,

@@ -262,6 +262,7 @@ export 'modules/icons/56x56/public/profile/simple_profile_default_icon.dart';
 export 'modules/icons/custom/public/cards/simple_visa_card_icon.dart';
 export 'modules/icons/custom/public/cards/simple_mastercard_icon.dart';
 export 'modules/icons/custom/public/cards/simple_google_pay_icon.dart';
+export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 
 /// Keyboards
 export 'modules/keyboards/constants.dart';

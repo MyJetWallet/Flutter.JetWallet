@@ -69,6 +69,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),
+          maxLines: 10,
         ),
         const SpaceH60(),
         Center(

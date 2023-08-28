@@ -26,6 +26,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
     @PaymentTypeSerialiser() @JsonKey(name: 'id') required PaymentMethodType id,
+    final String? name,
     final PaymentMethodCategory? category,
     String? iconUrl,
     int? orderId,
