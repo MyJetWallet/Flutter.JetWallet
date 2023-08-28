@@ -16,6 +16,7 @@ const String hideZeroBalance = 'hideZeroBalance';
 const String installID = 'installID';
 const String globalSendConditions = 'globalSendConditions';
 const String isGiftPolicyAgreed = 'isGiftPolicyAgreed';
+const String isBiometricHided = 'isBiometricHided';
 
 const String remoteConfig = 'remoteConfigCache';
 
@@ -92,6 +93,16 @@ class LocalCacheService {
 
   Future<bool?> getGiftPolicyAgreed() async {
     return instance.getBool(isGiftPolicyAgreed);
+  }
+
+  ///
+
+  Future<void> saveBiometricHided(bool value) async {
+    await instance.setBool(isBiometricHided, value);
+  }
+
+  Future<bool?> getBiometricHided() async {
+    return instance.getBool(isBiometricHided);
   }
 
   ///

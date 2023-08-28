@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
@@ -169,7 +170,7 @@ abstract class _UserInfoServiceBase with Store {
   }
 
   @action
-  void updateCardRequested ({required bool newValue}) {
+  void updateCardRequested({required bool newValue}) {
     cardRequested = newValue;
   }
 
@@ -192,6 +193,8 @@ abstract class _UserInfoServiceBase with Store {
     } else {
       _updatePinDisabled(true);
     }
+
+    await initBiometricStatus();
   }
 
   @action
@@ -235,12 +238,13 @@ abstract class _UserInfoServiceBase with Store {
     _logger.log(notifier, 'initBiometricStatus');
     final bioStatusFromSetting = await biometricStatus();
 
-    if (bioStatusFromSetting == BiometricStatus.none) {
-      _updateBiometric(true);
+    final isBiometricHided =
+        await getIt<LocalCacheService>().getBiometricHided() ?? false;
+
+    if (bioStatusFromSetting == BiometricStatus.none || isBiometricHided) {
+      updateBiometric(hideBiometric: true);
     } else {
-      final bioStatus = await storage.getValue(useBioKey);
-      final hideBio = bioStatus != 'true';
-      _updateBiometric(hideBio);
+      updateBiometric(hideBiometric: false);
     }
   }
 
@@ -255,15 +259,9 @@ abstract class _UserInfoServiceBase with Store {
   }
 
   @action
-  void _updateBiometric(bool hideBio) {
-    biometricDisabled = hideBio;
-  }
-
-  @action
-  Future<void> disableBiometric() async {
-    biometricDisabled = true;
-
-    await storage.setString(useBioKey, false.toString());
+  void updateBiometric({required bool hideBiometric}) {
+    biometricDisabled = hideBiometric;
+    getIt<LocalCacheService>().saveBiometricHided(hideBiometric);
   }
 
   @action
