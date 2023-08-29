@@ -19,6 +19,7 @@ import 'package:jetwallet/features/currency_withdraw/model/withdrawal_model.dart
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
@@ -33,6 +34,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
@@ -165,6 +167,9 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   BlockchainModel blockchain = const BlockchainModel();
 
+  @observable
+  String limitError = '';
+
   /// Confirm
 
   @observable
@@ -270,6 +275,28 @@ abstract class _WithdrawalStoreBase with Store {
             : addressValidation is Valid
         : addressValidation is Valid;
   }
+
+  @computed
+  Decimal? get _minLimit =>
+      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+        (element) =>
+            element.network == network.id &&
+            element.symbol == withdrawalInputModel?.currency?.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).minAmount;
+
+  @computed
+  Decimal? get _maxLimit =>
+      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+        (element) =>
+            element.network == network.id &&
+            element.symbol == withdrawalInputModel?.currency?.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).maxAmount;
 
   ///
 
@@ -868,8 +895,33 @@ abstract class _WithdrawalStoreBase with Store {
       addressIsInternal: addressIsInternal,
     );
 
-    withAmmountInputError =
-        double.parse(withAmount) != 0 ? error : InputError.none;
+    final value = Decimal.parse(withAmount);
+
+    if (_minLimit != null && _minLimit! > value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: _minLimit!,
+        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+        symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        prefix: '',
+      )}';
+    } else if (_maxLimit != null && _maxLimit! < value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: _maxLimit!,
+        accuracy: withdrawalInputModel?.currency?.accuracy ?? 0,
+        symbol: withdrawalInputModel?.currency?.symbol ?? '',
+        prefix: '',
+      )}';
+    } else {
+      limitError = '';
+    }
+
+    withAmmountInputError = double.parse(withAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
 
     withValid = error == InputError.none ? isInputValid(withAmount) : false;
   }
@@ -891,7 +943,7 @@ abstract class _WithdrawalStoreBase with Store {
   ///
 
   @action
-  Future<void> withdraw({ required String newPin }) async {
+  Future<void> withdraw({required String newPin}) async {
     previewLoader.startLoadingImmediately();
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();
