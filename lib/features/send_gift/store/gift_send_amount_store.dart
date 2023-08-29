@@ -6,6 +6,7 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
+import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
@@ -39,6 +40,9 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @observable
   String withAmount = '0';
+
+  @computed
+  BaseCurrencyModel get baseCurrency => sSignalRModules.baseCurrency;
 
   @observable
   String baseConversionValue = '0';
