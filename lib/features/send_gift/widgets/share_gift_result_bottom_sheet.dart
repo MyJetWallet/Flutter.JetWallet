@@ -83,76 +83,78 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
     final cardMessage =
         '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
-    final _globalKey = GlobalKey();
+    final globalKey = GlobalKey();
 
     return SPaddingH24(
       child: Stack(
+        alignment: AlignmentDirectional.topCenter,
         children: [
           RepaintBoundary(
-            key: _globalKey,
+            key: globalKey,
             child: Container(
               width: 327,
               height: 240,
               decoration: BoxDecoration(
-                color: sKit.colors.grey5,
-                borderRadius: BorderRadius.circular(24),
+                color: sKit.colors.white,
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: 327,
-                      height: 240,
+              child: Stack(
+                children: [
+                  Container(
+                    width: 327,
+                    height: 240,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: sKit.colors.grey5,
+                    ),
+                    child: Image.asset(
+                      shareGiftBackgroundAsset,
+                      fit: BoxFit.fitWidth,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Row(
+                        children: [
+                          SNetworkSvg24(
+                            url: currency.iconUrl,
+                          ),
+                          const SpaceW4(),
+                          Text(
+                            volumeFormat(
+                              prefix: currency.prefixSymbol,
+                              decimal: amount,
+                              accuracy: currency.accuracy,
+                              symbol: currency.symbol,
+                            ),
+                            style: sTextH4Style.copyWith(
+                              color: sColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                       child: Image.asset(
-                        shareGiftBackgroundAsset,
-                        fit: BoxFit.fitWidth,
+                        logoWithTitle,
+                        fit: BoxFit.contain,
                         alignment: Alignment.topCenter,
+                        width: 104,
+                        height: 32,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Row(
-                          children: [
-                            SNetworkSvg24(
-                              url: currency.iconUrl,
-                            ),
-                            const SpaceW4(),
-                            Text(
-                              volumeFormat(
-                                prefix: currency.prefixSymbol,
-                                decimal: amount,
-                                accuracy: currency.accuracy,
-                                symbol: currency.symbol,
-                              ),
-                              style: sTextH4Style.copyWith(
-                                color: sColors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 16,
-                        ),
-                        child: Image.asset(
-                          logoWithTitle,
-                          fit: BoxFit.contain,
-                          alignment: Alignment.topCenter,
-                          width: 104,
-                          height: 32,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -327,7 +329,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
 
                         sAnalytics.tapOnTheButtonShareOnShareSheet();
 
-                        final boundary = _globalKey.currentContext!
+                        final boundary = globalKey.currentContext!
                             .findRenderObject()! as RenderRepaintBoundary;
 
                         final image = await boundary.toImage(pixelRatio: 3.0);
@@ -344,7 +346,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                                 byteData.offsetInBytes,
                                 byteData.lengthInBytes,
                               ),
-                              name: 'share_gift_background.png',
+                              name: 'share_gift.png',
                               mimeType: 'image/png',
                             ),
                           ],
