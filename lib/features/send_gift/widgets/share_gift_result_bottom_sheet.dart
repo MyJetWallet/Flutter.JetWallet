@@ -325,8 +325,6 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: SIconButton(
                       onTap: () async {
-                        Navigator.pop(context);
-
                         sAnalytics.tapOnTheButtonShareOnShareSheet();
 
                         final boundary = globalKey.currentContext!
