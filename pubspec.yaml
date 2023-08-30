@@ -71,7 +71,7 @@ dependencies:
   # Docs: https://plus.fluttercommunity.dev/docs/overview
   android_intent_plus: 3.1.5 # plugin for launching Android Intents
   package_info_plus: 4.0.0 # querying information about the application package NEED UPDATE
-  share_plus: 7.1.0 # sharing content via the platform share UI NEED UPDATE
+  share_plus: 7.1.0 # sharing content via the platform share UI
   device_info_plus: 9.0.0 # providing detailed information about the device
   connectivity_plus: ^2.3.5 # plugin allows Flutter apps to discover network connectivity
   device_marketing_names: 0.6.4

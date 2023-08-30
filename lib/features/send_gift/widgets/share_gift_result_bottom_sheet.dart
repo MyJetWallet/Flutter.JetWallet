@@ -83,14 +83,16 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
     final cardMessage =
         '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
-    final globalKey = GlobalKey();
+    final widgetForImageKey = GlobalKey();
 
     return SPaddingH24(
       child: Stack(
         alignment: AlignmentDirectional.topCenter,
         children: [
+          // this widget is hidden from the user, 
+          // but it is needed to make a share with a picture
           RepaintBoundary(
-            key: globalKey,
+            key: widgetForImageKey,
             child: Container(
               width: 327,
               height: 240,
@@ -327,7 +329,7 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       onTap: () async {
                         sAnalytics.tapOnTheButtonShareOnShareSheet();
 
-                        final boundary = globalKey.currentContext!
+                        final boundary = widgetForImageKey.currentContext!
                             .findRenderObject()! as RenderRepaintBoundary;
 
                         final image = await boundary.toImage(pixelRatio: 3.0);
