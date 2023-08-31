@@ -105,7 +105,6 @@ import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
-import '../models/send_gift/send_gift_by_email_request_model.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/simple_kit.dart';
 import '../../light/complete/simple_light_complete_done_icon.dart';
 

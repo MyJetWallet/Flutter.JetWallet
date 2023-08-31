@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/shared/simple_get_widget_size.dart';
-import 'package:simple_kit/modules/shared/simple_widget_bottom_size.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'bottom_sheet_bar.dart';

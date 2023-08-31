@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class PortfolioNftEmptyItem extends StatelessWidget {

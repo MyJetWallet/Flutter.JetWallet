@@ -9,7 +9,6 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';

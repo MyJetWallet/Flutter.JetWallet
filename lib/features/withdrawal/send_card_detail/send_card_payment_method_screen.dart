@@ -8,7 +8,6 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_m
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SendCardPaymentMethodRouter')
