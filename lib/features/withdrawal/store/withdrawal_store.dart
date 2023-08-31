@@ -59,7 +59,7 @@ abstract class _WithdrawalStoreBase with Store {
   WithdrawStep withdrawStep = WithdrawStep.Address;
   @observable
   PageController withdrawStepController = PageController(
-    initialPage: 0,
+    
   );
 
   @observable

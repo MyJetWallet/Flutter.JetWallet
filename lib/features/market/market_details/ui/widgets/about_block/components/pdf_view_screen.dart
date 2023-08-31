@@ -55,11 +55,6 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
           return snapshot.hasData
               ? PDFView(
                   pdfData: snapshot.data,
-                  autoSpacing: true,
-                  enableSwipe: true,
-                  pageSnap: true,
-                  swipeHorizontal: false,
-                  nightMode: false,
                   onPageChanged: (int? page, int? total) {},
                 )
               : const Center(child: CircularProgressIndicator());

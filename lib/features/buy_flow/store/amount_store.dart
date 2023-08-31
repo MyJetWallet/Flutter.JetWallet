@@ -123,7 +123,6 @@ abstract class _BuyAmountStoreBase with Store {
         if ((inputCard != null && inputCard.showUaAlert) || showUaAlert) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
-            willPopScope: true,
             primaryText: intl.currencyBuy_alert,
             secondaryText: intl.currencyBuy_alertDescription,
             primaryButtonName: intl.actionBuy_gotIt,

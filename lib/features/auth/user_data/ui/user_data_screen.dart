@@ -143,7 +143,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         labelText: intl.user_data_date_of_birth,
-                        hideClearButton: false,
                         readOnly: true,
                         onTap: () {
                           FocusScope.of(context).unfocus();

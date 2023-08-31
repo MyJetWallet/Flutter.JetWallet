@@ -223,7 +223,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                         ),
                         const SpaceH8(),
                         RichText(
-                          textAlign: TextAlign.start,
                           text: TextSpan(
                             text:
                                 intl.buy_confirmation_privacy_p2p_checkbox_1_5,
@@ -265,17 +264,14 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                               secondaryText:
                                   intl.buy_confirmation_privacy_p2p_popup,
                               primaryButtonName: intl.global_send_got_it,
-                              barrierDismissible: true,
                               image: Image.asset(
                                 infoLightAsset,
                                 height: 80,
                                 width: 80,
                                 package: 'simple_kit',
                               ),
-                              primaryButtonType: SButtonType.primary1,
                               onPrimaryButtonTap: () =>
                                   {Navigator.pop(context)},
-                              isNeedCancelButton: false,
                               cancelText: intl.profileDetails_cancel,
                               onCancelButtonTap: () => {Navigator.pop(context)},
                             );

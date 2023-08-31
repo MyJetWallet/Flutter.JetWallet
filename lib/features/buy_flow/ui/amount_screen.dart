@@ -246,7 +246,6 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SpaceW19(),
                           SNetworkCachedSvg(

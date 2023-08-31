@@ -25,7 +25,6 @@ void showCryptoFilterModalSheet(
   sShowBasicModalBottomSheet(
     onDissmis: () {},
     context: context,
-    scrollable: false,
     horizontalPinnedPadding: 0.0,
     pinned: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),

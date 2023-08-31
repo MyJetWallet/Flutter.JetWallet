@@ -286,7 +286,6 @@ class _WalletBodyState extends State<WalletBody>
                                   ),
                                   from: BlockingType.trade,
                                 ),
-                                navigatePop: false,
                                 requiredDocuments: kycState.requiredDocuments,
                                 requiredVerifications:
                                     kycState.requiredVerifications,

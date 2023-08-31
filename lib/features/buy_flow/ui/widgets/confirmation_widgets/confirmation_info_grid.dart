@@ -109,7 +109,6 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                   ),
                 ] else ...[
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SpaceW19(),

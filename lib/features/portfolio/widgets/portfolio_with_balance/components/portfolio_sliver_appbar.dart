@@ -232,7 +232,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           context,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -260,7 +259,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           isNotEmptyBalance: isNotEmptyBalance,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -286,7 +284,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                         or: () => sRouter.push(ConvertRouter()),
                         from: BlockingType.trade,
                       ),
-                      navigatePop: false,
                       requiredDocuments: kycState.requiredDocuments,
                       requiredVerifications: kycState.requiredVerifications,
                     );

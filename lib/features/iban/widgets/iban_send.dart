@@ -145,7 +145,6 @@ class IbanSend extends StatelessObserverWidget {
                   amount: '',
                   helper: store.contacts[index].iban ?? '',
                   description: '',
-                  removeDivider: true,
                   needSpacer: true,
                   onTap: () {
                     getIt<AppRouter>()
@@ -174,7 +173,6 @@ class IbanSend extends StatelessObserverWidget {
               amount: '',
               helper: intl.iban_local_euro_accounts_only,
               description: '',
-              removeDivider: true,
               onTap: () {
                 sRouter.push(IbanAddBankAccountRouter()).then(
                       (value) => store.getAddressBook(),

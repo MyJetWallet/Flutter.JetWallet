@@ -617,7 +617,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             currencyPayment:
                                 state.paymentCurrency ?? widget.currency,
                             quickAmount: state.tappedPreset ?? 'false',
-                            isApplePay: false,
                           ),
                         ),
                       );
@@ -632,7 +631,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             currencyPayment:
                                 state.paymentCurrency ?? widget.currency,
                             quickAmount: state.tappedPreset ?? 'false',
-                            isApplePay: false,
                           ),
                         ),
                       );

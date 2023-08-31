@@ -93,7 +93,6 @@ class _SingInBody extends StatelessObserverWidget {
             loading: signInStore.loader,
             header: SAuthHeader(
               title: intl.register_enterYourEmail,
-              showSupportButton: false,
             ),
             child: CustomScrollView(
               physics: const ClampingScrollPhysics(),

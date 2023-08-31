@@ -134,16 +134,13 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                         primaryText: '',
                         secondaryText: intl.global_send_popup_details,
                         primaryButtonName: intl.global_send_got_it,
-                        barrierDismissible: true,
                         image: Image.asset(
                           infoLightAsset,
                           height: 80,
                           width: 80,
                           package: 'simple_kit',
                         ),
-                        primaryButtonType: SButtonType.primary1,
                         onPrimaryButtonTap: () => {Navigator.pop(context)},
-                        isNeedCancelButton: false,
                         cancelText: intl.profileDetails_cancel,
                         onCancelButtonTap: () => {Navigator.pop(context)},
                       );

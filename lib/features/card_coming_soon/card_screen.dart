@@ -322,7 +322,6 @@ class _CardScreenBodyState extends State<CardScreen> {
                   emissionFrequency: 0.01,
                   numberOfParticles: 100,
                   gravity: 0.01,
-                  shouldLoop: false,
                   colors: [
                     colors.confetti1,
                     colors.confetti2,

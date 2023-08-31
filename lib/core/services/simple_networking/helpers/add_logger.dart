@@ -6,7 +6,6 @@ void addLogger(Dio dio) {
     //PrettyDioLogger(
     SimpleHTTPLogger(
       requestBody: true,
-      requestHeader: false,
     ),
   );
 }

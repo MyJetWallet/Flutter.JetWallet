@@ -105,7 +105,6 @@ Future<void> _showSendAction(BuildContext context) async {
         description: '',
         name: intl.sendOptions_to_crypto_wallet,
         helper: intl.withdrawOptions_actionItemNameDescr,
-        removeDivider: true,
       ),
       if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
         SCardRow(
@@ -119,7 +118,6 @@ Future<void> _showSendAction(BuildContext context) async {
           description: '',
           name: intl.global_send_name,
           helper: intl.global_send_helper,
-          removeDivider: true,
         ),
       if (isIbanOutActive.isNotEmpty)
         SCardRow(
@@ -156,7 +154,6 @@ Future<void> _showSendAction(BuildContext context) async {
           description: '',
           name: intl.sendOptions_to_bank_account,
           helper: intl.iban_send_helper,
-          removeDivider: true,
         ),
       if (isGiftSendActive.isNotEmpty)
         SCardRow(

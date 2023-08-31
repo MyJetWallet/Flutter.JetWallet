@@ -123,7 +123,6 @@ class TransactionListItem extends StatelessObserverWidget {
                       nftTypes.contains(transactionListItem.operationType)
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
-                              prefix: null,
                               decimal: (transactionListItem.operationType ==
                                           OperationType.withdraw ||
                                       transactionListItem.operationType ==

@@ -172,7 +172,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                 helper:
                                     state.addressBookContacts[index].iban ?? '',
                                 description: '',
-                                removeDivider: true,
                                 needSpacer: true,
                                 onTap: () {
                                   getIt<AppRouter>()

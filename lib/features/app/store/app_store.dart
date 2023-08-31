@@ -196,7 +196,6 @@ abstract class _AppStoreBase with Store {
                     args: PhoneVerificationArgs(
                       phoneNumber: sUserInfo.phone,
                       activeDialCode: phoneNumber,
-                      sendCodeOnInitState: true,
                       onVerified: () {
                         userInfoN.updatePhoneVerified(
                           phoneVerifiedValue: true,

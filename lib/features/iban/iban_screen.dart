@@ -126,7 +126,6 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   onButtonTap: () {
                     sShowAlertPopup(
                       context,
-                      willPopScope: true,
                       primaryText: intl.iban_hold_on,
                       secondaryText: isKyc
                           ? intl.iban_please_verify

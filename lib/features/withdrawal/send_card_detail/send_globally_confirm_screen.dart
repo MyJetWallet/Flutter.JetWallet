@@ -105,7 +105,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(
                             width: 16,

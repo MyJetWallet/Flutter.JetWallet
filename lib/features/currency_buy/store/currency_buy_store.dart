@@ -99,7 +99,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             showUaAlert!) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
-            willPopScope: true,
             primaryText: intl.currencyBuy_alert,
             secondaryText: intl.currencyBuy_alertDescription,
             primaryButtonName: intl.actionBuy_gotIt,

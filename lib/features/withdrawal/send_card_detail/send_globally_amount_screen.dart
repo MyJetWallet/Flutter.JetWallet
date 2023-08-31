@@ -142,7 +142,6 @@ class _SendGloballyAmountScreenBodyState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SpaceW19(), // 1 px border
                         if (store.cardNetwork !=

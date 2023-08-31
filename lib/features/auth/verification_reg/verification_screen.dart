@@ -144,7 +144,6 @@ class VerificationScreen extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
@@ -184,7 +183,6 @@ class VerificationScreen extends StatelessObserverWidget {
         const SpaceW14(),
         if (haveSubText || haveLink) ...[
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
