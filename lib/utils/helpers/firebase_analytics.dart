@@ -1,5 +1,4 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:jetwallet/core/services/device_info/models/device_info_model.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 
 Future<void> checkInitAppFBAnalytics(

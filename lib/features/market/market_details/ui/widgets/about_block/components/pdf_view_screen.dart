@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:universal_io/io.dart';
 
 @RoutePage(name: 'PDFViewScreenRouter')
 class PDFViewScreen extends StatefulWidget {

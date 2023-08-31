@@ -27,8 +27,6 @@ import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dar
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/show_start_earn_options.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';

@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/bank_card/store/bank_card_store.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_cardnumber.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_date_label.dart';
 import 'package:jetwallet/features/bank_card/widgets/bank_card_holdername.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/buttons/basic_buttons/text_button/light/simple_light_text_button_1.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 

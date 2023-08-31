@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:state_notifier/state_notifier.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../simple_kit.dart';

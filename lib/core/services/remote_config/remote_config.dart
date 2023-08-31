@@ -3,18 +3,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/apps_flyer_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 import 'package:simple_networking/simple_networking.dart';

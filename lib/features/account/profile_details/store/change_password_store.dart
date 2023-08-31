@@ -5,7 +5,6 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/auth_api/models/change_password/change_password_request_model.dart';
 
 part 'change_password_store.g.dart';

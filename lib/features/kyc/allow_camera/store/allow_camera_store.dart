@@ -6,7 +6,6 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 part 'allow_camera_store.g.dart';
 
 enum CameraStatus { denied, undefined }

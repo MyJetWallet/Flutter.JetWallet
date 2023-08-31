@@ -1,7 +1,6 @@
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import 'error_codes_description.dart';
-import 'timespan_to_duration.dart';
 
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type

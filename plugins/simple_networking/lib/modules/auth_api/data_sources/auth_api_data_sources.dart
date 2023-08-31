@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:data_channel/data_channel.dart';
 import 'package:simple_networking/api_client/api_client.dart';
@@ -24,7 +23,6 @@ import 'package:simple_networking/modules/auth_api/models/register_request_model
 import 'package:simple_networking/modules/auth_api/models/reset_pin/reset_pin_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/reset_pin/reset_pin_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/server_time/server_time_response_model.dart';
-import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
 import 'package:simple_networking/modules/auth_api/models/setup_pin/setup_pin_request_model.dart';
 import 'package:simple_networking/modules/auth_api/models/setup_pin/setup_pin_response_model.dart';

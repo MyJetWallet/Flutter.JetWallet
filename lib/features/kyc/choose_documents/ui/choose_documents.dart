@@ -10,7 +10,6 @@ import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/kyc_country.d
 import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/show_kyc_country_picker.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'ChooseDocumentsRouter')

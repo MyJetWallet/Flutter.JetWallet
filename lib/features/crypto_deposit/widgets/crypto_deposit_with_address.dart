@@ -3,14 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/crypto_deposit/model/crypto_deposit_union.dart';
 import 'package:jetwallet/features/crypto_deposit/store/crypto_deposit_store.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../core/services/device_size/device_size.dart';
 import '../../../core/services/notification_service.dart';
-import '../../../utils/helpers/widget_size_from.dart';
 
 // Header, ShareButton bar, DepositInfo, NetworkSelector
 const screenWidgets = 120 + 122 + 88 + 68;

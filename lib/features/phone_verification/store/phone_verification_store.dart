@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';

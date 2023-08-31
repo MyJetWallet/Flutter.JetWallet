@@ -3,11 +3,9 @@ import 'dart:isolate';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/features/app/app.dart';
 import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
-import 'package:mobx/mobx.dart';
 
 Future<void> main() async {
   await appInitialization('dev');

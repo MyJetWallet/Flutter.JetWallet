@@ -8,14 +8,10 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_in
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_asset_store.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
-import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'PreviewBuyWithAssetRouter')

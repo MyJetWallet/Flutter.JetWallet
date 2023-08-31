@@ -6,7 +6,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
-import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 @RoutePage(name: 'SignalrDebugInfoRouter')
 class SignalrDebugInfo extends StatelessWidget {

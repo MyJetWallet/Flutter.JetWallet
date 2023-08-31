@@ -4,13 +4,11 @@ import 'dart:async';
 //import 'package:signalr_netcore/signalr_client.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart' as lg;
-import 'package:logging/logging.dart' as logg;
 
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/helpers/device_type.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
-import 'package:simple_networking/helpers/retry_operation.dart';
 
 import 'package:simple_networking/modules/signal_r/signal_r_func_handler.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';

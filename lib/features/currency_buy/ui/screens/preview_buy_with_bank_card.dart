@@ -1,9 +1,6 @@
-import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
-import 'package:jetwallet/features/currency_buy/models/google_pay_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -15,7 +12,6 @@ import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card
 import 'package:jetwallet/features/currency_buy/ui/widgets/transaction_fee_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';

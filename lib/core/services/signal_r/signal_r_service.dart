@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:get_it/get_it.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -16,7 +14,6 @@ import 'package:jetwallet/utils/helpers/get_user_agent.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
-import 'package:simple_networking/simple_networking.dart';
 import 'package:logger/logger.dart';
 
 const String signalRSingletinName = 'SignalRModuleNew';

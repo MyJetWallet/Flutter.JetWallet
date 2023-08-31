@@ -8,7 +8,6 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../core/services/logger_service/logger_service.dart';
 import '../../core/services/logs/helpers/beatify_logs_for_support.dart';
 import '../../core/services/logs/helpers/make_log_pretty.dart';
-import '../../core/services/logs/log_record_service.dart';
 
 @RoutePage(name: 'LogsRouter')
 class LogsScreen extends StatelessObserverWidget {

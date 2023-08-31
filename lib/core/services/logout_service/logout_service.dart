@@ -16,7 +16,6 @@ import 'package:jetwallet/features/auth/verification_reg/store/verification_stor
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
-import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 part 'logout_service.g.dart';
 

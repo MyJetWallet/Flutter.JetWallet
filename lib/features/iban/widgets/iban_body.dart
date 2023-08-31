@@ -6,10 +6,6 @@ import 'package:jetwallet/features/iban/widgets/iban_send.dart';
 import 'package:simple_kit/core/simple_kit.dart';
 
 import '../../../core/di/di.dart';
-import '../../../core/l10n/i10n.dart';
-import '../../../utils/constants.dart';
-import '../../kyc/kyc_service.dart';
-import 'iban_item.dart';
 
 class IBanBody extends StatefulObserverWidget {
   const IBanBody({

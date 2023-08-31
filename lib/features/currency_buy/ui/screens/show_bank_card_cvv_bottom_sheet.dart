@@ -7,7 +7,6 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_car
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showBankCardCvvBottomSheet({

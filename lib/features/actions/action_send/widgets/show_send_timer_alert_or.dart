@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/helpers/timespan_to_duration.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 Duration getDurationFromBlocker(String timespanToExpire) {

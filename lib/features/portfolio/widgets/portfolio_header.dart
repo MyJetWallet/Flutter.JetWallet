@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -10,15 +9,11 @@ import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/referral_program_gift/service/referral_gift_service.dart';
-import 'package:jetwallet/features/rewards/model/campaign_or_referral_model.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../utils/formatting/base/base_currencies_format.dart';
-import '../../../utils/models/base_currency_model/base_currency_model.dart';
 
 class PortfolioHeader extends StatelessObserverWidget {
   const PortfolioHeader({

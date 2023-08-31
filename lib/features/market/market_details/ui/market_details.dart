@@ -31,7 +31,6 @@ import 'package:simple_networking/modules/wallet_api/models/market_info/market_i
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
-import '../helper/swap_words.dart';
 
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
