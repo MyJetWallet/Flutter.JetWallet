@@ -147,7 +147,7 @@ class _CryptoDepositWithAddressAndTagState
                     );
                   }
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: colors.grey5,
@@ -185,7 +185,7 @@ class _CryptoDepositWithAddressAndTagState
               if (currentPage == 0)
                 Positioned(
                   left: 0,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: colors.black,
@@ -208,7 +208,7 @@ class _CryptoDepositWithAddressAndTagState
               else
                 Positioned(
                   right: 0,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: colors.black,
