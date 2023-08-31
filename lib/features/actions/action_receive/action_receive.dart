@@ -207,7 +207,7 @@ class _ActionReceive extends StatelessObserverWidget {
                     padding: const EdgeInsets.symmetric(vertical: 9),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: (MediaQuery.of(context).size.width - 48) / 2,
                           child: Center(
                             child: Text(
@@ -219,7 +219,7 @@ class _ActionReceive extends StatelessObserverWidget {
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: (MediaQuery.of(context).size.width - 48) / 2,
                           child: Center(
                             child: Text(
