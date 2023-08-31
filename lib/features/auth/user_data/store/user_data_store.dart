@@ -82,7 +82,6 @@ abstract class _UserDataStoreBase with Store {
     firstNameError = true;
 
     firstNameError =
-        // ignore: avoid_bool_literals_in_conditional_expressions
         nameRegEx.hasMatch(firstName) || firstName.isEmpty ? false : true;
     updateButtonActivity();
   }

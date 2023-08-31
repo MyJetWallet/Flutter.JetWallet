@@ -38,6 +38,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
         }
       }
     });
+    super.initState();
   }
 
   @override
