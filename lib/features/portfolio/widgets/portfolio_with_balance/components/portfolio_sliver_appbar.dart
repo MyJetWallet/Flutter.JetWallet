@@ -77,16 +77,16 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
       expendPercentage,
     );
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowSend = sSignalRModules.currenciesList
+    final isShowSend = sSignalRModules.currenciesList
         .where(
           (element) =>
               element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
         )
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 

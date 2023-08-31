@@ -82,7 +82,7 @@ class _AccountSecurityState extends State<AccountSecurity> {
                     BiometricStatus.none.toString()) {
                   unawaited(
                     getIt.get<AppRouter>().push(
-                          AllowBiometricRoute(),
+                          const AllowBiometricRoute(),
                         ),
                   );
                 } else {

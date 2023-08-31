@@ -41,10 +41,10 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     assert(_debugAssertIsValid());
-    final double usableCrossAxisExtent =
+    final usableCrossAxisExtent =
         constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
-    final double childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
-    final double childMainAxisExtent = height;
+    final childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
+    final childMainAxisExtent = height;
     return SliverGridRegularTileLayout(
       crossAxisCount: crossAxisCount,
       mainAxisStride: childMainAxisExtent + mainAxisSpacing,

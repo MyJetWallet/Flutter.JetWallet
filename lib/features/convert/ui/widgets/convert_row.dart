@@ -41,7 +41,7 @@ class ConvertRow extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CurrencyModel swipeCurrency = currencyFrom(
+    final swipeCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       currency.symbol,
     );

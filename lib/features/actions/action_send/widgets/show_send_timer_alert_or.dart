@@ -8,7 +8,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 Duration getDurationFromBlocker(String timespanToExpire) {
   var hours = 0;
   var minutes = 0;
-  final seconds = 0;
+  const seconds = 0;
 
   final times = timespanToExpire.split(':');
 
@@ -22,7 +22,7 @@ Duration getDurationFromBlocker(String timespanToExpire) {
     //seconds = int.tryParse(times[2]) ?? 0;
   }
 
-  return Duration(hours: hours, minutes: minutes, seconds: seconds);
+  return Duration(hours: hours, minutes: minutes);
 }
 
 void showSendTimerAlertOr({

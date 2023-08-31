@@ -48,10 +48,10 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
     final baseCurrency = sSignalRModules.baseCurrency;
     final deviceSize = sDeviceSize;
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 

@@ -15,8 +15,6 @@ part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
-  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyModelFromJson(json);
 
   const factory CurrencyModel({
     String? prefixSymbol,
@@ -62,6 +60,8 @@ class CurrencyModel with _$CurrencyModel {
     required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyModelFromJson(json);
 
   const CurrencyModel._();
 

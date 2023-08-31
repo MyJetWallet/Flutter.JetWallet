@@ -9,7 +9,7 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:jetwallet/utils/helpers/device_helper.dart';
 
 Future<String> getUserAgent() async {
-  String lang = 'en';
+  var lang = 'en';
 
   if (getIt.isRegistered<AppLocalizations>()) {
     lang = intl.localeName;

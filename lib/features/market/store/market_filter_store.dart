@@ -108,7 +108,7 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<MarketItemModel> get watchListFiltred {
-    List<MarketItemModel> output = [];
+    final output = <MarketItemModel>[];
 
     for (var i = 0; i < watchListLocal.length; i++) {
       final obj = cryptoListFiltred

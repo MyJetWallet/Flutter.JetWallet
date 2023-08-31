@@ -319,7 +319,7 @@ class __MarketNestedScrollViewBodyState
             items: store.cryptoFiltred,
             areItemsTheSame: (a, b) => a == b,
             itemBuilder: (context, animation, item, _) {
-              final bool isInWatchlist = false;
+              const isInWatchlist = false;
 
               return SizeFadeTransition(
                 sizeFraction: 0.7,
@@ -330,7 +330,6 @@ class __MarketNestedScrollViewBodyState
                     item.associateAsset,
                   ),
                   showFavoriteIcon: true,
-                  isStarActive: isInWatchlist,
                   onStarButtonTap: () {
                     HapticFeedback.lightImpact();
 

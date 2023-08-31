@@ -49,7 +49,7 @@ Future<void> setProxy(Dio dio, String? proxyName, String? proxyPort) async {
     return null;
   };
 
-  final HttpProxy httpProxy = await HttpProxy.createHttpProxy();
+  final httpProxy = await HttpProxy.createHttpProxy();
   httpProxy.host = proxyName;
   httpProxy.port = proxyPort;
   HttpOverrides.global = httpProxy;
