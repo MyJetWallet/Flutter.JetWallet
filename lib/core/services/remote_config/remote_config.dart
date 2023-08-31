@@ -228,7 +228,6 @@ class RemoteConfig {
     countryCode = remoteConfig!.merchantPay.countryCode ?? '';
   }
 
-  @override
   void dispose() {
     _timer?.cancel();
     _durationTimer.cancel();
