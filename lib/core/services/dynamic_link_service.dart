@@ -35,7 +35,7 @@ class DynamicLinkService {
         getIt.get<SimpleLoggerService>().log(
               level: Level.error,
               place: 'DynamicLinkService',
-              message: 'Dynamic Link Failed ${error}',
+              message: 'Dynamic Link Failed $error',
             );
       },
     );

@@ -90,7 +90,7 @@ class PushNotificationService {
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
           place: _loggerService,
-          message: 'onMessageOpenedApp: notification: ${message}',
+          message: 'onMessageOpenedApp: notification: $message',
         );
 
     if (_nullChecked(message)) {
