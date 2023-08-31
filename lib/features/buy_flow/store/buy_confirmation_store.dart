@@ -215,7 +215,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
       destinationAmount: '$buyAmount',
       quickAmount: preset,
     );
@@ -226,7 +226,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
 
@@ -318,7 +318,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     if (sRouter.currentPath != '/buy_flow_confirmation') {
@@ -418,7 +418,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     unawaited(_setIsChecked());
@@ -497,7 +497,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
           if (sRouter.currentPath != '/buy_flow_confirmation') {
@@ -526,7 +526,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 loader.startLoadingImmediately();
@@ -540,7 +540,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 if (payment != null) {
@@ -600,7 +600,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethodType: category.name,
         paymentMethodName:
             category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+        paymentMethodCurrency: depositFeeCurrency.symbol,
       );
 
       loader.startLoadingImmediately();
@@ -629,7 +629,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
           sRouter.push(
@@ -656,7 +656,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
         },
         '',
@@ -748,7 +748,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 if (payment != null) {
@@ -782,7 +782,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     return sRouter
@@ -896,7 +896,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
 

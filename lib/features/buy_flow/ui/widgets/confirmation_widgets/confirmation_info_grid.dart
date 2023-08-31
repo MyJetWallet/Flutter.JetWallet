@@ -190,7 +190,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                 )} = ${volumeFormat(
                   prefix: widget.paymentCurrency.prefixSymbol,
                   accuracy: widget.paymentCurrency.accuracy,
-                  decimal: store.price ?? Decimal.zero,
+                  decimal: store.price,
                   symbol: widget.paymentCurrency.symbol,
                 )}',
                 style: sSubtitle3Style,

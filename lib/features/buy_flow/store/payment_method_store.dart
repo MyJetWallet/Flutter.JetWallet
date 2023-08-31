@@ -116,7 +116,7 @@ abstract class _PaymentMethodStoreBase with Store {
       final localLM = await storage.getValue(localLastMethodId);
       if (localLM != null) {
         final localIndex = localMethods.indexWhere(
-          (element) => element.id.toString() == (localLM ?? ''),
+          (element) => element.id.toString() == localLM,
         );
 
         if (localIndex != -1) {
@@ -130,7 +130,7 @@ abstract class _PaymentMethodStoreBase with Store {
       final p2pLM = await storage.getValue(p2pLastMethodId);
       if (p2pLM != null) {
         final localIndex = p2pMethods.indexWhere(
-          (element) => element.id.toString() == (p2pLM ?? ''),
+          (element) => element.id.toString() == p2pLM,
         );
 
         if (localIndex != -1) {
@@ -178,20 +178,20 @@ abstract class _PaymentMethodStoreBase with Store {
           .where((element) => element.cardLabel?.contains(value) ?? false)
           .toList();
       final localF = localMethodsFilted
-          .where((element) => element.id.name.contains(value) ?? false)
+          .where((element) => element.id.name.contains(value))
           .toList();
       final p2pF = p2pMethodsFiltred
-          .where((element) => element.id.name.contains(value) ?? false)
+          .where((element) => element.id.name.contains(value))
           .toList();
 
       searchList.addAll(cardF
           .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
           .toList());
       searchList.addAll(localF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
+          .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
           .toList());
       searchList.addAll(p2pF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
+          .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
           .toList());
 
       searchList.sort((a, b) => a.name.compareTo(b.name));

@@ -28,7 +28,7 @@ Future<PhoneNumberModel> decomposePhoneNumber(
   );
   final info = await PhoneNumber.getRegionInfoFromPhoneNumber(
       number,
-      isoCodeNumber ?? '',
+      isoCodeNumber,
   );
   getIt.get<SimpleLoggerService>().log(
     level: Level.info,

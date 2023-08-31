@@ -78,9 +78,9 @@ class DeviceInfo {
       }
       deviceUid = iosId ?? '';
       osName = 'iOS';
-      version = iosInfo.systemVersion ?? '';
-      manufacturer = iosInfo.name ?? '';
-      model = iosInfo.utsname.machine ?? '';
+      version = iosInfo.systemVersion;
+      manufacturer = iosInfo.name;
+      model = iosInfo.utsname.machine;
       marketingName = deviceMarketingName;
     }
 

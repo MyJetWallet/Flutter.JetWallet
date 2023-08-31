@@ -78,7 +78,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text: transactionListItem.operationId ?? '',
+                        text: transactionListItem.operationId,
                       ),
                     );
 

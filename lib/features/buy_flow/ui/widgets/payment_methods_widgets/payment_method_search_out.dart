@@ -67,7 +67,7 @@ class PaymentMethodSearchOut extends StatelessWidget {
             return PaymentMethodCard.card(
               name: e.method?.name ??
                   capitalizeText(
-                    e.method!.id.name ?? '  ',
+                    e.method!.id.name,
                   ),
               url: iconForPaymentMethod(
                 methodId: e.method!.id.name,

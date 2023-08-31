@@ -128,7 +128,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                     ),
                     if (realValue != null)
                       Text(
-                        realValue ?? '',
+                        realValue,
                         style: sBodyText1Style.copyWith(
                           color: SColorsLight().green,
                           fontWeight: FontWeight.bold,

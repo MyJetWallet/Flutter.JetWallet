@@ -131,7 +131,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if ((transactionListItem.cryptoBuyInfo!.cardLast4 ?? '').isNotEmpty &&
+          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty &&
               transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             TransactionDetailsItem(

@@ -55,10 +55,10 @@ Future<DeviceInfoModel> deviceInfo() async {
     final deviceInfo = DeviceInfoModel(
       deviceUid: andriudId ?? '',
       osName: 'Android',
-      version: androidInfo.version.release ?? '',
+      version: androidInfo.version.release,
       sdk: androidInfo.version.sdkInt.toString(),
-      manufacturer: androidInfo.manufacturer ?? '',
-      model: androidInfo.model ?? '',
+      manufacturer: androidInfo.manufacturer,
+      model: androidInfo.model,
       marketingName: deviceMarketingName,
     );
 
@@ -74,9 +74,9 @@ Future<DeviceInfoModel> deviceInfo() async {
     final deviceInfo = DeviceInfoModel(
       deviceUid: iosId ?? '',
       osName: 'iOS',
-      version: iosInfo.systemVersion ?? '',
-      manufacturer: iosInfo.name ?? '',
-      model: iosInfo.utsname.machine ?? '',
+      version: iosInfo.systemVersion,
+      manufacturer: iosInfo.name,
+      model: iosInfo.utsname.machine,
       marketingName: deviceMarketingName,
     );
 

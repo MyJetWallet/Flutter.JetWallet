@@ -453,7 +453,7 @@ abstract class _BuyAmountStoreBase with Store {
                       .toDouble();
         }
 
-        max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
+        max = limitMax < max ? limitMax : max;
       }
 
       inputValid = value >= min && value <= max;
@@ -468,16 +468,16 @@ abstract class _BuyAmountStoreBase with Store {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: buyCurrency.accuracy ?? baseCurrency.accuracy,
-            symbol: buyCurrency.symbol ?? baseCurrency.symbol,
+            accuracy: buyCurrency.accuracy,
+            symbol: buyCurrency.symbol,
           )}',
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: buyCurrency.accuracy ?? baseCurrency.accuracy,
-            symbol: buyCurrency.symbol ?? baseCurrency.symbol,
+            accuracy: buyCurrency.accuracy,
+            symbol: buyCurrency.symbol,
           )}',
         );
       } else {
@@ -505,7 +505,7 @@ abstract class _BuyAmountStoreBase with Store {
         paymentMethodType: category.name,
         paymentMethodName:
             category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: buyCurrency.symbol ?? '',
+        paymentMethodCurrency: buyCurrency.symbol,
       );
     }
     paymentMethodInputError = error;
