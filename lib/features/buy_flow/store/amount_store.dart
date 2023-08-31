@@ -120,7 +120,7 @@ abstract class _BuyAmountStoreBase with Store {
     Timer(
       const Duration(milliseconds: 500),
       () {
-        if ((inputCard != null && inputCard!.showUaAlert) || showUaAlert!) {
+        if ((inputCard != null && inputCard.showUaAlert) || showUaAlert) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
             willPopScope: true,
@@ -469,16 +469,16 @@ abstract class _BuyAmountStoreBase with Store {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: buyCurrency.accuracy ?? baseCurrency!.accuracy,
-            symbol: buyCurrency.symbol ?? baseCurrency!.symbol,
+            accuracy: buyCurrency.accuracy ?? baseCurrency.accuracy,
+            symbol: buyCurrency.symbol ?? baseCurrency.symbol,
           )}',
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: buyCurrency.accuracy ?? baseCurrency!.accuracy,
-            symbol: buyCurrency.symbol ?? baseCurrency!.symbol,
+            accuracy: buyCurrency.accuracy ?? baseCurrency.accuracy,
+            symbol: buyCurrency.symbol ?? baseCurrency.symbol,
           )}',
         );
       } else {

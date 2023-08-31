@@ -113,13 +113,13 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
 
         return '${volumeFormat(
           decimal: amount,
-          symbol: store.buyCurrency!.symbol,
-          accuracy: store.buyCurrency!.accuracy,
+          symbol: store.buyCurrency.symbol,
+          accuracy: store.buyCurrency.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
           decimal: limit,
-          symbol: store.buyCurrency!.symbol,
-          accuracy: store.buyCurrency!.accuracy,
+          symbol: store.buyCurrency.symbol,
+          accuracy: store.buyCurrency.accuracy,
           onlyFullPart: true,
         )}';
       }
@@ -162,7 +162,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                 ),
                 helper: formatCurrencyStringAmount(
                   value: store.targetConversionValue,
-                  symbol: asset!.symbol,
+                  symbol: asset.symbol,
                 ),
                 error: store.inputErrorValue,
                 isErrorActive: store.isInputErrorActive,

@@ -164,12 +164,12 @@ abstract class _BankCardStoreBase with Store {
 
     if (mode == BankCardStoreMode.EDIT) {
       cardNumberController.text = '**** **** **** ${card!.last4}';
-      expiryMonthController.text = '${card!.expMonth}/${card.expYear}';
+      expiryMonthController.text = '${card.expMonth}/${card.expYear}';
       expiryYearController.text = card.expYear.toString();
       cardLabelController.text = card.cardLabel ?? '';
 
-      expiryMonth = card!.expMonth.toString();
-      expiryYear = card!.expYear.toString();
+      expiryMonth = card.expMonth.toString();
+      expiryYear = card.expYear.toString();
 
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
@@ -350,7 +350,7 @@ abstract class _BankCardStoreBase with Store {
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
-                        asset: asset!,
+                        asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
@@ -374,7 +374,7 @@ abstract class _BankCardStoreBase with Store {
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
-                        asset: asset!,
+                        asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
@@ -393,7 +393,7 @@ abstract class _BankCardStoreBase with Store {
                 cardId: newCard.data?.data.cardId ?? '',
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
                 method: method,
-                asset: asset!,
+                asset: asset,
                 expMonth: int.parse(expiryMonth),
                 expYear: int.parse(
                   expiryYear.length == 4 ? expiryYear : '20$expiryYear',

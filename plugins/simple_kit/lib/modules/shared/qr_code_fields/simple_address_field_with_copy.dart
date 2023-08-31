@@ -217,7 +217,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                         const SpaceW20(),
                         SIconButton(
                           onTap: valueLoading ? null : onTap,
-                          defaultIcon: actionIcon!,
+                          defaultIcon: actionIcon,
                         ),
                       ],
                     ],
