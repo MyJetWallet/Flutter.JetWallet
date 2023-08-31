@@ -163,7 +163,7 @@ extension DoubleRounding on double {
   /// Might give unexpected results due to precision loss: 10.2.floorDigits(5) -> 10.199999999999999
   double floorDigits(int digits) {
     if (digits == 0) {
-      return this.floorToDouble();
+      return floorToDouble();
     } else {
       final divideBy = pow(10, digits);
       return ((this * divideBy).floorToDouble() / divideBy);
@@ -172,7 +172,7 @@ extension DoubleRounding on double {
 
   double ceilDigits(int digits) {
     if (digits == 0) {
-      return this.ceilToDouble();
+      return ceilToDouble();
     } else {
       final divideBy = pow(10, digits);
       return ((this * divideBy).ceilToDouble() / divideBy);
