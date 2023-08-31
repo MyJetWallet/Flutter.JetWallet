@@ -24,6 +24,7 @@ class AccountStatusBanner extends StatefulWidget {
 class _AccountStatusBannerState extends State<AccountStatusBanner> {
   bool highlighted = false;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 48,

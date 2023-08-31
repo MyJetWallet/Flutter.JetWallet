@@ -51,6 +51,7 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
+  @override
   final String prefix;
   final String Function({
     String? prefix,
