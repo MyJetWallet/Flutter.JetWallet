@@ -80,7 +80,7 @@ abstract class _PaymentMethodStoreBase with Store {
     isCardReachLimits = isCardReachLimit(currency);
 
     if (asset.buyMethods.isNotEmpty) {
-      asset.buyMethods.forEach((element) {
+      for (var element in asset.buyMethods) {
         final isCurrExist = element.paymentAssets!.indexWhere(
           (element) => element.asset == buyCurrency.symbol,
         );
@@ -104,7 +104,7 @@ abstract class _PaymentMethodStoreBase with Store {
             }
           }
         }
-      });
+      }
 
       final storage = sLocalStorageService;
 
