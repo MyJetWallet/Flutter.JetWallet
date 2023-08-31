@@ -51,22 +51,14 @@ part 'currency_buy_store.g.dart';
 
 class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
   CurrencyBuyStore(
-    CurrencyModel currencyModel,
-    PaymentMethodType paymentMethod,
-    CircleCard? circleCard,
-    CircleCard? unlimintCard,
-    CircleCard? bankCard,
-    String? newBankCardId,
-    bool? showUaAlert,
-  ) : super(
-          currencyModel,
-          paymentMethod,
-          circleCard,
-          unlimintCard,
-          bankCard,
-          newBankCardId,
-          showUaAlert,
-        );
+    super.currencyModel,
+    super.paymentMethod,
+    super.circleCard,
+    super.unlimintCard,
+    super.bankCard,
+    super.newBankCardId,
+    super.showUaAlert,
+  );
 
   static _CurrencyBuyStoreBase of(BuildContext context) =>
       Provider.of<CurrencyBuyStore>(context, listen: false);

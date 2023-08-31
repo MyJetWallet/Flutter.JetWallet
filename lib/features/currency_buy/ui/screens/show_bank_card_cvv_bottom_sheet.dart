@@ -45,10 +45,10 @@ void showBankCardCvvBottomSheet({
 
 class CvvBottomSheetBody extends StatelessObserverWidget {
   const CvvBottomSheetBody({
-    Key? key,
+    super.key,
     required this.onCompleted,
     required this.input,
-  }) : super(key: key);
+  });
 
   final void Function(String) onCompleted;
   final PreviewBuyWithBankCardInput input;

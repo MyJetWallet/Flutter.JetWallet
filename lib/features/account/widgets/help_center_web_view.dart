@@ -7,9 +7,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'HelpCenterWebViewRouter')
 class HelpCenterWebView extends StatefulWidget {
   const HelpCenterWebView({
-    Key? key,
+    super.key,
     required this.link,
-  }) : super(key: key);
+  });
 
   final String link;
 

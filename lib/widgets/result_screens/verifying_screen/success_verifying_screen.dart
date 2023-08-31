@@ -15,9 +15,9 @@ import '../../../utils/constants.dart';
 @RoutePage(name: 'SuccessVerifyingScreenRouter')
 class SuccessVerifyingScreen extends StatelessWidget {
   const SuccessVerifyingScreen({
-    Key? key,
+    super.key,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function() onSuccess;

@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class MarketSeparator extends StatelessObserverWidget {
   const MarketSeparator({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

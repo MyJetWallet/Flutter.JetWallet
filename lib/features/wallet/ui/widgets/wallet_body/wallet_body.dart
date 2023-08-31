@@ -30,9 +30,9 @@ const _expandedCardHeight = 270.0;
 
 class WalletBody extends StatefulObserverWidget {
   const WalletBody({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

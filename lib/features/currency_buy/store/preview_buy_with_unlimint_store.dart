@@ -33,7 +33,7 @@ part 'preview_buy_with_unlimint_store.g.dart';
 
 class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase
     with _$PreviewBuyWithUnlimitStore {
-  PreviewBuyWithUnlimitStore(PreviewBuyWithUnlimintInput input) : super(input);
+  PreviewBuyWithUnlimitStore(super.input);
 
   static _PreviewBuyWithUnlimitStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithUnlimitStore>(context, listen: false);

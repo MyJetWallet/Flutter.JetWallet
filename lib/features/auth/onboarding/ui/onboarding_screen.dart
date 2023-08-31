@@ -15,7 +15,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'OnboardingRoute')
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class OnboardingScreen extends StatelessWidget {
 }
 
 class OnboardingScreenBody extends StatefulObserverWidget {
-  const OnboardingScreenBody({Key? key}) : super(key: key);
+  const OnboardingScreenBody({super.key});
 
   @override
   State<OnboardingScreenBody> createState() => _OnboardingScreenBodyState();

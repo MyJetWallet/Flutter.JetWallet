@@ -19,7 +19,7 @@ const _retryTime = 5; // in seconds
 
 class CryptoDepositStore extends _CryptoDepositStoreBase
     with _$CryptoDepositStore {
-  CryptoDepositStore(CurrencyModel currency) : super(currency);
+  CryptoDepositStore(super.currency);
 
   static _CryptoDepositStoreBase of(BuildContext context) =>
       Provider.of<CryptoDepositStore>(context, listen: false);

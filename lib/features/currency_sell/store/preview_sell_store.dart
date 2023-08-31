@@ -22,7 +22,7 @@ import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/e
 part 'preview_sell_store.g.dart';
 
 class PreviewSellStore extends _PreviewSellStoreBase with _$PreviewSellStore {
-  PreviewSellStore(PreviewSellInput input) : super(input);
+  PreviewSellStore(super.input);
 
   static _PreviewSellStoreBase of(BuildContext context) =>
       Provider.of<PreviewSellStore>(context, listen: false);

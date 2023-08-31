@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ScrollingFrame extends StatelessObserverWidget {
   const ScrollingFrame({
-    Key? key,
+    super.key,
     required this.children,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
 

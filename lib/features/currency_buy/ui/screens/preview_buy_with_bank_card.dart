@@ -25,9 +25,9 @@ import '../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithBankCardRouter')
 class PreviewBuyWithBankCard extends StatelessWidget {
   const PreviewBuyWithBankCard({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithBankCardInput input;
 
@@ -44,9 +44,9 @@ class PreviewBuyWithBankCard extends StatelessWidget {
 
 class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
   const _PreviewBuyWithBankCardBody({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithBankCardInput input;
 

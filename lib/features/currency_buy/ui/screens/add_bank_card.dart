@@ -23,12 +23,12 @@ import '../../../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'AddUnlimintCardRouter')
 class AddBankCard extends StatelessWidget {
   const AddBankCard({
-    Key? key,
+    super.key,
     required this.onCardAdded,
     required this.amount,
     this.currency,
     this.isPreview = false,
-  }) : super(key: key);
+  });
 
   final Function() onCardAdded;
   final String amount;
@@ -51,12 +51,12 @@ class AddBankCard extends StatelessWidget {
 
 class AddBankCardBody extends StatelessObserverWidget {
   const AddBankCardBody({
-    Key? key,
+    super.key,
     required this.onCardAdded,
     required this.amount,
     this.currency,
     required this.isPreview,
-  }) : super(key: key);
+  });
 
   final Function() onCardAdded;
   final String amount;

@@ -22,12 +22,12 @@ abstract class AnimationControllerState<T extends StatefulWidget>
 
 class ShakeWidget extends StatefulWidget {
   const ShakeWidget({
-    Key? key,
+    super.key,
     this.shakeCount = 3,
     this.shakeOffset = 10,
     this.shakeDuration = const Duration(milliseconds: 500),
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final double shakeOffset;
@@ -40,7 +40,7 @@ class ShakeWidget extends StatefulWidget {
 }
 
 class ShakeWidgetState extends AnimationControllerState<ShakeWidget> {
-  ShakeWidgetState(Duration duration) : super(duration);
+  ShakeWidgetState(super.duration);
 
   void shake() => animationController.forward();
 

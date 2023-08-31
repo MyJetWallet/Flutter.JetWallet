@@ -16,7 +16,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'KycSelfieRouter')
 class KycSelfie extends StatelessWidget {
-  const KycSelfie({Key? key}) : super(key: key);
+  const KycSelfie({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class KycSelfie extends StatelessWidget {
 }
 
 class _KycSelfieBody extends StatelessObserverWidget {
-  const _KycSelfieBody({Key? key}) : super(key: key);
+  const _KycSelfieBody({super.key});
 
   @override
   Widget build(BuildContext context) {

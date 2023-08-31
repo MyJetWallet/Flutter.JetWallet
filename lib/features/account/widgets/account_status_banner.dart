@@ -3,13 +3,13 @@ import 'package:simple_kit/simple_kit.dart';
 
 class AccountStatusBanner extends StatefulWidget {
   const AccountStatusBanner({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
     required this.mainColor,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;

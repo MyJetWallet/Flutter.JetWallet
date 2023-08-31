@@ -10,10 +10,10 @@ import 'components/market_stats_item.dart';
 
 class MarketStatsBlock extends StatelessWidget {
   const MarketStatsBlock({
-    Key? key,
+    super.key,
     required this.marketInfo,
     this.isCPower = false,
-  }) : super(key: key);
+  });
 
   final MarketInfoResponseModel marketInfo;
   final bool isCPower;

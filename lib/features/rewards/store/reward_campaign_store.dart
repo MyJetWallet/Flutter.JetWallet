@@ -13,7 +13,7 @@ part 'reward_campaign_store.g.dart';
 
 class RewardCampaignStore extends _RewardCampaignStoreBase
     with _$RewardCampaignStore {
-  RewardCampaignStore(bool isFilterEnabled) : super(isFilterEnabled);
+  RewardCampaignStore(super.isFilterEnabled);
 
   static _RewardCampaignStoreBase of(BuildContext context) =>
       Provider.of<RewardCampaignStore>(context, listen: false);

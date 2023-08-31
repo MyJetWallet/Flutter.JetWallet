@@ -25,7 +25,7 @@ import '../model/pin_screen_union.dart';
 @RoutePage(name: 'PinScreenRoute')
 class PinScreen extends StatelessWidget {
   const PinScreen({
-    Key? key,
+    super.key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
@@ -35,7 +35,7 @@ class PinScreen extends StatelessWidget {
     this.onChangePhone,
     this.onError,
     required this.union,
-  }) : super(key: key);
+  });
 
   final bool displayHeader;
   final bool cannotLeave;
@@ -71,14 +71,14 @@ class PinScreen extends StatelessWidget {
 
 class _PinScreenBody extends StatefulObserverWidget {
   const _PinScreenBody({
-    Key? key,
+    super.key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isForgotPassword = false,
     this.isChangePhone = false,
     required this.fromRegister,
     required this.union,
-  }) : super(key: key);
+  });
 
   final bool displayHeader;
   final bool cannotLeave;

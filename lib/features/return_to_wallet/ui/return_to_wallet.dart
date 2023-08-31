@@ -21,10 +21,10 @@ import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart
 @RoutePage(name: 'ReturnToWalletRouter')
 class ReturnToWallet extends StatelessWidget {
   const ReturnToWallet({
-    Key? key,
+    super.key,
     required this.currency,
     required this.earnOffer,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
   final EarnOfferModel earnOffer;
@@ -48,10 +48,10 @@ class ReturnToWallet extends StatelessWidget {
 
 class _ReturnToWalletBody extends StatelessObserverWidget {
   const _ReturnToWalletBody({
-    Key? key,
+    super.key,
     required this.currency,
     required this.earnOffer,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
   final EarnOfferModel earnOffer;

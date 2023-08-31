@@ -9,8 +9,8 @@ import 'iban_item_skeleton.dart';
 
 class IBanSkeleton extends StatelessObserverWidget {
   const IBanSkeleton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

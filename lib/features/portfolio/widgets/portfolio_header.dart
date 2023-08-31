@@ -17,11 +17,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PortfolioHeader extends StatelessObserverWidget {
   const PortfolioHeader({
-    Key? key,
+    super.key,
     this.emptyBalance = false,
     this.price = '',
     this.showPrice = false,
-  }) : super(key: key);
+  });
 
   final bool emptyBalance;
   final bool showPrice;

@@ -9,7 +9,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SmsAuthenticatorRouter')
 class SmsAuthenticator extends StatelessObserverWidget {
-  const SmsAuthenticator({Key? key}) : super(key: key);
+  const SmsAuthenticator({super.key});
 
   @override
   Widget build(BuildContext context) {

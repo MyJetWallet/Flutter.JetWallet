@@ -22,9 +22,9 @@ import '../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithUnlimintRouter')
 class PreviewBuyWithUnlimint extends StatelessWidget {
   const PreviewBuyWithUnlimint({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithUnlimintInput input;
 
@@ -41,9 +41,9 @@ class PreviewBuyWithUnlimint extends StatelessWidget {
 
 class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
   const _PreviewBuyWithUnlimintBody({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithUnlimintInput input;
 

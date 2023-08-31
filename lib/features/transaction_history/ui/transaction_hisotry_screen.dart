@@ -12,12 +12,12 @@ import '../../wallet/ui/widgets/wallet_body/widgets/transactions_list/transactio
 @RoutePage(name: 'TransactionHistoryRouter')
 class TransactionHistory extends StatelessObserverWidget {
   const TransactionHistory({
-    Key? key,
+    super.key,
     this.assetName,
     this.assetSymbol,
     this.initialIndex = 0,
     this.jwOperationId,
-  }) : super(key: key);
+  });
 
   final String? assetName;
   final String? assetSymbol;

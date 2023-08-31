@@ -37,7 +37,7 @@ part 'preview_buy_with_circle_store.g.dart';
 
 class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
     with _$PreviewBuyWithCircleStore {
-  PreviewBuyWithCircleStore(PreviewBuyWithCircleInput input) : super(input);
+  PreviewBuyWithCircleStore(super.input);
 
   static _PreviewBuyWithCircleStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithCircleStore>(context, listen: false);

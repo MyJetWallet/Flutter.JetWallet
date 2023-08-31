@@ -37,7 +37,7 @@ part 'payment_methods_store.g.dart';
 
 class PaymentMethodsScreenStore extends _PaymentMethodsStoreBase
     with _$PaymentMethodsScreenStore {
-  PaymentMethodsScreenStore(CurrencyModel currencyModel) : super(currencyModel);
+  PaymentMethodsScreenStore(super.currencyModel);
 
   static _PaymentMethodsStoreBase of(BuildContext context) =>
       Provider.of<PaymentMethodsScreenStore>(context, listen: false);

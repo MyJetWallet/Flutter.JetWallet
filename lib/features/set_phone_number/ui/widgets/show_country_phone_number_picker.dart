@@ -25,7 +25,7 @@ void showCountryPhoneNumberPicker(BuildContext context) {
 }
 
 class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({Key? key, required this.context}) : super(key: key);
+  const _SearchPinned({super.key, required this.context});
 
   final BuildContext context;
 
@@ -45,7 +45,7 @@ class _SearchPinned extends StatelessObserverWidget {
 }
 
 class _DialCodes extends StatelessObserverWidget {
-  const _DialCodes({Key? key, required this.context}) : super(key: key);
+  const _DialCodes({super.key, required this.context});
 
   final BuildContext context;
 

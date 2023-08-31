@@ -28,8 +28,8 @@ import '../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'CardRouter')
 class CardScreen extends StatefulObserverWidget {
   const CardScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CardScreen> createState() => _CardScreenBodyState();

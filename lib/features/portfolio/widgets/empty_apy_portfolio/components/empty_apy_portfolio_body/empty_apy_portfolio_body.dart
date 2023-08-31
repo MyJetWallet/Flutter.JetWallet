@@ -10,7 +10,7 @@ import 'components/empty_apy_portfolio_body_image.dart';
 import 'components/empty_apy_portfolio_body_title.dart';
 
 class EmptyApyPortfolioBody extends StatelessObserverWidget {
-  const EmptyApyPortfolioBody({Key? key}) : super(key: key);
+  const EmptyApyPortfolioBody({super.key});
 
   @override
   Widget build(BuildContext context) {

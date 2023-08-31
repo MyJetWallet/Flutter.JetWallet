@@ -28,7 +28,7 @@ import 'package:simple_networking/modules/validation_api/models/two_fa_verify/tw
 part 'two_fa_phone_store.g.dart';
 
 class TwoFaPhoneStore extends _TwoFaPhoneStoreBase with _$TwoFaPhoneStore {
-  TwoFaPhoneStore(TwoFaPhoneTriggerUnion trigger) : super(trigger);
+  TwoFaPhoneStore(super.trigger);
 
   static _TwoFaPhoneStoreBase of(BuildContext context) =>
       Provider.of<TwoFaPhoneStore>(context, listen: false);

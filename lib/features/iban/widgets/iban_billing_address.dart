@@ -14,7 +14,7 @@ import 'country_picker.dart';
 
 @RoutePage(name: 'IbanAddressRouter')
 class IbanBillingAddress extends StatelessObserverWidget {
-  const IbanBillingAddress({Key? key}) : super(key: key);
+  const IbanBillingAddress({super.key});
 
   @override
   Widget build(BuildContext context) {

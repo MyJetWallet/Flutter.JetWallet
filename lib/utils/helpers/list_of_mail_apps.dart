@@ -29,10 +29,10 @@ void showMailAppsOptions(
 
 class _MailOptions extends StatefulObserverWidget {
   const _MailOptions({
-    Key? key,
+    super.key,
     required this.apps,
     required this.defaultAction,
-  }) : super(key: key);
+  });
 
   final List<MailApp> apps;
   final Function() defaultAction;
@@ -163,12 +163,12 @@ Widget _iconFrom(String name, SimpleColors colors) {
 
 class MailItem extends StatelessWidget {
   const MailItem({
-    Key? key,
+    super.key,
     this.withDivider = false,
     required this.icon,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool withDivider;
   final Widget icon;

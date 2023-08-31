@@ -16,9 +16,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'PreviewSellRouter')
 class PreviewSell extends StatelessWidget {
   const PreviewSell({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewSellInput input;
 
@@ -36,9 +36,9 @@ class PreviewSell extends StatelessWidget {
 
 class PreviewSellBody extends StatefulObserverWidget {
   const PreviewSellBody({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewSellInput input;
 

@@ -26,9 +26,9 @@ import '../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'IBanRouter')
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
-    Key? key,
+    super.key,
     this.initIndex = 0,
-  }) : super(key: key);
+  });
 
   final int initIndex;
 

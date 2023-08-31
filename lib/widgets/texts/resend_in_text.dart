@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ResendInText extends StatelessObserverWidget {
   const ResendInText({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

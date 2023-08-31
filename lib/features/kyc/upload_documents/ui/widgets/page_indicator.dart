@@ -6,9 +6,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PageIndicator extends StatelessObserverWidget {
   const PageIndicator({
-    Key? key,
+    super.key,
     required this.documentType,
-  }) : super(key: key);
+  });
 
   final KycDocumentType? documentType;
 

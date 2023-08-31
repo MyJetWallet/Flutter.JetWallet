@@ -149,9 +149,9 @@ void showCryptoReceiveAction(BuildContext context) {
 
 class _ActionReceive extends StatelessObserverWidget {
   const _ActionReceive({
-    Key? key,
+    super.key,
     required this.searchStore,
-  }) : super(key: key);
+  });
 
   final ActionSearchStore searchStore;
 

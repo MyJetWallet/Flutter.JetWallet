@@ -13,10 +13,10 @@ import '../../../../utils/models/currency_model.dart';
 
 class LimitPageBody extends StatelessObserverWidget {
   const LimitPageBody({
-    Key? key,
+    super.key,
     required this.cardLimit,
     this.currency,
-  }) : super(key: key);
+  });
 
   final CardLimitsModel cardLimit;
   final CurrencyModel? currency;

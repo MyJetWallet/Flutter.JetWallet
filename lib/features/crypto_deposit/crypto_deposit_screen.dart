@@ -27,10 +27,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage(name: 'CryptoDepositRouter')
 class CryptoDeposit extends StatelessWidget {
   const CryptoDeposit({
-    Key? key,
+    super.key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;
@@ -50,10 +50,10 @@ class CryptoDeposit extends StatelessWidget {
 
 class _CryptoDepositBody extends StatefulObserverWidget {
   const _CryptoDepositBody({
-    Key? key,
+    super.key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;

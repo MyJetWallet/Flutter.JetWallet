@@ -11,9 +11,9 @@ import '../../helper/period_change.dart';
 
 class AssetDayChange extends StatelessObserverWidget {
   const AssetDayChange({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

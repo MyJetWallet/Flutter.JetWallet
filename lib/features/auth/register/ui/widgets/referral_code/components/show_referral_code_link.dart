@@ -37,9 +37,9 @@ void showReferralCode(BuildContext context) {
 
 class _ReferralCodeLinkBody extends StatelessObserverWidget {
   const _ReferralCodeLinkBody({
-    Key? key,
+    super.key,
     required this.context,
-  }) : super(key: key);
+  });
 
   final BuildContext context;
 
@@ -151,9 +151,9 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
 
 class _ReferralCodeBottom extends StatelessObserverWidget {
   const _ReferralCodeBottom({
-    Key? key,
+    super.key,
     required this.context,
-  }) : super(key: key);
+  });
 
   final BuildContext context;
 

@@ -11,7 +11,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 
 @RoutePage(name: 'PortfolioRouter')
 class PortfolioScreen extends StatelessObserverWidget {
-  const PortfolioScreen({Key? key}) : super(key: key);
+  const PortfolioScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

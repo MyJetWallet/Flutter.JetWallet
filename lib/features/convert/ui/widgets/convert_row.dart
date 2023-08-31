@@ -17,7 +17,7 @@ import '../../../actions/store/action_search_store.dart';
 
 class ConvertRow extends StatelessObserverWidget {
   const ConvertRow({
-    Key? key,
+    super.key,
     this.fromAsset = false,
     this.inputError,
     required this.value,
@@ -27,7 +27,7 @@ class ConvertRow extends StatelessObserverWidget {
     required this.assetWithBalance,
     required this.assetWithoutBalance,
     required this.onDropdown,
-  }) : super(key: key);
+  });
 
   final bool fromAsset;
   final InputError? inputError;
@@ -158,11 +158,11 @@ class ConvertRow extends StatelessObserverWidget {
 
 class _ActionConvert extends StatelessObserverWidget {
   const _ActionConvert({
-    Key? key,
+    super.key,
     required this.fromAsset,
     required this.searchStore,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final bool fromAsset;
   final ActionSearchStore searchStore;

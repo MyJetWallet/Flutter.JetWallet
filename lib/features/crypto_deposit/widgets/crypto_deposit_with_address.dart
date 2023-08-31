@@ -14,9 +14,9 @@ const sAddressFieldWithCopyHeight = 146;
 
 class CryptoDepositWithAddress extends StatelessObserverWidget {
   const CryptoDepositWithAddress({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

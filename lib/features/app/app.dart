@@ -15,12 +15,12 @@ import 'package:logging/logging.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
-    Key? key,
+    super.key,
     this.locale,
     this.builder,
     this.isStageEnv = false,
     this.debugShowCheckedModeBanner = true,
-  }) : super(key: key);
+  });
 
   final Locale? locale;
   final Widget Function(BuildContext, Widget?)? builder;

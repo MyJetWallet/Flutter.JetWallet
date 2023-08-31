@@ -37,9 +37,9 @@ class PhoneVerificationArgs {
 @RoutePage(name: 'PhoneVerificationRouter')
 class PhoneVerification extends StatelessWidget {
   const PhoneVerification({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 
@@ -70,9 +70,9 @@ class PhoneVerification extends StatelessWidget {
 /// 2. when we need to verify a new number from change number flow
 class PhoneVerificationBody extends StatelessObserverWidget {
   const PhoneVerificationBody({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 

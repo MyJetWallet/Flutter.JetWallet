@@ -18,9 +18,9 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 @RoutePage(name: 'CurrencySellRouter')
 class CurrencySell extends StatelessWidget {
   const CurrencySell({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -37,9 +37,9 @@ class CurrencySell extends StatelessWidget {
 
 class CurrencySellBody extends StatefulObserverWidget {
   const CurrencySellBody({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

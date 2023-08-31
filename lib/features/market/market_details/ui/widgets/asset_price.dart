@@ -11,9 +11,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class AssetPrice extends StatelessObserverWidget {
   const AssetPrice({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

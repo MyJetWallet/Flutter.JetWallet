@@ -28,9 +28,9 @@ import '../../store/payment_methods_store.dart';
 @RoutePage(name: 'PaymentMethodRouter')
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -47,9 +47,9 @@ class PaymentMethodScreen extends StatelessWidget {
 
 class _PaymentMethodScreen extends StatefulObserverWidget {
   const _PaymentMethodScreen({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

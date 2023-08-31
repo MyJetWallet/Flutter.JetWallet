@@ -21,7 +21,7 @@ import 'widgets/birth_date/store/selected_date_store.dart';
 
 @RoutePage(name: 'UserDataScreenRouter')
 class UserDataScreen extends StatelessWidget {
-  const UserDataScreen({Key? key}) : super(key: key);
+  const UserDataScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class UserDataScreen extends StatelessWidget {
 }
 
 class _UserDataScreenBody extends StatelessObserverWidget {
-  const _UserDataScreenBody({Key? key}) : super(key: key);
+  const _UserDataScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {

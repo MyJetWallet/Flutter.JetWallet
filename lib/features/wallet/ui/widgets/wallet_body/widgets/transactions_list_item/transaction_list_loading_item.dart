@@ -3,10 +3,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class TransactionListLoadingItem extends StatelessWidget {
   const TransactionListLoadingItem({
-    Key? key,
+    super.key,
     required this.opacity,
     this.removeDivider = false,
-  }) : super(key: key);
+  });
 
   final bool removeDivider;
   final double opacity;

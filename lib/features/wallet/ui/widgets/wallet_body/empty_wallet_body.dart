@@ -8,9 +8,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class EmptyWalletBody extends StatelessObserverWidget {
   const EmptyWalletBody({
-    Key? key,
+    super.key,
     required this.assetName,
-  }) : super(key: key);
+  });
 
   final String assetName;
 

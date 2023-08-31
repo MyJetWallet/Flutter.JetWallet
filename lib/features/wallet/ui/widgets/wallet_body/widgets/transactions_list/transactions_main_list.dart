@@ -54,12 +54,12 @@ class TransactionsMainList extends StatelessWidget {
 
 class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
-    Key? key,
+    super.key,
     this.isRecurring = false,
     this.zeroPadding = false,
     this.filter = TransactionType.none,
     this.symbol,
-  }) : super(key: key);
+  });
 
   final String? symbol;
   final bool isRecurring;

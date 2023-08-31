@@ -3,11 +3,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class TransactionDetailsValueText extends StatelessWidget {
   const TransactionDetailsValueText({
-    Key? key,
+    super.key,
     this.color,
     this.textAlign,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color? color;

@@ -22,7 +22,7 @@ part 'return_to_wallet_store.g.dart';
 
 class ReturnToWalletStore extends _ReturnToWalletStoreBase
     with _$ReturnToWalletStore {
-  ReturnToWalletStore(ReturnToWalletInput input) : super(input);
+  ReturnToWalletStore(super.input);
 
   static _ReturnToWalletStoreBase of(BuildContext context) =>
       Provider.of<ReturnToWalletStore>(context, listen: false);

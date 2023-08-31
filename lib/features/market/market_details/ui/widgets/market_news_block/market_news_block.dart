@@ -11,10 +11,10 @@ import '../about_block/components/clickable_underlined_text.dart';
 
 class MarketNewsBlock extends StatelessObserverWidget {
   const MarketNewsBlock({
-    Key? key,
+    super.key,
     required this.news,
     required this.assetId,
-  }) : super(key: key);
+  });
 
   final List<MarketNewsModel> news;
   final String assetId;

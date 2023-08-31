@@ -21,9 +21,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'SingInRouter')
 class SingIn extends StatelessWidget {
   const SingIn({
-    Key? key,
+    super.key,
     this.email,
-  }) : super(key: key);
+  });
 
   final String? email;
 
@@ -41,9 +41,9 @@ class SingIn extends StatelessWidget {
 
 class _SingInBody extends StatelessObserverWidget {
   const _SingInBody({
-    Key? key,
+    super.key,
     this.email,
-  }) : super(key: key);
+  });
 
   final String? email;
 

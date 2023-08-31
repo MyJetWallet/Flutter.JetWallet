@@ -36,10 +36,10 @@ const _narrowInterval = Interval(
 
 class ActionButton extends StatefulObserverWidget {
   const ActionButton({
-    Key? key,
+    super.key,
     required this.transitionAnimationController,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final AnimationController transitionAnimationController;
   final CurrencyModel currency;

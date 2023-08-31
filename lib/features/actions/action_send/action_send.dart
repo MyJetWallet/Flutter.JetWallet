@@ -440,9 +440,9 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
 
 class _GlobalSendSelectCurrency extends StatelessObserverWidget {
   const _GlobalSendSelectCurrency({
-    Key? key,
+    super.key,
     required this.searchStore,
-  }) : super(key: key);
+  });
 
   final ActionSearchStore searchStore;
 

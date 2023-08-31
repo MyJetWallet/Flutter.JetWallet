@@ -11,8 +11,8 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'ChangePasswordRouter')
 class ChangePassword extends StatelessObserverWidget {
   const ChangePassword({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

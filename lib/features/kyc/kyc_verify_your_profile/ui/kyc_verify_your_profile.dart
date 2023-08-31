@@ -12,9 +12,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'KycVerifyYourProfileRouter')
 class KycVerifyYourProfile extends StatelessObserverWidget {
   const KycVerifyYourProfile({
-    Key? key,
+    super.key,
     required this.requiredVerifications,
-  }) : super(key: key);
+  });
 
   final List<RequiredVerified> requiredVerifications;
 

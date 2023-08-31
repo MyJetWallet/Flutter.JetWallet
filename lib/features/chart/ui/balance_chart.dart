@@ -11,10 +11,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class BalanceChart extends StatefulObserverWidget {
   const BalanceChart({
-    Key? key,
+    super.key,
     required this.onCandleSelected,
     required this.walletCreationDate,
-  }) : super(key: key);
+  });
 
   final void Function(ChartInfoModel?) onCandleSelected;
   final String walletCreationDate;

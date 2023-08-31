@@ -13,9 +13,9 @@ import 'package:simple_analytics/simple_analytics.dart';
 @RoutePage(name: 'MarketRouter')
 class MarketScreen extends StatefulObserverWidget {
   const MarketScreen({
-    Key? key,
+    super.key,
     this.initIndex = 0,
-  }) : super(key: key);
+  });
 
   final int initIndex;
 

@@ -6,10 +6,10 @@ import '../../../../utils/constants.dart';
 
 class RewardNotificationBox extends StatelessWidget {
   const RewardNotificationBox({
-    Key? key,
+    super.key,
     required this.isUnread,
     required this.child,
-  }) : super(key: key);
+  });
 
   final bool isUnread;
   final Widget child;

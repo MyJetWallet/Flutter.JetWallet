@@ -3,12 +3,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class NetworkItem extends StatelessWidget {
   const NetworkItem({
-    Key? key,
+    super.key,
     required this.iconUrl,
     required this.network,
     required this.selected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String iconUrl;
   final String network;

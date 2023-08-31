@@ -25,9 +25,9 @@ import '../../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'EmptyWalletRouter')
 class EmptyWallet extends StatefulObserverWidget {
   const EmptyWallet({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

@@ -5,7 +5,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PinCodeField extends StatelessObserverWidget {
   const PinCodeField({
-    Key? key,
+    super.key,
     this.focusNode,
     this.autoFocus = false,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
@@ -14,7 +14,7 @@ class PinCodeField extends StatelessObserverWidget {
     required this.onCompleted,
     required this.pinError,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final FocusNode? focusNode;
   final bool autoFocus;

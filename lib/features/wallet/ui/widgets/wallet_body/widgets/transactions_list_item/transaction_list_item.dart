@@ -17,10 +17,10 @@ import 'components/transaction_list_item_text.dart';
 
 class TransactionListItem extends StatelessObserverWidget {
   const TransactionListItem({
-    Key? key,
+    super.key,
     this.removeDivider = false,
     required this.transactionListItem,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final bool removeDivider;

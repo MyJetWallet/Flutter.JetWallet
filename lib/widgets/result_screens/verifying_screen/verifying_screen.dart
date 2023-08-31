@@ -14,10 +14,10 @@ import '../../../features/kyc/upload_documents/store/upload_kyc_documents_store.
 @RoutePage(name: 'VerifyingScreenRouter')
 class VerifyingScreen extends StatelessWidget {
   const VerifyingScreen({
-    Key? key,
+    super.key,
     required this.cardId,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   final String cardId;
   final Function() onSuccess;
@@ -36,10 +36,10 @@ class VerifyingScreen extends StatelessWidget {
 
 class _VerifyingScreenBody extends StatelessObserverWidget {
   const _VerifyingScreenBody({
-    Key? key,
+    super.key,
     required this.cardId,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   final Function() onSuccess;
   final String cardId;

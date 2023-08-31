@@ -15,7 +15,7 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'SuccessScreenRouter')
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
-    Key? key,
+    super.key,
     this.onSuccess,
     this.onActionButton,
     this.primaryText,
@@ -28,7 +28,7 @@ class SuccessScreen extends StatelessWidget {
     this.showPrimaryButton = false,
     this.buttonText,
     this.time = 3,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function(BuildContext)? onSuccess;

@@ -15,9 +15,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
   const Wallet({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

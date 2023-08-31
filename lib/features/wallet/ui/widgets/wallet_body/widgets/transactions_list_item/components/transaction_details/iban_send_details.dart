@@ -16,10 +16,10 @@ import 'components/transaction_details_value_text.dart';
 
 class IbanSendDetails extends StatelessObserverWidget {
   const IbanSendDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;

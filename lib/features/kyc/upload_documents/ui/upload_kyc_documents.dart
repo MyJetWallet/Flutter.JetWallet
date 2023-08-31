@@ -20,7 +20,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'UploadKycDocumentsRouter')
 class UploadKycDocuments extends StatelessWidget {
-  const UploadKycDocuments({Key? key}) : super(key: key);
+  const UploadKycDocuments({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class UploadKycDocuments extends StatelessWidget {
 }
 
 class _UploadKycDocumentsBody extends StatelessObserverWidget {
-  const _UploadKycDocumentsBody({Key? key}) : super(key: key);
+  const _UploadKycDocumentsBody({super.key});
 
   @override
   Widget build(BuildContext context) {

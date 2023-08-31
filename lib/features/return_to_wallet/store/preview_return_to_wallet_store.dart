@@ -16,7 +16,7 @@ part 'preview_return_to_wallet_store.g.dart';
 
 class PreviewReturnToWalletStore extends _PreviewReturnToWalletStoreBase
     with _$PreviewReturnToWalletStore {
-  PreviewReturnToWalletStore(PreviewReturnToWalletInput input) : super(input);
+  PreviewReturnToWalletStore(super.input);
 
   static _PreviewReturnToWalletStoreBase of(BuildContext context) =>
       Provider.of<PreviewReturnToWalletStore>(context, listen: false);

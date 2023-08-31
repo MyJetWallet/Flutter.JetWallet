@@ -40,12 +40,9 @@ part 'preview_buy_with_bank_card_store.g.dart';
 class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase
     with _$PreviewBuyWithBankCardStore {
   PreviewBuyWithBankCardStore(
-    PreviewBuyWithBankCardInput input,
-    bool sendPreview,
-  ) : super(
-          input,
-          sendPreview,
-        );
+    super.input,
+    super.sendPreview,
+  );
 
   static _PreviewBuyWithBankCardStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithBankCardStore>(context, listen: false);

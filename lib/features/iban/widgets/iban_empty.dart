@@ -13,13 +13,13 @@ import '../../kyc/kyc_service.dart';
 
 class IBanEmpty extends StatelessObserverWidget {
   const IBanEmpty({
-    Key? key,
+    super.key,
     required this.isLoading,
     required this.isAddress,
     required this.isKyc,
     this.onButtonTap,
 
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final bool isAddress;

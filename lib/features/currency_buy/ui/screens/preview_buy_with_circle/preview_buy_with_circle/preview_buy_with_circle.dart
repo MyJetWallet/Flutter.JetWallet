@@ -23,9 +23,9 @@ import '../../../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithCircleRouter')
 class PreviewBuyWithCircle extends StatelessWidget {
   const PreviewBuyWithCircle({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithCircleInput input;
 
@@ -42,9 +42,9 @@ class PreviewBuyWithCircle extends StatelessWidget {
 
 class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
   const _PreviewBuyWithCircleBody({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithCircleInput input;
 

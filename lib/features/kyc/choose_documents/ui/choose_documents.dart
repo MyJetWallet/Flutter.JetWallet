@@ -15,9 +15,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'ChooseDocumentsRouter')
 class ChooseDocuments extends StatelessObserverWidget {
   const ChooseDocuments({
-    Key? key,
+    super.key,
     required this.headerTitle,
-  }) : super(key: key);
+  });
 
   final String headerTitle;
 

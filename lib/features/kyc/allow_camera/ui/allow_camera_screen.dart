@@ -12,10 +12,10 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'AllowCameraRoute')
 class AllowCameraScreen extends StatelessWidget {
   const AllowCameraScreen({
-    Key? key,
+    super.key,
     required this.permissionDescription,
     required this.then,
-  }) : super(key: key);
+  });
 
   final String permissionDescription;
   final void Function() then;
@@ -35,10 +35,10 @@ class AllowCameraScreen extends StatelessWidget {
 
 class _AllowCameraScreenBody extends StatefulObserverWidget {
   const _AllowCameraScreenBody({
-    Key? key,
+    super.key,
     required this.permissionDescription,
     required this.then,
-  }) : super(key: key);
+  });
 
   final String permissionDescription;
   final void Function() then;

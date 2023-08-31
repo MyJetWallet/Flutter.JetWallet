@@ -16,7 +16,7 @@ import '../../../market/market_details/helper/currency_from_all.dart';
 
 @RoutePage(name: 'ProfileDetailsRouter')
 class ProfileDetails extends StatelessObserverWidget {
-  const ProfileDetails({Key? key}) : super(key: key);
+  const ProfileDetails({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -28,7 +28,7 @@ class PaymentMethods extends StatelessWidget {
 }
 
 class _PaymentMethodsBody extends StatelessObserverWidget {
-  const _PaymentMethodsBody({Key? key}) : super(key: key);
+  const _PaymentMethodsBody({super.key});
 
   @override
   Widget build(BuildContext context) {

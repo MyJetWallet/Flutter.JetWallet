@@ -13,9 +13,9 @@ import '../../kyc_service.dart';
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatelessObserverWidget {
   const KycVerification({
-    Key? key,
+    super.key,
     required this.requiredVerifications,
-  }) : super(key: key);
+  });
 
   final List<RequiredVerified> requiredVerifications;
 

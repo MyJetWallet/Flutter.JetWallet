@@ -39,12 +39,12 @@ void showCountryPicker(
 
 class _Countries extends StatefulObserverWidget {
   const _Countries({
-    Key? key,
+    super.key,
     required this.sortedCountries,
     required this.countryNameSearch,
     required this.pickCountryFromSearch,
     required this.store,
-  }) : super(key: key);
+  });
 
   final ObservableList<KycProfileCountryModel> sortedCountries;
   final String countryNameSearch;

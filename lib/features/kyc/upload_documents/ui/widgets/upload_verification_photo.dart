@@ -20,11 +20,11 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'UploadVerificationPhotoRouter')
 class UploadVerificationPhoto extends StatelessWidget {
   const UploadVerificationPhoto({
-    Key? key,
+    super.key,
     this.isSelfie = false,
     required this.cardId,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   final bool isSelfie;
   final String cardId;
@@ -45,11 +45,11 @@ class UploadVerificationPhoto extends StatelessWidget {
 
 class _UploadVerificationPhotoBody extends StatelessObserverWidget {
   const _UploadVerificationPhotoBody({
-    Key? key,
+    super.key,
     required this.isSelfie,
     required this.cardId,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   final bool isSelfie;
   final String cardId;

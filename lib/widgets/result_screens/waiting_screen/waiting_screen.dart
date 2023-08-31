@@ -11,14 +11,14 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'WaitingScreenRouter')
 class WaitingScreen extends StatelessObserverWidget {
   const WaitingScreen({
-    Key? key,
+    super.key,
     this.onSuccess,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
     this.wasAction = false,
     required this.onSkip,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function(BuildContext)? onSuccess;

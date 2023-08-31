@@ -16,7 +16,7 @@ import '../../core/services/local_storage_service.dart';
 
 @RoutePage(name: 'DebugInfoRouter')
 class DebugInfo extends StatefulObserverWidget {
-  const DebugInfo({Key? key}) : super(key: key);
+  const DebugInfo({super.key});
 
   @override
   State<DebugInfo> createState() => _DebugInfoState();

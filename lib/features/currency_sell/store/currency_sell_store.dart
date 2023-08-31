@@ -21,7 +21,7 @@ part 'currency_sell_store.g.dart';
 
 class CirrencySellStore extends _CirrencySellStoreBase
     with _$CirrencySellStore {
-  CirrencySellStore(CurrencyModel currencyModel) : super(currencyModel);
+  CirrencySellStore(super.currencyModel);
 
   static _CirrencySellStoreBase of(BuildContext context) =>
       Provider.of<CirrencySellStore>(context, listen: false);

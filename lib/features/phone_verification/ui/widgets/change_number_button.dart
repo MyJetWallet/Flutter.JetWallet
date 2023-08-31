@@ -3,8 +3,8 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 class ChangeNumberButton extends StatelessWidget {
   const ChangeNumberButton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

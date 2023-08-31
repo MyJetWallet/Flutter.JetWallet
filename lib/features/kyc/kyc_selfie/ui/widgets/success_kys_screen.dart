@@ -13,11 +13,11 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'SuccessKycScreenRoute')
 class SuccessKycScreen extends StatelessWidget {
   const SuccessKycScreen({
-    Key? key,
+    super.key,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
-  }) : super(key: key);
+  });
 
   final String? primaryText;
   final String? secondaryText;
@@ -39,11 +39,11 @@ class SuccessKycScreen extends StatelessWidget {
 
 class _SuccessKycScreenBody extends StatefulWidget {
   const _SuccessKycScreenBody({
-    Key? key,
+    super.key,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
-  }) : super(key: key);
+  });
 
   final String? primaryText;
   final String? secondaryText;

@@ -32,9 +32,9 @@ import 'wallet_body/widgets/transactions_list_item/components/transaction_detail
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.transactionListItem,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
 

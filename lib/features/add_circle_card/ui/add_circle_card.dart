@@ -16,9 +16,9 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 @RoutePage(name: 'AddCircleCardRouter')
 class AddCircleCard extends StatelessWidget {
   const AddCircleCard({
-    Key? key,
+    super.key,
     required this.onCardAdded,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
 
@@ -35,9 +35,9 @@ class AddCircleCard extends StatelessWidget {
 
 class AddCircleCardBody extends StatelessObserverWidget {
   const AddCircleCardBody({
-    Key? key,
+    super.key,
     required this.onCardAdded,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
 

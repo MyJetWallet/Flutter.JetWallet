@@ -10,7 +10,7 @@ import 'components/market_reordable_list.dart';
 import 'helper/reset_market_scroll_position.dart';
 
 class WatchlistTabBarView extends StatefulObserverWidget {
-  const WatchlistTabBarView({Key? key}) : super(key: key);
+  const WatchlistTabBarView({super.key});
 
   @override
   State<WatchlistTabBarView> createState() => _WatchlistTabBarViewState();

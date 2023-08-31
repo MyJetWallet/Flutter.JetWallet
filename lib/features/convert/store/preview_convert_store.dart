@@ -25,7 +25,7 @@ part 'preview_convert_store.g.dart';
 
 class PreviewConvertStore extends _PreviewConvertStoreBase
     with _$PreviewConvertStore {
-  PreviewConvertStore(PreviewConvertInput input) : super(input);
+  PreviewConvertStore(super.input);
 
   static PreviewConvertStore of(BuildContext context) =>
       Provider.of<PreviewConvertStore>(context, listen: false);

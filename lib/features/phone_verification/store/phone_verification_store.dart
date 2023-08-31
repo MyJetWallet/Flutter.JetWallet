@@ -25,7 +25,7 @@ part 'phone_verification_store.g.dart';
 
 class PhoneVerificationStore extends _PhoneVerificationStoreBase
     with _$PhoneVerificationStore {
-  PhoneVerificationStore(PhoneVerificationArgs args) : super(args);
+  PhoneVerificationStore(super.args);
 
   static _PhoneVerificationStoreBase of(BuildContext context) =>
       Provider.of<PhoneVerificationStore>(context, listen: false);

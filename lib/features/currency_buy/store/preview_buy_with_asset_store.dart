@@ -28,7 +28,7 @@ part 'preview_buy_with_asset_store.g.dart';
 
 class PreviewBuyWithAssetStore extends _PreviewBuyWithAssetStoreBase
     with _$PreviewBuyWithAssetStore {
-  PreviewBuyWithAssetStore(PreviewBuyWithAssetInput input) : super(input);
+  PreviewBuyWithAssetStore(super.input);
 
   static _PreviewBuyWithAssetStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithAssetStore>(context, listen: false);

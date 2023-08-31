@@ -16,9 +16,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'PreviewReturnToWalletRouter')
 class PreviewReturnToWallet extends StatelessWidget {
   const PreviewReturnToWallet({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewReturnToWalletInput input;
 
@@ -35,9 +35,9 @@ class PreviewReturnToWallet extends StatelessWidget {
 
 class _PreviewReturnToWalletBody extends StatefulObserverWidget {
   const _PreviewReturnToWalletBody({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewReturnToWalletInput input;
 

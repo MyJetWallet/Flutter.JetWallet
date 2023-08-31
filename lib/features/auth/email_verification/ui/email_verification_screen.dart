@@ -19,7 +19,7 @@ import 'package:universal_io/io.dart';
 
 @RoutePage(name: 'EmailVerificationRoute')
 class EmailVerification extends StatelessWidget {
-  const EmailVerification({Key? key}) : super(key: key);
+  const EmailVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class EmailVerification extends StatelessWidget {
 }
 
 class _EmailVerificationBody extends StatefulObserverWidget {
-  const _EmailVerificationBody({Key? key}) : super(key: key);
+  const _EmailVerificationBody({super.key});
 
   @override
   State<_EmailVerificationBody> createState() => __EmailVerificationBodyState();

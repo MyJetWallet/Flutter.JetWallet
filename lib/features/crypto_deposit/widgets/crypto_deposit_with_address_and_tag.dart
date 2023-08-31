@@ -16,10 +16,10 @@ const sAddressFieldWithCopyHeight = 146;
 
 class CryptoDepositWithAddressAndTag extends StatefulObserverWidget {
   const CryptoDepositWithAddressAndTag({
-    Key? key,
+    super.key,
     required this.currency,
     required this.scrollController,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
   final ScrollController scrollController;

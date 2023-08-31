@@ -25,9 +25,9 @@ void showDepositOptions(
 
 class _DepositOptions extends StatelessObserverWidget {
   const _DepositOptions({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

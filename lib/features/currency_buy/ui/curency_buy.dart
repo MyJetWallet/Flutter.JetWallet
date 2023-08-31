@@ -31,7 +31,7 @@ import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_
 @RoutePage(name: 'CurrencyBuyRouter')
 class CurrencyBuy extends StatelessWidget {
   const CurrencyBuy({
-    Key? key,
+    super.key,
     this.recurringBuysType,
     this.circleCard,
     this.unlimintCard,
@@ -42,7 +42,7 @@ class CurrencyBuy extends StatelessWidget {
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
-  }) : super(key: key);
+  });
 
   final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
@@ -84,7 +84,7 @@ class CurrencyBuy extends StatelessWidget {
 
 class _CurrencyBuyBody extends StatefulObserverWidget {
   const _CurrencyBuyBody({
-    Key? key,
+    super.key,
     this.recurringBuysType,
     this.circleCard,
     this.unlimintCard,
@@ -94,7 +94,7 @@ class _CurrencyBuyBody extends StatefulObserverWidget {
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
-  }) : super(key: key);
+  });
 
   final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;

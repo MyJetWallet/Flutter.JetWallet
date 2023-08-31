@@ -17,13 +17,13 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 @RoutePage(name: 'CircleBillingAddressRouter')
 class CircleBillingAddress extends StatelessWidget {
   const CircleBillingAddress({
-    Key? key,
+    super.key,
     required this.onCardAdded,
     required this.expiryDate,
     required this.cardholderName,
     required this.cardNumber,
     required this.cvv,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
   final String expiryDate;
@@ -48,13 +48,13 @@ class CircleBillingAddress extends StatelessWidget {
 
 class CircleBillingAddressBody extends StatelessObserverWidget {
   const CircleBillingAddressBody({
-    Key? key,
+    super.key,
     required this.onCardAdded,
     required this.expiryDate,
     required this.cardholderName,
     required this.cardNumber,
     required this.cvv,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
   final String expiryDate;

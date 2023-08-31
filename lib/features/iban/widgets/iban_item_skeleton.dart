@@ -7,8 +7,8 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 
 class IBanItemSkeleton extends StatelessObserverWidget {
   const IBanItemSkeleton({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -10,10 +10,10 @@ import 'card_limits_bottom_sheet.dart';
 
 class CardLimit extends StatelessObserverWidget {
   const CardLimit({
-    Key? key,
+    super.key,
     required this.cardLimit,
     this.small = false,
-  }) : super(key: key);
+  });
 
   final CardLimitsModel cardLimit;
   final bool small;

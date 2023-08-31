@@ -23,7 +23,7 @@ import 'package:simple_networking/modules/wallet_api/models/kyc_profile/apply_us
 part 'user_data_store.g.dart';
 
 class UserDataStore extends _UserDataStoreBase with _$UserDataStore {
-  UserDataStore(SelectedDateStore? birthDateInfo) : super(birthDateInfo);
+  UserDataStore(super.birthDateInfo);
 
   static UserDataStore of(BuildContext context) =>
       Provider.of<UserDataStore>(context, listen: false);

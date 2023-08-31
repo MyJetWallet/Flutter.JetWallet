@@ -7,9 +7,9 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 @RoutePage(name: 'PDFViewScreenRouter')
 class PDFViewScreen extends StatefulWidget {
   const PDFViewScreen({
-    Key? key,
+    super.key,
     required this.url,
-  }) : super(key: key);
+  });
 
   final String url;
 

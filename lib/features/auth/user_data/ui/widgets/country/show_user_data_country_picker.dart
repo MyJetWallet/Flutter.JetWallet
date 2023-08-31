@@ -35,9 +35,9 @@ void showUserDataCountryPicker(BuildContext context) {
 
 class _SearchPinned extends StatelessObserverWidget {
   const _SearchPinned({
-    Key? key,
+    super.key,
     required this.store,
-  }) : super(key: key);
+  });
 
   final KycProfileCountriesStore store;
 
@@ -67,9 +67,9 @@ class _SearchPinned extends StatelessObserverWidget {
 
 class _Countries extends StatelessObserverWidget {
   const _Countries({
-    Key? key,
+    super.key,
     required this.store,
-  }) : super(key: key);
+  });
 
   final KycProfileCountriesStore store;
 

@@ -24,7 +24,7 @@ import 'package:simple_networking/modules/wallet_api/models/wallet_history/walle
 part 'chart_store.g.dart';
 
 class ChartStore extends _ChartStoreBase with _$ChartStore {
-  ChartStore(ChartInput chartInput) : super(chartInput);
+  ChartStore(super.chartInput);
 
   static _ChartStoreBase of(BuildContext context) =>
       Provider.of<ChartStore>(context, listen: false);

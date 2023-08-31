@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SuccessAnimation extends StatelessWidget {
   const SuccessAnimation({
-    Key? key,
+    super.key,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final SWidgetSize widgetSize;
 

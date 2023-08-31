@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ValidReferralCodeInside extends StatelessWidget {
   const ValidReferralCodeInside({
-    Key? key,
+    super.key,
     this.referralCode,
-  }) : super(key: key);
+  });
 
   final String? referralCode;
 

@@ -3,8 +3,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class MarketInfoLoaderStat extends StatelessWidget {
   const MarketInfoLoaderStat({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

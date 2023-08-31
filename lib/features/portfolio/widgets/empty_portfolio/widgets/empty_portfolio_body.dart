@@ -17,8 +17,8 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 class EmptyPortfolioBody extends StatefulObserverWidget {
   const EmptyPortfolioBody({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<EmptyPortfolioBody> createState() => _EmptyPortfolioBodyState();

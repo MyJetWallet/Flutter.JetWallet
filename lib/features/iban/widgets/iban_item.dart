@@ -15,10 +15,10 @@ import '../../../core/services/notification_service.dart';
 
 class IBanItem extends StatelessObserverWidget {
   const IBanItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String name;
   final String text;

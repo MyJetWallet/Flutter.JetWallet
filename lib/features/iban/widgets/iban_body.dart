@@ -9,14 +9,14 @@ import '../../../core/di/di.dart';
 
 class IBanBody extends StatefulObserverWidget {
   const IBanBody({
-    Key? key,
+    super.key,
     required this.name,
     required this.iban,
     required this.bic,
     required this.address,
     required this.initIndex,
     required this.isKyc,
-  }) : super(key: key);
+  });
 
   final String name;
   final String iban;

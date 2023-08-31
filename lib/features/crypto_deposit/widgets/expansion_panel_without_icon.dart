@@ -118,16 +118,11 @@ class ExpansionPanelRadio extends ExpansionPanelWithoutIcon {
   /// [headerBuilder], [body], [value] must not be null.
   ExpansionPanelRadio({
     required this.value,
-    required ExpansionPanelHeaderBuilder headerBuilder,
-    required Widget body,
-    bool canTapOnHeader = false,
-    Color? backgroundColor,
-  }) : super(
-          body: body,
-          headerBuilder: headerBuilder,
-          canTapOnHeader: canTapOnHeader,
-          backgroundColor: backgroundColor,
-        );
+    required super.headerBuilder,
+    required super.body,
+    super.canTapOnHeader,
+    super.backgroundColor,
+  });
 
   /// The value that uniquely identifies a radio panel so that the currently
   /// selected radio panel can be identified.
@@ -157,7 +152,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
   ///
   /// The [children] and [animationDuration] arguments must not be null.
   const ExpansionPanelListWithoutIcon({
-    Key? key,
+    super.key,
     this.children = const <ExpansionPanelWithoutIcon>[],
     this.expansionCallback,
     this.animationDuration = kThemeAnimationDuration,
@@ -165,8 +160,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
     this.dividerColor,
     this.elevation = 2,
   })  : _allowOnlyOnePanelOpen = false,
-        initialOpenPanelValue = null,
-        super(key: key);
+        initialOpenPanelValue = null;
 
   /// Creates a radio expansion panel list widget.
   ///
@@ -182,7 +176,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
   /// ** See code in examples/api/lib/material/expansion_panel/expansion_panel_list.expansion_panel_list_radio.0.dart **
   /// {@end-tool}
   const ExpansionPanelListWithoutIcon.radio({
-    Key? key,
+    super.key,
     this.children = const <ExpansionPanelRadio>[],
     this.expansionCallback,
     this.animationDuration = kThemeAnimationDuration,
@@ -190,8 +184,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
     this.expandedHeaderPadding = _kPanelHeaderExpandedDefaultPadding,
     this.dividerColor,
     this.elevation = 2,
-  })  : _allowOnlyOnePanelOpen = true,
-        super(key: key);
+  })  : _allowOnlyOnePanelOpen = true;
 
   /// The children of the expansion panel list. They are laid out in a similar
   /// fashion to [ListBody].
