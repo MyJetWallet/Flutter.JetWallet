@@ -160,7 +160,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                       requiredVerifications: kycState.requiredVerifications,
                     );
                   }
-                  ;
                 },
               ),
             ),
