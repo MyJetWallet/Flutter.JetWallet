@@ -6,9 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/di/di.dart';
 import '../../../../utils/constants.dart';
-import '../../kyc_service.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatelessObserverWidget {

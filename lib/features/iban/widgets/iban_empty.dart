@@ -6,10 +6,8 @@ import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
-import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../utils/constants.dart';
-import '../../kyc/kyc_service.dart';
 
 class IBanEmpty extends StatelessObserverWidget {
   const IBanEmpty({

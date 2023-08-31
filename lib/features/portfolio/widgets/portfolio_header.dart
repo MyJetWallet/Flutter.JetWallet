@@ -8,7 +8,6 @@ import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
-import 'package:jetwallet/features/referral_program_gift/service/referral_gift_service.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';

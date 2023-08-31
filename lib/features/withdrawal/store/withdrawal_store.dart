@@ -19,7 +19,6 @@ import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dar
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
-import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
