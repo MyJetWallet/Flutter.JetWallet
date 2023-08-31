@@ -202,18 +202,18 @@ abstract class _SendCardDetailStoreBase with Store {
   }
 
   void submit() {
-    String? cardNumber = null;
-    String? iban = null;
-    String? phoneNumber = null;
-    String? recipientName = null;
-    String? panNumber = null;
-    String? upiAddress = null;
-    String? accountNumber = null;
-    String? beneficiaryName = null;
-    String? bankName = null;
-    String? ifscCode = null;
-    String? bankAccount = null;
-    String? wise = null;
+    String? cardNumber;
+    String? iban;
+    String? phoneNumber;
+    String? recipientName;
+    String? panNumber;
+    String? upiAddress;
+    String? accountNumber;
+    String? beneficiaryName;
+    String? bankName;
+    String? ifscCode;
+    String? bankAccount;
+    String? wise;
 
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {
