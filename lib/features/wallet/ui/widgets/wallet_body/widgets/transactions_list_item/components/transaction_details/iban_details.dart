@@ -74,7 +74,7 @@ class IbanDetails extends StatelessObserverWidget {
                     Clipboard.setData(
                       ClipboardData(
                         text:
-                            '${transactionListItem.depositInfo!.address ?? ''}',
+                            transactionListItem.depositInfo!.address ?? '',
                       ),
                     );
 
