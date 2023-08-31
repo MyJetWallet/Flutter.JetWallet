@@ -201,11 +201,6 @@ String formatCurrencyStringAmount({
   required String symbol,
 }) {
   return '$value $symbol';
-  return prefix == null
-      ? symbol == 'USD'
-          ? '\$$value'
-          : '$value $symbol'
-      : '$prefix$value';
 }
 
 String convertToUsd(

@@ -92,33 +92,6 @@ abstract class _FormatServiceBase with Store {
     final Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
     return finalAmmount;
-
-    double smartRound(double number, int normalizedAccuracy) {
-      double roundWithAccuracy(double number, int normalizedAccuracy) {
-        final res = isMin
-            ? number.ceilDigits(normalizedAccuracy)
-            : number.floorDigits(normalizedAccuracy);
-
-        return isMin
-            ? number >= res
-                ? number
-                : res
-            : number <= res
-                ? number
-                : res;
-      }
-
-      return normalizedAccuracy == 0
-          ? number
-          : roundWithAccuracy(number, normalizedAccuracy);
-    }
-
-    return Decimal.parse(
-      '${smartRound(
-        finalAmmount.toDouble(),
-        toAsset.normalizedAccuracy,
-      )}',
-    );
   }
 
   Decimal smartRound({

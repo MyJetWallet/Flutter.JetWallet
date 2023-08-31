@@ -49,26 +49,5 @@ class SPageFrame extends StatelessObserverWidget {
         ),
       ),
     );
-
-    return Scaffold(
-      backgroundColor: sKit.getTheme().scaffoldBackgroundColor,
-      bottomNavigationBar: bottomNavigationBar,
-      body: StackLoader(
-        loaderText: loaderText,
-        loading: loading,
-        loadSuccess: loadSuccess,
-        child: Column(
-          children: [
-            if (header != null) header!,
-            Expanded(
-              child: Material(
-                color: color,
-                child: child,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

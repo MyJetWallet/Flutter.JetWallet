@@ -278,10 +278,6 @@ class __MarketNestedScrollViewBodyState
                                 store.removeFromWatchlist(
                                   item.associateAsset,
                                 );
-                              } else {
-                                store.addToWatchlist(
-                                  item.associateAsset,
-                                );
                               }
                             },
                             icon: SNetworkSvg24(
@@ -336,19 +332,13 @@ class __MarketNestedScrollViewBodyState
                   showFavoriteIcon: true,
                   isStarActive: isInWatchlist,
                   onStarButtonTap: () {
-                    if (isInWatchlist) {
-                      HapticFeedback.lightImpact();
-
-                      store.removeFromWatchlist(
-                        item.associateAsset,
-                      );
-                    } else {
+                    
                       HapticFeedback.lightImpact();
 
                       store.addToWatchlist(
                         item.associateAsset,
                       );
-                    }
+                    
                   },
                   icon: SNetworkSvg24(
                     url: item.iconUrl,
