@@ -323,7 +323,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void _updateDialCode(SPhoneNumber? number) {
-    dialCode = number ?? null;
+    dialCode = number;
   }
 
   @action
