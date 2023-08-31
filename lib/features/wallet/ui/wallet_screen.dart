@@ -27,7 +27,6 @@ class Wallet extends StatefulObserverWidget {
 
 class _WalletState extends State<Wallet>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  late AnimationController _animationController;
   late PageController _pageController;
   late CurrencyModel currentAsset;
   int currentPage = 0;
@@ -35,13 +34,6 @@ class _WalletState extends State<Wallet>
   @override
   void initState() {
     super.initState();
-
-    // animationController intentionally is not disposed,
-    // because bottomSheet will dispose it on its own
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
 
     final itemsWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(

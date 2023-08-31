@@ -22,9 +22,6 @@ const _defaultFlavorIndex = 0;
 
 /// [RemoteConfigService] is a Signleton
 class RemoteConfig {
-  final _logger = getIt.get<SimpleLoggerService>();
-  final _loggerValue = 'RemoteConfig';
-
   Timer? _timer;
   late Timer _durationTimer;
   late int retryTime;
