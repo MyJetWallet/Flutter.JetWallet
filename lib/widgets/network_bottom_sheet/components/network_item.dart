@@ -36,7 +36,6 @@ class NetworkItem extends StatelessWidget {
                 ),
                 child: SNetworkSvg24(
                   url: iconUrl,
-                  color: selected ? colors.blue : null,
                 ),
               ),
               Expanded(
