@@ -241,11 +241,12 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
-                        onWrongPin: () {
+                        onWrongPin: (String error) {
                           sAnalytics.errorWrongPinSend(
                             asset: 'EUR',
                             methodType: '2',
                             sendAmount: data.amount.toString(),
+                            errorCode: error,
                           );
                         },
                         onChangePhone: (String newPin) {

@@ -1790,6 +1790,7 @@ class SimpleAnalytics {
     required String asset,
     required String methodType,
     required String sendAmount,
+    required String errorCode,
   }) {
     _analytics.logEvent(
       EventType.errorWrongPinSend,
@@ -1800,6 +1801,7 @@ class SimpleAnalytics {
         PropertyType.asset: asset,
         PropertyType.sendMethodsType: methodType,
         PropertyType.sendAmount: sendAmount,
+        PropertyType.errorCode: errorCode,
       },
     );
   }

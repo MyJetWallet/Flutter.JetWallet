@@ -45,7 +45,7 @@ class PinScreen extends StatelessWidget {
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
-  final Function()? onWrongPin;
+  final Function(String)? onWrongPin;
   final PinFlowUnion union;
   final bool fromRegister;
 

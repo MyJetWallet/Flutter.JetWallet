@@ -14,16 +14,102 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    HomeRouter.name: (routeData) {
+    AboutUsRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const HomeScreen(),
+        child: const AboutUs(),
       );
     },
-    EmailConfirmationRouter.name: (routeData) {
+    AccountRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const EmailConfirmationScreen(),
+        child: const AccountScreen(),
+      );
+    },
+    AccountSecurityRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AccountSecurity(),
+      );
+    },
+    CrispRouter.name: (routeData) {
+      final args = routeData.argsAs<CrispRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: Crisp(
+          key: args.key,
+          welcomeText: args.welcomeText,
+        ),
+      );
+    },
+    DeleteProfileRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DeleteProfile(),
+      );
+    },
+    DeleteReasonsScreenRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DeleteReasonsScreen(),
+      );
+    },
+    ProfileDetailsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfileDetails(),
+      );
+    },
+    ChangePasswordRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ChangePassword(),
+      );
+    },
+    DefaultAssetChangeRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DefaultAssetChange(),
+      );
+    },
+    SetNewPasswordRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SetNewPassword(),
+      );
+    },
+    HelpCenterWebViewRouter.name: (routeData) {
+      final args = routeData.argsAs<HelpCenterWebViewRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: HelpCenterWebView(
+          key: args.key,
+          link: args.link,
+        ),
+      );
+    },
+    AddCircleCardRouter.name: (routeData) {
+      final args = routeData.argsAs<AddCircleCardRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddCircleCard(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+        ),
+      );
+    },
+    CircleBillingAddressRouter.name: (routeData) {
+      final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CircleBillingAddress(
+          key: args.key,
+          onCardAdded: args.onCardAdded,
+          expiryDate: args.expiryDate,
+          cardholderName: args.cardholderName,
+          cardNumber: args.cardNumber,
+          cvv: args.cvv,
+        ),
       );
     },
     ApiSelectorRouter.name: (routeData) {
@@ -36,197 +122,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AppInitRouter(),
-      );
-    },
-    AllowCameraRoute.name: (routeData) {
-      final args = routeData.argsAs<AllowCameraRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AllowCameraScreen(
-          key: args.key,
-          permissionDescription: args.permissionDescription,
-          then: args.then,
-        ),
-      );
-    },
-    ChooseDocumentsRouter.name: (routeData) {
-      final args = routeData.argsAs<ChooseDocumentsRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: ChooseDocuments(
-          key: args.key,
-          headerTitle: args.headerTitle,
-        ),
-      );
-    },
-    UploadKycDocumentsRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const UploadKycDocuments(),
-      );
-    },
-    UploadVerificationPhotoRouter.name: (routeData) {
-      final args = routeData.argsAs<UploadVerificationPhotoRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: UploadVerificationPhoto(
-          key: args.key,
-          isSelfie: args.isSelfie,
-          cardId: args.cardId,
-          onSuccess: args.onSuccess,
-        ),
-      );
-    },
-    KycSelfieRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const KycSelfie(),
-      );
-    },
-    SuccessKycScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<SuccessKycScreenRouteArgs>(
-          orElse: () => const SuccessKycScreenRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SuccessKycScreen(
-          key: args.key,
-          primaryText: args.primaryText,
-          secondaryText: args.secondaryText,
-          specialTextWidget: args.specialTextWidget,
-        ),
-      );
-    },
-    KycVerificationSumsubRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const KycVerificationSumsub(),
-      );
-    },
-    KycVerificationRouter.name: (routeData) {
-      final args = routeData.argsAs<KycVerificationRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: KycVerification(
-          key: args.key,
-          requiredVerifications: args.requiredVerifications,
-        ),
-      );
-    },
-    KycVerifyYourProfileRouter.name: (routeData) {
-      final args = routeData.argsAs<KycVerifyYourProfileRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: KycVerifyYourProfile(
-          key: args.key,
-          requiredVerifications: args.requiredVerifications,
-        ),
-      );
-    },
-    SignalrDebugInfoRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SignalrDebugInfo(),
-      );
-    },
-    DebugInfoRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DebugInfo(),
-      );
-    },
-    LogsRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const LogsScreen(),
-      );
-    },
-    CardRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CardScreen(),
-      );
-    },
-    SendByPhoneAmountRouter.name: (routeData) {
-      final args = routeData.argsAs<SendByPhoneAmountRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendByPhoneAmount(
-          key: args.key,
-          currency: args.currency,
-          pickedContact: args.pickedContact,
-          activeDialCode: args.activeDialCode,
-        ),
-      );
-    },
-    SendByPhoneConfirmRouter.name: (routeData) {
-      final args = routeData.argsAs<SendByPhoneConfirmRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendByPhoneConfirm(
-          key: args.key,
-          currency: args.currency,
-          operationId: args.operationId,
-          receiverIsRegistered: args.receiverIsRegistered,
-          amountStoreAmount: args.amountStoreAmount,
-          pickedContact: args.pickedContact,
-          activeDialCode: args.activeDialCode,
-        ),
-      );
-    },
-    SendByPhonePreviewRouter.name: (routeData) {
-      final args = routeData.argsAs<SendByPhonePreviewRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendByPhonePreview(
-          key: args.key,
-          currency: args.currency,
-          amountStoreAmount: args.amountStoreAmount,
-          pickedContact: args.pickedContact,
-          activeDialCode: args.activeDialCode,
-        ),
-      );
-    },
-    SendByPhoneNotifyRecipientRouter.name: (routeData) {
-      final args = routeData.argsAs<SendByPhoneNotifyRecipientRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendByPhoneNotifyRecipient(
-          key: args.key,
-          toPhoneNumber: args.toPhoneNumber,
-        ),
-      );
-    },
-    SendByPhoneInputRouter.name: (routeData) {
-      final args = routeData.argsAs<SendByPhoneInputRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SendByPhoneInput(
-          key: args.key,
-          currency: args.currency,
-        ),
-      );
-    },
-    SplashNoAnimationRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SplashScreenNoAnimation(),
-      );
-    },
-    SplashRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SplashScreen(),
-      );
-    },
-    SingInRouter.name: (routeData) {
-      final args = routeData.argsAs<SingInRouterArgs>(
-          orElse: () => const SingInRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SingIn(
-          key: args.key,
-          email: args.email,
-        ),
       );
     },
     BiometricRouter.name: (routeData) {
@@ -251,18 +146,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    VerificationRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const VerificationScreen(),
-      );
-    },
-    UserDataScreenRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const UserDataScreen(),
-      );
-    },
     EmailVerificationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -275,93 +158,39 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OnboardingScreen(),
       );
     },
-    WithdrawalAddressRouter.name: (routeData) {
+    SingInRouter.name: (routeData) {
+      final args = routeData.argsAs<SingInRouterArgs>(
+          orElse: () => const SingInRouterArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const WithdrawalAddressScreen(),
-      );
-    },
-    WithdrawalAmmountRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WithdrawalAmmountScreen(),
-      );
-    },
-    WithdrawalPreviewRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WithdrawalPreviewScreen(),
-      );
-    },
-    WithdrawalConfirmRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WithdrawalConfirmScreen(),
-      );
-    },
-    WithdrawRouter.name: (routeData) {
-      final args = routeData.argsAs<WithdrawRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: WithdrawalScreen(
+        child: SingIn(
           key: args.key,
-          withdrawal: args.withdrawal,
+          email: args.email,
         ),
       );
     },
-    SendGloballyConfirmRouter.name: (routeData) {
-      final args = routeData.argsAs<SendGloballyConfirmRouterArgs>();
+    SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SendGloballyConfirmScreen(
-          key: args.key,
-          data: args.data,
-          method: args.method,
-        ),
+        child: const SplashScreen(),
       );
     },
-    SendCardDetailRouter.name: (routeData) {
-      final args = routeData.argsAs<SendCardDetailRouterArgs>();
+    SplashNoAnimationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SendCardDetailScreen(
-          key: args.key,
-          method: args.method,
-          countryCode: args.countryCode,
-          currency: args.currency,
-        ),
+        child: const SplashScreenNoAnimation(),
       );
     },
-    SendCardPaymentMethodRouter.name: (routeData) {
-      final args = routeData.argsAs<SendCardPaymentMethodRouterArgs>();
+    UserDataScreenRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SendCardPaymentMethodScreen(
-          key: args.key,
-          countryCode: args.countryCode,
-          currency: args.currency,
-        ),
+        child: const UserDataScreen(),
       );
     },
-    SendGloballyAmountRouter.name: (routeData) {
-      final args = routeData.argsAs<SendGloballyAmountRouterArgs>();
+    VerificationRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SendGloballyAmountScreen(
-          key: args.key,
-          data: args.data,
-          method: args.method,
-        ),
-      );
-    },
-    RewardsRouter.name: (routeData) {
-      final args = routeData.argsAs<RewardsRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: Rewards(
-          key: args.key,
-          actualRewards: args.actualRewards,
-        ),
+        child: const VerificationScreen(),
       );
     },
     BuyAmountRoute.name: (routeData) {
@@ -408,84 +237,30 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    ReturnToWalletRouter.name: (routeData) {
-      final args = routeData.argsAs<ReturnToWalletRouterArgs>();
+    CardRouter.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ReturnToWallet(
+        child: const CardScreen(),
+      );
+    },
+    ConvertRouter.name: (routeData) {
+      final args = routeData.argsAs<ConvertRouterArgs>(
+          orElse: () => const ConvertRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: Convert(
           key: args.key,
-          currency: args.currency,
-          earnOffer: args.earnOffer,
+          fromCurrency: args.fromCurrency,
         ),
       );
     },
-    PreviewReturnToWalletRouter.name: (routeData) {
-      final args = routeData.argsAs<PreviewReturnToWalletRouterArgs>();
+    PreviewConvertRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewConvertRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PreviewReturnToWallet(
+        child: PreviewConvert(
           key: args.key,
           input: args.input,
-        ),
-      );
-    },
-    IBanRouter.name: (routeData) {
-      final args = routeData.argsAs<IBanRouterArgs>(
-          orElse: () => const IBanRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: IBanScreen(
-          key: args.key,
-          initIndex: args.initIndex,
-        ),
-      );
-    },
-    IbanAddBankAccountRouter.name: (routeData) {
-      final args = routeData.argsAs<IbanAddBankAccountRouterArgs>(
-          orElse: () => const IbanAddBankAccountRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: IbanAddBankAccountScreen(
-          key: args.key,
-          contact: args.contact,
-        ),
-      );
-    },
-    IbanEditBankAccountRouter.name: (routeData) {
-      final args = routeData.argsAs<IbanEditBankAccountRouterArgs>(
-          orElse: () => const IbanEditBankAccountRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: IbanEditBankAccountScreen(
-          key: args.key,
-          contact: args.contact,
-        ),
-      );
-    },
-    IbanAddressRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const IbanBillingAddress(),
-      );
-    },
-    IbanSendConfirmRouter.name: (routeData) {
-      final args = routeData.argsAs<IbanSendConfirmRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: IbanSendConfirm(
-          key: args.key,
-          contact: args.contact,
-          data: args.data,
-        ),
-      );
-    },
-    IbanSendAmountRouter.name: (routeData) {
-      final args = routeData.argsAs<IbanSendAmountRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: IbanSendAmount(
-          key: args.key,
-          contact: args.contact,
         ),
       );
     },
@@ -500,165 +275,22 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    SmsAuthenticatorRouter.name: (routeData) {
+    CurrencyBuyRouter.name: (routeData) {
+      final args = routeData.argsAs<CurrencyBuyRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SmsAuthenticator(),
-      );
-    },
-    SetPhoneNumberRouter.name: (routeData) {
-      final args = routeData.argsAs<SetPhoneNumberRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SetPhoneNumber(
+        child: CurrencyBuy(
           key: args.key,
-          then: args.then,
-          isChangePhone: args.isChangePhone,
-          fromRegister: args.fromRegister,
-          successText: args.successText,
-        ),
-      );
-    },
-    CircleBillingAddressRouter.name: (routeData) {
-      final args = routeData.argsAs<CircleBillingAddressRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CircleBillingAddress(
-          key: args.key,
-          onCardAdded: args.onCardAdded,
-          expiryDate: args.expiryDate,
-          cardholderName: args.cardholderName,
-          cardNumber: args.cardNumber,
-          cvv: args.cvv,
-        ),
-      );
-    },
-    AddCircleCardRouter.name: (routeData) {
-      final args = routeData.argsAs<AddCircleCardRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AddCircleCard(
-          key: args.key,
-          onCardAdded: args.onCardAdded,
-        ),
-      );
-    },
-    CurrencySellRouter.name: (routeData) {
-      final args = routeData.argsAs<CurrencySellRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CurrencySell(
-          key: args.key,
+          recurringBuysType: args.recurringBuysType,
+          circleCard: args.circleCard,
+          unlimintCard: args.unlimintCard,
+          bankCard: args.bankCard,
+          newBankCardId: args.newBankCardId,
+          newBankCardNumber: args.newBankCardNumber,
+          showUaAlert: args.showUaAlert,
           currency: args.currency,
-        ),
-      );
-    },
-    PreviewSellRouter.name: (routeData) {
-      final args = routeData.argsAs<PreviewSellRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PreviewSell(
-          key: args.key,
-          input: args.input,
-        ),
-      );
-    },
-    TransactionHistoryRouter.name: (routeData) {
-      final args = routeData.argsAs<TransactionHistoryRouterArgs>(
-          orElse: () => const TransactionHistoryRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: TransactionHistory(
-          key: args.key,
-          assetName: args.assetName,
-          assetSymbol: args.assetSymbol,
-          initialIndex: args.initialIndex,
-          jwOperationId: args.jwOperationId,
-        ),
-      );
-    },
-    EmptyWalletRouter.name: (routeData) {
-      final args = routeData.argsAs<EmptyWalletRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: EmptyWallet(
-          key: args.key,
-          currency: args.currency,
-        ),
-      );
-    },
-    WalletRouter.name: (routeData) {
-      final args = routeData.argsAs<WalletRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: Wallet(
-          key: args.key,
-          currency: args.currency,
-        ),
-      );
-    },
-    PinScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<PinScreenRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PinScreen(
-          key: args.key,
-          displayHeader: args.displayHeader,
-          cannotLeave: args.cannotLeave,
-          isChangePhone: args.isChangePhone,
-          isChangePin: args.isChangePin,
-          fromRegister: args.fromRegister,
-          isForgotPassword: args.isForgotPassword,
-          onChangePhone: args.onChangePhone,
-          onWrongPin: args.onWrongPin,
-          union: args.union,
-        ),
-      );
-    },
-    PortfolioRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const PortfolioScreen(),
-      );
-    },
-    MarketRouter.name: (routeData) {
-      final args = routeData.argsAs<MarketRouterArgs>(
-          orElse: () => const MarketRouterArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: MarketScreen(
-          key: args.key,
-          initIndex: args.initIndex,
-        ),
-      );
-    },
-    MarketDetailsRouter.name: (routeData) {
-      final args = routeData.argsAs<MarketDetailsRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: MarketDetails(
-          key: args.key,
-          marketItem: args.marketItem,
-        ),
-      );
-    },
-    PDFViewScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<PDFViewScreenRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PDFViewScreen(
-          key: args.key,
-          url: args.url,
-        ),
-      );
-    },
-    PhoneVerificationRouter.name: (routeData) {
-      final args = routeData.argsAs<PhoneVerificationRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PhoneVerification(
-          key: args.key,
-          args: args.args,
+          fromCard: args.fromCard,
+          paymentMethod: args.paymentMethod,
         ),
       );
     },
@@ -675,6 +307,33 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ChooseAssetRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChooseAssetScreen(),
+      );
+    },
+    PaymentMethodRouter.name: (routeData) {
+      final args = routeData.argsAs<PaymentMethodRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentMethodScreen(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
+    },
+    PreviewBuyWithAssetRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewBuyWithAssetRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PreviewBuyWithAsset(
+          key: args.key,
+          onBackButtonTap: args.onBackButtonTap,
+          input: args.input,
+        ),
+      );
+    },
     PreviewBuyWithBankCardRouter.name: (routeData) {
       final args = routeData.argsAs<PreviewBuyWithBankCardRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -683,23 +342,6 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           input: args.input,
         ),
-      );
-    },
-    PreviewBuyWithUnlimintRouter.name: (routeData) {
-      final args = routeData.argsAs<PreviewBuyWithUnlimintRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PreviewBuyWithUnlimint(
-          key: args.key,
-          input: args.input,
-        ),
-      );
-    },
-    SimplexWebViewRouter.name: (routeData) {
-      final args = routeData.argsAs<SimplexWebViewRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: SimplexWebView(args.url),
       );
     },
     Circle3dSecureWebViewRouter.name: (routeData) {
@@ -728,124 +370,410 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    ChooseAssetRouter.name: (routeData) {
+    PreviewBuyWithUnlimintRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewBuyWithUnlimintRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ChooseAssetScreen(),
-      );
-    },
-    PreviewBuyWithAssetRouter.name: (routeData) {
-      final args = routeData.argsAs<PreviewBuyWithAssetRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PreviewBuyWithAsset(
+        child: PreviewBuyWithUnlimint(
           key: args.key,
-          onBackButtonTap: args.onBackButtonTap,
           input: args.input,
         ),
       );
     },
-    PaymentMethodRouter.name: (routeData) {
-      final args = routeData.argsAs<PaymentMethodRouterArgs>();
+    SimplexWebViewRouter.name: (routeData) {
+      final args = routeData.argsAs<SimplexWebViewRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: PaymentMethodScreen(
+        child: SimplexWebView(args.url),
+      );
+    },
+    CurrencySellRouter.name: (routeData) {
+      final args = routeData.argsAs<CurrencySellRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CurrencySell(
           key: args.key,
           currency: args.currency,
         ),
       );
     },
-    CurrencyBuyRouter.name: (routeData) {
-      final args = routeData.argsAs<CurrencyBuyRouterArgs>();
+    PreviewSellRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewSellRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: CurrencyBuy(
+        child: PreviewSell(
           key: args.key,
-          recurringBuysType: args.recurringBuysType,
-          circleCard: args.circleCard,
-          unlimintCard: args.unlimintCard,
-          bankCard: args.bankCard,
-          newBankCardId: args.newBankCardId,
-          newBankCardNumber: args.newBankCardNumber,
-          showUaAlert: args.showUaAlert,
+          input: args.input,
+        ),
+      );
+    },
+    DebugInfoRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DebugInfo(),
+      );
+    },
+    LogsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LogsScreen(),
+      );
+    },
+    SignalrDebugInfoRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SignalrDebugInfo(),
+      );
+    },
+    EmailConfirmationRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EmailConfirmationScreen(),
+      );
+    },
+    HomeRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeScreen(),
+      );
+    },
+    IbanAddBankAccountRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanAddBankAccountRouterArgs>(
+          orElse: () => const IbanAddBankAccountRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IbanAddBankAccountScreen(
+          key: args.key,
+          contact: args.contact,
+        ),
+      );
+    },
+    IbanEditBankAccountRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanEditBankAccountRouterArgs>(
+          orElse: () => const IbanEditBankAccountRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IbanEditBankAccountScreen(
+          key: args.key,
+          contact: args.contact,
+        ),
+      );
+    },
+    IBanRouter.name: (routeData) {
+      final args = routeData.argsAs<IBanRouterArgs>(
+          orElse: () => const IBanRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IBanScreen(
+          key: args.key,
+          initIndex: args.initIndex,
+        ),
+      );
+    },
+    IbanSendAmountRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanSendAmountRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IbanSendAmount(
+          key: args.key,
+          contact: args.contact,
+        ),
+      );
+    },
+    IbanSendConfirmRouter.name: (routeData) {
+      final args = routeData.argsAs<IbanSendConfirmRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: IbanSendConfirm(
+          key: args.key,
+          contact: args.contact,
+          data: args.data,
+        ),
+      );
+    },
+    IbanAddressRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const IbanBillingAddress(),
+      );
+    },
+    AllowCameraRoute.name: (routeData) {
+      final args = routeData.argsAs<AllowCameraRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AllowCameraScreen(
+          key: args.key,
+          permissionDescription: args.permissionDescription,
+          then: args.then,
+        ),
+      );
+    },
+    ChooseDocumentsRouter.name: (routeData) {
+      final args = routeData.argsAs<ChooseDocumentsRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChooseDocuments(
+          key: args.key,
+          headerTitle: args.headerTitle,
+        ),
+      );
+    },
+    KycSelfieRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const KycSelfie(),
+      );
+    },
+    SuccessKycScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<SuccessKycScreenRouteArgs>(
+          orElse: () => const SuccessKycScreenRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SuccessKycScreen(
+          key: args.key,
+          primaryText: args.primaryText,
+          secondaryText: args.secondaryText,
+          specialTextWidget: args.specialTextWidget,
+        ),
+      );
+    },
+    KycVerificationRouter.name: (routeData) {
+      final args = routeData.argsAs<KycVerificationRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: KycVerification(
+          key: args.key,
+          requiredVerifications: args.requiredVerifications,
+        ),
+      );
+    },
+    KycVerificationSumsubRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const KycVerificationSumsub(),
+      );
+    },
+    KycVerifyYourProfileRouter.name: (routeData) {
+      final args = routeData.argsAs<KycVerifyYourProfileRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: KycVerifyYourProfile(
+          key: args.key,
+          requiredVerifications: args.requiredVerifications,
+        ),
+      );
+    },
+    UploadKycDocumentsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UploadKycDocuments(),
+      );
+    },
+    UploadVerificationPhotoRouter.name: (routeData) {
+      final args = routeData.argsAs<UploadVerificationPhotoRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UploadVerificationPhoto(
+          key: args.key,
+          isSelfie: args.isSelfie,
+          cardId: args.cardId,
+          onSuccess: args.onSuccess,
+        ),
+      );
+    },
+    MarketDetailsRouter.name: (routeData) {
+      final args = routeData.argsAs<MarketDetailsRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MarketDetails(
+          key: args.key,
+          marketItem: args.marketItem,
+        ),
+      );
+    },
+    PDFViewScreenRouter.name: (routeData) {
+      final args = routeData.argsAs<PDFViewScreenRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PDFViewScreen(
+          key: args.key,
+          url: args.url,
+        ),
+      );
+    },
+    MarketRouter.name: (routeData) {
+      final args = routeData.argsAs<MarketRouterArgs>(
+          orElse: () => const MarketRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MarketScreen(
+          key: args.key,
+          initIndex: args.initIndex,
+        ),
+      );
+    },
+    PaymentMethodsRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PaymentMethods(),
+      );
+    },
+    PhoneVerificationRouter.name: (routeData) {
+      final args = routeData.argsAs<PhoneVerificationRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PhoneVerification(
+          key: args.key,
+          args: args.args,
+        ),
+      );
+    },
+    PinScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<PinScreenRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PinScreen(
+          key: args.key,
+          displayHeader: args.displayHeader,
+          cannotLeave: args.cannotLeave,
+          isChangePhone: args.isChangePhone,
+          isChangePin: args.isChangePin,
+          fromRegister: args.fromRegister,
+          isForgotPassword: args.isForgotPassword,
+          onChangePhone: args.onChangePhone,
+          onWrongPin: args.onWrongPin,
+          union: args.union,
+        ),
+      );
+    },
+    PortfolioRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PortfolioScreen(),
+      );
+    },
+    PreviewReturnToWalletRouter.name: (routeData) {
+      final args = routeData.argsAs<PreviewReturnToWalletRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PreviewReturnToWallet(
+          key: args.key,
+          input: args.input,
+        ),
+      );
+    },
+    ReturnToWalletRouter.name: (routeData) {
+      final args = routeData.argsAs<ReturnToWalletRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ReturnToWallet(
+          key: args.key,
           currency: args.currency,
-          fromCard: args.fromCard,
-          paymentMethod: args.paymentMethod,
+          earnOffer: args.earnOffer,
         ),
       );
     },
-    DeleteReasonsScreenRouter.name: (routeData) {
+    RewardsRouter.name: (routeData) {
+      final args = routeData.argsAs<RewardsRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const DeleteReasonsScreen(),
-      );
-    },
-    DeleteProfileRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DeleteProfile(),
-      );
-    },
-    ProfileDetailsRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ProfileDetails(),
-      );
-    },
-    DefaultAssetChangeRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DefaultAssetChange(),
-      );
-    },
-    ChangePasswordRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ChangePassword(),
-      );
-    },
-    SetNewPasswordRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SetNewPassword(),
-      );
-    },
-    AccountRouter.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AccountScreen(),
-      );
-    },
-    CrispRouter.name: (routeData) {
-      final args = routeData.argsAs<CrispRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: Crisp(
+        child: Rewards(
           key: args.key,
-          welcomeText: args.welcomeText,
+          actualRewards: args.actualRewards,
         ),
       );
     },
-    AboutUsRouter.name: (routeData) {
+    SendByPhoneAmountRouter.name: (routeData) {
+      final args = routeData.argsAs<SendByPhoneAmountRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AboutUs(),
-      );
-    },
-    HelpCenterWebViewRouter.name: (routeData) {
-      final args = routeData.argsAs<HelpCenterWebViewRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: HelpCenterWebView(
+        child: SendByPhoneAmount(
           key: args.key,
-          link: args.link,
+          currency: args.currency,
+          pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
         ),
       );
     },
-    AccountSecurityRouter.name: (routeData) {
+    SendByPhoneConfirmRouter.name: (routeData) {
+      final args = routeData.argsAs<SendByPhoneConfirmRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AccountSecurity(),
+        child: SendByPhoneConfirm(
+          key: args.key,
+          currency: args.currency,
+          operationId: args.operationId,
+          receiverIsRegistered: args.receiverIsRegistered,
+          amountStoreAmount: args.amountStoreAmount,
+          pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
+        ),
+      );
+    },
+    SendByPhoneInputRouter.name: (routeData) {
+      final args = routeData.argsAs<SendByPhoneInputRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendByPhoneInput(
+          key: args.key,
+          currency: args.currency,
+        ),
+      );
+    },
+    SendByPhoneNotifyRecipientRouter.name: (routeData) {
+      final args = routeData.argsAs<SendByPhoneNotifyRecipientRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendByPhoneNotifyRecipient(
+          key: args.key,
+          toPhoneNumber: args.toPhoneNumber,
+        ),
+      );
+    },
+    SendByPhonePreviewRouter.name: (routeData) {
+      final args = routeData.argsAs<SendByPhonePreviewRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendByPhonePreview(
+          key: args.key,
+          currency: args.currency,
+          amountStoreAmount: args.amountStoreAmount,
+          pickedContact: args.pickedContact,
+          activeDialCode: args.activeDialCode,
+        ),
+      );
+    },
+    SetPhoneNumberRouter.name: (routeData) {
+      final args = routeData.argsAs<SetPhoneNumberRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SetPhoneNumber(
+          key: args.key,
+          then: args.then,
+          isChangePhone: args.isChangePhone,
+          fromRegister: args.fromRegister,
+          successText: args.successText,
+        ),
+      );
+    },
+    SmsAuthenticatorRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SmsAuthenticator(),
+      );
+    },
+    TransactionHistoryRouter.name: (routeData) {
+      final args = routeData.argsAs<TransactionHistoryRouterArgs>(
+          orElse: () => const TransactionHistoryRouterArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TransactionHistory(
+          key: args.key,
+          assetName: args.assetName,
+          assetSymbol: args.assetSymbol,
+          initialIndex: args.initialIndex,
+          jwOperationId: args.jwOperationId,
+        ),
       );
     },
     TwoFaPhoneRouter.name: (routeData) {
@@ -858,45 +786,113 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    PaymentMethodsRouter.name: (routeData) {
+    EmptyWalletRouter.name: (routeData) {
+      final args = routeData.argsAs<EmptyWalletRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PaymentMethods(),
-      );
-    },
-    PreviewConvertRouter.name: (routeData) {
-      final args = routeData.argsAs<PreviewConvertRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PreviewConvert(
+        child: EmptyWallet(
           key: args.key,
-          input: args.input,
+          currency: args.currency,
         ),
       );
     },
-    ConvertRouter.name: (routeData) {
-      final args = routeData.argsAs<ConvertRouterArgs>(
-          orElse: () => const ConvertRouterArgs());
+    WalletRouter.name: (routeData) {
+      final args = routeData.argsAs<WalletRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: Convert(
+        child: Wallet(
           key: args.key,
-          fromCurrency: args.fromCurrency,
+          currency: args.currency,
         ),
       );
     },
-    WaitingScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<WaitingScreenRouterArgs>();
+    SendCardDetailRouter.name: (routeData) {
+      final args = routeData.argsAs<SendCardDetailRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WaitingScreen(
+        child: SendCardDetailScreen(
           key: args.key,
-          onSuccess: args.onSuccess,
-          primaryText: args.primaryText,
-          secondaryText: args.secondaryText,
-          specialTextWidget: args.specialTextWidget,
-          wasAction: args.wasAction,
-          onSkip: args.onSkip,
+          method: args.method,
+          countryCode: args.countryCode,
+          currency: args.currency,
+        ),
+      );
+    },
+    SendCardPaymentMethodRouter.name: (routeData) {
+      final args = routeData.argsAs<SendCardPaymentMethodRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendCardPaymentMethodScreen(
+          key: args.key,
+          countryCode: args.countryCode,
+          currency: args.currency,
+        ),
+      );
+    },
+    SendGloballyAmountRouter.name: (routeData) {
+      final args = routeData.argsAs<SendGloballyAmountRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendGloballyAmountScreen(
+          key: args.key,
+          data: args.data,
+          method: args.method,
+        ),
+      );
+    },
+    SendGloballyConfirmRouter.name: (routeData) {
+      final args = routeData.argsAs<SendGloballyConfirmRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SendGloballyConfirmScreen(
+          key: args.key,
+          data: args.data,
+          method: args.method,
+        ),
+      );
+    },
+    WithdrawalAddressRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalAddressScreen(),
+      );
+    },
+    WithdrawalAmmountRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalAmmountScreen(),
+      );
+    },
+    WithdrawalConfirmRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalConfirmScreen(),
+      );
+    },
+    WithdrawalPreviewRouter.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WithdrawalPreviewScreen(),
+      );
+    },
+    WithdrawRouter.name: (routeData) {
+      final args = routeData.argsAs<WithdrawRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WithdrawalScreen(
+          key: args.key,
+          withdrawal: args.withdrawal,
+        ),
+      );
+    },
+    InfoWebViewRouter.name: (routeData) {
+      final args = routeData.argsAs<InfoWebViewRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: InfoWebView(
+          key: args.key,
+          link: args.link,
+          title: args.title,
         ),
       );
     },
@@ -937,6 +933,16 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    SuccessVerifyingScreenRouter.name: (routeData) {
+      final args = routeData.argsAs<SuccessVerifyingScreenRouterArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SuccessVerifyingScreen(
+          key: args.key,
+          onSuccess: args.onSuccess,
+        ),
+      );
+    },
     VerifyingScreenRouter.name: (routeData) {
       final args = routeData.argsAs<VerifyingScreenRouterArgs>();
       return AutoRoutePage<dynamic>(
@@ -948,24 +954,18 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    SuccessVerifyingScreenRouter.name: (routeData) {
-      final args = routeData.argsAs<SuccessVerifyingScreenRouterArgs>();
+    WaitingScreenRouter.name: (routeData) {
+      final args = routeData.argsAs<WaitingScreenRouterArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SuccessVerifyingScreen(
+        child: WaitingScreen(
           key: args.key,
           onSuccess: args.onSuccess,
-        ),
-      );
-    },
-    InfoWebViewRouter.name: (routeData) {
-      final args = routeData.argsAs<InfoWebViewRouterArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: InfoWebView(
-          key: args.key,
-          link: args.link,
-          title: args.title,
+          primaryText: args.primaryText,
+          secondaryText: args.secondaryText,
+          specialTextWidget: args.specialTextWidget,
+          wasAction: args.wasAction,
+          onSkip: args.onSkip,
         ),
       );
     },
@@ -973,31 +973,302 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
-/// [HomeScreen]
-class HomeRouter extends PageRouteInfo<void> {
-  const HomeRouter({List<PageRouteInfo>? children})
+/// [AboutUs]
+class AboutUsRouter extends PageRouteInfo<void> {
+  const AboutUsRouter({List<PageRouteInfo>? children})
       : super(
-          HomeRouter.name,
+          AboutUsRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRouter';
+  static const String name = 'AboutUsRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [EmailConfirmationScreen]
-class EmailConfirmationRouter extends PageRouteInfo<void> {
-  const EmailConfirmationRouter({List<PageRouteInfo>? children})
+/// [AccountScreen]
+class AccountRouter extends PageRouteInfo<void> {
+  const AccountRouter({List<PageRouteInfo>? children})
       : super(
-          EmailConfirmationRouter.name,
+          AccountRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'EmailConfirmationRouter';
+  static const String name = 'AccountRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AccountSecurity]
+class AccountSecurityRouter extends PageRouteInfo<void> {
+  const AccountSecurityRouter({List<PageRouteInfo>? children})
+      : super(
+          AccountSecurityRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AccountSecurityRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [Crisp]
+class CrispRouter extends PageRouteInfo<CrispRouterArgs> {
+  CrispRouter({
+    Key? key,
+    required String welcomeText,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CrispRouter.name,
+          args: CrispRouterArgs(
+            key: key,
+            welcomeText: welcomeText,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CrispRouter';
+
+  static const PageInfo<CrispRouterArgs> page = PageInfo<CrispRouterArgs>(name);
+}
+
+class CrispRouterArgs {
+  const CrispRouterArgs({
+    this.key,
+    required this.welcomeText,
+  });
+
+  final Key? key;
+
+  final String welcomeText;
+
+  @override
+  String toString() {
+    return 'CrispRouterArgs{key: $key, welcomeText: $welcomeText}';
+  }
+}
+
+/// generated route for
+/// [DeleteProfile]
+class DeleteProfileRouter extends PageRouteInfo<void> {
+  const DeleteProfileRouter({List<PageRouteInfo>? children})
+      : super(
+          DeleteProfileRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DeleteProfileRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DeleteReasonsScreen]
+class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
+  const DeleteReasonsScreenRouter({List<PageRouteInfo>? children})
+      : super(
+          DeleteReasonsScreenRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DeleteReasonsScreenRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileDetails]
+class ProfileDetailsRouter extends PageRouteInfo<void> {
+  const ProfileDetailsRouter({List<PageRouteInfo>? children})
+      : super(
+          ProfileDetailsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileDetailsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ChangePassword]
+class ChangePasswordRouter extends PageRouteInfo<void> {
+  const ChangePasswordRouter({List<PageRouteInfo>? children})
+      : super(
+          ChangePasswordRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChangePasswordRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DefaultAssetChange]
+class DefaultAssetChangeRouter extends PageRouteInfo<void> {
+  const DefaultAssetChangeRouter({List<PageRouteInfo>? children})
+      : super(
+          DefaultAssetChangeRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DefaultAssetChangeRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SetNewPassword]
+class SetNewPasswordRouter extends PageRouteInfo<void> {
+  const SetNewPasswordRouter({List<PageRouteInfo>? children})
+      : super(
+          SetNewPasswordRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SetNewPasswordRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HelpCenterWebView]
+class HelpCenterWebViewRouter
+    extends PageRouteInfo<HelpCenterWebViewRouterArgs> {
+  HelpCenterWebViewRouter({
+    Key? key,
+    required String link,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HelpCenterWebViewRouter.name,
+          args: HelpCenterWebViewRouterArgs(
+            key: key,
+            link: link,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HelpCenterWebViewRouter';
+
+  static const PageInfo<HelpCenterWebViewRouterArgs> page =
+      PageInfo<HelpCenterWebViewRouterArgs>(name);
+}
+
+class HelpCenterWebViewRouterArgs {
+  const HelpCenterWebViewRouterArgs({
+    this.key,
+    required this.link,
+  });
+
+  final Key? key;
+
+  final String link;
+
+  @override
+  String toString() {
+    return 'HelpCenterWebViewRouterArgs{key: $key, link: $link}';
+  }
+}
+
+/// generated route for
+/// [AddCircleCard]
+class AddCircleCardRouter extends PageRouteInfo<AddCircleCardRouterArgs> {
+  AddCircleCardRouter({
+    Key? key,
+    required dynamic Function(CircleCard) onCardAdded,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddCircleCardRouter.name,
+          args: AddCircleCardRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddCircleCardRouter';
+
+  static const PageInfo<AddCircleCardRouterArgs> page =
+      PageInfo<AddCircleCardRouterArgs>(name);
+}
+
+class AddCircleCardRouterArgs {
+  const AddCircleCardRouterArgs({
+    this.key,
+    required this.onCardAdded,
+  });
+
+  final Key? key;
+
+  final dynamic Function(CircleCard) onCardAdded;
+
+  @override
+  String toString() {
+    return 'AddCircleCardRouterArgs{key: $key, onCardAdded: $onCardAdded}';
+  }
+}
+
+/// generated route for
+/// [CircleBillingAddress]
+class CircleBillingAddressRouter
+    extends PageRouteInfo<CircleBillingAddressRouterArgs> {
+  CircleBillingAddressRouter({
+    Key? key,
+    required dynamic Function(CircleCard) onCardAdded,
+    required String expiryDate,
+    required String cardholderName,
+    required String cardNumber,
+    required String cvv,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CircleBillingAddressRouter.name,
+          args: CircleBillingAddressRouterArgs(
+            key: key,
+            onCardAdded: onCardAdded,
+            expiryDate: expiryDate,
+            cardholderName: cardholderName,
+            cardNumber: cardNumber,
+            cvv: cvv,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CircleBillingAddressRouter';
+
+  static const PageInfo<CircleBillingAddressRouterArgs> page =
+      PageInfo<CircleBillingAddressRouterArgs>(name);
+}
+
+class CircleBillingAddressRouterArgs {
+  const CircleBillingAddressRouterArgs({
+    this.key,
+    required this.onCardAdded,
+    required this.expiryDate,
+    required this.cardholderName,
+    required this.cardNumber,
+    required this.cvv,
+  });
+
+  final Key? key;
+
+  final dynamic Function(CircleCard) onCardAdded;
+
+  final String expiryDate;
+
+  final String cardholderName;
+
+  final String cardNumber;
+
+  final String cvv;
+
+  @override
+  String toString() {
+    return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded, expiryDate: $expiryDate, cardholderName: $cardholderName, cardNumber: $cardNumber, cvv: $cvv}';
+  }
 }
 
 /// generated route for
@@ -1026,669 +1297,6 @@ class AppInitRoute extends PageRouteInfo<void> {
   static const String name = 'AppInitRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AllowCameraScreen]
-class AllowCameraRoute extends PageRouteInfo<AllowCameraRouteArgs> {
-  AllowCameraRoute({
-    Key? key,
-    required String permissionDescription,
-    required void Function() then,
-    List<PageRouteInfo>? children,
-  }) : super(
-          AllowCameraRoute.name,
-          args: AllowCameraRouteArgs(
-            key: key,
-            permissionDescription: permissionDescription,
-            then: then,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'AllowCameraRoute';
-
-  static const PageInfo<AllowCameraRouteArgs> page =
-      PageInfo<AllowCameraRouteArgs>(name);
-}
-
-class AllowCameraRouteArgs {
-  const AllowCameraRouteArgs({
-    this.key,
-    required this.permissionDescription,
-    required this.then,
-  });
-
-  final Key? key;
-
-  final String permissionDescription;
-
-  final void Function() then;
-
-  @override
-  String toString() {
-    return 'AllowCameraRouteArgs{key: $key, permissionDescription: $permissionDescription, then: $then}';
-  }
-}
-
-/// generated route for
-/// [ChooseDocuments]
-class ChooseDocumentsRouter extends PageRouteInfo<ChooseDocumentsRouterArgs> {
-  ChooseDocumentsRouter({
-    Key? key,
-    required String headerTitle,
-    List<PageRouteInfo>? children,
-  }) : super(
-          ChooseDocumentsRouter.name,
-          args: ChooseDocumentsRouterArgs(
-            key: key,
-            headerTitle: headerTitle,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'ChooseDocumentsRouter';
-
-  static const PageInfo<ChooseDocumentsRouterArgs> page =
-      PageInfo<ChooseDocumentsRouterArgs>(name);
-}
-
-class ChooseDocumentsRouterArgs {
-  const ChooseDocumentsRouterArgs({
-    this.key,
-    required this.headerTitle,
-  });
-
-  final Key? key;
-
-  final String headerTitle;
-
-  @override
-  String toString() {
-    return 'ChooseDocumentsRouterArgs{key: $key, headerTitle: $headerTitle}';
-  }
-}
-
-/// generated route for
-/// [UploadKycDocuments]
-class UploadKycDocumentsRouter extends PageRouteInfo<void> {
-  const UploadKycDocumentsRouter({List<PageRouteInfo>? children})
-      : super(
-          UploadKycDocumentsRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'UploadKycDocumentsRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [UploadVerificationPhoto]
-class UploadVerificationPhotoRouter
-    extends PageRouteInfo<UploadVerificationPhotoRouterArgs> {
-  UploadVerificationPhotoRouter({
-    Key? key,
-    bool isSelfie = false,
-    required String cardId,
-    required dynamic Function() onSuccess,
-    List<PageRouteInfo>? children,
-  }) : super(
-          UploadVerificationPhotoRouter.name,
-          args: UploadVerificationPhotoRouterArgs(
-            key: key,
-            isSelfie: isSelfie,
-            cardId: cardId,
-            onSuccess: onSuccess,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'UploadVerificationPhotoRouter';
-
-  static const PageInfo<UploadVerificationPhotoRouterArgs> page =
-      PageInfo<UploadVerificationPhotoRouterArgs>(name);
-}
-
-class UploadVerificationPhotoRouterArgs {
-  const UploadVerificationPhotoRouterArgs({
-    this.key,
-    this.isSelfie = false,
-    required this.cardId,
-    required this.onSuccess,
-  });
-
-  final Key? key;
-
-  final bool isSelfie;
-
-  final String cardId;
-
-  final dynamic Function() onSuccess;
-
-  @override
-  String toString() {
-    return 'UploadVerificationPhotoRouterArgs{key: $key, isSelfie: $isSelfie, cardId: $cardId, onSuccess: $onSuccess}';
-  }
-}
-
-/// generated route for
-/// [KycSelfie]
-class KycSelfieRouter extends PageRouteInfo<void> {
-  const KycSelfieRouter({List<PageRouteInfo>? children})
-      : super(
-          KycSelfieRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'KycSelfieRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SuccessKycScreen]
-class SuccessKycScreenRoute extends PageRouteInfo<SuccessKycScreenRouteArgs> {
-  SuccessKycScreenRoute({
-    Key? key,
-    String? primaryText,
-    String? secondaryText,
-    Widget? specialTextWidget,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SuccessKycScreenRoute.name,
-          args: SuccessKycScreenRouteArgs(
-            key: key,
-            primaryText: primaryText,
-            secondaryText: secondaryText,
-            specialTextWidget: specialTextWidget,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SuccessKycScreenRoute';
-
-  static const PageInfo<SuccessKycScreenRouteArgs> page =
-      PageInfo<SuccessKycScreenRouteArgs>(name);
-}
-
-class SuccessKycScreenRouteArgs {
-  const SuccessKycScreenRouteArgs({
-    this.key,
-    this.primaryText,
-    this.secondaryText,
-    this.specialTextWidget,
-  });
-
-  final Key? key;
-
-  final String? primaryText;
-
-  final String? secondaryText;
-
-  final Widget? specialTextWidget;
-
-  @override
-  String toString() {
-    return 'SuccessKycScreenRouteArgs{key: $key, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget}';
-  }
-}
-
-/// generated route for
-/// [KycVerificationSumsub]
-class KycVerificationSumsubRouter extends PageRouteInfo<void> {
-  const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
-      : super(
-          KycVerificationSumsubRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'KycVerificationSumsubRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [KycVerification]
-class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
-  KycVerificationRouter({
-    Key? key,
-    required List<RequiredVerified> requiredVerifications,
-    List<PageRouteInfo>? children,
-  }) : super(
-          KycVerificationRouter.name,
-          args: KycVerificationRouterArgs(
-            key: key,
-            requiredVerifications: requiredVerifications,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'KycVerificationRouter';
-
-  static const PageInfo<KycVerificationRouterArgs> page =
-      PageInfo<KycVerificationRouterArgs>(name);
-}
-
-class KycVerificationRouterArgs {
-  const KycVerificationRouterArgs({
-    this.key,
-    required this.requiredVerifications,
-  });
-
-  final Key? key;
-
-  final List<RequiredVerified> requiredVerifications;
-
-  @override
-  String toString() {
-    return 'KycVerificationRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
-  }
-}
-
-/// generated route for
-/// [KycVerifyYourProfile]
-class KycVerifyYourProfileRouter
-    extends PageRouteInfo<KycVerifyYourProfileRouterArgs> {
-  KycVerifyYourProfileRouter({
-    Key? key,
-    required List<RequiredVerified> requiredVerifications,
-    List<PageRouteInfo>? children,
-  }) : super(
-          KycVerifyYourProfileRouter.name,
-          args: KycVerifyYourProfileRouterArgs(
-            key: key,
-            requiredVerifications: requiredVerifications,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'KycVerifyYourProfileRouter';
-
-  static const PageInfo<KycVerifyYourProfileRouterArgs> page =
-      PageInfo<KycVerifyYourProfileRouterArgs>(name);
-}
-
-class KycVerifyYourProfileRouterArgs {
-  const KycVerifyYourProfileRouterArgs({
-    this.key,
-    required this.requiredVerifications,
-  });
-
-  final Key? key;
-
-  final List<RequiredVerified> requiredVerifications;
-
-  @override
-  String toString() {
-    return 'KycVerifyYourProfileRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
-  }
-}
-
-/// generated route for
-/// [SignalrDebugInfo]
-class SignalrDebugInfoRouter extends PageRouteInfo<void> {
-  const SignalrDebugInfoRouter({List<PageRouteInfo>? children})
-      : super(
-          SignalrDebugInfoRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SignalrDebugInfoRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [DebugInfo]
-class DebugInfoRouter extends PageRouteInfo<void> {
-  const DebugInfoRouter({List<PageRouteInfo>? children})
-      : super(
-          DebugInfoRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DebugInfoRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [LogsScreen]
-class LogsRouter extends PageRouteInfo<void> {
-  const LogsRouter({List<PageRouteInfo>? children})
-      : super(
-          LogsRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'LogsRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [CardScreen]
-class CardRouter extends PageRouteInfo<void> {
-  const CardRouter({List<PageRouteInfo>? children})
-      : super(
-          CardRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CardRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SendByPhoneAmount]
-class SendByPhoneAmountRouter
-    extends PageRouteInfo<SendByPhoneAmountRouterArgs> {
-  SendByPhoneAmountRouter({
-    Key? key,
-    required CurrencyModel currency,
-    ContactModel? pickedContact,
-    SPhoneNumber? activeDialCode,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendByPhoneAmountRouter.name,
-          args: SendByPhoneAmountRouterArgs(
-            key: key,
-            currency: currency,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendByPhoneAmountRouter';
-
-  static const PageInfo<SendByPhoneAmountRouterArgs> page =
-      PageInfo<SendByPhoneAmountRouterArgs>(name);
-}
-
-class SendByPhoneAmountRouterArgs {
-  const SendByPhoneAmountRouterArgs({
-    this.key,
-    required this.currency,
-    this.pickedContact,
-    this.activeDialCode,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  final ContactModel? pickedContact;
-
-  final SPhoneNumber? activeDialCode;
-
-  @override
-  String toString() {
-    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
-  }
-}
-
-/// generated route for
-/// [SendByPhoneConfirm]
-class SendByPhoneConfirmRouter
-    extends PageRouteInfo<SendByPhoneConfirmRouterArgs> {
-  SendByPhoneConfirmRouter({
-    Key? key,
-    required CurrencyModel currency,
-    required String operationId,
-    required bool receiverIsRegistered,
-    required String amountStoreAmount,
-    required ContactModel pickedContact,
-    required SPhoneNumber activeDialCode,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendByPhoneConfirmRouter.name,
-          args: SendByPhoneConfirmRouterArgs(
-            key: key,
-            currency: currency,
-            operationId: operationId,
-            receiverIsRegistered: receiverIsRegistered,
-            amountStoreAmount: amountStoreAmount,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendByPhoneConfirmRouter';
-
-  static const PageInfo<SendByPhoneConfirmRouterArgs> page =
-      PageInfo<SendByPhoneConfirmRouterArgs>(name);
-}
-
-class SendByPhoneConfirmRouterArgs {
-  const SendByPhoneConfirmRouterArgs({
-    this.key,
-    required this.currency,
-    required this.operationId,
-    required this.receiverIsRegistered,
-    required this.amountStoreAmount,
-    required this.pickedContact,
-    required this.activeDialCode,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  final String operationId;
-
-  final bool receiverIsRegistered;
-
-  final String amountStoreAmount;
-
-  final ContactModel pickedContact;
-
-  final SPhoneNumber activeDialCode;
-
-  @override
-  String toString() {
-    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency, operationId: $operationId, receiverIsRegistered: $receiverIsRegistered, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
-  }
-}
-
-/// generated route for
-/// [SendByPhonePreview]
-class SendByPhonePreviewRouter
-    extends PageRouteInfo<SendByPhonePreviewRouterArgs> {
-  SendByPhonePreviewRouter({
-    Key? key,
-    required CurrencyModel currency,
-    required String amountStoreAmount,
-    required ContactModel pickedContact,
-    required SPhoneNumber activeDialCode,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendByPhonePreviewRouter.name,
-          args: SendByPhonePreviewRouterArgs(
-            key: key,
-            currency: currency,
-            amountStoreAmount: amountStoreAmount,
-            pickedContact: pickedContact,
-            activeDialCode: activeDialCode,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendByPhonePreviewRouter';
-
-  static const PageInfo<SendByPhonePreviewRouterArgs> page =
-      PageInfo<SendByPhonePreviewRouterArgs>(name);
-}
-
-class SendByPhonePreviewRouterArgs {
-  const SendByPhonePreviewRouterArgs({
-    this.key,
-    required this.currency,
-    required this.amountStoreAmount,
-    required this.pickedContact,
-    required this.activeDialCode,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  final String amountStoreAmount;
-
-  final ContactModel pickedContact;
-
-  final SPhoneNumber activeDialCode;
-
-  @override
-  String toString() {
-    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
-  }
-}
-
-/// generated route for
-/// [SendByPhoneNotifyRecipient]
-class SendByPhoneNotifyRecipientRouter
-    extends PageRouteInfo<SendByPhoneNotifyRecipientRouterArgs> {
-  SendByPhoneNotifyRecipientRouter({
-    Key? key,
-    required String toPhoneNumber,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendByPhoneNotifyRecipientRouter.name,
-          args: SendByPhoneNotifyRecipientRouterArgs(
-            key: key,
-            toPhoneNumber: toPhoneNumber,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendByPhoneNotifyRecipientRouter';
-
-  static const PageInfo<SendByPhoneNotifyRecipientRouterArgs> page =
-      PageInfo<SendByPhoneNotifyRecipientRouterArgs>(name);
-}
-
-class SendByPhoneNotifyRecipientRouterArgs {
-  const SendByPhoneNotifyRecipientRouterArgs({
-    this.key,
-    required this.toPhoneNumber,
-  });
-
-  final Key? key;
-
-  final String toPhoneNumber;
-
-  @override
-  String toString() {
-    return 'SendByPhoneNotifyRecipientRouterArgs{key: $key, toPhoneNumber: $toPhoneNumber}';
-  }
-}
-
-/// generated route for
-/// [SendByPhoneInput]
-class SendByPhoneInputRouter extends PageRouteInfo<SendByPhoneInputRouterArgs> {
-  SendByPhoneInputRouter({
-    Key? key,
-    required CurrencyModel currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendByPhoneInputRouter.name,
-          args: SendByPhoneInputRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendByPhoneInputRouter';
-
-  static const PageInfo<SendByPhoneInputRouterArgs> page =
-      PageInfo<SendByPhoneInputRouterArgs>(name);
-}
-
-class SendByPhoneInputRouterArgs {
-  const SendByPhoneInputRouterArgs({
-    this.key,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  @override
-  String toString() {
-    return 'SendByPhoneInputRouterArgs{key: $key, currency: $currency}';
-  }
-}
-
-/// generated route for
-/// [SplashScreenNoAnimation]
-class SplashNoAnimationRoute extends PageRouteInfo<void> {
-  const SplashNoAnimationRoute({List<PageRouteInfo>? children})
-      : super(
-          SplashNoAnimationRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SplashNoAnimationRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SplashScreen]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute({List<PageRouteInfo>? children})
-      : super(
-          SplashRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SplashRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SingIn]
-class SingInRouter extends PageRouteInfo<SingInRouterArgs> {
-  SingInRouter({
-    Key? key,
-    String? email,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SingInRouter.name,
-          args: SingInRouterArgs(
-            key: key,
-            email: email,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SingInRouter';
-
-  static const PageInfo<SingInRouterArgs> page =
-      PageInfo<SingInRouterArgs>(name);
-}
-
-class SingInRouterArgs {
-  const SingInRouterArgs({
-    this.key,
-    this.email,
-  });
-
-  final Key? key;
-
-  final String? email;
-
-  @override
-  String toString() {
-    return 'SingInRouterArgs{key: $key, email: $email}';
-  }
 }
 
 /// generated route for
@@ -1768,34 +1376,6 @@ class AllowBiometricRouteArgs {
 }
 
 /// generated route for
-/// [VerificationScreen]
-class VerificationRouter extends PageRouteInfo<void> {
-  const VerificationRouter({List<PageRouteInfo>? children})
-      : super(
-          VerificationRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'VerificationRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [UserDataScreen]
-class UserDataScreenRouter extends PageRouteInfo<void> {
-  const UserDataScreenRouter({List<PageRouteInfo>? children})
-      : super(
-          UserDataScreenRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'UserDataScreenRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [EmailVerification]
 class EmailVerificationRoute extends PageRouteInfo<void> {
   const EmailVerificationRoute({List<PageRouteInfo>? children})
@@ -1824,315 +1404,97 @@ class OnboardingRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [WithdrawalAddressScreen]
-class WithdrawalAddressRouter extends PageRouteInfo<void> {
-  const WithdrawalAddressRouter({List<PageRouteInfo>? children})
-      : super(
-          WithdrawalAddressRouter.name,
+/// [SingIn]
+class SingInRouter extends PageRouteInfo<SingInRouterArgs> {
+  SingInRouter({
+    Key? key,
+    String? email,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SingInRouter.name,
+          args: SingInRouterArgs(
+            key: key,
+            email: email,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'WithdrawalAddressRouter';
+  static const String name = 'SingInRouter';
+
+  static const PageInfo<SingInRouterArgs> page =
+      PageInfo<SingInRouterArgs>(name);
+}
+
+class SingInRouterArgs {
+  const SingInRouterArgs({
+    this.key,
+    this.email,
+  });
+
+  final Key? key;
+
+  final String? email;
+
+  @override
+  String toString() {
+    return 'SingInRouterArgs{key: $key, email: $email}';
+  }
+}
+
+/// generated route for
+/// [SplashScreen]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
+      : super(
+          SplashRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [WithdrawalAmmountScreen]
-class WithdrawalAmmountRouter extends PageRouteInfo<void> {
-  const WithdrawalAmmountRouter({List<PageRouteInfo>? children})
+/// [SplashScreenNoAnimation]
+class SplashNoAnimationRoute extends PageRouteInfo<void> {
+  const SplashNoAnimationRoute({List<PageRouteInfo>? children})
       : super(
-          WithdrawalAmmountRouter.name,
+          SplashNoAnimationRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'WithdrawalAmmountRouter';
+  static const String name = 'SplashNoAnimationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [WithdrawalPreviewScreen]
-class WithdrawalPreviewRouter extends PageRouteInfo<void> {
-  const WithdrawalPreviewRouter({List<PageRouteInfo>? children})
+/// [UserDataScreen]
+class UserDataScreenRouter extends PageRouteInfo<void> {
+  const UserDataScreenRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalPreviewRouter.name,
+          UserDataScreenRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'WithdrawalPreviewRouter';
+  static const String name = 'UserDataScreenRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [WithdrawalConfirmScreen]
-class WithdrawalConfirmRouter extends PageRouteInfo<void> {
-  const WithdrawalConfirmRouter({List<PageRouteInfo>? children})
+/// [VerificationScreen]
+class VerificationRouter extends PageRouteInfo<void> {
+  const VerificationRouter({List<PageRouteInfo>? children})
       : super(
-          WithdrawalConfirmRouter.name,
+          VerificationRouter.name,
           initialChildren: children,
         );
 
-  static const String name = 'WithdrawalConfirmRouter';
+  static const String name = 'VerificationRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [WithdrawalScreen]
-class WithdrawRouter extends PageRouteInfo<WithdrawRouterArgs> {
-  WithdrawRouter({
-    Key? key,
-    required WithdrawalModel withdrawal,
-    List<PageRouteInfo>? children,
-  }) : super(
-          WithdrawRouter.name,
-          args: WithdrawRouterArgs(
-            key: key,
-            withdrawal: withdrawal,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'WithdrawRouter';
-
-  static const PageInfo<WithdrawRouterArgs> page =
-      PageInfo<WithdrawRouterArgs>(name);
-}
-
-class WithdrawRouterArgs {
-  const WithdrawRouterArgs({
-    this.key,
-    required this.withdrawal,
-  });
-
-  final Key? key;
-
-  final WithdrawalModel withdrawal;
-
-  @override
-  String toString() {
-    return 'WithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
-  }
-}
-
-/// generated route for
-/// [SendGloballyConfirmScreen]
-class SendGloballyConfirmRouter
-    extends PageRouteInfo<SendGloballyConfirmRouterArgs> {
-  SendGloballyConfirmRouter({
-    Key? key,
-    required SendToBankCardResponse data,
-    required GlobalSendMethodsModelMethods method,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendGloballyConfirmRouter.name,
-          args: SendGloballyConfirmRouterArgs(
-            key: key,
-            data: data,
-            method: method,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendGloballyConfirmRouter';
-
-  static const PageInfo<SendGloballyConfirmRouterArgs> page =
-      PageInfo<SendGloballyConfirmRouterArgs>(name);
-}
-
-class SendGloballyConfirmRouterArgs {
-  const SendGloballyConfirmRouterArgs({
-    this.key,
-    required this.data,
-    required this.method,
-  });
-
-  final Key? key;
-
-  final SendToBankCardResponse data;
-
-  final GlobalSendMethodsModelMethods method;
-
-  @override
-  String toString() {
-    return 'SendGloballyConfirmRouterArgs{key: $key, data: $data, method: $method}';
-  }
-}
-
-/// generated route for
-/// [SendCardDetailScreen]
-class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
-  SendCardDetailRouter({
-    Key? key,
-    required GlobalSendMethodsModelMethods method,
-    required String countryCode,
-    required CurrencyModel currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendCardDetailRouter.name,
-          args: SendCardDetailRouterArgs(
-            key: key,
-            method: method,
-            countryCode: countryCode,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendCardDetailRouter';
-
-  static const PageInfo<SendCardDetailRouterArgs> page =
-      PageInfo<SendCardDetailRouterArgs>(name);
-}
-
-class SendCardDetailRouterArgs {
-  const SendCardDetailRouterArgs({
-    this.key,
-    required this.method,
-    required this.countryCode,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final GlobalSendMethodsModelMethods method;
-
-  final String countryCode;
-
-  final CurrencyModel currency;
-
-  @override
-  String toString() {
-    return 'SendCardDetailRouterArgs{key: $key, method: $method, countryCode: $countryCode, currency: $currency}';
-  }
-}
-
-/// generated route for
-/// [SendCardPaymentMethodScreen]
-class SendCardPaymentMethodRouter
-    extends PageRouteInfo<SendCardPaymentMethodRouterArgs> {
-  SendCardPaymentMethodRouter({
-    Key? key,
-    required String countryCode,
-    required CurrencyModel currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendCardPaymentMethodRouter.name,
-          args: SendCardPaymentMethodRouterArgs(
-            key: key,
-            countryCode: countryCode,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendCardPaymentMethodRouter';
-
-  static const PageInfo<SendCardPaymentMethodRouterArgs> page =
-      PageInfo<SendCardPaymentMethodRouterArgs>(name);
-}
-
-class SendCardPaymentMethodRouterArgs {
-  const SendCardPaymentMethodRouterArgs({
-    this.key,
-    required this.countryCode,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final String countryCode;
-
-  final CurrencyModel currency;
-
-  @override
-  String toString() {
-    return 'SendCardPaymentMethodRouterArgs{key: $key, countryCode: $countryCode, currency: $currency}';
-  }
-}
-
-/// generated route for
-/// [SendGloballyAmountScreen]
-class SendGloballyAmountRouter
-    extends PageRouteInfo<SendGloballyAmountRouterArgs> {
-  SendGloballyAmountRouter({
-    Key? key,
-    required SendToBankRequestModel data,
-    required GlobalSendMethodsModelMethods method,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SendGloballyAmountRouter.name,
-          args: SendGloballyAmountRouterArgs(
-            key: key,
-            data: data,
-            method: method,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SendGloballyAmountRouter';
-
-  static const PageInfo<SendGloballyAmountRouterArgs> page =
-      PageInfo<SendGloballyAmountRouterArgs>(name);
-}
-
-class SendGloballyAmountRouterArgs {
-  const SendGloballyAmountRouterArgs({
-    this.key,
-    required this.data,
-    required this.method,
-  });
-
-  final Key? key;
-
-  final SendToBankRequestModel data;
-
-  final GlobalSendMethodsModelMethods method;
-
-  @override
-  String toString() {
-    return 'SendGloballyAmountRouterArgs{key: $key, data: $data, method: $method}';
-  }
-}
-
-/// generated route for
-/// [Rewards]
-class RewardsRouter extends PageRouteInfo<RewardsRouterArgs> {
-  RewardsRouter({
-    Key? key,
-    required List<String> actualRewards,
-    List<PageRouteInfo>? children,
-  }) : super(
-          RewardsRouter.name,
-          args: RewardsRouterArgs(
-            key: key,
-            actualRewards: actualRewards,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'RewardsRouter';
-
-  static const PageInfo<RewardsRouterArgs> page =
-      PageInfo<RewardsRouterArgs>(name);
-}
-
-class RewardsRouterArgs {
-  const RewardsRouterArgs({
-    this.key,
-    required this.actualRewards,
-  });
-
-  final Key? key;
-
-  final List<String> actualRewards;
-
-  @override
-  String toString() {
-    return 'RewardsRouterArgs{key: $key, actualRewards: $actualRewards}';
-  }
 }
 
 /// generated route for
@@ -2320,294 +1682,92 @@ class BuyPaymentMethodRouteArgs {
 }
 
 /// generated route for
-/// [ReturnToWallet]
-class ReturnToWalletRouter extends PageRouteInfo<ReturnToWalletRouterArgs> {
-  ReturnToWalletRouter({
+/// [CardScreen]
+class CardRouter extends PageRouteInfo<void> {
+  const CardRouter({List<PageRouteInfo>? children})
+      : super(
+          CardRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CardRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [Convert]
+class ConvertRouter extends PageRouteInfo<ConvertRouterArgs> {
+  ConvertRouter({
     Key? key,
-    required CurrencyModel currency,
-    required EarnOfferModel earnOffer,
+    CurrencyModel? fromCurrency,
     List<PageRouteInfo>? children,
   }) : super(
-          ReturnToWalletRouter.name,
-          args: ReturnToWalletRouterArgs(
+          ConvertRouter.name,
+          args: ConvertRouterArgs(
             key: key,
-            currency: currency,
-            earnOffer: earnOffer,
+            fromCurrency: fromCurrency,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'ReturnToWalletRouter';
+  static const String name = 'ConvertRouter';
 
-  static const PageInfo<ReturnToWalletRouterArgs> page =
-      PageInfo<ReturnToWalletRouterArgs>(name);
+  static const PageInfo<ConvertRouterArgs> page =
+      PageInfo<ConvertRouterArgs>(name);
 }
 
-class ReturnToWalletRouterArgs {
-  const ReturnToWalletRouterArgs({
+class ConvertRouterArgs {
+  const ConvertRouterArgs({
     this.key,
-    required this.currency,
-    required this.earnOffer,
+    this.fromCurrency,
   });
 
   final Key? key;
 
-  final CurrencyModel currency;
-
-  final EarnOfferModel earnOffer;
+  final CurrencyModel? fromCurrency;
 
   @override
   String toString() {
-    return 'ReturnToWalletRouterArgs{key: $key, currency: $currency, earnOffer: $earnOffer}';
+    return 'ConvertRouterArgs{key: $key, fromCurrency: $fromCurrency}';
   }
 }
 
 /// generated route for
-/// [PreviewReturnToWallet]
-class PreviewReturnToWalletRouter
-    extends PageRouteInfo<PreviewReturnToWalletRouterArgs> {
-  PreviewReturnToWalletRouter({
+/// [PreviewConvert]
+class PreviewConvertRouter extends PageRouteInfo<PreviewConvertRouterArgs> {
+  PreviewConvertRouter({
     Key? key,
-    required PreviewReturnToWalletInput input,
+    required PreviewConvertInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewReturnToWalletRouter.name,
-          args: PreviewReturnToWalletRouterArgs(
+          PreviewConvertRouter.name,
+          args: PreviewConvertRouterArgs(
             key: key,
             input: input,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'PreviewReturnToWalletRouter';
+  static const String name = 'PreviewConvertRouter';
 
-  static const PageInfo<PreviewReturnToWalletRouterArgs> page =
-      PageInfo<PreviewReturnToWalletRouterArgs>(name);
+  static const PageInfo<PreviewConvertRouterArgs> page =
+      PageInfo<PreviewConvertRouterArgs>(name);
 }
 
-class PreviewReturnToWalletRouterArgs {
-  const PreviewReturnToWalletRouterArgs({
+class PreviewConvertRouterArgs {
+  const PreviewConvertRouterArgs({
     this.key,
     required this.input,
   });
 
   final Key? key;
 
-  final PreviewReturnToWalletInput input;
+  final PreviewConvertInput input;
 
   @override
   String toString() {
-    return 'PreviewReturnToWalletRouterArgs{key: $key, input: $input}';
-  }
-}
-
-/// generated route for
-/// [IBanScreen]
-class IBanRouter extends PageRouteInfo<IBanRouterArgs> {
-  IBanRouter({
-    Key? key,
-    int initIndex = 0,
-    List<PageRouteInfo>? children,
-  }) : super(
-          IBanRouter.name,
-          args: IBanRouterArgs(
-            key: key,
-            initIndex: initIndex,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'IBanRouter';
-
-  static const PageInfo<IBanRouterArgs> page = PageInfo<IBanRouterArgs>(name);
-}
-
-class IBanRouterArgs {
-  const IBanRouterArgs({
-    this.key,
-    this.initIndex = 0,
-  });
-
-  final Key? key;
-
-  final int initIndex;
-
-  @override
-  String toString() {
-    return 'IBanRouterArgs{key: $key, initIndex: $initIndex}';
-  }
-}
-
-/// generated route for
-/// [IbanAddBankAccountScreen]
-class IbanAddBankAccountRouter
-    extends PageRouteInfo<IbanAddBankAccountRouterArgs> {
-  IbanAddBankAccountRouter({
-    Key? key,
-    AddressBookContactModel? contact,
-    List<PageRouteInfo>? children,
-  }) : super(
-          IbanAddBankAccountRouter.name,
-          args: IbanAddBankAccountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'IbanAddBankAccountRouter';
-
-  static const PageInfo<IbanAddBankAccountRouterArgs> page =
-      PageInfo<IbanAddBankAccountRouterArgs>(name);
-}
-
-class IbanAddBankAccountRouterArgs {
-  const IbanAddBankAccountRouterArgs({
-    this.key,
-    this.contact,
-  });
-
-  final Key? key;
-
-  final AddressBookContactModel? contact;
-
-  @override
-  String toString() {
-    return 'IbanAddBankAccountRouterArgs{key: $key, contact: $contact}';
-  }
-}
-
-/// generated route for
-/// [IbanEditBankAccountScreen]
-class IbanEditBankAccountRouter
-    extends PageRouteInfo<IbanEditBankAccountRouterArgs> {
-  IbanEditBankAccountRouter({
-    Key? key,
-    AddressBookContactModel? contact,
-    List<PageRouteInfo>? children,
-  }) : super(
-          IbanEditBankAccountRouter.name,
-          args: IbanEditBankAccountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'IbanEditBankAccountRouter';
-
-  static const PageInfo<IbanEditBankAccountRouterArgs> page =
-      PageInfo<IbanEditBankAccountRouterArgs>(name);
-}
-
-class IbanEditBankAccountRouterArgs {
-  const IbanEditBankAccountRouterArgs({
-    this.key,
-    this.contact,
-  });
-
-  final Key? key;
-
-  final AddressBookContactModel? contact;
-
-  @override
-  String toString() {
-    return 'IbanEditBankAccountRouterArgs{key: $key, contact: $contact}';
-  }
-}
-
-/// generated route for
-/// [IbanBillingAddress]
-class IbanAddressRouter extends PageRouteInfo<void> {
-  const IbanAddressRouter({List<PageRouteInfo>? children})
-      : super(
-          IbanAddressRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'IbanAddressRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [IbanSendConfirm]
-class IbanSendConfirmRouter extends PageRouteInfo<IbanSendConfirmRouterArgs> {
-  IbanSendConfirmRouter({
-    Key? key,
-    required AddressBookContactModel contact,
-    required IbanPreviewWithdrawalModel data,
-    List<PageRouteInfo>? children,
-  }) : super(
-          IbanSendConfirmRouter.name,
-          args: IbanSendConfirmRouterArgs(
-            key: key,
-            contact: contact,
-            data: data,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'IbanSendConfirmRouter';
-
-  static const PageInfo<IbanSendConfirmRouterArgs> page =
-      PageInfo<IbanSendConfirmRouterArgs>(name);
-}
-
-class IbanSendConfirmRouterArgs {
-  const IbanSendConfirmRouterArgs({
-    this.key,
-    required this.contact,
-    required this.data,
-  });
-
-  final Key? key;
-
-  final AddressBookContactModel contact;
-
-  final IbanPreviewWithdrawalModel data;
-
-  @override
-  String toString() {
-    return 'IbanSendConfirmRouterArgs{key: $key, contact: $contact, data: $data}';
-  }
-}
-
-/// generated route for
-/// [IbanSendAmount]
-class IbanSendAmountRouter extends PageRouteInfo<IbanSendAmountRouterArgs> {
-  IbanSendAmountRouter({
-    Key? key,
-    required AddressBookContactModel contact,
-    List<PageRouteInfo>? children,
-  }) : super(
-          IbanSendAmountRouter.name,
-          args: IbanSendAmountRouterArgs(
-            key: key,
-            contact: contact,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'IbanSendAmountRouter';
-
-  static const PageInfo<IbanSendAmountRouterArgs> page =
-      PageInfo<IbanSendAmountRouterArgs>(name);
-}
-
-class IbanSendAmountRouterArgs {
-  const IbanSendAmountRouterArgs({
-    this.key,
-    required this.contact,
-  });
-
-  final Key? key;
-
-  final AddressBookContactModel contact;
-
-  @override
-  String toString() {
-    return 'IbanSendAmountRouterArgs{key: $key, contact: $contact}';
+    return 'PreviewConvertRouterArgs{key: $key, input: $input}';
   }
 }
 
@@ -2655,617 +1815,85 @@ class CryptoDepositRouterArgs {
 }
 
 /// generated route for
-/// [SmsAuthenticator]
-class SmsAuthenticatorRouter extends PageRouteInfo<void> {
-  const SmsAuthenticatorRouter({List<PageRouteInfo>? children})
-      : super(
-          SmsAuthenticatorRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SmsAuthenticatorRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SetPhoneNumber]
-class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
-  SetPhoneNumberRouter({
+/// [CurrencyBuy]
+class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
+  CurrencyBuyRouter({
     Key? key,
-    dynamic Function()? then,
-    bool isChangePhone = false,
-    bool fromRegister = false,
-    required String successText,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SetPhoneNumberRouter.name,
-          args: SetPhoneNumberRouterArgs(
-            key: key,
-            then: then,
-            isChangePhone: isChangePhone,
-            fromRegister: fromRegister,
-            successText: successText,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'SetPhoneNumberRouter';
-
-  static const PageInfo<SetPhoneNumberRouterArgs> page =
-      PageInfo<SetPhoneNumberRouterArgs>(name);
-}
-
-class SetPhoneNumberRouterArgs {
-  const SetPhoneNumberRouterArgs({
-    this.key,
-    this.then,
-    this.isChangePhone = false,
-    this.fromRegister = false,
-    required this.successText,
-  });
-
-  final Key? key;
-
-  final dynamic Function()? then;
-
-  final bool isChangePhone;
-
-  final bool fromRegister;
-
-  final String successText;
-
-  @override
-  String toString() {
-    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, fromRegister: $fromRegister, successText: $successText}';
-  }
-}
-
-/// generated route for
-/// [CircleBillingAddress]
-class CircleBillingAddressRouter
-    extends PageRouteInfo<CircleBillingAddressRouterArgs> {
-  CircleBillingAddressRouter({
-    Key? key,
-    required dynamic Function(CircleCard) onCardAdded,
-    required String expiryDate,
-    required String cardholderName,
-    required String cardNumber,
-    required String cvv,
-    List<PageRouteInfo>? children,
-  }) : super(
-          CircleBillingAddressRouter.name,
-          args: CircleBillingAddressRouterArgs(
-            key: key,
-            onCardAdded: onCardAdded,
-            expiryDate: expiryDate,
-            cardholderName: cardholderName,
-            cardNumber: cardNumber,
-            cvv: cvv,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'CircleBillingAddressRouter';
-
-  static const PageInfo<CircleBillingAddressRouterArgs> page =
-      PageInfo<CircleBillingAddressRouterArgs>(name);
-}
-
-class CircleBillingAddressRouterArgs {
-  const CircleBillingAddressRouterArgs({
-    this.key,
-    required this.onCardAdded,
-    required this.expiryDate,
-    required this.cardholderName,
-    required this.cardNumber,
-    required this.cvv,
-  });
-
-  final Key? key;
-
-  final dynamic Function(CircleCard) onCardAdded;
-
-  final String expiryDate;
-
-  final String cardholderName;
-
-  final String cardNumber;
-
-  final String cvv;
-
-  @override
-  String toString() {
-    return 'CircleBillingAddressRouterArgs{key: $key, onCardAdded: $onCardAdded, expiryDate: $expiryDate, cardholderName: $cardholderName, cardNumber: $cardNumber, cvv: $cvv}';
-  }
-}
-
-/// generated route for
-/// [AddCircleCard]
-class AddCircleCardRouter extends PageRouteInfo<AddCircleCardRouterArgs> {
-  AddCircleCardRouter({
-    Key? key,
-    required dynamic Function(CircleCard) onCardAdded,
-    List<PageRouteInfo>? children,
-  }) : super(
-          AddCircleCardRouter.name,
-          args: AddCircleCardRouterArgs(
-            key: key,
-            onCardAdded: onCardAdded,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'AddCircleCardRouter';
-
-  static const PageInfo<AddCircleCardRouterArgs> page =
-      PageInfo<AddCircleCardRouterArgs>(name);
-}
-
-class AddCircleCardRouterArgs {
-  const AddCircleCardRouterArgs({
-    this.key,
-    required this.onCardAdded,
-  });
-
-  final Key? key;
-
-  final dynamic Function(CircleCard) onCardAdded;
-
-  @override
-  String toString() {
-    return 'AddCircleCardRouterArgs{key: $key, onCardAdded: $onCardAdded}';
-  }
-}
-
-/// generated route for
-/// [CurrencySell]
-class CurrencySellRouter extends PageRouteInfo<CurrencySellRouterArgs> {
-  CurrencySellRouter({
-    Key? key,
+    RecurringBuysType? recurringBuysType,
+    CircleCard? circleCard,
+    CircleCard? unlimintCard,
+    CircleCard? bankCard,
+    String? newBankCardId,
+    String? newBankCardNumber,
+    bool showUaAlert = false,
     required CurrencyModel currency,
+    required bool fromCard,
+    required PaymentMethodType paymentMethod,
     List<PageRouteInfo>? children,
   }) : super(
-          CurrencySellRouter.name,
-          args: CurrencySellRouterArgs(
+          CurrencyBuyRouter.name,
+          args: CurrencyBuyRouterArgs(
             key: key,
+            recurringBuysType: recurringBuysType,
+            circleCard: circleCard,
+            unlimintCard: unlimintCard,
+            bankCard: bankCard,
+            newBankCardId: newBankCardId,
+            newBankCardNumber: newBankCardNumber,
+            showUaAlert: showUaAlert,
             currency: currency,
+            fromCard: fromCard,
+            paymentMethod: paymentMethod,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'CurrencySellRouter';
+  static const String name = 'CurrencyBuyRouter';
 
-  static const PageInfo<CurrencySellRouterArgs> page =
-      PageInfo<CurrencySellRouterArgs>(name);
+  static const PageInfo<CurrencyBuyRouterArgs> page =
+      PageInfo<CurrencyBuyRouterArgs>(name);
 }
 
-class CurrencySellRouterArgs {
-  const CurrencySellRouterArgs({
+class CurrencyBuyRouterArgs {
+  const CurrencyBuyRouterArgs({
     this.key,
+    this.recurringBuysType,
+    this.circleCard,
+    this.unlimintCard,
+    this.bankCard,
+    this.newBankCardId,
+    this.newBankCardNumber,
+    this.showUaAlert = false,
     required this.currency,
+    required this.fromCard,
+    required this.paymentMethod,
   });
 
   final Key? key;
+
+  final RecurringBuysType? recurringBuysType;
+
+  final CircleCard? circleCard;
+
+  final CircleCard? unlimintCard;
+
+  final CircleCard? bankCard;
+
+  final String? newBankCardId;
+
+  final String? newBankCardNumber;
+
+  final bool showUaAlert;
 
   final CurrencyModel currency;
 
-  @override
-  String toString() {
-    return 'CurrencySellRouterArgs{key: $key, currency: $currency}';
-  }
-}
+  final bool fromCard;
 
-/// generated route for
-/// [PreviewSell]
-class PreviewSellRouter extends PageRouteInfo<PreviewSellRouterArgs> {
-  PreviewSellRouter({
-    Key? key,
-    required PreviewSellInput input,
-    List<PageRouteInfo>? children,
-  }) : super(
-          PreviewSellRouter.name,
-          args: PreviewSellRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'PreviewSellRouter';
-
-  static const PageInfo<PreviewSellRouterArgs> page =
-      PageInfo<PreviewSellRouterArgs>(name);
-}
-
-class PreviewSellRouterArgs {
-  const PreviewSellRouterArgs({
-    this.key,
-    required this.input,
-  });
-
-  final Key? key;
-
-  final PreviewSellInput input;
+  final PaymentMethodType paymentMethod;
 
   @override
   String toString() {
-    return 'PreviewSellRouterArgs{key: $key, input: $input}';
-  }
-}
-
-/// generated route for
-/// [TransactionHistory]
-class TransactionHistoryRouter
-    extends PageRouteInfo<TransactionHistoryRouterArgs> {
-  TransactionHistoryRouter({
-    Key? key,
-    String? assetName,
-    String? assetSymbol,
-    int initialIndex = 0,
-    String? jwOperationId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          TransactionHistoryRouter.name,
-          args: TransactionHistoryRouterArgs(
-            key: key,
-            assetName: assetName,
-            assetSymbol: assetSymbol,
-            initialIndex: initialIndex,
-            jwOperationId: jwOperationId,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'TransactionHistoryRouter';
-
-  static const PageInfo<TransactionHistoryRouterArgs> page =
-      PageInfo<TransactionHistoryRouterArgs>(name);
-}
-
-class TransactionHistoryRouterArgs {
-  const TransactionHistoryRouterArgs({
-    this.key,
-    this.assetName,
-    this.assetSymbol,
-    this.initialIndex = 0,
-    this.jwOperationId,
-  });
-
-  final Key? key;
-
-  final String? assetName;
-
-  final String? assetSymbol;
-
-  final int initialIndex;
-
-  final String? jwOperationId;
-
-  @override
-  String toString() {
-    return 'TransactionHistoryRouterArgs{key: $key, assetName: $assetName, assetSymbol: $assetSymbol, initialIndex: $initialIndex, jwOperationId: $jwOperationId}';
-  }
-}
-
-/// generated route for
-/// [EmptyWallet]
-class EmptyWalletRouter extends PageRouteInfo<EmptyWalletRouterArgs> {
-  EmptyWalletRouter({
-    Key? key,
-    required CurrencyModel currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          EmptyWalletRouter.name,
-          args: EmptyWalletRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'EmptyWalletRouter';
-
-  static const PageInfo<EmptyWalletRouterArgs> page =
-      PageInfo<EmptyWalletRouterArgs>(name);
-}
-
-class EmptyWalletRouterArgs {
-  const EmptyWalletRouterArgs({
-    this.key,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  @override
-  String toString() {
-    return 'EmptyWalletRouterArgs{key: $key, currency: $currency}';
-  }
-}
-
-/// generated route for
-/// [Wallet]
-class WalletRouter extends PageRouteInfo<WalletRouterArgs> {
-  WalletRouter({
-    Key? key,
-    required CurrencyModel currency,
-    List<PageRouteInfo>? children,
-  }) : super(
-          WalletRouter.name,
-          args: WalletRouterArgs(
-            key: key,
-            currency: currency,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'WalletRouter';
-
-  static const PageInfo<WalletRouterArgs> page =
-      PageInfo<WalletRouterArgs>(name);
-}
-
-class WalletRouterArgs {
-  const WalletRouterArgs({
-    this.key,
-    required this.currency,
-  });
-
-  final Key? key;
-
-  final CurrencyModel currency;
-
-  @override
-  String toString() {
-    return 'WalletRouterArgs{key: $key, currency: $currency}';
-  }
-}
-
-/// generated route for
-/// [PinScreen]
-class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
-  PinScreenRoute({
-    Key? key,
-    bool displayHeader = true,
-    bool cannotLeave = false,
-    bool isChangePhone = false,
-    bool isChangePin = false,
-    bool fromRegister = true,
-    bool isForgotPassword = false,
-    dynamic Function(String)? onChangePhone,
-    dynamic Function()? onWrongPin,
-    required PinFlowUnion union,
-    List<PageRouteInfo>? children,
-  }) : super(
-          PinScreenRoute.name,
-          args: PinScreenRouteArgs(
-            key: key,
-            displayHeader: displayHeader,
-            cannotLeave: cannotLeave,
-            isChangePhone: isChangePhone,
-            isChangePin: isChangePin,
-            fromRegister: fromRegister,
-            isForgotPassword: isForgotPassword,
-            onChangePhone: onChangePhone,
-            onWrongPin: onWrongPin,
-            union: union,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'PinScreenRoute';
-
-  static const PageInfo<PinScreenRouteArgs> page =
-      PageInfo<PinScreenRouteArgs>(name);
-}
-
-class PinScreenRouteArgs {
-  const PinScreenRouteArgs({
-    this.key,
-    this.displayHeader = true,
-    this.cannotLeave = false,
-    this.isChangePhone = false,
-    this.isChangePin = false,
-    this.fromRegister = true,
-    this.isForgotPassword = false,
-    this.onChangePhone,
-    this.onWrongPin,
-    required this.union,
-  });
-
-  final Key? key;
-
-  final bool displayHeader;
-
-  final bool cannotLeave;
-
-  final bool isChangePhone;
-
-  final bool isChangePin;
-
-  final bool fromRegister;
-
-  final bool isForgotPassword;
-
-  final dynamic Function(String)? onChangePhone;
-
-  final dynamic Function()? onWrongPin;
-
-  final PinFlowUnion union;
-
-  @override
-  String toString() {
-    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, onWrongPin: $onWrongPin, union: $union}';
-  }
-}
-
-/// generated route for
-/// [PortfolioScreen]
-class PortfolioRouter extends PageRouteInfo<void> {
-  const PortfolioRouter({List<PageRouteInfo>? children})
-      : super(
-          PortfolioRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'PortfolioRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [MarketScreen]
-class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
-  MarketRouter({
-    Key? key,
-    int initIndex = 0,
-    List<PageRouteInfo>? children,
-  }) : super(
-          MarketRouter.name,
-          args: MarketRouterArgs(
-            key: key,
-            initIndex: initIndex,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'MarketRouter';
-
-  static const PageInfo<MarketRouterArgs> page =
-      PageInfo<MarketRouterArgs>(name);
-}
-
-class MarketRouterArgs {
-  const MarketRouterArgs({
-    this.key,
-    this.initIndex = 0,
-  });
-
-  final Key? key;
-
-  final int initIndex;
-
-  @override
-  String toString() {
-    return 'MarketRouterArgs{key: $key, initIndex: $initIndex}';
-  }
-}
-
-/// generated route for
-/// [MarketDetails]
-class MarketDetailsRouter extends PageRouteInfo<MarketDetailsRouterArgs> {
-  MarketDetailsRouter({
-    Key? key,
-    required MarketItemModel marketItem,
-    List<PageRouteInfo>? children,
-  }) : super(
-          MarketDetailsRouter.name,
-          args: MarketDetailsRouterArgs(
-            key: key,
-            marketItem: marketItem,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'MarketDetailsRouter';
-
-  static const PageInfo<MarketDetailsRouterArgs> page =
-      PageInfo<MarketDetailsRouterArgs>(name);
-}
-
-class MarketDetailsRouterArgs {
-  const MarketDetailsRouterArgs({
-    this.key,
-    required this.marketItem,
-  });
-
-  final Key? key;
-
-  final MarketItemModel marketItem;
-
-  @override
-  String toString() {
-    return 'MarketDetailsRouterArgs{key: $key, marketItem: $marketItem}';
-  }
-}
-
-/// generated route for
-/// [PDFViewScreen]
-class PDFViewScreenRouter extends PageRouteInfo<PDFViewScreenRouterArgs> {
-  PDFViewScreenRouter({
-    Key? key,
-    required String url,
-    List<PageRouteInfo>? children,
-  }) : super(
-          PDFViewScreenRouter.name,
-          args: PDFViewScreenRouterArgs(
-            key: key,
-            url: url,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'PDFViewScreenRouter';
-
-  static const PageInfo<PDFViewScreenRouterArgs> page =
-      PageInfo<PDFViewScreenRouterArgs>(name);
-}
-
-class PDFViewScreenRouterArgs {
-  const PDFViewScreenRouterArgs({
-    this.key,
-    required this.url,
-  });
-
-  final Key? key;
-
-  final String url;
-
-  @override
-  String toString() {
-    return 'PDFViewScreenRouterArgs{key: $key, url: $url}';
-  }
-}
-
-/// generated route for
-/// [PhoneVerification]
-class PhoneVerificationRouter
-    extends PageRouteInfo<PhoneVerificationRouterArgs> {
-  PhoneVerificationRouter({
-    Key? key,
-    required PhoneVerificationArgs args,
-    List<PageRouteInfo>? children,
-  }) : super(
-          PhoneVerificationRouter.name,
-          args: PhoneVerificationRouterArgs(
-            key: key,
-            args: args,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'PhoneVerificationRouter';
-
-  static const PageInfo<PhoneVerificationRouterArgs> page =
-      PageInfo<PhoneVerificationRouterArgs>(name);
-}
-
-class PhoneVerificationRouterArgs {
-  const PhoneVerificationRouterArgs({
-    this.key,
-    required this.args,
-  });
-
-  final Key? key;
-
-  final PhoneVerificationArgs args;
-
-  @override
-  String toString() {
-    return 'PhoneVerificationRouterArgs{key: $key, args: $args}';
+    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, newBankCardNumber: $newBankCardNumber, showUaAlert: $showUaAlert, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
   }
 }
 
@@ -3323,6 +1951,102 @@ class AddUnlimintCardRouterArgs {
 }
 
 /// generated route for
+/// [ChooseAssetScreen]
+class ChooseAssetRouter extends PageRouteInfo<void> {
+  const ChooseAssetRouter({List<PageRouteInfo>? children})
+      : super(
+          ChooseAssetRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChooseAssetRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentMethodScreen]
+class PaymentMethodRouter extends PageRouteInfo<PaymentMethodRouterArgs> {
+  PaymentMethodRouter({
+    Key? key,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentMethodRouter.name,
+          args: PaymentMethodRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentMethodRouter';
+
+  static const PageInfo<PaymentMethodRouterArgs> page =
+      PageInfo<PaymentMethodRouterArgs>(name);
+}
+
+class PaymentMethodRouterArgs {
+  const PaymentMethodRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'PaymentMethodRouterArgs{key: $key, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [PreviewBuyWithAsset]
+class PreviewBuyWithAssetRouter
+    extends PageRouteInfo<PreviewBuyWithAssetRouterArgs> {
+  PreviewBuyWithAssetRouter({
+    Key? key,
+    void Function()? onBackButtonTap,
+    required PreviewBuyWithAssetInput input,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PreviewBuyWithAssetRouter.name,
+          args: PreviewBuyWithAssetRouterArgs(
+            key: key,
+            onBackButtonTap: onBackButtonTap,
+            input: input,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PreviewBuyWithAssetRouter';
+
+  static const PageInfo<PreviewBuyWithAssetRouterArgs> page =
+      PageInfo<PreviewBuyWithAssetRouterArgs>(name);
+}
+
+class PreviewBuyWithAssetRouterArgs {
+  const PreviewBuyWithAssetRouterArgs({
+    this.key,
+    this.onBackButtonTap,
+    required this.input,
+  });
+
+  final Key? key;
+
+  final void Function()? onBackButtonTap;
+
+  final PreviewBuyWithAssetInput input;
+
+  @override
+  String toString() {
+    return 'PreviewBuyWithAssetRouterArgs{key: $key, onBackButtonTap: $onBackButtonTap, input: $input}';
+  }
+}
+
+/// generated route for
 /// [PreviewBuyWithBankCard]
 class PreviewBuyWithBankCardRouter
     extends PageRouteInfo<PreviewBuyWithBankCardRouterArgs> {
@@ -3358,74 +2082,6 @@ class PreviewBuyWithBankCardRouterArgs {
   @override
   String toString() {
     return 'PreviewBuyWithBankCardRouterArgs{key: $key, input: $input}';
-  }
-}
-
-/// generated route for
-/// [PreviewBuyWithUnlimint]
-class PreviewBuyWithUnlimintRouter
-    extends PageRouteInfo<PreviewBuyWithUnlimintRouterArgs> {
-  PreviewBuyWithUnlimintRouter({
-    Key? key,
-    required PreviewBuyWithUnlimintInput input,
-    List<PageRouteInfo>? children,
-  }) : super(
-          PreviewBuyWithUnlimintRouter.name,
-          args: PreviewBuyWithUnlimintRouterArgs(
-            key: key,
-            input: input,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'PreviewBuyWithUnlimintRouter';
-
-  static const PageInfo<PreviewBuyWithUnlimintRouterArgs> page =
-      PageInfo<PreviewBuyWithUnlimintRouterArgs>(name);
-}
-
-class PreviewBuyWithUnlimintRouterArgs {
-  const PreviewBuyWithUnlimintRouterArgs({
-    this.key,
-    required this.input,
-  });
-
-  final Key? key;
-
-  final PreviewBuyWithUnlimintInput input;
-
-  @override
-  String toString() {
-    return 'PreviewBuyWithUnlimintRouterArgs{key: $key, input: $input}';
-  }
-}
-
-/// generated route for
-/// [SimplexWebView]
-class SimplexWebViewRouter extends PageRouteInfo<SimplexWebViewRouterArgs> {
-  SimplexWebViewRouter({
-    required String url,
-    List<PageRouteInfo>? children,
-  }) : super(
-          SimplexWebViewRouter.name,
-          args: SimplexWebViewRouterArgs(url: url),
-          initialChildren: children,
-        );
-
-  static const String name = 'SimplexWebViewRouter';
-
-  static const PageInfo<SimplexWebViewRouterArgs> page =
-      PageInfo<SimplexWebViewRouterArgs>(name);
-}
-
-class SimplexWebViewRouterArgs {
-  const SimplexWebViewRouterArgs({required this.url});
-
-  final String url;
-
-  @override
-  String toString() {
-    return 'SimplexWebViewRouterArgs{url: $url}';
   }
 }
 
@@ -3544,87 +2200,97 @@ class PreviewBuyWithCircleRouterArgs {
 }
 
 /// generated route for
-/// [ChooseAssetScreen]
-class ChooseAssetRouter extends PageRouteInfo<void> {
-  const ChooseAssetRouter({List<PageRouteInfo>? children})
-      : super(
-          ChooseAssetRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ChooseAssetRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [PreviewBuyWithAsset]
-class PreviewBuyWithAssetRouter
-    extends PageRouteInfo<PreviewBuyWithAssetRouterArgs> {
-  PreviewBuyWithAssetRouter({
+/// [PreviewBuyWithUnlimint]
+class PreviewBuyWithUnlimintRouter
+    extends PageRouteInfo<PreviewBuyWithUnlimintRouterArgs> {
+  PreviewBuyWithUnlimintRouter({
     Key? key,
-    void Function()? onBackButtonTap,
-    required PreviewBuyWithAssetInput input,
+    required PreviewBuyWithUnlimintInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewBuyWithAssetRouter.name,
-          args: PreviewBuyWithAssetRouterArgs(
+          PreviewBuyWithUnlimintRouter.name,
+          args: PreviewBuyWithUnlimintRouterArgs(
             key: key,
-            onBackButtonTap: onBackButtonTap,
             input: input,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'PreviewBuyWithAssetRouter';
+  static const String name = 'PreviewBuyWithUnlimintRouter';
 
-  static const PageInfo<PreviewBuyWithAssetRouterArgs> page =
-      PageInfo<PreviewBuyWithAssetRouterArgs>(name);
+  static const PageInfo<PreviewBuyWithUnlimintRouterArgs> page =
+      PageInfo<PreviewBuyWithUnlimintRouterArgs>(name);
 }
 
-class PreviewBuyWithAssetRouterArgs {
-  const PreviewBuyWithAssetRouterArgs({
+class PreviewBuyWithUnlimintRouterArgs {
+  const PreviewBuyWithUnlimintRouterArgs({
     this.key,
-    this.onBackButtonTap,
     required this.input,
   });
 
   final Key? key;
 
-  final void Function()? onBackButtonTap;
-
-  final PreviewBuyWithAssetInput input;
+  final PreviewBuyWithUnlimintInput input;
 
   @override
   String toString() {
-    return 'PreviewBuyWithAssetRouterArgs{key: $key, onBackButtonTap: $onBackButtonTap, input: $input}';
+    return 'PreviewBuyWithUnlimintRouterArgs{key: $key, input: $input}';
   }
 }
 
 /// generated route for
-/// [PaymentMethodScreen]
-class PaymentMethodRouter extends PageRouteInfo<PaymentMethodRouterArgs> {
-  PaymentMethodRouter({
+/// [SimplexWebView]
+class SimplexWebViewRouter extends PageRouteInfo<SimplexWebViewRouterArgs> {
+  SimplexWebViewRouter({
+    required String url,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SimplexWebViewRouter.name,
+          args: SimplexWebViewRouterArgs(url: url),
+          initialChildren: children,
+        );
+
+  static const String name = 'SimplexWebViewRouter';
+
+  static const PageInfo<SimplexWebViewRouterArgs> page =
+      PageInfo<SimplexWebViewRouterArgs>(name);
+}
+
+class SimplexWebViewRouterArgs {
+  const SimplexWebViewRouterArgs({required this.url});
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'SimplexWebViewRouterArgs{url: $url}';
+  }
+}
+
+/// generated route for
+/// [CurrencySell]
+class CurrencySellRouter extends PageRouteInfo<CurrencySellRouterArgs> {
+  CurrencySellRouter({
     Key? key,
     required CurrencyModel currency,
     List<PageRouteInfo>? children,
   }) : super(
-          PaymentMethodRouter.name,
-          args: PaymentMethodRouterArgs(
+          CurrencySellRouter.name,
+          args: CurrencySellRouterArgs(
             key: key,
             currency: currency,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'PaymentMethodRouter';
+  static const String name = 'CurrencySellRouter';
 
-  static const PageInfo<PaymentMethodRouterArgs> page =
-      PageInfo<PaymentMethodRouterArgs>(name);
+  static const PageInfo<CurrencySellRouterArgs> page =
+      PageInfo<CurrencySellRouterArgs>(name);
 }
 
-class PaymentMethodRouterArgs {
-  const PaymentMethodRouterArgs({
+class CurrencySellRouterArgs {
+  const CurrencySellRouterArgs({
     this.key,
     required this.currency,
   });
@@ -3635,293 +2301,1367 @@ class PaymentMethodRouterArgs {
 
   @override
   String toString() {
-    return 'PaymentMethodRouterArgs{key: $key, currency: $currency}';
+    return 'CurrencySellRouterArgs{key: $key, currency: $currency}';
   }
 }
 
 /// generated route for
-/// [CurrencyBuy]
-class CurrencyBuyRouter extends PageRouteInfo<CurrencyBuyRouterArgs> {
-  CurrencyBuyRouter({
+/// [PreviewSell]
+class PreviewSellRouter extends PageRouteInfo<PreviewSellRouterArgs> {
+  PreviewSellRouter({
     Key? key,
-    RecurringBuysType? recurringBuysType,
-    CircleCard? circleCard,
-    CircleCard? unlimintCard,
-    CircleCard? bankCard,
-    String? newBankCardId,
-    String? newBankCardNumber,
-    bool showUaAlert = false,
-    required CurrencyModel currency,
-    required bool fromCard,
-    required PaymentMethodType paymentMethod,
+    required PreviewSellInput input,
     List<PageRouteInfo>? children,
   }) : super(
-          CurrencyBuyRouter.name,
-          args: CurrencyBuyRouterArgs(
+          PreviewSellRouter.name,
+          args: PreviewSellRouterArgs(
             key: key,
-            recurringBuysType: recurringBuysType,
-            circleCard: circleCard,
-            unlimintCard: unlimintCard,
-            bankCard: bankCard,
-            newBankCardId: newBankCardId,
-            newBankCardNumber: newBankCardNumber,
-            showUaAlert: showUaAlert,
-            currency: currency,
-            fromCard: fromCard,
-            paymentMethod: paymentMethod,
+            input: input,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'CurrencyBuyRouter';
+  static const String name = 'PreviewSellRouter';
 
-  static const PageInfo<CurrencyBuyRouterArgs> page =
-      PageInfo<CurrencyBuyRouterArgs>(name);
+  static const PageInfo<PreviewSellRouterArgs> page =
+      PageInfo<PreviewSellRouterArgs>(name);
 }
 
-class CurrencyBuyRouterArgs {
-  const CurrencyBuyRouterArgs({
+class PreviewSellRouterArgs {
+  const PreviewSellRouterArgs({
     this.key,
-    this.recurringBuysType,
-    this.circleCard,
-    this.unlimintCard,
-    this.bankCard,
-    this.newBankCardId,
-    this.newBankCardNumber,
-    this.showUaAlert = false,
-    required this.currency,
-    required this.fromCard,
-    required this.paymentMethod,
+    required this.input,
   });
 
   final Key? key;
 
-  final RecurringBuysType? recurringBuysType;
+  final PreviewSellInput input;
 
-  final CircleCard? circleCard;
+  @override
+  String toString() {
+    return 'PreviewSellRouterArgs{key: $key, input: $input}';
+  }
+}
 
-  final CircleCard? unlimintCard;
+/// generated route for
+/// [DebugInfo]
+class DebugInfoRouter extends PageRouteInfo<void> {
+  const DebugInfoRouter({List<PageRouteInfo>? children})
+      : super(
+          DebugInfoRouter.name,
+          initialChildren: children,
+        );
 
-  final CircleCard? bankCard;
+  static const String name = 'DebugInfoRouter';
 
-  final String? newBankCardId;
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
 
-  final String? newBankCardNumber;
+/// generated route for
+/// [LogsScreen]
+class LogsRouter extends PageRouteInfo<void> {
+  const LogsRouter({List<PageRouteInfo>? children})
+      : super(
+          LogsRouter.name,
+          initialChildren: children,
+        );
 
-  final bool showUaAlert;
+  static const String name = 'LogsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SignalrDebugInfo]
+class SignalrDebugInfoRouter extends PageRouteInfo<void> {
+  const SignalrDebugInfoRouter({List<PageRouteInfo>? children})
+      : super(
+          SignalrDebugInfoRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignalrDebugInfoRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EmailConfirmationScreen]
+class EmailConfirmationRouter extends PageRouteInfo<void> {
+  const EmailConfirmationRouter({List<PageRouteInfo>? children})
+      : super(
+          EmailConfirmationRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmailConfirmationRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HomeScreen]
+class HomeRouter extends PageRouteInfo<void> {
+  const HomeRouter({List<PageRouteInfo>? children})
+      : super(
+          HomeRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [IbanAddBankAccountScreen]
+class IbanAddBankAccountRouter
+    extends PageRouteInfo<IbanAddBankAccountRouterArgs> {
+  IbanAddBankAccountRouter({
+    Key? key,
+    AddressBookContactModel? contact,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IbanAddBankAccountRouter.name,
+          args: IbanAddBankAccountRouterArgs(
+            key: key,
+            contact: contact,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanAddBankAccountRouter';
+
+  static const PageInfo<IbanAddBankAccountRouterArgs> page =
+      PageInfo<IbanAddBankAccountRouterArgs>(name);
+}
+
+class IbanAddBankAccountRouterArgs {
+  const IbanAddBankAccountRouterArgs({
+    this.key,
+    this.contact,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel? contact;
+
+  @override
+  String toString() {
+    return 'IbanAddBankAccountRouterArgs{key: $key, contact: $contact}';
+  }
+}
+
+/// generated route for
+/// [IbanEditBankAccountScreen]
+class IbanEditBankAccountRouter
+    extends PageRouteInfo<IbanEditBankAccountRouterArgs> {
+  IbanEditBankAccountRouter({
+    Key? key,
+    AddressBookContactModel? contact,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IbanEditBankAccountRouter.name,
+          args: IbanEditBankAccountRouterArgs(
+            key: key,
+            contact: contact,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanEditBankAccountRouter';
+
+  static const PageInfo<IbanEditBankAccountRouterArgs> page =
+      PageInfo<IbanEditBankAccountRouterArgs>(name);
+}
+
+class IbanEditBankAccountRouterArgs {
+  const IbanEditBankAccountRouterArgs({
+    this.key,
+    this.contact,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel? contact;
+
+  @override
+  String toString() {
+    return 'IbanEditBankAccountRouterArgs{key: $key, contact: $contact}';
+  }
+}
+
+/// generated route for
+/// [IBanScreen]
+class IBanRouter extends PageRouteInfo<IBanRouterArgs> {
+  IBanRouter({
+    Key? key,
+    int initIndex = 0,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IBanRouter.name,
+          args: IBanRouterArgs(
+            key: key,
+            initIndex: initIndex,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IBanRouter';
+
+  static const PageInfo<IBanRouterArgs> page = PageInfo<IBanRouterArgs>(name);
+}
+
+class IBanRouterArgs {
+  const IBanRouterArgs({
+    this.key,
+    this.initIndex = 0,
+  });
+
+  final Key? key;
+
+  final int initIndex;
+
+  @override
+  String toString() {
+    return 'IBanRouterArgs{key: $key, initIndex: $initIndex}';
+  }
+}
+
+/// generated route for
+/// [IbanSendAmount]
+class IbanSendAmountRouter extends PageRouteInfo<IbanSendAmountRouterArgs> {
+  IbanSendAmountRouter({
+    Key? key,
+    required AddressBookContactModel contact,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IbanSendAmountRouter.name,
+          args: IbanSendAmountRouterArgs(
+            key: key,
+            contact: contact,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanSendAmountRouter';
+
+  static const PageInfo<IbanSendAmountRouterArgs> page =
+      PageInfo<IbanSendAmountRouterArgs>(name);
+}
+
+class IbanSendAmountRouterArgs {
+  const IbanSendAmountRouterArgs({
+    this.key,
+    required this.contact,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel contact;
+
+  @override
+  String toString() {
+    return 'IbanSendAmountRouterArgs{key: $key, contact: $contact}';
+  }
+}
+
+/// generated route for
+/// [IbanSendConfirm]
+class IbanSendConfirmRouter extends PageRouteInfo<IbanSendConfirmRouterArgs> {
+  IbanSendConfirmRouter({
+    Key? key,
+    required AddressBookContactModel contact,
+    required IbanPreviewWithdrawalModel data,
+    List<PageRouteInfo>? children,
+  }) : super(
+          IbanSendConfirmRouter.name,
+          args: IbanSendConfirmRouterArgs(
+            key: key,
+            contact: contact,
+            data: data,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanSendConfirmRouter';
+
+  static const PageInfo<IbanSendConfirmRouterArgs> page =
+      PageInfo<IbanSendConfirmRouterArgs>(name);
+}
+
+class IbanSendConfirmRouterArgs {
+  const IbanSendConfirmRouterArgs({
+    this.key,
+    required this.contact,
+    required this.data,
+  });
+
+  final Key? key;
+
+  final AddressBookContactModel contact;
+
+  final IbanPreviewWithdrawalModel data;
+
+  @override
+  String toString() {
+    return 'IbanSendConfirmRouterArgs{key: $key, contact: $contact, data: $data}';
+  }
+}
+
+/// generated route for
+/// [IbanBillingAddress]
+class IbanAddressRouter extends PageRouteInfo<void> {
+  const IbanAddressRouter({List<PageRouteInfo>? children})
+      : super(
+          IbanAddressRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'IbanAddressRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AllowCameraScreen]
+class AllowCameraRoute extends PageRouteInfo<AllowCameraRouteArgs> {
+  AllowCameraRoute({
+    Key? key,
+    required String permissionDescription,
+    required void Function() then,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AllowCameraRoute.name,
+          args: AllowCameraRouteArgs(
+            key: key,
+            permissionDescription: permissionDescription,
+            then: then,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AllowCameraRoute';
+
+  static const PageInfo<AllowCameraRouteArgs> page =
+      PageInfo<AllowCameraRouteArgs>(name);
+}
+
+class AllowCameraRouteArgs {
+  const AllowCameraRouteArgs({
+    this.key,
+    required this.permissionDescription,
+    required this.then,
+  });
+
+  final Key? key;
+
+  final String permissionDescription;
+
+  final void Function() then;
+
+  @override
+  String toString() {
+    return 'AllowCameraRouteArgs{key: $key, permissionDescription: $permissionDescription, then: $then}';
+  }
+}
+
+/// generated route for
+/// [ChooseDocuments]
+class ChooseDocumentsRouter extends PageRouteInfo<ChooseDocumentsRouterArgs> {
+  ChooseDocumentsRouter({
+    Key? key,
+    required String headerTitle,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChooseDocumentsRouter.name,
+          args: ChooseDocumentsRouterArgs(
+            key: key,
+            headerTitle: headerTitle,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChooseDocumentsRouter';
+
+  static const PageInfo<ChooseDocumentsRouterArgs> page =
+      PageInfo<ChooseDocumentsRouterArgs>(name);
+}
+
+class ChooseDocumentsRouterArgs {
+  const ChooseDocumentsRouterArgs({
+    this.key,
+    required this.headerTitle,
+  });
+
+  final Key? key;
+
+  final String headerTitle;
+
+  @override
+  String toString() {
+    return 'ChooseDocumentsRouterArgs{key: $key, headerTitle: $headerTitle}';
+  }
+}
+
+/// generated route for
+/// [KycSelfie]
+class KycSelfieRouter extends PageRouteInfo<void> {
+  const KycSelfieRouter({List<PageRouteInfo>? children})
+      : super(
+          KycSelfieRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'KycSelfieRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SuccessKycScreen]
+class SuccessKycScreenRoute extends PageRouteInfo<SuccessKycScreenRouteArgs> {
+  SuccessKycScreenRoute({
+    Key? key,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SuccessKycScreenRoute.name,
+          args: SuccessKycScreenRouteArgs(
+            key: key,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            specialTextWidget: specialTextWidget,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SuccessKycScreenRoute';
+
+  static const PageInfo<SuccessKycScreenRouteArgs> page =
+      PageInfo<SuccessKycScreenRouteArgs>(name);
+}
+
+class SuccessKycScreenRouteArgs {
+  const SuccessKycScreenRouteArgs({
+    this.key,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+  });
+
+  final Key? key;
+
+  final String? primaryText;
+
+  final String? secondaryText;
+
+  final Widget? specialTextWidget;
+
+  @override
+  String toString() {
+    return 'SuccessKycScreenRouteArgs{key: $key, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget}';
+  }
+}
+
+/// generated route for
+/// [KycVerification]
+class KycVerificationRouter extends PageRouteInfo<KycVerificationRouterArgs> {
+  KycVerificationRouter({
+    Key? key,
+    required List<RequiredVerified> requiredVerifications,
+    List<PageRouteInfo>? children,
+  }) : super(
+          KycVerificationRouter.name,
+          args: KycVerificationRouterArgs(
+            key: key,
+            requiredVerifications: requiredVerifications,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationRouter';
+
+  static const PageInfo<KycVerificationRouterArgs> page =
+      PageInfo<KycVerificationRouterArgs>(name);
+}
+
+class KycVerificationRouterArgs {
+  const KycVerificationRouterArgs({
+    this.key,
+    required this.requiredVerifications,
+  });
+
+  final Key? key;
+
+  final List<RequiredVerified> requiredVerifications;
+
+  @override
+  String toString() {
+    return 'KycVerificationRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
+  }
+}
+
+/// generated route for
+/// [KycVerificationSumsub]
+class KycVerificationSumsubRouter extends PageRouteInfo<void> {
+  const KycVerificationSumsubRouter({List<PageRouteInfo>? children})
+      : super(
+          KycVerificationSumsubRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerificationSumsubRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [KycVerifyYourProfile]
+class KycVerifyYourProfileRouter
+    extends PageRouteInfo<KycVerifyYourProfileRouterArgs> {
+  KycVerifyYourProfileRouter({
+    Key? key,
+    required List<RequiredVerified> requiredVerifications,
+    List<PageRouteInfo>? children,
+  }) : super(
+          KycVerifyYourProfileRouter.name,
+          args: KycVerifyYourProfileRouterArgs(
+            key: key,
+            requiredVerifications: requiredVerifications,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'KycVerifyYourProfileRouter';
+
+  static const PageInfo<KycVerifyYourProfileRouterArgs> page =
+      PageInfo<KycVerifyYourProfileRouterArgs>(name);
+}
+
+class KycVerifyYourProfileRouterArgs {
+  const KycVerifyYourProfileRouterArgs({
+    this.key,
+    required this.requiredVerifications,
+  });
+
+  final Key? key;
+
+  final List<RequiredVerified> requiredVerifications;
+
+  @override
+  String toString() {
+    return 'KycVerifyYourProfileRouterArgs{key: $key, requiredVerifications: $requiredVerifications}';
+  }
+}
+
+/// generated route for
+/// [UploadKycDocuments]
+class UploadKycDocumentsRouter extends PageRouteInfo<void> {
+  const UploadKycDocumentsRouter({List<PageRouteInfo>? children})
+      : super(
+          UploadKycDocumentsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UploadKycDocumentsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UploadVerificationPhoto]
+class UploadVerificationPhotoRouter
+    extends PageRouteInfo<UploadVerificationPhotoRouterArgs> {
+  UploadVerificationPhotoRouter({
+    Key? key,
+    bool isSelfie = false,
+    required String cardId,
+    required dynamic Function() onSuccess,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UploadVerificationPhotoRouter.name,
+          args: UploadVerificationPhotoRouterArgs(
+            key: key,
+            isSelfie: isSelfie,
+            cardId: cardId,
+            onSuccess: onSuccess,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UploadVerificationPhotoRouter';
+
+  static const PageInfo<UploadVerificationPhotoRouterArgs> page =
+      PageInfo<UploadVerificationPhotoRouterArgs>(name);
+}
+
+class UploadVerificationPhotoRouterArgs {
+  const UploadVerificationPhotoRouterArgs({
+    this.key,
+    this.isSelfie = false,
+    required this.cardId,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final bool isSelfie;
+
+  final String cardId;
+
+  final dynamic Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'UploadVerificationPhotoRouterArgs{key: $key, isSelfie: $isSelfie, cardId: $cardId, onSuccess: $onSuccess}';
+  }
+}
+
+/// generated route for
+/// [MarketDetails]
+class MarketDetailsRouter extends PageRouteInfo<MarketDetailsRouterArgs> {
+  MarketDetailsRouter({
+    Key? key,
+    required MarketItemModel marketItem,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MarketDetailsRouter.name,
+          args: MarketDetailsRouterArgs(
+            key: key,
+            marketItem: marketItem,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MarketDetailsRouter';
+
+  static const PageInfo<MarketDetailsRouterArgs> page =
+      PageInfo<MarketDetailsRouterArgs>(name);
+}
+
+class MarketDetailsRouterArgs {
+  const MarketDetailsRouterArgs({
+    this.key,
+    required this.marketItem,
+  });
+
+  final Key? key;
+
+  final MarketItemModel marketItem;
+
+  @override
+  String toString() {
+    return 'MarketDetailsRouterArgs{key: $key, marketItem: $marketItem}';
+  }
+}
+
+/// generated route for
+/// [PDFViewScreen]
+class PDFViewScreenRouter extends PageRouteInfo<PDFViewScreenRouterArgs> {
+  PDFViewScreenRouter({
+    Key? key,
+    required String url,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PDFViewScreenRouter.name,
+          args: PDFViewScreenRouterArgs(
+            key: key,
+            url: url,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PDFViewScreenRouter';
+
+  static const PageInfo<PDFViewScreenRouterArgs> page =
+      PageInfo<PDFViewScreenRouterArgs>(name);
+}
+
+class PDFViewScreenRouterArgs {
+  const PDFViewScreenRouterArgs({
+    this.key,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'PDFViewScreenRouterArgs{key: $key, url: $url}';
+  }
+}
+
+/// generated route for
+/// [MarketScreen]
+class MarketRouter extends PageRouteInfo<MarketRouterArgs> {
+  MarketRouter({
+    Key? key,
+    int initIndex = 0,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MarketRouter.name,
+          args: MarketRouterArgs(
+            key: key,
+            initIndex: initIndex,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MarketRouter';
+
+  static const PageInfo<MarketRouterArgs> page =
+      PageInfo<MarketRouterArgs>(name);
+}
+
+class MarketRouterArgs {
+  const MarketRouterArgs({
+    this.key,
+    this.initIndex = 0,
+  });
+
+  final Key? key;
+
+  final int initIndex;
+
+  @override
+  String toString() {
+    return 'MarketRouterArgs{key: $key, initIndex: $initIndex}';
+  }
+}
+
+/// generated route for
+/// [PaymentMethods]
+class PaymentMethodsRouter extends PageRouteInfo<void> {
+  const PaymentMethodsRouter({List<PageRouteInfo>? children})
+      : super(
+          PaymentMethodsRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentMethodsRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PhoneVerification]
+class PhoneVerificationRouter
+    extends PageRouteInfo<PhoneVerificationRouterArgs> {
+  PhoneVerificationRouter({
+    Key? key,
+    required PhoneVerificationArgs args,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PhoneVerificationRouter.name,
+          args: PhoneVerificationRouterArgs(
+            key: key,
+            args: args,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PhoneVerificationRouter';
+
+  static const PageInfo<PhoneVerificationRouterArgs> page =
+      PageInfo<PhoneVerificationRouterArgs>(name);
+}
+
+class PhoneVerificationRouterArgs {
+  const PhoneVerificationRouterArgs({
+    this.key,
+    required this.args,
+  });
+
+  final Key? key;
+
+  final PhoneVerificationArgs args;
+
+  @override
+  String toString() {
+    return 'PhoneVerificationRouterArgs{key: $key, args: $args}';
+  }
+}
+
+/// generated route for
+/// [PinScreen]
+class PinScreenRoute extends PageRouteInfo<PinScreenRouteArgs> {
+  PinScreenRoute({
+    Key? key,
+    bool displayHeader = true,
+    bool cannotLeave = false,
+    bool isChangePhone = false,
+    bool isChangePin = false,
+    bool fromRegister = true,
+    bool isForgotPassword = false,
+    dynamic Function(String)? onChangePhone,
+    dynamic Function(String)? onWrongPin,
+    required PinFlowUnion union,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PinScreenRoute.name,
+          args: PinScreenRouteArgs(
+            key: key,
+            displayHeader: displayHeader,
+            cannotLeave: cannotLeave,
+            isChangePhone: isChangePhone,
+            isChangePin: isChangePin,
+            fromRegister: fromRegister,
+            isForgotPassword: isForgotPassword,
+            onChangePhone: onChangePhone,
+            onWrongPin: onWrongPin,
+            union: union,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PinScreenRoute';
+
+  static const PageInfo<PinScreenRouteArgs> page =
+      PageInfo<PinScreenRouteArgs>(name);
+}
+
+class PinScreenRouteArgs {
+  const PinScreenRouteArgs({
+    this.key,
+    this.displayHeader = true,
+    this.cannotLeave = false,
+    this.isChangePhone = false,
+    this.isChangePin = false,
+    this.fromRegister = true,
+    this.isForgotPassword = false,
+    this.onChangePhone,
+    this.onWrongPin,
+    required this.union,
+  });
+
+  final Key? key;
+
+  final bool displayHeader;
+
+  final bool cannotLeave;
+
+  final bool isChangePhone;
+
+  final bool isChangePin;
+
+  final bool fromRegister;
+
+  final bool isForgotPassword;
+
+  final dynamic Function(String)? onChangePhone;
+
+  final dynamic Function(String)? onWrongPin;
+
+  final PinFlowUnion union;
+
+  @override
+  String toString() {
+    return 'PinScreenRouteArgs{key: $key, displayHeader: $displayHeader, cannotLeave: $cannotLeave, isChangePhone: $isChangePhone, isChangePin: $isChangePin, fromRegister: $fromRegister, isForgotPassword: $isForgotPassword, onChangePhone: $onChangePhone, onWrongPin: $onWrongPin, union: $union}';
+  }
+}
+
+/// generated route for
+/// [PortfolioScreen]
+class PortfolioRouter extends PageRouteInfo<void> {
+  const PortfolioRouter({List<PageRouteInfo>? children})
+      : super(
+          PortfolioRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PortfolioRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PreviewReturnToWallet]
+class PreviewReturnToWalletRouter
+    extends PageRouteInfo<PreviewReturnToWalletRouterArgs> {
+  PreviewReturnToWalletRouter({
+    Key? key,
+    required PreviewReturnToWalletInput input,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PreviewReturnToWalletRouter.name,
+          args: PreviewReturnToWalletRouterArgs(
+            key: key,
+            input: input,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PreviewReturnToWalletRouter';
+
+  static const PageInfo<PreviewReturnToWalletRouterArgs> page =
+      PageInfo<PreviewReturnToWalletRouterArgs>(name);
+}
+
+class PreviewReturnToWalletRouterArgs {
+  const PreviewReturnToWalletRouterArgs({
+    this.key,
+    required this.input,
+  });
+
+  final Key? key;
+
+  final PreviewReturnToWalletInput input;
+
+  @override
+  String toString() {
+    return 'PreviewReturnToWalletRouterArgs{key: $key, input: $input}';
+  }
+}
+
+/// generated route for
+/// [ReturnToWallet]
+class ReturnToWalletRouter extends PageRouteInfo<ReturnToWalletRouterArgs> {
+  ReturnToWalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+    required EarnOfferModel earnOffer,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ReturnToWalletRouter.name,
+          args: ReturnToWalletRouterArgs(
+            key: key,
+            currency: currency,
+            earnOffer: earnOffer,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ReturnToWalletRouter';
+
+  static const PageInfo<ReturnToWalletRouterArgs> page =
+      PageInfo<ReturnToWalletRouterArgs>(name);
+}
+
+class ReturnToWalletRouterArgs {
+  const ReturnToWalletRouterArgs({
+    this.key,
+    required this.currency,
+    required this.earnOffer,
+  });
+
+  final Key? key;
 
   final CurrencyModel currency;
 
-  final bool fromCard;
-
-  final PaymentMethodType paymentMethod;
+  final EarnOfferModel earnOffer;
 
   @override
   String toString() {
-    return 'CurrencyBuyRouterArgs{key: $key, recurringBuysType: $recurringBuysType, circleCard: $circleCard, unlimintCard: $unlimintCard, bankCard: $bankCard, newBankCardId: $newBankCardId, newBankCardNumber: $newBankCardNumber, showUaAlert: $showUaAlert, currency: $currency, fromCard: $fromCard, paymentMethod: $paymentMethod}';
+    return 'ReturnToWalletRouterArgs{key: $key, currency: $currency, earnOffer: $earnOffer}';
   }
 }
 
 /// generated route for
-/// [DeleteReasonsScreen]
-class DeleteReasonsScreenRouter extends PageRouteInfo<void> {
-  const DeleteReasonsScreenRouter({List<PageRouteInfo>? children})
-      : super(
-          DeleteReasonsScreenRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DeleteReasonsScreenRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [DeleteProfile]
-class DeleteProfileRouter extends PageRouteInfo<void> {
-  const DeleteProfileRouter({List<PageRouteInfo>? children})
-      : super(
-          DeleteProfileRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DeleteProfileRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [ProfileDetails]
-class ProfileDetailsRouter extends PageRouteInfo<void> {
-  const ProfileDetailsRouter({List<PageRouteInfo>? children})
-      : super(
-          ProfileDetailsRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ProfileDetailsRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [DefaultAssetChange]
-class DefaultAssetChangeRouter extends PageRouteInfo<void> {
-  const DefaultAssetChangeRouter({List<PageRouteInfo>? children})
-      : super(
-          DefaultAssetChangeRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DefaultAssetChangeRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [ChangePassword]
-class ChangePasswordRouter extends PageRouteInfo<void> {
-  const ChangePasswordRouter({List<PageRouteInfo>? children})
-      : super(
-          ChangePasswordRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ChangePasswordRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [SetNewPassword]
-class SetNewPasswordRouter extends PageRouteInfo<void> {
-  const SetNewPasswordRouter({List<PageRouteInfo>? children})
-      : super(
-          SetNewPasswordRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'SetNewPasswordRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AccountScreen]
-class AccountRouter extends PageRouteInfo<void> {
-  const AccountRouter({List<PageRouteInfo>? children})
-      : super(
-          AccountRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AccountRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [Crisp]
-class CrispRouter extends PageRouteInfo<CrispRouterArgs> {
-  CrispRouter({
+/// [Rewards]
+class RewardsRouter extends PageRouteInfo<RewardsRouterArgs> {
+  RewardsRouter({
     Key? key,
-    required String welcomeText,
+    required List<String> actualRewards,
     List<PageRouteInfo>? children,
   }) : super(
-          CrispRouter.name,
-          args: CrispRouterArgs(
+          RewardsRouter.name,
+          args: RewardsRouterArgs(
             key: key,
-            welcomeText: welcomeText,
+            actualRewards: actualRewards,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'CrispRouter';
+  static const String name = 'RewardsRouter';
 
-  static const PageInfo<CrispRouterArgs> page = PageInfo<CrispRouterArgs>(name);
+  static const PageInfo<RewardsRouterArgs> page =
+      PageInfo<RewardsRouterArgs>(name);
 }
 
-class CrispRouterArgs {
-  const CrispRouterArgs({
+class RewardsRouterArgs {
+  const RewardsRouterArgs({
     this.key,
-    required this.welcomeText,
+    required this.actualRewards,
   });
 
   final Key? key;
 
-  final String welcomeText;
+  final List<String> actualRewards;
 
   @override
   String toString() {
-    return 'CrispRouterArgs{key: $key, welcomeText: $welcomeText}';
+    return 'RewardsRouterArgs{key: $key, actualRewards: $actualRewards}';
   }
 }
 
 /// generated route for
-/// [AboutUs]
-class AboutUsRouter extends PageRouteInfo<void> {
-  const AboutUsRouter({List<PageRouteInfo>? children})
-      : super(
-          AboutUsRouter.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AboutUsRouter';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [HelpCenterWebView]
-class HelpCenterWebViewRouter
-    extends PageRouteInfo<HelpCenterWebViewRouterArgs> {
-  HelpCenterWebViewRouter({
+/// [SendByPhoneAmount]
+class SendByPhoneAmountRouter
+    extends PageRouteInfo<SendByPhoneAmountRouterArgs> {
+  SendByPhoneAmountRouter({
     Key? key,
-    required String link,
+    required CurrencyModel currency,
+    ContactModel? pickedContact,
+    SPhoneNumber? activeDialCode,
     List<PageRouteInfo>? children,
   }) : super(
-          HelpCenterWebViewRouter.name,
-          args: HelpCenterWebViewRouterArgs(
+          SendByPhoneAmountRouter.name,
+          args: SendByPhoneAmountRouterArgs(
             key: key,
-            link: link,
+            currency: currency,
+            pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'HelpCenterWebViewRouter';
+  static const String name = 'SendByPhoneAmountRouter';
 
-  static const PageInfo<HelpCenterWebViewRouterArgs> page =
-      PageInfo<HelpCenterWebViewRouterArgs>(name);
+  static const PageInfo<SendByPhoneAmountRouterArgs> page =
+      PageInfo<SendByPhoneAmountRouterArgs>(name);
 }
 
-class HelpCenterWebViewRouterArgs {
-  const HelpCenterWebViewRouterArgs({
+class SendByPhoneAmountRouterArgs {
+  const SendByPhoneAmountRouterArgs({
     this.key,
-    required this.link,
+    required this.currency,
+    this.pickedContact,
+    this.activeDialCode,
   });
 
   final Key? key;
 
-  final String link;
+  final CurrencyModel currency;
+
+  final ContactModel? pickedContact;
+
+  final SPhoneNumber? activeDialCode;
 
   @override
   String toString() {
-    return 'HelpCenterWebViewRouterArgs{key: $key, link: $link}';
+    return 'SendByPhoneAmountRouterArgs{key: $key, currency: $currency, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
   }
 }
 
 /// generated route for
-/// [AccountSecurity]
-class AccountSecurityRouter extends PageRouteInfo<void> {
-  const AccountSecurityRouter({List<PageRouteInfo>? children})
-      : super(
-          AccountSecurityRouter.name,
+/// [SendByPhoneConfirm]
+class SendByPhoneConfirmRouter
+    extends PageRouteInfo<SendByPhoneConfirmRouterArgs> {
+  SendByPhoneConfirmRouter({
+    Key? key,
+    required CurrencyModel currency,
+    required String operationId,
+    required bool receiverIsRegistered,
+    required String amountStoreAmount,
+    required ContactModel pickedContact,
+    required SPhoneNumber activeDialCode,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendByPhoneConfirmRouter.name,
+          args: SendByPhoneConfirmRouterArgs(
+            key: key,
+            currency: currency,
+            operationId: operationId,
+            receiverIsRegistered: receiverIsRegistered,
+            amountStoreAmount: amountStoreAmount,
+            pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'AccountSecurityRouter';
+  static const String name = 'SendByPhoneConfirmRouter';
+
+  static const PageInfo<SendByPhoneConfirmRouterArgs> page =
+      PageInfo<SendByPhoneConfirmRouterArgs>(name);
+}
+
+class SendByPhoneConfirmRouterArgs {
+  const SendByPhoneConfirmRouterArgs({
+    this.key,
+    required this.currency,
+    required this.operationId,
+    required this.receiverIsRegistered,
+    required this.amountStoreAmount,
+    required this.pickedContact,
+    required this.activeDialCode,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  final String operationId;
+
+  final bool receiverIsRegistered;
+
+  final String amountStoreAmount;
+
+  final ContactModel pickedContact;
+
+  final SPhoneNumber activeDialCode;
+
+  @override
+  String toString() {
+    return 'SendByPhoneConfirmRouterArgs{key: $key, currency: $currency, operationId: $operationId, receiverIsRegistered: $receiverIsRegistered, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
+  }
+}
+
+/// generated route for
+/// [SendByPhoneInput]
+class SendByPhoneInputRouter extends PageRouteInfo<SendByPhoneInputRouterArgs> {
+  SendByPhoneInputRouter({
+    Key? key,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendByPhoneInputRouter.name,
+          args: SendByPhoneInputRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendByPhoneInputRouter';
+
+  static const PageInfo<SendByPhoneInputRouterArgs> page =
+      PageInfo<SendByPhoneInputRouterArgs>(name);
+}
+
+class SendByPhoneInputRouterArgs {
+  const SendByPhoneInputRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'SendByPhoneInputRouterArgs{key: $key, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [SendByPhoneNotifyRecipient]
+class SendByPhoneNotifyRecipientRouter
+    extends PageRouteInfo<SendByPhoneNotifyRecipientRouterArgs> {
+  SendByPhoneNotifyRecipientRouter({
+    Key? key,
+    required String toPhoneNumber,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendByPhoneNotifyRecipientRouter.name,
+          args: SendByPhoneNotifyRecipientRouterArgs(
+            key: key,
+            toPhoneNumber: toPhoneNumber,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendByPhoneNotifyRecipientRouter';
+
+  static const PageInfo<SendByPhoneNotifyRecipientRouterArgs> page =
+      PageInfo<SendByPhoneNotifyRecipientRouterArgs>(name);
+}
+
+class SendByPhoneNotifyRecipientRouterArgs {
+  const SendByPhoneNotifyRecipientRouterArgs({
+    this.key,
+    required this.toPhoneNumber,
+  });
+
+  final Key? key;
+
+  final String toPhoneNumber;
+
+  @override
+  String toString() {
+    return 'SendByPhoneNotifyRecipientRouterArgs{key: $key, toPhoneNumber: $toPhoneNumber}';
+  }
+}
+
+/// generated route for
+/// [SendByPhonePreview]
+class SendByPhonePreviewRouter
+    extends PageRouteInfo<SendByPhonePreviewRouterArgs> {
+  SendByPhonePreviewRouter({
+    Key? key,
+    required CurrencyModel currency,
+    required String amountStoreAmount,
+    required ContactModel pickedContact,
+    required SPhoneNumber activeDialCode,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendByPhonePreviewRouter.name,
+          args: SendByPhonePreviewRouterArgs(
+            key: key,
+            currency: currency,
+            amountStoreAmount: amountStoreAmount,
+            pickedContact: pickedContact,
+            activeDialCode: activeDialCode,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendByPhonePreviewRouter';
+
+  static const PageInfo<SendByPhonePreviewRouterArgs> page =
+      PageInfo<SendByPhonePreviewRouterArgs>(name);
+}
+
+class SendByPhonePreviewRouterArgs {
+  const SendByPhonePreviewRouterArgs({
+    this.key,
+    required this.currency,
+    required this.amountStoreAmount,
+    required this.pickedContact,
+    required this.activeDialCode,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  final String amountStoreAmount;
+
+  final ContactModel pickedContact;
+
+  final SPhoneNumber activeDialCode;
+
+  @override
+  String toString() {
+    return 'SendByPhonePreviewRouterArgs{key: $key, currency: $currency, amountStoreAmount: $amountStoreAmount, pickedContact: $pickedContact, activeDialCode: $activeDialCode}';
+  }
+}
+
+/// generated route for
+/// [SetPhoneNumber]
+class SetPhoneNumberRouter extends PageRouteInfo<SetPhoneNumberRouterArgs> {
+  SetPhoneNumberRouter({
+    Key? key,
+    dynamic Function()? then,
+    bool isChangePhone = false,
+    bool fromRegister = false,
+    required String successText,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SetPhoneNumberRouter.name,
+          args: SetPhoneNumberRouterArgs(
+            key: key,
+            then: then,
+            isChangePhone: isChangePhone,
+            fromRegister: fromRegister,
+            successText: successText,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SetPhoneNumberRouter';
+
+  static const PageInfo<SetPhoneNumberRouterArgs> page =
+      PageInfo<SetPhoneNumberRouterArgs>(name);
+}
+
+class SetPhoneNumberRouterArgs {
+  const SetPhoneNumberRouterArgs({
+    this.key,
+    this.then,
+    this.isChangePhone = false,
+    this.fromRegister = false,
+    required this.successText,
+  });
+
+  final Key? key;
+
+  final dynamic Function()? then;
+
+  final bool isChangePhone;
+
+  final bool fromRegister;
+
+  final String successText;
+
+  @override
+  String toString() {
+    return 'SetPhoneNumberRouterArgs{key: $key, then: $then, isChangePhone: $isChangePhone, fromRegister: $fromRegister, successText: $successText}';
+  }
+}
+
+/// generated route for
+/// [SmsAuthenticator]
+class SmsAuthenticatorRouter extends PageRouteInfo<void> {
+  const SmsAuthenticatorRouter({List<PageRouteInfo>? children})
+      : super(
+          SmsAuthenticatorRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SmsAuthenticatorRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TransactionHistory]
+class TransactionHistoryRouter
+    extends PageRouteInfo<TransactionHistoryRouterArgs> {
+  TransactionHistoryRouter({
+    Key? key,
+    String? assetName,
+    String? assetSymbol,
+    int initialIndex = 0,
+    String? jwOperationId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TransactionHistoryRouter.name,
+          args: TransactionHistoryRouterArgs(
+            key: key,
+            assetName: assetName,
+            assetSymbol: assetSymbol,
+            initialIndex: initialIndex,
+            jwOperationId: jwOperationId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TransactionHistoryRouter';
+
+  static const PageInfo<TransactionHistoryRouterArgs> page =
+      PageInfo<TransactionHistoryRouterArgs>(name);
+}
+
+class TransactionHistoryRouterArgs {
+  const TransactionHistoryRouterArgs({
+    this.key,
+    this.assetName,
+    this.assetSymbol,
+    this.initialIndex = 0,
+    this.jwOperationId,
+  });
+
+  final Key? key;
+
+  final String? assetName;
+
+  final String? assetSymbol;
+
+  final int initialIndex;
+
+  final String? jwOperationId;
+
+  @override
+  String toString() {
+    return 'TransactionHistoryRouterArgs{key: $key, assetName: $assetName, assetSymbol: $assetSymbol, initialIndex: $initialIndex, jwOperationId: $jwOperationId}';
+  }
 }
 
 /// generated route for
@@ -3963,155 +3703,395 @@ class TwoFaPhoneRouterArgs {
 }
 
 /// generated route for
-/// [PaymentMethods]
-class PaymentMethodsRouter extends PageRouteInfo<void> {
-  const PaymentMethodsRouter({List<PageRouteInfo>? children})
-      : super(
-          PaymentMethodsRouter.name,
+/// [EmptyWallet]
+class EmptyWalletRouter extends PageRouteInfo<EmptyWalletRouterArgs> {
+  EmptyWalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EmptyWalletRouter.name,
+          args: EmptyWalletRouterArgs(
+            key: key,
+            currency: currency,
+          ),
           initialChildren: children,
         );
 
-  static const String name = 'PaymentMethodsRouter';
+  static const String name = 'EmptyWalletRouter';
+
+  static const PageInfo<EmptyWalletRouterArgs> page =
+      PageInfo<EmptyWalletRouterArgs>(name);
+}
+
+class EmptyWalletRouterArgs {
+  const EmptyWalletRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'EmptyWalletRouterArgs{key: $key, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [Wallet]
+class WalletRouter extends PageRouteInfo<WalletRouterArgs> {
+  WalletRouter({
+    Key? key,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WalletRouter.name,
+          args: WalletRouterArgs(
+            key: key,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'WalletRouter';
+
+  static const PageInfo<WalletRouterArgs> page =
+      PageInfo<WalletRouterArgs>(name);
+}
+
+class WalletRouterArgs {
+  const WalletRouterArgs({
+    this.key,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'WalletRouterArgs{key: $key, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [SendCardDetailScreen]
+class SendCardDetailRouter extends PageRouteInfo<SendCardDetailRouterArgs> {
+  SendCardDetailRouter({
+    Key? key,
+    required GlobalSendMethodsModelMethods method,
+    required String countryCode,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendCardDetailRouter.name,
+          args: SendCardDetailRouterArgs(
+            key: key,
+            method: method,
+            countryCode: countryCode,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendCardDetailRouter';
+
+  static const PageInfo<SendCardDetailRouterArgs> page =
+      PageInfo<SendCardDetailRouterArgs>(name);
+}
+
+class SendCardDetailRouterArgs {
+  const SendCardDetailRouterArgs({
+    this.key,
+    required this.method,
+    required this.countryCode,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final GlobalSendMethodsModelMethods method;
+
+  final String countryCode;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'SendCardDetailRouterArgs{key: $key, method: $method, countryCode: $countryCode, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [SendCardPaymentMethodScreen]
+class SendCardPaymentMethodRouter
+    extends PageRouteInfo<SendCardPaymentMethodRouterArgs> {
+  SendCardPaymentMethodRouter({
+    Key? key,
+    required String countryCode,
+    required CurrencyModel currency,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendCardPaymentMethodRouter.name,
+          args: SendCardPaymentMethodRouterArgs(
+            key: key,
+            countryCode: countryCode,
+            currency: currency,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendCardPaymentMethodRouter';
+
+  static const PageInfo<SendCardPaymentMethodRouterArgs> page =
+      PageInfo<SendCardPaymentMethodRouterArgs>(name);
+}
+
+class SendCardPaymentMethodRouterArgs {
+  const SendCardPaymentMethodRouterArgs({
+    this.key,
+    required this.countryCode,
+    required this.currency,
+  });
+
+  final Key? key;
+
+  final String countryCode;
+
+  final CurrencyModel currency;
+
+  @override
+  String toString() {
+    return 'SendCardPaymentMethodRouterArgs{key: $key, countryCode: $countryCode, currency: $currency}';
+  }
+}
+
+/// generated route for
+/// [SendGloballyAmountScreen]
+class SendGloballyAmountRouter
+    extends PageRouteInfo<SendGloballyAmountRouterArgs> {
+  SendGloballyAmountRouter({
+    Key? key,
+    required SendToBankRequestModel data,
+    required GlobalSendMethodsModelMethods method,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendGloballyAmountRouter.name,
+          args: SendGloballyAmountRouterArgs(
+            key: key,
+            data: data,
+            method: method,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendGloballyAmountRouter';
+
+  static const PageInfo<SendGloballyAmountRouterArgs> page =
+      PageInfo<SendGloballyAmountRouterArgs>(name);
+}
+
+class SendGloballyAmountRouterArgs {
+  const SendGloballyAmountRouterArgs({
+    this.key,
+    required this.data,
+    required this.method,
+  });
+
+  final Key? key;
+
+  final SendToBankRequestModel data;
+
+  final GlobalSendMethodsModelMethods method;
+
+  @override
+  String toString() {
+    return 'SendGloballyAmountRouterArgs{key: $key, data: $data, method: $method}';
+  }
+}
+
+/// generated route for
+/// [SendGloballyConfirmScreen]
+class SendGloballyConfirmRouter
+    extends PageRouteInfo<SendGloballyConfirmRouterArgs> {
+  SendGloballyConfirmRouter({
+    Key? key,
+    required SendToBankCardResponse data,
+    required GlobalSendMethodsModelMethods method,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SendGloballyConfirmRouter.name,
+          args: SendGloballyConfirmRouterArgs(
+            key: key,
+            data: data,
+            method: method,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SendGloballyConfirmRouter';
+
+  static const PageInfo<SendGloballyConfirmRouterArgs> page =
+      PageInfo<SendGloballyConfirmRouterArgs>(name);
+}
+
+class SendGloballyConfirmRouterArgs {
+  const SendGloballyConfirmRouterArgs({
+    this.key,
+    required this.data,
+    required this.method,
+  });
+
+  final Key? key;
+
+  final SendToBankCardResponse data;
+
+  final GlobalSendMethodsModelMethods method;
+
+  @override
+  String toString() {
+    return 'SendGloballyConfirmRouterArgs{key: $key, data: $data, method: $method}';
+  }
+}
+
+/// generated route for
+/// [WithdrawalAddressScreen]
+class WithdrawalAddressRouter extends PageRouteInfo<void> {
+  const WithdrawalAddressRouter({List<PageRouteInfo>? children})
+      : super(
+          WithdrawalAddressRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WithdrawalAddressRouter';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [PreviewConvert]
-class PreviewConvertRouter extends PageRouteInfo<PreviewConvertRouterArgs> {
-  PreviewConvertRouter({
+/// [WithdrawalAmmountScreen]
+class WithdrawalAmmountRouter extends PageRouteInfo<void> {
+  const WithdrawalAmmountRouter({List<PageRouteInfo>? children})
+      : super(
+          WithdrawalAmmountRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WithdrawalAmmountRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WithdrawalConfirmScreen]
+class WithdrawalConfirmRouter extends PageRouteInfo<void> {
+  const WithdrawalConfirmRouter({List<PageRouteInfo>? children})
+      : super(
+          WithdrawalConfirmRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WithdrawalConfirmRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WithdrawalPreviewScreen]
+class WithdrawalPreviewRouter extends PageRouteInfo<void> {
+  const WithdrawalPreviewRouter({List<PageRouteInfo>? children})
+      : super(
+          WithdrawalPreviewRouter.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WithdrawalPreviewRouter';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WithdrawalScreen]
+class WithdrawRouter extends PageRouteInfo<WithdrawRouterArgs> {
+  WithdrawRouter({
     Key? key,
-    required PreviewConvertInput input,
+    required WithdrawalModel withdrawal,
     List<PageRouteInfo>? children,
   }) : super(
-          PreviewConvertRouter.name,
-          args: PreviewConvertRouterArgs(
+          WithdrawRouter.name,
+          args: WithdrawRouterArgs(
             key: key,
-            input: input,
+            withdrawal: withdrawal,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'PreviewConvertRouter';
+  static const String name = 'WithdrawRouter';
 
-  static const PageInfo<PreviewConvertRouterArgs> page =
-      PageInfo<PreviewConvertRouterArgs>(name);
+  static const PageInfo<WithdrawRouterArgs> page =
+      PageInfo<WithdrawRouterArgs>(name);
 }
 
-class PreviewConvertRouterArgs {
-  const PreviewConvertRouterArgs({
+class WithdrawRouterArgs {
+  const WithdrawRouterArgs({
     this.key,
-    required this.input,
+    required this.withdrawal,
   });
 
   final Key? key;
 
-  final PreviewConvertInput input;
+  final WithdrawalModel withdrawal;
 
   @override
   String toString() {
-    return 'PreviewConvertRouterArgs{key: $key, input: $input}';
+    return 'WithdrawRouterArgs{key: $key, withdrawal: $withdrawal}';
   }
 }
 
 /// generated route for
-/// [Convert]
-class ConvertRouter extends PageRouteInfo<ConvertRouterArgs> {
-  ConvertRouter({
+/// [InfoWebView]
+class InfoWebViewRouter extends PageRouteInfo<InfoWebViewRouterArgs> {
+  InfoWebViewRouter({
     Key? key,
-    CurrencyModel? fromCurrency,
+    required String link,
+    required String title,
     List<PageRouteInfo>? children,
   }) : super(
-          ConvertRouter.name,
-          args: ConvertRouterArgs(
+          InfoWebViewRouter.name,
+          args: InfoWebViewRouterArgs(
             key: key,
-            fromCurrency: fromCurrency,
+            link: link,
+            title: title,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'ConvertRouter';
+  static const String name = 'InfoWebViewRouter';
 
-  static const PageInfo<ConvertRouterArgs> page =
-      PageInfo<ConvertRouterArgs>(name);
+  static const PageInfo<InfoWebViewRouterArgs> page =
+      PageInfo<InfoWebViewRouterArgs>(name);
 }
 
-class ConvertRouterArgs {
-  const ConvertRouterArgs({
+class InfoWebViewRouterArgs {
+  const InfoWebViewRouterArgs({
     this.key,
-    this.fromCurrency,
+    required this.link,
+    required this.title,
   });
 
   final Key? key;
 
-  final CurrencyModel? fromCurrency;
+  final String link;
+
+  final String title;
 
   @override
   String toString() {
-    return 'ConvertRouterArgs{key: $key, fromCurrency: $fromCurrency}';
-  }
-}
-
-/// generated route for
-/// [WaitingScreen]
-class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
-  WaitingScreenRouter({
-    Key? key,
-    dynamic Function(BuildContext)? onSuccess,
-    String? primaryText,
-    String? secondaryText,
-    Widget? specialTextWidget,
-    bool wasAction = false,
-    required dynamic Function() onSkip,
-    List<PageRouteInfo>? children,
-  }) : super(
-          WaitingScreenRouter.name,
-          args: WaitingScreenRouterArgs(
-            key: key,
-            onSuccess: onSuccess,
-            primaryText: primaryText,
-            secondaryText: secondaryText,
-            specialTextWidget: specialTextWidget,
-            wasAction: wasAction,
-            onSkip: onSkip,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'WaitingScreenRouter';
-
-  static const PageInfo<WaitingScreenRouterArgs> page =
-      PageInfo<WaitingScreenRouterArgs>(name);
-}
-
-class WaitingScreenRouterArgs {
-  const WaitingScreenRouterArgs({
-    this.key,
-    this.onSuccess,
-    this.primaryText,
-    this.secondaryText,
-    this.specialTextWidget,
-    this.wasAction = false,
-    required this.onSkip,
-  });
-
-  final Key? key;
-
-  final dynamic Function(BuildContext)? onSuccess;
-
-  final String? primaryText;
-
-  final String? secondaryText;
-
-  final Widget? specialTextWidget;
-
-  final bool wasAction;
-
-  final dynamic Function() onSkip;
-
-  @override
-  String toString() {
-    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
+    return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
   }
 }
 
@@ -4272,6 +4252,45 @@ class SuccessScreenRouterArgs {
 }
 
 /// generated route for
+/// [SuccessVerifyingScreen]
+class SuccessVerifyingScreenRouter
+    extends PageRouteInfo<SuccessVerifyingScreenRouterArgs> {
+  SuccessVerifyingScreenRouter({
+    Key? key,
+    required dynamic Function() onSuccess,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SuccessVerifyingScreenRouter.name,
+          args: SuccessVerifyingScreenRouterArgs(
+            key: key,
+            onSuccess: onSuccess,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SuccessVerifyingScreenRouter';
+
+  static const PageInfo<SuccessVerifyingScreenRouterArgs> page =
+      PageInfo<SuccessVerifyingScreenRouterArgs>(name);
+}
+
+class SuccessVerifyingScreenRouterArgs {
+  const SuccessVerifyingScreenRouterArgs({
+    this.key,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final dynamic Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'SuccessVerifyingScreenRouterArgs{key: $key, onSuccess: $onSuccess}';
+  }
+}
+
+/// generated route for
 /// [VerifyingScreen]
 class VerifyingScreenRouter extends PageRouteInfo<VerifyingScreenRouterArgs> {
   VerifyingScreenRouter({
@@ -4315,83 +4334,64 @@ class VerifyingScreenRouterArgs {
 }
 
 /// generated route for
-/// [SuccessVerifyingScreen]
-class SuccessVerifyingScreenRouter
-    extends PageRouteInfo<SuccessVerifyingScreenRouterArgs> {
-  SuccessVerifyingScreenRouter({
+/// [WaitingScreen]
+class WaitingScreenRouter extends PageRouteInfo<WaitingScreenRouterArgs> {
+  WaitingScreenRouter({
     Key? key,
-    required dynamic Function() onSuccess,
+    dynamic Function(BuildContext)? onSuccess,
+    String? primaryText,
+    String? secondaryText,
+    Widget? specialTextWidget,
+    bool wasAction = false,
+    required dynamic Function() onSkip,
     List<PageRouteInfo>? children,
   }) : super(
-          SuccessVerifyingScreenRouter.name,
-          args: SuccessVerifyingScreenRouterArgs(
+          WaitingScreenRouter.name,
+          args: WaitingScreenRouterArgs(
             key: key,
             onSuccess: onSuccess,
+            primaryText: primaryText,
+            secondaryText: secondaryText,
+            specialTextWidget: specialTextWidget,
+            wasAction: wasAction,
+            onSkip: onSkip,
           ),
           initialChildren: children,
         );
 
-  static const String name = 'SuccessVerifyingScreenRouter';
+  static const String name = 'WaitingScreenRouter';
 
-  static const PageInfo<SuccessVerifyingScreenRouterArgs> page =
-      PageInfo<SuccessVerifyingScreenRouterArgs>(name);
+  static const PageInfo<WaitingScreenRouterArgs> page =
+      PageInfo<WaitingScreenRouterArgs>(name);
 }
 
-class SuccessVerifyingScreenRouterArgs {
-  const SuccessVerifyingScreenRouterArgs({
+class WaitingScreenRouterArgs {
+  const WaitingScreenRouterArgs({
     this.key,
-    required this.onSuccess,
+    this.onSuccess,
+    this.primaryText,
+    this.secondaryText,
+    this.specialTextWidget,
+    this.wasAction = false,
+    required this.onSkip,
   });
 
   final Key? key;
 
-  final dynamic Function() onSuccess;
+  final dynamic Function(BuildContext)? onSuccess;
+
+  final String? primaryText;
+
+  final String? secondaryText;
+
+  final Widget? specialTextWidget;
+
+  final bool wasAction;
+
+  final dynamic Function() onSkip;
 
   @override
   String toString() {
-    return 'SuccessVerifyingScreenRouterArgs{key: $key, onSuccess: $onSuccess}';
-  }
-}
-
-/// generated route for
-/// [InfoWebView]
-class InfoWebViewRouter extends PageRouteInfo<InfoWebViewRouterArgs> {
-  InfoWebViewRouter({
-    Key? key,
-    required String link,
-    required String title,
-    List<PageRouteInfo>? children,
-  }) : super(
-          InfoWebViewRouter.name,
-          args: InfoWebViewRouterArgs(
-            key: key,
-            link: link,
-            title: title,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'InfoWebViewRouter';
-
-  static const PageInfo<InfoWebViewRouterArgs> page =
-      PageInfo<InfoWebViewRouterArgs>(name);
-}
-
-class InfoWebViewRouterArgs {
-  const InfoWebViewRouterArgs({
-    this.key,
-    required this.link,
-    required this.title,
-  });
-
-  final Key? key;
-
-  final String link;
-
-  final String title;
-
-  @override
-  String toString() {
-    return 'InfoWebViewRouterArgs{key: $key, link: $link, title: $title}';
+    return 'WaitingScreenRouterArgs{key: $key, onSuccess: $onSuccess, primaryText: $primaryText, secondaryText: $secondaryText, specialTextWidget: $specialTextWidget, wasAction: $wasAction, onSkip: $onSkip}';
   }
 }

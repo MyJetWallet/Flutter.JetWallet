@@ -39,7 +39,7 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
     bool isChangePhone = false,
     bool isChangePin = false,
     Function(String)? onChangePhone,
-    Function()? onWrongPin,
+    Function(String)? onWrongPin,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
@@ -65,7 +65,7 @@ abstract class _PinScreenStoreBase with Store {
   final bool isChangePhone;
   final bool isChangePin;
   final Function(String)? onChangePhone;
-  final Function()? onWrongPin;
+  final Function(String)? onWrongPin;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -283,7 +283,7 @@ abstract class _PinScreenStoreBase with Store {
 
       if (response.hasError) {
         if (onWrongPin != null) {
-          onWrongPin!();
+          onWrongPin!(response.error?.cause ?? '');
         }
 
         sAnalytics.signInFlowPhoneConfirmWrongPhone(
@@ -462,7 +462,7 @@ abstract class _PinScreenStoreBase with Store {
         }
       } else {
         if (onWrongPin != null) {
-          onWrongPin!();
+          onWrongPin!('new Pin != confrim Pin');
         }
 
         await _animateError();
@@ -472,7 +472,7 @@ abstract class _PinScreenStoreBase with Store {
       }
     } catch (e) {
       if (onWrongPin != null) {
-        onWrongPin!();
+        onWrongPin!(e.toString());
       }
 
       await _animateError();
