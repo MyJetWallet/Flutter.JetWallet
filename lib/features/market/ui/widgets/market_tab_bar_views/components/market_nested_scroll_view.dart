@@ -252,7 +252,7 @@ class __MarketNestedScrollViewBodyState
                 /*final isInWatchlist = store.watchListLocal.contains(
                   store.cryptoListFiltred[index].associateAsset,
                 );*/
-                final isInWatchlist = true;
+                const isInWatchlist = true;
 
                 return Reorderable(
                   key: ValueKey(item),

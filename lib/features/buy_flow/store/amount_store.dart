@@ -486,7 +486,7 @@ abstract class _BuyAmountStoreBase with Store {
       }
     }
 
-    final error = InputError.none;
+    const error = InputError.none;
 
     inputError = double.parse(inputValue) != 0
         ? error == InputError.none
