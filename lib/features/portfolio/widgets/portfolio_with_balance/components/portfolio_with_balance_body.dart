@@ -148,13 +148,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final fiatsWithoutBalance = currenciesWithoutBalanceFrom(
       getMarketFiats(sSignalRModules.currenciesList),
     );
-    final userNft = sSignalRModules.userNFTList;
 
     final clientDetail = sSignalRModules.clientDetail;
 
     final baseCurrency = sSignalRModules.baseCurrency;
-
-    final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     final chart = ChartStore.of(context);
 

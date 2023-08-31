@@ -236,11 +236,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
@@ -423,11 +418,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter
         .push(
@@ -463,11 +453,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter.push(
       FailureScreenRouter(

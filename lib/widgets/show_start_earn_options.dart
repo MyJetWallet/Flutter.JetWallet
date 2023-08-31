@@ -18,8 +18,6 @@ void showStartEarnOptions({
   final kycState = getIt.get<KycService>();
   final kycAlertHandler = getIt.get<KycAlertHandler>();
 
-  final balancesEmpty = areBalancesEmpty(sSignalRModules.currenciesList);
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,

@@ -66,7 +66,7 @@ abstract class _DeleteProfileStoreBase with Store {
   Future<void> deleteProfile() async {
     final walletApi = sNetwork.getWalletModule();
 
-    final request = await walletApi.postProfileDelete(
+    await walletApi.postProfileDelete(
       getIt.get<AppStore>().authState.deleteToken,
       selectedDeleteReason.map((e) => e.reasonId!).toList(),
     );

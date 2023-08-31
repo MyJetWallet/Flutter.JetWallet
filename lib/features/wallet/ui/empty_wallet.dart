@@ -48,7 +48,7 @@ class _EmptyWalletState extends State<EmptyWallet>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    final response = sNetwork
+    sNetwork
         .getWalletModule()
         .getOperationHistory(
           OperationHistoryRequestModel(

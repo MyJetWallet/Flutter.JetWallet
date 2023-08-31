@@ -20,8 +20,6 @@ List<Widget> createBannersList({
   required SimpleColors colors,
   required BuildContext context,
 }) {
-  final storage = sLocalStorageService;
-  final userInfo = sUserInfo;
   final bannersList = <Widget>[];
 
   if (!verificationInProgress && !kycPassed && !kycBlocked) {

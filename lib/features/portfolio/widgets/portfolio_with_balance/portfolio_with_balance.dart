@@ -26,21 +26,11 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
   @override
   void initState() {
     super.initState();
-    final cryptosWithBalance = currenciesWithBalanceFrom(
-      getMarketCrypto(sSignalRModules.currenciesList),
-    );
-    final indicesWithBalance = currenciesWithBalanceFrom(
-      getMarketCurrencies(sSignalRModules.currenciesList),
-    );
-    final fiatsWithBalance = currenciesWithBalanceFrom(
-      getMarketFiats(sSignalRModules.currenciesList),
-    );
 
     tabController = getController();
   }
 
   TabController getController() {
-    final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     return TabController(
       length: 1,
@@ -56,28 +46,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
 
   @override
   Widget build(BuildContext context) {
-    final cryptosWithBalance = currenciesWithBalanceFrom(
-      getMarketCrypto(sSignalRModules.currenciesList),
-    );
-    final indicesWithBalance = currenciesWithBalanceFrom(
-      getMarketCurrencies(sSignalRModules.currenciesList),
-    );
-    final fiatsWithBalance = currenciesWithBalanceFrom(
-      getMarketFiats(sSignalRModules.currenciesList),
-    );
-
-    final isCryptoVisible = cryptosWithBalance.isNotEmpty &&
-        (indicesWithBalance.isNotEmpty || fiatsWithBalance.isNotEmpty);
-
-    final isFiatVisible = fiatsWithBalance.isNotEmpty &&
-        (indicesWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
-
-    final isIndicesVisible = indicesWithBalance.isNotEmpty &&
-        (fiatsWithBalance.isNotEmpty || cryptosWithBalance.isNotEmpty);
-
-    final isAllTabsVisible =
-        isCryptoVisible || isFiatVisible || isIndicesVisible;
-
     final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     return SPageFrame(

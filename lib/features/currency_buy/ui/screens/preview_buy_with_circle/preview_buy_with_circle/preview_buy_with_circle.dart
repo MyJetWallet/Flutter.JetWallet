@@ -52,7 +52,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
     late Widget icon;
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithCircleStore.of(context);
@@ -67,10 +66,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
         )
         .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
-
-    final title =
-        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
-        '${input.currency.description}';
 
     final cards = sSignalRModules.cards;
 

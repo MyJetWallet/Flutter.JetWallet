@@ -62,10 +62,6 @@ void showReceiveAction(
 }
 
 void _showReceive(BuildContext context) {
-  final colors = sKit.colors;
-  final kyc = getIt.get<KycService>();
-  final handler = getIt.get<KycAlertHandler>();
-
   showCryptoReceiveAction(context);
 }
 
@@ -167,13 +163,6 @@ class _ActionReceive extends StatelessObserverWidget {
               element.type == AssetType.crypto && element.supportsCryptoDeposit,
         )
         .toList();
-
-    final showTabs = sSignalRModules.currenciesList
-        .where(
-          (element) => element.supportsIbanDeposit,
-        )
-        .toList()
-        .isNotEmpty;
 
     final cryptoSearchLength = sSignalRModules.currenciesList
         .where((element) =>

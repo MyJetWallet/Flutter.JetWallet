@@ -100,8 +100,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
 
     final currency = currencyFrom(currencies, widget.marketItem.symbol);
 
-    final languageCode = Localizations.localeOf(context).languageCode;
-
     var isInWatchlist =
         watchlistIdsN.state.contains(widget.marketItem.associateAsset);
 

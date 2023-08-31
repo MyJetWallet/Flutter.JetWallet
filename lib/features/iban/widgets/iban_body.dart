@@ -54,7 +54,6 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
 
     return TabBarView(
       physics: getIt.get<IbanStore>().isIbanOutActive && widget.isKyc

@@ -79,7 +79,6 @@ class PhoneVerificationBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final store = PhoneVerificationStore.of(context);
-    final timer = TimerStore.of(context);
 
     // TODO add phoneVerificationCountdown
     final colors = sKit.colors;

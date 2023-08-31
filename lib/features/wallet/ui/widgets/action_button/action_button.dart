@@ -72,7 +72,7 @@ class _ActionButtonState extends State<ActionButton> {
           );
     }
 
-    final isBuyAvailable = isBuyWithCurrencyAvailableFor(
+    isBuyWithCurrencyAvailableFor(
       widget.currency.symbol,
       currencies,
     );

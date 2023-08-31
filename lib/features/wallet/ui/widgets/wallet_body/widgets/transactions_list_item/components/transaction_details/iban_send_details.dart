@@ -26,10 +26,6 @@ class IbanSendDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      'EUR',
-    );
 
     return SPaddingH24(
       child: Column(

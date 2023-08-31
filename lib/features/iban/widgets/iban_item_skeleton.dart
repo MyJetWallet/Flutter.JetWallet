@@ -12,7 +12,6 @@ class IBanItemSkeleton extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
 
     return Column(
       children: [

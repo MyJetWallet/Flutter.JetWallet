@@ -27,22 +27,13 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
 
     final store = WithdrawalStore.of(context);
 
-    final baseCurrency = sSignalRModules.baseCurrency;
-
     final matic = currencyFrom(
       sSignalRModules.currenciesList,
       store.nftInfo?.feeAssetSymbol ?? 'MATIC',
     );
 
-    final descr = store.withdrawalType == WithdrawalType.Asset
-        ? store.withdrawalInputModel!.currency!.description
-        : store.withdrawalInputModel!.nft!.name;
     final verb = intl.withdrawal_send_verb;
 
-    final title = store.withdrawalType == WithdrawalType.Asset
-        ? '${intl.withdrawalPreview_confirm} $verb'
-            ' $descr'
-        : 'å';
 
     final isUserEnoughMaticForWithdraw =
         store.withdrawalType == WithdrawalType.NFT

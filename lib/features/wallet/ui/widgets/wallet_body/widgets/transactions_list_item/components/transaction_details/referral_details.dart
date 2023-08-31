@@ -22,7 +22,6 @@ class ReferralDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
 
     return SPaddingH24(
       child: Column(

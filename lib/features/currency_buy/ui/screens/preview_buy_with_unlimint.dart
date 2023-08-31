@@ -51,14 +51,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     late Widget icon;
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithUnlimitStore.of(context);
 
-    final title =
-        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
-        '${input.currency.description}';
     var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
       small: () => heightWidget = heightWidget - 120,

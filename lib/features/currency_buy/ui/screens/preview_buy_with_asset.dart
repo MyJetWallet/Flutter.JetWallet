@@ -74,7 +74,6 @@ class __PreviewBuyWithAssetBodyState extends State<_PreviewBuyWithAssetBody>
   @override
   Widget build(BuildContext context) {
     final deviceSize = sDeviceSize;
-    final colors = sKit.colors;
 
     final state = PreviewBuyWithAssetStore.of(context);
 

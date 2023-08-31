@@ -177,8 +177,7 @@ class _DebugInfoState extends State<DebugInfo>
                       token: 'CRASHME',
                     );
 
-                    final infoRequest =
-                        await sNetwork.getAuthModule().postSessionCheck();
+                    await sNetwork.getAuthModule().postSessionCheck();
                   },
                   child: const Text(
                     'Simulate 401',
@@ -191,8 +190,7 @@ class _DebugInfoState extends State<DebugInfo>
                       refreshToken: 'CRASHME',
                     );
 
-                    final infoRequest =
-                        await sNetwork.getAuthModule().postSessionCheck();
+                    await sNetwork.getAuthModule().postSessionCheck();
                   },
                   child: const Text(
                     'Simulate refresh token is break',

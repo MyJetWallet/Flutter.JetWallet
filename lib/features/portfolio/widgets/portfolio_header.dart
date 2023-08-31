@@ -30,10 +30,7 @@ class PortfolioHeader extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final gift = referralGift();
-    final state = RewardStore();
-    final baseCurrency = sSignalRModules.baseCurrency;
-    //final chart = ChartStore(balanceChartInput());
+
     final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
         ?? <String>[];
     var counterOfRewards = 0;

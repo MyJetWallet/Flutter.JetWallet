@@ -496,8 +496,7 @@ abstract class _BankCardStoreBase with Store {
     try {
       loader.startLoadingImmediately();
 
-      final updateLabelResponse =
-          await sNetwork.getWalletModule().updateCardLabel(
+      await sNetwork.getWalletModule().updateCardLabel(
                 cardId,
                 cardLabel,
               );

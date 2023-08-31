@@ -29,7 +29,6 @@ class IBanEmpty extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final kycState = getIt.get<KycService>();
 
     final mainText = isKyc
         ? intl.iban_not_verified

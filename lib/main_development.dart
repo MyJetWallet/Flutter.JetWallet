@@ -16,10 +16,7 @@ Future<void> main() async {
   });
 
   Isolate.current.addErrorListener(
-    RawReceivePort((pair) async {
-      final errorAndStacktrace = pair as List;
-
-    }).sendPort,
+    RawReceivePort((pair) async {}).sendPort,
   );
 
   //await OneSignal.shared.setAppId('e192e9ee-288c-46fd-942f-a2f1b479f4b8');

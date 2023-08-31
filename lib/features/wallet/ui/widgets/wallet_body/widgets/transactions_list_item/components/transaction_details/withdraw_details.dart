@@ -27,10 +27,6 @@ class WithdrawDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      transactionListItem.assetId,
-    );
 
     return SPaddingH24(
       child: Column(

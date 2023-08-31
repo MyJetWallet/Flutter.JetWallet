@@ -168,11 +168,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     await storage.setString(checkedUnlimint, 'true');
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.unlimintCard,
-        )
-        .toList();
 
     await _createPayment();
   }
@@ -182,11 +177,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.unlimintCard,
-        )
-        .toList();
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
@@ -361,11 +351,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       buyPaymentId: paymentId,
     );
     var tapped = false;
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter
         .push(
@@ -416,11 +401,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter.push(
       FailureScreenRouter(

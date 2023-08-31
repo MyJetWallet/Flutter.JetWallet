@@ -184,11 +184,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     final storage = sLocalStorageService;
 
     storage.setString(checkedCircle, 'true');
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.circleCard,
-        )
-        .toList();
+
     if (cvvEnabled) {
       showCircleCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
@@ -419,11 +415,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter
         .push(
@@ -470,11 +461,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter.push(
       FailureScreenRouter(

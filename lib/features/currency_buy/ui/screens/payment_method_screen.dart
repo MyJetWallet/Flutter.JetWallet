@@ -127,11 +127,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     void onAddCardTap() {
-      final kycState = getIt.get<KycService>();
-      final status = kycOperationStatus(KycStatus.kycRequired);
-      final isUserVerified = kycState.depositStatus != status &&
-          kycState.sellStatus != status &&
-          kycState.withdrawalStatus != status;
       Navigator.push(
         context,
         PageRouteBuilder(

@@ -25,7 +25,6 @@ class _SendAlertBottomSheet extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final deviceSize = sDeviceSize;
 
     return SPaddingH24(
       child: Column(

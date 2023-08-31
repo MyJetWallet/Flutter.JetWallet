@@ -367,11 +367,6 @@ abstract class _WithdrawalStoreBase with Store {
   Future<void> validateOnContinue(BuildContext context) async {
     if (credentialsValid) {
       if (withdrawalType == WithdrawalType.NFT) {
-        final matic = currencyFrom(
-          sSignalRModules.currenciesList,
-          'MATIC',
-        );
-
         await withdrawNFT();
       }
 
@@ -403,13 +398,6 @@ abstract class _WithdrawalStoreBase with Store {
           }
 
           if (credentialsValid) {
-            if (withdrawalType == WithdrawalType.NFT) {
-              final matic = currencyFrom(
-                sSignalRModules.currenciesList,
-                'MATIC',
-              );
-            }
-
             _pushWithdrawalAmount(context);
           }
         },
@@ -940,11 +928,6 @@ abstract class _WithdrawalStoreBase with Store {
   Future<void> withdrawNFT() async {
     previewLoading = true;
     previewLoader.startLoadingImmediately();
-
-    final matic = currencyFrom(
-      sSignalRModules.currenciesList,
-      'MATIC',
-    );
 
     try {
       final model = WithdrawRequestModel(

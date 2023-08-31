@@ -169,7 +169,6 @@ class _ActionConvert extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = searchStore;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return Observer(

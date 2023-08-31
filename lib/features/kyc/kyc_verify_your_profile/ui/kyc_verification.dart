@@ -24,7 +24,6 @@ class KycVerification extends StatelessObserverWidget {
     final colors = sKit.colors;
     final isPhoneDone =
         !requiredVerifications.contains(RequiredVerified.proofOfPhone);
-    final kycState = getIt.get<KycService>();
 
     void navigateVerifiedNavigate() {
       if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {

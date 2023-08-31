@@ -30,7 +30,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final currencies = sSignalRModules.currenciesList;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currenciesFull,

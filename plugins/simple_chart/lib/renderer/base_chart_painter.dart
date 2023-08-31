@@ -135,12 +135,6 @@ abstract class BaseChartPainter extends CustomPainter {
       // mMainMinValue = min(mMainMinValue, item.close!);
       // break;
       case ChartType.candle:
-        final maxPrice = item.high;
-        final minPrice = item.low;
-
-        //mMainMaxValue = max(mMainMaxValue, maxPrice);
-        //mMainMinValue = min(mMainMinValue, minPrice);
-
         mMainMaxValue = max(mMainMaxValue, item.close);
         mMainMinValue = min(mMainMinValue, item.close);
 

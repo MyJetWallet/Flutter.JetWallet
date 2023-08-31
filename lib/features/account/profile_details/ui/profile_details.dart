@@ -33,13 +33,6 @@ class ProfileDetails extends StatelessObserverWidget {
       );
     }
 
-    final infoImage = Image.asset(
-      phoneChangeAsset,
-      width: 80,
-      height: 80,
-      package: 'simple_kit',
-    );
-
     return SPageFrame(
       header: SPaddingH24(
         child: SSmallHeader(

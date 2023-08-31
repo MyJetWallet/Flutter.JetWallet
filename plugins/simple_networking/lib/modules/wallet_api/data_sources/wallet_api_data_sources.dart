@@ -761,7 +761,7 @@ class WalletApiDataSources {
       try {
         final responseData = _.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+       handleFullResponse<Map>(
           responseData,
         );
 
@@ -816,7 +816,7 @@ class WalletApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 
@@ -1975,7 +1975,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -1998,7 +1998,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2020,7 +2020,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2069,7 +2069,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2095,7 +2095,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2121,7 +2121,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2164,7 +2164,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2190,7 +2190,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {

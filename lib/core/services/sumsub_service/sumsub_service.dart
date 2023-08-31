@@ -93,6 +93,6 @@ class SumsubService {
         )
         .build();
 
-    final SNSMobileSDKResult result = await snsMobileSDK.launch();
+    await snsMobileSDK.launch();
   }
 }
