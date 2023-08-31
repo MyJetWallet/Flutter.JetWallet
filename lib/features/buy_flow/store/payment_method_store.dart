@@ -178,10 +178,10 @@ abstract class _PaymentMethodStoreBase with Store {
           .where((element) => element.cardLabel?.contains(value) ?? false)
           .toList();
       var localF = localMethodsFilted
-          .where((element) => element.id.name?.contains(value) ?? false)
+          .where((element) => element.id.name.contains(value) ?? false)
           .toList();
       var p2pF = p2pMethodsFiltred
-          .where((element) => element.id.name?.contains(value) ?? false)
+          .where((element) => element.id.name.contains(value) ?? false)
           .toList();
 
       searchList.addAll(cardF
@@ -304,9 +304,9 @@ bool isCardReachLimit(PaymentAsset asset) {
       leftHours: 0,
     );
 
-    return limitModel?.day1State == StateLimitType.block ||
-        limitModel?.day7State == StateLimitType.block ||
-        limitModel?.day30State == StateLimitType.block;
+    return limitModel.day1State == StateLimitType.block ||
+        limitModel.day7State == StateLimitType.block ||
+        limitModel.day30State == StateLimitType.block;
   } else {
     return false;
   }
