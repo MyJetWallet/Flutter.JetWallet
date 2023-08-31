@@ -146,7 +146,12 @@ abstract class _PinScreenStoreBase with Store {
     if (inited) return;
 
     if (isChangePhone) {
-      sAnalytics.signInFlowPhoneConfirmView();
+      flowUnion.maybeWhen(
+        setup: () {
+          sAnalytics.signInFlowPhoneConfirmView();
+        },
+        orElse: () {},
+      );
     }
 
     inited = true;
@@ -286,8 +291,13 @@ abstract class _PinScreenStoreBase with Store {
           onWrongPin!(response.error?.cause ?? '');
         }
 
-        sAnalytics.signInFlowPhoneConfirmWrongPhone(
-          errorCode: response.error?.cause ?? '',
+        flowUnion.maybeWhen(
+          setup: () {
+            sAnalytics.signInFlowPhoneConfirmWrongPhone(
+              errorCode: response.error?.cause ?? '',
+            );
+          },
+          orElse: () {},
         );
 
         await _errorFlow();
