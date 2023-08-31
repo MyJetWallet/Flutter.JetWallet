@@ -30,9 +30,7 @@ class _BalanceChartState extends State<BalanceChart>
     final chartStore = ChartStore.of(context);
     final baseCurrency = sSignalRModules.baseCurrency;
     final currentDate = DateTime.now().toLocal();
-    final localCreationDate = widget.walletCreationDate == null
-        ? currentDate
-        : DateTime.parse(widget.walletCreationDate).toLocal();
+    final localCreationDate = DateTime.parse(widget.walletCreationDate).toLocal();
     bool showWeek;
     bool showMonth;
     bool showYear;
