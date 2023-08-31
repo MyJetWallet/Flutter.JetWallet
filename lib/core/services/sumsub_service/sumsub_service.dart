@@ -37,7 +37,7 @@ class SumsubService {
           message: 'Launch',
         );
 
-    onStatusChanged(
+    void onStatusChanged(
       SNSMobileSDKStatus newStatus,
       SNSMobileSDKStatus prevStatus,
     ) {
@@ -64,7 +64,7 @@ class SumsubService {
       }
     }
 
-    onActionResult(SNSMobileSDKActionResult result) {
+    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
       sRouter.push(
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,

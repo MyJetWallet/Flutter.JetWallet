@@ -47,7 +47,7 @@ abstract class _MarketFilterStoreBase with Store {
   @observable
   bool isReordable = false;
   @action
-  setIsReordable(bool value) => isReordable = value;
+  bool setIsReordable(bool value) => isReordable = value;
 
   @computed
   List<NftModel> get nftList => sSignalRModules.nftList;
