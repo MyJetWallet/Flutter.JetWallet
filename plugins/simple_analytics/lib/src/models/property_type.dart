@@ -7,6 +7,7 @@ class PropertyType {
   static const destinationCurrency = 'Destination Currency';
   static const destinationAmount = 'Destination Amount';
   static const destinationCountry = 'Destination Country';
+  static const destinationCountryName = 'Destination Country Name';
   static const paymentMethod = 'Payment method';
   static const asset = 'Asset';
   static const eventId = 'Event id';
