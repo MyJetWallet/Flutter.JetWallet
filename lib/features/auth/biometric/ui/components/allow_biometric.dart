@@ -13,7 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'AllowBiometricRoute')
 class AllowBiometric extends StatelessWidget {
-  const AllowBiometric({super.key, s});
+  const AllowBiometric({super.key});
 
   @override
   Widget build(BuildContext context) {
