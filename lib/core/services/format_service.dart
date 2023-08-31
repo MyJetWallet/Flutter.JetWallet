@@ -32,16 +32,18 @@ abstract class _FormatServiceBase with Store {
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
     if (operationAsset == baseCurrency.symbol) {
-      return '≈ ${baseCurrenciesFormat(
-        text: operationAmount.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
+      return '≈ ${volumeFormat(
         prefix: baseCurrency.prefix,
+        decimal: operationAmount,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       )}';
     } else {
-      return '≈ ${baseCurrenciesFormat(
-        text: priceInBaseCurrency.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
+      return '≈ ${volumeFormat(
         prefix: baseCurrency.prefix,
+        decimal: priceInBaseCurrency,
+        accuracy: baseCurrency.accuracy,
+        symbol: baseCurrency.symbol,
       )}';
     }
   }
