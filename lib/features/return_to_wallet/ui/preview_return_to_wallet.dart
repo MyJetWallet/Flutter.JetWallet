@@ -35,7 +35,6 @@ class PreviewReturnToWallet extends StatelessWidget {
 
 class _PreviewReturnToWalletBody extends StatefulObserverWidget {
   const _PreviewReturnToWalletBody({
-    super.key,
     required this.input,
   });
 

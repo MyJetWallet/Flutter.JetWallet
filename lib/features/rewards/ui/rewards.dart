@@ -46,7 +46,6 @@ class Rewards extends StatelessWidget {
 
 class _RewardsBody extends StatelessObserverWidget {
   const _RewardsBody({
-    super.key,
     required this.actualRewards,
   });
 

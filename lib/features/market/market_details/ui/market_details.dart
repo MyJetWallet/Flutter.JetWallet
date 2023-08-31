@@ -69,7 +69,6 @@ class MarketDetails extends StatelessWidget {
 
 class _MarketDetailsBody extends StatefulObserverWidget {
   const _MarketDetailsBody({
-    super.key,
     required this.marketItem,
   });
 

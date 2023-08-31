@@ -51,7 +51,6 @@ class TwoFaPhone extends StatelessWidget {
 
 class _TwoFaPhoneBody extends StatelessObserverWidget {
   const _TwoFaPhoneBody({
-    super.key,
     required this.trigger,
   });
 

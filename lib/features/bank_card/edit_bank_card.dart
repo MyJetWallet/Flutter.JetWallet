@@ -35,7 +35,6 @@ class EditBankCardScreen extends StatelessWidget {
 
 class _EditBankCardScreenBody extends StatelessObserverWidget {
   const _EditBankCardScreenBody({
-    super.key,
     required this.card,
   });
 

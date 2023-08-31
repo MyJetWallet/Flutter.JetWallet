@@ -41,7 +41,7 @@ class UserDataScreen extends StatelessWidget {
 }
 
 class _UserDataScreenBody extends StatelessObserverWidget {
-  const _UserDataScreenBody({super.key});
+  const _UserDataScreenBody();
 
   @override
   Widget build(BuildContext context) {

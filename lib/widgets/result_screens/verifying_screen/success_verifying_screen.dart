@@ -36,7 +36,6 @@ class SuccessVerifyingScreen extends StatelessWidget {
 
 class _SuccessScreenBody extends StatefulWidget {
   const _SuccessScreenBody({
-    super.key,
     required this.onSuccess,
   });
 

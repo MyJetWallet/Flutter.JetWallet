@@ -32,7 +32,7 @@ class UploadKycDocuments extends StatelessWidget {
 }
 
 class _UploadKycDocumentsBody extends StatelessObserverWidget {
-  const _UploadKycDocumentsBody({super.key});
+  const _UploadKycDocumentsBody();
 
   @override
   Widget build(BuildContext context) {

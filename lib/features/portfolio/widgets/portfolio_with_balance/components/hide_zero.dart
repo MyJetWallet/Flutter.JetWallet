@@ -18,9 +18,7 @@ void showHideZero(BuildContext context) {
 }
 
 class _showHideZero extends StatefulObserverWidget {
-  const _showHideZero({
-    super.key,
-  });
+  const _showHideZero();
 
   @override
   _showHideZeroState createState() => _showHideZeroState();

@@ -40,7 +40,6 @@ void showCryptoSearch(BuildContext context) {
 
 class _ActionCryptoSearch extends StatelessObserverWidget {
   const _ActionCryptoSearch({
-    super.key,
     required this.searchStore,
   });
 

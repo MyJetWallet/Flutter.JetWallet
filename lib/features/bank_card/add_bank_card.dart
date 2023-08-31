@@ -51,7 +51,6 @@ class AddBankCardScreen extends StatelessWidget {
 
 class _AddBankCardScreenBody extends StatelessObserverWidget {
   const _AddBankCardScreenBody({
-    super.key,
     required this.onCardAdded,
     required this.amount,
     this.currency,

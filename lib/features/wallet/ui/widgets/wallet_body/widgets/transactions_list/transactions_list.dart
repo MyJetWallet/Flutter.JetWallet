@@ -46,7 +46,6 @@ class TransactionsList extends StatelessWidget {
 
 class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
-    super.key,
     this.isRecurring = false,
     this.symbol,
     required this.scrollController,

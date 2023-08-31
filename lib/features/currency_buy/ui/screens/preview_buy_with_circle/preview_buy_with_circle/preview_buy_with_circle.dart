@@ -42,7 +42,6 @@ class PreviewBuyWithCircle extends StatelessWidget {
 
 class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
   const _PreviewBuyWithCircleBody({
-    super.key,
     required this.input,
   });
 

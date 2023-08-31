@@ -45,7 +45,6 @@ class UploadVerificationPhoto extends StatelessWidget {
 
 class _UploadVerificationPhotoBody extends StatelessObserverWidget {
   const _UploadVerificationPhotoBody({
-    super.key,
     required this.isSelfie,
     required this.cardId,
     required this.onSuccess,

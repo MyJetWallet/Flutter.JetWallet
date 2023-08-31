@@ -44,7 +44,6 @@ class PreviewBuyWithBankCard extends StatelessWidget {
 
 class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
   const _PreviewBuyWithBankCardBody({
-    super.key,
     required this.input,
   });
 

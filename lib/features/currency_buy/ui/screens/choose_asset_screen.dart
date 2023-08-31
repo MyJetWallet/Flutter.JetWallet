@@ -76,7 +76,6 @@ class ChooseAssetScreen extends StatelessWidget {
 
 class _ActionBuy extends StatelessObserverWidget {
   const _ActionBuy({
-    super.key,
     required this.fromCard,
     required this.showRecurring,
     required this.searchStore,

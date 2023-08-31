@@ -37,7 +37,6 @@ class BuyPaymentMethodScreen extends StatelessWidget {
 
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
   const _PaymentMethodScreenBody({
-    super.key,
     required this.asset,
     required this.currency,
   });

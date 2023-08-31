@@ -41,7 +41,6 @@ class PreviewBuyWithUnlimint extends StatelessWidget {
 
 class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
   const _PreviewBuyWithUnlimintBody({
-    super.key,
     required this.input,
   });
 

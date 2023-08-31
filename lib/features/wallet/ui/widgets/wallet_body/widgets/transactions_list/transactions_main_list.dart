@@ -53,7 +53,6 @@ class TransactionsMainList extends StatelessWidget {
 
 class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
-    super.key,
     this.isRecurring = false,
     this.zeroPadding = false,
     this.filter = TransactionType.none,

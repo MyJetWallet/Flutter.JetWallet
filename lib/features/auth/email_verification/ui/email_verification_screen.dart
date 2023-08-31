@@ -38,7 +38,7 @@ class EmailVerification extends StatelessWidget {
 }
 
 class _EmailVerificationBody extends StatefulObserverWidget {
-  const _EmailVerificationBody({super.key});
+  const _EmailVerificationBody();
 
   @override
   State<_EmailVerificationBody> createState() => __EmailVerificationBodyState();

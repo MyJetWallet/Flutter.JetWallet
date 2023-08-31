@@ -84,7 +84,6 @@ class CurrencyBuy extends StatelessWidget {
 
 class _CurrencyBuyBody extends StatefulObserverWidget {
   const _CurrencyBuyBody({
-    super.key,
     this.recurringBuysType,
     this.circleCard,
     this.unlimintCard,

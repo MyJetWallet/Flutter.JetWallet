@@ -28,7 +28,7 @@ class KycSelfie extends StatelessWidget {
 }
 
 class _KycSelfieBody extends StatelessObserverWidget {
-  const _KycSelfieBody({super.key});
+  const _KycSelfieBody();
 
   @override
   Widget build(BuildContext context) {

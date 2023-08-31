@@ -30,7 +30,6 @@ void showGlobalSendLimits({
 
 class _GlobalSendLimits extends StatelessWidget {
   const _GlobalSendLimits({
-    super.key,
     required this.minAmount,
     required this.maxAmount,
     required this.currency,

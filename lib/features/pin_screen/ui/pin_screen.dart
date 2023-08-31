@@ -71,7 +71,6 @@ class PinScreen extends StatelessWidget {
 
 class _PinScreenBody extends StatefulObserverWidget {
   const _PinScreenBody({
-    super.key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isForgotPassword = false,

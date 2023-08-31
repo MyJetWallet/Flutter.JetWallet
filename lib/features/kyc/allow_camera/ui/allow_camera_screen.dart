@@ -35,7 +35,6 @@ class AllowCameraScreen extends StatelessWidget {
 
 class _AllowCameraScreenBody extends StatefulObserverWidget {
   const _AllowCameraScreenBody({
-    super.key,
     required this.permissionDescription,
     required this.then,
   });

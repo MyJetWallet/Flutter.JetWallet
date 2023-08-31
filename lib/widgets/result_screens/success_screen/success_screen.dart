@@ -69,7 +69,6 @@ class SuccessScreen extends StatelessWidget {
 
 class _SuccessScreenBody extends StatefulWidget {
   const _SuccessScreenBody({
-    super.key,
     this.onSuccess,
     this.onActionButton,
     this.primaryText,

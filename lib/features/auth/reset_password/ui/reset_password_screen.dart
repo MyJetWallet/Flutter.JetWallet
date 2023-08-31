@@ -10,7 +10,7 @@ class ResetPasswordScreen extends StatelessWidget {
 }
 
 class _ResetPasswordScreen extends StatelessWidget {
-  const _ResetPasswordScreen({super.key});
+  const _ResetPasswordScreen();
 
   @override
   Widget build(BuildContext context) {

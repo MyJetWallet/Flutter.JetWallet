@@ -39,7 +39,6 @@ class SuccessKycScreen extends StatelessWidget {
 
 class _SuccessKycScreenBody extends StatefulWidget {
   const _SuccessKycScreenBody({
-    super.key,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,

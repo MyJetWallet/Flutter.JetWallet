@@ -65,7 +65,6 @@ class BuyAmountScreen extends StatelessWidget {
 
 class _BuyAmountScreenBody extends StatelessObserverWidget {
   const _BuyAmountScreenBody({
-    super.key,
     required this.asset,
     required this.currency,
     this.method,

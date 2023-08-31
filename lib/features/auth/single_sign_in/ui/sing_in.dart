@@ -41,7 +41,6 @@ class SingIn extends StatelessWidget {
 
 class _SingInBody extends StatelessObserverWidget {
   const _SingInBody({
-    super.key,
     this.email,
   });
 

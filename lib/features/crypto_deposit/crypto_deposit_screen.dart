@@ -50,7 +50,6 @@ class CryptoDeposit extends StatelessWidget {
 
 class _CryptoDepositBody extends StatefulObserverWidget {
   const _CryptoDepositBody({
-    super.key,
     required this.header,
     required this.currency,
   });

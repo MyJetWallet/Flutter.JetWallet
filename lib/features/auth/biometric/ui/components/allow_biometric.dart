@@ -25,9 +25,7 @@ class AllowBiometric extends StatelessWidget {
 }
 
 class _AllowBiometricScreenBody extends StatefulObserverWidget {
-  const _AllowBiometricScreenBody({
-    super.key,
-  });
+  const _AllowBiometricScreenBody();
 
   @override
   State<_AllowBiometricScreenBody> createState() =>

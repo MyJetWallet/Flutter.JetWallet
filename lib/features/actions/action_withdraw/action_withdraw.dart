@@ -29,7 +29,7 @@ void showWithdrawAction(BuildContext context) {
 }
 
 class _ActionWithdraw extends StatelessObserverWidget {
-  const _ActionWithdraw({super.key});
+  const _ActionWithdraw();
 
   @override
   Widget build(BuildContext context) {

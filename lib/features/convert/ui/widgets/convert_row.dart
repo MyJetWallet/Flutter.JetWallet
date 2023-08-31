@@ -158,7 +158,6 @@ class ConvertRow extends StatelessObserverWidget {
 
 class _ActionConvert extends StatelessObserverWidget {
   const _ActionConvert({
-    super.key,
     required this.fromAsset,
     required this.searchStore,
     required this.currency,

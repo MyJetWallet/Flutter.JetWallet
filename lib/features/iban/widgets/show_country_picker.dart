@@ -39,7 +39,6 @@ void showCountryPicker(
 
 class _Countries extends StatefulObserverWidget {
   const _Countries({
-    super.key,
     required this.sortedCountries,
     required this.countryNameSearch,
     required this.pickCountryFromSearch,

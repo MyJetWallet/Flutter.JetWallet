@@ -37,7 +37,7 @@ class EmailConfirmationScreen extends StatelessWidget {
 }
 
 class _EmailConfirmationScreenBody extends StatefulObserverWidget {
-  const _EmailConfirmationScreenBody({super.key});
+  const _EmailConfirmationScreenBody();
 
   @override
   State<_EmailConfirmationScreenBody> createState() =>

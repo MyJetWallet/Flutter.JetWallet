@@ -75,7 +75,6 @@ class BuyConfirmationScreen extends StatelessWidget {
 
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   const _BuyConfirmationScreenBody({
-    super.key,
     required this.asset,
     required this.paymentCurrency,
     required this.amount,

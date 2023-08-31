@@ -241,7 +241,6 @@ Future<void> showSendGlobally(
 
 class _GlobalSendCountriesList extends StatelessObserverWidget {
   const _GlobalSendCountriesList({
-    super.key,
     required this.currency,
     required this.store,
   });
@@ -440,7 +439,6 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
 
 class _GlobalSendSelectCurrency extends StatelessObserverWidget {
   const _GlobalSendSelectCurrency({
-    super.key,
     required this.searchStore,
   });
 

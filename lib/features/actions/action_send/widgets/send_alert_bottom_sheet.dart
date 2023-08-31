@@ -20,7 +20,7 @@ void sendAlertBottomSheet(BuildContext context) {
 }
 
 class _SendAlertBottomSheet extends StatelessObserverWidget {
-  const _SendAlertBottomSheet({super.key});
+  const _SendAlertBottomSheet();
 
   @override
   Widget build(BuildContext context) {

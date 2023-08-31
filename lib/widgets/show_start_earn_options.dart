@@ -92,7 +92,7 @@ void showStartEarnOptions({
 }
 
 class _EarnStartPinned extends StatelessWidget {
-  const _EarnStartPinned({super.key});
+  const _EarnStartPinned();
 
   @override
   Widget build(BuildContext context) {

@@ -98,7 +98,6 @@ void showBuyPaymentCurrencyBottomSheet(
 
 class _BuyPaymentCurrency extends StatelessObserverWidget {
   const _BuyPaymentCurrency({
-    super.key,
     required this.asset,
     required this.searchStore,
   });

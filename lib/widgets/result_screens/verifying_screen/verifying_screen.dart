@@ -36,7 +36,6 @@ class VerifyingScreen extends StatelessWidget {
 
 class _VerifyingScreenBody extends StatelessObserverWidget {
   const _VerifyingScreenBody({
-    super.key,
     required this.cardId,
     required this.onSuccess,
   });

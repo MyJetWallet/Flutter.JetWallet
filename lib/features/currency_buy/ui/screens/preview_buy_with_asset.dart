@@ -40,7 +40,6 @@ class PreviewBuyWithAsset extends StatelessWidget {
 
 class _PreviewBuyWithAssetBody extends StatefulObserverWidget {
   const _PreviewBuyWithAssetBody({
-    super.key,
     this.onBackButtonTap,
     required this.input,
   });

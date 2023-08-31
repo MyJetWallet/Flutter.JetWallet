@@ -48,7 +48,6 @@ class ReturnToWallet extends StatelessWidget {
 
 class _ReturnToWalletBody extends StatelessObserverWidget {
   const _ReturnToWalletBody({
-    super.key,
     required this.currency,
     required this.earnOffer,
   });

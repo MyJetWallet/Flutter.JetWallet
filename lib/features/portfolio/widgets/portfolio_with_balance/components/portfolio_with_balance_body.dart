@@ -72,7 +72,6 @@ class PortfolioWithBalanceBody extends StatelessWidget {
 
 class _PortfolioWithBalanceBody extends StatefulObserverWidget {
   const _PortfolioWithBalanceBody({
-    super.key,
     required this.tabController,
   });
 

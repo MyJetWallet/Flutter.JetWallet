@@ -316,7 +316,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 }
 
 class _IconPlaceholder extends StatelessWidget {
-  const _IconPlaceholder({super.key});
+  const _IconPlaceholder();
 
   @override
   Widget build(BuildContext context) {

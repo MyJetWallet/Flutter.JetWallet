@@ -29,7 +29,6 @@ class BalanceBlock extends StatelessWidget {
 
 class _BalanceBlockBody extends StatelessObserverWidget {
   const _BalanceBlockBody({
-    super.key,
     required this.marketItem,
   });
 

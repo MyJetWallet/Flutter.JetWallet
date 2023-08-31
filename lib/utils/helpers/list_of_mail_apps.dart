@@ -29,7 +29,6 @@ void showMailAppsOptions(
 
 class _MailOptions extends StatefulObserverWidget {
   const _MailOptions({
-    super.key,
     required this.apps,
     required this.defaultAction,
   });

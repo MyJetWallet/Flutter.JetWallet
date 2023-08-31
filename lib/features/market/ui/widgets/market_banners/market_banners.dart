@@ -27,7 +27,7 @@ class MarketBanners extends StatelessWidget {
 }
 
 class _MarketBannersBody extends StatelessObserverWidget {
-  const _MarketBannersBody({super.key});
+  const _MarketBannersBody();
 
   @override
   Widget build(BuildContext context) {

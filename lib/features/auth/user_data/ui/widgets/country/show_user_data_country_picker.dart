@@ -35,7 +35,6 @@ void showUserDataCountryPicker(BuildContext context) {
 
 class _SearchPinned extends StatelessObserverWidget {
   const _SearchPinned({
-    super.key,
     required this.store,
   });
 
@@ -67,7 +66,6 @@ class _SearchPinned extends StatelessObserverWidget {
 
 class _Countries extends StatelessObserverWidget {
   const _Countries({
-    super.key,
     required this.store,
   });
 
