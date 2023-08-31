@@ -25,7 +25,7 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
 
   Future<Uint8List> _downloadFileFromUrl(String url) async {
     try {
-      var response = await Dio().get<List<int>>(
+      final response = await Dio().get<List<int>>(
         url,
         options: Options(responseType: ResponseType.bytes),
       );

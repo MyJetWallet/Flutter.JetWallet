@@ -30,7 +30,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       return const SizedBox.shrink();
     }
 
-    var availableCurrency = currencyFrom(
+    final availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       store.withdrawalInputModel!.currency!.symbol,
     );

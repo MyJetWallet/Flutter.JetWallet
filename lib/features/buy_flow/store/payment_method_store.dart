@@ -174,13 +174,13 @@ abstract class _PaymentMethodStoreBase with Store {
     } else {
       searchList.clear();
 
-      var cardF = cardsMethodsFiltred
+      final cardF = cardsMethodsFiltred
           .where((element) => element.cardLabel?.contains(value) ?? false)
           .toList();
-      var localF = localMethodsFilted
+      final localF = localMethodsFilted
           .where((element) => element.id.name.contains(value) ?? false)
           .toList();
-      var p2pF = p2pMethodsFiltred
+      final p2pF = p2pMethodsFiltred
           .where((element) => element.id.name.contains(value) ?? false)
           .toList();
 

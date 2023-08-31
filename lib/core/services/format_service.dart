@@ -89,7 +89,7 @@ abstract class _FormatServiceBase with Store {
         baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
-    Decimal finalAmmount = Decimal.parse(toAmmount.toString());
+    final Decimal finalAmmount = Decimal.parse(toAmmount.toString());
 
     return finalAmmount;
 

@@ -138,7 +138,7 @@ abstract class _SendCardDetailStoreBase with Store {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
-      var copiedText = await _copiedText();
+      final copiedText = await _copiedText();
 
       try {
         int.parse(copiedText);

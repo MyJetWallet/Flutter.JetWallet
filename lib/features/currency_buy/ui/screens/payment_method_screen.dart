@@ -150,7 +150,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            var tween =
+            final tween =
                 Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
             return SlideTransition(

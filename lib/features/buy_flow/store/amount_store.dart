@@ -438,7 +438,7 @@ abstract class _BuyAmountStoreBase with Store {
       print(selectedPaymentAsset);
 
       final value = double.parse(inputValue);
-      var min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
+      final min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
       var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
 
       if (category == PaymentMethodCategory.cards) {

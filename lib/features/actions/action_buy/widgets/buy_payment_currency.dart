@@ -107,7 +107,7 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    var countryService = CountriesService();
+    final countryService = CountriesService();
 
     return ListView.builder(
       shrinkWrap: true,

@@ -87,7 +87,7 @@ abstract class _MarketFilterStoreBase with Store {
 
   @computed
   List<MarketItemModel> get cryptoFiltred {
-    var localCryptoList = cryptoListFiltred.toList();
+    final localCryptoList = cryptoListFiltred.toList();
 
     if (watchListLocal.isNotEmpty) {
       for (var i = 0; i < watchListIds.length; i++) {

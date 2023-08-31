@@ -33,7 +33,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
           (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
     );
 
-    var methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
+    final methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
       (element) => element.type == transactionListItem.paymeInfo?.methodType,
     );
 

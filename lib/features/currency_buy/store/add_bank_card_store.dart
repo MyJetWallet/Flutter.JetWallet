@@ -349,7 +349,7 @@ abstract class _AddBankCardStoreBase with Store {
     }
 
     if (expiryDate.length >= 4) {
-      var sp = expiryDate.split('/');
+      final sp = expiryDate.split('/');
 
       expiryMonth = sp.first;
       expiryYear = sp[1];

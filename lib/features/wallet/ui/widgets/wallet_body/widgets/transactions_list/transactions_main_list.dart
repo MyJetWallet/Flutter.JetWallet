@@ -72,7 +72,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     OperationHistory.of(context).scrollController.addListener(() {
-      var nextPageTrigger = 0.8 *
+      final nextPageTrigger = 0.8 *
           OperationHistory.of(context)
               .scrollController
               .position

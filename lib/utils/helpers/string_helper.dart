@@ -112,7 +112,7 @@ String shortAddressForm(String address) {
 String shortTxhashFrom(String address) {
   final length = address.length;
 
-  var len = length / 2;
+  final len = length / 2;
 
   if (length <= 16) return address;
 
@@ -290,7 +290,7 @@ String getCardTypeMask(String cardNumber) {
 bool validLabel(String txt) {
   if (txt.isEmpty) return false;
 
-  var re = RegExp(
+  final re = RegExp(
     r"^[a-zA-Z\p{N},.:/\s/-]*$",
     unicode: true,
     multiLine: true,

@@ -35,7 +35,7 @@ abstract class _ActionSearchStoreBase with Store {
     if (searchValue.isEmpty) {
       return sSignalRModules.currenciesList;
     } else {
-      var localCurr = sSignalRModules.currenciesList.toList();
+      final localCurr = sSignalRModules.currenciesList.toList();
 
       localCurr.removeWhere((element) {
         return !element.description.toLowerCase().startsWith(searchValue) &&

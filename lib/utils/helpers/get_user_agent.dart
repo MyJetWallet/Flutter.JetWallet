@@ -21,8 +21,8 @@ Future<String> getUserAgent() async {
   final instllID = await getIt<LocalCacheService>().getInstallID();
 
   MediaQueryData? mediaQuery;
-  Size deviceSize = const Size(0, 0);
-  double devicePixelRatio = 0.0;
+  final Size deviceSize = const Size(0, 0);
+  final double devicePixelRatio = 0.0;
 
   if (sRouter.navigatorKey.currentContext != null) {
     final mediaQuery = MediaQuery.of(sRouter.navigatorKey.currentContext!);
