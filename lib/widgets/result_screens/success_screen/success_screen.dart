@@ -172,7 +172,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody>
                 children: [
                   Column(
                     children: [
-                      Row(), // to expand Column in the cross axis
+                      const Row(), // to expand Column in the cross axis
                       const SpaceH86(),
                       SuccessAnimation(
                         widgetSize: widgetSizeFrom(deviceSize),

@@ -68,7 +68,7 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
           bic: getIt.get<IbanStore>().ibanBic,
           address: getIt.get<IbanStore>().ibanAddress,
         ),
-        IbanSend(),
+        const IbanSend(),
       ],
     );
   }

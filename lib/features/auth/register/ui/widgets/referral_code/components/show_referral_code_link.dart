@@ -98,8 +98,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   .bottomSheetReferralCodeValidation
                   .maybeWhen(
                 loading: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       LoadingReferralCode(),
                       SpaceH10(),
@@ -107,8 +107,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 valid: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       ValidReferralCodeInside(),
                       SpaceH10(),
@@ -116,8 +116,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 invalid: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       InvalidReferralCode(),
                       SpaceH10(),

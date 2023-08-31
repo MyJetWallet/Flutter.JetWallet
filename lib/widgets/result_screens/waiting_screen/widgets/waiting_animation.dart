@@ -16,8 +16,8 @@ class WaitingAnimation extends StatelessWidget {
     return SizedBox(
       width: widgetSize == SWidgetSize.small ? 160 : 320,
       height: widgetSize == SWidgetSize.small ? 160 : 320,
-      child: Stack(
-        children: const [
+      child: const Stack(
+        children: [
           RiveAnimation.asset(
             processingAnimationAsset,
           ),

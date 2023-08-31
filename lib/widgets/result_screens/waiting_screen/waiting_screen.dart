@@ -37,7 +37,7 @@ class WaitingScreen extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       child: Column(
         children: [
-          Row(), // to expand Column in the cross axis
+          const Row(), // to expand Column in the cross axis
           const SpaceH86(),
           WaitingAnimation(
             widgetSize: widgetSizeFrom(deviceSize),

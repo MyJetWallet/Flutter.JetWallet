@@ -21,9 +21,9 @@ class IBanItemSkeleton extends StatelessObserverWidget {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width - 88,
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     SSkeletonTextLoader(
                       height: 12,
                       width: 100,

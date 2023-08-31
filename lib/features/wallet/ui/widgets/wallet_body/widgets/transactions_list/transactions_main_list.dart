@@ -517,8 +517,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   Widget transactionSkeleton() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         TransactionListLoadingItem(
           opacity: 1,
         ),

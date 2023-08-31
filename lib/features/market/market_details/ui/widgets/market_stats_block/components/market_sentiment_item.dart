@@ -9,8 +9,8 @@ class MarketSentimentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // final colors = useProvider(sColorPod);
 
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         SizedBox(
           height: 60,
         ),

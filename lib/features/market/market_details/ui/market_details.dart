@@ -169,8 +169,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                             height: 104,
                             width: double.infinity,
                             color: colors.grey5,
-                            child: Column(
-                              children: const [
+                            child: const Column(
+                              children: [
                                 SpaceH17(),
                                 SSkeletonTextLoader(
                                   height: 24,
@@ -251,10 +251,10 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                               assetId: widget.marketItem.associateAsset,
                             ),
                           ] else ...[
-                            SPaddingH24(
+                            const SPaddingH24(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   SpaceH40(),
                                   SSkeletonTextLoader(
                                     height: 16,

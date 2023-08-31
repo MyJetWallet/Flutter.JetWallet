@@ -11,9 +11,9 @@ class MarketNotLoaded extends StatelessWidget {
 
     return ColoredBox(
       color: colors.white,
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           SPaddingH24(
             child: SSkeletonTextLoader(
               height: 120,

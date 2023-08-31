@@ -412,10 +412,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       height: 80,
                       width: double.infinity,
                       color: colors.grey5,
-                      child: PaddingL24(
+                      child: const PaddingL24(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             SpaceH13(),
                             SSkeletonTextLoader(height: 24, width: 152),
                             SpaceH13(),

@@ -164,7 +164,7 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             sAnalytics.tapOnTheGiftButton();
             Navigator.pop(context);
-            sRouter.push(GiftSelectAssetRouter());
+            sRouter.push(const GiftSelectAssetRouter());
           },
           amount: '',
           description: '',

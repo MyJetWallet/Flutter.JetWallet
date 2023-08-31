@@ -38,7 +38,7 @@ abstract class _SetPhoneNumberStoreBase with Store {
 
     phoneNumberController.addListener(phoneControllerListener);
 
-    Timer(Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 500), () {
       FocusScope.of(getIt.get<AppRouter>().navigatorKey.currentContext!)
           .requestFocus(focusNode);
     });

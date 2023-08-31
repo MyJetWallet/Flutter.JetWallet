@@ -21,8 +21,8 @@ class TransactionListLoadingItem extends StatelessWidget {
           child: Column(
             children: [
               const SpaceH18(),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   SpaceW2(),
                   SSkeletonTextLoader(
                     height: 16,
@@ -41,8 +41,8 @@ class TransactionListLoadingItem extends StatelessWidget {
                 ],
               ),
               const SpaceH12(),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   SpaceW30(),
                   SSkeletonTextLoader(
                     height: 10,

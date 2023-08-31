@@ -5,7 +5,7 @@ class ResetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ResetPasswordScreen();
+    return const _ResetPasswordScreen();
   }
 }
 

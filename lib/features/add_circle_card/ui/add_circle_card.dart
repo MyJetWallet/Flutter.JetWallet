@@ -56,8 +56,8 @@ class AddCircleCardBody extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Expanded(
                 child: CircleProgressIndicator(),
               ),
