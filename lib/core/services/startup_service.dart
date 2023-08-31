@@ -373,7 +373,7 @@ class StartupService {
           ),
         );
       } else {
-        if (getIt.get<AppStore>().fromLoginRegister || !userInfo.pinDisabled) {
+         
           getIt.get<AppStore>().setAuthorizedStatus(
                 const PinSetup(),
               );
@@ -384,18 +384,7 @@ class StartupService {
               cannotLeave: true,
             ),
           );
-        } else {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
-
-          sRouter.push(
-            PinScreenRoute(
-              union: const PinFlowUnion.setup(),
-              cannotLeave: true,
-            ),
-          );
-        }
+       
       }
     } catch (e) {}
   }
