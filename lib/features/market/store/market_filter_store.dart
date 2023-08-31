@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
@@ -11,7 +12,6 @@ import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:quiver/collection.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 
@@ -163,7 +163,7 @@ abstract class _MarketFilterStoreBase with Store {
   }
 
   bool compareLists(List<String> a, List<String> b) {
-    return listsEqual(a, b);
+    return const ListEquality().equals(a, b);
   }
 
   @action
