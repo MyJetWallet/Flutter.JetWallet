@@ -640,12 +640,13 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void scrollToBottom(ScrollController scrollController) {
-    if (scrollController.hasClients)
+    if (scrollController.hasClients) {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
       );
+    }
   }
 
   @action
