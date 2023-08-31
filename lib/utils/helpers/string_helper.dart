@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -224,14 +225,14 @@ String formatCurrencyStringAmount({
 
   final formatter = NumberFormat.decimalPattern();
 
-  final wholePart2 = int.parse(wholePart.toString());
-  final wholePart3 = formatter.format(wholePart2).replaceAll(',', ' ');
+  final wholePart2 = Decimal.tryParse(wholePart.toString()) ?? Decimal.zero;
+  final wholePart3 =
+      formatter.format(DecimalIntl(wholePart2)).replaceAll(',', ' ');
 
   final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
 
   return '$amountPart $symbol';
 }
-
 
 String convertToUsd(
   Decimal assetPriceInUsd,
