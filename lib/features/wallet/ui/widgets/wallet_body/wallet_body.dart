@@ -18,8 +18,8 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../actions/action_send/widgets/send_options.dart';
 import '../../../../actions/circle_actions/circle_actions.dart';

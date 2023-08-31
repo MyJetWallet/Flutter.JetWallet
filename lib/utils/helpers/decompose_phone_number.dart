@@ -1,9 +1,9 @@
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/utils/models/phone_number/phone_number_model.dart';
+import 'package:logger/logger.dart';
 
 import '../../core/di/di.dart';
 import '../../core/services/logger_service/logger_service.dart';
-import 'package:logger/logger.dart';
 
 Future<PhoneNumberModel> decomposePhoneNumber(
     String number,

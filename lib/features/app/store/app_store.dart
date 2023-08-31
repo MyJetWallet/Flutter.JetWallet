@@ -22,10 +22,10 @@ import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:uuid/uuid.dart';
-import 'package:logger/logger.dart';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
 import '../../phone_verification/ui/phone_verification.dart';

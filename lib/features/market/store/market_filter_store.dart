@@ -10,8 +10,8 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
-import 'package:quiver/collection.dart';
 import 'package:provider/provider.dart';
+import 'package:quiver/collection.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 

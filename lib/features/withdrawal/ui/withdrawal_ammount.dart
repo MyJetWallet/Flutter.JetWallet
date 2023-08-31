@@ -7,13 +7,13 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 @RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatelessObserverWidget {

@@ -11,10 +11,10 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/get_user_agent.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
-import 'package:logger/logger.dart';
 
 const String signalRSingletinName = 'SignalRModuleNew';
 

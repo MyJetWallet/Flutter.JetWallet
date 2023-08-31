@@ -5,8 +5,8 @@ import 'package:jetwallet/core/services/simple_networking/helpers/add_logger.dar
 import 'package:jetwallet/core/services/simple_networking/helpers/add_proxy.dart';
 import 'package:jetwallet/core/services/simple_networking/interceptors/auth_interceptor.dart';
 import 'package:jetwallet/core/services/simple_networking/interceptors/guest_interceptor.dart';
-import 'package:simple_networking/simple_networking.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_networking/simple_networking.dart';
 
 late SimpleNetworking sNetwork;
 

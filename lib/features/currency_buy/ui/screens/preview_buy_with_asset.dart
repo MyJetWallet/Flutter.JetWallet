@@ -7,7 +7,6 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_asset_store.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_union.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/price_accuracy.dart';
 import 'package:mobx/mobx.dart';

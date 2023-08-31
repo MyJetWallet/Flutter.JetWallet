@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -11,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+
 import '../../../../../../../utils/constants.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../helper/nft_types.dart';
