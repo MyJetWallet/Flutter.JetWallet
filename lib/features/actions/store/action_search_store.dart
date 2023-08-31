@@ -38,8 +38,8 @@ abstract class _ActionSearchStoreBase with Store {
       var localCurr = sSignalRModules.currenciesList.toList();
 
       localCurr.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(searchValue) &&
-            !(element.symbol.toLowerCase()).startsWith(searchValue);
+        return !element.description.toLowerCase().startsWith(searchValue) &&
+            !element.symbol.toLowerCase().startsWith(searchValue);
       });
 
       return localCurr;
@@ -210,8 +210,8 @@ abstract class _ActionSearchStoreBase with Store {
       final _currencies = List<CurrencyModel>.from(currencies);
 
       _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
 
       for (final element in _currencies) {
@@ -251,8 +251,8 @@ abstract class _ActionSearchStoreBase with Store {
       final _currencies = List<CurrencyModel>.from(assetsWithBalance);
 
       _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
       convertCurrenciesWithBalance = ObservableList.of(_currencies);
     }
@@ -262,8 +262,8 @@ abstract class _ActionSearchStoreBase with Store {
       final _currencies = List<CurrencyModel>.from(assetsWithoutBalance);
 
       _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
       convertCurrenciesWithoutBalance = ObservableList.of(_currencies);
     }
@@ -284,8 +284,8 @@ abstract class _ActionSearchStoreBase with Store {
       final _currencies = List<MarketItemModel>.from(marketCurrencies);
 
       _currencies.removeWhere((element) {
-        return !(element.name.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+        return !element.name.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
       filteredMarketCurrencies = ObservableList.of(_currencies);
     } else if (value.isEmpty) {

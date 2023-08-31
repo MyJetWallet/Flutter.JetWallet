@@ -166,7 +166,7 @@ extension DoubleRounding on double {
       return floorToDouble();
     } else {
       final divideBy = pow(10, digits);
-      return ((this * divideBy).floorToDouble() / divideBy);
+      return (this * divideBy).floorToDouble() / divideBy;
     }
   }
 
@@ -175,7 +175,7 @@ extension DoubleRounding on double {
       return ceilToDouble();
     } else {
       final divideBy = pow(10, digits);
-      return ((this * divideBy).ceilToDouble() / divideBy);
+      return (this * divideBy).ceilToDouble() / divideBy;
     }
   }
 }
