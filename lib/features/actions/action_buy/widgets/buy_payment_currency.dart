@@ -1,4 +1,3 @@
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -36,7 +35,8 @@ void showBuyPaymentCurrencyBottomSheet(
   for (var i = 0; i < currency.buyMethods.length; i++) {
     for (var g = 0; g < currency.buyMethods[i].paymentAssets!.length; g++) {
       if (!checkIsCurrencyAlreadyAdd(
-          currency.buyMethods[i].paymentAssets![g].asset)) {
+        currency.buyMethods[i].paymentAssets![g].asset,
+      )) {
         final isLimitNotReach =
             currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
 

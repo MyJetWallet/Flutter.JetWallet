@@ -11,7 +11,6 @@ class IBanItemSkeleton extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         SPaddingH24(
@@ -55,5 +54,4 @@ class IBanItemSkeleton extends StatelessObserverWidget {
       ],
     );
   }
-
 }

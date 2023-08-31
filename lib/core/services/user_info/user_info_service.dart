@@ -168,7 +168,7 @@ abstract class _UserInfoServiceBase with Store {
   }
 
   @action
-  void updateCardRequested ({required bool newValue}) {
+  void updateCardRequested({required bool newValue}) {
     cardRequested = newValue;
   }
 

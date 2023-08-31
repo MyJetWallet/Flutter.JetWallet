@@ -241,8 +241,11 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message,
-                    id: 1, isError: false);
+                sNotification.showError(
+                  intl.copy_message,
+                  id: 1,
+                  isError: false,
+                );
               },
             )
           else
@@ -256,8 +259,11 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message,
-                    id: 1, isError: false);
+                sNotification.showError(
+                  intl.copy_message,
+                  id: 1,
+                  isError: false,
+                );
               },
             ),
         ],

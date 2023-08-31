@@ -761,7 +761,7 @@ class WalletApiDataSources {
       try {
         final responseData = _.data as Map<String, dynamic>;
 
-       handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 

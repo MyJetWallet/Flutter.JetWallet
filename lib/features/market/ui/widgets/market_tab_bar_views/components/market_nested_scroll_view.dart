@@ -332,13 +332,11 @@ class __MarketNestedScrollViewBodyState
                   showFavoriteIcon: true,
                   isStarActive: isInWatchlist,
                   onStarButtonTap: () {
-                    
-                      HapticFeedback.lightImpact();
+                    HapticFeedback.lightImpact();
 
-                      store.addToWatchlist(
-                        item.associateAsset,
-                      );
-                    
+                    store.addToWatchlist(
+                      item.associateAsset,
+                    );
                   },
                   icon: SNetworkSvg24(
                     url: item.iconUrl,

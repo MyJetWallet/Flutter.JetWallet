@@ -257,7 +257,8 @@ class CurrencyModel with _$CurrencyModel {
 
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
@@ -270,7 +271,8 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsByAssetWithdrawal {
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)

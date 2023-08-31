@@ -8,7 +8,6 @@ import 'package:jetwallet/features/app/app_initialization.dart';
 import 'package:logging/logging.dart';
 
 Future<void> main() async {
-
   await appInitialization('prod');
 
   runZonedGuarded(() => runApp(const AppScreen()), (error, stackTrace) {

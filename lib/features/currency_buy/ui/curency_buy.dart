@@ -27,7 +27,6 @@ import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
-
 @RoutePage(name: 'CurrencyBuyRouter')
 class CurrencyBuy extends StatelessWidget {
   const CurrencyBuy({

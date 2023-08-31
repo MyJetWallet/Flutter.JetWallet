@@ -64,7 +64,9 @@ class SumsubService {
       }
     }
 
-    Future<SNSActionResultHandlerReaction> onActionResult(SNSMobileSDKActionResult result) {
+    Future<SNSActionResultHandlerReaction> onActionResult(
+      SNSMobileSDKActionResult result,
+    ) {
       sRouter.push(
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,

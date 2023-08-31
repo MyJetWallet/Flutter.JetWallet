@@ -13,7 +13,6 @@ import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-
 class PortfolioHeader extends StatelessObserverWidget {
   const PortfolioHeader({
     super.key,
@@ -30,8 +29,8 @@ class PortfolioHeader extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
-        ?? <String>[];
+    final viewedRewards =
+        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     var counterOfRewards = 0;
     final rewStore = RewardStore();
     for (final campaign in rewStore.sortedCampaigns) {
@@ -84,7 +83,6 @@ class PortfolioHeader extends StatelessObserverWidget {
                       color: colors.black.withOpacity(0.7),
                     ),
                     onTap: () {
-
                       sRouter.push(RewardsRouter(actualRewards: viewedRewards));
                     },
                   ),

@@ -109,7 +109,8 @@ class CardLimit extends StatelessObserverWidget {
                             width: currentWidth,
                             height: small ? 4 : 12,
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(6)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(6)),
                               color: colors.grey4,
                             ),
                           ),
@@ -128,8 +129,9 @@ class CardLimit extends StatelessObserverWidget {
                                       ? const Radius.circular(6)
                                       : Radius.zero,
                                 ),
-                                color:
-                                cardLimit.barProgress == 100 ? colors.red : colorToUse,
+                                color: cardLimit.barProgress == 100
+                                    ? colors.red
+                                    : colorToUse,
                               ),
                             ),
                           ),

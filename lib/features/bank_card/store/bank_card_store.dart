@@ -497,9 +497,9 @@ abstract class _BankCardStoreBase with Store {
       loader.startLoadingImmediately();
 
       await sNetwork.getWalletModule().updateCardLabel(
-                cardId,
-                cardLabel,
-              );
+            cardId,
+            cardLabel,
+          );
 
       await sRouter.pop();
 

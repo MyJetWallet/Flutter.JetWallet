@@ -27,7 +27,6 @@ class WithdrawDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -116,41 +115,41 @@ class WithdrawDetails extends StatelessObserverWidget {
             fromStart: transactionListItem.withdrawalInfo!.isInternal,
             value: transactionListItem.withdrawalInfo!.isInternal
                 ? Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TransactionDetailsValueText(
-                  text: intl.noFee,
-                ),
-                Text(
-                  intl.withdrawDetails_internalTransfer,
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SpaceH12(),
-              ],
-            )
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      TransactionDetailsValueText(
+                        text: intl.noFee,
+                      ),
+                      Text(
+                        intl.withdrawDetails_internalTransfer,
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SpaceH12(),
+                    ],
+                  )
                 : Builder(
-              builder: (context) {
-                final currency = currencyFrom(
-                  sSignalRModules.currenciesList,
-                  transactionListItem.withdrawalInfo!.feeAssetId ??
-                      transactionListItem
-                          .withdrawalInfo!.withdrawalAssetId,
-                );
+                    builder: (context) {
+                      final currency = currencyFrom(
+                        sSignalRModules.currenciesList,
+                        transactionListItem.withdrawalInfo!.feeAssetId ??
+                            transactionListItem
+                                .withdrawalInfo!.withdrawalAssetId,
+                      );
 
-                return TransactionDetailsValueText(
-                  text: volumeFormat(
-                    prefix: currency.prefixSymbol,
-                    decimal:
-                    transactionListItem.withdrawalInfo!.feeAmount,
-                    accuracy: currency.accuracy,
-                    symbol: currency.symbol,
+                      return TransactionDetailsValueText(
+                        text: volumeFormat(
+                          prefix: currency.prefixSymbol,
+                          decimal:
+                              transactionListItem.withdrawalInfo!.feeAmount,
+                          accuracy: currency.accuracy,
+                          symbol: currency.symbol,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
           const SpaceH18(),
           TransactionDetailsStatus(

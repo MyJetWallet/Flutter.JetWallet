@@ -18,7 +18,6 @@ void showCountryPicker(
   Function(String) updateCountryNameSearch,
   IbanStoreBase store,
 ) {
-
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -66,14 +65,16 @@ class _CountryState extends State<_Countries> {
     filteredCountries = widget.store.sortedCountries;
   }
 
-  void changeSearchCountry (String value) {
+  void changeSearchCountry(String value) {
     setState(() {
       searchCountry = value;
-      filteredCountries = widget.store.sortedCountries.where(
+      filteredCountries = widget.store.sortedCountries
+          .where(
             (element) => element.countryName.toLowerCase().contains(
-          searchCountry.toLowerCase(),
-        ),
-      ).toList();
+                  searchCountry.toLowerCase(),
+                ),
+          )
+          .toList();
     });
   }
 

@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 
 class PreviewConvertInput {
-
   PreviewConvertInput({
     required this.fromAmount,
     required this.toAmount,

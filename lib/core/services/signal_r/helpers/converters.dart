@@ -20,7 +20,8 @@ class ObservableEarnOfferModelListConverter
   @override
   ObservableList<EarnOfferModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(EarnOfferModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(EarnOfferModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<EarnOfferModel> list) =>
@@ -35,7 +36,8 @@ class ObservableRecurringBuysModelListConverter
   @override
   ObservableList<RecurringBuysModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(RecurringBuysModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(RecurringBuysModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<RecurringBuysModel> list) =>
@@ -49,7 +51,8 @@ class ObservableKycCountryModelListConverter
   @override
   ObservableList<KycCountryModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(KycCountryModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(KycCountryModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<KycCountryModel> list) =>
@@ -63,7 +66,8 @@ class ObservableCampaignModelListConverter
   @override
   ObservableList<CampaignModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(CampaignModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(CampaignModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<CampaignModel> list) =>
@@ -78,7 +82,8 @@ class ObservableReferralStatsModelListConverter
   @override
   ObservableList<ReferralStatsModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(ReferralStatsModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(ReferralStatsModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<ReferralStatsModel> list) =>
@@ -92,7 +97,8 @@ class ObservableMarketItemModelListConverter
   @override
   ObservableList<MarketItemModel> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(MarketItemModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(MarketItemModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<MarketItemModel> list) =>
@@ -105,7 +111,8 @@ class ObservableIndexModelListConverter
 
   @override
   ObservableList<IndexModel> fromJson(List<dynamic> json) => ObservableList.of(
-      json.cast<Map<String, dynamic>>().map(IndexModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(IndexModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<IndexModel> list) =>
@@ -119,7 +126,8 @@ class ObservablePriceAccuracyListConverter
   @override
   ObservableList<PriceAccuracy> fromJson(List<dynamic> json) =>
       ObservableList.of(
-          json.cast<Map<String, dynamic>>().map(PriceAccuracy.fromJson));
+        json.cast<Map<String, dynamic>>().map(PriceAccuracy.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<PriceAccuracy> list) =>
@@ -132,7 +140,8 @@ class ObservableNftModelListConverter
 
   @override
   ObservableList<NftModel> fromJson(List<dynamic> json) => ObservableList.of(
-      json.cast<Map<String, dynamic>>().map(NftModel.fromJson));
+        json.cast<Map<String, dynamic>>().map(NftModel.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<NftModel> list) =>
@@ -145,7 +154,8 @@ class ObservableNftMarketListConverter
 
   @override
   ObservableList<NftMarket> fromJson(List<dynamic> json) => ObservableList.of(
-      json.cast<Map<String, dynamic>>().map(NftMarket.fromJson));
+        json.cast<Map<String, dynamic>>().map(NftMarket.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<NftMarket> list) =>
@@ -158,7 +168,8 @@ class ObservableSignalRLogsListConverter
 
   @override
   ObservableList<SignalrLog> fromJson(List<dynamic> json) => ObservableList.of(
-      json.cast<Map<String, dynamic>>().map(SignalrLog.fromJson));
+        json.cast<Map<String, dynamic>>().map(SignalrLog.fromJson),
+      );
 
   @override
   List<Map<String, dynamic>> toJson(ObservableList<SignalrLog> list) =>

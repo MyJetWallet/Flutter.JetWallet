@@ -12,7 +12,8 @@ class ValidReferralCodeInside extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showReferral = referralCode?.replaceFirst('https://join.simple.app/', '');
+    final showReferral =
+        referralCode?.replaceFirst('https://join.simple.app/', '');
 
     return Row(
       children: [

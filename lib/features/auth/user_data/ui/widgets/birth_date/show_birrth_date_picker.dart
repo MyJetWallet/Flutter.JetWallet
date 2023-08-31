@@ -96,8 +96,8 @@ class _SDatePicker extends StatelessObserverWidget {
               locale: intl.localeName == 'es'
                   ? DateTimePickerLocale.es
                   : intl.localeName == 'pl'
-                  ? DateTimePickerLocale.pl
-                  : DateTimePickerLocale.en_us,
+                      ? DateTimePickerLocale.pl
+                      : DateTimePickerLocale.en_us,
             ),
           ],
         ),

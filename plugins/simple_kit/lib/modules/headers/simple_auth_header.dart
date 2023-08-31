@@ -56,7 +56,8 @@ class SAuthHeader extends StatelessWidget {
                         customIconButton!
                       else
                         SIconButton(
-                          onTap: onBackButtonTap ?? () => Navigator.pop(context),
+                          onTap:
+                              onBackButtonTap ?? () => Navigator.pop(context),
                           defaultIcon: const SBackIcon(),
                           pressedIcon: const SBackPressedIcon(),
                         ),

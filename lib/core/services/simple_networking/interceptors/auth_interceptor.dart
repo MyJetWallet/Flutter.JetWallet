@@ -73,7 +73,8 @@ void setAuthInterceptor(
         }
 
         log.e(
-            'AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}');
+          'AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}',
+        );
 
         final code = dioError.response?.statusCode;
 

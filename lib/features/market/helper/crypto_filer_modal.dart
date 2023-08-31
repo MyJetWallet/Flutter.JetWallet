@@ -21,7 +21,6 @@ void showCryptoFilterModalSheet(
     listOfFilters.add('losers');
   }
 
-
   sShowBasicModalBottomSheet(
     onDissmis: () {},
     context: context,
@@ -122,7 +121,7 @@ Widget filterItem(
   );
 }
 
-String nameFilterByType (String type) {
+String nameFilterByType(String type) {
   switch (type) {
     case 'all':
       return intl.market_all;

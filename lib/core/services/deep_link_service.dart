@@ -479,15 +479,19 @@ class DeepLinkService {
       final kycState = getIt.get<KycService>();
 
       if (kycState.useSumsub) {
-        unawaited(sRouter.push(
-          const KycVerificationSumsubRouter(),
-        ));
-      } else {
-        unawaited(sRouter.push(
-          ChooseDocumentsRouter(
-            headerTitle: 'Verify your identity',
+        unawaited(
+          sRouter.push(
+            const KycVerificationSumsubRouter(),
           ),
-        ));
+        );
+      } else {
+        unawaited(
+          sRouter.push(
+            ChooseDocumentsRouter(
+              headerTitle: 'Verify your identity',
+            ),
+          ),
+        );
       }
       await sRouter.push(
         ChooseDocumentsRouter(

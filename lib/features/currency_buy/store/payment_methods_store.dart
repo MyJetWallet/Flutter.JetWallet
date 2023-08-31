@@ -32,7 +32,6 @@ import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_
 import 'package:simple_networking/modules/wallet_api/models/key_value/key_value_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unlimint_card_request_model.dart';
 
-
 part 'payment_methods_store.g.dart';
 
 class PaymentMethodsScreenStore extends _PaymentMethodsStoreBase

@@ -1,4 +1,3 @@
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -184,15 +183,21 @@ abstract class _PaymentMethodStoreBase with Store {
           .where((element) => element.id.name.contains(value))
           .toList();
 
-      searchList.addAll(cardF
-          .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
-          .toList());
-      searchList.addAll(localF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
-          .toList());
-      searchList.addAll(p2pF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
-          .toList());
+      searchList.addAll(
+        cardF
+            .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
+            .toList(),
+      );
+      searchList.addAll(
+        localF
+            .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
+            .toList(),
+      );
+      searchList.addAll(
+        p2pF
+            .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
+            .toList(),
+      );
 
       searchList.sort((a, b) => a.name.compareTo(b.name));
     }

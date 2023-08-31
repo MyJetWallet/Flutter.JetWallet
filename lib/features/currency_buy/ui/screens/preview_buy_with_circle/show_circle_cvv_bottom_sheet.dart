@@ -20,13 +20,9 @@ void showCircleCvvBottomSheet({
     scrollable: true,
     pinned: SBottomSheetHeader(
       name: header,
-      onTap: () {
-
-      },
+      onTap: () {},
     ),
-    onDissmis: () {
-
-    },
+    onDissmis: () {},
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,
     children: [

@@ -96,8 +96,7 @@ class SRewardBanner extends StatelessWidget {
             const SpaceH15(),
             Row(
               children: [
-                if (isActive)
-                  const SpaceW16(),
+                if (isActive) const SpaceW16(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48,
                   child: const SDivider(),

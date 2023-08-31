@@ -167,7 +167,9 @@ Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
 
 /// International only format
 Future<bool> isInternationalPhoneNumberValid(
-    String phoneNumber, String? isoCode) async {
+  String phoneNumber,
+  String? isoCode,
+) async {
   try {
     final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
       phoneNumber,
@@ -249,7 +251,8 @@ Decimal basePrice(
   }
 
   return Decimal.parse(
-      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+    '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}',
+  );
 }
 
 String getCardTypeMask(String cardNumber) {

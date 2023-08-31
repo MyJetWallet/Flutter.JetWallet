@@ -152,9 +152,11 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 onTap: () {
                   setState(() {
                     filtredLogs = widget.log.logs!
-                        .where((element) =>
-                            element.type != SLogType.ping &&
-                            element.type != SLogType.pong)
+                        .where(
+                          (element) =>
+                              element.type != SLogType.ping &&
+                              element.type != SLogType.pong,
+                        )
                         .toList();
                   });
                 },

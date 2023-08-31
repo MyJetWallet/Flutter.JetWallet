@@ -321,9 +321,12 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   const SpaceW10(),
                   SIconButton(
                     onTap: () {
-                      Clipboard.setData(ClipboardData(
-                        text: transactionListItem.paymeInfo?.bankAccount ?? '',
-                      ));
+                      Clipboard.setData(
+                        ClipboardData(
+                          text:
+                              transactionListItem.paymeInfo?.bankAccount ?? '',
+                        ),
+                      );
 
                       onCopyAction('');
                     },

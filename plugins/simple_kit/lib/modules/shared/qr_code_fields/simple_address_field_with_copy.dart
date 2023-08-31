@@ -64,7 +64,9 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     );
     scaleAnimation = Tween<Offset>(
       begin: const Offset(0.0, 0.0),
-      end: widget.expanded ? const Offset(0.0, -112.0) : const Offset(0.0, -64.0),
+      end: widget.expanded
+          ? const Offset(0.0, -112.0)
+          : const Offset(0.0, -64.0),
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -184,8 +186,8 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                                 baselineType: TextBaseline.alphabetic,
                                 child: AutoSizeText(
                                   widget.needFormatURL
-                                    ? _shortReferralLink(value)
-                                    : value,
+                                      ? _shortReferralLink(value)
+                                      : value,
                                   textAlign: TextAlign.start,
                                   minFontSize: 4.0,
                                   maxLines: widget.longString ? 2 : 1,

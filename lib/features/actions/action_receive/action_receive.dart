@@ -165,12 +165,16 @@ class _ActionReceive extends StatelessObserverWidget {
         .toList();
 
     final cryptoSearchLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.crypto && element.supportsCryptoDeposit)
+        .where(
+          (element) =>
+              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+        )
         .length;
     final showFiatLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.fiat && element.supportsCryptoDeposit)
+        .where(
+          (element) =>
+              element.type == AssetType.fiat && element.supportsCryptoDeposit,
+        )
         .length;
 
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;

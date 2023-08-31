@@ -68,7 +68,7 @@ class _WalletState extends State<Wallet>
       currenciesWithBalanceFrom(currencies),
     );
 
-    // These actions are required to handle navigation 
+    // These actions are required to handle navigation
     // if the order of assets is changed externally
     final supposedPage = currenciesWithBalance.indexWhere(
       (element) => element.symbol == currentAsset.symbol,

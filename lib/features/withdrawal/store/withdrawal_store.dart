@@ -57,9 +57,7 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   WithdrawStep withdrawStep = WithdrawStep.Address;
   @observable
-  PageController withdrawStepController = PageController(
-    
-  );
+  PageController withdrawStepController = PageController();
 
   @observable
   WithdrawalType withdrawalType = WithdrawalType.Asset;
@@ -877,7 +875,7 @@ abstract class _WithdrawalStoreBase with Store {
   ///
 
   @action
-  Future<void> withdraw({ required String newPin }) async {
+  Future<void> withdraw({required String newPin}) async {
     previewLoader.startLoadingImmediately();
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();

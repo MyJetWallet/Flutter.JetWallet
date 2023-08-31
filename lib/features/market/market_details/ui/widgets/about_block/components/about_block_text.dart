@@ -103,7 +103,9 @@ class _AboutBlockTextState extends State<AboutBlockText>
                             canTapOnLink = false;
                           });
                           launchURL(
-                              context, widget.marketInfo.officialWebsiteUrl!);
+                            context,
+                            widget.marketInfo.officialWebsiteUrl!,
+                          );
                         }
                       },
                     ),

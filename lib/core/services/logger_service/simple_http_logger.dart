@@ -4,7 +4,6 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
 
 class SimpleHTTPLogger extends Interceptor {
-
   SimpleHTTPLogger({
     this.request = true,
     this.requestHeader = false,
@@ -13,6 +12,7 @@ class SimpleHTTPLogger extends Interceptor {
     this.responseBody = true,
     this.error = true,
   });
+
   /// Print request [Options]
   final bool request;
 

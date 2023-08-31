@@ -27,7 +27,6 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
   }
 
   TabController getController() {
-
     return TabController(
       length: 1,
       vsync: this,

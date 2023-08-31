@@ -239,8 +239,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       )}'
           ' ${transactionListItem.assetId} ';
-    } else if (transactionListItem.operationType == OperationType.giftSend
-        ) {
+    } else if (transactionListItem.operationType == OperationType.giftSend) {
       title = operationName(
         OperationType.giftSend,
         context,

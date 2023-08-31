@@ -53,7 +53,6 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     return TabBarView(
       physics: getIt.get<IbanStore>().isIbanOutActive && widget.isKyc
           ? const AlwaysScrollableScrollPhysics()

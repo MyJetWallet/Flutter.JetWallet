@@ -168,7 +168,7 @@ abstract class _EmailConfirmationStoreBase with Store {
         onData: (data) async {
           union = const EmailConfirmationUnion.input();
 
-      print('DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}');
+          print('DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}');
 
           getIt.get<AppStore>().updateAuthState(
                 deleteToken: sendEmailResponse?.tokenId ?? '',
@@ -193,7 +193,6 @@ abstract class _EmailConfirmationStoreBase with Store {
       );
 
       loader.finishLoadingImmediately();
-
     } on ServerRejectException catch (error) {
       _logger.log(stateFlow, 'verifyCode', error.cause);
 

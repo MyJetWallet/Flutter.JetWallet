@@ -63,8 +63,8 @@ Future<void> _showSendAction(BuildContext context) async {
       .toList();
 
   final cryptoGlobalSendLength = sSignalRModules.currenciesList.where(
-      (element) =>
-          element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
+    (element) => element.supportsGlobalSend && element.isAssetBalanceNotEmpty,
+  );
 
   final isIbanOutActive = sSignalRModules.currenciesList
       .where((element) => element.supportIbanSendWithdrawal)
@@ -458,18 +458,22 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         .toList();
 
     final cryptoSearchLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.crypto &&
-            element.supportsGlobalSend &&
-            element.isAssetBalanceNotEmpty)
+        .where(
+          (element) =>
+              element.type == AssetType.crypto &&
+              element.supportsGlobalSend &&
+              element.isAssetBalanceNotEmpty,
+        )
         .length;
     final showCryptoSearch = cryptoSearchLength >= 7;
 
     final showFiatLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.fiat &&
-            element.supportsGlobalSend &&
-            element.isAssetBalanceNotEmpty)
+        .where(
+          (element) =>
+              element.type == AssetType.fiat &&
+              element.supportsGlobalSend &&
+              element.isAssetBalanceNotEmpty,
+        )
         .length;
     final showFiatSearch = showFiatLength >= 7;
 

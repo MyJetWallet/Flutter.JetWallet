@@ -1,4 +1,3 @@
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -82,8 +81,10 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
     final bool isShowSend = sSignalRModules.currenciesList
-        .where((element) =>
-            element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty)
+        .where(
+          (element) =>
+              element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+        )
         .isNotEmpty;
     final bool isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)

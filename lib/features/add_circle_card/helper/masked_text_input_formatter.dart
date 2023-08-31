@@ -80,7 +80,9 @@ class MaskedTextInputFormatter extends TextInputFormatter {
 class CardMonthInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     final newText = newValue.text;
     if (newValue.selection.baseOffset == 0) {
       return newValue;
@@ -95,7 +97,8 @@ class CardMonthInputFormatter extends TextInputFormatter {
     }
     final string = buffer.toString();
     return newValue.copyWith(
-        text: string,
-        selection: TextSelection.collapsed(offset: string.length));
+      text: string,
+      selection: TextSelection.collapsed(offset: string.length),
+    );
   }
 }

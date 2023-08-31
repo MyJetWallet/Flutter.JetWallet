@@ -36,11 +36,9 @@ class KycVerification extends StatelessObserverWidget {
           ),
         );
       } else {
-        
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          );
-        
+        sRouter.push(
+          const KycVerificationSumsubRouter(),
+        );
       }
     }
 

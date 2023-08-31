@@ -121,12 +121,16 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       launchURL(context, p2pTerms);
                     },
                     onPrivacyPolicyTap: () {
-                      launchURL(context,
-                          'https://globalltd.xyz/terms-and-conditions');
+                      launchURL(
+                        context,
+                        'https://globalltd.xyz/terms-and-conditions',
+                      );
                     },
                     onActiveTextTap: () {
                       launchURL(
-                          context, 'https://globalltd.xyz/privacy-policy');
+                        context,
+                        'https://globalltd.xyz/privacy-policy',
+                      );
                     },
                     onActiveText2Tap: () {
                       sShowAlertPopup(

@@ -22,7 +22,6 @@ class IbanDetails extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -72,8 +71,7 @@ class IbanDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text:
-                            transactionListItem.depositInfo!.address ?? '',
+                        text: transactionListItem.depositInfo!.address ?? '',
                       ),
                     );
 

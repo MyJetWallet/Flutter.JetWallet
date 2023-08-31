@@ -49,7 +49,6 @@ void showAddPaymentBottomSheet({
             name: intl.currencyBuy_addBankCard,
             description: intl.curencyBuy_actionItemDescription,
             onTap: () {
-
               sRouter.navigate(
                 AddCircleCardRouter(
                   onCardAdded: (card) {
@@ -91,7 +90,7 @@ void showAddPaymentBottomSheet({
                 ),
                 name: intl.curencyBuy_unlimint,
                 description:
-                  intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                    intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                 onTap: () {
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);

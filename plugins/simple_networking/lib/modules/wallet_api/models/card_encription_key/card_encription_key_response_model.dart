@@ -14,12 +14,14 @@ class EncryptionKeyCardResponseModel with _$EncryptionKeyCardResponseModel {
 }
 
 @freezed
-class EncryptionKeyCardResponseDataModel with _$EncryptionKeyCardResponseDataModel {
+class EncryptionKeyCardResponseDataModel
+    with _$EncryptionKeyCardResponseDataModel {
   const factory EncryptionKeyCardResponseDataModel({
     required String keyId,
     required String key,
   }) = _EncryptionKeyCardResponseDataModel;
 
-  factory EncryptionKeyCardResponseDataModel.fromJson(Map<String, dynamic> json) =>
+  factory EncryptionKeyCardResponseDataModel.fromJson(
+          Map<String, dynamic> json) =>
       _$EncryptionKeyCardResponseDataModelFromJson(json);
 }

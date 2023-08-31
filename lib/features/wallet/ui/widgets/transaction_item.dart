@@ -88,12 +88,12 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal = widget.transactionListItem.operationType ==
-      OperationType.cryptoInfo &&
-      isOperationLocal(
-        widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
-        PaymentMethodType.unsupported,
-      );
+    final isLocal =
+        widget.transactionListItem.operationType == OperationType.cryptoInfo &&
+            isOperationLocal(
+              widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                  PaymentMethodType.unsupported,
+            );
 
     void _onCopyAction() {
       sNotification.showError(
@@ -267,7 +267,8 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if ((widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo && !isLocal) ||
+                            OperationType.cryptoInfo &&
+                        !isLocal) ||
                     widget.transactionListItem.operationType ==
                         OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
@@ -287,7 +288,8 @@ class _TransactionItemState extends State<TransactionItem>
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.cryptoInfo && isLocal) ...[
+                        OperationType.cryptoInfo &&
+                    isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
@@ -447,9 +449,11 @@ class _TransactionItemState extends State<TransactionItem>
                       name: intl.open_in_explorer,
                       icon: const SNetworkIcon(),
                       onTap: () async {
-                        print(getBlockChainURL(
-                          widget.transactionListItem,
-                        ));
+                        print(
+                          getBlockChainURL(
+                            widget.transactionListItem,
+                          ),
+                        );
                         if (!await launchUrlString(
                           getBlockChainURL(
                             widget.transactionListItem,

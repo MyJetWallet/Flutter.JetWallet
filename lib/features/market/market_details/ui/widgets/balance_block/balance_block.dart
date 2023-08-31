@@ -36,7 +36,6 @@ class _BalanceBlockBody extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: 127,
       child: Column(

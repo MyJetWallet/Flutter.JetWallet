@@ -16,7 +16,6 @@ class IBanEmpty extends StatelessObserverWidget {
     required this.isAddress,
     required this.isKyc,
     this.onButtonTap,
-
   });
 
   final bool isLoading;
@@ -31,13 +30,13 @@ class IBanEmpty extends StatelessObserverWidget {
     final mainText = isKyc
         ? intl.iban_not_verified
         : isLoading
-        ? intl.iban_not_waiting
-        : intl.iban_not_address;
+            ? intl.iban_not_waiting
+            : intl.iban_not_address;
     final secondaryText = isKyc
         ? intl.iban_not_verified_desc
         : isLoading
-        ? intl.iban_not_waiting_desc
-        : intl.iban_not_address_desc;
+            ? intl.iban_not_waiting_desc
+            : intl.iban_not_address_desc;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,5 +91,4 @@ class IBanEmpty extends StatelessObserverWidget {
       ],
     );
   }
-
 }

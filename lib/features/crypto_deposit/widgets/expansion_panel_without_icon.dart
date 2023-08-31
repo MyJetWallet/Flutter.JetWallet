@@ -184,7 +184,7 @@ class ExpansionPanelListWithoutIcon extends StatefulObserverWidget {
     this.expandedHeaderPadding = _kPanelHeaderExpandedDefaultPadding,
     this.dividerColor,
     this.elevation = 2,
-  })  : _allowOnlyOnePanelOpen = true;
+  }) : _allowOnlyOnePanelOpen = true;
 
   /// The children of the expansion panel list. They are laid out in a similar
   /// fashion to [ListBody].

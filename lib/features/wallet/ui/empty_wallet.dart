@@ -96,7 +96,9 @@ class _EmptyWalletState extends State<EmptyWallet>
                       if (kycState.depositStatus ==
                           kycOperationStatus(KycStatus.allowed)) {
                         showBuyPaymentCurrencyBottomSheet(
-                            context, currentAsset);
+                          context,
+                          currentAsset,
+                        );
                       } else {
                         kycAlertHandler.handle(
                           status: kycState.depositStatus,
@@ -104,7 +106,9 @@ class _EmptyWalletState extends State<EmptyWallet>
                           navigatePop: true,
                           currentNavigate: () {
                             showBuyPaymentCurrencyBottomSheet(
-                                context, currentAsset);
+                              context,
+                              currentAsset,
+                            );
                           },
                           requiredDocuments: kycState.requiredDocuments,
                           requiredVerifications: kycState.requiredVerifications,

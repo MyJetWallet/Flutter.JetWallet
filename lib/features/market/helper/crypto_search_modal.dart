@@ -55,14 +55,14 @@ class _ActionCryptoSearch extends StatelessObserverWidget {
       children: [
         if (state.filteredMarketCurrencies.isNotEmpty)
           SPaddingH24(
-              child: Text(
-                state.filteredMarketCurrencies.length ==
-                  state.marketCurrencies.length
-                    ? intl.market_search_popular
-                    : intl.market_search_results,
-                style: sTextH4Style,
-                textAlign: TextAlign.left,
-              ),
+            child: Text(
+              state.filteredMarketCurrencies.length ==
+                      state.marketCurrencies.length
+                  ? intl.market_search_popular
+                  : intl.market_search_results,
+              style: sTextH4Style,
+              textAlign: TextAlign.left,
+            ),
           ),
         if (state.filteredMarketCurrencies.length !=
             state.marketCurrencies.length)

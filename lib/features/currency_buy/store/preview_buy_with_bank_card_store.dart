@@ -418,7 +418,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-
     return sRouter
         .push(
           SuccessScreenRouter(
@@ -453,7 +452,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,

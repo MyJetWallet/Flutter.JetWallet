@@ -24,8 +24,11 @@ class SimpleAnalytics {
   /// Provide:
   /// 1. environmentKey for Amplitude workspace
   /// 2. userEmail if user is already authenticated
-  Future<void> init(String environmentKey, bool techAcc,
-      [String? userEmail]) async {
+  Future<void> init(
+    String environmentKey,
+    bool techAcc, [
+    String? userEmail,
+  ]) async {
     await _analytics.init(environmentKey);
 
     if (userEmail != null) {

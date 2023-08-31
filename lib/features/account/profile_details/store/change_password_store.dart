@@ -65,7 +65,6 @@ abstract class _ChangePasswordStoreBase with Store {
       final _ = await sNetwork.getAuthModule().poshConfirmNewPassword(model);
 
       union = const ChangePasswordUnion.done();
-
     } catch (e) {
       _logger.log(stateFlow, 'confirmNewPassword', e);
 

@@ -272,7 +272,8 @@ class _CardScreenBodyState extends State<CardScreen> {
                                     _controllerConfetti.play();
                                     Timer(const Duration(seconds: 1), () {
                                       sUserInfo.updateCardRequested(
-                                          newValue: true);
+                                        newValue: true,
+                                      );
                                       setState(() {
                                         isButtonActive = true;
                                       });

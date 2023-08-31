@@ -140,8 +140,8 @@ class _SingInBody extends StatelessObserverWidget {
                                         intl.register_invalidEmail,
                                       );
                                     },
-                                    isError:
-                                    SingleSingInStore.of(context).isEmailError,
+                                    isError: SingleSingInStore.of(context)
+                                        .isEmailError,
                                   );
                                 },
                               ),

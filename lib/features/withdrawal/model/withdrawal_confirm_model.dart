@@ -1,5 +1,4 @@
 class WithdrawalConfirmModel {
-
   WithdrawalConfirmModel({
     required this.operationID,
     required this.code,

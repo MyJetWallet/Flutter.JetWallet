@@ -161,7 +161,9 @@ class _WalletBodyState extends State<WalletBody>
                               showSendTimerAlertOr(
                                 context: context,
                                 or: () => showBuyPaymentCurrencyBottomSheet(
-                                    context, actualAsset),
+                                  context,
+                                  actualAsset,
+                                ),
                                 from: BlockingType.deposit,
                               );
                             } else {
@@ -173,7 +175,9 @@ class _WalletBodyState extends State<WalletBody>
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => showBuyPaymentCurrencyBottomSheet(
-                                        context, actualAsset),
+                                      context,
+                                      actualAsset,
+                                    ),
                                     from: BlockingType.deposit,
                                   );
                                 },

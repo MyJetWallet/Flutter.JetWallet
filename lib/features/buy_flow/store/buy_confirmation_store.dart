@@ -235,7 +235,11 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     final model = getModelForCardBuyReq(
-        category, payAmount, buyAssetSymbol ?? '', payAsset);
+      category,
+      payAmount,
+      buyAssetSymbol ?? '',
+      payAsset,
+    );
 
     try {
       final response =
@@ -325,16 +329,18 @@ abstract class _BuyConfirmationStoreBase with Store {
       return;
     }
 
-    unawaited(sRouter.push(
-      FailureScreenRouter(
-        primaryText: intl.previewBuyWithAsset_failure,
-        secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
+    unawaited(
+      sRouter.push(
+        FailureScreenRouter(
+          primaryText: intl.previewBuyWithAsset_failure,
+          secondaryText: error,
+          primaryButtonName: intl.previewBuyWithAsset_close,
+          onPrimaryButtonTap: () {
+            navigateToRouter();
+          },
+        ),
       ),
-    ));
+    );
   }
 
   @action

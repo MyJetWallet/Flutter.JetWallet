@@ -373,18 +373,16 @@ class StartupService {
           ),
         );
       } else {
-         
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinSetup(),
+            );
 
-          sRouter.push(
-            PinScreenRoute(
-              union: const PinFlowUnion.setup(),
-              cannotLeave: true,
-            ),
-          );
-       
+        sRouter.push(
+          PinScreenRoute(
+            union: const PinFlowUnion.setup(),
+            cannotLeave: true,
+          ),
+        );
       }
     } catch (e) {}
   }

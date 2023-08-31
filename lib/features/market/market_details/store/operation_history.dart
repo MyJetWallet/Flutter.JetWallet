@@ -155,7 +155,7 @@ abstract class _OperationHistoryBase with Store {
     response.pick(
       onData: (data) {
         if (data.assetId.isEmpty) return;
-        
+
         showTransactionDetails(
           sRouter.navigatorKey.currentContext!,
           data,

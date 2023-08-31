@@ -14,13 +14,15 @@ class CardVerificationResponseModel with _$CardVerificationResponseModel {
 }
 
 @freezed
-class CardVerificationResponseDataModel with _$CardVerificationResponseDataModel {
+class CardVerificationResponseDataModel
+    with _$CardVerificationResponseDataModel {
   const factory CardVerificationResponseDataModel({
     String? cardId,
     CardVerificationState? verificationState,
   }) = _CardVerificationResponseDataModel;
 
-  factory CardVerificationResponseDataModel.fromJson(Map<String, dynamic> json) =>
+  factory CardVerificationResponseDataModel.fromJson(
+          Map<String, dynamic> json) =>
       _$CardVerificationResponseDataModelFromJson(json);
 }
 
