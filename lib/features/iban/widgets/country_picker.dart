@@ -11,7 +11,7 @@ import '../store/iban_store.dart';
 
 
 class CountryAccountField extends StatefulObserverWidget {
-  CountryAccountField({
+  const CountryAccountField({
     this.activeCountry,
     required this.store,
     required this.initCountrySearch,
