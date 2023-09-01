@@ -53,7 +53,9 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
     if (await controller.canGoBack()) {
       await controller.goBack();
     } else {
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
 
     return Future.value(false);

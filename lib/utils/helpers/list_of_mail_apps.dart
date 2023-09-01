@@ -81,8 +81,9 @@ class _MailOptionsBodyState extends State<_MailOptions>
                     );
                   }
                   await OpenMailApp.openSpecificMailApp(app);
-
-                  Navigator.pop(context);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                 },
               ),
             Container(

@@ -16,7 +16,6 @@ List<Widget> createBannersList({
   required bool phoneVerified,
   required bool verificationInProgress,
   required SimpleColors colors,
-  required BuildContext context,
 }) {
   final bannersList = <Widget>[];
 

@@ -366,8 +366,9 @@ abstract class _WithdrawalStoreBase with Store {
       if (withdrawalType == WithdrawalType.nft) {
         await withdrawNFT();
       }
-
-      return _pushWithdrawalAmount(context);
+      if (context.mounted) {
+        return _pushWithdrawalAmount(context);
+      }
     }
 
     _updateValidationOfBothFields(const Loading());
@@ -500,22 +501,26 @@ abstract class _WithdrawalStoreBase with Store {
     final status = await _checkCameraStatusAction();
 
     if (status == CameraStatus.permanentlyDenied) {
-      _pushAllowCamera(context);
+      if (context.mounted) {
+        _pushAllowCamera(context);
+      }
     } else if (status == CameraStatus.granted) {
-      final result = await _pushQrView(
-        context: context,
-      );
-
-      if (result is Barcode) {
-        addressController.text = result.rawValue ?? '';
-        _moveCursorAtTheEnd(addressController);
-        addressFocus.requestFocus();
-        updateAddress(result.rawValue ?? '');
-        await _validateAddressOrTag(
-          _updateAddressValidation,
-          _triggerErrorOfAddressField,
+      if (context.mounted) {
+        final result = await _pushQrView(
+          context: context,
         );
-        scrollToBottom(scrollController);
+
+        if (result is Barcode) {
+          addressController.text = result.rawValue ?? '';
+          _moveCursorAtTheEnd(addressController);
+          addressFocus.requestFocus();
+          updateAddress(result.rawValue ?? '');
+          await _validateAddressOrTag(
+            _updateAddressValidation,
+            _triggerErrorOfAddressField,
+          );
+          scrollToBottom(scrollController);
+        }
       }
     }
 
@@ -601,22 +606,26 @@ abstract class _WithdrawalStoreBase with Store {
     final status = await _checkCameraStatusAction();
 
     if (status == CameraStatus.permanentlyDenied) {
-      _pushAllowCamera(context);
+      if (context.mounted) {
+        _pushAllowCamera(context);
+      }
     } else if (status == CameraStatus.granted) {
-      final result = await _pushQrView(
-        context: context,
-      );
-
-      if (result is Barcode) {
-        tagController.text = result.rawValue ?? '';
-        _moveCursorAtTheEnd(tagController);
-        tagFocus.requestFocus();
-        updateTag(result.rawValue ?? '');
-        await _validateAddressOrTag(
-          _updateTagValidation,
-          _triggerErrorOfTagField,
+      if (context.mounted) {
+        final result = await _pushQrView(
+          context: context,
         );
-        scrollToBottom(scrollController);
+
+        if (result is Barcode) {
+          tagController.text = result.rawValue ?? '';
+          _moveCursorAtTheEnd(tagController);
+          tagFocus.requestFocus();
+          updateTag(result.rawValue ?? '');
+          await _validateAddressOrTag(
+            _updateTagValidation,
+            _triggerErrorOfTagField,
+          );
+          scrollToBottom(scrollController);
+        }
       }
     }
 

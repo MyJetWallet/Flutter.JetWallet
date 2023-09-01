@@ -112,7 +112,6 @@ class _AccountBannerListState extends State<AccountBannerList> {
       onKycBannerTap: widget.onKycBannerTap,
       colors: colors,
       showChatChecker: showChatChecker,
-      context: context,
     );
 
     setState(() {});
