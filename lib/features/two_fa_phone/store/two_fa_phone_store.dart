@@ -383,9 +383,9 @@ abstract class _TwoFaPhoneStoreBase with Store {
       startup: () {},
       security: (fromDialog) {
         if (fromDialog) {
-          final _context = sRouter.navigatorKey.currentContext!;
+          final context = sRouter.navigatorKey.currentContext!;
 
-          Navigator.of(_context, rootNavigator: true).pop(_context);
+          Navigator.of(context, rootNavigator: true).pop(context);
         } else {
           sRouter.navigateBack();
         }

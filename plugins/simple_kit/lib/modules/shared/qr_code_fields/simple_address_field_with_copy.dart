@@ -91,7 +91,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     final value = widget.value;
     final afterCopyText = widget.afterCopyText;
 
-    void _onCopyAction() {
+    void onCopyAction() {
       Clipboard.setData(
         ClipboardData(
           text: realValue ?? value,
@@ -154,7 +154,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
               highlightColor: SColorsLight().grey4,
               splashColor: Colors.transparent,
               onTap: valueLoading ? null : onTap,
-              onLongPress: valueLoading ? null : () => _onCopyAction(),
+              onLongPress: valueLoading ? null : () => onCopyAction(),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: widget.needPadding ? 24.0 : 0,
@@ -211,7 +211,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                       ),
                       const SpaceW10(),
                       SIconButton(
-                        onTap: valueLoading ? null : () => _onCopyAction(),
+                        onTap: valueLoading ? null : () => onCopyAction(),
                         defaultIcon: const SCopyIcon(),
                         pressedIcon: const SCopyPressedIcon(),
                       ),

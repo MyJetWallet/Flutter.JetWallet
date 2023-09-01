@@ -76,7 +76,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
       }
     }
 
-    void _showAssetSelector(BuildContext context) {
+    void showAssetSelector(BuildContext context) {
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -198,7 +198,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               icon: const SActionWithdrawIcon(),
               name: intl.currencySell_chooseDestination,
               onTap: () {
-                _showAssetSelector(context);
+                showAssetSelector(context);
               },
             )
           else if (store.selectedCurrency!.type == AssetType.crypto)
@@ -212,7 +212,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
                 store.baseCurrency!,
               ),
               description: store.selectedCurrency!.volumeAssetBalance,
-              onTap: () => _showAssetSelector(context),
+              onTap: () => showAssetSelector(context),
             )
           else
             SPaymentSelectFiat(
@@ -224,7 +224,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               amount: store.selectedCurrency!.volumeBaseBalance(
                 store.baseCurrency!,
               ),
-              onTap: () => _showAssetSelector(context),
+              onTap: () => showAssetSelector(context),
             ),
           deviceSize.when(
             small: () => const Spacer(),

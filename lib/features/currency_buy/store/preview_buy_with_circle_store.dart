@@ -190,9 +190,9 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
         header: '${intl.previewBuyWithCircle_enter} CVV '
             '${intl.previewBuyWithCircle_for} '
             '${card?.network.name} •••• ${card?.last4}',
-        onCompleted: (_cvv) {
+        onCompleted: (newCvv) {
           sRouter.pop();
-          cvv = _cvv;
+          cvv = newCvv;
           _createPayment();
         },
         input: input,

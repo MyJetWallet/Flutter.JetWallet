@@ -313,10 +313,10 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
+  void updateCardNumber(String newCardNumber) {
     _logger.log(notifier, 'updateCardNumber');
 
-    cardNumber = _cardNumber;
+    cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
     cardNumberError = cardNumber.length == 19
@@ -417,10 +417,10 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
-  void updateCardholderName(String _cardholderName) {
+  void updateCardholderName(String newCardholderName) {
     _logger.log(notifier, 'updateCardholderName');
 
-    cardholderName = _cardholderName.trim();
+    cardholderName = newCardholderName.trim();
   }
 
   @action

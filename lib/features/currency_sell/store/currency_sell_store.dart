@@ -111,13 +111,13 @@ abstract class _CirrencySellStoreBase with Store {
 
   @action
   void _initCurrencies() {
-    final _currencies = List<CurrencyModel>.from(
+    final tempCurrencies = List<CurrencyModel>.from(
       sSignalRModules.currenciesList,
     );
-    sortCurrencies(_currencies);
-    removeCurrencyFrom(_currencies, currencyModel);
+    sortCurrencies(tempCurrencies);
+    removeCurrencyFrom(tempCurrencies, currencyModel);
 
-    currencies = ObservableList.of(_currencies);
+    currencies = ObservableList.of(tempCurrencies);
   }
 
   @action
@@ -144,10 +144,10 @@ abstract class _CirrencySellStoreBase with Store {
 
     _updateSelectedPreset(preset);
 
-    final _percent = _percentFromPreset(preset);
+    final tempPercent = _percentFromPreset(preset);
 
     final value = valueBasedOnSelectedPercent(
-      selected: _percent,
+      selected: tempPercent,
       currency: currencyModel,
     );
 

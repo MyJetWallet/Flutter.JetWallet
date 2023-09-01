@@ -39,7 +39,7 @@ class BuySellDetails extends StatelessObserverWidget {
       transactionListItem.swapInfo!.sellAssetId,
     );
 
-    String _rateFor(
+    String rateFor(
       CurrencyModel currency1,
       CurrencyModel currency2,
     ) {
@@ -117,7 +117,7 @@ class BuySellDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
-                text: _rateFor(buyCurrency, sellCurrency),
+                text: rateFor(buyCurrency, sellCurrency),
               ),
             ),
             const SpaceH18(),
@@ -144,7 +144,7 @@ class BuySellDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
-                text: _rateFor(sellCurrency, buyCurrency),
+                text: rateFor(sellCurrency, buyCurrency),
               ),
             ),
             const SpaceH18(),

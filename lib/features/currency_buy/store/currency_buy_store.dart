@@ -281,12 +281,12 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _initCurrencies() {
-    final _currencies = ObservableList.of(sSignalRModules.currenciesList);
+    final tempCurrencies = ObservableList.of(sSignalRModules.currenciesList);
 
-    sortCurrencies(_currencies);
-    removeEmptyCurrenciesFrom(_currencies);
-    removeCurrencyFrom(_currencies, currencyModel);
-    currencies = _currencies;
+    sortCurrencies(tempCurrencies);
+    removeEmptyCurrenciesFrom(tempCurrencies);
+    removeCurrencyFrom(tempCurrencies, currencyModel);
+    currencies = tempCurrencies;
   }
 
   @action
@@ -296,9 +296,9 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _initCardLimit() {
-    final _cardLimit = sSignalRModules.cardLimitsModel;
+    final tempCardLimit = sSignalRModules.cardLimitsModel;
 
-    cardLimit = _cardLimit;
+    cardLimit = tempCardLimit;
   }
 
   @action

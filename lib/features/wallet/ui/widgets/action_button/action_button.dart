@@ -92,7 +92,7 @@ class _ActionButtonState extends State<ActionButton> {
     currentNameColor =
         highlighted ? colors.white.withOpacity(0.8) : colors.white;
 
-    void _onBuy(bool fromCard) {
+    void onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
         showBuyPaymentCurrencyBottomSheet(context, widget.currency);
       } else {
@@ -174,10 +174,10 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoDeposit,
                             isSellAvailable: false,
                             onBuy: () {
-                              _onBuy(false);
+                              onBuy(false);
                             },
                             onBuyFromCard: () {
-                              _onBuy(true);
+                              onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
@@ -437,10 +437,10 @@ class _ActionButtonState extends State<ActionButton> {
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
-                              _onBuy(false);
+                              onBuy(false);
                             },
                             onBuyFromCard: () {
-                              _onBuy(true);
+                              onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==

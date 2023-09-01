@@ -228,11 +228,11 @@ abstract class _ChartStoreBase with Store {
   }
 
   @action
-  void updateCandles(List<CandleModel>? _candles, String resolution) {
+  void updateCandles(List<CandleModel>? newCandles, String resolution) {
     _logger.log(notifier, 'updateCandles');
 
     final currentCandles = Map.of(candles);
-    currentCandles[resolution] = _candles;
+    currentCandles[resolution] = newCandles;
 
     candles = currentCandles;
     union = const Candles();
@@ -246,25 +246,25 @@ abstract class _ChartStoreBase with Store {
   }
 
   @action
-  void updateChartType(ChartType _type) {
+  void updateChartType(ChartType newType) {
     _logger.log(notifier, 'updateChartType');
 
-    type = _type;
+    type = newType;
   }
 
   @action
-  void updateSelectedCandle(CandleModel? _selectedCandle) {
+  void updateSelectedCandle(CandleModel? neweSlectedCandle) {
     _logger.log(notifier, 'updateSelectedCandle');
 
-    selectedCandle = _selectedCandle;
+    selectedCandle = neweSlectedCandle;
   }
 
   @action
-  void updateResolution(String _resolution) {
+  void updateResolution(String newResolution) {
     _logger.log(notifier, 'updateResolution');
 
     // TODO: why?))
     showAnimation = true;
-    resolution = _resolution;
+    resolution = newResolution;
   }
 }

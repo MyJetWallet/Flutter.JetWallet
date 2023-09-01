@@ -402,14 +402,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _newPinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -461,14 +461,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _changePinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -525,8 +525,8 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _updatePinBoxState(PinBoxEnum _pinState) {
-    pinState = _pinState;
+  void _updatePinBoxState(PinBoxEnum newPinState) {
+    pinState = newPinState;
   }
 
   @action

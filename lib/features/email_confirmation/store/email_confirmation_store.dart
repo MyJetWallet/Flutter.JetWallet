@@ -215,8 +215,8 @@ abstract class _EmailConfirmationStoreBase with Store {
   }
 
   @action
-  void _updateEmail(String _email) {
-    email = _email;
+  void _updateEmail(String newEmail) {
+    email = newEmail;
   }
 
   @action

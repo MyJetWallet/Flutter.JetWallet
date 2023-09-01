@@ -48,7 +48,7 @@ class ConvertRow extends StatelessObserverWidget {
 
     final colors = sKit.colors;
 
-    void _showDropdownSheet() {
+    void showDropdownSheet() {
       getIt.get<ActionSearchStore>().initConvert(
             assetWithBalance,
             assetWithoutBalance,
@@ -104,7 +104,7 @@ class ConvertRow extends StatelessObserverWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       ConvertDropdownButton(
-                        onTap: () => _showDropdownSheet(),
+                        onTap: () => showDropdownSheet(),
                         currency: currency,
                       ),
                       ConvertAutoSizeAmount(

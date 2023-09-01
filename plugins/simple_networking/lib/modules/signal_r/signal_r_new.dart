@@ -179,18 +179,18 @@ class SignalRModuleNew {
   Future<void> sendInitMessage(String from) async {
     if (_hubConnection?.state == HubConnectionState.connected) {
       try {
-        final _token = await getToken();
+        final token = await getToken();
 
         log(
           level: lg.Level.wtf,
           place: _loggerValue,
-          message: 'SignalR init message: $from \n With Token: $_token',
+          message: 'SignalR init message: $from \n With Token: $token',
         );
 
         await _hubConnection?.invoke(
           initMessage,
           args: [
-            _token,
+            token,
             localeName,
             deviceUid,
             deviceType,

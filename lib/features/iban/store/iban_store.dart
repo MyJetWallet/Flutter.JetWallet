@@ -185,10 +185,10 @@ abstract class IbanStoreBase with Store {
   }
 
   @action
-  void updateCountryNameSearch(String _countryNameSearch) {
+  void updateCountryNameSearch(String newCountryNameSearch) {
     _logger.log(notifier, 'updateCountryNameSearch');
 
-    countryNameSearch = _countryNameSearch;
+    countryNameSearch = newCountryNameSearch;
 
     _filterByCountryNameSearch();
 
@@ -405,40 +405,40 @@ abstract class IbanStoreBase with Store {
   }
 
   @action
-  void updateCity(String _city) {
+  void updateCity(String newCity) {
     _logger.log(notifier, 'updateCity');
 
-    city = _city.trim();
+    city = newCity.trim();
     cityError = checkOnBadSymbol(city);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updateAddress1(String _address) {
+  void updateAddress1(String newAddress) {
     _logger.log(notifier, 'updateAddress1');
 
-    streetAddress1 = _address.trim();
+    streetAddress1 = newAddress.trim();
     streetAddress1Error = checkOnBadSymbol(streetAddress1);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updateAddress2(String _address) {
+  void updateAddress2(String newAddress) {
     _logger.log(notifier, 'updateAddress2');
 
-    streetAddress2 = _address.trim();
+    streetAddress2 = newAddress.trim();
     streetAddress2Error = checkOnBadSymbol(streetAddress2);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updatePostalCode(String _postalCode) {
+  void updatePostalCode(String newPostalCode) {
     _logger.log(notifier, 'updatePostalCode');
 
-    postalCode = _postalCode.trim();
+    postalCode = newPostalCode.trim();
 
     billingAddressEnableButton = true;
   }

@@ -92,7 +92,7 @@ class _ActionBuy extends StatelessObserverWidget {
 
     sortByBalanceAndWeight(state.fCurrencies);
 
-    void _onItemTap(CurrencyModel currency, bool fromCard) {
+    void onItemTap(CurrencyModel currency, bool fromCard) {
       showBuyPaymentCurrencyBottomSheet(context, currency);
     }
 
@@ -135,7 +135,7 @@ class _ActionBuy extends StatelessObserverWidget {
               ),
               currency.symbol,
               currency.dayPercentChange,
-              () => _onItemTap(currency, fromCard),
+              () => onItemTap(currency, fromCard),
               isLast: currency ==
                   state.fCurrencies
                       .where(

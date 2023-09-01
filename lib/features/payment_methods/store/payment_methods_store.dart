@@ -129,13 +129,13 @@ abstract class _PaymentMethodsStoreBase with Store {
   }
 
   @action
-  void _updateUnion(PaymentMethodsUnion _union) {
-    if (_union is Success) {
+  void _updateUnion(PaymentMethodsUnion newUnion) {
+    if (newUnion is Success) {
       if (cardsLoaded && addressBookLoaded) {
-        union = _union;
+        union = newUnion;
       }
     } else {
-      union = _union;
+      union = newUnion;
     }
   }
 

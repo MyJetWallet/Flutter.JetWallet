@@ -46,14 +46,14 @@ class DeviceInfo {
   Future<DeviceInfo> deviceInfo() async {
     final deviceInfoPlugin = DeviceInfoPlugin();
     final deviceMarketingPlugin = DeviceMarketingNames();
-    const _androidIdPlugin = AndroidId();
+    const androidIdPlugin = AndroidId();
     final deviceMarketingName = await deviceMarketingPlugin.getSingleName();
     final storageService = getIt.get<LocalStorageService>();
     final deviceIdUsed = await storageService.getValue(deviceId);
 
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
-      var andriudId = await _androidIdPlugin.getId();
+      var andriudId = await androidIdPlugin.getId();
       if (deviceIdUsed != null) {
         andriudId = deviceIdUsed;
       } else {

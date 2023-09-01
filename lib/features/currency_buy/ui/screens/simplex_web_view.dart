@@ -29,7 +29,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
 
   @override
   Widget build(BuildContext context) {
-    void _showSuccess() {
+    void showSuccess() {
       sRouter
           .push(
             SuccessScreenRouter(
@@ -44,7 +44,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
           );
     }
 
-    void _showFailure() {
+    void showFailure() {
       sRouter.push(
         FailureScreenRouter(
           primaryText: intl.simplexWebView_failure,
@@ -90,11 +90,11 @@ class _SimplexWebViewState extends State<SimplexWebView> {
 
                   if (uri.origin == simplexOrigin) {
                     if (success == '1') {
-                      _showSuccess();
+                      showSuccess();
 
                       return NavigationDecision.prevent;
                     } else if (success == '2') {
-                      _showFailure();
+                      showFailure();
 
                       return NavigationDecision.prevent;
                     } else {

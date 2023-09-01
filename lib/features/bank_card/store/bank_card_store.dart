@@ -180,8 +180,8 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
-    cardNumber = _cardNumber;
+  void updateCardNumber(String newCardNumber) {
+    cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
     cardNumberError = cardNumber.length == 19 ? !isCardNumberValid : false;

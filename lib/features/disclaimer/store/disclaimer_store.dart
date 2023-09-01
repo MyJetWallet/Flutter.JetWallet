@@ -68,9 +68,9 @@ abstract class _DisclaimerStoreBase with Store {
       response.pick(
         onData: (data) {
           if (data.disclaimers != null) {
-            final _disclaimers = ObservableList<DisclaimerModel>.of([]);
+            final tempDisclaimers = ObservableList<DisclaimerModel>.of([]);
             for (final element in data.disclaimers!) {
-              _disclaimers.add(
+              tempDisclaimers.add(
                 DisclaimerModel(
                   description: element.description,
                   title: element.title,
@@ -81,13 +81,15 @@ abstract class _DisclaimerStoreBase with Store {
               );
             }
 
-            disclaimers = ObservableList.of([..._disclaimers]);
-            disclaimerId = _disclaimers[0].disclaimerId;
-            description = _disclaimers[0].description;
+            disclaimers = ObservableList.of([...tempDisclaimers]);
+            disclaimerId = tempDisclaimers[0].disclaimerId;
+            description = tempDisclaimers[0].description;
             title = disclaimers[0].title;
-            imageUrl = _disclaimers[0].imageUrl;
-            questions = ObservableList.of(_disclaimers[0].questions);
-            activeButton = _checkActiveButtonStatus(_disclaimers[0].questions);
+            imageUrl = tempDisclaimers[0].imageUrl;
+            questions = ObservableList.of(tempDisclaimers[0].questions);
+            activeButton = _checkActiveButtonStatus(
+              tempDisclaimers[0].questions,
+            );
           }
 
           if (disclaimers.isNotEmpty) {
@@ -123,9 +125,9 @@ abstract class _DisclaimerStoreBase with Store {
       response.pick(
         onData: (data) {
           if (data.disclaimers != null) {
-            final _disclaimers = ObservableList<DisclaimerModel>.of([]);
+            final tempDisclaimers = ObservableList<DisclaimerModel>.of([]);
             for (final element in data.disclaimers!) {
-              _disclaimers.add(
+              tempDisclaimers.add(
                 DisclaimerModel(
                   description: element.description,
                   title: element.title,
@@ -136,13 +138,13 @@ abstract class _DisclaimerStoreBase with Store {
               );
             }
 
-            disclaimers = ObservableList.of([..._disclaimers]);
-            disclaimerId = _disclaimers[0].disclaimerId;
-            description = _disclaimers[0].description;
+            disclaimers = ObservableList.of([...tempDisclaimers]);
+            disclaimerId = tempDisclaimers[0].disclaimerId;
+            description = tempDisclaimers[0].description;
             title = disclaimers[0].title;
-            imageUrl = _disclaimers[0].imageUrl;
-            questions = ObservableList.of(_disclaimers[0].questions);
-            activeButton = _checkActiveButtonStatus(_disclaimers[0].questions);
+            imageUrl = tempDisclaimers[0].imageUrl;
+            questions = ObservableList.of(tempDisclaimers[0].questions);
+            activeButton = _checkActiveButtonStatus(tempDisclaimers[0].questions);
           }
 
           if (disclaimers.isNotEmpty) {

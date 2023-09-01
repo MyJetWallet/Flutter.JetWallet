@@ -178,7 +178,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
     final scrollController = ScrollController();
 
-    String _balanceInProgressText(
+    String balanceInProgressText(
       CurrencyModel currency,
     ) {
       if (currency.isSingleTypeInProgress) {
@@ -193,7 +193,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
       return intl.portfolioWithBalanceBody_transactions;
     }
 
-    String _balanceInProgressLeadText(
+    String balanceInProgressLeadText(
       CurrencyModel currency,
     ) {
       if (currency.isSingleTypeInProgress) {
@@ -208,7 +208,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
       return '${counterOfOperationInProgressTransactions(currency)} ';
     }
 
-    Widget _balanceInProgressIcon(
+    Widget balanceInProgressIcon(
       CurrencyModel currency,
     ) {
       if (!currency.isSingleTypeInProgress) {
@@ -537,10 +537,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 BalanceInProcess(
                                   text: getIt<AppStore>().isBalanceHide
                                       ? item.symbol
-                                      : _balanceInProgressText(item),
-                                  leadText: _balanceInProgressLeadText(item),
+                                      : balanceInProgressText(item),
+                                  leadText: balanceInProgressLeadText(item),
                                   removeDivider: item == itemsWithBalance.last,
-                                  icon: _balanceInProgressIcon(item),
+                                  icon: balanceInProgressIcon(item),
                                 ),
                               ],
                             ],
@@ -620,11 +620,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == cryptosWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],
@@ -704,11 +704,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == indicesWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],
@@ -787,11 +787,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == fiatsWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],

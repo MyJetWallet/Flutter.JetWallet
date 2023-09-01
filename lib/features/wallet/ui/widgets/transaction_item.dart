@@ -95,7 +95,7 @@ class _TransactionItemState extends State<TransactionItem>
                   PaymentMethodType.unsupported,
             );
 
-    void _onCopyAction() {
+    void onCopyAction() {
       sNotification.showError(
         intl.copy_message,
         id: 1,
@@ -147,7 +147,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -163,7 +163,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -179,7 +179,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -195,7 +195,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -211,7 +211,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -229,7 +229,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -245,7 +245,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -261,7 +261,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -282,7 +282,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -299,7 +299,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -315,7 +315,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -333,7 +333,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -349,7 +349,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -365,7 +365,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -381,7 +381,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -397,7 +397,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -413,7 +413,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -429,7 +429,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),

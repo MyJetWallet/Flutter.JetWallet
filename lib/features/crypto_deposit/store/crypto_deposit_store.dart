@@ -64,10 +64,10 @@ abstract class _CryptoDepositStoreBase with Store {
   }
 
   @action
-  void setNetwork(BlockchainModel _network) {
+  void setNetwork(BlockchainModel newNetwork) {
     _logger.log(notifier, 'setNetwork');
 
-    network = _network;
+    network = newNetwork;
 
     _requestDepositAddress();
   }

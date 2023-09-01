@@ -51,7 +51,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
       transactionListItem.cryptoBuyInfo!.depositFeeAsset,
     );
 
-    String _rateFor() {
+    String rateFor() {
       final accuracy = priceAccuracy(
         buyCurrency.symbol,
         baseCurrency.symbol,
@@ -126,7 +126,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.previewConvert_exchangeRate,
               value: TransactionDetailsValueText(
-                text: _rateFor(),
+                text: rateFor(),
               ),
             ),
           ],

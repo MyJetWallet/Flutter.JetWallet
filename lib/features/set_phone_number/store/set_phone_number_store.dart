@@ -192,10 +192,10 @@ abstract class _SetPhoneNumberStoreBase with Store {
   }
 
   @action
-  void updateDialCodeSearch(String _dialCodeSearch) {
+  void updateDialCodeSearch(String newDialCodeSearch) {
     _logger.log(notifier, 'updateDialCodeSearch');
 
-    dialCodeSearch = _dialCodeSearch;
+    dialCodeSearch = newDialCodeSearch;
 
     _filterByDialCodeSearch();
   }
