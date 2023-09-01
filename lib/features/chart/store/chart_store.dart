@@ -6,6 +6,7 @@ import 'package:charts/utils/data_feed_util.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/features/chart/helper/time_length_from.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:logger/logger.dart' as logger;
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +79,11 @@ abstract class _ChartStoreBase with Store {
         );
       }
     } catch (e) {
-      print(e);
+      getIt.get<SimpleLoggerService>().log(
+            level: logger.Level.info,
+            place: 'Email Confirmation Store',
+            message: e.toString(),
+          );
     }
   }
 
@@ -129,7 +135,7 @@ abstract class _ChartStoreBase with Store {
   }) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
-    print('canFetch: $canFetch');
+    _logger.log(notifier, 'canFetch: $canFetch');
 
     try {
       if (!isLocal) {
@@ -163,17 +169,10 @@ abstract class _ChartStoreBase with Store {
         },
         onError: (e) {
           _logger.log(stateFlow, 'fetchBalanceCandles', e);
-          print('onError fetchBalanceCandles');
-
-          //updateCandles([], resolution);
         },
       );
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
-
-      print(e);
-
-      //updateCandles([], resolution);
     }
   }
 

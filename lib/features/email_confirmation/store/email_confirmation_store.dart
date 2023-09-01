@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -10,6 +11,7 @@ import 'package:jetwallet/features/email_confirmation/models/email_confirmation_
 import 'package:jetwallet/utils/helpers/device_helper.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
+import 'package:logger/logger.dart' as logger;
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -168,7 +170,11 @@ abstract class _EmailConfirmationStoreBase with Store {
         onData: (data) async {
           union = const EmailConfirmationUnion.input();
 
-          print('DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}');
+          getIt.get<SimpleLoggerService>().log(
+                level: logger.Level.info,
+                place: 'Email Confirmation Store',
+                message: 'DELETE TOKEN: ${sendEmailResponse?.tokenId ?? ''}',
+              );
 
           getIt.get<AppStore>().updateAuthState(
                 deleteToken: sendEmailResponse?.tokenId ?? '',

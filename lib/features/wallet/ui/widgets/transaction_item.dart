@@ -449,11 +449,6 @@ class _TransactionItemState extends State<TransactionItem>
                       name: intl.open_in_explorer,
                       icon: const SNetworkIcon(),
                       onTap: () async {
-                        print(
-                          getBlockChainURL(
-                            widget.transactionListItem,
-                          ),
-                        );
                         if (!await launchUrlString(
                           getBlockChainURL(
                             widget.transactionListItem,

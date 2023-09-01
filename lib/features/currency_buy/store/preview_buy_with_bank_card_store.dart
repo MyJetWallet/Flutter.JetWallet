@@ -169,8 +169,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           depositFeePerc = data.depositFeePerc;
         },
         onError: (error) {
-          print(error);
-
           _logger.log(stateFlow, 'requestPreview', error.cause);
 
           _showFailureScreen(error.cause);

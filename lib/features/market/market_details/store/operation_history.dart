@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/features/wallet/helper/show_transaction_details.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
@@ -82,7 +84,11 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
-    print('refreshHistory');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Operation History Store',
+          message: 'refreshHistory',
+        );
 
     operationHistoryItems = ObservableList.of([]);
 

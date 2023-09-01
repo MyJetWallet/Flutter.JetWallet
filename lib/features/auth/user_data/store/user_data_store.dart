@@ -148,7 +148,7 @@ abstract class _UserDataStoreBase with Store {
       referralCode: referralCodeLink.referralCode ?? '',
     );
 
-    print(model);
+    _logger.log(notifier, model);
 
     loader.startLoadingImmediately();
 

@@ -41,7 +41,6 @@ class SumsubService {
       SNSMobileSDKStatus newStatus,
       SNSMobileSDKStatus prevStatus,
     ) {
-      print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
             place: _loggerService,

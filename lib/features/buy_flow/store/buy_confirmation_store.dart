@@ -5,11 +5,13 @@ import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -18,6 +20,7 @@ import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bo
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
@@ -64,7 +67,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   void cancelAllRequest() {
     cancelToken.cancel('exit');
 
-    print('cancel REQUESTS');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Buy Confirmation Store',
+          message: 'cancel REQUESTS',
+        );
   }
 
   @observable
@@ -204,9 +211,6 @@ abstract class _BuyConfirmationStoreBase with Store {
     await requestQuote();
 
     loader.finishLoadingImmediately();
-
-    print(buyCurrency.symbol);
-    print(depositFeeCurrency.symbol);
 
     sAnalytics.newBuyTapContinue(
       sourceCurrency: depositFeeCurrency.symbol,
@@ -536,10 +540,13 @@ abstract class _BuyConfirmationStoreBase with Store {
                 );
 
                 loader.startLoadingImmediately();
-                //_requestPaymentInfo(onAction, lastAction);
               },
               onCancel: (payment) {
-                print('paymentWevViewClose');
+                getIt.get<SimpleLoggerService>().log(
+                      level: Level.info,
+                      place: 'Email Confirmation Store',
+                      message: 'paymentWevViewClose',
+                    );
 
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
@@ -699,7 +706,11 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       response.pick(
         onData: (data) async {
-          print(data.status);
+          getIt.get<SimpleLoggerService>().log(
+                level: Level.info,
+                place: 'Buy Confirmation Store',
+                message: data.status.name,
+              );
 
           final pending = data.status == CardBuyPaymentStatus.inProcess ||
               data.status == CardBuyPaymentStatus.preview ||

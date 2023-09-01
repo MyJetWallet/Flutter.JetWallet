@@ -8,6 +8,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -433,8 +435,11 @@ abstract class _BuyAmountStoreBase with Store {
 
         return;
       }
-
-      print(selectedPaymentAsset);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Buy Amount Store',
+            message: selectedPaymentAsset.toString(),
+          );
 
       final value = double.parse(inputValue);
       final min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
@@ -458,7 +463,11 @@ abstract class _BuyAmountStoreBase with Store {
 
       inputValid = value >= min && value <= max;
 
-      print('min: $min, max: $max');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Buy Amount Store',
+            message: 'min: $min, max: $max',
+          );
 
       if (max == 0) {
         _updatePaymentMethodInputError(

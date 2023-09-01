@@ -396,8 +396,6 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
@@ -497,8 +495,6 @@ class WalletApiDataSources {
         final data = handleFullResponse(
           responseData,
         );
-
-        print(data);
 
         return DC.data(data['data']['token']);
       } catch (e) {
@@ -1979,13 +1975,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2024,13 +2016,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2073,13 +2061,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2099,13 +2083,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2168,13 +2148,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2194,13 +2170,9 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }

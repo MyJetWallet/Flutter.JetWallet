@@ -159,8 +159,6 @@ abstract class _ActionSearchStoreBase with Store {
     final search = value.toLowerCase();
 
     if (search.isEmpty) {
-      print(search.isEmpty);
-
       filtredNewBuyPaymentCurrency = ObservableList.of(
         newBuyPaymentCurrency.toList(),
       );

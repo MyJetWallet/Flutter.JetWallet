@@ -5,12 +5,15 @@ import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
@@ -474,7 +477,11 @@ abstract class _BankCardStoreBase with Store {
               ),
             );
 
-      print(card);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Bank Card Store',
+            message: card.toString(),
+          );
 
       sRouter.push(
         BuyAmountRoute(
