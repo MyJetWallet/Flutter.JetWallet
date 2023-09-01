@@ -53,7 +53,7 @@ class SVerifyIndicator extends StatelessWidget {
       return 0.0;
     }
     final num = indicator / indicatorToComplete;
-    
+
     return num;
   }
 }

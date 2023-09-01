@@ -91,11 +91,11 @@ Future<RefreshTokenStatus> refreshToken({
 
       if (refreshRequest.hasError) {
         getIt.get<SimpleLoggerService>().log(
-              level: Level.error,
-              place: 'RefreshToken',
-              message:
-                  '''Refresh request return error: ${refreshRequest.error?.cause}''',
-            );
+          level: Level.error,
+          place: 'RefreshToken',
+          message:
+              '''Refresh request return error: ${refreshRequest.error?.cause}''',
+        );
 
         return RefreshTokenStatus.caught;
       }
@@ -150,11 +150,11 @@ Future<RefreshTokenStatus> refreshToken({
     final code = error.response?.statusCode;
 
     getIt.get<SimpleLoggerService>().log(
-          level: Level.error,
-          place: 'RefreshToken',
-          message:
-              '''TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}''',
-        );
+      level: Level.error,
+      place: 'RefreshToken',
+      message:
+          '''TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}''',
+    );
 
     unawaited(
       getIt

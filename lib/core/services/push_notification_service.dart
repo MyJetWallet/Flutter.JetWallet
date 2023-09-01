@@ -162,11 +162,11 @@ Future<void> messagingBackgroundHandler(RemoteMessage message) async {
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }
 
 @pragma('vm:entry-point')
@@ -178,9 +178,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }

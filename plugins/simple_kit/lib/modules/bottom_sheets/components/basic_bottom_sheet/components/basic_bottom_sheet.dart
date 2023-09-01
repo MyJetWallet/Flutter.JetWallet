@@ -51,7 +51,6 @@ class BasicBottomSheet extends StatefulWidget {
 }
 
 class _BasicBottomSheetState extends State<BasicBottomSheet> {
-  
   bool isAnimating = false;
 
   /// To avoid additional taps on barrier of bottom sheet when

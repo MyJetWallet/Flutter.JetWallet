@@ -274,7 +274,7 @@ void sShowSlideAlertPopup(
       return WillPopScope(
         onWillPop: () {
           onWillPop?.call();
-          
+
           return Future.value(willPopScope);
         },
         child: Column(

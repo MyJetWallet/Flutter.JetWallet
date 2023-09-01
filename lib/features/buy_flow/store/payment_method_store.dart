@@ -148,7 +148,7 @@ abstract class _PaymentMethodStoreBase with Store {
     if (cardsMethods.isEmpty) {
       sAnalytics.newBuyNoSavedCard();
     } else {
-      // Проверяем что у нас есть хотя бы платежный метод как BANKCARD, 
+      // Проверяем что у нас есть хотя бы платежный метод как BANKCARD,
       // и только тогда показываем карты юзеру
       if (getCardBuyMethod() != null) {
         cardSupportForThisAsset = true;

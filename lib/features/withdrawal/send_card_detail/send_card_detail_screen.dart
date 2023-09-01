@@ -93,8 +93,8 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
 
           //1. I confirm that information above is accurate and complete.
           //2. I agree with T&C Send Globally program.
-          //3. I understand that this money transfer is processed via P2P 
-          //   network more. P2P transfers are orchestrated by Payport LLC. 
+          //3. I understand that this money transfer is processed via P2P
+          //   network more. P2P transfers are orchestrated by Payport LLC.
           //   More details.
           SliverFillRemaining(
             hasScrollBody: false,
