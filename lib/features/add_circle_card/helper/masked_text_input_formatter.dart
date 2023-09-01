@@ -96,6 +96,7 @@ class CardMonthInputFormatter extends TextInputFormatter {
       }
     }
     final string = buffer.toString();
+    
     return newValue.copyWith(
       text: string,
       selection: TextSelection.collapsed(offset: string.length),
