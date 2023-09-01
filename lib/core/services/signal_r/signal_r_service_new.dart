@@ -1002,10 +1002,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void operationHistoryEvent(String operationId) {
     getIt.get<SimpleLoggerService>().log(
-      level: Level.info,
-      place: 'Signal R serice nev',
-      message: 'operationHistoryEvent',
-    );
+          level: Level.info,
+          place: 'Signal R serice nev',
+          message: 'operationHistoryEvent',
+        );
 
     getIt.get<EventBus>().fire(GetNewHistoryEvent());
   }

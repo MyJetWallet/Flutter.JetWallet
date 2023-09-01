@@ -15,7 +15,6 @@ part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
-
   const factory CurrencyModel({
     String? prefixSymbol,
     RecurringBuysModel? recurringBuy,

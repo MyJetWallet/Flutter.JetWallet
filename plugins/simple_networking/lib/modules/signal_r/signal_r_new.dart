@@ -215,7 +215,9 @@ class SignalRModuleNew {
       //isDisconnecting = true;
 
       transport.addToLog(
-          DateTime.now(), 'SignalR error init ${_hubConnection?.state}');
+        DateTime.now(),
+        'SignalR error init ${_hubConnection?.state}',
+      );
 
       if (!isDisconnecting) {
         reconnectSignalR();

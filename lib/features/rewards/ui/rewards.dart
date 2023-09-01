@@ -126,7 +126,7 @@ class _RewardsBody extends StatelessObserverWidget {
                                 key: viewedRewardsKey,
                                 value: jsonEncode([
                                   ...viewedRewards,
-                                  item.campaign!.campaignId
+                                  item.campaign!.campaignId,
                                 ]),
                               ),
                             ],

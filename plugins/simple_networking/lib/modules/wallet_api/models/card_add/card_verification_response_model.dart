@@ -22,7 +22,8 @@ class CardVerificationResponseDataModel
   }) = _CardVerificationResponseDataModel;
 
   factory CardVerificationResponseDataModel.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$CardVerificationResponseDataModelFromJson(json);
 }
 

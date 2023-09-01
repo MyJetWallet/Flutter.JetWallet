@@ -131,9 +131,12 @@ abstract class _OperationHistoryBase with Store {
 
           detailsShowed = true;
           showTransactionDetails(
-              sRouter.navigatorKey.currentContext!, listToShow[item], (q) {
-            detailsShowed = false;
-          });
+            sRouter.navigatorKey.currentContext!,
+            listToShow[item],
+            (q) {
+              detailsShowed = false;
+            },
+          );
         } else {
           await getOperationHistoryOperation(jw_operation_id!);
         }

@@ -32,13 +32,15 @@ class STextButton2 extends StatelessObserverWidget {
             onTap: onTap,
             icon: icon,
             addPadding: addPadding,
-            autoSize: autoSize)
+            autoSize: autoSize,
+          )
         : SimpleLightTextButton2(
             active: active,
             name: name,
             onTap: onTap,
             icon: icon,
             addPadding: addPadding,
-            autoSize: autoSize);
+            autoSize: autoSize,
+          );
   }
 }

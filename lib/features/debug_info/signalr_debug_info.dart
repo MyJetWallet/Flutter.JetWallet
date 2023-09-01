@@ -60,7 +60,7 @@ class SignalrDebugInfo extends StatelessWidget {
                       children: [
                         SignalRLogDetail(
                           log: sSignalRModules.signalRLogs[index],
-                        )
+                        ),
                       ],
                     );
                   },
