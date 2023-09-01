@@ -76,22 +76,10 @@ class SimpleBaseStandardField extends StatefulWidget {
 class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
   FocusNode? focusNode;
 
-  void onTextChanged() {}
-  void onFocusChanged() {}
-
   @override
   void initState() {
     focusNode = widget.focusNode ?? FocusNode();
-    focusNode?.addListener(onFocusChanged);
-    widget.controller?.addListener(onTextChanged);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    focusNode?.removeListener(onFocusChanged);
-    widget.controller?.removeListener(onTextChanged);
-    super.dispose();
   }
 
   @override

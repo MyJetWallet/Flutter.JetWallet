@@ -51,8 +51,7 @@ class BasicBottomSheet extends StatefulWidget {
 }
 
 class _BasicBottomSheetState extends State<BasicBottomSheet> {
-  void transitionListener() {}
-
+  
   bool isAnimating = false;
 
   /// To avoid additional taps on barrier of bottom sheet when
@@ -66,7 +65,6 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   @override
   void initState() {
     if (widget.transitionAnimationController != null) {
-      widget.transitionAnimationController!.addListener(transitionListener);
       isAnimating = widget.transitionAnimationController!.isAnimating;
     }
     super.initState();
@@ -75,7 +73,6 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   @override
   void dispose() {
     if (widget.transitionAnimationController != null) {
-      widget.transitionAnimationController!.removeListener(transitionListener);
       isAnimating = widget.transitionAnimationController!.isAnimating;
     }
     super.dispose();

@@ -32,9 +32,7 @@ void sShowTimerAlertPopup({
 class _TimerState = __TimerStateBase with _$_TimerState;
 
 abstract class __TimerStateBase with Store {
-  __TimerStateBase(this.duration) {
-    //start();
-  }
+  __TimerStateBase(this.duration);
 
   @observable
   late Duration duration;

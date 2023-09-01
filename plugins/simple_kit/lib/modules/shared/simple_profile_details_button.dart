@@ -22,6 +22,7 @@ class SProfileDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return STransparentInkWell(
+      // ignore: no-empty-block
       onTap: showIcon ? () {} : onTap,
       child: SPaddingH24(
         child: Container(

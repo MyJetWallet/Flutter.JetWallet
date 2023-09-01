@@ -225,7 +225,9 @@ class SignalRModuleNew {
     }
   }
 
-  static Future<void> handlePackage() async {}
+  static Future<void> handlePackage() async {
+    // TODO(yaroslav): must be removed.
+  }
 
   void handleError(String msg, Object error) {
     log(
@@ -319,6 +321,7 @@ class SignalRModuleNew {
   Future<void> reconnectSignalR({
     bool needRefreshToken = true,
   }) async {
+    // TODO(yaroslav): must be removed.
     /*transport.addToLog(
       DateTime.now(),
       'Start reconnect Signalr. isDisconnecting: $isDisconnecting',

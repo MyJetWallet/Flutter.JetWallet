@@ -75,6 +75,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
       ),
     );
     scaleAnimation.addListener(() {
+      // ignore: no-empty-block
       setState(() {});
     });
     super.initState();
