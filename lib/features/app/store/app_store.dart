@@ -433,9 +433,7 @@ abstract class _AppStoreBase with Store {
         );
       }
 
-      sAnalytics.updateTechAccValue(
-        userInfo.isTechClient,
-      );
+      sAnalytics.updateTechAccValue = userInfo.isTechClient;
 
       authState = authState.copyWith(
         initSessionReceived: true,

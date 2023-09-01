@@ -146,9 +146,7 @@ class StartupService {
     await makeSessionCheck();
 
     final kyc = getIt.get<KycService>();
-    sAnalytics.setKYCDepositStatus(
-      kyc.depositStatus,
-    );
+    sAnalytics.setKYCDepositStatus = kyc.depositStatus;
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
