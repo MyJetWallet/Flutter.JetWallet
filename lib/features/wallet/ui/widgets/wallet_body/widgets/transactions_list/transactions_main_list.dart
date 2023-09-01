@@ -26,20 +26,20 @@ class TransactionsMainList extends StatelessWidget {
     this.zeroPadding = false,
     this.symbol,
     this.filter = TransactionType.none,
-    this.jw_operation_id,
+    this.jwOperationId,
   });
 
   final String? symbol;
   final TransactionType filter;
   final bool isRecurring;
   final bool zeroPadding;
-  final String? jw_operation_id;
+  final String? jwOperationId;
 
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) =>
-          OperationHistory(symbol, filter, isRecurring, jw_operation_id)
+          OperationHistory(symbol, filter, isRecurring, jwOperationId)
             ..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(

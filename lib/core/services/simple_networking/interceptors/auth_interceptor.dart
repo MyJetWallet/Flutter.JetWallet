@@ -65,7 +65,7 @@ void setAuthInterceptor(
       },
       onError: (dioError, handler) async {
         if (getIt.isRegistered<AppStore>()) {
-          if (getIt<AppStore>().appStatus == AppStatus.End) {
+          if (getIt<AppStore>().appStatus == AppStatus.end) {
             handler.reject(dioError);
 
             return;

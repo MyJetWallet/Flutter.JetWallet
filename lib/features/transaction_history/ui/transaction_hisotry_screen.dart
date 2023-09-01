@@ -61,7 +61,7 @@ class TransactionHistory extends StatelessObserverWidget {
           body: TransactionsMainList(
             zeroPadding: true,
             symbol: assetSymbol,
-            jw_operation_id: jwOperationId,
+            jwOperationId: jwOperationId,
           ),
         ),
       ),

@@ -25,7 +25,7 @@ class EditBankCardScreen extends StatelessWidget {
     return Provider<BankCardStore>(
       create: (context) => BankCardStore()
         ..init(
-          BankCardStoreMode.EDIT,
+          BankCardStoreMode.edit,
           card: card,
         ),
       builder: (context, child) => _EditBankCardScreenBody(card: card),

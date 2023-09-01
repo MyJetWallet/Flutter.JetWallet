@@ -27,7 +27,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.assetId,
     super.filter,
     super.isRecurring,
-    super.jw_operation_id,
+    super.jwOperationId,
   );
 
   static _OperationHistoryBase of(BuildContext context) =>
@@ -39,7 +39,7 @@ abstract class _OperationHistoryBase with Store {
     this.assetId,
     this.filter,
     this.isRecurring,
-    this.jw_operation_id,
+    this.jwOperationId,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -51,7 +51,7 @@ abstract class _OperationHistoryBase with Store {
   final bool? isRecurring;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
-  String? jw_operation_id;
+  String? jwOperationId;
 
   @observable
   ScrollController scrollController = ScrollController();
@@ -122,9 +122,9 @@ abstract class _OperationHistoryBase with Store {
 
       union = const OperationHistoryUnion.loaded();
 
-      if (jw_operation_id != null) {
+      if (jwOperationId != null) {
         final item = listToShow
-            .indexWhere((element) => element.operationId == jw_operation_id);
+            .indexWhere((element) => element.operationId == jwOperationId);
 
         if (item != -1) {
           if (detailsShowed) return;
@@ -138,10 +138,10 @@ abstract class _OperationHistoryBase with Store {
             },
           );
         } else {
-          await getOperationHistoryOperation(jw_operation_id!);
+          await getOperationHistoryOperation(jwOperationId!);
         }
 
-        jw_operation_id = null;
+        jwOperationId = null;
       }
     } catch (e) {
       sNotification.showError(

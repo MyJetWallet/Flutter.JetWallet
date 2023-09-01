@@ -26,7 +26,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    if (store.withdrawalType == WithdrawalType.NFT) {
+    if (store.withdrawalType == WithdrawalType.nft) {
       return const SizedBox.shrink();
     }
 
@@ -170,7 +170,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              store.withdrawalPush(WithdrawStep.Preview);
+              store.withdrawalPush(WithdrawStep.preview);
             },
           ),
         ],

@@ -36,7 +36,7 @@ class AddBankCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<BankCardStore>(
-      create: (context) => BankCardStore()..init(BankCardStoreMode.ADD),
+      create: (context) => BankCardStore()..init(BankCardStoreMode.add),
       builder: (context, child) => _AddBankCardScreenBody(
         onCardAdded: onCardAdded,
         amount: amount,

@@ -32,7 +32,7 @@ import '../../phone_verification/ui/phone_verification.dart';
 
 part 'app_store.g.dart';
 
-enum AppStatus { Start, InProcess, End }
+enum AppStatus { start, inProcess, end }
 
 class AppStore = _AppStoreBase with _$AppStore;
 
@@ -66,7 +66,7 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
-  AppStatus appStatus = AppStatus.Start;
+  AppStatus appStatus = AppStatus.start;
   @action
   void setAppStatus(AppStatus status) => appStatus = status;
 
@@ -497,7 +497,7 @@ abstract class _AppStoreBase with Store {
     withdrawDynamicLink = false;
     homeTab = 0;
     isBalanceHide = true;
-    appStatus = AppStatus.Start;
+    appStatus = AppStatus.start;
 
     openPinVerification = false;
     homeOpened = false;

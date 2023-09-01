@@ -40,9 +40,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 part 'withdrawal_store.g.dart';
 
-enum WithdrawalType { Asset, NFT }
+enum WithdrawalType { asset, nft }
 
-enum WithdrawStep { Address, Ammount, Preview, Confirm }
+enum WithdrawStep { address, ammount, preview, confirm }
 
 // TODO: Split
 
@@ -55,12 +55,12 @@ class WithdrawalStore extends _WithdrawalStoreBase with _$WithdrawalStore {
 
 abstract class _WithdrawalStoreBase with Store {
   @observable
-  WithdrawStep withdrawStep = WithdrawStep.Address;
+  WithdrawStep withdrawStep = WithdrawStep.address;
   @observable
   PageController withdrawStepController = PageController();
 
   @observable
-  WithdrawalType withdrawalType = WithdrawalType.Asset;
+  WithdrawalType withdrawalType = WithdrawalType.asset;
 
   @observable
   WithdrawalModel? withdrawalInputModel;
@@ -199,7 +199,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get requirementLoading {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Loading || tagValidation is Loading
             : addressValidation is Loading
@@ -208,7 +208,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get isRequirementError {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Invalid || tagValidation is Invalid
             : addressValidation is Invalid
@@ -220,7 +220,7 @@ abstract class _WithdrawalStoreBase with Store {
       '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
-  String get bassAsset => withdrawalType == WithdrawalType.Asset
+  String get bassAsset => withdrawalType == WithdrawalType.asset
       ? withdrawalInputModel!.currency!.symbol
       : 'MATIC';
 
@@ -259,7 +259,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get credentialsValid {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Valid && tagValidation is Valid
             : addressValidation is Valid
@@ -275,7 +275,7 @@ abstract class _WithdrawalStoreBase with Store {
     withdrawalInputModel = input;
 
     if (withdrawalInputModel!.currency != null) {
-      withdrawalType = WithdrawalType.Asset;
+      withdrawalType = WithdrawalType.asset;
 
       if (withdrawalInputModel!.currency!.isSingleNetwork) {
         updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
@@ -283,7 +283,7 @@ abstract class _WithdrawalStoreBase with Store {
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
     } else if (withdrawalInputModel!.nft != null) {
-      withdrawalType = WithdrawalType.NFT;
+      withdrawalType = WithdrawalType.nft;
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
 
@@ -300,7 +300,7 @@ abstract class _WithdrawalStoreBase with Store {
     bool isReplace = false,
   }) {
     switch (step) {
-      case WithdrawStep.Address:
+      case WithdrawStep.address:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalAddressRouter);
@@ -309,7 +309,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Ammount:
+      case WithdrawStep.ammount:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalAmmountRouter);
@@ -318,7 +318,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Preview:
+      case WithdrawStep.preview:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalPreviewRouter);
@@ -327,7 +327,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Confirm:
+      case WithdrawStep.confirm:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalConfirmRouter);
@@ -342,7 +342,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void setIsReadyToContinue() {
-    if (withdrawalType == WithdrawalType.Asset) {
+    if (withdrawalType == WithdrawalType.asset) {
       if (withdrawalInputModel?.currency == null) return;
 
       final condition1 =
@@ -363,7 +363,7 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   Future<void> validateOnContinue(BuildContext context) async {
     if (credentialsValid) {
-      if (withdrawalType == WithdrawalType.NFT) {
+      if (withdrawalType == WithdrawalType.nft) {
         await withdrawNFT();
       }
 
@@ -421,7 +421,7 @@ abstract class _WithdrawalStoreBase with Store {
     try {
       ValidateAddressRequestModel? model;
 
-      model = withdrawalType == WithdrawalType.Asset
+      model = withdrawalType == WithdrawalType.asset
           ? ValidateAddressRequestModel(
               assetSymbol: withdrawalInputModel!.currency!.symbol,
               toAddress: addressController.text,
@@ -636,10 +636,10 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _pushWithdrawalAmount(BuildContext context) {
-    if (withdrawalType == WithdrawalType.Asset) {
-      withdrawalPush(WithdrawStep.Ammount);
+    if (withdrawalType == WithdrawalType.asset) {
+      withdrawalPush(WithdrawStep.ammount);
     } else {
-      withdrawalPush(WithdrawStep.Preview);
+      withdrawalPush(WithdrawStep.preview);
     }
   }
 
@@ -1091,11 +1091,11 @@ abstract class _WithdrawalStoreBase with Store {
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText:
             '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
-        primaryButtonName: withdrawalType == WithdrawalType.Asset
+        primaryButtonName: withdrawalType == WithdrawalType.asset
             ? intl.withdrawalConfirm_editOrder
             : intl.send_timer_alert_ok,
         onPrimaryButtonTap: () {
-          if (withdrawalType == WithdrawalType.Asset) {
+          if (withdrawalType == WithdrawalType.asset) {
             sRouter.replaceAll([
               const HomeRouter(
                 children: [
@@ -1108,7 +1108,7 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        secondaryButtonName: withdrawalType == WithdrawalType.Asset
+        secondaryButtonName: withdrawalType == WithdrawalType.asset
             ? intl.withdrawalConfirm_close
             : null,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),

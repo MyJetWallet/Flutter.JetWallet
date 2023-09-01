@@ -43,7 +43,7 @@ abstract class _LogoutServiceBase with Store {
         message: 'User start logout from $from',
       );
 
-      getIt<AppStore>().setAppStatus(AppStatus.End);
+      getIt<AppStore>().setAppStatus(AppStatus.end);
 
       final authStore = getIt.get<AppStore>().authState;
       if (getIt.get<AppStore>().authStatus is Unauthorized) {

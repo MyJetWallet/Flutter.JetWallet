@@ -31,7 +31,7 @@ import 'package:uuid/uuid.dart';
 
 part 'bank_card_store.g.dart';
 
-enum BankCardStoreMode { ADD, EDIT }
+enum BankCardStoreMode { add, edit }
 
 class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
   BankCardStore() : super();
@@ -42,7 +42,7 @@ class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
 
 abstract class _BankCardStoreBase with Store {
   @observable
-  BankCardStoreMode cardStoreMode = BankCardStoreMode.ADD;
+  BankCardStoreMode cardStoreMode = BankCardStoreMode.add;
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
@@ -165,7 +165,7 @@ abstract class _BankCardStoreBase with Store {
   void init(BankCardStoreMode mode, {CircleCard? card}) {
     cardStoreMode = mode;
 
-    if (mode == BankCardStoreMode.EDIT) {
+    if (mode == BankCardStoreMode.edit) {
       cardNumberController.text = '**** **** **** ${card!.last4}';
       expiryMonthController.text = '${card.expMonth}/${card.expYear}';
       expiryYearController.text = card.expYear.toString();

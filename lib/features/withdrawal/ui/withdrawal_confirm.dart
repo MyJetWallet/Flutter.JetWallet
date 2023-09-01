@@ -75,7 +75,7 @@ class WithdrawalConfirmScreenBody extends StatelessObserverWidget {
         child: SPageFrameWithPadding(
           loaderText: intl.register_pleaseWait,
           loading: store.confirmLoader,
-          customLoader: store.withdrawalType == WithdrawalType.NFT
+          customLoader: store.withdrawalType == WithdrawalType.nft
               ? store.confirmIsProcessing
                   ? WaitingScreen(
                       onSkip: () {},

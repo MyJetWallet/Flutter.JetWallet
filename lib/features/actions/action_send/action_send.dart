@@ -27,7 +27,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
-enum SendType { Wallet, Phone }
+enum SendType { wallet, phone }
 
 void showSendAction(
   BuildContext context, {
@@ -99,7 +99,7 @@ Future<void> _showSendAction(BuildContext context) async {
         onTap: () {
           Navigator.pop(context);
 
-          _showSendActionChooseAsset(context, SendType.Wallet);
+          _showSendActionChooseAsset(context, SendType.wallet);
         },
         amount: '',
         description: '',

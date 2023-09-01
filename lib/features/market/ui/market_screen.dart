@@ -51,7 +51,7 @@ class _MarketScreenState extends State<MarketScreen>
 
   Widget marketWidget() {
     return const MarketNestedScrollView(
-      marketShowType: MarketShowType.Crypto,
+      marketShowType: MarketShowType.crypto,
       showBanners: true,
       showSearch: true,
       showFilter: true,
@@ -92,7 +92,7 @@ class _MarketScreenState extends State<MarketScreen>
                   children: [
                     marketWidget(),
                     const MarketNestedScrollView(
-                      marketShowType: MarketShowType.NFT,
+                      marketShowType: MarketShowType.nft,
                       showFilter: true,
                       sourceScreen: FilterMarketTabAction.all,
                     ),

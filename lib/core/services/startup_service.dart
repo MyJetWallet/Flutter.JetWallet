@@ -64,7 +64,7 @@ class StartupService {
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
 
-    getIt<AppStore>().setAppStatus(AppStatus.Start);
+    getIt<AppStore>().setAppStatus(AppStatus.start);
     getIt<AppStore>().generateNewSessionID();
 
     final authStatus = await checkIsUserAuthorized(token);

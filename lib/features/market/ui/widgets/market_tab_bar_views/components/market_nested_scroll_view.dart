@@ -28,7 +28,7 @@ import '../../fade_on_scroll.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 
-enum MarketShowType { Crypto, NFT }
+enum MarketShowType { crypto, nft }
 
 class MarketNestedScrollView extends StatelessWidget {
   const MarketNestedScrollView({
@@ -142,7 +142,7 @@ class __MarketNestedScrollViewBodyState
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
                       activeFilters:
-                          widget.marketShowType == MarketShowType.Crypto
+                          widget.marketShowType == MarketShowType.crypto
                               ? store.activeFilter == 'all'
                                   ? 0
                                   : 1
@@ -156,7 +156,7 @@ class __MarketNestedScrollViewBodyState
                             }
                           : null,
                       onSearchButtonTap:
-                          widget.marketShowType == MarketShowType.Crypto
+                          widget.marketShowType == MarketShowType.crypto
                               ? () {
                                   showCryptoSearch(context);
                                 }

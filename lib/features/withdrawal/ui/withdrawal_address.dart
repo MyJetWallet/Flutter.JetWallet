@@ -47,7 +47,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     final store = WithdrawalStore.of(context);
 
-    final asset = store.withdrawalType == WithdrawalType.Asset
+    final asset = store.withdrawalType == WithdrawalType.asset
         ? store.withdrawalInputModel?.currency?.symbol
         : 'Matic';
 
@@ -76,7 +76,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      if (store.withdrawalType == WithdrawalType.Asset &&
+                      if (store.withdrawalType == WithdrawalType.asset &&
                           store.withdrawalInputModel!.currency!
                                   .withdrawalBlockchains.length >
                               1) {
@@ -95,7 +95,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       child: SStandardField(
                         controller: store.networkController,
                         labelText:
-                            (store.withdrawalType == WithdrawalType.Asset &&
+                            (store.withdrawalType == WithdrawalType.asset &&
                                     store.withdrawalInputModel!.currency!
                                             .withdrawalBlockchains.length >
                                         1)
@@ -105,7 +105,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
                         suffixIcons: [
-                          if (store.withdrawalType == WithdrawalType.Asset &&
+                          if (store.withdrawalType == WithdrawalType.asset &&
                               store.withdrawalInputModel!.currency!
                                       .withdrawalBlockchains.length >
                                   1)

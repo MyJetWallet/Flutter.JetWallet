@@ -35,14 +35,14 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
     final verb = intl.withdrawal_send_verb;
 
     final isUserEnoughMaticForWithdraw =
-        store.withdrawalType == WithdrawalType.NFT
+        store.withdrawalType == WithdrawalType.nft
             ? matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero)
             : true;
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       loading: store.previewLoader,
-      customLoader: store.withdrawalType == WithdrawalType.NFT
+      customLoader: store.withdrawalType == WithdrawalType.nft
           ? store.previewIsProcessing
               ? WaitingScreen(
                   onSkip: () {},
@@ -100,7 +100,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 name: intl.withdrawalPreview_total,
                 baseline: 36.0,
                 value:
-                    '''${store.withAmount} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
+                    '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
               ),
               SActionConfirmText(
                 name: intl.fee,
