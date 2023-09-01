@@ -19,6 +19,6 @@ class PreviewConvertInput {
 
   @override
   String toString() {
-    return 'PreviewConvertInput(fromAmount: $fromAmount, toAmount: $toAmount, fromCurrency: $fromCurrency, toCurrency: $toCurrency, toAssetEnabled: $toAssetEnabled, price: $price)';
+    return '''PreviewConvertInput(fromAmount: $fromAmount, toAmount: $toAmount, fromCurrency: $fromCurrency, toCurrency: $toCurrency, toAssetEnabled: $toAssetEnabled, price: $price)''';
   }
 }

@@ -61,7 +61,8 @@ abstract class _FormatServiceBase with Store {
           );
   }
 
-  // This function convert One currency to Another One. FromCurrency -> Base Currency -> Converted (ToCurrency)
+  // This function convert One currency to Another One.
+  // FromCurrency -> Base Currency -> Converted (ToCurrency)
   Decimal convertOneCurrencyToAnotherOne({
     required String fromCurrency,
     required Decimal fromCurrencyAmmount,
@@ -121,7 +122,7 @@ abstract class _FormatServiceBase with Store {
     return toAsset.normalizedAccuracy == 0
         ? number
         : Decimal.parse(
-            '${roundWithAccuracy(number.toDouble(), toAsset.normalizedAccuracy)}',
+            '''${roundWithAccuracy(number.toDouble(), toAsset.normalizedAccuracy)}''',
           );
   }
 }
@@ -133,7 +134,8 @@ extension DoubleRounding on double {
   /// 10.2468.floorDigits(2) -> 10.24
   /// 10.2468.floorDigits(3) -> 10.246
   ///
-  /// Might give unexpected results due to precision loss: 10.2.floorDigits(5) -> 10.199999999999999
+  /// Might give unexpected results due to precision 
+  /// loss: 10.2.floorDigits(5) -> 10.199999999999999
   double floorDigits(int digits) {
     if (digits == 0) {
       return floorToDouble();

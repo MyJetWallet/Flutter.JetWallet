@@ -6,7 +6,8 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_networking/modules/remote_config/models/remote_config_model.dart';
 
-/// The service is responsible for caching internal data in the application and store user data
+/// The service is responsible for caching internal data in 
+/// the application and store user data
 const String isFirstRunning = 'isFirstRunning';
 const String signalRCache = 'signalRCache';
 const String chartCandles = 'chartCandles';

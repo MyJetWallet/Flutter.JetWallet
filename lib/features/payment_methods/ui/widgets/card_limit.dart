@@ -74,7 +74,7 @@ class CardLimit extends StatelessObserverWidget {
     }
 
     final text =
-        '${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}';
+        '''${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}''';
 
     return SPaddingH24(
       child: DecoratedBox(

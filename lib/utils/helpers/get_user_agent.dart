@@ -27,9 +27,9 @@ Future<String> getUserAgent() async {
     final devicePixelRatio = mediaQuery.devicePixelRatio;
 
     return '$appVersion;${packageInfo.buildNumber};$deviceType;$deviceSize;'
-        '$devicePixelRatio;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID';
+        '''$devicePixelRatio;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID''';
   } else {
     return '$appVersion;${packageInfo.buildNumber};$deviceType;unknown;'
-        'unknown;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID';
+        '''unknown;$lang;${deviceInfo.marketingName};${deviceInfo.deviceUid};$instllID''';
   }
 }

@@ -129,7 +129,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                     Clipboard.setData(
                       ClipboardData(
                         text:
-                            '${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}',
+                            '''${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
                       ),
                     );
 

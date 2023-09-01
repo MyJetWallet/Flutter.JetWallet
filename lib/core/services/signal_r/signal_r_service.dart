@@ -223,7 +223,7 @@ class SignalRService {
       level: Level.info,
       place: _loggerValue,
       message:
-          'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
+          '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
     );
 
     return SignalRModuleNew(

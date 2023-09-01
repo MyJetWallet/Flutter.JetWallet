@@ -151,7 +151,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @computed
   Decimal get availableBalabce => Decimal.parse(
-        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
+        '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
       );
 
   @action
@@ -197,7 +197,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     final percent = _percentFromPreset(preset);
 
     final availableBalance = Decimal.parse(
-      '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
+      '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
     );
 
     final value = valueBasedOnSelectedPercent(

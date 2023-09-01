@@ -254,7 +254,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
                               privacyPolicyText:
                                   intl.previewBuyWithUmlimint_disclaimerPolicy,

@@ -219,7 +219,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
           '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
-          ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
+          ''' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}''',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
         sRouter.pop();

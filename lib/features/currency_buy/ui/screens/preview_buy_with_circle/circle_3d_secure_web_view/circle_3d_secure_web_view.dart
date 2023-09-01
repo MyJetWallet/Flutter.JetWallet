@@ -1,3 +1,5 @@
+// ignore_for_file: missing_whitespace_between_adjacent_strings, lines_longer_than_80_chars
+
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
@@ -63,14 +65,14 @@ class Circle3dSecureWebView extends StatelessWidget {
                   controllerWeb = controller;
                 },
                 onPageFinished: (url) {
-                  controllerWeb.runJavascript("function toMobile(){"
+                  controllerWeb.runJavascript('function toMobile(){'
                       "var meta = document.createElement('meta'); "
                       "meta.setAttribute('name', 'viewport');"
                       " meta.setAttribute('content', 'width=device-width, initial-scale=1'); "
                       "var head= document.getElementsByTagName('head')[0];"
-                      "head.appendChild(meta); "
-                      "}"
-                      "toMobile()");
+                      'head.appendChild(meta); '
+                      '}'
+                      'toMobile()');
                 },
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);

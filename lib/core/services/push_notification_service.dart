@@ -165,7 +165,7 @@ Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
         level: Level.info,
         place: _loggerService,
         message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+            '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
       );
 }
 
@@ -181,6 +181,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         level: Level.info,
         place: _loggerService,
         message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
+            '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
       );
 }

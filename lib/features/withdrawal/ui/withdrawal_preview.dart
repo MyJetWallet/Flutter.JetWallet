@@ -100,7 +100,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 name: intl.withdrawalPreview_total,
                 baseline: 36.0,
                 value:
-                    '${store.withAmount} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}',
+                    '''${store.withAmount} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
               ),
               SActionConfirmText(
                 name: intl.fee,

@@ -118,7 +118,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                               child: SStandardField(
                                 controller: TextEditingController(
                                   text:
-                                      '${sUserInfo.firstName} ${sUserInfo.lastName}',
+                                      '''${sUserInfo.firstName} ${sUserInfo.lastName}''',
                                 ),
                                 readOnly: true,
                                 enabled: false,
@@ -141,7 +141,7 @@ class AddBankCardBody extends StatelessObserverWidget {
                                 inputFormatters: [
                                   MaskedTextInputFormatter(
                                     mask:
-                                        'xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx',
+                                        '''xxxx\u{2005}xxxx\u{2005}xxxx\u{2005}xxxx''',
                                     separator: '\u{2005}',
                                   ),
                                   FilteringTextInputFormatter.allow(

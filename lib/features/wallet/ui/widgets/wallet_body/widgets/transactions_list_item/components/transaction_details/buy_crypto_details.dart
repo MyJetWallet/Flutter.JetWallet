@@ -141,7 +141,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 ),
                 child: TransactionDetailsValueText(
                   text:
-                      '${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                      '''${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '''
                       '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
                 ),
               ),

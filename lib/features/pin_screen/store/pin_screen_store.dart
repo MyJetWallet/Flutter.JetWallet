@@ -348,7 +348,7 @@ abstract class _PinScreenStoreBase with Store {
             if (attemptsLeft > 1) {
               attemptsLeft--;
               sNotification.showError(
-                'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
+                '''The PIN you entered is incorrect,$attemptsLeft attempts remaining.''',
               );
               _updateNewPin('');
               _updatePinBoxState(PinBoxEnum.empty);
@@ -358,7 +358,7 @@ abstract class _PinScreenStoreBase with Store {
                 await sRouter.pop();
               }
               sNotification.showError(
-                'Incorrect PIN has been entered more than $maxPinAttempts times, '
+                '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
                 'you have been logged out of your account.',
                 duration: 5,
               );

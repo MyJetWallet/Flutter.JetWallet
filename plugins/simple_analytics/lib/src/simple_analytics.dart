@@ -865,7 +865,7 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet() {
+  void tapOnTheButtonCancelTransactiononSentHistoryDetails() {
     _analytics.logEvent(
       EventType.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
       eventProperties: {

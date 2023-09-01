@@ -289,7 +289,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {
       return Decimal.parse(
-        '${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'
+        '''${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'''
             .replaceAll('-', ''),
       );
     }

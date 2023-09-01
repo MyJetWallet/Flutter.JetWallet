@@ -259,7 +259,7 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
                     await sRouter.push(
                       AllowCameraRoute(
                         permissionDescription:
-                            '${intl.chooseDocuments_permissionDescriptionText1} '
+                            '''${intl.chooseDocuments_permissionDescriptionText1} '''
                             '${intl.chooseDocument_camera}',
                         then: () async {
                           Navigator.pop(context);

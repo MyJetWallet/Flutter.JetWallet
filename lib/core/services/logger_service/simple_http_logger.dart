@@ -76,7 +76,7 @@ class SimpleHTTPLogger extends Interceptor {
           level: Level.info,
           place: 'SimpleNetwork',
           message:
-              'Request ║ ${options.method} ║ ${options.uri}${body.isNotEmpty ? '\nBody: $body' : ''}',
+              '''Request ║ ${options.method} ║ ${options.uri}${body.isNotEmpty ? '\nBody: $body' : ''}''',
         );
 
     super.onRequest(options, handler);
@@ -96,7 +96,7 @@ class SimpleHTTPLogger extends Interceptor {
               level: Level.error,
               place: 'SimpleNetwork',
               message:
-                  'DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} \n Message: $msg',
+                  '''DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} \n Message: $msg''',
             );
       } else {
         getIt.get<SimpleLoggerService>().log(

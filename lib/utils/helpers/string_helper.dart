@@ -251,7 +251,7 @@ Decimal basePrice(
   }
 
   return Decimal.parse(
-    '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}',
+    '''${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}''',
   );
 }
 

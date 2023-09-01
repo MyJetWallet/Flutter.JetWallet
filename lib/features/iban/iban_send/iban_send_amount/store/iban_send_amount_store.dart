@@ -72,7 +72,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -163,7 +163,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       selected: percent,
       currency: eurCurrency,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       ),
     );
 

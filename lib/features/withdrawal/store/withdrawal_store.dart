@@ -217,7 +217,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   String get header =>
-      '${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}';
+      '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
   String get bassAsset => withdrawalType == WithdrawalType.Asset
@@ -806,7 +806,7 @@ abstract class _WithdrawalStoreBase with Store {
       selected: percent,
       currency: withdrawalInputModel!.currency!,
       availableBalance: Decimal.parse(
-        '${withdrawalInputModel!.currency!.assetBalance.toDouble() - withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+        '''${withdrawalInputModel!.currency!.assetBalance.toDouble() - withdrawalInputModel!.currency!.cardReserve.toDouble()}''',
       ),
     );
 
@@ -1090,7 +1090,7 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText:
-            '${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}',
+            '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
         primaryButtonName: withdrawalType == WithdrawalType.Asset
             ? intl.withdrawalConfirm_editOrder
             : intl.send_timer_alert_ok,

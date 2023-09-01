@@ -94,7 +94,7 @@ Future<RefreshTokenStatus> refreshToken({
               level: Level.error,
               place: 'RefreshToken',
               message:
-                  'Refresh request return error: ${refreshRequest.error?.cause}',
+                  '''Refresh request return error: ${refreshRequest.error?.cause}''',
             );
 
         return RefreshTokenStatus.caught;
@@ -153,7 +153,7 @@ Future<RefreshTokenStatus> refreshToken({
           level: Level.error,
           place: 'RefreshToken',
           message:
-              'TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}',
+              '''TOKEN CANT UPDATE\nReason: 3\nCode: $code\nMessage: ${error.message}''',
         );
 
     unawaited(

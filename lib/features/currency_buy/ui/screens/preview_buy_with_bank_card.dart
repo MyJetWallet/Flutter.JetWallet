@@ -156,10 +156,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         ? 'Apple Pay'
                         : input.isGooglePay
                             ? 'Google Pay'
-                            : '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
-                                ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
-                                    (input.cardNumber?.length ?? 4) - 4,
-                                  ) : ''}',
+                            : '''${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'''
+                                ''' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}''',
                     maxValueWidth: 200,
                     baseline: 24,
                   ),
@@ -313,7 +311,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
                               privacyPolicyText:
                                   intl.previewBuyWithUmlimint_disclaimerPolicy,

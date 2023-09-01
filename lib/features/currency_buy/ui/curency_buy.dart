@@ -186,7 +186,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
     }
 
     final limitText = state.limitByAsset != null
-        ? '${(state.limitByAsset!.barInterval == StateBarType.day1 || state.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (state.limitByAsset!.barInterval == StateBarType.day7 || state.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'
+        ? '''${(state.limitByAsset!.barInterval == StateBarType.day1 || state.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (state.limitByAsset!.barInterval == StateBarType.day7 || state.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'''
             ': ${checkLimitText()}'
         : '';
 
@@ -388,7 +388,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: getNetworkIcon(state.pickedUnlimintCard?.network),
                     name:
-                        '${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
+                        '''${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'''
                         '${state.pickedUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock
@@ -419,7 +419,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: getNetworkIcon(state.pickedAltUnlimintCard?.network),
                     name:
-                        '${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
+                        '''${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'''
                         '${state.pickedAltUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock

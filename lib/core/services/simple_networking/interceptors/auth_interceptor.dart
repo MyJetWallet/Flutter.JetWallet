@@ -27,7 +27,7 @@ void setAuthInterceptor(
         if (options.extra.containsKey('sessionID')) {
           if (getIt<AppStore>().sessionID != options.extra['sessionID']) {
             log.e(
-              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE \n AppStore: ${getIt<AppStore>().sessionID} \n User: ${options.extra["sessionID"]}',
+              '''AUTH INTERCEPTOR: SESSION ID NOR COMPARE \n AppStore: ${getIt<AppStore>().sessionID} \n User: ${options.extra["sessionID"]}''',
             );
 
             handler.reject(
@@ -73,7 +73,7 @@ void setAuthInterceptor(
         }
 
         log.e(
-          'AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}',
+          '''AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}''',
         );
 
         final code = dioError.response?.statusCode;

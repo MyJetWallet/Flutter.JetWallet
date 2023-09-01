@@ -367,7 +367,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.send_globally_con_rate,
               value: TransactionDetailsValueText(
                 text:
-                    '1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
+                    '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
               ),
             ),
           ],
@@ -388,7 +388,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             const SpaceH18(),
             TransactionDetailsItem(
               text:
-                  '${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}',
+                  '''${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}''',
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   decimal: transactionListItem.withdrawalInfo!.receiveAmount ??

@@ -36,9 +36,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
     );
 
     final availableBalance = Decimal.parse(
-      //availableCurrency.assetBalance.toString(),
-      '${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}',
-      //'${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
     );
 
     return SPageFrame(
@@ -46,7 +44,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title:
-              '${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}',
+              '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
         ),
       ),
       child: Column(
@@ -85,7 +83,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
                     error: store.withAmmountInputError ==
                             InputError.enterHigherAmount
                         ? '${intl.withdrawalAmount_enterMoreThan} '
-                            '${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'
+                            '''${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'''
                         : store.withAmmountInputError.value(),
                     isErrorActive: store.withAmmountInputError.isActive,
                   ),
@@ -143,7 +141,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             ),
             name: shortAddressForm(store.address),
             description:
-                '${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}',
+                '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
           ),
           deviceSize.when(
             small: () => const Spacer(),

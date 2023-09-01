@@ -47,7 +47,7 @@ class MarketStatsBlock extends StatelessWidget {
                     name: intl.marketStatsBlock_markCap,
                     value: '${baseCurrency.prefix}'
                         '${formatNumber(marketInfo.marketCap.toDouble())}'
-                        '${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}',
+                        '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
                   ),
                 ),
                 if (isCPower)
@@ -63,7 +63,7 @@ class MarketStatsBlock extends StatelessWidget {
                       name: '${intl.vol} (24${intl.h})',
                       value: '${baseCurrency.prefix}'
                           '${formatNumber(marketInfo.dayVolume.toDouble())}'
-                          '${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}',
+                          '''${baseCurrency.prefix == null ? ' ${baseCurrency.symbol}' : ''}''',
                     ),
                   ),
               ],
