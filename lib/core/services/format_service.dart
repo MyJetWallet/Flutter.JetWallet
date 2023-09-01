@@ -31,19 +31,9 @@ abstract class _FormatServiceBase with Store {
     );
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
-    if (operationAsset == baseCurrency.symbol) {
-      return '≈ ${baseCurrenciesFormat(
-        text: operationAmount.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    } else {
-      return '≈ ${baseCurrenciesFormat(
-        text: priceInBaseCurrency.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    }
+    return operationAsset == baseCurrency.symbol
+        ? '''≈ ${baseCurrenciesFormat(text: operationAmount.toStringAsFixed(2), symbol: baseCurrency.symbol, prefix: baseCurrency.prefix)}'''
+        : '''≈ ${baseCurrenciesFormat(text: priceInBaseCurrency.toStringAsFixed(2), symbol: baseCurrency.symbol, prefix: baseCurrency.prefix)}''';
   }
 
   CurrencyModel findCurrency({
@@ -134,7 +124,7 @@ extension DoubleRounding on double {
   /// 10.2468.floorDigits(2) -> 10.24
   /// 10.2468.floorDigits(3) -> 10.246
   ///
-  /// Might give unexpected results due to precision 
+  /// Might give unexpected results due to precision
   /// loss: 10.2.floorDigits(5) -> 10.199999999999999
   double floorDigits(int digits) {
     if (digits == 0) {
@@ -151,7 +141,7 @@ extension DoubleRounding on double {
       return ceilToDouble();
     } else {
       final divideBy = pow(10, digits);
-      
+
       return (this * divideBy).ceilToDouble() / divideBy;
     }
   }
