@@ -169,7 +169,7 @@ void _validateRejectResponse(String rejectCode) {
   }
 }
 
-String _blockerMessage(Duration duration) {
+String blockerMessage(Duration duration) {
   const phrase1 = 'Due to several failed log in attempts access '
       'to this account will be suspended for';
 
@@ -192,7 +192,7 @@ String _blockerMessage(Duration duration) {
   }
 }
 
-String _blockerNumberMessage(Duration duration) {
+String blockerNumberMessage(Duration duration) {
   const phrase1 = 'Operation blocked for';
 
   final d = duration.inDays;

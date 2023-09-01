@@ -81,6 +81,12 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final realValue = widget.realValue;
     final onTap = widget.onTap;
@@ -99,12 +105,6 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
       );
 
       then?.call();
-    }
-
-    @override
-    void dispose() {
-      animationController.dispose();
-      super.dispose();
     }
 
     return Stack(

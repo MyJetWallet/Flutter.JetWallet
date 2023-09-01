@@ -9,7 +9,6 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../widgets/action_bottom_sheet_header.dart';
@@ -235,15 +234,5 @@ class _ActionConvert extends StatelessObserverWidget {
         );
       },
     );
-  }
-
-  Color? _iconColor(CurrencyModel item, BuildContext context) {
-    final colors = sKit.colors;
-
-    if (item.type == AssetType.indices) {
-      return null;
-    }
-
-    return currency == item ? colors.blue : colors.black;
   }
 }

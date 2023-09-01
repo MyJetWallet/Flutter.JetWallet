@@ -58,24 +58,4 @@ class _PortfolioWithBalanceState extends State<PortfolioWithBalance>
       ),
     );
   }
-
-  int _tabsLength(
-    bool cryptosEmpty,
-    bool indicesEmpty,
-    bool fiatsEmpty,
-  ) {
-    var tabsLength = 4;
-
-    if (cryptosEmpty) {
-      tabsLength--;
-    }
-    if (indicesEmpty) {
-      tabsLength--;
-    }
-    if (fiatsEmpty) {
-      tabsLength--;
-    }
-
-    return tabsLength == 2 ? 1 : tabsLength;
-  }
 }

@@ -287,8 +287,4 @@ class _UploadVerificationPhotoBody extends StatelessObserverWidget {
       ),
     );
   }
-
-  int _documentPageViewCount(KycDocumentType? document) {
-    return (document != KycDocumentType.passport) ? 2 : 1;
-  }
 }

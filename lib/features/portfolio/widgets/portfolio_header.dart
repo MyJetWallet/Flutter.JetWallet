@@ -4,8 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/chart/model/chart_union.dart';
-import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
@@ -44,19 +42,6 @@ class PortfolioHeader extends StatelessObserverWidget {
     }
 
     final kycState = getIt.get<KycService>();
-
-    ChartStore? chart;
-
-    if (!emptyBalance) {
-      chart = ChartStore.of(context) as ChartStore;
-    }
-
-    Color getContainerColor() {
-      return (chart != null && chart.union != const ChartUnion.loading()) ||
-              emptyBalance
-          ? Colors.transparent
-          : colors.grey5;
-    }
 
     return Column(
       children: [
