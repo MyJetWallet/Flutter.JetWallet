@@ -13,7 +13,8 @@ abstract class _StackLoaderStoreBase with Store {
   @action
   setLoading(bool value) => loading = value;
 
-  late Timer _timer;
+  // ignore: no-empty-block
+  Timer _timer = Timer(Duration.zero, () {});
 
   @action
   void startLoadingImmediately() => loading = true;
