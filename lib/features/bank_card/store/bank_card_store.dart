@@ -158,7 +158,7 @@ abstract class _BankCardStoreBase with Store {
 
   @computed
   bool get isLabelValid {
-    return saveCard ? cardLabel.isNotEmpty : true;
+    return !saveCard || cardLabel.isNotEmpty;
   }
 
   @action
@@ -184,7 +184,7 @@ abstract class _BankCardStoreBase with Store {
     cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
-    cardNumberError = cardNumber.length == 19 ? !isCardNumberValid : false;
+    cardNumberError = cardNumber.length == 19 && !isCardNumberValid;
 
     if (cardNumber.length == 19 && isCardNumberValid) {
       cardNode.nextFocus();
@@ -328,7 +328,7 @@ abstract class _BankCardStoreBase with Store {
         expYear: int.parse(
           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
         ),
-        isActive: isPreview ? saveCard : true,
+        isActive: !isPreview || saveCard,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
         cardAssetSymbol: currency?.asset ?? '',
       );

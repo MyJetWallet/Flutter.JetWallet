@@ -190,11 +190,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   bool get isInputErrorActive {
-    return inputError.isActive
-        ? true
-        : paymentMethodInputError != null
-            ? true
-            : false;
+    return inputError.isActive || paymentMethodInputError != null;
   }
 
   @computed

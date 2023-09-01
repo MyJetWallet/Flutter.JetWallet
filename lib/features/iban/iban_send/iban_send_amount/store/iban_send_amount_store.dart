@@ -241,7 +241,7 @@ abstract class _IbanSendAmountStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    withValid = error == InputError.none && isInputValid(withAmount);
   }
 
   @action

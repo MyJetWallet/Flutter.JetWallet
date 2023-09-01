@@ -111,8 +111,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: IBanHeader(
-        isShareActive:
-            store.isReceive ? !showEmptyScreen && !store.isLoading : false,
+        isShareActive: store.isReceive && !showEmptyScreen && !store.isLoading,
         textForShare: textForShare,
         isKyc: !showEmptyScreen,
       ),

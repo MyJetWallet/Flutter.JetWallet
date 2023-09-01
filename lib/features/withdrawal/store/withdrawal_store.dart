@@ -855,7 +855,7 @@ abstract class _WithdrawalStoreBase with Store {
     withAmmountInputError =
         double.parse(withAmount) != 0 ? error : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    withValid = error == InputError.none && isInputValid(withAmount);
   }
 
   @action

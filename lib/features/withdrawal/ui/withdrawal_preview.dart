@@ -35,9 +35,8 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
     final verb = intl.withdrawal_send_verb;
 
     final isUserEnoughMaticForWithdraw =
-        store.withdrawalType == WithdrawalType.nft
-            ? matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero)
-            : true;
+        store.withdrawalType != WithdrawalType.nft ||
+            matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero);
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,

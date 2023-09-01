@@ -29,7 +29,7 @@ void showBuyPaymentCurrencyBottomSheet(
     final ind =
         availableCurrency.indexWhere((element) => element.asset == asset);
 
-    return ind == -1 ? false : true;
+    return ind != -1;
   }
 
   for (var i = 0; i < currency.buyMethods.length; i++) {

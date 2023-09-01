@@ -290,9 +290,8 @@ class __MarketNestedScrollViewBodyState
                               accuracy: item.priceAccuracy,
                             ),
                             ticker: item.symbol,
-                            last: store.watchListFiltred.isNotEmpty
-                                ? item == store.watchListFiltred.last
-                                : true,
+                            last: !store.watchListFiltred.isNotEmpty ||
+                                item == store.watchListFiltred.last,
                             percent: item.dayPercentChange,
                             onTap: () {
                               sRouter.push(

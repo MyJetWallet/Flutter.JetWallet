@@ -193,12 +193,8 @@ abstract class _SendCardDetailStoreBase with Store {
   @action
   void validateCard(int index) {
     methodList[index].isError = methodList[index].value.length == 19
-        ? CreditCardValidator().validateCCNum(methodList[index].value).isValid
-            ? false
-            : true
-        : methodList[index].value.length > 19
-            ? true
-            : false;
+        ? !CreditCardValidator().validateCCNum(methodList[index].value).isValid
+        : methodList[index].value.length > 19;
   }
 
   void submit() {

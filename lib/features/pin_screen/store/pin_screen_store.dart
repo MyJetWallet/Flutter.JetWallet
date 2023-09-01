@@ -557,7 +557,7 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _updateHideBiometricButton(bool value) async {
     await getIt.get<UserInfoService>().initPinStatus();
-    hideBiometricButton = sUserInfo.pin == null ? true : value;
+    hideBiometricButton = sUserInfo.pin == null || value;
   }
 
   @action
