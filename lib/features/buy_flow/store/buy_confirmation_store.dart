@@ -867,7 +867,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 
   @action
@@ -890,7 +896,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 
   @computed
@@ -942,7 +954,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 }
 

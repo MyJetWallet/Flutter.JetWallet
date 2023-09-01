@@ -295,7 +295,13 @@ class DeepLinkService {
             onShare: () {
               try {
                 Share.share(referralInfo.referralLink);
-              } catch (e) {}
+              } catch (e) {
+                getIt.get<SimpleLoggerService>().log(
+                      level: Level.error,
+                      place: 'DeepLinkService',
+                      message: e.toString(),
+                    );
+              }
             },
           ),
         ],
@@ -330,7 +336,13 @@ class DeepLinkService {
       await checkInitAppFBAnalytics(storage, deviceInfo);
 
       await getIt.get<ReferallCodeStore>().init();
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'DeepLinkService',
+            message: e.toString(),
+          );
+    }
   }
 
   /// Push Notification Links

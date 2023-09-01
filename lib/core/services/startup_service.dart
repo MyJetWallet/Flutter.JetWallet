@@ -384,14 +384,26 @@ class StartupService {
           ),
         );
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'StartupService',
+            message: e.toString(),
+          );
+    }
   }
 }
 
 Future<void> getAdvData() async {
   try {
     await AppTrackingTransparency.requestTrackingAuthorization();
-  } on PlatformException {}
+  } catch (e) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'StartupService',
+          message: e.toString(),
+        );
+  }
 
   final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
 }
