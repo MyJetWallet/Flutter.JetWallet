@@ -8,7 +8,6 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 Duration getDurationFromBlocker(String timespanToExpire) {
   var hours = 0;
   var minutes = 0;
-  const seconds = 0;
 
   final times = timespanToExpire.split(':');
 

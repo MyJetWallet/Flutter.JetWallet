@@ -58,7 +58,7 @@ class PaymentMethodSearchOut extends StatelessWidget {
                     asset: asset,
                     currency: currency,
                     method: store.cardsMethods.first,
-                    card: e.card!,
+                    card: e.card,
                   ),
                 );
               },
@@ -77,7 +77,7 @@ class PaymentMethodSearchOut extends StatelessWidget {
                   BuyAmountRoute(
                     asset: asset,
                     currency: currency,
-                    method: e.method!,
+                    method: e.method,
                   ),
                 );
               },

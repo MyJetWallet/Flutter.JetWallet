@@ -62,7 +62,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                   SIconButton(
                     onTap: () {
                       if (widget.onCloseTap != null) {
-                        widget.onCloseTap!();
+                        widget.onCloseTap?.call();
                       }
 
                       Navigator.pop(context);

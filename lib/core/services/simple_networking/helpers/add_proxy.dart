@@ -34,7 +34,7 @@ Future<void> addProxy(
 Future<void> setProxy(Dio dio, String? proxyName, String? proxyPort) async {
   if (proxyName == null || proxyPort == null) return;
 
-  final clientAdapter = dio.httpClientAdapter as DefaultHttpClientAdapter;
+  final clientAdapter = dio.httpClientAdapter as IOHttpClientAdapter;
 
   clientAdapter.onHttpClientCreate = (HttpClient client) {
     // Hook into the findProxy callback to set the client's proxy.

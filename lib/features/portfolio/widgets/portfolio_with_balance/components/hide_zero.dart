@@ -12,19 +12,19 @@ void showHideZero(BuildContext context) {
     context: context,
     then: (value) {},
     children: [
-      const _showHideZero(),
+      const _ShowHideZero(),
     ],
   );
 }
 
-class _showHideZero extends StatefulObserverWidget {
-  const _showHideZero();
+class _ShowHideZero extends StatefulObserverWidget {
+  const _ShowHideZero();
 
   @override
-  _showHideZeroState createState() => _showHideZeroState();
+  _ShowHideZeroState createState() => _ShowHideZeroState();
 }
 
-class _showHideZeroState extends State<_showHideZero> {
+class _ShowHideZeroState extends State<_ShowHideZero> {
   bool hideAll = true;
   bool canChange = true;
 

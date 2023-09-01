@@ -22,7 +22,7 @@ class ChartPainter extends BaseChartPainter {
     required bool isLongPass,
     required double selectX,
     this.sink,
-    this.prefix = '\$',
+    String prefix = '\$',
     required ChartType candleType,
     required String resolution,
     required double candleWidth,
@@ -51,8 +51,6 @@ class ChartPainter extends BaseChartPainter {
   AnimationController? controller;
   double opacity;
   final Function(ChartInfoModel) onCandleSelected;
-  @override
-  final String prefix;
   final String Function({
     String? prefix,
     required Decimal decimal,

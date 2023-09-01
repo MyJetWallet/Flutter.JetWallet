@@ -20,7 +20,7 @@ class RewardNotificationBox extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: isUnread ? 17 : 24),
-      child: Container(
+      child: DecoratedBox(
         decoration: isUnread
             ? BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
@@ -29,7 +29,7 @@ class RewardNotificationBox extends StatelessWidget {
                   color: colors.blue,
                 ),
               )
-            : null,
+            : const BoxDecoration(),
         child: Padding(
           padding: EdgeInsets.all(isUnread ? 4 : 0),
           child: Stack(

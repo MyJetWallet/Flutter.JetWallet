@@ -144,7 +144,8 @@ abstract class _DisclaimerStoreBase with Store {
             title = disclaimers[0].title;
             imageUrl = tempDisclaimers[0].imageUrl;
             questions = ObservableList.of(tempDisclaimers[0].questions);
-            activeButton = _checkActiveButtonStatus(tempDisclaimers[0].questions);
+            activeButton =
+                _checkActiveButtonStatus(tempDisclaimers[0].questions);
           }
 
           if (disclaimers.isNotEmpty) {

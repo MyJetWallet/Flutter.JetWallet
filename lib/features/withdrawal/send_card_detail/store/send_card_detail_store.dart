@@ -106,10 +106,9 @@ abstract class _SendCardDetailStoreBase with Store {
 
   Future<String> _copiedText() async {
     final data = await Clipboard.getData('text/plain');
-    var code = data?.text?.trim() ?? '';
-    code = code.replaceAll(' ', '');
+    final code = data?.text?.trim() ?? '';
 
-    return code;
+    return code.replaceAll(' ', '');
   }
 
   @action

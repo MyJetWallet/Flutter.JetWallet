@@ -12,14 +12,14 @@ import 'package:jetwallet/core/services/simple_networking/helpers/retry_request.
 import 'package:jetwallet/core/services/simple_networking/helpers/setup_headers.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:logger/logger.dart' as logPrint;
+import 'package:logger/logger.dart' as log_print;
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 
 void setAuthInterceptor(
   Dio dio, {
   required bool isImage,
 }) {
-  final log = logPrint.Logger();
+  final log = log_print.Logger();
 
   dio.interceptors.add(
     QueuedInterceptorsWrapper(

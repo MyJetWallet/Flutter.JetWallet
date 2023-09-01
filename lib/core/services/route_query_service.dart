@@ -54,7 +54,7 @@ class RouteQueryService {
       }
 
       if (query[i].func != null) {
-        query[i].func!();
+        query[i].func?.call();
       }
 
       removeFromQuery(query[i]);

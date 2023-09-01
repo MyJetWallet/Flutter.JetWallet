@@ -91,7 +91,7 @@ class CardMonthInputFormatter extends TextInputFormatter {
     for (var i = 0; i < newText.length; i++) {
       buffer.write(newText[i]);
       final nonZeroIndex = i + 1;
-      if (nonZeroIndex % 2 == 0 && nonZeroIndex != newText.length) {
+      if (nonZeroIndex.isEven && nonZeroIndex != newText.length) {
         buffer.write('/');
       }
     }

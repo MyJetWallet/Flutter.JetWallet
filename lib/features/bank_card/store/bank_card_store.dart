@@ -586,9 +586,9 @@ abstract class _BankCardStoreBase with Store {
   static CircleCardNetwork getCardNetworkNumber(String input) {
     CircleCardNetwork cardType;
 
-    if (RegExp(r"^4[0-9]{12}(?:[0-9]{3})?$").hasMatch(input)) {
+    if (RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$').hasMatch(input)) {
       cardType = CircleCardNetwork.MASTERCARD;
-    } else if (RegExp(r"^5[1-5][0-9]{14}$").hasMatch(input)) {
+    } else if (RegExp(r'^5[1-5][0-9]{14}$').hasMatch(input)) {
       cardType = CircleCardNetwork.VISA;
     } else {
       cardType = CircleCardNetwork.unsupported;

@@ -387,7 +387,7 @@ abstract class _TwoFaPhoneStoreBase with Store {
 
           Navigator.of(context, rootNavigator: true).pop(context);
         } else {
-          sRouter.navigateBack();
+          sRouter.back();
         }
       },
     );

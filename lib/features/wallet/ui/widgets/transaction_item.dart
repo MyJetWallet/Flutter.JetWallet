@@ -62,7 +62,7 @@ class _TransactionItemState extends State<TransactionItem>
       begin: widgetSizeFrom(deviceSize) == SWidgetSize.small
           ? const Offset(0.0, 40.0)
           : const Offset(0.0, 60.0),
-      end: const Offset(0.0, 0.0),
+      end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: animationController,

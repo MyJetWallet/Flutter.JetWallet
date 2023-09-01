@@ -318,8 +318,6 @@ class __MarketNestedScrollViewBodyState
             items: store.cryptoFiltred,
             areItemsTheSame: (a, b) => a == b,
             itemBuilder: (context, animation, item, _) {
-              const isInWatchlist = false;
-
               return SizeFadeTransition(
                 sizeFraction: 0.7,
                 curve: Curves.easeInOut,

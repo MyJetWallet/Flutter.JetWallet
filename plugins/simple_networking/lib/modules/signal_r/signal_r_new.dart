@@ -182,7 +182,7 @@ class SignalRModuleNew {
         final token = await getToken();
 
         log(
-          level: lg.Level.wtf,
+          level: lg.Level.info,
           place: _loggerValue,
           message: 'SignalR init message: $from \n With Token: $token',
         );

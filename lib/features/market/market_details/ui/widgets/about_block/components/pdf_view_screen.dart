@@ -23,16 +23,16 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
     super.initState();
   }
 
-  Future<Uint8List> _downloadFileFromUrl(String url) async {
+  Future<Uint8List?> _downloadFileFromUrl(String url) async {
     try {
       final response = await Dio().get<List<int>>(
         url,
         options: Options(responseType: ResponseType.bytes),
       );
 
-      return response.data as Uint8List;
+      return response.data as Uint8List?;
     } catch (e) {
-      throw Exception("Error opening url file");
+      throw Exception('Error opening url file');
     }
   }
 
@@ -49,7 +49,7 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: FutureBuilder<Uint8List>(
+      body: FutureBuilder<Uint8List?>(
         future: _downloadFileFromUrl(widget.url),
         builder: (context, snapshot) {
           return snapshot.hasData

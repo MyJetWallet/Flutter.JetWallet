@@ -457,7 +457,7 @@ abstract class IbanStoreBase with Store {
     if (txt.isEmpty) return false;
 
     final re = RegExp(
-      r"^[a-zA-Z\p{N},.:/\s/-]*$",
+      r'^[a-zA-Z\p{N},.:/\s/-]*$',
       unicode: true,
       multiLine: true,
     );

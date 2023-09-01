@@ -153,7 +153,7 @@ abstract class _AppStoreBase with Store {
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
           await getIt<ForceServiceUpdate>().init(
-            context: getIt.get<AppRouter>().navigatorKey.currentContext!,
+            context: getIt.get<AppRouter>().navigatorKey.currentContext,
             showPopup: true,
           );
 

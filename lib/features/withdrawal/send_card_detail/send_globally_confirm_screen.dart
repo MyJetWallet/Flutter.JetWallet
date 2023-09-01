@@ -164,7 +164,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     name: intl.send_globally_con_rate,
                     contentLoading: state.loader.loading,
                     value:
-                        '''${state.sendCurrency!.prefixSymbol != null ? state.sendCurrency!.prefixSymbol : ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
+                        '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
                   ),
                   SActionConfirmText(
                     name: intl.global_send_you_send,

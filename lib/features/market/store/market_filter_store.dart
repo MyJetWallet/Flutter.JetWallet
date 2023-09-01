@@ -32,7 +32,11 @@ abstract class _MarketFilterStoreBase with Store {
   _MarketFilterStoreBase() {
     reaction(
       (_) => watchListIds,
-      (msg) => syncWatchListLocal(msg as List<String>),
+      (msg) {
+        if (msg != null) {
+          syncWatchListLocal(msg as List<String>);
+        }
+      },
     );
 
     watchListLocal = ObservableList.of(watchListIds);
