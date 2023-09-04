@@ -62,7 +62,7 @@ abstract class _UserInfoServiceBase with Store {
   bool isJustRegistered = false;
 
   @observable
-  bool biometricDisabled = false;
+  bool biometricDisabled = true;
 
   @observable
   bool isTechClient = false;
@@ -238,12 +238,12 @@ abstract class _UserInfoServiceBase with Store {
     final bioStatusFromSetting = await biometricStatus();
 
     final isBiometricHided =
-        await getIt<LocalCacheService>().getBiometricHided() ?? false;
+        await getIt<LocalCacheService>().getBiometricHided() ?? true;
 
-    if (bioStatusFromSetting == BiometricStatus.none || isBiometricHided) {
-      updateBiometric(hideBiometric: true);
-    } else {
+    if (bioStatusFromSetting != BiometricStatus.none && !isBiometricHided) {
       updateBiometric(hideBiometric: false);
+    } else {
+      updateBiometric(hideBiometric: true);
     }
   }
 
