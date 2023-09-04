@@ -89,74 +89,75 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.topCenter,
         children: [
-          // this widget is hidden from the user, 
+          // this widget is hidden from the user,
           // but it is needed to make a share with a picture
-          RepaintBoundary(
-            key: widgetForImageKey,
-            child: Container(
-              width: 327,
-              height: 240,
-              decoration: BoxDecoration(
-                color: sKit.colors.white,
-              ),
-              child: Stack(
-                children: [
-                  Container(
-                    width: 327,
-                    height: 240,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      color: sKit.colors.grey5,
-                    ),
-                    child: Image.asset(
-                      shareGiftBackgroundAsset,
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Row(
-                        children: [
-                          SNetworkSvg24(
-                            url: currency.iconUrl,
-                          ),
-                          const SpaceW4(),
-                          Text(
-                            volumeFormat(
-                              prefix: currency.prefixSymbol,
-                              decimal: amount,
-                              accuracy: currency.accuracy,
-                              symbol: currency.symbol,
-                            ),
-                            style: sTextH4Style.copyWith(
-                              color: sColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 16,
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: RepaintBoundary(
+              key: widgetForImageKey,
+              child: Container(
+                width: 327,
+                height: 240,
+                decoration: BoxDecoration(
+                  color: sKit.colors.white,
+                ),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 327,
+                      height: 240,
+                      decoration: BoxDecoration(
+                        color: sKit.colors.grey5,
                       ),
                       child: Image.asset(
-                        logoWithTitle,
-                        fit: BoxFit.contain,
+                        shareGiftBackgroundAsset,
+                        fit: BoxFit.fitWidth,
                         alignment: Alignment.topCenter,
-                        width: 104,
-                        height: 32,
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Row(
+                          children: [
+                            SNetworkSvg24(
+                              url: currency.iconUrl,
+                            ),
+                            const SpaceW4(),
+                            Text(
+                              volumeFormat(
+                                prefix: currency.prefixSymbol,
+                                decimal: amount,
+                                accuracy: currency.accuracy,
+                                symbol: currency.symbol,
+                              ),
+                              style: sTextH4Style.copyWith(
+                                color: sColors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
+                        child: Image.asset(
+                          logoWithTitle,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.topCenter,
+                          width: 104,
+                          height: 32,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
