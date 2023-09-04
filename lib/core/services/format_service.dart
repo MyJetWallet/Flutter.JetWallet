@@ -32,8 +32,8 @@ abstract class _FormatServiceBase with Store {
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
     return operationAsset == baseCurrency.symbol
-        ? '''≈ ${baseCurrenciesFormat(text: operationAmount.toStringAsFixed(2), symbol: baseCurrency.symbol, prefix: baseCurrency.prefix)}'''
-        : '''≈ ${baseCurrenciesFormat(text: priceInBaseCurrency.toStringAsFixed(2), symbol: baseCurrency.symbol, prefix: baseCurrency.prefix)}''';
+        ? '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
+        : '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
   }
 
   CurrencyModel findCurrency({
