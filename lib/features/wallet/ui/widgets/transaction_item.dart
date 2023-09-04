@@ -32,9 +32,9 @@ import 'wallet_body/widgets/transactions_list_item/components/transaction_detail
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.transactionListItem,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
 
@@ -62,7 +62,7 @@ class _TransactionItemState extends State<TransactionItem>
       begin: widgetSizeFrom(deviceSize) == SWidgetSize.small
           ? const Offset(0.0, 40.0)
           : const Offset(0.0, 60.0),
-      end: const Offset(0.0, 0.0),
+      end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -88,14 +88,14 @@ class _TransactionItemState extends State<TransactionItem>
 
     final cancelTransfer = TransactionCancelStore();
     final deviceSize = sDeviceSize;
-    final isLocal = widget.transactionListItem.operationType ==
-      OperationType.cryptoInfo &&
-      isOperationLocal(
-        widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
-        PaymentMethodType.unsupported,
-      );
+    final isLocal =
+        widget.transactionListItem.operationType == OperationType.cryptoInfo &&
+            isOperationLocal(
+              widget.transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                  PaymentMethodType.unsupported,
+            );
 
-    void _onCopyAction() {
+    void onCopyAction() {
       sNotification.showError(
         intl.copy_message,
         id: 1,
@@ -147,7 +147,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -163,7 +163,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -179,7 +179,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -195,7 +195,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -211,7 +211,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -229,7 +229,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -245,7 +245,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -261,13 +261,14 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
                 ],
                 if ((widget.transactionListItem.operationType ==
-                        OperationType.cryptoInfo && !isLocal) ||
+                            OperationType.cryptoInfo &&
+                        !isLocal) ||
                     widget.transactionListItem.operationType ==
                         OperationType.buyGooglePay ||
                     widget.transactionListItem.operationType ==
@@ -281,13 +282,14 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
                 ],
                 if (widget.transactionListItem.operationType ==
-                    OperationType.cryptoInfo && isLocal) ...[
+                        OperationType.cryptoInfo &&
+                    isLocal) ...[
                   Material(
                     color: colors.white,
                     child: BuyP2PDetails(
@@ -297,7 +299,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -313,7 +315,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -331,7 +333,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -347,7 +349,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -363,7 +365,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -379,7 +381,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -395,7 +397,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -411,7 +413,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -427,7 +429,7 @@ class _TransactionItemState extends State<TransactionItem>
                           copiedText = text;
                         });
 
-                        _onCopyAction();
+                        onCopyAction();
                       },
                     ),
                   ),
@@ -447,9 +449,6 @@ class _TransactionItemState extends State<TransactionItem>
                       name: intl.open_in_explorer,
                       icon: const SNetworkIcon(),
                       onTap: () async {
-                        print(getBlockChainURL(
-                          widget.transactionListItem,
-                        ));
                         if (!await launchUrlString(
                           getBlockChainURL(
                             widget.transactionListItem,

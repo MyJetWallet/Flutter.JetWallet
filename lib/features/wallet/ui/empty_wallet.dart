@@ -25,9 +25,9 @@ import '../../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'EmptyWalletRouter')
 class EmptyWallet extends StatefulObserverWidget {
   const EmptyWallet({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -48,7 +48,7 @@ class _EmptyWalletState extends State<EmptyWallet>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    final response = sNetwork
+    sNetwork
         .getWalletModule()
         .getOperationHistory(
           OperationHistoryRequestModel(
@@ -96,7 +96,9 @@ class _EmptyWalletState extends State<EmptyWallet>
                       if (kycState.depositStatus ==
                           kycOperationStatus(KycStatus.allowed)) {
                         showBuyPaymentCurrencyBottomSheet(
-                            context, currentAsset);
+                          context,
+                          currentAsset,
+                        );
                       } else {
                         kycAlertHandler.handle(
                           status: kycState.depositStatus,
@@ -104,7 +106,9 @@ class _EmptyWalletState extends State<EmptyWallet>
                           navigatePop: true,
                           currentNavigate: () {
                             showBuyPaymentCurrencyBottomSheet(
-                                context, currentAsset);
+                              context,
+                              currentAsset,
+                            );
                           },
                           requiredDocuments: kycState.requiredDocuments,
                           requiredVerifications: kycState.requiredVerifications,

@@ -13,7 +13,7 @@ class SWidgetBottomSize extends StatefulWidget {
   final Function(Size?) onChange;
 
   @override
-  _SWidgetBottomSizeState createState() => _SWidgetBottomSizeState();
+  State<SWidgetBottomSize> createState() => _SWidgetBottomSizeState();
 }
 
 class _SWidgetBottomSizeState extends State<SWidgetBottomSize> {

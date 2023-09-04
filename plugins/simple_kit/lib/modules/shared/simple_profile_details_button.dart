@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_transparent_ink_well.dart';
 
 import '../../../../simple_kit.dart';
 
@@ -23,6 +22,7 @@ class SProfileDetailsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return STransparentInkWell(
+      // ignore: no-empty-block
       onTap: showIcon ? () {} : onTap,
       child: SPaddingH24(
         child: Container(
@@ -53,7 +53,8 @@ class SProfileDetailsButton extends StatelessWidget {
                   ),
                   const SpaceH20(),
                   SDivider(
-                    color: isDivider ? SColorsLight().grey4 : Colors.transparent,
+                    color:
+                        isDivider ? SColorsLight().grey4 : Colors.transparent,
                   ),
                 ],
               ),

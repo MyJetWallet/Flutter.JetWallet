@@ -30,17 +30,11 @@ class SPaymentSelectEmptyBalance extends StatelessWidget {
           children: [
             // + 1px border
             if (widgetSize == SWidgetSize.small) ...[
-              if (secondaryText != null)
-                const SpaceH7()
-              else
-                const SpaceH19(),
+              if (secondaryText != null) const SpaceH7() else const SpaceH19(),
             ],
             // + 1px border
             if (widgetSize == SWidgetSize.medium) ...[
-              if (secondaryText != null)
-                const SpaceH19()
-              else
-                const SpaceH31(),
+              if (secondaryText != null) const SpaceH19() else const SpaceH31(),
             ],
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -34,8 +34,6 @@ class WithdrawalScreenBody extends StatefulObserverWidget {
 class _WithdrawalScreenBodyState extends State<WithdrawalScreenBody> {
   @override
   Widget build(BuildContext context) {
-    final store = WithdrawalStore.of(context);
-
     return const AutoRouter();
   }
 }

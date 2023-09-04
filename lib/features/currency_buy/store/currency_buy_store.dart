@@ -10,7 +10,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
-import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -30,14 +29,12 @@ import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/keyboards/constants.dart';
 import 'package:simple_kit/modules/keyboards/simple_numeric_keyboard_amount.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/utils/constants.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
@@ -54,22 +51,14 @@ part 'currency_buy_store.g.dart';
 
 class CurrencyBuyStore extends _CurrencyBuyStoreBase with _$CurrencyBuyStore {
   CurrencyBuyStore(
-    CurrencyModel currencyModel,
-    PaymentMethodType paymentMethod,
-    CircleCard? circleCard,
-    CircleCard? unlimintCard,
-    CircleCard? bankCard,
-    String? newBankCardId,
-    bool? showUaAlert,
-  ) : super(
-          currencyModel,
-          paymentMethod,
-          circleCard,
-          unlimintCard,
-          bankCard,
-          newBankCardId,
-          showUaAlert,
-        );
+    super.currencyModel,
+    super.paymentMethod,
+    super.circleCard,
+    super.unlimintCard,
+    super.bankCard,
+    super.newBankCardId,
+    super.showUaAlert,
+  );
 
   static _CurrencyBuyStoreBase of(BuildContext context) =>
       Provider.of<CurrencyBuyStore>(context, listen: false);
@@ -110,7 +99,6 @@ abstract class _CurrencyBuyStoreBase with Store {
             showUaAlert!) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
-            willPopScope: true,
             primaryText: intl.currencyBuy_alert,
             secondaryText: intl.currencyBuy_alertDescription,
             primaryButtonName: intl.actionBuy_gotIt,
@@ -293,12 +281,12 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _initCurrencies() {
-    final _currencies = ObservableList.of(sSignalRModules.currenciesList);
+    final tempCurrencies = ObservableList.of(sSignalRModules.currenciesList);
 
-    sortCurrencies(_currencies);
-    removeEmptyCurrenciesFrom(_currencies);
-    removeCurrencyFrom(_currencies, currencyModel);
-    currencies = _currencies;
+    sortCurrencies(tempCurrencies);
+    removeEmptyCurrenciesFrom(tempCurrencies);
+    removeCurrencyFrom(tempCurrencies, currencyModel);
+    currencies = tempCurrencies;
   }
 
   @action
@@ -308,9 +296,9 @@ abstract class _CurrencyBuyStoreBase with Store {
 
   @action
   void _initCardLimit() {
-    final _cardLimit = sSignalRModules.cardLimitsModel;
+    final tempCardLimit = sSignalRModules.cardLimitsModel;
 
-    cardLimit = _cardLimit;
+    cardLimit = tempCardLimit;
   }
 
   @action

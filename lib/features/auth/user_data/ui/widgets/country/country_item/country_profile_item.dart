@@ -8,12 +8,12 @@ import 'components/country_profile_warning.dart';
 
 class CountryProfileItem extends StatelessObserverWidget {
   const CountryProfileItem({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.countryCode,
     required this.countryName,
     required this.isBlocked,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final String countryCode;

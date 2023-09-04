@@ -60,7 +60,6 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
         onSkip: () {},
       ),
       header: const SSmallHeader(
-        isShortVersion: false,
         title: '',
       ),
       child: Stack(

@@ -4,13 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
@@ -19,7 +16,7 @@ import '../../../market/market_details/helper/currency_from_all.dart';
 
 @RoutePage(name: 'ProfileDetailsRouter')
 class ProfileDetails extends StatelessObserverWidget {
-  const ProfileDetails({Key? key}) : super(key: key);
+  const ProfileDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +32,6 @@ class ProfileDetails extends StatelessObserverWidget {
         '${phoneNumber.countryCode} ',
       );
     }
-
-    final infoImage = Image.asset(
-      phoneChangeAsset,
-      width: 80,
-      height: 80,
-      package: 'simple_kit',
-    );
 
     return SPageFrame(
       header: SPaddingH24(

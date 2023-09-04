@@ -10,13 +10,12 @@ import 'package:jetwallet/widgets/result_screens/success_screen/widgets/progress
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SuccessScreenRouter')
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({
-    Key? key,
+    super.key,
     this.onSuccess,
     this.onActionButton,
     this.primaryText,
@@ -29,7 +28,7 @@ class SuccessScreen extends StatelessWidget {
     this.showPrimaryButton = false,
     this.buttonText,
     this.time = 3,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function(BuildContext)? onSuccess;
@@ -70,7 +69,6 @@ class SuccessScreen extends StatelessWidget {
 
 class _SuccessScreenBody extends StatefulWidget {
   const _SuccessScreenBody({
-    super.key,
     this.onSuccess,
     this.onActionButton,
     this.primaryText,
@@ -174,7 +172,7 @@ class _SuccessScreenBodyState extends State<_SuccessScreenBody>
                 children: [
                   Column(
                     children: [
-                      Row(), // to expand Column in the cross axis
+                      const Row(), // to expand Column in the cross axis
                       const SpaceH86(),
                       SuccessAnimation(
                         widgetSize: widgetSizeFrom(deviceSize),

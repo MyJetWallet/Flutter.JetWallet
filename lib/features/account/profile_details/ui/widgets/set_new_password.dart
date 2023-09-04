@@ -8,15 +8,14 @@ import 'package:jetwallet/core/services/credentials_service/credentials_service.
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/account/profile_details/store/change_password_store.dart';
 import 'package:jetwallet/features/account/profile_details/ui/widgets/password_validation.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SetNewPasswordRouter')
 class SetNewPassword extends StatelessObserverWidget {
   const SetNewPassword({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

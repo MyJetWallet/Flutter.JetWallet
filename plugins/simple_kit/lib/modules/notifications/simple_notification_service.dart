@@ -28,7 +28,8 @@ class SNotificationNotifier extends StateNotifier<Queue<NotificationModel>> {
     _addToQueue(
       NotificationModel(
         id: id,
-        show: () => showNotification(context, message, duration, needFeedback, isError),
+        show: () =>
+            showNotification(context, message, duration, needFeedback, isError),
       ),
     );
   }

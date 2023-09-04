@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/phone_verification/store/phone_verification_store.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
@@ -38,9 +37,9 @@ class PhoneVerificationArgs {
 @RoutePage(name: 'PhoneVerificationRouter')
 class PhoneVerification extends StatelessWidget {
   const PhoneVerification({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 
@@ -71,16 +70,15 @@ class PhoneVerification extends StatelessWidget {
 /// 2. when we need to verify a new number from change number flow
 class PhoneVerificationBody extends StatelessObserverWidget {
   const PhoneVerificationBody({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 
   @override
   Widget build(BuildContext context) {
     final store = PhoneVerificationStore.of(context);
-    final timer = TimerStore.of(context);
 
     // TODO add phoneVerificationCountdown
     final colors = sKit.colors;

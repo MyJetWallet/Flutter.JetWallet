@@ -6,11 +6,11 @@ import 'flag_item.dart';
 
 class DialCodeItem extends StatelessObserverWidget {
   const DialCodeItem({
-    Key? key,
+    super.key,
     this.active = false,
     required this.dialCode,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final SPhoneNumber dialCode;

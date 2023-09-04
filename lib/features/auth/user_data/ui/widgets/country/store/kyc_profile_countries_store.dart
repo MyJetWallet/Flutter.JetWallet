@@ -62,10 +62,10 @@ abstract class _KycProfileCountriesStoreBase with Store {
   }
 
   @action
-  void updateCountryNameSearch(String _countryNameSearch) {
+  void updateCountryNameSearch(String newCountryNameSearch) {
     _logger.log(notifier, 'updateCountryNameSearch');
 
-    countryNameSearch = _countryNameSearch;
+    countryNameSearch = newCountryNameSearch;
 
     _filterByCountryNameSearch();
   }

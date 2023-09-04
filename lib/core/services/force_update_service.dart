@@ -20,12 +20,12 @@ class ForceServiceUpdate {
     BuildContext? context,
     bool showPopup = false,
   }) async {
-    final _info = getIt.get<PackageInfoService>().info;
+    final info = getIt.get<PackageInfoService>().info;
 
-    final minimum = compareVersions(minimumVersion, _info.version);
-    final recommended = compareVersions(recommendedVersion, _info.version);
+    final minimum = compareVersions(minimumVersion, info.version);
+    final recommended = compareVersions(recommendedVersion, info.version);
 
-    if (_info.version == '1.0.0') {
+    if (info.version == '1.0.0') {
       return false;
     }
 
@@ -88,7 +88,7 @@ class ForceServiceUpdate {
   }
 
   void _storeRedirect() {
-    final _info = getIt.get<PackageInfoService>().info;
+    final info = getIt.get<PackageInfoService>().info;
     final flavor = flavorService();
 
     late String appId;
@@ -102,7 +102,7 @@ class ForceServiceUpdate {
     }
 
     StoreRedirect.redirect(
-      androidAppId: _info.packageName,
+      androidAppId: info.packageName,
       iOSAppId: appId,
     );
   }

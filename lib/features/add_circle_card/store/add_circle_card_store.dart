@@ -275,12 +275,12 @@ abstract class AddCircleCardStoreBase with Store {
 
       response.pick(
         onData: (data) async {
-          final _cardNumber = cardNumber.replaceAll('\u{2005}', '');
+          final tempCardNumber = cardNumber.replaceAll('\u{2005}', '');
 
           final base64Decoded = base64Decode(data.encryptionKey);
           final utf8Decoded = utf8.decode(base64Decoded);
           final encrypted = await OpenPGP.encrypt(
-            '{"number":"$_cardNumber","cvv":"$cvv"}',
+            '{"number":"$tempCardNumber","cvv":"$cvv"}',
             utf8Decoded,
           );
           final utf8Encoded = utf8.encode(encrypted);
@@ -355,10 +355,10 @@ abstract class AddCircleCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
+  void updateCardNumber(String newCardNumber) {
     _logger.log(notifier, 'updateCardNumber');
 
-    cardNumber = _cardNumber;
+    cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
     cardNumberError = cardNumber.length == 19
@@ -369,20 +369,20 @@ abstract class AddCircleCardStoreBase with Store {
   }
 
   @action
-  void updateCvv(String _cvv) {
+  void updateCvv(String newCvv) {
     _logger.log(notifier, 'updateCvv');
 
-    cvv = _cvv;
+    cvv = newCvv;
 
     // [xxx]
     cvvError = cvv.length == 3 ? !isCvvValid : false;
   }
 
   @action
-  void updateExpiryDate(String _expiryDate) {
+  void updateExpiryDate(String newExpiryDate) {
     _logger.log(notifier, 'updateExpiryDate');
 
-    expiryDate = _expiryDate;
+    expiryDate = newExpiryDate;
 
     // [xx/xx]
     expiryDateError = expiryDate.length >= 4
@@ -393,45 +393,45 @@ abstract class AddCircleCardStoreBase with Store {
   }
 
   @action
-  void updateCardholderName(String _cardholderName) {
+  void updateCardholderName(String newCardholderName) {
     _logger.log(notifier, 'updateCardholderName');
 
-    cardholderName = _cardholderName.trim();
+    cardholderName = newCardholderName.trim();
   }
 
   @action
-  void updateCity(String _city) {
+  void updateCity(String newCity) {
     _logger.log(notifier, 'updateCity');
 
-    city = _city.trim();
+    city = newCity.trim();
   }
 
   @action
-  void updateAddress1(String _address) {
+  void updateAddress1(String newAddress) {
     _logger.log(notifier, 'updateAddress1');
 
-    streetAddress1 = _address.trim();
+    streetAddress1 = newAddress.trim();
   }
 
   @action
-  void updateAddress2(String _address) {
+  void updateAddress2(String newAddress) {
     _logger.log(notifier, 'updateAddress2');
 
-    streetAddress2 = _address.trim();
+    streetAddress2 = newAddress.trim();
   }
 
   @action
-  void updateDistrict(String _district) {
+  void updateDistrict(String newDistrict) {
     _logger.log(notifier, 'updateDistrict');
 
-    district = _district.trim();
+    district = newDistrict.trim();
   }
 
   @action
-  void updatePostalCode(String _postalCode) {
+  void updatePostalCode(String newPostalCode) {
     _logger.log(notifier, 'updatePostalCode');
 
-    postalCode = _postalCode.trim();
+    postalCode = newPostalCode.trim();
   }
 
   @action

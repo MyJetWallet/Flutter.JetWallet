@@ -94,12 +94,7 @@ bool isInputValid(String input) {
   if (input.isNotEmpty) {
     final value = double.parse(input);
 
-    // ignore: prefer-conditional-expressions
-    if (value == 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return value != 0;
   }
 
   return false;

@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ProgressBar extends StatefulObserverWidget {
   const ProgressBar({
-    Key? key,
+    super.key,
     required this.time,
     required this.colors,
-  }) : super(key: key);
+  });
 
   final int time;
   final SimpleColors colors;

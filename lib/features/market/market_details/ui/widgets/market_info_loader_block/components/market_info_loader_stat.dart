@@ -3,17 +3,17 @@ import 'package:simple_kit/simple_kit.dart';
 
 class MarketInfoLoaderStat extends StatelessWidget {
   const MarketInfoLoaderStat({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             SSkeletonTextLoader(
               height: 10,
               width: 61,
@@ -25,9 +25,9 @@ class MarketInfoLoaderStat extends StatelessWidget {
             ),
           ],
         ),
-        const SpaceH14(),
-        const SDivider(),
-        const SpaceH23(),
+        SpaceH14(),
+        SDivider(),
+        SpaceH23(),
       ],
     );
   }

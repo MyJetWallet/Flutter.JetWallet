@@ -94,8 +94,9 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       onTap: widget.onTap,
       labelText: widget.labelText,
       onChanged: (str) {
-        widget.onChanged!(str);
-        setState(() {});
+        setState(() {
+          widget.onChanged!(str);
+        });
       },
       controller: controller2,
       focusNode: widget.focusNode,
@@ -128,10 +129,11 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
             defaultIcon: const SEraseIcon(),
             pressedIcon: const SErasePressedIcon(),
             onTap: () {
-              controller2.clear();
-              widget.onChanged?.call('');
-              widget.onErase?.call();
-              setState(() {});
+              setState(() {
+                controller2.clear();
+                widget.onChanged?.call('');
+                widget.onErase?.call();
+              });
             },
           ),
         ],

@@ -4,11 +4,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -187,10 +185,10 @@ abstract class IbanStoreBase with Store {
   }
 
   @action
-  void updateCountryNameSearch(String _countryNameSearch) {
+  void updateCountryNameSearch(String newCountryNameSearch) {
     _logger.log(notifier, 'updateCountryNameSearch');
 
-    countryNameSearch = _countryNameSearch;
+    countryNameSearch = newCountryNameSearch;
 
     _filterByCountryNameSearch();
 
@@ -407,40 +405,40 @@ abstract class IbanStoreBase with Store {
   }
 
   @action
-  void updateCity(String _city) {
+  void updateCity(String newCity) {
     _logger.log(notifier, 'updateCity');
 
-    city = _city.trim();
+    city = newCity.trim();
     cityError = checkOnBadSymbol(city);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updateAddress1(String _address) {
+  void updateAddress1(String newAddress) {
     _logger.log(notifier, 'updateAddress1');
 
-    streetAddress1 = _address.trim();
+    streetAddress1 = newAddress.trim();
     streetAddress1Error = checkOnBadSymbol(streetAddress1);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updateAddress2(String _address) {
+  void updateAddress2(String newAddress) {
     _logger.log(notifier, 'updateAddress2');
 
-    streetAddress2 = _address.trim();
+    streetAddress2 = newAddress.trim();
     streetAddress2Error = checkOnBadSymbol(streetAddress2);
 
     billingAddressEnableButton = true;
   }
 
   @action
-  void updatePostalCode(String _postalCode) {
+  void updatePostalCode(String newPostalCode) {
     _logger.log(notifier, 'updatePostalCode');
 
-    postalCode = _postalCode.trim();
+    postalCode = newPostalCode.trim();
 
     billingAddressEnableButton = true;
   }
@@ -458,8 +456,8 @@ abstract class IbanStoreBase with Store {
   bool checkOnBadSymbol(String txt) {
     if (txt.isEmpty) return false;
 
-    var re = RegExp(
-      r"^[a-zA-Z\p{N},.:/\s/-]*$",
+    final re = RegExp(
+      r'^[a-zA-Z\p{N},.:/\s/-]*$',
       unicode: true,
       multiLine: true,
     );

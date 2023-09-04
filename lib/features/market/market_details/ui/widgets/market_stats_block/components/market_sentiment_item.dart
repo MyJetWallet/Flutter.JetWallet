@@ -3,14 +3,14 @@ import 'package:simple_kit/simple_kit.dart';
 
 // TODO: Add santiment when backend will be ready
 class MarketSentimentItem extends StatelessWidget {
-  const MarketSentimentItem({Key? key}) : super(key: key);
+  const MarketSentimentItem({super.key});
 
   @override
   Widget build(BuildContext context) {
     // final colors = useProvider(sColorPod);
 
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         SizedBox(
           height: 60,
         ),

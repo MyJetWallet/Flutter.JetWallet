@@ -3,12 +3,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class BottomTab extends StatelessWidget {
   const BottomTab({
-    Key? key,
+    super.key,
     this.text,
     this.icon,
     //this.isActive = false,
     this.isTextBlue = false,
-  }) : super(key: key);
+  });
 
   final String? text;
   final Widget? icon;

@@ -5,17 +5,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
@@ -30,32 +27,21 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
 
     final store = WithdrawalStore.of(context);
 
-    final baseCurrency = sSignalRModules.baseCurrency;
-
     final matic = currencyFrom(
       sSignalRModules.currenciesList,
       store.nftInfo?.feeAssetSymbol ?? 'MATIC',
     );
 
-    final descr = store.withdrawalType == WithdrawalType.Asset
-        ? store.withdrawalInputModel!.currency!.description
-        : store.withdrawalInputModel!.nft!.name;
     final verb = intl.withdrawal_send_verb;
 
-    final title = store.withdrawalType == WithdrawalType.Asset
-        ? '${intl.withdrawalPreview_confirm} $verb'
-            ' $descr'
-        : 'å';
-
     final isUserEnoughMaticForWithdraw =
-        store.withdrawalType == WithdrawalType.NFT
-            ? matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero)
-            : true;
+        store.withdrawalType != WithdrawalType.nft ||
+            matic.assetBalance > (store.nftInfo?.feeAmount ?? Decimal.zero);
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
       loading: store.previewLoader,
-      customLoader: store.withdrawalType == WithdrawalType.NFT
+      customLoader: store.withdrawalType == WithdrawalType.nft
           ? store.previewIsProcessing
               ? WaitingScreen(
                   onSkip: () {},
@@ -113,7 +99,7 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                 name: intl.withdrawalPreview_total,
                 baseline: 36.0,
                 value:
-                    '${store.withAmount} ${store.withdrawalType == WithdrawalType.Asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}',
+                    '''${store.withAmount} ${store.withdrawalType == WithdrawalType.asset ? store.withdrawalInputModel!.currency!.symbol : store.withdrawalInputModel!.nft!.name}''',
               ),
               SActionConfirmText(
                 name: intl.fee,

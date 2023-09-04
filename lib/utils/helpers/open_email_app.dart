@@ -48,10 +48,11 @@ Future<void> openEmailApp(BuildContext context) async {
       return;
     }
   }
-
-  showMailAppsOptions(
-    context,
-    result,
-    defaultFunction,
-  );
+  if (context.mounted) {
+    showMailAppsOptions(
+      context,
+      result,
+      defaultFunction,
+    );
+  }
 }

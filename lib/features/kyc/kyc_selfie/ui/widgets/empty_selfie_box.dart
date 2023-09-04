@@ -3,9 +3,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class EmptySelfieBox extends StatelessWidget {
   const EmptySelfieBox({
-    Key? key,
+    super.key,
     required this.colors,
-  }) : super(key: key);
+  });
 
   final SimpleColors colors;
 

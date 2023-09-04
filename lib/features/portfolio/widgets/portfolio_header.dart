@@ -1,32 +1,23 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/chart/model/chart_union.dart';
-import 'package:jetwallet/features/chart/store/chart_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
-import 'package:jetwallet/features/referral_program_gift/service/referral_gift_service.dart';
-import 'package:jetwallet/features/rewards/model/campaign_or_referral_model.dart';
 import 'package:jetwallet/features/rewards/store/reward_store.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../utils/formatting/base/base_currencies_format.dart';
-import '../../../utils/models/base_currency_model/base_currency_model.dart';
-
 class PortfolioHeader extends StatelessObserverWidget {
   const PortfolioHeader({
-    Key? key,
+    super.key,
     this.emptyBalance = false,
     this.price = '',
     this.showPrice = false,
-  }) : super(key: key);
+  });
 
   final bool emptyBalance;
   final bool showPrice;
@@ -35,12 +26,9 @@ class PortfolioHeader extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final gift = referralGift();
-    final state = RewardStore();
-    final baseCurrency = sSignalRModules.baseCurrency;
-    //final chart = ChartStore(balanceChartInput());
-    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value
-        ?? <String>[];
+
+    final viewedRewards =
+        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     var counterOfRewards = 0;
     final rewStore = RewardStore();
     for (final campaign in rewStore.sortedCampaigns) {
@@ -54,19 +42,6 @@ class PortfolioHeader extends StatelessObserverWidget {
     }
 
     final kycState = getIt.get<KycService>();
-
-    ChartStore? chart;
-
-    if (!emptyBalance) {
-      chart = ChartStore.of(context) as ChartStore;
-    }
-
-    Color getContainerColor() {
-      return (chart != null && chart.union != const ChartUnion.loading()) ||
-              emptyBalance
-          ? Colors.transparent
-          : colors.grey5;
-    }
 
     return Column(
       children: [
@@ -93,7 +68,6 @@ class PortfolioHeader extends StatelessObserverWidget {
                       color: colors.black.withOpacity(0.7),
                     ),
                     onTap: () {
-
                       sRouter.push(RewardsRouter(actualRewards: viewedRewards));
                     },
                   ),

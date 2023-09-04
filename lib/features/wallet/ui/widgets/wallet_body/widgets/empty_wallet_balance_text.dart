@@ -6,11 +6,11 @@ import '../../../../../../utils/formatting/base/base_currencies_format.dart';
 
 class EmptyWalletBalanceText extends StatelessWidget {
   const EmptyWalletBalanceText({
-    Key? key,
+    super.key,
     required this.height,
     required this.baseline,
     required this.color,
-  }) : super(key: key);
+  });
 
   final Color color;
   final double height;
