@@ -7,7 +7,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SimplexWebViewRouter')
@@ -30,7 +29,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
 
   @override
   Widget build(BuildContext context) {
-    void _showSuccess() {
+    void showSuccess() {
       sRouter
           .push(
             SuccessScreenRouter(
@@ -45,7 +44,7 @@ class _SimplexWebViewState extends State<SimplexWebView> {
           );
     }
 
-    void _showFailure() {
+    void showFailure() {
       sRouter.push(
         FailureScreenRouter(
           primaryText: intl.simplexWebView_failure,
@@ -91,11 +90,11 @@ class _SimplexWebViewState extends State<SimplexWebView> {
 
                   if (uri.origin == simplexOrigin) {
                     if (success == '1') {
-                      _showSuccess();
+                      showSuccess();
 
                       return NavigationDecision.prevent;
                     } else if (success == '2') {
-                      _showFailure();
+                      showFailure();
 
                       return NavigationDecision.prevent;
                     } else {

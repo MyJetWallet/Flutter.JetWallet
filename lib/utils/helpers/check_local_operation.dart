@@ -29,8 +29,6 @@ String getLocalMethodName(
   final index =
       paymentCurrency.buyMethods.indexWhere((element) => element.id == type);
 
-  print(paymentCurrency.buyMethods);
-
   return index != -1
       ? paymentCurrency.buyMethods[index].name ?? getLocalOperationName(type)
       : getLocalOperationName(type);

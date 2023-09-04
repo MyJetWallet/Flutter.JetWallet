@@ -32,7 +32,7 @@ class SimpleAccountCategoryButton extends StatelessWidget {
       highlightColor: showEditIcon ? Colors.transparent : SColorsLight().grey5,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
-      onTap: showEditIcon ? () {} : onTap,
+      onTap: showEditIcon ? null : onTap,
       child: SPaddingH24(
         child: Column(
           children: <Widget>[

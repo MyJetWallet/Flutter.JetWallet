@@ -11,7 +11,7 @@ class InstrumentsModel with _$InstrumentsModel {
   const factory InstrumentsModel({
     required double now,
     @JsonKey(name: 'spotInstruments')
-        required List<InstrumentModel> instruments,
+    required List<InstrumentModel> instruments,
   }) = _InstrumentsModel;
 
   factory InstrumentsModel.fromJson(Map<String, dynamic> json) =>

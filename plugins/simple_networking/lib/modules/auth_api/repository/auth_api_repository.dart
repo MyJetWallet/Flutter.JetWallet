@@ -181,7 +181,8 @@ class AuthApiRepository {
   }
 
   Future<DC<ServerRejectException, void>> postInstall(
-      InstallModel model) async {
+    InstallModel model,
+  ) async {
     return _authApiDataSource.postInstallRequest(model);
   }
 }

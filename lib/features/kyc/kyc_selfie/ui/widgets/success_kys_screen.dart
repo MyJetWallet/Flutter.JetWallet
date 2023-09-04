@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
@@ -9,17 +8,16 @@ import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SuccessKycScreenRoute')
 class SuccessKycScreen extends StatelessWidget {
   const SuccessKycScreen({
-    Key? key,
+    super.key,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
-  }) : super(key: key);
+  });
 
   final String? primaryText;
   final String? secondaryText;
@@ -41,11 +39,10 @@ class SuccessKycScreen extends StatelessWidget {
 
 class _SuccessKycScreenBody extends StatefulWidget {
   const _SuccessKycScreenBody({
-    Key? key,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
-  }) : super(key: key);
+  });
 
   final String? primaryText;
   final String? secondaryText;

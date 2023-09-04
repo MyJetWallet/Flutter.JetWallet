@@ -60,6 +60,7 @@ class ApplePayDataModelTokenPaymentData
   }) = _ApplePayDataModelTokenPaymentData;
 
   factory ApplePayDataModelTokenPaymentData.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$ApplePayDataModelTokenPaymentDataFromJson(json);
 }

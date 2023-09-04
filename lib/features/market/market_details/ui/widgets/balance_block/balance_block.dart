@@ -29,15 +29,13 @@ class BalanceBlock extends StatelessWidget {
 
 class _BalanceBlockBody extends StatelessObserverWidget {
   const _BalanceBlockBody({
-    Key? key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: 127,
       child: Column(

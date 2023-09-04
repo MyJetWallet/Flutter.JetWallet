@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+
 import '../../../../../../../utils/constants.dart';
 import '../../../../../helper/format_date.dart';
 import '../../../../../helper/nft_types.dart';
@@ -26,20 +26,20 @@ class TransactionsMainList extends StatelessWidget {
     this.zeroPadding = false,
     this.symbol,
     this.filter = TransactionType.none,
-    this.jw_operation_id,
+    this.jwOperationId,
   });
 
   final String? symbol;
   final TransactionType filter;
   final bool isRecurring;
   final bool zeroPadding;
-  final String? jw_operation_id;
+  final String? jwOperationId;
 
   @override
   Widget build(BuildContext context) {
     return Provider<OperationHistory>(
       create: (context) =>
-          OperationHistory(symbol, filter, isRecurring, jw_operation_id)
+          OperationHistory(symbol, filter, isRecurring, jwOperationId)
             ..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
@@ -54,12 +54,11 @@ class TransactionsMainList extends StatelessWidget {
 
 class _TransactionsListBody extends StatefulObserverWidget {
   const _TransactionsListBody({
-    Key? key,
     this.isRecurring = false,
     this.zeroPadding = false,
     this.filter = TransactionType.none,
     this.symbol,
-  }) : super(key: key);
+  });
 
   final String? symbol;
   final bool isRecurring;
@@ -74,7 +73,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     OperationHistory.of(context).scrollController.addListener(() {
-      var nextPageTrigger = 0.8 *
+      final nextPageTrigger = 0.8 *
           OperationHistory.of(context)
               .scrollController
               .position
@@ -519,8 +518,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   Widget transactionSkeleton() {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         TransactionListLoadingItem(
           opacity: 1,
         ),

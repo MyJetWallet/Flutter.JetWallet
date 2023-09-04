@@ -46,9 +46,7 @@ class CircleActionButtons extends StatelessObserverWidget {
 
     return SPaddingH24(
       child: SizedBox(
-        width: countOfActive > 2
-            ? MediaQuery.of(context).size.width - 48
-            : 216,
+        width: countOfActive > 2 ? MediaQuery.of(context).size.width - 48 : 216,
         child: Row(
           mainAxisAlignment: countOfActive > 2
               ? MainAxisAlignment.spaceBetween

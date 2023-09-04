@@ -17,8 +17,8 @@ import '../../../../core/services/sumsub_service/sumsub_service.dart';
 @RoutePage(name: 'KycVerificationSumsubRouter')
 class KycVerificationSumsub extends StatelessObserverWidget {
   const KycVerificationSumsub({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

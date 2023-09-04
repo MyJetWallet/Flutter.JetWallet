@@ -9,10 +9,10 @@ import 'package:simple_kit/core/simple_kit.dart';
 
 class RewardsDescriptionItem extends StatelessObserverWidget {
   const RewardsDescriptionItem({
-    Key? key,
+    super.key,
     required this.condition,
     required this.conditions,
-  }) : super(key: key);
+  });
 
   final CampaignConditionModel condition;
   final List<CampaignConditionModel> conditions;

@@ -5,10 +5,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ResendRichText extends StatelessObserverWidget {
   const ResendRichText({
-    Key? key,
+    super.key,
     required this.onTap,
     this.isPhone = false,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final bool isPhone;

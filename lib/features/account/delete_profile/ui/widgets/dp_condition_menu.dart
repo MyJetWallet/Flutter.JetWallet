@@ -4,12 +4,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DPConditionMenu extends StatelessObserverWidget {
   const DPConditionMenu({
-    Key? key,
+    super.key,
     required this.title,
     required this.subTitle,
     required this.onTap,
     this.isLinkActie = false,
-  }) : super(key: key);
+  });
 
   final String title;
   final String subTitle;

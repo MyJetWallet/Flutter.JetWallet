@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:jetwallet/features/currency_buy/models/apple_pay_config.dart';
-import 'package:jetwallet/features/currency_buy/models/google_pay_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -15,7 +11,6 @@ import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card
 import 'package:jetwallet/features/currency_buy/ui/widgets/transaction_fee_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -29,9 +24,9 @@ import '../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithBankCardRouter')
 class PreviewBuyWithBankCard extends StatelessWidget {
   const PreviewBuyWithBankCard({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithBankCardInput input;
 
@@ -48,9 +43,8 @@ class PreviewBuyWithBankCard extends StatelessWidget {
 
 class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
   const _PreviewBuyWithBankCardBody({
-    Key? key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithBankCardInput input;
 
@@ -162,10 +156,8 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                         ? 'Apple Pay'
                         : input.isGooglePay
                             ? 'Google Pay'
-                            : '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
-                                ' •••• ${input.cardNumber != null ? input.cardNumber?.substring(
-                                    (input.cardNumber?.length ?? 4) - 4,
-                                  ) : ''}',
+                            : '''${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'''
+                                ''' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}''',
                     maxValueWidth: 200,
                     baseline: 24,
                   ),
@@ -319,7 +311,7 @@ class _PreviewBuyWithBankCardBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
                               privacyPolicyText:
                                   intl.previewBuyWithUmlimint_disclaimerPolicy,

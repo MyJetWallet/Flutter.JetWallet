@@ -19,7 +19,7 @@ const _retryTime = 5; // in seconds
 
 class CryptoDepositStore extends _CryptoDepositStoreBase
     with _$CryptoDepositStore {
-  CryptoDepositStore(CurrencyModel currency) : super(currency);
+  CryptoDepositStore(super.currency);
 
   static _CryptoDepositStoreBase of(BuildContext context) =>
       Provider.of<CryptoDepositStore>(context, listen: false);
@@ -64,10 +64,10 @@ abstract class _CryptoDepositStoreBase with Store {
   }
 
   @action
-  void setNetwork(BlockchainModel _network) {
+  void setNetwork(BlockchainModel newNetwork) {
     _logger.log(notifier, 'setNetwork');
 
-    network = _network;
+    network = newNetwork;
 
     _requestDepositAddress();
   }

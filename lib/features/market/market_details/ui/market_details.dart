@@ -31,7 +31,6 @@ import 'package:simple_networking/modules/wallet_api/models/market_info/market_i
 import '../../../../utils/formatting/base/volume_format.dart';
 import '../../../../utils/models/currency_model.dart';
 import '../../../wallet/helper/navigate_to_wallet.dart';
-import '../helper/swap_words.dart';
 
 @RoutePage(name: 'MarketDetailsRouter')
 class MarketDetails extends StatelessWidget {
@@ -70,7 +69,6 @@ class MarketDetails extends StatelessWidget {
 
 class _MarketDetailsBody extends StatefulObserverWidget {
   const _MarketDetailsBody({
-    super.key,
     required this.marketItem,
   });
 
@@ -101,8 +99,6 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     final news = MarketNewsStore.of(context);
 
     final currency = currencyFrom(currencies, widget.marketItem.symbol);
-
-    final languageCode = Localizations.localeOf(context).languageCode;
 
     var isInWatchlist =
         watchlistIdsN.state.contains(widget.marketItem.associateAsset);
@@ -171,8 +167,8 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                             height: 104,
                             width: double.infinity,
                             color: colors.grey5,
-                            child: Column(
-                              children: const [
+                            child: const Column(
+                              children: [
                                 SpaceH17(),
                                 SSkeletonTextLoader(
                                   height: 24,
@@ -253,10 +249,10 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
                               assetId: widget.marketItem.associateAsset,
                             ),
                           ] else ...[
-                            SPaddingH24(
+                            const SPaddingH24(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   SpaceH40(),
                                   SSkeletonTextLoader(
                                     height: 16,

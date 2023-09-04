@@ -3,10 +3,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ReturnRateItem extends StatelessWidget {
   const ReturnRateItem({
-    Key? key,
+    super.key,
     required this.header,
     required this.value,
-  }) : super(key: key);
+  });
 
   final String header;
   final String value;
@@ -44,14 +44,14 @@ class ReturnRateItem extends StatelessWidget {
 
 class ReturnRateItemSketelon extends StatelessWidget {
   const ReturnRateItemSketelon({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
+      children: [
         SSkeletonTextLoader(
           height: 10,
           width: 26,

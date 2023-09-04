@@ -90,7 +90,7 @@ class PushNotificationService {
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
           place: _loggerService,
-          message: 'onMessageOpenedApp: notification: ${message}',
+          message: 'onMessageOpenedApp: notification: $message',
         );
 
     if (_nullChecked(message)) {
@@ -156,17 +156,17 @@ class PushNotificationService {
 
 /// background message handler must be a top-level function
 /// (e.g. not a class method which requires initialization)
-Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
+Future<void> messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }
 
 @pragma('vm:entry-point')
@@ -178,9 +178,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }

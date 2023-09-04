@@ -14,9 +14,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'CrispRouter')
 class Crisp extends StatefulObserverWidget {
   const Crisp({
-    Key? key,
+    super.key,
     required this.welcomeText,
-  }) : super(key: key);
+  });
 
   final String welcomeText;
 

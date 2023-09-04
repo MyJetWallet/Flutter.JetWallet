@@ -12,8 +12,8 @@ import '../../kyc/models/kyc_verified_model.dart';
 
 class CardHeader extends StatelessObserverWidget {
   const CardHeader({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

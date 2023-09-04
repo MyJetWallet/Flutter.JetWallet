@@ -6,8 +6,8 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -16,7 +16,6 @@ import 'package:jetwallet/features/auth/verification_reg/store/verification_stor
 import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/auth_api/models/logout/logout_request_moder.dart';
-import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 part 'logout_service.g.dart';
 
@@ -44,7 +43,7 @@ abstract class _LogoutServiceBase with Store {
         message: 'User start logout from $from',
       );
 
-      getIt<AppStore>().setAppStatus(AppStatus.End);
+      getIt<AppStore>().setAppStatus(AppStatus.end);
 
       final authStore = getIt.get<AppStore>().authState;
       if (getIt.get<AppStore>().authStatus is Unauthorized) {

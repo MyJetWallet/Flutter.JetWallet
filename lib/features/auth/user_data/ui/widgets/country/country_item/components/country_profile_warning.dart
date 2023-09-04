@@ -3,8 +3,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class CountryProfileWarning extends StatelessWidget {
   const CountryProfileWarning({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

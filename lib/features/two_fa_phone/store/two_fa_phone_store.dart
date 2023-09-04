@@ -5,7 +5,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
-import 'package:jetwallet/core/services/user_info/models/user_info.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
@@ -29,7 +28,7 @@ import 'package:simple_networking/modules/validation_api/models/two_fa_verify/tw
 part 'two_fa_phone_store.g.dart';
 
 class TwoFaPhoneStore extends _TwoFaPhoneStoreBase with _$TwoFaPhoneStore {
-  TwoFaPhoneStore(TwoFaPhoneTriggerUnion trigger) : super(trigger);
+  TwoFaPhoneStore(super.trigger);
 
   static _TwoFaPhoneStoreBase of(BuildContext context) =>
       Provider.of<TwoFaPhoneStore>(context, listen: false);
@@ -384,11 +383,11 @@ abstract class _TwoFaPhoneStoreBase with Store {
       startup: () {},
       security: (fromDialog) {
         if (fromDialog) {
-          final _context = sRouter.navigatorKey.currentContext!;
+          final context = sRouter.navigatorKey.currentContext!;
 
-          Navigator.of(_context, rootNavigator: true).pop(_context);
+          Navigator.of(context, rootNavigator: true).pop(context);
         } else {
-          sRouter.navigateBack();
+          sRouter.back();
         }
       },
     );

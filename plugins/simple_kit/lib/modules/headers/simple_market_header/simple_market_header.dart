@@ -60,9 +60,8 @@ class SMarketHeader extends StatelessWidget {
                 Text(
                   ' ${isPositive ? '+' : ''} $percent%',
                   style: sSubtitle2Style.copyWith(
-                    color: isPositive
-                        ? SColorsLight().green
-                        : SColorsLight().red,
+                    color:
+                        isPositive ? SColorsLight().green : SColorsLight().red,
                   ),
                 ),
                 Baseline(

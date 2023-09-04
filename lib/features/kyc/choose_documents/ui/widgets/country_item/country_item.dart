@@ -7,11 +7,11 @@ import 'country_name.dart';
 
 class CountryItem extends StatelessObserverWidget {
   const CountryItem({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.countryCode,
     required this.countryName,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final String countryCode;

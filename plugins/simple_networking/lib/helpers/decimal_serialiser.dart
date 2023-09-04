@@ -11,16 +11,16 @@ class DecimalSerialiser implements JsonConverter<Decimal, dynamic> {
   dynamic toJson(Decimal decimal) => decimal.toDouble();
 }
 
-class DecimalNullSerialiser implements JsonConverter<Decimal?, dynamic?> {
+class DecimalNullSerialiser implements JsonConverter<Decimal?, dynamic> {
   const DecimalNullSerialiser();
 
   @override
-  Decimal? fromJson(dynamic? json) {
+  Decimal? fromJson(dynamic json) {
     return json != null ? Decimal.parse(json.toString()) : null;
   }
 
   @override
-  dynamic? toJson(Decimal? decimal) {
+  dynamic toJson(Decimal? decimal) {
     return decimal?.toDouble();
   }
 }
