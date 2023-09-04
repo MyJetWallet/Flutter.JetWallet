@@ -193,8 +193,8 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                   symbol: widget.asset.symbol,
                 )} = ${volumeFormat(
                   prefix: widget.paymentCurrency.prefixSymbol,
-                  accuracy: store.price.scale,
-                  decimal: store.price ?? Decimal.zero,
+                  accuracy: store.rate?.scale ?? 0,
+                  decimal: store.rate ?? Decimal.zero,
                   symbol: widget.paymentCurrency.symbol,
                 )}',
                 style: sSubtitle3Style,
