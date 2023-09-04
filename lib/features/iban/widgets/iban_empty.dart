@@ -6,20 +6,17 @@ import 'package:simple_kit/modules/shared/simple_paddings.dart';
 import 'package:simple_kit/modules/shared/simple_spacers.dart';
 import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 
-import '../../../core/di/di.dart';
 import '../../../core/l10n/i10n.dart';
 import '../../../utils/constants.dart';
-import '../../kyc/kyc_service.dart';
 
 class IBanEmpty extends StatelessObserverWidget {
   const IBanEmpty({
-    Key? key,
+    super.key,
     required this.isLoading,
     required this.isAddress,
     required this.isKyc,
     this.onButtonTap,
-
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final bool isAddress;
@@ -29,18 +26,17 @@ class IBanEmpty extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final kycState = getIt.get<KycService>();
 
     final mainText = isKyc
         ? intl.iban_not_verified
         : isLoading
-        ? intl.iban_not_waiting
-        : intl.iban_not_address;
+            ? intl.iban_not_waiting
+            : intl.iban_not_address;
     final secondaryText = isKyc
         ? intl.iban_not_verified_desc
         : isLoading
-        ? intl.iban_not_waiting_desc
-        : intl.iban_not_address_desc;
+            ? intl.iban_not_waiting_desc
+            : intl.iban_not_address_desc;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,5 +91,4 @@ class IBanEmpty extends StatelessObserverWidget {
       ],
     );
   }
-
 }

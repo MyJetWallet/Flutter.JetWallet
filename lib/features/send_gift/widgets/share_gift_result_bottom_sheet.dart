@@ -1,5 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
@@ -80,183 +83,285 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
     final cardMessage =
         '''${intl.send_gift_message_1_part} ${volumeFormat(prefix: currency.prefixSymbol, decimal: amount, accuracy: currency.accuracy, symbol: currency.symbol)} ${intl.send_gift_message_2_part}''';
 
+    final widgetForImageKey = GlobalKey();
+
     return SPaddingH24(
-      child: Column(
+      child: Stack(
+        alignment: AlignmentDirectional.topCenter,
         children: [
-          Container(
-            width: 327,
-            height: 496,
-            decoration: BoxDecoration(
-              color: sKit.colors.grey5,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: Stack(
-                children: [
-                  Image.asset(
-                    shareGiftBackgroundAsset,
-                    fit: BoxFit.contain,
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Row(
-                        children: [
-                          SNetworkSvg24(
-                            url: currency.iconUrl,
-                          ),
-                          const SpaceW4(),
-                          Text(
-                            volumeFormat(
-                              prefix: currency.prefixSymbol,
-                              decimal: amount,
-                              accuracy: currency.accuracy,
-                              symbol: currency.symbol,
-                            ),
-                            style: sTextH4Style.copyWith(
-                              color: sColors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
+          // this widget is hidden from the user,
+          // but it is needed to make a share with a picture
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: RepaintBoundary(
+              key: widgetForImageKey,
+              child: Container(
+                width: 327,
+                height: 240,
+                decoration: BoxDecoration(
+                  color: sKit.colors.white,
+                ),
+                child: Stack(
+                  children: [
+                    Container(
                       width: 327,
-                      height: 248,
+                      height: 240,
                       decoration: BoxDecoration(
                         color: sKit.colors.grey5,
-                        borderRadius: BorderRadius.circular(24),
                       ),
+                      child: Image.asset(
+                        shareGiftBackgroundAsset,
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
+                            SNetworkSvg24(
+                              url: currency.iconUrl,
+                            ),
+                            const SpaceW4(),
                             Text(
-                              intl.send_gift_hey,
+                              volumeFormat(
+                                prefix: currency.prefixSymbol,
+                                decimal: amount,
+                                accuracy: currency.accuracy,
+                                symbol: currency.symbol,
+                              ),
                               style: sTextH4Style.copyWith(
-                                color: sColors.black,
-                              ),
-                            ),
-                            const SpaceH8(),
-                            Text(
-                              cardMessage,
-                              style: sBodyText1Style.copyWith(
-                                color: sColors.black,
-                              ),
-                              maxLines: 3,
-                            ),
-                            const SpaceH16(),
-                            Container(
-                              width: 279,
-                              height: 72,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
-                              ),
-                              decoration: ShapeDecoration(
                                 color: sColors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Image.asset(
-                                    simpleLogoAsset,
-                                    width: 48,
-                                    height: 48,
-                                  ),
-                                  const SpaceW14(),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        intl.send_gift_simple,
-                                        style: sSubtitle3Style.copyWith(
-                                          color: sColors.black,
-                                        ),
-                                      ),
-                                      Text(
-                                        intl.send_gift_get_app,
-                                        style: sHelperTextStyle.copyWith(
-                                          color: sColors.grey2,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
+                        child: Image.asset(
+                          logoWithTitle,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.topCenter,
+                          width: 104,
+                          height: 32,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          const SpaceH24(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 327,
+                height: 496,
                 decoration: BoxDecoration(
                   color: sKit.colors.grey5,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                padding: const EdgeInsets.all(10),
-                child: SIconButton(
-                  onTap: () {
-                    sAnalytics.tapOnTheButtonCopyOnShareSheet();
-                    sNotification.showError(
-                      intl.copy_message,
-                      id: 1,
-                      isError: false,
-                    );
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: shareText,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        shareGiftBackgroundAsset,
+                        fit: BoxFit.contain,
                       ),
-                    );
-                  },
-                  defaultIcon: SCopyIcon(
-                    color: sKit.colors.black,
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Row(
+                            children: [
+                              SNetworkSvg24(
+                                url: currency.iconUrl,
+                              ),
+                              const SpaceW4(),
+                              Text(
+                                volumeFormat(
+                                  prefix: currency.prefixSymbol,
+                                  decimal: amount,
+                                  accuracy: currency.accuracy,
+                                  symbol: currency.symbol,
+                                ),
+                                style: sTextH4Style.copyWith(
+                                  color: sColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: 327,
+                          height: 248,
+                          decoration: BoxDecoration(
+                            color: sKit.colors.grey5,
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  intl.send_gift_hey,
+                                  style: sTextH4Style.copyWith(
+                                    color: sColors.black,
+                                  ),
+                                ),
+                                const SpaceH8(),
+                                Text(
+                                  cardMessage,
+                                  style: sBodyText1Style.copyWith(
+                                    color: sColors.black,
+                                  ),
+                                  maxLines: 3,
+                                ),
+                                const SpaceH16(),
+                                Container(
+                                  width: 279,
+                                  height: 72,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: sColors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        simpleLogoAsset,
+                                        width: 48,
+                                        height: 48,
+                                      ),
+                                      const SpaceW14(),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            intl.send_gift_simple,
+                                            style: sSubtitle3Style.copyWith(
+                                              color: sColors.black,
+                                            ),
+                                          ),
+                                          Text(
+                                            intl.send_gift_get_app,
+                                            style: sHelperTextStyle.copyWith(
+                                              color: sColors.grey2,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  pressedIcon: const SCopyPressedIcon(),
                 ),
               ),
-              const SpaceW24(),
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: sKit.colors.grey5,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: SIconButton(
-                  onTap: () {
-                    sAnalytics.tapOnTheButtonShareOnShareSheet();
-                    Share.share(shareText);
-                  },
-                  defaultIcon: const SShareIcon(),
-                ),
+              const SpaceH24(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: sKit.colors.grey5,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: SIconButton(
+                      onTap: () {
+                        sAnalytics.tapOnTheButtonCopyOnShareSheet();
+                        sNotification.showError(
+                          intl.copy_message,
+                          id: 1,
+                          isError: false,
+                        );
+                        Clipboard.setData(
+                          ClipboardData(
+                            text: shareText,
+                          ),
+                        );
+                      },
+                      defaultIcon: SCopyIcon(
+                        color: sKit.colors.black,
+                      ),
+                      pressedIcon: const SCopyPressedIcon(),
+                    ),
+                  ),
+                  const SpaceW24(),
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: sKit.colors.grey5,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: SIconButton(
+                      onTap: () async {
+                        sAnalytics.tapOnTheButtonShareOnShareSheet();
+
+                        final boundary = widgetForImageKey.currentContext!
+                            .findRenderObject()! as RenderRepaintBoundary;
+
+                        final image = await boundary.toImage(pixelRatio: 3.0);
+
+                        final byteData = await image.toByteData(
+                          format: ui.ImageByteFormat.png,
+                        );
+                        final buffer = byteData!.buffer;
+
+                        await Share.shareXFiles(
+                          [
+                            XFile.fromData(
+                              buffer.asUint8List(
+                                byteData.offsetInBytes,
+                                byteData.lengthInBytes,
+                              ),
+                              name: 'share_gift.png',
+                              mimeType: 'image/png',
+                            ),
+                          ],
+                          text: shareText,
+                        );
+                      },
+                      defaultIcon: const SShareIcon(),
+                    ),
+                  ),
+                ],
               ),
+              const SpaceH37(),
             ],
           ),
-          const SpaceH37(),
         ],
       ),
     );

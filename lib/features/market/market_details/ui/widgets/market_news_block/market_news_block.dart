@@ -11,10 +11,10 @@ import '../about_block/components/clickable_underlined_text.dart';
 
 class MarketNewsBlock extends StatelessObserverWidget {
   const MarketNewsBlock({
-    Key? key,
+    super.key,
     required this.news,
     required this.assetId,
-  }) : super(key: key);
+  });
 
   final List<MarketNewsModel> news;
   final String assetId;
@@ -24,7 +24,7 @@ class MarketNewsBlock extends StatelessObserverWidget {
     final colors = sKit.colors;
     final newsN = MarketNewsStore.of(context);
 
-    Color _newsColor(Sentiment sentiment) {
+    Color newsColor(Sentiment sentiment) {
       switch (sentiment) {
         case Sentiment.neutral:
           return colors.yellowLight;
@@ -50,7 +50,7 @@ class MarketNewsBlock extends StatelessObserverWidget {
                 itemBuilder: (BuildContext context, int index) => SNewsCategory(
                   newsLabel: news[index].source,
                   newsText: news[index].topic,
-                  sentiment: _newsColor(news[index].sentiment),
+                  sentiment: newsColor(news[index].sentiment),
                   timestamp: formatNewsDate(news[index].timestamp),
                   onTap: () => launchURL(context, news[index].urlAddress),
                   text1: intl.marketNewsBlock_discussOn,

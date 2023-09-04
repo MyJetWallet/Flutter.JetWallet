@@ -5,8 +5,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ValidReferralCodeOutSide extends StatelessWidget {
   const ValidReferralCodeOutSide({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

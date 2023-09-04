@@ -6,7 +6,7 @@ import '../portfolio_header.dart';
 import 'components/empty_apy_portfolio_body/empty_apy_portfolio_body.dart';
 
 class EmptyApyPortfolio extends StatelessWidget {
-  const EmptyApyPortfolio({Key? key}) : super(key: key);
+  const EmptyApyPortfolio({super.key});
 
   @override
   Widget build(BuildContext context) {

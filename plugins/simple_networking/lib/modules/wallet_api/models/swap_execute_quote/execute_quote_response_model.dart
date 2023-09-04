@@ -16,10 +16,10 @@ class ExecuteQuoteResponseModel with _$ExecuteQuoteResponseModel {
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        required Decimal fromAssetAmount,
+    required Decimal fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
-        required Decimal toAssetAmount,
+    required Decimal toAssetAmount,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
   }) = _ExecuteQuoteResponseModel;
 

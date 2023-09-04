@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
@@ -40,7 +39,7 @@ class BuySellDetails extends StatelessObserverWidget {
       transactionListItem.swapInfo!.sellAssetId,
     );
 
-    String _rateFor(
+    String rateFor(
       CurrencyModel currency1,
       CurrencyModel currency2,
     ) {
@@ -118,7 +117,7 @@ class BuySellDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
-                text: _rateFor(buyCurrency, sellCurrency),
+                text: rateFor(buyCurrency, sellCurrency),
               ),
             ),
             const SpaceH18(),
@@ -145,7 +144,7 @@ class BuySellDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.buySellDetails_rate,
               value: TransactionDetailsValueText(
-                text: _rateFor(sellCurrency, buyCurrency),
+                text: rateFor(sellCurrency, buyCurrency),
               ),
             ),
             const SpaceH18(),

@@ -108,7 +108,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
     }
   }
 
-  Future<void> confirmSendGlobally({ required String newPin }) async {
+  Future<void> confirmSendGlobally({required String newPin}) async {
     loader.startLoadingImmediately();
 
     Future.delayed(

@@ -28,30 +28,30 @@ class ConvertInputStore extends _ConvertInputStoreBase
 
 abstract class _ConvertInputStoreBase with Store {
   _ConvertInputStoreBase(this.fromCurrency) {
-    final _currencies = sSignalRModules.currenciesList;
+    final tempCurrencies = sSignalRModules.currenciesList;
 
-    sortCurrencies(_currencies);
+    sortCurrencies(tempCurrencies);
 
-    final toList = _currencies;
-    final s1 = _currencies.toList();
+    final toList = tempCurrencies;
+    final s1 = tempCurrencies.toList();
     //s1.sort((a, b) => b.weight.compareTo(a.weight));
     sortByBalanceAndWeight(s1);
 
     final to = (fromCurrency?.symbol == toList[1].symbol ||
-            _currencies.first.symbol == toList[1].symbol)
+            tempCurrencies.first.symbol == toList[1].symbol)
         ? toList[0]
         : s1[1];
     //    _currencies.first.symbol == toList[1].symbol)
     //? toList[0]
     //: s1.last;
 
-    final fromList = _currencies;
+    final fromList = tempCurrencies;
 
-    fromAsset = fromCurrency ?? _currencies.first;
+    fromAsset = fromCurrency ?? tempCurrencies.first;
     fromAssetList = fromList;
     toAsset = to;
     toAssetList = toList;
-    currencies = ObservableList.of(_currencies);
+    currencies = ObservableList.of(tempCurrencies);
 
     setUpdateTargetConversionPrice(
       fromAsset!.symbol,
@@ -176,19 +176,19 @@ abstract class _ConvertInputStoreBase with Store {
 
     updateConversionPrice(null);
 
-    final _fromAsset = toAsset;
-    final _toAsset = fromAsset;
-    final _fromList = List<CurrencyModel>.from(toAssetList);
-    final _toList = List<CurrencyModel>.from(fromAssetList);
-    final _fromAmount = toAssetAmount;
-    final _toAmount = fromAssetAmount;
+    final tempFromAsset = toAsset;
+    final tempToAsset = fromAsset;
+    final tempFromList = List<CurrencyModel>.from(toAssetList);
+    final tempToList = List<CurrencyModel>.from(fromAssetList);
+    final tempFromAmount = toAssetAmount;
+    final tempToAmount = fromAssetAmount;
 
-    fromAsset = _fromAsset;
-    toAsset = _toAsset;
-    fromAssetList = _fromList;
-    toAssetList = _toList;
-    fromAssetAmount = _fromAmount;
-    toAssetAmount = _toAmount;
+    fromAsset = tempFromAsset;
+    toAsset = tempToAsset;
+    fromAssetList = tempFromList;
+    toAssetList = tempToList;
+    fromAssetAmount = tempFromAmount;
+    toAssetAmount = tempToAmount;
 
     _validateInput();
 

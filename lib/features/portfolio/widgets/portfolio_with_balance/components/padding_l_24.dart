@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class PaddingL24 extends StatelessWidget {
   const PaddingL24({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

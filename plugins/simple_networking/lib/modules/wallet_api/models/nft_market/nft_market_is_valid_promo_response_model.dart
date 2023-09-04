@@ -14,6 +14,7 @@ class NftMarketIsValidPromoResponseModel
   }) = _NftMarketIsValidPromoResponseModel;
 
   factory NftMarketIsValidPromoResponseModel.fromJson(
-          Map<String, dynamic> json,) =>
+    Map<String, dynamic> json,
+  ) =>
       _$NftMarketIsValidPromoResponseModelFromJson(json);
 }

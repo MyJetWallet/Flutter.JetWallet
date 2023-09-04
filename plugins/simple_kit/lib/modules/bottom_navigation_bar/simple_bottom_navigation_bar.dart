@@ -170,7 +170,8 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       NotificationBox(
                         notifications: widget.isCardRequested ? 0 : 1,
                         top: -2,
-                        right: (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                        right:
+                            (MediaQuery.of(context).size.width - 48) / 8 - 29,
                       ),
                     ],
                   ),

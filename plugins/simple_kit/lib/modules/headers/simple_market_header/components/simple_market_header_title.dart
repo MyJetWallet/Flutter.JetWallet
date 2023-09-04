@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/headers/simple_market_header/components/simple_market_header_filter.dart';
-import 'package:simple_kit/modules/icons/24x24/public/filter/simple_filter_icon.dart';
 
 import '../../../../simple_kit.dart';
 

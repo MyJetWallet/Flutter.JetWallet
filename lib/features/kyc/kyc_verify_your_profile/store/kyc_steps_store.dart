@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 part 'kyc_steps_store.g.dart';
 
 class KycStepsStore extends _KycStepsStoreBase with _$KycStepsStore {
-  KycStepsStore(List<RequiredVerified> reqifications) : super(reqifications);
+  KycStepsStore(super.reqifications);
 }
 
 abstract class _KycStepsStoreBase with Store {

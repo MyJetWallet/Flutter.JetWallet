@@ -3,11 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AssetIcon extends StatelessWidget {
   const AssetIcon({
-    Key? key,
+    super.key,
     this.width,
     this.height,
     required this.imageUrl,
-  }) : super(key: key);
+  });
 
   final String imageUrl;
   final double? width;

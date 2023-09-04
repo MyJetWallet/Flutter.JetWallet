@@ -7,7 +7,7 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentCardItem extends StatelessObserverWidget {
   const PaymentCardItem({
-    Key? key,
+    super.key,
     this.removeDivider = false,
     this.showDelete = true,
     this.showEdit = false,
@@ -20,7 +20,7 @@ class PaymentCardItem extends StatelessObserverWidget {
     required this.onTap,
     required this.status,
     required this.network,
-  }) : super(key: key);
+  });
 
   final bool removeDivider;
   final bool showDelete;

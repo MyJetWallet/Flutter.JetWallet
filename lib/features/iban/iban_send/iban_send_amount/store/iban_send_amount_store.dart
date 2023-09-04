@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
@@ -73,7 +72,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -164,7 +163,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       selected: percent,
       currency: eurCurrency,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       ),
     );
 
@@ -242,7 +241,7 @@ abstract class _IbanSendAmountStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    withValid = error == InputError.none && isInputValid(withAmount);
   }
 
   @action

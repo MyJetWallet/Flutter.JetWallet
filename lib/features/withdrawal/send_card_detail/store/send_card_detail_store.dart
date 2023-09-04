@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -107,10 +106,9 @@ abstract class _SendCardDetailStoreBase with Store {
 
   Future<String> _copiedText() async {
     final data = await Clipboard.getData('text/plain');
-    var code = data?.text?.trim() ?? '';
-    code = code.replaceAll(' ', '');
+    final code = data?.text?.trim() ?? '';
 
-    return code;
+    return code.replaceAll(' ', '');
   }
 
   @action
@@ -139,7 +137,7 @@ abstract class _SendCardDetailStoreBase with Store {
     final ind = methodList.indexWhere((element) => element.id == methodId);
 
     if (ind != -1) {
-      var copiedText = await _copiedText();
+      final copiedText = await _copiedText();
 
       try {
         int.parse(copiedText);
@@ -194,27 +192,23 @@ abstract class _SendCardDetailStoreBase with Store {
   @action
   void validateCard(int index) {
     methodList[index].isError = methodList[index].value.length == 19
-        ? CreditCardValidator().validateCCNum(methodList[index].value).isValid
-            ? false
-            : true
-        : methodList[index].value.length > 19
-            ? true
-            : false;
+        ? !CreditCardValidator().validateCCNum(methodList[index].value).isValid
+        : methodList[index].value.length > 19;
   }
 
   void submit() {
-    String? cardNumber = null;
-    String? iban = null;
-    String? phoneNumber = null;
-    String? recipientName = null;
-    String? panNumber = null;
-    String? upiAddress = null;
-    String? accountNumber = null;
-    String? beneficiaryName = null;
-    String? bankName = null;
-    String? ifscCode = null;
-    String? bankAccount = null;
-    String? wise = null;
+    String? cardNumber;
+    String? iban;
+    String? phoneNumber;
+    String? recipientName;
+    String? panNumber;
+    String? upiAddress;
+    String? accountNumber;
+    String? beneficiaryName;
+    String? bankName;
+    String? ifscCode;
+    String? bankAccount;
+    String? wise;
 
     for (var i = 0; i < methodList.length; i++) {
       switch (methodList[i].info.fieldId) {

@@ -3,10 +3,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class CountryProfileName extends StatelessWidget {
   const CountryProfileName({
-    Key? key,
+    super.key,
     required this.countryName,
     required this.isBlocked,
-  }) : super(key: key);
+  });
 
   final String countryName;
   final bool isBlocked;

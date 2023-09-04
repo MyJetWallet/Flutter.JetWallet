@@ -29,7 +29,7 @@ class SimpleLightSecondaryButton1 extends StatelessWidget {
       name: name,
       onTap: onTap,
       icon: icon,
-      activeColor: borderColor?? SColorsLight().black,
+      activeColor: borderColor ?? SColorsLight().black,
       activeNameColor: textColor ?? SColorsLight().black,
       activeBackgroundColor: SColorsLight().grey5,
       inactiveColor: SColorsLight().grey4,

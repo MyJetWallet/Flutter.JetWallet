@@ -32,8 +32,8 @@ class BalanceInProcess extends StatelessWidget {
         height: 54,
         child: Column(
           children: [
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Expanded(
                   child: DashLine(),
                 ),

@@ -6,7 +6,6 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
-import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 
 @RoutePage(name: 'SignalrDebugInfoRouter')
 class SignalrDebugInfo extends StatelessWidget {
@@ -61,7 +60,7 @@ class SignalrDebugInfo extends StatelessWidget {
                       children: [
                         SignalRLogDetail(
                           log: sSignalRModules.signalRLogs[index],
-                        )
+                        ),
                       ],
                     );
                   },
@@ -83,7 +82,7 @@ class SignalrDebugInfo extends StatelessWidget {
                                     DateTime.now())
                                 .toString(),
                           ),
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -124,7 +123,6 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -154,9 +152,11 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 onTap: () {
                   setState(() {
                     filtredLogs = widget.log.logs!
-                        .where((element) =>
-                            element.type != SLogType.ping &&
-                            element.type != SLogType.pong)
+                        .where(
+                          (element) =>
+                              element.type != SLogType.ping &&
+                              element.type != SLogType.pong,
+                        )
                         .toList();
                   });
                 },

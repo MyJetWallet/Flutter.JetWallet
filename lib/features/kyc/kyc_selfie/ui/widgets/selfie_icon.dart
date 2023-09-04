@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class SelfieIcon extends StatelessWidget {
-  const SelfieIcon({Key? key}) : super(key: key);
+  const SelfieIcon({super.key});
 
   @override
   Widget build(BuildContext context) {

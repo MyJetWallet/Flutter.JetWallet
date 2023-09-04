@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/gradients.dart';
 
 /// Gradient for Onboarding/Spalsh screens
 class PortfolioScreenGradient extends StatelessWidget {
   const PortfolioScreenGradient({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

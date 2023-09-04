@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class CountryName extends StatelessObserverWidget {
   const CountryName({
-    Key? key,
+    super.key,
     required this.countryName,
-  }) : super(key: key);
+  });
 
   final String countryName;
 

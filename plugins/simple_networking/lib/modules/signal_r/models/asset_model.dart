@@ -183,6 +183,7 @@ enum WithdrawalMethods {
   cryptoWithdrawal,
   sepaWithdrawal,
   swiftWithdrawal,
+
   /// Using for gifts
   internalSend,
   ibanSend,

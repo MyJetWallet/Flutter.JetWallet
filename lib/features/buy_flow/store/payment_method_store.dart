@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/helpers/is_card_expired.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -83,7 +79,7 @@ abstract class _PaymentMethodStoreBase with Store {
     isCardReachLimits = isCardReachLimit(currency);
 
     if (asset.buyMethods.isNotEmpty) {
-      asset.buyMethods.forEach((element) {
+      for (final element in asset.buyMethods) {
         final isCurrExist = element.paymentAssets!.indexWhere(
           (element) => element.asset == buyCurrency.symbol,
         );
@@ -107,7 +103,7 @@ abstract class _PaymentMethodStoreBase with Store {
             }
           }
         }
-      });
+      }
 
       final storage = sLocalStorageService;
 
@@ -119,7 +115,7 @@ abstract class _PaymentMethodStoreBase with Store {
       final localLM = await storage.getValue(localLastMethodId);
       if (localLM != null) {
         final localIndex = localMethods.indexWhere(
-          (element) => element.id.toString() == (localLM ?? ''),
+          (element) => element.id.toString() == localLM,
         );
 
         if (localIndex != -1) {
@@ -133,7 +129,7 @@ abstract class _PaymentMethodStoreBase with Store {
       final p2pLM = await storage.getValue(p2pLastMethodId);
       if (p2pLM != null) {
         final localIndex = p2pMethods.indexWhere(
-          (element) => element.id.toString() == (p2pLM ?? ''),
+          (element) => element.id.toString() == p2pLM,
         );
 
         if (localIndex != -1) {
@@ -152,7 +148,8 @@ abstract class _PaymentMethodStoreBase with Store {
     if (cardsMethods.isEmpty) {
       sAnalytics.newBuyNoSavedCard();
     } else {
-      // Проверяем что у нас есть хотя бы платежный метод как BANKCARD, и только тогда показываем карты юзеру
+      // Проверяем что у нас есть хотя бы платежный метод как BANKCARD,
+      // и только тогда показываем карты юзеру
       if (getCardBuyMethod() != null) {
         cardSupportForThisAsset = true;
       }
@@ -177,25 +174,31 @@ abstract class _PaymentMethodStoreBase with Store {
     } else {
       searchList.clear();
 
-      var cardF = cardsMethodsFiltred
+      final cardF = cardsMethodsFiltred
           .where((element) => element.cardLabel?.contains(value) ?? false)
           .toList();
-      var localF = localMethodsFilted
-          .where((element) => element.id.name?.contains(value) ?? false)
+      final localF = localMethodsFilted
+          .where((element) => element.id.name.contains(value))
           .toList();
-      var p2pF = p2pMethodsFiltred
-          .where((element) => element.id.name?.contains(value) ?? false)
+      final p2pF = p2pMethodsFiltred
+          .where((element) => element.id.name.contains(value))
           .toList();
 
-      searchList.addAll(cardF
-          .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
-          .toList());
-      searchList.addAll(localF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
-          .toList());
-      searchList.addAll(p2pF
-          .map((e) => PaymentMethodSearchModel(1, e.id.name ?? '', e, null))
-          .toList());
+      searchList.addAll(
+        cardF
+            .map((e) => PaymentMethodSearchModel(0, e.cardLabel ?? '', null, e))
+            .toList(),
+      );
+      searchList.addAll(
+        localF
+            .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
+            .toList(),
+      );
+      searchList.addAll(
+        p2pF
+            .map((e) => PaymentMethodSearchModel(1, e.id.name, e, null))
+            .toList(),
+      );
 
       searchList.sort((a, b) => a.name.compareTo(b.name));
     }
@@ -307,9 +310,9 @@ bool isCardReachLimit(PaymentAsset asset) {
       leftHours: 0,
     );
 
-    return limitModel?.day1State == StateLimitType.block ||
-        limitModel?.day7State == StateLimitType.block ||
-        limitModel?.day30State == StateLimitType.block;
+    return limitModel.day1State == StateLimitType.block ||
+        limitModel.day7State == StateLimitType.block ||
+        limitModel.day30State == StateLimitType.block;
   } else {
     return false;
   }

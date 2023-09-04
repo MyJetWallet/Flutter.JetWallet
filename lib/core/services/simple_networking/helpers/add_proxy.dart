@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:http_proxy/http_proxy.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/flavor_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -34,7 +34,7 @@ Future<void> addProxy(
 Future<void> setProxy(Dio dio, String? proxyName, String? proxyPort) async {
   if (proxyName == null || proxyPort == null) return;
 
-  final clientAdapter = dio.httpClientAdapter as DefaultHttpClientAdapter;
+  final clientAdapter = dio.httpClientAdapter as IOHttpClientAdapter;
 
   clientAdapter.onHttpClientCreate = (HttpClient client) {
     // Hook into the findProxy callback to set the client's proxy.
@@ -49,7 +49,7 @@ Future<void> setProxy(Dio dio, String? proxyName, String? proxyPort) async {
     return null;
   };
 
-  HttpProxy httpProxy = await HttpProxy.createHttpProxy();
+  final httpProxy = await HttpProxy.createHttpProxy();
   httpProxy.host = proxyName;
   httpProxy.port = proxyPort;
   HttpOverrides.global = httpProxy;

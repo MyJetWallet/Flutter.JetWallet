@@ -10,16 +10,15 @@ import 'package:jetwallet/features/return_to_wallet/store/preview_return_to_wall
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'PreviewReturnToWalletRouter')
 class PreviewReturnToWallet extends StatelessWidget {
   const PreviewReturnToWallet({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewReturnToWalletInput input;
 
@@ -36,9 +35,8 @@ class PreviewReturnToWallet extends StatelessWidget {
 
 class _PreviewReturnToWalletBody extends StatefulObserverWidget {
   const _PreviewReturnToWalletBody({
-    Key? key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewReturnToWalletInput input;
 

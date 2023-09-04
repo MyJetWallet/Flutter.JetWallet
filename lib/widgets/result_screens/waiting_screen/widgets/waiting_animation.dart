@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class WaitingAnimation extends StatelessWidget {
   const WaitingAnimation({
-    Key? key,
+    super.key,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final SWidgetSize widgetSize;
 
@@ -16,8 +16,8 @@ class WaitingAnimation extends StatelessWidget {
     return SizedBox(
       width: widgetSize == SWidgetSize.small ? 160 : 320,
       height: widgetSize == SWidgetSize.small ? 160 : 320,
-      child: Stack(
-        children: const [
+      child: const Stack(
+        children: [
           RiveAnimation.asset(
             processingAnimationAsset,
           ),

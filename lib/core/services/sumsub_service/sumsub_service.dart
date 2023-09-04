@@ -37,11 +37,10 @@ class SumsubService {
           message: 'Launch',
         );
 
-    onStatusChanged(
+    void onStatusChanged(
       SNSMobileSDKStatus newStatus,
       SNSMobileSDKStatus prevStatus,
     ) {
-      print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
             place: _loggerService,
@@ -64,7 +63,9 @@ class SumsubService {
       }
     }
 
-    onActionResult(SNSMobileSDKActionResult result) {
+    Future<SNSActionResultHandlerReaction> onActionResult(
+      SNSMobileSDKActionResult result,
+    ) {
       sRouter.push(
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,
@@ -93,6 +94,6 @@ class SumsubService {
         )
         .build();
 
-    final SNSMobileSDKResult result = await snsMobileSDK.launch();
+    await snsMobileSDK.launch();
   }
 }

@@ -54,9 +54,8 @@ void showSendOptions(
 
 class _SendOptions extends StatelessObserverWidget {
   const _SendOptions({
-    Key? key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

@@ -7,9 +7,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'HelpCenterWebViewRouter')
 class HelpCenterWebView extends StatefulWidget {
   const HelpCenterWebView({
-    Key? key,
+    super.key,
     required this.link,
-  }) : super(key: key);
+  });
 
   final String link;
 
@@ -53,7 +53,9 @@ class _HelpCenterWebViewState extends State<HelpCenterWebView> {
     if (await controller.canGoBack()) {
       await controller.goBack();
     } else {
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
 
     return Future.value(false);

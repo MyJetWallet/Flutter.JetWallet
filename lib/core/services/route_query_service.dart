@@ -1,8 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 
 enum RouteQueryAction { push, navigate, replace }
 
@@ -57,7 +54,7 @@ class RouteQueryService {
       }
 
       if (query[i].func != null) {
-        query[i].func!();
+        query[i].func?.call();
       }
 
       removeFromQuery(query[i]);

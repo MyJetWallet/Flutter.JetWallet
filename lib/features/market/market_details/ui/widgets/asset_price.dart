@@ -4,18 +4,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/chart/model/chart_state.dart';
 import 'package:jetwallet/features/chart/store/chart_store.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class AssetPrice extends StatelessObserverWidget {
   const AssetPrice({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

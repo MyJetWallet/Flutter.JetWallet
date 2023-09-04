@@ -6,10 +6,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class CountrySelectorButton extends StatelessObserverWidget {
   const CountrySelectorButton({
-    Key? key,
+    super.key,
     required this.country,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final SPhoneNumber country;
   final void Function() onTap;

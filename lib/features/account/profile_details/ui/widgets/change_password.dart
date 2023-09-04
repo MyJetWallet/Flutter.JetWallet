@@ -6,14 +6,13 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/features/account/profile_details/store/change_password_store.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'ChangePasswordRouter')
 class ChangePassword extends StatelessObserverWidget {
   const ChangePassword({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

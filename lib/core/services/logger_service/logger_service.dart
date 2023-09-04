@@ -49,8 +49,6 @@ class SimpleLoggerService {
         return const logging.Level('🆘 Error', 3);
       case Level.warning:
         return const logging.Level('⚠️ Warning', 4);
-      case Level.wtf:
-        return const logging.Level('⛔ WTF', 5);
       default:
         return const logging.Level('ℹ️ Info', 1);
     }

@@ -3,10 +3,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class MarketStatsItem extends StatelessWidget {
   const MarketStatsItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.value,
-  }) : super(key: key);
+  });
 
   final String name;
   final String value;

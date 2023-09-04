@@ -27,7 +27,7 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 import '../../../core/services/local_storage_service.dart';
 import '../helpers/show_currency_search.dart';
 
-enum SendType { Wallet, Phone }
+enum SendType { wallet, phone }
 
 void showSendAction(
   BuildContext context, {
@@ -63,8 +63,8 @@ Future<void> _showSendAction(BuildContext context) async {
       .toList();
 
   final cryptoGlobalSendLength = sSignalRModules.currenciesList.where(
-      (element) =>
-          element.supportsGlobalSend && element.isAssetBalanceNotEmpty);
+    (element) => element.supportsGlobalSend && element.isAssetBalanceNotEmpty,
+  );
 
   final isIbanOutActive = sSignalRModules.currenciesList
       .where((element) => element.supportIbanSendWithdrawal)
@@ -99,13 +99,12 @@ Future<void> _showSendAction(BuildContext context) async {
         onTap: () {
           Navigator.pop(context);
 
-          _showSendActionChooseAsset(context, SendType.Wallet);
+          _showSendActionChooseAsset(context, SendType.wallet);
         },
         amount: '',
         description: '',
         name: intl.sendOptions_to_crypto_wallet,
         helper: intl.withdrawOptions_actionItemNameDescr,
-        removeDivider: true,
       ),
       if (isGlobalSendActive.isNotEmpty && cryptoGlobalSendLength.isNotEmpty)
         SCardRow(
@@ -119,7 +118,6 @@ Future<void> _showSendAction(BuildContext context) async {
           description: '',
           name: intl.global_send_name,
           helper: intl.global_send_helper,
-          removeDivider: true,
         ),
       if (isIbanOutActive.isNotEmpty)
         SCardRow(
@@ -156,7 +154,6 @@ Future<void> _showSendAction(BuildContext context) async {
           description: '',
           name: intl.sendOptions_to_bank_account,
           helper: intl.iban_send_helper,
-          removeDivider: true,
         ),
       if (isGiftSendActive.isNotEmpty)
         SCardRow(
@@ -164,7 +161,7 @@ Future<void> _showSendAction(BuildContext context) async {
           onTap: () {
             sAnalytics.tapOnTheGiftButton();
             Navigator.pop(context);
-            sRouter.push(GiftSelectAssetRouter());
+            sRouter.push(const GiftSelectAssetRouter());
           },
           amount: '',
           description: '',
@@ -241,7 +238,6 @@ Future<void> showSendGlobally(
 
 class _GlobalSendCountriesList extends StatelessObserverWidget {
   const _GlobalSendCountriesList({
-    super.key,
     required this.currency,
     required this.store,
   });
@@ -440,9 +436,8 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
 
 class _GlobalSendSelectCurrency extends StatelessObserverWidget {
   const _GlobalSendSelectCurrency({
-    Key? key,
     required this.searchStore,
-  }) : super(key: key);
+  });
 
   final ActionSearchStore searchStore;
 
@@ -463,18 +458,22 @@ class _GlobalSendSelectCurrency extends StatelessObserverWidget {
         .toList();
 
     final cryptoSearchLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.crypto &&
-            element.supportsGlobalSend &&
-            element.isAssetBalanceNotEmpty)
+        .where(
+          (element) =>
+              element.type == AssetType.crypto &&
+              element.supportsGlobalSend &&
+              element.isAssetBalanceNotEmpty,
+        )
         .length;
     final showCryptoSearch = cryptoSearchLength >= 7;
 
     final showFiatLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.fiat &&
-            element.supportsGlobalSend &&
-            element.isAssetBalanceNotEmpty)
+        .where(
+          (element) =>
+              element.type == AssetType.fiat &&
+              element.supportsGlobalSend &&
+              element.isAssetBalanceNotEmpty,
+        )
         .length;
     final showFiatSearch = showFiatLength >= 7;
 

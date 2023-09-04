@@ -6,22 +6,19 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_asset_input.dart';
+import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_circle_input.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_unlimint_input.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/store/currency_buy_store.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_payment_currecies_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -30,12 +27,10 @@ import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
 
-import '../../payment_methods/ui/widgets/card_limits_bottom_sheet.dart';
-
 @RoutePage(name: 'CurrencyBuyRouter')
 class CurrencyBuy extends StatelessWidget {
   const CurrencyBuy({
-    Key? key,
+    super.key,
     this.recurringBuysType,
     this.circleCard,
     this.unlimintCard,
@@ -46,7 +41,7 @@ class CurrencyBuy extends StatelessWidget {
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
-  }) : super(key: key);
+  });
 
   final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
@@ -88,7 +83,6 @@ class CurrencyBuy extends StatelessWidget {
 
 class _CurrencyBuyBody extends StatefulObserverWidget {
   const _CurrencyBuyBody({
-    Key? key,
     this.recurringBuysType,
     this.circleCard,
     this.unlimintCard,
@@ -98,7 +92,7 @@ class _CurrencyBuyBody extends StatefulObserverWidget {
     required this.currency,
     required this.fromCard,
     required this.paymentMethod,
-  }) : super(key: key);
+  });
 
   final RecurringBuysType? recurringBuysType;
   final CurrencyModel currency;
@@ -192,7 +186,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
     }
 
     final limitText = state.limitByAsset != null
-        ? '${(state.limitByAsset!.barInterval == StateBarType.day1 || state.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (state.limitByAsset!.barInterval == StateBarType.day7 || state.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'
+        ? '''${(state.limitByAsset!.barInterval == StateBarType.day1 || state.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (state.limitByAsset!.barInterval == StateBarType.day7 || state.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'''
             ': ${checkLimitText()}'
         : '';
 
@@ -394,7 +388,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: getNetworkIcon(state.pickedUnlimintCard?.network),
                     name:
-                        '${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
+                        '''${state.pickedUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'''
                         '${state.pickedUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock
@@ -425,7 +419,7 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                     widgetSize: widgetSizeFrom(deviceSize),
                     icon: getNetworkIcon(state.pickedAltUnlimintCard?.network),
                     name:
-                        '${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'
+                        '''${state.pickedAltUnlimintCard!.last4[0] == '•' ? '' : '•••• '}'''
                         '${state.pickedAltUnlimintCard!.last4}',
                     description: limitText,
                     limit: isLimitBlock
@@ -622,7 +616,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             currencyPayment:
                                 state.paymentCurrency ?? widget.currency,
                             quickAmount: state.tappedPreset ?? 'false',
-                            isApplePay: false,
                           ),
                         ),
                       );
@@ -637,7 +630,6 @@ class _CurrencyBuyBodyState extends State<_CurrencyBuyBody> {
                             currencyPayment:
                                 state.paymentCurrency ?? widget.currency,
                             quickAmount: state.tappedPreset ?? 'false',
-                            isApplePay: false,
                           ),
                         ),
                       );
