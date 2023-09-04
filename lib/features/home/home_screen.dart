@@ -17,7 +17,7 @@ import '../kyc/kyc_service.dart';
 
 @RoutePage(name: 'HomeRouter')
 class HomeScreen extends StatefulObserverWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

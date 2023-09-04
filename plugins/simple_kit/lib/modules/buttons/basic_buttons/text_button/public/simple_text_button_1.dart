@@ -23,6 +23,11 @@ class STextButton1 extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     return sKit.currentTheme == STheme.dark
         ? SimpleDarkTextButton1(active: active, name: name, onTap: onTap)
-        : SimpleLightTextButton1(active: active, name: name, onTap: onTap, color: color,);
+        : SimpleLightTextButton1(
+            active: active,
+            name: name,
+            onTap: onTap,
+            color: color,
+          );
   }
 }

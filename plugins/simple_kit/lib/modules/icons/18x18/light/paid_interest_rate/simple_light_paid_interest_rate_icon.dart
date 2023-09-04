@@ -12,7 +12,8 @@ class SimpleLightPaidInterestRateIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg18x18(
-      assetName: 'assets/icons/light/18x18/paid_interest_rate/paid_interest_rate.svg',
+      assetName:
+          'assets/icons/light/18x18/paid_interest_rate/paid_interest_rate.svg',
       color: color,
     );
   }

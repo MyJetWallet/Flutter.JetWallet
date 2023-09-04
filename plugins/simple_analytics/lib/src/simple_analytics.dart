@@ -24,8 +24,12 @@ class SimpleAnalytics {
   /// Provide:
   /// 1. environmentKey for Amplitude workspace
   /// 2. userEmail if user is already authenticated
-  Future<void> init(String environmentKey, bool techAcc,
-      [String? userEmail]) async {
+  Future<void> init(
+    String environmentKey,
+    // ignore: avoid_positional_boolean_parameters
+    bool techAcc, [
+    String? userEmail,
+  ]) async {
     await _analytics.init(environmentKey);
 
     if (userEmail != null) {
@@ -35,13 +39,11 @@ class SimpleAnalytics {
     isTechAcc = techAcc;
   }
 
-  void updateTechAccValue(bool techAcc) {
-    isTechAcc = techAcc;
-  }
+  // ignore: avoid_setters_without_getters
+  set updateTechAccValue(bool techAcc) => isTechAcc = techAcc;
 
-  void setKYCDepositStatus(int status) {
-    kycDepositStatus = status;
-  }
+  // ignore: avoid_setters_without_getters
+  set setKYCDepositStatus(int status) => kycDepositStatus = status;
 
   void updateUserId(String newId) {
     _analytics.setUserId(newId);
@@ -862,7 +864,7 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet() {
+  void tapOnTheButtonCancelTransactiononSentHistoryDetails() {
     _analytics.logEvent(
       EventType.tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet,
       eventProperties: {

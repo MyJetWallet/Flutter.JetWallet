@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class AccountStatusBanner extends StatefulWidget {
   const AccountStatusBanner({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
     required this.mainColor,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -25,6 +24,7 @@ class AccountStatusBanner extends StatefulWidget {
 class _AccountStatusBannerState extends State<AccountStatusBanner> {
   bool highlighted = false;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 48,

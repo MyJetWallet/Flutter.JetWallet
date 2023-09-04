@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
@@ -14,10 +13,10 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
     this.height = 56.0,
-  })  : assert(crossAxisCount != null && crossAxisCount > 0),
-        assert(mainAxisSpacing != null && mainAxisSpacing >= 0),
-        assert(crossAxisSpacing != null && crossAxisSpacing >= 0),
-        assert(height != null && height > 0);
+  })  : assert(crossAxisCount > 0),
+        assert(mainAxisSpacing >= 0),
+        assert(crossAxisSpacing >= 0),
+        assert(height > 0);
 
   /// The number of children in the cross axis.
   final int crossAxisCount;
@@ -36,16 +35,18 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
     assert(mainAxisSpacing >= 0.0);
     assert(crossAxisSpacing >= 0.0);
     assert(height > 0.0);
+
     return true;
   }
 
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
     assert(_debugAssertIsValid());
-    final double usableCrossAxisExtent =
+    final usableCrossAxisExtent =
         constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
-    final double childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
-    final double childMainAxisExtent = height;
+    final childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
+    final childMainAxisExtent = height;
+
     return SliverGridRegularTileLayout(
       crossAxisCount: crossAxisCount,
       mainAxisStride: childMainAxisExtent + mainAxisSpacing,
@@ -58,7 +59,8 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
 
   @override
   bool shouldRelayout(
-      SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight oldDelegate) {
+    SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight oldDelegate,
+  ) {
     return oldDelegate.crossAxisCount != crossAxisCount ||
         oldDelegate.mainAxisSpacing != mainAxisSpacing ||
         oldDelegate.crossAxisSpacing != crossAxisSpacing ||

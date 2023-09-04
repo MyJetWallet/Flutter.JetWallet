@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DepositInfoTag extends StatelessObserverWidget {
   const DepositInfoTag({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

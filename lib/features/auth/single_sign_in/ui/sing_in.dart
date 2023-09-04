@@ -16,15 +16,14 @@ import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'SingInRouter')
 class SingIn extends StatelessWidget {
   const SingIn({
-    Key? key,
+    super.key,
     this.email,
-  }) : super(key: key);
+  });
 
   final String? email;
 
@@ -42,9 +41,8 @@ class SingIn extends StatelessWidget {
 
 class _SingInBody extends StatelessObserverWidget {
   const _SingInBody({
-    Key? key,
     this.email,
-  }) : super(key: key);
+  });
 
   final String? email;
 
@@ -95,7 +93,6 @@ class _SingInBody extends StatelessObserverWidget {
             loading: signInStore.loader,
             header: SAuthHeader(
               title: intl.register_enterYourEmail,
-              showSupportButton: false,
             ),
             child: CustomScrollView(
               physics: const ClampingScrollPhysics(),
@@ -143,8 +140,8 @@ class _SingInBody extends StatelessObserverWidget {
                                         intl.register_invalidEmail,
                                       );
                                     },
-                                    isError:
-                                    SingleSingInStore.of(context).isEmailError,
+                                    isError: SingleSingInStore.of(context)
+                                        .isEmailError,
                                   );
                                 },
                               ),

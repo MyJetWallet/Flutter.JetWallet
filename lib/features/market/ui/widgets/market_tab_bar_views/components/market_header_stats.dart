@@ -31,7 +31,7 @@ class MarketHeaderStats extends StatelessObserverWidget {
         percent: marketInfo.toString(),
         isPositive: marketInfo > Decimal.zero,
         subtitle:
-            '${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ? intl.marketHeaderStats_up : intl.marketHeaderStats_down}',
+            '''${intl.marketHeaderStats_marketIs} ${(marketInfo > Decimal.zero) ? intl.marketHeaderStats_up : intl.marketHeaderStats_down}''',
         showInfo: marketInfo != Decimal.zero,
         isLoader: false,
         onFilterButtonTap: onFilterButtonTap,

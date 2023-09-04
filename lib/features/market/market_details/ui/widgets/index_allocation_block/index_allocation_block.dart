@@ -10,9 +10,9 @@ import '../index_overview_block/components/index_allocation_item.dart';
 
 class IndexAllocationBlock extends StatelessObserverWidget {
   const IndexAllocationBlock({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

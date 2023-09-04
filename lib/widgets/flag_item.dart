@@ -6,9 +6,9 @@ import 'package:simple_kit/core/simple_kit.dart';
 
 class FlagItem extends StatelessObserverWidget {
   const FlagItem({
-    Key? key,
+    super.key,
     required this.countryCode,
-  }) : super(key: key);
+  });
 
   final String countryCode;
 

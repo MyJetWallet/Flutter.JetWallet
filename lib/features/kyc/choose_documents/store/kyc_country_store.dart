@@ -31,8 +31,6 @@ abstract class _KycCountryStoreBase with Store {
         : const KycCountryModel(
             countryCode: '',
             countryName: '',
-            isBlocked: false,
-            acceptedDocuments: [],
           );
 
     identifyCountryByUserRegister(countryOfRegistration);

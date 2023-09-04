@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/utils/logging.dart';
@@ -169,7 +168,7 @@ abstract class _UserInfoServiceBase with Store {
   }
 
   @action
-  void updateCardRequested ({required bool newValue}) {
+  void updateCardRequested({required bool newValue}) {
     cardRequested = newValue;
   }
 

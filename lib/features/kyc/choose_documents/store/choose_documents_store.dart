@@ -49,7 +49,6 @@ abstract class _ChooseDocumentsStoreBase with Store {
     for (var i = 0; i < list.length; i++) {
       list[i] = DocumentsModel(
         document: list[i].document,
-        active: false,
       );
     }
     list[index] = DocumentsModel(
@@ -103,7 +102,7 @@ abstract class _ChooseDocumentsStoreBase with Store {
 
     for (final document in countries.activeCountry!.acceptedDocuments) {
       docs.add(
-        DocumentsModel(document: document, active: false),
+        DocumentsModel(document: document),
       );
     }
 

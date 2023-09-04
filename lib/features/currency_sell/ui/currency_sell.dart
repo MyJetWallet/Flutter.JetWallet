@@ -12,16 +12,15 @@ import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 @RoutePage(name: 'CurrencySellRouter')
 class CurrencySell extends StatelessWidget {
   const CurrencySell({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -38,9 +37,9 @@ class CurrencySell extends StatelessWidget {
 
 class CurrencySellBody extends StatefulObserverWidget {
   const CurrencySellBody({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -77,7 +76,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
       }
     }
 
-    void _showAssetSelector(BuildContext context) {
+    void showAssetSelector(BuildContext context) {
       sShowBasicModalBottomSheet(
         scrollable: true,
         pinned: SBottomSheetHeader(
@@ -199,7 +198,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               icon: const SActionWithdrawIcon(),
               name: intl.currencySell_chooseDestination,
               onTap: () {
-                _showAssetSelector(context);
+                showAssetSelector(context);
               },
             )
           else if (store.selectedCurrency!.type == AssetType.crypto)
@@ -213,7 +212,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
                 store.baseCurrency!,
               ),
               description: store.selectedCurrency!.volumeAssetBalance,
-              onTap: () => _showAssetSelector(context),
+              onTap: () => showAssetSelector(context),
             )
           else
             SPaymentSelectFiat(
@@ -225,7 +224,7 @@ class _CurrencySellBodyState extends State<CurrencySellBody> {
               amount: store.selectedCurrency!.volumeBaseBalance(
                 store.baseCurrency!,
               ),
-              onTap: () => _showAssetSelector(context),
+              onTap: () => showAssetSelector(context),
             ),
           deviceSize.when(
             small: () => const Spacer(),

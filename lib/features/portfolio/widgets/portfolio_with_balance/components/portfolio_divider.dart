@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class PortfolioDivider extends StatelessWidget {
-  const PortfolioDivider({Key? key}) : super(key: key);
+  const PortfolioDivider({super.key});
 
   @override
   Widget build(BuildContext context) {

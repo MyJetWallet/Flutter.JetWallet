@@ -15,9 +15,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
   const Wallet({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -27,7 +27,6 @@ class Wallet extends StatefulObserverWidget {
 
 class _WalletState extends State<Wallet>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  late AnimationController _animationController;
   late PageController _pageController;
   late CurrencyModel currentAsset;
   int currentPage = 0;
@@ -35,13 +34,6 @@ class _WalletState extends State<Wallet>
   @override
   void initState() {
     super.initState();
-
-    // animationController intentionally is not disposed,
-    // because bottomSheet will dispose it on its own
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
 
     final itemsWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(
@@ -76,7 +68,7 @@ class _WalletState extends State<Wallet>
       currenciesWithBalanceFrom(currencies),
     );
 
-    // These actions are required to handle navigation 
+    // These actions are required to handle navigation
     // if the order of assets is changed externally
     final supposedPage = currenciesWithBalance.indexWhere(
       (element) => element.symbol == currentAsset.symbol,

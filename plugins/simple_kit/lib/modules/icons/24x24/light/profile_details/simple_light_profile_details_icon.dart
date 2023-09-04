@@ -13,7 +13,8 @@ class SimpleLightProfileDetailsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
-      assetName: 'assets/icons/light/24x24/profile/profile_details/profile_details.svg',
+      assetName:
+          'assets/icons/light/24x24/profile/profile_details/profile_details.svg',
       color: color,
     );
   }

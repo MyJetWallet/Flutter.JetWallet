@@ -72,21 +72,19 @@ bool isConventionLevel(LogRecord record) {
 }
 
 String loggerName(LogRecord record) {
-  if (record.loggerName.isEmpty) {
-    return '';
-  } else {
-    return '[${record.loggerName}]';
-  }
+  return record.loggerName.isEmpty ? '' : '[${record.loggerName}]';
 }
 
 String mainLog(LogRecord record, String underscore) {
   if (record.message.isEmpty) {
+    // ignore: prefer-conditional-expressions
     if (record.error == null) {
       return underscore * 80;
     } else {
       return '${record.error}\n${underscore * 80}';
     }
   } else {
+    // ignore: prefer-conditional-expressions
     if (record.error == null) {
       return 'Message: ${record.message}\n${underscore * 80}';
     } else {

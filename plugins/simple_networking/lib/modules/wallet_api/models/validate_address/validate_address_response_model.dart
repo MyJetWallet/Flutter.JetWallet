@@ -7,6 +7,7 @@ part 'validate_address_response_model.g.dart';
 class ValidateAddressResponseModel with _$ValidateAddressResponseModel {
   const factory ValidateAddressResponseModel({
     required bool isValid,
+
     /// Internal address doesn't have a fee on withdraw
     required bool isInternal,
   }) = _ValidateAddressResponseModel;

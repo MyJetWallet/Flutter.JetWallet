@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/shared/simple_get_widget_size.dart';
-import 'package:simple_kit/modules/shared/simple_widget_bottom_size.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'bottom_sheet_bar.dart';
@@ -53,8 +51,6 @@ class BasicBottomSheet extends StatefulWidget {
 }
 
 class _BasicBottomSheetState extends State<BasicBottomSheet> {
-  void transitionListener() {}
-
   bool isAnimating = false;
 
   /// To avoid additional taps on barrier of bottom sheet when
@@ -68,7 +64,6 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   @override
   void initState() {
     if (widget.transitionAnimationController != null) {
-      widget.transitionAnimationController!.addListener(transitionListener);
       isAnimating = widget.transitionAnimationController!.isAnimating;
     }
     super.initState();
@@ -77,7 +72,6 @@ class _BasicBottomSheetState extends State<BasicBottomSheet> {
   @override
   void dispose() {
     if (widget.transitionAnimationController != null) {
-      widget.transitionAnimationController!.removeListener(transitionListener);
       isAnimating = widget.transitionAnimationController!.isAnimating;
     }
     super.dispose();

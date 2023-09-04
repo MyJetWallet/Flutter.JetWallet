@@ -5,11 +5,13 @@ import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -18,6 +20,7 @@ import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bo
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
@@ -64,7 +67,11 @@ abstract class _BuyConfirmationStoreBase with Store {
   void cancelAllRequest() {
     cancelToken.cancel('exit');
 
-    print('cancel REQUESTS');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Buy Confirmation Store',
+          message: 'cancel REQUESTS',
+        );
   }
 
   @observable
@@ -205,9 +212,6 @@ abstract class _BuyConfirmationStoreBase with Store {
 
     loader.finishLoadingImmediately();
 
-    print(buyCurrency.symbol);
-    print(depositFeeCurrency.symbol);
-
     sAnalytics.newBuyTapContinue(
       sourceCurrency: depositFeeCurrency.symbol,
       sourceAmount: paymentAmount.toString(),
@@ -215,7 +219,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
       destinationAmount: '$buyAmount',
       quickAmount: preset,
     );
@@ -226,7 +230,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
 
@@ -235,7 +239,11 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     final model = getModelForCardBuyReq(
-        category, payAmount, buyAssetSymbol ?? '', payAsset);
+      category,
+      payAmount,
+      buyAssetSymbol ?? '',
+      payAsset,
+    );
 
     try {
       final response =
@@ -318,23 +326,25 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     if (sRouter.currentPath != '/buy_flow_confirmation') {
       return;
     }
 
-    unawaited(sRouter.push(
-      FailureScreenRouter(
-        primaryText: intl.previewBuyWithAsset_failure,
-        secondaryText: error,
-        primaryButtonName: intl.previewBuyWithAsset_close,
-        onPrimaryButtonTap: () {
-          navigateToRouter();
-        },
+    unawaited(
+      sRouter.push(
+        FailureScreenRouter(
+          primaryText: intl.previewBuyWithAsset_failure,
+          secondaryText: error,
+          primaryButtonName: intl.previewBuyWithAsset_close,
+          onPrimaryButtonTap: () {
+            navigateToRouter();
+          },
+        ),
       ),
-    ));
+    );
   }
 
   @action
@@ -418,7 +428,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     unawaited(_setIsChecked());
@@ -497,7 +507,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
           if (sRouter.currentPath != '/buy_flow_confirmation') {
@@ -526,21 +536,24 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 loader.startLoadingImmediately();
-                //_requestPaymentInfo(onAction, lastAction);
               },
               onCancel: (payment) {
-                print('paymentWevViewClose');
+                getIt.get<SimpleLoggerService>().log(
+                      level: Level.info,
+                      place: 'Email Confirmation Store',
+                      message: 'paymentWevViewClose',
+                    );
 
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 if (payment != null) {
@@ -600,7 +613,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         paymentMethodType: category.name,
         paymentMethodName:
             category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+        paymentMethodCurrency: depositFeeCurrency.symbol,
       );
 
       loader.startLoadingImmediately();
@@ -629,7 +642,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
           sRouter.push(
@@ -656,7 +669,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             paymentMethodName: category == PaymentMethodCategory.cards
                 ? 'card'
                 : method!.id.name,
-            paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+            paymentMethodCurrency: depositFeeCurrency.symbol,
           );
         },
         '',
@@ -693,7 +706,11 @@ abstract class _BuyConfirmationStoreBase with Store {
 
       response.pick(
         onData: (data) async {
-          print(data.status);
+          getIt.get<SimpleLoggerService>().log(
+                level: Level.info,
+                place: 'Buy Confirmation Store',
+                message: data.status.name,
+              );
 
           final pending = data.status == CardBuyPaymentStatus.inProcess ||
               data.status == CardBuyPaymentStatus.preview ||
@@ -748,7 +765,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                   paymentMethodName: category == PaymentMethodCategory.cards
                       ? 'card'
                       : method!.id.name,
-                  paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+                  paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
                 if (payment != null) {
@@ -782,7 +799,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
     return sRouter
@@ -850,7 +867,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 
   @action
@@ -873,7 +896,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 
   @computed
@@ -896,7 +925,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentMethodType: category.name,
       paymentMethodName:
           category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-      paymentMethodCurrency: depositFeeCurrency.symbol ?? '',
+      paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
 
@@ -925,7 +954,13 @@ abstract class _BuyConfirmationStoreBase with Store {
           break;
         default:
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'BuyConfirmationStore',
+            message: e.toString(),
+          );
+    }
   }
 }
 

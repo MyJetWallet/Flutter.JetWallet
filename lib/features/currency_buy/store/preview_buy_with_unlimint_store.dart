@@ -16,10 +16,8 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -34,7 +32,7 @@ part 'preview_buy_with_unlimint_store.g.dart';
 
 class PreviewBuyWithUnlimitStore extends _PreviewBuyWithUnlimitStoreBase
     with _$PreviewBuyWithUnlimitStore {
-  PreviewBuyWithUnlimitStore(PreviewBuyWithUnlimintInput input) : super(input);
+  PreviewBuyWithUnlimitStore(super.input);
 
   static _PreviewBuyWithUnlimitStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithUnlimitStore>(context, listen: false);
@@ -169,11 +167,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, 'onConfirm');
     final storage = sLocalStorageService;
     await storage.setString(checkedUnlimint, 'true');
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.unlimintCard,
-        )
-        .toList();
 
     await _createPayment();
   }
@@ -183,11 +176,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.unlimintCard,
-        )
-        .toList();
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
@@ -362,11 +350,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
       buyPaymentId: paymentId,
     );
     var tapped = false;
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     return sRouter
         .push(
@@ -417,12 +400,6 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,

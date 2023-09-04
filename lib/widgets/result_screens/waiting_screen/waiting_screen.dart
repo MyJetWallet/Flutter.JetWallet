@@ -6,20 +6,19 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/widgets/waiting_animation.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'WaitingScreenRouter')
 class WaitingScreen extends StatelessObserverWidget {
   const WaitingScreen({
-    Key? key,
+    super.key,
     this.onSuccess,
     this.primaryText,
     this.secondaryText,
     this.specialTextWidget,
     this.wasAction = false,
     required this.onSkip,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function(BuildContext)? onSuccess;
@@ -38,7 +37,7 @@ class WaitingScreen extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       child: Column(
         children: [
-          Row(), // to expand Column in the cross axis
+          const Row(), // to expand Column in the cross axis
           const SpaceH86(),
           WaitingAnimation(
             widgetSize: widgetSizeFrom(deviceSize),

@@ -8,9 +8,9 @@ import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 
 class IndexAllocationItem extends StatelessObserverWidget {
   const IndexAllocationItem({
-    Key? key,
+    super.key,
     required this.basketAssetModel,
-  }) : super(key: key);
+  });
 
   final BasketAssetModel basketAssetModel;
 

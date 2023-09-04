@@ -7,11 +7,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DPCheckbox extends StatelessObserverWidget {
   const DPCheckbox({
-    Key? key,
+    super.key,
     this.indexCheckBox,
     required this.text,
     required this.onCheckboxTap,
-  }) : super(key: key);
+  });
 
   final int? indexCheckBox;
   final String text;

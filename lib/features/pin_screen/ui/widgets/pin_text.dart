@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class PinText extends StatelessWidget {
   const PinText({
-    Key? key,
+    super.key,
     this.fontSize,
     this.color = Colors.black,
     required this.text,
-  }) : super(key: key);
+  });
 
   final double? fontSize;
   final Color color;

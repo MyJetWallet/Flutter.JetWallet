@@ -6,16 +6,14 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/di/di.dart';
 import '../../../../utils/constants.dart';
-import '../../kyc_service.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
 class KycVerification extends StatelessObserverWidget {
   const KycVerification({
-    Key? key,
+    super.key,
     required this.requiredVerifications,
-  }) : super(key: key);
+  });
 
   final List<RequiredVerified> requiredVerifications;
 
@@ -24,7 +22,6 @@ class KycVerification extends StatelessObserverWidget {
     final colors = sKit.colors;
     final isPhoneDone =
         !requiredVerifications.contains(RequiredVerified.proofOfPhone);
-    final kycState = getIt.get<KycService>();
 
     void navigateVerifiedNavigate() {
       if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
@@ -39,15 +36,9 @@ class KycVerification extends StatelessObserverWidget {
           ),
         );
       } else {
-        if (kycState.useSumsub) {
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          );
-        } else {
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          );
-        }
+        sRouter.push(
+          const KycVerificationSumsubRouter(),
+        );
       }
     }
 

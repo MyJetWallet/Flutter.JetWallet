@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
-import 'package:jetwallet/core/services/user_info/models/user_info.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
@@ -25,7 +24,6 @@ import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/auth_api/models/check_pin/check_pin_response_model.dart';
 
 part 'pin_screen_store.g.dart';
 
@@ -350,7 +348,7 @@ abstract class _PinScreenStoreBase with Store {
             if (attemptsLeft > 1) {
               attemptsLeft--;
               sNotification.showError(
-                'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
+                '''The PIN you entered is incorrect,$attemptsLeft attempts remaining.''',
               );
               _updateNewPin('');
               _updatePinBoxState(PinBoxEnum.empty);
@@ -360,7 +358,7 @@ abstract class _PinScreenStoreBase with Store {
                 await sRouter.pop();
               }
               sNotification.showError(
-                'Incorrect PIN has been entered more than $maxPinAttempts times, '
+                '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
                 'you have been logged out of your account.',
                 duration: 5,
               );
@@ -404,14 +402,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _newPinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -463,14 +461,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _changePinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -527,8 +525,8 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _updatePinBoxState(PinBoxEnum _pinState) {
-    pinState = _pinState;
+  void _updatePinBoxState(PinBoxEnum newPinState) {
+    pinState = newPinState;
   }
 
   @action
@@ -559,7 +557,7 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> _updateHideBiometricButton(bool value) async {
     await getIt.get<UserInfoService>().initPinStatus();
-    hideBiometricButton = sUserInfo.pin == null ? true : value;
+    hideBiometricButton = sUserInfo.pin == null || value;
   }
 
   @action

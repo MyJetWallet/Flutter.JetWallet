@@ -11,14 +11,14 @@ import '../../../core/l10n/i10n.dart';
 @RoutePage(name: 'FailureScreenRouter')
 class FailureScreen extends StatelessObserverWidget {
   const FailureScreen({
-    Key? key,
+    super.key,
     this.secondaryText,
     this.secondaryButtonName,
     this.onSecondaryButtonTap,
     required this.primaryText,
     required this.primaryButtonName,
     required this.onPrimaryButtonTap,
-  }) : super(key: key);
+  });
 
   final String? secondaryText;
   final String? secondaryButtonName;

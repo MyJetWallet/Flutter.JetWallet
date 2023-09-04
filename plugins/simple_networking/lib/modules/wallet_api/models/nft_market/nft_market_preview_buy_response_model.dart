@@ -21,6 +21,7 @@ class NftMarketPreviewBuyResponseModel with _$NftMarketPreviewBuyResponseModel {
   }) = _NftMarketPreviewBuyResponseModel;
 
   factory NftMarketPreviewBuyResponseModel.fromJson(
-          Map<String, dynamic> json,) =>
+    Map<String, dynamic> json,
+  ) =>
       _$NftMarketPreviewBuyResponseModelFromJson(json);
 }

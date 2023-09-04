@@ -9,9 +9,8 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../auth/user_data/ui/widgets/country/model/kyc_profile_country_model.dart';
 import '../store/iban_store.dart';
 
-
 class CountryAccountField extends StatefulObserverWidget {
-  CountryAccountField({
+  const CountryAccountField({
     this.activeCountry,
     required this.store,
     required this.initCountrySearch,
@@ -42,7 +41,7 @@ class _CountryAccountFieldState extends State<CountryAccountField> {
     activeCountry = widget.activeCountry;
   }
 
-  void changeCountry (KycProfileCountryModel newCountry) {
+  void changeCountry(KycProfileCountryModel newCountry) {
     widget.pickCountryFromSearch(newCountry);
     activeCountry = newCountry;
   }
@@ -68,34 +67,34 @@ class _CountryAccountFieldState extends State<CountryAccountField> {
         },
         child: AbsorbPointer(
           child: Stack(
-              children: [
-                if (activeCountry != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40.0),
-                    child: Row(
-                      children: [
-                        FlagItem(
-                          countryCode: activeCountry!.countryCode,
+            children: [
+              if (activeCountry != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Row(
+                    children: [
+                      FlagItem(
+                        countryCode: activeCountry!.countryCode,
+                      ),
+                      const SpaceW10(),
+                      Text(
+                        activeCountry!.countryName,
+                        style: sSubtitle2Style.copyWith(
+                          color: colors.black,
                         ),
-                        const SpaceW10(),
-                        Text(
-                          activeCountry!.countryName,
-                          style: sSubtitle2Style.copyWith(
-                            color: colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                SStandardField(
-                  hideClearButton: true,
-                  readOnly: true,
-                  controller: TextEditingController()
-                    ..text = activeCountry != null ? ' ' : '',
-                  labelText: intl.user_data_country,
                 ),
-              ],
-            ),
+              SStandardField(
+                hideClearButton: true,
+                readOnly: true,
+                controller: TextEditingController()
+                  ..text = activeCountry != null ? ' ' : '',
+                labelText: intl.user_data_country,
+              ),
+            ],
+          ),
         ),
       ),
     );

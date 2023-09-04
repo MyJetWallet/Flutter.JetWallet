@@ -66,10 +66,12 @@ abstract class _MarketNewsStoreBase with Store {
   }
 
   @action
-  void updateNews(List<MarketNewsModel> _news) {
+  void updateNews(List<MarketNewsModel> newNews) {
     _logger.log(notifier, 'updateNews');
 
-    _news.isEmpty ? loadMore = false : news = ObservableList.of(news + _news);
+    newNews.isEmpty
+        ? loadMore = false
+        : news = ObservableList.of(news + newNews);
   }
 
   @action

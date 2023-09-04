@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:charts/main.dart';
 import 'package:charts/simple_chart.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +32,10 @@ import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/actual_in_progress_operation.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/localized_chart_resolution_button.dart';
 import 'package:jetwallet/utils/helpers/market_crypto.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import '../../portfolio_header.dart';
@@ -75,7 +72,6 @@ class PortfolioWithBalanceBody extends StatelessWidget {
 
 class _PortfolioWithBalanceBody extends StatefulObserverWidget {
   const _PortfolioWithBalanceBody({
-    super.key,
     required this.tabController,
   });
 
@@ -152,13 +148,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
     final fiatsWithoutBalance = currenciesWithoutBalanceFrom(
       getMarketFiats(sSignalRModules.currenciesList),
     );
-    final userNft = sSignalRModules.userNFTList;
 
     final clientDetail = sSignalRModules.clientDetail;
 
     final baseCurrency = sSignalRModules.baseCurrency;
-
-    final showNFT = sSignalRModules.clientDetail.isNftEnable;
 
     final chart = ChartStore.of(context);
 
@@ -185,7 +178,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
 
     final scrollController = ScrollController();
 
-    String _balanceInProgressText(
+    String balanceInProgressText(
       CurrencyModel currency,
     ) {
       if (currency.isSingleTypeInProgress) {
@@ -200,7 +193,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
       return intl.portfolioWithBalanceBody_transactions;
     }
 
-    String _balanceInProgressLeadText(
+    String balanceInProgressLeadText(
       CurrencyModel currency,
     ) {
       if (currency.isSingleTypeInProgress) {
@@ -215,7 +208,7 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
       return '${counterOfOperationInProgressTransactions(currency)} ';
     }
 
-    Widget _balanceInProgressIcon(
+    Widget balanceInProgressIcon(
       CurrencyModel currency,
     ) {
       if (!currency.isSingleTypeInProgress) {
@@ -416,10 +409,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                       height: 80,
                       width: double.infinity,
                       color: colors.grey5,
-                      child: PaddingL24(
+                      child: const PaddingL24(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             SpaceH13(),
                             SSkeletonTextLoader(height: 24, width: 152),
                             SpaceH13(),
@@ -544,10 +537,10 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 BalanceInProcess(
                                   text: getIt<AppStore>().isBalanceHide
                                       ? item.symbol
-                                      : _balanceInProgressText(item),
-                                  leadText: _balanceInProgressLeadText(item),
+                                      : balanceInProgressText(item),
+                                  leadText: balanceInProgressLeadText(item),
                                   removeDivider: item == itemsWithBalance.last,
-                                  icon: _balanceInProgressIcon(item),
+                                  icon: balanceInProgressIcon(item),
                                 ),
                               ],
                             ],
@@ -627,11 +620,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == cryptosWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],
@@ -711,11 +704,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == indicesWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],
@@ -794,11 +787,11 @@ class __PortfolioWithBalanceBodyState extends State<_PortfolioWithBalanceBody> {
                                 ),
                                 if (item.isPendingDeposit) ...[
                                   BalanceInProcess(
-                                    text: _balanceInProgressText(item),
-                                    leadText: _balanceInProgressLeadText(item),
+                                    text: balanceInProgressText(item),
+                                    leadText: balanceInProgressLeadText(item),
                                     removeDivider:
                                         item == fiatsWithBalance.last,
-                                    icon: _balanceInProgressIcon(item),
+                                    icon: balanceInProgressIcon(item),
                                   ),
                                 ],
                               ],
