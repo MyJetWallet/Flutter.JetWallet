@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 part 'stack_loader_store.g.dart';
 
+// ignore: library_private_types_in_public_api
 class StackLoaderStore = _StackLoaderStoreBase with _$StackLoaderStore;
 
 abstract class _StackLoaderStoreBase with Store {
@@ -12,10 +13,8 @@ abstract class _StackLoaderStoreBase with Store {
   @action
   setLoading(bool value) => loading = value;
 
-  Timer _timer = Timer(
-    Duration.zero,
-    () {},
-  );
+  // ignore: no-empty-block
+  Timer _timer = Timer(Duration.zero, () {});
 
   @action
   void startLoadingImmediately() => loading = true;

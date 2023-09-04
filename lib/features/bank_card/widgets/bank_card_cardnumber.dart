@@ -38,7 +38,7 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
         focusNode: store.cardNode,
         controller: store.cardNumberController,
         onChanged: store.updateCardNumber,
-        suffixIcons: store.cardStoreMode == BankCardStoreMode.ADD
+        suffixIcons: store.cardStoreMode == BankCardStoreMode.add
             ? [
                 SIconButton(
                   onTap: () {
@@ -57,9 +57,9 @@ class _BankCardCardnumberState extends State<BankCardCardnumber> {
         onErase: () {
           store.onEraseCardNumber();
         },
-        hideClearButton: store.cardStoreMode == BankCardStoreMode.EDIT,
-        readOnly: store.cardStoreMode == BankCardStoreMode.EDIT,
-        grayLabel: store.cardStoreMode == BankCardStoreMode.EDIT,
+        hideClearButton: store.cardStoreMode == BankCardStoreMode.edit,
+        readOnly: store.cardStoreMode == BankCardStoreMode.edit,
+        grayLabel: store.cardStoreMode == BankCardStoreMode.edit,
       ),
     );
   }

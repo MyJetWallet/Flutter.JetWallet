@@ -11,9 +11,7 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_circle_input.dart';
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_circle_store.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -25,9 +23,9 @@ import '../../../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithCircleRouter')
 class PreviewBuyWithCircle extends StatelessWidget {
   const PreviewBuyWithCircle({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithCircleInput input;
 
@@ -44,9 +42,8 @@ class PreviewBuyWithCircle extends StatelessWidget {
 
 class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
   const _PreviewBuyWithCircleBody({
-    Key? key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithCircleInput input;
 
@@ -55,7 +52,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
     late Widget icon;
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithCircleStore.of(context);
@@ -70,10 +66,6 @@ class _PreviewBuyWithCircleBody extends StatelessObserverWidget {
         )
         .toList();
     final hideCheckbox = buyMethod.isNotEmpty && buyMethod[0].termsAccepted;
-
-    final title =
-        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
-        '${input.currency.description}';
 
     final cards = sSignalRModules.cards;
 

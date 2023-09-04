@@ -5,11 +5,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class CompleteDocumentSide extends StatelessWidget {
   const CompleteDocumentSide({
-    Key? key,
+    super.key,
     this.isSelfie = false,
     required this.removeImage,
     required this.documentSide,
-  }) : super(key: key);
+  });
 
   final bool isSelfie;
   final File documentSide;

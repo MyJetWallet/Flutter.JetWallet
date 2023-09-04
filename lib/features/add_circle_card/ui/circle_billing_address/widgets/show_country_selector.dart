@@ -22,7 +22,7 @@ void showCountrySelector(BuildContext context) {
 }
 
 class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({Key? key}) : super(key: key);
+  const _SearchPinned();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _SearchPinned extends StatelessObserverWidget {
 }
 
 class _Countries extends StatelessObserverWidget {
-  const _Countries({Key? key}) : super(key: key);
+  const _Countries();
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +62,10 @@ class _Countries extends StatelessObserverWidget {
 
 class _CountryItem extends StatelessObserverWidget {
   const _CountryItem({
-    Key? key,
     this.active = false,
     required this.country,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool active;
   final SPhoneNumber country;

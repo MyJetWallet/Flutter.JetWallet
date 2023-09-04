@@ -118,4 +118,4 @@ const simpleCardAsset = 'assets/images/card_example.png';
 const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';
 
 // Link to download the application
- const appDownloadUrl = 'https://mobile.simple.app/download-app';
+const appDownloadUrl = 'https://mobile.simple.app/download-app';

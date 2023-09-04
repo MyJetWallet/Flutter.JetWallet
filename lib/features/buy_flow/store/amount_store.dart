@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +8,15 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/formatting/base/base_currencies_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -122,10 +122,9 @@ abstract class _BuyAmountStoreBase with Store {
     Timer(
       const Duration(milliseconds: 500),
       () {
-        if ((inputCard != null && inputCard!.showUaAlert) || showUaAlert!) {
+        if ((inputCard != null && inputCard.showUaAlert) || showUaAlert) {
           sShowAlertPopup(
             sRouter.navigatorKey.currentContext!,
-            willPopScope: true,
             primaryText: intl.currencyBuy_alert,
             secondaryText: intl.currencyBuy_alertDescription,
             primaryButtonName: intl.actionBuy_gotIt,
@@ -191,11 +190,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   bool get isInputErrorActive {
-    return inputError.isActive
-        ? true
-        : paymentMethodInputError != null
-            ? true
-            : false;
+    return inputError.isActive || paymentMethodInputError != null;
   }
 
   @computed
@@ -436,11 +431,14 @@ abstract class _BuyAmountStoreBase with Store {
 
         return;
       }
-
-      print(selectedPaymentAsset);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Buy Amount Store',
+            message: selectedPaymentAsset.toString(),
+          );
 
       final value = double.parse(inputValue);
-      var min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
+      final min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
       var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
 
       if (category == PaymentMethodCategory.cards) {
@@ -456,12 +454,16 @@ abstract class _BuyAmountStoreBase with Store {
                       .toDouble();
         }
 
-        max = (limitMax ?? 0) < max ? limitMax ?? 0 : max;
+        max = limitMax < max ? limitMax : max;
       }
 
       inputValid = value >= min && value <= max;
 
-      print('min: $min, max: $max');
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Buy Amount Store',
+            message: 'min: $min, max: $max',
+          );
 
       if (max == 0) {
         _updatePaymentMethodInputError(
@@ -471,16 +473,16 @@ abstract class _BuyAmountStoreBase with Store {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
             decimal: Decimal.parse(min.toString()),
-            accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
-            symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,
+            accuracy: buyCurrency.accuracy,
+            symbol: buyCurrency.symbol,
           )}',
         );
       } else if (value > max) {
         _updatePaymentMethodInputError(
           '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
             decimal: Decimal.parse(max.toString()),
-            accuracy: buyCurrency?.accuracy ?? baseCurrency!.accuracy,
-            symbol: buyCurrency?.symbol ?? baseCurrency!.symbol,
+            accuracy: buyCurrency.accuracy,
+            symbol: buyCurrency.symbol,
           )}',
         );
       } else {
@@ -488,7 +490,7 @@ abstract class _BuyAmountStoreBase with Store {
       }
     }
 
-    final error = InputError.none;
+    const error = InputError.none;
 
     inputError = double.parse(inputValue) != 0
         ? error == InputError.none
@@ -508,7 +510,7 @@ abstract class _BuyAmountStoreBase with Store {
         paymentMethodType: category.name,
         paymentMethodName:
             category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: buyCurrency.symbol ?? '',
+        paymentMethodCurrency: buyCurrency.symbol,
       );
     }
     paymentMethodInputError = error;

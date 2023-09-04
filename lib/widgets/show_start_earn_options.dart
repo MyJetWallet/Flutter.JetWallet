@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showStartEarnOptions({
@@ -18,8 +15,6 @@ void showStartEarnOptions({
   final context = sRouter.navigatorKey.currentContext!;
   final kycState = getIt.get<KycService>();
   final kycAlertHandler = getIt.get<KycAlertHandler>();
-
-  final balancesEmpty = areBalancesEmpty(sSignalRModules.currenciesList);
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -93,7 +88,7 @@ void showStartEarnOptions({
 }
 
 class _EarnStartPinned extends StatelessWidget {
-  const _EarnStartPinned({Key? key}) : super(key: key);
+  const _EarnStartPinned();
 
   @override
   Widget build(BuildContext context) {

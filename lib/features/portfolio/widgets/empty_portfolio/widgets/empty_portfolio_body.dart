@@ -17,8 +17,8 @@ import 'package:simple_networking/modules/signal_r/models/client_detail_model.da
 
 class EmptyPortfolioBody extends StatefulObserverWidget {
   const EmptyPortfolioBody({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<EmptyPortfolioBody> createState() => _EmptyPortfolioBodyState();
@@ -48,10 +48,10 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
     final baseCurrency = sSignalRModules.baseCurrency;
     final deviceSize = sDeviceSize;
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 

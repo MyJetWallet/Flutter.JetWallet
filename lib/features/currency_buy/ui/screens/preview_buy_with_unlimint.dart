@@ -11,10 +11,8 @@ import 'package:jetwallet/features/currency_buy/store/preview_buy_with_unlimint_
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
@@ -24,9 +22,9 @@ import '../../../../utils/helpers/widget_size_from.dart';
 @RoutePage(name: 'PreviewBuyWithUnlimintRouter')
 class PreviewBuyWithUnlimint extends StatelessWidget {
   const PreviewBuyWithUnlimint({
-    Key? key,
+    super.key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithUnlimintInput input;
 
@@ -43,9 +41,8 @@ class PreviewBuyWithUnlimint extends StatelessWidget {
 
 class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
   const _PreviewBuyWithUnlimintBody({
-    Key? key,
     required this.input,
-  }) : super(key: key);
+  });
 
   final PreviewBuyWithUnlimintInput input;
 
@@ -54,14 +51,10 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
     late Widget icon;
     final colors = sKit.colors;
     final deviceSize = sDeviceSize;
-    final baseCurrency = sSignalRModules.baseCurrency;
     final currencies = sSignalRModules.currenciesWithHiddenList;
 
     final state = PreviewBuyWithUnlimitStore.of(context);
 
-    final title =
-        '${intl.previewBuyWithAsset_confirm} ${intl.previewBuyWithCircle_buy} '
-        '${input.currency.description}';
     var heightWidget = MediaQuery.of(context).size.height - 625;
     deviceSize.when(
       small: () => heightWidget = heightWidget - 120,
@@ -261,7 +254,7 @@ class _PreviewBuyWithUnlimintBody extends StatelessObserverWidget {
                             SPolicyText(
                               firstText: intl.previewBuyWithUmlimint_disclaimer,
                               userAgreementText:
-                                  ' ${intl.previewBuyWithUmlimint_disclaimerTerms}',
+                                  ''' ${intl.previewBuyWithUmlimint_disclaimerTerms}''',
                               betweenText: ', ',
                               privacyPolicyText:
                                   intl.previewBuyWithUmlimint_disclaimerPolicy,

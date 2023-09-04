@@ -26,7 +26,7 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
   void initState() {
     super.initState();
     _textController = TextEditingController(text: widget.store.email);
-    
+
     Future.delayed(
       const Duration(milliseconds: 500),
       () {

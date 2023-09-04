@@ -239,8 +239,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
         context,
       )}'
           ' ${transactionListItem.assetId} ';
-    } else if (transactionListItem.operationType == OperationType.giftSend
-        ) {
+    } else if (transactionListItem.operationType == OperationType.giftSend) {
       title = operationName(
         OperationType.giftSend,
         context,
@@ -290,7 +289,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 
     if (transactionListItem.operationType == OperationType.transferByPhone) {
       return Decimal.parse(
-        '${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'
+        '''${transactionListItem.transferByPhoneInfo?.withdrawalAmount ?? Decimal.zero}'''
             .replaceAll('-', ''),
       );
     }
@@ -316,7 +315,7 @@ class CommonTransactionDetailsBlock extends StatelessObserverWidget {
 }
 
 class _IconPlaceholder extends StatelessWidget {
-  const _IconPlaceholder({Key? key}) : super(key: key);
+  const _IconPlaceholder();
 
   @override
   Widget build(BuildContext context) {

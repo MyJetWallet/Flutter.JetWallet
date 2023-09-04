@@ -63,8 +63,7 @@ class SBigHeader extends StatelessWidget {
                 ),
             ],
           ),
-          if (isSmallSize)
-            const SpaceH6(),
+          if (isSmallSize) const SpaceH6(),
           Row(
             textBaseline: TextBaseline.alphabetic,
             crossAxisAlignment: CrossAxisAlignment.baseline,

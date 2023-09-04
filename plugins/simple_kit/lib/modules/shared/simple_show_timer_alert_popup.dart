@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:state_notifier/state_notifier.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../simple_kit.dart';
@@ -33,9 +32,7 @@ void sShowTimerAlertPopup({
 class _TimerState = __TimerStateBase with _$_TimerState;
 
 abstract class __TimerStateBase with Store {
-  __TimerStateBase(this.duration) {
-    //start();
-  }
+  __TimerStateBase(this.duration);
 
   @observable
   late Duration duration;

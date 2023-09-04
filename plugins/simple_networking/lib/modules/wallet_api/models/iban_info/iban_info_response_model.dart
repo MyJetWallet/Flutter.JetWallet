@@ -19,7 +19,6 @@ class IbanInfoResponseModel with _$IbanInfoResponseModel {
       _$IbanInfoResponseModelFromJson(json);
 }
 
-
 enum IbanInfoStatusDto {
   @JsonValue(0)
   notExist,
@@ -53,7 +52,6 @@ class RequirementsModel with _$RequirementsModel {
   factory RequirementsModel.fromJson(Map<String, dynamic> json) =>
       _$RequirementsModelFromJson(json);
 }
-
 
 @freezed
 class IncomingFeeDetailModel with _$IncomingFeeDetailModel {

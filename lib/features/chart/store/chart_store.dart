@@ -6,6 +6,7 @@ import 'package:charts/utils/data_feed_util.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/chart/helper/format_merge_candles_count.dart';
@@ -15,6 +16,7 @@ import 'package:jetwallet/features/chart/helper/time_length_from.dart';
 import 'package:jetwallet/features/chart/model/chart_input.dart';
 import 'package:jetwallet/features/chart/model/chart_union.dart';
 import 'package:jetwallet/utils/logging.dart';
+import 'package:logger/logger.dart' as logger;
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,7 @@ import 'package:simple_networking/modules/wallet_api/models/wallet_history/walle
 part 'chart_store.g.dart';
 
 class ChartStore extends _ChartStoreBase with _$ChartStore {
-  ChartStore(ChartInput chartInput) : super(chartInput);
+  ChartStore(super.chartInput);
 
   static _ChartStoreBase of(BuildContext context) =>
       Provider.of<ChartStore>(context, listen: false);
@@ -77,7 +79,11 @@ abstract class _ChartStoreBase with Store {
         );
       }
     } catch (e) {
-      print(e);
+      getIt.get<SimpleLoggerService>().log(
+            level: logger.Level.info,
+            place: 'Email Confirmation Store',
+            message: e.toString(),
+          );
     }
   }
 
@@ -129,7 +135,7 @@ abstract class _ChartStoreBase with Store {
   }) async {
     _logger.log(notifier, 'fetchBalanceCandles');
 
-    print('canFetch: $canFetch');
+    _logger.log(notifier, 'canFetch: $canFetch');
 
     try {
       if (!isLocal) {
@@ -163,17 +169,10 @@ abstract class _ChartStoreBase with Store {
         },
         onError: (e) {
           _logger.log(stateFlow, 'fetchBalanceCandles', e);
-          print('onError fetchBalanceCandles');
-
-          //updateCandles([], resolution);
         },
       );
     } catch (e) {
       _logger.log(stateFlow, 'fetchBalanceCandles', e);
-
-      print(e);
-
-      //updateCandles([], resolution);
     }
   }
 
@@ -229,11 +228,11 @@ abstract class _ChartStoreBase with Store {
   }
 
   @action
-  void updateCandles(List<CandleModel>? _candles, String resolution) {
+  void updateCandles(List<CandleModel>? newCandles, String resolution) {
     _logger.log(notifier, 'updateCandles');
 
     final currentCandles = Map.of(candles);
-    currentCandles[resolution] = _candles;
+    currentCandles[resolution] = newCandles;
 
     candles = currentCandles;
     union = const Candles();
@@ -247,25 +246,25 @@ abstract class _ChartStoreBase with Store {
   }
 
   @action
-  void updateChartType(ChartType _type) {
+  void updateChartType(ChartType newType) {
     _logger.log(notifier, 'updateChartType');
 
-    type = _type;
+    type = newType;
   }
 
   @action
-  void updateSelectedCandle(CandleModel? _selectedCandle) {
+  void updateSelectedCandle(CandleModel? neweSlectedCandle) {
     _logger.log(notifier, 'updateSelectedCandle');
 
-    selectedCandle = _selectedCandle;
+    selectedCandle = neweSlectedCandle;
   }
 
   @action
-  void updateResolution(String _resolution) {
+  void updateResolution(String newResolution) {
     _logger.log(notifier, 'updateResolution');
 
     // TODO: why?))
     showAnimation = true;
-    resolution = _resolution;
+    resolution = newResolution;
   }
 }

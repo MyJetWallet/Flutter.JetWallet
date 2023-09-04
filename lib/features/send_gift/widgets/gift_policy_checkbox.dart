@@ -7,18 +7,14 @@ import 'package:simple_kit/modules/shared/simple_spacers.dart';
 
 import '../../../core/l10n/i10n.dart';
 
-
 class GiftPolicyCheckbox extends StatelessWidget {
   const GiftPolicyCheckbox({
     super.key,
     required this.isChecked,
     required this.onCheckboxTap,
-    
-  
   });
   final bool isChecked;
   final Function() onCheckboxTap;
-
 
   @override
   Widget build(BuildContext context) {

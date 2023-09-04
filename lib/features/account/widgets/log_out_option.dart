@@ -6,12 +6,12 @@ import 'app_version_box.dart';
 
 class LogOutOption extends StatelessObserverWidget {
   const LogOutOption({
-    Key? key,
+    super.key,
     this.textColor = Colors.black,
     this.borderColor = Colors.black,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Color textColor;
   final Color borderColor;

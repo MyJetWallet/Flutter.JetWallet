@@ -16,7 +16,6 @@ import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/helpers/is_buy_with_currency_available_for.dart';
 import 'package:jetwallet/utils/helpers/localized_action_items.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -37,10 +36,10 @@ const _narrowInterval = Interval(
 
 class ActionButton extends StatefulObserverWidget {
   const ActionButton({
-    Key? key,
+    super.key,
     required this.transitionAnimationController,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final AnimationController transitionAnimationController;
   final CurrencyModel currency;
@@ -73,7 +72,7 @@ class _ActionButtonState extends State<ActionButton> {
           );
     }
 
-    final isBuyAvailable = isBuyWithCurrencyAvailableFor(
+    isBuyWithCurrencyAvailableFor(
       widget.currency.symbol,
       currencies,
     );
@@ -93,7 +92,7 @@ class _ActionButtonState extends State<ActionButton> {
     currentNameColor =
         highlighted ? colors.white.withOpacity(0.8) : colors.white;
 
-    void _onBuy(bool fromCard) {
+    void onBuy(bool fromCard) {
       if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
         showBuyPaymentCurrencyBottomSheet(context, widget.currency);
       } else {
@@ -175,10 +174,10 @@ class _ActionButtonState extends State<ActionButton> {
                                 widget.currency.supportsCryptoDeposit,
                             isSellAvailable: false,
                             onBuy: () {
-                              _onBuy(false);
+                              onBuy(false);
                             },
                             onBuyFromCard: () {
-                              _onBuy(true);
+                              onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==
@@ -438,10 +437,10 @@ class _ActionButtonState extends State<ActionButton> {
                             isReceiveAvailable:
                                 widget.currency.supportsCryptoDeposit,
                             onBuy: () {
-                              _onBuy(false);
+                              onBuy(false);
                             },
                             onBuyFromCard: () {
-                              _onBuy(true);
+                              onBuy(true);
                             },
                             onSell: () {
                               if (kycState.sellStatus ==

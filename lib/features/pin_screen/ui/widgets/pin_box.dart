@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PinBox extends StatelessWidget {
   const PinBox({
-    Key? key,
+    super.key,
     this.margin = const EdgeInsets.symmetric(horizontal: 15.0),
     required this.state,
-  }) : super(key: key);
+  });
 
   final PinBoxEnum state;
   final EdgeInsetsGeometry margin;

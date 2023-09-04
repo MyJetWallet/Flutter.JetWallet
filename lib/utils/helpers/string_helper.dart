@@ -112,8 +112,6 @@ String shortAddressForm(String address) {
 String shortTxhashFrom(String address) {
   final length = address.length;
 
-  var len = length / 2;
-
   if (length <= 16) return address;
 
   final part1 = address.substring(0, 8);
@@ -169,7 +167,9 @@ Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
 
 /// International only format
 Future<bool> isInternationalPhoneNumberValid(
-    String phoneNumber, String? isoCode) async {
+  String phoneNumber,
+  String? isoCode,
+) async {
   try {
     final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
       phoneNumber,
@@ -203,11 +203,6 @@ String formatCurrencyStringAmount({
   required String symbol,
 }) {
   return '$value $symbol';
-  return prefix == null
-      ? symbol == 'USD'
-          ? '\$$value'
-          : '$value $symbol'
-      : '$prefix$value';
 }
 
 String convertToUsd(
@@ -256,7 +251,8 @@ Decimal basePrice(
   }
 
   return Decimal.parse(
-      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+    '''${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}''',
+  );
 }
 
 String getCardTypeMask(String cardNumber) {
@@ -290,8 +286,8 @@ String getCardTypeMask(String cardNumber) {
 bool validLabel(String txt) {
   if (txt.isEmpty) return false;
 
-  var re = RegExp(
-    r"^[a-zA-Z\p{N},.:/\s/-]*$",
+  final re = RegExp(
+    r'^[a-zA-Z\p{N},.:/\s/-]*$',
     unicode: true,
     multiLine: true,
   );

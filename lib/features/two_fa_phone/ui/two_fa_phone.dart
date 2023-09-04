@@ -21,9 +21,9 @@ import 'package:simple_kit/simple_kit.dart';
 @RoutePage(name: 'TwoFaPhoneRouter')
 class TwoFaPhone extends StatelessWidget {
   const TwoFaPhone({
-    Key? key,
+    super.key,
     required this.trigger,
-  }) : super(key: key);
+  });
 
   final TwoFaPhoneTriggerUnion trigger;
 
@@ -51,9 +51,8 @@ class TwoFaPhone extends StatelessWidget {
 
 class _TwoFaPhoneBody extends StatelessObserverWidget {
   const _TwoFaPhoneBody({
-    Key? key,
     required this.trigger,
-  }) : super(key: key);
+  });
 
   final TwoFaPhoneTriggerUnion trigger;
 

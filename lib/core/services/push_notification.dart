@@ -46,7 +46,7 @@ class PushNotification {
 Future<void> _registerToken(
   String? token,
 ) async {
-  final _logger = Logger('');
+  final logger = Logger('');
 
   if (token != null) {
     final model = RegisterTokenRequestModel(
@@ -57,7 +57,7 @@ Future<void> _registerToken(
     try {
       await sNetwork.getWalletModule().postRegisterToken(model);
     } catch (e) {
-      _logger.log(pushNotifications, 'registerToken Failed', e);
+      logger.log(pushNotifications, 'registerToken Failed', e);
     }
   }
 }

@@ -7,15 +7,13 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 @RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatelessObserverWidget {
@@ -28,19 +26,17 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    if (store.withdrawalType == WithdrawalType.NFT) {
+    if (store.withdrawalType == WithdrawalType.nft) {
       return const SizedBox.shrink();
     }
 
-    var availableCurrency = currencyFrom(
+    final availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       store.withdrawalInputModel!.currency!.symbol,
     );
 
     final availableBalance = Decimal.parse(
-      //availableCurrency.assetBalance.toString(),
-      '${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}',
-      //'${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
     );
 
     return SPageFrame(
@@ -48,7 +44,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SSmallHeader(
           title:
-              '${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}',
+              '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
         ),
       ),
       child: Column(
@@ -87,7 +83,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
                     error: store.withAmmountInputError ==
                             InputError.enterHigherAmount
                         ? '${intl.withdrawalAmount_enterMoreThan} '
-                            '${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'
+                            '''${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'''
                         : store.withAmmountInputError.value(),
                     isErrorActive: store.withAmmountInputError.isActive,
                   ),
@@ -145,7 +141,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             ),
             name: shortAddressForm(store.address),
             description:
-                '${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}',
+                '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -174,7 +170,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              store.withdrawalPush(WithdrawStep.Preview);
+              store.withdrawalPush(WithdrawStep.preview);
             },
           ),
         ],

@@ -4,7 +4,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ActionBottomSheetHeader extends StatefulWidget {
   const ActionBottomSheetHeader({
-    Key? key,
+    super.key,
     this.showSearch = false,
     this.showSearchWithArrow = false,
     this.hideTitle = false,
@@ -15,7 +15,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.onChanged,
     this.onCloseTap,
     required this.name,
-  }) : super(key: key);
+  });
 
   final String name;
   final Function(String)? onChanged;
@@ -62,7 +62,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                   SIconButton(
                     onTap: () {
                       if (widget.onCloseTap != null) {
-                        widget.onCloseTap!();
+                        widget.onCloseTap?.call();
                       }
 
                       Navigator.pop(context);

@@ -4,9 +4,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DashLine extends StatelessObserverWidget {
   const DashLine({
-    Key? key,
+    super.key,
     this.color,
-  }) : super(key: key);
+  });
 
   final Color? color;
 

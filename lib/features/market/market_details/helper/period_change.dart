@@ -25,7 +25,7 @@ List<String> periodChange({
     var periodPercentChangeString = '';
     if (periodPercentChange.isFinite) {
       periodPercentChangeString =
-          '(${periodPercentChange >= 0 ? '+' : ''}${periodPercentChange.toStringAsFixed(signsAfterComma)}%)';
+          '''(${periodPercentChange >= 0 ? '+' : ''}${periodPercentChange.toStringAsFixed(signsAfterComma)}%)''';
     }
 
     return marketItem != null

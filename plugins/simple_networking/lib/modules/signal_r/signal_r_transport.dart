@@ -23,7 +23,6 @@ import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_portfolio.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';

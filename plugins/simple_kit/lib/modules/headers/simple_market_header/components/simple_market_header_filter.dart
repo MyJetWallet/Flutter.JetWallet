@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/buttons/simple_icon_button.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/24x24/public/filter/simple_filter_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/filter/simple_pressed_filter_icon.dart';
 import 'package:simple_kit/simple_kit.dart';

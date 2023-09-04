@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/modules/shared/stack_loader/components/loader_background.dart';
 import 'package:simple_kit/modules/shared/stack_loader/components/loader_container.dart';
 import 'package:simple_kit/modules/shared/stack_loader/components/simple_loader_success.dart';
-import 'package:simple_kit/modules/shared/stack_loader/notifier/stack_loader_notifier.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 
 class StackLoader extends StatefulObserverWidget {

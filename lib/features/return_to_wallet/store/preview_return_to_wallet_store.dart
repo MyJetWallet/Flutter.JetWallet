@@ -10,14 +10,13 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/earn_offer_withdrawal/earn_offer_withdrawal_request_model.dart';
 part 'preview_return_to_wallet_store.g.dart';
 
 class PreviewReturnToWalletStore extends _PreviewReturnToWalletStoreBase
     with _$PreviewReturnToWalletStore {
-  PreviewReturnToWalletStore(PreviewReturnToWalletInput input) : super(input);
+  PreviewReturnToWalletStore(super.input);
 
   static _PreviewReturnToWalletStoreBase of(BuildContext context) =>
       Provider.of<PreviewReturnToWalletStore>(context, listen: false);

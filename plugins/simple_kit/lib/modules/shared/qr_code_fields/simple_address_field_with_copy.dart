@@ -64,7 +64,9 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     );
     scaleAnimation = Tween<Offset>(
       begin: const Offset(0.0, 0.0),
-      end: widget.expanded ? Offset(0.0, -112.0) : Offset(0.0, -64.0),
+      end: widget.expanded
+          ? const Offset(0.0, -112.0)
+          : const Offset(0.0, -64.0),
     ).animate(
       CurvedAnimation(
         parent: animationController,
@@ -73,9 +75,16 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
       ),
     );
     scaleAnimation.addListener(() {
+      // ignore: no-empty-block
       setState(() {});
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -89,7 +98,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
     final value = widget.value;
     final afterCopyText = widget.afterCopyText;
 
-    void _onCopyAction() {
+    void onCopyAction() {
       Clipboard.setData(
         ClipboardData(
           text: realValue ?? value,
@@ -97,12 +106,6 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
       );
 
       then?.call();
-    }
-
-    @override
-    void dispose() {
-      animationController.dispose();
-      super.dispose();
     }
 
     return Stack(
@@ -128,7 +131,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                     ),
                     if (realValue != null)
                       Text(
-                        realValue ?? '',
+                        realValue,
                         style: sBodyText1Style.copyWith(
                           color: SColorsLight().green,
                           fontWeight: FontWeight.bold,
@@ -152,7 +155,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
               highlightColor: SColorsLight().grey4,
               splashColor: Colors.transparent,
               onTap: valueLoading ? null : onTap,
-              onLongPress: valueLoading ? null : () => _onCopyAction(),
+              onLongPress: valueLoading ? null : () => onCopyAction(),
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: widget.needPadding ? 24.0 : 0,
@@ -184,8 +187,8 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                                 baselineType: TextBaseline.alphabetic,
                                 child: AutoSizeText(
                                   widget.needFormatURL
-                                    ? _shortReferralLink(value)
-                                    : value,
+                                      ? _shortReferralLink(value)
+                                      : value,
                                   textAlign: TextAlign.start,
                                   minFontSize: 4.0,
                                   maxLines: widget.longString ? 2 : 1,
@@ -209,7 +212,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                       ),
                       const SpaceW10(),
                       SIconButton(
-                        onTap: valueLoading ? null : () => _onCopyAction(),
+                        onTap: valueLoading ? null : () => onCopyAction(),
                         defaultIcon: const SCopyIcon(),
                         pressedIcon: const SCopyPressedIcon(),
                       ),
@@ -217,7 +220,7 @@ class _SAddressFieldWithCopyState extends State<SAddressFieldWithCopy>
                         const SpaceW20(),
                         SIconButton(
                           onTap: valueLoading ? null : onTap,
-                          defaultIcon: actionIcon!,
+                          defaultIcon: actionIcon,
                         ),
                       ],
                     ],

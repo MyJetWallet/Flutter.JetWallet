@@ -10,7 +10,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'AboutUsRouter')
 class AboutUs extends StatelessObserverWidget {
-  const AboutUs({Key? key}) : super(key: key);
+  const AboutUs({super.key});
 
   @override
   Widget build(BuildContext context) {

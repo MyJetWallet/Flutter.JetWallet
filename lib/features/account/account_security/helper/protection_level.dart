@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/user_info/models/user_info.dart';
 import 'package:jetwallet/features/account/account_security/model/protection_level.dart';
 
 ProtectionLevel protectionLevel(

@@ -6,7 +6,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'market_header_stats.dart';
 
 class EmptyWatchlist extends StatelessWidget {
-  const EmptyWatchlist({Key? key}) : super(key: key);
+  const EmptyWatchlist({super.key});
 
   @override
   Widget build(BuildContext context) {

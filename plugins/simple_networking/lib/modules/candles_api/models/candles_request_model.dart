@@ -7,7 +7,7 @@ part 'candles_request_model.g.dart';
 class CandlesRequestModel with _$CandlesRequestModel {
   const factory CandlesRequestModel({
     @JsonKey(name: 'instruction') String? candleId,
-    @JsonKey(ignore: true) int? type,
+    @JsonKey(includeFromJson: true) int? type,
     required int bidOrAsk,
     required int fromDate,
     required int toDate,
