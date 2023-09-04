@@ -18,15 +18,15 @@ class GetQuoteResponseModel with _$GetQuoteResponseModel {
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        required Decimal fromAssetAmount,
+    required Decimal fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
-        required Decimal toAssetAmount,
+    required Decimal toAssetAmount,
     @JsonKey(name: 'actualTimeInSecond') required int expirationTime,
     @DecimalSerialiser() required Decimal feeAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'feePercentage')
-        required Decimal feePercent,
+    required Decimal feePercent,
   }) = _GetQuoteResponseModel;
 
   factory GetQuoteResponseModel.fromJson(Map<String, dynamic> json) =>

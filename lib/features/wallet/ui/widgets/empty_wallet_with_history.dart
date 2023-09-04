@@ -5,9 +5,9 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 
 class EmptyWalletWithHistory extends StatelessObserverWidget {
   const EmptyWalletWithHistory({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

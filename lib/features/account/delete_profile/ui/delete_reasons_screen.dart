@@ -8,7 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'DeleteReasonsScreenRouter')
 class DeleteReasonsScreen extends StatelessObserverWidget {
-  const DeleteReasonsScreen({Key? key}) : super(key: key);
+  const DeleteReasonsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

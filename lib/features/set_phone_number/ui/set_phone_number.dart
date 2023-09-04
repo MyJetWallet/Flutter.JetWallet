@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -13,7 +11,6 @@ import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store
 import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phone_number_picker.dart';
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 

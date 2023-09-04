@@ -5,6 +5,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -23,6 +24,7 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -1008,7 +1010,11 @@ abstract class _SignalRServiceUpdatedBase with Store {
 
   @action
   void operationHistoryEvent(String operationId) {
-    print('operationHistoryEvent');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Signal R serice nev',
+          message: 'operationHistoryEvent',
+        );
 
     getIt.get<EventBus>().fire(GetNewHistoryEvent());
   }

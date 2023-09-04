@@ -28,8 +28,8 @@ import '../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'CardRouter')
 class CardScreen extends StatefulObserverWidget {
   const CardScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CardScreen> createState() => _CardScreenBodyState();
@@ -272,7 +272,8 @@ class _CardScreenBodyState extends State<CardScreen> {
                                     _controllerConfetti.play();
                                     Timer(const Duration(seconds: 1), () {
                                       sUserInfo.updateCardRequested(
-                                          newValue: true);
+                                        newValue: true,
+                                      );
                                       setState(() {
                                         isButtonActive = true;
                                       });
@@ -322,7 +323,6 @@ class _CardScreenBodyState extends State<CardScreen> {
                   emissionFrequency: 0.01,
                   numberOfParticles: 100,
                   gravity: 0.01,
-                  shouldLoop: false,
                   colors: [
                     colors.confetti1,
                     colors.confetti2,

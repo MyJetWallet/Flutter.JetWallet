@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_percentage_indicator.dart';
-import 'package:simple_kit/modules/shared/stack_loader/components/loader_spinner.dart';
 
 import '../../simple_kit.dart';
 

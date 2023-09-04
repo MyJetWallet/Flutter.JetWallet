@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/market/market_details/helper/market_watchlist_items.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import '../fade_on_scroll.dart';
 import 'components/empty_watchlist.dart';
@@ -11,7 +10,7 @@ import 'components/market_reordable_list.dart';
 import 'helper/reset_market_scroll_position.dart';
 
 class WatchlistTabBarView extends StatefulObserverWidget {
-  const WatchlistTabBarView({Key? key}) : super(key: key);
+  const WatchlistTabBarView({super.key});
 
   @override
   State<WatchlistTabBarView> createState() => _WatchlistTabBarViewState();

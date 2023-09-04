@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
@@ -21,7 +20,6 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
-import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
@@ -30,7 +28,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -45,9 +42,9 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/wi
 
 part 'withdrawal_store.g.dart';
 
-enum WithdrawalType { Asset, NFT }
+enum WithdrawalType { asset, nft }
 
-enum WithdrawStep { Address, Ammount, Preview, Confirm }
+enum WithdrawStep { address, ammount, preview, confirm }
 
 // TODO: Split
 
@@ -60,14 +57,12 @@ class WithdrawalStore extends _WithdrawalStoreBase with _$WithdrawalStore {
 
 abstract class _WithdrawalStoreBase with Store {
   @observable
-  WithdrawStep withdrawStep = WithdrawStep.Address;
+  WithdrawStep withdrawStep = WithdrawStep.address;
   @observable
-  PageController withdrawStepController = PageController(
-    initialPage: 0,
-  );
+  PageController withdrawStepController = PageController();
 
   @observable
-  WithdrawalType withdrawalType = WithdrawalType.Asset;
+  WithdrawalType withdrawalType = WithdrawalType.asset;
 
   @observable
   WithdrawalModel? withdrawalInputModel;
@@ -209,7 +204,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get requirementLoading {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Loading || tagValidation is Loading
             : addressValidation is Loading
@@ -218,7 +213,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get isRequirementError {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Invalid || tagValidation is Invalid
             : addressValidation is Invalid
@@ -227,10 +222,10 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   String get header =>
-      '${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}';
+      '''${intl.withdrawal_send_verb} ${withdrawalInputModel!.currency!.description}''';
 
   @computed
-  String get bassAsset => withdrawalType == WithdrawalType.Asset
+  String get bassAsset => withdrawalType == WithdrawalType.asset
       ? withdrawalInputModel!.currency!.symbol
       : 'MATIC';
 
@@ -269,7 +264,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   bool get credentialsValid {
-    return withdrawalType == WithdrawalType.Asset
+    return withdrawalType == WithdrawalType.asset
         ? withdrawalInputModel?.currency?.hasTag ?? false
             ? addressValidation is Valid && tagValidation is Valid
             : addressValidation is Valid
@@ -307,7 +302,7 @@ abstract class _WithdrawalStoreBase with Store {
     withdrawalInputModel = input;
 
     if (withdrawalInputModel!.currency != null) {
-      withdrawalType = WithdrawalType.Asset;
+      withdrawalType = WithdrawalType.asset;
 
       if (withdrawalInputModel!.currency!.isSingleNetwork) {
         updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
@@ -315,7 +310,7 @@ abstract class _WithdrawalStoreBase with Store {
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
     } else if (withdrawalInputModel!.nft != null) {
-      withdrawalType = WithdrawalType.NFT;
+      withdrawalType = WithdrawalType.nft;
 
       networkController.text = withdrawalInputModel!.nft!.blockchain!;
 
@@ -332,7 +327,7 @@ abstract class _WithdrawalStoreBase with Store {
     bool isReplace = false,
   }) {
     switch (step) {
-      case WithdrawStep.Address:
+      case WithdrawStep.address:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalAddressRouter);
@@ -341,7 +336,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Ammount:
+      case WithdrawStep.ammount:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalAmmountRouter);
@@ -350,7 +345,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Preview:
+      case WithdrawStep.preview:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalPreviewRouter);
@@ -359,7 +354,7 @@ abstract class _WithdrawalStoreBase with Store {
         }
 
         break;
-      case WithdrawStep.Confirm:
+      case WithdrawStep.confirm:
         if (isReplace) {
           sRouter
               .popUntil((route) => route.settings is WithdrawalConfirmRouter);
@@ -374,7 +369,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void setIsReadyToContinue() {
-    if (withdrawalType == WithdrawalType.Asset) {
+    if (withdrawalType == WithdrawalType.asset) {
       if (withdrawalInputModel?.currency == null) return;
 
       final condition1 =
@@ -395,16 +390,12 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   Future<void> validateOnContinue(BuildContext context) async {
     if (credentialsValid) {
-      if (withdrawalType == WithdrawalType.NFT) {
-        final matic = currencyFrom(
-          sSignalRModules.currenciesList,
-          'MATIC',
-        );
-
+      if (withdrawalType == WithdrawalType.nft) {
         await withdrawNFT();
       }
-
-      return _pushWithdrawalAmount(context);
+      if (context.mounted) {
+        return _pushWithdrawalAmount(context);
+      }
     }
 
     _updateValidationOfBothFields(const Loading());
@@ -432,13 +423,6 @@ abstract class _WithdrawalStoreBase with Store {
           }
 
           if (credentialsValid) {
-            if (withdrawalType == WithdrawalType.NFT) {
-              final matic = currencyFrom(
-                sSignalRModules.currenciesList,
-                'MATIC',
-              );
-            }
-
             _pushWithdrawalAmount(context);
           }
         },
@@ -465,7 +449,7 @@ abstract class _WithdrawalStoreBase with Store {
     try {
       ValidateAddressRequestModel? model;
 
-      model = withdrawalType == WithdrawalType.Asset
+      model = withdrawalType == WithdrawalType.asset
           ? ValidateAddressRequestModel(
               assetSymbol: withdrawalInputModel!.currency!.symbol,
               toAddress: addressController.text,
@@ -544,22 +528,26 @@ abstract class _WithdrawalStoreBase with Store {
     final status = await _checkCameraStatusAction();
 
     if (status == CameraStatus.permanentlyDenied) {
-      _pushAllowCamera(context);
+      if (context.mounted) {
+        _pushAllowCamera(context);
+      }
     } else if (status == CameraStatus.granted) {
-      final result = await _pushQrView(
-        context: context,
-      );
-
-      if (result is Barcode) {
-        addressController.text = result.rawValue ?? '';
-        _moveCursorAtTheEnd(addressController);
-        addressFocus.requestFocus();
-        updateAddress(result.rawValue ?? '');
-        await _validateAddressOrTag(
-          _updateAddressValidation,
-          _triggerErrorOfAddressField,
+      if (context.mounted) {
+        final result = await _pushQrView(
+          context: context,
         );
-        scrollToBottom(scrollController);
+
+        if (result is Barcode) {
+          addressController.text = result.rawValue ?? '';
+          _moveCursorAtTheEnd(addressController);
+          addressFocus.requestFocus();
+          updateAddress(result.rawValue ?? '');
+          await _validateAddressOrTag(
+            _updateAddressValidation,
+            _triggerErrorOfAddressField,
+          );
+          scrollToBottom(scrollController);
+        }
       }
     }
 
@@ -645,22 +633,26 @@ abstract class _WithdrawalStoreBase with Store {
     final status = await _checkCameraStatusAction();
 
     if (status == CameraStatus.permanentlyDenied) {
-      _pushAllowCamera(context);
+      if (context.mounted) {
+        _pushAllowCamera(context);
+      }
     } else if (status == CameraStatus.granted) {
-      final result = await _pushQrView(
-        context: context,
-      );
-
-      if (result is Barcode) {
-        tagController.text = result.rawValue ?? '';
-        _moveCursorAtTheEnd(tagController);
-        tagFocus.requestFocus();
-        updateTag(result.rawValue ?? '');
-        await _validateAddressOrTag(
-          _updateTagValidation,
-          _triggerErrorOfTagField,
+      if (context.mounted) {
+        final result = await _pushQrView(
+          context: context,
         );
-        scrollToBottom(scrollController);
+
+        if (result is Barcode) {
+          tagController.text = result.rawValue ?? '';
+          _moveCursorAtTheEnd(tagController);
+          tagFocus.requestFocus();
+          updateTag(result.rawValue ?? '');
+          await _validateAddressOrTag(
+            _updateTagValidation,
+            _triggerErrorOfTagField,
+          );
+          scrollToBottom(scrollController);
+        }
       }
     }
 
@@ -669,20 +661,21 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void scrollToBottom(ScrollController scrollController) {
-    if (scrollController.hasClients)
+    if (scrollController.hasClients) {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.ease,
       );
+    }
   }
 
   @action
   void _pushWithdrawalAmount(BuildContext context) {
-    if (withdrawalType == WithdrawalType.Asset) {
-      withdrawalPush(WithdrawStep.Ammount);
+    if (withdrawalType == WithdrawalType.asset) {
+      withdrawalPush(WithdrawStep.ammount);
     } else {
-      withdrawalPush(WithdrawStep.Preview);
+      withdrawalPush(WithdrawStep.preview);
     }
   }
 
@@ -849,7 +842,7 @@ abstract class _WithdrawalStoreBase with Store {
       selected: percent,
       currency: withdrawalInputModel!.currency!,
       availableBalance: Decimal.parse(
-        '${withdrawalInputModel!.currency!.assetBalance.toDouble() - withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+        '''${withdrawalInputModel!.currency!.assetBalance.toDouble() - withdrawalInputModel!.currency!.cardReserve.toDouble()}''',
       ),
     );
 
@@ -923,7 +916,7 @@ abstract class _WithdrawalStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    withValid = error == InputError.none && isInputValid(withAmount);
   }
 
   @action
@@ -993,11 +986,6 @@ abstract class _WithdrawalStoreBase with Store {
   Future<void> withdrawNFT() async {
     previewLoading = true;
     previewLoader.startLoadingImmediately();
-
-    final matic = currencyFrom(
-      sSignalRModules.currenciesList,
-      'MATIC',
-    );
 
     try {
       final model = WithdrawRequestModel(
@@ -1163,12 +1151,12 @@ abstract class _WithdrawalStoreBase with Store {
       FailureScreenRouter(
         primaryText: intl.withdrawalConfirm_failure,
         secondaryText:
-            '${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}',
-        primaryButtonName: withdrawalType == WithdrawalType.Asset
+            '''${intl.withdrawalConfirm_failedTo} ${intl.withdrawal_send_verb.toLowerCase()}''',
+        primaryButtonName: withdrawalType == WithdrawalType.asset
             ? intl.withdrawalConfirm_editOrder
             : intl.send_timer_alert_ok,
         onPrimaryButtonTap: () {
-          if (withdrawalType == WithdrawalType.Asset) {
+          if (withdrawalType == WithdrawalType.asset) {
             sRouter.replaceAll([
               const HomeRouter(
                 children: [
@@ -1181,7 +1169,7 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.popUntilRoot();
           }
         },
-        secondaryButtonName: withdrawalType == WithdrawalType.Asset
+        secondaryButtonName: withdrawalType == WithdrawalType.asset
             ? intl.withdrawalConfirm_close
             : null,
         onSecondaryButtonTap: () => sRouter.popUntilRoot(),

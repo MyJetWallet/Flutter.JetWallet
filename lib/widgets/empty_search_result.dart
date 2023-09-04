@@ -7,8 +7,8 @@ import 'package:simple_kit/simple_kit.dart';
 class EmptySearchResult extends StatelessObserverWidget {
   const EmptySearchResult({
     required this.text,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String? text;
 

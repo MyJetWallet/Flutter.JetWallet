@@ -13,7 +13,7 @@ part 'reward_campaign_store.g.dart';
 
 class RewardCampaignStore extends _RewardCampaignStoreBase
     with _$RewardCampaignStore {
-  RewardCampaignStore(bool isFilterEnabled) : super(isFilterEnabled);
+  RewardCampaignStore(super.isFilterEnabled);
 
   static _RewardCampaignStoreBase of(BuildContext context) =>
       Provider.of<RewardCampaignStore>(context, listen: false);
@@ -44,29 +44,29 @@ abstract class _RewardCampaignStoreBase with Store {
   LocalStorageService storage = sLocalStorageService;
 
   @action
-  Future<void> updateCampaigns(List<CampaignModel> _campaigns) async {
+  Future<void> updateCampaigns(List<CampaignModel> newCampaigns) async {
     _logger.log(notifier, 'updateCampaigns');
 
     final validCampaigns = <CampaignModel>[
       if (isFilterEnabled)
-        ...await _filteredBanners(_campaigns)
+        ...await _filteredBanners(newCampaigns)
       else
-        ..._campaigns,
+        ...newCampaigns,
     ];
 
     campaigns = ObservableList.of(validCampaigns);
   }
 
   @action
-  Future<void> deleteCampaign(CampaignModel _campaign) async {
+  Future<void> deleteCampaign(CampaignModel newCampaign) async {
     _logger.log(notifier, 'deleteCampaign');
 
     try {
       final newList = List<CampaignModel>.from(campaigns);
 
-      newList.remove(_campaign);
+      newList.remove(newCampaign);
 
-      await _setBannersIdsToStorage(_campaign.campaignId);
+      await _setBannersIdsToStorage(newCampaign.campaignId);
 
       campaigns = ObservableList.of(newList);
     } catch (e) {
@@ -76,15 +76,15 @@ abstract class _RewardCampaignStoreBase with Store {
 
   @action
   Future<List<CampaignModel>> _filteredBanners(
-    List<CampaignModel> _campaigns,
+    List<CampaignModel> newCampaigns,
   ) async {
     final bannersForRemove = <CampaignModel>[];
 
     try {
       final storageBannerIds = await _getBannersIdsFromStorage();
-      if (storageBannerIds.isNotEmpty && _campaigns.isNotEmpty) {
+      if (storageBannerIds.isNotEmpty && newCampaigns.isNotEmpty) {
         for (final storageBannerId in storageBannerIds) {
-          for (final campaign in _campaigns) {
+          for (final campaign in newCampaigns) {
             if (storageBannerId == campaign.campaignId) {
               bannersForRemove.add(campaign);
             }
@@ -94,7 +94,7 @@ abstract class _RewardCampaignStoreBase with Store {
 
       if (bannersForRemove.isNotEmpty) {
         for (final banner in bannersForRemove) {
-          _campaigns.removeWhere(
+          newCampaigns.removeWhere(
             (CampaignModel element) => element.campaignId == banner.campaignId,
           );
         }
@@ -103,7 +103,7 @@ abstract class _RewardCampaignStoreBase with Store {
       _logger.log(stateFlow, '_filteredBanners', e);
     }
 
-    return _campaigns;
+    return newCampaigns;
   }
 
   @action

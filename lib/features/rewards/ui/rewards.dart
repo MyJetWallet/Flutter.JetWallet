@@ -27,9 +27,9 @@ import 'components/reward_notification_box.dart';
 @RoutePage(name: 'RewardsRouter')
 class Rewards extends StatelessWidget {
   const Rewards({
-    Key? key,
+    super.key,
     required this.actualRewards,
-  }) : super(key: key);
+  });
 
   final List<String> actualRewards;
 
@@ -46,9 +46,8 @@ class Rewards extends StatelessWidget {
 
 class _RewardsBody extends StatelessObserverWidget {
   const _RewardsBody({
-    Key? key,
     required this.actualRewards,
-  }) : super(key: key);
+  });
 
   final List<String> actualRewards;
 
@@ -127,7 +126,7 @@ class _RewardsBody extends StatelessObserverWidget {
                                 key: viewedRewardsKey,
                                 value: jsonEncode([
                                   ...viewedRewards,
-                                  item.campaign!.campaignId
+                                  item.campaign!.campaignId,
                                 ]),
                               ),
                             ],

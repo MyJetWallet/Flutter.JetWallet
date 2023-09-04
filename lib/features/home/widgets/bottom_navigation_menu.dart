@@ -6,13 +6,13 @@ import 'package:simple_kit/simple_kit.dart';
 
 class BottomNavigationMenu extends StatefulObserverWidget {
   const BottomNavigationMenu({
-    Key? key,
+    super.key,
     required this.hideAccount,
     required this.showCard,
     required this.isCardRequested,
     required this.currentIndex,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final int currentIndex;
   final Function(int) onChanged;

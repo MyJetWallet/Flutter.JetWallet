@@ -3,10 +3,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class TransactionListItemText extends StatelessWidget {
   const TransactionListItemText({
-    Key? key,
+    super.key,
     required this.text,
     required this.color,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color color;

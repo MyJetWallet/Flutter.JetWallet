@@ -4,13 +4,11 @@ import 'dart:async';
 //import 'package:signalr_netcore/signalr_client.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart' as lg;
-import 'package:logging/logging.dart' as logg;
 
 import 'package:simple_networking/config/constants.dart';
 import 'package:simple_networking/config/options.dart';
 import 'package:simple_networking/helpers/device_type.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
-import 'package:simple_networking/helpers/retry_operation.dart';
 
 import 'package:simple_networking/modules/signal_r/signal_r_func_handler.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
@@ -181,18 +179,18 @@ class SignalRModuleNew {
   Future<void> sendInitMessage(String from) async {
     if (_hubConnection?.state == HubConnectionState.connected) {
       try {
-        final _token = await getToken();
+        final token = await getToken();
 
         log(
-          level: lg.Level.wtf,
+          level: lg.Level.info,
           place: _loggerValue,
-          message: 'SignalR init message: $from \n With Token: $_token',
+          message: 'SignalR init message: $from \n With Token: $token',
         );
 
         await _hubConnection?.invoke(
           initMessage,
           args: [
-            _token,
+            token,
             localeName,
             deviceUid,
             deviceType,
@@ -217,7 +215,9 @@ class SignalRModuleNew {
       //isDisconnecting = true;
 
       transport.addToLog(
-          DateTime.now(), 'SignalR error init ${_hubConnection?.state}');
+        DateTime.now(),
+        'SignalR error init ${_hubConnection?.state}',
+      );
 
       if (!isDisconnecting) {
         reconnectSignalR();
@@ -225,7 +225,9 @@ class SignalRModuleNew {
     }
   }
 
-  static Future<void> handlePackage() async {}
+  static Future<void> handlePackage() async {
+    // TODO(yaroslav): must be removed.
+  }
 
   void handleError(String msg, Object error) {
     log(
@@ -319,6 +321,7 @@ class SignalRModuleNew {
   Future<void> reconnectSignalR({
     bool needRefreshToken = true,
   }) async {
+    // TODO(yaroslav): must be removed.
     /*transport.addToLog(
       DateTime.now(),
       'Start reconnect Signalr. isDisconnecting: $isDisconnecting',

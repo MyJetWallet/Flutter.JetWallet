@@ -6,12 +6,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class DisclaimerCheckbox extends StatelessObserverWidget {
   const DisclaimerCheckbox({
-    Key? key,
+    super.key,
     this.indexCheckBox,
     required this.questions,
     required this.firstText,
     required this.onCheckboxTap,
-  }) : super(key: key);
+  });
 
   final int? indexCheckBox;
   final String firstText;

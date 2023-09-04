@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class BlankDocumentFirstSide extends StatelessObserverWidget {
-  const BlankDocumentFirstSide({Key? key}) : super(key: key);
+  const BlankDocumentFirstSide({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -23,7 +23,7 @@ dependencies:
   # Util
   decimal: ^2.3.0
   data_channel: ^2.0.0+1
-  logger: ^1.1.0
+  logger: ^2.0.1
 
   # Models
   freezed_annotation: 2.4.1

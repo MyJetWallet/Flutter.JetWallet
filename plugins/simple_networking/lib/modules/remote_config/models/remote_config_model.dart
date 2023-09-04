@@ -23,13 +23,13 @@ class RemoteConfigModel with _$RemoteConfigModel {
     @JsonKey(name: 'AppsFlyer') required RemoteConfigAppsflyer appsFlyer,
     @JsonKey(name: 'Circle') required RemoteConfigCircle circle,
     @JsonKey(name: 'ConnectionFlavors')
-        required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
+    required List<RemoteConfigConnectionFlavorModel> connectionFlavors,
     @JsonKey(name: 'ConnectionFlavorsSlave')
-        required List<RemoteConfigConnectionFlavorModel> connectionFlavorsSlave,
+    required List<RemoteConfigConnectionFlavorModel> connectionFlavorsSlave,
     @JsonKey(name: 'Simplex') required RemoteConfogSimplexModel simplex,
     @JsonKey(name: 'Support') required RemoteConfigSupportModel support,
     @JsonKey(name: 'Versioning')
-        required RemoteConfogVersioningModel versioning,
+    required RemoteConfogVersioningModel versioning,
     @JsonKey(name: 'MerchantPay') required RemoteConfigMerchantPay merchantPay,
   }) = _RemoteConfigModel;
 

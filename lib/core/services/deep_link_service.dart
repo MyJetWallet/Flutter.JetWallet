@@ -27,8 +27,6 @@ import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dar
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/show_start_earn_options.dart';
 import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -46,8 +44,6 @@ const _email = 'jw_email';
 
 // when parameters come in "/" format as part of the link
 const _action = 'action';
-const _jw_nft_collection_id = 'jw_nft_collection_id';
-const _jw_nft_token_symbol = 'jw_nft_token_symbol';
 const jw_promo_code = 'jw_promo_code';
 
 const jw_deposit_successful = 'jw_deposit_successful';
@@ -64,19 +60,11 @@ const jw_gift_expired = 'jw_gift_expired';
 const _confirmEmail = 'ConfirmEmail';
 const _login = 'Login';
 const _confirmWithdraw = 'VerifyWithdrawal';
-const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
-const _earnLanding = 'EarnLanding';
-const _recurringBuyStart = 'RecurringBuyStart';
-const _highYield = 'HighYield';
-
-const _NFTmarket = 'NFT_market';
-const _NFTcollection = 'NFT_collection';
-const _NFTtoken = 'NFT_token';
 
 // Push Notification
 
@@ -307,7 +295,13 @@ class DeepLinkService {
             onShare: () {
               try {
                 Share.share(referralInfo.referralLink);
-              } catch (e) {}
+              } catch (e) {
+                getIt.get<SimpleLoggerService>().log(
+                      level: Level.error,
+                      place: 'DeepLinkService',
+                      message: e.toString(),
+                    );
+              }
             },
           ),
         ],
@@ -342,7 +336,13 @@ class DeepLinkService {
       await checkInitAppFBAnalytics(storage, deviceInfo);
 
       await getIt.get<ReferallCodeStore>().init();
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'DeepLinkService',
+            message: e.toString(),
+          );
+    }
   }
 
   /// Push Notification Links
@@ -481,15 +481,19 @@ class DeepLinkService {
       final kycState = getIt.get<KycService>();
 
       if (kycState.useSumsub) {
-        unawaited(sRouter.push(
-          const KycVerificationSumsubRouter(),
-        ));
-      } else {
-        unawaited(sRouter.push(
-          ChooseDocumentsRouter(
-            headerTitle: 'Verify your identity',
+        unawaited(
+          sRouter.push(
+            const KycVerificationSumsubRouter(),
           ),
-        ));
+        );
+      } else {
+        unawaited(
+          sRouter.push(
+            ChooseDocumentsRouter(
+              headerTitle: 'Verify your identity',
+            ),
+          ),
+        );
       }
       await sRouter.push(
         ChooseDocumentsRouter(

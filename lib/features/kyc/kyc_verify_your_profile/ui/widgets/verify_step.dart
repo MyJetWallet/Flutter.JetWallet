@@ -3,12 +3,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class VerifyStep extends StatelessWidget {
   const VerifyStep({
-    Key? key,
+    super.key,
     this.completeIcon = false,
     this.isSDivider = false,
     required this.title,
     required this.color,
-  }) : super(key: key);
+  });
 
   final bool completeIcon;
   final bool isSDivider;

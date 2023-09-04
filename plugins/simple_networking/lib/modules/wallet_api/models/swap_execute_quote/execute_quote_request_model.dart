@@ -17,10 +17,10 @@ class ExecuteQuoteRequestModel with _$ExecuteQuoteRequestModel {
     @JsonKey(name: 'toAsset') required String toAssetSymbol,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        Decimal? fromAssetAmount,
+    Decimal? fromAssetAmount,
     @DecimalSerialiser()
     @JsonKey(name: 'toAssetVolume')
-        required Decimal? toAssetAmount,
+    required Decimal? toAssetAmount,
     RecurringBuyInfoModel? recurringBuyInfo,
   }) = _ExecuteQuoteRequestModel;
 

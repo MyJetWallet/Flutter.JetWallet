@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/light/simple_light_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
