@@ -1080,6 +1080,7 @@
     "send_globally_cond_text_4": "i",
     "send_globally_cond_text_5": "Polityka prywatności Earn Global Ltd",
     "limitIsExceeded": "Limit został przekroczony, spróbuj ponownie później",
+    "global_send_title": "Dane odbiorcy",
     "withdrawOptions_actionItemNameDescr": "Na adres blockchain",
     "iban_tabbbar_receive": "Odbierz",
     "iban_tabbar_send": "Wyślij",
