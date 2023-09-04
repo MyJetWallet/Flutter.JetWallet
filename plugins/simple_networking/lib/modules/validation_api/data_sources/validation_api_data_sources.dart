@@ -60,7 +60,7 @@ class ValidationApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         return DC.data(true);
       } catch (e) {

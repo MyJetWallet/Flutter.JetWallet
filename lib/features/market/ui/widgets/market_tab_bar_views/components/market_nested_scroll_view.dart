@@ -28,7 +28,7 @@ import '../../fade_on_scroll.dart';
 import '../helper/reset_market_scroll_position.dart';
 import 'market_header_stats.dart';
 
-enum MarketShowType { Crypto, NFT }
+enum MarketShowType { crypto, nft }
 
 class MarketNestedScrollView extends StatelessWidget {
   const MarketNestedScrollView({
@@ -142,7 +142,7 @@ class __MarketNestedScrollViewBodyState
               fadeOutWidget: showPreloader
                   ? MarketHeaderStats(
                       activeFilters:
-                          widget.marketShowType == MarketShowType.Crypto
+                          widget.marketShowType == MarketShowType.crypto
                               ? store.activeFilter == 'all'
                                   ? 0
                                   : 1
@@ -156,7 +156,7 @@ class __MarketNestedScrollViewBodyState
                             }
                           : null,
                       onSearchButtonTap:
-                          widget.marketShowType == MarketShowType.Crypto
+                          widget.marketShowType == MarketShowType.crypto
                               ? () {
                                   showCryptoSearch(context);
                                 }
@@ -252,7 +252,7 @@ class __MarketNestedScrollViewBodyState
                 /*final isInWatchlist = store.watchListLocal.contains(
                   store.cryptoListFiltred[index].associateAsset,
                 );*/
-                final isInWatchlist = true;
+                const isInWatchlist = true;
 
                 return Reorderable(
                   key: ValueKey(item),
@@ -278,10 +278,6 @@ class __MarketNestedScrollViewBodyState
                                 store.removeFromWatchlist(
                                   item.associateAsset,
                                 );
-                              } else {
-                                store.addToWatchlist(
-                                  item.associateAsset,
-                                );
                               }
                             },
                             icon: SNetworkSvg24(
@@ -294,9 +290,8 @@ class __MarketNestedScrollViewBodyState
                               accuracy: item.priceAccuracy,
                             ),
                             ticker: item.symbol,
-                            last: store.watchListFiltred.isNotEmpty
-                                ? item == store.watchListFiltred.last
-                                : true,
+                            last: !store.watchListFiltred.isNotEmpty ||
+                                item == store.watchListFiltred.last,
                             percent: item.dayPercentChange,
                             onTap: () {
                               sRouter.push(
@@ -323,8 +318,6 @@ class __MarketNestedScrollViewBodyState
             items: store.cryptoFiltred,
             areItemsTheSame: (a, b) => a == b,
             itemBuilder: (context, animation, item, _) {
-              bool isInWatchlist = false;
-
               return SizeFadeTransition(
                 sizeFraction: 0.7,
                 curve: Curves.easeInOut,
@@ -334,21 +327,12 @@ class __MarketNestedScrollViewBodyState
                     item.associateAsset,
                   ),
                   showFavoriteIcon: true,
-                  isStarActive: isInWatchlist,
                   onStarButtonTap: () {
-                    if (isInWatchlist) {
-                      HapticFeedback.lightImpact();
+                    HapticFeedback.lightImpact();
 
-                      store.removeFromWatchlist(
-                        item.associateAsset,
-                      );
-                    } else {
-                      HapticFeedback.lightImpact();
-
-                      store.addToWatchlist(
-                        item.associateAsset,
-                      );
-                    }
+                    store.addToWatchlist(
+                      item.associateAsset,
+                    );
                   },
                   icon: SNetworkSvg24(
                     url: item.iconUrl,

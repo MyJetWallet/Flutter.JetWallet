@@ -6,11 +6,11 @@ import 'components/about_block_text.dart';
 
 class AboutBlock extends StatelessWidget {
   const AboutBlock({
-    Key? key,
+    super.key,
     required this.marketInfo,
     required this.showDivider,
     required this.isCpower,
-  }) : super(key: key);
+  });
 
   final MarketInfoResponseModel marketInfo;
   final bool showDivider;

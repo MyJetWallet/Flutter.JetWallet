@@ -15,9 +15,6 @@ part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
-  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyModelFromJson(json);
-
   const factory CurrencyModel({
     String? prefixSymbol,
     RecurringBuysModel? recurringBuy,
@@ -62,6 +59,8 @@ class CurrencyModel with _$CurrencyModel {
     required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
   }) = _CurrencyModel;
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyModelFromJson(json);
 
   const CurrencyModel._();
 
@@ -257,7 +256,8 @@ class CurrencyModel with _$CurrencyModel {
 
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
@@ -270,7 +270,8 @@ class CurrencyModel with _$CurrencyModel {
   bool get supportsByAssetWithdrawal {
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)

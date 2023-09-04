@@ -9,20 +9,18 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/choose_documents/store/choose_documents_store.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_documents_union.dart';
 import 'package:jetwallet/features/kyc/upload_documents/store/upload_kyc_documents_store.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/create_kyc_banners_list.dart';
-import 'package:jetwallet/features/kyc/upload_documents/models/upload_kyc_documents_union.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/document_page_view.dart';
 import 'package:jetwallet/features/kyc/upload_documents/ui/widgets/page_indicator.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'UploadKycDocumentsRouter')
 class UploadKycDocuments extends StatelessWidget {
-  const UploadKycDocuments({Key? key}) : super(key: key);
+  const UploadKycDocuments({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,7 @@ class UploadKycDocuments extends StatelessWidget {
 }
 
 class _UploadKycDocumentsBody extends StatelessObserverWidget {
-  const _UploadKycDocumentsBody({Key? key}) : super(key: key);
+  const _UploadKycDocumentsBody();
 
   @override
   Widget build(BuildContext context) {

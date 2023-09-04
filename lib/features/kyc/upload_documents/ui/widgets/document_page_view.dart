@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class DocumentPageView extends StatelessWidget {
   const DocumentPageView({
-    Key? key,
+    super.key,
     required this.onPageChanged,
     required this.pageController,
     required this.itemCount,
     required this.banners,
-  }) : super(key: key);
+  });
 
   final PageController pageController;
   final Function(int) onPageChanged;

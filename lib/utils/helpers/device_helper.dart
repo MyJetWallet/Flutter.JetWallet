@@ -38,14 +38,14 @@ DeviceSizeUnion deviceSizeFrom(double screenHeight) {
 Future<DeviceInfoModel> deviceInfo() async {
   final deviceInfoPlugin = DeviceInfoPlugin();
   final deviceMarketingPlugin = DeviceMarketingNames();
-  const _androidIdPlugin = AndroidId();
+  const androidIdPlugin = AndroidId();
   final deviceMarketingName = await deviceMarketingPlugin.getSingleName();
   final storageService = getIt.get<LocalStorageService>();
   final deviceIdUsed = await storageService.getValue(deviceId);
 
   if (Platform.isAndroid) {
     final androidInfo = await deviceInfoPlugin.androidInfo;
-    var andriudId = await _androidIdPlugin.getId();
+    var andriudId = await androidIdPlugin.getId();
     if (deviceIdUsed != null) {
       andriudId = deviceIdUsed;
     } else {
@@ -55,10 +55,10 @@ Future<DeviceInfoModel> deviceInfo() async {
     final deviceInfo = DeviceInfoModel(
       deviceUid: andriudId ?? '',
       osName: 'Android',
-      version: androidInfo.version.release ?? '',
+      version: androidInfo.version.release,
       sdk: androidInfo.version.sdkInt.toString(),
-      manufacturer: androidInfo.manufacturer ?? '',
-      model: androidInfo.model ?? '',
+      manufacturer: androidInfo.manufacturer,
+      model: androidInfo.model,
       marketingName: deviceMarketingName,
     );
 
@@ -74,9 +74,9 @@ Future<DeviceInfoModel> deviceInfo() async {
     final deviceInfo = DeviceInfoModel(
       deviceUid: iosId ?? '',
       osName: 'iOS',
-      version: iosInfo.systemVersion ?? '',
-      manufacturer: iosInfo.name ?? '',
-      model: iosInfo.utsname.machine ?? '',
+      version: iosInfo.systemVersion,
+      manufacturer: iosInfo.name,
+      model: iosInfo.utsname.machine,
       marketingName: deviceMarketingName,
     );
 

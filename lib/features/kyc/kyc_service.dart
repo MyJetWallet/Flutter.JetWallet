@@ -57,7 +57,7 @@ abstract class _KycServiceBase with Store {
   bool manualUpdateKycStatus = false;
 
   @computed
-  bool get verificationInProgress => manualUpdateKycStatus == false
+  bool get verificationInProgress => !manualUpdateKycStatus
       ? kycInProgress(
           sSignalRModules.clientDetail.depositStatus,
           sSignalRModules.clientDetail.tradeStatus,

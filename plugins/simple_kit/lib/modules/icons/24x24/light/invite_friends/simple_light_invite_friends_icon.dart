@@ -14,7 +14,7 @@ class SimpleLightInviteFriendsIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleBaseSvg24X24(
       assetName:
-        'assets/icons/light/24x24/profile/invite_friends/invite_icon.svg',
+          'assets/icons/light/24x24/profile/invite_friends/invite_icon.svg',
       color: color,
     );
   }

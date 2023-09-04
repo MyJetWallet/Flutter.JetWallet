@@ -10,11 +10,7 @@ class CountriesService {
       (element) => element.currCode == curr.toLowerCase(),
     );
 
-    if (index == -1) {
-      return findCountryByISOCode('tg');
-    } else {
-      return countriesList[index];
-    }
+    return index == -1 ? findCountryByISOCode('tg') : countriesList[index];
   }
 
   List<CountryModel> countriesList = [

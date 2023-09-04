@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Loader extends StatelessWidget {
   const Loader({
-    Key? key,
+    super.key,
     this.color = Colors.black,
-  }) : super(key: key);
+  });
 
   final Color color;
 

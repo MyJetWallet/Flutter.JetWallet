@@ -4,8 +4,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class IndexOverviewBlock extends StatelessWidget {
   const IndexOverviewBlock({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

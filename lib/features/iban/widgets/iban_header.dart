@@ -16,11 +16,11 @@ import '../../kyc/models/kyc_verified_model.dart';
 
 class IBanHeader extends StatefulObserverWidget {
   const IBanHeader({
-    Key? key,
+    super.key,
     required this.isKyc,
     required this.isShareActive,
     this.textForShare,
-  }) : super(key: key);
+  });
 
   final bool isKyc;
   final bool isShareActive;

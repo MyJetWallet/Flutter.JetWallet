@@ -1,6 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import '../../../simple_kit.dart';
 
@@ -27,9 +25,8 @@ class _SClickableLinkTextState extends State<SClickableLinkText> {
   Widget build(BuildContext context) {
     late Color currentColor;
 
-    currentColor = highlighted
-        ? widget.actualColor.withOpacity(0.8)
-        : widget.actualColor;
+    currentColor =
+        highlighted ? widget.actualColor.withOpacity(0.8) : widget.actualColor;
 
     return InkWell(
       onTap: widget.onTap,

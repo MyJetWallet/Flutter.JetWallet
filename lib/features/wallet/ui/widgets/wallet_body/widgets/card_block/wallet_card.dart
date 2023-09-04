@@ -9,9 +9,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class WalletCard extends StatelessObserverWidget {
   const WalletCard({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

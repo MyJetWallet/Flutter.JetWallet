@@ -145,22 +145,26 @@ abstract class _ReferallCodeStoreBase with Store {
     final status = await _checkCameraStatusAction();
 
     if (status == CameraStatus.permanentlyDenied) {
-      _pushAllowCamera(context);
+      if (context.mounted) {
+        _pushAllowCamera(context);
+      }
     } else if (status == CameraStatus.granted) {
-      final result = await _pushQrView(
-        context: context,
-      );
+      if (context.mounted) {
+        final result = await _pushQrView(
+          context: context,
+        );
 
-      if (result is Barcode) {
-        final command = _refCode(result.rawValue ?? '');
+        if (result is Barcode) {
+          final command = _refCode(result.rawValue ?? '');
 
-        referralCodeController.text = command ?? '';
+          referralCodeController.text = command ?? '';
 
-        _moveCursorAtTheEnd(referralCodeController);
+          _moveCursorAtTheEnd(referralCodeController);
 
-        bottomSheetReferralCode = referralCodeController.text;
+          bottomSheetReferralCode = referralCodeController.text;
 
-        await updateReferralCode(command!, null);
+          await updateReferralCode(command!, null);
+        }
       }
     }
   }

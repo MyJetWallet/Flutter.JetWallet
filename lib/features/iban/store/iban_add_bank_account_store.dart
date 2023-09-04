@@ -6,7 +6,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';

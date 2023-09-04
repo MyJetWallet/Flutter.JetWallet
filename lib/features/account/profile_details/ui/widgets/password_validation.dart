@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class PasswordValidation extends StatelessWidget {
   const PasswordValidation({
-    Key? key,
+    super.key,
     required this.password,
-  }) : super(key: key);
+  });
 
   final String password;
 

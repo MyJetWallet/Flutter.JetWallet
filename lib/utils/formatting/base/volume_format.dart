@@ -75,5 +75,5 @@ String _formatNumber(Decimal decimal, int accuracy, bool onlyFullPart) {
 
   return decimalPart.isEmpty || onlyFullPart
       ? wholePart3
-      : '$wholePart3.${decimalPart}';
+      : '$wholePart3.$decimalPart';
 }

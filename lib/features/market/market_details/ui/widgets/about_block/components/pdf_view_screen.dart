@@ -3,15 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:universal_io/io.dart';
 
 @RoutePage(name: 'PDFViewScreenRouter')
 class PDFViewScreen extends StatefulWidget {
   const PDFViewScreen({
-    Key? key,
+    super.key,
     required this.url,
-  }) : super(key: key);
+  });
 
   final String url;
 
@@ -25,16 +23,16 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
     super.initState();
   }
 
-  Future<Uint8List> _downloadFileFromUrl(String url) async {
+  Future<Uint8List?> _downloadFileFromUrl(String url) async {
     try {
-      var response = await Dio().get<List<int>>(
+      final response = await Dio().get<List<int>>(
         url,
         options: Options(responseType: ResponseType.bytes),
       );
 
-      return response.data as Uint8List;
+      return response.data as Uint8List?;
     } catch (e) {
-      throw Exception("Error opening url file");
+      throw Exception('Error opening url file');
     }
   }
 
@@ -51,17 +49,12 @@ class _PDFViewScreenState extends State<PDFViewScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: FutureBuilder<Uint8List>(
+      body: FutureBuilder<Uint8List?>(
         future: _downloadFileFromUrl(widget.url),
         builder: (context, snapshot) {
           return snapshot.hasData
               ? PDFView(
                   pdfData: snapshot.data,
-                  autoSpacing: true,
-                  enableSwipe: true,
-                  pageSnap: true,
-                  swipeHorizontal: false,
-                  nightMode: false,
                   onPageChanged: (int? page, int? total) {},
                 )
               : const Center(child: CircularProgressIndicator());

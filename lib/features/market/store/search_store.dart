@@ -19,11 +19,11 @@ abstract class _SearchStoreBase with Store {
   TextEditingController searchController = TextEditingController();
 
   @action
-  void updateSearch(String _search) {
-    if (_search != search) {
+  void updateSearch(String newSearch) {
+    if (newSearch != search) {
       _logger.log(notifier, 'updateSearch');
 
-      search = _search;
+      search = newSearch;
     }
   }
 

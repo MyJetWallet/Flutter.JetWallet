@@ -86,7 +86,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access to function properly</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires Microphone access to function properly</string>
+	<string>For voice input in chat with support</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>We need your face ID</string>
 	<key>NSPhotoLibraryUsageDescription</key>

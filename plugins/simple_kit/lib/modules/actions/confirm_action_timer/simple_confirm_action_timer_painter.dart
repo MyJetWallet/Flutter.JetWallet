@@ -26,9 +26,9 @@ class SConfirmActionTimerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(SConfirmActionTimerPainter old) {
-    return animation.value != old.animation.value ||
-        fillColor != old.fillColor ||
-        backgroundColor != old.backgroundColor;
+  bool shouldRepaint(SConfirmActionTimerPainter oldDelegate) {
+    return animation.value != oldDelegate.animation.value ||
+        fillColor != oldDelegate.fillColor ||
+        backgroundColor != oldDelegate.backgroundColor;
   }
 }

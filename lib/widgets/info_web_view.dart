@@ -8,10 +8,10 @@ import '../core/l10n/i10n.dart';
 @RoutePage(name: 'InfoWebViewRouter')
 class InfoWebView extends StatelessWidget {
   const InfoWebView({
-    Key? key,
+    super.key,
     required this.link,
     required this.title,
-  }) : super(key: key);
+  });
 
   final String link;
   final String title;

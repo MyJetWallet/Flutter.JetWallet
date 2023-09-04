@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 
 class CopyButton extends StatelessWidget {
   const CopyButton({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

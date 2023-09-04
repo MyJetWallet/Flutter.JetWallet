@@ -43,7 +43,8 @@ class GlobalSendMethodsModelDescription
   }) = _GlobalSendMethodsModelDescription;
 
   factory GlobalSendMethodsModelDescription.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$GlobalSendMethodsModelDescriptionFromJson(json);
 }
 

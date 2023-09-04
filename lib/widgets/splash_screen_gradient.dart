@@ -4,7 +4,7 @@ import 'package:jetwallet/utils/gradients.dart';
 /// Gradient for Onboarding/Spalsh screens
 class OnboardingFullScreenGradient extends StatelessWidget {
   const OnboardingFullScreenGradient({
-    Key? key,
+    super.key,
     this.backgroundColor,
     this.onTapBack,
     this.onTapNext,
@@ -12,7 +12,7 @@ class OnboardingFullScreenGradient extends StatelessWidget {
     this.onLongPressEnd,
     this.onPanEnd,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Function()? onTapBack;
   final Function()? onTapNext;

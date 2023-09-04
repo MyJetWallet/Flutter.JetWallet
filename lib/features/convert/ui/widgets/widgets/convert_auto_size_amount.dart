@@ -6,11 +6,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ConvertAutoSizeAmount extends StatelessObserverWidget {
   const ConvertAutoSizeAmount({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.value,
     required this.enabled,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final String value;

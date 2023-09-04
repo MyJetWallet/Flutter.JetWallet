@@ -3,15 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/helpers/timespan_to_duration.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 Duration getDurationFromBlocker(String timespanToExpire) {
   var hours = 0;
   var minutes = 0;
-  var seconds = 0;
 
-  var times = timespanToExpire.split(':');
+  final times = timespanToExpire.split(':');
 
   if (times.asMap().containsKey(0)) {
     hours = int.tryParse(times[0]) ?? 0;
@@ -23,7 +21,7 @@ Duration getDurationFromBlocker(String timespanToExpire) {
     //seconds = int.tryParse(times[2]) ?? 0;
   }
 
-  return Duration(hours: hours, minutes: minutes, seconds: seconds);
+  return Duration(hours: hours, minutes: minutes);
 }
 
 void showSendTimerAlertOr({

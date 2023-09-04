@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/loading_sliver_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_loading_item.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -12,9 +11,9 @@ class MarketNotLoaded extends StatelessWidget {
 
     return ColoredBox(
       color: colors.white,
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           SPaddingH24(
             child: SSkeletonTextLoader(
               height: 120,

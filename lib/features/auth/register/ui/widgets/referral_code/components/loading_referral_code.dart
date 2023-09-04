@@ -3,7 +3,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class LoadingReferralCode extends StatelessWidget {
-  const LoadingReferralCode({Key? key}) : super(key: key);
+  const LoadingReferralCode({super.key});
 
   @override
   Widget build(BuildContext context) {

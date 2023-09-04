@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class CircleProgressIndicator extends StatelessObserverWidget {
-  const CircleProgressIndicator({Key? key}) : super(key: key);
+  const CircleProgressIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {

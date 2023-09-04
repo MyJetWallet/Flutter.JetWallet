@@ -6,7 +6,7 @@ import 'package:jetwallet/features/kyc/kyc_selfie/store/kyc_selfie_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class SelfieBox extends StatelessObserverWidget {
-  const SelfieBox({Key? key}) : super(key: key);
+  const SelfieBox({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -16,10 +16,10 @@ const sAddressFieldWithCopyHeight = 146;
 
 class CryptoDepositWithAddressAndTag extends StatefulObserverWidget {
   const CryptoDepositWithAddressAndTag({
-    Key? key,
+    super.key,
     required this.currency,
     required this.scrollController,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
   final ScrollController scrollController;
@@ -147,7 +147,7 @@ class _CryptoDepositWithAddressAndTagState
                     );
                   }
                 },
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: colors.grey5,
@@ -185,7 +185,7 @@ class _CryptoDepositWithAddressAndTagState
               if (currentPage == 0)
                 Positioned(
                   left: 0,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: colors.black,
@@ -208,7 +208,7 @@ class _CryptoDepositWithAddressAndTagState
               else
                 Positioned(
                   right: 0,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: colors.black,
@@ -241,8 +241,11 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message,
-                    id: 1, isError: false);
+                sNotification.showError(
+                  intl.copy_message,
+                  id: 1,
+                  isError: false,
+                );
               },
             )
           else
@@ -256,8 +259,11 @@ class _CryptoDepositWithAddressAndTagState
               longString: true,
               expanded: true,
               then: () {
-                sNotification.showError(intl.copy_message,
-                    id: 1, isError: false);
+                sNotification.showError(
+                  intl.copy_message,
+                  id: 1,
+                  isError: false,
+                );
               },
             ),
         ],

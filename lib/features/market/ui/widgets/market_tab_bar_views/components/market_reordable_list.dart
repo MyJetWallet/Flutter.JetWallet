@@ -8,7 +8,7 @@ import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class MarketReorderableList extends StatelessObserverWidget {
-  const MarketReorderableList({Key? key}) : super(key: key);
+  const MarketReorderableList({super.key});
 
   @override
   Widget build(BuildContext context) {
