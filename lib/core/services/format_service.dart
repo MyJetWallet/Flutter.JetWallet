@@ -31,21 +31,9 @@ abstract class _FormatServiceBase with Store {
     );
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
-    if (operationAsset == baseCurrency.symbol) {
-      return '≈ ${volumeFormat(
-        prefix: baseCurrency.prefix,
-        decimal: operationAmount,
-        accuracy: baseCurrency.accuracy,
-        symbol: baseCurrency.symbol,
-      )}';
-    } else {
-      return '≈ ${volumeFormat(
-        prefix: baseCurrency.prefix,
-        decimal: priceInBaseCurrency,
-        accuracy: baseCurrency.accuracy,
-        symbol: baseCurrency.symbol,
-      )}';
-    }
+    return operationAsset == baseCurrency.symbol
+        ? '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
+        : '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
   }
 
   CurrencyModel findCurrency({
