@@ -39,6 +39,19 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
       '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
     );
 
+    final String error;
+
+    switch (store.withAmmountInputError) {
+      case InputError.enterHigherAmount:
+       error = '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}''';
+        break;
+      case InputError.limitError:
+        error = store.limitError;
+        break;
+      default:
+     error = store.withAmmountInputError.value();
+    }
+
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
@@ -80,11 +93,7 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
                       decimal: Decimal.parse(store.baseConversionValue),
                       symbol: store.baseCurrency.symbol,
                     )}',
-                    error: store.withAmmountInputError ==
-                            InputError.enterHigherAmount
-                        ? '${intl.withdrawalAmount_enterMoreThan} '
-                            '''${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'''
-                        : store.withAmmountInputError.value(),
+                    error: error,
                     isErrorActive: store.withAmmountInputError.isActive,
                   ),
                 ),
