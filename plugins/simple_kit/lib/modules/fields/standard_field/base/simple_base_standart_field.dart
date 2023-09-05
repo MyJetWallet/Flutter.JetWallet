@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:simple_kit/helpers/validators/validator.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -77,22 +76,10 @@ class SimpleBaseStandardField extends StatefulWidget {
 class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
   FocusNode? focusNode;
 
-  void onTextChanged() {}
-  void onFocusChanged() {}
-
   @override
   void initState() {
     focusNode = widget.focusNode ?? FocusNode();
-    focusNode?.addListener(onFocusChanged);
-    widget.controller?.addListener(onTextChanged);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    focusNode?.removeListener(onFocusChanged);
-    widget.controller?.removeListener(onTextChanged);
-    super.dispose();
   }
 
   @override

@@ -18,14 +18,13 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/wallet_api/models/kyc_profile/apply_user_data_request_model.dart';
 
 part 'user_data_store.g.dart';
 
 class UserDataStore extends _UserDataStoreBase with _$UserDataStore {
-  UserDataStore(SelectedDateStore? birthDateInfo) : super(birthDateInfo);
+  UserDataStore(super.birthDateInfo);
 
   static UserDataStore of(BuildContext context) =>
       Provider.of<UserDataStore>(context, listen: false);
@@ -84,7 +83,6 @@ abstract class _UserDataStoreBase with Store {
     firstNameError = true;
 
     firstNameError =
-        // ignore: avoid_bool_literals_in_conditional_expressions
         nameRegEx.hasMatch(firstName) || firstName.isEmpty ? false : true;
     updateButtonActivity();
   }
@@ -155,7 +153,7 @@ abstract class _UserDataStoreBase with Store {
       referralCode: referralCodeLink.referralCode ?? '',
     );
 
-    print(model);
+    _logger.log(notifier, model);
 
     loader.startLoadingImmediately();
 

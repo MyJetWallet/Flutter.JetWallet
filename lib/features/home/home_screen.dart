@@ -18,7 +18,7 @@ import '../kyc/kyc_service.dart';
 
 @RoutePage(name: 'HomeRouter')
 class HomeScreen extends StatefulObserverWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -26,12 +26,6 @@ class HomeScreen extends StatefulObserverWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final bool earnEnabled = sSignalRModules.earnProfile?.earnEnabled ?? false;
-  final bool hideAccount = sSignalRModules.currenciesList
-      .where(
-        (element) => element.supportsIbanDeposit,
-      )
-      .toList()
-      .isEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
       kycState.sellStatus,
       kycState.withdrawalStatus,
     );
+
+    final hideAccount = sSignalRModules.currenciesList
+        .where(
+          (element) => element.supportsIbanDeposit,
+        )
+        .toList()
+        .isEmpty;
 
     return Observer(
       builder: (context) {
@@ -98,7 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 getIt<AppStore>().setHomeTab(val);
-                tabsRouter.setActiveIndex(val);
+                if (val < screens.length) {
+                  tabsRouter.setActiveIndex(val);
+                } else {
+                  tabsRouter.setActiveIndex(screens.length - 1);
+                }
               },
             );
           },

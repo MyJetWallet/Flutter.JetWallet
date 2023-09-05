@@ -34,4 +34,12 @@ class PropertyType {
   static const countryKYC = 'Country of KYC';
   static const documentList = 'Document list';
   static const globalMethods = 'Globally Method type';
+  static const sendMethodTypeAllAvailableList =
+      'Send method type all available list';
+  static const sendMethodType = 'Send method type';
+  static const giftSendSubmethod = 'Gift Send Submethod';
+  static const totalSendAmount = 'Total send amount';
+  static const giftAmount = 'Gift amount';
+  static const giftFrom = 'Gift from';
+  static const errorText = 'error text';
 }

@@ -48,21 +48,20 @@ class UnlimintAltPaymentDataExecuteModel
     String? locale,
   }) = _UnlimintAltPaymentDataExecuteModel;
 
-  factory UnlimintAltPaymentDataExecuteModel
-      .fromJson(Map<String, dynamic> json) =>
+  factory UnlimintAltPaymentDataExecuteModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
       _$UnlimintAltPaymentDataExecuteModelFromJson(json);
 }
 
 @freezed
-class BankCardPaymentDataExecuteModel
-    with _$BankCardPaymentDataExecuteModel {
+class BankCardPaymentDataExecuteModel with _$BankCardPaymentDataExecuteModel {
   const factory BankCardPaymentDataExecuteModel({
     String? cardId,
     String? encKeyId,
     String? encData,
   }) = _BankCardPaymentDataExecuteModel;
 
-  factory BankCardPaymentDataExecuteModel
-      .fromJson(Map<String, dynamic> json) =>
+  factory BankCardPaymentDataExecuteModel.fromJson(Map<String, dynamic> json) =>
       _$BankCardPaymentDataExecuteModelFromJson(json);
 }

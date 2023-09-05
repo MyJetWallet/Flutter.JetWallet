@@ -25,10 +25,10 @@ class SResendButton extends StatefulWidget {
   final String textResend;
 
   @override
-  _SResendButton createState() => _SResendButton();
+  State<SResendButton> createState() => _SResendButtonState();
 }
 
-class _SResendButton extends State<SResendButton>
+class _SResendButtonState extends State<SResendButton>
     with RestorationMixin<SResendButton> {
   final _timer = RestorableInt(0);
 

@@ -51,24 +51,24 @@ class SimpleBaseButton extends StatelessWidget {
           baselineType: TextBaseline.alphabetic,
           child: SPaddingH24(
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (icon != null) ...[
-                    Baseline(
-                      baselineType: TextBaseline.alphabetic,
-                      baseline: 23,
-                      child: icon,
-                    ),
-                    const SpaceW10(),
-                  ],
-                  if (addPadding)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          child: autoSize
-                              ? SizedBox(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  Baseline(
+                    baselineType: TextBaseline.alphabetic,
+                    baseline: 23,
+                    child: icon,
+                  ),
+                  const SpaceW10(),
+                ],
+                if (addPadding)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: autoSize
+                            ? SizedBox(
                                 width: MediaQuery.of(context).size.width - 132,
                                 child: AutoSizeText(
                                   name,
@@ -90,21 +90,20 @@ class SimpleBaseButton extends StatelessWidget {
                                   ),
                                 ),
                               )
-                              : Text(
-                            name,
-                            style: sButtonTextStyle.copyWith(
-                              color: nameColor,
-                            ),
-                          ),
-                        ),
-                        if (icon != null)
-                          const SpaceH8(),
-                      ],
-                    )
-                  else
-                    Flexible(
-                      child: autoSize
-                          ? SizedBox(
+                            : Text(
+                                name,
+                                style: sButtonTextStyle.copyWith(
+                                  color: nameColor,
+                                ),
+                              ),
+                      ),
+                      if (icon != null) const SpaceH8(),
+                    ],
+                  )
+                else
+                  Flexible(
+                    child: autoSize
+                        ? SizedBox(
                             width: MediaQuery.of(context).size.width - 132,
                             child: AutoSizeText(
                               name,
@@ -126,18 +125,18 @@ class SimpleBaseButton extends StatelessWidget {
                               ),
                             ),
                           )
-                          : Text(
-                        name,
-                        style: sButtonTextStyle.copyWith(
-                          color: nameColor,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                        : Text(
+                            name,
+                            style: sButtonTextStyle.copyWith(
+                              color: nameColor,
+                            ),
+                          ),
+                  ),
+              ],
             ),
           ),
         ),
+      ),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
@@ -40,7 +39,6 @@ class BalanceActionButtons extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (marketItem.symbol == 'CPWR') ...[
@@ -162,7 +160,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onSend: () {
-              if (kycState.sellStatus ==
+              sAnalytics.tabOnTheSendButton(
+                source: 'Market - Asset - Send',
+              );
+              if (kycState.withdrawalStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
                 showSendOptions(
                   context,
@@ -171,7 +172,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 );
               } else {
                 kycAlertHandler.handle(
-                  status: kycState.sellStatus,
+                  status: kycState.withdrawalStatus,
                   isProgress: kycState.verificationInProgress,
                   currentNavigate: () {
                     showSendOptions(context, currency);

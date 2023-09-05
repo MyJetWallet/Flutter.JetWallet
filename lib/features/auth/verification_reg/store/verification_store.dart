@@ -4,11 +4,11 @@ part 'verification_store.g.dart';
 
 class VerificationStore = _VerificationStoreBase with _$VerificationStore;
 
-enum VerificationScreenStep { Email, Phone, PersonalDetail, Pin }
+enum VerificationScreenStep { email, phone, personalDetail, pin }
 
 abstract class _VerificationStoreBase with Store {
   @observable
-  VerificationScreenStep step = VerificationScreenStep.Phone;
+  VerificationScreenStep step = VerificationScreenStep.phone;
 
   @observable
   bool isEmailDone = true;
@@ -37,7 +37,7 @@ abstract class _VerificationStoreBase with Store {
   @action
   void phoneDone() {
     isPhoneDone = true;
-    step = VerificationScreenStep.PersonalDetail;
+    step = VerificationScreenStep.personalDetail;
   }
 
   @action
@@ -48,12 +48,12 @@ abstract class _VerificationStoreBase with Store {
   @action
   void personalDetailDone() {
     isPersonalDetailsDone = true;
-    step = VerificationScreenStep.Pin;
+    step = VerificationScreenStep.pin;
   }
 
   @action
   void clear() {
-    step = VerificationScreenStep.Phone;
+    step = VerificationScreenStep.phone;
     isEmailDone = false;
     isPhoneDone = false;
     isPersonalDetailsDone = false;

@@ -15,9 +15,9 @@ void showNetworkBottomSheet(
   void Function(BlockchainModel) setNetwork, {
   bool backOnClose = true,
 }) {
-  bool isClosed = false;
+  var isClosed = false;
 
-  checkOrClose(val) {
+  void checkOrClose(val) {
     if (!backOnClose) return;
     if (isClosed) return;
     if (val is bool && !val) {

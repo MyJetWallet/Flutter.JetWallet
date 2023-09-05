@@ -12,14 +12,14 @@ import 'package:jetwallet/core/services/simple_networking/helpers/retry_request.
 import 'package:jetwallet/core/services/simple_networking/helpers/setup_headers.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:logger/logger.dart' as log_print;
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
-import 'package:logger/logger.dart' as logPrint;
 
 void setAuthInterceptor(
   Dio dio, {
   required bool isImage,
 }) {
-  final log = logPrint.Logger();
+  final log = log_print.Logger();
 
   dio.interceptors.add(
     QueuedInterceptorsWrapper(
@@ -27,7 +27,7 @@ void setAuthInterceptor(
         if (options.extra.containsKey('sessionID')) {
           if (getIt<AppStore>().sessionID != options.extra['sessionID']) {
             log.e(
-              'AUTH INTERCEPTOR: SESSION ID NOR COMPARE \n AppStore: ${getIt<AppStore>().sessionID} \n User: ${options.extra["sessionID"]}',
+              '''AUTH INTERCEPTOR: SESSION ID NOR COMPARE \n AppStore: ${getIt<AppStore>().sessionID} \n User: ${options.extra["sessionID"]}''',
             );
 
             handler.reject(
@@ -65,7 +65,7 @@ void setAuthInterceptor(
       },
       onError: (dioError, handler) async {
         if (getIt.isRegistered<AppStore>()) {
-          if (getIt<AppStore>().appStatus == AppStatus.End) {
+          if (getIt<AppStore>().appStatus == AppStatus.end) {
             handler.reject(dioError);
 
             return;
@@ -73,7 +73,8 @@ void setAuthInterceptor(
         }
 
         log.e(
-            'AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}');
+          '''AUTH INTERCEPTOR: ${dioError.response}\nAppStore: ${getIt<AppStore>().appStatus}''',
+        );
 
         final code = dioError.response?.statusCode;
 

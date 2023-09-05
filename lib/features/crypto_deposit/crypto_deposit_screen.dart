@@ -21,17 +21,16 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 @RoutePage(name: 'CryptoDepositRouter')
 class CryptoDeposit extends StatelessWidget {
   const CryptoDeposit({
-    Key? key,
+    super.key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;
@@ -51,10 +50,9 @@ class CryptoDeposit extends StatelessWidget {
 
 class _CryptoDepositBody extends StatefulObserverWidget {
   const _CryptoDepositBody({
-    Key? key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;

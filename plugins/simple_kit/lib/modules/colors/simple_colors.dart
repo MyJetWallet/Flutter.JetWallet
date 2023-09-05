@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 abstract class SimpleColors {
   abstract Color red;
   abstract Color blue;
+  abstract Color blue2;
   abstract Color green;
   abstract Color seaGreen;
   abstract Color leafGreen;
@@ -37,4 +38,5 @@ abstract class SimpleColors {
   abstract Color confetti6;
   abstract Color confetti7;
   abstract Color confetti8;
+  abstract Color purple;
 }

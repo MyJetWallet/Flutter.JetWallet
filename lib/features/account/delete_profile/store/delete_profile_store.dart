@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -67,7 +66,7 @@ abstract class _DeleteProfileStoreBase with Store {
   Future<void> deleteProfile() async {
     final walletApi = sNetwork.getWalletModule();
 
-    final request = await walletApi.postProfileDelete(
+    await walletApi.postProfileDelete(
       getIt.get<AppStore>().authState.deleteToken,
       selectedDeleteReason.map((e) => e.reasonId!).toList(),
     );

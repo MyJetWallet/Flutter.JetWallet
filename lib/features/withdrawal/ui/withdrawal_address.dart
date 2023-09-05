@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
 import 'package:jetwallet/features/currency_withdraw/model/address_validation_union.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
+import 'package:jetwallet/widgets/network_bottom_sheet/show_network_bottom_sheet.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 @RoutePage(name: 'WithdrawalAddressRouter')
@@ -45,6 +44,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
         }
       }
     });
+    super.initState();
   }
 
   @override
@@ -53,7 +53,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     final store = WithdrawalStore.of(context);
 
-    final asset = store.withdrawalType == WithdrawalType.Asset
+    final asset = store.withdrawalType == WithdrawalType.asset
         ? store.withdrawalInputModel?.currency?.symbol
         : 'Matic';
 
@@ -82,7 +82,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     highlightColor: colors.grey5,
                     splashColor: Colors.transparent,
                     onTap: () {
-                      if (store.withdrawalType == WithdrawalType.Asset &&
+                      if (store.withdrawalType == WithdrawalType.asset &&
                           store.withdrawalInputModel!.currency!
                                   .withdrawalBlockchains.length >
                               1) {
@@ -107,7 +107,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       child: SStandardField(
                         controller: store.networkController,
                         labelText:
-                            (store.withdrawalType == WithdrawalType.Asset &&
+                            (store.withdrawalType == WithdrawalType.asset &&
                                     store.withdrawalInputModel!.currency!
                                             .withdrawalBlockchains.length >
                                         1)
@@ -117,7 +117,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         hideIconsIfNotEmpty: false,
                         hideClearButton: true,
                         suffixIcons: [
-                          if (store.withdrawalType == WithdrawalType.Asset &&
+                          if (store.withdrawalType == WithdrawalType.asset &&
                               store.withdrawalInputModel!.currency!
                                       .withdrawalBlockchains.length >
                                   1)

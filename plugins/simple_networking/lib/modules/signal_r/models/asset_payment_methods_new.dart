@@ -26,6 +26,7 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
 class BuyMethodDto with _$BuyMethodDto {
   const factory BuyMethodDto({
     @PaymentTypeSerialiser() @JsonKey(name: 'id') required PaymentMethodType id,
+    final String? name,
     final PaymentMethodCategory? category,
     String? iconUrl,
     int? orderId,
@@ -48,6 +49,7 @@ class SendMethodDto with _$SendMethodDto {
     int? orderId,
     List<String>? symbols,
     List<SendMethodDtoDetails>? symbolDetails,
+    List<SymbolNetworkDetails>? symbolNetworkDetails,
   }) = _SendMethodDto;
 
   factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
@@ -119,4 +121,17 @@ class PresetDescription with _$PresetDescription {
 
   factory PresetDescription.fromJson(Map<String, dynamic> json) =>
       _$PresetDescriptionFromJson(json);
+}
+
+@freezed
+class SymbolNetworkDetails with _$SymbolNetworkDetails {
+  const factory SymbolNetworkDetails({
+    String? symbol,
+    String? network,
+    @DecimalNullSerialiser() final Decimal? minAmount,
+    @DecimalNullSerialiser() final Decimal? maxAmount,
+  }) = _SymbolNetworkDetails;
+
+  factory SymbolNetworkDetails.fromJson(Map<String, dynamic> json) =>
+      _$SymbolNetworkDetailsFromJson(json);
 }

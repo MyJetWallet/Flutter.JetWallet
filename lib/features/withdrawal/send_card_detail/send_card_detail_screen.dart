@@ -1,17 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_input.dart';
-import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +94,9 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
 
           //1. I confirm that information above is accurate and complete.
           //2. I agree with T&C Send Globally program.
-          //3. I understand that this money transfer is processed via P2P network more. P2P transfers are orchestrated by Payport LLC. More details.
+          //3. I understand that this money transfer is processed via P2P
+          //   network more. P2P transfers are orchestrated by Payport LLC.
+          //   More details.
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
@@ -134,12 +131,16 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       launchURL(context, p2pTerms);
                     },
                     onPrivacyPolicyTap: () {
-                      launchURL(context,
-                          'https://globalltd.xyz/terms-and-conditions');
+                      launchURL(
+                        context,
+                        'https://globalltd.xyz/terms-and-conditions',
+                      );
                     },
                     onActiveTextTap: () {
                       launchURL(
-                          context, 'https://globalltd.xyz/privacy-policy');
+                        context,
+                        'https://globalltd.xyz/privacy-policy',
+                      );
                     },
                     onActiveText2Tap: () {
                       sAnalytics.globalSendMoreDetailsButton(
@@ -161,7 +162,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                         primaryText: '',
                         secondaryText: intl.global_send_popup_details,
                         primaryButtonName: intl.global_send_got_it,
-                        barrierDismissible: true,
                         image: Image.asset(
                           infoLightAsset,
                           height: 80,

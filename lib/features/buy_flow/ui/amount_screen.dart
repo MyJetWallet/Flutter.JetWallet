@@ -65,7 +65,6 @@ class BuyAmountScreen extends StatelessWidget {
 
 class _BuyAmountScreenBody extends StatelessObserverWidget {
   const _BuyAmountScreenBody({
-    super.key,
     required this.asset,
     required this.currency,
     this.method,
@@ -114,13 +113,13 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
 
         return '${volumeFormat(
           decimal: amount,
-          symbol: store.buyCurrency!.symbol,
-          accuracy: store.buyCurrency!.accuracy,
+          symbol: store.buyCurrency.symbol,
+          accuracy: store.buyCurrency.accuracy,
           onlyFullPart: true,
         )} / ${volumeFormat(
           decimal: limit,
-          symbol: store.buyCurrency!.symbol,
-          accuracy: store.buyCurrency!.accuracy,
+          symbol: store.buyCurrency.symbol,
+          accuracy: store.buyCurrency.accuracy,
           onlyFullPart: true,
         )}';
       }
@@ -129,7 +128,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
     }
 
     final limitText = store.limitByAsset != null
-        ? '${(store.limitByAsset!.barInterval == StateBarType.day1 || store.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (store.limitByAsset!.barInterval == StateBarType.day7 || store.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'
+        ? '''${(store.limitByAsset!.barInterval == StateBarType.day1 || store.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (store.limitByAsset!.barInterval == StateBarType.day7 || store.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'''
             ': ${checkLimitText()}'
         : '';
 
@@ -163,7 +162,7 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                 ),
                 helper: formatCurrencyStringAmount(
                   value: store.targetConversionValue,
-                  symbol: asset!.symbol,
+                  symbol: asset.symbol,
                 ),
                 error: store.inputErrorValue,
                 isErrorActive: store.isInputErrorActive,
@@ -247,7 +246,6 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SpaceW19(),
                           SNetworkCachedSvg(
@@ -257,9 +255,10 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                             width: 40,
                             height: 40,
                             placeholder: MethodPlaceholder(
-                              name: capitalizeText(
-                                store.method?.id.name ?? '  ',
-                              ),
+                              name: store.method?.name ??
+                                  capitalizeText(
+                                    store.method?.id.name ?? '  ',
+                                  ),
                             ),
                           ),
                           const SpaceW12(),
@@ -268,9 +267,10 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
                               baseline: 18,
                               baselineType: TextBaseline.alphabetic,
                               child: Text(
-                                capitalizeText(
-                                  store.method?.id.name ?? '  ',
-                                ),
+                                store.method?.name ??
+                                    capitalizeText(
+                                      store.method?.id.name ?? '  ',
+                                    ),
                                 overflow: TextOverflow.ellipsis,
                                 style: sSubtitle2Style,
                               ),

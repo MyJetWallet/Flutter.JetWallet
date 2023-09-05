@@ -7,7 +7,7 @@ import 'package:jetwallet/features/portfolio/helper/max_currency_apy.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class EmptyPortfolioBodyTitle extends StatelessObserverWidget {
-  const EmptyPortfolioBodyTitle({Key? key}) : super(key: key);
+  const EmptyPortfolioBodyTitle({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -32,6 +32,8 @@ import 'package:simple_networking/modules/signal_r/models/referral_stats_respons
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
 
+import 'models/incoming_gift_model.dart';
+
 class SignalRFuncHandler {
   SignalRFuncHandler({
     required this.sTransport,
@@ -325,8 +327,6 @@ class SignalRFuncHandler {
 
       SignalRModuleNew.handlePackage();
     } catch (e) {
-      print(e);
-
       instance.handleError(paymentMethodsNewMessage, e);
     }
   }
@@ -405,6 +405,18 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(cardsMessage, e);
+    }
+  }
+
+  void incomingGiftsHandler(List<Object?>? data) {
+    try {
+      final giftModel = IncomingGiftModel.fromJson(_json(data));
+
+      sTransport.receiveGifts(giftModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(incomingGiftsMessage, e);
     }
   }
 

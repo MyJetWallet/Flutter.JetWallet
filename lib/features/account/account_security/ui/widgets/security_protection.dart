@@ -8,8 +8,8 @@ import 'package:simple_kit/simple_kit.dart';
 
 class SecurityProtection extends StatelessObserverWidget {
   const SecurityProtection({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

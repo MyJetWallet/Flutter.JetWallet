@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class MailingCheckbox extends StatelessWidget {
   const MailingCheckbox({
-    Key? key,
+    super.key,
     required this.isChecked,
     required this.onCheckboxTap,
-  }) : super(key: key);
+  });
 
   final bool isChecked;
   final Function() onCheckboxTap;

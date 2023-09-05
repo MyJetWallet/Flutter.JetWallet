@@ -32,7 +32,6 @@ void showIbanSendLimits({
 
 class _SendIbanLimits extends StatelessWidget {
   const _SendIbanLimits({
-    super.key,
     this.currency,
     required this.cardLimit,
   });

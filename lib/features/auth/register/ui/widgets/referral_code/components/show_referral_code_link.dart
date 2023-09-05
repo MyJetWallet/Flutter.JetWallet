@@ -40,9 +40,8 @@ void showReferralCode(BuildContext context) {
 
 class _ReferralCodeLinkBody extends StatelessObserverWidget {
   const _ReferralCodeLinkBody({
-    Key? key,
     required this.context,
-  }) : super(key: key);
+  });
 
   final BuildContext context;
 
@@ -102,8 +101,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   .bottomSheetReferralCodeValidation
                   .maybeWhen(
                 loading: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       LoadingReferralCode(),
                       SpaceH10(),
@@ -111,8 +110,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 valid: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       ValidReferralCodeInside(),
                       SpaceH10(),
@@ -120,8 +119,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
                   );
                 },
                 invalid: () {
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SpaceH24(),
                       InvalidReferralCode(),
                       SpaceH10(),
@@ -154,9 +153,8 @@ class _ReferralCodeLinkBody extends StatelessObserverWidget {
 
 class _ReferralCodeBottom extends StatelessObserverWidget {
   const _ReferralCodeBottom({
-    Key? key,
     required this.context,
-  }) : super(key: key);
+  });
 
   final BuildContext context;
 

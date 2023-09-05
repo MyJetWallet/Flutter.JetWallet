@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/iban/store/iban_add_bank_account_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -55,7 +58,11 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
 
     final store = IbanAddBankAccountStore.of(context);
 
-    print(sUserInfo);
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Iban Add Bank Account Screen',
+          message: sUserInfo.toString(),
+        );
 
     return SPageFrame(
       loading: IbanAddBankAccountStore.of(context).loader,

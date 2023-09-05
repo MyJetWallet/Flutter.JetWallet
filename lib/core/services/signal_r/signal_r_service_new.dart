@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
@@ -12,6 +15,7 @@ import 'package:jetwallet/features/market/market_details/helper/calculate_percen
 import 'package:jetwallet/features/market/market_details/model/return_rates_model.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/store/search_store.dart';
+import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/icon_url_from.dart';
@@ -20,6 +24,7 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/nft_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
@@ -36,6 +41,7 @@ import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart
 import 'package:simple_networking/modules/signal_r/models/earn_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/fireblock_events_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
+import 'package:simple_networking/modules/signal_r/models/incoming_gift_model.dart';
 import 'package:simple_networking/modules/signal_r/models/indices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/instruments_model.dart';
 import 'package:simple_networking/modules/signal_r/models/key_value_model.dart';
@@ -838,6 +844,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
   AssetPaymentMethodsNew? assetPaymentMethodsNew;
   @observable
   List<String> paymentMethods = [];
+  // TODO: Do this for all send methods
+  @observable
+  List<SymbolNetworkDetails> cryptoSendSymbolNetworkDetails = [];
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
     // showPaymentsMethods = value.showCardsInProfile;
@@ -947,6 +956,12 @@ abstract class _SignalRServiceUpdatedBase with Store {
         paymentMethods.add(asset.id.toString());
       }
     }
+    cryptoSendSymbolNetworkDetails = value.send
+            ?.firstWhere(
+              (element) => element.id == WithdrawalMethods.blockchainSend,
+            )
+            .symbolNetworkDetails ??
+        [];
   }
 
   @action
@@ -984,8 +999,22 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @action
+  Future<void> reciveGiftsEvent(IncomingGiftModel gift) async {
+    for (final element in gift.gifts) {
+      if (!alreadyShownGifts.any((item) => item.id == element.id)) {
+        alreadyShownGifts.add(element);
+        unawaited(pushReceiveGiftBottomSheet(element));
+      }
+    }
+  }
+
+  @action
   void operationHistoryEvent(String operationId) {
-    print('operationHistoryEvent');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Signal R serice nev',
+          message: 'operationHistoryEvent',
+        );
 
     getIt.get<EventBus>().fire(GetNewHistoryEvent());
   }

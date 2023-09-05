@@ -6,8 +6,8 @@ import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_union.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -43,7 +43,7 @@ abstract class _LogoutServiceBase with Store {
         message: 'User start logout from $from',
       );
 
-      getIt<AppStore>().setAppStatus(AppStatus.End);
+      getIt<AppStore>().setAppStatus(AppStatus.end);
 
       final authStore = getIt.get<AppStore>().authState;
       if (getIt.get<AppStore>().authStatus is Unauthorized) {
@@ -81,9 +81,7 @@ abstract class _LogoutServiceBase with Store {
 
       try {
         // Disconet from SignalR
-        if (getIt.get<SignalRService>().signalR != null) {
-          await getIt.get<SignalRService>().signalR!.disconnect('logout');
-        }
+        unawaited(getIt.get<SignalRService>().killSignalR());
       } catch (e) {
         _logger.log(
           level: Level.error,
@@ -123,7 +121,6 @@ abstract class _LogoutServiceBase with Store {
       await pushToFirstPage();
 
       sSignalRModules.clearSignalRModule();
-      await getIt.get<SignalRService>().killSignalR();
 
       _logger.log(
         level: Level.debug,

@@ -21,11 +21,9 @@ void showCryptoFilterModalSheet(
     listOfFilters.add('losers');
   }
 
-
   sShowBasicModalBottomSheet(
     onDissmis: () {},
     context: context,
-    scrollable: false,
     horizontalPinnedPadding: 0.0,
     pinned: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -123,7 +121,7 @@ Widget filterItem(
   );
 }
 
-String nameFilterByType (String type) {
+String nameFilterByType(String type) {
   switch (type) {
     case 'all':
       return intl.market_all;

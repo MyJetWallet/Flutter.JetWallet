@@ -3,7 +3,7 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/constants.dart';
 
 class EmptyPortfolioBodyImage extends StatelessWidget {
-  const EmptyPortfolioBodyImage({Key? key}) : super(key: key);
+  const EmptyPortfolioBodyImage({super.key});
 
   @override
   Widget build(BuildContext context) {

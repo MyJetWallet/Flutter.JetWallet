@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class VerificationDescriptionText extends StatelessObserverWidget {
   const VerificationDescriptionText({
-    Key? key,
+    super.key,
     required this.text,
     required this.boldText,
-  }) : super(key: key);
+  });
 
   final String text;
   final String boldText;

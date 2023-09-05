@@ -31,7 +31,7 @@ void showBirthDatePicker(
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +44,9 @@ class _Header extends StatelessWidget {
 
 class _SDatePicker extends StatelessObserverWidget {
   const _SDatePicker({
-    Key? key,
     required this.store,
     required this.userDateStore,
-  }) : super(key: key);
+  });
 
   final SelectedDateStore store;
   final UserDataStore userDateStore;

@@ -46,14 +46,14 @@ class SimplePolicyRichText extends StatelessWidget {
       text: TextSpan(
         text: firstText,
         style: (isSendGlobal != null && isSendGlobal!)
-          ? sBodyText2Style.copyWith(
-            fontFamily: 'Gilroy',
-            color: SColorsLight().black,
-          )
-          : sCaptionTextStyle.copyWith(
-            fontFamily: 'Gilroy',
-            color: SColorsLight().black,
-          ),
+            ? sBodyText2Style.copyWith(
+                fontFamily: 'Gilroy',
+                color: SColorsLight().black,
+              )
+            : sCaptionTextStyle.copyWith(
+                fontFamily: 'Gilroy',
+                color: SColorsLight().black,
+              ),
         children: [
           if (isSendGlobal != null && isSendGlobal!) ...[
             const TextSpan(

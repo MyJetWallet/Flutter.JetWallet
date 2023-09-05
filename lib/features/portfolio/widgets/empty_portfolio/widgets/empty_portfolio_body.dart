@@ -1,24 +1,21 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/action_buy/action_buy.dart';
 import 'package:jetwallet/features/actions/action_receive/action_receive.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/utils/constants.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 class EmptyPortfolioBody extends StatefulObserverWidget {
   const EmptyPortfolioBody({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<EmptyPortfolioBody> createState() => _EmptyPortfolioBodyState();
@@ -46,61 +43,43 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final baseCurrency = sSignalRModules.baseCurrency;
-    final deviceSize = sDeviceSize;
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 
     return SPaddingH24(
       child: Column(
         children: [
-          const SpaceH56(),
-          Stack(
-            alignment: AlignmentDirectional.center,
+          Row(
             children: [
-              deviceSize.when(
-                small: () {
-                  return Image.asset(
-                    simpleEllipseAsset,
-                    width: 160,
-                  );
-                },
-                medium: () {
-                  return Image.asset(
-                    simpleEllipseAsset,
-                    width: 280,
-                  );
-                },
-              ),
-              Center(
-                child: Text(
-                  volumeFormat(
-                    decimal: Decimal.zero,
-                    accuracy: baseCurrency.accuracy,
-                    symbol: baseCurrency.symbol,
-                    prefix: baseCurrency.prefix,
-                  ),
-                  style: sTextH0Style.copyWith(
-                    color: colors.white,
-                  ),
-                ),
+              Text(
+                '0.00 ${baseCurrency.symbol}',
+                style: sTextH1Style.copyWith(
+                  color: colors.black,
+                ),               
               ),
             ],
           ),
           const Spacer(),
+          Image.asset(
+            smileAsset,
+            width: 74,
+            height: 40,
+          ),
+          const SpaceH24(),
           Text(
             intl.start_your_journey,
             textAlign: TextAlign.center,
-            style: sTextH3Style.copyWith(
-              height: 1.28,
+            style: sTextH4Style.copyWith(
+              color: colors.grey2,
             ),
             maxLines: 2,
           ),
-          const SpaceH38(),
+          const Spacer(),
           if (isShowBuy) ...[
             SPrimaryButton1(
               active: true,
@@ -142,7 +121,7 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
               },
             ),
           ],
-          const SpaceH8(),
+          const SpaceH25(),
         ],
       ),
     );

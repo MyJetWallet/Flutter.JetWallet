@@ -19,10 +19,10 @@ import 'components/transaction_details_value_text.dart';
 
 class BuyCryptoDetails extends StatelessObserverWidget {
   const BuyCryptoDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
@@ -30,7 +30,6 @@ class BuyCryptoDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final currencies = sSignalRModules.currenciesList;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currenciesFull,
@@ -52,7 +51,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
       transactionListItem.cryptoBuyInfo!.depositFeeAsset,
     );
 
-    String _rateFor() {
+    String rateFor() {
       final accuracy = priceAccuracy(
         buyCurrency.symbol,
         baseCurrency.symbol,
@@ -127,11 +126,11 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.previewConvert_exchangeRate,
               value: TransactionDetailsValueText(
-                text: _rateFor(),
+                text: rateFor(),
               ),
             ),
           ],
-          if ((transactionListItem.cryptoBuyInfo!.cardLast4 ?? '').isNotEmpty &&
+          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty &&
               transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             TransactionDetailsItem(
@@ -142,7 +141,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 ),
                 child: TransactionDetailsValueText(
                   text:
-                      '${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '
+                      '''${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '''
                       '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
                 ),
               ),
@@ -155,10 +154,11 @@ class BuyCryptoDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.history_payment_method,
               value: TransactionDetailsValueText(
-                text: getLocalOperationName(
-                  transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                      PaymentMethodType.unsupported,
-                ),
+                text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
+                    getLocalOperationName(
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                          PaymentMethodType.unsupported,
+                    ),
               ),
             ),
           ],

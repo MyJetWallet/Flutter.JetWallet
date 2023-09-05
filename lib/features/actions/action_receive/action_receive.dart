@@ -9,9 +9,6 @@ import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/icons/24x24/light/qr_code/simple_light_qr_code_icon.dart';
-import 'package:simple_kit/modules/icons/24x24/light/wallet/simple_light_wallet_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -65,10 +62,6 @@ void showReceiveAction(
 }
 
 void _showReceive(BuildContext context) {
-  final colors = sKit.colors;
-  final kyc = getIt.get<KycService>();
-  final handler = getIt.get<KycAlertHandler>();
-
   showCryptoReceiveAction(context);
 }
 
@@ -154,9 +147,8 @@ void showCryptoReceiveAction(BuildContext context) {
 
 class _ActionReceive extends StatelessObserverWidget {
   const _ActionReceive({
-    Key? key,
     required this.searchStore,
-  }) : super(key: key);
+  });
 
   final ActionSearchStore searchStore;
 
@@ -174,20 +166,17 @@ class _ActionReceive extends StatelessObserverWidget {
         )
         .toList();
 
-    final showTabs = sSignalRModules.currenciesList
-        .where(
-          (element) => element.supportsIbanDeposit,
-        )
-        .toList()
-        .isNotEmpty;
-
     final cryptoSearchLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.crypto && element.supportsCryptoDeposit)
+        .where(
+          (element) =>
+              element.type == AssetType.crypto && element.supportsCryptoDeposit,
+        )
         .length;
     final showFiatLength = sSignalRModules.currenciesList
-        .where((element) =>
-            element.type == AssetType.fiat && element.supportsCryptoDeposit)
+        .where(
+          (element) =>
+              element.type == AssetType.fiat && element.supportsCryptoDeposit,
+        )
         .length;
 
     final showSearch = showReceiveCurrencySearch(context) && state.showCrypto;
@@ -213,7 +202,7 @@ class _ActionReceive extends StatelessObserverWidget {
                     padding: const EdgeInsets.symmetric(vertical: 9),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: (MediaQuery.of(context).size.width - 48) / 2,
                           child: Center(
                             child: Text(
@@ -225,7 +214,7 @@ class _ActionReceive extends StatelessObserverWidget {
                             ),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           width: (MediaQuery.of(context).size.width - 48) / 2,
                           child: Center(
                             child: Text(

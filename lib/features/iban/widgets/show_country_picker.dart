@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/widgets/empty_search_result.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -40,12 +39,11 @@ void showCountryPicker(
 
 class _Countries extends StatefulObserverWidget {
   const _Countries({
-    Key? key,
     required this.sortedCountries,
     required this.countryNameSearch,
     required this.pickCountryFromSearch,
     required this.store,
-  }) : super(key: key);
+  });
 
   final ObservableList<KycProfileCountryModel> sortedCountries;
   final String countryNameSearch;

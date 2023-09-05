@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/auth/register/ui/widgets/referral_code/referral_code.dart';
 import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/show_birrth_date_picker.dart';
@@ -22,7 +21,7 @@ import 'widgets/birth_date/store/selected_date_store.dart';
 
 @RoutePage(name: 'UserDataScreenRouter')
 class UserDataScreen extends StatelessWidget {
-  const UserDataScreen({Key? key}) : super(key: key);
+  const UserDataScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class UserDataScreen extends StatelessWidget {
 }
 
 class _UserDataScreenBody extends StatelessObserverWidget {
-  const _UserDataScreenBody({Key? key}) : super(key: key);
+  const _UserDataScreenBody();
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +143,6 @@ class _UserDataScreenBody extends StatelessObserverWidget {
                     child: SPaddingH24(
                       child: SStandardField(
                         labelText: intl.user_data_date_of_birth,
-                        hideClearButton: false,
                         readOnly: true,
                         onTap: () {
                           FocusScope.of(context).unfocus();

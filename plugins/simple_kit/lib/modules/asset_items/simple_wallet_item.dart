@@ -60,7 +60,6 @@ class SWalletItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var textColor = SColorsLight().black;
-    var borderColor = SColorsLight().greenLight;
     final emptyCashText = '${currencyPrefix ?? ''}0'
         '${currencyPrefix == null ? ' $currencySymbol' : ''}';
     final formattedAmount = amountDecimal == 0 ? emptyCashText : amount;

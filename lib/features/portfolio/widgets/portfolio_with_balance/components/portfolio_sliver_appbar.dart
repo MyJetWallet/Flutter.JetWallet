@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -80,14 +77,16 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
       expendPercentage,
     );
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowSend = sSignalRModules.currenciesList
-        .where((element) =>
-            element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty)
+    final isShowSend = sSignalRModules.currenciesList
+        .where(
+          (element) =>
+              element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+        )
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 
@@ -238,7 +237,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           context,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -249,6 +247,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowSend) ...[
                 CircleActionSend(
                   onTap: () {
+                    sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
                     if (kycState.withdrawalStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       showSendAction(
@@ -265,7 +264,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           isNotEmptyBalance: isNotEmptyBalance,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -291,7 +289,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                         or: () => sRouter.push(ConvertRouter()),
                         from: BlockingType.trade,
                       ),
-                      navigatePop: false,
                       requiredDocuments: kycState.requiredDocuments,
                       requiredVerifications: kycState.requiredVerifications,
                     );

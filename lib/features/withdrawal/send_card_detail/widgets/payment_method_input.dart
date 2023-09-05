@@ -166,7 +166,6 @@ class _PaymentMethodCardNumberState extends State<PaymentMethodCardNumber> {
 
 class _Input extends StatefulWidget {
   const _Input({
-    super.key,
     this.inputFormatters,
     required this.controller,
     required this.labalText,

@@ -27,7 +27,7 @@ class ReferralCode extends StatelessWidget {
 */
 
 class ReferralCode extends StatefulObserverWidget {
-  const ReferralCode({Key? key}) : super(key: key);
+  const ReferralCode({super.key});
 
   @override
   State<ReferralCode> createState() => _ReferralCodeState();

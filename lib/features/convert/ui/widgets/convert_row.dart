@@ -9,7 +9,6 @@ import 'package:jetwallet/features/market/market_details/helper/currency_from.da
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../widgets/action_bottom_sheet_header.dart';
@@ -17,7 +16,7 @@ import '../../../actions/store/action_search_store.dart';
 
 class ConvertRow extends StatelessObserverWidget {
   const ConvertRow({
-    Key? key,
+    super.key,
     this.fromAsset = false,
     this.inputError,
     required this.value,
@@ -27,7 +26,7 @@ class ConvertRow extends StatelessObserverWidget {
     required this.assetWithBalance,
     required this.assetWithoutBalance,
     required this.onDropdown,
-  }) : super(key: key);
+  });
 
   final bool fromAsset;
   final InputError? inputError;
@@ -41,14 +40,14 @@ class ConvertRow extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    CurrencyModel swipeCurrency = currencyFrom(
+    final swipeCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       currency.symbol,
     );
 
     final colors = sKit.colors;
 
-    void _showDropdownSheet() {
+    void showDropdownSheet() {
       getIt.get<ActionSearchStore>().initConvert(
             assetWithBalance,
             assetWithoutBalance,
@@ -104,7 +103,7 @@ class ConvertRow extends StatelessObserverWidget {
                     textBaseline: TextBaseline.alphabetic,
                     children: [
                       ConvertDropdownButton(
-                        onTap: () => _showDropdownSheet(),
+                        onTap: () => showDropdownSheet(),
                         currency: currency,
                       ),
                       ConvertAutoSizeAmount(
@@ -158,11 +157,10 @@ class ConvertRow extends StatelessObserverWidget {
 
 class _ActionConvert extends StatelessObserverWidget {
   const _ActionConvert({
-    Key? key,
     required this.fromAsset,
     required this.searchStore,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final bool fromAsset;
   final ActionSearchStore searchStore;
@@ -170,7 +168,6 @@ class _ActionConvert extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = searchStore;
     final baseCurrency = sSignalRModules.baseCurrency;
 
     return Observer(
@@ -183,7 +180,7 @@ class _ActionConvert extends StatelessObserverWidget {
                 isSelected: currency.symbol == item.symbol,
                 icon: SNetworkSvg24(
                   url: item.iconUrl,
-                  color: _iconColor(item, context),
+                  //color: _iconColor(item, context),
                 ),
                 name: item.description,
                 description: item.symbol,
@@ -214,7 +211,7 @@ class _ActionConvert extends StatelessObserverWidget {
                   isSelected: currency.symbol == item.symbol,
                   icon: SNetworkSvg24(
                     url: item.iconUrl,
-                    color: _iconColor(item, context),
+                    //color: _iconColor(item, context),
                   ),
                   name: item.description,
                   description: item.symbol,
@@ -237,15 +234,5 @@ class _ActionConvert extends StatelessObserverWidget {
         );
       },
     );
-  }
-
-  Color? _iconColor(CurrencyModel item, BuildContext context) {
-    final colors = sKit.colors;
-
-    if (item.type == AssetType.indices) {
-      return null;
-    }
-
-    return currency == item ? colors.blue : colors.black;
   }
 }

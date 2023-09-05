@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/asset_items/simple_action_item.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_bottom_sheet.dart';
 import 'package:simple_kit/modules/icons/24x24/public/action_buy_with_cash/action_buy_with_cash.dart';
 import 'package:simple_kit/simple_kit.dart';
 

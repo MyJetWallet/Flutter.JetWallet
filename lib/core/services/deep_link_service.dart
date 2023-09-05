@@ -1,5 +1,8 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,7 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
@@ -18,54 +22,49 @@ import 'package:jetwallet/features/auth/register/store/referral_code_store.dart'
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/clickable_underlined_text.dart';
-import 'package:jetwallet/features/send_by_phone/store/send_by_phone_confirm_store.dart';
+import 'package:jetwallet/features/send_gift/widgets/share_gift_result_bottom_sheet.dart';
 import 'package:jetwallet/features/withdrawal/model/withdrawal_confirm_model.dart';
 import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/firebase_analytics.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:jetwallet/widgets/show_start_earn_options.dart';
+import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:logger/logger.dart';
 
 import 'local_storage_service.dart';
 import 'notification_service.dart';
 import 'remote_config/models/remote_config_union.dart';
+import 'simple_networking/simple_networking.dart';
 
 /// Parameters
 const _code = 'jw_code';
 const _command = 'jw_command';
 const _operationId = 'jw_operation_id';
 const _email = 'jw_email';
+
 // when parameters come in "/" format as part of the link
 const _action = 'action';
-const _jw_nft_collection_id = 'jw_nft_collection_id';
-const _jw_nft_token_symbol = 'jw_nft_token_symbol';
 const jw_promo_code = 'jw_promo_code';
 
 const jw_deposit_successful = 'jw_deposit_successful';
 const jw_support_page = 'jw_support_page';
 const jw_kyc_documents_declined = 'jw_kyc_documents_declined';
 
+// gift
+const jw_gift_incoming = 'jw_gift_incoming';
+const jw_gift_remind = 'jw_gift_remind';
+const jw_gift_cancelled = 'jw_gift_cancelled';
+const jw_gift_expired = 'jw_gift_expired';
+
 /// Commands
 const _confirmEmail = 'ConfirmEmail';
 const _login = 'Login';
 const _confirmWithdraw = 'VerifyWithdrawal';
-const _confirmSendByPhone = 'VerifyTransfer';
 const _inviteFriend = 'InviteFriend';
 const _referralRedirect = 'ReferralRedirect';
 const _depositStart = 'DepositStart';
 const _kycVerification = 'KycVerification';
 const _tradingStart = 'TradingStart';
-const _earnLanding = 'EarnLanding';
-const _recurringBuyStart = 'RecurringBuyStart';
-const _highYield = 'HighYield';
-
-const _NFTmarket = 'NFT_market';
-const _NFTcollection = 'NFT_collection';
-const _NFTtoken = 'NFT_token';
 
 // Push Notification
 
@@ -122,8 +121,6 @@ class DeepLinkService {
       _loginCommand(parameters);
     } else if (command == _confirmWithdraw) {
       _confirmWithdrawCommand(parameters);
-    } else if (command == _confirmSendByPhone) {
-      _confirmSendByPhoneCommand(parameters);
     } else if (command == _inviteFriend) {
       _inviteFriendCommand(source);
     } else if (command == _referralRedirect) {
@@ -152,6 +149,10 @@ class DeepLinkService {
       pushSupportPage(parameters);
     } else if (command == jw_kyc_documents_declined) {
       pushDocumentNotVerified(parameters);
+    } else if (command == jw_gift_incoming) {
+      //just open the application
+    } else if (command == jw_gift_remind) {
+      pushRemindGiftBottomSheet(parameters);
     } else {
       if (parameters.containsKey('jw_operation_id')) {
         pushCryptoHistory(parameters);
@@ -228,15 +229,6 @@ class DeepLinkService {
         .fire(WithdrawalConfirmModel(code: code, operationID: id));
   }
 
-  void _confirmSendByPhoneCommand(Map<String, String> parameters) {
-    final id = parameters[_operationId]!;
-    final code = parameters[_code]!;
-
-    final notifier = getIt.get<SendByPhoneConfirmStore>();
-
-    notifier.updateCode(code, id, isDeepLink: true);
-  }
-
   void _inviteFriendCommand(SourceScreen? source) {
     final context = sRouter.navigatorKey.currentContext!;
     final referralInfo = sSignalRModules.referralInfo;
@@ -303,7 +295,13 @@ class DeepLinkService {
             onShare: () {
               try {
                 Share.share(referralInfo.referralLink);
-              } catch (e) {}
+              } catch (e) {
+                getIt.get<SimpleLoggerService>().log(
+                      level: Level.error,
+                      place: 'DeepLinkService',
+                      message: e.toString(),
+                    );
+              }
             },
           ),
         ],
@@ -338,7 +336,13 @@ class DeepLinkService {
       await checkInitAppFBAnalytics(storage, deviceInfo);
 
       await getIt.get<ReferallCodeStore>().init();
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'DeepLinkService',
+            message: e.toString(),
+          );
+    }
   }
 
   /// Push Notification Links
@@ -477,15 +481,19 @@ class DeepLinkService {
       final kycState = getIt.get<KycService>();
 
       if (kycState.useSumsub) {
-        unawaited(sRouter.push(
-          const KycVerificationSumsubRouter(),
-        ));
-      } else {
-        unawaited(sRouter.push(
-          ChooseDocumentsRouter(
-            headerTitle: 'Verify your identity',
+        unawaited(
+          sRouter.push(
+            const KycVerificationSumsubRouter(),
           ),
-        ));
+        );
+      } else {
+        unawaited(
+          sRouter.push(
+            ChooseDocumentsRouter(
+              headerTitle: 'Verify your identity',
+            ),
+          ),
+        );
       }
       await sRouter.push(
         ChooseDocumentsRouter(
@@ -642,5 +650,63 @@ class DeepLinkService {
       requiredVerifications: kycState.requiredVerifications,
       requiredDocuments: kycState.requiredDocuments,
     );
+  }
+
+  Future<void> pushRemindGiftBottomSheet(
+    Map<String, String> parameters,
+  ) async {
+    final jwOperationId = parameters['jw_operation_id'];
+    if (jwOperationId == null) return;
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      final gift = await getIt
+          .get<SNetwork>()
+          .simpleNetworking
+          .getWalletModule()
+          .getGift(jwOperationId);
+
+      if (gift.data == null) return;
+      final currency = currencyFrom(
+        sSignalRModules.currenciesList,
+        gift.data?.assetSymbol ?? '',
+      );
+      final context = sRouter.navigatorKey.currentContext;
+      if (context != null && context.mounted) {
+        shareGiftResultBottomSheet(
+          context: context,
+          amount: gift.data?.amount ?? Decimal.zero,
+          currency: currency,
+          email: gift.data?.toEmail,
+          phoneNumber: gift.data?.toPhoneNumber,
+        );
+      }
+    } else {
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          func: () async {
+            final gift = await getIt
+                .get<SNetwork>()
+                .simpleNetworking
+                .getWalletModule()
+                .getGift(jwOperationId);
+            if (gift.data == null) return;
+            final currency = currencyFrom(
+              sSignalRModules.currenciesList,
+              gift.data?.assetSymbol ?? '',
+            );
+            final context = sRouter.navigatorKey.currentContext;
+            if (context != null && context.mounted) {
+              shareGiftResultBottomSheet(
+                context: context,
+                amount: gift.data?.amount ?? Decimal.zero,
+                currency: currency,
+              );
+            }
+          },
+        ),
+      );
+    }
   }
 }

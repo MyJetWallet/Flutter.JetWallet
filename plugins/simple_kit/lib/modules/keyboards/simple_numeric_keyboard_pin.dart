@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../simple_kit.dart';
 import 'components/numeric_keyboard_frame.dart';
 import 'components/numeric_keyboard_row.dart';
@@ -42,7 +41,7 @@ class _SNumericKeyboardPinState extends State<SNumericKeyboardPin> {
         biometricPressedIcon =
             _iconPressedBasedOnBiometricStatus(biometricStatusData);
         biometricIconValue = _realValueOfBiometricButton(biometricStatusData);
-        biometricHide = _hideBiometricButton(biometricStatusData);
+        biometricHide = widget.hideBiometricButton;
       });
 
       return true;
@@ -116,8 +115,4 @@ Widget _iconPressedBasedOnBiometricStatus(BiometricStatus bioStatus) {
   } else {
     return const SizedBox();
   }
-}
-
-bool _hideBiometricButton(BiometricStatus bioStatus) {
-  return bioStatus == BiometricStatus.none;
 }

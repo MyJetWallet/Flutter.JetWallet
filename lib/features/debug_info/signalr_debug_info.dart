@@ -23,16 +23,16 @@ class SignalrDebugInfo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
-                  'SignalR Status: ${getIt.get<SignalRService>().signalR?.hubStatus}',
+                  'SignalR Status: ${getIt.get<SignalRModuleNew>().hubStatus}',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 12),*/
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: SPrimaryButton1(
@@ -60,7 +60,7 @@ class SignalrDebugInfo extends StatelessWidget {
                       children: [
                         SignalRLogDetail(
                           log: sSignalRModules.signalRLogs[index],
-                        )
+                        ),
                       ],
                     );
                   },
@@ -82,7 +82,7 @@ class SignalrDebugInfo extends StatelessWidget {
                                     DateTime.now())
                                 .toString(),
                           ),
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -123,7 +123,6 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -153,9 +152,11 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 onTap: () {
                   setState(() {
                     filtredLogs = widget.log.logs!
-                        .where((element) =>
-                            element.type != SLogType.ping &&
-                            element.type != SLogType.pong)
+                        .where(
+                          (element) =>
+                              element.type != SLogType.ping &&
+                              element.type != SLogType.pong,
+                        )
                         .toList();
                   });
                 },

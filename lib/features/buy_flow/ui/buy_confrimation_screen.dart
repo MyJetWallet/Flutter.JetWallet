@@ -2,17 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
-import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/features/buy_flow/ui/widgets/confirmation_widgets/confirmation_info_grid.dart';
-import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/capitalize_text.dart';
-import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
@@ -79,7 +75,6 @@ class BuyConfirmationScreen extends StatelessWidget {
 
 class _BuyConfirmationScreenBody extends StatelessObserverWidget {
   const _BuyConfirmationScreenBody({
-    super.key,
     required this.asset,
     required this.paymentCurrency,
     required this.amount,
@@ -228,7 +223,6 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                         ),
                         const SpaceH8(),
                         RichText(
-                          textAlign: TextAlign.start,
                           text: TextSpan(
                             text:
                                 intl.buy_confirmation_privacy_p2p_checkbox_1_5,
@@ -270,17 +264,14 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                               secondaryText:
                                   intl.buy_confirmation_privacy_p2p_popup,
                               primaryButtonName: intl.global_send_got_it,
-                              barrierDismissible: true,
                               image: Image.asset(
                                 infoLightAsset,
                                 height: 80,
                                 width: 80,
                                 package: 'simple_kit',
                               ),
-                              primaryButtonType: SButtonType.primary1,
                               onPrimaryButtonTap: () =>
                                   {Navigator.pop(context)},
-                              isNeedCancelButton: false,
                               cancelText: intl.profileDetails_cancel,
                               onCancelButtonTap: () => {Navigator.pop(context)},
                             );

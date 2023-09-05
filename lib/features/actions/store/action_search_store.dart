@@ -35,11 +35,11 @@ abstract class _ActionSearchStoreBase with Store {
     if (searchValue.isEmpty) {
       return sSignalRModules.currenciesList;
     } else {
-      var localCurr = sSignalRModules.currenciesList.toList();
+      final localCurr = sSignalRModules.currenciesList.toList();
 
       localCurr.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(searchValue) &&
-            !(element.symbol.toLowerCase()).startsWith(searchValue);
+        return !element.description.toLowerCase().startsWith(searchValue) &&
+            !element.symbol.toLowerCase().startsWith(searchValue);
       });
 
       return localCurr;
@@ -91,35 +91,35 @@ abstract class _ActionSearchStoreBase with Store {
 
   @action
   void init() {
-    final _currencies = sSignalRModules.currenciesList;
-    final _buyFromCardCurrencies = <CurrencyModel>[];
-    final _receiveCurrencies = <CurrencyModel>[];
-    final _sendCurrencies = <CurrencyModel>[];
+    final tempCurrencies = sSignalRModules.currenciesList;
+    final tempBuyFromCardCurrencies = <CurrencyModel>[];
+    final tempReceiveCurrencies = <CurrencyModel>[];
+    final tempSendCurrencies = <CurrencyModel>[];
 
-    for (final currency in _currencies) {
+    for (final currency in tempCurrencies) {
       if (currency.supportsAtLeastOneBuyMethod) {
-        _buyFromCardCurrencies.add(currency);
+        tempBuyFromCardCurrencies.add(currency);
       }
     }
 
-    for (final currency in _currencies) {
+    for (final currency in tempCurrencies) {
       if (currency.type == AssetType.crypto && currency.supportsCryptoDeposit) {
-        _receiveCurrencies.add(currency);
+        tempReceiveCurrencies.add(currency);
       }
     }
 
-    for (final currency in _currencies) {
+    for (final currency in tempCurrencies) {
       if (currency.isAssetBalanceNotEmpty &&
           currency.supportsCryptoWithdrawal) {
-        _sendCurrencies.add(currency);
+        tempSendCurrencies.add(currency);
       }
     }
 
-    currencies = ObservableList.of(_currencies);
-    filteredCurrencies = ObservableList.of(_currencies);
-    buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
-    receiveCurrencies = ObservableList.of(_receiveCurrencies);
-    sendCurrencies = ObservableList.of(_sendCurrencies);
+    currencies = ObservableList.of(tempCurrencies);
+    filteredCurrencies = ObservableList.of(tempCurrencies);
+    buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
+    receiveCurrencies = ObservableList.of(tempReceiveCurrencies);
+    sendCurrencies = ObservableList.of(tempSendCurrencies);
     search(searchValue);
   }
 
@@ -159,8 +159,6 @@ abstract class _ActionSearchStoreBase with Store {
     final search = value.toLowerCase();
 
     if (search.isEmpty) {
-      print(search.isEmpty);
-
       filtredNewBuyPaymentCurrency = ObservableList.of(
         newBuyPaymentCurrency.toList(),
       );
@@ -185,9 +183,9 @@ abstract class _ActionSearchStoreBase with Store {
 
   @action
   void initMarket() {
-    final _currencies = sSignalRModules.getMarketPrices;
+    final currencies = sSignalRModules.getMarketPrices;
 
-    marketCurrencies = ObservableList.of(_currencies);
+    marketCurrencies = ObservableList.of(currencies);
     filteredMarketCurrencies = ObservableList.of(marketCurrencies);
   }
 
@@ -205,37 +203,37 @@ abstract class _ActionSearchStoreBase with Store {
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();
       searchValue = search;
-      final _buyFromCardCurrencies = <CurrencyModel>[];
+      final tempBuyFromCardCurrencies = <CurrencyModel>[];
 
-      final _currencies = List<CurrencyModel>.from(currencies);
+      final tempCurrencies = List<CurrencyModel>.from(currencies);
 
-      _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+      tempCurrencies.removeWhere((element) {
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
 
-      for (final element in _currencies) {
+      for (final element in tempCurrencies) {
         if (element.supportsAtLeastOneBuyMethod) {
-          _buyFromCardCurrencies.add(element);
+          tempBuyFromCardCurrencies.add(element);
         }
       }
 
       //fCurrencies = ObservableList.of(_currencies);
-      buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
+      buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     } else if (value.isEmpty) {
       searchValue = '';
 
-      final _currencies = List<CurrencyModel>.from(currencies);
-      final _buyFromCardCurrencies = <CurrencyModel>[];
+      final tempCurrencies = List<CurrencyModel>.from(currencies);
+      final tempBuyFromCardCurrencies = <CurrencyModel>[];
 
-      for (final element in _currencies) {
+      for (final element in tempCurrencies) {
         if (element.supportsAtLeastOneBuyMethod) {
-          _buyFromCardCurrencies.add(element);
+          tempBuyFromCardCurrencies.add(element);
         }
       }
 
       //fCurrencies = ObservableList.of(_currencies);
-      buyFromCardCurrencies = ObservableList.of(_buyFromCardCurrencies);
+      buyFromCardCurrencies = ObservableList.of(tempBuyFromCardCurrencies);
     }
   }
 
@@ -248,24 +246,24 @@ abstract class _ActionSearchStoreBase with Store {
     if (value.isNotEmpty && assetsWithBalance.isNotEmpty) {
       final search = value.toLowerCase();
 
-      final _currencies = List<CurrencyModel>.from(assetsWithBalance);
+      final tempCurrencies = List<CurrencyModel>.from(assetsWithBalance);
 
-      _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+      tempCurrencies.removeWhere((element) {
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
-      convertCurrenciesWithBalance = ObservableList.of(_currencies);
+      convertCurrenciesWithBalance = ObservableList.of(tempCurrencies);
     }
     if (value.isNotEmpty && assetsWithoutBalance.isNotEmpty) {
       final search = value.toLowerCase();
 
-      final _currencies = List<CurrencyModel>.from(assetsWithoutBalance);
+      final tempCurrencies = List<CurrencyModel>.from(assetsWithoutBalance);
 
-      _currencies.removeWhere((element) {
-        return !(element.description.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+      tempCurrencies.removeWhere((element) {
+        return !element.description.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
-      convertCurrenciesWithoutBalance = ObservableList.of(_currencies);
+      convertCurrenciesWithoutBalance = ObservableList.of(tempCurrencies);
     }
     if (value.isEmpty) {
       convertCurrenciesWithBalance = ObservableList.of(assetsWithBalance);
@@ -281,16 +279,16 @@ abstract class _ActionSearchStoreBase with Store {
     if (value.isNotEmpty && currencies.isNotEmpty) {
       final search = value.toLowerCase();
 
-      final _currencies = List<MarketItemModel>.from(marketCurrencies);
+      final tempCurrencies = List<MarketItemModel>.from(marketCurrencies);
 
-      _currencies.removeWhere((element) {
-        return !(element.name.toLowerCase()).startsWith(search) &&
-            !(element.symbol.toLowerCase()).startsWith(search);
+      tempCurrencies.removeWhere((element) {
+        return !element.name.toLowerCase().startsWith(search) &&
+            !element.symbol.toLowerCase().startsWith(search);
       });
-      filteredMarketCurrencies = ObservableList.of(_currencies);
+      filteredMarketCurrencies = ObservableList.of(tempCurrencies);
     } else if (value.isEmpty) {
-      final _currencies = List<MarketItemModel>.from(marketCurrencies);
-      filteredMarketCurrencies = ObservableList.of(_currencies);
+      final tempCurrencies = List<MarketItemModel>.from(marketCurrencies);
+      filteredMarketCurrencies = ObservableList.of(tempCurrencies);
     }
   }
 

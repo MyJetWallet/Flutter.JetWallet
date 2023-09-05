@@ -4,7 +4,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/features/rewards/store/reward_campaign_store.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -28,7 +27,7 @@ class MarketBanners extends StatelessWidget {
 }
 
 class _MarketBannersBody extends StatelessObserverWidget {
-  const _MarketBannersBody({Key? key}) : super(key: key);
+  const _MarketBannersBody();
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,15 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:logger/logger.dart';
 
 class SimpleHTTPLogger extends Interceptor {
+  SimpleHTTPLogger({
+    this.request = true,
+    this.requestHeader = false,
+    this.requestBody = false,
+    this.responseHeader = false,
+    this.responseBody = true,
+    this.error = true,
+  });
+
   /// Print request [Options]
   final bool request;
 
@@ -21,15 +30,6 @@ class SimpleHTTPLogger extends Interceptor {
 
   /// Print error message
   final bool error;
-
-  SimpleHTTPLogger({
-    this.request = true,
-    this.requestHeader = false,
-    this.requestBody = false,
-    this.responseHeader = false,
-    this.responseBody = true,
-    this.error = true,
-  });
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -73,11 +73,11 @@ class SimpleHTTPLogger extends Interceptor {
     }
 
     getIt.get<SimpleLoggerService>().log(
-          level: Level.info,
-          place: 'SimpleNetwork',
-          message:
-              'Request ║ ${options.method} ║ ${options.uri}${body.isNotEmpty ? '\nBody: $body' : ''}',
-        );
+      level: Level.info,
+      place: 'SimpleNetwork',
+      message:
+          '''Request ║ ${options.method} ║ ${options.uri}${body.isNotEmpty ? '\nBody: $body' : ''}''',
+    );
 
     super.onRequest(options, handler);
   }
@@ -93,11 +93,11 @@ class SimpleHTTPLogger extends Interceptor {
         }
 
         getIt.get<SimpleLoggerService>().log(
-              level: Level.error,
-              place: 'SimpleNetwork',
-              message:
-                  'DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} \n Message: $msg',
-            );
+          level: Level.error,
+          place: 'SimpleNetwork',
+          message:
+              '''DioError ║ Status: ${err.response?.statusCode} ${err.response?.statusMessage} \n Message: $msg''',
+        );
       } else {
         getIt.get<SimpleLoggerService>().log(
               level: Level.error,

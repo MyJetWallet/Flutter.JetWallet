@@ -80,22 +80,26 @@ class MaskedTextInputFormatter extends TextInputFormatter {
 class CardMonthInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    var newText = newValue.text;
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final newText = newValue.text;
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
-    var buffer = StringBuffer();
-    for (int i = 0; i < newText.length; i++) {
+    final buffer = StringBuffer();
+    for (var i = 0; i < newText.length; i++) {
       buffer.write(newText[i]);
-      var nonZeroIndex = i + 1;
-      if (nonZeroIndex % 2 == 0 && nonZeroIndex != newText.length) {
+      final nonZeroIndex = i + 1;
+      if (nonZeroIndex.isEven && nonZeroIndex != newText.length) {
         buffer.write('/');
       }
     }
-    var string = buffer.toString();
+    final string = buffer.toString();
+
     return newValue.copyWith(
-        text: string,
-        selection: TextSelection.collapsed(offset: string.length));
+      text: string,
+      selection: TextSelection.collapsed(offset: string.length),
+    );
   }
 }

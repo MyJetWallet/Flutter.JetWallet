@@ -37,6 +37,7 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "**/*.config.dart"
     - "lib/generated_plugin_registrant.dart"
   
   # possible options:

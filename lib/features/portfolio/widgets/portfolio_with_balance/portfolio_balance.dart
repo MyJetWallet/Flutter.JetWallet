@@ -2,7 +2,6 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -21,7 +20,6 @@ import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/portfolio_screen_gradient.dart';
 import 'package:rive/rive.dart';
-import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
@@ -203,7 +201,7 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
     return PortfolioScreenGradient(
       child: CustomRefreshIndicator(
         offsetToArmed: 200,
-        onRefresh: () => getIt.get<SignalRService>().reCreateSignalR(),
+        onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
         builder: (
           BuildContext context,
           Widget child,
@@ -369,14 +367,15 @@ class _PortfolioBalanceState extends State<PortfolioBalance> {
                                             );
                                           }
                                         },
-                                        removeDivider:
-                                            actualItem.isPendingDeposit ||
+                                        removeDivider: actualItem
+                                                .isPendingDeposit ||
                                             (!getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                itemsWithBalance.length - 1) ||
+                                                index ==
+                                                    itemsWithBalance.length -
+                                                        1) ||
                                             (getIt<AppStore>().showAllAssets &&
-                                              index ==
-                                                  currenciesList.length - 1),
+                                                index ==
+                                                    currenciesList.length - 1),
                                         isPendingDeposit:
                                             actualItem.isPendingDeposit,
                                       );

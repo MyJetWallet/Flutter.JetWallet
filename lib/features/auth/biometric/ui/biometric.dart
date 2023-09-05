@@ -133,7 +133,7 @@ class _BiometricBody extends StatelessObserverWidget {
                         );
 
                         await getIt.get<AppRouter>().push(
-                              AllowBiometricRoute(),
+                              const AllowBiometricRoute(),
                             );
                       } else {
                         sAnalytics.signInFlowFaceAllowFaceID(

@@ -101,15 +101,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
               getIt<AppRouter>().pop();
             },
             isDisabled: !store.isPhoneDone &&
-                store.step != VerificationScreenStep.Phone,
+                store.step != VerificationScreenStep.phone,
             isDone: store.isPhoneDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.personal_details,
             '3',
-            haveSubText: store.step == VerificationScreenStep.PersonalDetail,
-            haveLink: store.step == VerificationScreenStep.PersonalDetail,
+            haveSubText: store.step == VerificationScreenStep.personalDetail,
+            haveLink: store.step == VerificationScreenStep.personalDetail,
             linkText: intl.provide_information,
             subtext: intl.personal_details_descr,
             linkAction: () {
@@ -120,16 +120,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
               //sRouter.replace(const UserDataScreenRouter());
             },
             isDisabled: !store.isPersonalDetailsDone &&
-                store.step != VerificationScreenStep.PersonalDetail,
+                store.step != VerificationScreenStep.personalDetail,
             isDone: store.isPersonalDetailsDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.pin_code,
             '4',
-            haveSubText: store.step == VerificationScreenStep.Pin,
+            haveSubText: store.step == VerificationScreenStep.pin,
             subtext: intl.pin_code_descr,
-            haveLink: store.step == VerificationScreenStep.Pin,
+            haveLink: store.step == VerificationScreenStep.pin,
             linkText: intl.create_pin_code,
             linkAction: () {
               sAnalytics.verificationProfileCreatePIN();
@@ -145,7 +145,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               */
             },
             isDisabled: !store.isCreatePinDone &&
-                store.step != VerificationScreenStep.Pin,
+                store.step != VerificationScreenStep.pin,
             isDone: store.isCreatePinDone,
           ),
         ],
@@ -167,7 +167,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
     final colors = sKit.colors;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
@@ -207,7 +206,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
         const SpaceW14(),
         if (haveSubText || haveLink) ...[
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

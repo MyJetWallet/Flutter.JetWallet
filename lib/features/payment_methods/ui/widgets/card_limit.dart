@@ -10,10 +10,10 @@ import 'card_limits_bottom_sheet.dart';
 
 class CardLimit extends StatelessObserverWidget {
   const CardLimit({
-    Key? key,
+    super.key,
     required this.cardLimit,
     this.small = false,
-  }) : super(key: key);
+  });
 
   final CardLimitsModel cardLimit;
   final bool small;
@@ -74,7 +74,7 @@ class CardLimit extends StatelessObserverWidget {
     }
 
     final text =
-        '${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}';
+        '''${(cardLimit.barInterval == StateBarType.day1 || cardLimit.day1State == StateLimitType.block) ? intl.paymentMethods_oneDay : (cardLimit.barInterval == StateBarType.day7 || cardLimit.day7State == StateLimitType.block) ? intl.paymentMethods_sevenDays : intl.paymentMethods_thirtyDays} ${intl.paymentMethods_cardsLimit}: ${checkLimitText()}''';
 
     return SPaddingH24(
       child: DecoratedBox(
@@ -109,7 +109,8 @@ class CardLimit extends StatelessObserverWidget {
                             width: currentWidth,
                             height: small ? 4 : 12,
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(6)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(6)),
                               color: colors.grey4,
                             ),
                           ),
@@ -128,8 +129,9 @@ class CardLimit extends StatelessObserverWidget {
                                       ? const Radius.circular(6)
                                       : Radius.zero,
                                 ),
-                                color:
-                                cardLimit.barProgress == 100 ? colors.red : colorToUse,
+                                color: cardLimit.barProgress == 100
+                                    ? colors.red
+                                    : colorToUse,
                               ),
                             ),
                           ),

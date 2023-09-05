@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,11 +10,9 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
-import 'package:jetwallet/utils/helpers/flag_asset_name.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/bottom_sheets/components/basic_bottom_sheet/show_basic_modal_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -33,13 +29,14 @@ void showBuyPaymentCurrencyBottomSheet(
     final ind =
         availableCurrency.indexWhere((element) => element.asset == asset);
 
-    return ind == -1 ? false : true;
+    return ind != -1;
   }
 
   for (var i = 0; i < currency.buyMethods.length; i++) {
     for (var g = 0; g < currency.buyMethods[i].paymentAssets!.length; g++) {
       if (!checkIsCurrencyAlreadyAdd(
-          currency.buyMethods[i].paymentAssets![g].asset)) {
+        currency.buyMethods[i].paymentAssets![g].asset,
+      )) {
         final isLimitNotReach =
             currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
 
@@ -101,7 +98,6 @@ void showBuyPaymentCurrencyBottomSheet(
 
 class _BuyPaymentCurrency extends StatelessObserverWidget {
   const _BuyPaymentCurrency({
-    super.key,
     required this.asset,
     required this.searchStore,
   });
@@ -111,7 +107,7 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    var countryService = CountriesService();
+    final countryService = CountriesService();
 
     return ListView.builder(
       shrinkWrap: true,

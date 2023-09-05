@@ -8,9 +8,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class WalletCardCollapsed extends StatelessObserverWidget {
   const WalletCardCollapsed({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

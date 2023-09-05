@@ -30,6 +30,7 @@ class _SimpleBaseLinkTextState extends State<SimpleBaseLinkText> {
     late Color currentColor;
 
     if (widget.active) {
+      // ignore: prefer-conditional-expressions
       if (highlighted) {
         currentColor = widget.activeColor.withOpacity(0.8);
       } else {
