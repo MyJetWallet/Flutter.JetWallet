@@ -1033,7 +1033,7 @@
     "send_globally_con_rate": "Коефіцієнт конверсії",
     "send_globally_processing_fee": "Комісія за обробку",
     "send_globally_transfer_info": "Зазвичай переказ обробляється протягом 30 хвилин, іноді до 24 годин",
-    "send_globally_fail_info": "Ваш запит на відправку не був розміщений",
+    "send_globally_fail_info": "Закрити",
     "send_globally_success": "Успіх",
     "send_globally_success_secondary": "Відправляйте по всьому світу: переказ",
     "send_globally_success_secondary_2": "було розпочато",

@@ -1067,7 +1067,7 @@
   "send_globally_con_rate": "Conversion rate",
   "send_globally_processing_fee": "Processing fee",
   "send_globally_transfer_info": "Normally transfer is processed within 30 min, sometimes up to 24 hours",
-  "send_globally_fail_info": "Your send request has not been placed",
+  "send_globally_fail_info": "Close",
   "send_globally_success": "Success",
   "send_globally_success_secondary": "Send Globally: transfer of",
   "send_globally_success_secondary_2": "was initiated",
