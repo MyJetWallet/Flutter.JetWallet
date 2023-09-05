@@ -2,12 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/result_screens/success_screen/widgets/progress_bar.dart';
-import 'package:jetwallet/widgets/result_screens/success_screen/widgets/success_animation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -17,9 +15,9 @@ import '../../../utils/constants.dart';
 @RoutePage(name: 'SuccessVerifyingScreenRouter')
 class SuccessVerifyingScreen extends StatelessWidget {
   const SuccessVerifyingScreen({
-    Key? key,
+    super.key,
     required this.onSuccess,
-  }) : super(key: key);
+  });
 
   // Triggered when SuccessScreen is done
   final Function() onSuccess;
@@ -38,7 +36,6 @@ class SuccessVerifyingScreen extends StatelessWidget {
 
 class _SuccessScreenBody extends StatefulWidget {
   const _SuccessScreenBody({
-    super.key,
     required this.onSuccess,
   });
 

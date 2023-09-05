@@ -18,6 +18,7 @@ import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widg
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -34,6 +35,7 @@ class PinScreen extends StatelessWidget {
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
+    this.onWrongPin,
     this.onError,
     required this.union,
   }) : super(key: key);
@@ -44,9 +46,10 @@ class PinScreen extends StatelessWidget {
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
+  final Function(String)? onWrongPin;
   final PinFlowUnion union;
+  final Function(String)? onError;
   final bool fromRegister;
-  final void Function(String)? onError;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
-        onError: onError,
+        onWrongPin: onWrongPin,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,

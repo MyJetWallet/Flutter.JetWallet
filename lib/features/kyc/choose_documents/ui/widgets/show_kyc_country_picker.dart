@@ -5,12 +5,15 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/kyc/choose_documents/store/choose_documents_store.dart';
 import 'package:jetwallet/features/kyc/choose_documents/store/kyc_country_store.dart';
 import 'package:jetwallet/widgets/empty_search_result.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import 'country_item/country_item.dart';
 
 void showKycCountryPicker(BuildContext context) {
   getIt.get<KycCountryStore>().initCountrySearch();
+
+  sAnalytics.kycFlowCoutryOfIssueSheetView();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -27,7 +30,7 @@ void showKycCountryPicker(BuildContext context) {
 }
 
 class _SearchPinned extends StatelessObserverWidget {
-  const _SearchPinned({Key? key}) : super(key: key);
+  const _SearchPinned();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _SearchPinned extends StatelessObserverWidget {
 }
 
 class _Countries extends StatelessObserverWidget {
-  const _Countries({Key? key}) : super(key: key);
+  const _Countries();
 
   @override
   Widget build(BuildContext context) {

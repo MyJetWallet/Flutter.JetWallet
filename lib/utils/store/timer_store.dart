@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 part 'timer_store.g.dart';
 
 class TimerStore extends _TimerStoreBase with _$TimerStore {
-  TimerStore(int initial) : super(initial);
+  TimerStore(super.initial);
 
   static TimerStore of(BuildContext context) =>
       Provider.of<TimerStore>(context, listen: false);

@@ -136,7 +136,7 @@ class GiftSendDetails extends StatelessObserverWidget {
                 name: intl.gift_history_cancel_transaction,
                 onTap: () {
                   sAnalytics
-                      .tapOnTheButtonCancelTransactiononSentHistoryDetailsSheet();
+                      .tapOnTheButtonCancelTransactiononSentHistoryDetails();
 
                   sShowAlertPopup(
                     context,
@@ -156,7 +156,9 @@ class GiftSendDetails extends StatelessObserverWidget {
                             transactionListItem.giftSendInfo?.transferId ?? '',
                           );
                       store.finishLoading();
-                      Navigator.pop(context);
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                      }
                     },
                     onSecondaryButtonTap: () => Navigator.pop(context),
                   );

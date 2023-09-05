@@ -7,15 +7,14 @@ import 'package:jetwallet/features/kyc/kyc_verify_your_profile/models/modify_req
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_steps_store.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/widgets/verify_step.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'KycVerifyYourProfileRouter')
 class KycVerifyYourProfile extends StatelessObserverWidget {
   const KycVerifyYourProfile({
-    Key? key,
+    super.key,
     required this.requiredVerifications,
-  }) : super(key: key);
+  });
 
   final List<RequiredVerified> requiredVerifications;
 

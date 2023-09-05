@@ -31,19 +31,9 @@ abstract class _FormatServiceBase with Store {
     );
     final priceInBaseCurrency = usdCurrencyAsset.currentPrice * priceInUSD;
 
-    if (operationAsset == baseCurrency.symbol) {
-      return '≈ ${baseCurrenciesFormat(
-        text: operationAmount.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    } else {
-      return '≈ ${baseCurrenciesFormat(
-        text: priceInBaseCurrency.toStringAsFixed(2),
-        symbol: baseCurrency.symbol,
-        prefix: baseCurrency.prefix,
-      )}';
-    }
+    return operationAsset == baseCurrency.symbol
+        ? '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: operationAmount, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}'''
+        : '''≈ ${volumeFormat(prefix: baseCurrency.prefix, decimal: priceInBaseCurrency, accuracy: baseCurrency.accuracy, symbol: baseCurrency.symbol)}''';
   }
 
   CurrencyModel findCurrency({
@@ -61,7 +51,8 @@ abstract class _FormatServiceBase with Store {
           );
   }
 
-  // This function convert One currency to Another One. FromCurrency -> Base Currency -> Converted (ToCurrency)
+  // This function convert One currency to Another One.
+  // FromCurrency -> Base Currency -> Converted (ToCurrency)
   Decimal convertOneCurrencyToAnotherOne({
     required String fromCurrency,
     required Decimal fromCurrencyAmmount,
@@ -89,36 +80,9 @@ abstract class _FormatServiceBase with Store {
         baseAsset.currentPrice.toDouble() / toAsset.currentPrice.toDouble();
 
     final toAmmount = fromCurrInBaseCurr.toDouble() * baseCurrencyToAsset;
-    Decimal finalAmmount = Decimal.parse(toAmmount.toString());
+    final finalAmmount = Decimal.parse(toAmmount.toString());
 
     return finalAmmount;
-
-    double smartRound(double number, int normalizedAccuracy) {
-      double roundWithAccuracy(double number, int normalizedAccuracy) {
-        final res = isMin
-            ? number.ceilDigits(normalizedAccuracy)
-            : number.floorDigits(normalizedAccuracy);
-
-        return isMin
-            ? number >= res
-                ? number
-                : res
-            : number <= res
-                ? number
-                : res;
-      }
-
-      return normalizedAccuracy == 0
-          ? number
-          : roundWithAccuracy(number, normalizedAccuracy);
-    }
-
-    return Decimal.parse(
-      '${smartRound(
-        finalAmmount.toDouble(),
-        toAsset.normalizedAccuracy,
-      )}',
-    );
   }
 
   Decimal smartRound({
@@ -148,7 +112,7 @@ abstract class _FormatServiceBase with Store {
     return toAsset.normalizedAccuracy == 0
         ? number
         : Decimal.parse(
-            '${roundWithAccuracy(number.toDouble(), toAsset.normalizedAccuracy)}',
+            '''${roundWithAccuracy(number.toDouble(), toAsset.normalizedAccuracy)}''',
           );
   }
 }
@@ -160,22 +124,25 @@ extension DoubleRounding on double {
   /// 10.2468.floorDigits(2) -> 10.24
   /// 10.2468.floorDigits(3) -> 10.246
   ///
-  /// Might give unexpected results due to precision loss: 10.2.floorDigits(5) -> 10.199999999999999
+  /// Might give unexpected results due to precision
+  /// loss: 10.2.floorDigits(5) -> 10.199999999999999
   double floorDigits(int digits) {
     if (digits == 0) {
-      return this.floorToDouble();
+      return floorToDouble();
     } else {
       final divideBy = pow(10, digits);
-      return ((this * divideBy).floorToDouble() / divideBy);
+
+      return (this * divideBy).floorToDouble() / divideBy;
     }
   }
 
   double ceilDigits(int digits) {
     if (digits == 0) {
-      return this.ceilToDouble();
+      return ceilToDouble();
     } else {
       final divideBy = pow(10, digits);
-      return ((this * divideBy).ceilToDouble() / divideBy);
+
+      return (this * divideBy).ceilToDouble() / divideBy;
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
@@ -50,7 +49,6 @@ void showAddPaymentBottomSheet({
             name: intl.currencyBuy_addBankCard,
             description: intl.curencyBuy_actionItemDescription,
             onTap: () {
-
               sRouter.navigate(
                 AddCircleCardRouter(
                   onCardAdded: (card) {
@@ -92,7 +90,7 @@ void showAddPaymentBottomSheet({
                 ),
                 name: intl.curencyBuy_unlimint,
                 description:
-                  intl.curencyBuy_actionItemDescriptionWithoutApplePay,
+                    intl.curencyBuy_actionItemDescriptionWithoutApplePay,
                 onTap: () {
                   Navigator.pop(context, method);
                   Navigator.pop(context, method);

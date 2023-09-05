@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'components/network_item.dart';
@@ -10,12 +11,13 @@ void showNetworkBottomSheet(
   BlockchainModel currentNetwork,
   List<BlockchainModel> availableNetworks,
   String iconUrl,
+  String asset,
   void Function(BlockchainModel) setNetwork, {
   bool backOnClose = true,
 }) {
-  bool isClosed = false;
+  var isClosed = false;
 
-  checkOrClose(val) {
+  void checkOrClose(val) {
     if (!backOnClose) return;
     if (isClosed) return;
     if (val is bool && !val) {
@@ -32,6 +34,8 @@ void showNetworkBottomSheet(
       return;
     }
   }
+
+  sAnalytics.chooseNetworkPopupView(asset: asset);
 
   sShowBasicModalBottomSheet(
     context: context,

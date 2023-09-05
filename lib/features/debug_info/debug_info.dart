@@ -3,17 +3,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/push_notification.dart';
-import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
@@ -23,7 +16,7 @@ import '../../core/services/local_storage_service.dart';
 
 @RoutePage(name: 'DebugInfoRouter')
 class DebugInfo extends StatefulObserverWidget {
-  const DebugInfo({Key? key}) : super(key: key);
+  const DebugInfo({super.key});
 
   @override
   State<DebugInfo> createState() => _DebugInfoState();
@@ -184,8 +177,7 @@ class _DebugInfoState extends State<DebugInfo>
                       token: 'CRASHME',
                     );
 
-                    final infoRequest =
-                        await sNetwork.getAuthModule().postSessionCheck();
+                    await sNetwork.getAuthModule().postSessionCheck();
                   },
                   child: const Text(
                     'Simulate 401',
@@ -198,8 +190,7 @@ class _DebugInfoState extends State<DebugInfo>
                       refreshToken: 'CRASHME',
                     );
 
-                    final infoRequest =
-                        await sNetwork.getAuthModule().postSessionCheck();
+                    await sNetwork.getAuthModule().postSessionCheck();
                   },
                   child: const Text(
                     'Simulate refresh token is break',

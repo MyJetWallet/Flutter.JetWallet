@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ClickableUnderlinedText extends StatefulObserverWidget {
   const ClickableUnderlinedText({
-    Key? key,
+    super.key,
     required this.text,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String text;
   final void Function() onTap;

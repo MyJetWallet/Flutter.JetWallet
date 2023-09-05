@@ -6,7 +6,7 @@ import 'package:jetwallet/core/services/package_info_service.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class AppVersionBox extends StatelessObserverWidget {
-  const AppVersionBox({Key? key}) : super(key: key);
+  const AppVersionBox({super.key});
 
   @override
   Widget build(BuildContext context) {

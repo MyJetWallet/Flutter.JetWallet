@@ -46,7 +46,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
             onSkip: () {},
           ),
           header: SSmallHeader(
-            title: intl.send_gift_order_summary,
+            title: intl.send_gift_summary,
           ),
           child: CustomScrollView(
             slivers: [
@@ -138,7 +138,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                             symbol: sendGiftStore.currency.symbol,
                           ),
                         );
-                        sAnalytics.confirmWithPINScreenView();
+                        //sAnalytics.confirmWithPINScreenView();
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_kit/modules/actions/confirm_action_timer/simple_confirm_action_timer.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
-import 'package:simple_kit/modules/shared/simple_skeleton_text_loader.dart';
 
 import '../../simple_kit.dart';
 

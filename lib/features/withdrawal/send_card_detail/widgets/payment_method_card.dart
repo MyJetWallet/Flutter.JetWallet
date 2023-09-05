@@ -274,7 +274,6 @@ class PaymentMethodCardSkeleton extends StatelessWidget {
 
 class _BaseContainer extends StatelessWidget {
   const _BaseContainer({
-    super.key,
     required this.child,
   });
 

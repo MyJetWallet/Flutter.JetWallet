@@ -9,10 +9,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class KycCountry extends StatelessObserverWidget {
   const KycCountry({
-    Key? key,
+    super.key,
     required this.activeCountry,
     required this.openCountryList,
-  }) : super(key: key);
+  });
 
   final KycCountryModel activeCountry;
   final Function() openCountryList;

@@ -1,23 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:event_bus/event_bus.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/market/market_details/model/operation_history_union.dart';
 import 'package:jetwallet/features/wallet/helper/nft_types.dart';
 import 'package:jetwallet/features/wallet/helper/show_transaction_details.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_request_model.dart'
     as oh_req;
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart'
@@ -30,7 +27,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.assetId,
     super.filter,
     super.isRecurring,
-    super.jw_operation_id,
+    super.jwOperationId,
   );
 
   static _OperationHistoryBase of(BuildContext context) =>
@@ -42,7 +39,7 @@ abstract class _OperationHistoryBase with Store {
     this.assetId,
     this.filter,
     this.isRecurring,
-    this.jw_operation_id,
+    this.jwOperationId,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -54,7 +51,7 @@ abstract class _OperationHistoryBase with Store {
   final bool? isRecurring;
 
   // Указывает на конкретную операцию, используем после тапа по пушу
-  String? jw_operation_id;
+  String? jwOperationId;
 
   @observable
   ScrollController scrollController = ScrollController();
@@ -87,7 +84,11 @@ abstract class _OperationHistoryBase with Store {
 
   @action
   Future<bool> refreshHistory({bool needLoader = true}) async {
-    print('refreshHistory');
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.info,
+          place: 'Operation History Store',
+          message: 'refreshHistory',
+        );
 
     operationHistoryItems = ObservableList.of([]);
 
@@ -105,38 +106,50 @@ abstract class _OperationHistoryBase with Store {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
 
-    final operationHistory = await _requestOperationHistory(
-      oh_req.OperationHistoryRequestModel(
-        assetId: assetId,
-        batchSize: 20,
-      ),
-      needLoader,
-    );
+    try {
+      final operationHistory = await _requestOperationHistory(
+        oh_req.OperationHistoryRequestModel(
+          assetId: assetId,
+          batchSize: 20,
+        ),
+        needLoader,
+      );
 
-    _updateOperationHistory(
-      operationHistory.operationHistory,
-      isbgUpdate: !needLoader,
-    );
+      _updateOperationHistory(
+        operationHistory.operationHistory,
+        isbgUpdate: !needLoader,
+      );
 
-    union = const OperationHistoryUnion.loaded();
+      union = const OperationHistoryUnion.loaded();
 
-    if (jw_operation_id != null) {
-      final item = listToShow
-          .indexWhere((element) => element.operationId == jw_operation_id);
+      if (jwOperationId != null) {
+        final item = listToShow
+            .indexWhere((element) => element.operationId == jwOperationId);
 
-      if (item != -1) {
-        if (detailsShowed) return;
+        if (item != -1) {
+          if (detailsShowed) return;
 
-        detailsShowed = true;
-        showTransactionDetails(
-            sRouter.navigatorKey.currentContext!, listToShow[item], (q) {
-          detailsShowed = false;
-        });
-      } else {
-        await getOperationHistoryOperation(jw_operation_id!);
+          detailsShowed = true;
+          showTransactionDetails(
+            sRouter.navigatorKey.currentContext!,
+            listToShow[item],
+            (q) {
+              detailsShowed = false;
+            },
+          );
+        } else {
+          await getOperationHistoryOperation(jwOperationId!);
+        }
+
+        jwOperationId = null;
       }
+    } catch (e) {
+      sNotification.showError(
+        intl.something_went_wrong,
+        id: 1,
+      );
 
-      jw_operation_id = null;
+      union = const OperationHistoryUnion.error();
     }
 
     isLoading = false;
@@ -160,9 +173,7 @@ abstract class _OperationHistoryBase with Store {
           },
         );
       },
-      onError: (e) {
-        print(e);
-      },
+      onError: (e) {},
     );
   }
 

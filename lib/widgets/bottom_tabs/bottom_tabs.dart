@@ -6,11 +6,11 @@ import 'package:simple_kit/simple_kit.dart';
 
 class BottomTabs extends StatelessObserverWidget {
   const BottomTabs({
-    Key? key,
+    super.key,
     this.tabController,
     this.bottomPadding = 0,
     required this.tabs,
-  }) : super(key: key);
+  });
 
   final TabController? tabController;
   final List<Widget> tabs;

@@ -18,8 +18,27 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 @RoutePage(name: 'WithdrawalAmmountRouter')
-class WithdrawalAmmountScreen extends StatelessObserverWidget {
+class WithdrawalAmmountScreen extends StatefulObserverWidget {
   const WithdrawalAmmountScreen({super.key});
+
+  @override
+  State<WithdrawalAmmountScreen> createState() =>
+      _WithdrawalAmmountScreenState();
+}
+
+class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
+  @override
+  void initState() {
+    final store = WithdrawalStore.of(context);
+
+    sAnalytics.cryptoSendAssetNameAmountScreenView(
+      asset: store.withdrawalInputModel!.currency!.symbol,
+      network: store.network.description,
+      sendMethodType: '0',
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +46,6 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
 
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
-
-    if (store.withdrawalType == WithdrawalType.NFT) {
-      return const SizedBox.shrink();
-    }
 
     var availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
@@ -174,7 +189,21 @@ class WithdrawalAmmountScreen extends StatelessObserverWidget {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
-              store.withdrawalPush(WithdrawStep.Preview);
+              sAnalytics.cryptoSendTapContinueAmountScreen(
+                asset: store.withdrawalInputModel!.currency!.symbol,
+                network: store.network.description,
+                sendMethodType: '0',
+                totalSendAmount: store.withAmount,
+                preset: store.tappedPreset == 0
+                    ? '25%'
+                    : store.tappedPreset == 1
+                        ? '50%'
+                        : store.tappedPreset == 2
+                            ? '100%'
+                            : 'false',
+              );
+
+              store.withdrawalPush(WithdrawStep.preview);
             },
           ),
         ],

@@ -22,6 +22,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -38,13 +39,13 @@ class PinScreenStore extends _PinScreenStoreBase with _$PinScreenStore {
     bool isChangePhone = false,
     bool isChangePin = false,
     Function(String)? onChangePhone,
-    void Function(String)? onError,
+    Function(String)? onWrongPin,
   }) : super(
           flowUnionflowUnion,
           isChangePhone,
           isChangePin,
           onChangePhone,
-          onError,
+          onWrongPin,
         );
 
   static _PinScreenStoreBase of(BuildContext context) =>
@@ -57,14 +58,14 @@ abstract class _PinScreenStoreBase with Store {
     this.isChangePhone,
     this.isChangePin,
     this.onChangePhone,
-    this.onError,
+    this.onWrongPin,
   );
 
   final PinFlowUnion flowUnion;
   final bool isChangePhone;
   final bool isChangePin;
   final Function(String)? onChangePhone;
-  final void Function(String)? onError;
+  final Function(String)? onWrongPin;
 
   static final _logger = Logger('PinScreenStore');
 
@@ -143,6 +144,15 @@ abstract class _PinScreenStoreBase with Store {
   @action
   Future<void> initDefaultScreen() async {
     if (inited) return;
+
+    if (isChangePhone) {
+      flowUnion.maybeWhen(
+        setup: () {
+          sAnalytics.signInFlowPhoneConfirmView();
+        },
+        orElse: () {},
+      );
+    }
 
     inited = true;
 
@@ -277,7 +287,18 @@ abstract class _PinScreenStoreBase with Store {
       final response = await sNetwork.getAuthModule().postCheckPin(enterPin);
 
       if (response.hasError) {
-        onError?.call(response.error?.cause ?? '');
+        if (onWrongPin != null) {
+          onWrongPin!(response.error?.cause ?? '');
+        }
+
+        flowUnion.maybeWhen(
+          setup: () {
+            sAnalytics.signInFlowPhoneConfirmWrongPhone(
+              errorCode: response.error?.cause ?? '',
+            );
+          },
+          orElse: () {},
+        );
 
         await _errorFlow();
         _updateNewPin('');
@@ -335,6 +356,8 @@ abstract class _PinScreenStoreBase with Store {
           );
         },
         onError: (ServerRejectException error) async {
+          sAnalytics.signInFlowErrorPin(error: error.cause);
+
           if (isChangePhone) {
             showForgot = true;
           }
@@ -448,12 +471,20 @@ abstract class _PinScreenStoreBase with Store {
           );
         }
       } else {
+        if (onWrongPin != null) {
+          onWrongPin!('new Pin != confrim Pin');
+        }
+
         await _animateError();
         _updateNewPin('');
         _updateConfirmPin('');
         _updateScreenUnion(const NewPin());
       }
     } catch (e) {
+      if (onWrongPin != null) {
+        onWrongPin!(e.toString());
+      }
+
       await _animateError();
       _updateNewPin('');
       _updateConfirmPin('');
@@ -638,6 +669,8 @@ abstract class _PinScreenStoreBase with Store {
             : intl.pin_screen_set_new_pin;
       },
       confirmPin: () {
+        sAnalytics.signInFlowConfirmPinView();
+
         return intl.pin_screen_confirm_newPin;
       },
     );

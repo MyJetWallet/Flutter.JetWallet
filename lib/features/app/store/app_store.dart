@@ -1,24 +1,16 @@
 import 'dart:async';
 
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/apps_flyer_service.dart';
-import 'package:jetwallet/core/services/device_info/device_info.dart';
 import 'package:jetwallet/core/services/dio_proxy_service.dart';
 import 'package:jetwallet/core/services/force_update_service.dart';
 import 'package:jetwallet/core/services/local_cache/local_cache_service.dart';
-import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/package_info_service.dart';
-import 'package:jetwallet/core/services/refresh_token_service.dart';
 import 'package:jetwallet/core/services/remote_config/models/remote_config_union.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
@@ -30,17 +22,17 @@ import 'package:jetwallet/features/app/store/models/authorized_union.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/features/disclaimer/store/disclaimer_store.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:uuid/uuid.dart';
-import 'package:logger/logger.dart';
 
 import '../../../utils/helpers/country_code_by_user_register.dart';
 import '../../phone_verification/ui/phone_verification.dart';
 
 part 'app_store.g.dart';
 
-enum AppStatus { Start, InProcess, End }
+enum AppStatus { start, inProcess, end }
 
 class AppStore = _AppStoreBase with _$AppStore;
 
@@ -74,7 +66,7 @@ abstract class _AppStoreBase with Store {
   }
 
   @observable
-  AppStatus appStatus = AppStatus.Start;
+  AppStatus appStatus = AppStatus.start;
   @action
   void setAppStatus(AppStatus status) => appStatus = status;
 
@@ -161,7 +153,7 @@ abstract class _AppStoreBase with Store {
       if (!skipVersionCheck) {
         if (await getIt<ForceServiceUpdate>().init()) {
           await getIt<ForceServiceUpdate>().init(
-            context: getIt.get<AppRouter>().navigatorKey.currentContext!,
+            context: getIt.get<AppRouter>().navigatorKey.currentContext,
             showPopup: true,
           );
 
@@ -204,7 +196,6 @@ abstract class _AppStoreBase with Store {
                     args: PhoneVerificationArgs(
                       phoneNumber: sUserInfo.phone,
                       activeDialCode: phoneNumber,
-                      sendCodeOnInitState: true,
                       onVerified: () {
                         userInfoN.updatePhoneVerified(
                           phoneVerifiedValue: true,
@@ -442,9 +433,7 @@ abstract class _AppStoreBase with Store {
         );
       }
 
-      sAnalytics.updateTechAccValue(
-        userInfo.isTechClient,
-      );
+      sAnalytics.updateTechAccValue = userInfo.isTechClient;
 
       authState = authState.copyWith(
         initSessionReceived: true,
@@ -506,7 +495,7 @@ abstract class _AppStoreBase with Store {
     withdrawDynamicLink = false;
     homeTab = 0;
     isBalanceHide = true;
-    appStatus = AppStatus.Start;
+    appStatus = AppStatus.start;
 
     openPinVerification = false;
     homeOpened = false;

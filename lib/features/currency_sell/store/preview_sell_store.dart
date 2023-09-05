@@ -13,7 +13,6 @@ import 'package:jetwallet/widgets/quote_updated_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/actions/confirm_action_timer/simple_timer_animation_countdown.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -23,7 +22,7 @@ import 'package:simple_networking/modules/wallet_api/models/swap_execute_quote/e
 part 'preview_sell_store.g.dart';
 
 class PreviewSellStore extends _PreviewSellStoreBase with _$PreviewSellStore {
-  PreviewSellStore(PreviewSellInput input) : super(input);
+  PreviewSellStore(super.input);
 
   static _PreviewSellStoreBase of(BuildContext context) =>
       Provider.of<PreviewSellStore>(context, listen: false);

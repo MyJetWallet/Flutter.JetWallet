@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class AddButton extends StatelessObserverWidget {
   const AddButton({
-    Key? key,
+    super.key,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
 

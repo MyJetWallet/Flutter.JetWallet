@@ -51,11 +51,7 @@ bool checkTransactionIsInternal(OperationHistoryItem transactionListItem) {
 bool showBlockchainButton(String network) {
   final block = findBlockchaonByDescription(network);
 
-  return block != null
-      ? block.blockchainExplorerUrlTemplate.isNotEmpty
-          ? true
-          : false
-      : false;
+  return block != null && block.blockchainExplorerUrlTemplate.isNotEmpty;
 }
 
 BlockchainModel? findBlockchaonByDescription(String value) {

@@ -1,7 +1,6 @@
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 
 import 'error_codes_description.dart';
-import 'timespan_to_duration.dart';
 
 /// Handles common response with [result] and [data] from the API
 /// If data is a primitive type then pass [T] as primitive type
@@ -170,7 +169,7 @@ void _validateRejectResponse(String rejectCode) {
   }
 }
 
-String _blockerMessage(Duration duration) {
+String blockerMessage(Duration duration) {
   const phrase1 = 'Due to several failed log in attempts access '
       'to this account will be suspended for';
 
@@ -193,7 +192,7 @@ String _blockerMessage(Duration duration) {
   }
 }
 
-String _blockerNumberMessage(Duration duration) {
+String blockerNumberMessage(Duration duration) {
   const phrase1 = 'Operation blocked for';
 
   final d = duration.inDays;

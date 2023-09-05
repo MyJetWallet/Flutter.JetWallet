@@ -17,10 +17,10 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
@@ -73,7 +73,7 @@ abstract class _IbanSendAmountStoreBase with Store {
 
   @computed
   Decimal get availableCurrency => Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       );
 
   CurrencyModel usdCurrency = currencyFrom(
@@ -84,6 +84,8 @@ abstract class _IbanSendAmountStoreBase with Store {
   @action
   void init(AddressBookContactModel value) {
     contact = value;
+
+    sAnalytics.sendEurAmountScreenView();
 
     final ibanOutMethodInd = eurCurrency.withdrawalMethods.indexWhere(
       (element) => element.id == WithdrawalMethods.ibanSend,
@@ -164,7 +166,7 @@ abstract class _IbanSendAmountStoreBase with Store {
       selected: percent,
       currency: eurCurrency,
       availableBalance: Decimal.parse(
-        '${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}',
+        '''${eurCurrency.assetBalance.toDouble() - eurCurrency.cardReserve.toDouble()}''',
       ),
     );
 
@@ -242,7 +244,14 @@ abstract class _IbanSendAmountStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    if (error != InputError.none) {
+      sAnalytics.errorSendIBANAmount(
+        errorCode: withAmmountInputError.toString(),
+      );
+    }
+
+    withValid =
+        withAmmountInputError == InputError.none && isInputValid(withAmount);
   }
 
   @action

@@ -29,4 +29,3 @@ abstract class IncomingGiftObject with _$IncomingGiftObject {
   factory IncomingGiftObject.fromJson(Map<String, dynamic> json) =>
       _$IncomingGiftObjectFromJson(json);
 }
-

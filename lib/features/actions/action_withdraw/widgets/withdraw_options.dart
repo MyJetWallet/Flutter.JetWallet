@@ -22,9 +22,8 @@ void showWithdrawOptions(BuildContext context, CurrencyModel currency) {
 
 class _WithdrawOptions extends StatelessWidget {
   const _WithdrawOptions({
-    Key? key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 

@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/deposit_address/deposit_address_request_model.dart';
@@ -19,7 +20,7 @@ const _retryTime = 5; // in seconds
 
 class CryptoDepositStore extends _CryptoDepositStoreBase
     with _$CryptoDepositStore {
-  CryptoDepositStore(CurrencyModel currency) : super(currency);
+  CryptoDepositStore(super.currency);
 
   static _CryptoDepositStoreBase of(BuildContext context) =>
       Provider.of<CryptoDepositStore>(context, listen: false);
@@ -64,10 +65,15 @@ abstract class _CryptoDepositStoreBase with Store {
   }
 
   @action
-  void setNetwork(BlockchainModel _network) {
+  void setNetwork(BlockchainModel newNetwork) {
     _logger.log(notifier, 'setNetwork');
 
-    network = _network;
+    network = newNetwork;
+
+    sAnalytics.receiveAssetScreenView(
+      asset: currency.symbol,
+      network: network.description,
+    );
 
     _requestDepositAddress();
   }

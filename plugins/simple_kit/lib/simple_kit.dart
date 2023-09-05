@@ -10,8 +10,6 @@ export 'modules/account/banners/simple_account_banner.dart';
 /// Account
 export 'modules/account/buttons/account_category_button/simple_account_category_button.dart';
 export 'modules/account/buttons/term/simple_account_term_button.dart';
-export 'modules/account/buttons/term/simple_account_term_button.dart';
-export 'modules/account/headers/simple_account_category_header.dart';
 export 'modules/account/headers/simple_account_category_header.dart';
 
 /// Indicator
@@ -58,8 +56,6 @@ export 'modules/banners/market_banner/simple_market_banner.dart';
 
 /// Rewards Banners
 export 'modules/banners/rewards_banner/simple_rewards_banner.dart';
-export 'modules/banners/rewards_banner/simple_rewards_banner.dart';
-export 'modules/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 export 'modules/banners/rewards_banner/simple_three_steps_reward_banner.dart';
 
 /// Bottom Navigation Bar

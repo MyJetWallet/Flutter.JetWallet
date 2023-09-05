@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:get_it/get_it.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_info/device_info.dart';
@@ -13,11 +11,10 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/utils/helpers/get_user_agent.dart';
+import 'package:logger/logger.dart';
 import 'package:simple_networking/modules/signal_r/models/signalr_log.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_new.dart';
 import 'package:simple_networking/modules/signal_r/signal_r_transport.dart';
-import 'package:simple_networking/simple_networking.dart';
-import 'package:logger/logger.dart';
 
 const String signalRSingletinName = 'SignalRModuleNew';
 
@@ -227,7 +224,7 @@ class SignalRService {
       level: Level.info,
       place: _loggerValue,
       message:
-          'CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n',
+          '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
     );
 
     return SignalRModuleNew(

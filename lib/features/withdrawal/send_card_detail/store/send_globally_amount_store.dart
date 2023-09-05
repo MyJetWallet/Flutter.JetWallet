@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -10,14 +9,15 @@ import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
+import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/utils/models/selected_percent.dart';
-import 'package:jetwallet/utils/helpers/currency_from.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -108,9 +108,6 @@ abstract class _SendGloballyAmountStoreBase with Store {
       isMin: false,
     );
 
-    print('Min: $minLim, Rounded: $minLimRounded');
-    print('Max: $maxLim, Rounded: $maxLimRounded');
-
     if (minLimRounded >= maxLimRounded) {
       minLimitAmount = minLim;
       maxLimitAmount = maxLim;
@@ -155,7 +152,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
 
   @computed
   Decimal get availableBalabce => Decimal.parse(
-        '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
+        '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
       );
 
   @action
@@ -201,7 +198,7 @@ abstract class _SendGloballyAmountStoreBase with Store {
     final percent = _percentFromPreset(preset);
 
     final availableBalance = Decimal.parse(
-      '${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}',
+      '''${sendCurrency!.assetBalance.toDouble() - sendCurrency!.cardReserve.toDouble()}''',
     );
 
     final value = valueBasedOnSelectedPercent(
@@ -280,7 +277,16 @@ abstract class _SendGloballyAmountStoreBase with Store {
             : error
         : InputError.none;
 
-    withValid = error == InputError.none ? isInputValid(withAmount) : false;
+    if (error != InputError.none) {
+      sAnalytics.globalSendErrorLimit(
+        asset: sendCurrency!.symbol,
+        sendMethodType: '1',
+        destCountry: countryCode,
+        paymentMethod: method?.name ?? '',
+        globalSendType: method?.methodId ?? '',
+      );
+    }
+    withValid = error == InputError.none && isInputValid(withAmount);
   }
 
   @action

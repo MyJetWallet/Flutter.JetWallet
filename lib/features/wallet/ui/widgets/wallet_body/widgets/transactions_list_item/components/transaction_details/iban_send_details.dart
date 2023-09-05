@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -17,21 +16,16 @@ import 'components/transaction_details_value_text.dart';
 
 class IbanSendDetails extends StatelessObserverWidget {
   const IbanSendDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
-    final currency = currencyFrom(
-      sSignalRModules.currenciesList,
-      'EUR',
-    );
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -79,7 +73,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text: transactionListItem.operationId ?? '',
+                        text: transactionListItem.operationId,
                       ),
                     );
 
@@ -135,7 +129,7 @@ class IbanSendDetails extends StatelessObserverWidget {
                     Clipboard.setData(
                       ClipboardData(
                         text:
-                            '${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}',
+                            '''${transactionListItem.withdrawalInfo?.contactName ?? ''}\n${transactionListItem.withdrawalInfo?.toAddress ?? ''}''',
                       ),
                     );
 

@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 part 'onboarding_store.g.dart';
@@ -53,6 +54,8 @@ abstract class _OnboardingStoreBase with Store {
     ]);
 
     sliderController!.addStatusListener(sliderListener);
+
+    sAnalytics.signInFlowOnboardingFirstScreenView();
   }
 
   void sliderListener(AnimationStatus status) {
@@ -83,6 +86,8 @@ abstract class _OnboardingStoreBase with Store {
     } else {
       restartAnimation();
     }
+
+    onSliderChange();
   }
 
   @action
@@ -104,6 +109,8 @@ abstract class _OnboardingStoreBase with Store {
     } else {
       nextSlider();
     }
+
+    onSliderChange();
   }
 
   void stopSlider() {
@@ -112,6 +119,8 @@ abstract class _OnboardingStoreBase with Store {
 
   void forwardSlider(LongPressEndDetails detail) {
     sliderController!.forward();
+
+    onSliderChange();
   }
 
   @action
@@ -119,6 +128,20 @@ abstract class _OnboardingStoreBase with Store {
     if (currentIndex + 1 < slides.length) {
       currentIndex += 1;
       restartAnimation();
+    }
+
+    onSliderChange();
+  }
+
+  void onSliderChange() {
+    if (currentIndex == 0) {
+      sAnalytics.signInFlowOnboardingFirstScreenView();
+    } else if (currentIndex == 1) {
+      sAnalytics.signInFlowOnboardingSecondScreenView();
+    } else if (currentIndex == 2) {
+      sAnalytics.signInFlowOnboardingThirdScreenView();
+    } else if (currentIndex == 3) {
+      sAnalytics.signInFlowOnboardingFourScreenView();
     }
   }
 

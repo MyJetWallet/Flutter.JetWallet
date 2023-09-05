@@ -13,7 +13,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'AccountSecurityRouter')
 class AccountSecurity extends StatefulObserverWidget {
-  const AccountSecurity({Key? key}) : super(key: key);
+  const AccountSecurity({super.key});
 
   @override
   State<AccountSecurity> createState() => _AccountSecurityState();
@@ -82,7 +82,7 @@ class _AccountSecurityState extends State<AccountSecurity> {
                     BiometricStatus.none.toString()) {
                   unawaited(
                     getIt.get<AppRouter>().push(
-                          AllowBiometricRoute(),
+                          const AllowBiometricRoute(),
                         ),
                   );
                 } else {
@@ -94,7 +94,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
                 }
                 updateUserInfo();
               } else {
-                await getIt.get<UserInfoService>().disableBiometric();
+                getIt.get<UserInfoService>().updateBiometric(
+                      hideBiometric: true,
+                    );
                 updateUserInfo();
               }
             },

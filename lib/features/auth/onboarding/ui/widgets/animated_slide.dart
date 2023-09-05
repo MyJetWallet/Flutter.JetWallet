@@ -5,11 +5,11 @@ import 'slide_container.dart';
 
 class AnimatedOnboardingSlide extends StatelessWidget {
   const AnimatedOnboardingSlide({
-    Key? key,
+    super.key,
     required this.animationController,
     required this.position,
     required this.currentIndex,
-  }) : super(key: key);
+  });
 
   final AnimationController animationController;
   final int position;

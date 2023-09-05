@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 import '../../../features/kyc/choose_documents/store/kyc_country_store.dart';
 import '../../../utils/helpers/navigate_to_router.dart';
@@ -31,6 +32,8 @@ class SumsubService {
   }
 
   Future<void> launch() async {
+    final countries = getIt.get<KycCountryStore>();
+
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
           place: _loggerService,
@@ -41,6 +44,10 @@ class SumsubService {
       SNSMobileSDKStatus newStatus,
       SNSMobileSDKStatus prevStatus,
     ) {
+      sAnalytics.kycFlowSumsubClose(
+        country: countries.activeCountry?.countryName ?? '',
+      );
+
       print('The SDK status was changed: $prevStatus -> $newStatus');
       getIt.get<SimpleLoggerService>().log(
             level: Level.info,
@@ -50,6 +57,10 @@ class SumsubService {
       if (newStatus == SNSMobileSDKStatus.Approved ||
           newStatus == SNSMobileSDKStatus.ActionCompleted ||
           newStatus == SNSMobileSDKStatus.Pending) {
+        sAnalytics.kycFlowVerifyingNowSV(
+          country: countries.activeCountry?.countryName ?? '',
+        );
+
         sRouter.push(
           SuccessScreenRouter(
             primaryText: intl.kycChooseDocuments_verifyingNow,
@@ -65,6 +76,10 @@ class SumsubService {
     }
 
     onActionResult(SNSMobileSDKActionResult result) {
+      sAnalytics.kycFlowVerifyingNowSV(
+        country: countries.activeCountry?.countryName ?? '',
+      );
+
       sRouter.push(
         SuccessScreenRouter(
           primaryText: intl.kycChooseDocuments_verifyingNow,

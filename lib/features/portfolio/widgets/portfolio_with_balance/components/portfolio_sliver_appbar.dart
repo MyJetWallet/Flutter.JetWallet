@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -17,7 +14,6 @@ import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
-import 'package:jetwallet/features/receive_gift/receive_gift_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -32,7 +28,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 
 import '../../../../rewards/store/reward_store.dart';
 
@@ -82,14 +77,16 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
       expendPercentage,
     );
 
-    final bool isShowBuy = sSignalRModules.currenciesList
+    final isShowBuy = sSignalRModules.currenciesList
         .where((element) => element.buyMethods.isNotEmpty)
         .isNotEmpty;
-    final bool isShowSend = sSignalRModules.currenciesList
-        .where((element) =>
-            element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty)
+    final isShowSend = sSignalRModules.currenciesList
+        .where(
+          (element) =>
+              element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+        )
         .isNotEmpty;
-    final bool isShowReceive = sSignalRModules.currenciesList
+    final isShowReceive = sSignalRModules.currenciesList
         .where((element) => element.supportsCryptoDeposit)
         .isNotEmpty;
 
@@ -225,6 +222,10 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowReceive) ...[
                 CircleActionReceive(
                   onTap: () {
+                    sAnalytics.tapOnTheReceiveButton(
+                      source: 'My Assets - Receive',
+                    );
+
                     if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       showReceiveAction(context, shouldPop: false);
@@ -236,7 +237,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           context,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -264,7 +264,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                           isNotEmptyBalance: isNotEmptyBalance,
                           shouldPop: false,
                         ),
-                        navigatePop: false,
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
                       );
@@ -290,7 +289,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                         or: () => sRouter.push(ConvertRouter()),
                         from: BlockingType.trade,
                       ),
-                      navigatePop: false,
                       requiredDocuments: kycState.requiredDocuments,
                       requiredVerifications: kycState.requiredVerifications,
                     );

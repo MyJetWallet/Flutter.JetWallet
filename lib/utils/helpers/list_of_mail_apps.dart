@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/di/di.dart';
@@ -13,6 +14,8 @@ void showMailAppsOptions(
   List<MailApp> apps,
   Function() defaultAction,
 ) {
+  sAnalytics.signInFlowSelectAnAppScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
@@ -29,10 +32,9 @@ void showMailAppsOptions(
 
 class _MailOptions extends StatefulObserverWidget {
   const _MailOptions({
-    Key? key,
     required this.apps,
     required this.defaultAction,
-  }) : super(key: key);
+  });
 
   final List<MailApp> apps;
   final Function() defaultAction;
@@ -82,8 +84,9 @@ class _MailOptionsBodyState extends State<_MailOptions>
                     );
                   }
                   await OpenMailApp.openSpecificMailApp(app);
-
-                  Navigator.pop(context);
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                  }
                 },
               ),
             Container(
@@ -95,6 +98,8 @@ class _MailOptionsBodyState extends State<_MailOptions>
                     builder: (context) {
                       return SIconButton(
                         onTap: () {
+                          sAnalytics.signInFlowTapRememberMyChoice();
+
                           setState(() {
                             checked = !checked;
                           });
@@ -163,12 +168,12 @@ Widget _iconFrom(String name, SimpleColors colors) {
 
 class MailItem extends StatelessWidget {
   const MailItem({
-    Key? key,
+    super.key,
     this.withDivider = false,
     required this.icon,
     required this.name,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final bool withDivider;
   final Widget icon;

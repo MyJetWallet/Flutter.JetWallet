@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class StackLoaderNotifier extends ValueNotifier<bool> {
   StackLoaderNotifier() : super(false);
 
-  Timer _timer = Timer(Duration.zero, () {});
+  late Timer _timer;
 
   void startLoadingImmediately() => value = true;
   void finishLoadingImmediately() => value = false;

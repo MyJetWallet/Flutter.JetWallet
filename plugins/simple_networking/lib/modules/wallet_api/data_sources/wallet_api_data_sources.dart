@@ -105,7 +105,6 @@ import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
-import '../models/send_gift/send_gift_by_email_request_model.dart';
 import '../models/simplex/simplex_payment_response_model.dart';
 
 class WalletApiDataSources {
@@ -397,8 +396,6 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
@@ -483,7 +480,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, String>> postSDKTokenRequest(
-      String country) async {
+    String country,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/kyc/verification/sdk_token',
@@ -498,8 +496,6 @@ class WalletApiDataSources {
         final data = handleFullResponse(
           responseData,
         );
-
-        print(data);
 
         return DC.data(data['data']['token']);
       } catch (e) {
@@ -762,7 +758,7 @@ class WalletApiDataSources {
       try {
         final responseData = _.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 
@@ -817,7 +813,7 @@ class WalletApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 
@@ -1976,17 +1972,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -1999,7 +1991,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2021,17 +2013,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2070,17 +2058,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2096,17 +2080,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2122,7 +2102,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2165,17 +2145,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2191,17 +2167,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }

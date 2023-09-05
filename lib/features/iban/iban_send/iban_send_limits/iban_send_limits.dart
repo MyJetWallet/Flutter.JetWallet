@@ -5,6 +5,7 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transac
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_value_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 
@@ -13,6 +14,8 @@ void showIbanSendLimits({
   required CardLimitsModel cardLimits,
   CurrencyModel? currency,
 }) {
+  sAnalytics.sendLimitsIBANScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     removePinnedPadding: true,
@@ -29,7 +32,6 @@ void showIbanSendLimits({
 
 class _SendIbanLimits extends StatelessWidget {
   const _SendIbanLimits({
-    super.key,
     this.currency,
     required this.cardLimit,
   });
