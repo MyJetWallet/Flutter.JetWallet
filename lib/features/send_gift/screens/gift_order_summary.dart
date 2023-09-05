@@ -138,7 +138,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                             symbol: sendGiftStore.currency.symbol,
                           ),
                         );
-                        sAnalytics.confirmWithPINScreenView();
+                        //sAnalytics.confirmWithPINScreenView();
                         sRouter.push(
                           PinScreenRoute(
                             union: const Change(),
