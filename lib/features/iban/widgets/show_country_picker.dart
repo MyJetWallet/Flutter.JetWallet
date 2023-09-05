@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../auth/user_data/ui/widgets/country/country_item/country_profile_item.dart';
@@ -102,6 +103,10 @@ class _CountryState extends State<_Countries> {
                               sNotification.showError(
                                 intl.user_data_bottom_sheet_country,
                                 id: 1,
+                              );
+
+                              sAnalytics.signInFlowErrorCountryBlocked(
+                                erroCode: intl.user_data_bottom_sheet_country,
                               );
                             } else {
                               widget.store.pickCountryFromSearch(country);

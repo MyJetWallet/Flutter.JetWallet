@@ -11,6 +11,7 @@ import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
@@ -58,6 +59,15 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   @action
   void init(SendToBankCardResponse val, GlobalSendMethodsModelMethods m) {
+    sAnalytics.globalSendOrderSV(
+      asset: val.asset ?? '',
+      sendMethodType: '1',
+      destCountry: val.countryCode ?? '',
+      paymentMethod: m.name ?? '',
+      globalSendType: m.methodId ?? '',
+      totalSendAmount: (val.amount ?? Decimal.zero).toString(),
+    );
+
     data = val;
     method = m;
 
@@ -110,6 +120,15 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   Future<void> confirmSendGlobally({required String newPin}) async {
     loader.startLoadingImmediately();
+
+    sAnalytics.globalSendLoadingSV(
+      asset: data?.asset ?? '',
+      sendMethodType: '1',
+      destCountry: data?.countryCode ?? '',
+      paymentMethod: method?.name ?? '',
+      globalSendType: method?.methodId ?? '',
+      totalSendAmount: (data?.amount ?? Decimal.zero).toString(),
+    );
 
     Future.delayed(
       const Duration(seconds: 40),
@@ -167,6 +186,16 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   @action
   Future<void> showFailureScreen(String error) {
+    sAnalytics.globalSendFailedSV(
+      asset: data?.asset ?? '',
+      sendMethodType: '1',
+      destCountry: data?.countryCode ?? '',
+      paymentMethod: method?.name ?? '',
+      globalSendType: method?.methodId ?? '',
+      totalSendAmount: (data?.amount ?? Decimal.zero).toString(),
+      failedReason: error,
+    );
+
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.failed,
@@ -181,6 +210,15 @@ abstract class _SendGloballyConfirmStoreBase with Store {
 
   @action
   Future<void> showSuccessScreen(SendToBankRequestModel model) {
+    sAnalytics.globalSendSuccessSV(
+      asset: data?.asset ?? '',
+      sendMethodType: '1',
+      destCountry: data?.countryCode ?? '',
+      paymentMethod: method?.name ?? '',
+      globalSendType: method?.methodId ?? '',
+      totalSendAmount: (data?.amount ?? Decimal.zero).toString(),
+    );
+
     return sRouter
         .push(
           SuccessScreenRouter(

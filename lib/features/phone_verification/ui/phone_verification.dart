@@ -11,6 +11,7 @@ import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:jetwallet/widgets/texts/resend_rich_text.dart';
 import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -219,6 +220,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
+                    sAnalytics.signInFlowPhoneReceiveCodePhoneCall();
+
                     if (args.sendCodeOnInitState) {
                       await store.sendFullCode(false);
                     } else {

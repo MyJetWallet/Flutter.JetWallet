@@ -890,6 +890,14 @@ abstract class _WithdrawalStoreBase with Store {
 
     final value = Decimal.parse(withAmount);
 
+    if (error != InputError.none) {
+      sAnalytics.cryptoSendErrorLimit(
+        asset: withdrawalInputModel!.currency!.symbol,
+        network: network.description,
+        sendMethodType: '0',
+        errorCode: withAmmountInputError.name,
+      );
+    }
     if (_minLimit != null && _minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
         decimal: _minLimit!,
@@ -939,6 +947,19 @@ abstract class _WithdrawalStoreBase with Store {
   @action
   Future<void> withdraw({required String newPin}) async {
     previewLoader.startLoadingImmediately();
+
+    sAnalytics.cryptoSenLoadingOrderSummary(
+      asset: withdrawalInputModel!.currency!.symbol,
+      network: network.description,
+      sendMethodType: '0',
+      totalSendAmount: withAmount,
+      paymentFee: addressIsInternal
+          ? 'No fee'
+          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+              networkController.text,
+            ),
+    );
+
     previewLoading = true;
     final storageService = getIt.get<LocalStorageService>();
     if (withdrawalInputModel != null &&
@@ -1052,6 +1073,19 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _showFailureScreen(ServerRejectException error) {
+    sAnalytics.cryptoSendFailedSend(
+      asset: withdrawalInputModel!.currency!.symbol,
+      network: network.description,
+      sendMethodType: '0',
+      totalSendAmount: withAmount,
+      paymentFee: addressIsInternal
+          ? 'No fee'
+          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+              networkController.text,
+            ),
+      failedReason: error.cause,
+    );
+
     sRouter.push(
       FailureScreenRouter(
         primaryText: intl.withdrawalPreview_failure,
@@ -1180,6 +1214,18 @@ abstract class _WithdrawalStoreBase with Store {
 
   @action
   void _confirmSuccessScreen() {
+    sAnalytics.cryptoSendSuccessSend(
+      asset: withdrawalInputModel!.currency!.symbol,
+      network: network.description,
+      sendMethodType: '0',
+      totalSendAmount: withAmount,
+      paymentFee: addressIsInternal
+          ? 'No fee'
+          : withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+              networkController.text,
+            ),
+    );
+
     sRouter.push(
       SuccessScreenRouter(
         secondaryText:

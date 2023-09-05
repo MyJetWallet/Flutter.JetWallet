@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:open_mail_app/open_mail_app.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../core/di/di.dart';
@@ -13,6 +14,8 @@ void showMailAppsOptions(
   List<MailApp> apps,
   Function() defaultAction,
 ) {
+  sAnalytics.signInFlowSelectAnAppScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     pinned: SBottomSheetHeader(
@@ -95,6 +98,8 @@ class _MailOptionsBodyState extends State<_MailOptions>
                     builder: (context) {
                       return SIconButton(
                         onTap: () {
+                          sAnalytics.signInFlowTapRememberMyChoice();
+
                           setState(() {
                             checked = !checked;
                           });

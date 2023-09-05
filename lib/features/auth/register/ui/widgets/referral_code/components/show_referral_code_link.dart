@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/auth/register/store/referral_code_store.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -13,6 +14,8 @@ import 'valid_referral_code.dart';
 
 void showReferralCode(BuildContext context) {
   final colors = sKit.colors;
+
+  sAnalytics.signInFlowPersonaReferralLinkScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,
@@ -164,6 +167,9 @@ class _ReferralCodeBottom extends StatelessObserverWidget {
             active: getIt.get<ReferallCodeStore>().enableContinueButton,
             name: intl.showBasicModalBottomSheet_continue,
             onTap: () {
+              sAnalytics.signInFlowPersonaReferralLinkContinue(
+                  code: getIt.get<ReferallCodeStore>().referralCode ?? '');
+
               Navigator.pop(context);
             },
           ),

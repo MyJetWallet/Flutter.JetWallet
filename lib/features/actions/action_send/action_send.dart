@@ -211,6 +211,8 @@ Future<void> showSendGlobally(
 
   globalSearchStore.globalSendSearchInit(availableCountries);
 
+  sAnalytics.destinationCountryScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: availableCountries.length >= 7,
@@ -319,6 +321,10 @@ Future<void> _showSendActionChooseAsset(
   final storageService = getIt.get<LocalStorageService>();
   final lastCurrency = await storageService.getValue(lastAssetSend);
 
+  sAnalytics.cryptoSendChooseAssetScreenView(
+    sendMethodType: '0',
+  );
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -412,6 +418,8 @@ void showGlobalSendCurrenctSelect(BuildContext context) {
   getIt.get<ActionSearchStore>().init();
   getIt.get<ActionSearchStore>().clearSearchValue();
   final searchStore = getIt.get<ActionSearchStore>();
+
+  sAnalytics.chooseAssetToSendScreenView();
 
   sShowBasicModalBottomSheet(
     context: context,

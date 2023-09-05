@@ -25,6 +25,7 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -45,6 +46,10 @@ class EmailVerificationStore extends _EmailVerificationStoreBase
 abstract class _EmailVerificationStoreBase with Store {
   _EmailVerificationStoreBase() {
     _updateEmail(getIt.get<AppStore>().authState.email);
+
+    pinError.addListener(() {
+      sAnalytics.signInFlowErrorVerificationCode();
+    });
   }
 
   static final _logger = Logger('EmailVerificationStore');

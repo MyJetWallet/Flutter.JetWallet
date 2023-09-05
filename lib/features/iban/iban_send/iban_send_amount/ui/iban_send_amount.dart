@@ -10,6 +10,7 @@ import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 
@@ -99,6 +100,8 @@ class IbanSendAmountBody extends StatelessObserverWidget {
           */
           SPaymentSelectAsset(
             onTap: () {
+              sAnalytics.tapOnTheButtonLimitsIBAN();
+
               showIbanSendLimits(
                 context: context,
                 cardLimits: store.limits!,
@@ -139,6 +142,13 @@ class IbanSendAmountBody extends StatelessObserverWidget {
             submitButtonActive: store.withValid,
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
+              sAnalytics.tapOnTheButtonContSendIbanAmount(
+                asset: 'EUR',
+                methodType: '2',
+                sendAmount: store.withAmount,
+                preset: store.tappedPreset ?? 'false',
+              );
+
               store.loadPreview();
             },
           ),

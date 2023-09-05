@@ -122,6 +122,8 @@ void showCryptoReceiveAction(BuildContext context) {
   getIt.get<ActionSearchStore>().init();
   final searchStore = getIt.get<ActionSearchStore>();
 
+  sAnalytics.chooseAssetToReceiveScreenView();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,

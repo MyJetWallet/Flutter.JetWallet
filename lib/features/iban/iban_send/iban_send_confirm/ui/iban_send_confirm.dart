@@ -3,13 +3,16 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/store/iban_send_confirm_store.dart';
+import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_preview_withdrawal_model.dart';
@@ -28,7 +31,7 @@ class IbanSendConfirm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<IbanSendConfirmStore>(
-      create: (context) => IbanSendConfirmStore(),
+      create: (context) => IbanSendConfirmStore()..init(data),
       builder: (context, child) => IbanSendConfirmBody(
         contact: contact,
         data: data,
@@ -221,9 +224,38 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
-                    state.confirmIbanOut(
-                      data,
-                      contact,
+                    sAnalytics.tapOnTheButtonConfirmSendIban(
+                      asset: 'EUR',
+                      methodType: '2',
+                      sendAmount: data.amount.toString(),
+                    );
+
+                    sAnalytics.confirmWithPINScreenView(
+                      asset: 'EUR',
+                      methodType: '2',
+                      sendAmount: data.amount.toString(),
+                    );
+
+                    sRouter.push(
+                      PinScreenRoute(
+                        union: const Change(),
+                        isChangePhone: true,
+                        onWrongPin: (String error) {
+                          sAnalytics.errorWrongPinSend(
+                            asset: 'EUR',
+                            methodType: '2',
+                            sendAmount: data.amount.toString(),
+                            errorCode: error,
+                          );
+                        },
+                        onChangePhone: (String newPin) {
+                          sRouter.pop();
+                          state.confirmIbanOut(
+                            data,
+                            contact,
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

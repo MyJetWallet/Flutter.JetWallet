@@ -8,6 +8,7 @@ import 'package:jetwallet/features/kyc/choose_documents/store/kyc_country_store.
 import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/kyc_country.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/widgets/show_kyc_country_picker.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/kyc/components/simple_document_recommendation.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -15,10 +16,21 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../../core/services/sumsub_service/sumsub_service.dart';
 
 @RoutePage(name: 'KycVerificationSumsubRouter')
-class KycVerificationSumsub extends StatelessObserverWidget {
+class KycVerificationSumsub extends StatefulObserverWidget {
   const KycVerificationSumsub({
     super.key,
   });
+
+  @override
+  State<KycVerificationSumsub> createState() => _KycVerificationSumsubState();
+}
+
+class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
+  @override
+  void initState() {
+    sAnalytics.kycFlowVerifyYourIdentify();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +58,7 @@ class KycVerificationSumsub extends StatelessObserverWidget {
                     KycCountry(
                       activeCountry: countries.activeCountry!,
                       openCountryList: () {
+                        sAnalytics.kycFlowCoutryOfIssueShow();
                         showKycCountryPicker(context);
                       },
                     ),
@@ -128,7 +141,26 @@ class KycVerificationSumsub extends StatelessObserverWidget {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
+                sAnalytics.kycFlowCoutryOfIssueCont(
+                  country: countries.activeCountry?.countryName ?? '',
+                  documentList: state.documents
+                      .map((element) => stringKycDocumentType(
+                            element.document,
+                            context,
+                          ))
+                      .toString(),
+                );
+
                 loading.startLoadingImmediately();
+
+                sAnalytics.kycFlowVerifyWait(
+                  country: countries.activeCountry?.countryName ?? '',
+                );
+
+                sAnalytics.kycFlowSumsubShow(
+                  country: countries.activeCountry?.countryName ?? '',
+                );
+
                 await getIt<SumsubService>().launch();
                 loading.finishLoadingImmediately();
               },

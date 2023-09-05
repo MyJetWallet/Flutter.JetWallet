@@ -165,6 +165,8 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
+                    sAnalytics.signInFlowPhoneNumberContinue();
+
                     //FocusScope.of(context).unfocus();
                     if (sUserInfo.phone == store.phoneNumber()) {
                       sRouter.pop();

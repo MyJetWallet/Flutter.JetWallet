@@ -109,6 +109,10 @@ class _EmptyPortfolioBodyState extends State<EmptyPortfolioBody> {
               active: true,
               name: intl.actionReceive_receive_crypto,
               onTap: () {
+                sAnalytics.tapOnTheReceiveButton(
+                  source: 'My Assets - Zero Balance - Receive',
+                );
+
                 showReceiveAction(
                   context,
                   shouldPop: false,

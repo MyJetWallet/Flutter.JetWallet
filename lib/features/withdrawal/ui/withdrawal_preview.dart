@@ -17,8 +17,33 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../pin_screen/model/pin_flow_union.dart';
 
 @RoutePage(name: 'WithdrawalPreviewRouter')
-class WithdrawalPreviewScreen extends StatelessObserverWidget {
+class WithdrawalPreviewScreen extends StatefulObserverWidget {
   const WithdrawalPreviewScreen({super.key});
+
+  @override
+  State<WithdrawalPreviewScreen> createState() =>
+      _WithdrawalPreviewScreenState();
+}
+
+class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
+  @override
+  void initState() {
+    final store = WithdrawalStore.of(context);
+
+    sAnalytics.cryptoSendOrderSummarySend(
+      asset: store.withdrawalInputModel!.currency!.symbol,
+      network: store.network.description,
+      sendMethodType: '0',
+      totalSendAmount: store.withAmount,
+      paymentFee: store.addressIsInternal
+          ? intl.noFee
+          : store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(
+              store.networkController.text,
+            ),
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,12 +170,39 @@ class WithdrawalPreviewScreen extends StatelessObserverWidget {
                   active: !store.previewLoading && isUserEnoughMaticForWithdraw,
                   name: intl.withdrawalPreview_confirm,
                   onTap: () {
+                    sAnalytics.cryptoSendTapConfirmOrder(
+                      asset: store.withdrawalInputModel!.currency!.symbol,
+                      network: store.network.description,
+                      sendMethodType: '0',
+                      totalSendAmount: store.withAmount,
+                      paymentFee: store.addressIsInternal
+                          ? intl.noFee
+                          : store.withdrawalInputModel!.currency!
+                              .withdrawalFeeWithSymbol(
+                              store.networkController.text,
+                            ),
+                    );
+
                     sRouter.push(
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
                         onChangePhone: (String newPin) {
+                          sAnalytics.cryptoSendBioApprove(
+                            asset: store.withdrawalInputModel!.currency!.symbol,
+                            network: store.network.description,
+                            sendMethodType: '0',
+                            totalSendAmount: store.withAmount,
+                            paymentFee: store.addressIsInternal
+                                ? intl.noFee
+                                : store.withdrawalInputModel!.currency!
+                                    .withdrawalFeeWithSymbol(
+                                    store.networkController.text,
+                                  ),
+                          );
+
                           sRouter.pop();
+
                           store.withdraw(newPin: newPin);
                         },
                       ),

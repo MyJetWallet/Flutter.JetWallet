@@ -222,6 +222,10 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               if (isShowReceive) ...[
                 CircleActionReceive(
                   onTap: () {
+                    sAnalytics.tapOnTheReceiveButton(
+                      source: 'My Assets - Receive',
+                    );
+
                     if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
                       showReceiveAction(context, shouldPop: false);

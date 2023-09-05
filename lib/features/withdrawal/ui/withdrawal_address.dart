@@ -25,6 +25,11 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
   void initState() {
     final store = WithdrawalStore.of(context);
 
+    sAnalytics.cryptoSendSendAssetNameScreenView(
+      asset: store.withdrawalInputModel?.currency?.symbol ?? '',
+      sendMethodType: '0',
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (store.withdrawalInputModel?.currency != null) {
         if (!store.withdrawalInputModel!.currency!.isSingleNetwork) {
@@ -33,6 +38,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
             store.network,
             store.withdrawalInputModel!.currency!.depositBlockchains,
             store.withdrawalInputModel!.currency!.iconUrl,
+            store.withdrawalInputModel!.currency!.symbol,
             store.updateNetwork,
           );
         }
@@ -80,12 +86,18 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           store.withdrawalInputModel!.currency!
                                   .withdrawalBlockchains.length >
                               1) {
+                        sAnalytics.cryptoSendChooseNetworkScreenView(
+                          asset: store.withdrawalInputModel!.currency!.symbol,
+                          sendMethodType: '0',
+                        );
+
                         showNetworkBottomSheet(
                           context,
                           store.network,
                           store.withdrawalInputModel!.currency!
                               .withdrawalBlockchains,
                           store.withdrawalInputModel!.currency!.iconUrl,
+                          store.withdrawalInputModel!.currency!.symbol,
                           store.updateNetwork,
                           backOnClose: false,
                         );
@@ -133,14 +145,30 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                       onErase: () => store.eraseAddress(),
                       suffixIcons: [
                         SIconButton(
-                          onTap: () => store.pasteAddress(scrollController),
+                          onTap: () {
+                            sAnalytics.cryptoSendTapPaste(
+                              asset:
+                                  store.withdrawalInputModel!.currency!.symbol,
+                              sendMethodType: '0',
+                            );
+
+                            store.pasteAddress(scrollController);
+                          },
                           defaultIcon: const SPasteIcon(),
                         ),
                         SIconButton(
-                          onTap: () => store.scanAddressQr(
-                            context,
-                            scrollController,
-                          ),
+                          onTap: () {
+                            sAnalytics.cryptoSendTapQr(
+                              asset:
+                                  store.withdrawalInputModel!.currency!.symbol,
+                              sendMethodType: '0',
+                            );
+
+                            store.scanAddressQr(
+                              context,
+                              scrollController,
+                            );
+                          },
                           defaultIcon: const SQrCodeIcon(),
                         ),
                       ],
@@ -163,14 +191,30 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         maxLines: 3,
                         suffixIcons: [
                           SIconButton(
-                            onTap: () => store.pasteTag(scrollController),
+                            onTap: () {
+                              sAnalytics.cryptoSendTapPaste(
+                                asset: store
+                                    .withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+
+                              store.pasteTag(scrollController);
+                            },
                             defaultIcon: const SPasteIcon(),
                           ),
                           SIconButton(
-                            onTap: () => store.scanTagQr(
-                              context,
-                              scrollController,
-                            ),
+                            onTap: () {
+                              sAnalytics.cryptoSendTapQr(
+                                asset: store
+                                    .withdrawalInputModel!.currency!.symbol,
+                                sendMethodType: '0',
+                              );
+
+                              store.scanTagQr(
+                                context,
+                                scrollController,
+                              );
+                            },
                             defaultIcon: const SQrCodeIcon(),
                           ),
                         ],
@@ -214,6 +258,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           active: store.isReadyToContinue,
                           name: intl.currencyWithdraw_continue,
                           onTap: () {
+                            sAnalytics.cryptoSendTapContinue(
+                              asset:
+                                  store.withdrawalInputModel!.currency!.symbol,
+                              sendMethodType: '0',
+                            );
+
                             FocusScope.of(context).unfocus();
 
                             store.validateOnContinue(context);

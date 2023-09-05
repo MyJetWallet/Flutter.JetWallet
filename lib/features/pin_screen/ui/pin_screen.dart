@@ -9,6 +9,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
+import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/store/pin_screen_store.dart';
@@ -17,6 +18,7 @@ import 'package:jetwallet/features/pin_screen/ui/widgets/shake_widget/shake_widg
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -25,7 +27,7 @@ import '../model/pin_screen_union.dart';
 @RoutePage(name: 'PinScreenRoute')
 class PinScreen extends StatelessWidget {
   const PinScreen({
-    super.key,
+    Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
@@ -33,9 +35,9 @@ class PinScreen extends StatelessWidget {
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
-    this.onError,
+    this.onWrongPin,
     required this.union,
-  });
+  }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;
@@ -43,9 +45,9 @@ class PinScreen extends StatelessWidget {
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
+  final Function(String)? onWrongPin;
   final PinFlowUnion union;
   final bool fromRegister;
-  final void Function(String)? onError;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
-        onError: onError,
+        onWrongPin: onWrongPin,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
@@ -71,13 +73,14 @@ class PinScreen extends StatelessWidget {
 
 class _PinScreenBody extends StatefulObserverWidget {
   const _PinScreenBody({
+    Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isForgotPassword = false,
     this.isChangePhone = false,
     required this.fromRegister,
     required this.union,
-  });
+  }) : super(key: key);
 
   final bool displayHeader;
   final bool cannotLeave;

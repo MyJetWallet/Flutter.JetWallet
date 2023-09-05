@@ -10,6 +10,7 @@ import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_m
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
@@ -115,6 +116,13 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     activeText2: '${intl.send_globally_cond_text_7}.',
                     isChecked: getIt<AppStore>().isAcceptedGlobalSendTC,
                     onCheckboxTap: () {
+                      sAnalytics.globalSendTCCheckbox(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
                       getIt<AppStore>().setIsAcceptedGlobalSendTC(
                         !getIt<AppStore>().isAcceptedGlobalSendTC,
                       );
@@ -135,6 +143,20 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       );
                     },
                     onActiveText2Tap: () {
+                      sAnalytics.globalSendMoreDetailsButton(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
+                      sAnalytics.globalSendMoreDetailsPopup(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
                       sShowAlertPopup(
                         context,
                         primaryText: '',
@@ -146,7 +168,18 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           width: 80,
                           package: 'simple_kit',
                         ),
-                        onPrimaryButtonTap: () => {Navigator.pop(context)},
+                        primaryButtonType: SButtonType.primary1,
+                        onPrimaryButtonTap: () {
+                          sAnalytics.globalSendGotItButton(
+                            asset: store.currency,
+                            sendMethodType: '1',
+                            destCountry: countryCode,
+                            paymentMethod: store.method?.name ?? '',
+                          );
+
+                          Navigator.pop(context);
+                        },
+                        isNeedCancelButton: false,
                         cancelText: intl.profileDetails_cancel,
                         onCancelButtonTap: () => {Navigator.pop(context)},
                       );
@@ -162,6 +195,14 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
+                        sAnalytics.globalSendContinueReceiveDetail(
+                          asset: store.currency,
+                          sendMethodType: '1',
+                          destCountry: countryCode,
+                          paymentMethod: store.method?.name ?? '',
+                          globalSendType: store.methodList.first.id,
+                        );
+
                         store.submit();
                       },
                     ),
