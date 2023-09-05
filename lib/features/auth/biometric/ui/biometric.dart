@@ -118,7 +118,6 @@ class _BiometricBody extends StatelessObserverWidget {
                       await storageService.setString(useBioKey, 'true');
                       final userInfoN = getIt.get<UserInfoService>();
                       await userInfoN.initBiometricStatus();
-
                       if (bioStatus == BiometricStatus.none) {
                         await getIt.get<AppRouter>().push(
                               const AllowBiometricRoute(),

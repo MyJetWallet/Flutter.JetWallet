@@ -43,6 +43,10 @@ abstract class _BiometricStoreBase with Store {
 
     storageService.setString(useBioKey, useBio.toString());
 
+    getIt.get<UserInfoService>().updateBiometric(
+          hideBiometric: !useBio,
+        );
+
     if (useBio) {
       final auth = LocalAuthentication();
 
@@ -64,9 +68,9 @@ abstract class _BiometricStoreBase with Store {
   Future<void> handleBiometricPermission() async {
     _logger.log(notifier, 'handleBiometricPermission');
     _updateUserLocation(UserLocation.settings);
-    await openAppSettings();
     final userInfoN = getIt.get<UserInfoService>();
-    await userInfoN.initBiometricStatus();
+    userInfoN.updateBiometric(hideBiometric: false);
+    await openAppSettings();
   }
 
   Future<void> handleBiometricPermissionAfterSettingsChange(

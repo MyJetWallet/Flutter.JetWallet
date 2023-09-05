@@ -68,8 +68,9 @@ abstract class _PinScreenStoreBase with Store {
 
   int attemptsLeft = maxPinAttempts;
 
-  @observable
-  bool hideBiometricButton = true;
+  @computed
+  bool get hideBiometricButton =>
+      getIt.get<UserInfoService>().biometricDisabled;
 
   StackLoaderStore loader = StackLoaderStore();
 
@@ -192,7 +193,6 @@ abstract class _PinScreenStoreBase with Store {
   ) async {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
-    await _updateHideBiometricButton(hideBio);
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
@@ -326,7 +326,6 @@ abstract class _PinScreenStoreBase with Store {
                 }
                 onChangePhone!(enterPin);
               } else {
-                await _updateHideBiometricButton(true);
                 _updateScreenUnion(const NewPin());
               }
             },
@@ -555,12 +554,6 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  Future<void> _updateHideBiometricButton(bool value) async {
-    await getIt.get<UserInfoService>().initPinStatus();
-    hideBiometricButton = sUserInfo.pin == null || value;
-  }
-
-  @action
   Future<void> resetPin() async {
     newPin = '';
     enterPin = '';
@@ -611,7 +604,7 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<String> _authenticateWithBio() async {
-    if (!isBioBeenUsed) {
+    if (!isBioBeenUsed && !hideBiometricButton) {
       final success = await makeAuthWithBiometrics(
         intl.pinScreen_weNeedYouToConfirmYourIdentity,
       );

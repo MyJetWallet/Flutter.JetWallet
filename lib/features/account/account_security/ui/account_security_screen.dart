@@ -94,7 +94,9 @@ class _AccountSecurityState extends State<AccountSecurity> {
                 }
                 updateUserInfo();
               } else {
-                await getIt.get<UserInfoService>().disableBiometric();
+                getIt.get<UserInfoService>().updateBiometric(
+                      hideBiometric: true,
+                    );
                 updateUserInfo();
               }
             },
