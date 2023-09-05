@@ -1169,7 +1169,7 @@
   "send_gift_policy": "1. I am aware that this gift will be sent into receiver's Simple App. \n\n2. I am aware that after receiver claims the gift, Simple may not be able to help me get my gift back.",
   "send_gift_title": "Send Gift",
   "send_gift_available": "Available",
-  "send_gift_order_summary": "Order summary",
+  "send_gift_summary": "Summary",
   "send_gift_your_gift": "Your gift",
   "send_gift_payment_method": "Payment method",
   "send_gift_simple_gift": "Simple Gift",

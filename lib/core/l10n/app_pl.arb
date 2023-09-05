@@ -1204,7 +1204,7 @@
     "send_gift_policy": "1. Jestem świadomy, że ten prezent zostanie wysłany do odbiorcy w aplikacji Simple App.\n\n2. Jestem świadomy, że po odbiorze przez odbiorcę prezentu, Simple może nie być w stanie pomóc mi odzyskać mój prezent.",
     "send_gift_title": "Wysłać prezent",
     "send_gift_available": "Dostępne",
-    "send_gift_order_summary": "Podsumowanie zamówienia",
+    "send_gift_summary": "Podsumowanie",
     "send_gift_your_gift": "Twój prezent",
     "send_gift_payment_method": "Metoda płatności",
     "send_gift_simple_gift": "Simple prezent",
