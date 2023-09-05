@@ -11,6 +11,7 @@ import 'package:jetwallet/features/set_phone_number/store/set_phone_number_store
 import 'package:jetwallet/features/set_phone_number/ui/widgets/show_country_phone_number_picker.dart';
 import 'package:jetwallet/widgets/show_verification_modal.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 

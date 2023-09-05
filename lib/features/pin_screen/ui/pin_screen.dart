@@ -36,6 +36,7 @@ class PinScreen extends StatelessWidget {
     this.isForgotPassword = false,
     this.onChangePhone,
     this.onWrongPin,
+    this.onError,
     required this.union,
   }) : super(key: key);
 
@@ -47,6 +48,7 @@ class PinScreen extends StatelessWidget {
   final Function(String)? onChangePhone;
   final Function(String)? onWrongPin;
   final PinFlowUnion union;
+  final Function(String)? onError;
   final bool fromRegister;
 
   @override

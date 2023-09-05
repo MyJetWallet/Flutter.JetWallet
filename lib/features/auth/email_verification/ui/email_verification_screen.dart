@@ -13,6 +13,7 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';

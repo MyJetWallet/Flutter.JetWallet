@@ -1844,13 +1844,20 @@ class SimpleAnalytics {
     );
   }
 
-  void confirmWithPINScreenView() {
+  void confirmWithPINScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
     _analytics.logEvent(
       EventType.confirmWithPINScreenView,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '165',
         PropertyType.kycStatus: kycDepositStatus,
-        PropertyType.eventId: '91',
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
       },
     );
   }
@@ -2629,6 +2636,24 @@ class SimpleAnalytics {
         PropertyType.eventId: '115',
         PropertyType.giftAmount: giftAmount,
         PropertyType.giftFrom: giftFrom,
+      },
+    );
+  }
+
+  void orderSummarySendIBANScreenView({
+    required String asset,
+    required String methodType,
+    required String sendAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.orderSummarySendIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '163',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.asset: asset,
+        PropertyType.sendMethodsType: methodType,
+        PropertyType.sendAmount: sendAmount,
       },
     );
   }
