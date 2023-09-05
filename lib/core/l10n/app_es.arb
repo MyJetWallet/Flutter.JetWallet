@@ -1080,7 +1080,7 @@
     "send_globally_cond_text_4": "y",
     "send_globally_cond_text_5": "Política de privacidad de Earn Global Ltd",
     "limitIsExceeded": "Se excedió el límite, inténtelo de nuevo más tarde",
-    "global_send_title": "Datos de la tarjeta del destinatario",
+    "global_send_title": "Detalles del receptor",
     "withdrawOptions_actionItemNameDescr": "A la dirección Blockchain",
     "iban_tabbbar_receive": "Recibir",
     "iban_tabbar_send": "Enviar",

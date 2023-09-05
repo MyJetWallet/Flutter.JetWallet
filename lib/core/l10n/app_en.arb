@@ -1122,7 +1122,7 @@
   "send_globally_cond_text_6": "3. I understand that this money transfer is processed via P2P network more. P2P transfers are orchestrated by Payport LLC.\n",
   "send_globally_cond_text_7": "More details",
   "limitIsExceeded": "Limit is exceeded, please try again later",
-  "global_send_title": "Receiver's card details",
+  "global_send_title": "Receiver's details",
   "iban_tabbbar_receive": "Receive",
   "iban_tabbar_send": "Send",
   "global_send_destionation_country": "Destination country",

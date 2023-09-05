@@ -1080,7 +1080,7 @@
     "send_globally_cond_text_4": "та",
     "send_globally_cond_text_5": "Політика конфіденційності Earn Global Ltd",
     "limitIsExceeded": "Ліміт перевищено, будь ласка, спробуйте пізніше",
-    "global_send_title": "Реквізити картки одержувача",
+    "global_send_title": "Деталі отримувача",
     "withdrawOptions_actionItemNameDescr": "На адресу блокчейну",
     "iban_tabbbar_receive": "Отримати",
     "iban_tabbar_send": "Надіслати",
