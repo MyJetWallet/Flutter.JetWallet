@@ -105,47 +105,38 @@ abstract class _OperationHistoryBase with Store {
     union = const OperationHistoryUnion.loading();
     isLoading = true;
 
-    try {
-      final operationHistory = await _requestOperationHistory(
-        oh_req.OperationHistoryRequestModel(
-          assetId: assetId,
-          batchSize: 20,
-        ),
-        needLoader,
-      );
+    final operationHistory = await _requestOperationHistory(
+      oh_req.OperationHistoryRequestModel(
+        assetId: assetId,
+        batchSize: 20,
+      ),
+      needLoader,
+    );
 
-      _updateOperationHistory(
-        operationHistory.operationHistory,
-        isbgUpdate: !needLoader,
-      );
+    _updateOperationHistory(
+      operationHistory.operationHistory,
+      isbgUpdate: !needLoader,
+    );
 
-      union = const OperationHistoryUnion.loaded();
+    union = const OperationHistoryUnion.loaded();
 
-      if (jw_operation_id != null) {
-        final item = listToShow
-            .indexWhere((element) => element.operationId == jw_operation_id);
+    if (jw_operation_id != null) {
+      final item = listToShow
+          .indexWhere((element) => element.operationId == jw_operation_id);
 
-        if (item != -1) {
-          if (detailsShowed) return;
+      if (item != -1) {
+        if (detailsShowed) return;
 
-          detailsShowed = true;
-          showTransactionDetails(
-              sRouter.navigatorKey.currentContext!, listToShow[item], (q) {
-            detailsShowed = false;
-          });
-        } else {
-          await getOperationHistoryOperation(jw_operation_id!);
-        }
-
-        jw_operation_id = null;
+        detailsShowed = true;
+        showTransactionDetails(
+            sRouter.navigatorKey.currentContext!, listToShow[item], (q) {
+          detailsShowed = false;
+        });
+      } else {
+        await getOperationHistoryOperation(jw_operation_id!);
       }
-    } catch (e) {
-      sNotification.showError(
-        intl.something_went_wrong,
-        id: 1,
-      );
 
-      union = const OperationHistoryUnion.error();
+      jw_operation_id = null;
     }
 
     isLoading = false;
@@ -160,7 +151,7 @@ abstract class _OperationHistoryBase with Store {
     response.pick(
       onData: (data) {
         if (data.assetId.isEmpty) return;
-        
+
         showTransactionDetails(
           sRouter.navigatorKey.currentContext!,
           data,
@@ -169,7 +160,9 @@ abstract class _OperationHistoryBase with Store {
           },
         );
       },
-      onError: (e) {},
+      onError: (e) {
+        print(e);
+      },
     );
   }
 

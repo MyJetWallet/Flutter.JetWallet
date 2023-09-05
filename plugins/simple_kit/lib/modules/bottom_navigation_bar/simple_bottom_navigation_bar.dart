@@ -192,6 +192,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                               const SRewardIcon()
                             else
                               const SRewardIcon(),
+                            const SpaceH5(),
                             Text(
                               widget.rewardText,
                               style: sBodyText2Style.copyWith(

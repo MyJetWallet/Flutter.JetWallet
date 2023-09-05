@@ -10,16 +10,16 @@ class RewardShareCard extends StatelessWidget {
     return SPaddingH24(
       child: Container(
         padding: const EdgeInsets.only(
-          top: 20,
+          top: 12,
           left: 24,
-          right: 24,
+          right: 12,
           bottom: 28,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
           gradient: const LinearGradient(
-            begin: Alignment(-1.0, -3.0),
-            end: Alignment(1.0, 3.0),
+            begin: Alignment(1.0, 3.0),
+            end: Alignment(-1.0, -3.0),
             colors: [
               Color(0xFFEFFBE0),
               Color(0xFFBEF276),
@@ -28,79 +28,94 @@ class RewardShareCard extends StatelessWidget {
           ),
         ),
         width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            Text(
-              intl.rewards_flow_card_title,
-              style: sTextH3Style,
-              maxLines: 6,
+            const Positioned(
+              right: 12,
+              top: 12,
+              width: 48,
+              height: 40,
+              child: SStarsIcon(),
             ),
-            const SpaceH16(),
-            Text(
-              intl.rewards_flow_card_subtitle,
-              style: sBodyText1Style,
-              maxLines: 6,
-            ),
-            const SpaceH32(),
-            Text(
-              intl.rewards_flow_copy_link,
-              style: sSubtitle3Style,
-            ),
-            const SpaceH7(),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceH8(),
+                  Text(
+                    intl.rewards_flow_card_title,
+                    style: sTextH3Style,
+                    maxLines: 6,
+                  ),
+                  const SpaceH16(),
+                  Text(
+                    intl.rewards_flow_card_subtitle,
+                    style: sBodyText1Style,
+                    maxLines: 6,
+                  ),
+                  const SpaceH32(),
+                  Text(
+                    intl.rewards_flow_copy_link,
+                    style: sSubtitle3Style,
+                  ),
+                  const SpaceH7(),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      'https://simple.app/share/07dfjasdjnasjdnasndnjsa',
+                      style: sBodyText1Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  const SpaceH24(),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SMail2Icon(),
+                      ),
+                      const SpaceW24(),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SCopyIcon(
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SpaceW24(),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SShareIcon(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white,
-              ),
-              child: Text(
-                'https://simple.app/share/07dfjasdjnasjdnasndnjsa',
-                style: sBodyText1Style.copyWith(
-                  color: sKit.colors.grey1,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ),
-            const SpaceH24(),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const SMail2Icon(),
-                ),
-                const SpaceW24(),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const SCopyIcon(
-                    color: Colors.white,
-                  ),
-                ),
-                const SpaceW24(),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const SShareIcon(
-                    color: Colors.white,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

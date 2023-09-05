@@ -21,6 +21,7 @@ class SSmallHeader extends StatelessWidget {
     this.showDoneButton = false,
     this.isStarSelected = false,
     this.isShortVersion = false,
+    this.showRCloseButton = false,
     required this.title,
     this.subTitle,
     this.subTitleStyle,
@@ -41,6 +42,7 @@ class SSmallHeader extends StatelessWidget {
   final bool showDoneButton;
   final bool showCloseButton;
   final bool isShortVersion;
+  final bool showRCloseButton;
 
   final bool isStarSelected;
   final String title;
@@ -64,6 +66,12 @@ class SSmallHeader extends StatelessWidget {
                   onTap: onBackButtonTap ?? () => Navigator.pop(context),
                   defaultIcon: icon != null ? icon! : const SBackIcon(),
                   pressedIcon: icon != null ? icon! : const SBackPressedIcon(),
+                )
+              else if (showRCloseButton)
+                SIconButton(
+                  onTap: onCLoseButton,
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
                 )
               else
                 const _IconPlaceholder(),

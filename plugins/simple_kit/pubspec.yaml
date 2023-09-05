@@ -155,3 +155,5 @@ flutter:
     - assets/icons/light/102x56/numeric_keyboard_fingerprint/
     - assets/images/
     - assets/icons/light/custom/cards/
+    - assets/icons/light/custom/stars/
+    - assets/icons/light/custom/star/

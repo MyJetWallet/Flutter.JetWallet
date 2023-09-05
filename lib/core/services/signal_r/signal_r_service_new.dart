@@ -77,7 +77,8 @@ class SignalRServiceUpdated extends _SignalRServiceUpdatedBase
 
 abstract class _SignalRServiceUpdatedBase with Store {
   @observable
-  @ObservableSignalRLogsListConverter()
+  //@ObservableSignalRLogsListConverter()
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<SignalrLog> signalRLogs = ObservableList.of([]);
 
   @observable

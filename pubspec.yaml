@@ -56,7 +56,9 @@ dependencies:
   native_flutter_proxy: ^0.1.15
   http_proxy: ^1.2.1
   animated_list_plus: 0.5.0
-  scrolls_to_top: 2.0.0
+  scrolls_to_top:
+    git:
+      url: https://github.com/changweihua/scrolls_to_top.git
   flutter_idensic_mobile_sdk_plugin: ^1.23.0
   mask_text_input_formatter: ^2.4.0
   dynamic_height_grid_view: ^0.0.3

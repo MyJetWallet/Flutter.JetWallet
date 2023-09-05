@@ -26,7 +26,6 @@ class _BalanceCell extends StatelessWidget {
       children: [
         const SpaceH22(),
         SizedBox(
-          height: 88,
           child: Row(
             children: [
               Text(
