@@ -47,10 +47,6 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    if (store.withdrawalType == WithdrawalType.NFT) {
-      return const SizedBox.shrink();
-    }
-
     var availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       store.withdrawalInputModel!.currency!.symbol,
@@ -207,7 +203,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                             : 'false',
               );
 
-              store.withdrawalPush(WithdrawStep.Preview);
+              store.withdrawalPush(WithdrawStep.preview);
             },
           ),
         ],
