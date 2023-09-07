@@ -30,9 +30,9 @@ class EventType {
   static const signInFlowOnboardingSecondScreenView =
       "‘Don’t just buy crypto, earn it' screen view";
   static const signInFlowOnboardingThirdScreenView =
-      "‘Trade 20+ Top Crypto assets’ screen view";
+      '‘Trade 20+ Top Crypto assets’ screen view';
   static const signInFlowOnboardingFourScreenView =
-      "‘Invite friends and earn more’ screen view";
+      '‘Invite friends and earn more’ screen view';
   static const signInFlowTapGetStarted = 'Tap on ‘Get Started’ button';
   static const signInFlowEnterEmailView = '‘Enter your email’ screen view';
   static const signInFlowTapToAgreeTCPP =
@@ -68,34 +68,34 @@ class EventType {
   static const signInFlowPersonalScreenViewLoading =
       "‘Loading - Personal details' screen view";
   static const signInFlowPersonalReferralLink =
-      "Tap on ‘I have referral code/link’ button";
+      'Tap on ‘I have referral code/link’ button';
   static const signInFlowPersonaReferralLinkScreenView =
-      "‘Enter referral code/link’ screen view";
+      '‘Enter referral code/link’ screen view';
   static const signInFlowPersonaReferralLinkError =
-      "Error - ‘Invalid referral code/link’";
+      'Error - ‘Invalid referral code/link’';
   static const signInFlowPersonaReferralLinkContinue =
-      "Tap on button ‘Continue’ with referral code/link";
+      'Tap on button ‘Continue’ with referral code/link';
   static const signInFlowCreatePinView = '‘Create PIN code’ screen view';
   static const signInFlowConfirmPinView = '‘Confirm PIN code’ screen view';
   static const signInFlowErrorPin = 'Error - ‘Wrong PIN code’';
   static const signInFlowEnableBiometricView =
       '‘Enable Face ID/biometrics to instantly login’ screen view';
   static const signInFlowEnableFaceID =
-      "Tap on button ‘Enable Face ID/biometrics’";
+      'Tap on button ‘Enable Face ID/biometrics’';
   static const signInFlowLaterFaceID =
-      "Tap on button ‘Later’ with enabling Face ID/biometrics";
+      'Tap on button ‘Later’ with enabling Face ID/biometrics';
   static const signInFlowFaceIDScreenView =
-      "‘Allow Simple to use Face ID/ biometrics’ screen view";
+      '‘Allow Simple to use Face ID/ biometrics’ screen view';
   static const signInFlowFaceAllowFaceID =
-      "Tap on button ‘Allow’ to use Face ID/biometrics";
+      'Tap on button ‘Allow’ to use Face ID/biometrics';
   static const signInFlowFaceDontAllowFaceID =
-      "Tap on button ‘Don’t Allow’ to use Face ID/biometrics";
+      'Tap on button ‘Don’t Allow’ to use Face ID/biometrics';
   static const verificationProfileScreenView =
       "'Verification your profile' screen view";
   static const verificationProfileLogout =
       "Tap on button 'Logout' on screen 'Verification your profile'";
   static const verificationProfileProvideInfo =
-      "Tap on button 'Provide Information' on screen 'Verification your profile'";
+      '''Tap on button 'Provide Information' on screen `Verification your profile`''';
   static const verificationProfileCreatePIN =
       "Tap on button 'Create PIN' on screen 'Verification your profile'";
   static const signInFlowEnterPinView = '‘Enter your PIN code’ screen view';
@@ -126,23 +126,25 @@ class EventType {
   static const kycFlowVerificationScreenView =
       '‘Verification your profile’ screen view';
   static const kycFlowProvideInformation =
-      "Tap on the button ‘Provide information’ on 'Verification your profile' screen";
-  static const kycFlowVerifyYourIdentify = "‘Verify your identity’ screen view";
+      '''Tap on the button ‘Provide information’ on 'Verification your profile' screen''';
+  static const kycFlowVerifyYourIdentify = '‘Verify your identity’ screen view';
   static const kycFlowCoutryOfIssueShow =
       "Tap on the button ‘Country of Issue’ on 'Verify your identity' screen";
-  static const kycFlowCoutryOfIssueSheetView = "‘Country of Issue’ sheet view ";
+  static const kycFlowCoutryOfIssueSheetView = '‘Country of Issue’ sheet view ';
   static const kycFlowCoutryOfIssueCont =
       "Tap on the button ‘Country of Issue’ on 'Verify your identity' screen";
   static const kycFlowVerifyWait =
       "‘Please wait - Verify your identity' screen view";
-  static const kycFlowSumsubShow = "‘Sumsub kyc webview’ screen view";
+  static const kycFlowSumsubShow = '‘Sumsub kyc webview’ screen view';
   static const kycFlowSumsubClose =
       "Tap on the button ‘Close’ on 'Sumsub kyc webview' screen";
   static const kycFlowVerifyingNowSV = "‘We're verifying now’ screen view";
-  static const kycFlowVerifyingNowPopup = "‘We’re verifying now’ popup view";
-  static const kycFlowYouBlockedPopup = "‘You’re blocked!’ popup view";
+  static const kycFlowVerifyingNowPopup = '‘We’re verifying now’ popup view';
+  static const kycFlowYouBlockedPopup = '‘You’re blocked!’ popup view';
   static const kycFlowYouBlockedSupportTap =
       "Tap on the button ‘Support’ on 'You’re blocked!' popup";
+  static const kycFlowTapContinueOnVerifyYourIdentity =
+      'User taps on button ‘Continue’ on the screen ‘Verify your identity’';
 
   // Send
   static const tapOnTheSendButton = 'Tap on the ‘Send’ button';
@@ -156,80 +158,80 @@ class EventType {
   // Iban send
   static const accountTabScreenView = "'Account tab' screen view";
   static const tapOnTheButtonAddBankAccount =
-      "Tap on the button ‘Add bank account’";
+      'Tap on the button ‘Add bank account’';
   static const tapOnTheButtonAddAccount = 'Tap on the button ‘Add account’';
   static const tapOnTheButtonWithAnyExistAccount =
       'Tap on the  button with any exist account';
   static const sendEurAmountScreenView = "'Send EUR amount' screen view";
   static const tapOnTheButtonLimitsIBAN =
-      "Tap on the button ‘Limits IBAN send’";
+      'Tap on the button ‘Limits IBAN send’';
   static const sendLimitsIBANScreenView = "'Send limits IBAN' screen view";
   static const errorSendIBANAmount = 'Error - Send IBAN Amount';
   static const tapOnTheButtonContSendIbanAmount =
-      "Tap on the button ‘Continue’ with ‘Send IBAN Amount’ screen";
+      'Tap on the button ‘Continue’ with ‘Send IBAN Amount’ screen';
   static const orderSummarySendIBANScreenView =
       "Order summary Send IBAN' screen view";
   static const tapOnTheButtonConfirmSendIban =
       'Tap on the button ‘Confirm’ Order Summary Send IBAN';
   static const confirmWithPINScreenView = "‘Confirm with PIN' screen view";
   static const errorWrongPinSend = 'Error - wrong pin';
-  static const successSendIBANScreenView = "‘Success Send IBAN’ screen view";
+  static const successSendIBANScreenView = '‘Success Send IBAN’ screen view';
   static const failedSendIBANScreenView = '‘Failed Send IBAN’ screen view';
 
   // Global Send
 
   static const chooseAssetToSendScreenView =
-      "‘Choose asset to send’ screen view";
+      '‘Choose asset to send’ screen view';
   static const destinationCountryScreenView =
-      "‘Destination country’ screen view";
+      '‘Destination country’ screen view';
   static const paymentMethodScreenViewGlobalSend =
       '‘Payment method’ screen view';
   static const globalSendReceiverDetails = "‘Receiver's details’ screen view";
-  static const globalSendTCCheckbox = "Tap on the T&C checkbox";
-  static const globalSendMoreDetailsButton = "Tap on the ‘More details’ button";
-  static const globalSendMoreDetailsPopup = "‘More details’ popup screen view";
-  static const globalSendGotItButton = "Tap on the ‘Got it’ button";
+  static const globalSendTCCheckbox = 'Tap on the T&C checkbox';
+  static const globalSendMoreDetailsButton = 'Tap on the ‘More details’ button';
+  static const globalSendMoreDetailsPopup = '‘More details’ popup screen view';
+  static const globalSendGotItButton = 'Tap on the ‘Got it’ button';
   static const globalSendContinueReceiveDetail =
       "Tap on the button ‘Continue’ with ‘Receiver's details’ screen";
   static const globalSendAmountScreenView =
-      "‘Send Globally’ amount screen view";
-  static const globalSendAmountLimitsSV = "‘Send limits’ amount screen view";
-  static const globalSendErrorLimit = "Error - Send Globally Limit Exceeded";
+      '‘Send Globally’ amount screen view';
+  static const globalSendAmountLimitsSV = '‘Send limits’ amount screen view';
+  static const globalSendErrorLimit = 'Error - Send Globally Limit Exceeded';
   static const globalSendContinueAmountSc =
-      "Tap on the button ‘Continue’ with ‘Send Globally Amount’ screen";
+      'Tap on the button ‘Continue’ with ‘Send Globally Amount’ screen';
   static const globalSendOrderSV = "Order summary Send Globally' screen view";
   static const globalSendConfirmOrderSummary =
-      "Tap on the button ‘Confirm’ Order Summary Send Globally";
+      'Tap on the button ‘Confirm’ Order Summary Send Globally';
   static const globalSendLoadingSV = "‘Loading - Order Summary' screen view";
   static const globalSenBioApprove = "‘FaceID/TouchID/PIN approve' screen view";
-  static const globalSendFailedSV = "‘Failed Send Globally’ screen view";
-  static const globalSendSuccessSV = "‘Success Send Globally’ screen view";
+  static const globalSendFailedSV = '‘Failed Send Globally’ screen view';
+  static const globalSendSuccessSV = '‘Success Send Globally’ screen view';
 
   // Crypto wallet send
 
   static const cryptoSendChooseAssetScreenView =
-      "‘Choose asset to send’ screen view";
+      '‘Choose asset to send’ screen view';
   static const cryptoSendSendAssetNameScreenView =
-      "‘Send #Assetname’ screen view";
+      '‘Send #Assetname’ screen view';
   static const cryptoSendChooseNetworkScreenView =
-      "‘Choose Network’ sheet view";
-  static const cryptoSendTapQr = "Tap on the ‘QR’ button";
-  static const cryptoSendTapPaste = "Tap on the ‘Paste address’ button";
-  static const cryptoSendTapContinue = "Tap on the ‘Continue’";
+      '‘Choose Network’ sheet view';
+  static const cryptoSendTapQr = 'Tap on the ‘QR’ button';
+  static const cryptoSendTapPaste = 'Tap on the ‘Paste address’ button';
+  static const cryptoSendTapContinue = 'Tap on the ‘Continue’';
   static const cryptoSendAssetNameAmountScreenView =
-      "‘Send #AssetName’ amount screen view";
-  static const cryptoSendErrorLimit = "Error - Send Limit Exceeded ";
+      '‘Send #AssetName’ amount screen view';
+  static const cryptoSendErrorLimit = 'Error - Send Limit Exceeded ';
   static const cryptoSendTapContinueAmountScreen =
-      "Tap on the button ‘Continue’ with ‘Send #assetName Amount’ screen";
+      'Tap on the button ‘Continue’ with ‘Send #assetName Amount’ screen';
   static const cryptoSendOrderSummarySend = "Order summary Send' screen view";
   static const cryptoSendTapConfirmOrder =
-      "Tap on the button ‘Confirm’ Order Summary Send";
+      'Tap on the button ‘Confirm’ Order Summary Send';
   static const cryptoSendLoadingOrderSummary =
       "‘Loading - Order Summary' screen view";
   static const cryptoSendBioApprove =
       "‘FaceID/TouchID/PIN approve' screen view";
-  static const cryptoSendFailedSend = "‘Failed Send’ screen view";
-  static const cryptoSendSuccessSend = "‘Success Send’ screen view";
+  static const cryptoSendFailedSend = '‘Failed Send’ screen view';
+  static const cryptoSendSuccessSend = '‘Success Send’ screen view';
   static const receiverSDetailsScreenView = "`Receiver's details` screen view";
   static const tapOnTheContinueWithReceiverSDetailsButton =
       "Tap on the ‘Continue’ with Receiver's Details button";

@@ -1433,12 +1433,12 @@ class SimpleAnalytics {
     );
   }
 
-  void kycFlowCoutryOfIssueCont({
+  void kycFlowTapContinueOnVerifyYourIdentity({
     required String country,
     required String documentList,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowCoutryOfIssueCont,
+      EventType.kycFlowTapContinueOnVerifyYourIdentity,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '182',

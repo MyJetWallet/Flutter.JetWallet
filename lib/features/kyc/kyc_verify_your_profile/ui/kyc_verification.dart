@@ -4,12 +4,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../utils/constants.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
-class KycVerification extends StatelessObserverWidget {
+class KycVerification extends StatefulObserverWidget {
   const KycVerification({
     super.key,
     required this.requiredVerifications,
@@ -18,19 +19,31 @@ class KycVerification extends StatelessObserverWidget {
   final List<RequiredVerified> requiredVerifications;
 
   @override
+  State<KycVerification> createState() => _KycVerificationState();
+}
+
+class _KycVerificationState extends State<KycVerification> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.kycFlowVerificationScreenView();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final isPhoneDone =
-        !requiredVerifications.contains(RequiredVerified.proofOfPhone);
+        !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
 
     void navigateVerifiedNavigate() {
-      if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
+      if (widget.requiredVerifications
+          .contains(RequiredVerified.proofOfPhone)) {
         sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
             then: () => sRouter.push(
               KycVerifyYourProfileRouter(
-                requiredVerifications: requiredVerifications,
+                requiredVerifications: widget.requiredVerifications,
               ),
             ),
           ),
@@ -98,6 +111,7 @@ class KycVerification extends StatelessObserverWidget {
             haveLink: isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
+              sAnalytics.kycFlowProvideInformation();
               navigateVerifiedNavigate();
             },
             isDisabled: !isPhoneDone,
