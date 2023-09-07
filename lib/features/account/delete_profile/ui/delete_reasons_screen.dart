@@ -26,7 +26,10 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 42,
+        ),
         child: SPrimaryButton2(
           active: store.selectedDeleteReason.isNotEmpty,
           onTap: () async {

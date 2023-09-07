@@ -193,7 +193,7 @@ class __EmailConfirmationScreenBodyState
                     name: intl.emailConfirmation_cancel,
                     onTap: () => navigateToRouter(),
                   ),
-                  const SpaceH24(),
+                  const SpaceH42(),
                 ],
               ),
             ),
