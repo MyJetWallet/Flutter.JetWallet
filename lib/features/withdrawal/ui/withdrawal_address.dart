@@ -87,10 +87,6 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                           store.withdrawalInputModel!.currency!
                                   .withdrawalBlockchains.length >
                               1) {
-                        sAnalytics.cryptoSendChooseNetworkScreenView(
-                          asset: store.withdrawalInputModel!.currency!.symbol,
-                          sendMethodType: '0',
-                        );
 
                         showNetworkBottomSheet(
                           context,
