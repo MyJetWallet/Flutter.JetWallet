@@ -2415,6 +2415,7 @@ class SimpleAnalytics {
     required String globalSendType,
     required String asset,
     required String sendMethodType,
+    required String errorCode,
   }) {
     _analytics.logEvent(
       EventType.globalSendErrorLimit,
@@ -2422,6 +2423,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '146',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
         PropertyType.destinationCountry: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,
