@@ -1844,7 +1844,18 @@ class SimpleAnalytics {
     );
   }
 
-  void confirmWithPINScreenView({
+  void confirmWithPINScreenView() {
+    _analytics.logEvent(
+      EventType.confirmWithPINScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '91',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void ibanConfirmWithPINScreenView({
     required String asset,
     required String methodType,
     required String sendAmount,
@@ -1884,8 +1895,9 @@ class SimpleAnalytics {
 
   void errorWrongPin({
     required String asset,
-    required String giftSubmethod,
     required String errorText,
+    required AnalyticsSendMethods sendMethod,
+    String? giftSubmethod,
   }) {
     _analytics.logEvent(
       EventType.errorWrongPin,
@@ -1895,7 +1907,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '92',
         PropertyType.errorText: errorText,
         PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.sendMethodType: sendMethod.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
       },
     );
