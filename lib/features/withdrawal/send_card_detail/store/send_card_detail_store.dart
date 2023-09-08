@@ -73,7 +73,7 @@ abstract class _SendCardDetailStoreBase with Store {
   @action
   void init(GlobalSendMethodsModelMethods m, String code, String cur) {
     sAnalytics.globalSendReceiverDetails(
-      destCountry: countryCode,
+      destCountry: code,
       paymentMethod: m.name ?? '',
       asset: cur,
       sendMethodType: '1',

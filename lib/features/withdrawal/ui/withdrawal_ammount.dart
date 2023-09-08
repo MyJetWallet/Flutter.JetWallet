@@ -194,13 +194,9 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                 network: store.network.description,
                 sendMethodType: '0',
                 totalSendAmount: store.withAmount,
-                preset: store.tappedPreset == 0
-                    ? '25%'
-                    : store.tappedPreset == 1
-                        ? '50%'
-                        : store.tappedPreset == 2
-                            ? '100%'
-                            : 'false',
+                preset: store.selectedPreset != null
+                    ? store.tappedPreset ?? ''
+                    : 'false',
               );
 
               store.withdrawalPush(WithdrawStep.preview);
