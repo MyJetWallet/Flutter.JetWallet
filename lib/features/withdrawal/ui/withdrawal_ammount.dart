@@ -7,15 +7,14 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/helper/user_will_receive.dart';
+import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 import 'package:jetwallet/utils/formatting/base/market_format.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:jetwallet/features/withdrawal/store/withdrawal_store.dart';
 
 @RoutePage(name: 'WithdrawalAmmountRouter')
 class WithdrawalAmmountScreen extends StatefulObserverWidget {
@@ -47,23 +46,35 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
 
-    var availableCurrency = currencyFrom(
+    final availableCurrency = currencyFrom(
       sSignalRModules.currenciesList,
       store.withdrawalInputModel!.currency!.symbol,
     );
 
     final availableBalance = Decimal.parse(
-      //availableCurrency.assetBalance.toString(),
-      '${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}',
-      //'${store.withdrawalInputModel!.currency!.assetBalance.toDouble() - store.withdrawalInputModel!.currency!.cardReserve.toDouble()}',
+      '''${availableCurrency.assetBalance.toDouble() - availableCurrency.cardReserve.toDouble()}''',
     );
+
+    final String error;
+
+    switch (store.withAmmountInputError) {
+      case InputError.enterHigherAmount:
+        error =
+            '''${intl.withdrawalAmount_enterMoreThan} ${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}''';
+        break;
+      case InputError.limitError:
+        error = store.limitError;
+        break;
+      default:
+        error = store.withAmmountInputError.value();
+    }
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
           title:
-              '${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}',
+              '''${intl.withdrawal_send_verb} ${store.withdrawalInputModel!.currency!.description}''',
         ),
       ),
       child: Column(
@@ -99,11 +110,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
                       decimal: Decimal.parse(store.baseConversionValue),
                       symbol: store.baseCurrency.symbol,
                     )}',
-                    error: store.withAmmountInputError ==
-                            InputError.enterHigherAmount
-                        ? '${intl.withdrawalAmount_enterMoreThan} '
-                            '${store.withdrawalInputModel!.currency!.withdrawalFeeWithSymbol(store.networkController.text)}'
-                        : store.withAmmountInputError.value(),
+                    error: error,
                     isErrorActive: store.withAmmountInputError.isActive,
                   ),
                 ),
@@ -160,7 +167,7 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             ),
             name: shortAddressForm(store.address),
             description:
-                '${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}',
+                '''${store.withdrawalInputModel!.currency!.symbol} ${intl.withdrawalAmount_wallet}''',
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -189,18 +196,27 @@ class _WithdrawalAmmountScreenState extends State<WithdrawalAmmountScreen> {
             submitButtonActive: store.withValid,
             submitButtonName: intl.withdraw_continue,
             onSubmitPressed: () {
+              String preset;
+              switch (store.selectedPreset) {
+                case SKeyboardPreset.preset1:
+                  preset = '25%';
+                  break;
+                case SKeyboardPreset.preset2:
+                  preset = '50%';
+                  break;
+                case SKeyboardPreset.preset3:
+                  preset = '100%';
+                  break;
+                default:
+                  preset = 'false';
+              }
+
               sAnalytics.cryptoSendTapContinueAmountScreen(
                 asset: store.withdrawalInputModel!.currency!.symbol,
                 network: store.network.description,
                 sendMethodType: '0',
                 totalSendAmount: store.withAmount,
-                preset: store.tappedPreset == 0
-                    ? '25%'
-                    : store.tappedPreset == 1
-                        ? '50%'
-                        : store.tappedPreset == 2
-                            ? '100%'
-                            : 'false',
+                preset: preset,
               );
 
               store.withdrawalPush(WithdrawStep.preview);
