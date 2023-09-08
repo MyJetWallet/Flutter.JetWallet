@@ -69,24 +69,16 @@ class _PreviewConvertBodyState extends State<PreviewConvertBody>
     super.dispose();
   }
 
+  final loader = StackLoaderStore();
+
   @override
   Widget build(BuildContext context) {
-    final loader = StackLoaderStore();
-
     final store = PreviewConvertStore.of(context);
 
     final from = widget.input.fromCurrency;
     final to = widget.input.toCurrency;
 
     final accuracy = priceAccuracy(from.symbol, to.symbol);
-
-    if (store.union is ExecuteLoading) {
-      loader.startLoading();
-    } else {
-      if (loader.loading) {
-        loader.finishLoading();
-      }
-    }
 
     return SPageFrameWithPadding(
       loaderText: intl.register_pleaseWait,
