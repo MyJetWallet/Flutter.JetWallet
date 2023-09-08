@@ -230,7 +230,7 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                       sendAmount: data.amount.toString(),
                     );
 
-                    sAnalytics.confirmWithPINScreenView(
+                    sAnalytics.ibanConfirmWithPINScreenView(
                       asset: 'EUR',
                       methodType: '2',
                       sendAmount: data.amount.toString(),
@@ -246,6 +246,11 @@ class IbanSendConfirmBody extends StatelessObserverWidget {
                             methodType: '2',
                             sendAmount: data.amount.toString(),
                             errorCode: error,
+                          );
+                          sAnalytics.errorWrongPin(
+                            asset: 'EUR',
+                            errorText: error,
+                            sendMethod: AnalyticsSendMethods.bankAccount,
                           );
                         },
                         onChangePhone: (String newPin) {

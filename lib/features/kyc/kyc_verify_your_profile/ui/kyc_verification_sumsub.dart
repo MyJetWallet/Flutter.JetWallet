@@ -141,13 +141,15 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
           SFloatingButtonFrame(
             button: SPrimaryButton2(
               onTap: () async {
-                sAnalytics.kycFlowCoutryOfIssueCont(
+                sAnalytics.kycFlowTapContinueOnVerifyYourIdentity(
                   country: countries.activeCountry?.countryName ?? '',
                   documentList: state.documents
-                      .map((element) => stringKycDocumentType(
-                            element.document,
-                            context,
-                          ))
+                      .map(
+                        (element) => stringKycDocumentType(
+                          element.document,
+                          context,
+                        ),
+                      )
                       .toString(),
                 );
 

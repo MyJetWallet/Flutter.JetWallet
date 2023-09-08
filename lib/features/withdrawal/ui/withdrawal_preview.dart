@@ -206,6 +206,13 @@ class _WithdrawalPreviewScreenState extends State<WithdrawalPreviewScreen> {
 
                           store.withdraw(newPin: newPin);
                         },
+                        onWrongPin: (String error) {
+                          sAnalytics.errorWrongPin(
+                            asset: store.withdrawalInputModel!.currency!.symbol,
+                            errorText: error,
+                            sendMethod: AnalyticsSendMethods.cryptoWallet,
+                          );
+                        },
                       ),
                     );
                   },

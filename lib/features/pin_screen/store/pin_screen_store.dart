@@ -150,6 +150,9 @@ abstract class _PinScreenStoreBase with Store {
         setup: () {
           sAnalytics.signInFlowPhoneConfirmView();
         },
+        change: () {
+          sAnalytics.confirmWithPINScreenView();
+        },
         orElse: () {},
       );
     }

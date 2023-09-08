@@ -277,8 +277,11 @@ abstract class _SendGloballyAmountStoreBase with Store {
             : error
         : InputError.none;
 
-    if (error != InputError.none) {
+    if (withAmmountInputError != InputError.none) {
       sAnalytics.globalSendErrorLimit(
+        errorCode: withAmmountInputError == InputError.limitError
+            ? limitError
+            : withAmmountInputError.name,
         asset: sendCurrency!.symbol,
         sendMethodType: '1',
         destCountry: countryCode,

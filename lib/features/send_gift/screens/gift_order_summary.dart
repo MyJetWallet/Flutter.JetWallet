@@ -149,12 +149,13 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                                 newPin: newPin,
                               );
                             },
-                            onError: (error) {
+                            onWrongPin: (error) {
                               sAnalytics.errorWrongPin(
                                 asset: sendGiftStore.currency.symbol,
                                 giftSubmethod:
                                     sendGiftStore.selectedContactType.name,
                                 errorText: error,
+                                sendMethod: AnalyticsSendMethods.gift,
                               );
                             },
                           ),
