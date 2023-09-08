@@ -10,7 +10,6 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/startup_service.dart';
-import 'package:jetwallet/core/services/user_info/models/user_info.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
@@ -26,7 +25,6 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/auth_api/models/check_pin/check_pin_response_model.dart';
 
 part 'pin_screen_store.g.dart';
 
@@ -71,8 +69,9 @@ abstract class _PinScreenStoreBase with Store {
 
   int attemptsLeft = maxPinAttempts;
 
-  @observable
-  bool hideBiometricButton = true;
+  @computed
+  bool get hideBiometricButton =>
+      getIt.get<UserInfoService>().biometricDisabled;
 
   StackLoaderStore loader = StackLoaderStore();
 
@@ -207,7 +206,6 @@ abstract class _PinScreenStoreBase with Store {
   ) async {
     _updateScreenUnion(const EnterPin());
     _updateScreenHeader(title);
-    await _updateHideBiometricButton(hideBio);
 
     final storageService = sLocalStorageService;
     final usingBio = await storageService.getValue(useBioKey);
@@ -291,7 +289,7 @@ abstract class _PinScreenStoreBase with Store {
 
       if (response.hasError) {
         if (onWrongPin != null) {
-          onWrongPin!(response.error?.cause ?? '');
+          onWrongPin?.call(response.error?.cause ?? '');
         }
 
         flowUnion.maybeWhen(
@@ -352,7 +350,6 @@ abstract class _PinScreenStoreBase with Store {
                 }
                 onChangePhone!(enterPin);
               } else {
-                await _updateHideBiometricButton(true);
                 _updateScreenUnion(const NewPin());
               }
             },
@@ -376,7 +373,7 @@ abstract class _PinScreenStoreBase with Store {
             if (attemptsLeft > 1) {
               attemptsLeft--;
               sNotification.showError(
-                'The PIN you entered is incorrect,$attemptsLeft attempts remaining.',
+                '''The PIN you entered is incorrect,$attemptsLeft attempts remaining.''',
               );
               _updateNewPin('');
               _updatePinBoxState(PinBoxEnum.empty);
@@ -386,7 +383,7 @@ abstract class _PinScreenStoreBase with Store {
                 await sRouter.pop();
               }
               sNotification.showError(
-                'Incorrect PIN has been entered more than $maxPinAttempts times, '
+                '''Incorrect PIN has been entered more than $maxPinAttempts times, '''
                 'you have been logged out of your account.',
                 duration: 5,
               );
@@ -430,14 +427,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _newPinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -475,7 +472,7 @@ abstract class _PinScreenStoreBase with Store {
         }
       } else {
         if (onWrongPin != null) {
-          onWrongPin!('new Pin != confrim Pin');
+          onWrongPin?.call('new Pin != confrim Pin');
         }
 
         await _animateError();
@@ -485,7 +482,7 @@ abstract class _PinScreenStoreBase with Store {
       }
     } catch (e) {
       if (onWrongPin != null) {
-        onWrongPin!(e.toString());
+        onWrongPin?.call(e.toString());
       }
 
       await _animateError();
@@ -497,14 +494,14 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<void> _changePinFlow() async {
-    Future<void> _success() async {
+    Future<void> success() async {
       await _animateCorrect();
       _updateScreenUnion(const ConfirmPin());
     }
 
     try {
       _updateConfirmPin('');
-      await _success();
+      await success();
     } catch (e) {
       _updateNewPin('');
     }
@@ -561,8 +558,8 @@ abstract class _PinScreenStoreBase with Store {
   }
 
   @action
-  void _updatePinBoxState(PinBoxEnum _pinState) {
-    pinState = _pinState;
+  void _updatePinBoxState(PinBoxEnum newPinState) {
+    pinState = newPinState;
   }
 
   @action
@@ -588,12 +585,6 @@ abstract class _PinScreenStoreBase with Store {
   @action
   void _updateConfirmPin(String value) {
     confrimPin = value;
-  }
-
-  @action
-  Future<void> _updateHideBiometricButton(bool value) async {
-    await getIt.get<UserInfoService>().initPinStatus();
-    hideBiometricButton = sUserInfo.pin == null ? true : value;
   }
 
   @action
@@ -647,7 +638,7 @@ abstract class _PinScreenStoreBase with Store {
 
   @action
   Future<String> _authenticateWithBio() async {
-    if (!isBioBeenUsed) {
+    if (!isBioBeenUsed && !hideBiometricButton) {
       final success = await makeAuthWithBiometrics(
         intl.pinScreen_weNeedYouToConfirmYourIdentity,
       );
