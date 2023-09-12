@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert/helper/remove_currency_from_list.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -16,6 +17,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../core/l10n/i10n.dart';
 part 'convert_input_store.g.dart';
 
 class ConvertInputStore extends _ConvertInputStoreBase
@@ -104,6 +107,15 @@ abstract class _ConvertInputStoreBase with Store {
 
   @observable
   List<CurrencyModel> toAssetList = [];
+
+  @computed
+  Decimal? get _minLimit => fromAsset?.minTradeAmount;
+
+  @computed
+  Decimal? get _maxLimit => fromAsset?.maxTradeAmount;
+
+  @observable
+  String limitError = '';
 
   @action
   void _updateFromAssetAmount(String value) {
@@ -424,7 +436,33 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!,
     );
 
-    if (error == InputError.none) {
+    final value = Decimal.parse(fromAssetAmount);
+
+    if (_minLimit != null && _minLimit! > value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: _minLimit!,
+        accuracy: fromAsset?.accuracy ?? 0,
+        symbol: fromAsset?.symbol ?? '',
+      )}';
+    } else if (_maxLimit != null && _maxLimit! < value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: _maxLimit!,
+        accuracy: fromAsset?.accuracy ?? 1,
+        symbol: fromAsset?.symbol ?? '',
+      )}';
+    } else {
+      limitError = '';
+    }
+
+    final withAmmountInputError = double.parse(fromAssetAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
+
+    if (withAmmountInputError == InputError.none) {
       _convertValid(
         isInputValid(fromAssetAmount),
       );
@@ -432,7 +470,7 @@ abstract class _ConvertInputStoreBase with Store {
       _convertValid(false);
     }
 
-    _updateInputError(error);
+    _updateInputError(withAmmountInputError);
 
     setUpdateTargetConversionPrice(
       fromAsset!.symbol,

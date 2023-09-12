@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -58,6 +59,8 @@ class CurrencyModel with _$CurrencyModel {
     required int transfersInProcessCount,
     required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
+    @DecimalNullSerialiser() Decimal? minTradeAmount,
+    @DecimalNullSerialiser() Decimal? maxTradeAmount,
   }) = _CurrencyModel;
   factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
       _$CurrencyModelFromJson(json);

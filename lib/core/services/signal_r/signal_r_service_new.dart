@@ -523,6 +523,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
           earnInProcessCount: 0,
           buysInProcessCount: 0,
           transfersInProcessCount: 0,
+          minTradeAmount: asset.minTradeAmount,
+          maxTradeAmount: asset.maxTradeAmount,
         );
 
         //if (!currenciesList.contains(currModel)) {
@@ -576,6 +578,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
           earnInProcessCount: 0,
           buysInProcessCount: 0,
           transfersInProcessCount: 0,
+          minTradeAmount: asset.minTradeAmount,
+          maxTradeAmount: asset.maxTradeAmount,
         ),
       );
     }

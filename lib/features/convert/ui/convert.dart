@@ -87,6 +87,7 @@ class ConvertBody extends StatelessObserverWidget {
               }
             },
             fromAsset: true,
+            limitError: store.limitError,
           ),
           deviceSize.when(
             small: () => const Spacer(),
