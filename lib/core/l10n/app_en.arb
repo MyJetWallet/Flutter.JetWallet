@@ -296,7 +296,7 @@
   "operationName_exchanged": "Exchanged",
   "operationName_exchangeTo": "to",
   "operationName_rewardPayment": "Referral program bonus",
-  "operationName_rewardReferral": "Referral reward",
+  "operationName_rewardReferral": "Received",
   "operationName_simplex": "Simplex",
   "operationName_topped_up": "Topped up Earn",
   "operationName_subscribed_to_earn": "Subscribed to Earn",
@@ -1263,5 +1263,6 @@
   "reward_share_text": "I just got a reward of",
   "reward_share_text_2": "in Simple App, check it our",
   "reward_email_subject": "You are invited!",
-  "reward_share_main_text": "Get up to EUR 100 in crypto:\n1. Sign up to Simple App with my invite link\n2. Buy crypto for EUR 350 or more\n3. Get a reward!\nT&C apply"
+  "reward_share_main_text": "Get up to EUR 100 in crypto:\n1. Sign up to Simple App with my invite link\n2. Buy crypto for EUR 350 or more\n3. Get a reward!\nT&C apply",
+  "reward_history_from": "From"
 }

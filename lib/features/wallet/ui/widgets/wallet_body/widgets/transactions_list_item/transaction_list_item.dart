@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -95,6 +97,18 @@ class TransactionListItem extends StatelessObserverWidget {
                             height: 16,
                             margin: const EdgeInsets.only(top: 4),
                             child: const SGiftSendIcon(),
+                          ),
+                        ],
+                        if (transactionListItem.operationType ==
+                            OperationType.rewardPayment) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4, top: 1.5),
+                            child: SizedBox(
+                              height: 16,
+                              child: SvgPicture.asset(
+                                simpleRewardTrophy,
+                              ),
+                            ),
                           ),
                         ],
                         if (transactionListItem.status == Status.declined) ...[

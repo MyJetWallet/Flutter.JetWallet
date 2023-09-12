@@ -50,67 +50,72 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
               children: [
                 const SpaceH6(),
                 const RewardShareCard(),
-                const SpaceH16(),
-                SPaddingH24(
-                  child: InkWell(
-                    onTap: () {
-                      sRouter.push(
-                        RewardOpenRouter(
-                          rewardStore: store,
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 15,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: sKit.colors.grey4),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const ShapeDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment(0.51, -0.86),
-                                end: Alignment(-0.51, 0.86),
-                                colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
-                              ),
-                              shape: OvalBorder(),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: SRewardTrophyIcon(),
-                            ),
+                if (store.availableSpins > 0) ...[
+                  const SpaceH16(),
+                  SPaddingH24(
+                    child: InkWell(
+                      onTap: () {
+                        sRouter.push(
+                          RewardOpenRouter(
+                            rewardStore: store,
                           ),
-                          const SpaceW16(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${store.availableSpins}',
-                                style: sTextH5Style,
-                              ),
-                              Text(
-                                intl.rewards_to_claim,
-                                style: sBodyText1Style,
-                              ),
-                            ],
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 15,
+                        ),
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: sKit.colors.grey4),
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          const Spacer(),
-                          const SBlueRightArrowIcon(color: Colors.black),
-                        ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: const ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(0.51, -0.86),
+                                  end: Alignment(-0.51, 0.86),
+                                  colors: [
+                                    Color(0xFFCBB9FF),
+                                    Color(0xFF9575F3)
+                                  ],
+                                ),
+                                shape: OvalBorder(),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: SRewardTrophyIcon(),
+                              ),
+                            ),
+                            const SpaceW16(),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${store.availableSpins}',
+                                  style: sTextH5Style,
+                                ),
+                                Text(
+                                  intl.rewards_to_claim,
+                                  style: sBodyText1Style,
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            const SBlueRightArrowIcon(color: Colors.black),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(

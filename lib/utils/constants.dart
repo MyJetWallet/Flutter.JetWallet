@@ -125,3 +125,4 @@ const simpleRewardCard = 'assets/images/reward_card.png';
 const simpleRewardDots = 'assets/images/reward_dots.png';
 const simpleSmileLogo = 'assets/images/smile_logo.svg';
 const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';
+const simpleRewardTrophy = 'assets/images/trophy.svg';
