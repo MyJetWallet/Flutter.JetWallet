@@ -32,6 +32,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
@@ -273,8 +274,14 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
+  SendMethodDto get _sendWithdrawalMethod =>
+      sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.blockchainSend,
+      );
+
+  @computed
   Decimal? get _minLimit =>
-      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) =>
             element.network == network.id &&
             element.symbol == withdrawalInputModel?.currency?.symbol,
@@ -285,7 +292,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get _maxLimit =>
-      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) =>
             element.network == network.id &&
             element.symbol == withdrawalInputModel?.currency?.symbol,

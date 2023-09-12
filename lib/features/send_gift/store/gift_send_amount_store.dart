@@ -12,7 +12,7 @@ import 'package:jetwallet/utils/models/selected_percent.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 part 'gift_send_amount_store.g.dart';
 
@@ -56,8 +56,6 @@ abstract class _GeftSendAmountStoreBase with Store {
   @observable
   InputError withAmmountInputError = InputError.none;
 
-  CardLimitsModel? limits;
-
   @observable
   String? sendCurrencyAsset;
 
@@ -75,26 +73,25 @@ abstract class _GeftSendAmountStoreBase with Store {
       );
 
   @computed
-  Decimal get _minLimit =>
-      selectedCurrency.withdrawalMethods
-          .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
-          .symbolDetails
-          ?.firstWhere(
-            (element) => element.symbol == selectedCurrency.symbol,
-          )
-          .minAmount ??
-      Decimal.zero;
+   SendMethodDto get _sendGiftMethod => sSignalRModules.sendMethods.firstWhere(
+    (element) => element.id == WithdrawalMethods.internalSend,
+  );
 
   @computed
-  Decimal get _maxLimit =>
-      selectedCurrency.withdrawalMethods
-          .firstWhere((element) => element.id == WithdrawalMethods.internalSend)
-          .symbolDetails
-          ?.firstWhere(
-            (element) => element.symbol == selectedCurrency.symbol,
-          )
-          .maxAmount ??
-      Decimal.zero;
+  Decimal? get _minLimit => _sendGiftMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.symbol == selectedCurrency.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).minAmount;
+
+  @computed
+  Decimal? get _maxLimit => _sendGiftMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.symbol == selectedCurrency.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).maxAmount;
 
   @action
   void init(CurrencyModel newCurrency) {
@@ -159,42 +156,24 @@ abstract class _GeftSendAmountStoreBase with Store {
 
   @action
   void _validateAmount() {
-    limits = CardLimitsModel(
-      minAmount: _minLimit,
-      maxAmount: _maxLimit,
-      day1Amount: Decimal.zero,
-      day1Limit: Decimal.zero,
-      day1State: StateLimitType.active,
-      day7Amount: Decimal.zero,
-      day7Limit: Decimal.zero,
-      day7State: StateLimitType.active,
-      day30Amount: Decimal.zero,
-      day30Limit: Decimal.zero,
-      day30State: StateLimitType.active,
-      barInterval: StateBarType.day1,
-      barProgress: 0,
-      leftHours: 0,
-    );
-
     final error = onGloballyWithdrawInputErrorHandler(
       withAmount,
       selectedCurrency,
-      limits,
+      null,
     );
 
-    if (limits != null) {
       final value = Decimal.parse(withAmount);
 
-      if (limits!.minAmount > value) {
+      if (_minLimit != null && _minLimit! > value) {
         limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: limits!.minAmount,
+          decimal: _minLimit!,
           accuracy: selectedCurrency.accuracy,
           symbol: selectedCurrency.symbol,
           prefix: selectedCurrency.prefixSymbol,
         )}';
-      } else if (limits!.maxAmount < value) {
+      } else if (_maxLimit != null && _maxLimit! < value) {
         limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: limits!.maxAmount,
+          decimal: _maxLimit!,
           accuracy: selectedCurrency.accuracy,
           symbol: selectedCurrency.symbol,
           prefix: selectedCurrency.prefixSymbol,
@@ -202,7 +181,7 @@ abstract class _GeftSendAmountStoreBase with Store {
       } else {
         limitError = '';
       }
-    }
+
 
     withAmmountInputError = double.parse(withAmount) != 0
         ? error == InputError.none

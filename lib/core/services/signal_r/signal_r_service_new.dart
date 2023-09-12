@@ -844,9 +844,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   AssetPaymentMethodsNew? assetPaymentMethodsNew;
   @observable
   List<String> paymentMethods = [];
-  // TODO: Do this for all send methods
+
   @observable
-  List<SymbolNetworkDetails> cryptoSendSymbolNetworkDetails = [];
+  List<SendMethodDto> sendMethods = [];
+
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
     // showPaymentsMethods = value.showCardsInProfile;
@@ -956,12 +957,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
         paymentMethods.add(asset.id.toString());
       }
     }
-    cryptoSendSymbolNetworkDetails = value.send
-            ?.firstWhere(
-              (element) => element.id == WithdrawalMethods.blockchainSend,
-            )
-            .symbolNetworkDetails ??
-        [];
+    sendMethods = value.send ?? [];
   }
 
   @action
