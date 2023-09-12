@@ -30,10 +30,10 @@ abstract class _RewardOpenStoreBase with Store {
   double scale = 1;
 
   @observable
-  double width = 288;
+  double width = 155;
 
   @observable
-  double height = 377;
+  double height = 200;
 
   @observable
   RewardSpinResponse? spinData;
