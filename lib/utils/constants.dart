@@ -122,3 +122,6 @@ const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';
 const appDownloadUrl = 'https://mobile.simple.app/download-app';
 
 const simpleRewardCard = 'assets/images/reward_card.png';
+const simpleRewardDots = 'assets/images/reward_dots.png';
+const simpleSmileLogo = 'assets/images/smile_logo.svg';
+const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';

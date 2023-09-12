@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_closed_card.dart';
-import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 
 part 'reward_open_screen.g.dart';
 
@@ -19,25 +22,49 @@ class RewardOpenStore extends _RewardOpenStoreBase with _$RewardOpenStore {
 }
 
 abstract class _RewardOpenStoreBase with Store {
-  @observable
-  String subtitleText = intl.reward_open_subtitile;
-  @action
-  void updateSubtitleText(String text) => subtitleText = text;
-
+  FlipCardController cardController = FlipCardController();
   @observable
   bool firstCardShow = true;
-  @observable
-  bool secondCardShow = true;
-  @observable
-  bool thirdCardShow = true;
 
   @observable
   double scale = 1;
 
+  @observable
+  double width = 288;
+
+  @observable
+  double height = 377;
+
+  @observable
+  RewardSpinResponse? spinData;
+
+  @observable
+  bool secondCardShow = true;
+
+  @observable
+  String titleText = intl.reward_open_title;
+  @observable
+  String subtitleText = intl.reward_open_subtitile;
+
+  @observable
+  bool thirdCardShow = true;
+
+  @observable
+  bool showShareButton = false;
+
+  @observable
+  bool showBottomButton = false;
+
   @action
-  void openCard(int index) {
+  void updateSubtitleText(String text) => subtitleText = text;
+
+  @action
+  Future<void> openCard(int index) async {
     subtitleText = intl.reward_open_openings;
-    scale = 2.3;
+    scale = 1.1;
+
+    width = 288;
+    height = 377;
 
     if (index == 1) {
       secondCardShow = false;
@@ -50,25 +77,56 @@ abstract class _RewardOpenStoreBase with Store {
       secondCardShow = false;
     }
 
-    print(scale);
+    await sendSpinRequest();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      subtitleText = intl.reward_open_youve_got;
+      titleText = intl.reward_open_congratulations;
+      showShareButton = true;
+
+      cardController.flip();
+
+      showBottomButton = true;
+    });
+  }
+
+  @action
+  Future<void> sendSpinRequest() async {
+    final response = await sNetwork.getWalletModule().postRewardSpin();
+
+    if (!response.hasError) {
+      spinData = response.data;
+    }
   }
 }
 
 @RoutePage(name: 'RewardOpenRouter')
 class RewardOpenScreen extends StatelessWidget {
-  const RewardOpenScreen({super.key});
+  const RewardOpenScreen({
+    super.key,
+    required this.rewardStore,
+  });
+
+  final RewardsFlowStore rewardStore;
 
   @override
   Widget build(BuildContext context) {
     return Provider<RewardOpenStore>(
       create: (context) => RewardOpenStore(),
-      builder: (context, child) => const _RewardOpenScreenBody(),
+      builder: (context, child) => _RewardOpenScreenBody(
+        rewardStore: rewardStore,
+      ),
     );
   }
 }
 
 class _RewardOpenScreenBody extends StatelessObserverWidget {
-  const _RewardOpenScreenBody({super.key});
+  const _RewardOpenScreenBody({
+    super.key,
+    required this.rewardStore,
+  });
+
+  final RewardsFlowStore rewardStore;
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +134,12 @@ class _RewardOpenScreenBody extends StatelessObserverWidget {
 
     return SPageFrameWithPadding(
       header: SSmallHeader(
-        title: 'Simple Reward',
+        title: store.titleText,
         subTitle: store.subtitleText,
         subTitleStyle: sBodyText1Style.copyWith(
           color: sKit.colors.grey1,
         ),
+        showShareButton: store.showShareButton,
         showRCloseButton: true,
         showBackButton: false,
         onCLoseButton: () => sRouter.back(),
@@ -88,21 +147,40 @@ class _RewardOpenScreenBody extends StatelessObserverWidget {
       child: Column(
         children: [
           const SpaceH80(),
-          Wrap(
+          AnimatedContainer(
+            width: store.width,
+            height: store.height,
+            duration: const Duration(seconds: 1),
+            child: GestureDetector(
+              onTap: () {
+                store.openCard(3);
+              },
+              child: RewardClosedCard(
+                controller: store.cardController,
+                type: 1,
+                spinData: store.spinData,
+              ),
+            ),
+          ),
+          /*Wrap(
             spacing: 17,
             runSpacing: 16,
             alignment: WrapAlignment.center,
             children: [
               Opacity(
                 opacity: store.firstCardShow ? 1 : 0,
-                child: AnimatedScale(
-                  scale: store.scale,
-                  duration: const Duration(seconds: 2),
+                child: AnimatedContainer(
+                  //scale: store.scale,
+                  width: 155,
+                  height: 200,
+                  alignment: Alignment.bottomRight,
+                  duration: const Duration(seconds: 1),
                   child: GestureDetector(
                     onTap: () {
                       store.openCard(1);
                     },
-                    child: const RewardClosedCard(
+                    child: RewardClosedCard(
+                      controller: store.cardController,
                       type: 2,
                     ),
                   ),
@@ -112,12 +190,14 @@ class _RewardOpenScreenBody extends StatelessObserverWidget {
                 opacity: store.secondCardShow ? 1 : 0,
                 child: AnimatedScale(
                   scale: store.scale,
-                  duration: const Duration(seconds: 2),
+                  alignment: Alignment.topCenter,
+                  duration: const Duration(seconds: 1),
                   child: GestureDetector(
                     onTap: () {
                       store.openCard(2);
                     },
-                    child: const RewardClosedCard(
+                    child: RewardClosedCard(
+                      controller: store.cardController,
                       type: 3,
                     ),
                   ),
@@ -127,12 +207,13 @@ class _RewardOpenScreenBody extends StatelessObserverWidget {
                 opacity: store.thirdCardShow ? 1 : 0,
                 child: AnimatedScale(
                   scale: store.scale,
-                  duration: const Duration(seconds: 2),
+                  duration: const Duration(seconds: 1),
                   child: GestureDetector(
                     onTap: () {
                       store.openCard(3);
                     },
-                    child: const RewardClosedCard(
+                    child: RewardClosedCard(
+                      controller: store.cardController,
                       type: 1,
                     ),
                   ),
@@ -140,6 +221,37 @@ class _RewardOpenScreenBody extends StatelessObserverWidget {
               ),
             ],
           ),
+          */
+          const SizedBox(
+            height: 62 * 2.5,
+          ),
+          if (store.showBottomButton) ...[
+            if (rewardStore.availableSpins != 0) ...[
+              SPrimaryButton1(
+                active: true,
+                onTap: () async {
+                  sRouter.back();
+                },
+                name: intl.reward_open_next_reward,
+              ),
+              const SpaceH24(),
+              Text(
+                '${intl.reward_you_have} ${rewardStore.availableSpins} ${intl.reward_more_to_claim}',
+                textAlign: TextAlign.center,
+                style: sBodyText1Style.copyWith(
+                  color: sKit.colors.grey1,
+                ),
+              ),
+            ] else ...[
+              SPrimaryButton1(
+                active: true,
+                onTap: () async {
+                  sRouter.back();
+                },
+                name: intl.reward_close,
+              ),
+            ],
+          ],
         ],
       ),
     );

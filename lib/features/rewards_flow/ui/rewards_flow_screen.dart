@@ -1,14 +1,20 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/reward_share_card.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_balances_cell.dart';
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_header.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
 @RoutePage(name: 'RewardsFlowRouter')
 class RewardsFlowScreen extends StatelessWidget {
@@ -17,17 +23,22 @@ class RewardsFlowScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<RewardsFlowStore>(
-      create: (context) => RewardsFlowStore(),
-      builder: (context, child) => _RewardsFlowScreenBody(),
+      create: (context) => RewardsFlowStore()
+        ..updateData(
+          sSignalRModules.rewardsData ?? RewardsProfileModel(),
+        ),
+      builder: (context, child) => const _RewardsFlowScreenBody(),
     );
   }
 }
 
-class _RewardsFlowScreenBody extends StatelessWidget {
+class _RewardsFlowScreenBody extends StatelessObserverWidget {
   const _RewardsFlowScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final store = RewardsFlowStore.of(context);
+
     return SPageFrame(
       header: const RewardsHeader(),
       child: CustomScrollView(
@@ -43,7 +54,11 @@ class _RewardsFlowScreenBody extends StatelessWidget {
                 SPaddingH24(
                   child: InkWell(
                     onTap: () {
-                      sRouter.push(RewardOpenRouter());
+                      sRouter.push(
+                        RewardOpenRouter(
+                          rewardStore: store,
+                        ),
+                      );
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -80,7 +95,7 @@ class _RewardsFlowScreenBody extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${sSignalRModules.rewardsData?.availableSpins ?? 0}',
+                                '${store.availableSpins}',
                                 style: sTextH5Style,
                               ),
                               Text(
@@ -104,14 +119,37 @@ class _RewardsFlowScreenBody extends StatelessWidget {
                     maxLines: 3,
                   ),
                 ),
-                SPaddingH24(
-                  child: Text(
-                    'Total received rewards 0 EUR. New reward balances will be shown here.',
-                    style: sBodyText1Style,
-                    maxLines: 8,
+                if (store.totalEarnedBaseCurrency == Decimal.zero ||
+                    isAnyValidItemInRewardBalanceList(store)) ...[
+                  SPaddingH24(
+                    child: Text(
+                      '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
+                        prefix: getIt.get<FormatService>().baseCurrency.prefix,
+                        decimal: store.totalEarnedBaseCurrency,
+                        accuracy:
+                            getIt.get<FormatService>().baseCurrency.accuracy,
+                        symbol: getIt.get<FormatService>().baseCurrency.symbol,
+                      )}. ${intl.reward_your_reward_subtitle_2}',
+                      style: sBodyText1Style,
+                      maxLines: 8,
+                    ),
                   ),
-                ),
-                RewardsBalancesCell(),
+                ] else ...[
+                  SPaddingH24(
+                    child: Text(
+                      '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
+                        prefix: getIt.get<FormatService>().baseCurrency.prefix,
+                        decimal: store.totalEarnedBaseCurrency,
+                        accuracy:
+                            getIt.get<FormatService>().baseCurrency.accuracy,
+                        symbol: getIt.get<FormatService>().baseCurrency.symbol,
+                      )}.',
+                      style: sBodyText1Style,
+                      maxLines: 8,
+                    ),
+                  ),
+                ],
+                const RewardsBalancesCell(),
                 const SpaceH45(),
               ],
             ),
@@ -120,4 +158,12 @@ class _RewardsFlowScreenBody extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isAnyValidItemInRewardBalanceList(RewardsFlowStore store) {
+  if (store.balances.isEmpty) return false;
+
+  return (store.balances)
+      .where((element) => element.amount != Decimal.zero)
+      .isEmpty;
 }

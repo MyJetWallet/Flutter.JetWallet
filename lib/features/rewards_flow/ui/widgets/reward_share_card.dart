@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class RewardShareCard extends StatelessWidget {
+class RewardShareCard extends StatelessObserverWidget {
   const RewardShareCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final shareText =
+        "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
+
     return SPaddingH24(
       child: Container(
         padding: const EdgeInsets.only(
@@ -44,13 +54,13 @@ class RewardShareCard extends StatelessWidget {
                 children: [
                   const SpaceH8(),
                   Text(
-                    intl.rewards_flow_card_title,
+                    sSignalRModules.rewardsData?.titleText ?? '',
                     style: sTextH3Style,
                     maxLines: 6,
                   ),
                   const SpaceH16(),
                   Text(
-                    intl.rewards_flow_card_subtitle,
+                    sSignalRModules.rewardsData?.descriptionText ?? '',
                     style: sBodyText1Style,
                     maxLines: 6,
                   ),
@@ -71,7 +81,7 @@ class RewardShareCard extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: Text(
-                      'https://simple.app/share/07dfjasdjnasjdnasndnjsa',
+                      sSignalRModules.rewardsData?.referralLink ?? '',
                       style: sBodyText1Style.copyWith(
                         color: sKit.colors.grey1,
                       ),
@@ -82,34 +92,61 @@ class RewardShareCard extends StatelessWidget {
                   const SpaceH24(),
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle,
+                      InkWell(
+                        onTap: () {
+                          final emailLaunchUri = Uri(
+                            scheme: 'mailto',
+                            query: encodeQueryParameters({
+                              'subject': intl.reward_email_subject,
+                              'body': shareText,
+                            }),
+                          );
+
+                          launchUrl(emailLaunchUri);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const SMail2Icon(),
                         ),
-                        child: const SMail2Icon(),
                       ),
                       const SpaceW24(),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const SCopyIcon(
-                          color: Colors.white,
+                      InkWell(
+                        onTap: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: shareText,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const SCopyIcon(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       const SpaceW24(),
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const SShareIcon(
-                          color: Colors.white,
+                      InkWell(
+                        onTap: () async {
+                          await Share.share(shareText);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const SShareIcon(
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],

@@ -173,7 +173,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                         notifications: widget.isCardRequested ? 0 : 1,
                         top: -2,
                         right:
-                            (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                            (MediaQuery.of(context).size.width - 48) / 8 - 36,
                       ),
                     ],
                   ),
@@ -192,7 +192,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                               const SRewardIcon()
                             else
                               const SRewardIcon(),
-                            const SpaceH5(),
+                            const SpaceH4(),
                             Text(
                               widget.rewardText,
                               style: sBodyText2Style.copyWith(
@@ -208,9 +208,9 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       ),
                     ),
                     NotificationBox(
-                      notifications: widget.isCardRequested ? 0 : 1,
+                      notifications: 1,
                       top: -2,
-                      right: (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                      right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
                     ),
                   ],
                 ),

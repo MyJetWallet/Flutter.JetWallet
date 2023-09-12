@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
@@ -22,6 +23,7 @@ class SSmallHeader extends StatelessWidget {
     this.isStarSelected = false,
     this.isShortVersion = false,
     this.showRCloseButton = false,
+    this.showShareButton = false,
     required this.title,
     this.subTitle,
     this.subTitleStyle,
@@ -43,6 +45,7 @@ class SSmallHeader extends StatelessWidget {
   final bool showCloseButton;
   final bool isShortVersion;
   final bool showRCloseButton;
+  final bool showShareButton;
 
   final bool isStarSelected;
   final String title;
@@ -131,6 +134,14 @@ class SSmallHeader extends StatelessWidget {
                   onTap: onCLoseButton,
                   defaultIcon: const SCloseIcon(),
                   pressedIcon: const SClosePressedIcon(),
+                )
+              else if (showShareButton)
+                SIconButton(
+                  onTap: onCLoseButton,
+                  defaultIcon: const SShareIcon(),
+                  pressedIcon: SShareIcon(
+                    color: SColorsLight().black.withOpacity(0.7),
+                  ),
                 )
               else
                 const _IconPlaceholder(),
