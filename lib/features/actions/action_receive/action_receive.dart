@@ -288,6 +288,7 @@ class _ActionReceive extends StatelessObserverWidget {
               controller: state.searchController,
               labelText: intl.actionBottomSheetHeader_search,
               onChanged: (String value) => state.search(value),
+              maxLines: 1,
             ),
           ),
           const SDivider(),

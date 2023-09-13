@@ -103,6 +103,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                           sortedAssets,
                         );
                       },
+                      maxLines: 1,
                     ),
                   ),
                   const SDivider(),
