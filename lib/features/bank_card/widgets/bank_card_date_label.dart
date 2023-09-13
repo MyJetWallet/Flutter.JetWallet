@@ -50,7 +50,6 @@ class BankCardDateLabel extends StatelessObserverWidget {
         Expanded(
           child: SFieldDividerFrame(
             child: SStandardField(
-              maxLines: 1,
               maxLength: 30,
               labelText: intl.addCircleCard_label,
               focusNode: store.labelNode,

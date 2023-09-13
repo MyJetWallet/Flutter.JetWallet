@@ -89,7 +89,6 @@ class _EmailFieldTabState extends State<EmailFieldTab> {
                 pressedIcon: const SPastePressedIcon(),
               ),
             ],
-            maxLines: 1,
             hideSpace: true,
           ),
         );

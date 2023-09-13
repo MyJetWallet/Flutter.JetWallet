@@ -94,7 +94,6 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
                     SFieldDividerFrame(
                       child: SStandardField(
                         labelText: intl.iban_label,
-                        maxLines: 1,
                         maxLength: 30,
                         controller:
                             IbanAddBankAccountStore.of(context).labelController,
