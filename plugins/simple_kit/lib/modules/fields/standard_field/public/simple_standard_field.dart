@@ -40,7 +40,7 @@ class SStandardField extends StatelessObserverWidget {
     this.grayLabel = false,
     this.validators = const [],
     this.maxLength,
-    this.maxLines = 1,
+    this.maxLines,
     required this.labelText,
   }) : super(key: key);
 
