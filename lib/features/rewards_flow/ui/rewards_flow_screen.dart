@@ -50,72 +50,69 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
               children: [
                 const SpaceH6(),
                 const RewardShareCard(),
-                if (store.availableSpins > 0) ...[
-                  const SpaceH16(),
-                  SPaddingH24(
-                    child: InkWell(
-                      onTap: () {
-                        sRouter.push(
-                          RewardOpenRouter(
-                            rewardStore: store,
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 15,
+                //if (store.availableSpins > 0) ...[
+                const SpaceH16(),
+                SPaddingH24(
+                  child: InkWell(
+                    onTap: () {
+                      sRouter.push(
+                        RewardOpenRouter(
+                          rewardStore: store,
                         ),
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: sKit.colors.grey4),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 15,
+                      ),
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: sKit.colors.grey4),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const ShapeDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment(0.51, -0.86),
-                                  end: Alignment(-0.51, 0.86),
-                                  colors: [
-                                    Color(0xFFCBB9FF),
-                                    Color(0xFF9575F3)
-                                  ],
-                                ),
-                                shape: OvalBorder(),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const ShapeDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment(0.51, -0.86),
+                                end: Alignment(-0.51, 0.86),
+                                colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: SRewardTrophyIcon(),
+                              shape: OvalBorder(),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: SRewardTrophyIcon(),
+                            ),
+                          ),
+                          const SpaceW16(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${store.availableSpins}',
+                                style: sTextH5Style,
                               ),
-                            ),
-                            const SpaceW16(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${store.availableSpins}',
-                                  style: sTextH5Style,
-                                ),
-                                Text(
-                                  intl.rewards_to_claim,
-                                  style: sBodyText1Style,
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            const SBlueRightArrowIcon(color: Colors.black),
-                          ],
-                        ),
+                              Text(
+                                intl.rewards_to_claim,
+                                style: sBodyText1Style,
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          const SBlueRightArrowIcon(color: Colors.black),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
+                //å],
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(
@@ -124,15 +121,13 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                     maxLines: 3,
                   ),
                 ),
-                if (store.totalEarnedBaseCurrency == Decimal.zero ||
-                    isAnyValidItemInRewardBalanceList(store)) ...[
+                if (store.totalEarnedBaseCurrency == Decimal.zero || isAnyValidItemInRewardBalanceList(store)) ...[
                   SPaddingH24(
                     child: Text(
                       '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
                         prefix: getIt.get<FormatService>().baseCurrency.prefix,
                         decimal: store.totalEarnedBaseCurrency,
-                        accuracy:
-                            getIt.get<FormatService>().baseCurrency.accuracy,
+                        accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}. ${intl.reward_your_reward_subtitle_2}',
                       style: sBodyText1Style,
@@ -145,8 +140,7 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                       '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
                         prefix: getIt.get<FormatService>().baseCurrency.prefix,
                         decimal: store.totalEarnedBaseCurrency,
-                        accuracy:
-                            getIt.get<FormatService>().baseCurrency.accuracy,
+                        accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}.',
                       style: sBodyText1Style,
@@ -168,7 +162,5 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
 bool isAnyValidItemInRewardBalanceList(RewardsFlowStore store) {
   if (store.balances.isEmpty) return false;
 
-  return (store.balances)
-      .where((element) => element.amount != Decimal.zero)
-      .isEmpty;
+  return (store.balances).where((element) => element.amount != Decimal.zero).isEmpty;
 }

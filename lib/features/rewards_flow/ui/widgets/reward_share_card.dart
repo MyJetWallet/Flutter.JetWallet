@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/logs/helpers/encode_query_parameters.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -14,8 +15,7 @@ class RewardShareCard extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shareText =
-        "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
+    final shareText = "${intl.reward_share_main_text}\n\n${sSignalRModules.rewardsData?.referralLink ?? ''}";
 
     return SPaddingH24(
       child: Container(
@@ -70,23 +70,38 @@ class RewardShareCard extends StatelessObserverWidget {
                     style: sSubtitle3Style,
                   ),
                   const SpaceH7(),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                    ),
-                    child: Text(
-                      sSignalRModules.rewardsData?.referralLink ?? '',
-                      style: sBodyText1Style.copyWith(
-                        color: sKit.colors.grey1,
+                  InkWell(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: shareText,
+                        ),
+                      );
+
+                      sNotification.showError(
+                        intl.copy_message,
+                        id: 1,
+                        isError: false,
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
+                      child: Text(
+                        sSignalRModules.rewardsData?.referralLink ?? '',
+                        style: sBodyText1Style.copyWith(
+                          color: sKit.colors.grey1,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ),
                   ),
                   const SpaceH24(),
@@ -120,6 +135,12 @@ class RewardShareCard extends StatelessObserverWidget {
                             ClipboardData(
                               text: shareText,
                             ),
+                          );
+
+                          sNotification.showError(
+                            intl.copy_message,
+                            id: 1,
+                            isError: false,
                           );
                         },
                         child: Container(

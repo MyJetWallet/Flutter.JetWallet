@@ -14,6 +14,8 @@ class FlipCardController {
   RewardClosedCardState? _state;
 
   Future flip() async => _state?.flip();
+
+  Future flipBack() async => _state?.flipBack();
 }
 
 class RewardClosedCard extends StatefulWidget {
@@ -22,18 +24,19 @@ class RewardClosedCard extends StatefulWidget {
     this.spinData,
     required this.controller,
     required this.type,
+    required this.shareKey,
   });
 
   final RewardSpinResponse? spinData;
   final FlipCardController controller;
   final int type;
+  final Key shareKey;
 
   @override
   State<RewardClosedCard> createState() => RewardClosedCardState();
 }
 
-class RewardClosedCardState extends State<RewardClosedCard>
-    with TickerProviderStateMixin {
+class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderStateMixin {
   late AnimationController controller;
 
   bool isFront = true;
@@ -50,17 +53,16 @@ class RewardClosedCardState extends State<RewardClosedCard>
     widget.controller._state = this;
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-
-    super.dispose();
-  }
-
   Future flip() async {
     isFront = !isFront;
 
     await controller.forward();
+  }
+
+  Future flipBack() async {
+    isFront = !isFront;
+
+    controller.reset();
   }
 
   @override
@@ -78,8 +80,6 @@ class RewardClosedCardState extends State<RewardClosedCard>
           alignment: Alignment.center,
           child: isFrontImage(angle.abs())
               ? Container(
-                  //width: 155,
-                  //height: 200,
                   clipBehavior: Clip.antiAlias,
                   decoration: ShapeDecoration(
                     gradient: const LinearGradient(
@@ -91,8 +91,11 @@ class RewardClosedCardState extends State<RewardClosedCard>
                       borderRadius: BorderRadius.circular(16),
                     ),
                     image: const DecorationImage(
-                      image: AssetImage(simpleRewardCard),
-                      fit: BoxFit.none,
+                      image: AssetImage(
+                        simpleRewardCard,
+                      ),
+                      scale: 4,
+                      fit: BoxFit.fill,
                     ),
                   ),
                   child: Stack(
@@ -192,73 +195,75 @@ class RewardClosedCardState extends State<RewardClosedCard>
       widget.spinData != null ? widget.spinData?.assetSymbol ?? 'BTC' : 'BTC',
     );
 
-    return Container(
-      //width: 155,
-      //ßheight: 200,
-      clipBehavior: Clip.antiAlias,
-      decoration: ShapeDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment(-0.63, -0.78),
-          end: Alignment(0.63, 0.78),
-          colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+    return RepaintBoundary(
+      key: widget.shareKey,
+      child: Container(
+        width: 288,
+        clipBehavior: Clip.antiAlias,
+        decoration: ShapeDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment(-0.63, -0.78),
+            end: Alignment(0.63, 0.78),
+            colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          image: const DecorationImage(
+            image: AssetImage(simpleRewardDots),
+            fit: BoxFit.cover,
+          ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        image: const DecorationImage(
-          image: AssetImage(simpleRewardDots),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Spacer(),
-          if (widget.spinData != null) ...[
-            SNetworkCachedSvg(
-              url: currency.iconUrl,
-              width: 120,
-              height: 120,
-              placeholder: const SizedBox.shrink(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            if (widget.spinData != null) ...[
+              SNetworkCachedSvg(
+                url: currency.iconUrl,
+                width: 120,
+                height: 120,
+                placeholder: const SizedBox.shrink(),
+              ),
+            ] else ...[
+              const SSkeletonTextLoader(
+                height: 120,
+                width: 120,
+              ),
+            ],
+            const SizedBox(
+              height: 17.53,
             ),
-          ] else ...[
-            const SSkeletonTextLoader(
-              height: 120,
-              width: 120,
+            if (widget.spinData != null) ...[
+              Text(
+                volumeFormat(
+                  prefix: currency.prefixSymbol,
+                  decimal: widget.spinData?.amount ?? Decimal.zero,
+                  accuracy: currency.accuracy,
+                  symbol: currency.symbol,
+                ),
+                style: sTextH5Style.copyWith(
+                  fontSize: 32,
+                  color: sKit.colors.white,
+                ),
+              ),
+            ] else ...[
+              const SSkeletonTextLoader(
+                height: 30,
+                width: 160,
+              ),
+            ],
+            const Spacer(),
+            SvgPicture.asset(
+              simpleSmileLogo,
+              width: 104,
+              height: 48,
+            ),
+            const SizedBox(
+              height: 32,
             ),
           ],
-          const SizedBox(
-            height: 17.53,
-          ),
-          if (widget.spinData != null) ...[
-            Text(
-              volumeFormat(
-                prefix: currency.prefixSymbol,
-                decimal: widget.spinData?.amount ?? Decimal.zero,
-                accuracy: currency.accuracy,
-                symbol: currency.symbol,
-              ),
-              style: sTextH5Style.copyWith(
-                fontSize: 32,
-                color: sKit.colors.white,
-              ),
-            ),
-          ] else ...[
-            const SSkeletonTextLoader(
-              height: 30,
-              width: 160,
-            ),
-          ],
-          const Spacer(),
-          SvgPicture.asset(
-            simpleSmileLogo,
-            width: 104,
-            height: 48,
-          ),
-          const SizedBox(
-            height: 32,
-          ),
-        ],
+        ),
       ),
     );
   }

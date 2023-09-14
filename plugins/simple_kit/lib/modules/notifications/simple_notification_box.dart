@@ -21,7 +21,7 @@ class SNotificationBox extends StatelessWidget {
         const SpaceH60(),
         Container(
           decoration: BoxDecoration(
-            color: isError ? SColorsLight().red : SColorsLight().black,
+            color: SColorsLight().black,
             borderRadius: BorderRadius.circular(16.0),
           ),
           padding: const EdgeInsets.symmetric(

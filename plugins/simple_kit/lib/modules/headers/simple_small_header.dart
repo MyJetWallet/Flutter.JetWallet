@@ -13,6 +13,7 @@ class SSmallHeader extends StatelessWidget {
     this.onCLoseButton,
     this.onEditButtonTap,
     this.onDoneButtonTap,
+    this.onShareButtonTap,
     this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
@@ -36,6 +37,7 @@ class SSmallHeader extends StatelessWidget {
   final Function()? onEditButtonTap;
   final Function()? onDoneButtonTap;
   final Function()? onCLoseButton;
+  final Function()? onShareButtonTap;
   final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
@@ -137,7 +139,7 @@ class SSmallHeader extends StatelessWidget {
                 )
               else if (showShareButton)
                 SIconButton(
-                  onTap: onCLoseButton,
+                  onTap: onShareButtonTap,
                   defaultIcon: const SShareIcon(),
                   pressedIcon: SShareIcon(
                     color: SColorsLight().black.withOpacity(0.7),
