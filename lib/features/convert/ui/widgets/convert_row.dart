@@ -58,7 +58,7 @@ class ConvertRow extends StatelessObserverWidget {
         context: context,
         scrollable: true,
         pinned: ActionBottomSheetHeader(
-          name: fromAsset ? intl.from : intl.to1,
+          name: fromAsset ? intl.from : intl.to_convert,
           showSearch: assetWithBalance.length + assetWithoutBalance.length > 7,
           onChanged: (String value) {
             getIt.get<ActionSearchStore>().searchConvert(

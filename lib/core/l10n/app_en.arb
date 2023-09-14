@@ -835,6 +835,7 @@
   "transaction": "Transaction",
   "to": "to",
   "to1": "To",
+  "to_convert": "To",
   "date": "Date",
   "tomorrow": "Tomorrow",
   "min": "min",
