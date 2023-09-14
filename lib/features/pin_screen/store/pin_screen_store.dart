@@ -349,7 +349,6 @@ abstract class _PinScreenStoreBase with Store {
                   loader.startLoading();
                 }
                 onChangePhone!(enterPin);
-                loader.finishLoading();
               } else {
                 _updateScreenUnion(const NewPin());
               }
