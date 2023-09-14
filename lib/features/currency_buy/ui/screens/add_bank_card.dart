@@ -87,6 +87,7 @@ class AddBankCardBody extends StatelessObserverWidget {
     }
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: colors.grey5,
       loading: store.loader,
       header: SPaddingH24(

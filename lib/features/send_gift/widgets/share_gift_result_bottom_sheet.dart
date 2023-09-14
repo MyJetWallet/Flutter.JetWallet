@@ -205,80 +205,89 @@ class _ShareGiftResultBottomSheet extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Container(
-                          width: 327,
-                          height: 248,
-                          decoration: BoxDecoration(
-                            color: sKit.colors.grey5,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  intl.send_gift_hey,
-                                  style: sTextH4Style.copyWith(
-                                    color: sColors.black,
-                                  ),
-                                ),
-                                const SpaceH8(),
-                                Text(
-                                  cardMessage,
-                                  style: sBodyText1Style.copyWith(
-                                    color: sColors.black,
-                                  ),
-                                  maxLines: 3,
-                                ),
-                                const SpaceH16(),
-                                Container(
-                                  width: 279,
-                                  height: 72,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  decoration: ShapeDecoration(
-                                    color: sColors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        simpleLogoAsset,
-                                        width: 48,
-                                        height: 48,
+                        child: Column(
+                          children: [
+                            const Spacer(),
+                            Container(
+                              width: 327,
+                              decoration: BoxDecoration(
+                                color: sKit.colors.grey5,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      intl.send_gift_hey,
+                                      style: sTextH4Style.copyWith(
+                                        color: sColors.black,
                                       ),
-                                      const SpaceW14(),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                    ),
+                                    const SpaceH8(),
+                                    Text(
+                                      cardMessage,
+                                      style: sBodyText1Style.copyWith(
+                                        color: sColors.black,
+                                      ),
+                                      maxLines: 4,
+                                    ),
+                                    const SpaceH16(),
+                                    Container(
+                                      width: 279,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 12,
+                                      ),
+                                      decoration: ShapeDecoration(
+                                        color: sColors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            intl.send_gift_simple,
-                                            style: sSubtitle3Style.copyWith(
-                                              color: sColors.black,
-                                            ),
+                                          Image.asset(
+                                            simpleLogoAsset,
+                                            width: 48,
+                                            height: 48,
                                           ),
-                                          Text(
-                                            intl.send_gift_get_app,
-                                            style: sHelperTextStyle.copyWith(
-                                              color: sColors.grey2,
+                                          const SpaceW14(),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  intl.send_gift_simple,
+                                                  style:
+                                                      sSubtitle3Style.copyWith(
+                                                    color: sColors.black,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  intl.send_gift_get_app,
+                                                  style:
+                                                      sHelperTextStyle.copyWith(
+                                                    color: sColors.grey2,
+                                                  ),
+                                                  maxLines: 2,
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ],

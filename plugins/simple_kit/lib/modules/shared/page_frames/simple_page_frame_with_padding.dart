@@ -12,14 +12,14 @@ class SPageFrameWithPadding extends StatelessObserverWidget {
     this.loading,
     this.customLoader,
     this.bottomNavigationBar,
-    this.loaderText,
+    required this.loaderText,
     this.color = Colors.transparent,
     this.resizeToAvoidBottomInset = true,
     required this.child,
   }) : super(key: key);
 
   final Widget? header;
-  final String? loaderText;
+  final String loaderText;
   final Widget child;
   final Color color;
   final bool resizeToAvoidBottomInset;

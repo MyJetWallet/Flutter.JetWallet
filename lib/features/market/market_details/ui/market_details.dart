@@ -113,6 +113,7 @@ class _MarketDetailsBodyState extends State<_MarketDetailsBody> {
     }
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: Material(
         color: chart.union != const ChartUnion.loading()
             ? Colors.transparent

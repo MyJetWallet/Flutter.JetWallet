@@ -56,6 +56,7 @@ class _KycVerificationState extends State<KycVerification> {
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.loader_please_wait,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -86,6 +87,7 @@ class _KycVerificationState extends State<KycVerification> {
             intl.verification_your_profile,
             textAlign: TextAlign.left,
             style: sTextH4Style,
+            maxLines: 2,
           ),
           const SpaceH8(),
           Text(

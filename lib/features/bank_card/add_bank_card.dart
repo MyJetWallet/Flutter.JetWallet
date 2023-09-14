@@ -71,6 +71,7 @@ class _AddBankCardScreenBody extends StatelessObserverWidget {
     final store = BankCardStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: sKit.colors.grey5,
       loading: store.loader,
       header: SPaddingH24(

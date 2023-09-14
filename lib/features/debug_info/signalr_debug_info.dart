@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
@@ -14,6 +15,7 @@ class SignalrDebugInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: const SPaddingH24(
         child: SSmallHeader(
           title: 'SignalR Logs',
