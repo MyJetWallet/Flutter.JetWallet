@@ -930,7 +930,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
       }
       if (value.send != null) {
         for (final sendMethod in value.send!) {
-          if (sendMethod.symbols?.contains(currency.symbol) ?? false) {
+          if (sendMethod.symbolNetworkDetails
+                  ?.any((element) => element.symbol == currency.symbol) ??
+              false) {
             sendMethods.add(sendMethod);
           }
         }
