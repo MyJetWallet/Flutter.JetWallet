@@ -18,6 +18,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
+      loading: store.loader,
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
