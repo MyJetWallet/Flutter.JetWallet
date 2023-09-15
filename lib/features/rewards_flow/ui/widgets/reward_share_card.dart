@@ -48,7 +48,7 @@ class RewardShareCard extends StatelessObserverWidget {
               child: SStarsIcon(),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.only(right: 70),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -101,7 +101,9 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                               ),
                               Text(
                                 intl.rewards_to_claim,
-                                style: sBodyText1Style,
+                                style: sBodyText1Style.copyWith(
+                                  color: sKit.colors.grey1,
+                                ),
                               ),
                             ],
                           ),
@@ -130,7 +132,9 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                         accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}. ${intl.reward_your_reward_subtitle_2}',
-                      style: sBodyText1Style,
+                      style: sBodyText1Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
                       maxLines: 8,
                     ),
                   ),
@@ -143,7 +147,9 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                         accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
                         symbol: getIt.get<FormatService>().baseCurrency.symbol,
                       )}.',
-                      style: sBodyText1Style,
+                      style: sBodyText1Style.copyWith(
+                        color: sKit.colors.grey1,
+                      ),
                       maxLines: 8,
                     ),
                   ),

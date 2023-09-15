@@ -166,16 +166,20 @@ abstract class _RewardOpenStoreBase with Store {
 
   @action
   Future<void> sendSpinRequest() async {
-    final response = await sNetwork.getWalletModule().postRewardSpin();
+    try {
+      final response = await sNetwork.getWalletModule().postRewardSpin();
 
-    if (!response.hasError) {
-      spinData = response.data;
-    } else {
-      sNotification.showError(
-        intl.something_went_wrong_try_again2,
-        id: 1,
-        isError: false,
-      );
+      if (!response.hasError) {
+        spinData = response.data;
+      } else {
+        sNotification.showError(
+          intl.something_went_wrong_try_again2,
+          id: 1,
+          isError: false,
+        );
+      }
+    } catch (e) {
+      sNotification.showError(intl.something_went_wrong_try_again, id: 1);
     }
   }
 

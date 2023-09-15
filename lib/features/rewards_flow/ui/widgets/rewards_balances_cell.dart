@@ -27,6 +27,7 @@ class RewardsBalancesCell extends StatelessObserverWidget {
             if (balance.amount != Decimal.zero)
               _BalanceCell(
                 data: balance,
+                needSeparator: store.balances.last != balance,
               ),
         ],
       ),
@@ -38,9 +39,11 @@ class _BalanceCell extends StatefulWidget {
   const _BalanceCell({
     super.key,
     required this.data,
+    this.needSeparator = true,
   });
 
   final RewardsBalance data;
+  final bool needSeparator;
 
   @override
   State<_BalanceCell> createState() => _BalanceCellState();
@@ -64,112 +67,84 @@ class _BalanceCellState extends State<_BalanceCell> {
     );
 
     return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: sKit.colors.grey5,
+      hoverColor: Colors.transparent,
       onTap: () {
-        sShowAlertPopup(
-          sRouter.navigatorKey.currentContext!,
-          image: Container(
-            width: 80,
-            height: 80,
-            decoration: const ShapeDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.51, -0.86),
-                end: Alignment(-0.51, 0.86),
-                colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
-              ),
-              shape: OvalBorder(),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(20),
-              child: SRewardTrophyIcon(),
-            ),
-          ),
-          isNeedPrimaryButton: isClaimButtonActive,
-          primaryText:
-              '${intl.reward_transfer} $fAmount \n${intl.reward_to_my_account}',
-          primaryButtonName: intl.reward_transfer,
-          secondaryButtonName: intl.reward_cancel,
-          onPrimaryButtonTap: () async {
-            setState(() {
-              isClaimButtonActive = false;
-            });
-
-            final response = await sNetwork.getWalletModule().postRewardClaim(
-                  data: widget.data,
-                );
-
-            Navigator.pop(
-              sRouter.navigatorKey.currentContext!,
-            );
-
-            if (!response.hasError) {
-              showSuccessRewardSheet(fAmount);
-            } else {
-              sNotification.showError(response.error?.cause ?? '', id: 1);
-            }
-          },
-          onSecondaryButtonTap: () => Navigator.pop(
-            sRouter.navigatorKey.currentContext!,
+        showDialog(
+          context: sRouter.navigatorKey.currentContext!,
+          builder: (context) => RewardTransferPopup(
+            data: widget.data,
+            fAmount: fAmount,
           ),
         );
       },
       child: Column(
         children: [
           const SpaceH22(),
-          Row(
-            children: [
-              SNetworkCachedSvg(
-                url: curr.iconUrl,
-                width: 24,
-                height: 24,
-                placeholder: const SizedBox.shrink(),
-              ),
-              const SpaceW12(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 3.5),
-                child: Text(
-                  curr.description,
-                  style: sSubtitle2Style,
+          SizedBox(
+            height: 44,
+            child: Row(
+              children: [
+                SNetworkCachedSvg(
+                  url: curr.iconUrl,
+                  width: 24,
+                  height: 24,
+                  placeholder: const SizedBox.shrink(),
                 ),
-              ),
-              const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: sKit.colors.grey4),
-                    borderRadius: BorderRadius.circular(22),
+                const SpaceW12(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3.5),
+                  child: Text(
+                    curr.description,
+                    style: sSubtitle2Style,
                   ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: SRewardTrophyIcon(color: sKit.colors.confetti1),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: sKit.colors.grey4),
+                      borderRadius: BorderRadius.circular(22),
                     ),
-                    const SpaceW10(),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        volumeFormat(
-                          prefix: curr.prefixSymbol,
-                          decimal: widget.data.amount,
-                          accuracy: curr.accuracy,
-                          symbol: curr.symbol,
-                        ),
-                        textAlign: TextAlign.right,
-                        style: sSubtitle2Style,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SRewardTrophyIcon(color: sKit.colors.confetti1),
                       ),
-                    ),
-                  ],
+                      const SpaceW10(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1),
+                        child: Text(
+                          volumeFormat(
+                            prefix: curr.prefixSymbol,
+                            decimal: widget.data.amount,
+                            accuracy: curr.accuracy,
+                            symbol: curr.symbol,
+                          ),
+                          textAlign: TextAlign.right,
+                          style: sSubtitle2Style.copyWith(
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SpaceH20(),
-          const Divider(),
+          if (widget.needSeparator) ...[
+            const SpaceH20(),
+            const SDivider(),
+          ] else ...[
+            const SpaceH22(),
+          ],
         ],
       ),
     );
@@ -190,7 +165,118 @@ void showSuccessRewardSheet(String fAmout) {
     onPrimaryButtonTap: () {
       Navigator.pop(sRouter.navigatorKey.currentContext!);
     },
-    onSecondaryButtonTap: () =>
-        Navigator.pop(sRouter.navigatorKey.currentContext!),
+    onSecondaryButtonTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
   );
+}
+
+class RewardTransferPopup extends StatefulWidget {
+  const RewardTransferPopup({
+    super.key,
+    required this.data,
+    required this.fAmount,
+  });
+
+  final RewardsBalance data;
+  final String fAmount;
+
+  @override
+  State<RewardTransferPopup> createState() => _RewardTransferPopupState();
+}
+
+class _RewardTransferPopupState extends State<RewardTransferPopup> {
+  bool isClaimButtonActive = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Dialog(
+          insetPadding: const EdgeInsets.all(24.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Column(
+              children: [
+                const SpaceH40(),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: const ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.51, -0.86),
+                      end: Alignment(-0.51, 0.86),
+                      colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                    ),
+                    shape: OvalBorder(),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: SRewardTrophyIcon(),
+                  ),
+                ),
+                Baseline(
+                  baseline: 40.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    '${intl.reward_transfer} ${widget.fAmount} \n${intl.reward_to_my_account}',
+                    maxLines: 12,
+                    textAlign: TextAlign.center,
+                    style: sTextH5Style.copyWith(
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
+                const SpaceH36(),
+                //if (isClaimButtonActive) ...[
+                SPrimaryButton1(
+                  name: isClaimButtonActive ? intl.reward_transfer : '',
+                  icon: isClaimButtonActive ? null : const LoaderSpinner(),
+                  active: isClaimButtonActive,
+                  onTap: () async {
+                    setState(() {
+                      isClaimButtonActive = false;
+                    });
+                    try {
+                      final response = await sNetwork.getWalletModule().postRewardClaim(
+                            data: widget.data,
+                          );
+                      setState(() {
+                        isClaimButtonActive = true;
+                      });
+
+                      if (!response.hasError) {
+                        showSuccessRewardSheet(widget.fAmount);
+                      } else {
+                        sNotification.showError(response.error?.cause ?? '', id: 1);
+                      }
+                    } catch (e) {
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+                      sNotification.showError(intl.something_went_wrong_try_again, id: 1);
+
+                      return;
+                    }
+                  },
+                ),
+                //] else ...[
+                //  const LoaderSpinner(),
+                //],
+                const SpaceH10(),
+                STextButton1(
+                  active: true,
+                  name: intl.reward_cancel,
+                  onTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
+                ),
+                const SpaceH20(),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
