@@ -30,7 +30,7 @@ abstract class _DeleteProfileStoreBase with Store {
   bool confitionCheckbox = false;
 
   @observable
-  final loader = StackLoaderStore()..finishLoadingImmediately();
+  StackLoaderStore loader = StackLoaderStore()..finishLoadingImmediately();
 
   @action
   Future<void> _init() async {
