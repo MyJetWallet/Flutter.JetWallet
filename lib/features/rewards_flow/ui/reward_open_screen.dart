@@ -114,10 +114,12 @@ abstract class _RewardOpenStoreBase with Store {
   }
 
   int lastIndex = -1;
+  AnimationController? lastController;
 
   @action
   Future<void> openCard(int index, AnimationController controller) async {
     lastIndex = index;
+    lastController = controller;
     showBackgroundStars = true;
 
     subtitleText = intl.reward_open_openings;
@@ -231,7 +233,13 @@ abstract class _RewardOpenStoreBase with Store {
       }
     }
 
+    if (lastController != null) {
+      lastController!.reset();
+    }
+
     Future.delayed(const Duration(milliseconds: 500), () {
+      lastController = null;
+      lastIndex = -1;
       showBackgroundStars = false;
       firstCardShow = true;
       width = 155;
