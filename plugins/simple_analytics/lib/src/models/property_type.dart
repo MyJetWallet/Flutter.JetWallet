@@ -34,12 +34,19 @@ class PropertyType {
   static const countryKYC = 'Country of KYC';
   static const documentList = 'Document list';
   static const globalMethods = 'Globally Method type';
-  static const sendMethodTypeAllAvailableList =
-      'Send method type all available list';
+  static const sendMethodTypeAllAvailableList = 'Send method type all available list';
   static const sendMethodType = 'Send method type';
   static const giftSendSubmethod = 'Gift Send Submethod';
   static const totalSendAmount = 'Total send amount';
   static const giftAmount = 'Gift amount';
   static const giftFrom = 'Gift from';
   static const errorText = 'error text';
+  static const rewardsToClaim = 'Rewards to claime';
+  static const totalReceiveSum = 'Total receive sum';
+  static const activeRewardsAssets = 'Active rewards assets';
+  static const cardNumber = 'card number';
+  static const winAsset = 'Win asset';
+  static const winAmount = 'Win amount';
+  static const transferAseet = 'Transfer Asset';
+  static const transferAmount = 'Transfer amount';
 }

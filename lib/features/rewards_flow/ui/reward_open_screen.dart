@@ -20,6 +20,7 @@ import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
@@ -117,10 +118,12 @@ abstract class _RewardOpenStoreBase with Store {
   AnimationController? lastController;
 
   @action
-  Future<void> openCard(int index, AnimationController controller) async {
+  Future<void> openCard(int index, AnimationController controller, String source) async {
     lastIndex = index;
     lastController = controller;
     showBackgroundStars = true;
+
+    sAnalytics.rewardsOpenRewardTapCard(cardNumber: index, source: source);
 
     subtitleText = intl.reward_open_openings;
 
@@ -145,6 +148,8 @@ abstract class _RewardOpenStoreBase with Store {
       height = 377;
     });
 
+    sAnalytics.rewardsOpenCardProcesing(source: source);
+
     await sendSpinRequest();
 
     Future.delayed(const Duration(seconds: 1), () {
@@ -161,6 +166,13 @@ abstract class _RewardOpenStoreBase with Store {
       }
 
       showBottomButton = true;
+
+      sAnalytics.rewardsCardFlipSuccess(
+        rewardToClaime: '${sSignalRModules.rewardsData?.availableSpins ?? 0}',
+        winAsset: spinData?.assetSymbol ?? '',
+        winAmount: '${spinData?.amount ?? ''}',
+        source: source,
+      );
     });
   }
 
@@ -183,7 +195,9 @@ abstract class _RewardOpenStoreBase with Store {
     }
   }
 
-  Future<void> shareCard() async {
+  Future<void> shareCard(String source) async {
+    sAnalytics.rewardsCardShare(source: source);
+
     final currency = currencyFrom(
       sSignalRModules.currenciesWithHiddenList,
       spinData != null ? spinData?.assetSymbol ?? 'BTC' : 'BTC',
@@ -266,9 +280,11 @@ class RewardOpenScreen extends StatelessWidget {
   const RewardOpenScreen({
     super.key,
     required this.rewardStore,
+    required this.source,
   });
 
   final RewardsFlowStore rewardStore;
+  final String source;
 
   @override
   Widget build(BuildContext context) {
@@ -276,6 +292,7 @@ class RewardOpenScreen extends StatelessWidget {
       create: (context) => RewardOpenStore(),
       builder: (context, child) => _RewardOpenScreenBody(
         rewardStore: rewardStore,
+        source: source,
       ),
     );
   }
@@ -285,15 +302,25 @@ class _RewardOpenScreenBody extends StatefulObserverWidget {
   const _RewardOpenScreenBody({
     super.key,
     required this.rewardStore,
+    required this.source,
   });
 
   final RewardsFlowStore rewardStore;
+  final String source;
 
   @override
   State<_RewardOpenScreenBody> createState() => _RewardOpenScreenBodyState();
 }
 
 class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    sAnalytics.rewardsChooseRewardCard(
+      source: widget.source,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final store = RewardOpenStore.of(context);
@@ -308,8 +335,16 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
         showShareButton: store.showShareButton,
         showRCloseButton: true,
         showBackButton: false,
-        onCLoseButton: () => sRouter.back(),
-        onShareButtonTap: () => store.shareCard(),
+        onCLoseButton: () {
+          sRouter.back();
+
+          if (store.showBottomButton) {
+            sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
+          } else {
+            sAnalytics.rewardsOpenRewardClose(source: widget.source);
+          }
+        },
+        onShareButtonTap: () => store.shareCard(widget.source),
       ),
       child: AnimatedBackground(
         behaviour: RandomParticleBehaviour(
@@ -338,6 +373,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                         cardID: 2,
                         offsetX: 8.0,
                         offsetY: 30.0,
+                        source: widget.source,
                       ),
                       const SizedBox(width: 17),
                     ],
@@ -346,6 +382,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                         cardID: 3,
                         offsetX: -8.0,
                         offsetY: 30.0,
+                        source: widget.source,
                       ),
                   ],
                 ),
@@ -355,6 +392,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     cardID: 1,
                     offsetX: 0.0,
                     offsetY: -30.0,
+                    source: widget.source,
                   ),
                 const SizedBox(
                   height: 62 * 2.5,
@@ -364,6 +402,8 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
+                        sAnalytics.rewardsClickNextReward(source: widget.source);
+
                         store.nextReward();
                       },
                       name: intl.reward_open_next_reward,

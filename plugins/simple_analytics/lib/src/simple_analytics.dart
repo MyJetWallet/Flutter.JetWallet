@@ -2657,4 +2657,287 @@ class SimpleAnalytics {
       },
     );
   }
+
+  // Rewards
+
+  void rewardsTapOnTheTabBar() {
+    _analytics.logEvent(
+      EventType.orderSummarySendIBANScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '190',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void rewardsEmptyRewards() {
+    _analytics.logEvent(
+      EventType.rewardsEmptyRewards,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '191',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void rewardsMainScreenView({
+    required int rewardsToClaim,
+    required String totalReceiveSum,
+    required List<String> assetList,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsMainScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '192',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.rewardsToClaim: rewardsToClaim,
+        PropertyType.totalReceiveSum: totalReceiveSum,
+        PropertyType.activeRewardsAssets: assetList.toList(),
+      },
+    );
+  }
+
+  void rewardsClickOpenReward({
+    required int rewardsToClaim,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsClickOpenReward,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '193',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.rewardsToClaim: rewardsToClaim,
+      },
+    );
+  }
+
+  void rewardsChooseRewardCard({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsChooseRewardCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '194',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsOpenRewardClose({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsOpenRewardClose,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '195',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsOpenRewardTapCard({
+    required int cardNumber,
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsOpenRewardTapCard,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '196',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+        PropertyType.cardNumber: cardNumber,
+      },
+    );
+  }
+
+  void rewardsOpenCardProcesing({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsOpenCardProcesing,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '197',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsCardFlipSuccess({
+    required String winAsset,
+    required String winAmount,
+    required String source,
+    required String rewardToClaime,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsCardFlipSuccess,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '198',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+        PropertyType.rewardsToClaim: rewardToClaime,
+        PropertyType.winAsset: winAsset,
+        PropertyType.winAmount: winAmount,
+      },
+    );
+  }
+
+  void rewardsCloseFlowAfterCardFlip({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsCloseFlowAfterCardFlip,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '199',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsCardShare({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsCardShare,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '200',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsClickNextReward({
+    required String source,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsClickNextReward,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '201',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.source: source,
+      },
+    );
+  }
+
+  void rewardsClickOnReward({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsClickOnReward,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '202',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsRewardTransferPopup({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsRewardTransferPopup,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '203',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsTransferPopupClickTransfer({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsTransferPopupClickTransfer,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '204',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsTransferPopupClickCancel({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsTransferPopupClickCancel,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '205',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsSuccessRewardTransfer({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsSuccessRewardTransfer,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '206',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsSuccessTransferGotItClick({
+    required String transferAseet,
+    required String transferAmount,
+  }) {
+    _analytics.logEvent(
+      EventType.rewardsSuccessTransferGotItClick,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '207',
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.transferAseet: transferAseet,
+        PropertyType.transferAmount: transferAmount,
+      },
+    );
+  }
+
+  void rewardsClickShare() {
+    _analytics.logEvent(
+      EventType.rewardsClickShare,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '208',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
 }

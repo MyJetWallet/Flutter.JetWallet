@@ -10,6 +10,7 @@ import 'package:jetwallet/core/services/simple_networking/simple_networking.dart
 import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
@@ -71,6 +72,11 @@ class _BalanceCellState extends State<_BalanceCell> {
       highlightColor: sKit.colors.grey5,
       hoverColor: Colors.transparent,
       onTap: () {
+        sAnalytics.rewardsClickOnReward(
+          transferAmount: widget.data.assetSymbol ?? '',
+          transferAseet: '${widget.data.amount}',
+        );
+
         showDialog(
           context: sRouter.navigatorKey.currentContext!,
           builder: (context) => RewardTransferPopup(
@@ -151,7 +157,12 @@ class _BalanceCellState extends State<_BalanceCell> {
   }
 }
 
-void showSuccessRewardSheet(String fAmout) {
+void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
+  sAnalytics.rewardsSuccessRewardTransfer(
+    transferAmount: assetSymbol,
+    transferAseet: amount,
+  );
+
   sShowAlertPopup(
     sRouter.navigatorKey.currentContext!,
     image: Image.asset(
@@ -164,6 +175,11 @@ void showSuccessRewardSheet(String fAmout) {
     primaryButtonName: intl.reward_got_it,
     onPrimaryButtonTap: () {
       Navigator.pop(sRouter.navigatorKey.currentContext!);
+
+      sAnalytics.rewardsSuccessTransferGotItClick(
+        transferAmount: assetSymbol,
+        transferAseet: amount,
+      );
     },
     onSecondaryButtonTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
   );
@@ -185,6 +201,15 @@ class RewardTransferPopup extends StatefulWidget {
 
 class _RewardTransferPopupState extends State<RewardTransferPopup> {
   bool isClaimButtonActive = true;
+
+  @override
+  void initState() {
+    sAnalytics.rewardsRewardTransferPopup(
+      transferAmount: widget.data.assetSymbol ?? '',
+      transferAseet: '${widget.data.amount}',
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,6 +263,11 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                   icon: isClaimButtonActive ? null : const LoaderSpinner(),
                   active: isClaimButtonActive,
                   onTap: () async {
+                    sAnalytics.rewardsTransferPopupClickTransfer(
+                      transferAmount: widget.data.assetSymbol ?? '',
+                      transferAseet: '${widget.data.amount}',
+                    );
+
                     setState(() {
                       isClaimButtonActive = false;
                     });
@@ -250,7 +280,8 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                       });
 
                       if (!response.hasError) {
-                        showSuccessRewardSheet(widget.fAmount);
+                        showSuccessRewardSheet(
+                            widget.data.assetSymbol ?? '', '${widget.data.amount ?? Decimal.zero}', widget.fAmount);
                       } else {
                         sNotification.showError(response.error?.cause ?? '', id: 1);
                       }
@@ -267,10 +298,16 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                 //],
                 const SpaceH10(),
                 STextButton1(
-                  active: true,
-                  name: intl.reward_cancel,
-                  onTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
-                ),
+                    active: true,
+                    name: intl.reward_cancel,
+                    onTap: () {
+                      sAnalytics.rewardsTransferPopupClickCancel(
+                        transferAmount: widget.data.assetSymbol ?? '',
+                        transferAseet: '${widget.data.amount}',
+                      );
+
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+                    }),
                 const SpaceH20(),
               ],
             ),

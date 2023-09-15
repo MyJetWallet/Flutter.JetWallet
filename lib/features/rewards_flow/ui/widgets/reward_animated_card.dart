@@ -9,11 +9,13 @@ class RewardAnimatedCard extends StatefulObserverWidget {
     required this.cardID,
     required this.offsetX,
     required this.offsetY,
+    required this.source,
   });
 
   final int cardID;
   final double offsetX;
   final double offsetY;
+  final String source;
 
   @override
   State<RewardAnimatedCard> createState() => _RewardAnimatedCardState();
@@ -57,7 +59,7 @@ class _RewardAnimatedCardState extends State<RewardAnimatedCard> with SingleTick
           duration: const Duration(seconds: 1),
           child: GestureDetector(
             onTap: () {
-              store.openCard(widget.cardID, _controller);
+              store.openCard(widget.cardID, _controller, widget.source);
             },
             child: RewardClosedCard(
               controller: store.getFlipController(widget.cardID),

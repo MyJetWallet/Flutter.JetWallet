@@ -13,6 +13,7 @@ import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_balances_cell
 import 'package:jetwallet/features/rewards_flow/ui/widgets/rewards_header.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
@@ -32,8 +33,25 @@ class RewardsFlowScreen extends StatelessWidget {
   }
 }
 
-class _RewardsFlowScreenBody extends StatelessObserverWidget {
+class _RewardsFlowScreenBody extends StatefulObserverWidget {
   const _RewardsFlowScreenBody({super.key});
+
+  @override
+  State<_RewardsFlowScreenBody> createState() => _RewardsFlowScreenBodyState();
+}
+
+class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
+  @override
+  void initState() {
+    final store = RewardsFlowStore.of(context);
+
+    sAnalytics.rewardsMainScreenView(
+      rewardsToClaim: store.availableSpins,
+      totalReceiveSum: store.totalEarnedBaseCurrency.toString(),
+      assetList: store.balances.map((element) => element.assetSymbol ?? '').toList(),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +73,14 @@ class _RewardsFlowScreenBody extends StatelessObserverWidget {
                 SPaddingH24(
                   child: InkWell(
                     onTap: () {
+                      sAnalytics.rewardsClickOpenReward(
+                        rewardsToClaim: store.availableSpins,
+                      );
+
                       sRouter.push(
                         RewardOpenRouter(
                           rewardStore: store,
+                          source: 'tabbar',
                         ),
                       );
                     },

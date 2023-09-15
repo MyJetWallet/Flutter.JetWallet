@@ -89,6 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   sAnalytics.accountTabScreenView();
                 }
 
+                if (val == 4) {
+                  sAnalytics.rewardsTapOnTheTabBar();
+                }
+
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {
                   getIt.get<EventBus>().fire(ResetScrollMyAssets());
                 } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
