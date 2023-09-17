@@ -238,7 +238,7 @@ abstract class _UserInfoServiceBase with Store {
     final bioStatusFromSetting = await biometricStatus();
 
     final isBiometricHided =
-        await getIt<LocalCacheService>().getBiometricHided() ?? true;
+        await getIt<LocalCacheService>().getBiometricHided() ?? false;
 
     if (bioStatusFromSetting != BiometricStatus.none && !isBiometricHided) {
       updateBiometric(hideBiometric: false);
