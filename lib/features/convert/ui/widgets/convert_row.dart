@@ -126,7 +126,9 @@ class ConvertRow extends StatelessObserverWidget {
                   child: Row(
                     children: [
                       const SpaceW34(),
-                      if (inputError == null || inputError == InputError.none)
+                      if (!enabled ||
+                          inputError == null ||
+                          inputError == InputError.none)
                         Text(
                           '${intl.convertRow_available}:'
                           ' ${swipeCurrency.volumeAssetBalance}',

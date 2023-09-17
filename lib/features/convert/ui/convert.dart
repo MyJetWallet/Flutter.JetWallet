@@ -118,6 +118,7 @@ class ConvertBody extends StatelessObserverWidget {
           ),
           ConvertRow(
             value: store.toAssetAmount,
+            inputError: store.inputError,
             enabled: store.toAssetEnabled,
             currency: store.toAsset!,
             assetWithBalance: toAssetWithBalance,
@@ -130,6 +131,7 @@ class ConvertBody extends StatelessObserverWidget {
                 store.updateToAsset(value!);
               }
             },
+            limitError: store.limitError,
           ),
           deviceSize.when(
             small: () => const SizedBox(),

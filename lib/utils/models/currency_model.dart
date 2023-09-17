@@ -264,9 +264,6 @@ class CurrencyModel with _$CurrencyModel {
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
-            .isNotEmpty ||
-        withdrawalMethods
-            .where((element) => element.id == WithdrawalMethods.internalSend)
             .isNotEmpty;
   }
 

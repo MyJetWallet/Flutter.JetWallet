@@ -102,6 +102,13 @@ abstract class _ConvertInputStoreBase with Store {
   @observable
   CurrencyModel? toAsset;
 
+  @computed
+  CurrencyModel? get _currentAsset => fromAssetEnabled ? fromAsset : toAsset;
+
+  @computed
+  String get _currentAssetAmount =>
+      fromAssetEnabled ? fromAssetAmount : toAssetAmount;
+
   @observable
   List<CurrencyModel> fromAssetList = [];
 
@@ -109,10 +116,12 @@ abstract class _ConvertInputStoreBase with Store {
   List<CurrencyModel> toAssetList = [];
 
   @computed
-  Decimal? get _minLimit => fromAsset?.minTradeAmount;
+  Decimal? get _minLimit =>
+      fromAssetEnabled ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount;
 
   @computed
-  Decimal? get _maxLimit => fromAsset?.maxTradeAmount;
+  Decimal? get _maxLimit =>
+      fromAssetEnabled ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount;
 
   @observable
   String limitError = '';
@@ -289,6 +298,7 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
+    _validateInput();
   }
 
   @action
@@ -304,6 +314,7 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
+    _validateInput();
   }
 
   /// We can select percent only from FromAssetAmount
@@ -432,29 +443,29 @@ abstract class _ConvertInputStoreBase with Store {
   @action
   void _validateInput() {
     final error = onTradeInputErrorHandler(
-      fromAssetAmount,
-      fromAsset!,
+      _currentAssetAmount,
+      _currentAsset!,
     );
 
-    final value = Decimal.parse(fromAssetAmount);
+    final value = Decimal.parse(_currentAssetAmount);
 
     if (_minLimit != null && _minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
         decimal: _minLimit!,
-        accuracy: fromAsset?.accuracy ?? 0,
-        symbol: fromAsset?.symbol ?? '',
+        accuracy: _currentAsset?.accuracy ?? 0,
+        symbol: _currentAsset?.symbol ?? '',
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: _maxLimit!,
-        accuracy: fromAsset?.accuracy ?? 1,
-        symbol: fromAsset?.symbol ?? '',
+        accuracy: _currentAsset?.accuracy ?? 1,
+        symbol: _currentAsset?.symbol ?? '',
       )}';
     } else {
       limitError = '';
     }
 
-    final withAmmountInputError = double.parse(fromAssetAmount) != 0
+    final withAmmountInputError = double.parse(_currentAssetAmount) != 0
         ? error == InputError.none
             ? limitError.isEmpty
                 ? InputError.none
@@ -464,7 +475,7 @@ abstract class _ConvertInputStoreBase with Store {
 
     if (withAmmountInputError == InputError.none) {
       _convertValid(
-        isInputValid(fromAssetAmount),
+        isInputValid(_currentAssetAmount),
       );
     } else {
       _convertValid(false);
