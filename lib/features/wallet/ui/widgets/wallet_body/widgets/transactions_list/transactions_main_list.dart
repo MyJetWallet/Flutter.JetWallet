@@ -191,6 +191,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 );
               },
               child: GroupedListView<OperationHistoryItem, String>(
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: OperationHistory.of(context).scrollController,
                 elements: store.listToShow,
                 groupBy: (transaction) {
