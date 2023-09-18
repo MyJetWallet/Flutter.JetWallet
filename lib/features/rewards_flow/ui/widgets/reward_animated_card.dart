@@ -62,6 +62,7 @@ class _RewardAnimatedCardState extends State<RewardAnimatedCard> with SingleTick
               store.openCard(widget.cardID, _controller, widget.source);
             },
             child: RewardClosedCard(
+              //controller: cardController1,
               controller: store.getFlipController(widget.cardID),
               type: widget.cardID,
               spinData: store.spinData,

@@ -64,8 +64,6 @@ class SignalRFuncHandler {
 
   void cardsMessageHandler(List<Object?>? data) {
     try {
-      log(_json(data).toString());
-
       final cardsList = CardsModel.fromJson(_json(data));
       sTransport.cards(cardsList);
 
@@ -167,7 +165,6 @@ class SignalRFuncHandler {
 
   void assetsMessageHandler(List<Object?>? data) {
     try {
-      //log(data.toString());
       final assets = AssetsModel.fromJson(_json(data));
       sTransport.setAssets(assets);
 
@@ -324,8 +321,6 @@ class SignalRFuncHandler {
       final info = AssetPaymentMethodsNew.fromJson(_json(data));
       sTransport.updateAssetPaymentMethodsNew(info);
 
-      log(info.product.toString());
-
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(paymentMethodsNewMessage, e);
@@ -423,7 +418,6 @@ class SignalRFuncHandler {
 
   void rewardsProfileHandler(List<Object?>? data) {
     try {
-      log(_json(data).toString());
       final rewardsModel = RewardsProfileModel.fromJson(_json(data));
 
       sTransport.rewardsProfile(rewardsModel);

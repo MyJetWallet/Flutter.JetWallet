@@ -2662,7 +2662,7 @@ class SimpleAnalytics {
 
   void rewardsTapOnTheTabBar() {
     _analytics.logEvent(
-      EventType.orderSummarySendIBANScreenView,
+      EventType.rewardsTapOnTheTabBar,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '190',

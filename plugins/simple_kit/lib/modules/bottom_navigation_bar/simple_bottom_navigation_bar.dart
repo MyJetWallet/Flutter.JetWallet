@@ -163,42 +163,44 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   ),
                 ],
                 const Spacer(),
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: (MediaQuery.of(context).size.width - 48) / 5,
-                      child: STransparentInkWell(
-                        onTap: () => widget.onChanged(4),
-                        child: Column(
-                          children: [
-                            const SpaceH15(),
-                            if (widget.selectedIndex == 4)
-                              const SRewardIcon()
-                            else
-                              SRewardIcon(
-                                color: SColorsLight().grey3,
+                if (widget.showReward) ...[
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width - 48) / 5,
+                        child: STransparentInkWell(
+                          onTap: () => widget.onChanged(4),
+                          child: Column(
+                            children: [
+                              const SpaceH15(),
+                              if (widget.selectedIndex == 4)
+                                const SRewardIcon()
+                              else
+                                SRewardIcon(
+                                  color: SColorsLight().grey3,
+                                ),
+                              const SpaceH4(),
+                              Text(
+                                widget.rewardText,
+                                style: sBodyText2Style.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.38,
+                                  color: widget.selectedIndex == 4 ? SColorsLight().black : SColorsLight().grey3,
+                                ),
                               ),
-                            const SpaceH4(),
-                            Text(
-                              widget.rewardText,
-                              style: sBodyText2Style.copyWith(
-                                fontWeight: FontWeight.w600,
-                                height: 1.38,
-                                color: widget.selectedIndex == 4 ? SColorsLight().black : SColorsLight().grey3,
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    NotificationBox(
-                      notifications: widget.rewardCount,
-                      top: -2,
-                      right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
-                    ),
-                  ],
-                ),
-                const Spacer(),
+                      NotificationBox(
+                        notifications: widget.rewardCount,
+                        top: -2,
+                        right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                ],
               ],
             ),
           ],

@@ -27,6 +27,10 @@ import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_
 
 part 'reward_open_screen.g.dart';
 
+final FlipCardController cardController1 = FlipCardController();
+final FlipCardController cardController2 = FlipCardController();
+final FlipCardController cardController3 = FlipCardController();
+
 class RewardOpenStore extends _RewardOpenStoreBase with _$RewardOpenStore {
   RewardOpenStore() : super();
 
@@ -34,10 +38,6 @@ class RewardOpenStore extends _RewardOpenStoreBase with _$RewardOpenStore {
 }
 
 abstract class _RewardOpenStoreBase with Store {
-  FlipCardController cardController1 = FlipCardController();
-  FlipCardController cardController2 = FlipCardController();
-  FlipCardController cardController3 = FlipCardController();
-
   final card1 = GlobalKey();
   final card2 = GlobalKey();
   final card3 = GlobalKey();
@@ -99,9 +99,9 @@ abstract class _RewardOpenStoreBase with Store {
       return cardController1;
     } else if (index == 2) {
       return cardController2;
+    } else if (index == 3) {
+      return cardController3;
     } else {
-      print('controller $index');
-
       return cardController3;
     }
   }
@@ -163,7 +163,7 @@ abstract class _RewardOpenStoreBase with Store {
         cardController1.flip();
       } else if (index == 2) {
         cardController2.flip();
-      } else {
+      } else if (index == 3) {
         cardController3.flip();
       }
 
@@ -383,13 +383,14 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                       ),
                       const SizedBox(width: 17),
                     ],
-                    if (store.thirdCardShow)
+                    if (store.thirdCardShow) ...[
                       RewardAnimatedCard(
                         cardID: 3,
                         offsetX: -8.0,
                         offsetY: 30.0,
                         source: widget.source,
                       ),
+                    ],
                   ],
                 ),
                 const SizedBox(height: 17),
@@ -401,7 +402,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     source: widget.source,
                   ),
                 const SizedBox(
-                  height: 80,
+                  height: 60,
                 ),
                 if (store.showBottomButton) ...[
                   if (widget.rewardStore.availableSpins != 0) ...[

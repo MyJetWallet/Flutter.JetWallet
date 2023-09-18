@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/features/rewards_flow/ui/reward_open_screen.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -66,6 +67,12 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
   }
 
   @override
+  void didUpdateWidget(oldWidget) {
+    widget.controller._state = this;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
@@ -88,7 +95,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
                       colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     image: const DecorationImage(
                       image: AssetImage(
@@ -207,7 +214,7 @@ class RewardClosedCardState extends State<RewardClosedCard> with TickerProviderS
             colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(30),
           ),
           image: const DecorationImage(
             image: AssetImage(simpleRewardDots),
