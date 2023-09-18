@@ -364,7 +364,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SpaceH80(),
+                const SpaceH70(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -395,7 +395,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     source: widget.source,
                   ),
                 const SizedBox(
-                  height: 62 * 2.5,
+                  height: 80,
                 ),
                 if (store.showBottomButton) ...[
                   if (widget.rewardStore.availableSpins != 0) ...[

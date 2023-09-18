@@ -279,6 +279,8 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                         isClaimButtonActive = true;
                       });
 
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+
                       if (!response.hasError) {
                         showSuccessRewardSheet(
                             widget.data.assetSymbol ?? '', '${widget.data.amount ?? Decimal.zero}', widget.fAmount);

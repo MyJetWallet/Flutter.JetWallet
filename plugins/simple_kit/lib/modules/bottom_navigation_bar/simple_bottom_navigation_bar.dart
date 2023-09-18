@@ -13,6 +13,7 @@ class SBottomNavigationBar extends StatefulWidget {
     Key? key,
     required this.cardNotifications,
     this.portfolioNotifications = 0,
+    required this.showReward,
     required this.selectedIndex,
     required this.onChanged,
     required this.myAssetsText,
@@ -32,6 +33,7 @@ class SBottomNavigationBar extends StatefulWidget {
   final bool hideAccount;
   final bool showCard;
   final bool isCardRequested;
+  final bool showReward;
   final void Function(int) onChanged;
 
   final String myAssetsText;

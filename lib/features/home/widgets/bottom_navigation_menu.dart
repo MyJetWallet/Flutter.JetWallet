@@ -4,6 +4,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 
 class BottomNavigationMenu extends StatefulObserverWidget {
   const BottomNavigationMenu({
@@ -42,6 +43,9 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
       showCard: widget.showCard,
       isCardRequested: widget.isCardRequested,
       rewardCount: sSignalRModules.rewardsData?.availableSpins ?? 0,
+      showReward: (sSignalRModules.assetProducts ?? <AssetPaymentProducts>[])
+          .where((element) => element.id == AssetPaymentProductsEnum.rewardsOnboardingProgram)
+          .isNotEmpty,
     );
   }
 }

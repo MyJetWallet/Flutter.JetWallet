@@ -23,7 +23,7 @@ class RewardShareCard extends StatelessObserverWidget {
         padding: const EdgeInsets.only(
           top: 12,
           left: 24,
-          right: 12,
+          right: 24,
           bottom: 28,
         ),
         decoration: BoxDecoration(
@@ -48,141 +48,144 @@ class RewardShareCard extends StatelessObserverWidget {
               height: 40,
               child: SStarsIcon(),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 70),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SpaceH8(),
-                  Text(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SpaceH8(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 60),
+                  child: Text(
                     sSignalRModules.rewardsData?.titleText ?? '',
                     style: sTextH3Style,
                     maxLines: 6,
                   ),
-                  const SpaceH16(),
-                  Text(
+                ),
+                const SpaceH16(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 60),
+                  child: Text(
                     sSignalRModules.rewardsData?.descriptionText ?? '',
                     style: sBodyText1Style,
                     maxLines: 6,
                   ),
-                  const SpaceH32(),
-                  Text(
-                    intl.rewards_flow_copy_link,
-                    style: sSubtitle3Style,
-                  ),
-                  const SpaceH7(),
-                  InkWell(
-                    onTap: () {
-                      sAnalytics.rewardsClickShare();
+                ),
+                const SpaceH32(),
+                Text(
+                  intl.rewards_flow_copy_link,
+                  style: sSubtitle3Style,
+                ),
+                const SpaceH7(),
+                InkWell(
+                  onTap: () {
+                    sAnalytics.rewardsClickShare();
 
-                      Clipboard.setData(
-                        ClipboardData(
-                          text: shareText,
-                        ),
-                      );
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: shareText,
+                      ),
+                    );
 
-                      sNotification.showError(
-                        intl.copy_message,
-                        id: 1,
-                        isError: false,
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
+                    sNotification.showError(
+                      intl.copy_message,
+                      id: 1,
+                      isError: false,
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      sSignalRModules.rewardsData?.referralLink ?? '',
+                      style: sBodyText1Style.copyWith(
+                        color: sKit.colors.grey1,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                      ),
-                      child: Text(
-                        sSignalRModules.rewardsData?.referralLink ?? '',
-                        style: sBodyText1Style.copyWith(
-                          color: sKit.colors.grey1,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
-                  const SpaceH24(),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          sAnalytics.rewardsClickShare();
+                ),
+                const SpaceH24(),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        sAnalytics.rewardsClickShare();
 
-                          final emailLaunchUri = Uri(
-                            scheme: 'mailto',
-                            query: encodeQueryParameters({
-                              'subject': intl.reward_email_subject,
-                              'body': shareText,
-                            }),
-                          );
+                        final emailLaunchUri = Uri(
+                          scheme: 'mailto',
+                          query: encodeQueryParameters({
+                            'subject': intl.reward_email_subject,
+                            'body': shareText,
+                          }),
+                        );
 
-                          launchUrl(emailLaunchUri);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
+                        launchUrl(emailLaunchUri);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SMail2Icon(),
+                      ),
+                    ),
+                    const SpaceW24(),
+                    InkWell(
+                      onTap: () {
+                        sAnalytics.rewardsClickShare();
+
+                        Clipboard.setData(
+                          ClipboardData(
+                            text: shareText,
                           ),
-                          child: const SMail2Icon(),
+                        );
+
+                        sNotification.showError(
+                          intl.copy_message,
+                          id: 1,
+                          isError: false,
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SCopyIcon(
+                          color: Colors.white,
                         ),
                       ),
-                      const SpaceW24(),
-                      InkWell(
-                        onTap: () {
-                          sAnalytics.rewardsClickShare();
+                    ),
+                    const SpaceW24(),
+                    InkWell(
+                      onTap: () async {
+                        sAnalytics.rewardsClickShare();
 
-                          Clipboard.setData(
-                            ClipboardData(
-                              text: shareText,
-                            ),
-                          );
-
-                          sNotification.showError(
-                            intl.copy_message,
-                            id: 1,
-                            isError: false,
-                          );
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const SCopyIcon(
-                            color: Colors.white,
-                          ),
+                        await Share.share(shareText);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const SShareIcon(
+                          color: Colors.white,
                         ),
                       ),
-                      const SpaceW24(),
-                      InkWell(
-                        onTap: () async {
-                          sAnalytics.rewardsClickShare();
-
-                          await Share.share(shareText);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const SShareIcon(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
