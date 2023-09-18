@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
@@ -24,8 +25,7 @@ class BottomNavigationMenu extends StatefulObserverWidget {
   State<BottomNavigationMenu> createState() => _BottomNavigationMenuState();
 }
 
-class _BottomNavigationMenuState extends State<BottomNavigationMenu>
-    with SingleTickerProviderStateMixin {
+class _BottomNavigationMenuState extends State<BottomNavigationMenu> {
   @override
   Widget build(BuildContext context) {
     return SBottomNavigationBar(
@@ -41,6 +41,7 @@ class _BottomNavigationMenuState extends State<BottomNavigationMenu>
       rewardText: intl.rewards_flow_tab_title,
       showCard: widget.showCard,
       isCardRequested: widget.isCardRequested,
+      rewardCount: sSignalRModules.rewardsData?.availableSpins ?? 0,
     );
   }
 }
