@@ -45,10 +45,14 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
   void initState() {
     final store = RewardsFlowStore.of(context);
 
+    sAnalytics.rewardsTapOnTheTabBar();
+
+    final assetList = store.balances.where((element) => element.amount != Decimal.zero);
+
     sAnalytics.rewardsMainScreenView(
       rewardsToClaim: store.availableSpins,
       totalReceiveSum: store.totalEarnedBaseCurrency.toString(),
-      assetList: store.balances.map((element) => element.assetSymbol ?? '').toList(),
+      assetList: assetList.map((element) => element.assetSymbol ?? '').toList(),
     );
     super.initState();
   }

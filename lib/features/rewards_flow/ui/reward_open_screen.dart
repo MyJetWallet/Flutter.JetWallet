@@ -100,6 +100,8 @@ abstract class _RewardOpenStoreBase with Store {
     } else if (index == 2) {
       return cardController2;
     } else {
+      print('controller $index');
+
       return cardController3;
     }
   }
@@ -187,11 +189,15 @@ abstract class _RewardOpenStoreBase with Store {
         sNotification.showError(
           intl.something_went_wrong_try_again2,
           id: 1,
-          isError: false,
+          isError: true,
         );
       }
     } catch (e) {
-      sNotification.showError(intl.something_went_wrong_try_again, id: 1);
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        id: 1,
+        isError: true,
+      );
     }
   }
 
@@ -420,6 +426,8 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
                     SPrimaryButton1(
                       active: true,
                       onTap: () async {
+                        sAnalytics.rewardsCloseFlowAfterCardFlip(source: widget.source);
+
                         sRouter.back();
                       },
                       name: intl.reward_close,

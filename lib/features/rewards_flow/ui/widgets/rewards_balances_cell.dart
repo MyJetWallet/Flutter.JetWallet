@@ -285,11 +285,19 @@ class _RewardTransferPopupState extends State<RewardTransferPopup> {
                         showSuccessRewardSheet(
                             widget.data.assetSymbol ?? '', '${widget.data.amount ?? Decimal.zero}', widget.fAmount);
                       } else {
-                        sNotification.showError(response.error?.cause ?? '', id: 1);
+                        sNotification.showError(
+                          response.error?.cause ?? '',
+                          id: 1,
+                          isError: true,
+                        );
                       }
                     } catch (e) {
                       Navigator.pop(sRouter.navigatorKey.currentContext!);
-                      sNotification.showError(intl.something_went_wrong_try_again, id: 1);
+                      sNotification.showError(
+                        intl.something_went_wrong_try_again,
+                        id: 1,
+                        isError: true,
+                      );
 
                       return;
                     }
