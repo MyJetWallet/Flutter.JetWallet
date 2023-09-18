@@ -825,7 +825,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
   AssetPaymentMethods? assetPaymentMethods;
   @observable
   AssetPaymentMethodsNew? assetPaymentMethodsNew;
+
   @observable
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ObservableList<AssetPaymentProducts>? assetProducts = ObservableList.of([]);
   @observable
   List<String> paymentMethods = [];
