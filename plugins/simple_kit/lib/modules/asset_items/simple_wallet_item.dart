@@ -129,9 +129,6 @@ class SWalletItem extends StatelessWidget {
                           height: rightBlockTopPadding,
                         ),
                         Container(
-                          constraints: const BoxConstraints(
-                            maxWidth: 157.0,
-                          ),
                           padding: EdgeInsets.only(
                             left: 16.0,
                             right: 16,
