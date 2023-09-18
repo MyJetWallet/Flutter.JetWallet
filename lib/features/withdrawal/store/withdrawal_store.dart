@@ -69,6 +69,25 @@ abstract class _WithdrawalStoreBase with Store {
   @observable
   WithdrawalModel? withdrawalInputModel;
 
+  @computed
+  SendMethodDto get _sendBlockchainMethod =>
+      sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.blockchainSend,
+      );
+
+  @computed
+  List<BlockchainModel> get networks =>
+      (withdrawalInputModel?.currency?.depositBlockchains.where(
+                (element) =>
+                    _sendBlockchainMethod.symbolNetworkDetails?.any(
+                      (symbolNetworkDetails) =>
+                          symbolNetworkDetails.network == element.id,
+                    ) ??
+                    false,
+              ) ??
+              [])
+          .toList();
+
   @observable
   bool addressError = false;
   @action
@@ -312,7 +331,7 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
 
-      if (withdrawalInputModel!.currency!.isSingleNetwork) {
+      if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
         updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
       }
 

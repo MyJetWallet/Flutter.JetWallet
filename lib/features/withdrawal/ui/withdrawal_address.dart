@@ -33,11 +33,12 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (store.withdrawalInputModel?.currency != null) {
-        if (!store.withdrawalInputModel!.currency!.isSingleNetwork) {
+        if (!store
+            .withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
           showNetworkBottomSheet(
             context,
             store.network,
-            store.withdrawalInputModel!.currency!.depositBlockchains,
+            store.networks,
             store.withdrawalInputModel!.currency!.iconUrl,
             store.withdrawalInputModel!.currency!.symbol,
             store.updateNetwork,
@@ -84,15 +85,11 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                     splashColor: Colors.transparent,
                     onTap: () {
                       if (store.withdrawalType == WithdrawalType.asset &&
-                          store.withdrawalInputModel!.currency!
-                                  .withdrawalBlockchains.length >
-                              1) {
-
+                          store.networks.length > 1) {
                         showNetworkBottomSheet(
                           context,
                           store.network,
-                          store.withdrawalInputModel!.currency!
-                              .withdrawalBlockchains,
+                          store.networks,
                           store.withdrawalInputModel!.currency!.iconUrl,
                           store.withdrawalInputModel!.currency!.symbol,
                           store.updateNetwork,
@@ -105,9 +102,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         controller: store.networkController,
                         labelText:
                             (store.withdrawalType == WithdrawalType.asset &&
-                                    store.withdrawalInputModel!.currency!
-                                            .withdrawalBlockchains.length >
-                                        1)
+                                    store.networks.length > 1)
                                 ? intl.currencyWithdraw_chooseNetwork
                                 : intl.cryptoDeposit_network,
                         enabled: false,
@@ -115,9 +110,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         hideClearButton: true,
                         suffixIcons: [
                           if (store.withdrawalType == WithdrawalType.asset &&
-                              store.withdrawalInputModel!.currency!
-                                      .withdrawalBlockchains.length >
-                                  1)
+                              store.networks.length > 1)
                             const SAngleDownIcon(),
                         ],
                       ),

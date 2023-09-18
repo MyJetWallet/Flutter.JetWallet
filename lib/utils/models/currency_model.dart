@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:mobx/mobx.dart';
@@ -305,6 +306,19 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
+
+  bool get isSingleNetworkForBlockchainSend {
+    return sSignalRModules.sendMethods
+            .where(
+              (element) =>
+                  element.id == WithdrawalMethods.blockchainSend &&
+                  (element.symbolNetworkDetails
+                          ?.any((element) => element.symbol == symbol) ??
+                      false),
+            )
+            .length ==
+        1;
+  }
 }
 
 class ObservableCurrencyModelListConverter
