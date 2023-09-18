@@ -752,7 +752,6 @@
     "transaction": "Transakcja",
     "to": "do",
     "to1": "Do",
-    "to_convert": "Do",
     "tomorrow": "Jutro",
     "min": "min",
     "from": "Z",
@@ -1205,7 +1204,7 @@
     "send_gift_policy": "1. Jestem świadomy, że ten prezent zostanie wysłany do odbiorcy w aplikacji Simple App.\n\n2. Jestem świadomy, że po odbiorze przez odbiorcę prezentu, Simple może nie być w stanie pomóc mi odzyskać mój prezent.",
     "send_gift_title": "Wysłać prezent",
     "send_gift_available": "Dostępne",
-    "send_gift_summary": "Podsumowanie",
+    "send_gift_order_summary": "Podsumowanie zamówienia",
     "send_gift_your_gift": "Twój prezent",
     "send_gift_payment_method": "Metoda płatności",
     "send_gift_simple_gift": "Simple prezent",
@@ -1239,5 +1238,8 @@
     "gift_history_cancel_transaction": "Anuluj transakcję",
     "gift_history_are_you_sure": "Czy na pewno chcesz anulować wysłanie swojego prezentu?",
     "gift_history_yes_cancel": "Tak, anuluj",
-    "gift_history_no": "Nie"
+    "gift_history_no": "Nie",
+    "loader_please_wait": "Proszę czekać ...",
+    "to_convert": "Do",
+    "send_gift_summary": "Podsumowanie"
 }

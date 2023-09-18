@@ -752,7 +752,6 @@
     "transaction": "Транзакція",
     "to": "до",
     "to1": "Кому",
-    "to_convert": "Обмін на актив",
     "tomorrow": "Завтра",
     "min": "Min",
     "from": "Обмін з активу",
@@ -1034,7 +1033,7 @@
     "send_globally_con_rate": "Обмінний курс",
     "send_globally_processing_fee": "Комісія за обробку",
     "send_globally_transfer_info": "Зазвичай переказ обробляється протягом 30 хвилин, іноді до 24 годин",
-    "send_globally_fail_info": "Ваш запит на відправку не був розміщений",
+    "send_globally_fail_info": "Закрити",
     "send_globally_success": "Успішно!",
     "send_globally_success_secondary": "Відправляйте по всьому світу: переказ",
     "send_globally_success_secondary_2": "було розпочато",
@@ -1180,7 +1179,7 @@
     "buy_confirmation_privacy_p2p_checkbox_2": "Simple P2P T&C",
     "buy_confirmation_privacy_p2p_checkbox_3": "3. Я розумію, що грошовий переказ за цю покупку здійснюється через мережу P2P.",
     "buy_confirmation_privacy_p2p_heckbox_4": "Детальніше",
-    "buy_confirmation_privacy_p2p_popup": "Для того, щоб здійснити покупку за допомогою P2P-платежу, спочатку вам потрібно відправити P2P-переказ фізичній особі, дані якої будуть показані пізніше в цьому процесі покупки. Після того, як цей P2P-переказ буде успішно здійснено, придбана криптовалюта буде зарахована на ваш рахунок у додатку Simple.",
+    "buy_confirmation_privacy_p2p_popup": "Для того, щоб здійснити покупку за допомогою P2P-платежу, спочатку вам потрібно відправити P2P-переказ фізичній особі, дані якої будуть показані пізніше в процесі покупки. Після того, як цей P2P-переказ буде успішно здійснено, придбана криптовалюта буде зарахована на ваш рахунок у додатку Simple.",
     "buy_confirmation_transaction_fee": "Комісія",
     "buy_confirmation_third_party_fee": "Плата за послуги третьої сторони",
     "buy_confirmation_third_fee_descr": "Ця комісія стягується компанією Simple для покриття послуг наших партнерів по обробці даних",
@@ -1239,5 +1238,8 @@
     "gift_history_cancel_transaction": "Скасувати транзакцію",
     "gift_history_are_you_sure": "Ви впевнені, що хочете скасувати відправку подарунка?",
     "gift_history_yes_cancel": "Так, скасувати",
-    "gift_history_no": "Ні, повернутися"
+    "gift_history_no": "Ні, повернутися",
+    "loader_please_wait": "Зачекайте ...",
+    "to_convert": "Обмін на актив",
+    "send_gift_summary": "Огляд"
 }

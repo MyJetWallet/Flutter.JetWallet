@@ -752,7 +752,6 @@
     "transaction": "Transacción",
     "to": "A quien",
     "to1": "A quien",
-    "to_convert": "A quien",
     "tomorrow": "Mañana",
     "min": "min",
     "from": "De",
@@ -1205,7 +1204,7 @@
     "send_gift_policy": "1. Soy consciente de que este regalo se enviará a la aplicación Simple del destinatario.\n\n2. Soy consciente de que después de que el destinatario reclama el obsequio, es posible que Simple no pueda ayudarme a recuperar mi obsequio.",
     "send_gift_title": "Enviar regalo",
     "send_gift_available": "Disponible",
-    "send_gift_summary": "Resumen",
+    "send_gift_order_summary": "Resumen del pedido",
     "send_gift_your_gift": "Tu regalo",
     "send_gift_payment_method": "Método de pago",
     "send_gift_simple_gift": "Regalo Simple",
@@ -1239,5 +1238,8 @@
     "gift_history_cancel_transaction": "Cancelar transaccion",
     "gift_history_are_you_sure": "¿Estás seguro de que deseas cancelar el envío del regalo?",
     "gift_history_yes_cancel": "Sí, cancelar",
-    "gift_history_no": "No"
+    "gift_history_no": "No",
+    "loader_please_wait": "Espere por favor ...",
+    "to_convert": "A quien",
+    "send_gift_summary": "Resumen"
 }
