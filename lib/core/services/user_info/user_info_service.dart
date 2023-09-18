@@ -240,7 +240,10 @@ abstract class _UserInfoServiceBase with Store {
     final isBiometricHided =
         await getIt<LocalCacheService>().getBiometricHided() ?? false;
 
-    if (bioStatusFromSetting != BiometricStatus.none && !isBiometricHided) {
+    if (bioStatusFromSetting != BiometricStatus.none &&
+        !isBiometricHided &&
+        // this is in order not to show biometrics before the user is authorized
+        pin != null) {
       updateBiometric(hideBiometric: false);
     } else {
       updateBiometric(hideBiometric: true);
@@ -300,6 +303,7 @@ abstract class _UserInfoServiceBase with Store {
     phoneConfirmed = false;
     kycPassed = false;
     isSignalRInited = false;
+    biometricDisabled = true;
     email = '';
     phone = '';
     countryOfRegistration = '';
