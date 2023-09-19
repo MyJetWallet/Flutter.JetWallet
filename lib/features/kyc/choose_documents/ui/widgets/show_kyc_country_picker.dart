@@ -51,6 +51,7 @@ class _SearchPinned extends StatelessObserverWidget {
           onChanged: (value) {
             store.updateCountryNameSearch(value);
           },
+          maxLines: 1,
         ),
         const SDivider(),
       ],

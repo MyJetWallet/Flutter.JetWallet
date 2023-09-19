@@ -146,6 +146,7 @@ class _CountryState extends State<_Countries> {
                     onChanged: (value) {
                       changeSearchCountry(value);
                     },
+                    maxLines: 1,
                   ),
                   const SDivider(),
                 ],

@@ -55,6 +55,7 @@ class ChooseAssetScreen extends StatelessWidget {
                   onChanged: (String value) {
                     searchStore.search(value);
                   },
+                  maxLines: 1,
                 ),
               ),
               const SDivider(),

@@ -132,6 +132,7 @@ class _WithdrawalAddressScreenState extends State<WithdrawalAddressScreen> {
                         store.scrollToBottom(scrollController);
                         store.updateAddress(value, validate: true);
                       },
+                      maxLines: 1,
                       onErase: () => store.eraseAddress(),
                       suffixIcons: [
                         SIconButton(
