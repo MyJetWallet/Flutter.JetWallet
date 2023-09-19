@@ -76,17 +76,23 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
-  List<BlockchainModel> get networks =>
-      (withdrawalInputModel?.currency?.depositBlockchains.where(
-                (element) =>
-                    _sendBlockchainMethod.symbolNetworkDetails?.any(
-                      (symbolNetworkDetails) =>
-                          symbolNetworkDetails.network == element.id,
-                    ) ??
-                    false,
+  List<BlockchainModel> get networks {
+    final blockchainNetworksFromCurrency =
+        withdrawalInputModel?.currency?.depositBlockchains ?? [];
+
+    final result = blockchainNetworksFromCurrency
+        .where(
+          (element) =>
+              _sendBlockchainMethod.symbolNetworkDetails?.any(
+                (symbolNetworkDetails) =>
+                    symbolNetworkDetails.network == element.id,
               ) ??
-              [])
-          .toList();
+              false,
+        )
+        .toList();
+
+    return result;
+  }
 
   @observable
   bool addressError = false;
@@ -332,7 +338,7 @@ abstract class _WithdrawalStoreBase with Store {
       withdrawalType = WithdrawalType.asset;
 
       if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
-        updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
+        updateNetwork(networks[0]);
       }
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
