@@ -1,5 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -112,8 +114,6 @@ String shortAddressForm(String address) {
 String shortTxhashFrom(String address) {
   final length = address.length;
 
-  var len = length / 2;
-
   if (length <= 16) return address;
 
   final part1 = address.substring(0, 8);
@@ -169,7 +169,9 @@ Future<bool> isPhoneNumberValid(String phoneNumber, String? isoCode) async {
 
 /// International only format
 Future<bool> isInternationalPhoneNumberValid(
-    String phoneNumber, String? isoCode) async {
+  String phoneNumber,
+  String? isoCode,
+) async {
   try {
     final number = await PhoneNumber.getRegionInfoFromPhoneNumber(
       phoneNumber,
@@ -198,16 +200,39 @@ bool validWeakPhoneNumber(String value) {
 
 /// Used for input fields on actions
 String formatCurrencyStringAmount({
+  @Deprecated('The parameter is not used')
   String? prefix,
   required String value,
   required String symbol,
 }) {
-  return '$value $symbol';
-  return prefix == null
-      ? symbol == 'USD'
-          ? '\$$value'
-          : '$value $symbol'
-      : '$prefix$value';
+  final chars = value.split('');
+
+  final wholePart = StringBuffer();
+  final decimalPart = StringBuffer();
+
+  var beforeDecimal = true;
+
+  for (final char in chars) {
+    if (char == '.') {
+      beforeDecimal = false;
+      continue;
+    }
+    if (beforeDecimal) {
+      wholePart.write(char);
+    } else {
+      decimalPart.write(char);
+    }
+  }
+
+  final formatter = NumberFormat.decimalPattern();
+
+  final wholePart2 = Decimal.tryParse(wholePart.toString()) ?? Decimal.zero;
+  final wholePart3 =
+      formatter.format(DecimalIntl(wholePart2)).replaceAll(',', ' ');
+
+  final amountPart = beforeDecimal ? wholePart3 : '$wholePart3.$decimalPart';
+
+  return '$amountPart $symbol';
 }
 
 String convertToUsd(
@@ -256,7 +281,8 @@ Decimal basePrice(
   }
 
   return Decimal.parse(
-      '${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}');
+    '''${double.parse('$assetPriceInUsd') / double.parse('${baseCurrencyMain.currentPrice}')}''',
+  );
 }
 
 String getCardTypeMask(String cardNumber) {
@@ -290,8 +316,8 @@ String getCardTypeMask(String cardNumber) {
 bool validLabel(String txt) {
   if (txt.isEmpty) return false;
 
-  var re = RegExp(
-    r"^[a-zA-Z\p{N},.:/\s/-]*$",
+  final re = RegExp(
+    r'^[a-zA-Z\p{N},.:/\s/-]*$',
     unicode: true,
     multiLine: true,
   );

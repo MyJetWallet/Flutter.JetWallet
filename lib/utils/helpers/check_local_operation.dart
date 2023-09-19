@@ -1,3 +1,4 @@
+import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
 bool isOperationLocal(PaymentMethodType type) {
@@ -19,6 +20,18 @@ bool isOperationLocal(PaymentMethodType type) {
   ];
 
   return localTypes.contains(type);
+}
+
+String getLocalMethodName(
+  CurrencyModel paymentCurrency,
+  PaymentMethodType type,
+) {
+  final index =
+      paymentCurrency.buyMethods.indexWhere((element) => element.id == type);
+
+  return index != -1
+      ? paymentCurrency.buyMethods[index].name ?? getLocalOperationName(type)
+      : getLocalOperationName(type);
 }
 
 String getLocalOperationName(PaymentMethodType type) {

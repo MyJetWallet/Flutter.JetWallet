@@ -8,9 +8,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class EmptyWalletBody extends StatelessObserverWidget {
   const EmptyWalletBody({
-    Key? key,
+    super.key,
     required this.assetName,
-  }) : super(key: key);
+  });
 
   final String assetName;
 
@@ -39,7 +39,7 @@ class EmptyWalletBody extends StatelessObserverWidget {
         ),
         const Spacer(),
         Text(
-          '${intl.emptyWalletBody_all} ${assetName.toLowerCase()} ${intl.transactions}',
+          '''${intl.emptyWalletBody_all} ${assetName.toLowerCase()} ${intl.transactions}''',
           maxLines: 3,
           textAlign: TextAlign.center,
           style: sTextH3Style,

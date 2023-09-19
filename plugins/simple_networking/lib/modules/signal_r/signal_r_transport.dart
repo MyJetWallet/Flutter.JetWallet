@@ -23,11 +23,12 @@ import 'package:simple_networking/modules/signal_r/models/nft_market.dart';
 import 'package:simple_networking/modules/signal_r/models/nft_portfolio.dart';
 import 'package:simple_networking/modules/signal_r/models/period_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/price_accuracies.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/signal_r/models/recurring_buys_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+
+import 'models/incoming_gift_model.dart';
 
 class SignalRTransport {
   SignalRTransport({
@@ -67,6 +68,7 @@ class SignalRTransport {
     required this.addToPong,
     required this.addToLog,
     required this.updateGlobalSendMethods,
+    required this.receiveGifts,
   });
 
   final void Function(bool) initFinished;
@@ -106,6 +108,8 @@ class SignalRTransport {
   final void Function(AssetPaymentMethodsNew) updateAssetPaymentMethodsNew;
 
   final void Function(GlobalSendMethodsModel) updateGlobalSendMethods;
+
+  final void Function(IncomingGiftModel) receiveGifts;
 
   /// Logs
 

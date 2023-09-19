@@ -3,9 +3,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class TransactionDetailsNameText extends StatelessWidget {
   const TransactionDetailsNameText({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

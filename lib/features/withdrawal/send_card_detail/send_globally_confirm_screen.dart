@@ -6,19 +6,15 @@ import 'package:intl/intl.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_globally_confirm_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
-import 'package:jetwallet/utils/helpers/widget_size_from.dart';
-import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
-import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 
 import '../../pin_screen/model/pin_flow_union.dart';
 
@@ -110,7 +106,6 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(
                             width: 16,
@@ -121,7 +116,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 3),
                             child: Text(
-                              '${intl.global_send_est_amount}: ${data.estimatedReceiveAmount!} ${data.receiveAsset}',
+                              '''${intl.global_send_est_amount}: ${data.estimatedReceiveAmount!} ${data.receiveAsset}''',
                               style: sSubtitle3Style,
                             ),
                           ),
@@ -170,7 +165,7 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                     name: intl.send_globally_con_rate,
                     contentLoading: state.loader.loading,
                     value:
-                        '${state.sendCurrency!.prefixSymbol != null ? state.sendCurrency!.prefixSymbol : ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}',
+                        '''${state.sendCurrency!.prefixSymbol ?? ''} 1 ${state.sendCurrency!.prefixSymbol == null ? state.sendCurrency!.symbol : ''} = ${data.estimatedPrice} ${data.receiveAsset}''',
                   ),
                   SActionConfirmText(
                     name: intl.global_send_you_send,
@@ -266,13 +261,39 @@ class SendGloballyConfirmScreenBody extends StatelessObserverWidget {
                   active: true,
                   name: intl.previewBuyWithAsset_confirm,
                   onTap: () {
+                    sAnalytics.globalSendConfirmOrderSummary(
+                      asset: data.asset ?? '',
+                      sendMethodType: '1',
+                      destCountry: data.countryCode ?? '',
+                      paymentMethod: method.name ?? '',
+                      globalSendType: method.methodId ?? '',
+                      totalSendAmount: (data.amount ?? Decimal.zero).toString(),
+                    );
+
                     sRouter.push(
                       PinScreenRoute(
                         union: const Change(),
                         isChangePhone: true,
                         onChangePhone: (String newPin) {
+                          sAnalytics.globalSenBioApprove(
+                            asset: data.asset ?? '',
+                            sendMethodType: '1',
+                            destCountry: data.countryCode ?? '',
+                            paymentMethod: method.name ?? '',
+                            globalSendType: method.methodId ?? '',
+                            totalSendAmount:
+                                (data.amount ?? Decimal.zero).toString(),
+                          );
+
                           sRouter.pop();
                           state.confirmSendGlobally(newPin: newPin);
+                        },
+                        onWrongPin: (error) {
+                          sAnalytics.errorWrongPin(
+                            asset: data.asset ?? '',
+                            errorText: error,
+                            sendMethod: AnalyticsSendMethods.globally,
+                          );
                         },
                       ),
                     );

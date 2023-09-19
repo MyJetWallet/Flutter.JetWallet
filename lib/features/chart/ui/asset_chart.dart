@@ -12,10 +12,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class AssetChart extends StatefulObserverWidget {
   const AssetChart({
-    Key? key,
+    super.key,
     required this.marketItem,
     required this.onCandleSelected,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
   final void Function(ChartInfoModel?) onCandleSelected;

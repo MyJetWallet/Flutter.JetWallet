@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/features/phone_verification/store/phone_verification_store.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
@@ -12,6 +11,7 @@ import 'package:jetwallet/widgets/texts/resend_in_text.dart';
 import 'package:jetwallet/widgets/texts/resend_rich_text.dart';
 import 'package:jetwallet/widgets/texts/verification_description_text.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
@@ -38,9 +38,9 @@ class PhoneVerificationArgs {
 @RoutePage(name: 'PhoneVerificationRouter')
 class PhoneVerification extends StatelessWidget {
   const PhoneVerification({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 
@@ -71,16 +71,15 @@ class PhoneVerification extends StatelessWidget {
 /// 2. when we need to verify a new number from change number flow
 class PhoneVerificationBody extends StatelessObserverWidget {
   const PhoneVerificationBody({
-    Key? key,
+    super.key,
     required this.args,
-  }) : super(key: key);
+  });
 
   final PhoneVerificationArgs args;
 
   @override
   Widget build(BuildContext context) {
     final store = PhoneVerificationStore.of(context);
-    final timer = TimerStore.of(context);
 
     // TODO add phoneVerificationCountdown
     final colors = sKit.colors;
@@ -99,7 +98,9 @@ class PhoneVerificationBody extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SBigHeader(
           title: intl.phoneVerification_phoneConfirmation,
-          onBackButtonTap: () => Navigator.pop(context),
+          onBackButtonTap: () {
+            getIt<AppRouter>().popUntilRoot();
+          },
           isSmallSize: true,
           customIconButton: args.sendCodeOnInitState
               ? SIconButton(
@@ -221,6 +222,8 @@ class PhoneVerificationBody extends StatelessObserverWidget {
                 ResendRichText(
                   isPhone: true,
                   onTap: () async {
+                    sAnalytics.signInFlowPhoneReceiveCodePhoneCall();
+
                     if (args.sendCodeOnInitState) {
                       await store.sendFullCode(false);
                     } else {

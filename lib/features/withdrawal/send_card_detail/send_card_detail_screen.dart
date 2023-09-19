@@ -1,20 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/features/add_circle_card/helper/masked_text_input_formatter.dart';
-import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/store/send_card_detail_store.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_input.dart';
-import 'package:jetwallet/features/withdrawal/ui/withdrawal_ammount.dart';
 import 'package:jetwallet/utils/helpers/launch_url.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
 
@@ -72,6 +68,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
     final store = SendCardDetailStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -98,14 +95,15 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
 
           //1. I confirm that information above is accurate and complete.
           //2. I agree with T&C Send Globally program.
-          //3. I understand that this money transfer is processed via P2P network more. P2P transfers are orchestrated by Payport LLC. More details.
+          //3. I understand that this money transfer is processed via P2P
+          //   network more. P2P transfers are orchestrated by Payport LLC.
+          //   More details.
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
               children: [
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 174,
                     isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
                     firstAdditionalText: intl.send_globally_cond_text_add_1,
@@ -118,6 +116,13 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                     activeText2: '${intl.send_globally_cond_text_7}.',
                     isChecked: getIt<AppStore>().isAcceptedGlobalSendTC,
                     onCheckboxTap: () {
+                      sAnalytics.globalSendTCCheckbox(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: store.countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
                       getIt<AppStore>().setIsAcceptedGlobalSendTC(
                         !getIt<AppStore>().isAcceptedGlobalSendTC,
                       );
@@ -126,20 +131,37 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       launchURL(context, p2pTerms);
                     },
                     onPrivacyPolicyTap: () {
-                      launchURL(context,
-                          'https://globalltd.xyz/terms-and-conditions');
+                      launchURL(
+                        context,
+                        'https://globalltd.xyz/terms-and-conditions',
+                      );
                     },
                     onActiveTextTap: () {
                       launchURL(
-                          context, 'https://globalltd.xyz/privacy-policy');
+                        context,
+                        'https://globalltd.xyz/privacy-policy',
+                      );
                     },
                     onActiveText2Tap: () {
+                      sAnalytics.globalSendMoreDetailsButton(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: store.countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
+                      sAnalytics.globalSendMoreDetailsPopup(
+                        asset: store.currency,
+                        sendMethodType: '1',
+                        destCountry: store.countryCode,
+                        paymentMethod: store.method?.name ?? '',
+                      );
+
                       sShowAlertPopup(
                         context,
                         primaryText: '',
                         secondaryText: intl.global_send_popup_details,
                         primaryButtonName: intl.global_send_got_it,
-                        barrierDismissible: true,
                         image: Image.asset(
                           infoLightAsset,
                           height: 80,
@@ -147,7 +169,16 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           package: 'simple_kit',
                         ),
                         primaryButtonType: SButtonType.primary1,
-                        onPrimaryButtonTap: () => {Navigator.pop(context)},
+                        onPrimaryButtonTap: () {
+                          sAnalytics.globalSendGotItButton(
+                            asset: store.currency,
+                            sendMethodType: '1',
+                            destCountry: store.countryCode,
+                            paymentMethod: store.method?.name ?? '',
+                          );
+
+                          Navigator.pop(context);
+                        },
                         isNeedCancelButton: false,
                         cancelText: intl.profileDetails_cancel,
                         onCancelButtonTap: () => {Navigator.pop(context)},
@@ -164,6 +195,14 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           getIt<AppStore>().isAcceptedGlobalSendTC,
                       name: intl.addCircleCard_continue,
                       onTap: () {
+                        sAnalytics.globalSendContinueReceiveDetail(
+                          asset: store.currency,
+                          sendMethodType: '1',
+                          destCountry: store.countryCode,
+                          paymentMethod: store.method?.name ?? '',
+                          globalSendType: store.method?.methodId ?? '',
+                        );
+
                         store.submit();
                       },
                     ),

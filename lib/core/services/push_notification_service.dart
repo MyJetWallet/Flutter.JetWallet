@@ -5,8 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/deep_link_service.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/utils/logging.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
+import 'package:jetwallet/core/services/startup_service.dart';
 import 'package:logger/logger.dart';
 
 const String _loggerService = 'PushNotificationService';
@@ -32,7 +31,21 @@ class PushNotificationService {
     ),
   );
 
+  static const DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings();
+
+  static const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@drawable/ic_notification');
+
+  static const InitializationSettings initializationSettings =
+      InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
   Future<void> initialize() async {
+    await getAdvData();
+
     await _resolvePlatformImplementation();
 
     final settings = await _messaging.requestPermission();
@@ -47,6 +60,15 @@ class PushNotificationService {
       (RemoteMessage? message) {
         if (message != null) {
           getIt.get<DeepLinkService>().handlePushNotificationLink(message);
+        }
+      },
+    );
+
+    await _plugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (details) async {
+        if (details.payload != null) {
+          getIt.get<DeepLinkService>().handle(Uri.parse(details.payload!));
         }
       },
     );
@@ -68,7 +90,7 @@ class PushNotificationService {
     getIt.get<SimpleLoggerService>().log(
           level: Level.info,
           place: _loggerService,
-          message: 'onMessageOpenedApp: notification: ${message}',
+          message: 'onMessageOpenedApp: notification: $message',
         );
 
     if (_nullChecked(message)) {
@@ -98,6 +120,7 @@ class PushNotificationService {
         notification.title,
         notification.body,
         _notificationDetails,
+        payload: message.data['actionUrl'] as String?,
       );
     } else {
       getIt.get<SimpleLoggerService>().log(
@@ -133,17 +156,17 @@ class PushNotificationService {
 
 /// background message handler must be a top-level function
 /// (e.g. not a class method which requires initialization)
-Future<void> _messagingBackgroundHandler(RemoteMessage message) async {
+Future<void> messagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }
 
 @pragma('vm:entry-point')
@@ -155,9 +178,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await getIt.get<DeepLinkService>().handlePushNotificationLink(message);
 
   getIt.get<SimpleLoggerService>().log(
-        level: Level.info,
-        place: _loggerService,
-        message:
-            '_messagingBackgroundHandler \n\n A background message just showed up: $message',
-      );
+    level: Level.info,
+    place: _loggerService,
+    message:
+        '''_messagingBackgroundHandler \n\n A background message just showed up: $message''',
+  );
 }

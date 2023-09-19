@@ -5,10 +5,10 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:simple_kit/simple_kit.dart';
 
+import '../../core/l10n/i10n.dart';
 import '../../core/services/logger_service/logger_service.dart';
 import '../../core/services/logs/helpers/beatify_logs_for_support.dart';
 import '../../core/services/logs/helpers/make_log_pretty.dart';
-import '../../core/services/logs/log_record_service.dart';
 
 @RoutePage(name: 'LogsRouter')
 class LogsScreen extends StatelessObserverWidget {
@@ -18,11 +18,11 @@ class LogsScreen extends StatelessObserverWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final logs = getIt.get<LogRecordsService>().logHistory.toList().reversed.toList();
     final logs =
         getIt.get<SimpleLoggerService>().logBuffer.toList().reversed.toList();
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: 'Debug screen',

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
@@ -21,12 +18,11 @@ void sendAlertBottomSheet(BuildContext context) {
 }
 
 class _SendAlertBottomSheet extends StatelessObserverWidget {
-  const _SendAlertBottomSheet({Key? key}) : super(key: key);
+  const _SendAlertBottomSheet();
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final deviceSize = sDeviceSize;
 
     return SPaddingH24(
       child: Column(

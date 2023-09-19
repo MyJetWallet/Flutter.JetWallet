@@ -6,6 +6,7 @@ import 'package:jetwallet/features/auth/user_data/store/user_data_store.dart';
 import 'package:jetwallet/features/auth/user_data/ui/widgets/birth_date/store/selected_date_store.dart';
 import 'package:jetwallet/utils/helpers/date_helper.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -30,7 +31,7 @@ void showBirthDatePicker(
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header();
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +44,9 @@ class _Header extends StatelessWidget {
 
 class _SDatePicker extends StatelessObserverWidget {
   const _SDatePicker({
-    Key? key,
     required this.store,
     required this.userDateStore,
-  }) : super(key: key);
+  });
 
   final SelectedDateStore store;
   final UserDataStore userDateStore;
@@ -97,8 +97,8 @@ class _SDatePicker extends StatelessObserverWidget {
               locale: intl.localeName == 'es'
                   ? DateTimePickerLocale.es
                   : intl.localeName == 'pl'
-                  ? DateTimePickerLocale.pl
-                  : DateTimePickerLocale.en_us,
+                      ? DateTimePickerLocale.pl
+                      : DateTimePickerLocale.en_us,
             ),
           ],
         ),
@@ -106,6 +106,7 @@ class _SDatePicker extends StatelessObserverWidget {
           child: SPrimaryButton4(
             name: intl.user_data_bottom_sheet_confirm,
             onTap: () {
+              sAnalytics.signInFlowDateContinue();
               store.updateDate(date, userDateStore);
               Navigator.of(context).pop();
             },

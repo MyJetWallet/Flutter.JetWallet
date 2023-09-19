@@ -1,33 +1,26 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/deep_link_service.dart';
-import 'package:jetwallet/core/services/logout_service/logout_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/auth/email_verification/model/email_verification_union.dart';
 import 'package:jetwallet/features/auth/email_verification/store/email_verification_store.dart';
 import 'package:jetwallet/utils/helpers/open_email_app.dart';
 import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:jetwallet/widgets/texts/resend_in_text.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/headers/simple_auth_header.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:universal_io/io.dart';
 
 @RoutePage(name: 'EmailVerificationRoute')
 class EmailVerification extends StatelessWidget {
-  const EmailVerification({Key? key}) : super(key: key);
+  const EmailVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +39,7 @@ class EmailVerification extends StatelessWidget {
 }
 
 class _EmailVerificationBody extends StatefulObserverWidget {
-  const _EmailVerificationBody({Key? key}) : super(key: key);
+  const _EmailVerificationBody();
 
   @override
   State<_EmailVerificationBody> createState() => __EmailVerificationBodyState();
@@ -189,6 +182,8 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                       userInfoN.updateIsJustLogged(value: true);
                       verification.loader.startLoadingImmediately();
                       verification.verifyCode();
+
+                      sAnalytics.signInFlowPleaseWait();
                     },
                     autoFocus: true,
                     onChanged: (_) {
@@ -214,6 +209,8 @@ class __EmailVerificationBodyState extends State<_EmailVerificationBody>
                   name: intl.twoFaPhone_resend,
                   color: colors.blue,
                   onTap: () {
+                    sAnalytics.signInFlowTapResend();
+
                     timer.refreshTimer();
                     verification.resendCode(timer);
                   },

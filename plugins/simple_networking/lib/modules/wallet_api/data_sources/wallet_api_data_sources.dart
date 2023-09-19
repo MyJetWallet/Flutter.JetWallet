@@ -71,6 +71,7 @@ import 'package:simple_networking/modules/wallet_api/models/profile/profile_dele
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/session_info/session_info_response_model.dart';
@@ -100,6 +101,7 @@ import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/with
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_info/withdrawal_info_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/withdrawal_resend/withdrawal_resend_request.dart';
 
+import '../../../simple_networking.dart';
 import '../models/iban_info/iban_info_response_model.dart';
 import '../models/profile/profile_report_request.dart';
 import '../models/profile/profile_set_address_request.dart';
@@ -394,8 +396,6 @@ class WalletApiDataSources {
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
@@ -480,7 +480,8 @@ class WalletApiDataSources {
   }
 
   Future<DC<ServerRejectException, String>> postSDKTokenRequest(
-      String country) async {
+    String country,
+  ) async {
     try {
       final response = await _apiClient.post(
         '${_apiClient.options.walletApi}/kyc/verification/sdk_token',
@@ -495,8 +496,6 @@ class WalletApiDataSources {
         final data = handleFullResponse(
           responseData,
         );
-
-        print(data);
 
         return DC.data(data['data']['token']);
       } catch (e) {
@@ -759,7 +758,7 @@ class WalletApiDataSources {
       try {
         final responseData = _.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 
@@ -814,7 +813,7 @@ class WalletApiDataSources {
       try {
         final responseData = response.data as Map<String, dynamic>;
 
-        final data = handleFullResponse<Map>(
+        handleFullResponse<Map>(
           responseData,
         );
 
@@ -1377,7 +1376,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<List>(responseData);
+        final data = handleFullResponse<Map>(responseData);
 
         return DC.data(OperationHistoryItem.fromJson(data));
       } catch (e) {
@@ -1973,17 +1972,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -1996,7 +1991,7 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse<Map>(responseData);
+        handleFullResponse<Map>(responseData);
 
         return DC.data(null);
       } catch (e) {
@@ -2018,17 +2013,13 @@ class WalletApiDataSources {
 
       try {
         final responseData = response.data as Map<String, dynamic>;
-        final data = handleFullResponse(responseData);
+        handleFullResponse(responseData);
 
         return DC.data(null);
       } catch (e) {
-        print('catch error');
-
         rethrow;
       }
     } on ServerRejectException catch (e) {
-      print('catch error');
-
       return DC.error(e);
     }
   }
@@ -2048,6 +2039,137 @@ class WalletApiDataSources {
         final data = handleFullResponse<Map>(responseData);
 
         return DC.data(SendToBankCardResponse.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> sendGiftByEmailRequest(
+    SendGiftByEmailRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/by-email',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> sendGiftByPhoneRequest(
+    SendGiftByPhoneRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/by-phone',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> cancelGiftRequest(
+    String operationId,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/cancel',
+        data: {'id': operationId},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, GiftModel>> getGiftRequest(
+    String id,
+  ) async {
+    try {
+      final response = await _apiClient.get(
+        '${_apiClient.options.walletApi}/gift/$id',
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(GiftModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> acceptGiftRequest(
+    String id,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/accept',
+        data: {'id': id},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> declineGiftRequest(
+    String id,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/gift/decline',
+        data: {'id': id},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
       } catch (e) {
         rethrow;
       }

@@ -11,6 +11,7 @@ class NftMarketCancelSellOrderRequestModel
   }) = _NftMarketCancelSellOrderRequestModel;
 
   factory NftMarketCancelSellOrderRequestModel.fromJson(
-          Map<String, dynamic> json,) =>
+    Map<String, dynamic> json,
+  ) =>
       _$NftMarketCancelSellOrderRequestModelFromJson(json);
 }

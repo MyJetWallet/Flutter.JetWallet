@@ -11,17 +11,13 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
-import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/utils/logging.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
-import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
@@ -317,10 +313,10 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
+  void updateCardNumber(String newCardNumber) {
     _logger.log(notifier, 'updateCardNumber');
 
-    cardNumber = _cardNumber;
+    cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
     cardNumberError = cardNumber.length == 19
@@ -353,7 +349,7 @@ abstract class _AddBankCardStoreBase with Store {
     }
 
     if (expiryDate.length >= 4) {
-      var sp = expiryDate.split('/');
+      final sp = expiryDate.split('/');
 
       expiryMonth = sp.first;
       expiryYear = sp[1];
@@ -421,10 +417,10 @@ abstract class _AddBankCardStoreBase with Store {
   }
 
   @action
-  void updateCardholderName(String _cardholderName) {
+  void updateCardholderName(String newCardholderName) {
     _logger.log(notifier, 'updateCardholderName');
 
-    cardholderName = _cardholderName.trim();
+    cardholderName = newCardholderName.trim();
   }
 
   @action

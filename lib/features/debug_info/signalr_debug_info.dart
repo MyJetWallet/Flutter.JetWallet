@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/helper/format_date_to_hm.dart';
@@ -14,6 +15,7 @@ class SignalrDebugInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: const SPaddingH24(
         child: SSmallHeader(
           title: 'SignalR Logs',
@@ -23,16 +25,16 @@ class SignalrDebugInfo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
-                  'SignalR Status: ${getIt.get<SignalRService>().signalR?.hubStatus}',
+                  'SignalR Status: ${getIt.get<SignalRModuleNew>().hubStatus}',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 12),*/
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: SPrimaryButton1(
@@ -60,7 +62,7 @@ class SignalrDebugInfo extends StatelessWidget {
                       children: [
                         SignalRLogDetail(
                           log: sSignalRModules.signalRLogs[index],
-                        )
+                        ),
                       ],
                     );
                   },
@@ -82,7 +84,7 @@ class SignalrDebugInfo extends StatelessWidget {
                                     DateTime.now())
                                 .toString(),
                           ),
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -123,7 +125,6 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -153,9 +154,11 @@ class _SignalRLogDetailState extends State<SignalRLogDetail> {
                 onTap: () {
                   setState(() {
                     filtredLogs = widget.log.logs!
-                        .where((element) =>
-                            element.type != SLogType.ping &&
-                            element.type != SLogType.pong)
+                        .where(
+                          (element) =>
+                              element.type != SLogType.ping &&
+                              element.type != SLogType.pong,
+                        )
                         .toList();
                   });
                 },

@@ -20,10 +20,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:openpgp/openpgp.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -38,7 +36,7 @@ part 'preview_buy_with_circle_store.g.dart';
 
 class PreviewBuyWithCircleStore extends _PreviewBuyWithCircleStoreBase
     with _$PreviewBuyWithCircleStore {
-  PreviewBuyWithCircleStore(PreviewBuyWithCircleInput input) : super(input);
+  PreviewBuyWithCircleStore(super.input);
 
   static _PreviewBuyWithCircleStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithCircleStore>(context, listen: false);
@@ -185,20 +183,16 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
     final storage = sLocalStorageService;
 
     storage.setString(checkedCircle, 'true');
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.circleCard,
-        )
-        .toList();
+
     if (cvvEnabled) {
       showCircleCvvBottomSheet(
         context: sRouter.navigatorKey.currentContext!,
         header: '${intl.previewBuyWithCircle_enter} CVV '
             '${intl.previewBuyWithCircle_for} '
             '${card?.network.name} •••• ${card?.last4}',
-        onCompleted: (_cvv) {
+        onCompleted: (newCvv) {
           sRouter.pop();
-          cvv = _cvv;
+          cvv = newCvv;
           _createPayment();
         },
         input: input,
@@ -420,12 +414,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen() {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
     return sRouter
         .push(
           SuccessScreenRouter(
@@ -471,12 +459,6 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,

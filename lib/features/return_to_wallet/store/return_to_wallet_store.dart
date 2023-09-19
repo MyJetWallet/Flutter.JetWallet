@@ -22,7 +22,7 @@ part 'return_to_wallet_store.g.dart';
 
 class ReturnToWalletStore extends _ReturnToWalletStoreBase
     with _$ReturnToWalletStore {
-  ReturnToWalletStore(ReturnToWalletInput input) : super(input);
+  ReturnToWalletStore(super.input);
 
   static _ReturnToWalletStoreBase of(BuildContext context) =>
       Provider.of<ReturnToWalletStore>(context, listen: false);
@@ -150,14 +150,14 @@ abstract class _ReturnToWalletStoreBase with Store {
 
   @action
   void _initCurrencies() {
-    final _currencies = List<CurrencyModel>.from(
+    final tempCurrencies = List<CurrencyModel>.from(
       sSignalRModules.currenciesList,
     );
-    sortCurrencies(_currencies);
+    sortCurrencies(tempCurrencies);
 
-    removeCurrencyFrom(_currencies, input.currency);
+    removeCurrencyFrom(tempCurrencies, input.currency);
 
-    currencies = ObservableList.of(_currencies);
+    currencies = ObservableList.of(tempCurrencies);
   }
 
   void _initBaseCurrency() {

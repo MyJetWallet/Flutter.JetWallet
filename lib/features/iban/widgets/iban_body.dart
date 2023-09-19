@@ -3,24 +3,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/iban/widgets/iban_receive.dart';
 import 'package:jetwallet/features/iban/widgets/iban_send.dart';
-import 'package:simple_kit/core/simple_kit.dart';
 
 import '../../../core/di/di.dart';
-import '../../../core/l10n/i10n.dart';
-import '../../../utils/constants.dart';
-import '../../kyc/kyc_service.dart';
-import 'iban_item.dart';
 
 class IBanBody extends StatefulObserverWidget {
   const IBanBody({
-    Key? key,
+    super.key,
     required this.name,
     required this.iban,
     required this.bic,
     required this.address,
     required this.initIndex,
     required this.isKyc,
-  }) : super(key: key);
+  });
 
   final String name;
   final String iban;
@@ -58,8 +53,6 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return TabBarView(
       physics: getIt.get<IbanStore>().isIbanOutActive && widget.isKyc
           ? const AlwaysScrollableScrollPhysics()
@@ -72,7 +65,7 @@ class _IBanBodyState extends State<IBanBody> with TickerProviderStateMixin {
           bic: getIt.get<IbanStore>().ibanBic,
           address: getIt.get<IbanStore>().ibanAddress,
         ),
-        IbanSend(),
+        const IbanSend(),
       ],
     );
   }

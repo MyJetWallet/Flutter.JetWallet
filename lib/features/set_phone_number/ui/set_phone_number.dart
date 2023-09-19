@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/user_info/user_info_service.dart';
@@ -168,6 +166,8 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                   active: store.isButtonActive,
                   name: intl.setPhoneNumber_continue,
                   onTap: () {
+                    sAnalytics.signInFlowPhoneNumberContinue();
+
                     //FocusScope.of(context).unfocus();
                     if (sUserInfo.phone == store.phoneNumber()) {
                       sRouter.pop();
@@ -219,12 +219,15 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                     }
 
                     if (isChangePhone) {
-                      sRouter.replace(
+                      sRouter.push(
                         PinScreenRoute(
                           union: const Change(),
                           isChangePhone: true,
                           onChangePhone: (String newPin) {
                             finalSend(newPin: newPin);
+                          },
+                          onBackPressed: () {
+                            sRouter.pop();
                           },
                         ),
                       );

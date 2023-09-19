@@ -4,10 +4,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ConvertDropdownButton extends StatelessWidget {
   const ConvertDropdownButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final CurrencyModel currency;

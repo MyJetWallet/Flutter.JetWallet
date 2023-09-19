@@ -31,7 +31,7 @@ void showDepositAction(BuildContext context) {
 }
 
 class _ActionDeposit extends StatelessObserverWidget {
-  const _ActionDeposit({Key? key}) : super(key: key);
+  const _ActionDeposit();
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,11 @@
+// ignore_for_file: missing_whitespace_between_adjacent_strings, lines_longer_than_80_chars
+
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/helpers/navigate_to_router.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -64,14 +65,14 @@ class Circle3dSecureWebView extends StatelessWidget {
                   controllerWeb = controller;
                 },
                 onPageFinished: (url) {
-                  controllerWeb.runJavascript("function toMobile(){"
+                  controllerWeb.runJavascript('function toMobile(){'
                       "var meta = document.createElement('meta'); "
                       "meta.setAttribute('name', 'viewport');"
                       " meta.setAttribute('content', 'width=device-width, initial-scale=1'); "
                       "var head= document.getElementsByTagName('head')[0];"
-                      "head.appendChild(meta); "
-                      "}"
-                      "toMobile()");
+                      'head.appendChild(meta); '
+                      '}'
+                      'toMobile()');
                 },
                 navigationDelegate: (request) {
                   final uri = Uri.parse(request.url);
@@ -79,14 +80,24 @@ class Circle3dSecureWebView extends StatelessWidget {
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
                     onFailed(intl.something_went_wrong);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/circle/success' ||
                       uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/cancel') {
                     onCancel?.call(paymentId);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/inprocess' ||
                       uri.path == '/unlimint/return') {
                     onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path.startsWith('text/html')) {
+                    return NavigationDecision.prevent;
                   }
 
                   return NavigationDecision.navigate;

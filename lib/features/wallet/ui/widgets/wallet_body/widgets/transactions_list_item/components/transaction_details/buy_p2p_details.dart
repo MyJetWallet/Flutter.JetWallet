@@ -19,10 +19,10 @@ import 'components/transaction_details_value_text.dart';
 
 class BuyP2PDetails extends StatelessObserverWidget {
   const BuyP2PDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
@@ -30,7 +30,6 @@ class BuyP2PDetails extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final baseCurrency = sSignalRModules.baseCurrency;
-    final currencies = sSignalRModules.currenciesList;
     final currenciesFull = sSignalRModules.currenciesWithHiddenList;
     final currentCurrency = currencyFrom(
       currenciesFull,
@@ -52,7 +51,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
       transactionListItem.cryptoBuyInfo!.depositFeeAsset,
     );
 
-    String _rateFor() {
+    String rateFor() {
       final accuracy = priceAccuracy(
         buyCurrency.symbol,
         baseCurrency.symbol,
@@ -127,7 +126,7 @@ class BuyP2PDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.previewConvert_exchangeRate,
               value: TransactionDetailsValueText(
-                text: _rateFor(),
+                text: rateFor(),
               ),
             ),
           ],
@@ -136,10 +135,11 @@ class BuyP2PDetails extends StatelessObserverWidget {
             TransactionDetailsItem(
               text: intl.history_payment_method,
               value: TransactionDetailsValueText(
-                text: getLocalOperationName(
-                  transactionListItem.cryptoBuyInfo?.paymentMethod ??
-                      PaymentMethodType.unsupported,
-                ),
+                text: transactionListItem.cryptoBuyInfo?.paymentMethodName ??
+                    getLocalOperationName(
+                      transactionListItem.cryptoBuyInfo?.paymentMethod ??
+                          PaymentMethodType.unsupported,
+                    ),
               ),
             ),
           ],

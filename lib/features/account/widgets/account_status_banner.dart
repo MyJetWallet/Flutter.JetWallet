@@ -1,16 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class AccountStatusBanner extends StatefulWidget {
   const AccountStatusBanner({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
     required this.mainColor,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final Widget icon;
   final String title;
@@ -25,6 +25,7 @@ class AccountStatusBanner extends StatefulWidget {
 class _AccountStatusBannerState extends State<AccountStatusBanner> {
   bool highlighted = false;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 48,
@@ -50,14 +51,16 @@ class _AccountStatusBannerState extends State<AccountStatusBanner> {
             children: [
               widget.icon,
               const SpaceW10(),
-              Text(
-                widget.title,
-                style: sSubtitle2Style.copyWith(
-                  color: widget.textColor,
-                  height: 1.2,
+              Expanded(
+                child: AutoSizeText(
+                  widget.title,
+                  style: sSubtitle2Style.copyWith(
+                    color: widget.textColor,
+                    height: 1.2,
+                  ),
+                  maxLines: 2,
                 ),
               ),
-              const Spacer(),
               SBlueRightArrowIcon(
                 color: widget.textColor,
               ),

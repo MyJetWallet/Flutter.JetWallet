@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/guards/init_guard.dart';
 import 'package:jetwallet/features/account/about_us/about_us.dart';
 import 'package:jetwallet/features/account/account_screen.dart';
@@ -53,8 +52,8 @@ import 'package:jetwallet/features/debug_info/signalr_debug_info.dart';
 import 'package:jetwallet/features/email_confirmation/ui/email_confirmation_screen.dart';
 import 'package:jetwallet/features/home/home_screen.dart';
 import 'package:jetwallet/features/iban/iban_add_bank_account_screen.dart';
-import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/iban/iban_send/iban_send_amount/ui/iban_send_amount.dart';
+import 'package:jetwallet/features/iban/iban_send/iban_send_confirm/ui/iban_send_confirm.dart';
 import 'package:jetwallet/features/kyc/allow_camera/ui/allow_camera_screen.dart';
 import 'package:jetwallet/features/kyc/choose_documents/ui/choose_documents.dart';
 import 'package:jetwallet/features/kyc/kyc_selfie/ui/kyc_selfie.dart';
@@ -74,16 +73,12 @@ import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
 import 'package:jetwallet/features/portfolio/portfolio_screen.dart';
+import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
-import 'package:jetwallet/features/send_by_phone/model/contact_model.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_amount.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_confirm.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_input/send_by_phone_input.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_notify_recipient.dart';
-import 'package:jetwallet/features/send_by_phone/ui/send_by_phone_preview.dart';
+import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
@@ -107,13 +102,11 @@ import 'package:jetwallet/widgets/result_screens/success_screen/success_screen.d
 import 'package:jetwallet/widgets/result_screens/verifying_screen/success_verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/verifying_screen/verifying_screen.dart';
 import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/earn_offers_model.dart';
 import 'package:simple_networking/modules/signal_r/models/global_send_methods_model.dart';
-import 'package:simple_networking/modules/signal_r/models/recurring_buys_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 import 'package:simple_networking/modules/wallet_api/models/get_quote/get_quote_request_model.dart';
@@ -129,6 +122,10 @@ import '../../features/currency_buy/ui/screens/payment_method_screen.dart';
 import '../../features/debug_info/logs_screen.dart';
 import '../../features/iban/iban_screen.dart';
 import '../../features/iban/widgets/iban_billing_address.dart';
+import '../../features/send_gift/screens/gift_amount.dart';
+import '../../features/send_gift/screens/gift_order_summary.dart';
+import '../../features/send_gift/screens/gift_receivers_details_screen.dart';
+import '../../features/send_gift/screens/gift_select_asset_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -408,10 +405,6 @@ class AppRouter extends _$AppRouter {
       page: SignalrDebugInfoRouter.page,
     ),
     AutoRoute(
-      path: '/send_by_phone_input',
-      page: SendByPhoneInputRouter.page,
-    ),
-    AutoRoute(
       path: '/currency_sell',
       page: CurrencySellRouter.page,
     ),
@@ -462,22 +455,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/preview_sell_router',
       page: PreviewSellRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_notify_recipient',
-      page: SendByPhoneNotifyRecipientRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_amount',
-      page: SendByPhoneAmountRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_confirm',
-      page: SendByPhoneConfirmRouter.page,
-    ),
-    AutoRoute(
-      path: '/send_by_phone_preview',
-      page: SendByPhonePreviewRouter.page,
     ),
     AutoRoute(
       path: '/delete_reasons_screen',
@@ -544,6 +521,26 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/global_send_payment_method',
       page: SendCardPaymentMethodRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_select_asset',
+      page: GiftSelectAssetRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_receivers_details',
+      page: GiftReceiversDetailsRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_amount',
+      page: GiftAmountRouter.page,
+    ),
+    AutoRoute(
+      path: '/gift_order_summury',
+      page: GiftOrderSummuryRouter.page,
+    ),
+    AutoRoute(
+      path: '/progress_router',
+      page: ProgressRouter.page,
     ),
     AutoRoute(
       path: '/buy_payment_method',

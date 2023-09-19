@@ -6,9 +6,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/components/transaction_details/components/transaction_details_name_text.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/find_blockchain_by_descr.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
@@ -19,10 +17,10 @@ import 'components/transaction_details_value_text.dart';
 
 class SendGloballyDetails extends StatelessObserverWidget {
   const SendGloballyDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
@@ -31,11 +29,8 @@ class SendGloballyDetails extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final currency = currencyFrom(
       sSignalRModules.currenciesList,
-      transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR',
-    );
-
-    var methodIndex = sSignalRModules.globalSendMethods!.methods!.indexWhere(
-      (element) => element.type == transactionListItem.paymeInfo?.methodType,
+      transactionListItem.withdrawalInfo?.feeAssetId ??
+          (transactionListItem.withdrawalInfo?.withdrawalAssetId ?? 'EUR'),
     );
 
     return SPaddingH24(
@@ -326,9 +321,12 @@ class SendGloballyDetails extends StatelessObserverWidget {
                   const SpaceW10(),
                   SIconButton(
                     onTap: () {
-                      Clipboard.setData(ClipboardData(
-                        text: transactionListItem.paymeInfo?.bankAccount ?? '',
-                      ));
+                      Clipboard.setData(
+                        ClipboardData(
+                          text:
+                              transactionListItem.paymeInfo?.bankAccount ?? '',
+                        ),
+                      );
 
                       onCopyAction('');
                     },
@@ -369,7 +367,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
               text: intl.send_globally_con_rate,
               value: TransactionDetailsValueText(
                 text:
-                    '${currency.prefixSymbol != null ? currency.prefixSymbol : transactionListItem.withdrawalInfo?.withdrawalAssetId}1 = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}',
+                    '''1 ${transactionListItem.withdrawalInfo?.feeAssetId ?? transactionListItem.withdrawalInfo?.withdrawalAssetId} = ${transactionListItem.withdrawalInfo!.receiveRate} ${transactionListItem.withdrawalInfo!.receiveAsset}''',
               ),
             ),
           ],
@@ -390,7 +388,7 @@ class SendGloballyDetails extends StatelessObserverWidget {
             const SpaceH18(),
             TransactionDetailsItem(
               text:
-                  '${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}',
+                  '''${intl.send_globally_amount_in}${transactionListItem.withdrawalInfo?.receiveAsset ?? ''}''',
               value: TransactionDetailsValueText(
                 text: volumeFormat(
                   decimal: transactionListItem.withdrawalInfo!.receiveAmount ??

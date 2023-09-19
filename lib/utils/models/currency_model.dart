@@ -1,8 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -15,9 +17,6 @@ part 'currency_model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
 class CurrencyModel with _$CurrencyModel {
-  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyModelFromJson(json);
-
   const factory CurrencyModel({
     String? prefixSymbol,
     RecurringBuysModel? recurringBuy,
@@ -61,7 +60,11 @@ class CurrencyModel with _$CurrencyModel {
     required int transfersInProcessCount,
     required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
+    @DecimalNullSerialiser() Decimal? minTradeAmount,
+    @DecimalNullSerialiser() Decimal? maxTradeAmount,
   }) = _CurrencyModel;
+  factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyModelFromJson(json);
 
   const CurrencyModel._();
 
@@ -214,6 +217,12 @@ class CurrencyModel with _$CurrencyModel {
         .isNotEmpty;
   }
 
+  bool get supportsGiftlSend {
+    return withdrawalMethods
+        .where((element) => element.id == WithdrawalMethods.internalSend)
+        .isNotEmpty;
+  }
+
   bool get supportsIbanDeposit {
     return depositMethods
         .where((element) => element.id == DepositMethods.ibanReceive)
@@ -251,20 +260,19 @@ class CurrencyModel with _$CurrencyModel {
 
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
-            .isNotEmpty ||
-        withdrawalMethods
-            .where((element) => element.id == WithdrawalMethods.internalSend)
             .isNotEmpty;
   }
 
   bool get supportsByAssetWithdrawal {
     return withdrawalMethods
             .where(
-                (element) => element.id == WithdrawalMethods.cryptoWithdrawal)
+              (element) => element.id == WithdrawalMethods.cryptoWithdrawal,
+            )
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
@@ -298,6 +306,31 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
+
+  List<BlockchainModel> get networksForBlockchainSend {
+    final sendMethods = sSignalRModules.sendMethods;
+    final blockchainSendMethod = sendMethods.firstWhere(
+      (element) => element.id == WithdrawalMethods.blockchainSend,
+    );
+    final thisSymbolNetworkDetails =
+        blockchainSendMethod.symbolNetworkDetails?.where(
+              (element) => element.symbol == symbol,
+            ) ??
+            [];
+    final result = depositBlockchains
+        .where(
+          (element) => thisSymbolNetworkDetails.any(
+            (symbolNetworkDetails) =>
+                symbolNetworkDetails.network == element.id,
+          ),
+        )
+        .toList();
+
+    return result;
+  }
+
+  bool get isSingleNetworkForBlockchainSend =>
+      networksForBlockchainSend.length == 1;
 }
 
 class ObservableCurrencyModelListConverter

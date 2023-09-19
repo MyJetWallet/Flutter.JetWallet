@@ -7,7 +7,6 @@ import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_car
 import 'package:jetwallet/features/currency_buy/store/preview_buy_with_bank_card_store.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 void showBankCardCvvBottomSheet({
@@ -25,10 +24,10 @@ void showBankCardCvvBottomSheet({
       onTap: () {},
     ),
     onDissmis: () {
-      if (onDissmis != null) onDissmis!();
+      if (onDissmis != null) onDissmis();
     },
     then: (p0) {
-      if (onDissmis != null) onDissmis!();
+      if (onDissmis != null) onDissmis();
     },
     horizontalPadding: 24,
     horizontalPinnedPadding: 24,
@@ -46,10 +45,10 @@ void showBankCardCvvBottomSheet({
 
 class CvvBottomSheetBody extends StatelessObserverWidget {
   const CvvBottomSheetBody({
-    Key? key,
+    super.key,
     required this.onCompleted,
     required this.input,
-  }) : super(key: key);
+  });
 
   final void Function(String) onCompleted;
   final PreviewBuyWithBankCardInput input;
@@ -69,6 +68,7 @@ class CvvBottomSheetBody extends StatelessObserverWidget {
           style: sBodyText1Style.copyWith(
             color: colors.grey1,
           ),
+          maxLines: 10,
         ),
         const SpaceH60(),
         Center(

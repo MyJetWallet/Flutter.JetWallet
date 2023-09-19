@@ -56,34 +56,8 @@ class DefaultAssetChange extends StatelessObserverWidget {
                         padding: const EdgeInsets.only(
                           right: 20,
                         ),
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(
-                              width: 2,
-                              color: asset.symbol != baseAsset.checkedAsset
-                                  ? colors.black
-                                  : colors.blue,
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                asset.prefixSymbol ?? '?',
-                                style: sCaptionTextStyle.copyWith(
-                                  color: asset.symbol != baseAsset.checkedAsset
-                                      ? colors.black
-                                      : colors.blue,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.1,
-                                ),
-                              ),
-                            ],
-                          ),
+                        child: SNetworkSvg24(
+                          url: asset.iconUrl,
                         ),
                       ),
                       Column(

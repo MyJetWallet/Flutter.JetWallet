@@ -5,6 +5,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @lazySingleton
@@ -16,6 +17,7 @@ class KycAlertHandler {
   void handle({
     bool navigatePop = false,
     bool kycFlowOnly = false,
+    bool needGifteExplanationPopup = false,
     SWidgetSize size = SWidgetSize.medium,
     required Function() currentNavigate,
     required int status,
@@ -38,7 +40,16 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired)) {
+    if (status == kycOperationStatus(KycStatus.kycRequired) &&
+        needGifteExplanationPopup) {
+      _showGeftExplanationAlert(
+        requiredVerifications.isNotEmpty,
+        requiredVerifications,
+        requiredDocuments,
+        status,
+        size,
+      );
+    } else if (status == kycOperationStatus(KycStatus.kycRequired)) {
       _showKycRequiredAlert(
         requiredVerifications.isNotEmpty,
         requiredVerifications,
@@ -73,6 +84,8 @@ class KycAlertHandler {
   }
 
   void _showVerifyingAlert() {
+    sAnalytics.kycFlowVerifyingNowPopup();
+
     showKycPopup(
       context: context,
       imageAsset: verifyingNowAsset,
@@ -117,6 +130,8 @@ class KycAlertHandler {
   }
 
   void _showBlockedAlert() {
+    sAnalytics.kycFlowYouBlockedPopup();
+
     showKycPopup(
       context: context,
       primaryText: '${intl.kycAlertHandler_youAreBlocked}!',
@@ -126,12 +141,53 @@ class KycAlertHandler {
       onPrimaryButtonTap: () {
         Navigator.pop(context);
 
+        sAnalytics.kycFlowYouBlockedSupportTap();
+
         sRouter.push(
           CrispRouter(
             welcomeText: intl.crispSendMessage_hi,
           ),
         );
       },
+    );
+  }
+
+  void _showGeftExplanationAlert(
+    bool isRequiredVerifications,
+    List<RequiredVerified> requiredVerifications,
+    List<KycDocumentType> requiredDocuments,
+    int status,
+    SWidgetSize size,
+  ) {
+    showKycPopup(
+      context: context,
+      imageAsset: verifyYourProfileAsset,
+      primaryText: '${intl.kycAlertHandler_verifyYourProfile}!',
+      secondaryText: 'Please verify your account\n to claim your gift',
+      primaryButtonName: 'Verify',
+      secondaryButtonName: intl.kycAlertHandler_later,
+      onPrimaryButtonTap: () {
+        _showKycRequiredAlert(
+          requiredVerifications.isNotEmpty,
+          requiredVerifications,
+          requiredDocuments,
+          status,
+          size,
+        );
+      },
+      onSecondaryButtonTap: () {
+        sRouter.pop();
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SDivider(),
+          _documentText('Secure your account', 0),
+          _documentText('Verify your identity', 1),
+          _documentText('Claim your gift', 2),
+          const SpaceH36(),
+        ],
+      ),
     );
   }
 

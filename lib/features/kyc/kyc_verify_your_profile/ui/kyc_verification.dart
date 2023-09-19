@@ -4,54 +4,59 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../core/di/di.dart';
 import '../../../../utils/constants.dart';
-import '../../kyc_service.dart';
 
 @RoutePage(name: 'KycVerificationRouter')
-class KycVerification extends StatelessObserverWidget {
+class KycVerification extends StatefulObserverWidget {
   const KycVerification({
-    Key? key,
+    super.key,
     required this.requiredVerifications,
-  }) : super(key: key);
+  });
 
   final List<RequiredVerified> requiredVerifications;
+
+  @override
+  State<KycVerification> createState() => _KycVerificationState();
+}
+
+class _KycVerificationState extends State<KycVerification> {
+  @override
+  void initState() {
+    super.initState();
+    sAnalytics.kycFlowVerificationScreenView();
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final isPhoneDone =
-        !requiredVerifications.contains(RequiredVerified.proofOfPhone);
-    final kycState = getIt.get<KycService>();
+        !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
 
     void navigateVerifiedNavigate() {
-      if (requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
+      if (widget.requiredVerifications
+          .contains(RequiredVerified.proofOfPhone)) {
         sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
             then: () => sRouter.push(
               KycVerifyYourProfileRouter(
-                requiredVerifications: requiredVerifications,
+                requiredVerifications: widget.requiredVerifications,
               ),
             ),
           ),
         );
       } else {
-        if (kycState.useSumsub) {
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          );
-        } else {
-          sRouter.push(
-            const KycVerificationSumsubRouter(),
-          );
-        }
+        sRouter.push(
+          const KycVerificationSumsubRouter(),
+        );
       }
     }
 
     return SPageFrameWithPadding(
+      loaderText: intl.loader_please_wait,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -82,6 +87,7 @@ class KycVerification extends StatelessObserverWidget {
             intl.verification_your_profile,
             textAlign: TextAlign.left,
             style: sTextH4Style,
+            maxLines: 2,
           ),
           const SpaceH8(),
           Text(
@@ -107,6 +113,7 @@ class KycVerification extends StatelessObserverWidget {
             haveLink: isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
+              sAnalytics.kycFlowProvideInformation();
               navigateVerifiedNavigate();
             },
             isDisabled: !isPhoneDone,

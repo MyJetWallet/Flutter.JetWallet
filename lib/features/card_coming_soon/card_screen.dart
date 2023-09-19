@@ -28,8 +28,8 @@ import '../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'CardRouter')
 class CardScreen extends StatefulObserverWidget {
   const CardScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CardScreen> createState() => _CardScreenBodyState();
@@ -176,7 +176,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                           ),
                           const SpaceH8(),
                           Text(
-                            intl.card_description,
+                            intl.are_you_interested,
                             maxLines: 3,
                             textAlign: TextAlign.center,
                             style: sBodyText1Style.copyWith(
@@ -202,7 +202,7 @@ class _CardScreenBodyState extends State<CardScreen> {
                             active: isButtonActive &&
                                 !kycBlocked &&
                                 !verificationInProgress,
-                            name: intl.card_claim_card,
+                            name: intl.join_the_waitlist,
                             onTap: () async {
                               setState(() {
                                 isButtonActive = false;
@@ -272,7 +272,8 @@ class _CardScreenBodyState extends State<CardScreen> {
                                     _controllerConfetti.play();
                                     Timer(const Duration(seconds: 1), () {
                                       sUserInfo.updateCardRequested(
-                                          newValue: true);
+                                        newValue: true,
+                                      );
                                       setState(() {
                                         isButtonActive = true;
                                       });
@@ -322,7 +323,6 @@ class _CardScreenBodyState extends State<CardScreen> {
                   emissionFrequency: 0.01,
                   numberOfParticles: 100,
                   gravity: 0.01,
-                  shouldLoop: false,
                   colors: [
                     colors.confetti1,
                     colors.confetti2,

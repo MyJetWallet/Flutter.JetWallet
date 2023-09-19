@@ -6,25 +6,22 @@ import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
-import '../../../../../../../helper/format_date_to_hm.dart';
 import 'components/transaction_details_item.dart';
 import 'components/transaction_details_status.dart';
 import 'components/transaction_details_value_text.dart';
 
 class IbanDetails extends StatelessObserverWidget {
   const IbanDetails({
-    Key? key,
+    super.key,
     required this.transactionListItem,
     required this.onCopyAction,
-  }) : super(key: key);
+  });
 
   final OperationHistoryItem transactionListItem;
   final Function(String) onCopyAction;
 
   @override
   Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
     return SPaddingH24(
       child: Column(
         children: [
@@ -74,8 +71,7 @@ class IbanDetails extends StatelessObserverWidget {
                   onTap: () {
                     Clipboard.setData(
                       ClipboardData(
-                        text:
-                            '${transactionListItem.depositInfo!.address ?? ''}',
+                        text: transactionListItem.depositInfo!.address ?? '',
                       ),
                     );
 

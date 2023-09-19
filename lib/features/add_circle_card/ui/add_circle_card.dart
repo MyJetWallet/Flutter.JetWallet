@@ -10,16 +10,15 @@ import 'package:jetwallet/features/add_circle_card/ui/widgets/circle_progress_in
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/scrolling_frame.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 @RoutePage(name: 'AddCircleCardRouter')
 class AddCircleCard extends StatelessWidget {
   const AddCircleCard({
-    Key? key,
+    super.key,
     required this.onCardAdded,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
 
@@ -36,9 +35,9 @@ class AddCircleCard extends StatelessWidget {
 
 class AddCircleCardBody extends StatelessObserverWidget {
   const AddCircleCardBody({
-    Key? key,
+    super.key,
     required this.onCardAdded,
-  }) : super(key: key);
+  });
 
   final Function(CircleCard) onCardAdded;
 
@@ -57,8 +56,8 @@ class AddCircleCardBody extends StatelessObserverWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Expanded(
                 child: CircleProgressIndicator(),
               ),

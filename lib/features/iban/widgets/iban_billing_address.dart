@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/add_circle_card/ui/widgets/continue_button_frame.dart';
-import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/buttons/basic_buttons/primary_button/public/simple_primary_button_4.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -15,7 +14,7 @@ import 'country_picker.dart';
 
 @RoutePage(name: 'IbanAddressRouter')
 class IbanBillingAddress extends StatelessObserverWidget {
-  const IbanBillingAddress({Key? key}) : super(key: key);
+  const IbanBillingAddress({super.key});
 
   @override
   Widget build(BuildContext context) {

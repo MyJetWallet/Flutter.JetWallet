@@ -17,8 +17,6 @@ class SimpleCustomSvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(width);
-
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: width ?? 40.0,

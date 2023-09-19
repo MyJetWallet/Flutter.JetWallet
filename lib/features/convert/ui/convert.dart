@@ -12,15 +12,14 @@ import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'ConvertRouter')
 class Convert extends StatelessWidget {
   const Convert({
-    Key? key,
+    super.key,
     this.fromCurrency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel? fromCurrency;
 
@@ -35,8 +34,8 @@ class Convert extends StatelessWidget {
 
 class ConvertBody extends StatelessObserverWidget {
   const ConvertBody({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +87,7 @@ class ConvertBody extends StatelessObserverWidget {
               }
             },
             fromAsset: true,
+            limitError: store.limitError,
           ),
           deviceSize.when(
             small: () => const Spacer(),
@@ -118,6 +118,7 @@ class ConvertBody extends StatelessObserverWidget {
           ),
           ConvertRow(
             value: store.toAssetAmount,
+            inputError: store.inputError,
             enabled: store.toAssetEnabled,
             currency: store.toAsset!,
             assetWithBalance: toAssetWithBalance,
@@ -130,6 +131,7 @@ class ConvertBody extends StatelessObserverWidget {
                 store.updateToAsset(value!);
               }
             },
+            limitError: store.limitError,
           ),
           deviceSize.when(
             small: () => const SizedBox(),

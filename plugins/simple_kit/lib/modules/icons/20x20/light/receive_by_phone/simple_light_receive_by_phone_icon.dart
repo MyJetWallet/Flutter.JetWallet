@@ -12,7 +12,8 @@ class SimpleLightReceiveByPhoneIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleBaseSvg20x20(
-      assetName: 'assets/icons/light/20x20/receive_by_phone/receive_by_phone.svg',
+      assetName:
+          'assets/icons/light/20x20/receive_by_phone/receive_by_phone.svg',
       color: color,
     );
   }

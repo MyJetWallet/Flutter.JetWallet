@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/bank_card/edit_bank_card.dart';
 import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:jetwallet/features/payment_methods/store/payment_methods_store.dart';
@@ -29,7 +28,7 @@ class PaymentMethods extends StatelessWidget {
 }
 
 class _PaymentMethodsBody extends StatelessObserverWidget {
-  const _PaymentMethodsBody({Key? key}) : super(key: key);
+  const _PaymentMethodsBody();
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +88,7 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                           PaymentCardItem(
                             name: '${card.cardLabel} •••• ${card.last4}',
                             network: card.network,
+                            currency: card.cardAssetSymbol,
                             expirationDate:
                                 'Exp. ${card.expMonth}/${card.expYear}',
                             expired: isCardExpired(card.expMonth, card.expYear),
@@ -107,8 +107,12 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                       card: card,
                                     );
                                   },
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
+                                  transitionsBuilder: (
+                                    context,
+                                    animation,
+                                    secondaryAnimation,
+                                    child,
+                                  ) {
                                     const begin = Offset(0.0, 1.0);
                                     const end = Offset.zero;
                                     const curve = Curves.ease;
@@ -172,7 +176,6 @@ class _PaymentMethodsBody extends StatelessObserverWidget {
                                 helper:
                                     state.addressBookContacts[index].iban ?? '',
                                 description: '',
-                                removeDivider: true,
                                 needSpacer: true,
                                 onTap: () {
                                   getIt<AppRouter>()

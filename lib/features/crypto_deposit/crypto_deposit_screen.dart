@@ -28,10 +28,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 @RoutePage(name: 'CryptoDepositRouter')
 class CryptoDeposit extends StatelessWidget {
   const CryptoDeposit({
-    Key? key,
+    super.key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;
@@ -51,10 +51,9 @@ class CryptoDeposit extends StatelessWidget {
 
 class _CryptoDepositBody extends StatefulObserverWidget {
   const _CryptoDepositBody({
-    Key? key,
     required this.header,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final String header;
   final CurrencyModel currency;
@@ -187,6 +186,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                   deposit.network,
                   widget.currency.depositBlockchains,
                   widget.currency.iconUrl,
+                  widget.currency.symbol,
                   deposit.setNetwork,
                 ),
         size: widgetSizeFrom(sDeviceSize),
@@ -202,6 +202,7 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
           deposit.network,
           widget.currency.depositBlockchains,
           widget.currency.iconUrl,
+          widget.currency.symbol,
           deposit.setNetwork,
         );
       }
@@ -233,6 +234,11 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
                 active: true,
                 name: intl.cryptoDeposit_share,
                 onTap: () {
+                  sAnalytics.tapOnTheButtonShareOnReceiveAssetScreen(
+                    asset: widget.currency.symbol,
+                    network: deposit.network.description,
+                  );
+
                   if (canTapShare) {
                     setState(() {
                       canTapShare = false;
@@ -290,14 +296,26 @@ class __CryptoDepositBodyState extends State<_CryptoDepositBody> {
               splashColor: Colors.transparent,
               onTap: widget.currency.isSingleNetwork
                   ? null
-                  : () => showNetworkBottomSheet(
+                  : () {
+                      sAnalytics.tapOnTheButtonNetworkOnReceiveAssetScreen(
+                        asset: widget.currency.symbol,
+                      );
+
+                      sAnalytics
+                          .chooseNetworkPopupViewShowedOnReceiveAssetScreen(
+                        asset: widget.currency.symbol,
+                      );
+
+                      showNetworkBottomSheet(
                         context,
                         deposit.network,
                         widget.currency.depositBlockchains,
                         widget.currency.iconUrl,
+                        widget.currency.symbol,
                         deposit.setNetwork,
                         backOnClose: false,
-                      ),
+                      );
+                    },
               borderRadius: BorderRadius.circular(16),
               child: Container(
                 decoration: BoxDecoration(

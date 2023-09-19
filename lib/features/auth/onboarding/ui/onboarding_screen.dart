@@ -5,7 +5,6 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
-import 'package:jetwallet/features/app/init_router/router_union.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/auth/onboarding/store/onboarding_store.dart';
 import 'package:jetwallet/features/auth/onboarding/ui/widgets/animated_slide.dart';
@@ -16,7 +15,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'OnboardingRoute')
 class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class OnboardingScreen extends StatelessWidget {
 }
 
 class OnboardingScreenBody extends StatefulObserverWidget {
-  const OnboardingScreenBody({Key? key}) : super(key: key);
+  const OnboardingScreenBody({super.key});
 
   @override
   State<OnboardingScreenBody> createState() => _OnboardingScreenBodyState();
@@ -133,7 +132,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                       child: Text(
                         OnboardingStore.of(context)
                             .slides[OnboardingStore.of(context).currentIndex],
-                        maxLines: 3,
+                        maxLines: 4,
                         textAlign: TextAlign.center,
                         style: sTextH1Style,
                       ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'transactions_list_item/transaction_list_loading_item.dart';
 
 class LoadingSliverList extends StatelessWidget {
-  const LoadingSliverList({Key? key}) : super(key: key);
+  const LoadingSliverList({super.key});
 
   @override
   Widget build(BuildContext context) {

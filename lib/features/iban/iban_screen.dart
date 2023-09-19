@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
@@ -10,6 +9,7 @@ import 'package:jetwallet/features/iban/widgets/iban_body.dart';
 import 'package:jetwallet/features/iban/widgets/iban_empty.dart';
 import 'package:jetwallet/features/iban/widgets/iban_header.dart';
 import 'package:jetwallet/features/iban/widgets/iban_skeleton.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/page_frames/simple_page_frame.dart';
 import 'package:simple_kit/modules/shared/simple_show_alert_popup.dart';
 import 'package:simple_kit/utils/constants.dart';
@@ -27,9 +27,9 @@ import '../kyc/models/kyc_operation_status_model.dart';
 @RoutePage(name: 'IBanRouter')
 class IBanScreen extends StatefulObserverWidget {
   const IBanScreen({
-    Key? key,
+    super.key,
     this.initIndex = 0,
-  }) : super(key: key);
+  });
 
   final int initIndex;
 
@@ -112,8 +112,7 @@ class _IBanScreenBodyState extends State<IBanScreen> {
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
       header: IBanHeader(
-        isShareActive:
-            store.isReceive ? !showEmptyScreen && !store.isLoading : false,
+        isShareActive: store.isReceive && !showEmptyScreen && !store.isLoading,
         textForShare: textForShare,
         isKyc: !showEmptyScreen,
       ),
@@ -127,7 +126,6 @@ class _IBanScreenBodyState extends State<IBanScreen> {
                   onButtonTap: () {
                     sShowAlertPopup(
                       context,
-                      willPopScope: true,
                       primaryText: intl.iban_hold_on,
                       secondaryText: isKyc
                           ? intl.iban_please_verify

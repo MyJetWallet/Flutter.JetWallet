@@ -1,4 +1,3 @@
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,11 +16,10 @@ import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/card_bl
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:rive/rive.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 import '../../../../actions/action_send/widgets/send_options.dart';
 import '../../../../actions/circle_actions/circle_actions.dart';
@@ -32,9 +30,9 @@ const _expandedCardHeight = 270.0;
 
 class WalletBody extends StatefulObserverWidget {
   const WalletBody({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -68,6 +66,7 @@ class _WalletBodyState extends State<WalletBody>
         child: Stack(
           children: [
             CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               slivers: [
                 SliverAppBar(
@@ -163,7 +162,9 @@ class _WalletBodyState extends State<WalletBody>
                               showSendTimerAlertOr(
                                 context: context,
                                 or: () => showBuyPaymentCurrencyBottomSheet(
-                                    context, actualAsset),
+                                  context,
+                                  actualAsset,
+                                ),
                                 from: BlockingType.deposit,
                               );
                             } else {
@@ -175,7 +176,9 @@ class _WalletBodyState extends State<WalletBody>
                                   showSendTimerAlertOr(
                                     context: context,
                                     or: () => showBuyPaymentCurrencyBottomSheet(
-                                        context, actualAsset),
+                                      context,
+                                      actualAsset,
+                                    ),
                                     from: BlockingType.deposit,
                                   );
                                 },
@@ -238,8 +241,11 @@ class _WalletBodyState extends State<WalletBody>
                             }
                           },
                           onSend: () {
+                            sAnalytics.tabOnTheSendButton(
+                              source: 'My Assets - Asset - Send',
+                            );
                             final actualAsset = widget.currency;
-                            if (kycState.sellStatus ==
+                            if (kycState.withdrawalStatus ==
                                 kycOperationStatus(KycStatus.allowed)) {
                               showSendOptions(
                                 context,
@@ -248,7 +254,7 @@ class _WalletBodyState extends State<WalletBody>
                               );
                             } else {
                               kycAlertHandler.handle(
-                                status: kycState.sellStatus,
+                                status: kycState.withdrawalStatus,
                                 isProgress: kycState.verificationInProgress,
                                 currentNavigate: () {
                                   showSendOptions(context, actualAsset);
@@ -285,7 +291,6 @@ class _WalletBodyState extends State<WalletBody>
                                   ),
                                   from: BlockingType.trade,
                                 ),
-                                navigatePop: false,
                                 requiredDocuments: kycState.requiredDocuments,
                                 requiredVerifications:
                                     kycState.requiredVerifications,

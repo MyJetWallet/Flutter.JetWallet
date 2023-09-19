@@ -7,9 +7,9 @@ import 'package:simple_kit/simple_kit.dart';
 // Todo: refactor
 class IndexHistoryBlock extends StatelessWidget {
   const IndexHistoryBlock({
-    Key? key,
+    super.key,
     required this.marketItem,
-  }) : super(key: key);
+  });
 
   final MarketItemModel marketItem;
 

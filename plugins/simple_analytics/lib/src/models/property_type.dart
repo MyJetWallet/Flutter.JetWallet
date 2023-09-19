@@ -6,6 +6,8 @@ class PropertyType {
   static const sourceAmount = 'Source Amount';
   static const destinationCurrency = 'Destination Currency';
   static const destinationAmount = 'Destination Amount';
+  static const destinationCountry = 'Destination Country';
+  static const destinationCountryName = 'Destination Country Name';
   static const paymentMethod = 'Payment method';
   static const asset = 'Asset';
   static const eventId = 'Event id';
@@ -22,4 +24,22 @@ class PropertyType {
   static const paymentMethodType = 'Payment Method type';
   static const paymentMethodName = 'Payment Method name';
   static const paymentMethodCurrency = 'Payment Method currency';
+  static const network = 'Network';
+  static const sendMethodsList = 'Send method type all available list';
+  static const sendMethodsType = 'Send method type';
+  static const sendAmount = 'Total send amount';
+  static const preset = 'Preset';
+  static const failedReason = 'failedReason';
+  static const codeLink = 'code/link';
+  static const countryKYC = 'Country of KYC';
+  static const documentList = 'Document list';
+  static const globalMethods = 'Globally Method type';
+  static const sendMethodTypeAllAvailableList =
+      'Send method type all available list';
+  static const sendMethodType = 'Send method type';
+  static const giftSendSubmethod = 'Gift Send Submethod';
+  static const totalSendAmount = 'Total send amount';
+  static const giftAmount = 'Gift amount';
+  static const giftFrom = 'Gift from';
+  static const errorText = 'error text';
 }

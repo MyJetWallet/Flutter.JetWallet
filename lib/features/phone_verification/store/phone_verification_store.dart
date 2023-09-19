@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/logging.dart';
 import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/account/phone_number/simple_number.dart';
 import 'package:simple_kit/modules/fields/standard_field/base/standard_field_error_notifier.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
@@ -26,7 +25,7 @@ part 'phone_verification_store.g.dart';
 
 class PhoneVerificationStore extends _PhoneVerificationStoreBase
     with _$PhoneVerificationStore {
-  PhoneVerificationStore(PhoneVerificationArgs args) : super(args);
+  PhoneVerificationStore(super.args);
 
   static _PhoneVerificationStoreBase of(BuildContext context) =>
       Provider.of<PhoneVerificationStore>(context, listen: false);
@@ -324,7 +323,7 @@ abstract class _PhoneVerificationStoreBase with Store {
 
   @action
   void _updateDialCode(SPhoneNumber? number) {
-    dialCode = number ?? null;
+    dialCode = number;
   }
 
   @action

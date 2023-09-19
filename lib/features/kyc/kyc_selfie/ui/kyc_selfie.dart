@@ -12,13 +12,11 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'KycSelfieRouter')
 class KycSelfie extends StatelessWidget {
-  const KycSelfie({Key? key}) : super(key: key);
+  const KycSelfie({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class KycSelfie extends StatelessWidget {
 }
 
 class _KycSelfieBody extends StatelessObserverWidget {
-  const _KycSelfieBody({Key? key}) : super(key: key);
+  const _KycSelfieBody();
 
   @override
   Widget build(BuildContext context) {

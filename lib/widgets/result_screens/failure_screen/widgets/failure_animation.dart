@@ -5,9 +5,9 @@ import 'package:simple_kit/simple_kit.dart';
 
 class FailureAnimation extends StatelessWidget {
   const FailureAnimation({
-    Key? key,
+    super.key,
     required this.widgetSize,
-  }) : super(key: key);
+  });
 
   final SWidgetSize widgetSize;
 

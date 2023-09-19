@@ -7,16 +7,15 @@ import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/kyc/allow_camera/store/allow_camera_store.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'AllowCameraRoute')
 class AllowCameraScreen extends StatelessWidget {
   const AllowCameraScreen({
-    Key? key,
+    super.key,
     required this.permissionDescription,
     required this.then,
-  }) : super(key: key);
+  });
 
   final String permissionDescription;
   final void Function() then;
@@ -36,10 +35,9 @@ class AllowCameraScreen extends StatelessWidget {
 
 class _AllowCameraScreenBody extends StatefulObserverWidget {
   const _AllowCameraScreenBody({
-    Key? key,
     required this.permissionDescription,
     required this.then,
-  }) : super(key: key);
+  });
 
   final String permissionDescription;
   final void Function() then;

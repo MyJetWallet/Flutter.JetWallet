@@ -6,13 +6,26 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/features/auth/verification_reg/store/verification_store.dart';
 import 'package:jetwallet/utils/constants.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../core/di/di.dart';
 
 @RoutePage(name: 'VerificationRouter')
-class VerificationScreen extends StatelessObserverWidget {
+class VerificationScreen extends StatefulObserverWidget {
   const VerificationScreen({super.key});
+
+  @override
+  State<VerificationScreen> createState() => _VerificationScreenState();
+}
+
+class _VerificationScreenState extends State<VerificationScreen> {
+  @override
+  void initState() {
+    sAnalytics.verificationProfileScreenView();
+    sAnalytics.kycFlowVerificationScreenView();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +34,7 @@ class VerificationScreen extends StatelessObserverWidget {
     final store = getIt<VerificationStore>();
 
     return SPageFrameWithPadding(
+      loaderText: intl.loader_please_wait,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,6 +45,8 @@ class VerificationScreen extends StatelessObserverWidget {
               active: true,
               name: intl.logout,
               onTap: () {
+                sAnalytics.verificationProfileLogout();
+
                 getIt<LogoutService>().logout(
                   'TWO FA, logout',
                   withLoading: false,
@@ -80,37 +96,45 @@ class VerificationScreen extends StatelessObserverWidget {
             haveLink: !store.isPhoneDone,
             linkText: intl.provide_information,
             linkAction: () {
+              sAnalytics.verificationProfileProvideInfo();
+              sAnalytics.kycFlowProvideInformation();
+
               getIt<AppRouter>().pop();
             },
             isDisabled: !store.isPhoneDone &&
-                store.step != VerificationScreenStep.Phone,
+                store.step != VerificationScreenStep.phone,
             isDone: store.isPhoneDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.personal_details,
             '3',
-            haveSubText: store.step == VerificationScreenStep.PersonalDetail,
-            haveLink: store.step == VerificationScreenStep.PersonalDetail,
+            haveSubText: store.step == VerificationScreenStep.personalDetail,
+            haveLink: store.step == VerificationScreenStep.personalDetail,
             linkText: intl.provide_information,
             subtext: intl.personal_details_descr,
             linkAction: () {
+              sAnalytics.verificationProfileProvideInfo();
+              sAnalytics.kycFlowProvideInformation();
+
               getIt<AppRouter>().pop();
               //sRouter.replace(const UserDataScreenRouter());
             },
             isDisabled: !store.isPersonalDetailsDone &&
-                store.step != VerificationScreenStep.PersonalDetail,
+                store.step != VerificationScreenStep.personalDetail,
             isDone: store.isPersonalDetailsDone,
           ),
           const SpaceH24(),
           _verificationItem(
             intl.pin_code,
             '4',
-            haveSubText: store.step == VerificationScreenStep.Pin,
+            haveSubText: store.step == VerificationScreenStep.pin,
             subtext: intl.pin_code_descr,
-            haveLink: store.step == VerificationScreenStep.Pin,
+            haveLink: store.step == VerificationScreenStep.pin,
             linkText: intl.create_pin_code,
             linkAction: () {
+              sAnalytics.verificationProfileCreatePIN();
+
               getIt<AppRouter>().pop();
               /*
               getIt<AppRouter>().replaceAll([
@@ -122,7 +146,7 @@ class VerificationScreen extends StatelessObserverWidget {
               */
             },
             isDisabled: !store.isCreatePinDone &&
-                store.step != VerificationScreenStep.Pin,
+                store.step != VerificationScreenStep.pin,
             isDone: store.isCreatePinDone,
           ),
         ],
@@ -144,7 +168,6 @@ class VerificationScreen extends StatelessObserverWidget {
     final colors = sKit.colors;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
@@ -184,7 +207,6 @@ class VerificationScreen extends StatelessObserverWidget {
         const SpaceW14(),
         if (haveSubText || haveLink) ...[
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

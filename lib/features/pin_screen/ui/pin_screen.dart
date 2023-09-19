@@ -9,7 +9,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/remote_config/remote_config_values.dart';
-import 'package:jetwallet/features/auth/verification_reg/verification_screen.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_box_enum.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/store/pin_screen_store.dart';
@@ -26,7 +25,7 @@ import '../model/pin_screen_union.dart';
 @RoutePage(name: 'PinScreenRoute')
 class PinScreen extends StatelessWidget {
   const PinScreen({
-    Key? key,
+    super.key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isChangePhone = false,
@@ -34,8 +33,11 @@ class PinScreen extends StatelessWidget {
     this.fromRegister = true,
     this.isForgotPassword = false,
     this.onChangePhone,
+    this.onWrongPin,
+    this.onError,
+    this.onBackPressed,
     required this.union,
-  }) : super(key: key);
+  });
 
   final bool displayHeader;
   final bool cannotLeave;
@@ -43,8 +45,11 @@ class PinScreen extends StatelessWidget {
   final bool isChangePin;
   final bool isForgotPassword;
   final Function(String)? onChangePhone;
+  final Function(String)? onWrongPin;
   final PinFlowUnion union;
+  final Function(String)? onError;
   final bool fromRegister;
+  final void Function()? onBackPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         onChangePhone: onChangePhone,
         isChangePin: isChangePin,
+        onWrongPin: onWrongPin,
       )..initDefaultScreen(),
       builder: (context, child) => _PinScreenBody(
         displayHeader: displayHeader,
@@ -62,6 +68,7 @@ class PinScreen extends StatelessWidget {
         isChangePhone: isChangePhone,
         isForgotPassword: isForgotPassword,
         union: union,
+        onBackPressed: onBackPressed,
       ),
     );
   }
@@ -69,14 +76,14 @@ class PinScreen extends StatelessWidget {
 
 class _PinScreenBody extends StatefulObserverWidget {
   const _PinScreenBody({
-    Key? key,
     this.displayHeader = true,
     this.cannotLeave = false,
     this.isForgotPassword = false,
     this.isChangePhone = false,
+    this.onBackPressed,
     required this.fromRegister,
     required this.union,
-  }) : super(key: key);
+  });
 
   final bool displayHeader;
   final bool cannotLeave;
@@ -84,6 +91,7 @@ class _PinScreenBody extends StatefulObserverWidget {
   final bool isChangePhone;
   final PinFlowUnion union;
   final bool fromRegister;
+  final void Function()? onBackPressed;
 
   @override
   State<_PinScreenBody> createState() => _PinScreenBodyState();
@@ -138,7 +146,9 @@ class _PinScreenBodyState extends State<_PinScreenBody> {
                       child: SSmallHeader(
                         title: intl.pin_screen_confirm_withPin,
                         onBackButtonTap: () {
-                          sRouter.back();
+                          widget.onBackPressed != null
+                              ? widget.onBackPressed?.call()
+                              : sRouter.back();
                         },
                       ),
                     );

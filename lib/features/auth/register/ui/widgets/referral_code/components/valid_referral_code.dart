@@ -4,15 +4,16 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ValidReferralCodeInside extends StatelessWidget {
   const ValidReferralCodeInside({
-    Key? key,
+    super.key,
     this.referralCode,
-  }) : super(key: key);
+  });
 
   final String? referralCode;
 
   @override
   Widget build(BuildContext context) {
-    final showReferral = referralCode?.replaceFirst('https://join.simple.app/', '');
+    final showReferral =
+        referralCode?.replaceFirst('https://join.simple.app/', '');
 
     return Row(
       children: [

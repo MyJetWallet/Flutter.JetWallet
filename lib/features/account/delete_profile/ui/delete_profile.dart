@@ -25,15 +25,7 @@ class DeleteProfile extends StatelessObserverWidget {
     final itemsWithBalance = currenciesWithBalanceFrom(currencies);
     final baseCurrency = sSignalRModules.baseCurrency;
 
-    final earnOffers = sSignalRModules.earnOffersList;
-
     final store = getIt.get<DeleteProfileStore>();
-
-    var earnTotalBalance = Decimal.zero;
-    earnTotalBalance = earnOffers.fold(
-      Decimal.zero,
-      (previousValue, element) => previousValue + element.amount,
-    );
 
     var totalBalance = Decimal.zero;
     for (final item in itemsWithBalance) {
@@ -84,22 +76,6 @@ class DeleteProfile extends StatelessObserverWidget {
             },
             isLinkActie: totalBalance > Decimal.ten,
           ),
-          const SDivider(),
-          DPConditionMenu(
-            title: intl.deleteProfileConditions_menuTwoTitle,
-            subTitle: intl.deleteProfileConditions_menuTwoSubTitle3,
-            onTap: () {
-              // Portfolio
-              sRouter.navigate(
-                const HomeRouter(
-                  children: [
-                    PortfolioRouter(),
-                  ],
-                ),
-              );
-            },
-            isLinkActie: earnTotalBalance > Decimal.ten,
-          ),
           const SizedBox(
             height: 23,
           ),
@@ -126,7 +102,7 @@ class DeleteProfile extends StatelessObserverWidget {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+            padding: const EdgeInsets.only(left: 24, right: 24, bottom: 42),
             child: SPrimaryButton3(
               active: store.confitionCheckbox,
               name: intl.deleteProfileConditions_buttonText,

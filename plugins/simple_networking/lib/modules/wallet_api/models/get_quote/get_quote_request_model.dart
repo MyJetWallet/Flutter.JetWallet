@@ -11,7 +11,7 @@ class GetQuoteRequestModel with _$GetQuoteRequestModel {
     @Default(true) bool isFromFixed,
     @DecimalSerialiser()
     @JsonKey(name: 'fromAssetVolume')
-        Decimal? fromAssetAmount,
+    Decimal? fromAssetAmount,
     RecurringBuyModel? recurringBuy,
     @DecimalSerialiser() @JsonKey(name: 'toAssetVolume') Decimal? toAssetAmount,
     @JsonKey(name: 'fromAsset') required String fromAssetSymbol,

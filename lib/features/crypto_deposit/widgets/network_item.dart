@@ -4,12 +4,12 @@ import 'package:simple_kit/simple_kit.dart';
 
 class NetworkItem extends StatelessObserverWidget {
   const NetworkItem({
-    Key? key,
+    super.key,
     required this.iconUrl,
     required this.network,
     required this.selected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String iconUrl;
   final String network;
@@ -37,7 +37,7 @@ class NetworkItem extends StatelessObserverWidget {
                 ),
                 child: SNetworkSvg24(
                   url: iconUrl,
-                  color: selected ? colors.blue : null,
+                  //color: selected ? colors.blue : null,
                 ),
               ),
               Expanded(

@@ -5,10 +5,10 @@ import 'package:simple_kit/simple_kit.dart';
 
 class ResendRichText extends StatelessObserverWidget {
   const ResendRichText({
-    Key? key,
+    super.key,
     required this.onTap,
     this.isPhone = false,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final bool isPhone;
@@ -31,11 +31,12 @@ class ResendRichText extends StatelessObserverWidget {
             icon: isPhone ? const SPhoneCallIcon() : null,
             addPadding: isPhone,
             active: true,
-            autoSize: intl.localeName == 'es',
+            autoSize: intl.localeName == 'es' || intl.localeName == 'uk' ,
             name: isPhone
                 ? intl.profileDetails_receiveCall
                 : intl.resetRichText_resend,
             onTap: onTap,
+            
           ),
         ],
       ),

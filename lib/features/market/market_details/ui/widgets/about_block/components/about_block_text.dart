@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -105,7 +103,9 @@ class _AboutBlockTextState extends State<AboutBlockText>
                             canTapOnLink = false;
                           });
                           launchURL(
-                              context, widget.marketInfo.officialWebsiteUrl!);
+                            context,
+                            widget.marketInfo.officialWebsiteUrl!,
+                          );
                         }
                       },
                     ),

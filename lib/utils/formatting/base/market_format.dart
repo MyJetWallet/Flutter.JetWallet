@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 ///    Example when accuracy is 3: 1 000.100 => 1 000.100
 /// 8. zero case: 0 => 0.00, 0.00 => 0.00
 String marketFormat({
+  @Deprecated('The parameter is not used')
   String? prefix,
   bool? onlyFullPart,
   required Decimal decimal,

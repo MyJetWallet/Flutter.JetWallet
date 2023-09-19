@@ -1,11 +1,11 @@
 import 'package:injectable/injectable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/modules/wallet_api/models/profile/profile_delete_reasons_model.dart';
 
 part 'delete_profile_store.g.dart';
@@ -28,6 +28,9 @@ abstract class _DeleteProfileStoreBase with Store {
 
   @observable
   bool confitionCheckbox = false;
+
+  @observable
+  StackLoaderStore loader = StackLoaderStore()..finishLoadingImmediately();
 
   @action
   Future<void> _init() async {
@@ -65,9 +68,10 @@ abstract class _DeleteProfileStoreBase with Store {
 
   @action
   Future<void> deleteProfile() async {
+    loader.startLoadingImmediately();
     final walletApi = sNetwork.getWalletModule();
 
-    final request = await walletApi.postProfileDelete(
+    await walletApi.postProfileDelete(
       getIt.get<AppStore>().authState.deleteToken,
       selectedDeleteReason.map((e) => e.reasonId!).toList(),
     );
@@ -76,6 +80,7 @@ abstract class _DeleteProfileStoreBase with Store {
           'delete profile',
           callbackAfterSend: () {},
         );
+    loader.finishLoading();
   }
 
   @action

@@ -3,38 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/bank_card/add_bank_card.dart';
-import 'package:jetwallet/features/market/ui/widgets/market_tab_bar_views/components/market_separator.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../../core/di/di.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/services/signal_r/signal_r_service_new.dart';
 import '../../../../utils/constants.dart';
 import '../../../../utils/models/currency_model.dart';
-import '../../../../widgets/action_bottom_sheet_header.dart';
 import '../../../actions/action_buy/widgets/action_buy_subheader.dart';
 import '../../../kyc/helper/kyc_alert_handler.dart';
 import '../../../kyc/kyc_service.dart';
 import '../../../kyc/models/kyc_operation_status_model.dart';
 import '../../../payment_methods/ui/widgets/add_button.dart';
-import '../../../payment_methods/ui/widgets/card_limit.dart';
 import '../../../payment_methods/ui/widgets/payment_card_item.dart';
 import '../../helper/formatted_circle_card.dart';
 import '../../store/payment_methods_store.dart';
-import 'add_bank_card.dart';
 
 @RoutePage(name: 'PaymentMethodRouter')
 class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({
-    Key? key,
+    super.key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -51,9 +46,8 @@ class PaymentMethodScreen extends StatelessWidget {
 
 class _PaymentMethodScreen extends StatefulObserverWidget {
   const _PaymentMethodScreen({
-    Key? key,
     required this.currency,
-  }) : super(key: key);
+  });
 
   final CurrencyModel currency;
 
@@ -133,11 +127,6 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     void onAddCardTap() {
-      final kycState = getIt.get<KycService>();
-      final status = kycOperationStatus(KycStatus.kycRequired);
-      final isUserVerified = kycState.depositStatus != status &&
-          kycState.sellStatus != status &&
-          kycState.withdrawalStatus != status;
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -156,7 +145,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            var tween =
+            final tween =
                 Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
             return SlideTransition(
@@ -453,6 +442,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.paymentMethods_paymentMethods,

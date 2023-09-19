@@ -5,20 +5,21 @@ import 'package:decimal/decimal.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:rsa_encrypt/rsa_encrypt.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_add/card_add_response_model.dart';
@@ -30,7 +31,7 @@ import 'package:uuid/uuid.dart';
 
 part 'bank_card_store.g.dart';
 
-enum BankCardStoreMode { ADD, EDIT }
+enum BankCardStoreMode { add, edit }
 
 class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
   BankCardStore() : super();
@@ -41,7 +42,7 @@ class BankCardStore extends _BankCardStoreBase with _$BankCardStore {
 
 abstract class _BankCardStoreBase with Store {
   @observable
-  BankCardStoreMode cardStoreMode = BankCardStoreMode.ADD;
+  BankCardStoreMode cardStoreMode = BankCardStoreMode.add;
 
   @observable
   StackLoaderStore loader = StackLoaderStore();
@@ -157,21 +158,21 @@ abstract class _BankCardStoreBase with Store {
 
   @computed
   bool get isLabelValid {
-    return saveCard ? cardLabel.isNotEmpty : true;
+    return !saveCard || cardLabel.isNotEmpty;
   }
 
   @action
   void init(BankCardStoreMode mode, {CircleCard? card}) {
     cardStoreMode = mode;
 
-    if (mode == BankCardStoreMode.EDIT) {
+    if (mode == BankCardStoreMode.edit) {
       cardNumberController.text = '**** **** **** ${card!.last4}';
-      expiryMonthController.text = '${card!.expMonth}/${card.expYear}';
+      expiryMonthController.text = '${card.expMonth}/${card.expYear}';
       expiryYearController.text = card.expYear.toString();
       cardLabelController.text = card.cardLabel ?? '';
 
-      expiryMonth = card!.expMonth.toString();
-      expiryYear = card!.expYear.toString();
+      expiryMonth = card.expMonth.toString();
+      expiryYear = card.expYear.toString();
 
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
@@ -179,11 +180,11 @@ abstract class _BankCardStoreBase with Store {
   }
 
   @action
-  void updateCardNumber(String _cardNumber) {
-    cardNumber = _cardNumber;
+  void updateCardNumber(String newCardNumber) {
+    cardNumber = newCardNumber;
 
     // [xxxx xxxx xxxx xxxx]
-    cardNumberError = cardNumber.length == 19 ? !isCardNumberValid : false;
+    cardNumberError = cardNumber.length == 19 && !isCardNumberValid;
 
     if (cardNumber.length == 19 && isCardNumberValid) {
       cardNode.nextFocus();
@@ -250,7 +251,7 @@ abstract class _BankCardStoreBase with Store {
     }
 
     if (expiryDate.length >= 5) {
-      var sp = expiryDate.split('/');
+      final sp = expiryDate.split('/');
 
       expiryMonth = sp.first;
       expiryYear = sp[1];
@@ -327,7 +328,7 @@ abstract class _BankCardStoreBase with Store {
         expYear: int.parse(
           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
         ),
-        isActive: isPreview ? saveCard : true,
+        isActive: !isPreview || saveCard,
         cardLabel: cardLabel.isEmpty ? null : cardLabel,
         cardAssetSymbol: currency?.asset ?? '',
       );
@@ -352,7 +353,7 @@ abstract class _BankCardStoreBase with Store {
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
-                        asset: asset!,
+                        asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
@@ -376,7 +377,7 @@ abstract class _BankCardStoreBase with Store {
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
                         method: method,
-                        asset: asset!,
+                        asset: asset,
                         expMonth: int.parse(expiryMonth),
                         expYear: int.parse(
                           expiryYear.length == 4 ? expiryYear : '20$expiryYear',
@@ -395,7 +396,7 @@ abstract class _BankCardStoreBase with Store {
                 cardId: newCard.data?.data.cardId ?? '',
                 showUaAlert: newCard.data?.data.showUaAlert ?? false,
                 method: method,
-                asset: asset!,
+                asset: asset,
                 expMonth: int.parse(expiryMonth),
                 expYear: int.parse(
                   expiryYear.length == 4 ? expiryYear : '20$expiryYear',
@@ -476,7 +477,11 @@ abstract class _BankCardStoreBase with Store {
               ),
             );
 
-      print(card);
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.info,
+            place: 'Bank Card Store',
+            message: card.toString(),
+          );
 
       sRouter.push(
         BuyAmountRoute(
@@ -498,11 +503,10 @@ abstract class _BankCardStoreBase with Store {
     try {
       loader.startLoadingImmediately();
 
-      final updateLabelResponse =
-          await sNetwork.getWalletModule().updateCardLabel(
-                cardId,
-                cardLabel,
-              );
+      await sNetwork.getWalletModule().updateCardLabel(
+            cardId,
+            cardLabel,
+          );
 
       await sRouter.pop();
 
@@ -582,9 +586,9 @@ abstract class _BankCardStoreBase with Store {
   static CircleCardNetwork getCardNetworkNumber(String input) {
     CircleCardNetwork cardType;
 
-    if (RegExp(r"^4[0-9]{12}(?:[0-9]{3})?$").hasMatch(input)) {
+    if (RegExp(r'^4[0-9]{12}(?:[0-9]{3})?$').hasMatch(input)) {
       cardType = CircleCardNetwork.MASTERCARD;
-    } else if (RegExp(r"^5[1-5][0-9]{14}$").hasMatch(input)) {
+    } else if (RegExp(r'^5[1-5][0-9]{14}$').hasMatch(input)) {
       cardType = CircleCardNetwork.VISA;
     } else {
       cardType = CircleCardNetwork.unsupported;

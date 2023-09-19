@@ -8,7 +8,7 @@ import 'package:simple_kit/simple_kit.dart';
 
 @RoutePage(name: 'DeleteReasonsScreenRouter')
 class DeleteReasonsScreen extends StatelessObserverWidget {
-  const DeleteReasonsScreen({Key? key}) : super(key: key);
+  const DeleteReasonsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
+      loading: store.loader,
       header: SPaddingH24(
         child: SMegaHeader(
           titleAlign: TextAlign.start,
@@ -26,7 +27,10 @@ class DeleteReasonsScreen extends StatelessObserverWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 42,
+        ),
         child: SPrimaryButton2(
           active: store.selectedDeleteReason.isNotEmpty,
           onTap: () async {

@@ -12,7 +12,6 @@ import 'package:jetwallet/utils/store/timer_store.dart';
 import 'package:jetwallet/widgets/pin_code_field.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../models/email_confirmation_union.dart';
@@ -38,7 +37,7 @@ class EmailConfirmationScreen extends StatelessWidget {
 }
 
 class _EmailConfirmationScreenBody extends StatefulObserverWidget {
-  const _EmailConfirmationScreenBody({super.key});
+  const _EmailConfirmationScreenBody();
 
   @override
   State<_EmailConfirmationScreenBody> createState() =>
@@ -194,7 +193,7 @@ class __EmailConfirmationScreenBodyState
                     name: intl.emailConfirmation_cancel,
                     onTap: () => navigateToRouter(),
                   ),
-                  const SpaceH24(),
+                  const SpaceH42(),
                 ],
               ),
             ),

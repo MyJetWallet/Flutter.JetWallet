@@ -11,7 +11,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/key_value_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
-import 'package:jetwallet/features/currency_buy/models/apple_pay_data_model.dart';
 import 'package:jetwallet/features/currency_buy/models/preview_buy_with_bank_card_input.dart';
 import 'package:jetwallet/features/currency_buy/ui/screens/show_bank_card_cvv_bottom_sheet.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -41,12 +40,9 @@ part 'preview_buy_with_bank_card_store.g.dart';
 class PreviewBuyWithBankCardStore extends _PreviewBuyWithBankCardStoreBase
     with _$PreviewBuyWithBankCardStore {
   PreviewBuyWithBankCardStore(
-    PreviewBuyWithBankCardInput input,
-    bool sendPreview,
-  ) : super(
-          input,
-          sendPreview,
-        );
+    super.input,
+    super.sendPreview,
+  );
 
   static _PreviewBuyWithBankCardStoreBase of(BuildContext context) =>
       Provider.of<PreviewBuyWithBankCardStore>(context, listen: false);
@@ -173,8 +169,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           depositFeePerc = data.depositFeePerc;
         },
         onError: (error) {
-          print(error);
-
           _logger.log(stateFlow, 'requestPreview', error.cause);
 
           _showFailureScreen(error.cause);
@@ -225,7 +219,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
       header: '${intl.previewBuyWithCircle_enter} CVV '
           '${intl.previewBuyWithCircle_for} '
           '${activeCard.isNotEmpty ? activeCard[0].network.name : ''}'
-          ' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}',
+          ''' •••• ${input.cardNumber != null ? input.cardNumber?.substring((input.cardNumber?.length ?? 4) - 4) : ''}''',
       onCompleted: (cvvNew) {
         cvv = cvvNew;
         sRouter.pop();
@@ -240,11 +234,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
     _logger.log(notifier, '_createPayment');
 
     loader.startLoadingImmediately();
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
 
     await _requestPayment(() async {
       await _requestPaymentInfo(
@@ -427,12 +416,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showSuccessScreen(bool isGoogle) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
     return sRouter
         .push(
           SuccessScreenRouter(
@@ -467,12 +450,6 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
 
   @action
   Future<void> _showFailureScreen(String error) {
-    final buyMethod = input.currency.buyMethods
-        .where(
-          (element) => element.id == PaymentMethodType.bankCard,
-        )
-        .toList();
-
     return sRouter.push(
       FailureScreenRouter(
         primaryText: intl.previewBuyWithAsset_failure,

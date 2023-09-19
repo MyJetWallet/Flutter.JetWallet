@@ -59,16 +59,12 @@ class StartupService {
       parsedEmail = '<${intl.appInitFpod_emailNotFound}>';
     }
 
-    try {
-      await AppTrackingTransparency.requestTrackingAuthorization();
-    } on PlatformException {}
-
-    final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
+    await getAdvData();
 
     unawaited(initAppFBAnalytic());
     unawaited(initAppsFlyer());
 
-    getIt<AppStore>().setAppStatus(AppStatus.Start);
+    getIt<AppStore>().setAppStatus(AppStatus.start);
     getIt<AppStore>().generateNewSessionID();
 
     final authStatus = await checkIsUserAuthorized(token);
@@ -150,9 +146,7 @@ class StartupService {
     await makeSessionCheck();
 
     final kyc = getIt.get<KycService>();
-    sAnalytics.setKYCDepositStatus(
-      kyc.depositStatus,
-    );
+    sAnalytics.setKYCDepositStatus = kyc.depositStatus;
   }
 
   Future<bool> checkIsUserAuthorized(String? token) async {
@@ -377,30 +371,37 @@ class StartupService {
           ),
         );
       } else {
-        if (getIt.get<AppStore>().fromLoginRegister || !userInfo.pinDisabled) {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
+        getIt.get<AppStore>().setAuthorizedStatus(
+              const PinSetup(),
+            );
 
-          sRouter.push(
-            PinScreenRoute(
-              union: const PinFlowUnion.setup(),
-              cannotLeave: true,
-            ),
-          );
-        } else {
-          getIt.get<AppStore>().setAuthorizedStatus(
-                const PinSetup(),
-              );
-
-          sRouter.push(
-            PinScreenRoute(
-              union: const PinFlowUnion.setup(),
-              cannotLeave: true,
-            ),
-          );
-        }
+        sRouter.push(
+          PinScreenRoute(
+            union: const PinFlowUnion.setup(),
+            cannotLeave: true,
+          ),
+        );
       }
-    } catch (e) {}
+    } catch (e) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: 'StartupService',
+            message: e.toString(),
+          );
+    }
   }
+}
+
+Future<void> getAdvData() async {
+  try {
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  } catch (e) {
+    getIt.get<SimpleLoggerService>().log(
+          level: Level.error,
+          place: 'StartupService',
+          message: e.toString(),
+        );
+  }
+
+  final _ = await AppTrackingTransparency.getAdvertisingIdentifier();
 }

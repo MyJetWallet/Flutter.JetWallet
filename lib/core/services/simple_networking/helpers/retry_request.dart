@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:logger/logger.dart' as logPrint;
+import 'package:logger/logger.dart' as log_print;
 
 import 'setup_headers.dart';
 
@@ -12,13 +12,13 @@ Future<Response> retryRequest(
 ) async {
   final dio = Dio();
 
-  final log = logPrint.Logger();
+  final log = log_print.Logger();
 
-  requestOptions = await setHeaders(requestOptions, false);
+  final tempRequestOptions = await setHeaders(requestOptions, false);
 
   final options = Options(
-    method: requestOptions.method,
-    headers: requestOptions.headers,
+    method: tempRequestOptions.method,
+    headers: tempRequestOptions.headers,
   );
 
   final authModel = getIt.get<AppStore>().authState;
@@ -31,8 +31,8 @@ Future<Response> retryRequest(
   );
 
   return dio.request(
-    requestOptions.path,
-    data: requestOptions.data,
+    tempRequestOptions.path,
+    data: tempRequestOptions.data,
     options: options,
   );
 }
