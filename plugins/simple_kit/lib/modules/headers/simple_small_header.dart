@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 
 import 'package:simple_kit/simple_kit.dart';
 
@@ -12,6 +13,7 @@ class SSmallHeader extends StatelessWidget {
     this.onCLoseButton,
     this.onEditButtonTap,
     this.onDoneButtonTap,
+    this.onShareButtonTap,
     this.titleAlign = TextAlign.center,
     this.showBackButton = true,
     this.showStarButton = false,
@@ -21,6 +23,8 @@ class SSmallHeader extends StatelessWidget {
     this.showDoneButton = false,
     this.isStarSelected = false,
     this.isShortVersion = false,
+    this.showRCloseButton = false,
+    this.showShareButton = false,
     required this.title,
     this.subTitle,
     this.subTitleStyle,
@@ -33,6 +37,7 @@ class SSmallHeader extends StatelessWidget {
   final Function()? onEditButtonTap;
   final Function()? onDoneButtonTap;
   final Function()? onCLoseButton;
+  final Function()? onShareButtonTap;
   final TextAlign titleAlign;
   final bool showBackButton;
   final bool showStarButton;
@@ -41,6 +46,8 @@ class SSmallHeader extends StatelessWidget {
   final bool showDoneButton;
   final bool showCloseButton;
   final bool isShortVersion;
+  final bool showRCloseButton;
+  final bool showShareButton;
 
   final bool isStarSelected;
   final String title;
@@ -64,6 +71,12 @@ class SSmallHeader extends StatelessWidget {
                   onTap: onBackButtonTap ?? () => Navigator.pop(context),
                   defaultIcon: icon != null ? icon! : const SBackIcon(),
                   pressedIcon: icon != null ? icon! : const SBackPressedIcon(),
+                )
+              else if (showRCloseButton)
+                SIconButton(
+                  onTap: onCLoseButton,
+                  defaultIcon: const SCloseIcon(),
+                  pressedIcon: const SClosePressedIcon(),
                 )
               else
                 const _IconPlaceholder(),
@@ -123,6 +136,14 @@ class SSmallHeader extends StatelessWidget {
                   onTap: onCLoseButton,
                   defaultIcon: const SCloseIcon(),
                   pressedIcon: const SClosePressedIcon(),
+                )
+              else if (showShareButton)
+                SIconButton(
+                  onTap: onShareButtonTap,
+                  defaultIcon: const SShareIcon(),
+                  pressedIcon: SShareIcon(
+                    color: SColorsLight().black.withOpacity(0.7),
+                  ),
                 )
               else
                 const _IconPlaceholder(),

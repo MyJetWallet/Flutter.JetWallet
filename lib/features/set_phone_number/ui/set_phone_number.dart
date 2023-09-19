@@ -226,9 +226,6 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                           onChangePhone: (String newPin) {
                             finalSend(newPin: newPin);
                           },
-                          onBackPressed: () {
-                            sRouter.pop();
-                          },
                         ),
                       );
                     } else {

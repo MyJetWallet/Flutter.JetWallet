@@ -224,9 +224,7 @@ class DeepLinkService {
 
     //getIt.get<WithdrawalConfirmStore>().updateCode(code, id);
 
-    getIt
-        .get<EventBus>()
-        .fire(WithdrawalConfirmModel(code: code, operationID: id));
+    getIt.get<EventBus>().fire(WithdrawalConfirmModel(code: code, operationID: id));
   }
 
   void _inviteFriendCommand(SourceScreen? source) {
@@ -327,6 +325,17 @@ class DeepLinkService {
   }
 
   Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
+    final context = sRouter.navigatorKey.currentContext;
+    if (context != null && context.mounted) {
+      await showDialog(
+        context: context,
+        builder: (context) {
+          return Text('WORK');
+        },
+      );
+    }
+
+    return;
     try {
       final storage = sLocalStorageService;
       final deviceInfo = sDeviceInfo.model;
@@ -351,8 +360,7 @@ class DeepLinkService {
     getIt.get<SimpleLoggerService>().log(
           level: Level.error,
           place: _loggerService,
-          message:
-              'handlePushNotificationLink \n\n ${message.data["actionUrl"]}',
+          message: 'handlePushNotificationLink \n\n ${message.data["actionUrl"]}',
         );
 
     // data: {actionUrl: http://simple.app/action/jw_swap/jw_operation_id/a93fa24f9f544774863e4e7b4c07f3c0},
@@ -661,11 +669,7 @@ class DeepLinkService {
     if (getIt.isRegistered<AppStore>() &&
         getIt.get<AppStore>().remoteConfigStatus is Success &&
         getIt.get<AppStore>().authorizedStatus is Home) {
-      final gift = await getIt
-          .get<SNetwork>()
-          .simpleNetworking
-          .getWalletModule()
-          .getGift(jwOperationId);
+      final gift = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getGift(jwOperationId);
 
       if (gift.data == null) return;
       final currency = currencyFrom(
@@ -686,11 +690,7 @@ class DeepLinkService {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
           func: () async {
-            final gift = await getIt
-                .get<SNetwork>()
-                .simpleNetworking
-                .getWalletModule()
-                .getGift(jwOperationId);
+            final gift = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().getGift(jwOperationId);
             if (gift.data == null) return;
             final currency = currencyFrom(
               sSignalRModules.currenciesList,

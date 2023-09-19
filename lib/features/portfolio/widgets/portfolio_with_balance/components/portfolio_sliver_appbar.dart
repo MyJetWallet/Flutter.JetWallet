@@ -57,13 +57,11 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final expendPercentage = (shrinkOffset.clamp(min, max) - min) / (max - min);
-    final viewedRewards =
-        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
+    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     var counterOfRewards = 0;
     final rewStore = RewardStore();
     for (final campaign in rewStore.sortedCampaigns) {
-      if (campaign.campaign != null &&
-          !viewedRewards.contains(campaign.campaign!.campaignId)) {
+      if (campaign.campaign != null && !viewedRewards.contains(campaign.campaign!.campaignId)) {
         counterOfRewards++;
       }
     }
@@ -77,18 +75,13 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
       expendPercentage,
     );
 
-    final isShowBuy = sSignalRModules.currenciesList
-        .where((element) => element.buyMethods.isNotEmpty)
-        .isNotEmpty;
+    final isShowBuy = sSignalRModules.currenciesList.where((element) => element.buyMethods.isNotEmpty).isNotEmpty;
     final isShowSend = sSignalRModules.currenciesList
         .where(
-          (element) =>
-              element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
+          (element) => element.isSupportAnyWithdrawal && element.isAssetBalanceNotEmpty,
         )
         .isNotEmpty;
-    final isShowReceive = sSignalRModules.currenciesList
-        .where((element) => element.supportsCryptoDeposit)
-        .isNotEmpty;
+    final isShowReceive = sSignalRModules.currenciesList.where((element) => element.supportsCryptoDeposit).isNotEmpty;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,17 +130,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  SIconButton(
-                    defaultIcon: SNotificationsIcon(
-                      color: colors.black,
-                    ),
-                    pressedIcon: SNotificationsIcon(
-                      color: colors.black.withOpacity(0.7),
-                    ),
-                    onTap: () {
-                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
-                    },
-                  ),
                   NotificationBox(
                     notifications: counterOfRewards,
                   ),
@@ -193,9 +175,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
         const SpaceH15(),
         SPaddingH24(
           child: Text(
-            !getIt<AppStore>().isBalanceHide
-                ? _price(itemsWithBalance, baseCurrency)
-                : '${baseCurrency.prefix}*******',
+            !getIt<AppStore>().isBalanceHide ? _price(itemsWithBalance, baseCurrency) : '${baseCurrency.prefix}*******',
             style: interpolatedTextStyle,
           ),
         ),
@@ -226,8 +206,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                       source: 'My Assets - Receive',
                     );
 
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
+                    if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                       showReceiveAction(context, shouldPop: false);
                     } else {
                       kycAlertHandler.handle(
@@ -248,8 +227,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
                 CircleActionSend(
                   onTap: () {
                     sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
-                    if (kycState.withdrawalStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
+                    if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
                       showSendAction(
                         context,
                         isNotEmptyBalance: isNotEmptyBalance,
@@ -273,8 +251,7 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               ],
               CircleActionExchange(
                 onTap: () {
-                  if (kycState.sellStatus ==
-                      kycOperationStatus(KycStatus.allowed)) {
+                  if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
                     showSendTimerAlertOr(
                       context: context,
                       or: () => sRouter.push(ConvertRouter()),

@@ -5,7 +5,11 @@ import 'package:simple_kit/modules/icons/24x24/light/copy/simple_light_copy_icon
 import 'package:simple_kit/utils/enum.dart';
 
 class SCopyIcon extends StatelessObserverWidget {
-  const SCopyIcon({Key? key, this.color}) : super(key: key);
+  const SCopyIcon({
+    Key? key,
+    this.color,
+  }) : super(key: key);
+
   final Color? color;
 
   @override

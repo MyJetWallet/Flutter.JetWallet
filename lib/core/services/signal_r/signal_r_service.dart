@@ -152,6 +152,7 @@ class SignalRService {
       updateAssetPaymentMethodsNew:
           sSignalRModules.updateAssetPaymentMethodsNew,
       receiveGifts: sSignalRModules.reciveGiftsEvent,
+      rewardsProfile: sSignalRModules.rewardsProfileMethods,
 
       ///
       createNewSessionLog: () {

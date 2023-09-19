@@ -78,6 +78,9 @@ import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wall
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/return_to_wallet.dart';
 import 'package:jetwallet/features/rewards/ui/rewards.dart';
+import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
+import 'package:jetwallet/features/rewards_flow/ui/reward_open_screen.dart';
+import 'package:jetwallet/features/rewards_flow/ui/rewards_flow_screen.dart';
 import 'package:jetwallet/features/send_gift/model/send_gift_info_model.dart';
 import 'package:jetwallet/features/set_phone_number/ui/set_phone_number.dart';
 import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
@@ -211,6 +214,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           path: 'card',
           page: CardRouter.page,
+        ),
+        AutoRoute(
+          path: 'rewards',
+          page: RewardsFlowRouter.page,
         ),
       ],
     ),
@@ -553,6 +560,10 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/buy_flow_confirmation',
       page: BuyConfirmationRoute.page,
+    ),
+    AutoRoute(
+      path: '/reward_open',
+      page: RewardOpenRouter.page,
     ),
   ];
 }

@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (sUserInfo.cardAvailable) {
           screens.add(const CardRouter());
         }
+        screens.add(const RewardsFlowRouter());
 
         return AutoTabsScaffold(
           routes: screens,
@@ -86,6 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   getIt<IbanStore>().getAddressBook();
 
                   sAnalytics.accountTabScreenView();
+                }
+
+                if (val == 4) {
+                  sAnalytics.rewardsTapOnTheTabBar();
                 }
 
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {

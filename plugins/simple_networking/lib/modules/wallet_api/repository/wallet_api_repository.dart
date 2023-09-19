@@ -2,6 +2,7 @@ import 'package:data_channel/data_channel.dart';
 import 'package:dio/dio.dart';
 import 'package:simple_networking/api_client/api_client.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/data_sources/wallet_api_data_sources.dart';
 import 'package:simple_networking/modules/wallet_api/models/add_card/add_card_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
@@ -69,6 +70,7 @@ import 'package:simple_networking/modules/wallet_api/models/profile/profile_dele
 import 'package:simple_networking/modules/wallet_api/models/profile_info/profile_info_reponse_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_delete_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/recurring_manage/recurring_manage_request_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/rewards/reward_spin_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_gift/gift_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_card_response.dart';
 import 'package:simple_networking/modules/wallet_api/models/send_globally/send_to_bank_request_model.dart';
@@ -807,5 +809,17 @@ class WalletApiRepository {
     return _walletApiDataSources.postPreviewIbanWithdrawalRequest(
       model,
     );
+  }
+
+  // Rewards
+
+  Future<DC<ServerRejectException, RewardSpinResponse>> postRewardSpin() async {
+    return _walletApiDataSources.postRewardSpinRequest();
+  }
+
+  Future<DC<ServerRejectException, void>> postRewardClaim({
+    required RewardsBalance data,
+  }) async {
+    return _walletApiDataSources.postRewardClaimRequest(data);
   }
 }

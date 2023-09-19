@@ -13,15 +13,18 @@ class SBottomNavigationBar extends StatefulWidget {
     Key? key,
     required this.cardNotifications,
     this.portfolioNotifications = 0,
+    required this.showReward,
     required this.selectedIndex,
     required this.onChanged,
     required this.myAssetsText,
     required this.marketText,
     required this.accountText,
     required this.cardText,
+    required this.rewardText,
     required this.hideAccount,
     required this.showCard,
     required this.isCardRequested,
+    this.rewardCount = 0,
   }) : super(key: key);
 
   final int portfolioNotifications;
@@ -30,12 +33,16 @@ class SBottomNavigationBar extends StatefulWidget {
   final bool hideAccount;
   final bool showCard;
   final bool isCardRequested;
+  final bool showReward;
   final void Function(int) onChanged;
 
   final String myAssetsText;
   final String marketText;
   final String accountText;
   final String cardText;
+  final String rewardText;
+
+  final int rewardCount;
 
   @override
   State<SBottomNavigationBar> createState() => _SBottomNavigationBarState();
@@ -60,24 +67,19 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 4,
+                  width: (MediaQuery.of(context).size.width - 48) / 5,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(0),
                     child: Column(
                       children: [
                         const SpaceH11(),
-                        if (widget.selectedIndex == 0)
-                          const SMyAssetsActiveIcon()
-                        else
-                          const SMyAssetsIcon(),
+                        if (widget.selectedIndex == 0) const SMyAssetsActiveIcon() else const SMyAssetsIcon(),
                         Text(
                           widget.myAssetsText,
                           style: sBodyText2Style.copyWith(
                             fontWeight: FontWeight.w600,
                             height: 1.38,
-                            color: widget.selectedIndex == 0
-                                ? SColorsLight().black
-                                : SColorsLight().grey3,
+                            color: widget.selectedIndex == 0 ? SColorsLight().black : SColorsLight().grey3,
                           ),
                         ),
                       ],
@@ -86,24 +88,19 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 4,
+                  width: (MediaQuery.of(context).size.width - 48) / 5,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(1),
                     child: Column(
                       children: [
                         const SpaceH11(),
-                        if (widget.selectedIndex == 1)
-                          const SMarketActiveIcon()
-                        else
-                          const SMarketIcon(),
+                        if (widget.selectedIndex == 1) const SMarketActiveIcon() else const SMarketIcon(),
                         Text(
                           widget.marketText,
                           style: sBodyText2Style.copyWith(
                             fontWeight: FontWeight.w600,
                             height: 1.38,
-                            color: widget.selectedIndex == 1
-                                ? SColorsLight().black
-                                : SColorsLight().grey3,
+                            color: widget.selectedIndex == 1 ? SColorsLight().black : SColorsLight().grey3,
                           ),
                         ),
                       ],
@@ -113,24 +110,19 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 if (!widget.hideAccount) ...[
                   const Spacer(),
                   SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 4,
+                    width: (MediaQuery.of(context).size.width - 48) / 5,
                     child: STransparentInkWell(
                       onTap: () => widget.onChanged(2),
                       child: Column(
                         children: [
                           const SpaceH11(),
-                          if (widget.selectedIndex == 2)
-                            const SAccountBarActiveIcon()
-                          else
-                            const SAccountBarIcon(),
+                          if (widget.selectedIndex == 2) const SAccountBarActiveIcon() else const SAccountBarIcon(),
                           Text(
                             widget.accountText,
                             style: sBodyText2Style.copyWith(
                               fontWeight: FontWeight.w600,
                               height: 1.38,
-                              color: widget.selectedIndex == 2
-                                  ? SColorsLight().black
-                                  : SColorsLight().grey3,
+                              color: widget.selectedIndex == 2 ? SColorsLight().black : SColorsLight().grey3,
                             ),
                           ),
                         ],
@@ -143,24 +135,19 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width - 48) / 4,
+                        width: (MediaQuery.of(context).size.width - 48) / 5,
                         child: STransparentInkWell(
                           onTap: () => widget.onChanged(3),
                           child: Column(
                             children: [
                               const SpaceH11(),
-                              if (widget.selectedIndex == 3)
-                                const SCardBottomActiveIcon()
-                              else
-                                const SCardBottomIcon(),
+                              if (widget.selectedIndex == 3) const SCardBottomActiveIcon() else const SCardBottomIcon(),
                               Text(
                                 widget.cardText,
                                 style: sBodyText2Style.copyWith(
                                   fontWeight: FontWeight.w600,
                                   height: 1.38,
-                                  color: widget.selectedIndex == 3
-                                      ? SColorsLight().black
-                                      : SColorsLight().grey3,
+                                  color: widget.selectedIndex == 3 ? SColorsLight().black : SColorsLight().grey3,
                                 ),
                               ),
                             ],
@@ -170,13 +157,50 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                       NotificationBox(
                         notifications: widget.isCardRequested ? 0 : 1,
                         top: -2,
-                        right:
-                            (MediaQuery.of(context).size.width - 48) / 8 - 29,
+                        right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
                       ),
                     ],
                   ),
                 ],
                 const Spacer(),
+                if (widget.showReward) ...[
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: (MediaQuery.of(context).size.width - 48) / 5,
+                        child: STransparentInkWell(
+                          onTap: () => widget.onChanged(4),
+                          child: Column(
+                            children: [
+                              const SpaceH15(),
+                              if (widget.selectedIndex == 4)
+                                const SRewardIcon()
+                              else
+                                SRewardIcon(
+                                  color: SColorsLight().grey3,
+                                ),
+                              const SpaceH4(),
+                              Text(
+                                widget.rewardText,
+                                style: sBodyText2Style.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.38,
+                                  color: widget.selectedIndex == 4 ? SColorsLight().black : SColorsLight().grey3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      NotificationBox(
+                        notifications: widget.rewardCount,
+                        top: -2,
+                        right: (MediaQuery.of(context).size.width - 48) / 8 - 36,
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                ],
               ],
             ),
           ],

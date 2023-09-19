@@ -27,6 +27,7 @@ import 'package:simple_networking/modules/signal_r/models/recurring_buys_respons
 import 'package:simple_networking/modules/signal_r/models/referral_info_model.dart';
 import 'package:simple_networking/modules/signal_r/models/referral_stats_response_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
 
 import 'models/incoming_gift_model.dart';
 
@@ -69,6 +70,7 @@ class SignalRTransport {
     required this.addToLog,
     required this.updateGlobalSendMethods,
     required this.receiveGifts,
+    required this.rewardsProfile,
   });
 
   final void Function(bool) initFinished;
@@ -110,6 +112,7 @@ class SignalRTransport {
   final void Function(GlobalSendMethodsModel) updateGlobalSendMethods;
 
   final void Function(IncomingGiftModel) receiveGifts;
+  final void Function(RewardsProfileModel) rewardsProfile;
 
   /// Logs
 

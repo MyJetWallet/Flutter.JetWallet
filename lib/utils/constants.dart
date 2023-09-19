@@ -14,8 +14,7 @@ const emptyHistoryAsset = 'assets/images/history_empty.png';
 // Portfolio
 const earnImageAsset = 'assets/images/earn.png';
 const earnGroupImageAsset = 'assets/images/earn_group.png';
-const walletGreenBackgroundImageAsset =
-    'assets/images/green_wallet_gradient.svg';
+const walletGreenBackgroundImageAsset = 'assets/images/green_wallet_gradient.svg';
 const walletRedBackgroundImageAsset = 'assets/images/red_wallet_gradient.svg';
 const greenPortfolioImageAsset = 'assets/images/green_portfolio_gradient.svg';
 const redPortfolioImageAsset = 'assets/images/red_portfolio_gradient_.svg';
@@ -120,3 +119,10 @@ const shareGiftBackgroundAsset = 'assets/images/share_gift_background.png';
 
 // Link to download the application
 const appDownloadUrl = 'https://mobile.simple.app/download-app';
+
+const simpleRewardCard = 'assets/images/reward_card.png';
+const simpleRewardDots = 'assets/images/reward_dots.png';
+const simpleSmileLogo = 'assets/images/smile_logo.svg';
+const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';
+const simpleRewardTrophy = 'assets/images/trophy.svg';
+const simpleRewardSmallStar = 'assets/images/reward_small_star.png';

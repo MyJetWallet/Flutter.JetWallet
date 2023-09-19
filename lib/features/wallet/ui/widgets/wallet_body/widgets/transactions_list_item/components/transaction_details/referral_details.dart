@@ -34,26 +34,14 @@ class ReferralDetails extends StatelessObserverWidget {
           ),
           const SpaceH18(),
           TransactionDetailsItem(
-            text: 'Txid',
+            text: intl.reward_history_from,
             value: Row(
               children: [
                 TransactionDetailsValueText(
-                  text: shortTxhashFrom(transactionListItem.operationId),
+                  text: intl.rewards_flow_tab_title,
                 ),
                 const SpaceW10(),
-                SIconButton(
-                  onTap: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: transactionListItem.operationId,
-                      ),
-                    );
-
-                    onCopyAction('Txid');
-                  },
-                  defaultIcon: const SCopyIcon(),
-                  pressedIcon: const SCopyPressedIcon(),
-                ),
+                const SRewardIcon(),
               ],
             ),
           ),

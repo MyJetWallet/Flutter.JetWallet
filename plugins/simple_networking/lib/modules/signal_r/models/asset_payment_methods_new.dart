@@ -14,12 +14,12 @@ class AssetPaymentMethodsNew with _$AssetPaymentMethodsNew {
     List<BuyMethodDto>? buy,
     List<SendMethodDto>? send,
     List<ReceiveMethodDto>? receive,
+    List<AssetPaymentProducts>? product,
     @Default(false) bool showCardsInProfile,
     @Default(false) bool showBanksInProfile,
   }) = _AssetPaymentMethodsNew;
 
-  factory AssetPaymentMethodsNew.fromJson(Map<String, dynamic> json) =>
-      _$AssetPaymentMethodsNewFromJson(json);
+  factory AssetPaymentMethodsNew.fromJson(Map<String, dynamic> json) => _$AssetPaymentMethodsNewFromJson(json);
 }
 
 @freezed
@@ -35,23 +35,30 @@ class BuyMethodDto with _$BuyMethodDto {
     List<PaymentAsset>? paymentAssets,
   }) = _BuyMethodDto;
 
-  factory BuyMethodDto.fromJson(Map<String, dynamic> json) =>
-      _$BuyMethodDtoFromJson(json);
+  factory BuyMethodDto.fromJson(Map<String, dynamic> json) => _$BuyMethodDtoFromJson(json);
 }
 
 @freezed
 class SendMethodDto with _$SendMethodDto {
   const factory SendMethodDto({
-    @WithdrawalMethodsSerialiser()
-    @JsonKey(name: 'id')
-    required WithdrawalMethods id,
+    @WithdrawalMethodsSerialiser() @JsonKey(name: 'id') required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
     List<SymbolNetworkDetails>? symbolNetworkDetails,
   }) = _SendMethodDto;
 
-  factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
-      _$SendMethodDtoFromJson(json);
+  factory SendMethodDto.fromJson(Map<String, dynamic> json) => _$SendMethodDtoFromJson(json);
+}
+
+@freezed
+class SendMethodDtoDetails with _$SendMethodDtoDetails {
+  const factory SendMethodDtoDetails({
+    final String? symbol,
+    @DecimalNullSerialiser() final Decimal? minAmount,
+    @DecimalNullSerialiser() final Decimal? maxAmount,
+  }) = _SendMethodDtoDetails;
+
+  factory SendMethodDtoDetails.fromJson(Map<String, dynamic> json) => _$SendMethodDtoDetailsFromJson(json);
 }
 
 @freezed
@@ -63,8 +70,7 @@ class ReceiveMethodDto with _$ReceiveMethodDto {
     List<String>? symbols,
   }) = _ReceiveMethodDto;
 
-  factory ReceiveMethodDto.fromJson(Map<String, dynamic> json) =>
-      _$ReceiveMethodDtoFromJson(json);
+  factory ReceiveMethodDto.fromJson(Map<String, dynamic> json) => _$ReceiveMethodDtoFromJson(json);
 }
 
 @freezed
@@ -78,8 +84,7 @@ class PaymentAsset with _$PaymentAsset {
     PresetDescription? presets,
   }) = _PaymentAsset;
 
-  factory PaymentAsset.fromJson(Map<String, dynamic> json) =>
-      _$PaymentAssetFromJson(json);
+  factory PaymentAsset.fromJson(Map<String, dynamic> json) => _$PaymentAssetFromJson(json);
 }
 
 @freezed
@@ -93,8 +98,7 @@ class LimitDescription with _$LimitDescription {
     @DecimalSerialiser() required Decimal monthValue,
   }) = _LimitDescription;
 
-  factory LimitDescription.fromJson(Map<String, dynamic> json) =>
-      _$LimitDescriptionFromJson(json);
+  factory LimitDescription.fromJson(Map<String, dynamic> json) => _$LimitDescriptionFromJson(json);
 }
 
 @freezed
@@ -105,8 +109,7 @@ class PresetDescription with _$PresetDescription {
     @DecimalNullSerialiser() Decimal? amount3,
   }) = _PresetDescription;
 
-  factory PresetDescription.fromJson(Map<String, dynamic> json) =>
-      _$PresetDescriptionFromJson(json);
+  factory PresetDescription.fromJson(Map<String, dynamic> json) => _$PresetDescriptionFromJson(json);
 }
 
 @freezed
@@ -118,6 +121,47 @@ class SymbolNetworkDetails with _$SymbolNetworkDetails {
     @DecimalNullSerialiser() final Decimal? maxAmount,
   }) = _SymbolNetworkDetails;
 
-  factory SymbolNetworkDetails.fromJson(Map<String, dynamic> json) =>
-      _$SymbolNetworkDetailsFromJson(json);
+  factory SymbolNetworkDetails.fromJson(Map<String, dynamic> json) => _$SymbolNetworkDetailsFromJson(json);
+}
+
+@freezed
+class AssetPaymentProducts with _$AssetPaymentProducts {
+  const factory AssetPaymentProducts({
+    @AssetPaymentProductsEnumSerialiser() final AssetPaymentProductsEnum? id,
+    final String? iconUrl,
+    final int? orderId,
+  }) = _AssetPaymentProducts;
+
+  factory AssetPaymentProducts.fromJson(Map<String, dynamic> json) => _$AssetPaymentProductsFromJson(json);
+}
+
+enum AssetPaymentProductsEnum { rewardsOnboardingProgram, unsupported }
+
+extension _AssetPaymentProductsEnumExtension on AssetPaymentProductsEnum {
+  String get name {
+    switch (this) {
+      case AssetPaymentProductsEnum.rewardsOnboardingProgram:
+        return 'RewardsOnboardingProgram';
+      default:
+        return 'Unsupported';
+    }
+  }
+}
+
+class AssetPaymentProductsEnumSerialiser implements JsonConverter<AssetPaymentProductsEnum, dynamic> {
+  const AssetPaymentProductsEnumSerialiser();
+
+  @override
+  AssetPaymentProductsEnum fromJson(dynamic json) {
+    final value = json.toString();
+
+    if (value == 'RewardsOnboardingProgram') {
+      return AssetPaymentProductsEnum.rewardsOnboardingProgram;
+    } else {
+      return AssetPaymentProductsEnum.unsupported;
+    }
+  }
+
+  @override
+  dynamic toJson(AssetPaymentProductsEnum type) => type.name;
 }

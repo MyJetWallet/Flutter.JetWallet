@@ -531,6 +531,10 @@ class SignalRModuleNew {
       incomingGiftsMessage,
       method: handler.incomingGiftsHandler,
     );
+    _hubConnection?.off(
+      rewardsProfileMessage,
+      method: handler.rewardsProfileHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -625,6 +629,11 @@ class SignalRModuleNew {
     );
 
     _hubConnection?.on(incomingGiftsMessage, handler.incomingGiftsHandler);
+
+    _hubConnection?.on(
+      rewardsProfileMessage,
+      handler.rewardsProfileHandler,
+    );
 
     ///
 

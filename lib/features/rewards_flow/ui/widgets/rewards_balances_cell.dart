@@ -1,0 +1,329 @@
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/format_service.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
+import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/rewards_flow/store/rewards_flow_store.dart';
+import 'package:jetwallet/utils/constants.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
+import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/rewards_profile_model.dart';
+
+class RewardsBalancesCell extends StatelessObserverWidget {
+  const RewardsBalancesCell({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final store = RewardsFlowStore.of(context);
+
+    return SPaddingH24(
+      child: Column(
+        children: [
+          for (final balance in store.balances)
+            if (balance.amount != Decimal.zero)
+              _BalanceCell(
+                data: balance,
+                needSeparator: store.balances.last != balance,
+              ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BalanceCell extends StatefulWidget {
+  const _BalanceCell({
+    super.key,
+    required this.data,
+    this.needSeparator = true,
+  });
+
+  final RewardsBalance data;
+  final bool needSeparator;
+
+  @override
+  State<_BalanceCell> createState() => _BalanceCellState();
+}
+
+class _BalanceCellState extends State<_BalanceCell> {
+  bool isClaimButtonActive = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final curr = getIt.get<FormatService>().findCurrency(
+          findInHideTerminalList: true,
+          assetSymbol: widget.data.assetSymbol ?? 'BTC',
+        );
+
+    final fAmount = volumeFormat(
+      prefix: curr.prefixSymbol,
+      decimal: widget.data.amount,
+      accuracy: curr.accuracy,
+      symbol: curr.symbol,
+    );
+
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: sKit.colors.grey5,
+      hoverColor: Colors.transparent,
+      onTap: () {
+        sAnalytics.rewardsClickOnReward(
+          transferAmount: widget.data.assetSymbol ?? '',
+          transferAseet: '${widget.data.amount}',
+        );
+
+        showDialog(
+          context: sRouter.navigatorKey.currentContext!,
+          builder: (context) => RewardTransferPopup(
+            data: widget.data,
+            fAmount: fAmount,
+          ),
+        );
+      },
+      child: Column(
+        children: [
+          const SpaceH22(),
+          SizedBox(
+            height: 44,
+            child: Row(
+              children: [
+                SNetworkCachedSvg(
+                  url: curr.iconUrl,
+                  width: 24,
+                  height: 24,
+                  placeholder: const SizedBox.shrink(),
+                ),
+                const SpaceW12(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3.5),
+                  child: Text(
+                    curr.description,
+                    style: sSubtitle2Style,
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: sKit.colors.grey4),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: SRewardTrophyIcon(color: sKit.colors.confetti1),
+                      ),
+                      const SpaceW10(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 1),
+                        child: Text(
+                          volumeFormat(
+                            prefix: curr.prefixSymbol,
+                            decimal: widget.data.amount,
+                            accuracy: curr.accuracy,
+                            symbol: curr.symbol,
+                          ),
+                          textAlign: TextAlign.right,
+                          style: sSubtitle2Style.copyWith(
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (widget.needSeparator) ...[
+            const SpaceH20(),
+            const SDivider(),
+          ] else ...[
+            const SpaceH22(),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+void showSuccessRewardSheet(String assetSymbol, String amount, String fAmout) {
+  sAnalytics.rewardsSuccessRewardTransfer(
+    transferAmount: assetSymbol,
+    transferAseet: amount,
+  );
+
+  sShowAlertPopup(
+    sRouter.navigatorKey.currentContext!,
+    image: Image.asset(
+      simpleCheckboxLogo,
+      width: 80,
+      height: 80,
+    ),
+    primaryText: intl.reward_success,
+    secondaryText: '$fAmout ${intl.reward_tranfered_to_my_assets}',
+    primaryButtonName: intl.reward_got_it,
+    onPrimaryButtonTap: () {
+      Navigator.pop(sRouter.navigatorKey.currentContext!);
+
+      sAnalytics.rewardsSuccessTransferGotItClick(
+        transferAmount: assetSymbol,
+        transferAseet: amount,
+      );
+    },
+    onSecondaryButtonTap: () => Navigator.pop(sRouter.navigatorKey.currentContext!),
+  );
+}
+
+class RewardTransferPopup extends StatefulWidget {
+  const RewardTransferPopup({
+    super.key,
+    required this.data,
+    required this.fAmount,
+  });
+
+  final RewardsBalance data;
+  final String fAmount;
+
+  @override
+  State<RewardTransferPopup> createState() => _RewardTransferPopupState();
+}
+
+class _RewardTransferPopupState extends State<RewardTransferPopup> {
+  bool isClaimButtonActive = true;
+
+  @override
+  void initState() {
+    sAnalytics.rewardsRewardTransferPopup(
+      transferAmount: widget.data.assetSymbol ?? '',
+      transferAseet: '${widget.data.amount}',
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Dialog(
+          insetPadding: const EdgeInsets.all(24.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Column(
+              children: [
+                const SpaceH40(),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: const ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.51, -0.86),
+                      end: Alignment(-0.51, 0.86),
+                      colors: [Color(0xFFCBB9FF), Color(0xFF9575F3)],
+                    ),
+                    shape: OvalBorder(),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: SRewardTrophyIcon(),
+                  ),
+                ),
+                Baseline(
+                  baseline: 40.0,
+                  baselineType: TextBaseline.alphabetic,
+                  child: Text(
+                    '${intl.reward_transfer} ${widget.fAmount} \n${intl.reward_to_my_account}',
+                    maxLines: 12,
+                    textAlign: TextAlign.center,
+                    style: sTextH5Style.copyWith(
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
+                const SpaceH36(),
+                //if (isClaimButtonActive) ...[
+                SPrimaryButton1(
+                  name: isClaimButtonActive ? intl.reward_transfer : '',
+                  icon: isClaimButtonActive ? null : const LoaderSpinner(),
+                  active: isClaimButtonActive,
+                  onTap: () async {
+                    sAnalytics.rewardsTransferPopupClickTransfer(
+                      transferAmount: widget.data.assetSymbol ?? '',
+                      transferAseet: '${widget.data.amount}',
+                    );
+
+                    setState(() {
+                      isClaimButtonActive = false;
+                    });
+                    try {
+                      final response = await sNetwork.getWalletModule().postRewardClaim(
+                            data: widget.data,
+                          );
+                      setState(() {
+                        isClaimButtonActive = true;
+                      });
+
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+
+                      if (!response.hasError) {
+                        showSuccessRewardSheet(
+                            widget.data.assetSymbol ?? '', '${widget.data.amount ?? Decimal.zero}', widget.fAmount);
+                      } else {
+                        sNotification.showError(
+                          response.error?.cause ?? '',
+                          id: 1,
+                          isError: true,
+                        );
+                      }
+                    } catch (e) {
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+                      sNotification.showError(
+                        intl.something_went_wrong_try_again,
+                        id: 1,
+                        isError: true,
+                      );
+
+                      return;
+                    }
+                  },
+                ),
+                //] else ...[
+                //  const LoaderSpinner(),
+                //],
+                const SpaceH10(),
+                STextButton1(
+                    active: true,
+                    name: intl.reward_cancel,
+                    onTap: () {
+                      sAnalytics.rewardsTransferPopupClickCancel(
+                        transferAmount: widget.data.assetSymbol ?? '',
+                        transferAseet: '${widget.data.amount}',
+                      );
+
+                      Navigator.pop(sRouter.navigatorKey.currentContext!);
+                    }),
+                const SpaceH20(),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

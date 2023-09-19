@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/market/market_details/helper/currency_from.dart';
+import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -87,14 +89,23 @@ class TransactionListItem extends StatelessObserverWidget {
                           ),
                           color: colors.black,
                         ),
-                        if (transactionListItem.operationType ==
-                                OperationType.giftSend ||
-                            transactionListItem.operationType ==
-                                OperationType.giftReceive) ...[
+                        if (transactionListItem.operationType == OperationType.giftSend ||
+                            transactionListItem.operationType == OperationType.giftReceive) ...[
                           Container(
                             height: 16,
                             margin: const EdgeInsets.only(top: 4),
                             child: const SGiftSendIcon(),
+                          ),
+                        ],
+                        if (transactionListItem.operationType == OperationType.rewardPayment) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4, top: 1.5),
+                            child: SizedBox(
+                              height: 16,
+                              child: SvgPicture.asset(
+                                simpleRewardTrophy,
+                              ),
+                            ),
                           ),
                         ],
                         if (transactionListItem.status == Status.declined) ...[
@@ -123,16 +134,11 @@ class TransactionListItem extends StatelessObserverWidget {
                       nftTypes.contains(transactionListItem.operationType)
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
-                              decimal: (transactionListItem.operationType ==
-                                          OperationType.withdraw ||
-                                      transactionListItem.operationType ==
-                                          OperationType.ibanSend ||
-                                      transactionListItem.operationType ==
-                                          OperationType.sendGlobally ||
-                                      transactionListItem.operationType ==
-                                          OperationType.transferByPhone ||
-                                      transactionListItem.operationType ==
-                                          OperationType.giftSend)
+                              decimal: (transactionListItem.operationType == OperationType.withdraw ||
+                                      transactionListItem.operationType == OperationType.ibanSend ||
+                                      transactionListItem.operationType == OperationType.sendGlobally ||
+                                      transactionListItem.operationType == OperationType.transferByPhone ||
+                                      transactionListItem.operationType == OperationType.giftSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
@@ -151,13 +157,8 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: transactionListItem.status == Status.declined
-                            ? colors.grey1
-                            : colors.black,
-                        decoration:
-                            transactionListItem.status == Status.declined
-                                ? TextDecoration.lineThrough
-                                : null,
+                        color: transactionListItem.status == Status.declined ? colors.grey1 : colors.black,
+                        decoration: transactionListItem.status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
                   ),
@@ -180,12 +181,9 @@ class TransactionListItem extends StatelessObserverWidget {
                       color: colors.grey2,
                     ),
                   const Spacer(),
-                  if (transactionListItem.operationType ==
-                          OperationType.nftSellOpposite ||
-                      transactionListItem.operationType ==
-                          OperationType.nftBuyOpposite ||
-                      transactionListItem.operationType ==
-                          OperationType.nftWithdrawalFee)
+                  if (transactionListItem.operationType == OperationType.nftSellOpposite ||
+                      transactionListItem.operationType == OperationType.nftBuyOpposite ||
+                      transactionListItem.operationType == OperationType.nftWithdrawalFee)
                     TransactionListItemText(
                       text: '${intl.transactionListItem_forText} '
                           '${nftAsset.name}',
@@ -218,8 +216,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                      OperationType.simplexBuy)
+                  if (transactionListItem.operationType == OperationType.simplexBuy)
                     TransactionListItemText(
                       text: '${intl.withText} '
                           '${volumeFormat(
@@ -230,28 +227,22 @@ class TransactionListItem extends StatelessObserverWidget {
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                      OperationType.recurringBuy)
+                  if (transactionListItem.operationType == OperationType.recurringBuy)
                     TransactionListItemText(
                       text: '${intl.withText} ${volumeFormat(
                         prefix: currency.prefixSymbol,
-                        decimal:
-                            transactionListItem.recurringBuyInfo!.sellAmount,
+                        decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                         accuracy: currency.accuracy,
-                        symbol:
-                            transactionListItem.recurringBuyInfo!.sellAssetId!,
+                        symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                          OperationType.earningDeposit &&
-                      transactionListItem.earnInfo?.totalBalance ==
-                          transactionListItem.balanceChange.abs())
+                  if (transactionListItem.operationType == OperationType.earningDeposit &&
+                      transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs())
                     TransactionListItemText(
                       text: ' ${volumeFormat(
                         prefix: baseCurrency.prefix,
-                        decimal: transactionListItem.earnInfo!.totalBalance *
-                            currency.currentPrice,
+                        decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
                         accuracy: baseCurrency.accuracy,
                         symbol: baseCurrency.symbol,
                       )}',
@@ -307,7 +298,7 @@ class TransactionListItem extends StatelessObserverWidget {
       case OperationType.swap:
         return const SActionConvertIcon();
       case OperationType.rewardPayment:
-        return SPlusIcon(color: isFailed ? color : null);
+        return SReceiveByPhoneIcon(color: isFailed ? color : null);
       case OperationType.simplexBuy:
         return SPlusIcon(color: isFailed ? color : null);
       case OperationType.recurringBuy:
