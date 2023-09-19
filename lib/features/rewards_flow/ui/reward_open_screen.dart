@@ -116,6 +116,9 @@ abstract class _RewardOpenStoreBase with Store {
     }
   }
 
+  @observable
+  bool isCardOpened = false;
+
   int lastIndex = -1;
   AnimationController? lastController;
 
@@ -128,6 +131,8 @@ abstract class _RewardOpenStoreBase with Store {
     sAnalytics.rewardsOpenRewardTapCard(cardNumber: index, source: source);
 
     subtitleText = intl.reward_open_openings;
+
+    isCardOpened = true;
 
     unawaited(controller.forward());
 
@@ -265,6 +270,8 @@ abstract class _RewardOpenStoreBase with Store {
     if (lastController != null) {
       lastController!.reset();
     }
+
+    isCardOpened = false;
 
     Future.delayed(const Duration(milliseconds: 500), () {
       lastController = null;

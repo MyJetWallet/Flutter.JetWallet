@@ -67,7 +67,7 @@ class _RewardAnimatedCardState extends State<RewardAnimatedCard> with SingleTick
           duration: const Duration(seconds: 1),
           child: GestureDetector(
             onTap: () {
-              store.openCard(widget.cardID, _controller, widget.source);
+              if (!store.isCardOpened) store.openCard(widget.cardID, _controller, widget.source);
             },
             child: RewardClosedCard(
               //controller: cardController1,
