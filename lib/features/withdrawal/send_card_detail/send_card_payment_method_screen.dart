@@ -48,6 +48,7 @@ class SendCardPaymentMethodBody extends StatelessObserverWidget {
     final store = SendCardPaymentMethodStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.global_send_payment_method_title,

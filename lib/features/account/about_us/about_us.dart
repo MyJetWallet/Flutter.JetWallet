@@ -72,9 +72,6 @@ class AboutUs extends StatelessObserverWidget {
             ),
             const SpaceH20(),
           ],
-          if (privacyEarnLink.isNotEmpty) ...[
-            const SpaceH20(),
-          ],
           if (privacyPolicyLink.isNotEmpty) ...[
             Row(
               children: [

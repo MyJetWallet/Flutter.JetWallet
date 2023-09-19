@@ -40,6 +40,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
     return Observer(
       builder: (context) {
         return SPageFrameWithPadding(
+          loaderText: intl.loader_please_wait,
           loading: sendGiftStore.loader,
           customLoader: WaitingScreen(
             primaryText: intl.waitingScreen_processing,

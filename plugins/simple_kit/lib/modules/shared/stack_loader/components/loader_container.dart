@@ -6,10 +6,10 @@ import 'package:simple_kit/modules/texts/simple_text_styles.dart';
 class LoaderContainer extends StatelessWidget {
   const LoaderContainer({
     Key? key,
-    this.loadingText,
+    required this.loadingText,
   }) : super(key: key);
 
-  final String? loadingText;
+  final String loadingText;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,7 @@ class LoaderContainer extends StatelessWidget {
               baseline: 20.6,
               baselineType: TextBaseline.alphabetic,
               child: Text(
-                loadingText != null
-                    ? loadingText!.isNotEmpty
-                        ? '${loadingText!} ...'
-                        : 'Please wait ...'
-                    : 'Please wait ...',
+                loadingText,
                 style: sBodyText2Style.copyWith(
                   color: Colors.black,
                 ),

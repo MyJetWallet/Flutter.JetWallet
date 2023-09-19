@@ -68,6 +68,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
     final store = SendCardDetailStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(

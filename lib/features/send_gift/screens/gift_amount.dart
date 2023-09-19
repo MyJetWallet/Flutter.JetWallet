@@ -49,6 +49,7 @@ class _GiftAmountState extends State<GiftAmount> {
     final sColors = sKit.colors;
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_title,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -50,14 +51,16 @@ class _AccountStatusBannerState extends State<AccountStatusBanner> {
             children: [
               widget.icon,
               const SpaceW10(),
-              Text(
-                widget.title,
-                style: sSubtitle2Style.copyWith(
-                  color: widget.textColor,
-                  height: 1.2,
+              Expanded(
+                child: AutoSizeText(
+                  widget.title,
+                  style: sSubtitle2Style.copyWith(
+                    color: widget.textColor,
+                    height: 1.2,
+                  ),
+                  maxLines: 2,
                 ),
               ),
-              const Spacer(),
               SBlueRightArrowIcon(
                 color: widget.textColor,
               ),

@@ -34,6 +34,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     final store = getIt<VerificationStore>();
 
     return SPageFrameWithPadding(
+      loaderText: intl.loader_please_wait,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
