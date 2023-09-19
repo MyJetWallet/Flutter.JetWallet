@@ -76,23 +76,8 @@ abstract class _WithdrawalStoreBase with Store {
       );
 
   @computed
-  List<BlockchainModel> get networks {
-    final blockchainNetworksFromCurrency =
-        withdrawalInputModel?.currency?.depositBlockchains ?? [];
-
-    final result = blockchainNetworksFromCurrency
-        .where(
-          (element) =>
-              _sendBlockchainMethod.symbolNetworkDetails?.any(
-                (symbolNetworkDetails) =>
-                    symbolNetworkDetails.network == element.id,
-              ) ??
-              false,
-        )
-        .toList();
-
-    return result;
-  }
+  List<BlockchainModel> get networks =>
+      withdrawalInputModel?.currency?.networksForBlockchainSend ?? [];
 
   @observable
   bool addressError = false;
