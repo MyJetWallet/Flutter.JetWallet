@@ -82,11 +82,13 @@ class _GiftAmountState extends State<GiftAmount> {
                     symbol: geftSendAmountStore.selectedCurrency.symbol,
                   ),
                   helper: '≈ ${marketFormat(
-                      accuracy: geftSendAmountStore.baseCurrency.accuracy,
-                      prefix: geftSendAmountStore.baseCurrency.prefix,
-                      decimal: Decimal.parse(geftSendAmountStore.baseConversionValue),
-                      symbol: geftSendAmountStore.baseCurrency.symbol,
-                    )}',
+                    accuracy: geftSendAmountStore.baseCurrency.accuracy,
+                    prefix: geftSendAmountStore.baseCurrency.prefix,
+                    decimal: Decimal.parse(
+                      geftSendAmountStore.baseConversionValue,
+                    ),
+                    symbol: geftSendAmountStore.baseCurrency.symbol,
+                  )}',
                   error: geftSendAmountStore.withAmmountInputError ==
                           InputError.limitError
                       ? geftSendAmountStore.limitError

@@ -200,6 +200,7 @@ bool validWeakPhoneNumber(String value) {
 
 /// Used for input fields on actions
 String formatCurrencyStringAmount({
+  @Deprecated('The parameter is not used')
   String? prefix,
   required String value,
   required String symbol,
