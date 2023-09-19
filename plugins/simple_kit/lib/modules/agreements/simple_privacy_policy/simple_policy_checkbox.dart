@@ -15,7 +15,7 @@ class SPolicyCheckbox extends StatelessWidget {
     required this.onUserAgreementTap,
     required this.onPrivacyPolicyTap,
     this.isSendGlobal,
-    this.height = 77,
+    this.height,
     this.secondText,
     this.activeText,
     this.onActiveTextTap,
@@ -43,7 +43,7 @@ class SPolicyCheckbox extends StatelessWidget {
   final Function()? onActiveText2Tap;
   final bool? isSendGlobal;
 
-  final double height;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

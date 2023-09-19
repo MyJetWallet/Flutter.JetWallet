@@ -103,7 +103,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
               children: [
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 174,
                     isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
                     firstAdditionalText: intl.send_globally_cond_text_add_1,
