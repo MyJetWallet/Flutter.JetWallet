@@ -478,7 +478,7 @@ class CryptoBuyInfo with _$CryptoBuyInfo {
     required String depositFeeAsset,
     @DecimalSerialiser() required Decimal tradeFeeAmount,
     required String tradeFeeAsset,
-    required String cardLast4,
+    String? cardLast4,
     String? cardLabel,
     String? cardType,
     @PaymentTypeSerialiser() PaymentMethodType? paymentMethod,
