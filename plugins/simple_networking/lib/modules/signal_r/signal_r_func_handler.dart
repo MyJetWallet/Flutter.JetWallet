@@ -166,7 +166,6 @@ class SignalRFuncHandler {
 
   void assetsMessageHandler(List<Object?>? data) {
     try {
-      //log(data.toString());
       final assets = AssetsModel.fromJson(_json(data));
       sTransport.setAssets(assets);
 

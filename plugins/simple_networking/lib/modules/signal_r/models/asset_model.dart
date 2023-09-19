@@ -33,6 +33,8 @@ class AssetModel with _$AssetModel {
     required AssetFeesModel fees,
     required List<String> depositBlockchains,
     required List<String> withdrawalBlockchains,
+    @DecimalNullSerialiser() Decimal? minTradeAmount,
+    @DecimalNullSerialiser() Decimal? maxTradeAmount,
   }) = _AssetModel;
 
   factory AssetModel.fromJson(Map<String, dynamic> json) =>

@@ -1,8 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/utils/formatting/formatting.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_networking/helpers/decimal_serialiser.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
@@ -58,6 +60,8 @@ class CurrencyModel with _$CurrencyModel {
     required int transfersInProcessCount,
     required int earnInProcessCount,
     @Default(false) bool earnProgramEnabled,
+    @DecimalNullSerialiser() Decimal? minTradeAmount,
+    @DecimalNullSerialiser() Decimal? maxTradeAmount,
   }) = _CurrencyModel;
   factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
       _$CurrencyModelFromJson(json);
@@ -261,9 +265,6 @@ class CurrencyModel with _$CurrencyModel {
             .isNotEmpty ||
         withdrawalMethods
             .where((element) => element.id == WithdrawalMethods.blockchainSend)
-            .isNotEmpty ||
-        withdrawalMethods
-            .where((element) => element.id == WithdrawalMethods.internalSend)
             .isNotEmpty;
   }
 
@@ -305,6 +306,19 @@ class CurrencyModel with _$CurrencyModel {
   }
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
+
+  bool get isSingleNetworkForBlockchainSend {
+    return sSignalRModules.sendMethods
+            .where(
+              (element) =>
+                  element.id == WithdrawalMethods.blockchainSend &&
+                  (element.symbolNetworkDetails
+                          ?.any((element) => element.symbol == symbol) ??
+                      false),
+            )
+            .length ==
+        1;
+  }
 }
 
 class ObservableCurrencyModelListConverter

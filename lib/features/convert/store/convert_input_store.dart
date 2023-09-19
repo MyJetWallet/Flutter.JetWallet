@@ -6,6 +6,7 @@ import 'package:jetwallet/core/services/conversion_price_service/conversion_pric
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/convert/helper/remove_currency_from_list.dart';
+import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/currencies_helpers.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
@@ -16,6 +17,8 @@ import 'package:logging/logging.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
+
+import '../../../core/l10n/i10n.dart';
 part 'convert_input_store.g.dart';
 
 class ConvertInputStore extends _ConvertInputStoreBase
@@ -99,11 +102,29 @@ abstract class _ConvertInputStoreBase with Store {
   @observable
   CurrencyModel? toAsset;
 
+  @computed
+  CurrencyModel? get _currentAsset => fromAssetEnabled ? fromAsset : toAsset;
+
+  @computed
+  String get _currentAssetAmount =>
+      fromAssetEnabled ? fromAssetAmount : toAssetAmount;
+
   @observable
   List<CurrencyModel> fromAssetList = [];
 
   @observable
   List<CurrencyModel> toAssetList = [];
+
+  @computed
+  Decimal? get _minLimit =>
+      fromAssetEnabled ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount;
+
+  @computed
+  Decimal? get _maxLimit =>
+      fromAssetEnabled ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount;
+
+  @observable
+  String limitError = '';
 
   @action
   void _updateFromAssetAmount(String value) {
@@ -277,6 +298,7 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
+    _validateInput();
   }
 
   @action
@@ -292,6 +314,7 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
+    _validateInput();
   }
 
   /// We can select percent only from FromAssetAmount
@@ -420,19 +443,45 @@ abstract class _ConvertInputStoreBase with Store {
   @action
   void _validateInput() {
     final error = onTradeInputErrorHandler(
-      fromAssetAmount,
-      fromAsset!,
+      _currentAssetAmount,
+      _currentAsset!,
     );
 
-    if (error == InputError.none) {
+    final value = Decimal.parse(_currentAssetAmount);
+
+    if (_minLimit != null && _minLimit! > value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: _minLimit!,
+        accuracy: _currentAsset?.accuracy ?? 0,
+        symbol: _currentAsset?.symbol ?? '',
+      )}';
+    } else if (_maxLimit != null && _maxLimit! < value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: _maxLimit!,
+        accuracy: _currentAsset?.accuracy ?? 1,
+        symbol: _currentAsset?.symbol ?? '',
+      )}';
+    } else {
+      limitError = '';
+    }
+
+    final withAmmountInputError = double.parse(_currentAssetAmount) != 0
+        ? error == InputError.none
+            ? limitError.isEmpty
+                ? InputError.none
+                : InputError.limitError
+            : error
+        : InputError.none;
+
+    if (withAmmountInputError == InputError.none) {
       _convertValid(
-        isInputValid(fromAssetAmount),
+        isInputValid(_currentAssetAmount),
       );
     } else {
       _convertValid(false);
     }
 
-    _updateInputError(error);
+    _updateInputError(withAmmountInputError);
 
     setUpdateTargetConversionPrice(
       fromAsset!.symbol,

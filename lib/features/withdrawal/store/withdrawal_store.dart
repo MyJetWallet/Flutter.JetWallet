@@ -32,6 +32,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/validation_api/models/validation/verify_withdrawal_verification_code_request_model.dart';
@@ -67,6 +68,31 @@ abstract class _WithdrawalStoreBase with Store {
 
   @observable
   WithdrawalModel? withdrawalInputModel;
+
+  @computed
+  SendMethodDto get _sendBlockchainMethod =>
+      sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.blockchainSend,
+      );
+
+  @computed
+  List<BlockchainModel> get networks {
+    final blockchainNetworksFromCurrency =
+        withdrawalInputModel?.currency?.depositBlockchains ?? [];
+
+    final result = blockchainNetworksFromCurrency
+        .where(
+          (element) =>
+              _sendBlockchainMethod.symbolNetworkDetails?.any(
+                (symbolNetworkDetails) =>
+                    symbolNetworkDetails.network == element.id,
+              ) ??
+              false,
+        )
+        .toList();
+
+    return result;
+  }
 
   @observable
   bool addressError = false;
@@ -273,8 +299,14 @@ abstract class _WithdrawalStoreBase with Store {
   }
 
   @computed
+  SendMethodDto get _sendWithdrawalMethod =>
+      sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.blockchainSend,
+      );
+
+  @computed
   Decimal? get _minLimit =>
-      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) =>
             element.network == network.id &&
             element.symbol == withdrawalInputModel?.currency?.symbol,
@@ -285,7 +317,7 @@ abstract class _WithdrawalStoreBase with Store {
 
   @computed
   Decimal? get _maxLimit =>
-      sSignalRModules.cryptoSendSymbolNetworkDetails.firstWhere(
+      _sendWithdrawalMethod.symbolNetworkDetails?.firstWhere(
         (element) =>
             element.network == network.id &&
             element.symbol == withdrawalInputModel?.currency?.symbol,
@@ -305,8 +337,8 @@ abstract class _WithdrawalStoreBase with Store {
     if (withdrawalInputModel!.currency != null) {
       withdrawalType = WithdrawalType.asset;
 
-      if (withdrawalInputModel!.currency!.isSingleNetwork) {
-        updateNetwork(withdrawalInputModel!.currency!.withdrawalBlockchains[0]);
+      if (withdrawalInputModel!.currency!.isSingleNetworkForBlockchainSend) {
+        updateNetwork(networks[0]);
       }
 
       //addressController.text = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';

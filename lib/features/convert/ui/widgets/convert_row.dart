@@ -26,6 +26,7 @@ class ConvertRow extends StatelessObserverWidget {
     required this.assetWithBalance,
     required this.assetWithoutBalance,
     required this.onDropdown,
+    this.limitError,
   });
 
   final bool fromAsset;
@@ -37,6 +38,7 @@ class ConvertRow extends StatelessObserverWidget {
   final List<CurrencyModel> assetWithBalance;
   final List<CurrencyModel> assetWithoutBalance;
   final Function(CurrencyModel?) onDropdown;
+  final String? limitError;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +126,9 @@ class ConvertRow extends StatelessObserverWidget {
                   child: Row(
                     children: [
                       const SpaceW34(),
-                      if (inputError == null || inputError == InputError.none)
+                      if (!enabled ||
+                          inputError == null ||
+                          inputError == InputError.none)
                         Text(
                           '${intl.convertRow_available}:'
                           ' ${swipeCurrency.volumeAssetBalance}',
@@ -133,7 +137,16 @@ class ConvertRow extends StatelessObserverWidget {
                             color: colors.grey2,
                           ),
                         )
-                      else ...[
+                      else if (inputError == InputError.limitError) ...[
+                        const Spacer(),
+                        Text(
+                          limitError ?? '',
+                          maxLines: 1,
+                          style: sSubtitle3Style.copyWith(
+                            color: colors.red,
+                          ),
+                        ),
+                      ] else ...[
                         const Spacer(),
                         Text(
                           inputError!.value(),

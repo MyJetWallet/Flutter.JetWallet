@@ -47,25 +47,11 @@ class SendMethodDto with _$SendMethodDto {
     required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
-    List<String>? symbols,
-    List<SendMethodDtoDetails>? symbolDetails,
     List<SymbolNetworkDetails>? symbolNetworkDetails,
   }) = _SendMethodDto;
 
   factory SendMethodDto.fromJson(Map<String, dynamic> json) =>
       _$SendMethodDtoFromJson(json);
-}
-
-@freezed
-class SendMethodDtoDetails with _$SendMethodDtoDetails {
-  const factory SendMethodDtoDetails({
-    final String? symbol,
-    @DecimalNullSerialiser() final Decimal? minAmount,
-    @DecimalNullSerialiser() final Decimal? maxAmount,
-  }) = _SendMethodDtoDetails;
-
-  factory SendMethodDtoDetails.fromJson(Map<String, dynamic> json) =>
-      _$SendMethodDtoDetailsFromJson(json);
 }
 
 @freezed
