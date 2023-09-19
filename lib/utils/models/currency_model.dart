@@ -307,18 +307,30 @@ class CurrencyModel with _$CurrencyModel {
 
   bool get isSingleNetwork => depositBlockchains.length == 1;
 
-  bool get isSingleNetworkForBlockchainSend {
-    return sSignalRModules.sendMethods
-            .where(
-              (element) =>
-                  element.id == WithdrawalMethods.blockchainSend &&
-                  (element.symbolNetworkDetails
-                          ?.any((element) => element.symbol == symbol) ??
-                      false),
-            )
-            .length ==
-        1;
+  List<BlockchainModel> get networksForBlockchainSend {
+    final sendMethods = sSignalRModules.sendMethods;
+    final blockchainSendMethod = sendMethods.firstWhere(
+      (element) => element.id == WithdrawalMethods.blockchainSend,
+    );
+    final thisSymbolNetworkDetails =
+        blockchainSendMethod.symbolNetworkDetails?.where(
+              (element) => element.symbol == symbol,
+            ) ??
+            [];
+    final result = depositBlockchains
+        .where(
+          (element) => thisSymbolNetworkDetails.any(
+            (symbolNetworkDetails) =>
+                symbolNetworkDetails.network == element.id,
+          ),
+        )
+        .toList();
+
+    return result;
   }
+
+  bool get isSingleNetworkForBlockchainSend =>
+      networksForBlockchainSend.length == 1;
 }
 
 class ObservableCurrencyModelListConverter
