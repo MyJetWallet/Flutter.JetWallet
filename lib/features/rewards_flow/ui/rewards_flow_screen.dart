@@ -62,6 +62,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
     final store = RewardsFlowStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.register_pleaseWait,
       header: const RewardsHeader(),
       child: CustomScrollView(
         slivers: [

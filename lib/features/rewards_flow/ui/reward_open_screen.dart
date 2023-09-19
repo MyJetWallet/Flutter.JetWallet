@@ -364,6 +364,7 @@ class _RewardOpenScreenBodyState extends State<_RewardOpenScreenBody> with Ticke
         },
         onShareButtonTap: () => store.shareCard(widget.source),
       ),
+      loaderText: intl.register_pleaseWait,
       child: AnimatedBackground(
         behaviour: RandomParticleBehaviour(
           options: ParticleOptions(
