@@ -80,14 +80,24 @@ class Circle3dSecureWebView extends StatelessWidget {
                   if (uri.path == '/circle/failure' ||
                       uri.path == '/unlimint/failure') {
                     onFailed(intl.something_went_wrong);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/circle/success' ||
                       uri.path == '/unlimint/success') {
                     onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/cancel') {
                     onCancel?.call(paymentId);
+
+                    return NavigationDecision.navigate;
                   } else if (uri.path == '/unlimint/inprocess' ||
                       uri.path == '/unlimint/return') {
                     onSuccess(paymentId, url);
+
+                    return NavigationDecision.navigate;
+                  } else if (uri.path.startsWith('text/html')) {
+                    return NavigationDecision.prevent;
                   }
 
                   return NavigationDecision.navigate;
