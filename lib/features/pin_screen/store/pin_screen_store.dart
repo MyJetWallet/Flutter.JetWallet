@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/internet_checker_service.dart';
 import 'package:jetwallet/core/services/local_storage_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
@@ -410,10 +411,14 @@ abstract class _PinScreenStoreBase with Store {
     } catch (e) {
       await _errorFlow();
 
-      sNotification.showError(
-        e.toString(),
-        id: 1,
-      );
+      if (getIt<InternetCheckerService>().internetAvailable) {
+        sNotification.showError(
+          e.toString(),
+          id: 1,
+        );
+      } else {
+        getIt<InternetCheckerService>().showNoConnectionAlert(Duration.zero);
+      }
     }
   }
 

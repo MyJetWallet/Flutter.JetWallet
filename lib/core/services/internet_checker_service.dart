@@ -51,10 +51,10 @@ class InternetCheckerService {
     }
   }
 
-  void showNoConnectionAlert() {
+  void showNoConnectionAlert([Duration? duration]) {
     isWaitAlert = true;
 
-    Future.delayed(secondsBeforeOpen, () {
+    Future.delayed(duration ?? secondsBeforeOpen, () {
       if (internetAvailable) {
         isWaitAlert = false;
 
