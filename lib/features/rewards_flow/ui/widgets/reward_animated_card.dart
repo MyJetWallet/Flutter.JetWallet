@@ -45,6 +45,14 @@ class _RewardAnimatedCardState extends State<RewardAnimatedCard> with SingleTick
   }
 
   @override
+  void didUpdateWidget(oldWidget) {
+    final store = RewardOpenStore.of(context);
+
+    store.updateLastController(_controller);
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final store = RewardOpenStore.of(context);
 

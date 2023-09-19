@@ -201,6 +201,11 @@ abstract class _RewardOpenStoreBase with Store {
     }
   }
 
+  @action
+  void updateLastController(AnimationController controller) {
+    lastController = controller;
+  }
+
   Future<void> shareCard(String source) async {
     sAnalytics.rewardsCardShare(source: source);
 
