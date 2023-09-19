@@ -219,12 +219,15 @@ class SetPhoneNumberBody extends StatelessObserverWidget {
                     }
 
                     if (isChangePhone) {
-                      sRouter.replace(
+                      sRouter.push(
                         PinScreenRoute(
                           union: const Change(),
                           isChangePhone: true,
                           onChangePhone: (String newPin) {
                             finalSend(newPin: newPin);
+                          },
+                          onBackPressed: () {
+                            sRouter.pop();
                           },
                         ),
                       );

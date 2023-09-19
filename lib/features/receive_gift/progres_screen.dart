@@ -16,6 +16,7 @@ class ProgressScreen extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     return SPageFrameWithPadding(
+      loaderText: intl.loader_please_wait,
       loading: loading,
       customLoader: WaitingScreen(
         primaryText: intl.waitingScreen_processing,

@@ -65,6 +65,7 @@ class IbanAddBankAccountScreenBody extends StatelessObserverWidget {
         );
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       loading: IbanAddBankAccountStore.of(context).loader,
       color: colors.grey5,
       header: SPaddingH24(

@@ -55,6 +55,7 @@ class _GiftReceiversDetailsScreenState extends State<GiftReceiversDetailsScreen>
     final colors = sKit.colors;
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(

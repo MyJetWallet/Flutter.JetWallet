@@ -21,6 +21,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/shared/stack_loader/store/stack_loader_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/address_book/address_book_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/iban_withdrawal/iban_withdrawal_model.dart';
@@ -81,6 +82,27 @@ abstract class _IbanSendAmountStoreBase with Store {
     'USD',
   );
 
+  @computed
+  SendMethodDto get _sendIbanMethod => sSignalRModules.sendMethods.firstWhere(
+        (element) => element.id == WithdrawalMethods.ibanSend,
+      );
+
+  @computed
+  Decimal? get _minLimit => _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.symbol == eurCurrency.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).minAmount;
+
+  @computed
+  Decimal? get _maxLimit => _sendIbanMethod.symbolNetworkDetails?.firstWhere(
+        (element) => element.symbol == eurCurrency.symbol,
+        orElse: () {
+          return const SymbolNetworkDetails();
+        },
+      ).maxAmount;
+
   @action
   void init(AddressBookContactModel value) {
     contact = value;
@@ -93,12 +115,8 @@ abstract class _IbanSendAmountStoreBase with Store {
 
     if (ibanOutMethodInd != -1) {
       limits = CardLimitsModel(
-        minAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
-                ?.last.minAmount ??
-            Decimal.zero,
-        maxAmount: eurCurrency.withdrawalMethods[ibanOutMethodInd].symbolDetails
-                ?.last.maxAmount ??
-            Decimal.zero,
+        minAmount: _minLimit ?? Decimal.zero,
+        maxAmount: _maxLimit ?? Decimal.zero,
         day1Amount: Decimal.zero,
         day1Limit: Decimal.zero,
         day1State: StateLimitType.active,
@@ -214,26 +232,24 @@ abstract class _IbanSendAmountStoreBase with Store {
       limits,
     );
 
-    if (limits != null) {
-      final value = Decimal.parse(withAmount);
+    final value = Decimal.parse(withAmount);
 
-      if (limits!.minAmount > value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-          decimal: limits!.minAmount,
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
-          prefix: eurCurrency.prefixSymbol,
-        )}';
-      } else if (limits!.maxAmount < value) {
-        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-          decimal: limits!.maxAmount,
-          accuracy: eurCurrency.accuracy,
-          symbol: eurCurrency.symbol,
-          prefix: eurCurrency.prefixSymbol,
-        )}';
-      } else {
-        limitError = '';
-      }
+    if (_minLimit != null && _minLimit! > value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+        decimal: _minLimit!,
+        accuracy: eurCurrency.accuracy,
+        symbol: eurCurrency.symbol,
+        prefix: eurCurrency.prefixSymbol,
+      )}';
+    } else if (_maxLimit != null && _maxLimit! < value) {
+      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+        decimal: _maxLimit!,
+        accuracy: eurCurrency.accuracy,
+        symbol: eurCurrency.symbol,
+        prefix: eurCurrency.prefixSymbol,
+      )}';
+    } else {
+      limitError = '';
     }
 
     withAmmountInputError = double.parse(withAmount) != 0

@@ -132,7 +132,7 @@ class _OnboardingScreenBodyState extends State<OnboardingScreenBody>
                       child: Text(
                         OnboardingStore.of(context)
                             .slides[OnboardingStore.of(context).currentIndex],
-                        maxLines: 3,
+                        maxLines: 4,
                         textAlign: TextAlign.center,
                         style: sTextH1Style,
                       ),

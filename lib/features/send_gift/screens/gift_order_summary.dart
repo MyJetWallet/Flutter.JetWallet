@@ -40,6 +40,7 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
     return Observer(
       builder: (context) {
         return SPageFrameWithPadding(
+          loaderText: intl.loader_please_wait,
           loading: sendGiftStore.loader,
           customLoader: WaitingScreen(
             primaryText: intl.waitingScreen_processing,
@@ -149,12 +150,13 @@ class _GiftOrderSummuryState extends State<GiftOrderSummury> {
                                 newPin: newPin,
                               );
                             },
-                            onError: (error) {
+                            onWrongPin: (error) {
                               sAnalytics.errorWrongPin(
                                 asset: sendGiftStore.currency.symbol,
                                 giftSubmethod:
                                     sendGiftStore.selectedContactType.name,
                                 errorText: error,
+                                sendMethod: AnalyticsSendMethods.gift,
                               );
                             },
                           ),

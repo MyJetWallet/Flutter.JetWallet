@@ -130,7 +130,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
               ),
             ),
           ],
-          if (transactionListItem.cryptoBuyInfo!.cardLast4.isNotEmpty &&
+          if ((transactionListItem.cryptoBuyInfo?.cardLast4 ?? '').isNotEmpty &&
               transactionListItem.status != Status.declined) ...[
             const SpaceH18(),
             TransactionDetailsItem(
@@ -142,7 +142,7 @@ class BuyCryptoDetails extends StatelessObserverWidget {
                 child: TransactionDetailsValueText(
                   text:
                       '''${transactionListItem.cryptoBuyInfo!.cardLabel ?? transactionListItem.cryptoBuyInfo!.cardType ?? ''} '''
-                      '•••• ${transactionListItem.cryptoBuyInfo!.cardLast4}',
+                      '''•••• ${transactionListItem.cryptoBuyInfo!.cardLast4 ?? ''}''',
                 ),
               ),
             ),

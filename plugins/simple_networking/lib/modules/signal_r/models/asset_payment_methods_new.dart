@@ -44,8 +44,6 @@ class SendMethodDto with _$SendMethodDto {
     @WithdrawalMethodsSerialiser() @JsonKey(name: 'id') required WithdrawalMethods id,
     String? iconUrl,
     int? orderId,
-    List<String>? symbols,
-    List<SendMethodDtoDetails>? symbolDetails,
     List<SymbolNetworkDetails>? symbolNetworkDetails,
   }) = _SendMethodDto;
 

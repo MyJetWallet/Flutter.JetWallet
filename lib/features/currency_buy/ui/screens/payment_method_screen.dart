@@ -442,6 +442,7 @@ class _PaymentMethodScreenState extends State<_PaymentMethodScreen> {
     }
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.paymentMethods_paymentMethods,

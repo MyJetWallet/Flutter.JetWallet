@@ -66,6 +66,7 @@ class _WalletBodyState extends State<WalletBody>
         child: Stack(
           children: [
             CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               slivers: [
                 SliverAppBar(

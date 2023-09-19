@@ -9,7 +9,7 @@ class StackLoader extends StatefulObserverWidget {
   const StackLoader({
     Key? key,
     this.loadSuccess,
-    this.loaderText,
+    required this.loaderText,
     this.customLoader,
     required this.child,
     required this.loading,
@@ -17,7 +17,7 @@ class StackLoader extends StatefulObserverWidget {
 
   final Widget child;
   final Widget? customLoader;
-  final String? loaderText;
+  final String loaderText;
   final StackLoaderStore? loading;
   final StackLoaderStore? loadSuccess;
 

@@ -34,6 +34,7 @@ class ProfileDetails extends StatelessObserverWidget {
     }
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.profileDetails_profileDetails,

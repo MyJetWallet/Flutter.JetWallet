@@ -14,20 +14,24 @@ class SimpleAccountTermButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 1.0),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 2.0,
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.only(bottom: 1.0),
+        child: STransparentInkWell(
+          onTap: onTap,
+          child: Text(
+            name,
+            style: sBodyText2Style.copyWith(
+              shadows: [
+                const Shadow(color: Colors.black, offset: Offset(0, -5)),
+              ],
+              color: Colors.transparent,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.black,
+              decorationThickness: 3,
+            ),
+            maxLines: 2,
           ),
-        ),
-      ),
-      child: STransparentInkWell(
-        onTap: onTap,
-        child: Text(
-          name,
-          style: sBodyText2Style,
         ),
       ),
     );

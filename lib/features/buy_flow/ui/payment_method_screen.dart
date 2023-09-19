@@ -49,6 +49,7 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
     final store = PaymentMethodStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.buy_flow_payment_method,

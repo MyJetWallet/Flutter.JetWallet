@@ -512,6 +512,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
           earnInProcessCount: 0,
           buysInProcessCount: 0,
           transfersInProcessCount: 0,
+          minTradeAmount: asset.minTradeAmount,
+          maxTradeAmount: asset.maxTradeAmount,
         );
 
         //if (!currenciesList.contains(currModel)) {
@@ -565,6 +567,8 @@ abstract class _SignalRServiceUpdatedBase with Store {
           earnInProcessCount: 0,
           buysInProcessCount: 0,
           transfersInProcessCount: 0,
+          minTradeAmount: asset.minTradeAmount,
+          maxTradeAmount: asset.maxTradeAmount,
         ),
       );
     }
@@ -831,9 +835,10 @@ abstract class _SignalRServiceUpdatedBase with Store {
   ObservableList<AssetPaymentProducts>? assetProducts = ObservableList.of([]);
   @observable
   List<String> paymentMethods = [];
-  // TODO: Do this for all send methods
+
   @observable
-  List<SymbolNetworkDetails> cryptoSendSymbolNetworkDetails = [];
+  List<SendMethodDto> sendMethods = [];
+
   @action
   void updateAssetPaymentMethods(AssetPaymentMethods value) {
     // showPaymentsMethods = value.showCardsInProfile;
@@ -912,7 +917,9 @@ abstract class _SignalRServiceUpdatedBase with Store {
       }
       if (value.send != null) {
         for (final sendMethod in value.send!) {
-          if (sendMethod.symbols?.contains(currency.symbol) ?? false) {
+          if (sendMethod.symbolNetworkDetails
+                  ?.any((element) => element.symbol == currency.symbol) ??
+              false) {
             sendMethods.add(sendMethod);
           }
         }
@@ -945,12 +952,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
         paymentMethods.add(asset.id.toString());
       }
     }
-    cryptoSendSymbolNetworkDetails = value.send
-            ?.firstWhere(
-              (element) => element.id == WithdrawalMethods.blockchainSend,
-            )
-            .symbolNetworkDetails ??
-        [];
+    sendMethods = value.send ?? [];
   }
 
   @action

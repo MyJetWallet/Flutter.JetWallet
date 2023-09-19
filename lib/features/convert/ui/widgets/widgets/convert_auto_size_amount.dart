@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 class ConvertAutoSizeAmount extends StatelessObserverWidget {
@@ -24,8 +25,13 @@ class ConvertAutoSizeAmount extends StatelessObserverWidget {
       child: STransparentInkWell(
         onTap: onTap,
         child: AutoSizeText(
-          // TODO add reactive value (blocked by backend)
-          value.isEmpty ? '${intl.min} 0.001' : value,
+          // TODO: add reactive value (blocked by backend)
+          value.isEmpty
+              ? '${intl.min} 0.001'
+              : formatCurrencyStringAmount(
+                  value: value,
+                  symbol: '',
+                ),
           textAlign: TextAlign.end,
           minFontSize: 4.0,
           maxLines: 1,

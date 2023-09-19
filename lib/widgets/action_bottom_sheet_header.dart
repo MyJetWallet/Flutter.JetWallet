@@ -79,6 +79,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               controller: textController,
               labelText: intl.actionBottomSheetHeader_search,
               onChanged: widget.onChanged,
+              maxLines: 1,
             )
           else
             SPaddingH24(
@@ -86,6 +87,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 controller: textController,
                 labelText: intl.actionBottomSheetHeader_search,
                 onChanged: widget.onChanged,
+                maxLines: 1,
               ),
             ),
           const SDivider(),
@@ -116,6 +118,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                     hideLabel: true,
                     onChanged: widget.onChanged,
                     alignLabelWithHint: true,
+                    maxLines: 1,
                   ),
                 ),
               ],

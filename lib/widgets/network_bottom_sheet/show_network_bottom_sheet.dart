@@ -36,6 +36,10 @@ void showNetworkBottomSheet(
   }
 
   sAnalytics.chooseNetworkPopupView(asset: asset);
+  sAnalytics.cryptoSendChooseNetworkScreenView(
+    asset: asset,
+    sendMethodType: '0',
+  );
 
   sShowBasicModalBottomSheet(
     context: context,

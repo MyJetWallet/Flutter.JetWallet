@@ -68,6 +68,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
     final store = SendCardDetailStore.of(context);
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       color: colors.grey5,
       header: SPaddingH24(
         child: SSmallHeader(
@@ -103,7 +104,6 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
               children: [
                 SPaddingH24(
                   child: SPolicyCheckbox(
-                    height: 174,
                     isSendGlobal: true,
                     firstText: intl.send_globally_cond_text_1,
                     firstAdditionalText: intl.send_globally_cond_text_add_1,
@@ -119,7 +119,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       sAnalytics.globalSendTCCheckbox(
                         asset: store.currency,
                         sendMethodType: '1',
-                        destCountry: countryCode,
+                        destCountry: store.countryCode,
                         paymentMethod: store.method?.name ?? '',
                       );
 
@@ -146,14 +146,14 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                       sAnalytics.globalSendMoreDetailsButton(
                         asset: store.currency,
                         sendMethodType: '1',
-                        destCountry: countryCode,
+                        destCountry: store.countryCode,
                         paymentMethod: store.method?.name ?? '',
                       );
 
                       sAnalytics.globalSendMoreDetailsPopup(
                         asset: store.currency,
                         sendMethodType: '1',
-                        destCountry: countryCode,
+                        destCountry: store.countryCode,
                         paymentMethod: store.method?.name ?? '',
                       );
 
@@ -173,7 +173,7 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                           sAnalytics.globalSendGotItButton(
                             asset: store.currency,
                             sendMethodType: '1',
-                            destCountry: countryCode,
+                            destCountry: store.countryCode,
                             paymentMethod: store.method?.name ?? '',
                           );
 
@@ -198,9 +198,9 @@ class _SendCardDetailScreenBodyState extends State<SendCardDetailScreenBody> {
                         sAnalytics.globalSendContinueReceiveDetail(
                           asset: store.currency,
                           sendMethodType: '1',
-                          destCountry: countryCode,
+                          destCountry: store.countryCode,
                           paymentMethod: store.method?.name ?? '',
-                          globalSendType: store.methodList.first.id,
+                          globalSendType: store.method?.methodId ?? '',
                         );
 
                         store.submit();

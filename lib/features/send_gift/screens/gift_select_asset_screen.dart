@@ -81,6 +81,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
     final searchStore = getIt.get<ActionSearchStore>();
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.send_gift_sending_asset,
@@ -103,6 +104,7 @@ class _GiftSelectAssetScreenState extends State<GiftSelectAssetScreen> {
                           sortedAssets,
                         );
                       },
+                      maxLines: 1,
                     ),
                   ),
                   const SDivider(),

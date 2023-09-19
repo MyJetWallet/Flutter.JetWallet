@@ -37,6 +37,7 @@ class ChooseAssetScreen extends StatelessWidget {
     );
 
     return SPageFrame(
+      loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
           title: intl.actionBuy_chooseAsset,
@@ -54,6 +55,7 @@ class ChooseAssetScreen extends StatelessWidget {
                   onChanged: (String value) {
                     searchStore.search(value);
                   },
+                  maxLines: 1,
                 ),
               ),
               const SDivider(),

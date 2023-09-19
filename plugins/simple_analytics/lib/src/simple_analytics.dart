@@ -1433,12 +1433,12 @@ class SimpleAnalytics {
     );
   }
 
-  void kycFlowCoutryOfIssueCont({
+  void kycFlowTapContinueOnVerifyYourIdentity({
     required String country,
     required String documentList,
   }) {
     _analytics.logEvent(
-      EventType.kycFlowCoutryOfIssueCont,
+      EventType.kycFlowTapContinueOnVerifyYourIdentity,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '182',
@@ -1844,7 +1844,18 @@ class SimpleAnalytics {
     );
   }
 
-  void confirmWithPINScreenView({
+  void confirmWithPINScreenView() {
+    _analytics.logEvent(
+      EventType.confirmWithPINScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.eventId: '91',
+        PropertyType.kycStatus: kycDepositStatus,
+      },
+    );
+  }
+
+  void ibanConfirmWithPINScreenView({
     required String asset,
     required String methodType,
     required String sendAmount,
@@ -1884,8 +1895,9 @@ class SimpleAnalytics {
 
   void errorWrongPin({
     required String asset,
-    required String giftSubmethod,
     required String errorText,
+    required AnalyticsSendMethods sendMethod,
+    String? giftSubmethod,
   }) {
     _analytics.logEvent(
       EventType.errorWrongPin,
@@ -1895,7 +1907,7 @@ class SimpleAnalytics {
         PropertyType.eventId: '92',
         PropertyType.errorText: errorText,
         PropertyType.asset: asset,
-        PropertyType.sendMethodType: AnalyticsSendMethods.gift.code,
+        PropertyType.sendMethodType: sendMethod.code,
         PropertyType.giftSendSubmethod: giftSubmethod,
       },
     );
@@ -2403,6 +2415,7 @@ class SimpleAnalytics {
     required String globalSendType,
     required String asset,
     required String sendMethodType,
+    required String errorCode,
   }) {
     _analytics.logEvent(
       EventType.globalSendErrorLimit,
@@ -2410,6 +2423,7 @@ class SimpleAnalytics {
         PropertyType.techAcc: isTechAcc,
         PropertyType.eventId: '146',
         PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.errorCode: errorCode,
         PropertyType.destinationCountry: destCountry,
         PropertyType.paymentMethod: paymentMethod,
         PropertyType.globalMethods: globalSendType,

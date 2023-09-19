@@ -98,7 +98,9 @@ class PhoneVerificationBody extends StatelessObserverWidget {
       header: SPaddingH24(
         child: SBigHeader(
           title: intl.phoneVerification_phoneConfirmation,
-          onBackButtonTap: () => Navigator.pop(context),
+          onBackButtonTap: () {
+            getIt<AppRouter>().popUntilRoot();
+          },
           isSmallSize: true,
           customIconButton: args.sendCodeOnInitState
               ? SIconButton(

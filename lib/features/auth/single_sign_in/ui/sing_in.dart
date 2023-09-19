@@ -153,6 +153,7 @@ class _SingInBody extends StatelessObserverWidget {
                           color: colors.grey5,
                           child: SPaddingH24(
                             child: SPolicyCheckbox(
+                              height: 77,
                               firstText: '${intl.register_herebyConfirm} ',
                               userAgreementText: intl.register_TAndC,
                               betweenText: ' ${intl.register_andThe} ',

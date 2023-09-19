@@ -105,7 +105,7 @@ class SPaymentSelectCreditCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: helper.isNotEmpty ? 120.0 : 180.0,
+                                width: helper.isNotEmpty ? 120.0 : null,
                                 child: Text(
                                   description,
                                   style: sCaptionTextStyle.copyWith(
