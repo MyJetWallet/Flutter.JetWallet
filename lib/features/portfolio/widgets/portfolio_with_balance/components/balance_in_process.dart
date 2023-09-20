@@ -92,8 +92,6 @@ class BalanceInProcess extends StatelessWidget {
                 ],
               ],
             ),
-            const Spacer(),
-            if (!removeDivider) const SDivider(),
           ],
         ),
       ),
