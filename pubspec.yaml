@@ -168,10 +168,10 @@ dev_dependencies:
 
 dependency_overrides:
   dart_style: 2.3.2
-  flutter_inappwebview:
-    git:
-      url: https://github.com/vixez/flutter_inappwebview.git
-      ref: fix-xcode-17
+  #flutter_inappwebview:
+ #  git:
+ #     url: https://github.com/vixez/flutter_inappwebview.git
+  #    ref: fix-xcode-17
   #analyzer: 5.9.0
   intl: 0.18.0
   quiver: ^3.2.1
