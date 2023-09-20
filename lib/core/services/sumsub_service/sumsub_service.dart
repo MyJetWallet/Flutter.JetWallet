@@ -106,6 +106,7 @@ class SumsubService {
         .withLocale(
           Locale(intl.localeName),
         )
+        .withAutoCloseOnApprove(0)
         .build();
 
     final SNSMobileSDKResult result = await snsMobileSDK.launch();
