@@ -50,18 +50,6 @@ class StartupService {
 
     final storageService = getIt.get<LocalStorageService>();
 
-    unawaited(
-      getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
-            AddLogModel(
-              level: 'info',
-              message: 'Check is user auth',
-              source: 'firstAction',
-              process: 'StartupService',
-              token: null,
-            ),
-          ),
-    );
-
     try {
       token = await storageService.getValue(refreshTokenKey);
       email = await storageService.getValue(userEmailKey);

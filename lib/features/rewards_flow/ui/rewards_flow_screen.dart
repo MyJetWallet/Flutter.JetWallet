@@ -146,7 +146,12 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 const SpaceH32(),
                 SPaddingH24(
                   child: Text(
-                    intl.rewards_flow_your_rewards,
+                    '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
+                      prefix: getIt.get<FormatService>().baseCurrency.prefix,
+                      decimal: store.totalEarnedBaseCurrency,
+                      accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
+                      symbol: getIt.get<FormatService>().baseCurrency.symbol,
+                    )}',
                     style: sTextH4Style,
                     maxLines: 3,
                   ),
@@ -154,12 +159,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 if (store.totalEarnedBaseCurrency == Decimal.zero || isAnyValidItemInRewardBalanceList(store)) ...[
                   SPaddingH24(
                     child: Text(
-                      '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
-                        prefix: getIt.get<FormatService>().baseCurrency.prefix,
-                        decimal: store.totalEarnedBaseCurrency,
-                        accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
-                        symbol: getIt.get<FormatService>().baseCurrency.symbol,
-                      )}. ${intl.reward_your_reward_subtitle_2}',
+                      intl.reward_your_reward_subtitle_2,
                       style: sBodyText1Style.copyWith(
                         color: sKit.colors.grey1,
                       ),
@@ -169,12 +169,7 @@ class _RewardsFlowScreenBodyState extends State<_RewardsFlowScreenBody> {
                 ] else ...[
                   SPaddingH24(
                     child: Text(
-                      '${intl.reward_your_reward_subtitle_1} ${volumeFormat(
-                        prefix: getIt.get<FormatService>().baseCurrency.prefix,
-                        decimal: store.totalEarnedBaseCurrency,
-                        accuracy: getIt.get<FormatService>().baseCurrency.accuracy,
-                        symbol: getIt.get<FormatService>().baseCurrency.symbol,
-                      )}.',
+                      intl.reward_your_reward_subtitle_2,
                       style: sBodyText1Style.copyWith(
                         color: sKit.colors.grey1,
                       ),
