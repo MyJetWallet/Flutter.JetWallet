@@ -27,13 +27,11 @@ class PortfolioHeader extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    final viewedRewards =
-        sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
+    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
     var counterOfRewards = 0;
     final rewStore = RewardStore();
     for (final campaign in rewStore.sortedCampaigns) {
-      if (campaign.campaign != null &&
-          !viewedRewards.contains(campaign.campaign!.campaignId)) {
+      if (campaign.campaign != null && !viewedRewards.contains(campaign.campaign!.campaignId)) {
         counterOfRewards++;
       }
     }
@@ -54,29 +52,6 @@ class PortfolioHeader extends StatelessObserverWidget {
               style: sTextH5Style,
             ),
             const Spacer(),
-            SizedBox(
-              width: 56.0,
-              height: 56.0,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SIconButton(
-                    defaultIcon: SNotificationsIcon(
-                      color: colors.black,
-                    ),
-                    pressedIcon: SNotificationsIcon(
-                      color: colors.black.withOpacity(0.7),
-                    ),
-                    onTap: () {
-                      sRouter.push(RewardsRouter(actualRewards: viewedRewards));
-                    },
-                  ),
-                  NotificationBox(
-                    notifications: counterOfRewards,
-                  ),
-                ],
-              ),
-            ),
             SizedBox(
               width: 56.0,
               height: 56.0,

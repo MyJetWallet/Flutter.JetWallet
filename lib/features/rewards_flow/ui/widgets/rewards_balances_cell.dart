@@ -21,14 +21,16 @@ class RewardsBalancesCell extends StatelessObserverWidget {
   Widget build(BuildContext context) {
     final store = RewardsFlowStore.of(context);
 
+    final validBalances = (store.balances).where((element) => element.amount != Decimal.zero);
+
     return SPaddingH24(
       child: Column(
         children: [
-          for (final balance in store.balances)
+          for (final balance in validBalances)
             if (balance.amount != Decimal.zero)
               _BalanceCell(
                 data: balance,
-                needSeparator: store.balances.last != balance,
+                needSeparator: validBalances.last != balance,
               ),
         ],
       ),

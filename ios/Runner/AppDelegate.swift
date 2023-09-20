@@ -10,4 +10,8 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+  override func applicationDidEnterBackground(_ application: UIApplication){
+    application.applicationIconBadgeNumber = 0
+  }
 }
