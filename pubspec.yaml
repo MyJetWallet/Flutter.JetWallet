@@ -167,7 +167,7 @@ dev_dependencies:
   auto_route_generator: 6.0.2
 
 dependency_overrides:
-  #dart_style: 2.3.1
+  dart_style: 2.3.2
   flutter_inappwebview:
     git:
       url: https://github.com/vixez/flutter_inappwebview.git
