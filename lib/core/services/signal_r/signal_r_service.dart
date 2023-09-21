@@ -149,10 +149,10 @@ class SignalRService {
       updateBasePrices: sSignalRModules.updateBasePrices,
       updateAssetsWithdrawalFees: sSignalRModules.updateAssetsWithdrawalFees,
       updateAssetPaymentMethods: sSignalRModules.updateAssetPaymentMethods,
-      updateAssetPaymentMethodsNew:
-          sSignalRModules.updateAssetPaymentMethodsNew,
+      updateAssetPaymentMethodsNew: sSignalRModules.updateAssetPaymentMethodsNew,
       receiveGifts: sSignalRModules.reciveGiftsEvent,
       rewardsProfile: sSignalRModules.rewardsProfileMethods,
+      bankingProfile: sSignalRModules.setBankingProfileData,
 
       ///
       createNewSessionLog: () {
@@ -178,8 +178,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -194,8 +193,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -211,8 +209,7 @@ class SignalRService {
             ),
           );
 
-          sSignalRModules.signalRLogs.last =
-              sSignalRModules.signalRLogs.last.copyWith(
+          sSignalRModules.signalRLogs.last = sSignalRModules.signalRLogs.last.copyWith(
             logs: temp,
           );
         }
@@ -223,8 +220,7 @@ class SignalRService {
     _logger.log(
       level: Level.info,
       place: _loggerValue,
-      message:
-          '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
+      message: '''CREATE SIGNALR MODULE\nToken: ${getIt.get<AppStore>().authState.token}\n''',
     );
 
     return SignalRModuleNew(

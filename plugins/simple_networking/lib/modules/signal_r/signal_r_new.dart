@@ -66,8 +66,7 @@ class SignalRModuleNew {
   static const _checkConnectionTime = 6;
   int connectionCheckCount = 0;
 
-  HubConnectionState get hubStatus =>
-      _hubConnection?.state ?? HubConnectionState.disconnected;
+  HubConnectionState get hubStatus => _hubConnection?.state ?? HubConnectionState.disconnected;
 
   //HubConnection? _hubConnection;
   HubConnection? _hubConnection;
@@ -104,8 +103,7 @@ class SignalRModuleNew {
           log(
             level: lg.Level.info,
             place: _loggerValue,
-            message:
-                'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
+            message: 'Check connection TIMER count: $connectionCheckCount, status: ${_hubConnection?.state}',
           );
         }
 
@@ -127,8 +125,7 @@ class SignalRModuleNew {
     log(
       level: lg.Level.warning,
       place: _loggerValue,
-      message:
-          'SignalR state: ${_hubConnection?.state} \n isSignalRRestarted: $isSignalRRestarted',
+      message: 'SignalR state: ${_hubConnection?.state} \n isSignalRRestarted: $isSignalRRestarted',
     );
 
     if (isSignalRRestarted) return false;
@@ -391,8 +388,7 @@ class SignalRModuleNew {
     log(
       level: lg.Level.error,
       place: _loggerValue,
-      message:
-          'SignalR Disconnected ${_hubConnection!.state}, Force timer: ${_checkConnectionTimer?.isActive}',
+      message: 'SignalR Disconnected ${_hubConnection!.state}, Force timer: ${_checkConnectionTimer?.isActive}',
     );
   }
 
@@ -535,6 +531,10 @@ class SignalRModuleNew {
       rewardsProfileMessage,
       method: handler.rewardsProfileHandler,
     );
+    _hubConnection?.off(
+      rewardsProfileMessage,
+      method: handler.rewardsProfileHandler,
+    );
   }
 
   Future<void> setupMessageHandler() async {
@@ -634,6 +634,8 @@ class SignalRModuleNew {
       rewardsProfileMessage,
       handler.rewardsProfileHandler,
     );
+
+    _hubConnection?.on(bankingProfileMessage, handler.bankingProfileHandler);
 
     ///
 

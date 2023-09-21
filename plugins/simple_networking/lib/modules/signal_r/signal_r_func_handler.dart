@@ -6,6 +6,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
@@ -165,6 +166,8 @@ class SignalRFuncHandler {
 
   void assetsMessageHandler(List<Object?>? data) {
     try {
+      log(data.toString());
+
       final assets = AssetsModel.fromJson(_json(data));
       sTransport.setAssets(assets);
 
@@ -425,6 +428,20 @@ class SignalRFuncHandler {
       SignalRModuleNew.handlePackage();
     } catch (e) {
       instance.handleError(rewardsProfileMessage, e);
+    }
+  }
+
+  void bankingProfileHandler(List<Object?>? data) {
+    try {
+      log(data.toString());
+
+      final bankingProfileModel = BankingProfileModel.fromJson(_json(data));
+
+      sTransport.bankingProfile(bankingProfileModel);
+
+      SignalRModuleNew.handlePackage();
+    } catch (e) {
+      instance.handleError(bankingProfileMessage, e);
     }
   }
 
