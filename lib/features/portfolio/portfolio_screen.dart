@@ -23,7 +23,21 @@ class PortfolioScreen extends StatefulObserverWidget {
 }
 
 class _PortfolioScreenState extends State<PortfolioScreen> {
+  final _controller = ScrollController();
+  bool isTopPosition = true;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _controller.addListener(() {
+      if (isTopPosition != (_controller.position.pixels == 0)) {
+        setState(() {
+          isTopPosition = _controller.position.pixels == 0;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +50,13 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     return SPageFrame(
       color: colors.white,
       loaderText: '',
-      header: const Column(
+      header: Column(
         children: [
-          SpaceH54(),
-          PortfolioHeader(),
-          SpaceH15(),
+          const SpaceH54(),
+          PortfolioHeader(
+            isTitleCenter: !isTopPosition,
+          ),
+          const SpaceH15(),
         ],
       ),
       child: CustomRefreshIndicator(
@@ -89,6 +105,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           );
         },
         child: ListView(
+          controller: _controller,
           padding: EdgeInsets.zero,
           physics: const AlwaysScrollableScrollPhysics(),
           children: const [

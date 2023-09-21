@@ -11,7 +11,27 @@ import 'package:simple_kit/modules/bottom_navigation_bar/components/notification
 import 'package:simple_kit/simple_kit.dart';
 
 class PortfolioHeader extends StatelessObserverWidget {
-  const PortfolioHeader({super.key});
+  const PortfolioHeader({
+    super.key,
+    required this.isTitleCenter,
+  });
+
+  final bool isTitleCenter;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedCrossFade(
+      firstChild: const _DefaultHeader(),
+      secondChild: const _ScrollInProgressHeader(),
+      crossFadeState:
+          !isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      duration: const Duration(microseconds: 500),
+    );
+  }
+}
+
+class _DefaultHeader extends StatelessWidget {
+  const _DefaultHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +39,7 @@ class PortfolioHeader extends StatelessObserverWidget {
     final kycState = getIt.get<KycService>();
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const SpaceW24(),
         Text(
@@ -68,23 +88,106 @@ class PortfolioHeader extends StatelessObserverWidget {
                   sRouter.push(const AccountRouter());
                 },
               ),
-              NotificationBox(
-                notifications: _profileNotificationLength(
-                  KycModel(
-                    depositStatus: kycState.depositStatus,
-                    sellStatus: kycState.sellStatus,
-                    withdrawalStatus: kycState.withdrawalStatus,
-                    requiredDocuments: kycState.requiredDocuments,
-                    requiredVerifications: kycState.requiredVerifications,
-                    verificationInProgress: kycState.verificationInProgress,
+              Row(
+                children: [
+                  NotificationBox(
+                    notifications: _profileNotificationLength(
+                      KycModel(
+                        depositStatus: kycState.depositStatus,
+                        sellStatus: kycState.sellStatus,
+                        withdrawalStatus: kycState.withdrawalStatus,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                        verificationInProgress: kycState.verificationInProgress,
+                      ),
+                      true,
+                    ),
                   ),
-                  true,
-                ),
+                  const SpaceW8(),
+                ],
               ),
             ],
           ),
         ),
-        const SpaceW8(),
+      ],
+    );
+  }
+
+  int _profileNotificationLength(KycModel kycState, bool twoFaEnable) {
+    var notificationLength = 0;
+
+    final passed = checkKycPassed(
+      kycState.depositStatus,
+      kycState.sellStatus,
+      kycState.withdrawalStatus,
+    );
+
+    if (!passed) {
+      notificationLength += 1;
+    }
+
+    if (!twoFaEnable) {
+      notificationLength += 1;
+    }
+
+    return notificationLength;
+  }
+}
+
+class _ScrollInProgressHeader extends StatelessWidget {
+  const _ScrollInProgressHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+    final kycState = getIt.get<KycService>();
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SpaceW56(),
+        Text(
+          intl.portfolioHeader_balance,
+          style: sTextH5Style,
+        ),
+        SizedBox(
+          width: 56.0,
+          height: 56.0,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SIconButton(
+                defaultIcon: SProfileDetailsIcon(
+                  color: colors.black,
+                ),
+                pressedIcon: SProfileDetailsIcon(
+                  color: colors.black.withOpacity(0.7),
+                ),
+                onTap: () {
+                  sRouter.push(const AccountRouter());
+                },
+              ),
+              Row(
+                children: [
+                  NotificationBox(
+                    notifications: _profileNotificationLength(
+                      KycModel(
+                        depositStatus: kycState.depositStatus,
+                        sellStatus: kycState.sellStatus,
+                        withdrawalStatus: kycState.withdrawalStatus,
+                        requiredDocuments: kycState.requiredDocuments,
+                        requiredVerifications: kycState.requiredVerifications,
+                        verificationInProgress: kycState.verificationInProgress,
+                      ),
+                      true,
+                    ),
+                  ),
+                  const SpaceW8(),
+                ],
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
