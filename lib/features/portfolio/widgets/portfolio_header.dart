@@ -24,7 +24,7 @@ class PortfolioHeader extends StatelessObserverWidget {
       secondChild: const _ScrollInProgressHeader(),
       crossFadeState:
           !isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: const Duration(microseconds: 500),
+      duration: Duration.zero,
     );
   }
 }

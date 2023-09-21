@@ -62,6 +62,8 @@ class CurrencyModel with _$CurrencyModel {
     @Default(false) bool earnProgramEnabled,
     @DecimalNullSerialiser() Decimal? minTradeAmount,
     @DecimalNullSerialiser() Decimal? maxTradeAmount,
+    @Default(false) bool walletIsActive,
+    int? walletOrder,
   }) = _CurrencyModel;
   factory CurrencyModel.fromJson(Map<String, dynamic> json) =>
       _$CurrencyModelFromJson(json);

@@ -28,6 +28,7 @@ class SWalletItem extends StatelessWidget {
     this.isPendingDeposit = false,
     this.isBalanceHide = false,
     this.isRounded = false,
+    this.isMoving = false,
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
@@ -54,6 +55,7 @@ class SWalletItem extends StatelessWidget {
   final bool isRecurring;
   final bool isPendingDeposit;
   final bool isBalanceHide;
+  final bool isMoving;
 
   final String? baseCurrPrefix;
 
@@ -128,36 +130,42 @@ class SWalletItem extends StatelessWidget {
                         SizedBox(
                           height: rightBlockTopPadding,
                         ),
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 16.0,
-                            right: 16,
-                            top: fullSizeBalance ? 14 : 8,
-                            bottom: fullSizeBalance ? 11.75 : 5.75,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: SColorsLight().grey5,
-                            ),
-                            borderRadius: BorderRadius.circular(22.0),
-                          ),
-                          child: !isBalanceHide
-                              ? Text(
-                                  formattedAmount!,
-                                  style: sSubtitle2Style.copyWith(
-                                    color:
-                                        amountDecimal == 0 ? color : textColor,
-                                    height: 1,
-                                  ),
-                                  softWrap: true,
-                                )
-                              : Text(
-                                  '$baseCurrPrefix******',
-                                  style: sSubtitle2Style.copyWith(
-                                    height: 1,
-                                  ),
+                        isMoving
+                            ? const Icon(
+                                Icons.menu,
+                                color: Colors.black,
+                              )
+                            : Container(
+                                padding: EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16,
+                                  top: fullSizeBalance ? 14 : 8,
+                                  bottom: fullSizeBalance ? 11.75 : 5.75,
                                 ),
-                        ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: SColorsLight().grey5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(22.0),
+                                ),
+                                child: !isBalanceHide
+                                    ? Text(
+                                        formattedAmount!,
+                                        style: sSubtitle2Style.copyWith(
+                                          color: amountDecimal == 0
+                                              ? color
+                                              : textColor,
+                                          height: 1,
+                                        ),
+                                        softWrap: true,
+                                      )
+                                    : Text(
+                                        '$baseCurrPrefix******',
+                                        style: sSubtitle2Style.copyWith(
+                                          height: 1,
+                                        ),
+                                      ),
+                              ),
                       ],
                     ),
                   ],
