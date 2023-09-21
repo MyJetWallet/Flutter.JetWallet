@@ -32,9 +32,15 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
 
     _controller.addListener(() {
       if (isTopPosition != (_controller.position.pixels == 0)) {
-        setState(() {
-          isTopPosition = _controller.position.pixels == 0;
-        });
+        if (_controller.position.pixels < 0) {
+          setState(() {
+            isTopPosition = true;
+          });
+        } else {
+          setState(() {
+            isTopPosition = _controller.position.pixels == 0;
+          });
+        }
       }
     });
   }

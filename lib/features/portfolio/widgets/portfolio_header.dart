@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -30,7 +29,7 @@ class PortfolioHeader extends StatelessObserverWidget {
   }
 }
 
-class _DefaultHeader extends StatelessWidget {
+class _DefaultHeader extends StatelessObserverWidget {
   const _DefaultHeader();
 
   @override
@@ -43,7 +42,7 @@ class _DefaultHeader extends StatelessWidget {
       children: [
         const SpaceW24(),
         Text(
-          intl.portfolioHeader_balance,
+          'Wallets',
           style: sTextH5Style,
         ),
         const SpaceW8(),
@@ -134,7 +133,7 @@ class _DefaultHeader extends StatelessWidget {
   }
 }
 
-class _ScrollInProgressHeader extends StatelessWidget {
+class _ScrollInProgressHeader extends StatelessObserverWidget {
   const _ScrollInProgressHeader();
 
   @override
@@ -147,7 +146,7 @@ class _ScrollInProgressHeader extends StatelessWidget {
       children: [
         const SpaceW56(),
         Text(
-          intl.portfolioHeader_balance,
+          'Wallets',
           style: sTextH5Style,
         ),
         SizedBox(
