@@ -33,6 +33,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/helpers/models/refresh_token_status.dart';
 import 'package:simple_networking/modules/auth_api/models/install_model.dart';
 import 'package:simple_networking/modules/auth_api/models/session_chek/session_check_response_model.dart';
+import 'package:simple_networking/modules/logs_api/models/add_log_model.dart';
 import 'package:universal_io/io.dart';
 import 'package:uuid/uuid.dart';
 
@@ -117,6 +118,19 @@ class StartupService {
     if (getIt.get<AppStore>().authStatus is Unauthorized) {
       return;
     }
+    final storageService = getIt.get<LocalStorageService>();
+
+    unawaited(
+      getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+            AddLogModel(
+              level: 'info',
+              message: 'User auth ${getIt.get<AppStore>().authStatus}',
+              source: 'Second Action',
+              process: 'StartupService',
+              token: await storageService.getValue(refreshTokenKey),
+            ),
+          ),
+    );
 
     if (!userInfo.isServicesRegisterd) {
       await startingServices();
@@ -139,6 +153,18 @@ class StartupService {
       await getIt.get<SignalRService>().start();
 
       userInfo.updateSignalRStatus(true);
+
+      unawaited(
+        getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+              AddLogModel(
+                level: 'info',
+                message: 'Starting signalr',
+                source: 'Second Action',
+                process: 'StartupService',
+                token: await storageService.getValue(refreshTokenKey),
+              ),
+            ),
+      );
     }
 
     unawaited(getIt.get<PushNotification>().registerToken());
@@ -163,6 +189,18 @@ class StartupService {
     final infoRequest = await sNetwork.getAuthModule().postSessionCheck();
     infoRequest.pick(
       onData: (SessionCheckResponseModel info) async {
+        unawaited(
+          getIt.get<SNetwork>().simpleNetworkingUnathorized.getLogsApiModule().postAddLog(
+                AddLogModel(
+                  level: 'info',
+                  message: '$info',
+                  source: 'makeSessionCheck',
+                  process: 'StartupService',
+                  token: await getIt.get<LocalStorageService>().getValue(refreshTokenKey),
+                ),
+              ),
+        );
+
         // For verification Screen
         if (!info.toSetupPhone) {
           getIt.get<VerificationStore>().phoneDone();
@@ -297,21 +335,13 @@ class StartupService {
         deviceUid: getIt.get<DeviceInfo>().deviceUid,
         version: packageInfo.version,
         lang: intl.localeName,
-        appsflyerId: await getIt
-                .get<AppsFlyerService>()
-                .appsflyerSdk
-                .getAppsFlyerUID() ??
-            '',
+        appsflyerId: await getIt.get<AppsFlyerService>().appsflyerSdk.getAppsFlyerUID() ?? '',
         idfa: await AppTrackingTransparency.getAdvertisingIdentifier(),
         idfv: sDeviceInfo.deviceUid,
         adid: '',
       );
 
-      final _ = await getIt
-          .get<SNetwork>()
-          .simpleNetworkingUnathorized
-          .getAuthModule()
-          .postInstall(
+      final _ = await getIt.get<SNetwork>().simpleNetworkingUnathorized.getAuthModule().postInstall(
             model,
           );
     } catch (e) {

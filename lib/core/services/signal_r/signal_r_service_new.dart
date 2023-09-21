@@ -31,6 +31,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
@@ -824,6 +825,13 @@ abstract class _SignalRServiceUpdatedBase with Store {
   }
 
   @observable
+  BankingProfileModel? bankingProfileData;
+  @action
+  void setBankingProfileData(BankingProfileModel data) {
+    bankingProfileData = data;
+  }
+
+  @observable
   bool showPaymentsMethods = false;
   @observable
   AssetPaymentMethods? assetPaymentMethods;
@@ -917,9 +925,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
       }
       if (value.send != null) {
         for (final sendMethod in value.send!) {
-          if (sendMethod.symbolNetworkDetails
-                  ?.any((element) => element.symbol == currency.symbol) ??
-              false) {
+          if (sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false) {
             sendMethods.add(sendMethod);
           }
         }

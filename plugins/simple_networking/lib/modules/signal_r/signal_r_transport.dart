@@ -2,6 +2,7 @@ import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_withdrawal_fee_model.dart';
 import 'package:simple_networking/modules/signal_r/models/balance_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/base_prices_model.dart';
 import 'package:simple_networking/modules/signal_r/models/blockchains_model.dart';
 import 'package:simple_networking/modules/signal_r/models/campaign_response_model.dart';
@@ -71,6 +72,7 @@ class SignalRTransport {
     required this.updateGlobalSendMethods,
     required this.receiveGifts,
     required this.rewardsProfile,
+    required this.bankingProfile,
   });
 
   final void Function(bool) initFinished;
@@ -113,6 +115,8 @@ class SignalRTransport {
 
   final void Function(IncomingGiftModel) receiveGifts;
   final void Function(RewardsProfileModel) rewardsProfile;
+
+  final void Function(BankingProfileModel) bankingProfile;
 
   /// Logs
 
