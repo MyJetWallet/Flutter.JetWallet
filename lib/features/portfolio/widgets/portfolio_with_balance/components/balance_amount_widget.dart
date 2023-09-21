@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
@@ -9,7 +10,7 @@ import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.d
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class BalanceAmountWidget extends StatelessWidget {
+class BalanceAmountWidget extends StatelessObserverWidget {
   const BalanceAmountWidget({
     super.key,
   });
@@ -24,7 +25,7 @@ class BalanceAmountWidget extends StatelessWidget {
       child: Text(
         !getIt<AppStore>().isBalanceHide
             ? _price(itemsWithBalance, baseCurrency)
-            : '${baseCurrency.prefix}*******',
+            : '******* ${baseCurrency.symbol}',
         style: sTextH1Style,
       ),
     );
