@@ -106,7 +106,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
   }
 }
 
-class _MyWalletsItem extends StatelessWidget {
+class _MyWalletsItem extends StatelessObserverWidget {
   const _MyWalletsItem({
     required this.isMoving,
     required this.currency,
@@ -128,7 +128,7 @@ class _MyWalletsItem extends StatelessWidget {
       icon: SNetworkSvg24(
         url: currency.iconUrl,
       ),
-      baseCurrPrefix: baseCurrency.prefix,
+      baseCurrencySymbol: baseCurrency.symbol,
       primaryText: currency.description,
       amount: currency.volumeBaseBalance(baseCurrency),
       secondaryText: getIt<AppStore>().isBalanceHide

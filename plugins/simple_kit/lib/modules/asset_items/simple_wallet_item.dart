@@ -19,7 +19,7 @@ class SWalletItem extends StatelessWidget {
     this.removeDivider = false,
     this.color,
     this.onTap,
-    this.baseCurrPrefix,
+    this.baseCurrencySymbol,
     this.leftBlockTopPadding = 22,
     this.balanceTopMargin = 22,
     this.height = 88,
@@ -60,7 +60,7 @@ class SWalletItem extends StatelessWidget {
   final bool isBalanceHide;
   final bool isMoving;
 
-  final String? baseCurrPrefix;
+  final String? baseCurrencySymbol;
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +162,7 @@ class SWalletItem extends StatelessWidget {
                                         softWrap: true,
                                       )
                                     : Text(
-                                        '$baseCurrPrefix******',
+                                        '****** $baseCurrencySymbol',
                                         style: sSubtitle2Style.copyWith(
                                           height: 1,
                                         ),
