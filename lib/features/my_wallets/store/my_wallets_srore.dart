@@ -19,14 +19,11 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @computed
-  List<CurrencyModel> get currencies {
-    final result = currenciesForMyWallet(_allAssets);
-
-    return result;
-  }
+  ObservableList<CurrencyModel> get currencies =>
+      currenciesForMyWallet(_allAssets);
 
   @action
-  void onReorder(int oldIndex, int newIndex) {
+  Future<void> onReorder(int oldIndex, int newIndex) async {
     var newIndexTemp = newIndex;
 
     if (oldIndex < newIndexTemp) {
@@ -45,7 +42,7 @@ abstract class _MyWalletsSroreBase with Store {
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+    await getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
           model,
         );
   }

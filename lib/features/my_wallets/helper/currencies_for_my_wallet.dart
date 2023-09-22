@@ -1,6 +1,9 @@
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:mobx/mobx.dart';
 
-List<CurrencyModel> currenciesForMyWallet(List<CurrencyModel> currencies) {
+ObservableList<CurrencyModel> currenciesForMyWallet(
+  ObservableList<CurrencyModel> currencies,
+) {
   final activeCurrencies = currencies
       .where(
         (currency) => currency.walletIsActive,
@@ -10,5 +13,5 @@ List<CurrencyModel> currenciesForMyWallet(List<CurrencyModel> currencies) {
   activeCurrencies
       .sort((a, b) => (a.walletOrder ?? 1).compareTo(b.walletOrder ?? 1));
 
-  return activeCurrencies;
+  return ObservableList.of(activeCurrencies);
 }
