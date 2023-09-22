@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -42,7 +43,7 @@ class _DefaultHeader extends StatelessObserverWidget {
       children: [
         const SpaceW24(),
         Text(
-          'Wallets',
+          intl.my_wallets_header,
           style: sTextH5Style,
         ),
         const SpaceW8(),

@@ -33,72 +33,10 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final baseCurrency = sSignalRModules.baseCurrency;
-    final marketItems = sSignalRModules.marketItems;
-
-    Widget proxyDecorator(
-      Widget child,
-      int index,
-      Animation<double> animation,
-    ) {
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return Material(
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x51777C85),
-                    blurRadius: 20,
-                  ),
-                ],
-              ),
-              child: SWalletItem(
-                height: 80,
-                key: UniqueKey(),
-                isBalanceHide: getIt<AppStore>().isBalanceHide,
-                decline: currenciesList[index].dayPercentChange.isNegative,
-                icon: SNetworkSvg24(
-                  url: currenciesList[index].iconUrl,
-                ),
-                baseCurrPrefix: baseCurrency.prefix,
-                primaryText: currenciesList[index].description,
-                amount: currenciesList[index].volumeBaseBalance(baseCurrency),
-                secondaryText: getIt<AppStore>().isBalanceHide
-                    ? currenciesList[index].symbol
-                    : currenciesList[index].volumeAssetBalance,
-                onTap: () {
-                  if (currenciesList[index].type == AssetType.indices) {
-                    sRouter.push(
-                      MarketDetailsRouter(
-                        marketItem: marketItemFrom(
-                          marketItems,
-                          currenciesList[index].symbol,
-                        ),
-                      ),
-                    );
-                  } else {
-                    navigateToWallet(
-                      context,
-                      currenciesList[index],
-                    );
-                  }
-                },
-                removeDivider: true,
-                isPendingDeposit: currenciesList[index].isPendingDeposit,
-                isMoving: isMoving,
-              ),
-            ),
-          );
-        },
-        child: child,
-      );
-    }
+    final colors = sKit.colors;
 
     return ReorderableListView(
-      proxyDecorator: proxyDecorator,
+      proxyDecorator: _proxyDecorator,
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
@@ -112,33 +50,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
           isMoving = false;
         });
       },
-      onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          if (oldIndex < newIndex) {
-            newIndex -= 1;
-          }
-          final item = currenciesList.removeAt(oldIndex);
-          currenciesList.insert(newIndex, item);
-        });
-
-        final activeAssets = <ActiveAsset>[];
-        for (var index = 0; index < currenciesList.length; index++) {
-          activeAssets.add(
-            ActiveAsset(
-              assetSymbol: currenciesList[index].symbol,
-              order: index,
-            ),
-          );
-        }
-        final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-        getIt
-            .get<SNetwork>()
-            .simpleNetworking
-            .getWalletModule()
-            .setActiveAssets(
-              model,
-            );
-      },
+      onReorder: _onReorder,
       children: [
         for (int index = 0; index < currenciesList.length; index += 1)
           Slidable(
@@ -148,74 +60,149 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
               children: [
                 SlidableAction(
                   onPressed: (context) {
-                    setState(() {
-                      currenciesList.removeAt(index);
-                    });
-
-                    final activeAssets = <ActiveAsset>[];
-                    for (var index = 0;
-                        index < currenciesList.length;
-                        index++) {
-                      activeAssets.add(
-                        ActiveAsset(
-                          assetSymbol: currenciesList[index].symbol,
-                          order: index,
-                        ),
-                      );
-                    }
-                    final model =
-                        SetActiveAssetsRequestModel(activeAssets: activeAssets);
-                    getIt
-                        .get<SNetwork>()
-                        .simpleNetworking
-                        .getWalletModule()
-                        .setActiveAssets(
-                          model,
-                        );
+                    _onDelete(index);
                   },
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete,
+                  backgroundColor: colors.red,
+                  foregroundColor: colors.white,
+                  icon: Icons.delete_outlined,
                 ),
               ],
             ),
-            child: SWalletItem(
-              height: 80,
-              key: UniqueKey(),
-              isBalanceHide: getIt<AppStore>().isBalanceHide,
-              decline: currenciesList[index].dayPercentChange.isNegative,
-              icon: SNetworkSvg24(
-                url: currenciesList[index].iconUrl,
-              ),
-              baseCurrPrefix: baseCurrency.prefix,
-              primaryText: currenciesList[index].description,
-              amount: currenciesList[index].volumeBaseBalance(baseCurrency),
-              secondaryText: getIt<AppStore>().isBalanceHide
-                  ? currenciesList[index].symbol
-                  : currenciesList[index].volumeAssetBalance,
-              onTap: () {
-                if (currenciesList[index].type == AssetType.indices) {
-                  sRouter.push(
-                    MarketDetailsRouter(
-                      marketItem: marketItemFrom(
-                        marketItems,
-                        currenciesList[index].symbol,
-                      ),
-                    ),
-                  );
-                } else {
-                  navigateToWallet(
-                    context,
-                    currenciesList[index],
-                  );
-                }
-              },
-              removeDivider: true,
-              isPendingDeposit: currenciesList[index].isPendingDeposit,
-              isMoving: isMoving,
+            child: _MyWalletsItem(
+              isMoving: false,
+              currency: currenciesList[index],
             ),
           ),
       ],
+    );
+  }
+
+  void _onReorder(int oldIndex, int newIndex) {
+    var newIndexTemp = newIndex;
+    setState(() {
+      if (oldIndex < newIndexTemp) {
+        newIndexTemp -= 1;
+      }
+      final item = currenciesList.removeAt(oldIndex);
+      currenciesList.insert(newIndexTemp, item);
+    });
+
+    final activeAssets = <ActiveAsset>[];
+    for (var index = 0; index < currenciesList.length; index++) {
+      activeAssets.add(
+        ActiveAsset(
+          assetSymbol: currenciesList[index].symbol,
+          order: index,
+        ),
+      );
+    }
+    final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
+    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+          model,
+        );
+  }
+
+  void _onDelete(int index) {
+    setState(() {
+      currenciesList.removeAt(index);
+    });
+
+    final activeAssets = <ActiveAsset>[];
+    for (var index = 0; index < currenciesList.length; index++) {
+      activeAssets.add(
+        ActiveAsset(
+          assetSymbol: currenciesList[index].symbol,
+          order: index,
+        ),
+      );
+    }
+    final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
+    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+          model,
+        );
+  }
+
+  Widget _proxyDecorator(
+    Widget child,
+    int index,
+    Animation<double> animation,
+  ) {
+    final colors = sKit.colors;
+
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        return Material(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: colors.grey1.withOpacity(0.2),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: _MyWalletsItem(
+              isMoving: true,
+              currency: currenciesList[index],
+            ),
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+class _MyWalletsItem extends StatelessWidget {
+  const _MyWalletsItem({
+    required this.isMoving,
+    required this.currency,
+  });
+
+  final CurrencyModel currency;
+  final bool isMoving;
+
+  @override
+  Widget build(BuildContext context) {
+    final baseCurrency = sSignalRModules.baseCurrency;
+    final marketItems = sSignalRModules.marketItems;
+
+    return SWalletItem(
+      height: 80,
+      key: UniqueKey(),
+      isBalanceHide: getIt<AppStore>().isBalanceHide,
+      decline: currency.dayPercentChange.isNegative,
+      icon: SNetworkSvg24(
+        url: currency.iconUrl,
+      ),
+      baseCurrPrefix: baseCurrency.prefix,
+      primaryText: currency.description,
+      amount: currency.volumeBaseBalance(baseCurrency),
+      secondaryText: getIt<AppStore>().isBalanceHide
+          ? currency.symbol
+          : currency.volumeAssetBalance,
+      onTap: () {
+        if (currency.type == AssetType.indices) {
+          sRouter.push(
+            MarketDetailsRouter(
+              marketItem: marketItemFrom(
+                marketItems,
+                currency.symbol,
+              ),
+            ),
+          );
+        } else {
+          navigateToWallet(
+            context,
+            currency,
+          );
+        }
+      },
+      removeDivider: true,
+      isPendingDeposit: currency.isPendingDeposit,
+      isMoving: isMoving,
     );
   }
 }

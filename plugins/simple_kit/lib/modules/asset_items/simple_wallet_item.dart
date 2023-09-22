@@ -131,9 +131,9 @@ class SWalletItem extends StatelessWidget {
                           height: rightBlockTopPadding,
                         ),
                         isMoving
-                            ? const Icon(
+                            ? Icon(
                                 Icons.menu,
-                                color: Colors.black,
+                                color: textColor,
                               )
                             : Container(
                                 padding: EdgeInsets.only(
