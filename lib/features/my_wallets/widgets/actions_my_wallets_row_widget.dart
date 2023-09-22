@@ -17,8 +17,8 @@ import 'package:jetwallet/widgets/circle_action_buttons/circle_action_send.dart'
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
-class ActionsPortfolioRowWidget extends StatelessWidget {
-  const ActionsPortfolioRowWidget({super.key});
+class ActionsMyWalletsRowWidget extends StatelessWidget {
+  const ActionsMyWalletsRowWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

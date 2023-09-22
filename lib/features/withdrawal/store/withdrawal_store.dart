@@ -1213,7 +1213,7 @@ abstract class _WithdrawalStoreBase with Store {
             sRouter.replaceAll([
               const HomeRouter(
                 children: [
-                  PortfolioRouter(),
+                  MyWalletsRouter(),
                 ],
               ),
               WithdrawRouter(withdrawal: withdrawalInputModel!),
@@ -1254,7 +1254,7 @@ abstract class _WithdrawalStoreBase with Store {
           sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]);

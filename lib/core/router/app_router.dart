@@ -72,7 +72,7 @@ import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
-import 'package:jetwallet/features/portfolio/portfolio_screen.dart';
+import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
@@ -204,8 +204,8 @@ class AppRouter extends _$AppRouter {
           //initial: true,
         ),
         AutoRoute(
-          path: 'portfolio',
-          page: PortfolioRouter.page,
+          path: 'my_wallets',
+          page: MyWalletsRouter.page,
         ),
         AutoRoute(
           path: 'iban',

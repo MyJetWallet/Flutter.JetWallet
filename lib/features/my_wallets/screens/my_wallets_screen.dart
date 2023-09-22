@@ -5,24 +5,24 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/portfolio/widgets/portfolio_header.dart';
-import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/actions_portfolio_row_widget.dart';
-import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/assets_list_widget.dart';
-import 'package:jetwallet/features/portfolio/widgets/portfolio_with_balance/components/balance_amount_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/balance_amount_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../utils/helpers/currencies_helpers.dart';
+import '../../../../../utils/helpers/currencies_helpers.dart';
 
-@RoutePage(name: 'PortfolioRouter')
-class PortfolioScreen extends StatefulObserverWidget {
-  const PortfolioScreen({super.key});
+@RoutePage(name: 'MyWalletsRouter')
+class MyWalletsScreen extends StatefulObserverWidget {
+  const MyWalletsScreen({super.key});
 
   @override
-  State<PortfolioScreen> createState() => _PortfolioScreenState();
+  State<MyWalletsScreen> createState() => _PortfolioScreenState();
 }
 
-class _PortfolioScreenState extends State<PortfolioScreen> {
+class _PortfolioScreenState extends State<MyWalletsScreen> {
   final _controller = ScrollController();
   bool isTopPosition = true;
 
@@ -59,7 +59,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
       header: Column(
         children: [
           const SpaceH54(),
-          PortfolioHeader(
+          MyWalletsHeader(
             isTitleCenter: !isTopPosition,
           ),
           const SpaceH15(),
@@ -117,7 +117,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           children: const [
             BalanceAmountWidget(),
             SpaceH40(),
-            ActionsPortfolioRowWidget(),
+            ActionsMyWalletsRowWidget(),
             SpaceH30(),
             AssetsListWidget(),
           ],

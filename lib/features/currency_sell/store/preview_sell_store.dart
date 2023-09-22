@@ -236,7 +236,7 @@ abstract class _PreviewSellStoreBase with Store {
         .then(
           (value) => sRouter.navigate(
             const HomeRouter(
-              children: [PortfolioRouter()],
+              children: [MyWalletsRouter()],
             ),
           ),
         );
@@ -252,7 +252,7 @@ abstract class _PreviewSellStoreBase with Store {
         onPrimaryButtonTap: () {
           sRouter.navigate(
             const HomeRouter(
-              children: [PortfolioRouter()],
+              children: [MyWalletsRouter()],
             ),
           );
         },

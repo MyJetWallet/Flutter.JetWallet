@@ -6,7 +6,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/portfolio/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';

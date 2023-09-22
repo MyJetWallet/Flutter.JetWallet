@@ -9,8 +9,8 @@ import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class PortfolioHeader extends StatelessObserverWidget {
-  const PortfolioHeader({
+class MyWalletsHeader extends StatelessObserverWidget {
+  const MyWalletsHeader({
     super.key,
     required this.isTitleCenter,
   });

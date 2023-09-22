@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Observer(
       builder: (context) {
         final screens = <PageRouteInfo<dynamic>>[
-          const PortfolioRouter(),
+          const MyWalletsRouter(),
           MarketRouter(),
         ];
 

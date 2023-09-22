@@ -262,7 +262,7 @@ abstract class _SendGloballyConfirmStoreBase with Store {
           (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]),

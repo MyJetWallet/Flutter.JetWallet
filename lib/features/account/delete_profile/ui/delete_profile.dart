@@ -69,7 +69,7 @@ class DeleteProfile extends StatelessObserverWidget {
               sRouter.navigate(
                 const HomeRouter(
                   children: [
-                    PortfolioRouter(),
+                    MyWalletsRouter(),
                   ],
                 ),
               );

@@ -123,7 +123,7 @@ abstract class _IbanSendConfirmStoreBase with Store {
           (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]),
