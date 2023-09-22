@@ -138,6 +138,7 @@ flutter:
     - assets/icons/light/24x24/delete_asset/
     - assets/icons/light/24x24/reorder/
     - assets/icons/light/24x24/wallets/
+    - assets/icons/light/24x24/start_reorder/
     - assets/icons/light/32x32/market/
     - assets/icons/light/32x32/my_assets/
     - assets/icons/light/32x32/card_bottom/

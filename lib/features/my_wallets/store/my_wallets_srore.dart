@@ -11,6 +11,9 @@ part 'my_wallets_srore.g.dart';
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
+  @observable
+  bool isReordering = false;
+
   @computed
   ObservableList<CurrencyModel> get _allAssets {
     final result = sSignalRModules.currenciesList;
@@ -42,11 +45,26 @@ abstract class _MyWalletsSroreBase with Store {
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    await getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+    await getIt
+        .get<SNetwork>()
+        .simpleNetworking
+        .getWalletModule()
+        .setActiveAssets(
           model,
         );
   }
 
+  @action
+  void onStartReordering() {
+    isReordering = true;
+  }
+
+  @action
+  void onEndReordering() {
+    isReordering = false;
+  }
+
+  @action
   void onDelete(int index) {
     currencies.removeAt(index);
 
