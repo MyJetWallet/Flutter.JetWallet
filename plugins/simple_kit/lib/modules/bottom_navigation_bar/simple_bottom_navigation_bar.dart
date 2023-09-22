@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
 import 'package:simple_kit/modules/icons/32x32/public/market/simple_market_icon.dart';
-import 'package:simple_kit/modules/icons/32x32/public/my_assets/simple_my_assets_icon.dart';
 import 'package:simple_kit/modules/icons/32x32/public/card_bottom/simple_card_bottom_icon.dart';
 import 'package:simple_kit/modules/icons/32x32/public/account_bar/simple_account_bar_icon.dart';
+import 'package:simple_kit/modules/icons/32x32/public/wallets/simple_wallets_icon.dart';
 
 import '../../simple_kit.dart';
 import 'components/notification_box.dart';
@@ -16,7 +16,7 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.showReward,
     required this.selectedIndex,
     required this.onChanged,
-    required this.myAssetsText,
+    required this.walletsText,
     required this.marketText,
     required this.accountText,
     required this.cardText,
@@ -36,7 +36,7 @@ class SBottomNavigationBar extends StatefulWidget {
   final bool showReward;
   final void Function(int) onChanged;
 
-  final String myAssetsText;
+  final String walletsText;
   final String marketText;
   final String accountText;
   final String cardText;
@@ -73,9 +73,9 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                     child: Column(
                       children: [
                         const SpaceH11(),
-                        if (widget.selectedIndex == 0) const SMyAssetsActiveIcon() else const SMyAssetsIcon(),
+                        if (widget.selectedIndex == 0) const SWalletsActiveIcon() else const SWalletsIcon(),
                         Text(
-                          widget.myAssetsText,
+                          widget.walletsText,
                           style: sBodyText2Style.copyWith(
                             fontWeight: FontWeight.w600,
                             height: 1.38,

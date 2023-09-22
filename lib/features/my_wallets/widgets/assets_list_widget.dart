@@ -10,6 +10,7 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
@@ -56,20 +57,23 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
           Slidable(
             key: ValueKey(currenciesList[index].symbol),
             endActionPane: ActionPane(
+              extentRatio: 0.2,
               motion: const StretchMotion(),
               children: [
-                SlidableAction(
+                CustomSlidableAction(
                   onPressed: (context) {
                     _onDelete(index);
                   },
                   backgroundColor: colors.red,
                   foregroundColor: colors.white,
-                  icon: Icons.delete_outlined,
+                  child: SDeleteAssetIcon(
+                    color: colors.white,
+                  ),
                 ),
               ],
             ),
             child: _MyWalletsItem(
-              isMoving: false,
+              isMoving: isMoving,
               currency: currenciesList[index],
             ),
           ),
@@ -203,6 +207,7 @@ class _MyWalletsItem extends StatelessWidget {
       removeDivider: true,
       isPendingDeposit: currency.isPendingDeposit,
       isMoving: isMoving,
+      priceFieldHeight: 44,
     );
   }
 }

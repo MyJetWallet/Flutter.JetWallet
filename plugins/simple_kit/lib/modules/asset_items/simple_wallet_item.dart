@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_kit/modules/asset_items/components/recurring_icon.dart';
 import 'package:simple_kit/modules/colors/simple_colors_light.dart';
+import 'package:simple_kit/modules/icons/24x24/public/reorder/simple_reorder_icon.dart';
 
 import '../../simple_kit.dart';
 
@@ -32,6 +33,7 @@ class SWalletItem extends StatelessWidget {
     required this.icon,
     required this.primaryText,
     required this.secondaryText,
+    this.priceFieldHeight,
   }) : super(key: key);
 
   final bool? decline;
@@ -50,6 +52,7 @@ class SWalletItem extends StatelessWidget {
   final double leftBlockTopPadding;
   final double balanceTopMargin;
   final double height;
+  final double? priceFieldHeight;
   final double rightBlockTopPadding;
   final bool showSecondaryText;
   final bool isRecurring;
@@ -131,11 +134,9 @@ class SWalletItem extends StatelessWidget {
                           height: rightBlockTopPadding,
                         ),
                         isMoving
-                            ? Icon(
-                                Icons.menu,
-                                color: textColor,
-                              )
+                            ? const SReorderIcon()
                             : Container(
+                                height: priceFieldHeight,
                                 padding: EdgeInsets.only(
                                   left: 16.0,
                                   right: 16,
@@ -148,6 +149,7 @@ class SWalletItem extends StatelessWidget {
                                   ),
                                   borderRadius: BorderRadius.circular(22.0),
                                 ),
+                                alignment: Alignment.center,
                                 child: !isBalanceHide
                                     ? Text(
                                         formattedAmount!,
