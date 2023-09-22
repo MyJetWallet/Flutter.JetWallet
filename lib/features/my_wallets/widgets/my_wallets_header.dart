@@ -147,7 +147,7 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
       children: [
         const SpaceW56(),
         Text(
-          'Wallets',
+          intl.my_wallets_header,
           style: sTextH5Style,
         ),
         SizedBox(

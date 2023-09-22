@@ -4,16 +4,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
-import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
-import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
   const AssetsListWidget({super.key});
@@ -23,14 +21,8 @@ class AssetsListWidget extends StatefulObserverWidget {
 }
 
 class _AssetsListWidgetState extends State<AssetsListWidget> {
-  List<CurrencyModel> currenciesList = [];
   bool isMoving = false;
-  @override
-  void initState() {
-    super.initState();
-    final currencies = sSignalRModules.currenciesList;
-    currenciesList.addAll(currenciesForMyWallet(currencies));
-  }
+  final store = MyWalletsSrore();
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +43,18 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
           isMoving = false;
         });
       },
-      onReorder: _onReorder,
+      onReorder: store.onReorder,
       children: [
-        for (int index = 0; index < currenciesList.length; index += 1)
+        for (int index = 0; index < store.currencies.length; index += 1)
           Slidable(
-            key: ValueKey(currenciesList[index].symbol),
+            key: ValueKey(store.currencies[index].symbol),
             endActionPane: ActionPane(
               extentRatio: 0.2,
               motion: const StretchMotion(),
               children: [
                 CustomSlidableAction(
                   onPressed: (context) {
-                    _onDelete(index);
+                    store.onDelete(index);
                   },
                   backgroundColor: colors.red,
                   foregroundColor: colors.white,
@@ -74,56 +66,11 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
             ),
             child: _MyWalletsItem(
               isMoving: isMoving,
-              currency: currenciesList[index],
+              currency: store.currencies[index],
             ),
           ),
       ],
     );
-  }
-
-  void _onReorder(int oldIndex, int newIndex) {
-    var newIndexTemp = newIndex;
-    setState(() {
-      if (oldIndex < newIndexTemp) {
-        newIndexTemp -= 1;
-      }
-      final item = currenciesList.removeAt(oldIndex);
-      currenciesList.insert(newIndexTemp, item);
-    });
-
-    final activeAssets = <ActiveAsset>[];
-    for (var index = 0; index < currenciesList.length; index++) {
-      activeAssets.add(
-        ActiveAsset(
-          assetSymbol: currenciesList[index].symbol,
-          order: index,
-        ),
-      );
-    }
-    final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
-          model,
-        );
-  }
-
-  void _onDelete(int index) {
-    setState(() {
-      currenciesList.removeAt(index);
-    });
-
-    final activeAssets = <ActiveAsset>[];
-    for (var index = 0; index < currenciesList.length; index++) {
-      activeAssets.add(
-        ActiveAsset(
-          assetSymbol: currenciesList[index].symbol,
-          order: index,
-        ),
-      );
-    }
-    final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
-          model,
-        );
   }
 
   Widget _proxyDecorator(
@@ -149,7 +96,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
             ),
             child: _MyWalletsItem(
               isMoving: true,
-              currency: currenciesList[index],
+              currency: store.currencies[index],
             ),
           ),
         );
