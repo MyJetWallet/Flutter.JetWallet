@@ -176,18 +176,25 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
               ),
               Row(
                 children: [
-                  NotificationBox(
-                    notifications: _profileNotificationLength(
-                      KycModel(
-                        depositStatus: kycState.depositStatus,
-                        sellStatus: kycState.sellStatus,
-                        withdrawalStatus: kycState.withdrawalStatus,
-                        requiredDocuments: kycState.requiredDocuments,
-                        requiredVerifications: kycState.requiredVerifications,
-                        verificationInProgress: kycState.verificationInProgress,
+                  Column(
+                    children: [
+                      NotificationBox(
+                        notifications: _profileNotificationLength(
+                          KycModel(
+                            depositStatus: kycState.depositStatus,
+                            sellStatus: kycState.sellStatus,
+                            withdrawalStatus: kycState.withdrawalStatus,
+                            requiredDocuments: kycState.requiredDocuments,
+                            requiredVerifications:
+                                kycState.requiredVerifications,
+                            verificationInProgress:
+                                kycState.verificationInProgress,
+                          ),
+                          true,
+                        ),
                       ),
-                      true,
-                    ),
+                      const SpaceH8(),
+                    ],
                   ),
                   const SpaceW8(),
                 ],
