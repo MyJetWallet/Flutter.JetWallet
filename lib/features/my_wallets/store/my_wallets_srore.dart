@@ -15,25 +15,21 @@ abstract class _MyWalletsSroreBase with Store {
   bool isReordering = false;
 
   @computed
-  ObservableList<CurrencyModel> get _allAssets {
-    final result = sSignalRModules.currenciesList;
-
-    return result;
-  }
+  ObservableList<CurrencyModel> get _allAssets =>
+      sSignalRModules.currenciesList;
 
   @computed
   ObservableList<CurrencyModel> get currencies =>
       currenciesForMyWallet(_allAssets);
 
   @action
-  Future<void> onReorder(int oldIndex, int newIndex) async {
-    var newIndexTemp = newIndex;
+  void onStartReordering() {
+    isReordering = true;
+  }
 
-    if (oldIndex < newIndexTemp) {
-      newIndexTemp -= 1;
-    }
-    final item = currencies.removeAt(oldIndex);
-    currencies.insert(newIndexTemp, item);
+  @action
+  void onEndReordering() {
+    isReordering = false;
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
@@ -45,23 +41,9 @@ abstract class _MyWalletsSroreBase with Store {
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .setActiveAssets(
+    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
           model,
         );
-  }
-
-  @action
-  void onStartReordering() {
-    isReordering = true;
-  }
-
-  @action
-  void onEndReordering() {
-    isReordering = false;
   }
 
   @action

@@ -33,7 +33,16 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            onReorder: store.onReorder,
+            onReorder: (int oldIndex, int newIndex) {
+              var newIndexTemp = newIndex;
+
+              if (oldIndex < newIndexTemp) {
+                newIndexTemp -= 1;
+              }
+              final item = store.currencies.removeAt(oldIndex);
+              store.currencies.insert(newIndexTemp, item);
+              setState(() {});
+            },
             children: list,
           ),
         ] else
@@ -50,22 +59,24 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
       list.add(
         Slidable(
           key: ValueKey(store.currencies[index].symbol),
-          startActionPane: ActionPane(
-            extentRatio: 0.2,
-            motion: const StretchMotion(),
-            children: [
-              CustomSlidableAction(
-                onPressed: (context) {
-                  store.onStartReordering();
-                },
-                backgroundColor: colors.purple,
-                foregroundColor: colors.white,
-                child: SStartReorderIcon(
-                  color: colors.white,
-                ),
-              ),
-            ],
-          ),
+          startActionPane: !store.isReordering
+              ? ActionPane(
+                  extentRatio: 0.2,
+                  motion: const StretchMotion(),
+                  children: [
+                    CustomSlidableAction(
+                      onPressed: (context) {
+                        store.onStartReordering();
+                      },
+                      backgroundColor: colors.purple,
+                      foregroundColor: colors.white,
+                      child: SStartReorderIcon(
+                        color: colors.white,
+                      ),
+                    ),
+                  ],
+                )
+              : null,
           endActionPane: store.currencies[index].isAssetBalanceEmpty
               ? ActionPane(
                   extentRatio: 0.2,
