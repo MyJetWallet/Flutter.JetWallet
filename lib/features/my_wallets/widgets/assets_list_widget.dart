@@ -9,7 +9,10 @@ import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start
 import 'package:simple_kit/simple_kit.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
-  const AssetsListWidget({super.key, required this.store, });
+  const AssetsListWidget({
+    super.key,
+    required this.store,
+  });
 
   final MyWalletsSrore store;
 
@@ -18,7 +21,6 @@ class AssetsListWidget extends StatefulObserverWidget {
 }
 
 class _AssetsListWidgetState extends State<AssetsListWidget> {
-
   @override
   Widget build(BuildContext context) {
     final list = slidableItems();
@@ -58,48 +60,92 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
 
     for (var index = 0; index < widget.store.currencies.length; index += 1) {
       list.add(
-        Slidable(
+        Column(
           key: ValueKey(widget.store.currencies[index].symbol),
-          startActionPane: !widget.store.isReordering
-              ? ActionPane(
-                  extentRatio: 0.2,
-                  motion: const StretchMotion(),
-                  children: [
-                    CustomSlidableAction(
-                      onPressed: (context) {
-                        widget.store.onStartReordering();
-                      },
-                      backgroundColor: colors.purple,
-                      foregroundColor: colors.white,
-                      child: SStartReorderIcon(
-                        color: colors.white,
-                      ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Slidable(
+              startActionPane: !widget.store.isReordering
+                  ? ActionPane(
+                      extentRatio: 0.2,
+                      motion: const StretchMotion(),
+                      children: [
+                        CustomSlidableAction(
+                          onPressed: (context) {
+                            widget.store.onStartReordering();
+                          },
+                          backgroundColor: colors.purple,
+                          foregroundColor: colors.white,
+                          child: SStartReorderIcon(
+                            color: colors.white,
+                          ),
+                        ),
+                      ],
+                    )
+                  : null,
+              endActionPane: widget.store.currencies[index].isAssetBalanceEmpty
+                  ? ActionPane(
+                      extentRatio: 0.2,
+                      motion: const StretchMotion(),
+                      children: [
+                        CustomSlidableAction(
+                          onPressed: (context) {
+                            widget.store.onDelete(index);
+                          },
+                          backgroundColor: colors.red,
+                          foregroundColor: colors.white,
+                          child: SDeleteAssetIcon(
+                            color: colors.white,
+                          ),
+                        ),
+                      ],
+                    )
+                  : null,
+              child: MyWalletsAssetItem(
+                isMoving: widget.store.isReordering,
+                currency: widget.store.currencies[index],
+              ),
+            ),
+            if (widget.store.currencies[index].symbol == 'EUR')
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  bottom: 16,
+                  left: 60,
+                ),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: colors.grey5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ],
-                )
-              : null,
-          endActionPane: widget.store.currencies[index].isAssetBalanceEmpty
-              ? ActionPane(
-                  extentRatio: 0.2,
-                  motion: const StretchMotion(),
-                  children: [
-                    CustomSlidableAction(
-                      onPressed: (context) {
-                        widget.store.onDelete(index);
-                      },
-                      backgroundColor: colors.red,
-                      foregroundColor: colors.white,
-                      child: SDeleteAssetIcon(
-                        color: colors.white,
-                      ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
-                  ],
-                )
-              : null,
-          child: MyWalletsAssetItem(
-            isMoving: widget.store.isReordering,
-            currency: widget.store.currencies[index],
-          ),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () {
+                    // Dima's incredible code
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SBankIcon(
+                        color: colors.blue,
+                      ),
+                      const SpaceW8(),
+                      Text(
+                        'Get account',
+                        style: sTextButtonStyle.copyWith(
+                          color: colors.purple,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+          ],
         ),
       );
     }
@@ -128,9 +174,53 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 ),
               ],
             ),
-            child: MyWalletsAssetItem(
-              isMoving: true,
-              currency: widget.store.currencies[index],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyWalletsAssetItem(
+                  isMoving: true,
+                  currency: widget.store.currencies[index],
+                ),
+                if (widget.store.currencies[index].symbol == 'EUR')
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 16,
+                      left: 60,
+                    ),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: colors.grey5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {
+                        // Dima's incredible code
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SBankIcon(
+                            color: colors.blue,
+                          ),
+                          const SpaceW8(),
+                          Text(
+                            'Get account',
+                            style: sTextButtonStyle.copyWith(
+                              color: colors.purple,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         );
