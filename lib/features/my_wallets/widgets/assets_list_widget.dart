@@ -5,6 +5,7 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
+import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -113,13 +114,14 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                   top: 8,
                   bottom: 16,
                   left: 60,
+                  right: 60,
                 ),
                 child: SIconTextButton(
                   onTap: () {
                     // TODO: Dima's incredible code
                   },
                   text: intl.my_wallets_get_account,
-                  icon: SBankIcon(
+                  icon: SBankMediumIcon(
                     color: colors.blue,
                   ),
                 ),
@@ -166,13 +168,14 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                       top: 8,
                       bottom: 16,
                       left: 60,
+                      right: 60,
                     ),
                     child: SIconTextButton(
                       onTap: () {
                         // TODO: Dima's incredible code
                       },
                       text: intl.my_wallets_get_account,
-                      icon: SBankIcon(
+                      icon: SBankMediumIcon(
                         color: colors.blue,
                       ),
                     ),

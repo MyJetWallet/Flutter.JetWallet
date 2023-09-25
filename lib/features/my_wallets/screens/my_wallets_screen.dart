@@ -137,8 +137,11 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                       showAddWalletBottomSheet(context, store);
                     },
                     text: intl.my_wallets_add_wallet,
-                    icon: SPlusIcon(
-                      color: colors.blue,
+                    icon: SizedBox(
+                      width: 16,
+                      child: SPlusIcon(
+                        color: colors.blue,
+                      ),
                     ),
                   ),
                 ],
