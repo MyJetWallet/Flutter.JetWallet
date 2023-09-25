@@ -22,6 +22,10 @@ abstract class _MyWalletsSroreBase with Store {
   ObservableList<CurrencyModel> get currencies =>
       currenciesForMyWallet(_allAssets);
 
+  @computed
+  ObservableList<CurrencyModel> get currenciesForSearch =>
+      currenciesForSearchInMyWallet(_allAssets);
+
   @action
   void onStartReordering() {
     isReordering = true;
@@ -50,6 +54,34 @@ abstract class _MyWalletsSroreBase with Store {
   void onDelete(int index) {
     currencies.removeAt(index);
 
+    final activeAssets = <ActiveAsset>[];
+    for (var index = 0; index < currencies.length; index++) {
+      activeAssets.add(
+        ActiveAsset(
+          assetSymbol: currencies[index].symbol,
+          order: index,
+        ),
+      );
+    }
+    final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
+    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+          model,
+        );
+  }
+
+  @action
+  void onSearch(String text) {
+    final tempList =
+        currencies.where((e) => e.description.contains(text)).toList();
+    currencies
+      ..clear()
+      ..addAll(tempList);
+  }
+
+  @action
+  void onChooseAsetFromSearch(CurrencyModel currency) {
+    currencies.add(currency);
+    
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
       activeAssets.add(
