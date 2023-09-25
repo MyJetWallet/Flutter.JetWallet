@@ -114,35 +114,13 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                   bottom: 16,
                   left: 60,
                 ),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: colors.grey5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () {
-                    // Dima's incredible code
+                child: SIconTextButton(
+                  onTap: () {
+                    // TODO: Dima's incredible code
                   },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SBankIcon(
-                        color: colors.blue,
-                      ),
-                      const SpaceW8(),
-                      Text(
-                        intl.my_wallets_get_account,
-                        style: sTextButtonStyle.copyWith(
-                          color: colors.purple,
-                        ),
-                      ),
-                    ],
+                  text: intl.my_wallets_get_account,
+                  icon: SBankIcon(
+                    color: colors.blue,
                   ),
                 ),
               ),
@@ -189,35 +167,13 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                       bottom: 16,
                       left: 60,
                     ),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: colors.grey5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        // Dima's incredible code
+                    child: SIconTextButton(
+                      onTap: () {
+                        // TODO: Dima's incredible code
                       },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SBankIcon(
-                            color: colors.blue,
-                          ),
-                          const SpaceW8(),
-                          Text(
-                            intl.my_wallets_get_account,
-                            style: sTextButtonStyle.copyWith(
-                              color: colors.purple,
-                            ),
-                          ),
-                        ],
+                      text: intl.my_wallets_get_account,
+                      icon: SBankIcon(
+                        color: colors.blue,
                       ),
                     ),
                   ),

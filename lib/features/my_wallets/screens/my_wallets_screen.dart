@@ -132,38 +132,15 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               Row(
                 children: [
                   const SpaceW24(),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: colors.grey5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    onPressed: () {
+                  SIconTextButton(
+                    onTap: () {
                       showAddWalletBottomSheet(context, store);
                     },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SPlusIcon(
-                          color: colors.blue,
-                        ),
-                        const SpaceW8(),
-                        Text(
-                          intl.my_wallets_add_wallet,
-                          style: sTextButtonStyle.copyWith(
-                            color: colors.purple,
-                          ),
-                        ),
-                      ],
+                    text: intl.my_wallets_add_wallet,
+                    icon: SPlusIcon(
+                      color: colors.blue,
                     ),
                   ),
-                  const Spacer(),
                 ],
               ),
             const SpaceH31(),

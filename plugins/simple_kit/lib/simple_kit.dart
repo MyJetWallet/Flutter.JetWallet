@@ -85,6 +85,7 @@ export 'modules/buttons/resend_button/simple_resend_button.dart';
 export 'modules/buttons/simple_floating_button_frame.dart';
 export 'modules/buttons/simple_floating_button_frame2.dart';
 export 'modules/buttons/simple_circle_icon_button.dart';
+export 'modules/buttons/simple_icon_text_button.dart';
 
 /// Colors
 export 'modules/colors/simple_colors.dart';
