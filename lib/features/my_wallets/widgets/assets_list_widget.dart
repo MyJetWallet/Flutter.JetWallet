@@ -9,14 +9,15 @@ import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start
 import 'package:simple_kit/simple_kit.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
-  const AssetsListWidget({super.key});
+  const AssetsListWidget({super.key, required this.store, });
+
+  final MyWalletsSrore store;
 
   @override
   State<AssetsListWidget> createState() => _AssetsListWidgetState();
 }
 
 class _AssetsListWidgetState extends State<AssetsListWidget> {
-  final store = MyWalletsSrore();
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,9 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
 
     return Column(
       children: [
-        if (store.isReordering) ...[
+        if (widget.store.isReordering) ...[
           ChangeOrderWidget(
-            onPressedDone: store.onEndReordering,
+            onPressedDone: widget.store.onEndReordering,
           ),
           ReorderableListView(
             proxyDecorator: _proxyDecorator,
@@ -39,8 +40,8 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
               if (oldIndex < newIndexTemp) {
                 newIndexTemp -= 1;
               }
-              final item = store.currencies.removeAt(oldIndex);
-              store.currencies.insert(newIndexTemp, item);
+              final item = widget.store.currencies.removeAt(oldIndex);
+              widget.store.currencies.insert(newIndexTemp, item);
               setState(() {});
             },
             children: list,
@@ -55,18 +56,18 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
     final colors = sKit.colors;
     final list = <Widget>[];
 
-    for (var index = 0; index < store.currencies.length; index += 1) {
+    for (var index = 0; index < widget.store.currencies.length; index += 1) {
       list.add(
         Slidable(
-          key: ValueKey(store.currencies[index].symbol),
-          startActionPane: !store.isReordering
+          key: ValueKey(widget.store.currencies[index].symbol),
+          startActionPane: !widget.store.isReordering
               ? ActionPane(
                   extentRatio: 0.2,
                   motion: const StretchMotion(),
                   children: [
                     CustomSlidableAction(
                       onPressed: (context) {
-                        store.onStartReordering();
+                        widget.store.onStartReordering();
                       },
                       backgroundColor: colors.purple,
                       foregroundColor: colors.white,
@@ -77,14 +78,14 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                   ],
                 )
               : null,
-          endActionPane: store.currencies[index].isAssetBalanceEmpty
+          endActionPane: widget.store.currencies[index].isAssetBalanceEmpty
               ? ActionPane(
                   extentRatio: 0.2,
                   motion: const StretchMotion(),
                   children: [
                     CustomSlidableAction(
                       onPressed: (context) {
-                        store.onDelete(index);
+                        widget.store.onDelete(index);
                       },
                       backgroundColor: colors.red,
                       foregroundColor: colors.white,
@@ -96,8 +97,8 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 )
               : null,
           child: MyWalletsAssetItem(
-            isMoving: store.isReordering,
-            currency: store.currencies[index],
+            isMoving: widget.store.isReordering,
+            currency: widget.store.currencies[index],
           ),
         ),
       );
@@ -129,7 +130,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
             ),
             child: MyWalletsAssetItem(
               isMoving: true,
-              currency: store.currencies[index],
+              currency: widget.store.currencies[index],
             ),
           ),
         );

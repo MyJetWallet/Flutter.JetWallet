@@ -71,9 +71,10 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList =
-        currencies.where((e) => e.description.contains(text)).toList();
-    currencies
+    final tempList = _allAssets
+        .where((e) => e.description.toLowerCase().contains(text.toLowerCase()))
+        .toList();
+    currenciesForSearch
       ..clear()
       ..addAll(tempList);
   }
@@ -81,7 +82,7 @@ abstract class _MyWalletsSroreBase with Store {
   @action
   void onChooseAsetFromSearch(CurrencyModel currency) {
     currencies.add(currency);
-    
+
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
       activeAssets.add(

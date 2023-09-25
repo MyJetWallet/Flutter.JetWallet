@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
@@ -26,6 +27,8 @@ class MyWalletsScreen extends StatefulObserverWidget {
 class _PortfolioScreenState extends State<MyWalletsScreen> {
   final _controller = ScrollController();
   bool isTopPosition = true;
+
+  final store = MyWalletsSrore();
 
   @override
   void initState() {
@@ -120,42 +123,48 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             const SpaceH40(),
             const ActionsMyWalletsRowWidget(),
             const SpaceH30(),
-            const AssetsListWidget(),
-             const SpaceH16(),
-            Row(
-              children: [
-                const SpaceW24(),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: colors.grey5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () {
-                    showAddWalletBottomSheet(context);
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.add),
-                      Text(
-                        'Add wallet',
-                        style: sTextButtonStyle.copyWith(
-                          color: colors.purple,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-              ],
+            AssetsListWidget(
+              store: store,
             ),
+            const SpaceH16(),
+            if (store.currenciesForSearch.isNotEmpty)
+              Row(
+                children: [
+                  const SpaceW24(),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: colors.grey5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      showAddWalletBottomSheet(context, store);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SPlusIcon(
+                          color: colors.blue,
+                        ),
+                        const SpaceW8(),
+                        Text(
+                          'Add wallet',
+                          style: sTextButtonStyle.copyWith(
+                            color: colors.purple,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
             const SpaceH31(),
           ],
         ),
@@ -163,4 +172,3 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
     );
   }
 }
-

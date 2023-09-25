@@ -1,68 +1,56 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/features/actions/helpers/show_currency_search.dart';
-import 'package:jetwallet/features/actions/store/action_search_store.dart';
+import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
-import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-void showAddWalletBottomSheet(BuildContext context) {
-  final showSearch = showSellCurrencySearch(context);
-  final a = ActionSearchStore();
-  a.init();
+void showAddWalletBottomSheet(BuildContext context, MyWalletsSrore store) {
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
     then: (value) {},
+    expanded: true,
     pinned: ActionBottomSheetHeader(
       name: 'Add wallet',
-      showSearch: showSearch,
+      showSearch: store.currenciesForSearch.length >= 7,
       onChanged: (String value) {
-        getIt.get<ActionSearchStore>().search(value);
+        store.onSearch(value);
       },
       horizontalDividerPadding: 24,
     ),
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [const _ActionSell()],
+    children: [_AssetsList(store)],
   );
 }
 
-class _ActionSell extends StatelessObserverWidget {
-  const _ActionSell();
+class _AssetsList extends StatelessObserverWidget {
+  const _AssetsList(this.store);
+
+  final MyWalletsSrore store;
 
   @override
   Widget build(BuildContext context) {
-    final state = getIt.get<ActionSearchStore>();
-
-    final assetWithBalance = <CurrencyModel>[];
-
-    for (final currency in state.filteredCurrencies) {
-      if (currency.baseBalance != Decimal.zero) {
-        assetWithBalance.add(currency);
-      }
-    }
+    final currencies = store.currenciesForSearch;
 
     return Column(
       children: [
         const SpaceH16(),
-        for (final currency in assetWithBalance) ...[
-          if (currency.isAssetBalanceNotEmpty)
-            WalletSearchItem(
-              icon: SNetworkSvg24(
-                url: currency.iconUrl,
-              ),
-              description: currency.description,
-              symbol: currency.symbol,
-              onTap: () {
-                print('object');
-              },
+        for (final currency in currencies)
+          WalletSearchItem(
+            icon: SNetworkSvg24(
+              url: currency.iconUrl,
             ),
-        ],
+            description: currency.description,
+            symbol: currency.symbol,
+            onTap: () {
+              store.onChooseAsetFromSearch(currency);
+              sRouter.pop();
+            },
+          ),
       ],
     );
   }

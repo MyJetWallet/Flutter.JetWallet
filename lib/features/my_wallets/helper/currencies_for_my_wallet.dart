@@ -25,8 +25,5 @@ ObservableList<CurrencyModel> currenciesForSearchInMyWallet(
       )
       .toList();
 
-  activeCurrencies
-      .sort((a, b) => (a.walletOrder ?? 1).compareTo(b.walletOrder ?? 1));
-
   return ObservableList.of(activeCurrencies);
 }
