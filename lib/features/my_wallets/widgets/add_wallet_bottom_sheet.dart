@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
@@ -13,7 +14,7 @@ void showAddWalletBottomSheet(BuildContext context, MyWalletsSrore store) {
     then: (value) {},
     expanded: true,
     pinned: ActionBottomSheetHeader(
-      name: 'Add wallet',
+      name: intl.my_wallets_add_wallet,
       showSearch: store.currenciesForSearch.length >= 7,
       onChanged: (String value) {
         store.onSearch(value);

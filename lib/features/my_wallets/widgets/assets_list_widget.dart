@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
@@ -136,7 +137,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                       ),
                       const SpaceW8(),
                       Text(
-                        'Get account',
+                        intl.my_wallets_get_account,
                         style: sTextButtonStyle.copyWith(
                           color: colors.purple,
                         ),
@@ -211,7 +212,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                           ),
                           const SpaceW8(),
                           Text(
-                            'Get account',
+                            intl.my_wallets_get_account,
                             style: sTextButtonStyle.copyWith(
                               color: colors.purple,
                             ),

@@ -3,6 +3,7 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
@@ -154,7 +155,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                         ),
                         const SpaceW8(),
                         Text(
-                          'Add wallet',
+                          intl.my_wallets_add_wallet,
                           style: sTextButtonStyle.copyWith(
                             color: colors.purple,
                           ),
