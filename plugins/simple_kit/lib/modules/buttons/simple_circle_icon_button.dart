@@ -30,22 +30,22 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
         ? widget.backgroundColor.withOpacity(0.8)
         : widget.backgroundColor;
 
-    return InkWell(
-      onTap: widget.onTap,
-      onHighlightChanged: (value) {
-        setState(() {
-          highlighted = value;
-        });
-      },
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      child: Ink(
-        height: 48.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: currentColor,
-        ),
-        padding: const EdgeInsets.all(12),
+    return Container(
+      height: 48.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: currentColor,
+      ),
+      padding: const EdgeInsets.all(12),
+      child: InkWell(
+        onTap: widget.onTap,
+        onHighlightChanged: (value) {
+          setState(() {
+            highlighted = value;
+          });
+        },
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         child: highlighted
             ? (widget.pressedIcon ?? widget.defaultIcon)
             : widget.defaultIcon,

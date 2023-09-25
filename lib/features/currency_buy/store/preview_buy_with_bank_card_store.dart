@@ -441,7 +441,7 @@ abstract class _PreviewBuyWithBankCardStoreBase with Store {
           (value) => sRouter.replaceAll([
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ]),

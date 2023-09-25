@@ -263,7 +263,7 @@ abstract class _AppStoreBase with Store {
               sRouter.replaceAll([
                 const HomeRouter(
                   children: [
-                    PortfolioRouter(),
+                    MyWalletsRouter(),
                   ],
                 ),
               ]);

@@ -94,6 +94,7 @@ import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unli
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/conversion_price_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wire_countries/wire_countries_response_model.dart';
@@ -272,6 +273,28 @@ class WalletApiDataSources {
         );
 
         return DC.data(WalletHistoryResponseModel.fromJson(data));
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
+  Future<DC<ServerRejectException, void>> setActiveAssetslRequest(
+    SetActiveAssetsRequestModel model,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/wallet/set-active-assets',
+        data: model,
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        handleFullResponse(responseData);
+
+        return DC.data(null);
       } catch (e) {
         rethrow;
       }

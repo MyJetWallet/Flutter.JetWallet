@@ -429,7 +429,7 @@ abstract class _PreviewBuyWithCircleStoreBase with Store {
           (value) => sRouter.push(
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           ),

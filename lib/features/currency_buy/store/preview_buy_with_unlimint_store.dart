@@ -389,7 +389,7 @@ abstract class _PreviewBuyWithUnlimitStoreBase with Store {
           sRouter.push(
             const HomeRouter(
               children: [
-                PortfolioRouter(),
+                MyWalletsRouter(),
               ],
             ),
           );

@@ -93,6 +93,7 @@ import 'package:simple_networking/modules/wallet_api/models/unlimint/delete_unli
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/validate_address/validate_address_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/conversion_price_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet_history/wallet_history_response_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wire_countries/wire_countries_response_model.dart';
@@ -169,6 +170,12 @@ class WalletApiRepository {
     return _walletApiDataSources.getWalletHistoryRequest(
       model,
     );
+  }
+
+  Future<DC<ServerRejectException, void>> setActiveAssets(
+    SetActiveAssetsRequestModel model,
+  ) async {
+    return _walletApiDataSources.setActiveAssetslRequest(model);
   }
 
   /// Circle API
