@@ -36,24 +36,9 @@ class ChangeOrderWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: colors.grey5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                ),
-                onPressed: onPressedDone,
-                child: Text(
-                  intl.my_wallets_button_done,
-                  style: sTextButtonStyle.copyWith(
-                    color: colors.purple,
-                  ),
-                ),
+              SIconTextButton(
+                onTap: onPressedDone,
+                text: intl.my_wallets_button_done,
               ),
             ],
           ),

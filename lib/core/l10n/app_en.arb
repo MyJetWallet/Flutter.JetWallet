@@ -1275,6 +1275,8 @@
     "my_wallets_change_order": "Change order",
     "my_wallets_move_wallets": "Move wallets up and down",
     "my_wallets_button_done": "Done",
+    "my_wallets_add_wallet": "Add wallet",
+    "my_wallets_get_account": "Get account",
     "let_us_create_account": "Let us create account for you",
     "wallet_verify_your_account": "Please verify your account",
     "wallet_verify_account": "Verify account",

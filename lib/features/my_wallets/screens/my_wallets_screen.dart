@@ -3,9 +3,12 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/balance_amount_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
@@ -25,6 +28,8 @@ class MyWalletsScreen extends StatefulObserverWidget {
 class _PortfolioScreenState extends State<MyWalletsScreen> {
   final _controller = ScrollController();
   bool isTopPosition = true;
+
+  final store = MyWalletsSrore();
 
   @override
   void initState() {
@@ -114,12 +119,34 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
           controller: _controller,
           padding: EdgeInsets.zero,
           physics: const AlwaysScrollableScrollPhysics(),
-          children: const [
-            BalanceAmountWidget(),
-            SpaceH40(),
-            ActionsMyWalletsRowWidget(),
-            SpaceH30(),
-            AssetsListWidget(),
+          children: [
+            const BalanceAmountWidget(),
+            const SpaceH40(),
+            const ActionsMyWalletsRowWidget(),
+            const SpaceH30(),
+            AssetsListWidget(
+              store: store,
+            ),
+            const SpaceH16(),
+            if (store.currenciesForSearch.isNotEmpty)
+              Row(
+                children: [
+                  const SpaceW24(),
+                  SIconTextButton(
+                    onTap: () {
+                      showAddWalletBottomSheet(context, store);
+                    },
+                    text: intl.my_wallets_add_wallet,
+                    icon: SizedBox(
+                      width: 16,
+                      child: SPlusIcon(
+                        color: colors.blue,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            const SpaceH31(),
           ],
         ),
       ),

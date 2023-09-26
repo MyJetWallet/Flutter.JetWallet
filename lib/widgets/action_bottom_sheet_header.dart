@@ -15,6 +15,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.onChanged,
     this.onCloseTap,
     required this.name,
+    this.horizontalDividerPadding = 0,
   });
 
   final String name;
@@ -27,6 +28,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
   final bool removePadding;
   final bool removeSearchPadding;
   final bool needBottomPadding;
+  final double horizontalDividerPadding;
 
   @override
   State<ActionBottomSheetHeader> createState() =>
@@ -90,7 +92,12 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 maxLines: 1,
               ),
             ),
-          const SDivider(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: widget.horizontalDividerPadding,
+            ),
+            child: const SDivider(),
+          ),
         ] else if (widget.showSearchWithArrow) ...[
           SPaddingH24(
             child: Row(
