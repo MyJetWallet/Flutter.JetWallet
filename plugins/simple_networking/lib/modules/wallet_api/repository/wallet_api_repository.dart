@@ -115,8 +115,7 @@ class WalletApiRepository {
   final ApiClient _apiClient;
   late final WalletApiDataSources _walletApiDataSources;
 
-  Future<DC<ServerRejectException, DepositAddressResponseModel>>
-      postDepositAddress(
+  Future<DC<ServerRejectException, DepositAddressResponseModel>> postDepositAddress(
     DepositAddressRequestModel model,
   ) async {
     return _walletApiDataSources.postDepositAddressRequest(
@@ -124,13 +123,11 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DepositAddressResponseModel>>
-      postDepositNFTAddress() async {
+  Future<DC<ServerRejectException, DepositAddressResponseModel>> postDepositNFTAddress() async {
     return _walletApiDataSources.postDepositNFTAddressRequest();
   }
 
-  Future<DC<ServerRejectException, ValidateAddressResponseModel>>
-      postValidateAddress(
+  Future<DC<ServerRejectException, ValidateAddressResponseModel>> postValidateAddress(
     ValidateAddressRequestModel model,
   ) async {
     return _walletApiDataSources.postValidateAddressRequest(
@@ -146,8 +143,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WithdrawalInfoResponseModel>>
-      postWithdrawalInfo(
+  Future<DC<ServerRejectException, WithdrawalInfoResponseModel>> postWithdrawalInfo(
     WithdrawalInfoRequestModel model,
   ) async {
     return _walletApiDataSources.postWithdrawalInfoRequest(
@@ -163,8 +159,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WalletHistoryResponseModel>>
-      getWalletHistory(
+  Future<DC<ServerRejectException, WalletHistoryResponseModel>> getWalletHistory(
     WalletHistoryRequestModel model,
   ) async {
     return _walletApiDataSources.getWalletHistoryRequest(
@@ -199,8 +194,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CreatePaymentResponseModel>>
-      postCreatePayment(
+  Future<DC<ServerRejectException, CreatePaymentResponseModel>> postCreatePayment(
     CreatePaymentRequestModel model,
   ) async {
     return _walletApiDataSources.postCreatePaymentRequest(
@@ -216,8 +210,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, EncryptionKeyResponseModel>>
-      getEncryptionKey() async {
+  Future<DC<ServerRejectException, EncryptionKeyResponseModel>> getEncryptionKey() async {
     return _walletApiDataSources.getEncryptionKeyRequest();
   }
 
@@ -229,8 +222,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, PaymentPreviewResponseModel>>
-      postPaymentPreview(
+  Future<DC<ServerRejectException, PaymentPreviewResponseModel>> postPaymentPreview(
     PaymentPreviewRequestModel model,
   ) async {
     return _walletApiDataSources.postPaymentPreviewRequest(
@@ -238,18 +230,15 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, WireCountriesResponseModel>>
-      getWireCountries() async {
+  Future<DC<ServerRejectException, WireCountriesResponseModel>> getWireCountries() async {
     return _walletApiDataSources.getWireCountriesRequest();
   }
 
-  Future<DC<ServerRejectException, SessionInfoResponseModel>>
-      getSessionInfo() async {
+  Future<DC<ServerRejectException, SessionInfoResponseModel>> getSessionInfo() async {
     return _walletApiDataSources.getSessionInfoRequest();
   }
 
-  Future<DC<ServerRejectException, ProfileInfoResponseModel>>
-      getProfileInfo() async {
+  Future<DC<ServerRejectException, ProfileInfoResponseModel>> getProfileInfo() async {
     return _walletApiDataSources.getProfileInfoRequest();
   }
 
@@ -257,8 +246,7 @@ class WalletApiRepository {
     return _walletApiDataSources.postCardSoonRequest();
   }
 
-  Future<DC<ServerRejectException, CardBuyCreateResponseModel>>
-      postCardBuyCreate(
+  Future<DC<ServerRejectException, CardBuyCreateResponseModel>> postCardBuyCreate(
     CardBuyCreateRequestModel model,
   ) async {
     return _walletApiDataSources.postCardBuyCreateRequest(model);
@@ -320,18 +308,15 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getDisclaimers() async {
     return _walletApiDataSources.getDisclaimersRequest();
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getNftDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getNftDisclaimers() async {
     return _walletApiDataSources.getNftDisclaimersRequest();
   }
 
-  Future<DC<ServerRejectException, DisclaimersResponseModel>>
-      getHighYieldDisclaimers() async {
+  Future<DC<ServerRejectException, DisclaimersResponseModel>> getHighYieldDisclaimers() async {
     return _walletApiDataSources.getHighYieldDisclaimersRequest();
   }
 
@@ -343,8 +328,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CalculateEarnOfferApyResponseModel>>
-      postCalculateEarnOfferApy(
+  Future<DC<ServerRejectException, CalculateEarnOfferApyResponseModel>> postCalculateEarnOfferApy(
     CalculateEarnOfferApyRequestModel model,
   ) async {
     return _walletApiDataSources.postCalculateEarnOfferApyRequest(
@@ -432,23 +416,19 @@ class WalletApiRepository {
     return _walletApiDataSources.postRegisterTokenRequest(model);
   }
 
-  Future<DC<ServerRejectException, OperationHistoryResponseModel>>
-      getOperationHistory(
+  Future<DC<ServerRejectException, OperationHistoryResponseModel>> getOperationHistory(
     OperationHistoryRequestModel model,
   ) async {
     return _walletApiDataSources.getOperationHistoryRequest(model);
   }
 
-  Future<DC<ServerRejectException, OperationHistoryItem>>
-      getOperationHistoryOperationID(
+  Future<DC<ServerRejectException, OperationHistoryItem>> getOperationHistoryOperationID(
     String operationId,
   ) async {
-    return _walletApiDataSources
-        .getOperationHistoryOperationIDRequest(operationId);
+    return _walletApiDataSources.getOperationHistoryOperationIDRequest(operationId);
   }
 
-  Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>>
-      postProfileDeleteReasons(
+  Future<DC<ServerRejectException, List<ProfileDeleteReasonsModel>>> postProfileDeleteReasons(
     String localeName,
   ) async {
     return _walletApiDataSources.postProfileDeleteReasonsRequest(localeName);
@@ -494,8 +474,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, SimplexPaymentResponseModel>>
-      postSimplexPayment(
+  Future<DC<ServerRejectException, SimplexPaymentResponseModel>> postSimplexPayment(
     SimplexPaymentRequestModel model,
   ) async {
     return _walletApiDataSources.postSimplexPaymentRequest(
@@ -519,8 +498,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, TransferByPhoneResponseModel>>
-      postTransferByPhone(
+  Future<DC<ServerRejectException, TransferByPhoneResponseModel>> postTransferByPhone(
     TransferByPhoneRequestModel model,
   ) async {
     return _walletApiDataSources.postTransferByPhoneRequest(
@@ -528,8 +506,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, TransferCancelResponseModel>>
-      postTransferCancel(
+  Future<DC<ServerRejectException, TransferCancelResponseModel>> postTransferCancel(
     TransferCancelRequestModel model,
   ) async {
     return _walletApiDataSources.postTransferCancelRequest(
@@ -563,8 +540,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, AddUnlimintCardResponseModel>>
-      postAddUnlimintCard(
+  Future<DC<ServerRejectException, AddUnlimintCardResponseModel>> postAddUnlimintCard(
     AddUnlimintCardRequestModel model,
   ) async {
     return _walletApiDataSources.postAddUnlimintCardRequest(
@@ -572,8 +548,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, DeleteUnlimintCardResponseModel>>
-      postDeleteUnlimintCard(
+  Future<DC<ServerRejectException, DeleteUnlimintCardResponseModel>> postDeleteUnlimintCard(
     DeleteUnlimintCardRequestModel model,
   ) async {
     return _walletApiDataSources.postDeleteUnlimintCardRequest(
@@ -623,8 +598,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, CardVerificationResponseModel>>
-      cardVerification(
+  Future<DC<ServerRejectException, CardVerificationResponseModel>> cardVerification(
     CardVerificationRequestModel model,
   ) async {
     return _walletApiDataSources.cardVerification(
@@ -636,25 +610,22 @@ class WalletApiRepository {
     return _walletApiDataSources.postSDKTokenRequest(country);
   }
 
-  Future<DC<ServerRejectException, EncryptionKeyCardResponseModel>>
-      encryptionKey() async {
+  Future<DC<ServerRejectException, EncryptionKeyCardResponseModel>> encryptionKey() async {
     return _walletApiDataSources.encryptionKey();
   }
 
   /// NFT
 
-  Future<DC<ServerRejectException, NftMarketInfoResponseModel>>
-      getNFTMarketInfo(String symbol) async {
+  Future<DC<ServerRejectException, NftMarketInfoResponseModel>> getNFTMarketInfo(String symbol) async {
     return _walletApiDataSources.getNFTMarketInfoRequest(symbol);
   }
 
-  Future<DC<ServerRejectException, NftMarketIsValidPromoResponseModel>>
-      getNFTMarketIsValidPromo(String promocode) async {
+  Future<DC<ServerRejectException, NftMarketIsValidPromoResponseModel>> getNFTMarketIsValidPromo(
+      String promocode) async {
     return _walletApiDataSources.getNFTMarketIsValidPromoRequest(promocode);
   }
 
-  Future<DC<ServerRejectException, NftMarketPreviewBuyResponseModel>>
-      getNFTMarketPreviewBuy({
+  Future<DC<ServerRejectException, NftMarketPreviewBuyResponseModel>> getNFTMarketPreviewBuy({
     required String symbol,
     String? promocode,
   }) async {
@@ -664,8 +635,8 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>>
-      getNFTMarketPreviewSell(String symbol, String assetSymbol) async {
+  Future<DC<ServerRejectException, NftMarketPreviewSellResponseModel>> getNFTMarketPreviewSell(
+      String symbol, String assetSymbol) async {
     return _walletApiDataSources.getNFTMarketPreviewSellRequest(
       symbol,
       assetSymbol,
@@ -692,8 +663,7 @@ class WalletApiRepository {
 
   /// Base asset
 
-  Future<DC<ServerRejectException, GetBaseAssetsResponseModel>>
-      getBaseAssetsList() async {
+  Future<DC<ServerRejectException, GetBaseAssetsResponseModel>> getBaseAssetsList() async {
     return _walletApiDataSources.getBaseAssetsListRequest();
   }
 
@@ -721,8 +691,7 @@ class WalletApiRepository {
     return _walletApiDataSources.sendToBankCardRequest(model);
   }
 
-  Future<DC<ServerRejectException, SendToBankCardResponse>>
-      sendToBankCardPreview(SendToBankRequestModel model) async {
+  Future<DC<ServerRejectException, SendToBankCardResponse>> sendToBankCardPreview(SendToBankRequestModel model) async {
     return _walletApiDataSources.sendToBankCardPreviewRequest(model);
   }
 
@@ -809,8 +778,7 @@ class WalletApiRepository {
     );
   }
 
-  Future<DC<ServerRejectException, IbanPreviewWithdrawalModel>>
-      postPreviewIbanWithdrawal(
+  Future<DC<ServerRejectException, IbanPreviewWithdrawalModel>> postPreviewIbanWithdrawal(
     IbanWithdrawalModel model,
   ) async {
     return _walletApiDataSources.postPreviewIbanWithdrawalRequest(
@@ -828,5 +796,11 @@ class WalletApiRepository {
     required RewardsBalance data,
   }) async {
     return _walletApiDataSources.postRewardClaimRequest(data);
+  }
+
+  // Banking
+
+  Future<DC<ServerRejectException, void>> postAccountCreate() async {
+    return _walletApiDataSources.postAccountCreateRequest();
   }
 }
