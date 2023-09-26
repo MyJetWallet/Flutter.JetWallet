@@ -2338,4 +2338,26 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
+
+  // Banking
+
+  Future<DC<ServerRejectException, void>> postAccountCreateRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/create',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
 }

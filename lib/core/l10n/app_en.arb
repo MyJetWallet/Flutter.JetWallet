@@ -1274,5 +1274,11 @@
     "my_wallets_header": "Wallets",
     "my_wallets_change_order": "Change order",
     "my_wallets_move_wallets": "Move wallets up and down",
-    "my_wallets_button_done": "Done"
+    "my_wallets_button_done": "Done",
+    "let_us_create_account": "Let us create account for you",
+    "wallet_verify_your_account": "Please verify your account",
+    "wallet_verify_account": "Verify account",
+    "wallet_cancel": "Cancel",
+    "wallet_please_update_your_address": "Please update your address information",
+    "wallet_continue": "Continue"
 }
