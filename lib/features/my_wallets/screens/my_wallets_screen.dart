@@ -140,7 +140,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               const SpaceH30(),
               const AssetsListWidget(),
               const SpaceH16(),
-              if (store.currenciesForSearch.isNotEmpty)
+              if (store.currenciesForSearch.isNotEmpty && !store.isReordering)
                 Row(
                   children: [
                     const SpaceW24(),
