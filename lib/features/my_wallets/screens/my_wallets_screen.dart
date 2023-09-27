@@ -106,7 +106,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Transform.translate(
-                    offset: Offset(0.0, controller.value * 50),
+                    offset: Offset(
+                      0.0,
+                      !controller.isIdle ? (controller.value * 75) : 0,
+                    ),
                     child: child,
                   );
                 },
@@ -115,37 +118,40 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             ],
           );
         },
-        child: ListView(
-          controller: _controller,
-          padding: EdgeInsets.zero,
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            const BalanceAmountWidget(),
-            const SpaceH40(),
-            const ActionsMyWalletsRowWidget(),
-            const SpaceH30(),
-            const AssetsListWidget(),
-            const SpaceH16(),
-            if (store.currenciesForSearch.isNotEmpty)
-              Row(
-                children: [
-                  const SpaceW24(),
-                  SIconTextButton(
-                    onTap: () {
-                      showAddWalletBottomSheet(context);
-                    },
-                    text: intl.my_wallets_add_wallet,
-                    icon: SizedBox(
-                      width: 16,
-                      child: SPlusIcon(
-                        color: colors.blue,
+        child: ColoredBox(
+          color: colors.white,
+          child: ListView(
+            controller: _controller,
+            padding: EdgeInsets.zero,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              const BalanceAmountWidget(),
+              const SpaceH40(),
+              const ActionsMyWalletsRowWidget(),
+              const SpaceH30(),
+              const AssetsListWidget(),
+              const SpaceH16(),
+              if (store.currenciesForSearch.isNotEmpty)
+                Row(
+                  children: [
+                    const SpaceW24(),
+                    SIconTextButton(
+                      onTap: () {
+                        showAddWalletBottomSheet(context);
+                      },
+                      text: intl.my_wallets_add_wallet,
+                      icon: SizedBox(
+                        width: 16,
+                        child: SPlusIcon(
+                          color: colors.blue,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            const SpaceH31(),
-          ],
+                  ],
+                ),
+              const SpaceH31(),
+            ],
+          ),
         ),
       ),
     );
