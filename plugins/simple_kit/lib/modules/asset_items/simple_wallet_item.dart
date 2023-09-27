@@ -162,7 +162,7 @@ class SWalletItem extends StatelessWidget {
                                         softWrap: true,
                                       )
                                     : Text(
-                                        '****** $baseCurrencySymbol',
+                                        '***** $baseCurrencySymbol',
                                         style: sSubtitle2Style.copyWith(
                                           height: 1,
                                         ),
