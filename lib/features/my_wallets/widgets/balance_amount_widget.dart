@@ -26,7 +26,7 @@ class BalanceAmountWidget extends StatelessObserverWidget {
         !getIt<AppStore>().isBalanceHide
             ? _price(itemsWithBalance, baseCurrency)
             : '******* ${baseCurrency.symbol}',
-        style: sTextH1Style,
+        style: sTextH2Style,
       ),
     );
   }

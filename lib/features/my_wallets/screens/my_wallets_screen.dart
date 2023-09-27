@@ -77,7 +77,6 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
           MyWalletsHeader(
             isTitleCenter: !isTopPosition,
           ),
-          const SpaceH15(),
         ],
       ),
       child: CustomRefreshIndicator(
@@ -136,7 +135,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
               const BalanceAmountWidget(),
-              const SpaceH40(),
+              const SpaceH32(),
               const ActionsMyWalletsRowWidget(),
               const SpaceH30(),
               const AssetsListWidget(),
