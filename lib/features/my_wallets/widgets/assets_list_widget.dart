@@ -7,7 +7,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
@@ -21,8 +20,8 @@ import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_ic
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
   const AssetsListWidget({
@@ -134,20 +133,20 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                   top: 8,
                   bottom: 16,
                   left: 60,
-                  right: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.none ? 60 : 30,
+                  right: store.simpleAccontStatus == SimpleWalletAccountStatus.none ? 60 : 30,
                 ),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  width: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
+                  width: store.simpleAccontStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
                   child: SIconTextButton(
                     onTap: () {
-                      onGetAccountClick(widget.store, context);
+                      onGetAccountClick(store, context);
                     },
-                    text: widget.store.simpleAccountButtonText,
-                    mainAxisSize: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.none
+                    text: store.simpleAccountButtonText,
+                    mainAxisSize: store.simpleAccontStatus == SimpleWalletAccountStatus.none
                         ? MainAxisSize.min
                         : MainAxisSize.max,
-                    icon: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.none
+                    icon: store.simpleAccontStatus == SimpleWalletAccountStatus.none
                         ? SBankMediumIcon(
                             color: colors.blue,
                           )
@@ -165,17 +164,17 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                               ),
                             ),
                           ),
-                    rightIcon: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.created
+                    rightIcon: store.simpleAccontStatus == SimpleWalletAccountStatus.created
                         ? SBlueRightArrowIcon(
                             color: sKit.colors.black,
                           )
                         : null,
-                    textStyle: widget.store.simpleAccontStatus == SimpleWalletAccountStatus.none
+                    textStyle: store.simpleAccontStatus == SimpleWalletAccountStatus.none
                         ? sTextButtonStyle.copyWith(
                             color: sKit.colors.purple,
                             fontWeight: FontWeight.w600,
                           )
-                        : widget.store.simpleAccontStatus == SimpleWalletAccountStatus.creating
+                        : store.simpleAccontStatus == SimpleWalletAccountStatus.creating
                             ? sBodyText2Style.copyWith(
                                 color: sKit.colors.grey1,
                                 fontWeight: FontWeight.w600,
