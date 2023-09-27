@@ -6,7 +6,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
@@ -17,7 +16,6 @@ import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-import '../../../../../utils/helpers/currencies_helpers.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
 class MyWalletsScreen extends StatefulObserverWidget {
@@ -63,10 +61,6 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    final currencies = sSignalRModules.currenciesList;
-    final currenciesList = currencies.toList();
-    sortCurrenciesMyAssets(currenciesList);
 
     return SPageFrame(
       color: colors.white,
