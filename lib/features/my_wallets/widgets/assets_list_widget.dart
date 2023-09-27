@@ -116,7 +116,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 currency: store.currencies[index],
               ),
             ),
-            if (store.currencies[index].symbol == 'EUR')
+            if (store.currencies[index].symbol == 'EUR' && !store.isReordering)
               Padding(
                 padding: const EdgeInsets.only(
                   top: 8,
@@ -163,32 +163,9 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyWalletsAssetItem(
-                  isMoving: true,
-                  currency: store.currencies[index],
-                ),
-                if (store.currencies[index].symbol == 'EUR')
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 16,
-                      left: 60,
-                      right: 60,
-                    ),
-                    child: SIconTextButton(
-                      onTap: () {
-                        // TODO: Dima's incredible code
-                      },
-                      text: intl.my_wallets_get_account,
-                      icon: SBankMediumIcon(
-                        color: colors.blue,
-                      ),
-                    ),
-                  ),
-              ],
+            child: MyWalletsAssetItem(
+              isMoving: true,
+              currency: store.currencies[index],
             ),
           ),
         );
