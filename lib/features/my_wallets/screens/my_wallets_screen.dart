@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
@@ -12,6 +13,7 @@ import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.da
 import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/balance_amount_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -47,6 +49,14 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
           });
         }
       }
+    });
+
+    getIt<EventBus>().on<ResetScrollMyWallets>().listen((event) {
+      _controller.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
     });
   }
 

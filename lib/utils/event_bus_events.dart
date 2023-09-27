@@ -17,3 +17,7 @@ class ResetScrollCard {
 class GetNewHistoryEvent {
   GetNewHistoryEvent();
 }
+
+class ResetScrollMyWallets {
+  ResetScrollMyWallets();
+}
