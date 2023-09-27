@@ -9,6 +9,7 @@ import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_a
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/utils/helpers/are_balances_empty.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_buy.dart';
 import 'package:jetwallet/widgets/circle_action_buttons/circle_action_exchange.dart';
@@ -48,6 +49,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         if (isShowBuy) ...[
           CircleActionBuy(
             onTap: () {
+              getIt.get<MyWalletsSrore>().isReordering = false;
+              
               sAnalytics.newBuyTapBuy(
                 source: 'My Assets - Buy',
               );
@@ -61,6 +64,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         if (isShowReceive) ...[
           CircleActionReceive(
             onTap: () {
+              getIt.get<MyWalletsSrore>().isReordering = false;
+
               sAnalytics.tapOnTheReceiveButton(
                 source: 'My Assets - Receive',
               );
@@ -86,6 +91,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         if (isShowSend) ...[
           CircleActionSend(
             onTap: () {
+              getIt.get<MyWalletsSrore>().isReordering = false;
+
               sAnalytics.tabOnTheSendButton(source: 'My Assets - Send');
               if (kycState.withdrawalStatus ==
                   kycOperationStatus(KycStatus.allowed)) {
@@ -112,6 +119,8 @@ class ActionsMyWalletsRowWidget extends StatelessWidget {
         ],
         CircleActionExchange(
           onTap: () {
+            getIt.get<MyWalletsSrore>().isReordering = false;
+
             if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
               showSendTimerAlertOr(
                 context: context,

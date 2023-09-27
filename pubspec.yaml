@@ -20,6 +20,7 @@ dependencies:
   qr_flutter: 4.1.0 # QR code rendering
   grouped_list: 5.1.2 # List with grouped items
   flutter_slidable: ^3.0.0
+  visibility_detector: ^0.4.0+2
   # qr_code_scanner: ^0.7.0 # Scans QR code with camera
   mobile_scanner: 3.2.0
   qr_code_scanner:

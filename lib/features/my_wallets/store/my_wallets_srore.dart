@@ -15,12 +15,19 @@ abstract class _MyWalletsSroreBase with Store {
   bool isReordering = false;
 
   @computed
-  ObservableList<CurrencyModel> get _allAssets =>
-      sSignalRModules.currenciesList;
+  ObservableList<CurrencyModel> get _allAssets {
+    return sSignalRModules.currenciesList;
+  }
+
+  @observable
+  ObservableList<CurrencyModel> reorderingCurrencies = ObservableList.of([]);
 
   @computed
-  ObservableList<CurrencyModel> get currencies =>
-      currenciesForMyWallet(_allAssets);
+  ObservableList<CurrencyModel> get currencies {
+    return isReordering
+        ? reorderingCurrencies
+        : currenciesForMyWallet(_allAssets);
+  }
 
   @computed
   ObservableList<CurrencyModel> get currenciesForSearch =>
@@ -28,12 +35,28 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onStartReordering() {
+    reorderingCurrencies = currencies;
     isReordering = true;
+  }
+
+  @action
+  void onReorder(int oldIndex, int newIndex) {
+    var newIndexTemp = newIndex;
+
+    if (oldIndex < newIndexTemp) {
+      newIndexTemp -= 1;
+    }
+    final item = reorderingCurrencies.removeAt(oldIndex);
+    reorderingCurrencies.insert(newIndexTemp, item);
   }
 
   @action
   void onEndReordering() {
     isReordering = false;
+
+    currencies
+      ..clear()
+      ..addAll(reorderingCurrencies);
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {

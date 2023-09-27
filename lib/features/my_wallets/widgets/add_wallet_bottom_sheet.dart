@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
@@ -7,7 +8,9 @@ import 'package:jetwallet/features/my_wallets/widgets/wallet_search_item.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-void showAddWalletBottomSheet(BuildContext context, MyWalletsSrore store) {
+void showAddWalletBottomSheet(BuildContext context) {
+  final store = getIt.get<MyWalletsSrore>();
+
   sShowBasicModalBottomSheet(
     context: context,
     scrollable: true,
@@ -24,14 +27,14 @@ void showAddWalletBottomSheet(BuildContext context, MyWalletsSrore store) {
     horizontalPinnedPadding: 0,
     removePinnedPadding: true,
     horizontalPadding: 0,
-    children: [_AssetsList(store)],
+    children: [_AssetsList()],
   );
 }
 
 class _AssetsList extends StatelessObserverWidget {
-  const _AssetsList(this.store);
+  _AssetsList();
 
-  final MyWalletsSrore store;
+  final store = getIt.get<MyWalletsSrore>();
 
   @override
   Widget build(BuildContext context) {

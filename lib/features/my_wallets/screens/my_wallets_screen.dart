@@ -29,7 +29,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   final _controller = ScrollController();
   bool isTopPosition = true;
 
-  final store = MyWalletsSrore();
+  final store = getIt.get<MyWalletsSrore>();
 
   @override
   void initState() {
@@ -124,9 +124,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             const SpaceH40(),
             const ActionsMyWalletsRowWidget(),
             const SpaceH30(),
-            AssetsListWidget(
-              store: store,
-            ),
+            const AssetsListWidget(),
             const SpaceH16(),
             if (store.currenciesForSearch.isNotEmpty)
               Row(
@@ -134,7 +132,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                   const SpaceW24(),
                   SIconTextButton(
                     onTap: () {
-                      showAddWalletBottomSheet(context, store);
+                      showAddWalletBottomSheet(context);
                     },
                     text: intl.my_wallets_add_wallet,
                     icon: SizedBox(
