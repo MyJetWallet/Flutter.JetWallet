@@ -103,21 +103,28 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @action
-  void onChooseAsetFromSearch(CurrencyModel currency) {
-    currencies.add(currency);
-
+  Future<void> onChooseAsetFromSearch(CurrencyModel currency) async {
+    final tempList = currencies + [currency];
     final activeAssets = <ActiveAsset>[];
-    for (var index = 0; index < currencies.length; index++) {
+    for (var index = 0; index < tempList.length; index++) {
       activeAssets.add(
         ActiveAsset(
-          assetSymbol: currencies[index].symbol,
+          assetSymbol: tempList[index].symbol,
           order: index,
         ),
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+    final response = await getIt
+        .get<SNetwork>()
+        .simpleNetworking
+        .getWalletModule()
+        .setActiveAssets(
           model,
         );
+
+    if (!response.hasData) {
+      currencies.add(currency);
+    }
   }
 }
