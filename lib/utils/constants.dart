@@ -126,3 +126,5 @@ const simpleSmileLogo = 'assets/images/smile_logo.svg';
 const simpleCheckboxLogo = 'assets/images/reward_checkbox.png';
 const simpleRewardTrophy = 'assets/images/trophy.svg';
 const simpleRewardSmallStar = 'assets/images/reward_small_star.png';
+
+const simpleWalletShape = 'assets/images/wallet_shape.png';

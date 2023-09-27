@@ -31,7 +31,9 @@ class SumsubService {
     return request.data;
   }
 
-  Future<void> launch() async {
+  Future<void> launch({
+    VoidCallback? onFinish,
+  }) async {
     final countries = getIt.get<KycCountryStore>();
 
     getIt.get<SimpleLoggerService>().log(
@@ -69,6 +71,13 @@ class SumsubService {
             buttonText: intl.previewBuyWithUmlimint_close,
             onActionButton: () async {
               navigateToRouter();
+
+              if (onFinish != null) onFinish();
+            },
+            onSuccess: (p0) {
+              navigateToRouter();
+
+              if (onFinish != null) onFinish();
             },
           ),
         );
@@ -88,6 +97,8 @@ class SumsubService {
           buttonText: intl.previewBuyWithUmlimint_close,
           onActionButton: () async {
             navigateToRouter();
+
+            if (onFinish != null) onFinish();
           },
         ),
       );

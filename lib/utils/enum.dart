@@ -6,3 +6,5 @@ enum RecurringBuyType {
   biWeekly,
   monthly,
 }
+
+enum SimpleWalletAccountStatus { none, creating, created }

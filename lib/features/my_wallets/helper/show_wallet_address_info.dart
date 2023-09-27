@@ -6,7 +6,10 @@ import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-void showWalletAdressInfo(BuildContext context) {
+void showWalletAdressInfo(
+  BuildContext context, {
+  required VoidCallback after,
+}) {
   final kycState = getIt.get<KycService>();
   final kycAlertHandler = getIt.get<KycAlertHandler>();
 
@@ -33,7 +36,7 @@ void showWalletAdressInfo(BuildContext context) {
                 ? kycState.withdrawalStatus
                 : kycState.sellStatus,
         isProgress: kycState.verificationInProgress,
-        currentNavigate: () {},
+        currentNavigate: after,
         requiredDocuments: kycState.requiredDocuments,
         requiredVerifications: kycState.requiredVerifications,
       );

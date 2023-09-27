@@ -491,7 +491,7 @@ class DeepLinkService {
       if (kycState.useSumsub) {
         unawaited(
           sRouter.push(
-            const KycVerificationSumsubRouter(),
+            KycVerificationSumsubRouter(),
           ),
         );
       } else {
@@ -516,7 +516,7 @@ class DeepLinkService {
 
             if (kycState.useSumsub) {
               sRouter.push(
-                const KycVerificationSumsubRouter(),
+                KycVerificationSumsubRouter(),
               );
             } else {
               sRouter.push(
