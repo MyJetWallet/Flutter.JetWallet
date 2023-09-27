@@ -1,7 +1,9 @@
 import 'package:jetwallet/core/di/di.dart';
+import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
@@ -30,8 +32,7 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @computed
-  ObservableList<CurrencyModel> get currenciesForSearch =>
-      currenciesForSearchInMyWallet(_allAssets);
+  ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
 
   @action
   void onStartReordering() {
@@ -94,9 +95,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList = _allAssets
-        .where((e) => e.description.toLowerCase().contains(text.toLowerCase()))
-        .toList();
+    final tempList = _allAssets.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
@@ -125,6 +124,27 @@ abstract class _MyWalletsSroreBase with Store {
 
     if (!response.hasData) {
       currencies.add(currency);
+    }
+  }
+
+  @observable
+  SimpleWalletAccountStatus simpleAccontStatus = SimpleWalletAccountStatus.none;
+  @action
+  void setSimpleAccountStatus(SimpleWalletAccountStatus status) {
+    simpleAccontStatus = status;
+  }
+
+  @computed
+  String get simpleAccountButtonText {
+    switch (simpleAccontStatus) {
+      case SimpleWalletAccountStatus.none:
+        return intl.my_wallets_get_account;
+      case SimpleWalletAccountStatus.creating:
+        return intl.my_wallets_create_account;
+      case SimpleWalletAccountStatus.created:
+        return '1 ${intl.my_wallets_account}';
+      default:
+        return '';
     }
   }
 }

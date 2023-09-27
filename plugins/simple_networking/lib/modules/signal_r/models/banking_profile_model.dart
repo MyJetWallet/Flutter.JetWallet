@@ -40,6 +40,7 @@ class SimpleBankingAccount with _$SimpleBankingAccount {
     final String? holderFirstName,
     final String? holderLastName,
     final bool? isHidden,
+    final String? label,
   }) = _SimpleBankingAccount;
 
   factory SimpleBankingAccount.fromJson(Map<String, dynamic> json) => _$SimpleBankingAccountFromJson(json);

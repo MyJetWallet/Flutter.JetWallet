@@ -23,8 +23,7 @@ class DebugInfo extends StatefulObserverWidget {
   State<DebugInfo> createState() => _DebugInfoState();
 }
 
-class _DebugInfoState extends State<DebugInfo>
-    with SingleTickerProviderStateMixin {
+class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMixin {
   bool isSlotA = true;
 
   @override
@@ -87,8 +86,7 @@ class _DebugInfoState extends State<DebugInfo>
                         child: Switch(
                           value: isSlotA,
                           onChanged: (bool newValue) {
-                            final storageService =
-                                getIt.get<LocalStorageService>();
+                            final storageService = getIt.get<LocalStorageService>();
                             storageService.setString(
                               activeSlot,
                               newValue ? 'slot a' : 'slot b',
@@ -225,8 +223,7 @@ class _DebugInfoState extends State<DebugInfo>
                 TextButton(
                   onPressed: () async {
                     try {
-                      final resp =
-                          await sNetwork.getWalletModule().debugError();
+                      final resp = await sNetwork.getWalletModule().debugError();
 
                       if (resp.hasError) {
                         sNotification.showError(
@@ -249,8 +246,7 @@ class _DebugInfoState extends State<DebugInfo>
                 TextButton(
                   onPressed: () async {
                     try {
-                      final resp =
-                          await sNetwork.getWalletModule().debugReject();
+                      final resp = await sNetwork.getWalletModule().debugReject();
 
                       if (resp.hasError) {
                         sNotification.showError(
@@ -273,7 +269,7 @@ class _DebugInfoState extends State<DebugInfo>
                 TextButton(
                   onPressed: () async {
                     await sRouter.push(
-                      const KycVerificationSumsubRouter(),
+                      KycVerificationSumsubRouter(),
                     );
                   },
                   child: const Text(

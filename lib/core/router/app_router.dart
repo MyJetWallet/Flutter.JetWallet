@@ -68,6 +68,8 @@ import 'package:jetwallet/features/market/market_details/ui/market_details.dart'
 import 'package:jetwallet/features/market/market_details/ui/widgets/about_block/components/pdf_view_screen.dart';
 import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
+import 'package:jetwallet/features/my_wallets/screens/cj_account_label_screen.dart';
+import 'package:jetwallet/features/my_wallets/screens/cj_account_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
@@ -564,6 +566,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/reward_open',
       page: RewardOpenRouter.page,
+    ),
+    AutoRoute(
+      path: '/cj_account',
+      page: CJAccountRouter.page,
+    ),
+    AutoRoute(
+      path: '/cj_label',
+      page: CJAccountLabelRouter.page,
     ),
   ];
 }

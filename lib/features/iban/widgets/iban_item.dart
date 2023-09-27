@@ -80,7 +80,6 @@ class IBanItem extends StatelessObserverWidget {
             ],
           ),
         ),
-        const SDivider(),
       ],
     );
   }

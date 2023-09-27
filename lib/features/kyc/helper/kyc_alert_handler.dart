@@ -40,8 +40,7 @@ class KycAlertHandler {
       return;
     }
 
-    if (status == kycOperationStatus(KycStatus.kycRequired) &&
-        needGifteExplanationPopup) {
+    if (status == kycOperationStatus(KycStatus.kycRequired) && needGifteExplanationPopup) {
       _showGeftExplanationAlert(
         requiredVerifications.isNotEmpty,
         requiredVerifications,
@@ -208,7 +207,7 @@ class KycAlertHandler {
       );
     } else {
       sRouter.push(
-        const KycVerificationSumsubRouter(),
+        KycVerificationSumsubRouter(),
       );
     }
   }

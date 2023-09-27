@@ -6,12 +6,14 @@ class SimpleCircleButton extends StatefulWidget {
     this.onTap,
     this.pressedIcon,
     this.backgroundColor = Colors.black,
+    this.height = 48,
     required this.defaultIcon,
   });
 
   final Function()? onTap;
   final Widget? pressedIcon;
   final Widget defaultIcon;
+  final double height;
 
   final Color backgroundColor;
 
@@ -26,12 +28,10 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
   Widget build(BuildContext context) {
     late Color currentColor;
 
-    currentColor = highlighted
-        ? widget.backgroundColor.withOpacity(0.8)
-        : widget.backgroundColor;
+    currentColor = highlighted ? widget.backgroundColor.withOpacity(0.8) : widget.backgroundColor;
 
     return Container(
-      height: 48.0,
+      height: widget.height,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: currentColor,
@@ -46,9 +46,7 @@ class _SimpleCircleButtonState extends State<SimpleCircleButton> {
         },
         highlightColor: Colors.transparent,
         splashColor: Colors.transparent,
-        child: highlighted
-            ? (widget.pressedIcon ?? widget.defaultIcon)
-            : widget.defaultIcon,
+        child: highlighted ? (widget.pressedIcon ?? widget.defaultIcon) : widget.defaultIcon,
       ),
     );
   }

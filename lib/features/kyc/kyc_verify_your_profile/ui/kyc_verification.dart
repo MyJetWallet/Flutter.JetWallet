@@ -32,12 +32,10 @@ class _KycVerificationState extends State<KycVerification> {
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-    final isPhoneDone =
-        !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
+    final isPhoneDone = !widget.requiredVerifications.contains(RequiredVerified.proofOfPhone);
 
     void navigateVerifiedNavigate() {
-      if (widget.requiredVerifications
-          .contains(RequiredVerified.proofOfPhone)) {
+      if (widget.requiredVerifications.contains(RequiredVerified.proofOfPhone)) {
         sRouter.push(
           SetPhoneNumberRouter(
             successText: intl.kycAlertHandler_factorVerificationEnabled,
@@ -50,7 +48,7 @@ class _KycVerificationState extends State<KycVerification> {
         );
       } else {
         sRouter.push(
-          const KycVerificationSumsubRouter(),
+          KycVerificationSumsubRouter(),
         );
       }
     }

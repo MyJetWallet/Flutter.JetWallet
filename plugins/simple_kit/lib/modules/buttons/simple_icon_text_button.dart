@@ -8,16 +8,27 @@ class SIconTextButton extends StatelessWidget {
     super.key,
     required this.text,
     this.icon,
+    this.rightIcon,
     required this.onTap,
+    this.mainAxisSize = MainAxisSize.min,
+    this.textStyle,
   });
 
   final String text;
   final Widget? icon;
+  final Widget? rightIcon;
   final void Function() onTap;
+  final MainAxisSize mainAxisSize;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
+
+    TextStyle? tStyle = sTextButtonStyle;
+    if (textStyle != null) {
+      tStyle = textStyle!;
+    }
 
     return TextButton(
       style: TextButton.styleFrom(
@@ -35,7 +46,7 @@ class SIconTextButton extends StatelessWidget {
       ),
       onPressed: onTap,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: mainAxisSize,
         children: [
           if (icon != null) ...[
             icon!,
@@ -43,10 +54,12 @@ class SIconTextButton extends StatelessWidget {
           ],
           Text(
             text,
-            style: sTextButtonStyle.copyWith(
-              color: colors.purple,
-            ),
+            style: tStyle,
           ),
+          if (rightIcon != null) ...[
+            const Spacer(),
+            rightIcon!,
+          ],
         ],
       ),
     );

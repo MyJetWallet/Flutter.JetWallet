@@ -803,4 +803,14 @@ class WalletApiRepository {
   Future<DC<ServerRejectException, void>> postAccountCreate() async {
     return _walletApiDataSources.postAccountCreateRequest();
   }
+
+  Future<DC<ServerRejectException, void>> postAccountChangeLabel({
+    required String accountId,
+    required String label,
+  }) async {
+    return _walletApiDataSources.postAccountChangeLabelRequest(
+      accountId: accountId,
+      label: label,
+    );
+  }
 }

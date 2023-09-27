@@ -2360,4 +2360,30 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
+
+  Future<DC<ServerRejectException, void>> postAccountChangeLabelRequest({
+    required String accountId,
+    required String label,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/change-label',
+        data: {
+          'accountId': accountId,
+          'label': label,
+        },
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
 }
