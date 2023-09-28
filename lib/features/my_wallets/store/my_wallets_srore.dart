@@ -32,7 +32,16 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @computed
-  ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
+  bool get isPendingTransactions =>
+      currencies.any((element) => element.isPendingDeposit);
+
+  @computed
+  int get countOfPendingTransactions =>
+      currencies.where((element) => element.isPendingDeposit).length;
+
+  @computed
+  ObservableList<CurrencyModel> get currenciesForSearch =>
+      currenciesForSearchInMyWallet(_allAssets);
 
   @action
   void onStartReordering() {
@@ -95,7 +104,9 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList = _allAssets.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
+    final tempList = _allAssets
+        .where((e) => e.description.toLowerCase().contains(text.toLowerCase()))
+        .toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);

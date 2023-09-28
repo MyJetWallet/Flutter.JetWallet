@@ -33,6 +33,7 @@ class TransactionsList extends StatelessWidget {
         null,
         isRecurring,
         null,
+        false,
       )..initOperationHistory(),
       builder: (context, child) => _TransactionsListBody(
         scrollController: scrollController,
@@ -138,17 +139,8 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionMonthSeparator(text: date);
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
                     return TransactionListItem(
                       transactionListItem: transaction,
-                      removeDivider: removeDividerForLastInGroup,
                     );
                   },
                 );
@@ -229,21 +221,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   },
                   groupComparator: (date1, date2) => 0,
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
                     return listToShow.indexOf(transaction) ==
                             listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
-                                removeDivider: removeDividerForLastInGroup,
                               ),
                               Container(
                                 width: double.infinity,
@@ -316,7 +299,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
-                            removeDivider: removeDividerForLastInGroup,
                           );
                   },
                 );
@@ -334,21 +316,12 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     return TransactionMonthSeparator(text: date);
                   },
                   itemBuilder: (context, transaction) {
-                    final index = listToShow.indexOf(transaction);
-                    final currentDate = formatDate(transaction.timeStamp);
-                    var nextDate = '';
-                    if (index != (listToShow.length - 1)) {
-                      nextDate = formatDate(listToShow[index + 1].timeStamp);
-                    }
-                    final removeDividerForLastInGroup = currentDate != nextDate;
-
                     return listToShow.indexOf(transaction) ==
                             listToShow.length - 1
                         ? Column(
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
-                                removeDivider: removeDividerForLastInGroup,
                               ),
                               const SpaceH24(),
                               Container(
@@ -366,7 +339,6 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
-                            removeDivider: removeDividerForLastInGroup,
                           );
                   },
                 );

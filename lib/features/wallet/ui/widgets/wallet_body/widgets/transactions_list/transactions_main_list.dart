@@ -19,7 +19,7 @@ import '../../../../../helper/nft_types.dart';
 import '../transaction_month_separator.dart';
 import '../transactions_list_item/transaction_list_loading_item.dart';
 
-class TransactionsMainList extends StatelessWidget {
+class TransactionsMainList extends StatefulWidget {
   const TransactionsMainList({
     super.key,
     this.isRecurring = false,
@@ -27,6 +27,7 @@ class TransactionsMainList extends StatelessWidget {
     this.symbol,
     this.filter = TransactionType.none,
     this.jwOperationId,
+    this.pendingOnly = false,
   });
 
   final String? symbol;
@@ -34,22 +35,38 @@ class TransactionsMainList extends StatelessWidget {
   final bool isRecurring;
   final bool zeroPadding;
   final String? jwOperationId;
+  final bool pendingOnly;
 
   @override
+  State<TransactionsMainList> createState() => _TransactionsMainListState();
+}
+
+class _TransactionsMainListState extends State<TransactionsMainList>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Provider<OperationHistory>(
-      create: (context) =>
-          OperationHistory(symbol, filter, isRecurring, jwOperationId)
-            ..initOperationHistory(),
+      create: (context) => OperationHistory(
+        widget.symbol,
+        widget.filter,
+        widget.isRecurring,
+        widget.jwOperationId,
+        widget.pendingOnly,
+      )..initOperationHistory(),
       //dispose: (context, value) => value.stopTimer(),
       builder: (context, child) => _TransactionsListBody(
-        symbol: symbol,
-        isRecurring: isRecurring,
-        zeroPadding: zeroPadding,
-        filter: filter,
+        symbol: widget.symbol,
+        isRecurring: widget.isRecurring,
+        zeroPadding: widget.zeroPadding,
+        filter: widget.filter,
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _TransactionsListBody extends StatefulObserverWidget {
@@ -203,20 +220,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                 },
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, transaction) {
-                  final index = store.listToShow.indexOf(transaction);
-                  final currentDate = formatDate(transaction.timeStamp);
-                  var nextDate = '';
-                  if (index != (store.listToShow.length - 1)) {
-                    nextDate =
-                        formatDate(store.listToShow[index + 1].timeStamp);
-                  }
-                  final removeDividerForLastInGroup = currentDate != nextDate;
-
                   return Column(
                     children: [
                       TransactionListItem(
                         transactionListItem: transaction,
-                        removeDivider: removeDividerForLastInGroup,
                       ),
                       if (store.isLoading &&
                           store.listToShow.indexOf(transaction) ==

@@ -10,7 +10,7 @@ import '../../wallet/helper/nft_types.dart';
 import '../../wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_main_list.dart';
 
 @RoutePage(name: 'TransactionHistoryRouter')
-class TransactionHistory extends StatelessObserverWidget {
+class TransactionHistory extends StatefulObserverWidget {
   const TransactionHistory({
     super.key,
     this.assetName,
@@ -25,44 +25,117 @@ class TransactionHistory extends StatelessObserverWidget {
   final String? jwOperationId;
 
   @override
+  State<TransactionHistory> createState() => _TransactionHistoryState();
+}
+
+class _TransactionHistoryState extends State<TransactionHistory>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(
+      initialIndex: widget.initialIndex,
+      length: 2,
+      vsync: this,
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
     final deviceSize = getIt.get<DeviceSize>().size;
-    //final scrollController = ScrollController();
 
     return Scaffold(
-      body: Scaffold(
-        backgroundColor: colors.white,
-        body: NestedScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverAppBar(
-                toolbarHeight: deviceSize.when(
-                  small: () {
-                    return 80;
-                  },
-                  medium: () {
-                    return 60;
-                  },
-                ),
-                pinned: true,
-                backgroundColor: colors.white,
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                flexibleSpace: SPaddingH24(
-                  child: SSmallHeader(
-                    title: _title(context, TransactionType.none),
-                  ),
+      backgroundColor: colors.white,
+      body: NestedScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (context, _) {
+          return [
+            SliverAppBar(
+              toolbarHeight: deviceSize.when(
+                small: () {
+                  return 80;
+                },
+                medium: () {
+                  return 60;
+                },
+              ),
+              pinned: true,
+              backgroundColor: colors.white,
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              flexibleSpace: SPaddingH24(
+                child: SSmallHeader(
+                  title: _title(context, TransactionType.none),
                 ),
               ),
-            ];
-          },
-          body: TransactionsMainList(
-            zeroPadding: true,
-            symbol: assetSymbol,
-            jwOperationId: jwOperationId,
-          ),
+            ),
+          ];
+        },
+        body: Column(
+          children: [
+            SPaddingH24(
+              child: Container(
+                height: 32,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: colors.grey5,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    color: colors.black,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  labelColor: colors.white,
+                  labelStyle: sSubtitle3Style,
+                  unselectedLabelColor: colors.grey1,
+                  unselectedLabelStyle: sSubtitle3Style,
+                  splashBorderRadius: BorderRadius.circular(16),
+                  tabs: [
+                    Tab(
+                      text: intl.transaction_tab_all,
+                    ),
+                    Tab(
+                      text: intl.transaction_tab_pending,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: colors.white,
+              height: 16,
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  TransactionsMainList(
+                    zeroPadding: true,
+                    symbol: widget.assetSymbol,
+                    jwOperationId: widget.jwOperationId,
+                  ),
+                  TransactionsMainList(
+                    zeroPadding: true,
+                    symbol: widget.assetSymbol,
+                    jwOperationId: widget.jwOperationId,
+                    pendingOnly: true,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

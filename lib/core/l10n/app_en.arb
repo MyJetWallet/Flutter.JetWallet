@@ -1279,6 +1279,7 @@
     "my_wallets_get_account": "Get account",
     "my_wallets_create_account": "Creating account...",
     "my_wallets_account": "account",
+    "my_wallets_pending_transactions": "Pending transactions...",
     "let_us_create_account": "Let us create account for you",
     "wallet_verify_your_account": "Please verify your account",
     "wallet_verify_account": "Verify account",
@@ -1292,5 +1293,7 @@
     "wallet_simple_account_empty": "Your transactions will be shown here",
     "wallet_account_label": "Label",
     "wallet_account_label_input": "Account label",
-    "wallet_deposit_details": "Deposit details"
+    "wallet_deposit_details": "Deposit details",
+    "transaction_tab_all": "All",
+    "transaction_tab_pending": "Pending"
 }
