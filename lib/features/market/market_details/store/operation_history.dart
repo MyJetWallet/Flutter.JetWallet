@@ -28,6 +28,7 @@ class OperationHistory extends _OperationHistoryBase with _$OperationHistory {
     super.filter,
     super.isRecurring,
     super.jwOperationId,
+    super.pendingOnly,
   );
 
   static _OperationHistoryBase of(BuildContext context) =>
@@ -40,6 +41,7 @@ abstract class _OperationHistoryBase with Store {
     this.filter,
     this.isRecurring,
     this.jwOperationId,
+    this.pendingOnly,
   ) {
     getIt<EventBus>().on<GetNewHistoryEvent>().listen((event) {
       refreshHistory(needLoader: false);
@@ -68,6 +70,9 @@ abstract class _OperationHistoryBase with Store {
 
   @observable
   bool isLoading = false;
+
+  @observable
+  bool pendingOnly = false;
 
   @computed
   List<oh_resp.OperationHistoryItem> get listToShow => isRecurring!
@@ -111,6 +116,7 @@ abstract class _OperationHistoryBase with Store {
         oh_req.OperationHistoryRequestModel(
           assetId: assetId,
           batchSize: 20,
+          pendingOnly: pendingOnly,
         ),
         needLoader,
       );
@@ -190,6 +196,7 @@ abstract class _OperationHistoryBase with Store {
         assetId: assetId,
         batchSize: 20,
         lastDate: operationHistoryItems.last.timeStamp,
+        pendingOnly: pendingOnly,
       ),
       true,
     );

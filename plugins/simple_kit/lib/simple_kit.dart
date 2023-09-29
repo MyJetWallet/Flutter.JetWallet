@@ -266,6 +266,8 @@ export 'modules/icons/custom/public/stars/simple_stars_icon.dart';
 export 'modules/icons/custom/public/star/simple_star_icon.dart';
 export 'modules/icons/custom/public/cards/simple_card.dart';
 export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
+export 'modules/icons/24x24/public/history_completed/simple_history_completed_icon.dart';
+export 'modules/icons/24x24/public/history_declined/simple_history_declined_icon.dart';
 
 /// Keyboards
 export 'modules/keyboards/constants.dart';
@@ -319,6 +321,7 @@ export 'modules/shared/simple_transparent_ink_well.dart';
 export 'modules/shared/simple_widget_bottom_size.dart';
 export 'modules/shared/stack_loader/notifier/stack_loader_notifier.dart';
 export 'modules/shared/stack_loader/components/loader_spinner.dart';
+export 'modules/loader/simple_loader.dart';
 export 'modules/shared/simple_show_timer_alert_popup.dart';
 
 /// Helpers

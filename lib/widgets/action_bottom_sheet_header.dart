@@ -16,6 +16,8 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.onCloseTap,
     required this.name,
     this.horizontalDividerPadding = 0,
+    this.searchFieldHeight,
+    this.addPaddingBelowTitle = false,
   });
 
   final String name;
@@ -28,7 +30,9 @@ class ActionBottomSheetHeader extends StatefulWidget {
   final bool removePadding;
   final bool removeSearchPadding;
   final bool needBottomPadding;
+  final bool addPaddingBelowTitle;
   final double horizontalDividerPadding;
+  final double? searchFieldHeight;
 
   @override
   State<ActionBottomSheetHeader> createState() =>
@@ -75,6 +79,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               ],
             ),
           ),
+        if (widget.addPaddingBelowTitle) const SpaceH18(),
         if (widget.showSearch) ...[
           if (widget.removeSearchPadding)
             SStandardField(
@@ -82,6 +87,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               labelText: intl.actionBottomSheetHeader_search,
               onChanged: widget.onChanged,
               maxLines: 1,
+              height: widget.searchFieldHeight,
             )
           else
             SPaddingH24(
@@ -90,6 +96,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 labelText: intl.actionBottomSheetHeader_search,
                 onChanged: widget.onChanged,
                 maxLines: 1,
+                height: widget.searchFieldHeight,
               ),
             ),
           Padding(
@@ -126,6 +133,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                     onChanged: widget.onChanged,
                     alignLabelWithHint: true,
                     maxLines: 1,
+                    height: widget.searchFieldHeight,
                   ),
                 ),
               ],

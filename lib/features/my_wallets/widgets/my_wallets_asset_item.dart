@@ -38,7 +38,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       secondaryText: getIt<AppStore>().isBalanceHide
           ? currency.symbol
           : currency.volumeAssetBalance,
-      onTap: () {
+      onTap: !isMoving ? () {
         if (currency.type == AssetType.indices) {
           sRouter.push(
             MarketDetailsRouter(
@@ -54,7 +54,7 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
             currency,
           );
         }
-      },
+      } : null,
       removeDivider: true,
       isPendingDeposit: currency.isPendingDeposit,
       isMoving: isMoving,

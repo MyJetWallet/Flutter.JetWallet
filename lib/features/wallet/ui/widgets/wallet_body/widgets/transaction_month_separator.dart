@@ -17,30 +17,20 @@ class TransactionMonthSeparator extends StatelessObserverWidget {
 
     return SizedBox(
       height: 21,
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(
-              left: 24,
-            ),
-            child: Baseline(
-              baseline: 11,
-              baselineType: TextBaseline.alphabetic,
-              child: Text(
-                localizedMonth(text, context),
-                style: sCaptionTextStyle.copyWith(
-                  color: colors.grey3,
-                ),
-              ),
-            ),
-          ),
-          const SpaceW10(),
-          Expanded(
-            child: SDivider(
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 24,
+        ),
+        child: Baseline(
+          baseline: 11,
+          baselineType: TextBaseline.alphabetic,
+          child: Text(
+            localizedMonth(text, context),
+            style: sCaptionTextStyle.copyWith(
               color: colors.grey3,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

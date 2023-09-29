@@ -44,7 +44,7 @@ class _DefaultHeader extends StatelessObserverWidget {
         const SpaceW24(),
         Text(
           intl.my_wallets_header,
-          style: sTextH5Style,
+          style: sTextH4Style,
         ),
         const SpaceW8(),
         SIconButton(
@@ -73,7 +73,7 @@ class _DefaultHeader extends StatelessObserverWidget {
         const Spacer(),
         SizedBox(
           width: 56.0,
-          height: 56.0,
+          height: 45,
           child: Stack(
             alignment: Alignment.center,
             children: [

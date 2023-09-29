@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/actions_my_wallets_row_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/add_wallet_bottom_sheet.dart';
 import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/balance_amount_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
+import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
+import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_kit/simple_kit.dart';
-
-import '../../../../../utils/helpers/currencies_helpers.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
 class MyWalletsScreen extends StatefulObserverWidget {
@@ -29,7 +30,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
   final _controller = ScrollController();
   bool isTopPosition = true;
 
-  final store = MyWalletsSrore();
+  final store = getIt.get<MyWalletsSrore>();
 
   @override
   void initState() {
@@ -48,15 +49,19 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
         }
       }
     });
+
+    getIt<EventBus>().on<ResetScrollMyWallets>().listen((event) {
+      _controller.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = sKit.colors;
-
-    final currencies = sSignalRModules.currenciesList;
-    final currenciesList = currencies.toList();
-    sortCurrenciesMyAssets(currenciesList);
 
     return SPageFrame(
       color: colors.white,
@@ -67,7 +72,6 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
           MyWalletsHeader(
             isTitleCenter: !isTopPosition,
           ),
-          const SpaceH15(),
         ],
       ),
       child: CustomRefreshIndicator(
@@ -106,7 +110,10 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
               AnimatedBuilder(
                 builder: (context, _) {
                   return Transform.translate(
-                    offset: Offset(0.0, controller.value * 50),
+                    offset: Offset(
+                      0.0,
+                      !controller.isIdle ? (controller.value * 75) : 0,
+                    ),
                     child: child,
                   );
                 },
@@ -115,39 +122,53 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
             ],
           );
         },
-        child: ListView(
-          controller: _controller,
-          padding: EdgeInsets.zero,
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            const BalanceAmountWidget(),
-            const SpaceH40(),
-            const ActionsMyWalletsRowWidget(),
-            const SpaceH30(),
-            AssetsListWidget(
-              store: store,
-            ),
-            const SpaceH16(),
-            if (store.currenciesForSearch.isNotEmpty)
-              Row(
-                children: [
-                  const SpaceW24(),
-                  SIconTextButton(
-                    onTap: () {
-                      showAddWalletBottomSheet(context, store);
-                    },
-                    text: intl.my_wallets_add_wallet,
-                    icon: SizedBox(
-                      width: 16,
-                      child: SPlusIcon(
-                        color: colors.blue,
+        child: ColoredBox(
+          color: colors.white,
+          child: ListView(
+            controller: _controller,
+            padding: EdgeInsets.zero,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              const BalanceAmountWidget(),
+              const SpaceH32(),
+              const ActionsMyWalletsRowWidget(),
+              const SpaceH28(),
+              if (store.isPendingTransactions) ...[
+                PendingTransactionsWidget(
+                  countOfTransactions: store.countOfPendingTransactions,
+                  onTap: () {
+                    sRouter.push(
+                      TransactionHistoryRouter(
+                        initialIndex: 1,
+                      ),
+                    );
+                  },
+                ),
+                const SpaceH10(),
+              ],
+              const AssetsListWidget(),
+              const SpaceH16(),
+              if (store.currenciesForSearch.isNotEmpty && !store.isReordering)
+                Row(
+                  children: [
+                    const SpaceW24(),
+                    SIconTextButton(
+                      onTap: () {
+                        showAddWalletBottomSheet(context);
+                      },
+                      text: intl.my_wallets_add_wallet,
+                      icon: SizedBox(
+                        width: 16,
+                        child: SPlusIcon(
+                          color: colors.blue,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            const SpaceH31(),
-          ],
+                  ],
+                ),
+              const SpaceH31(),
+            ],
+          ),
         ),
       ),
     );

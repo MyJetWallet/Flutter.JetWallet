@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 if (val == 0 && getIt<AppStore>().homeTab == 0) {
-                  getIt.get<EventBus>().fire(ResetScrollMyAssets());
+                  getIt.get<EventBus>().fire(ResetScrollMyWallets());
                 } else if (val == 1 && getIt<AppStore>().homeTab == 1) {
                   getIt.get<EventBus>().fire(ResetScrollMarket());
                 } else if (val == 2 && getIt<AppStore>().homeTab == 2) {

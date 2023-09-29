@@ -36,6 +36,7 @@ class SimpleBaseStandardField extends StatefulWidget {
     this.hideLabel = false,
     this.grayLabel = false,
     required this.labelText,
+    this.height,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -67,6 +68,7 @@ class SimpleBaseStandardField extends StatefulWidget {
   final List<Validator> validators;
   final int? maxLength;
   final int? maxLines;
+  final double? height;
 
   @override
   State<SimpleBaseStandardField> createState() =>
@@ -85,8 +87,9 @@ class _SimpleBaseStandardFieldState extends State<SimpleBaseStandardField> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minHeight: 88,
+      constraints: BoxConstraints(
+        minHeight: widget.height ?? 88,
+        maxHeight: widget.height ?? double.infinity,
       ),
       child: Center(
         child: TextFormField(

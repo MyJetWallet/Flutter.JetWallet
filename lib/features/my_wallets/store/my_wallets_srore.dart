@@ -20,22 +20,56 @@ abstract class _MyWalletsSroreBase with Store {
   bool isReordering = false;
 
   @computed
-  ObservableList<CurrencyModel> get _allAssets => sSignalRModules.currenciesList;
+  ObservableList<CurrencyModel> get _allAssets {
+    return sSignalRModules.currenciesList;
+  }
+
+  @observable
+  ObservableList<CurrencyModel> reorderingCurrencies = ObservableList.of([]);
 
   @computed
-  ObservableList<CurrencyModel> get currencies => currenciesForMyWallet(_allAssets);
+  ObservableList<CurrencyModel> get currencies {
+    return isReordering
+        ? reorderingCurrencies
+        : currenciesForMyWallet(_allAssets);
+  }
 
   @computed
-  ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
+  bool get isPendingTransactions =>
+      currencies.any((element) => element.isPendingDeposit);
+
+  @computed
+  int get countOfPendingTransactions =>
+      currencies.where((element) => element.isPendingDeposit).length;
+
+  @computed
+  ObservableList<CurrencyModel> get currenciesForSearch =>
+      currenciesForSearchInMyWallet(_allAssets);
 
   @action
   void onStartReordering() {
+    reorderingCurrencies = currencies;
     isReordering = true;
+  }
+
+  @action
+  void onReorder(int oldIndex, int newIndex) {
+    var newIndexTemp = newIndex;
+
+    if (oldIndex < newIndexTemp) {
+      newIndexTemp -= 1;
+    }
+    final item = reorderingCurrencies.removeAt(oldIndex);
+    reorderingCurrencies.insert(newIndexTemp, item);
   }
 
   @action
   void onEndReordering() {
     isReordering = false;
+
+    currencies
+      ..clear()
+      ..addAll(reorderingCurrencies);
 
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < currencies.length; index++) {
@@ -73,29 +107,38 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList = _allAssets.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
+    final tempList = _allAssets
+        .where((e) => e.description.toLowerCase().contains(text.toLowerCase()))
+        .toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
   }
 
   @action
-  void onChooseAsetFromSearch(CurrencyModel currency) {
-    currencies.add(currency);
-
+  Future<void> onChooseAsetFromSearch(CurrencyModel currency) async {
+    final tempList = currencies + [currency];
     final activeAssets = <ActiveAsset>[];
-    for (var index = 0; index < currencies.length; index++) {
+    for (var index = 0; index < tempList.length; index++) {
       activeAssets.add(
         ActiveAsset(
-          assetSymbol: currencies[index].symbol,
+          assetSymbol: tempList[index].symbol,
           order: index,
         ),
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
+    final response = await getIt
+        .get<SNetwork>()
+        .simpleNetworking
+        .getWalletModule()
+        .setActiveAssets(
           model,
         );
+
+    if (!response.hasData) {
+      currencies.add(currency);
+    }
   }
 
   @observable
