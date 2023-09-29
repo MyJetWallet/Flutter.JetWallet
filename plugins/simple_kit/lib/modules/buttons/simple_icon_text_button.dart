@@ -25,7 +25,9 @@ class SIconTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = sKit.colors;
 
-    TextStyle? tStyle = sTextButtonStyle;
+    TextStyle? tStyle = sTextButtonStyle.copyWith(
+      color: sKit.colors.blue,
+    );
     if (textStyle != null) {
       tStyle = textStyle!;
     }

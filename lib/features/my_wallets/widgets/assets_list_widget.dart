@@ -12,6 +12,7 @@ import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.da
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
+import 'package:jetwallet/features/my_wallets/widgets/get_account_button.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
@@ -127,64 +128,9 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 currency: store.currencies[index],
               ),
             ),
-            if (store.currencies[index].symbol == 'EUR' && !store.isReordering)
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 8,
-                  bottom: 16,
-                  left: 60,
-                  right: store.simpleAccontStatus == SimpleWalletAccountStatus.none ? 60 : 30,
-                ),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: store.simpleAccontStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
-                  child: SIconTextButton(
-                    onTap: () {
-                      onGetAccountClick(store, context);
-                    },
-                    text: store.simpleAccountButtonText,
-                    mainAxisSize: store.simpleAccontStatus == SimpleWalletAccountStatus.none
-                        ? MainAxisSize.min
-                        : MainAxisSize.max,
-                    icon: store.simpleAccontStatus == SimpleWalletAccountStatus.none
-                        ? SBankMediumIcon(
-                            color: colors.blue,
-                          )
-                        : Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: sKit.colors.blue,
-                              shape: BoxShape.circle,
-                            ),
-                            child: SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: SBankMediumIcon(
-                                color: colors.white,
-                              ),
-                            ),
-                          ),
-                    rightIcon: store.simpleAccontStatus == SimpleWalletAccountStatus.created
-                        ? SBlueRightArrowIcon(
-                            color: sKit.colors.black,
-                          )
-                        : null,
-                    textStyle: store.simpleAccontStatus == SimpleWalletAccountStatus.none
-                        ? sTextButtonStyle.copyWith(
-                            color: sKit.colors.purple,
-                            fontWeight: FontWeight.w600,
-                          )
-                        : store.simpleAccontStatus == SimpleWalletAccountStatus.creating
-                            ? sBodyText2Style.copyWith(
-                                color: sKit.colors.grey1,
-                                fontWeight: FontWeight.w600,
-                              )
-                            : sBodyText2Style.copyWith(
-                                color: sKit.colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                  ),
-                ),
+            if (widget.store.currencies[index].symbol == 'EUR')
+              GetAccountButton(
+                store: widget.store,
               ),
           ],
         ),
@@ -224,43 +170,5 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
       },
       child: child,
     );
-  }
-}
-
-void onGetAccountClick(MyWalletsSrore store, BuildContext context) {
-  if (store.simpleAccontStatus != SimpleWalletAccountStatus.none) return;
-
-  final kycState = getIt.get<KycService>();
-  final kycPassed = checkKycPassed(
-    kycState.depositStatus,
-    kycState.sellStatus,
-    kycState.withdrawalStatus,
-  );
-  final kycBlocked = checkKycBlocked(
-    kycState.depositStatus,
-    kycState.sellStatus,
-    kycState.withdrawalStatus,
-  );
-
-  final verificationInProgress = kycState.inVerificationProgress;
-  final isKyc = !kycPassed && !kycBlocked && !verificationInProgress;
-
-  Future<void> afterVerification() async {
-    getIt.get<SimpleLoggerService>().log(
-          level: Level.warning,
-          place: 'Wallet',
-          message: 'after verification Get Simple Account',
-        );
-
-    sNotification.showError(intl.let_us_create_account, isError: false);
-    store.setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
-  }
-
-  if (sSignalRModules.bankingProfileData?.simple?.status == SimpleAccountStatus.allowed) {
-    sRouter.push(const CJAccountRouter());
-  } else if (isKyc || sSignalRModules.bankingProfileData?.simple?.status == SimpleAccountStatus.kycRequired) {
-    showWalletVerifyAccount(context, after: afterVerification);
-  } else if (sSignalRModules.bankingProfileData?.simple?.status == SimpleAccountStatus.addressRequired) {
-    showWalletAdressInfo(context, after: afterVerification);
   }
 }

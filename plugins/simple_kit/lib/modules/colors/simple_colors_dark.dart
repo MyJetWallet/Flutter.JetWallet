@@ -91,6 +91,9 @@ class SColorsDark implements SimpleColors {
   Color greenLight2 = const Color(0xFFB9F0F0);
 
   @override
+  Color extraLightBlue = const Color(0xFFEDFAF6);
+
+  @override
   Color blueLight2 = const Color(0xFFB8D4FF);
 
   @override

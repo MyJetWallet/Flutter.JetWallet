@@ -89,7 +89,9 @@ import 'package:jetwallet/features/sms_autheticator/sms_authenticator.dart';
 import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_screen.dart';
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
+import 'package:jetwallet/features/wallet/ui/create_banking_screen.dart';
 import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
+import 'package:jetwallet/features/wallet/ui/eur_wallet_screen.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_payment_method_screen.dart';
@@ -574,6 +576,14 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/cj_label',
       page: CJAccountLabelRouter.page,
+    ),
+    AutoRoute(
+      path: '/eur_wallet',
+      page: EurWalletRouter.page,
+    ),
+    AutoRoute(
+      path: '/create_banking',
+      page: CreateBankingRoute.page,
     ),
   ];
 }

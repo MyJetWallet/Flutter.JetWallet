@@ -31,8 +31,23 @@ class SumsubService {
     return request.data;
   }
 
+  Future<String?> getBankingToken() async {
+    final request = await sNetwork.getWalletModule().postBankingKycStart();
+
+    if (request.hasError) {
+      getIt.get<SimpleLoggerService>().log(
+            level: Level.error,
+            place: _loggerService,
+            message: 'Get SDK Token error: ${request.error}',
+          );
+    }
+
+    return request.data;
+  }
+
   Future<void> launch({
     VoidCallback? onFinish,
+    required bool isBanking,
   }) async {
     final countries = getIt.get<KycCountryStore>();
 
@@ -106,7 +121,7 @@ class SumsubService {
       return Future.value(SNSActionResultHandlerReaction.Continue);
     }
 
-    final initToken = await getSDKToken();
+    final initToken = isBanking ? await getBankingToken() : await getSDKToken();
 
     final snsMobileSDK = SNSMobileSDK.init(initToken ?? '', getSDKToken)
         .withHandlers(
@@ -121,5 +136,29 @@ class SumsubService {
         .build();
 
     final SNSMobileSDKResult result = await snsMobileSDK.launch();
+  }
+
+  void simulateSuccess({
+    VoidCallback? onFinish,
+    required bool isBanking,
+  }) {
+    sRouter.push(
+      SuccessScreenRouter(
+        primaryText: intl.kycChooseDocuments_verifyingNow,
+        secondaryText: intl.kycChooseDocuments_willBeNotified,
+        showPrimaryButton: true,
+        buttonText: intl.previewBuyWithUmlimint_close,
+        onActionButton: () async {
+          navigateToRouter();
+
+          if (onFinish != null) onFinish();
+        },
+        onSuccess: (p0) {
+          navigateToRouter();
+
+          if (onFinish != null) onFinish();
+        },
+      ),
+    );
   }
 }

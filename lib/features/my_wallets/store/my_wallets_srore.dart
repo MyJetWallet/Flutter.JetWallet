@@ -6,6 +6,7 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
 part 'my_wallets_srore.g.dart';
@@ -13,6 +14,8 @@ part 'my_wallets_srore.g.dart';
 class MyWalletsSrore = _MyWalletsSroreBase with _$MyWalletsSrore;
 
 abstract class _MyWalletsSroreBase with Store {
+  _MyWalletsSroreBase() {}
+
   @observable
   bool isReordering = false;
 
@@ -146,14 +149,48 @@ abstract class _MyWalletsSroreBase with Store {
   }
 
   @computed
+  SimpleAccountStatus get simpleStatus =>
+      sSignalRModules.bankingProfileData?.simple?.status ?? SimpleAccountStatus.kycRequired;
+
+  @computed
+  AccountStatus get simpleAccountStatus =>
+      sSignalRModules.bankingProfileData?.simple?.account?.status ?? AccountStatus.inactive;
+
+  @computed
+  BankingClientStatus get personalStatus =>
+      sSignalRModules.bankingProfileData?.banking?.status ?? BankingClientStatus.simpleKycRequired;
+
+  @computed
+  SimpleWalletAccountStatus get buttonStatus {
+    if (simpleStatus == SimpleAccountStatus.allowed) {
+      if (personalStatus == BankingClientStatus.kycInProgress) {
+        return SimpleWalletAccountStatus.createdAndcreating;
+      }
+
+      return SimpleWalletAccountStatus.created;
+    }
+    if (simpleStatus == SimpleAccountStatus.kycInProgress) {
+      return SimpleWalletAccountStatus.creating;
+    } else if (simpleStatus == SimpleAccountStatus.kycBlocked) {
+      return SimpleWalletAccountStatus.blocked;
+    } else {
+      return SimpleWalletAccountStatus.none;
+    }
+  }
+
+  @computed
   String get simpleAccountButtonText {
-    switch (simpleAccontStatus) {
+    switch (buttonStatus) {
       case SimpleWalletAccountStatus.none:
+        return intl.my_wallets_get_account;
+      case SimpleWalletAccountStatus.blocked:
         return intl.my_wallets_get_account;
       case SimpleWalletAccountStatus.creating:
         return intl.my_wallets_create_account;
+      case SimpleWalletAccountStatus.createdAndcreating:
+        return intl.my_wallets_create_account;
       case SimpleWalletAccountStatus.created:
-        return '1 ${intl.my_wallets_account}';
+        return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
       default:
         return '';
     }

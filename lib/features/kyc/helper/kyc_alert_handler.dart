@@ -26,7 +26,7 @@ class KycAlertHandler {
     required List<KycDocumentType> requiredDocuments,
   }) {
     if (isProgress) {
-      _showVerifyingAlert();
+      showVerifyingAlert();
 
       return;
     }
@@ -57,7 +57,7 @@ class KycAlertHandler {
         size,
       );
     } else if (status == kycOperationStatus(KycStatus.kycInProgress)) {
-      _showVerifyingAlert();
+      showVerifyingAlert();
     } else if (status == kycOperationStatus(KycStatus.allowedWithKycAlert)) {
       _showAllowedWithAlert(
         requiredVerifications,
@@ -66,7 +66,7 @@ class KycAlertHandler {
         navigatePop,
       );
     } else if (status == kycOperationStatus(KycStatus.blocked)) {
-      _showBlockedAlert();
+      showBlockedAlert();
     }
   }
 
@@ -82,7 +82,7 @@ class KycAlertHandler {
     );
   }
 
-  void _showVerifyingAlert() {
+  void showVerifyingAlert() {
     sAnalytics.kycFlowVerifyingNowPopup();
 
     showKycPopup(
@@ -128,7 +128,7 @@ class KycAlertHandler {
     );
   }
 
-  void _showBlockedAlert() {
+  void showBlockedAlert() {
     sAnalytics.kycFlowYouBlockedPopup();
 
     showKycPopup(

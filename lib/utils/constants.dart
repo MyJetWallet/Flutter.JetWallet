@@ -128,3 +128,4 @@ const simpleRewardTrophy = 'assets/images/trophy.svg';
 const simpleRewardSmallStar = 'assets/images/reward_small_star.png';
 
 const simpleWalletShape = 'assets/images/wallet_shape.png';
+const simpleWalletCircle = 'assets/images/wallet_circle.png';

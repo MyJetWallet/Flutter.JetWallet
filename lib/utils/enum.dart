@@ -7,4 +7,4 @@ enum RecurringBuyType {
   monthly,
 }
 
-enum SimpleWalletAccountStatus { none, creating, created }
+enum SimpleWalletAccountStatus { none, blocked, creating, createdAndcreating, created }
