@@ -2,26 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jetwallet/core/di/di.dart';
-import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
-import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
-import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
 import 'package:jetwallet/features/my_wallets/widgets/change_order_widget.dart';
 import 'package:jetwallet/features/my_wallets/widgets/get_account_button.dart';
 import 'package:jetwallet/features/my_wallets/widgets/my_wallets_asset_item.dart';
-import 'package:jetwallet/utils/enum.dart';
-import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
-import 'package:logger/logger.dart';
-import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/modules/icons/24x24/public/delete_asset/simple_delete_asset.dart';
 import 'package:simple_kit/modules/icons/24x24/public/start_reorder/simple_start_reorder_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class AssetsListWidget extends StatefulObserverWidget {
@@ -128,9 +115,9 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 currency: store.currencies[index],
               ),
             ),
-            if (widget.store.currencies[index].symbol == 'EUR')
+            if (store.currencies[index].symbol == 'EUR')
               GetAccountButton(
-                store: widget.store,
+                store: store,
               ),
           ],
         ),
