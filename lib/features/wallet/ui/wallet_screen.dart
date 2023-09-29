@@ -25,8 +25,7 @@ class Wallet extends StatefulObserverWidget {
   State<Wallet> createState() => _WalletState();
 }
 
-class _WalletState extends State<Wallet>
-    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
+class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late PageController _pageController;
   late CurrencyModel currentAsset;
   int currentPage = 0;
@@ -85,56 +84,48 @@ class _WalletState extends State<Wallet>
     return Scaffold(
       body: Material(
         color: Colors.transparent,
-        child: Observer(
-          builder: (context) {
-            return SShadeAnimationStack(
-              showShade: getIt.get<AppStore>().actionMenuActive,
-              //controller: _animationController,
-              child: Stack(
-                children: [
-                  PageView(
-                    controller: _pageController,
-                    onPageChanged: (page) {
-                      if (skeepOnPageChanged) {
-                        skeepOnPageChanged = false;
-                      } else {
-                        currentAsset = currenciesWithBalance[page];
-                        currentPage = page;
-                      }
-                    },
-                    children: [
-                      for (final currency in currenciesWithBalance)
-                        WalletBody(
-                          key: Key(currency.symbol),
-                          currency: currency,
-                        ),
-                    ],
+        child: Stack(
+          children: [
+            PageView(
+              controller: _pageController,
+              onPageChanged: (page) {
+                if (skeepOnPageChanged) {
+                  skeepOnPageChanged = false;
+                } else {
+                  currentAsset = currenciesWithBalance[page];
+                  currentPage = page;
+                }
+              },
+              children: [
+                for (final currency in currenciesWithBalance)
+                  WalletBody(
+                    key: Key(currency.symbol),
+                    currency: currency,
                   ),
-                  if (!containsSingleElement(currenciesWithBalance))
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 118),
-                        child: SmoothPageIndicator(
-                          controller: _pageController,
-                          count: currenciesWithBalance.length,
-                          effect: ScrollingDotsEffect(
-                            spacing: 2,
-                            radius: 4,
-                            dotWidth: 8,
-                            dotHeight: 2,
-                            maxVisibleDots: 11,
-                            activeDotScale: 1,
-                            dotColor: colors.black.withOpacity(0.1),
-                            activeDotColor: colors.black,
-                          ),
-                        ),
-                      ),
+              ],
+            ),
+            if (!containsSingleElement(currenciesWithBalance))
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 265),
+                  child: SmoothPageIndicator(
+                    controller: _pageController,
+                    count: currenciesWithBalance.length,
+                    effect: ScrollingDotsEffect(
+                      spacing: 2,
+                      radius: 4,
+                      dotWidth: 8,
+                      dotHeight: 2,
+                      maxVisibleDots: 11,
+                      activeDotScale: 1,
+                      dotColor: colors.black.withOpacity(0.1),
+                      activeDotColor: colors.black,
                     ),
-                ],
+                  ),
+                ),
               ),
-            );
-          },
+          ],
         ),
       ),
     );

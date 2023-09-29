@@ -813,4 +813,8 @@ class WalletApiRepository {
       label: label,
     );
   }
+
+  Future<DC<ServerRejectException, String>> postBankingKycStart() async {
+    return _walletApiDataSources.postBankingKycStartRequest();
+  }
 }

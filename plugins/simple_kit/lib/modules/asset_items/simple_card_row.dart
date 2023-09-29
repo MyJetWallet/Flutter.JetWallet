@@ -37,7 +37,7 @@ class SCardRow extends StatelessWidget {
   final String name;
   final String amount;
   final String description;
-  final Function() onTap;
+  final VoidCallback onTap;
   final double spaceBIandText;
 
   @override
@@ -68,9 +68,7 @@ class SCardRow extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
               Row(
-                crossAxisAlignment: helper.isNotEmpty
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.center,
+                crossAxisAlignment: helper.isNotEmpty ? CrossAxisAlignment.start : CrossAxisAlignment.center,
                 children: [
                   icon,
                   SizedBox(width: spaceBIandText),

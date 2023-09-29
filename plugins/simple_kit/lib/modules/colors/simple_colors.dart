@@ -21,6 +21,7 @@ abstract class SimpleColors {
   abstract Color white;
   abstract Color violet;
   abstract Color redLight;
+  abstract Color extraLightBlue;
   abstract Color blueLight;
   abstract Color extraGreenLight;
   abstract Color greenLight;

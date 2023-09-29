@@ -264,6 +264,7 @@ export 'modules/icons/custom/public/cards/simple_mastercard_icon.dart';
 export 'modules/icons/custom/public/cards/simple_google_pay_icon.dart';
 export 'modules/icons/custom/public/stars/simple_stars_icon.dart';
 export 'modules/icons/custom/public/star/simple_star_icon.dart';
+export 'modules/icons/custom/public/cards/simple_card.dart';
 export 'modules/icons/24x24/public/gift/simple_gift_send_icon.dart';
 
 /// Keyboards

@@ -2386,4 +2386,24 @@ class WalletApiDataSources {
       return DC.error(e);
     }
   }
+
+  Future<DC<ServerRejectException, String>> postBankingKycStartRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/kyc-start',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final data = handleFullResponse<Map>(responseData);
+
+        return DC.data(data['token']);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
 }

@@ -20,9 +20,11 @@ class KycVerificationSumsub extends StatefulObserverWidget {
   const KycVerificationSumsub({
     super.key,
     this.onFinish,
+    this.isBanking = false,
   });
 
   final VoidCallback? onFinish;
+  final bool? isBanking;
 
   @override
   State<KycVerificationSumsub> createState() => _KycVerificationSumsubState();
@@ -163,6 +165,7 @@ class _KycVerificationSumsubState extends State<KycVerificationSumsub> {
 
                 await getIt<SumsubService>().launch(
                   onFinish: widget.onFinish,
+                  isBanking: widget.isBanking ?? false,
                 );
 
                 loading.finishLoadingImmediately();
