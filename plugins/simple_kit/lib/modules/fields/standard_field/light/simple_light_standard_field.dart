@@ -38,6 +38,7 @@ class SimpleLightStandardField extends StatefulWidget {
     this.maxLines,
     required this.labelText,
     this.height,
+    this.cursorHeight,
   })  : assert(
           (controller == null && initialValue != null) ||
               (controller != null && initialValue == null) ||
@@ -78,10 +79,10 @@ class SimpleLightStandardField extends StatefulWidget {
   final int? maxLength;
   final int? maxLines;
   final double? height;
+  final double? cursorHeight;
 
   @override
-  State<SimpleLightStandardField> createState() =>
-      _SimpleLightStandardFieldState();
+  State<SimpleLightStandardField> createState() => _SimpleLightStandardFieldState();
 }
 
 class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
@@ -121,8 +122,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       maxLines: widget.maxLines,
       grayLabel: widget.grayLabel,
       suffixIcons: [
-        if (!widget.hideIconsIfNotEmpty || !controller2.text.isNotEmpty)
-          ...?widget.suffixIcons,
+        if (!widget.hideIconsIfNotEmpty || !controller2.text.isNotEmpty) ...?widget.suffixIcons,
       ],
       eraseIcon: [
         if (controller2.text.isNotEmpty && !widget.hideClearButton) ...[
@@ -143,6 +143,7 @@ class _SimpleLightStandardFieldState extends State<SimpleLightStandardField> {
       isError: widget.isError,
       validators: widget.validators,
       height: widget.height,
+      cursorHeight: widget.cursorHeight,
     );
   }
 }

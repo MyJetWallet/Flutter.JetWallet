@@ -23,7 +23,8 @@ void showAddWalletBottomSheet(BuildContext context) {
         store.onSearch(value);
       },
       horizontalDividerPadding: 24,
-      searchFieldHeight: 64,
+      searchFieldHeight: 56,
+      searchCursorHeight: 17,
       addPaddingBelowTitle: true,
     ),
     horizontalPinnedPadding: 0,

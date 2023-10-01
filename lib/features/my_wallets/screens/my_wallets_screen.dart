@@ -75,7 +75,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
         ],
       ),
       child: CustomRefreshIndicator(
-        offsetToArmed: 200,
+        offsetToArmed: 75,
         onRefresh: () => getIt.get<SignalRService>().forceReconnectSignalR(),
         builder: (
           BuildContext context,

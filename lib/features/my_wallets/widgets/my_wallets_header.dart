@@ -23,8 +23,7 @@ class MyWalletsHeader extends StatelessObserverWidget {
     return AnimatedCrossFade(
       firstChild: const _DefaultHeader(),
       secondChild: const _ScrollInProgressHeader(),
-      crossFadeState:
-          !isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      crossFadeState: !isTitleCenter ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       duration: Duration.zero,
     );
   }
@@ -73,7 +72,7 @@ class _DefaultHeader extends StatelessObserverWidget {
         const Spacer(),
         SizedBox(
           width: 56.0,
-          height: 45,
+          height: 41,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -99,10 +98,8 @@ class _DefaultHeader extends StatelessObserverWidget {
                             sellStatus: kycState.sellStatus,
                             withdrawalStatus: kycState.withdrawalStatus,
                             requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
-                            verificationInProgress:
-                                kycState.verificationInProgress,
+                            requiredVerifications: kycState.requiredVerifications,
+                            verificationInProgress: kycState.verificationInProgress,
                           ),
                           true,
                         ),
@@ -153,13 +150,15 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const SpaceW56(),
-        Text(
-          intl.my_wallets_header,
-          style: sTextH5Style,
+        Center(
+          child: Text(
+            intl.my_wallets_header,
+            style: sTextH5Style,
+          ),
         ),
         SizedBox(
           width: 56.0,
-          height: 56.0,
+          height: 41,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -185,10 +184,8 @@ class _ScrollInProgressHeader extends StatelessObserverWidget {
                             sellStatus: kycState.sellStatus,
                             withdrawalStatus: kycState.withdrawalStatus,
                             requiredDocuments: kycState.requiredDocuments,
-                            requiredVerifications:
-                                kycState.requiredVerifications,
-                            verificationInProgress:
-                                kycState.verificationInProgress,
+                            requiredVerifications: kycState.requiredVerifications,
+                            verificationInProgress: kycState.verificationInProgress,
                           ),
                           true,
                         ),

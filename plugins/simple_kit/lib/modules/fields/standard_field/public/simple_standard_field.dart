@@ -43,6 +43,7 @@ class SStandardField extends StatelessObserverWidget {
     this.maxLines,
     required this.labelText,
     this.height,
+    this.cursorHeight,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -78,6 +79,7 @@ class SStandardField extends StatelessObserverWidget {
   final int? maxLength;
   final int? maxLines;
   final double? height;
+  final double? cursorHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +118,7 @@ class SStandardField extends StatelessObserverWidget {
             grayLabel: grayLabel,
             maxLines: maxLines,
             height: height,
+            cursorHeight: cursorHeight,
           )
         : SimpleLightStandardField(
             controller: controller,
@@ -151,6 +154,7 @@ class SStandardField extends StatelessObserverWidget {
             grayLabel: grayLabel,
             maxLines: maxLines,
             height: height,
+            cursorHeight: cursorHeight,
           );
   }
 }

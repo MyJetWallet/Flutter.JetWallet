@@ -18,6 +18,7 @@ class ActionBottomSheetHeader extends StatefulWidget {
     this.horizontalDividerPadding = 0,
     this.searchFieldHeight,
     this.addPaddingBelowTitle = false,
+    this.searchCursorHeight,
   });
 
   final String name;
@@ -33,10 +34,10 @@ class ActionBottomSheetHeader extends StatefulWidget {
   final bool addPaddingBelowTitle;
   final double horizontalDividerPadding;
   final double? searchFieldHeight;
+  final double? searchCursorHeight;
 
   @override
-  State<ActionBottomSheetHeader> createState() =>
-      _ActionBottomSheetHeaderState();
+  State<ActionBottomSheetHeader> createState() => _ActionBottomSheetHeaderState();
 }
 
 class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
@@ -48,8 +49,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
       children: [
         if (!widget.hideTitle)
           Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: widget.removePadding ? 0 : 24),
+            padding: EdgeInsets.symmetric(horizontal: widget.removePadding ? 0 : 24),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -88,6 +88,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
               onChanged: widget.onChanged,
               maxLines: 1,
               height: widget.searchFieldHeight,
+              cursorHeight: widget.searchCursorHeight,
             )
           else
             SPaddingH24(
@@ -97,6 +98,7 @@ class _ActionBottomSheetHeaderState extends State<ActionBottomSheetHeader> {
                 onChanged: widget.onChanged,
                 maxLines: 1,
                 height: widget.searchFieldHeight,
+                cursorHeight: widget.searchCursorHeight,
               ),
             ),
           Padding(
