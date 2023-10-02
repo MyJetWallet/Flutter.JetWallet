@@ -246,4 +246,13 @@ class EventType {
       'Tap on the button ‘Done’ for change wallets order on the ‘Wallet’ screen';
   static const tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet =
       'Tap on the button ‘Get account EUR’ on `Add wallet for favourites`  sheet';
+
+  // Wallet
+  static const cryptoFavouriteWalletScreen = ' `Crypto favourite wallet` screen';
+  static const tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen =
+      'Tap on the button ‘Back’ or `Swipe to back` on `Crypto favourite wallet` screen';
+  static const swipeHistoryListOnCryptoFavouriteWalletScreen =
+      '‘Swipe history list` on `Crypto favourite wallet` screen';
+  static const tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen =
+      'Tap on the button ‘any history trx’ on `Crypto favourite wallet` screen';
 }

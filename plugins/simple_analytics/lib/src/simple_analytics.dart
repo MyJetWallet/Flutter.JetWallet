@@ -3112,4 +3112,60 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void cryptoFavouriteWalletScreen({
+    required String openedAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.cryptoFavouriteWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.openedAsset: openedAsset,
+        PropertyType.eventId: '283',
+      },
+    );
+  }
+
+  void tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen({
+    required String openedAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.openedAsset: openedAsset,
+        PropertyType.eventId: '284',
+      },
+    );
+  }
+
+  void swipeHistoryListOnCryptoFavouriteWalletScreen({
+    required String openedAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.swipeHistoryListOnCryptoFavouriteWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.openedAsset: openedAsset,
+        PropertyType.eventId: '285',
+      },
+    );
+  }
+
+  void tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen({
+    required String openedAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.openedAsset: openedAsset,
+        PropertyType.eventId: '298',
+      },
+    );
+  }
 }

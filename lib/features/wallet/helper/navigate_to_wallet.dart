@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 
 void navigateToWallet(BuildContext context, CurrencyModel currency) {
   if (currency.symbol == 'EUR') {
@@ -14,10 +15,18 @@ void navigateToWallet(BuildContext context, CurrencyModel currency) {
       ),
     );
   } else {
-    sRouter.push(
+    sRouter
+        .push(
       WalletRouter(
         currency: currency,
       ),
+    )
+        .then(
+      (value) {
+        sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+          openedAsset: currency.symbol,
+        );
+      },
     );
   }
 }

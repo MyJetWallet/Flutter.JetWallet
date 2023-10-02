@@ -19,11 +19,13 @@ class TransactionsList extends StatelessWidget {
     this.isRecurring = false,
     this.symbol,
     required this.scrollController,
+    this.onItemTapLisener,
   });
 
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
+  final void Function(String assetSymbol)? onItemTapLisener;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class TransactionsList extends StatelessWidget {
         scrollController: scrollController,
         symbol: symbol,
         isRecurring: isRecurring,
+        onItemTapLisener: onItemTapLisener,
       ),
       //dispose: (context, value) => value.stopTimer(),
     );
@@ -50,11 +53,13 @@ class _TransactionsListBody extends StatefulObserverWidget {
     this.isRecurring = false,
     this.symbol,
     required this.scrollController,
+    this.onItemTapLisener,
   });
 
   final ScrollController scrollController;
   final String? symbol;
   final bool isRecurring;
+   final void Function(String assetSymbol)? onItemTapLisener;
 
   @override
   State<StatefulWidget> createState() => _TransactionsListBodyState();
@@ -141,6 +146,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   itemBuilder: (context, transaction) {
                     return TransactionListItem(
                       transactionListItem: transaction,
+                      onItemTapLisener: widget.onItemTapLisener,
                     );
                   },
                 );
@@ -227,6 +233,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
+                                onItemTapLisener: widget.onItemTapLisener,
                               ),
                               Container(
                                 width: double.infinity,
@@ -299,6 +306,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
+                            onItemTapLisener: widget.onItemTapLisener,
                           );
                   },
                 );
@@ -322,6 +330,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                             children: [
                               TransactionListItem(
                                 transactionListItem: transaction,
+                                onItemTapLisener: widget.onItemTapLisener,
                               ),
                               const SpaceH24(),
                               Container(
@@ -339,6 +348,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                           )
                         : TransactionListItem(
                             transactionListItem: transaction,
+                            onItemTapLisener: widget.onItemTapLisener,
                           );
                   },
                 );
