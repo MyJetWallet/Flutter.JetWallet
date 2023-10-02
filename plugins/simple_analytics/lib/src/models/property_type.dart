@@ -49,4 +49,9 @@ class PropertyType {
   static const winAmount = 'Win amount';
   static const transferAseet = 'Transfer Asset';
   static const transferAmount = 'Transfer amount';
+  static const favouritesAssetsList = 'Favourites assets list';
+  static const isShowNow = 'isShowNow';
+  static const numberOfPendingTrx = 'Number of Pending Trx';
+  static const openedAsset = 'Opened Asset';
+  static const addedFavouritesAssetName = 'Added favourites asset name';
 }

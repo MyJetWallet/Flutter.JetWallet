@@ -82,6 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
               isCardRequested: sUserInfo.cardRequested || kycBlocked,
               showCard: sUserInfo.cardAvailable,
               onChanged: (int val) {
+                if (val == 0) {
+                  sAnalytics.tapOnTheTabWalletsInTabBar();
+                }
+
                 if (val == 2) {
                   getIt<IbanStore>().initState();
                   getIt<IbanStore>().getAddressBook();

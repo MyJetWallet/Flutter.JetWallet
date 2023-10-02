@@ -16,7 +16,9 @@ import 'package:jetwallet/features/my_wallets/widgets/my_wallets_header.dart';
 import 'package:jetwallet/features/my_wallets/widgets/pending_transactions_widget.dart';
 import 'package:jetwallet/utils/event_bus_events.dart';
 import 'package:rive/rive.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 @RoutePage(name: 'MyWalletsRouter')
 class MyWalletsScreen extends StatefulObserverWidget {
@@ -69,8 +71,21 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
       header: Column(
         children: [
           const SpaceH54(),
-          MyWalletsHeader(
-            isTitleCenter: !isTopPosition,
+          VisibilityDetector(
+            key: const Key('header'),
+            onVisibilityChanged: (visibilityInfo) {
+              if (visibilityInfo.visibleFraction != 0) {
+                sAnalytics.walletsScreenView(
+                  favouritesAssetsList: List.generate(
+                    store.currencies.length,
+                    (index) => store.currencies[index].symbol,
+                  ),
+                );
+              }
+            },
+            child: MyWalletsHeader(
+              isTitleCenter: !isTopPosition,
+            ),
           ),
         ],
       ),
@@ -137,6 +152,9 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                 PendingTransactionsWidget(
                   countOfTransactions: store.countOfPendingTransactions,
                   onTap: () {
+                    sAnalytics.tapOnTheButtonPendingTransactionsOnWalletsScreen(
+                      numberOfPendingTrx: store.countOfPendingTransactions,
+                    );
                     sRouter.push(
                       TransactionHistoryRouter(
                         initialIndex: 1,
@@ -154,6 +172,7 @@ class _PortfolioScreenState extends State<MyWalletsScreen> {
                     const SpaceW24(),
                     SIconTextButton(
                       onTap: () {
+                        sAnalytics.tapOnTheButtonAddWalletOnWalletsScreen();
                         showAddWalletBottomSheet(context);
                       },
                       text: intl.my_wallets_add_wallet,

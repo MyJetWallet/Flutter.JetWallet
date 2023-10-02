@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 class EventType {
   /// Buy Flow
   static const newBuyZeroScreenView = '‘My assets - Zero balance’ screen view';
@@ -207,20 +209,41 @@ class EventType {
   static const rewardsTapOnTheTabBar = 'Tap on the button ‘Rewards’ on tab bar';
   static const rewardsEmptyRewards = "'Empty rewards' screen view";
   static const rewardsMainScreenView = "'Rewards main' screen view";
-  static const rewardsClickOpenReward = "Tap on the button ‘Open rewards’ on Rewards main screen";
+  static const rewardsClickOpenReward = 'Tap on the button ‘Open rewards’ on Rewards main screen';
   static const rewardsChooseRewardCard = "'Choose Simple Reward' screen view";
   static const rewardsOpenRewardClose = "Tap on the button ‘Close’ on 'Choose Simple Reward' screen";
-  static const rewardsOpenRewardTapCard = "Tap on the button ‘Hidden reward card’ on Choose Simple Reward screen";
+  static const rewardsOpenRewardTapCard = 'Tap on the button ‘Hidden reward card’ on Choose Simple Reward screen';
   static const rewardsOpenCardProcesing = "'Processing opening reward' screen view";
   static const rewardsCardFlipSuccess = "'Congratulations!' screen view";
-  static const rewardsCloseFlowAfterCardFlip = "Tap on the button ‘Close’ on Congratulations! screen";
-  static const rewardsCardShare = "Tap on the button ‘Share’ on Congratulations! screen";
-  static const rewardsClickNextReward = "Tap on the button ‘Next reward’ on Congratulations! screen";
-  static const rewardsClickOnReward = "Tap on one of the button’s with assets on Rewards main screen";
+  static const rewardsCloseFlowAfterCardFlip = 'Tap on the button ‘Close’ on Congratulations! screen';
+  static const rewardsCardShare = 'Tap on the button ‘Share’ on Congratulations! screen';
+  static const rewardsClickNextReward = 'Tap on the button ‘Next reward’ on Congratulations! screen';
+  static const rewardsClickOnReward = 'Tap on one of the button’s with assets on Rewards main screen';
   static const rewardsRewardTransferPopup = "'Transfer reward' popup screen view";
-  static const rewardsTransferPopupClickTransfer = "Tap on the button ‘Transfer’ on Transfer reward screen";
-  static const rewardsTransferPopupClickCancel = "Tap on the button ‘Cancel’ on Transfer reward popup";
+  static const rewardsTransferPopupClickTransfer = 'Tap on the button ‘Transfer’ on Transfer reward screen';
+  static const rewardsTransferPopupClickCancel = 'Tap on the button ‘Cancel’ on Transfer reward popup';
   static const rewardsSuccessRewardTransfer = "'Success Transfer reward' popup screen view";
-  static const rewardsSuccessTransferGotItClick = "Tap on the button ‘Got it’ on Success Transfer reward popup";
-  static const rewardsClickShare = "Tap on the button ‘Share’ on Rewards main screen";
+  static const rewardsSuccessTransferGotItClick = 'Tap on the button ‘Got it’ on Success Transfer reward popup';
+  static const rewardsClickShare = 'Tap on the button ‘Share’ on Rewards main screen';
+
+  // My wallets
+  static const walletsScreenView = '`Wallets` screen  view';
+  static const tapOnTheButtonProfileOnWalletsScreen = 'Tap on the button ‘Profile’ on Wallets screen ';
+  static const tapOnTheButtonShowHideBalancesOnWalletsScreen =
+      'Tap on the button ‘Show/hide balances’ on Wallets screen';
+  static const tapOnTheTabWalletsInTabBar = 'Tap on the tab ‘Wallets’ in tabbar';
+  static const tapOnTheButtonPendingTransactionsOnWalletsScreen =
+      'Tap on the button ‘Pending transactions’ on Wallets screen';
+  static const tapOnFavouriteWalletOnWalletsScreen = 'Tap on “Favourite wallet” on Wallets screen ';
+  static const tapOnTheButtonAddWalletOnWalletsScreen = 'Tap on the button ‘Add wallet’ on wallets screen';
+  static const addWalletForFavouritesScreenView = '‘Add wallet for favourites’ screen  view';
+  static const tapOnTheButtonCloseOnAddWalletForFavouritesSheet =
+      'Tap on the button ‘Close’ on `Add wallet for favourites`  sheet';
+  static const tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet =
+      'Tap on Asset for add to favourites on `add wallet for favourites`  sheet';
+  static const tapOnTheDeleteButtonOnTheWalletScreen = 'Tap on the ‘Delete’ button on the ‘Wallet’ screen';
+  static const tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen =
+      'Tap on the button ‘Done’ for change wallets order on the ‘Wallet’ screen';
+  static const tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet =
+      'Tap on the button ‘Get account EUR’ on `Add wallet for favourites`  sheet';
 }

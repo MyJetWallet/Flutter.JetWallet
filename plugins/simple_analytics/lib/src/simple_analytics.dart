@@ -2954,4 +2954,162 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void walletsScreenView({
+    required List<String> favouritesAssetsList,
+  }) {
+    _analytics.logEvent(
+      EventType.walletsScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.favouritesAssetsList: favouritesAssetsList,
+        PropertyType.eventId: '256',
+      },
+    );
+  }
+
+  void tapOnTheButtonProfileOnWalletsScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonProfileOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '257',
+      },
+    );
+  }
+
+  void tapOnTheButtonShowHideBalancesOnWalletsScreen({
+    required bool isShowNow,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonShowHideBalancesOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.isShowNow: isShowNow,
+        PropertyType.eventId: '258',
+      },
+    );
+  }
+
+  void tapOnTheTabWalletsInTabBar() {
+    _analytics.logEvent(
+      EventType.tapOnTheTabWalletsInTabBar,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '259',
+      },
+    );
+  }
+
+  void tapOnTheButtonPendingTransactionsOnWalletsScreen({
+    required int numberOfPendingTrx,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonPendingTransactionsOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.numberOfPendingTrx: numberOfPendingTrx,
+        PropertyType.eventId: '260',
+      },
+    );
+  }
+
+  void tapOnFavouriteWalletOnWalletsScreen({
+    required String openedAsset,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnFavouriteWalletOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.openedAsset: openedAsset,
+        PropertyType.eventId: '261',
+      },
+    );
+  }
+
+  void tapOnTheButtonAddWalletOnWalletsScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAddWalletOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '262',
+      },
+    );
+  }
+
+  void addWalletForFavouritesScreenView() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAddWalletOnWalletsScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '263',
+      },
+    );
+  }
+
+  void tapOnTheButtonCloseOnAddWalletForFavouritesSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonCloseOnAddWalletForFavouritesSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '264',
+      },
+    );
+  }
+
+  void tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet({
+    required String addedFavouritesAssetName,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.addedFavouritesAssetName: addedFavouritesAssetName,
+        PropertyType.eventId: '265',
+      },
+    );
+  }
+
+  void tapOnTheDeleteButtonOnTheWalletScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheDeleteButtonOnTheWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '266',
+      },
+    );
+  }
+
+  void tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '267',
+      },
+    );
+  }
+
+  void tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet() {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.eventId: '268',
+      },
+    );
+  }
 }

@@ -5,16 +5,15 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
-import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_address_info.dart';
 import 'package:jetwallet/features/my_wallets/helper/show_wallet_verify_account.dart';
 import 'package:jetwallet/features/my_wallets/store/my_wallets_srore.dart';
-import 'package:jetwallet/features/my_wallets/widgets/assets_list_widget.dart';
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
 import 'package:logger/logger.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
@@ -41,6 +40,7 @@ class GetAccountButton extends StatelessObserverWidget {
         width: store.buttonStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
         child: SIconTextButton(
           onTap: () {
+            sAnalytics.tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet();
             onGetAccountClick(store, context);
           },
           text: store.simpleAccountButtonText,

@@ -7,6 +7,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_verified_model.dart';
 import 'package:jetwallet/utils/helpers/check_kyc_status.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
@@ -67,6 +68,9 @@ class _DefaultHeader extends StatelessObserverWidget {
             } else {
               getIt<AppStore>().setIsBalanceHide(true);
             }
+            sAnalytics.tapOnTheButtonShowHideBalancesOnWalletsScreen(
+              isShowNow: !getIt<AppStore>().isBalanceHide,
+            );
           },
         ),
         const Spacer(),
@@ -84,6 +88,7 @@ class _DefaultHeader extends StatelessObserverWidget {
                   color: colors.black.withOpacity(0.7),
                 ),
                 onTap: () {
+                  sAnalytics.tapOnTheButtonProfileOnWalletsScreen();
                   sRouter.push(const AccountRouter());
                 },
               ),

@@ -6,6 +6,7 @@ import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.da
 import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
@@ -29,22 +30,17 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   ObservableList<CurrencyModel> get currencies {
-    return isReordering
-        ? reorderingCurrencies
-        : currenciesForMyWallet(_allAssets);
+    return isReordering ? reorderingCurrencies : currenciesForMyWallet(_allAssets);
   }
 
   @computed
-  bool get isPendingTransactions =>
-      currencies.any((element) => element.isPendingDeposit);
+  bool get isPendingTransactions => currencies.any((element) => element.isPendingDeposit);
 
   @computed
-  int get countOfPendingTransactions =>
-      currencies.where((element) => element.isPendingDeposit).length;
+  int get countOfPendingTransactions => currencies.where((element) => element.isPendingDeposit).length;
 
   @computed
-  ObservableList<CurrencyModel> get currenciesForSearch =>
-      currenciesForSearchInMyWallet(_allAssets);
+  ObservableList<CurrencyModel> get currenciesForSearch => currenciesForSearchInMyWallet(_allAssets);
 
   @action
   void onStartReordering() {
@@ -65,6 +61,8 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onEndReordering() {
+    sAnalytics.tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen();
+
     isReordering = false;
 
     currencies
@@ -88,6 +86,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onDelete(int index) {
+    sAnalytics.tapOnTheDeleteButtonOnTheWalletScreen();
     currencies.removeAt(index);
 
     final activeAssets = <ActiveAsset>[];
@@ -107,9 +106,7 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   void onSearch(String text) {
-    final tempList = _allAssets
-        .where((e) => e.description.toLowerCase().contains(text.toLowerCase()))
-        .toList();
+    final tempList = _allAssets.where((e) => e.description.toLowerCase().contains(text.toLowerCase())).toList();
     currenciesForSearch
       ..clear()
       ..addAll(tempList);
@@ -117,6 +114,10 @@ abstract class _MyWalletsSroreBase with Store {
 
   @action
   Future<void> onChooseAsetFromSearch(CurrencyModel currency) async {
+    sAnalytics.tapOnAssetForAddToFavouritesOnAddWalletForFavouritesSheet(
+      addedFavouritesAssetName: currency.symbol,
+    );
+
     final tempList = currencies + [currency];
     final activeAssets = <ActiveAsset>[];
     for (var index = 0; index < tempList.length; index++) {
@@ -128,11 +129,7 @@ abstract class _MyWalletsSroreBase with Store {
       );
     }
     final model = SetActiveAssetsRequestModel(activeAssets: activeAssets);
-    final response = await getIt
-        .get<SNetwork>()
-        .simpleNetworking
-        .getWalletModule()
-        .setActiveAssets(
+    final response = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().setActiveAssets(
           model,
         );
 
