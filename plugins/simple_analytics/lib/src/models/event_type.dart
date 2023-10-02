@@ -255,4 +255,17 @@ class EventType {
       '‘Swipe history list` on `Crypto favourite wallet` screen';
   static const tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen =
       'Tap on the button ‘any history trx’ on `Crypto favourite wallet` screen';
+
+  // History
+  static const globalTransactionHistoryScreenView = '‘Global transaction history’ screen  view';
+  static const tapOnTheButtonAllOnGlobalTransactionHistoryScreen =
+      'Tap on the button ‘All’ on `Global transaction history` screen';
+  static const tapOnTheButtonPendingOnGlobalTransactionHistoryScreen =
+      'Tap on the button ‘Pending’ on `Global transaction history` screen ';
+  static const swipeHistoryListOnGlobalTransactionHistoryScreen =
+      '`Swipe history list` on `Global transaction history` screen';
+  static const tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen =
+      'Tap on the button ‘any history trx’ on `Global transaction history` screen';
+  static const tapOnTheButtonBackOnGlobalTransactionHistoryScreen =
+      'Tap on the button ‘Back’ on `Global transaction history` screen ';
 }

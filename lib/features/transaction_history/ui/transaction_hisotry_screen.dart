@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../wallet/helper/nft_types.dart';
@@ -28,17 +29,32 @@ class TransactionHistory extends StatefulObserverWidget {
   State<TransactionHistory> createState() => _TransactionHistoryState();
 }
 
-class _TransactionHistoryState extends State<TransactionHistory>
-    with TickerProviderStateMixin {
+class _TransactionHistoryState extends State<TransactionHistory> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
+    sAnalytics.globalTransactionHistoryScreenView(
+      globalHistoryTab: widget.initialIndex == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending,
+    );
     _tabController = TabController(
       initialIndex: widget.initialIndex,
       length: 2,
       vsync: this,
     );
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) return;
+      if (_tabController.index == 0) {
+        sAnalytics.tapOnTheButtonAllOnGlobalTransactionHistoryScreen(
+          globalHistoryTab: GlobalHistoryTab.all,
+        );
+      } else {
+        sAnalytics.tapOnTheButtonAllOnGlobalTransactionHistoryScreen(
+          globalHistoryTab: GlobalHistoryTab.pending,
+        );
+      }
+    });
 
     super.initState();
   }
@@ -76,6 +92,12 @@ class _TransactionHistoryState extends State<TransactionHistory>
               flexibleSpace: SPaddingH24(
                 child: SSmallHeader(
                   title: _title(context, TransactionType.none),
+                  onBackButtonTap: () {
+                    sAnalytics.tapOnTheButtonBackOnGlobalTransactionHistoryScreen(
+                      globalHistoryTab: _tabController.index == 0 ? GlobalHistoryTab.all : GlobalHistoryTab.pending,
+                    );
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ),

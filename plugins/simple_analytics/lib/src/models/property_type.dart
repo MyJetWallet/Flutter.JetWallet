@@ -54,4 +54,5 @@ class PropertyType {
   static const numberOfPendingTrx = 'Number of Pending Trx';
   static const openedAsset = 'Opened Asset';
   static const addedFavouritesAssetName = 'Added favourites asset name';
+  static const globalHistoryTab = 'GlobalHistoryTab';
 }

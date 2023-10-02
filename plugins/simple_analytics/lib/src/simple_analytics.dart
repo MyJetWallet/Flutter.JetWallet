@@ -3168,4 +3168,88 @@ class SimpleAnalytics {
       },
     );
   }
+
+  void globalTransactionHistoryScreenView({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.globalTransactionHistoryScreenView,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '299',
+      },
+    );
+  }
+
+  void tapOnTheButtonAllOnGlobalTransactionHistoryScreen({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAllOnGlobalTransactionHistoryScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '300',
+      },
+    );
+  }
+
+  void tapOnTheButtonPendingOnGlobalTransactionHistoryScreen({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonPendingOnGlobalTransactionHistoryScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '301',
+      },
+    );
+  }
+
+  void swipeHistoryListOnGlobalTransactionHistoryScreen({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.swipeHistoryListOnGlobalTransactionHistoryScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '302',
+      },
+    );
+  }
+
+  void tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '303',
+      },
+    );
+  }
+
+  void tapOnTheButtonBackOnGlobalTransactionHistoryScreen ({
+    required GlobalHistoryTab globalHistoryTab,
+  }) {
+    _analytics.logEvent(
+      EventType.tapOnTheButtonBackOnGlobalTransactionHistoryScreen,
+      eventProperties: {
+        PropertyType.techAcc: isTechAcc,
+        PropertyType.kycStatus: kycDepositStatus,
+        PropertyType.globalHistoryTab: globalHistoryTab.name,
+        PropertyType.eventId: '304',
+      },
+    );
+  }
 }
