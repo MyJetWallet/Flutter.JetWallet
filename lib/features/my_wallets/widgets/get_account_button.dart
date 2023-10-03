@@ -40,7 +40,7 @@ class GetAccountButton extends StatelessObserverWidget {
         width: store.buttonStatus == SimpleWalletAccountStatus.none ? null : double.infinity,
         child: SIconTextButton(
           onTap: () {
-            sAnalytics.tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet();
+            sAnalytics.tapOnTheButtonGetAccountEUROnWalletsScreen();
             onGetAccountClick(store, context);
           },
           text: store.simpleAccountButtonText,

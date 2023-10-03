@@ -3102,9 +3102,9 @@ class SimpleAnalytics {
     );
   }
 
-  void tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet() {
+  void tapOnTheButtonGetAccountEUROnWalletsScreen() {
     _analytics.logEvent(
-      EventType.tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet,
+      EventType.tapOnTheButtonGetAccountEUROnWalletsScreen,
       eventProperties: {
         PropertyType.techAcc: isTechAcc,
         PropertyType.kycStatus: kycDepositStatus,

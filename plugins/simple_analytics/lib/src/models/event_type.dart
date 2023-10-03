@@ -244,8 +244,8 @@ class EventType {
   static const tapOnTheDeleteButtonOnTheWalletScreen = 'Tap on the ‘Delete’ button on the ‘Wallet’ screen';
   static const tapOnTheButtonDoneForChangeWalletsOrderOnTheWalletScreen =
       'Tap on the button ‘Done’ for change wallets order on the ‘Wallet’ screen';
-  static const tapOnTheButtonGetAccountEUROnAddWalletForFavouritesSheet =
-      'Tap on the button ‘Get account EUR’ on `Add wallet for favourites`  sheet';
+  static const tapOnTheButtonGetAccountEUROnWalletsScreen =
+      'Tap on the button ‘Get account EUR’ on `Wallets` screen';
 
   // Wallet
   static const cryptoFavouriteWalletScreen = ' `Crypto favourite wallet` screen';
