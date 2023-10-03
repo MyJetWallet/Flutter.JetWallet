@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
@@ -10,10 +9,6 @@ import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/market/ui/widgets/fade_on_scroll.dart';
-import 'package:jetwallet/features/my_wallets/widgets/cj_header_widget.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/card_block/wallet_card.dart';
-import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/card_block/wallet_card_collapsed.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list/transactions_list.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -34,9 +29,13 @@ class WalletBody extends StatefulObserverWidget {
   const WalletBody({
     super.key,
     required this.currency,
+    required this.pageController,
+    required this.pageCount,
   });
 
   final CurrencyModel currency;
+  final PageController pageController;
+  final int pageCount;
 
   @override
   State<StatefulWidget> createState() => _WalletBodyState();
@@ -82,7 +81,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
               slivers: [
                 SliverAppBar(
                   expandedHeight: 226,
-                  collapsedHeight: 226,
+                  collapsedHeight: 64,
                   pinned: true,
                   stretch: true,
                   backgroundColor: sKit.colors.white,
@@ -117,6 +116,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                   ),
                   flexibleSpace: WalletHeader(
                     curr: widget.currency,
+                    pageController: widget.pageController,
+                    pageCount: widget.pageCount,
                   ),
                 ),
                 if (widget.currency.supportsAtLeastOneBuyMethod ||

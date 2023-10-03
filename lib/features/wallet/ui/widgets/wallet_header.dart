@@ -9,21 +9,30 @@ import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/utils/constants.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WalletHeader extends StatelessWidget {
-  const WalletHeader({super.key, required this.curr});
+  const WalletHeader({
+    super.key,
+    required this.curr,
+    required this.pageController,
+    required this.pageCount,
+  });
 
   final CurrencyModel curr;
+  final PageController pageController;
+  final int pageCount;
 
   @override
   Widget build(BuildContext context) {
+    final colors = sKit.colors;
     final isInProgress = curr.assetBalance == Decimal.zero && curr.isPendingDeposit;
 
     return LayoutBuilder(
-      builder: (context, c) {
+      builder: (context, constraints) {
         final settings = context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
         final deltaExtent = settings!.maxExtent - settings.minExtent;
-        final t = (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent).clamp(0.0, 1.0) as double;
+        final t = (1.0 - (settings.currentExtent - settings.minExtent) / deltaExtent).clamp(0.0, 1.0);
         final fadeStart = max(0.0, 1.0 - kToolbarHeight / deltaExtent);
         const fadeEnd = 1.0;
         final opacity = 1.0 - Interval(fadeStart, fadeEnd).transform(t);
@@ -31,7 +40,7 @@ class WalletHeader extends StatelessWidget {
         return FlexibleSpaceBar(
           expandedTitleScale: 1,
           title: Opacity(
-            opacity: 1,
+            opacity: opacity,
             child: SPaddingH24(
               child: Observer(
                 warnWhenNoObservables: false,
@@ -74,13 +83,34 @@ class WalletHeader extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      const SpaceH16(),
+                      if (pageCount > 1)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SmoothPageIndicator(
+                              controller: pageController,
+                              count: pageCount,
+                              effect: ScrollingDotsEffect(
+                                spacing: 2,
+                                radius: 4,
+                                dotWidth: 8,
+                                dotHeight: 2,
+                                maxVisibleDots: 11,
+                                activeDotScale: 1,
+                                dotColor: colors.black.withOpacity(0.1),
+                                activeDotColor: colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   );
                 },
               ),
             ),
           ),
-          titlePadding: const EdgeInsets.only(bottom: 32),
+          titlePadding: const EdgeInsets.only(bottom: 18),
           background: Container(
             padding: EdgeInsets.only(
               top: 35,

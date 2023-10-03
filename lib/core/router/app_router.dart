@@ -70,11 +70,11 @@ import 'package:jetwallet/features/market/model/market_item_model.dart';
 import 'package:jetwallet/features/market/ui/market_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/cj_account_label_screen.dart';
 import 'package:jetwallet/features/my_wallets/screens/cj_account_screen.dart';
+import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/payment_methods/ui/payment_methods.dart';
 import 'package:jetwallet/features/phone_verification/ui/phone_verification.dart';
 import 'package:jetwallet/features/pin_screen/model/pin_flow_union.dart';
 import 'package:jetwallet/features/pin_screen/ui/pin_screen.dart';
-import 'package:jetwallet/features/my_wallets/screens/my_wallets_screen.dart';
 import 'package:jetwallet/features/receive_gift/progres_screen.dart';
 import 'package:jetwallet/features/return_to_wallet/model/preview_return_to_wallet_input.dart';
 import 'package:jetwallet/features/return_to_wallet/ui/preview_return_to_wallet.dart';
@@ -90,8 +90,6 @@ import 'package:jetwallet/features/transaction_history/ui/transaction_hisotry_sc
 import 'package:jetwallet/features/two_fa_phone/model/two_fa_phone_trigger_union.dart';
 import 'package:jetwallet/features/two_fa_phone/ui/two_fa_phone.dart';
 import 'package:jetwallet/features/wallet/ui/create_banking_screen.dart';
-import 'package:jetwallet/features/wallet/ui/empty_wallet.dart';
-import 'package:jetwallet/features/wallet/ui/eur_wallet_screen.dart';
 import 'package:jetwallet/features/wallet/ui/wallet_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_detail_screen.dart';
 import 'package:jetwallet/features/withdrawal/send_card_detail/send_card_payment_method_screen.dart';
@@ -420,10 +418,6 @@ class AppRouter extends _$AppRouter {
       page: CurrencySellRouter.page,
     ),
     AutoRoute(
-      path: '/emptry_wallet',
-      page: EmptyWalletRouter.page,
-    ),
-    AutoRoute(
       path: '/wallet',
       page: WalletRouter.page,
     ),
@@ -576,10 +570,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(
       path: '/cj_label',
       page: CJAccountLabelRouter.page,
-    ),
-    AutoRoute(
-      path: '/eur_wallet',
-      page: EurWalletRouter.page,
     ),
     AutoRoute(
       path: '/create_banking',

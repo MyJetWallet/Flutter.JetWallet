@@ -1,17 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/app/store/app_store.dart';
+import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
+import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/eur_wallet_body.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/wallet_body.dart';
-import 'package:jetwallet/utils/helpers/contains_single_element.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
-import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
-import 'package:simple_kit/simple_kit.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 @RoutePage(name: 'WalletRouter')
 class Wallet extends StatefulObserverWidget {
@@ -39,12 +34,9 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
       openedAsset: widget.currency.symbol,
     );
 
-    final itemsWithBalance = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(
-        sSignalRModules.currenciesList,
-      ),
-    );
-    final initialPage = itemsWithBalance.indexOf(widget.currency);
+    final currencies = currenciesForMyWallet(sSignalRModules.currenciesList);
+
+    final initialPage = currencies.indexOf(widget.currency);
     currentAsset = widget.currency;
     currentPage = initialPage;
 
@@ -66,19 +58,15 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
   Widget build(BuildContext context) {
     super.build(context);
 
-    final colors = sKit.colors;
-    final currencies = sSignalRModules.currenciesList;
-    final currenciesWithBalance = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(currencies),
-    );
+    final currencies = currenciesForMyWallet(sSignalRModules.currenciesList);
 
     // These actions are required to handle navigation
     // if the order of assets is changed externally
-    final supposedPage = currenciesWithBalance.indexWhere(
+    final supposedPage = currencies.indexWhere(
       (element) => element.symbol == currentAsset.symbol,
     );
     if (currentPage != supposedPage) {
-      currentAsset = currenciesWithBalance.firstWhere(
+      currentAsset = currencies.firstWhere(
         (element) => element.symbol == currentAsset.symbol,
       );
       currentPage = supposedPage;
@@ -97,42 +85,29 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
                 if (skeepOnPageChanged) {
                   skeepOnPageChanged = false;
                 } else {
-                  currentAsset = currenciesWithBalance[page];
+                  currentAsset = currencies[page];
                   currentPage = page;
                   sAnalytics.cryptoFavouriteWalletScreen(
-                    openedAsset: currenciesWithBalance[page].symbol,
+                    openedAsset: currencies[page].symbol,
                   );
                 }
               },
               children: [
-                for (final currency in currenciesWithBalance)
-                  WalletBody(
-                    key: Key(currency.symbol),
-                    currency: currency,
-                  ),
+                for (final currency in currencies)
+                  currency.symbol == 'EUR'
+                      ? EurWalletBody(
+                          key: Key(currency.symbol),
+                          pageController: _pageController,
+                          pageCount: currencies.length,
+                        )
+                      : WalletBody(
+                          key: Key(currency.symbol),
+                          currency: currency,
+                          pageController: _pageController,
+                          pageCount: currencies.length,
+                        ),
               ],
             ),
-            if (!containsSingleElement(currenciesWithBalance))
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 265),
-                  child: SmoothPageIndicator(
-                    controller: _pageController,
-                    count: currenciesWithBalance.length,
-                    effect: ScrollingDotsEffect(
-                      spacing: 2,
-                      radius: 4,
-                      dotWidth: 8,
-                      dotHeight: 2,
-                      maxVisibleDots: 11,
-                      activeDotScale: 1,
-                      dotColor: colors.black.withOpacity(0.1),
-                      activeDotColor: colors.black,
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
@@ -11,9 +10,15 @@ import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_ic
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 
-@RoutePage(name: 'EurWalletRouter')
-class EurWallet extends StatelessObserverWidget {
-  const EurWallet({super.key});
+class EurWalletBody extends StatelessObserverWidget {
+  const EurWalletBody({
+    super.key,
+    required this.pageController,
+    required this.pageCount,
+  });
+
+  final PageController pageController;
+  final int pageCount;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class EurWallet extends StatelessObserverWidget {
         slivers: [
           SliverAppBar(
             expandedHeight: 226,
-            collapsedHeight: 226,
+            collapsedHeight: 64,
             pinned: true,
             stretch: true,
             backgroundColor: sKit.colors.white,
@@ -60,6 +65,8 @@ class EurWallet extends StatelessObserverWidget {
             ),
             flexibleSpace: WalletHeader(
               curr: eurCurrency,
+              pageController: pageController,
+              pageCount: pageCount,
             ),
           ),
           const SliverPadding(padding: EdgeInsets.only(top: 24)),

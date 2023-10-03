@@ -402,44 +402,24 @@ class DeepLinkService {
     );
 
     //navigateToWallet
-    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          EmptyWalletRouter(
-            currency: currency,
-          ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: EmptyWalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        WalletRouter(
+          currency: currency,
+        ),
+      );
     } else {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          WalletRouter(
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: WalletRouter(
             currency: currency,
           ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: WalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 
@@ -540,44 +520,24 @@ class DeepLinkService {
     );
 
     //navigateToWallet
-    if (currency.isAssetBalanceEmpty && !currency.isPendingDeposit) {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          EmptyWalletRouter(
-            currency: currency,
-          ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: EmptyWalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+
+    if (getIt.isRegistered<AppStore>() &&
+        getIt.get<AppStore>().remoteConfigStatus is Success &&
+        getIt.get<AppStore>().authorizedStatus is Home) {
+      await sRouter.push(
+        WalletRouter(
+          currency: currency,
+        ),
+      );
     } else {
-      if (getIt.isRegistered<AppStore>() &&
-          getIt.get<AppStore>().remoteConfigStatus is Success &&
-          getIt.get<AppStore>().authorizedStatus is Home) {
-        await sRouter.push(
-          WalletRouter(
+      getIt<RouteQueryService>().addToQuery(
+        RouteQueryModel(
+          action: RouteQueryAction.push,
+          query: WalletRouter(
             currency: currency,
           ),
-        );
-      } else {
-        getIt<RouteQueryService>().addToQuery(
-          RouteQueryModel(
-            action: RouteQueryAction.push,
-            query: WalletRouter(
-              currency: currency,
-            ),
-          ),
-        );
-      }
+        ),
+      );
     }
   }
 
