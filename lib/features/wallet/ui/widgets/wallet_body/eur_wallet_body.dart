@@ -4,7 +4,6 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_header.dart';
-import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -23,7 +22,7 @@ class EurWalletBody extends StatelessObserverWidget {
   @override
   Widget build(BuildContext context) {
     final eurCurrency = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+      sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
     return SPageFrame(
