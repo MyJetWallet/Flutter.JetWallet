@@ -47,19 +47,23 @@ class ChooseAssetScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            if (showSearch) ...[
+            if (showSearch)
               SPaddingH24(
-                child: SStandardField(
-                  controller: TextEditingController(),
-                  labelText: intl.actionBottomSheetHeader_search,
-                  onChanged: (String value) {
-                    searchStore.search(value);
-                  },
-                  maxLines: 1,
+                child: Column(
+                  children: [
+                    SStandardField(
+                      controller: TextEditingController(),
+                      hintText: intl.actionBottomSheetHeader_search,
+                      onChanged: (String value) {
+                        searchStore.search(value);
+                      },
+                      maxLines: 1,
+                      height: 44,
+                    ),
+                    const SDivider(),
+                  ],
                 ),
               ),
-              const SDivider(),
-            ],
             Observer(
               builder: (context) {
                 return _ActionBuy(
@@ -98,53 +102,25 @@ class _ActionBuy extends StatelessObserverWidget {
       showBuyPaymentCurrencyBottomSheet(context, currency);
     }
 
-    Widget marketItem(
-      String iconUrl,
-      String name,
-      String price,
-      String ticker,
-      double percent,
-      dynamic Function() onTap, {
-      bool isLast = false,
-    }) {
-      return SMarketItem(
-        icon: SNetworkSvg24(
-          url: iconUrl,
-        ),
-        name: name,
-        price: price,
-        ticker: ticker,
-        last: isLast,
-        percent: percent,
-        onTap: onTap,
-      );
-    }
-
     return Column(
       children: [
         for (final currency in state.fCurrencies) ...[
           if (currency.supportsAtLeastOneBuyMethod)
-            marketItem(
-              currency.iconUrl,
-              currency.description,
-              marketFormat(
-                prefix: baseCurrency.prefix,
-                decimal: baseCurrency.symbol == currency.symbol
-                    ? Decimal.one
-                    : currency.currentPrice,
+            SMarketItem(
+              icon: SNetworkSvg24(
+                url: currency.iconUrl,
+              ),
+              name: currency.description,
+              price: marketFormat(
+                decimal: baseCurrency.symbol == currency.symbol ? Decimal.one : currency.currentPrice,
                 symbol: baseCurrency.symbol,
                 accuracy: baseCurrency.accuracy,
               ),
-              currency.symbol,
-              currency.dayPercentChange,
-              () => onItemTap(currency, fromCard),
-              isLast: currency ==
-                  state.fCurrencies
-                      .where(
-                        (element) => element.supportsAtLeastOneBuyMethod,
-                      )
-                      .toList()
-                      .last,
+              ticker: currency.symbol,
+              last: true,
+              percent: currency.dayPercentChange,
+              onTap: () => onItemTap(currency, fromCard),
+              height: 80,
             ),
         ],
         const SpaceH42(),

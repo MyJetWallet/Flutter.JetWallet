@@ -10,6 +10,7 @@ class SMarketItem extends StatelessWidget {
     this.showFavoriteIcon = false,
     this.isStarActive = false,
     this.onStarButtonTap,
+    this.height = 88.0,
     required this.icon,
     required this.name,
     required this.price,
@@ -28,6 +29,7 @@ class SMarketItem extends StatelessWidget {
   final bool showFavoriteIcon;
   final Function()? onStarButtonTap;
   final bool isStarActive;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class SMarketItem extends StatelessWidget {
       onTap: onTap,
       child: SPaddingH24(
         child: SizedBox(
-          height: 88.0,
+          height: height,
           child: Column(
             children: [
               const SpaceH22(),
@@ -109,7 +111,7 @@ class SMarketItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               SizedBox(
-                                width: 142,
+                                width: 138,
                                 child: Text(
                                   _formatPercent(percent),
                                   textAlign: TextAlign.end,
@@ -138,9 +140,7 @@ class SMarketItem extends StatelessWidget {
                     const SpaceW10(),
                     SIconButton(
                       onTap: onStarButtonTap,
-                      defaultIcon: isStarActive
-                          ? const SStarSelectedIcon()
-                          : const SStarIcon(),
+                      defaultIcon: isStarActive ? const SStarSelectedIcon() : const SStarIcon(),
                       pressedIcon: const SStarPressedIcon(),
                     ),
                   ],
