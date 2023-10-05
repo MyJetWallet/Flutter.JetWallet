@@ -55,7 +55,7 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
   @override
   Widget build(BuildContext context) {
     final eurCurrency = nonIndicesWithBalanceFrom(
-      currenciesWithBalanceFrom(sSignalRModules.currenciesList),
+      sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
     return SPageFrame(

@@ -5,7 +5,6 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
-import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -52,9 +51,18 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
                   ),
                 );
               } else {
-                navigateToWallet(
-                  context,
-                  currency,
+                sRouter
+                    .push(
+                  WalletRouter(
+                    currency: currency,
+                  ),
+                )
+                    .then(
+                  (value) {
+                    sAnalytics.tapOnTheButtonBackOrSwipeToBackOnCryptoFavouriteWalletScreen(
+                      openedAsset: currency.symbol,
+                    );
+                  },
                 );
               }
             }
