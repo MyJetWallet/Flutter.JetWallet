@@ -23,7 +23,7 @@ linter:
 
     unawaited_futures: true
 
-    lines_longer_than_80_chars: true
+    lines_longer_than_80_chars: false
 
     use_setters_to_change_properties: false
     

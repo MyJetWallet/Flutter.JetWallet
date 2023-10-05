@@ -7,6 +7,7 @@ import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/wallet/helper/market_item_from.dart';
 import 'package:jetwallet/features/wallet/helper/navigate_to_wallet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_model.dart';
 
@@ -35,26 +36,29 @@ class MyWalletsAssetItem extends StatelessObserverWidget {
       baseCurrencySymbol: baseCurrency.symbol,
       primaryText: currency.description,
       amount: currency.volumeBaseBalance(baseCurrency),
-      secondaryText: getIt<AppStore>().isBalanceHide
-          ? currency.symbol
-          : currency.volumeAssetBalance,
-      onTap: !isMoving ? () {
-        if (currency.type == AssetType.indices) {
-          sRouter.push(
-            MarketDetailsRouter(
-              marketItem: marketItemFrom(
-                marketItems,
-                currency.symbol,
-              ),
-            ),
-          );
-        } else {
-          navigateToWallet(
-            context,
-            currency,
-          );
-        }
-      } : null,
+      secondaryText: getIt<AppStore>().isBalanceHide ? currency.symbol : currency.volumeAssetBalance,
+      onTap: !isMoving
+          ? () {
+              sAnalytics.tapOnFavouriteWalletOnWalletsScreen(
+                openedAsset: currency.symbol,
+              );
+              if (currency.type == AssetType.indices) {
+                sRouter.push(
+                  MarketDetailsRouter(
+                    marketItem: marketItemFrom(
+                      marketItems,
+                      currency.symbol,
+                    ),
+                  ),
+                );
+              } else {
+                navigateToWallet(
+                  context,
+                  currency,
+                );
+              }
+            }
+          : null,
       removeDivider: true,
       isPendingDeposit: currency.isPendingDeposit,
       isMoving: isMoving,

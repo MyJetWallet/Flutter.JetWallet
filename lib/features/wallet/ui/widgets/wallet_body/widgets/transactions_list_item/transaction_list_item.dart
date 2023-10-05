@@ -21,9 +21,11 @@ class TransactionListItem extends StatelessObserverWidget {
   const TransactionListItem({
     super.key,
     required this.transactionListItem,
+    this.onItemTapLisener,
   });
 
   final OperationHistoryItem transactionListItem;
+  final void Function(String assetSymbol)? onItemTapLisener;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class TransactionListItem extends StatelessObserverWidget {
 
     return InkWell(
       onTap: () {
+        onItemTapLisener?.call(transactionListItem.assetId);
         showTransactionDetails(
           context,
           transactionListItem,
@@ -87,18 +90,15 @@ class TransactionListItem extends StatelessObserverWidget {
                           ),
                           color: colors.black,
                         ),
-                        if (transactionListItem.operationType ==
-                                OperationType.giftSend ||
-                            transactionListItem.operationType ==
-                                OperationType.giftReceive) ...[
+                        if (transactionListItem.operationType == OperationType.giftSend ||
+                            transactionListItem.operationType == OperationType.giftReceive) ...[
                           Container(
                             height: 16,
                             margin: const EdgeInsets.only(top: 4),
                             child: const SGiftSendIcon(),
                           ),
                         ],
-                        if (transactionListItem.operationType ==
-                            OperationType.rewardPayment) ...[
+                        if (transactionListItem.operationType == OperationType.rewardPayment) ...[
                           Padding(
                             padding: const EdgeInsets.only(left: 4, top: 1.5),
                             child: SizedBox(
@@ -121,16 +121,11 @@ class TransactionListItem extends StatelessObserverWidget {
                       nftTypes.contains(transactionListItem.operationType)
                           ? nftAsset.name ?? 'NFT'
                           : volumeFormat(
-                              decimal: (transactionListItem.operationType ==
-                                          OperationType.withdraw ||
-                                      transactionListItem.operationType ==
-                                          OperationType.ibanSend ||
-                                      transactionListItem.operationType ==
-                                          OperationType.sendGlobally ||
-                                      transactionListItem.operationType ==
-                                          OperationType.transferByPhone ||
-                                      transactionListItem.operationType ==
-                                          OperationType.giftSend)
+                              decimal: (transactionListItem.operationType == OperationType.withdraw ||
+                                      transactionListItem.operationType == OperationType.ibanSend ||
+                                      transactionListItem.operationType == OperationType.sendGlobally ||
+                                      transactionListItem.operationType == OperationType.transferByPhone ||
+                                      transactionListItem.operationType == OperationType.giftSend)
                                   ? transactionListItem.balanceChange.abs()
                                   : transactionListItem.balanceChange,
                               accuracy: currency.accuracy,
@@ -149,13 +144,8 @@ class TransactionListItem extends StatelessObserverWidget {
                         fontSize: 18.0,
                         fontFamily: 'Gilroy',
                         fontWeight: FontWeight.w600,
-                        color: transactionListItem.status == Status.declined
-                            ? colors.grey1
-                            : colors.black,
-                        decoration:
-                            transactionListItem.status == Status.declined
-                                ? TextDecoration.lineThrough
-                                : null,
+                        color: transactionListItem.status == Status.declined ? colors.grey1 : colors.black,
+                        decoration: transactionListItem.status == Status.declined ? TextDecoration.lineThrough : null,
                       ),
                     ),
                   ),
@@ -185,8 +175,7 @@ class TransactionListItem extends StatelessObserverWidget {
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                      OperationType.buy) ...[
+                  if (transactionListItem.operationType == OperationType.buy) ...[
                     TransactionListItemText(
                       text: '${intl.withText} ${volumeFormat(
                         decimal: transactionListItem.swapInfo!.sellAmount,
@@ -200,8 +189,7 @@ class TransactionListItem extends StatelessObserverWidget {
                     ),
                     const SpaceW5(),
                   ],
-                  if (transactionListItem.operationType ==
-                      OperationType.simplexBuy)
+                  if (transactionListItem.operationType == OperationType.simplexBuy)
                     TransactionListItemText(
                       text: '${intl.withText} '
                           '${volumeFormat(
@@ -211,35 +199,27 @@ class TransactionListItem extends StatelessObserverWidget {
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                      OperationType.recurringBuy)
+                  if (transactionListItem.operationType == OperationType.recurringBuy)
                     TransactionListItemText(
                       text: '${intl.withText} ${volumeFormat(
-                        decimal:
-                            transactionListItem.recurringBuyInfo!.sellAmount,
+                        decimal: transactionListItem.recurringBuyInfo!.sellAmount,
                         accuracy: currency.accuracy,
-                        symbol:
-                            transactionListItem.recurringBuyInfo!.sellAssetId!,
+                        symbol: transactionListItem.recurringBuyInfo!.sellAssetId!,
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.operationType ==
-                          OperationType.earningDeposit &&
-                      transactionListItem.earnInfo?.totalBalance ==
-                          transactionListItem.balanceChange.abs())
+                  if (transactionListItem.operationType == OperationType.earningDeposit &&
+                      transactionListItem.earnInfo?.totalBalance == transactionListItem.balanceChange.abs())
                     TransactionListItemText(
                       text: ' ${volumeFormat(
-                        decimal: transactionListItem.earnInfo!.totalBalance *
-                            currency.currentPrice,
+                        decimal: transactionListItem.earnInfo!.totalBalance * currency.currentPrice,
                         accuracy: baseCurrency.accuracy,
                         symbol: baseCurrency.symbol,
                       )}',
                       color: colors.grey2,
                     ),
-                  if (transactionListItem.status == Status.inProgress)
-                    const SimpleLoader(),
-                  if (transactionListItem.status == Status.completed)
-                    const SHistoryCompletedIcon(),
+                  if (transactionListItem.status == Status.inProgress) const SimpleLoader(),
+                  if (transactionListItem.status == Status.completed) const SHistoryCompletedIcon(),
                   if (transactionListItem.status == Status.declined)
                     SHistoryDeclinedIcon(
                       color: colors.grey2,

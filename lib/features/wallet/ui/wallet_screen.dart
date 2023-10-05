@@ -9,6 +9,7 @@ import 'package:jetwallet/utils/helpers/contains_single_element.dart';
 import 'package:jetwallet/utils/helpers/currencies_with_balance_from.dart';
 import 'package:jetwallet/utils/helpers/non_indices_with_balance_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -33,6 +34,10 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
   @override
   void initState() {
     super.initState();
+
+    sAnalytics.cryptoFavouriteWalletScreen(
+      openedAsset: widget.currency.symbol,
+    );
 
     final itemsWithBalance = nonIndicesWithBalanceFrom(
       currenciesWithBalanceFrom(
@@ -94,6 +99,9 @@ class _WalletState extends State<Wallet> with AutomaticKeepAliveClientMixin, Tic
                 } else {
                   currentAsset = currenciesWithBalance[page];
                   currentPage = page;
+                  sAnalytics.cryptoFavouriteWalletScreen(
+                    openedAsset: currenciesWithBalance[page].symbol,
+                  );
                 }
               },
               children: [

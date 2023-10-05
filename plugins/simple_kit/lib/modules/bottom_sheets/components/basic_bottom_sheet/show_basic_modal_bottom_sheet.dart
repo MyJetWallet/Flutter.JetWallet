@@ -54,5 +54,7 @@ void sShowBasicModalBottomSheet({
         children: children,
       );
     },
-  ).then((value) => then?.call(value));
+  ).then((value) {
+    then?.call(value);
+  });
 }

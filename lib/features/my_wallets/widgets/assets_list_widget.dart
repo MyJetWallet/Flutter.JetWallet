@@ -115,7 +115,7 @@ class _AssetsListWidgetState extends State<AssetsListWidget> {
                 currency: store.currencies[index],
               ),
             ),
-            if (store.currencies[index].symbol == 'EUR')
+            if (!store.isReordering && store.currencies[index].symbol == 'EUR')
               GetAccountButton(
                 store: store,
               ),

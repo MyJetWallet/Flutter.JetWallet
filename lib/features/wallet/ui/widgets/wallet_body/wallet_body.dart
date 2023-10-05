@@ -46,6 +46,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
   final ScrollController _scrollController = ScrollController();
 
   bool silverCollapsed = false;
+  bool _scrollingHasAlreadyOccurred = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +59,18 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
 
     return Material(
       color: colors.white,
-      child: NotificationListener<ScrollEndNotification>(
-        onNotification: (notification) {
-          _snapAppbar();
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (scrollNotification is ScrollStartNotification) {
+            if (!_scrollingHasAlreadyOccurred) {
+              _scrollingHasAlreadyOccurred = true;
+              sAnalytics.swipeHistoryListOnCryptoFavouriteWalletScreen(
+                openedAsset: widget.currency.symbol,
+              );
+            }
+          } else if (scrollNotification is ScrollEndNotification) {
+            _snapAppbar();
+          }
 
           return false;
         },
@@ -276,6 +286,11 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                   TransactionsList(
                     scrollController: _scrollController,
                     symbol: widget.currency.symbol,
+                    onItemTapLisener: (symbol) {
+                      sAnalytics.tapOnTheButtonAnyHistoryTrxOnCryptoFavouriteWalletScreen(
+                        openedAsset: symbol,
+                      );
+                    },
                   ),
                 ] else ...[
                   SliverToBoxAdapter(

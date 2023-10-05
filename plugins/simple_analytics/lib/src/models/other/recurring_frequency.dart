@@ -30,8 +30,7 @@ enum AnalyticsSendMethods {
   gift,
 }
 
-extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension
-    on AnalyticsSendMethods {
+extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension on AnalyticsSendMethods {
   int get code {
     switch (this) {
       case AnalyticsSendMethods.cryptoWallet:
@@ -42,6 +41,22 @@ extension AnalyticsSendMethodsAnalyticsSendMethodsCodesExtension
         return 2;
       case AnalyticsSendMethods.gift:
         return 3;
+    }
+  }
+}
+
+enum GlobalHistoryTab {
+  all,
+  pending,
+}
+
+extension GlobalHistoryTabName on GlobalHistoryTab {
+  String get name {
+    switch (this) {
+      case GlobalHistoryTab.all:
+        return 'All';
+      case GlobalHistoryTab.pending:
+        return 'Pending';
     }
   }
 }

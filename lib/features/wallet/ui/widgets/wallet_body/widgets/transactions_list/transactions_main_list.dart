@@ -10,6 +10,7 @@ import 'package:jetwallet/features/market/market_details/store/operation_history
 import 'package:jetwallet/features/wallet/ui/widgets/wallet_body/widgets/transactions_list_item/transaction_list_item.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/wallet_api/models/operation_history/operation_history_response_model.dart';
 
@@ -41,8 +42,7 @@ class TransactionsMainList extends StatefulWidget {
   State<TransactionsMainList> createState() => _TransactionsMainListState();
 }
 
-class _TransactionsMainListState extends State<TransactionsMainList>
-    with AutomaticKeepAliveClientMixin {
+class _TransactionsMainListState extends State<TransactionsMainList> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -90,16 +90,10 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   @override
   void initState() {
     OperationHistory.of(context).scrollController.addListener(() {
-      final nextPageTrigger = 0.8 *
-          OperationHistory.of(context)
-              .scrollController
-              .position
-              .maxScrollExtent;
+      final nextPageTrigger = 0.8 * OperationHistory.of(context).scrollController.position.maxScrollExtent;
 
-      if (OperationHistory.of(context).scrollController.position.pixels >
-          nextPageTrigger) {
-        if (OperationHistory.of(context).union ==
-                const OperationHistoryUnion.loaded() &&
+      if (OperationHistory.of(context).scrollController.position.pixels > nextPageTrigger) {
+        if (OperationHistory.of(context).union == const OperationHistoryUnion.loaded() &&
             !OperationHistory.of(context).nothingToLoad) {
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
@@ -111,8 +105,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
         milliseconds: 1000,
       ),
       () {
-        if (!OperationHistory.of(context).nothingToLoad &&
-            OperationHistory.of(context).listToShow.length < 20) {
+        if (!OperationHistory.of(context).nothingToLoad && OperationHistory.of(context).listToShow.length < 20) {
           OperationHistory.of(context).operationHistory(widget.symbol);
         }
       },
@@ -121,6 +114,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   static const double _indicatorSize = 75;
+  bool _scrollingHasAlreadyOccurred = false;
 
   @override
   Widget build(BuildContext context) {
@@ -197,8 +191,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                     AnimatedBuilder(
                       builder: (context, _) {
                         return Transform.translate(
-                          offset:
-                              Offset(0.0, controller.value * _indicatorSize),
+                          offset: Offset(0.0, controller.value * _indicatorSize),
                           child: child,
                         );
                       },
@@ -207,44 +200,63 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
                   ],
                 );
               },
-              child: GroupedListView<OperationHistoryItem, String>(
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: OperationHistory.of(context).scrollController,
-                elements: store.listToShow,
-                groupBy: (transaction) {
-                  return formatDate(transaction.timeStamp);
+              child: NotificationListener<ScrollStartNotification>(
+                onNotification: (scrollNotification) {
+                  if (!_scrollingHasAlreadyOccurred) {
+                    _scrollingHasAlreadyOccurred = true;
+                    sAnalytics.swipeHistoryListOnGlobalTransactionHistoryScreen(
+                      globalHistoryTab:
+                          OperationHistory.of(context).pendingOnly ? GlobalHistoryTab.pending : GlobalHistoryTab.all,
+                    );
+                  }
+
+                  return false;
                 },
-                sort: false,
-                groupSeparatorBuilder: (String date) {
-                  return TransactionMonthSeparator(text: date);
-                },
-                padding: EdgeInsets.zero,
-                itemBuilder: (context, transaction) {
-                  return Column(
-                    children: [
-                      TransactionListItem(
-                        transactionListItem: transaction,
-                      ),
-                      if (store.isLoading &&
-                          store.listToShow.indexOf(transaction) ==
-                              store.listToShow.length - 1) ...[
-                        const SpaceH16(),
-                        Container(
-                          width: 24.0,
-                          height: 24.0,
-                          decoration: BoxDecoration(
-                            color: colors.grey5,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const RiveAnimation.asset(
-                            loadingAnimationAsset,
-                          ),
+                child: GroupedListView<OperationHistoryItem, String>(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: OperationHistory.of(context).scrollController,
+                  elements: store.listToShow,
+                  groupBy: (transaction) {
+                    return formatDate(transaction.timeStamp);
+                  },
+                  sort: false,
+                  groupSeparatorBuilder: (String date) {
+                    return TransactionMonthSeparator(text: date);
+                  },
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, transaction) {
+                    return Column(
+                      children: [
+                        TransactionListItem(
+                          transactionListItem: transaction,
+                          onItemTapLisener: (_) {
+                            sAnalytics.tapOnTheButtonAnyHistoryTrxOnGlobalTransactionHistoryScreen(
+                              globalHistoryTab: OperationHistory.of(context).pendingOnly
+                                  ? GlobalHistoryTab.pending
+                                  : GlobalHistoryTab.all,
+                            );
+                          },
                         ),
-                        const SpaceH24(),
+                        if (store.isLoading &&
+                            store.listToShow.indexOf(transaction) == store.listToShow.length - 1) ...[
+                          const SpaceH16(),
+                          Container(
+                            width: 24.0,
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              color: colors.grey5,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const RiveAnimation.asset(
+                              loadingAnimationAsset,
+                            ),
+                          ),
+                          const SpaceH24(),
+                        ],
                       ],
-                    ],
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
       /*child: store.union.when(
@@ -520,8 +532,7 @@ class _TransactionsListBodyState extends State<_TransactionsListBody> {
   }
 
   bool _addBottomPadding() {
-    return (OperationHistory.of(context).union !=
-            const OperationHistoryUnion.error()) &&
+    return (OperationHistory.of(context).union != const OperationHistoryUnion.error()) &&
         !OperationHistory.of(context).nothingToLoad;
   }
 
