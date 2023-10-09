@@ -30,8 +30,7 @@ part 'amount_store.g.dart';
 class BuyAmountStore extends _BuyAmountStoreBase with _$BuyAmountStore {
   BuyAmountStore() : super();
 
-  static BuyAmountStore of(BuildContext context) =>
-      Provider.of<BuyAmountStore>(context, listen: false);
+  static BuyAmountStore of(BuildContext context) => Provider.of<BuyAmountStore>(context, listen: false);
 }
 
 abstract class _BuyAmountStoreBase with Store {
@@ -41,7 +40,7 @@ abstract class _BuyAmountStoreBase with Store {
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
-        assetSymbol: currency?.asset ?? 'BTC',
+        assetSymbol: asset?.symbol ?? 'BTC',
       );
 
   @observable
@@ -71,53 +70,29 @@ abstract class _BuyAmountStoreBase with Store {
   InputError inputError = InputError.none;
 
   @observable
-  String preset1Name = '';
-  @observable
-  String preset2Name = '';
-  @observable
-  String preset3Name = '';
-
-  @observable
-  SKeyboardPreset? selectedPreset;
-  @observable
-  String? tappedPreset;
-  @observable
   bool inputValid = false;
 
-  @observable
-  PaymentAsset? selectedPaymentAsset;
-
   CurrencyModel? asset;
-  PaymentAsset? currency;
   BuyMethodDto? method;
   CircleCard? card;
 
   @action
   void init(
     CurrencyModel inputAsset,
-    PaymentAsset inputCurrency,
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
     bool showUaAlert,
   ) {
     asset = inputAsset;
-    currency = inputCurrency;
     method = inputMethod;
     card = inputCard;
 
-    category =
-        card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
-
-    updateLimitModel(inputCurrency);
-    initPreset();
+    category = PaymentMethodCategory.cards;
 
     loadConversionPrice(
-      inputCurrency.asset,
+      inputCard?.cardAssetSymbol ?? '',
       inputAsset.symbol,
     );
-
-    selectedPaymentAsset = method!.paymentAssets!
-        .firstWhere((element) => element.asset == currency?.asset);
 
     Timer(
       const Duration(milliseconds: 500),
@@ -145,9 +120,7 @@ abstract class _BuyAmountStoreBase with Store {
     sAnalytics.newBuyBuyAssetView(
       asset: asset?.symbol ?? '',
       paymentMethodType: category.name,
-      paymentMethodName: category == PaymentMethodCategory.cards
-          ? 'card'
-          : inputMethod!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : inputMethod!.id.name,
       paymentMethodCurrency: buyCurrency.symbol,
     );
   }
@@ -183,9 +156,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   String get inputErrorValue {
-    return paymentMethodInputError != null
-        ? paymentMethodInputError!
-        : inputError.value();
+    return paymentMethodInputError != null ? paymentMethodInputError! : inputError.value();
   }
 
   @computed
@@ -195,7 +166,7 @@ abstract class _BuyAmountStoreBase with Store {
 
   @computed
   int get selectedCurrencyAccuracy {
-    return currency == null ? baseCurrency.accuracy : buyCurrency.accuracy;
+    return asset == null ? baseCurrency.accuracy : buyCurrency.accuracy;
   }
 
   @computed
@@ -220,30 +191,19 @@ abstract class _BuyAmountStoreBase with Store {
     if (asset.limits != null) {
       var finalInterval = StateBarType.day1;
       var finalProgress = 0;
-      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
-      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
-      var monthState = asset.limits!.monthValue == asset.limits!.monthLimit
-          ? StateLimitType.block
-          : StateLimitType.active;
+      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit ? StateLimitType.block : StateLimitType.active;
+      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit ? StateLimitType.block : StateLimitType.active;
+      var monthState =
+          asset.limits!.monthValue == asset.limits!.monthLimit ? StateLimitType.block : StateLimitType.active;
       if (monthState == StateLimitType.block) {
         finalProgress = 100;
         finalInterval = StateBarType.day30;
-        weekState = weekState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
-        dayState = dayState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
+        weekState = weekState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
+        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
       } else if (weekState == StateLimitType.block) {
         finalProgress = 100;
         finalInterval = StateBarType.day7;
-        dayState = dayState == StateLimitType.block
-            ? StateLimitType.block
-            : StateLimitType.none;
+        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
         monthState = StateLimitType.none;
       } else if (dayState == StateLimitType.block) {
         finalProgress = 100;
@@ -305,51 +265,10 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
-  Future<void> initPreset() async {
-    final presets = method!.paymentAssets!
-        .firstWhere((element) => element.asset == currency?.asset)
-        .presets!;
-
-    preset1Name = formatPreset(presets.amount1 ?? Decimal.zero);
-    preset2Name = formatPreset(presets.amount2 ?? Decimal.zero);
-    preset3Name = formatPreset(presets.amount3 ?? Decimal.zero);
-  }
-
-  String getPresetName() {
-    if (selectedPreset == SKeyboardPreset.preset1) {
-      return preset1Name;
-    } else if (selectedPreset == SKeyboardPreset.preset2) {
-      return preset2Name;
-    } else if (selectedPreset == SKeyboardPreset.preset3) {
-      return preset3Name;
-    } else {
-      return 'false';
-    }
-  }
-
-  String formatPreset(Decimal amount) {
-    return amount >= Decimal.fromInt(10000)
-        ? '${amount / Decimal.fromInt(1000)}k'
-        : amount.toString();
-  }
-
-  @action
-  void tapPreset(String presetName) {
-    tappedPreset = presetName;
-  }
-
-  @action
-  void setSelectedPreset(SKeyboardPreset preset) {
-    selectedPreset = preset;
-  }
-
-  @action
   void selectFixedSum(SKeyboardPreset preset) {
     late String value;
 
-    final presets = method!.paymentAssets!
-        .firstWhere((element) => element.asset == currency?.asset)
-        .presets!;
+    final presets = method!.paymentAssets!.firstWhere((element) => element.asset == asset?.symbol).presets!;
 
     if (preset == SKeyboardPreset.preset1) {
       value = presets.amount1!.toString();
@@ -376,7 +295,6 @@ abstract class _BuyAmountStoreBase with Store {
     _validateInput();
     _calculateTargetConversion();
     _calculateBaseConversion();
-    _clearPercent();
   }
 
   @action
@@ -431,15 +349,10 @@ abstract class _BuyAmountStoreBase with Store {
 
         return;
       }
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.info,
-            place: 'Buy Amount Store',
-            message: selectedPaymentAsset.toString(),
-          );
-
+     
       final value = double.parse(inputValue);
-      final min = double.parse('${selectedPaymentAsset?.minAmount ?? 0}');
-      var max = double.parse('${selectedPaymentAsset?.maxAmount ?? 0}');
+      final min = double.parse('${asset?.minTradeAmount ?? 0}');
+      var max = double.parse('${asset?.maxTradeAmount ?? 0}');
 
       if (category == PaymentMethodCategory.cards) {
         double? limitMax = max;
@@ -448,10 +361,8 @@ abstract class _BuyAmountStoreBase with Store {
           limitMax = limitByAsset!.barInterval == StateBarType.day1
               ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
               : limitByAsset!.barInterval == StateBarType.day7
-                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount)
-                      .toDouble()
-                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount)
-                      .toDouble();
+                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
         }
 
         max = limitMax < max ? limitMax : max;
@@ -508,17 +419,10 @@ abstract class _BuyAmountStoreBase with Store {
         errorCode: error,
         asset: asset?.symbol ?? '',
         paymentMethodType: category.name,
-        paymentMethodName:
-            category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
         paymentMethodCurrency: buyCurrency.symbol,
       );
     }
     paymentMethodInputError = error;
-  }
-
-  @action
-  void _clearPercent() {
-    tappedPreset = null;
-    selectedPreset = null;
   }
 }

@@ -5,7 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
@@ -40,7 +40,7 @@ class ChooseAssetScreen extends StatelessWidget {
       loaderText: intl.loader_please_wait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: intl.actionBuy_chooseAsset,
+          title: 'Buy',
           onBackButtonTap: () => Navigator.pop(context),
         ),
       ),
@@ -99,7 +99,7 @@ class _ActionBuy extends StatelessObserverWidget {
     sortByBalanceAndWeight(state.fCurrencies);
 
     void onItemTap(CurrencyModel currency, bool fromCard) {
-      showBuyPaymentCurrencyBottomSheet(context, currency);
+      showPayWithBottomSheet(context, currency);
     }
 
     return Column(

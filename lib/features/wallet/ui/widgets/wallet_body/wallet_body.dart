@@ -3,8 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
-import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/iban/store/iban_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
@@ -147,7 +147,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                             showSendTimerAlertOr(
                               context: context,
-                              or: () => showBuyPaymentCurrencyBottomSheet(
+                              or: () => showPayWithBottomSheet(
                                 context,
                                 actualAsset,
                               ),
@@ -161,7 +161,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                               currentNavigate: () {
                                 showSendTimerAlertOr(
                                   context: context,
-                                  or: () => showBuyPaymentCurrencyBottomSheet(
+                                  or: () => showPayWithBottomSheet(
                                     context,
                                     actualAsset,
                                   ),

@@ -4,12 +4,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/countries_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/actions/store/action_search_store.dart';
 import 'package:jetwallet/features/buy_flow/store/payment_method_store.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:jetwallet/widgets/action_bottom_sheet_header.dart';
 import 'package:simple_analytics/simple_analytics.dart';
@@ -26,8 +26,7 @@ void showBuyPaymentCurrencyBottomSheet(
   final baseCurrency = sSignalRModules.baseCurrency;
 
   bool checkIsCurrencyAlreadyAdd(String asset) {
-    final ind =
-        availableCurrency.indexWhere((element) => element.asset == asset);
+    final ind = availableCurrency.indexWhere((element) => element.asset == asset);
 
     return ind != -1;
   }
@@ -37,12 +36,10 @@ void showBuyPaymentCurrencyBottomSheet(
       if (!checkIsCurrencyAlreadyAdd(
         currency.buyMethods[i].paymentAssets![g].asset,
       )) {
-        final isLimitNotReach =
-            currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
+        final isLimitNotReach = currency.buyMethods[i].paymentAssets![g].maxAmount != Decimal.zero;
 
         if (currency.buyMethods[i].category == PaymentMethodCategory.cards) {
-          if (!isCardReachLimit(currency.buyMethods[i].paymentAssets![g]) &&
-              isLimitNotReach) {
+          if (!isCardReachLimit(currency.buyMethods[i].paymentAssets![g]) && isLimitNotReach) {
             availableCurrency.add(currency.buyMethods[i].paymentAssets![g]);
           }
         } else {
@@ -117,8 +114,7 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
       itemBuilder: (context, index) {
         final curr = getIt.get<FormatService>().findCurrency(
               findInHideTerminalList: true,
-              assetSymbol:
-                  searchStore.filtredNewBuyPaymentCurrency[index].asset,
+              assetSymbol: searchStore.filtredNewBuyPaymentCurrency[index].asset,
             );
 
         return SCardRow(
@@ -144,12 +140,7 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
           spaceBIandText: 10,
           height: 69,
           onTap: () {
-            sRouter.push(
-              BuyPaymentMethodRoute(
-                asset: asset,
-                currency: searchStore.filtredNewBuyPaymentCurrency[index],
-              ),
-            );
+            showPayWithBottomSheet(context, asset);
           },
           needSpacer: true,
           rightIcon: Text(

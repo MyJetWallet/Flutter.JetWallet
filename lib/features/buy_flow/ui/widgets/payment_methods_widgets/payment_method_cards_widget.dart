@@ -25,12 +25,10 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
     super.key,
     required this.title,
     required this.asset,
-    required this.currency,
   });
 
   final String title;
   final CurrencyModel asset;
-  final PaymentAsset currency;
 
   void onAddCardTap(BuildContext context) {
     Navigator.push(
@@ -43,14 +41,13 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
             onCardAdded: () {},
             amount: '',
             isPreview: true,
-            currency: currency,
             asset: asset,
-            method: BuyMethodDto(
+            method: const BuyMethodDto(
               id: PaymentMethodType.bankCard,
               termsAccepted: true,
               category: PaymentMethodCategory.cards,
-              paymentAssets: [currency],
             ),
+            divideDateAndLabel: true,
           );
         },
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -58,8 +55,7 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
           const end = Offset.zero;
           const curve = Curves.ease;
 
-          final tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
           return SlideTransition(
             position: animation.drive(tween),
@@ -77,7 +73,10 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
     return Column(
       children: [
         const SizedBox(height: 8),
-        MarketSeparator(text: title),
+        MarketSeparator(
+          text: title,
+          isNeedDivider: false,
+        ),
         const SpaceH16(),
         ResponsiveGridList(
           horizontalGridSpacing: 12,
@@ -115,7 +114,6 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                     sRouter.push(
                       BuyAmountRoute(
                         asset: asset,
-                        currency: currency,
                         method: store.getCardBuyMethod(),
                         card: e,
                       ),

@@ -29,6 +29,7 @@ export 'modules/actions/simple_action_confirm_description.dart';
 export 'modules/actions/simple_action_confirm_icon_with_animation.dart';
 export 'modules/actions/simple_action_confirm_text.dart';
 export 'modules/actions/simple_action_price_field.dart';
+export 'modules/actions/simple_new_action_price_field.dart';
 export 'modules/actions/simple_high_yield_percentage_description.dart';
 export 'modules/actions/simple_payment_select_asset.dart';
 export 'modules/actions/simple_payment_select_contact.dart';

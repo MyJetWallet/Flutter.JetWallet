@@ -10,17 +10,15 @@ import 'package:jetwallet/features/buy_flow/store/amount_store.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
-import 'package:jetwallet/features/withdrawal/send_card_detail/widgets/payment_method_card.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/capitalize_text.dart';
-import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -29,19 +27,19 @@ class BuyAmountScreen extends StatelessWidget {
   const BuyAmountScreen({
     super.key,
     required this.asset,
-    required this.currency,
     this.method,
     this.card,
     this.cardNumber,
     this.cardId,
+    this.account,
     this.showUaAlert = false,
   });
 
   final CurrencyModel asset;
-  final PaymentAsset currency;
 
   final BuyMethodDto? method;
   final CircleCard? card;
+  final SimpleBankingAccount? account;
 
   final String? cardNumber;
   final String? cardId;
@@ -51,11 +49,9 @@ class BuyAmountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<BuyAmountStore>(
-      create: (context) =>
-          BuyAmountStore()..init(asset, currency, method, card, showUaAlert),
+      create: (context) => BuyAmountStore()..init(asset, method, card, showUaAlert),
       builder: (context, child) => _BuyAmountScreenBody(
         asset: asset,
-        currency: currency,
         method: method,
         card: card,
       ),
@@ -63,20 +59,23 @@ class BuyAmountScreen extends StatelessWidget {
   }
 }
 
-class _BuyAmountScreenBody extends StatelessObserverWidget {
+class _BuyAmountScreenBody extends StatefulObserverWidget {
   const _BuyAmountScreenBody({
     required this.asset,
-    required this.currency,
     this.method,
     this.card,
   });
 
   final CurrencyModel asset;
-  final PaymentAsset currency;
 
   final BuyMethodDto? method;
   final CircleCard? card;
 
+  @override
+  State<_BuyAmountScreenBody> createState() => _BuyAmountScreenBodyState();
+}
+
+class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final store = BuyAmountStore.of(context);
@@ -136,42 +135,93 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
       loaderText: intl.register_pleaseWait,
       header: SPaddingH24(
         child: SSmallHeader(
-          title: '${intl.curencyBuy_buy} ${store.asset?.description}',
+          title: '',
           onBackButtonTap: () => sRouter.pop(),
         ),
       ),
       child: Column(
         children: [
-          deviceSize.when(
-            small: () => const SizedBox(),
-            medium: () => const Spacer(),
+          Row(
+            children: [
+              SPaddingH24(
+                child: Container(
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: colors.grey5,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: TabBar(
+                    controller: TabController(length: 3, vsync: this),
+                    indicator: BoxDecoration(
+                      color: colors.black,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    labelColor: colors.white,
+                    labelStyle: sSubtitle3Style,
+                    unselectedLabelColor: colors.grey1,
+                    unselectedLabelStyle: sSubtitle3Style,
+                    splashBorderRadius: BorderRadius.circular(16),
+                    isScrollable: true,
+                    tabs: const [
+                      Tab(
+                        text: 'Buy',
+                      ),
+                      Tab(
+                        text: 'Sell',
+                      ),
+                      Tab(
+                        text: 'Convert',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Baseline(
-              baseline: deviceSize.when(
-                small: () => 32,
-                medium: () => 31,
-              ),
-              baselineType: TextBaseline.alphabetic,
-              child: SActionPriceField(
-                widgetSize: widgetSizeFrom(deviceSize),
-                price: formatCurrencyStringAmount(
-                  value: store.inputValue,
-                  symbol: store.buyCurrency.symbol,
+          const SpaceH40(),
+          Row(
+            children: [
+              Baseline(
+                baseline: deviceSize.when(
+                  small: () => 32,
+                  medium: () => 31,
                 ),
-                helper: formatCurrencyStringAmount(
-                  value: store.targetConversionValue,
-                  symbol: asset.symbol,
+                baselineType: TextBaseline.alphabetic,
+                child: SNewActionPriceField(
+                  widgetSize: widgetSizeFrom(deviceSize),
+                  price: formatCurrencyStringAmount(
+                    value: store.inputValue,
+                    symbol: store.buyCurrency.symbol,
+                  ),
+                  helper: formatCurrencyStringAmount(
+                    value: store.targetConversionValue,
+                    symbol: widget.asset.symbol,
+                  ),
+                  error: store.inputErrorValue,
+                  isErrorActive: store.isInputErrorActive,
                 ),
-                error: store.inputErrorValue,
-                isErrorActive: store.isInputErrorActive,
               ),
-            ),
+              const Spacer(),
+              SIconButton(
+                onTap: () {},
+                defaultIcon: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: colors.grey5,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  margin: const EdgeInsets.only(right: 27),
+                  child: Icon(
+                    Icons.swap_vert,
+                    color: colors.black,
+                  ),
+                ),
+              ),
+            ],
           ),
           const Spacer(),
-          if (kycState.withdrawalStatus !=
-              kycOperationStatus(KycStatus.allowed)) ...[
+          if (kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed)) ...[
             GestureDetector(
               onTap: () {
                 sShowAlertPopup(
@@ -216,116 +266,34 @@ class _BuyAmountScreenBody extends StatelessObserverWidget {
             small: () => const SpaceH8(),
             medium: () => const SpaceH16(),
           ),
-          if (store.category == PaymentMethodCategory.cards) ...[
-            SPaymentSelectCreditCard(
-              widgetSize: widgetSizeFrom(deviceSize),
-              icon: getNetworkIcon(store.card?.network),
-              name: store.card?.cardLabel ?? '',
-              description: limitText,
-              limit: store.isLimitBlock
-                  ? 100
-                  : store.limitByAsset?.barProgress ?? 0,
-            ),
-          ],
-          if (store.category != PaymentMethodCategory.cards) ...[
-            SPaddingH24(
-              child: InkWell(
-                onTap: () {},
-                highlightColor: sKit.colors.grey4,
-                splashColor: Colors.transparent,
-                borderRadius: BorderRadius.circular(16.0),
-                child: Ink(
-                  height: 88,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(
-                      color: colors.grey4,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          const SpaceW19(),
-                          SNetworkCachedSvg(
-                            url: iconForPaymentMethod(
-                              methodId: store.method?.id.name ?? '',
-                            ),
-                            width: 40,
-                            height: 40,
-                            placeholder: MethodPlaceholder(
-                              name: store.method?.name ??
-                                  capitalizeText(
-                                    store.method?.id.name ?? '  ',
-                                  ),
-                            ),
-                          ),
-                          const SpaceW12(),
-                          Flexible(
-                            child: Baseline(
-                              baseline: 18,
-                              baselineType: TextBaseline.alphabetic,
-                              child: Text(
-                                store.method?.name ??
-                                    capitalizeText(
-                                      store.method?.id.name ?? '  ',
-                                    ),
-                                overflow: TextOverflow.ellipsis,
-                                style: sSubtitle2Style,
-                              ),
-                            ),
-                          ),
-                          const SpaceW19(), // 1 px border
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+          BuyAssetWidget(
+            icon: store.asset?.iconUrl ?? '',
+          ),
+          const SpaceH8(),
+          const PayWithWidget(),
           const SpaceH20(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
-            showPresets: store.preset1Name != '0' &&
-                store.preset2Name != '0' &&
-                store.preset3Name != '0',
-            preset1Name: store.preset1Name,
-            preset2Name: store.preset2Name,
-            preset3Name: store.preset3Name,
-            selectedPreset: store.selectedPreset,
-            onPresetChanged: (preset) {
-              store.setSelectedPreset(preset);
-
-              store.tapPreset(
-                preset.index == 0
-                    ? store.preset1Name
-                    : preset.index == 1
-                        ? store.preset2Name
-                        : store.preset3Name,
-              );
-
-              store.selectFixedSum(preset);
-            },
+            showPresets: false,
+            preset1Name: '',
+            preset2Name: '',
+            preset3Name: '',
+            selectedPreset: null,
+            onPresetChanged: (preset) {},
             onKeyPressed: (value) {
               store.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.inputValid &&
-                !store.disableSubmit &&
-                !(double.parse(store.inputValue) == 0.0) &&
-                store.limitByAsset!.barProgress != 100,
+            submitButtonActive: store.inputValid && !store.disableSubmit && !(double.parse(store.inputValue) == 0.0),
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               sRouter.push(
                 BuyConfirmationRoute(
-                  asset: asset,
+                  asset: widget.asset,
                   paymentCurrency: store.buyCurrency,
                   amount: store.inputValue,
-                  method: method,
-                  card: card,
-                  preset: store.getPresetName(),
+                  method: widget.method,
+                  card: widget.card,
                 ),
               );
             },
@@ -350,5 +318,165 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
       );
     default:
       return const SActionDepositIcon();
+  }
+}
+
+class BuyAssetWidget extends StatelessWidget {
+  const BuyAssetWidget({super.key, required this.icon});
+
+  final String icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    return Container(
+      width: double.infinity,
+      height: 56,
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
+      decoration: ShapeDecoration(
+        color: colors.grey5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SNetworkSvg24(
+            url: icon,
+          ),
+          const SpaceW8(),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Buy',
+                style: TextStyle(
+                  color: Color(0xFF777C85),
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                'Bitcoin',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          const Text(
+            '0.033 BTC',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              color: Color(0xFF777C85),
+              fontSize: 14,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SpaceW8(),
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: SBlueRightArrowIcon(
+              color: colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PayWithWidget extends StatelessWidget {
+  const PayWithWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    return Container(
+      width: double.infinity,
+      height: 56,
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
+      decoration: ShapeDecoration(
+        color: colors.grey5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: sKit.colors.blue,
+              shape: BoxShape.circle,
+            ),
+            child: SizedBox(
+              width: 16,
+              height: 16,
+              child: SBankMediumIcon(color: sKit.colors.white),
+            ),
+          ),
+          const SpaceW8(),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Pay with',
+                style: TextStyle(
+                  color: Color(0xFF777C85),
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                'Account 1',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Gilroy',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          const Text(
+            '1 545 EUR',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              color: Color(0xFF777C85),
+              fontSize: 14,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SpaceW8(),
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: SBlueRightArrowIcon(
+              color: colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

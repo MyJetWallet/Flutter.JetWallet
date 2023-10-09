@@ -4,9 +4,9 @@ import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/features/actions/action_buy/widgets/buy_payment_currency.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/send_options.dart';
 import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
 import 'package:jetwallet/features/kyc/kyc_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
@@ -50,14 +50,14 @@ class BalanceActionButtons extends StatelessObserverWidget {
                   onTap: () {
                     if (kycState.depositStatus ==
                         kycOperationStatus(KycStatus.allowed)) {
-                      showBuyPaymentCurrencyBottomSheet(context, currency);
+                      showPayWithBottomSheet(context, currency);
                     } else {
                       kycAlertHandler.handle(
                         status: kycState.depositStatus,
                         isProgress: kycState.verificationInProgress,
                         navigatePop: true,
                         currentNavigate: () {
-                          showBuyPaymentCurrencyBottomSheet(context, currency);
+                          showPayWithBottomSheet(context, currency);
                         },
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
@@ -86,7 +86,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
-                    showBuyPaymentCurrencyBottomSheet(context, currency);
+                    showPayWithBottomSheet(context, currency);
                   },
                   from: BlockingType.deposit,
                 );
@@ -99,7 +99,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     showSendTimerAlertOr(
                       context: context,
                       or: () {
-                        showBuyPaymentCurrencyBottomSheet(context, currency);
+                        showPayWithBottomSheet(context, currency);
                       },
                       from: BlockingType.deposit,
                     );
