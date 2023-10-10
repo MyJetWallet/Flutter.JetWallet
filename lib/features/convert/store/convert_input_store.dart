@@ -440,7 +440,7 @@ abstract class _ConvertInputStoreBase with Store {
   }) {
     final error = onTradeInputErrorHandler(
       fromAssetAmount,
-      _currentAsset!,
+      fromAsset!,
     );
 
     final value = Decimal.parse(fromAssetAmount);
@@ -448,20 +448,20 @@ abstract class _ConvertInputStoreBase with Store {
     if (_minLimit != null && _minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
         decimal: _minLimit!,
-        accuracy: _currentAsset?.accuracy ?? 0,
-        symbol: _currentAsset?.symbol ?? '',
+        accuracy: fromAsset?.accuracy ?? 0,
+        symbol: fromAsset?.symbol ?? '',
       )}';
     } else if (_maxLimit != null && _maxLimit! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
         decimal: _maxLimit!,
-        accuracy: _currentAsset?.accuracy ?? 1,
-        symbol: _currentAsset?.symbol ?? '',
+        accuracy: fromAsset?.accuracy ?? 1,
+        symbol: fromAsset?.symbol ?? '',
       )}';
     } else {
       limitError = '';
     }
 
-    final withAmmountInputError = double.parse(_currentAssetAmount) != 0
+    final withAmmountInputError = double.parse(fromAssetAmount) != 0
         ? error == InputError.none
             ? limitError.isEmpty
                 ? InputError.none
@@ -471,7 +471,7 @@ abstract class _ConvertInputStoreBase with Store {
 
     if (withAmmountInputError == InputError.none) {
       _convertValid(
-        isInputValid(_currentAssetAmount),
+        isInputValid(fromAssetAmount),
       );
     } else {
       _convertValid(false);
