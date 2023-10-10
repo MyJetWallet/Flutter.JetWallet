@@ -21,12 +21,10 @@ import 'package:simple_kit/simple_kit.dart';
 import '../../../core/l10n/i10n.dart';
 part 'convert_input_store.g.dart';
 
-class ConvertInputStore extends _ConvertInputStoreBase
-    with _$ConvertInputStore {
+class ConvertInputStore extends _ConvertInputStoreBase with _$ConvertInputStore {
   ConvertInputStore(super.fromCurrency);
 
-  static _ConvertInputStoreBase of(BuildContext context) =>
-      Provider.of<ConvertInputStore>(context, listen: false);
+  static _ConvertInputStoreBase of(BuildContext context) => Provider.of<ConvertInputStore>(context, listen: false);
 }
 
 abstract class _ConvertInputStoreBase with Store {
@@ -40,8 +38,7 @@ abstract class _ConvertInputStoreBase with Store {
     //s1.sort((a, b) => b.weight.compareTo(a.weight));
     sortByBalanceAndWeight(s1);
 
-    final to = (fromCurrency?.symbol == toList[1].symbol ||
-            tempCurrencies.first.symbol == toList[1].symbol)
+    final to = (fromCurrency?.symbol == toList[1].symbol || tempCurrencies.first.symbol == toList[1].symbol)
         ? toList[0]
         : s1[1];
     //    _currencies.first.symbol == toList[1].symbol)
@@ -106,8 +103,7 @@ abstract class _ConvertInputStoreBase with Store {
   CurrencyModel? get _currentAsset => fromAssetEnabled ? fromAsset : toAsset;
 
   @computed
-  String get _currentAssetAmount =>
-      fromAssetEnabled ? fromAssetAmount : toAssetAmount;
+  String get _currentAssetAmount => fromAssetEnabled ? fromAssetAmount : toAssetAmount;
 
   @observable
   List<CurrencyModel> fromAssetList = [];
@@ -116,12 +112,10 @@ abstract class _ConvertInputStoreBase with Store {
   List<CurrencyModel> toAssetList = [];
 
   @computed
-  Decimal? get _minLimit =>
-      fromAssetEnabled ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount;
+  Decimal? get _minLimit => fromAssetEnabled ? fromAsset?.minTradeAmount : toAsset?.minTradeAmount;
 
   @computed
-  Decimal? get _maxLimit =>
-      fromAssetEnabled ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount;
+  Decimal? get _maxLimit => fromAssetEnabled ? fromAsset?.maxTradeAmount : toAsset?.maxTradeAmount;
 
   @observable
   String limitError = '';
@@ -281,7 +275,7 @@ abstract class _ConvertInputStoreBase with Store {
       ),
     );
     _calculateConversion();
-    _validateInput();
+    //_validateInput();
     _clearPercent();
   }
 
