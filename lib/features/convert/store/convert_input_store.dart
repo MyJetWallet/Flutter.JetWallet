@@ -439,11 +439,11 @@ abstract class _ConvertInputStoreBase with Store {
     bool isFrom = false,
   }) {
     final error = onTradeInputErrorHandler(
-      _currentAssetAmount,
+      fromAssetAmount,
       _currentAsset!,
     );
 
-    final value = Decimal.parse(_currentAssetAmount);
+    final value = Decimal.parse(fromAssetAmount);
 
     if (_minLimit != null && _minLimit! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
@@ -483,6 +483,8 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!.symbol,
       toAsset!.symbol,
     );
+
+    print(convertValid);
   }
 
   @action
