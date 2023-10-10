@@ -21,7 +21,6 @@ class SBottomNavigationBar extends StatefulWidget {
     required this.accountText,
     required this.cardText,
     required this.rewardText,
-    required this.hideAccount,
     required this.showCard,
     required this.isCardRequested,
     this.rewardCount = 0,
@@ -30,7 +29,6 @@ class SBottomNavigationBar extends StatefulWidget {
   final int portfolioNotifications;
   final int selectedIndex;
   final bool cardNotifications;
-  final bool hideAccount;
   final bool showCard;
   final bool isCardRequested;
   final bool showReward;
@@ -107,29 +105,6 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                     ),
                   ),
                 ),
-                if (!widget.hideAccount) ...[
-                  const Spacer(),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 48) / 5,
-                    child: STransparentInkWell(
-                      onTap: () => widget.onChanged(2),
-                      child: Column(
-                        children: [
-                          const SpaceH11(),
-                          if (widget.selectedIndex == 2) const SAccountBarActiveIcon() else const SAccountBarIcon(),
-                          Text(
-                            widget.accountText,
-                            style: sBodyText2Style.copyWith(
-                              fontWeight: FontWeight.w600,
-                              height: 1.38,
-                              color: widget.selectedIndex == 2 ? SColorsLight().black : SColorsLight().grey3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
                 if (widget.showCard) ...[
                   const Spacer(),
                   Stack(
