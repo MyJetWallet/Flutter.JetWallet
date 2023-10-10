@@ -933,7 +933,7 @@
     "actionBuy_alertPopupSecond": "Możesz wykonać tylko jedną transakcję na kwotę do 700 USD (lub równowartość tej kwoty w innej walucie fiducjarnej). Wypłata lub dodanie większej ilości środków będzie wymagało wypełnienia KYC.",
     "portfolioWithBalanceBody_my_assets": "Moje aktywa",
     "balanceActionButtons_exchange": "Wymiana",
-    "bottom_bar_my_assets": "Moje aktywa",
+    "bottom_bar_my_assets": "Portfele",
     "bottom_bar_market": "Rynek",
     "actionBuy_chooseAsset": "Kupowanie aktywów",
     "actionBuy_cards": "Karty",

@@ -933,7 +933,7 @@
     "actionBuy_alertPopupSecond": "Puede realizar solo una transacción por hasta $700 (o el monto equivalente en otra moneda fiduciaria). Para retirar o agregar más fondos, necesita completar el proceso de KYC.",
     "portfolioWithBalanceBody_my_assets": "Mis activos",
     "balanceActionButtons_exchange": "Exchange",
-    "bottom_bar_my_assets": "Mis activos",
+    "bottom_bar_my_assets": "Carteras",
     "bottom_bar_market": "Mercado",
     "actionBuy_chooseAsset": "Comprar activo",
     "actionBuy_cards": "Tarjetas",
