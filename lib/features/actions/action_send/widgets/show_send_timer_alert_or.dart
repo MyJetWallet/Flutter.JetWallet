@@ -10,6 +10,8 @@ Duration getDurationFromBlocker(String timespanToExpire) {
   var hours = 0;
   var minutes = 0;
 
+  print(timespanToExpire);
+
   final parts = timespanToExpire.split('.');
 
   if (parts.asMap().containsKey(0)) {
@@ -17,7 +19,7 @@ Duration getDurationFromBlocker(String timespanToExpire) {
   }
 
   if (parts.asMap().containsKey(1)) {
-    final times = timespanToExpire.split(':');
+    final times = parts[1].split(':');
 
     if (times.asMap().containsKey(0)) {
       hours = int.tryParse(times[0]) ?? 0;
@@ -43,6 +45,7 @@ void showSendTimerAlertOr({
     final ind = clientDetail.clientBlockers.indexWhere(
       (element) => element.blockingType == from,
     );
+
     return ind != -1
         ? _showTimerAlert(
             context,

@@ -275,7 +275,7 @@ abstract class _ConvertInputStoreBase with Store {
       ),
     );
     _calculateConversion();
-    //_validateInput();
+    _validateInput(isFrom: true);
     _clearPercent();
   }
 
@@ -435,7 +435,9 @@ abstract class _ConvertInputStoreBase with Store {
   }
 
   @action
-  void _validateInput() {
+  void _validateInput({
+    bool isFrom = false,
+  }) {
     final error = onTradeInputErrorHandler(
       _currentAssetAmount,
       _currentAsset!,
