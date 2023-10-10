@@ -14,12 +14,23 @@ Duration getDurationFromBlocker(String timespanToExpire) {
 
   final parts = timespanToExpire.split('.');
 
-  if (parts.asMap().containsKey(0)) {
-    days = int.tryParse(parts[0]) ?? 0;
-  }
+  if (parts.length == 3) {
+    if (parts.asMap().containsKey(0)) {
+      days = int.tryParse(parts[0]) ?? 0;
+    }
 
-  if (parts.asMap().containsKey(1)) {
-    final times = parts[1].split(':');
+    if (parts.asMap().containsKey(1)) {
+      final times = parts[1].split(':');
+
+      if (times.asMap().containsKey(0)) {
+        hours = int.tryParse(times[0]) ?? 0;
+      }
+      if (times.asMap().containsKey(1)) {
+        minutes = int.tryParse(times[1]) ?? 0;
+      }
+    }
+  } else {
+    final times = timespanToExpire.split(':');
 
     if (times.asMap().containsKey(0)) {
       hours = int.tryParse(times[0]) ?? 0;
@@ -52,9 +63,7 @@ void showSendTimerAlertOr({
             clientDetail,
             clientDetail.clientBlockers[ind].expireDateTime ??
                 DateTime.now().add(
-                  getDurationFromBlocker(
-                    clientDetail.clientBlockers[ind].timespanToExpire,
-                  ),
+                  getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
                 ),
             from,
           )
