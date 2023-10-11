@@ -6,22 +6,41 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/client_detail_model.dart';
 
 Duration getDurationFromBlocker(String timespanToExpire) {
+  var days = 0;
   var hours = 0;
   var minutes = 0;
 
-  final times = timespanToExpire.split(':');
+  print(timespanToExpire);
 
-  if (times.asMap().containsKey(0)) {
-    hours = int.tryParse(times[0]) ?? 0;
-  }
-  if (times.asMap().containsKey(1)) {
-    minutes = int.tryParse(times[1]) ?? 0;
-  }
-  if (times.asMap().containsKey(2)) {
-    //seconds = int.tryParse(times[2]) ?? 0;
+  final parts = timespanToExpire.split('.');
+
+  if (parts.length == 3) {
+    if (parts.asMap().containsKey(0)) {
+      days = int.tryParse(parts[0]) ?? 0;
+    }
+
+    if (parts.asMap().containsKey(1)) {
+      final times = parts[1].split(':');
+
+      if (times.asMap().containsKey(0)) {
+        hours = int.tryParse(times[0]) ?? 0;
+      }
+      if (times.asMap().containsKey(1)) {
+        minutes = int.tryParse(times[1]) ?? 0;
+      }
+    }
+  } else {
+    final times = timespanToExpire.split(':');
+
+    if (times.asMap().containsKey(0)) {
+      hours = int.tryParse(times[0]) ?? 0;
+    }
+    if (times.asMap().containsKey(1)) {
+      minutes = int.tryParse(times[1]) ?? 0;
+    }
   }
 
-  return Duration(hours: hours, minutes: minutes);
+  return Duration(days: days, hours: hours, minutes: minutes);
 }
 
 void showSendTimerAlertOr({
@@ -44,9 +63,7 @@ void showSendTimerAlertOr({
             clientDetail,
             clientDetail.clientBlockers[ind].expireDateTime ??
                 DateTime.now().add(
-                  getDurationFromBlocker(
-                    clientDetail.clientBlockers[ind].timespanToExpire,
-                  ),
+                  getDurationFromBlocker(clientDetail.clientBlockers[ind].timespanToExpire),
                 ),
             from,
           )
@@ -86,8 +103,7 @@ void _showTimerAlert(
   DateTime expireIn,
   BlockingType from,
 ) {
-  final expireFormatted =
-      DateFormat('d MMM y HH:mm', intl.localeName).format(expireIn);
+  final expireFormatted = DateFormat('d MMM y HH:mm', intl.localeName).format(expireIn);
 
   String getDescription() {
     switch (from) {

@@ -325,17 +325,6 @@ class DeepLinkService {
   }
 
   Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
-    final context = sRouter.navigatorKey.currentContext;
-    if (context != null && context.mounted) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return Text('WORK');
-        },
-      );
-    }
-
-    return;
     try {
       final storage = sLocalStorageService;
       final deviceInfo = sDeviceInfo.model;

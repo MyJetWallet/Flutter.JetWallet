@@ -44,8 +44,7 @@ class ConvertBody extends StatelessObserverWidget {
     final store = ConvertInputStore.of(context);
 
     final fromAssetWithBalance = currenciesWithBalance(store.fromAssetList);
-    final fromAssetWithoutBalance =
-        currenciesWithoutBalance(store.fromAssetList);
+    final fromAssetWithoutBalance = currenciesWithoutBalance(store.fromAssetList);
 
     final toAssetWithBalance = currenciesWithBalance(store.toAssetList);
     final toAssetWithoutBalance = currenciesWithoutBalance(store.toAssetList);
@@ -118,7 +117,7 @@ class ConvertBody extends StatelessObserverWidget {
           ),
           ConvertRow(
             value: store.toAssetAmount,
-            inputError: store.inputError,
+            //inputError: store.inputError,
             enabled: store.toAssetEnabled,
             currency: store.toAsset!,
             assetWithBalance: toAssetWithBalance,
@@ -131,7 +130,7 @@ class ConvertBody extends StatelessObserverWidget {
                 store.updateToAsset(value!);
               }
             },
-            limitError: store.limitError,
+            //limitError: store.limitError,
           ),
           deviceSize.when(
             small: () => const SizedBox(),
