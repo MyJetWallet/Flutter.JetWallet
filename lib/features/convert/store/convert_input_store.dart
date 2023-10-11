@@ -445,15 +445,15 @@ abstract class _ConvertInputStoreBase with Store {
 
     final value = Decimal.parse(fromAssetAmount);
 
-    if (_minLimit != null && _minLimit! > value) {
+    if (fromAsset?.minTradeAmount != null && fromAsset!.minTradeAmount! > value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: _minLimit!,
+        decimal: fromAsset!.minTradeAmount!,
         accuracy: fromAsset?.accuracy ?? 0,
         symbol: fromAsset?.symbol ?? '',
       )}';
-    } else if (_maxLimit != null && _maxLimit! < value) {
+    } else if (fromAsset?.maxTradeAmount != null && fromAsset!.maxTradeAmount! < value) {
       limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: _maxLimit!,
+        decimal: fromAsset!.maxTradeAmount!,
         accuracy: fromAsset?.accuracy ?? 1,
         symbol: fromAsset?.symbol ?? '',
       )}';
