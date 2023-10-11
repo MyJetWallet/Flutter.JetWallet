@@ -57,17 +57,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
     final kycAlertHandler = getIt.get<KycAlertHandler>();
 
     final expendPercentage = (shrinkOffset.clamp(min, max) - min) / (max - min);
-    final viewedRewards = sSignalRModules.keyValue.viewedRewards?.value ?? <String>[];
-    var counterOfRewards = 0;
-    final rewStore = RewardStore();
-    for (final campaign in rewStore.sortedCampaigns) {
-      if (campaign.campaign != null && !viewedRewards.contains(campaign.campaign!.campaignId)) {
-        counterOfRewards++;
-      }
-    }
-    if (!viewedRewards.contains('referral')) {
-      counterOfRewards++;
-    }
 
     final interpolatedTextStyle = TextStyle.lerp(
       sTextH1Style,
@@ -124,18 +113,6 @@ class PortfolioSliverAppBar extends StatelessObserverWidget {
               ],
             ),
             const Spacer(),
-            SizedBox(
-              width: 56.0,
-              height: 56.0,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  NotificationBox(
-                    notifications: counterOfRewards,
-                  ),
-                ],
-              ),
-            ),
             SizedBox(
               width: 56.0,
               height: 56.0,
