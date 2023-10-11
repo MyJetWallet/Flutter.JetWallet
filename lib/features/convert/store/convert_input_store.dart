@@ -443,41 +443,43 @@ abstract class _ConvertInputStoreBase with Store {
       fromAsset!,
     );
 
-    final value = Decimal.parse(fromAssetAmount);
+    if (fromAssetAmount.isNotEmpty) {
+      final value = Decimal.parse(fromAssetAmount);
 
-    if (fromAsset?.minTradeAmount != null && fromAsset!.minTradeAmount! > value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-        decimal: fromAsset!.minTradeAmount!,
-        accuracy: fromAsset?.accuracy ?? 0,
-        symbol: fromAsset?.symbol ?? '',
-      )}';
-    } else if (fromAsset?.maxTradeAmount != null && fromAsset!.maxTradeAmount! < value) {
-      limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-        decimal: fromAsset!.maxTradeAmount!,
-        accuracy: fromAsset?.accuracy ?? 1,
-        symbol: fromAsset?.symbol ?? '',
-      )}';
-    } else {
-      limitError = '';
+      if (fromAsset?.minTradeAmount != null && fromAsset!.minTradeAmount! > value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+          decimal: fromAsset!.minTradeAmount!,
+          accuracy: fromAsset?.accuracy ?? 0,
+          symbol: fromAsset?.symbol ?? '',
+        )}';
+      } else if (fromAsset?.maxTradeAmount != null && fromAsset!.maxTradeAmount! < value) {
+        limitError = '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+          decimal: fromAsset!.maxTradeAmount!,
+          accuracy: fromAsset?.accuracy ?? 1,
+          symbol: fromAsset?.symbol ?? '',
+        )}';
+      } else {
+        limitError = '';
+      }
+
+      final withAmmountInputError = double.parse(fromAssetAmount) != 0
+          ? error == InputError.none
+              ? limitError.isEmpty
+                  ? InputError.none
+                  : InputError.limitError
+              : error
+          : InputError.none;
+
+      if (withAmmountInputError == InputError.none) {
+        _convertValid(
+          isInputValid(fromAssetAmount),
+        );
+      } else {
+        _convertValid(false);
+      }
+
+      _updateInputError(withAmmountInputError);
     }
-
-    final withAmmountInputError = double.parse(fromAssetAmount) != 0
-        ? error == InputError.none
-            ? limitError.isEmpty
-                ? InputError.none
-                : InputError.limitError
-            : error
-        : InputError.none;
-
-    if (withAmmountInputError == InputError.none) {
-      _convertValid(
-        isInputValid(fromAssetAmount),
-      );
-    } else {
-      _convertValid(false);
-    }
-
-    _updateInputError(withAmmountInputError);
 
     setUpdateTargetConversionPrice(
       fromAsset!.symbol,
