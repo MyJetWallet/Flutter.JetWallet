@@ -9,6 +9,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/converters.dart';
 import 'package:jetwallet/core/services/signal_r/helpers/market_references.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/features/actions/action_send/widgets/show_send_timer_alert_or.dart';
 import 'package:jetwallet/features/kyc/models/kyc_country_model.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/features/market/market_details/helper/calculate_percent_change.dart';
@@ -289,6 +290,14 @@ abstract class _SignalRServiceUpdatedBase with Store {
   @action
   void setClientDetail(ClientDetailModel value) {
     clientDetail = value;
+
+    for (var i = 0; i < clientDetail.clientBlockers.length; i++) {
+      clientDetail.clientBlockers[i] = clientDetail.clientBlockers[i].copyWith(
+        expireDateTime: DateTime.now().add(
+          getDurationFromBlocker(clientDetail.clientBlockers[i].timespanToExpire),
+        ),
+      );
+    }
 
     updateBaseCurrency();
   }
@@ -955,9 +964,7 @@ abstract class _SignalRServiceUpdatedBase with Store {
       }
       if (value.send != null) {
         for (final sendMethod in value.send!) {
-          if (sendMethod.symbolNetworkDetails
-                  ?.any((element) => element.symbol == currency.symbol) ??
-              false) {
+          if (sendMethod.symbolNetworkDetails?.any((element) => element.symbol == currency.symbol) ?? false) {
             sendMethods.add(sendMethod);
           }
         }

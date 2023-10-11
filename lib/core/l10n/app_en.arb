@@ -1036,7 +1036,7 @@
     "send_globally_transfer_info": "Normally transfer is processed within 30 min, sometimes up to 24 hours",
     "send_globally_fail_info": "Close",
     "send_globally_success": "Success",
-    "send_globally_success_secondary": "Send Globally: transfer of",
+    "send_globally_success_secondary": "Send: transfer of",
     "send_globally_success_secondary_2": "was initiated",
     "send_globally_success_info": "Receiver will get the money with up to 24 hours",
     "send_globally": "Send Globally",
