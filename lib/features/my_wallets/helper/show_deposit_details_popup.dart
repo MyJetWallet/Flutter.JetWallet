@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/features/iban/widgets/iban_item.dart';
-import 'package:jetwallet/features/iban/widgets/iban_receive.dart';
 import 'package:jetwallet/features/iban/widgets/iban_terms_container.dart';
 import 'package:simple_kit/simple_kit.dart';
 

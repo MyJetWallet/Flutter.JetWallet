@@ -7,6 +7,7 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
@@ -268,8 +269,8 @@ class _DebugInfoState extends State<DebugInfo> with SingleTickerProviderStateMix
 
                 TextButton(
                   onPressed: () async {
-                    await sRouter.push(
-                      KycVerificationSumsubRouter(),
+                    await getIt<SumsubService>().launch(
+                      isBanking: false,
                     );
                   },
                   child: const Text(

@@ -117,6 +117,18 @@ void onGetAccountClick(MyWalletsSrore store, BuildContext context) {
     store.setSimpleAccountStatus(SimpleWalletAccountStatus.creating);
   }
 
+  if (verificationInProgress) {
+    kyc.showVerifyingAlert();
+
+    return;
+  }
+
+  if (kycBlocked) {
+    kyc.showBlockedAlert();
+
+    return;
+  }
+
   if (store.buttonStatus == SimpleWalletAccountStatus.blocked) {
     kyc.showBlockedAlert();
 

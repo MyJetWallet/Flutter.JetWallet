@@ -14,6 +14,7 @@ import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/logout_service/logout_service.dart';
 import 'package:jetwallet/core/services/route_query_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/actions/action_deposit/action_deposit.dart';
 import 'package:jetwallet/features/app/store/app_store.dart';
 import 'package:jetwallet/features/app/store/models/authorized_union.dart';
@@ -325,17 +326,6 @@ class DeepLinkService {
   }
 
   Future<void> _referralRedirectCommand(Map<String, String> parameters) async {
-    final context = sRouter.navigatorKey.currentContext;
-    if (context != null && context.mounted) {
-      await showDialog(
-        context: context,
-        builder: (context) {
-          return Text('WORK');
-        },
-      );
-    }
-
-    return;
     try {
       final storage = sLocalStorageService;
       final deviceInfo = sDeviceInfo.model;
@@ -468,43 +458,18 @@ class DeepLinkService {
         getIt.get<AppStore>().authorizedStatus is Home) {
       final kycState = getIt.get<KycService>();
 
-      if (kycState.useSumsub) {
-        unawaited(
-          sRouter.push(
-            KycVerificationSumsubRouter(),
-          ),
-        );
-      } else {
-        unawaited(
-          sRouter.push(
-            ChooseDocumentsRouter(
-              headerTitle: 'Verify your identity',
-            ),
-          ),
-        );
-      }
-      await sRouter.push(
-        ChooseDocumentsRouter(
-          headerTitle: 'Verify your identity',
-        ),
+      await getIt<SumsubService>().launch(
+        isBanking: false,
       );
     } else {
       getIt<RouteQueryService>().addToQuery(
         RouteQueryModel(
-          func: () {
+          func: () async {
             final kycState = getIt.get<KycService>();
 
-            if (kycState.useSumsub) {
-              sRouter.push(
-                KycVerificationSumsubRouter(),
-              );
-            } else {
-              sRouter.push(
-                ChooseDocumentsRouter(
-                  headerTitle: 'Verify your identity',
-                ),
-              );
-            }
+            await getIt<SumsubService>().launch(
+              isBanking: false,
+            );
           },
         ),
       );

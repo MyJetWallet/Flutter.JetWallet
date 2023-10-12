@@ -26,6 +26,7 @@ class CJHeaderWidget extends StatelessObserverWidget {
                     color: sKit.colors.black,
                   ),
           ),
+          centerTitle: true,
           titlePadding: EdgeInsets.only(bottom: top > 131 ? 40 : 26),
           background: Container(
             padding: EdgeInsets.only(

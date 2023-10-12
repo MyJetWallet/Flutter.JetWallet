@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
@@ -47,8 +51,10 @@ class _KycVerificationState extends State<KycVerification> {
           ),
         );
       } else {
-        sRouter.push(
-          KycVerificationSumsubRouter(),
+        unawaited(
+          getIt<SumsubService>().launch(
+            isBanking: false,
+          ),
         );
       }
     }

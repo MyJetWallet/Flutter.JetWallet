@@ -91,7 +91,9 @@ class _CJAccountScreenState extends State<CJAccountScreen> {
                 ),
               ),
             ],
+            centerTitle: true,
             title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (silverCollapsed) const SizedBox(height: 10),
                 if (!silverCollapsed)

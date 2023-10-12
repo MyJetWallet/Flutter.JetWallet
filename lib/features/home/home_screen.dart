@@ -36,13 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       kycState.withdrawalStatus,
     );
 
-    final hideAccount = sSignalRModules.currenciesList
-        .where(
-          (element) => element.supportsIbanDeposit,
-        )
-        .toList()
-        .isEmpty;
-
     return Observer(
       builder: (context) {
         final screens = <PageRouteInfo<dynamic>>[
@@ -50,9 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
           MarketRouter(),
         ];
 
-        if (!hideAccount) {
-          screens.add(IBanRouter());
-        }
         if (sUserInfo.cardAvailable) {
           screens.add(const CardRouter());
         }
@@ -78,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return BottomNavigationMenu(
               currentIndex: getIt.get<AppStore>().homeTab,
-              hideAccount: hideAccount,
               isCardRequested: sUserInfo.cardRequested || kycBlocked,
               showCard: sUserInfo.cardAvailable,
               onChanged: (int val) {

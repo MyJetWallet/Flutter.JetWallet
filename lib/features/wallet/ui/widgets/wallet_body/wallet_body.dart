@@ -88,6 +88,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                   elevation: 0.0,
                   automaticallyImplyLeading: false,
                   leadingWidth: 48,
+                  centerTitle: true,
                   leading: Padding(
                     padding: const EdgeInsets.only(left: 24),
                     child: SIconButton(
@@ -107,7 +108,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           ),
                         ),
                       Text(
-                        intl.wallet_simple_account,
+                        intl.wallet_title,
                         style: sBodyText2Style.copyWith(
                           color: sKit.colors.grey1,
                         ),
