@@ -65,7 +65,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
               children: [
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 5,
+                  width: (MediaQuery.of(context).size.width - 48) / 4,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(0),
                     child: Column(
@@ -86,7 +86,7 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: (MediaQuery.of(context).size.width - 48) / 5,
+                  width: (MediaQuery.of(context).size.width - 48) / 4,
                   child: STransparentInkWell(
                     onTap: () => widget.onChanged(1),
                     child: Column(
@@ -110,13 +110,13 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width - 48) / 5,
+                        width: (MediaQuery.of(context).size.width - 48) / 4,
                         child: STransparentInkWell(
-                          onTap: () => widget.onChanged(3),
+                          onTap: () => widget.onChanged(2),
                           child: Column(
                             children: [
                               const SpaceH11(),
-                              if (widget.selectedIndex == 3) const SCardBottomActiveIcon() else const SCardBottomIcon(),
+                              if (widget.selectedIndex == 2) const SCardBottomActiveIcon() else const SCardBottomIcon(),
                               Text(
                                 widget.cardText,
                                 style: sBodyText2Style.copyWith(
@@ -142,13 +142,13 @@ class _SBottomNavigationBarState extends State<SBottomNavigationBar> {
                   Stack(
                     children: [
                       SizedBox(
-                        width: (MediaQuery.of(context).size.width - 48) / 5,
+                        width: (MediaQuery.of(context).size.width - 48) / 4,
                         child: STransparentInkWell(
-                          onTap: () => widget.onChanged(4),
+                          onTap: () => widget.onChanged(3),
                           child: Column(
                             children: [
                               const SpaceH15(),
-                              if (widget.selectedIndex == 4)
+                              if (widget.selectedIndex == 3)
                                 const SRewardIcon()
                               else
                                 SRewardIcon(
