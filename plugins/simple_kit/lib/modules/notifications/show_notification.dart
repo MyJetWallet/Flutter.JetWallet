@@ -22,10 +22,7 @@ Future showNotification(
     builder: (_, controller) {
       return Flash(
         controller: controller,
-        backgroundColor: Colors.transparent,
-        behavior: FlashBehavior.fixed,
         position: FlashPosition.top,
-        useSafeArea: false,
         child: SPaddingH24(
           child: SNotificationBox(
             text: message,
