@@ -38,6 +38,7 @@ class EurWalletBody extends StatelessObserverWidget {
             elevation: 0.0,
             automaticallyImplyLeading: false,
             leadingWidth: 48,
+            centerTitle: true,
             leading: Padding(
               padding: const EdgeInsets.only(left: 24),
               child: SIconButton(
