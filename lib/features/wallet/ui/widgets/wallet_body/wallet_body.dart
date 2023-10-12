@@ -108,7 +108,7 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                           ),
                         ),
                       Text(
-                        intl.wallet_simple_account,
+                        intl.wallet_title,
                         style: sBodyText2Style.copyWith(
                           color: sKit.colors.grey1,
                         ),

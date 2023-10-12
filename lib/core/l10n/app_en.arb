@@ -1288,6 +1288,7 @@
     "wallet_continue": "Continue",
     "wallet_transactions": "Transactions",
     "wallet_simple_account": "Simple account",
+    "wallet_title": "Wallet",
     "wallet_add_cash": "Add cash",
     "wallet_withdraw": "Withdraw",
     "wallet_simple_account_empty": "Your transactions will be shown here",
