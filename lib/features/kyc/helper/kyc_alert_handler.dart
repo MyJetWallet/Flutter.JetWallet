@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/helper/show_kyc_popup.dart';
 import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
 import 'package:jetwallet/utils/constants.dart';
@@ -206,8 +210,10 @@ class KycAlertHandler {
         ),
       );
     } else {
-      sRouter.push(
-        KycVerificationSumsubRouter(),
+      unawaited(
+        getIt<SumsubService>().launch(
+          isBanking: false,
+        ),
       );
     }
   }

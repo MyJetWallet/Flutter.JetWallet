@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
+import 'package:jetwallet/core/services/sumsub_service/sumsub_service.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/models/modify_required_model.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/store/kyc_steps_store.dart';
 import 'package:jetwallet/features/kyc/kyc_verify_your_profile/ui/widgets/verify_step.dart';
@@ -128,11 +130,10 @@ class KycVerifyYourProfile extends StatelessObserverWidget {
             button: SPrimaryButton2(
               active: true,
               name: intl.kycVerifyYourProfile_continue,
-              onTap: () {
-                sRouter.push(
-                  KycVerificationSumsubRouter(
-                    onFinish: onFinish,
-                  ),
+              onTap: () async {
+                await getIt<SumsubService>().launch(
+                  onFinish: onFinish,
+                  isBanking: false,
                 );
               },
             ),
