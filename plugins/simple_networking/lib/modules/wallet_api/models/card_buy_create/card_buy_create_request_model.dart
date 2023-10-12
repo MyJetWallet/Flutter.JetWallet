@@ -11,9 +11,13 @@ class CardBuyCreateRequestModel with _$CardBuyCreateRequestModel {
     @DecimalSerialiser() required Decimal paymentAmount,
     String? paymentAsset,
     String? buyAsset,
+    @DecimalNullSerialiser() Decimal? buyAmount,
+    bool? buyFixed,
     required CirclePaymentMethod paymentMethod,
     CirclePaymentDataModel? circlePaymentData,
+    CirclePaymentDataModel? unlimintPaymentData,
     CirclePaymentDataModel? cardPaymentData,
+    CirclePaymentDataModel? ibanPaymentData,
   }) = _CardBuyCreateRequestModel;
 
   factory CardBuyCreateRequestModel.fromJson(Map<String, dynamic> json) =>

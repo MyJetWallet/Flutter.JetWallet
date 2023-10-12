@@ -477,8 +477,6 @@ abstract class _BankCardStoreBase with Store {
           asset: asset,
           method: method,
           card: card,
-          cardNumber: finalCardNumber,
-          cardId: cardId,
         ),
       );
     });

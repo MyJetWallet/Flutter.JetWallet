@@ -5,7 +5,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
-import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:simple_kit/simple_kit.dart';
 
 import '../../../../core/di/di.dart';
@@ -18,6 +17,10 @@ import '../../../actions/store/action_search_store.dart';
 
 @RoutePage(name: 'ChooseAssetRouter')
 class ChooseAssetScreen extends StatelessWidget {
+  const ChooseAssetScreen({super.key, required this.onChooseAsset});
+
+  final void Function(CurrencyModel currency) onChooseAsset;
+
   @override
   Widget build(BuildContext context) {
     final searchStore = getIt.get<ActionSearchStore>();
@@ -70,6 +73,7 @@ class ChooseAssetScreen extends StatelessWidget {
                   fromCard: true,
                   showRecurring: false,
                   searchStore: searchStore,
+                  onChooseAsset: onChooseAsset,
                 );
               },
             ),
@@ -85,11 +89,13 @@ class _ActionBuy extends StatelessObserverWidget {
     required this.fromCard,
     required this.showRecurring,
     required this.searchStore,
+    required this.onChooseAsset,
   });
 
   final bool fromCard;
   final bool showRecurring;
   final ActionSearchStore searchStore;
+  final void Function(CurrencyModel currency) onChooseAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +103,6 @@ class _ActionBuy extends StatelessObserverWidget {
     final state = searchStore;
 
     sortByBalanceAndWeight(state.fCurrencies);
-
-    void onItemTap(CurrencyModel currency, bool fromCard) {
-      showPayWithBottomSheet(context, currency);
-    }
 
     return Column(
       children: [
@@ -119,7 +121,7 @@ class _ActionBuy extends StatelessObserverWidget {
               ticker: currency.symbol,
               last: true,
               percent: currency.dayPercentChange,
-              onTap: () => onItemTap(currency, fromCard),
+              onTap: () => onChooseAsset(currency),
               height: 80,
             ),
         ],

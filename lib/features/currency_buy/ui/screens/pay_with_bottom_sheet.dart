@@ -21,10 +21,14 @@ import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
-void showPayWithBottomSheet(
-  BuildContext context,
-  CurrencyModel currency,
-) {
+void showPayWithBottomSheet({
+  required BuildContext context,
+  required CurrencyModel currency,
+  void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected,
+}) {
   final cards = sSignalRModules.cards.cardInfos
       .where(
         (element) => element.integration == IntegrationType.unlimintAlt,
@@ -50,6 +54,7 @@ void showPayWithBottomSheet(
       children: [
         BuyPaymentMethodScreen(
           asset: currency,
+          onSelected: onSelected,
         ),
       ],
     );
@@ -76,9 +81,14 @@ class BuyPaymentMethodScreen extends StatelessWidget {
   const BuyPaymentMethodScreen({
     super.key,
     required this.asset,
+    this.onSelected,
   });
 
   final CurrencyModel asset;
+  final void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +96,7 @@ class BuyPaymentMethodScreen extends StatelessWidget {
       create: (context) => PaymentMethodStore()..init(asset),
       builder: (context, child) => _PaymentMethodScreenBody(
         asset: asset,
+        onSelected: onSelected,
       ),
     );
   }
@@ -94,9 +105,14 @@ class BuyPaymentMethodScreen extends StatelessWidget {
 class _PaymentMethodScreenBody extends StatelessObserverWidget {
   const _PaymentMethodScreenBody({
     required this.asset,
+    this.onSelected,
   });
 
   final CurrencyModel asset;
+  final void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -111,18 +127,28 @@ class _PaymentMethodScreenBody extends StatelessObserverWidget {
             child: PaymentMethodCardsWidget(
               title: intl.payment_method_cards,
               asset: asset,
+              onSelected: onSelected,
             ),
           ),
           const SpaceH24(),
           if (store.accounts.isNotEmpty)
             BalancesWidget(
               onTap: (account) {
-                sRouter.push(
-                  BuyAmountRoute(
-                    asset: asset,
-                    account: account,
-                  ),
-                );
+                if (onSelected != null) {
+                  onSelected!(account: account);
+                } else {
+                  sRouter.push(
+                    BuyAmountRoute(
+                      asset: asset,
+                      account: account,
+                      method: const BuyMethodDto(
+                        id: PaymentMethodType.unlimintCard,
+                        termsAccepted: true,
+                        category: PaymentMethodCategory.account,
+                      ),
+                    ),
+                  );
+                }
               },
               accounts: store.accounts,
             ),

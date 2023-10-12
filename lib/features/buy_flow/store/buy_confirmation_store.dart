@@ -30,6 +30,7 @@ import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/helpers/models/server_reject_exception.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_create/card_buy_create_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_execute/card_buy_execute_request_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/card_buy_info/card_buy_info_request_model.dart';
@@ -38,12 +39,10 @@ import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 part 'buy_confirmation_store.g.dart';
 
-class BuyConfirmationStore extends _BuyConfirmationStoreBase
-    with _$BuyConfirmationStore {
+class BuyConfirmationStore extends _BuyConfirmationStoreBase with _$BuyConfirmationStore {
   BuyConfirmationStore() : super();
 
-  static BuyConfirmationStore of(BuildContext context) =>
-      Provider.of<BuyConfirmationStore>(context, listen: false);
+  static BuyConfirmationStore of(BuildContext context) => Provider.of<BuyConfirmationStore>(context, listen: false);
 }
 
 abstract class _BuyConfirmationStoreBase with Store {
@@ -131,13 +130,6 @@ abstract class _BuyConfirmationStoreBase with Store {
     isLocalTermsChecked = !isLocalTermsChecked;
   }
 
-  @observable
-  bool isP2PTermsChecked = false;
-  @action
-  void seIsP2PTermsChecked() {
-    isP2PTermsChecked = !isP2PTermsChecked;
-  }
-
   @computed
   bool get getCheckbox {
     switch (category) {
@@ -145,8 +137,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         return isBankTermsChecked;
       case PaymentMethodCategory.local:
         return isLocalTermsChecked;
-      case PaymentMethodCategory.p2p:
-        return isP2PTermsChecked;
+
       default:
         return isBankTermsChecked;
     }
@@ -156,55 +147,57 @@ abstract class _BuyConfirmationStoreBase with Store {
   bool showProcessing = false;
 
   @computed
-  CurrencyModel get buyCurrency =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
+  CurrencyModel get buyCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (buyAssetSymbol ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   @computed
-  CurrencyModel get depositFeeCurrency =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
+  CurrencyModel get payCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
+        (currency) => currency.symbol == (card?.cardAssetSymbol ?? 'BTC'),
+        orElse: () => CurrencyModel.empty(),
+      );
+
+  @computed
+  CurrencyModel get depositFeeCurrency => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (depositFeeAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   @computed
-  CurrencyModel get tradeFeeCurreny =>
-      sSignalRModules.currenciesWithHiddenList.firstWhere(
+  CurrencyModel get tradeFeeCurreny => sSignalRModules.currenciesWithHiddenList.firstWhere(
         (currency) => currency.symbol == (tradeFeeAsset ?? 'BTC'),
         orElse: () => CurrencyModel.empty(),
       );
 
   CircleCard? card;
+  SimpleBankingAccount? account;
   BuyMethodDto? method;
   String? buyAssetSymbol;
   String payAmount = '';
   String payAsset = '';
-  String preset = '';
 
   @action
-  Future<void> loadPreview(
-    String pAmount,
-    String bAsset,
-    String pAsset,
+  Future<void> loadPreview({
+    required String pAmount,
+    required String bAsset,
+    required String pAsset,
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
-    String? inputPreset,
-  ) async {
+    SimpleBankingAccount? inputAccount,
+  }) async {
     isDataLoaded = false;
 
-    category =
-        card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
+    category = card == null ? inputMethod!.category! : PaymentMethodCategory.cards;
 
     loader.startLoadingImmediately();
 
     payAmount = pAmount;
     payAsset = pAsset;
     card = inputCard;
+    account = inputAccount;
     method = inputMethod;
     buyAssetSymbol = bAsset;
-    preset = inputPreset ?? 'false';
 
     await _isChecked();
 
@@ -217,19 +210,17 @@ abstract class _BuyConfirmationStoreBase with Store {
       sourceAmount: paymentAmount.toString(),
       destinationCurrency: bAsset,
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
       destinationAmount: '$buyAmount',
-      quickAmount: preset,
+      quickAmount: 'false',
     );
 
     isDataLoaded = true;
 
     sAnalytics.newBuyOrderSummaryView(
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
@@ -239,15 +230,14 @@ abstract class _BuyConfirmationStoreBase with Store {
     if (terminateUpdates) return;
 
     final model = getModelForCardBuyReq(
-      category,
-      payAmount,
-      buyAssetSymbol ?? '',
-      payAsset,
+      category: category,
+      pAmount: payAmount,
+      bAsset: buyAssetSymbol ?? '',
+      pAsset: payAsset,
     );
 
     try {
-      final response =
-          await sNetwork.getWalletModule().postCardBuyCreate(model);
+      final response = await sNetwork.getWalletModule().postCardBuyCreate(model);
 
       response.pick(
         onData: (data) {
@@ -284,27 +274,32 @@ abstract class _BuyConfirmationStoreBase with Store {
     }
   }
 
-  CardBuyCreateRequestModel getModelForCardBuyReq(
-    PaymentMethodCategory category,
-    String pAmount,
-    String bAsset,
-    String pAsset,
-  ) {
+  CardBuyCreateRequestModel getModelForCardBuyReq({
+    required PaymentMethodCategory category,
+    required String pAmount,
+    required String bAsset,
+    required String pAsset,
+  }) {
     switch (category) {
       case PaymentMethodCategory.cards:
         return CardBuyCreateRequestModel(
           paymentMethod: convertMethodToCirclePaymentMethod(method!),
           paymentAmount: Decimal.parse(pAmount),
+          buyAmount: Decimal.parse(pAmount) * price,
           buyAsset: bAsset,
           paymentAsset: pAsset,
           cardPaymentData: CirclePaymentDataModel(cardId: card!.id),
+          buyFixed: false,
         );
-      case PaymentMethodCategory.local:
+      case PaymentMethodCategory.account:
         return CardBuyCreateRequestModel(
           paymentMethod: convertMethodToCirclePaymentMethod(method!),
           paymentAmount: Decimal.parse(pAmount),
+          buyAmount: Decimal.parse(pAmount) * price,
           buyAsset: bAsset,
           paymentAsset: pAsset,
+          unlimintPaymentData: CirclePaymentDataModel(cardId: account?.accountId ?? ''),
+          buyFixed: false,
         );
       default:
         return CardBuyCreateRequestModel(
@@ -324,8 +319,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       errorCode: error,
       firstTimeBuy: '$firstBuy',
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
@@ -418,7 +412,6 @@ abstract class _BuyConfirmationStoreBase with Store {
       sourceAmount: '$paymentAmount',
       destinationAmount: '$buyAmount',
       exchangeRate: '1 $buyAssetSymbol = ${volumeFormat(
-        prefix: depositFeeCurrency.prefixSymbol,
         symbol: depositFeeCurrency.symbol,
         accuracy: buyCurrency.accuracy,
         decimal: rate ?? Decimal.zero,
@@ -426,8 +419,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       paymentFee: '$depositFeeAmount',
       firstTimeBuy: '$firstBuy',
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
@@ -495,8 +487,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           paymentId: paymentId,
         );
 
-        final response =
-            await sNetwork.getWalletModule().postCardBuyInfo(model);
+        final response = await sNetwork.getWalletModule().postCardBuyInfo(model);
         if (response.hasError) {
           unawaited(_showFailureScreen(resp.error?.cause ?? ''));
 
@@ -504,9 +495,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         } else {
           sAnalytics.paymentWevViewScreenView(
             paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
+            paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
             paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
@@ -533,9 +522,7 @@ abstract class _BuyConfirmationStoreBase with Store {
                 sAnalytics.newBuyProcessingView(
                   firstTimeBuy: '$firstBuy',
                   paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
                   paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
@@ -550,9 +537,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
                   paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
@@ -611,8 +596,7 @@ abstract class _BuyConfirmationStoreBase with Store {
       sAnalytics.newBuyProcessingView(
         firstTimeBuy: '$firstBuy',
         paymentMethodType: category.name,
-        paymentMethodName:
-            category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
         paymentMethodCurrency: depositFeeCurrency.symbol,
       );
 
@@ -639,9 +623,7 @@ abstract class _BuyConfirmationStoreBase with Store {
 
           sAnalytics.paymentWevViewScreenView(
             paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
+            paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
             paymentMethodCurrency: depositFeeCurrency.symbol,
           );
 
@@ -666,9 +648,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           sAnalytics.newBuyProcessingView(
             firstTimeBuy: '$firstBuy',
             paymentMethodType: category.name,
-            paymentMethodName: category == PaymentMethodCategory.cards
-                ? 'card'
-                : method!.id.name,
+            paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
             paymentMethodCurrency: depositFeeCurrency.symbol,
           );
         },
@@ -717,12 +697,9 @@ abstract class _BuyConfirmationStoreBase with Store {
               data.status == CardBuyPaymentStatus.waitForPayment;
           final complete = data.status == CardBuyPaymentStatus.success;
           final failed = data.status == CardBuyPaymentStatus.fail;
-          final actionRequired =
-              data.status == CardBuyPaymentStatus.requireAction;
+          final actionRequired = data.status == CardBuyPaymentStatus.requireAction;
 
-          if (pending ||
-              (actionRequired &&
-                  lastAction == data.clientAction!.checkoutUrl)) {
+          if (pending || (actionRequired && lastAction == data.clientAction!.checkoutUrl)) {
             if (isWaitingSkipped) {
               return;
             }
@@ -762,9 +739,7 @@ abstract class _BuyConfirmationStoreBase with Store {
               (payment) {
                 sAnalytics.paymentWevViewClose(
                   paymentMethodType: category.name,
-                  paymentMethodName: category == PaymentMethodCategory.cards
-                      ? 'card'
-                      : method!.id.name,
+                  paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
                   paymentMethodCurrency: depositFeeCurrency.symbol,
                 );
 
@@ -797,8 +772,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     sAnalytics.newBuySuccessView(
       firstTimeBuy: '$firstBuy',
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
 
@@ -859,12 +833,7 @@ abstract class _BuyConfirmationStoreBase with Store {
             isLocalTermsChecked = true;
           }
           break;
-        case PaymentMethodCategory.p2p:
-          final status = await storage.getValue(checkedP2PTerms);
-          if (status != null) {
-            isP2PTermsChecked = true;
-          }
-          break;
+
         default:
       }
     } catch (e) {
@@ -890,10 +859,7 @@ abstract class _BuyConfirmationStoreBase with Store {
           await storage.setString(checkedLocalTerms, 'true');
           isLocalTermsChecked = true;
           break;
-        case PaymentMethodCategory.p2p:
-          await storage.setString(checkedP2PTerms, 'true');
-          isP2PTermsChecked = true;
-          break;
+
         default:
       }
     } catch (e) {
@@ -912,8 +878,7 @@ abstract class _BuyConfirmationStoreBase with Store {
         return '';
       case PaymentMethodCategory.local:
         return intl.buy_confirmation_local_p2p_processing_text;
-      case PaymentMethodCategory.p2p:
-        return intl.buy_confirmation_local_p2p_processing_text;
+
       default:
         return '';
     }
@@ -923,8 +888,7 @@ abstract class _BuyConfirmationStoreBase with Store {
     sAnalytics.newBuyTapCloseProcessing(
       firstTimeBuy: '$firstBuy',
       paymentMethodType: category.name,
-      paymentMethodName:
-          category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
+      paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
       paymentMethodCurrency: depositFeeCurrency.symbol,
     );
   }
@@ -943,12 +907,6 @@ abstract class _BuyConfirmationStoreBase with Store {
         case PaymentMethodCategory.local:
           await storage.setString(
             localLastMethodId,
-            method?.id.toString() ?? '',
-          );
-          break;
-        case PaymentMethodCategory.p2p:
-          await storage.setString(
-            p2pLastMethodId,
             method?.id.toString() ?? '',
           );
           break;

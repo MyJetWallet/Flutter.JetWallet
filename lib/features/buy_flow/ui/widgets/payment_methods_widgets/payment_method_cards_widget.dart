@@ -19,16 +19,23 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
+import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 class PaymentMethodCardsWidget extends StatelessObserverWidget {
   const PaymentMethodCardsWidget({
     super.key,
     required this.title,
     required this.asset,
+    this.onSelected,
   });
 
   final String title;
   final CurrencyModel asset;
+  final void Function({
+    CircleCard? inputCard,
+    SimpleBankingAccount? account,
+  })? onSelected;
 
   void onAddCardTap(BuildContext context) {
     Navigator.push(
@@ -111,13 +118,17 @@ class PaymentMethodCardsWidget extends StatelessObserverWidget {
                     e.expMonth,
                     e.expYear,
                   )) {
-                    sRouter.push(
-                      BuyAmountRoute(
-                        asset: asset,
-                        method: store.getCardBuyMethod(),
-                        card: e,
-                      ),
-                    );
+                    if (onSelected != null) {
+                      onSelected!(inputCard: e);
+                    } else {
+                      sRouter.push(
+                        BuyAmountRoute(
+                          asset: asset,
+                          method: store.getCardBuyMethod(),
+                          card: e,
+                        ),
+                      );
+                    }
                   }
                 },
               );

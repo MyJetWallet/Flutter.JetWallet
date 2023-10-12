@@ -48,16 +48,21 @@ class BalanceActionButtons extends StatelessObserverWidget {
                 SPrimaryButton1(
                   name: '${intl.balanceActionButtons_buy} ${marketItem.name}',
                   onTap: () {
-                    if (kycState.depositStatus ==
-                        kycOperationStatus(KycStatus.allowed)) {
-                      showPayWithBottomSheet(context, currency);
+                    if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
+                      showPayWithBottomSheet(
+                        context: context,
+                        currency: currency,
+                      );
                     } else {
                       kycAlertHandler.handle(
                         status: kycState.depositStatus,
                         isProgress: kycState.verificationInProgress,
                         navigatePop: true,
                         currentNavigate: () {
-                          showPayWithBottomSheet(context, currency);
+                          showPayWithBottomSheet(
+                            context: context,
+                            currency: currency,
+                          );
                         },
                         requiredDocuments: kycState.requiredDocuments,
                         requiredVerifications: kycState.requiredVerifications,
@@ -74,19 +79,20 @@ class BalanceActionButtons extends StatelessObserverWidget {
             showBuy: currency.supportsAtLeastOneBuyMethod,
             showReceive: currency.supportsCryptoDeposit,
             showExchange: currency.isAssetBalanceNotEmpty,
-            showSend: currency.isAssetBalanceNotEmpty &&
-                currency.supportsCryptoWithdrawal,
+            showSend: currency.isAssetBalanceNotEmpty && currency.supportsCryptoWithdrawal,
             onBuy: () {
               sAnalytics.newBuyTapBuy(
                 source: 'Market - Asset - Buy',
               );
 
-              if (kycState.depositStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {
-                    showPayWithBottomSheet(context, currency);
+                    showPayWithBottomSheet(
+                      context: context,
+                      currency: currency,
+                    );
                   },
                   from: BlockingType.deposit,
                 );
@@ -99,7 +105,10 @@ class BalanceActionButtons extends StatelessObserverWidget {
                     showSendTimerAlertOr(
                       context: context,
                       or: () {
-                        showPayWithBottomSheet(context, currency);
+                        showPayWithBottomSheet(
+                          context: context,
+                          currency: currency,
+                        );
                       },
                       from: BlockingType.deposit,
                     );
@@ -115,8 +124,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               );
 
               if (currency.type == AssetType.crypto) {
-                if (kycState.depositStatus ==
-                    kycOperationStatus(KycStatus.allowed)) {
+                if (kycState.depositStatus == kycOperationStatus(KycStatus.allowed)) {
                   showSendTimerAlertOr(
                     context: context,
                     or: () {
@@ -163,8 +171,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               sAnalytics.tabOnTheSendButton(
                 source: 'Market - Asset - Send',
               );
-              if (kycState.withdrawalStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.withdrawalStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendOptions(
                   context,
                   currency,
@@ -183,8 +190,7 @@ class BalanceActionButtons extends StatelessObserverWidget {
               }
             },
             onExchange: () {
-              if (kycState.sellStatus ==
-                  kycOperationStatus(KycStatus.allowed)) {
+              if (kycState.sellStatus == kycOperationStatus(KycStatus.allowed)) {
                 showSendTimerAlertOr(
                   context: context,
                   or: () {

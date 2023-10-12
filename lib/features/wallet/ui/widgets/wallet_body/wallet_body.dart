@@ -148,8 +148,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                             showSendTimerAlertOr(
                               context: context,
                               or: () => showPayWithBottomSheet(
-                                context,
-                                actualAsset,
+                                context: context,
+                                currency: actualAsset,
                               ),
                               from: BlockingType.deposit,
                             );
@@ -162,8 +162,8 @@ class _WalletBodyState extends State<WalletBody> with AutomaticKeepAliveClientMi
                                 showSendTimerAlertOr(
                                   context: context,
                                   or: () => showPayWithBottomSheet(
-                                    context,
-                                    actualAsset,
+                                    context: context,
+                                    currency: actualAsset,
                                   ),
                                   from: BlockingType.deposit,
                                 );

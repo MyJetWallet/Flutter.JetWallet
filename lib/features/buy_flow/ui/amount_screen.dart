@@ -2,14 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/device_size/device_size.dart';
 import 'package:jetwallet/features/buy_flow/store/amount_store.dart';
-import 'package:jetwallet/features/kyc/helper/kyc_alert_handler.dart';
-import 'package:jetwallet/features/kyc/kyc_service.dart';
-import 'package:jetwallet/features/kyc/models/kyc_operation_status_model.dart';
+import 'package:jetwallet/features/buy_flow/ui/widgets/amount_screen.dart/buy_option_widget.dart';
+import 'package:jetwallet/features/currency_buy/ui/screens/pay_with_bottom_sheet.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/helpers/widget_size_from.dart';
@@ -17,9 +15,9 @@ import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
+import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
-import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
 @RoutePage()
@@ -29,8 +27,6 @@ class BuyAmountScreen extends StatelessWidget {
     required this.asset,
     this.method,
     this.card,
-    this.cardNumber,
-    this.cardId,
     this.account,
     this.showUaAlert = false,
   });
@@ -41,15 +37,19 @@ class BuyAmountScreen extends StatelessWidget {
   final CircleCard? card;
   final SimpleBankingAccount? account;
 
-  final String? cardNumber;
-  final String? cardId;
-
   final bool showUaAlert;
 
   @override
   Widget build(BuildContext context) {
     return Provider<BuyAmountStore>(
-      create: (context) => BuyAmountStore()..init(asset, method, card, showUaAlert),
+      create: (context) => BuyAmountStore()
+        ..init(
+          inputAsset: asset,
+          inputMethod: method,
+          inputCard: card,
+          account: account,
+          showUaAlert: showUaAlert,
+        ),
       builder: (context, child) => _BuyAmountScreenBody(
         asset: asset,
         method: method,
@@ -80,56 +80,8 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
   Widget build(BuildContext context) {
     final store = BuyAmountStore.of(context);
 
-    final kycState = getIt.get<KycService>();
-    final kycAlertHandler = getIt.get<KycAlertHandler>();
-
     final deviceSize = sDeviceSize;
     final colors = sKit.colors;
-
-    String checkLimitText() {
-      var amount = Decimal.zero;
-      var limit = Decimal.zero;
-      if (store.asset != null && store.limitByAsset != null) {
-        if (store.limitByAsset!.day1State == StateLimitType.block) {
-          amount = store.limitByAsset!.day1Amount;
-          limit = store.limitByAsset!.day1Limit;
-        } else if (store.limitByAsset!.day7State == StateLimitType.block) {
-          amount = store.limitByAsset!.day7Amount;
-          limit = store.limitByAsset!.day7Limit;
-        } else if (store.limitByAsset!.day30State == StateLimitType.block) {
-          amount = store.limitByAsset!.day30Amount;
-          limit = store.limitByAsset!.day30Limit;
-        } else if (store.limitByAsset!.barInterval == StateBarType.day1) {
-          amount = store.limitByAsset!.day1Amount;
-          limit = store.limitByAsset!.day1Limit;
-        } else if (store.limitByAsset!.barInterval == StateBarType.day7) {
-          amount = store.limitByAsset!.day7Amount;
-          limit = store.limitByAsset!.day7Limit;
-        } else {
-          amount = store.limitByAsset!.day30Amount;
-          limit = store.limitByAsset!.day30Limit;
-        }
-
-        return '${volumeFormat(
-          decimal: amount,
-          symbol: store.buyCurrency.symbol,
-          accuracy: store.buyCurrency.accuracy,
-          onlyFullPart: true,
-        )} / ${volumeFormat(
-          decimal: limit,
-          symbol: store.buyCurrency.symbol,
-          accuracy: store.buyCurrency.accuracy,
-          onlyFullPart: true,
-        )}';
-      }
-
-      return '';
-    }
-
-    final limitText = store.limitByAsset != null
-        ? '''${(store.limitByAsset!.barInterval == StateBarType.day1 || store.limitByAsset!.day1State == StateLimitType.block) ? intl.paymentMethodsSheet_daily : (store.limitByAsset!.barInterval == StateBarType.day7 || store.limitByAsset!.day7State == StateLimitType.block) ? intl.paymentMethodsSheet_weekly : intl.paymentMethodsSheet_monthly} ${intl.paymentMethodsSheet_limit}'''
-            ': ${checkLimitText()}'
-        : '';
 
     return SPageFrame(
       loaderText: intl.register_pleaseWait,
@@ -180,30 +132,25 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
           ),
           const SpaceH40(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Baseline(
-                baseline: deviceSize.when(
-                  small: () => 32,
-                  medium: () => 31,
-                ),
-                baselineType: TextBaseline.alphabetic,
+              Expanded(
                 child: SNewActionPriceField(
                   widgetSize: widgetSizeFrom(deviceSize),
-                  price: formatCurrencyStringAmount(
-                    value: store.inputValue,
-                    symbol: store.buyCurrency.symbol,
+                  primaryAmount: formatCurrencyStringAmount(
+                    value: store.primaryAmount,
                   ),
-                  helper: formatCurrencyStringAmount(
-                    value: store.targetConversionValue,
-                    symbol: widget.asset.symbol,
+                  primarySymbol: store.primarySymbol,
+                  secondaryAmount: formatCurrencyStringAmount(
+                    value: store.secondaryAmount,
                   ),
-                  error: store.inputErrorValue,
-                  isErrorActive: store.isInputErrorActive,
+                  secondarySymbol: store.secondarySymbol,
                 ),
               ),
-              const Spacer(),
               SIconButton(
-                onTap: () {},
+                onTap: () {
+                  store.isFiatEntering = !store.isFiatEntering;
+                },
                 defaultIcon: Container(
                   width: 40,
                   height: 40,
@@ -221,56 +168,102 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
             ],
           ),
           const Spacer(),
-          if (kycState.withdrawalStatus != kycOperationStatus(KycStatus.allowed)) ...[
-            GestureDetector(
-              onTap: () {
-                sShowAlertPopup(
-                  context,
-                  primaryText: intl.actionBuy_alertPopupSecond,
-                  primaryButtonName: intl.actionBuy_goToKYC,
-                  onPrimaryButtonTap: () {
-                    kycAlertHandler.handle(
-                      status: kycState.withdrawalStatus,
-                      isProgress: kycState.verificationInProgress,
-                      currentNavigate: () {},
-                      kycFlowOnly: true,
-                      requiredDocuments: kycState.requiredDocuments,
-                      requiredVerifications: kycState.requiredVerifications,
-                    );
-                  },
-                  secondaryButtonName: intl.actionBuy_gotIt,
-                  onSecondaryButtonTap: () {
-                    Navigator.pop(context);
-                  },
-                  size: widgetSizeFrom(deviceSize),
-                );
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SErrorIcon(
-                    color: colors.green,
-                  ),
-                  const SpaceW10(),
-                  Text(
-                    intl.actionBuy_kycRequired,
-                    style: sCaptionTextStyle.copyWith(
-                      color: colors.grey2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
           deviceSize.when(
             small: () => const SpaceH8(),
             medium: () => const SpaceH16(),
           ),
-          BuyAssetWidget(
-            icon: store.asset?.iconUrl ?? '',
+          BuyOptionWidget(
+            title: store.asset?.description ?? '',
+            subTitle: 'Buy',
+            trailing: volumeFormat(
+              decimal: store.asset?.baseBalance ?? Decimal.zero,
+              accuracy: store.asset?.accuracy ?? 1,
+              symbol: store.asset?.symbol ?? '',
+            ),
+            icon: SNetworkSvg24(
+              url: store.asset?.iconUrl ?? '',
+            ),
+            onTap: () {
+              sRouter.push(
+                ChooseAssetRouter(
+                  onChooseAsset: (currency) {
+                    store.setNewAsset(currency);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              );
+            },
           ),
           const SpaceH8(),
-          const PayWithWidget(),
+          if (store.category == PaymentMethodCategory.account)
+            BuyOptionWidget(
+              title: store.account?.label ?? '',
+              subTitle: 'Pay with',
+              trailing: volumeFormat(
+                decimal: store.account?.balance ?? Decimal.zero,
+                accuracy: store.asset?.accuracy ?? 1,
+                symbol: store.account?.currency ?? '',
+              ),
+              icon: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: sKit.colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: SBankMediumIcon(color: sKit.colors.white),
+                ),
+              ),
+              onTap: () {
+                showPayWithBottomSheet(
+                  context: context,
+                  currency: store.asset!,
+                  onSelected: ({account, inputCard}) {
+                    store.setNewPayWith(
+                      newCard: inputCard,
+                      newAccount: account,
+                    );
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            )
+          else
+            BuyOptionWidget(
+              title: store.card?.cardLabel ?? '',
+              subTitle: 'Pay with',
+              icon: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: ShapeDecoration(
+                  color: sKit.colors.white,
+                  shape: OvalBorder(
+                    side: BorderSide(
+                      color: colors.grey4,
+                    ),
+                  ),
+                ),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: getNetworkIcon(store.card?.network),
+                ),
+              ),
+              onTap: () {
+                showPayWithBottomSheet(
+                  context: context,
+                  currency: store.asset!,
+                  onSelected: ({account, inputCard}) {
+                    store.setNewPayWith(
+                      newCard: inputCard,
+                      newAccount: account,
+                    );
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
           const SpaceH20(),
           SNumericKeyboardAmount(
             widgetSize: widgetSizeFrom(deviceSize),
@@ -284,16 +277,17 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
               store.updateInputValue(value);
             },
             buttonType: SButtonType.primary2,
-            submitButtonActive: store.inputValid && !store.disableSubmit && !(double.parse(store.inputValue) == 0.0),
+            submitButtonActive: store.inputValid && !store.disableSubmit && !(double.parse(store.primaryAmount) == 0.0),
             submitButtonName: intl.addCircleCard_continue,
             onSubmitPressed: () {
               sRouter.push(
                 BuyConfirmationRoute(
-                  asset: widget.asset,
+                  asset: store.asset!,
                   paymentCurrency: store.buyCurrency,
-                  amount: store.inputValue,
-                  method: widget.method,
-                  card: widget.card,
+                  amount: store.fiatInputValue,
+                  method: store.method,
+                  card: store.card,
+                  account: store.account,
                 ),
               );
             },
@@ -318,165 +312,5 @@ Widget getNetworkIcon(CircleCardNetwork? network) {
       );
     default:
       return const SActionDepositIcon();
-  }
-}
-
-class BuyAssetWidget extends StatelessWidget {
-  const BuyAssetWidget({super.key, required this.icon});
-
-  final String icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return Container(
-      width: double.infinity,
-      height: 56,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
-      decoration: ShapeDecoration(
-        color: colors.grey5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SNetworkSvg24(
-            url: icon,
-          ),
-          const SpaceW8(),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Buy',
-                style: TextStyle(
-                  color: Color(0xFF777C85),
-                  fontSize: 14,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'Bitcoin',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          const Text(
-            '0.033 BTC',
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              color: Color(0xFF777C85),
-              fontSize: 14,
-              fontFamily: 'Gilroy',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SpaceW8(),
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: SBlueRightArrowIcon(
-              color: colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PayWithWidget extends StatelessWidget {
-  const PayWithWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = sKit.colors;
-
-    return Container(
-      width: double.infinity,
-      height: 56,
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsetsDirectional.symmetric(horizontal: 24),
-      padding: const EdgeInsetsDirectional.symmetric(horizontal: 12, vertical: 8),
-      decoration: ShapeDecoration(
-        color: colors.grey5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: sKit.colors.blue,
-              shape: BoxShape.circle,
-            ),
-            child: SizedBox(
-              width: 16,
-              height: 16,
-              child: SBankMediumIcon(color: sKit.colors.white),
-            ),
-          ),
-          const SpaceW8(),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Pay with',
-                style: TextStyle(
-                  color: Color(0xFF777C85),
-                  fontSize: 14,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'Account 1',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontFamily: 'Gilroy',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          const Text(
-            '1 545 EUR',
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              color: Color(0xFF777C85),
-              fontSize: 14,
-              fontFamily: 'Gilroy',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SpaceW8(),
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: SBlueRightArrowIcon(
-              color: colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

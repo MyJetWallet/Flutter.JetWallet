@@ -46,6 +46,7 @@ enum PaymentMethodCategory {
   p2p,
   cards,
   local,
+  account,
 }
 
 enum PaymentMethodType {

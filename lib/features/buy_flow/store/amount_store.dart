@@ -8,22 +8,18 @@ import 'package:jetwallet/core/router/app_router.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_input.dart';
 import 'package:jetwallet/core/services/conversion_price_service/conversion_price_service.dart';
 import 'package:jetwallet/core/services/format_service.dart';
-import 'package:jetwallet/core/services/logger_service/logger_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
-import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/calculate_base_balance.dart';
 import 'package:jetwallet/utils/helpers/input_helpers.dart';
 import 'package:jetwallet/utils/helpers/string_helper.dart';
 import 'package:jetwallet/utils/models/base_currency_model/base_currency_model.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
-import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
-import 'package:simple_networking/modules/signal_r/models/card_limits_model.dart';
+import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 part 'amount_store.g.dart';
 
@@ -40,7 +36,7 @@ abstract class _BuyAmountStoreBase with Store {
   @computed
   CurrencyModel get buyCurrency => getIt.get<FormatService>().findCurrency(
         findInHideTerminalList: true,
-        assetSymbol: asset?.symbol ?? 'BTC',
+        assetSymbol: fiatSymbol,
       );
 
   @observable
@@ -52,19 +48,10 @@ abstract class _BuyAmountStoreBase with Store {
   bool setDisableSubmit(bool value) => disableSubmit = value;
 
   @observable
-  String inputValue = '0';
-  @observable
-  String targetConversionValue = '0';
-  @observable
-  String baseConversionValue = '0';
-  @observable
-  Decimal? targetConversionPrice;
-
-  @observable
   String? paymentMethodInputError;
 
   @observable
-  CardLimitsModel? limitByAsset;
+  Decimal? targetConversionPrice;
 
   @observable
   InputError inputError = InputError.none;
@@ -72,26 +59,78 @@ abstract class _BuyAmountStoreBase with Store {
   @observable
   bool inputValid = false;
 
+  @observable
+  bool isFiatEntering = true;
+
+  @observable
+  String fiatInputValue = '0';
+
+  @observable
+  String cryptoInputValue = '0';
+
+  @computed
+  String get cryptoSymbol => asset?.symbol ?? '';
+
+  @computed
+  String get fiatSymbol {
+    return category == PaymentMethodCategory.cards ? card?.cardAssetSymbol ?? '' : account?.currency ?? '';
+  }
+
+  @computed
+  String get primaryAmount {
+    return isFiatEntering ? fiatInputValue : cryptoInputValue;
+  }
+
+  @computed
+  String get primarySymbol {
+    return isFiatEntering ? fiatSymbol : cryptoSymbol;
+  }
+
+  @computed
+  String get secondaryAmount {
+    return isFiatEntering ? cryptoInputValue : fiatInputValue;
+  }
+
+  @computed
+  String get secondarySymbol {
+    return isFiatEntering ? cryptoSymbol : fiatSymbol;
+  }
+
+  @computed
+  String get fiatBalance {
+    return category == PaymentMethodCategory.cards ? card?.toString() ?? '' : account?.currency ?? '';
+  }
+
+  @observable
   CurrencyModel? asset;
+
+  @observable
   BuyMethodDto? method;
+
+  @observable
   CircleCard? card;
 
+  @observable
+  SimpleBankingAccount? account;
+
   @action
-  void init(
-    CurrencyModel inputAsset,
+  void init({
+    required CurrencyModel inputAsset,
     BuyMethodDto? inputMethod,
     CircleCard? inputCard,
-    bool showUaAlert,
-  ) {
+    SimpleBankingAccount? account,
+    required bool showUaAlert,
+  }) {
     asset = inputAsset;
     method = inputMethod;
     card = inputCard;
+    this.account = account;
 
-    category = PaymentMethodCategory.cards;
+    category = inputCard != null ? PaymentMethodCategory.cards : PaymentMethodCategory.account;
 
     loadConversionPrice(
-      inputCard?.cardAssetSymbol ?? '',
-      inputAsset.symbol,
+      fiatSymbol,
+      cryptoSymbol,
     );
 
     Timer(
@@ -126,6 +165,47 @@ abstract class _BuyAmountStoreBase with Store {
   }
 
   @action
+  void setNewAsset(CurrencyModel newAsset) {
+    asset = newAsset;
+
+    loadConversionPrice(
+      fiatSymbol,
+      cryptoSymbol,
+    );
+
+    fiatInputValue = '0';
+
+    cryptoInputValue = '0';
+    inputValid = false;
+  }
+
+  void setNewPayWith({
+    CircleCard? newCard,
+    SimpleBankingAccount? newAccount,
+  }) {
+    if (newCard != null) {
+      card = newCard;
+      account = null;
+      category = PaymentMethodCategory.cards;
+    }
+    if (newAccount != null) {
+      account = newAccount;
+      card = null;
+      category = PaymentMethodCategory.account;
+    }
+
+    loadConversionPrice(
+      fiatSymbol,
+      cryptoSymbol,
+    );
+
+    fiatInputValue = '0';
+
+    cryptoInputValue = '0';
+    inputValid = false;
+  }
+
+  @action
   Future<void> loadConversionPrice(
     String baseS,
     String targetS,
@@ -136,22 +216,6 @@ abstract class _BuyAmountStoreBase with Store {
         quotedAssetSymbol: targetS,
       ),
     );
-  }
-
-  @action
-  String conversionText() {
-    final target = volumeFormat(
-      decimal: Decimal.parse(targetConversionValue),
-      symbol: asset?.symbol ?? '',
-      prefix: asset?.prefixSymbol ?? '',
-      accuracy: asset?.accuracy ?? 1,
-    );
-
-    if (Decimal.parse(targetConversionValue) == Decimal.zero) {
-      return target;
-    }
-
-    return '≈ $target';
   }
 
   @computed
@@ -169,138 +233,34 @@ abstract class _BuyAmountStoreBase with Store {
     return asset == null ? baseCurrency.accuracy : buyCurrency.accuracy;
   }
 
-  @computed
-  bool get isLimitBlock =>
-      limitByAsset?.day1State == StateLimitType.block ||
-      limitByAsset?.day7State == StateLimitType.block ||
-      limitByAsset?.day30State == StateLimitType.block;
-
-  @action
-  void updateLimitModel(PaymentAsset asset) {
-    int calcPercentage(Decimal first, Decimal second) {
-      if (first == Decimal.zero) {
-        return 0;
-      }
-      final doubleFirst = double.parse('$first');
-      final doubleSecond = double.parse('$second');
-      final doubleFinal = double.parse('${doubleFirst / doubleSecond}');
-
-      return (doubleFinal * 100).round();
-    }
-
-    if (asset.limits != null) {
-      var finalInterval = StateBarType.day1;
-      var finalProgress = 0;
-      var dayState = asset.limits!.dayValue == asset.limits!.dayLimit ? StateLimitType.block : StateLimitType.active;
-      var weekState = asset.limits!.weekValue == asset.limits!.weekLimit ? StateLimitType.block : StateLimitType.active;
-      var monthState =
-          asset.limits!.monthValue == asset.limits!.monthLimit ? StateLimitType.block : StateLimitType.active;
-      if (monthState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day30;
-        weekState = weekState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-      } else if (weekState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day7;
-        dayState = dayState == StateLimitType.block ? StateLimitType.block : StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else if (dayState == StateLimitType.block) {
-        finalProgress = 100;
-        finalInterval = StateBarType.day1;
-        weekState = StateLimitType.none;
-        monthState = StateLimitType.none;
-      } else {
-        final dayLeft = asset.limits!.dayLimit - asset.limits!.dayValue;
-        final weekLeft = asset.limits!.weekLimit - asset.limits!.weekValue;
-        final monthLeft = asset.limits!.monthLimit - asset.limits!.monthValue;
-        if (dayLeft <= weekLeft && dayLeft <= monthLeft) {
-          finalInterval = StateBarType.day1;
-          finalProgress = calcPercentage(
-            asset.limits!.dayValue,
-            asset.limits!.dayLimit,
-          );
-          dayState = StateLimitType.active;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.none;
-        } else if (weekLeft <= monthLeft) {
-          finalInterval = StateBarType.day7;
-          finalProgress = calcPercentage(
-            asset.limits!.weekValue,
-            asset.limits!.weekLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.active;
-          monthState = StateLimitType.none;
-        } else {
-          finalInterval = StateBarType.day30;
-          finalProgress = calcPercentage(
-            asset.limits!.monthValue,
-            asset.limits!.monthLimit,
-          );
-          dayState = StateLimitType.none;
-          weekState = StateLimitType.none;
-          monthState = StateLimitType.active;
-        }
-      }
-
-      final limitModel = CardLimitsModel(
-        minAmount: asset.minAmount,
-        maxAmount: asset.maxAmount,
-        day1Amount: asset.limits!.dayValue,
-        day1Limit: asset.limits!.dayLimit,
-        day1State: dayState,
-        day7Amount: asset.limits!.weekValue,
-        day7Limit: asset.limits!.weekLimit,
-        day7State: weekState,
-        day30Amount: asset.limits!.monthValue,
-        day30Limit: asset.limits!.monthLimit,
-        day30State: monthState,
-        barInterval: finalInterval,
-        barProgress: finalProgress,
-        leftHours: 0,
-      );
-      limitByAsset = limitModel;
-    }
-  }
-
-  @action
-  void selectFixedSum(SKeyboardPreset preset) {
-    late String value;
-
-    final presets = method!.paymentAssets!.firstWhere((element) => element.asset == asset?.symbol).presets!;
-
-    if (preset == SKeyboardPreset.preset1) {
-      value = presets.amount1!.toString();
-    } else if (preset == SKeyboardPreset.preset2) {
-      value = presets.amount2!.toString();
-    } else {
-      value = presets.amount3!.toString();
-    }
-
-    inputValue = valueAccordingToAccuracy(value, selectedCurrencyAccuracy);
-    _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
-  }
-
   @action
   void updateInputValue(String value) {
-    inputValue = responseOnInputAction(
-      oldInput: inputValue,
-      newInput: value,
-      accuracy: selectedCurrencyAccuracy,
-    );
+    if (isFiatEntering) {
+      fiatInputValue = responseOnInputAction(
+        oldInput: fiatInputValue,
+        newInput: value,
+        accuracy: selectedCurrencyAccuracy,
+      );
+    } else {
+      cryptoInputValue = responseOnInputAction(
+        oldInput: cryptoInputValue,
+        newInput: value,
+        accuracy: selectedCurrencyAccuracy,
+      );
+    }
+    if (isFiatEntering) {
+      _calculateCryptoConversion();
+    } else {
+      _calculateFiatConversion();
+    }
 
     _validateInput();
-    _calculateTargetConversion();
-    _calculateBaseConversion();
   }
 
   @action
-  void _calculateTargetConversion() {
-    if (targetConversionPrice != null && inputValue.isNotEmpty) {
-      final amount = Decimal.parse(inputValue);
+  void _calculateCryptoConversion() {
+    if (targetConversionPrice != null && fiatInputValue != '0') {
+      final amount = Decimal.parse(fiatInputValue);
       final price = targetConversionPrice!;
       final accuracy = asset!.accuracy;
 
@@ -312,117 +272,113 @@ abstract class _BuyAmountStoreBase with Store {
         );
       }
 
-      targetConversionValue = truncateZerosFrom(
+      cryptoInputValue = truncateZerosFrom(
         conversion.toString(),
       );
     } else {
-      targetConversionValue = zero;
+      cryptoInputValue = zero;
     }
   }
 
-  @action
-  void _calculateBaseConversion() {
-    if (inputValue.isNotEmpty) {
-      final baseValue = calculateBaseBalanceWithReader(
-        assetSymbol: asset!.symbol,
-        assetBalance: Decimal.parse(inputValue),
-      );
+  void _calculateFiatConversion() {
+    if (targetConversionPrice != null && cryptoInputValue != '0') {
+      final amount = Decimal.parse(cryptoInputValue);
+      final price = targetConversionPrice!;
+      final accuracy = asset!.accuracy;
 
-      baseConversionValue = truncateZerosFrom(baseValue.toString());
+      var conversion = Decimal.zero;
+
+      if (price != Decimal.zero) {
+        final koef = amount.toDouble() / price.toDouble();
+        conversion = Decimal.parse(
+          koef.toStringAsFixed(accuracy),
+        );
+      }
+
+      fiatInputValue = truncateZerosFrom(
+        conversion.toString(),
+      );
     } else {
-      baseConversionValue = zero;
+      fiatInputValue = zero;
     }
   }
 
   @action
   void _validateInput() {
-    if (double.parse(inputValue) == 0.0) {
-      inputValid = true;
-      inputError = InputError.none;
-      _updatePaymentMethodInputError(null);
+    inputValid = Decimal.parse(fiatInputValue) != Decimal.zero;
+    // if (double.parse(inputValue) == 0.0) {
+    //   inputValid = true;
+    //   inputError = InputError.none;
+    //   _updatePaymentMethodInputError(null);
 
-      return;
-    }
-    if (method != null) {
-      if (!isInputValid(inputValue)) {
-        inputValid = false;
+    //   return;
+    // }
+    // if (method != null) {
+    //   if (!isInputValid(inputValue)) {
+    //     inputValid = false;
 
-        return;
-      }
-     
-      final value = double.parse(inputValue);
-      final min = double.parse('${asset?.minTradeAmount ?? 0}');
-      var max = double.parse('${asset?.maxTradeAmount ?? 0}');
+    //     return;
+    //   }
 
-      if (category == PaymentMethodCategory.cards) {
-        double? limitMax = max;
+    //   final value = double.parse(inputValue);
+    //   final min = double.parse('${asset?.minTradeAmount ?? 0}');
+    //   var max = double.parse('${asset?.maxTradeAmount ?? 0}');
 
-        if (limitByAsset != null) {
-          limitMax = limitByAsset!.barInterval == StateBarType.day1
-              ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
-              : limitByAsset!.barInterval == StateBarType.day7
-                  ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
-                  : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
-        }
+    //   if (category == PaymentMethodCategory.cards) {
+    //     double? limitMax = max;
 
-        max = limitMax < max ? limitMax : max;
-      }
+    //     if (limitByAsset != null) {
+    //       limitMax = limitByAsset!.barInterval == StateBarType.day1
+    //           ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
+    //           : limitByAsset!.barInterval == StateBarType.day7
+    //               ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
+    //               : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
+    //     }
 
-      inputValid = value >= min && value <= max;
+    //     max = limitMax < max ? limitMax : max;
+    //   }
 
-      getIt.get<SimpleLoggerService>().log(
-            level: Level.info,
-            place: 'Buy Amount Store',
-            message: 'min: $min, max: $max',
-          );
+    //   inputValid = value >= min && value <= max;
 
-      if (max == 0) {
-        _updatePaymentMethodInputError(
-          intl.limitIsExceeded,
-        );
-      } else if (value < min) {
-        _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-            decimal: Decimal.parse(min.toString()),
-            accuracy: buyCurrency.accuracy,
-            symbol: buyCurrency.symbol,
-          )}',
-        );
-      } else if (value > max) {
-        _updatePaymentMethodInputError(
-          '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-            decimal: Decimal.parse(max.toString()),
-            accuracy: buyCurrency.accuracy,
-            symbol: buyCurrency.symbol,
-          )}',
-        );
-      } else {
-        _updatePaymentMethodInputError(null);
-      }
-    }
+    //   getIt.get<SimpleLoggerService>().log(
+    //         level: Level.info,
+    //         place: 'Buy Amount Store',
+    //         message: 'min: $min, max: $max',
+    //       );
 
-    const error = InputError.none;
+    //   if (max == 0) {
+    //     _updatePaymentMethodInputError(
+    //       intl.limitIsExceeded,
+    //     );
+    //   } else if (value < min) {
+    //     _updatePaymentMethodInputError(
+    //       '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
+    //         decimal: Decimal.parse(min.toString()),
+    //         accuracy: buyCurrency.accuracy,
+    //         symbol: buyCurrency.symbol,
+    //       )}',
+    //     );
+    //   } else if (value > max) {
+    //     _updatePaymentMethodInputError(
+    //       '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
+    //         decimal: Decimal.parse(max.toString()),
+    //         accuracy: buyCurrency.accuracy,
+    //         symbol: buyCurrency.symbol,
+    //       )}',
+    //     );
+    //   } else {
+    //     _updatePaymentMethodInputError(null);
+    //   }
+    // }
 
-    inputError = double.parse(inputValue) != 0
-        ? error == InputError.none
-            ? paymentMethodInputError == null
-                ? InputError.none
-                : InputError.limitError
-            : error
-        : InputError.none;
-  }
+    // const error = InputError.none;
 
-  @action
-  void _updatePaymentMethodInputError(String? error) {
-    if (error != null) {
-      sAnalytics.newBuyErrorLimit(
-        errorCode: error,
-        asset: asset?.symbol ?? '',
-        paymentMethodType: category.name,
-        paymentMethodName: category == PaymentMethodCategory.cards ? 'card' : method!.id.name,
-        paymentMethodCurrency: buyCurrency.symbol,
-      );
-    }
-    paymentMethodInputError = error;
+    // inputError = double.parse(inputValue) != 0
+    //     ? error == InputError.none
+    //         ? paymentMethodInputError == null
+    //             ? InputError.none
+    //             : InputError.limitError
+    //         : error
+    //     : InputError.none;
   }
 }

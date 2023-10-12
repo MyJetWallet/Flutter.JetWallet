@@ -140,7 +140,7 @@ class _BuyPaymentCurrency extends StatelessObserverWidget {
           spaceBIandText: 10,
           height: 69,
           onTap: () {
-            showPayWithBottomSheet(context, asset);
+            showPayWithBottomSheet(context: context, currency: asset);
           },
           needSpacer: true,
           rightIcon: Text(
