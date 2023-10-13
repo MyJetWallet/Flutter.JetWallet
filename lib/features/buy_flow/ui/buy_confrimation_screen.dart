@@ -16,7 +16,6 @@ import 'package:jetwallet/widgets/result_screens/waiting_screen/waiting_screen.d
 import 'package:provider/provider.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
-import 'package:simple_networking/modules/signal_r/models/asset_payment_methods_new.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/circle_card.dart';
 
@@ -27,15 +26,12 @@ class BuyConfirmationScreen extends StatelessWidget {
     required this.asset,
     required this.paymentCurrency,
     required this.amount,
-    this.method,
     this.card,
     this.account,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
-
-  final BuyMethodDto? method;
 
   final CircleCard? card;
   final SimpleBankingAccount? account;
@@ -49,8 +45,6 @@ class BuyConfirmationScreen extends StatelessWidget {
         ..loadPreview(
           pAmount: amount,
           bAsset: asset.symbol,
-          pAsset: card?.cardAssetSymbol ?? account?.currency ?? '',
-          inputMethod: method,
           inputCard: card,
           inputAccount: account,
         ),
@@ -58,7 +52,6 @@ class BuyConfirmationScreen extends StatelessWidget {
         asset: asset,
         paymentCurrency: paymentCurrency,
         amount: amount,
-        method: method,
         card: card,
       ),
       dispose: (context, value) {
@@ -74,14 +67,12 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
     required this.asset,
     required this.paymentCurrency,
     required this.amount,
-    this.method,
     this.card,
   });
 
   final CurrencyModel asset;
   final CurrencyModel paymentCurrency;
 
-  final BuyMethodDto? method;
   final CircleCard? card;
 
   final String amount;
@@ -116,8 +107,8 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
             child: Column(
               children: [
                 WhatToWhatWidget(
-                  fromAssetIconUrl: store.payCurrency.iconUrl,
-                  fromAssetDescription: store.payCurrency.symbol,
+                  fromAssetIconUrl: paymentCurrency.iconUrl,
+                  fromAssetDescription: paymentCurrency.symbol,
                   fromAssetValue: volumeFormat(
                     symbol: paymentCurrency.symbol,
                     accuracy: paymentCurrency.accuracy,
@@ -162,9 +153,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     thirdText: '',
                     activeText2: '',
                     onCheckboxTap: () {
-                      store.category == PaymentMethodCategory.cards
-                          ? store.setIsBankTermsChecked()
-                          : store.setIsLocalTermsChecked();
+                      store.setIsBankTermsChecked();
                     },
                     onUserAgreementTap: () {
                       launchURL(context, userAgreementLink);
@@ -174,9 +163,7 @@ class _BuyConfirmationScreenBody extends StatelessObserverWidget {
                     },
                     onActiveTextTap: () {},
                     onActiveText2Tap: () {},
-                    isChecked: store.category == PaymentMethodCategory.cards
-                        ? store.isBankTermsChecked
-                        : store.isLocalTermsChecked,
+                    isChecked: store.isBankTermsChecked,
                   ),
                 ],
                 Padding(

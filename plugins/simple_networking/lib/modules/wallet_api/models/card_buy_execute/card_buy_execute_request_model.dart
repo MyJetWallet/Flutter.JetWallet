@@ -13,6 +13,8 @@ class CardBuyExecuteRequestModel with _$CardBuyExecuteRequestModel {
     UnlimintPaymentDataExecuteModel? unlimintPaymentData,
     UnlimintAltPaymentDataExecuteModel? unlimintAlternativePaymentData,
     BankCardPaymentDataExecuteModel? cardPaymentData,
+    IbanPaymentData? ibanPaymentData,
+    String? gToken,
   }) = _CardBuyExecuteRequestModel;
 
   factory CardBuyExecuteRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +31,17 @@ class CirclePaymentDataExecuteModel with _$CirclePaymentDataExecuteModel {
 
   factory CirclePaymentDataExecuteModel.fromJson(Map<String, dynamic> json) =>
       _$CirclePaymentDataExecuteModelFromJson(json);
+}
+
+@freezed
+class IbanPaymentData with _$IbanPaymentData {
+  const factory IbanPaymentData({
+    String? accountId,
+    String? pin,
+  }) = _IbanPaymentData;
+
+  factory IbanPaymentData.fromJson(Map<String, dynamic> json) =>
+      _$IbanPaymentDataFromJson(json);
 }
 
 @freezed

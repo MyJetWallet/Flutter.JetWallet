@@ -5,10 +5,9 @@ import 'package:jetwallet/core/l10n/i10n.dart';
 import 'package:jetwallet/features/buy_flow/store/buy_confirmation_store.dart';
 import 'package:jetwallet/features/buy_flow/ui/amount_screen.dart';
 import 'package:jetwallet/utils/formatting/base/volume_format.dart';
-import 'package:jetwallet/utils/helpers/capitalize_text.dart';
-import 'package:jetwallet/utils/helpers/icon_url_from.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/modules/icons/24x24/public/bank_medium/bank_medium_icon.dart';
 import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/asset_payment_methods.dart';
 
@@ -33,8 +32,7 @@ class ConfirmationInfoGrid extends StatefulObserverWidget {
   State<ConfirmationInfoGrid> createState() => _ConfirmationInfoGridState();
 }
 
-class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
-    with SingleTickerProviderStateMixin {
+class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
@@ -80,13 +78,13 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                intl.buy_confirmation_payment_method,
+                'Sell to',
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
                 if (store.category == PaymentMethodCategory.cards) ...[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * .5,
+                    width: MediaQuery.of(context).size.width * .7,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -99,7 +97,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                         const SizedBox(width: 8),
                         Flexible(
                           child: Text(
-                            store.card?.cardLabel ?? '',
+                            '${store.card?.cardLabel ?? ''} •• ${store.card?.last4 ?? ''}',
                             overflow: TextOverflow.ellipsis,
                             style: sSubtitle3Style,
                           ),
@@ -107,44 +105,26 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
                       ],
                     ),
                   ),
-                ] else ...[
+                ] else if (store.category == PaymentMethodCategory.account) ...[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SpaceW19(),
-                      SNetworkCachedSvg(
-                        url: iconForPaymentMethod(
-                          methodId: store.method?.id.name ?? '',
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: sKit.colors.blue,
+                          shape: BoxShape.circle,
                         ),
-                        width: 20,
-                        height: 20,
-                        placeholder: ClipOval(
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: sKit.colors.grey4,
-                            ),
-                            child: Center(
-                              child: Text(
-                                (store.method?.id.name ?? ' ').toUpperCase()[0],
-                                textAlign: TextAlign.center,
-                                style: sSubtitle1Style.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  height: 1.41,
-                                ),
-                              ),
-                            ),
-                          ),
+                        child: SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: SBankMediumIcon(color: sKit.colors.white),
                         ),
                       ),
                       const SpaceW8(),
                       Text(
-                        store.method?.name ??
-                            capitalizeText(
-                              store.method?.id.name ?? '  ',
-                            ),
+                        store.account?.label ?? '',
                         overflow: TextOverflow.ellipsis,
                         style: sSubtitle3Style.copyWith(height: 1.5),
                       ),
@@ -162,33 +142,29 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              intl.buy_confirmation_buy_confirmation,
+              'Price',
               style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
             ),
             const Spacer(),
             if (store.isDataLoaded) ...[
-              if (store.category == PaymentMethodCategory.cards) ...[
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Baseline(
-                    baseline: 16,
-                    baselineType: TextBaseline.alphabetic,
-                    child: SConfirmActionTimer(
-                      animation: store.timerAnimation!,
-                      loading: store.timerLoading,
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Baseline(
+                  baseline: 16,
+                  baselineType: TextBaseline.alphabetic,
+                  child: SConfirmActionTimer(
+                    animation: store.timerAnimation!,
+                    loading: store.timerLoading,
                   ),
                 ),
-                const SizedBox(width: 8),
-              ],
+              ),
+              const SizedBox(width: 8),
               Text(
                 '${volumeFormat(
-                  prefix: widget.asset.prefixSymbol,
                   accuracy: widget.asset.accuracy,
                   decimal: Decimal.one,
                   symbol: widget.asset.symbol,
                 )} = ${volumeFormat(
-                  prefix: widget.paymentCurrency.prefixSymbol,
                   accuracy: store.rate?.scale ?? 0,
                   decimal: store.rate ?? Decimal.zero,
                   symbol: widget.paymentCurrency.symbol,
@@ -248,7 +224,7 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                intl.buy_confirmation_out_fee,
+                'Processing fee',
                 style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
               ),
               if (store.isDataLoaded) ...[
@@ -262,38 +238,8 @@ class _ConfirmationInfoGridState extends State<ConfirmationInfoGrid>
             ],
           ),
         ],
-        if (store.category != PaymentMethodCategory.cards) ...[
-          const SizedBox(height: 16),
-          Text(
-            intl.buy_confirmation_local_info,
-            maxLines: 5,
-            style: sCaptionTextStyle.copyWith(
-              color: sKit.colors.grey2,
-            ),
-          ),
-        ],
         const SizedBox(height: 19),
         const SDivider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                intl.withdrawalPreview_total,
-                style: sBodyText2Style.copyWith(color: sKit.colors.grey1),
-              ),
-              if (store.isDataLoaded) ...[
-                Text(
-                  widget.totalValue,
-                  style: sSubtitle3Style.copyWith(color: sKit.colors.blue),
-                ),
-              ] else ...[
-                textPreloader(),
-              ],
-            ],
-          ),
-        ),
       ],
     );
   }

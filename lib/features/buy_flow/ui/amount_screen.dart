@@ -285,7 +285,6 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                   asset: store.asset!,
                   paymentCurrency: store.buyCurrency,
                   amount: store.fiatInputValue,
-                  method: store.method,
                   card: store.card,
                   account: store.account,
                 ),
