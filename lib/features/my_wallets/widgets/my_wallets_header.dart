@@ -11,7 +11,7 @@ import 'package:simple_analytics/simple_analytics.dart';
 import 'package:simple_kit/modules/bottom_navigation_bar/components/notification_box.dart';
 import 'package:simple_kit/simple_kit.dart';
 
-class MyWalletsHeader extends StatelessObserverWidget {
+class MyWalletsHeader extends StatelessWidget {
   const MyWalletsHeader({
     super.key,
     required this.isTitleCenter,

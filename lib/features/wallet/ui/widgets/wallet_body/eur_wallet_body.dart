@@ -25,6 +25,8 @@ class EurWalletBody extends StatelessObserverWidget {
       sSignalRModules.currenciesList,
     ).where((element) => element.symbol == 'EUR').first;
 
+    final bankAccounts = sSignalRModules.bankingProfileData?.banking?.accounts ?? <SimpleBankingAccount>[];
+
     return SPageFrame(
       loaderText: '',
       child: CustomScrollView(
@@ -218,11 +220,15 @@ class EurWalletBody extends StatelessObserverWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SIconTextButton(
                       onTap: () {
+                        if (bankAccounts.length == 2) return;
                         sRouter.push(const CreateBankingRoute());
                       },
                       text: intl.eur_wallet_add_account,
+                      textStyle: sTextButtonStyle.copyWith(
+                        color: bankAccounts.length == 2 ? sKit.colors.grey2 : sKit.colors.blue,
+                      ),
                       icon: SPlusIcon(
-                        color: sKit.colors.blue,
+                        color: bankAccounts.length == 2 ? sKit.colors.grey2 : sKit.colors.blue,
                       ),
                     ),
                   ),

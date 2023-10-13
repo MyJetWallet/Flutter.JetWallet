@@ -86,7 +86,7 @@ class GetAccountButton extends StatelessObserverWidget {
   }
 }
 
-void onGetAccountClick(MyWalletsSrore store, BuildContext context) {
+Future<void> onGetAccountClick(MyWalletsSrore store, BuildContext context) async {
   if (store.simpleAccontStatus == SimpleWalletAccountStatus.created) return;
 
   final kycState = getIt.get<KycService>();
@@ -138,12 +138,14 @@ void onGetAccountClick(MyWalletsSrore store, BuildContext context) {
     kyc.showVerifyingAlert();
 
     return;
+  } else if (store.buttonStatus == SimpleWalletAccountStatus.created) {
+    await sRouter.push(const CJAccountRouter());
+
+    return;
   }
 
   if (store.simpleStatus == SimpleAccountStatus.allowed) {
-    sRouter.push(
-      const CJAccountRouter(),
-    );
+    await store.createSimpleAccount();
   } else if (isKyc || store.simpleStatus == SimpleAccountStatus.kycRequired) {
     showWalletVerifyAccount(context, after: afterVerification);
   } else if (store.simpleStatus == SimpleAccountStatus.addressRequired) {

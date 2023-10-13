@@ -64,7 +64,6 @@ abstract class _PreviewSellStoreBase with Store {
   Decimal? feePercent;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   @observable
