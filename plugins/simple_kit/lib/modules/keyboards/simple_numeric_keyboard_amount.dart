@@ -47,7 +47,7 @@ class SNumericKeyboardAmount extends StatelessWidget {
               : 380
           : 340,
       child: Material(
-        color: SColorsLight().grey5,
+        color: SColorsLight().white,
         child: Column(
           children: [
             if (widgetSize == SWidgetSize.medium && showPresets) ...[

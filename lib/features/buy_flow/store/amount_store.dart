@@ -57,6 +57,9 @@ abstract class _BuyAmountStoreBase with Store {
   InputError inputError = InputError.none;
 
   @observable
+  String? errorText;
+
+  @observable
   bool inputValid = false;
 
   @observable
@@ -305,80 +308,27 @@ abstract class _BuyAmountStoreBase with Store {
 
   @action
   void _validateInput() {
+    if (category == PaymentMethodCategory.account) {
+      if (account!.balance! < Decimal.parse(fiatInputValue)) {
+        errorText = 'Not enough balance to proceed with the transaction';
+        inputValid = false;
+
+        return;
+      }
+    } else if (category == PaymentMethodCategory.cards) {
+      if (card!.paymentDetails.minAmount > Decimal.parse(fiatInputValue)) {
+        errorText = 'min: ${card!.paymentDetails.minAmount}';
+        inputValid = false;
+
+        return;
+      } else if (card!.paymentDetails.maxAmount < Decimal.parse(fiatInputValue)) {
+        errorText = 'max: ${card!.paymentDetails.maxAmount}';
+        inputValid = false;
+
+        return;
+      }
+    }
     inputValid = Decimal.parse(fiatInputValue) != Decimal.zero;
-    // if (double.parse(inputValue) == 0.0) {
-    //   inputValid = true;
-    //   inputError = InputError.none;
-    //   _updatePaymentMethodInputError(null);
-
-    //   return;
-    // }
-    // if (method != null) {
-    //   if (!isInputValid(inputValue)) {
-    //     inputValid = false;
-
-    //     return;
-    //   }
-
-    //   final value = double.parse(inputValue);
-    //   final min = double.parse('${asset?.minTradeAmount ?? 0}');
-    //   var max = double.parse('${asset?.maxTradeAmount ?? 0}');
-
-    //   if (category == PaymentMethodCategory.cards) {
-    //     double? limitMax = max;
-
-    //     if (limitByAsset != null) {
-    //       limitMax = limitByAsset!.barInterval == StateBarType.day1
-    //           ? (limitByAsset!.day1Limit - limitByAsset!.day1Amount).toDouble()
-    //           : limitByAsset!.barInterval == StateBarType.day7
-    //               ? (limitByAsset!.day7Limit - limitByAsset!.day7Amount).toDouble()
-    //               : (limitByAsset!.day30Limit - limitByAsset!.day30Amount).toDouble();
-    //     }
-
-    //     max = limitMax < max ? limitMax : max;
-    //   }
-
-    //   inputValid = value >= min && value <= max;
-
-    //   getIt.get<SimpleLoggerService>().log(
-    //         level: Level.info,
-    //         place: 'Buy Amount Store',
-    //         message: 'min: $min, max: $max',
-    //       );
-
-    //   if (max == 0) {
-    //     _updatePaymentMethodInputError(
-    //       intl.limitIsExceeded,
-    //     );
-    //   } else if (value < min) {
-    //     _updatePaymentMethodInputError(
-    //       '${intl.currencyBuy_paymentInputErrorText1} ${volumeFormat(
-    //         decimal: Decimal.parse(min.toString()),
-    //         accuracy: buyCurrency.accuracy,
-    //         symbol: buyCurrency.symbol,
-    //       )}',
-    //     );
-    //   } else if (value > max) {
-    //     _updatePaymentMethodInputError(
-    //       '${intl.currencyBuy_paymentInputErrorText2} ${volumeFormat(
-    //         decimal: Decimal.parse(max.toString()),
-    //         accuracy: buyCurrency.accuracy,
-    //         symbol: buyCurrency.symbol,
-    //       )}',
-    //     );
-    //   } else {
-    //     _updatePaymentMethodInputError(null);
-    //   }
-    // }
-
-    // const error = InputError.none;
-
-    // inputError = double.parse(inputValue) != 0
-    //     ? error == InputError.none
-    //         ? paymentMethodInputError == null
-    //             ? InputError.none
-    //             : InputError.limitError
-    //         : error
-    //     : InputError.none;
+    errorText = null;
   }
 }

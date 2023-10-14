@@ -130,7 +130,10 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
               ),
             ],
           ),
-          const SpaceH40(),
+          deviceSize.when(
+            small: () => const SpaceH40(),
+            medium: () => const Spacer(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -167,11 +170,15 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
               ),
             ],
           ),
+          if (store.errorText != null) ...[
+            const SpaceH8(),
+            AmountInputErrorWidget(
+              errorText: store.errorText!,
+            ),
+          ] else ... [
+            const SpaceH28(),
+          ],
           const Spacer(),
-          deviceSize.when(
-            small: () => const SpaceH8(),
-            medium: () => const SpaceH16(),
-          ),
           BuyOptionWidget(
             title: store.asset?.description ?? '',
             subTitle: 'Buy',
@@ -290,6 +297,45 @@ class _BuyAmountScreenBodyState extends State<_BuyAmountScreenBody> with TickerP
                 ),
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AmountInputErrorWidget extends StatelessWidget {
+  const AmountInputErrorWidget({
+    super.key,
+    required this.errorText,
+  });
+
+  final String errorText;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = sKit.colors;
+
+    return SPaddingH24(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 16,
+            height: 16,
+            margin: const EdgeInsets.only(top: 2),
+            child: const SErrorIcon(),
+          ),
+          const SpaceW5(),
+          Expanded(
+            child: Text(
+              errorText,
+              style: sBodyText2Style.copyWith(
+                color: colors.red,
+                height: 1.4,
+              ),
+              maxLines: 2,
+            ),
           ),
         ],
       ),
