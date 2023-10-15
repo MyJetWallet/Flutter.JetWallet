@@ -73,7 +73,6 @@ abstract class _PreviewBuyWithAssetStoreBase with Store {
   RecurringBuyInfoModel? recurringBuyInfo;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   // [true] when requestQuote() takes too long

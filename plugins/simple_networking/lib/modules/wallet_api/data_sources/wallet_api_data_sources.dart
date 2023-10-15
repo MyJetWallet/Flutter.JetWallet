@@ -2361,6 +2361,26 @@ class WalletApiDataSources {
     }
   }
 
+  Future<DC<ServerRejectException, void>> postSimpleAccountCreateRequest() async {
+    try {
+      final response = await _apiClient.post(
+        '${_apiClient.options.walletApi}/banking/account/create/simple',
+        data: {},
+      );
+
+      try {
+        final responseData = response.data as Map<String, dynamic>;
+        final _ = handleFullResponse<Map>(responseData);
+
+        return DC.data(null);
+      } catch (e) {
+        rethrow;
+      }
+    } on ServerRejectException catch (e) {
+      return DC.error(e);
+    }
+  }
+
   Future<DC<ServerRejectException, void>> postAccountChangeLabelRequest({
     required String accountId,
     required String label,

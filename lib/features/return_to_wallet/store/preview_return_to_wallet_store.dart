@@ -54,7 +54,6 @@ abstract class _PreviewReturnToWalletStoreBase with Store {
   Decimal? feePercent;
 
   // Will be initialzied on initState of the parent widget
-  @observable
   AnimationController? timerAnimation;
 
   @observable

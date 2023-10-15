@@ -1,5 +1,6 @@
 import 'package:jetwallet/core/di/di.dart';
 import 'package:jetwallet/core/l10n/i10n.dart';
+import 'package:jetwallet/core/services/notification_service.dart';
 import 'package:jetwallet/core/services/signal_r/signal_r_service_new.dart';
 import 'package:jetwallet/core/services/simple_networking/simple_networking.dart';
 import 'package:jetwallet/features/my_wallets/helper/currencies_for_my_wallet.dart';
@@ -7,6 +8,7 @@ import 'package:jetwallet/utils/enum.dart';
 import 'package:jetwallet/utils/models/currency_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:simple_analytics/simple_analytics.dart';
+import 'package:simple_kit/simple_kit.dart';
 import 'package:simple_networking/modules/signal_r/models/banking_profile_model.dart';
 import 'package:simple_networking/modules/wallet_api/models/wallet/set_active_assets_request_model.dart';
 
@@ -145,6 +147,10 @@ abstract class _MyWalletsSroreBase with Store {
     simpleAccontStatus = status;
   }
 
+  // Manual change button status
+  @observable
+  SimpleWalletAccountStatus? accountManualStatus;
+
   @computed
   SimpleAccountStatus get simpleStatus =>
       sSignalRModules.bankingProfileData?.simple?.status ?? SimpleAccountStatus.kycRequired;
@@ -159,7 +165,11 @@ abstract class _MyWalletsSroreBase with Store {
 
   @computed
   SimpleWalletAccountStatus get buttonStatus {
-    if (simpleStatus == SimpleAccountStatus.allowed) {
+    if (accountManualStatus != null) {
+      return accountManualStatus!;
+    }
+
+    if (simpleStatus == SimpleAccountStatus.allowed && sSignalRModules.bankingProfileData?.simple?.account != null) {
       if (personalStatus == BankingClientStatus.kycInProgress) {
         return SimpleWalletAccountStatus.createdAndcreating;
       }
@@ -190,6 +200,26 @@ abstract class _MyWalletsSroreBase with Store {
         return '${(sSignalRModules.bankingProfileData?.banking?.accounts?.length ?? 1) + 1} ${intl.my_wallets_account}';
       default:
         return '';
+    }
+  }
+
+  @action
+  Future<void> createSimpleAccount() async {
+    accountManualStatus = SimpleWalletAccountStatus.creating;
+
+    //await Future.delayed(const Duration(seconds: 10));
+    final resp = await getIt.get<SNetwork>().simpleNetworking.getWalletModule().postSimpleAccountCreate();
+
+    if (resp.hasError) {
+      sNotification.showError(
+        intl.something_went_wrong_try_again,
+        duration: 4,
+        id: 1,
+        needFeedback: true,
+      );
+      accountManualStatus = null;
+    } else {
+      accountManualStatus = SimpleWalletAccountStatus.created;
     }
   }
 }

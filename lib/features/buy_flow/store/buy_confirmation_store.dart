@@ -101,7 +101,6 @@ abstract class _BuyConfirmationStoreBase with Store {
   @observable
   Decimal price = Decimal.zero;
 
-  @observable
   AnimationController? timerAnimation;
   @observable
   int timer = 0;
