@@ -172,6 +172,19 @@ abstract class _BankCardStoreBase with Store {
       expiryMonthError = !isExpiryMonthValid;
       expiryYearError = !isExpiryYearValid;
     }
+    if (mode == BankCardStoreMode.add) {
+      var tempCardLabel = 'Card 1';
+      final cards = sSignalRModules.cards.cardInfos;
+      for (var index = 1; index <= cards.length; index++) {
+        if (cards.any((element) => element.cardLabel == tempCardLabel)) {
+          tempCardLabel = 'Card ${index + 1}';
+        } else {
+          break;
+        }
+      }
+      cardLabelController = TextEditingController(text: tempCardLabel);
+      cardLabel = tempCardLabel;
+    }
   }
 
   @action
@@ -310,6 +323,10 @@ abstract class _BankCardStoreBase with Store {
       final encrypted = encrypter.encrypt('{"cardNumber":"$cardNumberString"}');
       final base64Encoded = encrypted.base64;
 
+      if (!saveCard) {
+        cardLabel = '';
+      }
+
       final model = CardAddRequestModel(
         encKeyId: response.data?.data.keyId ?? '',
         requestGuid: const Uuid().v4(),
@@ -337,7 +354,7 @@ abstract class _BankCardStoreBase with Store {
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency!,
+                        currency: currency,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,
@@ -360,7 +377,7 @@ abstract class _BankCardStoreBase with Store {
                     onSuccess: () {
                       showPreview(
                         cardNumber: cardNumberFinal,
-                        currency: currency!,
+                        currency: currency,
                         amount: amount,
                         cardId: newCard.data?.data.cardId ?? '',
                         showUaAlert: newCard.data?.data.showUaAlert ?? false,

@@ -137,7 +137,7 @@ abstract class _BuyAmountStoreBase with Store {
       paymentAsset = inputAsset.buyMethods
           .firstWhere((element) => element.id == PaymentMethodType.bankCard)
           .paymentAssets
-          ?.firstWhere((element) => element.asset == inputCard?.cardAssetSymbol);
+          ?.firstWhere((element) => element.asset == (inputCard?.cardAssetSymbol ?? 'EUR'));
 
       _updateLimitModel(paymentAsset!);
     }
